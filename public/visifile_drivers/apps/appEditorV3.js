@@ -13,7 +13,7 @@ load_once_from_file(true)
     //
     isStaticHtmlPageApp = false
     //
-    // 
+    //
     //
 
 
@@ -62,7 +62,7 @@ load_once_from_file(true)
                                           <button v-if='!read_only'
                                                   v-bind:style="'visibility: ' + ((app_shown && code_shown)?'':'hidden')"
                                                   slot-scope="editor_component"
-                                                  v-on:click='save(base_component_id, code_id, editor_component.text2)'
+                                                  v-on:click='setTimeout(function(){save(base_component_id, code_id, editor_component.text2)},100)'
                                                   type="button" class="btn btn-primary btn-sm">
 
                                                       Save changes
