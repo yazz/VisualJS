@@ -39,7 +39,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAA
 */
 
     Vue.component("input_control",{
-      props: ["args"]
+      props: ["args","refresh"]
       ,
       template: `<div>
                     <label>{{label}}</label>
@@ -53,6 +53,17 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAA
 
                  </div>`
       ,
+      watch: {
+        // This would be called anytime the value of title changes
+        refresh(newValue, oldValue) {
+            console.log("refresh: " + this.args.text)
+            if (isValidObject(this.args)) {
+                this.label = this.args.label
+                this.text = this.args.text
+                this.background_color = this.args.background_color
+            }          // you can do anything here with the new value or old/previous value
+        }
+      },
       mounted: function() {
         if (isValidObject(this.args)) {
             this.label = this.args.label
