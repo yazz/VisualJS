@@ -1,6 +1,6 @@
 async function(args) {
 /*
-created_timestamp(1537274856732)
+created_timestamp(1537433664827)
 base_component_id("homepage_5")
 editors([
   "vb_editor_component"
@@ -19,7 +19,7 @@ formEditor({
   "default_form": "Form_1",
   "app_selected": false,
   "id": "homepage_5",
-  "next_component_id": 101,
+  "next_component_id": 102,
   "app_properties": [
     {
       "id": "test",
@@ -34,23 +34,27 @@ formEditor({
       "height": "300px",
       "components": [
         {
-          "name": "label_control_1",
+          "name": "todoInputBox",
           "base_component_id": "input_control",
-          "leftX": 10,
-          "topY": 10,
-          "width": 141,
-          "height": 75,
-          "text": "Hello world"
+          "leftX": 7,
+          "topY": 74,
+          "width": 148,
+          "height": 70,
+          "text": "",
+          "label": "",
+          "placeholder": "",
+          "background_color": ""
         },
         {
-          "name": "button_control_1",
+          "name": "add_todo_button",
           "base_component_id": "button_control",
-          "leftX": 187,
-          "topY": 19,
+          "leftX": 175,
+          "topY": 74,
           "width": 87,
           "height": 70,
           "text": "Add",
-          "click_event": "label_control_100.text = label_control_1.text"
+          "click_event": "label_control_100.text = todoInputBox.text\n\ntodoInputBox.text = \"\"\n",
+          "background_color": ""
         },
         {
           "name": "button_control_2",
@@ -60,15 +64,28 @@ formEditor({
           "width": 200,
           "height": 60,
           "text": "Go to  form 2",
-          "click_event": "mm.selectForm(\"Form_2\")"
+          "click_event": "mm.selectForm(\"Form_2\")",
+          "background_color": ""
         },
         {
           "leftX": 8.5625,
-          "topY": 124,
+          "topY": 159,
           "name": "label_control_100",
           "base_component_id": "label_control",
-          "width": 197,
-          "height": 80
+          "width": 198,
+          "height": 45,
+          "text": "",
+          "background_color": ""
+        },
+        {
+          "leftX": 8.5625,
+          "topY": 6,
+          "name": "title_label",
+          "base_component_id": "label_control",
+          "width": 256,
+          "height": 61,
+          "text": "Todo App",
+          "background_color": ""
         }
       ],
       "form_activate_old": "function() {\n                if (app && app.forms && app.forms[\"Form_1\"] && app.forms[\"Form_1\"].components[0]) {\n                    app.forms[\"Form_1\"].components[0].text = args.test\n                }\n             }"
@@ -101,7 +118,7 @@ formEditor({
       ]
     }
   },
-  "active_component_index": 3
+  "active_component_index": 1
 })//formEditor
 read_only(false)
 
@@ -177,7 +194,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                                              <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'></div></div>
 
                              <div       v-bind:refresh='refresh'
-                                        v-for='(item,index) in getActiveFormComponents'
+                                        v-for='(item,index) in getActiveFormComponents()'
                                         ondrop="return false;"
                                         v-on:click='$event.stopPropagation();select_component(index)'
                                         v-bind:style='(design_mode?"border: " +
@@ -333,7 +350,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                                               </div>
 
                                               <div    v-if='form.name == model.active_form'
-                                                      v-for='(av,index) in getActiveFormComponents'
+                                                      v-for='(av,index) in getActiveFormComponents()'
                                                       v-on:click='$event.stopPropagation();select_component(index)'
                                                       v-bind:style='(((index == model.active_component_index) && design_mode)?"border: 3px solid red;background-color: lightgray;":"") + "margin-left:60px; padding:2px;"'
                                                       >
@@ -372,9 +389,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                                     <div class='col-md-7 small' >
                                         <div v-if='!property.readonly'>
                                             <div v-if="(property.type  == 'String')  || (property.type  == 'Number')">
-                                                <input v-bind:refresh='refresh' v-if='model.active_component_index != null' class='col-md-12 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'></input>
-                                                <input v-bind:refresh='refresh' v-if='(model.active_component_index == null) && (model.active_form != null) && (!model.app_selected)'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form][property.id]'></input>
-                                                <input v-bind:refresh='refresh' v-if='model.app_selected'  @change='generateCodeFromModel(  model  )' v-model='model[property.id]'></input>
+                                                <input v-bind:refresh='refresh' class='col-md-12 small'  @change='setVBEditorProperty($event, property)' v-bind:value='getVBEditorProperty(property)'></input>
                                             </div>
                                             <div v-if="(property.type  == 'Event')  ">
                                                 <textarea   class="form-control" v-bind:refresh='refresh'
@@ -441,6 +456,13 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                 var newItem = mm.model.forms[mm.model.active_form].components[rtw]
                 //alert(newItem.base_component_id)
                 await load(newItem.base_component_id)
+                var compEvaled = await this.getComponentProperties(this.model.forms[this.model.active_form].components[rtw].base_component_id)
+                for (var cpp = 0 ; cpp< compEvaled.length; cpp ++){
+                    var prop = compEvaled[cpp].id
+                    if (!isValidObject(this.model.forms[mm.model.active_form].components[rtw][prop])){
+                        this.model.forms[mm.model.active_form].components[rtw][prop] = ""
+                    }
+                }
 
            }
 
@@ -472,20 +494,20 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
      },
 
 
-     computed: {
-        getActiveFormComponents: function() {
-            return this.model.forms[this.model.active_form].components
-        }
 
-     },
 
 
      methods: {
+         getActiveFormComponents: function() {
+             return this.model.forms[this.model.active_form].components
+         },
         updateAllFormCaches: function() {
             var llf = Object.keys(this.model.forms)
             for (var ii = 0; ii < llf.length ; ii ++) {
-                var formqq = this.model.forms[llf[ii]].name
-                this.updateFormCache(formqq)
+                var formqq = this.model.forms[llf[ii]]
+                if (formqq != null) {
+                    this.updateFormCache(formqq.name)
+                }
             }
         },
 
@@ -509,13 +531,105 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
              var forms = []
              var llf = Object.keys(this.model.forms)
              for (var ii = 0; ii < llf.length ; ii ++) {
-                 forms.push(this.model.forms[llf[ii]])
+                var form = this.model.forms[llf[ii]]
+                if (form != null) {
+                    forms.push(form)
+                }
              }
              return forms
          },
 
 
 
+
+         //-------------------------------------------------------------------
+         setVBEditorProperty: function(event, property) {
+         //-------------------------------------------------------------------
+            var mm = this
+         var val = event.target.value
+         var type = null
+         if (this.model.active_component_index != null) {
+            type = "component"
+         } else if ((this.model.active_component_index == null) && (this.model.active_form != null) && (!this.model.app_selected)) {
+            type = "form"
+         } else if (this.model.app_selected) {
+            type = "app"
+         }
+
+
+            if (type == 'component') {
+                this.model.forms[this.model.active_form].components[this.model.active_component_index][property.id] = val
+                this.generateCodeFromModel(  this.model  )
+
+
+            } else if (type == 'form') {
+                if (property.id == "name" ) {
+                    this.properties = []
+                    //zzz
+                    var oldval = this.model.active_form
+                    //alert("Rename form "  + oldval + " to " + val)
+
+                    this.model.forms[val] = this.model.forms[oldval]
+                    this.model.forms[val]["name"] = val
+
+                    this.form_runtime_info[val] = this.form_runtime_info[oldval]
+
+
+                    if (this.model.default_form == oldval) {
+                        this.model.default_form = val
+                    }
+                    //this.model.active_form = val
+
+
+                    mm.form_runtime_info[oldval] = null
+                    mm.model.forms[oldval] = null
+                    //alert(this.model.active_form)
+
+                    //alj(this.form_runtime_info[val])
+                    //mm.refresh ++
+                    //mm.updateAllFormCaches()
+                    mm.selectForm(val)
+
+                } else {
+                    this.model.forms[this.model.active_form][property.id] = val
+                    this.generateCodeFromModel(  this.model  )
+                }
+
+            } else if (type == 'app') {
+                this.model[property.id] = val
+                this.generateCodeFromModel(  this.model  )
+            }
+
+         },
+
+         //-------------------------------------------------------------------
+         getVBEditorProperty: function(property) {
+         //-------------------------------------------------------------------
+             var val = ""
+             var type
+             if (this.model.active_component_index != null) {
+                type = "component"
+             } else if ((this.model.active_component_index == null) && (this.model.active_form != null) && (!this.model.app_selected)) {
+                type = "form"
+             } else if (this.model.app_selected) {
+                type = "app"
+             }
+
+            if (type == 'component') {
+                val = this.model.forms[this.model.active_form].components[this.model.active_component_index][property.id]
+
+
+            } else if (type == 'form') {
+                val = this.model.forms[this.model.active_form][property.id]
+
+
+
+            } else if (type == 'app') {
+                val = this.model[property.id]
+            }
+
+            return val
+         },
 
          //-------------------------------------------------------------------
          addProperty: function() {
@@ -694,7 +808,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                            if (isValidObject(thisControl)) {
                                console.log(10)
                                console.log(thisControl.base_component_id)
-                               //zzz
+
 
                                    console.log(12)
                                    var compEvaled = await this.getComponentProperties(thisControl.base_component_id)
@@ -999,7 +1113,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
             this.properties.push({   id:     "width",   name:   "Width",   type:   "Number"    })
             this.properties.push({   id:     "height",   name:   "Height",   type:   "Number"    })
 
-            //zzz
+
                var compEvaled = await this.getComponentProperties(this.model.forms[this.model.active_form].components[index].base_component_id)
                this.properties = this.properties.concat(compEvaled)
             this.refresh ++
@@ -1227,12 +1341,12 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                       text: texti,
                       model: {
   "next_id": 7,
-  "max_form": 1,
+  "max_form": 3,
   "active_form": "Form_1",
   "default_form": "Form_1",
   "app_selected": false,
   "id": "homepage_5",
-  "next_component_id": 101,
+  "next_component_id": 102,
   "app_properties": [
     {
       "id": "test",
@@ -1247,23 +1361,27 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
       "height": "300px",
       "components": [
         {
-          "name": "label_control_1",
+          "name": "todoInputBox",
           "base_component_id": "input_control",
-          "leftX": 10,
-          "topY": 10,
-          "width": 141,
-          "height": 75,
-          "text": "Hello world"
+          "leftX": 7,
+          "topY": 74,
+          "width": 148,
+          "height": 70,
+          "text": "",
+          "label": "",
+          "placeholder": "",
+          "background_color": ""
         },
         {
-          "name": "button_control_1",
+          "name": "add_todo_button",
           "base_component_id": "button_control",
-          "leftX": 187,
-          "topY": 19,
+          "leftX": 175,
+          "topY": 74,
           "width": 87,
           "height": 70,
           "text": "Add",
-          "click_event": "label_control_100.text = label_control_1.text"
+          "click_event": "label_control_100.text = todoInputBox.text\n\ntodoInputBox.text = \"\"\n",
+          "background_color": ""
         },
         {
           "name": "button_control_2",
@@ -1273,15 +1391,28 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
           "width": 200,
           "height": 60,
           "text": "Go to  form 2",
-          "click_event": "mm.selectForm(\"Form_2\")"
+          "click_event": "mm.selectForm(\"Form_2\")",
+          "background_color": ""
         },
         {
           "leftX": 8.5625,
-          "topY": 124,
+          "topY": 159,
           "name": "label_control_100",
           "base_component_id": "label_control",
-          "width": 197,
-          "height": 80
+          "width": 198,
+          "height": 45,
+          "text": "",
+          "background_color": ""
+        },
+        {
+          "leftX": 8.5625,
+          "topY": 6,
+          "name": "title_label",
+          "base_component_id": "label_control",
+          "width": 256,
+          "height": 61,
+          "text": "Todo App",
+          "background_color": ""
         }
       ],
       "form_activate_old": "function() {\n                if (app && app.forms && app.forms[\"Form_1\"] && app.forms[\"Form_1\"].components[0]) {\n                    app.forms[\"Form_1\"].components[0].text = args.test\n                }\n             }"
@@ -1314,7 +1445,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
       ]
     }
   },
-  "active_component_index": 3
+  "active_component_index": 1
 }}
                 }
               })//** gen_end **//
