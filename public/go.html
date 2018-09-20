@@ -1022,10 +1022,10 @@ var dataIds = new Object()
             }
             var addP = "\"" + data.value.code_id + "\", \"" + useDb + "\", "
             //alert("data: " + addP);
-            data.value.code = data.value.code.toString().replaceAll(" sql[(]"," rsql(" + addP)
-            data.value.code = data.value.code.toString().replaceAll(" sql1[(]"," rsql1(" + addP)
-            data.value.code = data.value.code.toString().replaceAll(" sqlFirstCol[(]"," rsqlFirstCol(" + addP)
-            data.value.code = data.value.code.toString().replaceAll(" sqlFirstCol1[(]"," rsqlFirstCol1(" + addP)
+            data.value.code = data.value.code.toString().replaceAll(" sql[(]"," rxsql(" + addP)
+            data.value.code = data.value.code.toString().replaceAll(" sql1[(]"," rxsql1(" + addP)
+            data.value.code = data.value.code.toString().replaceAll(" sqlFirstCol[(]"," rxsqlFirstCol(" + addP)
+            data.value.code = data.value.code.toString().replaceAll(" sqlFirstCol1[(]"," rxsqlFirstCol1(" + addP)
             //alert("data: " + data.value.code);
 
 
@@ -1110,10 +1110,10 @@ function callCode(data) {
         }
         var addP = "\"" + data.value.code_id + "\", \"" + useDb + "\", "
         //alert("data: " + addP);
-        data.value.code = data.value.code.toString().replaceAll(" sql[(]"," rsql(" + addP)
-        data.value.code = data.value.code.toString().replaceAll(" sql1[(]"," rsql1(" + addP)
-        data.value.code = data.value.code.toString().replaceAll(" sqlFirstCol[(]"," rsqlFirstCol(" + addP)
-        data.value.code = data.value.code.toString().replaceAll(" sqlFirstCol1[(]"," rsqlFirstCol1(" + addP)
+        data.value.code = data.value.code.toString().replaceAll(" sql[(]"," rxsql(" + addP)
+        data.value.code = data.value.code.toString().replaceAll(" sql1[(]"," rxsql1(" + addP)
+        data.value.code = data.value.code.toString().replaceAll(" sqlFirstCol[(]"," rxsqlFirstCol(" + addP)
+        data.value.code = data.value.code.toString().replaceAll(" sqlFirstCol1[(]"," rxsqlFirstCol1(" + addP)
 
 
         var fnfn = eval( data.value.code )
@@ -1292,7 +1292,7 @@ function created_timestamp(d) {
 
 }
 
-async function rsql(code_id,base_component_id, sqlcode, params) {
+async function rxsql(code_id,base_component_id, sqlcode, params) {
     var results = await callApp(
         {
              driver_name:    "systemFunctionAppSql",
@@ -1310,8 +1310,8 @@ async function rsql(code_id,base_component_id, sqlcode, params) {
     return results
 }
 
-async function rsql1(code_id,base_component_id,sqlcode, params) {
-    var x = await rsql(code_id,base_component_id,sqlcode, params)
+async function rxsql1(code_id,base_component_id,sqlcode, params) {
+    var x = await rxsql(code_id,base_component_id,sqlcode, params)
     if (x && (x.length > 0)) {
         return x[0]
     } else {
@@ -1321,8 +1321,8 @@ async function rsql1(code_id,base_component_id,sqlcode, params) {
 
 
 
-async function rsqlFirstCol(code_id,base_component_id,sqlcode, params) {
-    var x = await rsql(code_id,base_component_id,sqlcode, params)
+async function rxsqlFirstCol(code_id,base_component_id,sqlcode, params) {
+    var x = await rxsql(code_id,base_component_id,sqlcode, params)
     if (x && (x.length > 0)) {
         var colName = Object.keys(x[0])[0]
         var ff = []
@@ -1335,8 +1335,8 @@ async function rsqlFirstCol(code_id,base_component_id,sqlcode, params) {
     }
 }
 
-async function rsqlFirstCol1(code_id,base_component_id,sqlcode, params) {
-    var x = await rsqlFirstCol(code_id,base_component_id,sqlcode, params)
+async function rxsqlFirstCol1(code_id,base_component_id,sqlcode, params) {
+    var x = await rxsqlFirstCol(code_id,base_component_id,sqlcode, params)
     if (x && (x.length > 0)) {
         return x[0]
     } else {
