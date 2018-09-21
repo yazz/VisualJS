@@ -632,95 +632,71 @@ load_once_from_file(true)
                              return "Not found"
                          }
                     }
+                    var formEval = ""
+                    var allForms = this.getForms();
+                    for (var fi =0; fi < allForms.length ; fi ++) {
+                         var aForm = allForms[fi]
+                         formEval += ("var " + aForm.name +
+                             " = new Proxy({name: '" + aForm.name + "'}, formHandler);")
+
+                    }
+                    eval(formEval)
+
+
+
+
+
+                    //
+                    // set up property access for all controls on this form
+                    //
+                    var allC = this.model.forms[this.model.active_form].components
+                    var cacc =""
+                    for (var xi =0; xi< allC.length ; xi ++) {
+                         var comp = allC[xi]
+                         cacc += ( "var " + comp.name + " = mm.form_runtime_info['" + this.model.active_form + "'].component_lookup_by_name['" + comp.name + "'];")
+                    }
+                    eval(cacc)
+
+
 
                     if (eventMessage.type == "subcomponent_event") {
                             var fcc = "(async function(){" + eventMessage.code +"})"
 
-                           var formEval = ""
-                           var allForms = this.getForms();
-                           for (var fi =0; fi < allForms.length ; fi ++) {
-                                var aForm = allForms[fi]
-                                formEval += ("var " + aForm.name +
-                                    " = new Proxy({name: '" + aForm.name + "'}, formHandler);")
-
-                           }
-                           eval(formEval)
-
-
-                           //
-                           // set up property access for all controls on this form
-                           //
-                           var allC = this.model.forms[this.model.active_form].components
-                           var cacc =""
-                           for (var xi =0; xi< allC.length ; xi ++) {
-                                var comp = allC[xi]
-                                cacc += ( "var " + comp.name + " = mm.form_runtime_info['" + this.model.active_form + "'].component_lookup_by_name['" + comp.name + "'];")
-                                //eval("alert(mm.model.active_form)")
-                           }
-                           //alert(cacc)
-                           console.log(8)
-                           eval(cacc)
-
-                           console.log(9)
                            this.model.active_form
-       console.log(this.model.active_form)
-       console.log(JSON.stringify(this.form_runtime_info,null,2))
-       console.log(JSON.stringify(this.form_runtime_info[this.model.active_form],null,2))
                            var thisControl = this.form_runtime_info[this.model.active_form].component_lookup_by_name[eventMessage.control_name]
                            if (isValidObject(thisControl)) {
-                               console.log(10)
-                               console.log(thisControl.base_component_id)
+                                var compEvaled = await this.getComponentProperties(thisControl.base_component_id)
+                                var errr=""
 
+                                //
+                                // set up property access for this control
+                                //
+                                for (var rtt=0; rtt < compEvaled.length; rtt++) {
+                                    if (thisControl[compEvaled[rtt].id]) {
+                                        errr += ( compEvaled[rtt].id + " = `" + thisControl[compEvaled[rtt].id] + "`;")
+                                    }
+                                }
 
-                                   console.log(12)
-                                   var compEvaled = await this.getComponentProperties(thisControl.base_component_id)
-                                   var errr=""
+                                eval( errr  )
 
-                                   //
-                                   // set up property access for this control
-                                   //
-                                   for (var rtt=0; rtt < compEvaled.length; rtt++) {
-                                        //alert(JSON.stringify(compEvaled[rtt],null,2))
-                                        if (thisControl[compEvaled[rtt].id]) {
-                                            errr += ( compEvaled[rtt].id + " = `" + thisControl[compEvaled[rtt].id] + "`;")
+                                var efcc = eval(fcc)
+                                efcc()
+
+                                //
+                                // save any changed properties for this control
+                                //
+                                for (var rtt=0; rtt < compEvaled.length; rtt++) {
+                                    //alert(JSON.stringify(compEvaled[rtt],null,2))
+                                    if (thisControl[compEvaled[rtt].id]) {
+                                        if (eval(compEvaled[rtt].id ) != thisControl[compEvaled[rtt].id]) {
+                                            thisControl[compEvaled[rtt].id] = eval(compEvaled[rtt].id )
                                         }
-                                   }
-
-                                   console.log(13)
-
-
-
-
-
-
-
-                                   eval( errr  )
-                                   console.log(14)
-
-
-
-                                   var efcc = eval(fcc)
-                                   efcc()
-                                   console.log(15)
-
-                                   //
-                                   // save any changed properties for this control
-                                   //
-                                   for (var rtt=0; rtt < compEvaled.length; rtt++) {
-                                        //alert(JSON.stringify(compEvaled[rtt],null,2))
-                                        if (thisControl[compEvaled[rtt].id]) {
-                                            if (eval(compEvaled[rtt].id ) != thisControl[compEvaled[rtt].id]) {
-                                                thisControl[compEvaled[rtt].id] = eval(compEvaled[rtt].id )
-                                            }
-                                        }
-                                   }
-
-                                   mm.refresh ++
-                                   mm.$forceUpdate();
-
-
+                                    }
+                                }
                            }
-                       
+
+                           mm.refresh ++
+                           mm.$forceUpdate();
 
                    }
                 }
