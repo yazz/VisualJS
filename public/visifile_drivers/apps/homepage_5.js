@@ -1,6 +1,6 @@
 async function(args) {
 /*
-created_timestamp(1537469989835)
+created_timestamp(1537519048633)
 base_component_id("homepage_5")
 editors([
   "vb_editor_component"
@@ -30,16 +30,16 @@ formEditor({
   "forms": {
     "Form_1": {
       "name": "Form_1",
-      "width": "300px",
-      "height": "300px",
+      "width": 372.875,
+      "height": 355,
       "components": [
         {
           "name": "todoInputBox",
           "base_component_id": "input_control",
-          "leftX": 7,
-          "topY": 74,
-          "width": 148,
-          "height": 70,
+          "leftX": 8,
+          "topY": 49,
+          "width": 238,
+          "height": 40,
           "text": "",
           "label": "",
           "placeholder": "",
@@ -48,10 +48,10 @@ formEditor({
         {
           "name": "add_todo_button",
           "base_component_id": "button_control",
-          "leftX": 175,
-          "topY": 74,
-          "width": 87,
-          "height": 70,
+          "leftX": 280,
+          "topY": 49,
+          "width": 85,
+          "height": 41,
           "text": "Add",
           "click_event": "var ins =\ntodoInputBox.text\ntodoInputBox.text = \"\"\nawait sql(\"insert into items (id,name) values (?,?)\",\n[\nnew Date().getTime(),\nins])\ndisplay_out.text = await sqlFirstCol(\"select name from items\")",
           "background_color": ""
@@ -59,31 +59,31 @@ formEditor({
         {
           "name": "button_control_2",
           "base_component_id": "button_control",
-          "leftX": 10,
-          "topY": 227,
-          "width": 200,
-          "height": 60,
+          "leftX": 225,
+          "topY": 295,
+          "width": 143,
+          "height": 54,
           "text": "Go to  form 2",
           "click_event": "mm.selectForm(\"Form_2\")",
-          "background_color": ""
+          "background_color": "blue"
         },
         {
-          "leftX": 8.5625,
-          "topY": 159,
+          "leftX": -0.4375,
+          "topY": 105,
           "name": "display_out",
           "base_component_id": "label_control",
-          "width": 198,
-          "height": 45,
+          "width": 365,
+          "height": 178,
           "text": "",
           "background_color": ""
         },
         {
-          "leftX": 8.5625,
-          "topY": 6,
+          "leftX": 134.5625,
+          "topY": 4,
           "name": "title_label",
           "base_component_id": "label_control",
-          "width": 256,
-          "height": 61,
+          "width": 112,
+          "height": 34,
           "text": "Todo App",
           "background_color": ""
         }
@@ -118,7 +118,7 @@ formEditor({
       ]
     }
   },
-  "active_component_index": 1
+  "active_component_index": null
 })//formEditor
 read_only(false)
 
@@ -733,43 +733,31 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
 
 
               processControlEvent: async function(  eventMessage  ) {
-                console.log("processControlEvent")
-                this.updateAllFormCaches()
-                //alert(JSON.stringify(text,null,4))
                 var mm = this
-                if (eventMessage.type == "subcomponent_event") {
-                    console.log(1)
-                   if (!mm.design_mode) {
-                    console.log(2)
-                       if (mm.model) {
-                        console.log(3)
-                           //alert("subcomponent_event called in: " + mm.model.id)
-                           //alert(eventMessage.code)
-                           //alert("From: " + eventMessage.control_name)
-                           var fcc = "(async function(){" + eventMessage.code +"})"
-                           console.log(4)
+                if ((!mm.design_mode) && (mm.model)) {
+                    this.updateAllFormCaches()
 
+                    //
+                    // set up property access for all forms
+                    //
+                    var formHandler = {
+                         get: function(target,name){
+                             var formName = target.name
+                             if (mm.model.forms[formName][name]) {
+                                 return mm.model.forms[formName][name]
+                             }
 
-                           //
-                           // set up property access for all forms
-                           //
-                           var formHandler = {
-                                get: function(target,name){
-                                    //alert("gett: " + target + ", " + name)
-                                    var formName = target.name
-                                    if (mm.model.forms[formName][name]) {
-                                        return mm.model.forms[formName][name]
-                                    }
+                             if (mm.form_runtime_info[formName].component_lookup_by_name[name]) {
+                                 return mm.form_runtime_info[formName].component_lookup_by_name[name]
+                             }
 
-                                    //console.log("proxy:" + JSON.stringify(mm.form_runtime_info[formName],null,2))
-                                    if (mm.form_runtime_info[formName].component_lookup_by_name[name]) {
-                                        return mm.form_runtime_info[formName].component_lookup_by_name[name]
-                                    }
+                             return "Not found"
+                         }
+                    }
 
-                                    return "Not found"
-                                }
-                           }
-                           console.log(5)
+                    if (eventMessage.type == "subcomponent_event") {
+                            var fcc = "(async function(){" + eventMessage.code +"})"
+
                            var formEval = ""
                            var allForms = this.getForms();
                            for (var fi =0; fi < allForms.length ; fi ++) {
@@ -778,11 +766,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                                     " = new Proxy({name: '" + aForm.name + "'}, formHandler);")
 
                            }
-                           console.log(6)
-                           //alert(formEval)
                            eval(formEval)
-
-                           console.log(7)
 
 
                            //
@@ -858,7 +842,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
 
 
                            }
-                       }
+
 
                    }
                 }
@@ -1357,16 +1341,16 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
   "forms": {
     "Form_1": {
       "name": "Form_1",
-      "width": "300px",
-      "height": "300px",
+      "width": 372.875,
+      "height": 355,
       "components": [
         {
           "name": "todoInputBox",
           "base_component_id": "input_control",
-          "leftX": 7,
-          "topY": 74,
-          "width": 148,
-          "height": 70,
+          "leftX": 8,
+          "topY": 49,
+          "width": 238,
+          "height": 40,
           "text": "",
           "label": "",
           "placeholder": "",
@@ -1375,10 +1359,10 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
         {
           "name": "add_todo_button",
           "base_component_id": "button_control",
-          "leftX": 175,
-          "topY": 74,
-          "width": 87,
-          "height": 70,
+          "leftX": 280,
+          "topY": 49,
+          "width": 85,
+          "height": 41,
           "text": "Add",
           "click_event": "var ins =\ntodoInputBox.text\ntodoInputBox.text = \"\"\nawait sql(\"insert into items (id,name) values (?,?)\",\n[\nnew Date().getTime(),\nins])\ndisplay_out.text = await sqlFirstCol(\"select name from items\")",
           "background_color": ""
@@ -1386,31 +1370,31 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
         {
           "name": "button_control_2",
           "base_component_id": "button_control",
-          "leftX": 10,
-          "topY": 227,
-          "width": 200,
-          "height": 60,
+          "leftX": 225,
+          "topY": 295,
+          "width": 143,
+          "height": 54,
           "text": "Go to  form 2",
           "click_event": "mm.selectForm(\"Form_2\")",
-          "background_color": ""
+          "background_color": "blue"
         },
         {
-          "leftX": 8.5625,
-          "topY": 159,
+          "leftX": -0.4375,
+          "topY": 105,
           "name": "display_out",
           "base_component_id": "label_control",
-          "width": 198,
-          "height": 45,
+          "width": 365,
+          "height": 178,
           "text": "",
           "background_color": ""
         },
         {
-          "leftX": 8.5625,
-          "topY": 6,
+          "leftX": 134.5625,
+          "topY": 4,
           "name": "title_label",
           "base_component_id": "label_control",
-          "width": 256,
-          "height": 61,
+          "width": 112,
+          "height": 34,
           "text": "Todo App",
           "background_color": ""
         }
@@ -1445,7 +1429,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
       ]
     }
   },
-  "active_component_index": 1
+  "active_component_index": null
 }}
                 }
               })//** gen_end **//

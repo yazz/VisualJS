@@ -42,7 +42,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAA
       props: ["args","refresh"]
       ,
       template: `<div>
-                    <label>{{label}}</label>
+                    <label v-if='label'>{{label}}</label>
 
                     <input  class="form-control2"
                             v-on:change='changedFn'
