@@ -443,7 +443,7 @@ load_once_from_file(true)
             } else if (type == 'form') {
                 if (property.id == "name" ) {
                     this.properties = []
-                    //zzz
+
                     var oldval = this.model.active_form
                     //alert("Rename form "  + oldval + " to " + val)
 
@@ -601,15 +601,24 @@ load_once_from_file(true)
                  var app = this.model
                  var crt = mm.model.forms[formId].form_activate
                  //alert(crt)
-                 var ffff = eval("(" + crt + ")")
-                 ffff()
+                 //var ffff = eval("(" + crt + ")")
+                 //ffff()
+
+
+                 //zzz
+                 var formEvent = {
+                     type:               "form_event",
+                     form_name:           formId,
+                     code:                crt
+                 }
+                 this.processControlEvent(formEvent)
              }
          },
 
 
 
 
-
+//zzz
               processControlEvent: async function(  eventMessage  ) {
                 var mm = this
                 if ((!mm.design_mode) && (mm.model)) {
@@ -695,10 +704,21 @@ load_once_from_file(true)
                                 }
                            }
 
-                           mm.refresh ++
-                           mm.$forceUpdate();
+                     //
+                     // form events
+                     //
+                     } else if (eventMessage.type == "form_event") {
+                        var fcc = "(async function(){" + eventMessage.code +"})"
+                        var efcc = eval(fcc)
+                        efcc()
+                     }
 
-                   }
+
+
+
+
+                     mm.refresh ++
+                     mm.$forceUpdate();
                 }
 
               },
