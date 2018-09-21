@@ -272,12 +272,12 @@ load_once_from_file(true)
                                             <div v-if="(property.type  == 'Event')  ">
                                                 <textarea   class="form-control" v-bind:refresh='refresh'
                                                             v-if='(model.active_component_index == null) && (model.active_form != null)'
-                                                            @change='generateCodeFromModel(  model  )'
+                                                            @change='generateCodeFromModel(   )'
                                                             rows=10
                                                             v-model='model.forms[model.active_form][property.id]'></textarea>
                                                 <textarea   class="form-control" v-bind:refresh='refresh'
                                                             v-if='(model.active_component_index != null) && (model.active_form != null)'
-                                                            @change='generateCodeFromModel(  model  )'
+                                                            @change='generateCodeFromModel(   )'
                                                             rows=10
                                                             v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'></textarea>
                                             </div>
@@ -318,7 +318,7 @@ load_once_from_file(true)
                 mm.model = json2
                 mm.edited_app_component_id = saveHelper.getValueOfCodeString(texti, "base_component_id")
 
-                //this.generateCodeFromModel(  json2  )
+                //this.generateCodeFromModel(   )
 
                 this.read_only = saveHelper.getValueOfCodeString(texti, "read_only")
              //alert(this.text)
@@ -437,7 +437,7 @@ load_once_from_file(true)
 
             if (type == 'component') {
                 this.model.forms[this.model.active_form].components[this.model.active_component_index][property.id] = val
-                this.generateCodeFromModel(  this.model  )
+                this.generateCodeFromModel(   )
 
 
             } else if (type == 'form') {
@@ -470,12 +470,12 @@ load_once_from_file(true)
 
                 } else {
                     this.model.forms[this.model.active_form][property.id] = val
-                    this.generateCodeFromModel(  this.model  )
+                    this.generateCodeFromModel(   )
                 }
 
             } else if (type == 'app') {
                 this.model[property.id] = val
-                this.generateCodeFromModel(  this.model  )
+                this.generateCodeFromModel(   )
             }
 
          },
@@ -531,7 +531,7 @@ load_once_from_file(true)
                                             type:   "String"
                                             })
 
-            mm.generateCodeFromModel(  mm.model  )
+            mm.generateCodeFromModel( )
             setTimeout(function() {
                 mm.refresh ++
                 mm.select_app()
@@ -589,7 +589,7 @@ load_once_from_file(true)
              this.properties.push({   id:     "form_activate",   name:   "Activate Event",   type:   "Event"    })
              mm.model.active_form = formId
              mm.refresh ++
-             this.generateCodeFromModel(  mm.model  )
+             this.generateCodeFromModel( )
 
              if (mm.model.forms[formId].form_activate && (!mm.design_mode)) {
                  //alert(JSON.stringify(this.args,null,2))
@@ -765,7 +765,7 @@ load_once_from_file(true)
                 this.model.forms[this.model.active_form].height = newHeight
 
                 this.model.active_component_index = null
-                this.generateCodeFromModel(  mm.model  )
+                this.generateCodeFromModel( )
               }
           },
 
@@ -828,7 +828,7 @@ load_once_from_file(true)
                  await load(newItem.base_component_id)
                  this.model.forms[this.model.active_form].components.push(newItem)
                  ev.preventDefault();
-                 this.generateCodeFromModel(  mm.model  )
+                 this.generateCodeFromModel(  )
                  this.model.active_component_index = this.model.forms[this.model.active_form].components.length - 1
                  //alert(this.active_component_index)
 
@@ -840,7 +840,7 @@ load_once_from_file(true)
                 this.model.forms[this.model.active_form].components[data.index].topY = (ev.clientY  - rrr.top) - data.offsetY;
                 ev.preventDefault();
                 this.model.active_component_index = data.index
-                this.generateCodeFromModel(  mm.model  )
+                this.generateCodeFromModel(   )
 
 
              } else if (data.type == "resize_top_left") {
@@ -858,7 +858,7 @@ load_once_from_file(true)
 
                  ev.preventDefault();
                  this.model.active_component_index = data.index
-                 this.generateCodeFromModel(  mm.model  )
+                 this.generateCodeFromModel(  )
 
 
 
@@ -878,7 +878,7 @@ load_once_from_file(true)
 
                  ev.preventDefault();
                  this.model.active_component_index = data.index
-                 this.generateCodeFromModel(  mm.model  )
+                 this.generateCodeFromModel(  )
 
              } else if (data.type == "resize_bottom_left") {
                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
@@ -894,7 +894,7 @@ load_once_from_file(true)
                  this.model.forms[this.model.active_form].components[data.index].height = newY - this.model.forms[this.model.active_form].components[data.index].topY
                  ev.preventDefault();
                  this.model.active_component_index = data.index
-                 this.generateCodeFromModel(  mm.model  )
+                 this.generateCodeFromModel(  )
 
 
 
@@ -915,7 +915,7 @@ load_once_from_file(true)
 
                  ev.preventDefault();
                  this.model.active_component_index = data.index
-                 this.generateCodeFromModel(  mm.model  )
+                 this.generateCodeFromModel(    )
              }
 
 
@@ -1001,7 +1001,7 @@ load_once_from_file(true)
             mm.model.active_form = newFormName
             mm.refresh ++
             //alert(JSON.stringify(mm.model,null,2))
-            this.generateCodeFromModel(  mm.model  )
+            this.generateCodeFromModel( )
          }
          ,
 
@@ -1028,7 +1028,7 @@ load_once_from_file(true)
 
             }
 
-            this.generateCodeFromModel(  mm.model  )
+            this.generateCodeFromModel(  )
         },
 
         //-------------------------------------------------------------------
@@ -1051,7 +1051,7 @@ load_once_from_file(true)
 
             }
 
-            this.generateCodeFromModel(  mm.model  )
+            this.generateCodeFromModel(   )
         },
 
         //-------------------------------------------------------------------
@@ -1072,12 +1072,13 @@ load_once_from_file(true)
                 }
             }
 
-            this.generateCodeFromModel(  mm.model  )
+            this.generateCodeFromModel(  )
             //alert("Added: " + JSON.stringify(mm.model,null,2))
         },
         //-------------------------------------------------------------------
         getText: function() {
         //-------------------------------------------------------------------
+            this.generateCodeFromModel()
             return this.text
         },
         //-------------------------------------------------------------------
@@ -1087,7 +1088,7 @@ load_once_from_file(true)
             this.text =  textValue
             var json2 = this.getJsonModelFromCode(  textValue  )
             mm.model = json2
-            this.generateCodeFromModel(  json2  )
+            this.generateCodeFromModel(  )
         }
         ,
         //-------------------------------------------------------------------
@@ -1100,7 +1101,7 @@ load_once_from_file(true)
 
         ,
         //-------------------------------------------------------------------
-        generateCodeFromModel: async function(  jsonModel  ) {
+        generateCodeFromModel: async function(  ) {
         //-------------------------------------------------------------------
             var mm = this
             if (!this.design_mode) {
