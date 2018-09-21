@@ -611,43 +611,31 @@ load_once_from_file(true)
 
 
               processControlEvent: async function(  eventMessage  ) {
-                console.log("processControlEvent")
-                this.updateAllFormCaches()
-                //alert(JSON.stringify(text,null,4))
                 var mm = this
-                if (eventMessage.type == "subcomponent_event") {
-                    console.log(1)
-                   if (!mm.design_mode) {
-                    console.log(2)
-                       if (mm.model) {
-                        console.log(3)
-                           //alert("subcomponent_event called in: " + mm.model.id)
-                           //alert(eventMessage.code)
-                           //alert("From: " + eventMessage.control_name)
-                           var fcc = "(async function(){" + eventMessage.code +"})"
-                           console.log(4)
+                if ((!mm.design_mode) && (mm.model)) {
+                    this.updateAllFormCaches()
 
+                    //
+                    // set up property access for all forms
+                    //
+                    var formHandler = {
+                         get: function(target,name){
+                             var formName = target.name
+                             if (mm.model.forms[formName][name]) {
+                                 return mm.model.forms[formName][name]
+                             }
 
-                           //
-                           // set up property access for all forms
-                           //
-                           var formHandler = {
-                                get: function(target,name){
-                                    //alert("gett: " + target + ", " + name)
-                                    var formName = target.name
-                                    if (mm.model.forms[formName][name]) {
-                                        return mm.model.forms[formName][name]
-                                    }
+                             if (mm.form_runtime_info[formName].component_lookup_by_name[name]) {
+                                 return mm.form_runtime_info[formName].component_lookup_by_name[name]
+                             }
 
-                                    //console.log("proxy:" + JSON.stringify(mm.form_runtime_info[formName],null,2))
-                                    if (mm.form_runtime_info[formName].component_lookup_by_name[name]) {
-                                        return mm.form_runtime_info[formName].component_lookup_by_name[name]
-                                    }
+                             return "Not found"
+                         }
+                    }
 
-                                    return "Not found"
-                                }
-                           }
-                           console.log(5)
+                    if (eventMessage.type == "subcomponent_event") {
+                            var fcc = "(async function(){" + eventMessage.code +"})"
+
                            var formEval = ""
                            var allForms = this.getForms();
                            for (var fi =0; fi < allForms.length ; fi ++) {
@@ -656,11 +644,7 @@ load_once_from_file(true)
                                     " = new Proxy({name: '" + aForm.name + "'}, formHandler);")
 
                            }
-                           console.log(6)
-                           //alert(formEval)
                            eval(formEval)
-
-                           console.log(7)
 
 
                            //
@@ -736,7 +720,7 @@ load_once_from_file(true)
 
 
                            }
-                       }
+                       
 
                    }
                 }
