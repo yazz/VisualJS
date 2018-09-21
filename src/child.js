@@ -4006,7 +4006,7 @@ function updateRevisions(sqlite, baseComponentId) {
                         appDb.run("PRAGMA wal_checkpoint;")
                         console.log("**************************************")
 
-                        //zzz
+
                         try {
                             dbsearch.serialize(function() {
                                 dbsearch.run("begin exclusive transaction");
@@ -4266,8 +4266,10 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
 
                                     newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_STATIC_CODE", newCode)
 
-                                    newStaticFileContent = newStaticFileContent.toString().replace("***location.hostname***", hostaddress )
-                                    newStaticFileContent = newStaticFileContent.toString().replace("usePort = -1", "usePort = " + port)
+
+                                    //zzz
+                                    newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/","'"+hostaddress+"'")
+                                    newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*static_port_start*/","/*static_port_end*/",port)
 
                                     newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_SCRIPT", scriptCode)
 

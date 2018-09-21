@@ -68,5 +68,12 @@ module.exports = {
 
             }
             return null
-    }
+    },
+
+    replaceBetween: function(target, start, end, replaceWith) {
+                                        var startIndex = target.indexOf(start) + start.length
+                                        var endIndex = target.indexOf(end)
+                                        var newString = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
+                                        return newString
+                                    }
 }
