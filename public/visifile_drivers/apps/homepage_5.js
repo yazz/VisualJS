@@ -1,6 +1,6 @@
 async function(args) {
 /*
-created_timestamp(1537519048633)
+created_timestamp(1537522006661)
 base_component_id("homepage_5")
 editors([
   "vb_editor_component"
@@ -88,7 +88,8 @@ formEditor({
           "background_color": ""
         }
       ],
-      "form_activate_old": "function() {\n                if (app && app.forms && app.forms[\"Form_1\"] && app.forms[\"Form_1\"].components[0]) {\n                    app.forms[\"Form_1\"].components[0].text = args.test\n                }\n             }"
+      "form_activate_old": "function() {\n                if (app && app.forms && app.forms[\"Form_1\"] && app.forms[\"Form_1\"].components[0]) {\n                    app.forms[\"Form_1\"].components[0].text = args.test\n                }\n             }",
+      "form_activate": "display_out.text = await sqlFirstCol(\"select name from items\")"
     },
     "Form_2": {
       "name": "Form_2",
@@ -202,11 +203,11 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                                                         "position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:" + item.height + "px;width:" + item.width + "px;background: white;;overflow:none;"'>
 
                                     <div ondrop="return false;" v-bind:style='"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:auto;"'>
-                                        <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[index].name'
+                                        <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[index].name + (design_mode?"_deisgn":"")'
                                                     v-bind:refresh='refresh'
                                                     v-on:send="processControlEvent"
                                                     v-bind:is='item.base_component_id'
-                                                    v-bind:name='item.name'
+                                                    v-bind:name='item.name + (design_mode?"_deisgn":"")'
                                                     v-bind:args='model.forms[model.active_form].components[index]'>
                                                     </component>
                                     </div>
@@ -394,12 +395,12 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                                             <div v-if="(property.type  == 'Event')  ">
                                                 <textarea   class="form-control" v-bind:refresh='refresh'
                                                             v-if='(model.active_component_index == null) && (model.active_form != null)'
-                                                            @change='generateCodeFromModel(  model  )'
+                                                            @change='generateCodeFromModel(   )'
                                                             rows=10
                                                             v-model='model.forms[model.active_form][property.id]'></textarea>
                                                 <textarea   class="form-control" v-bind:refresh='refresh'
                                                             v-if='(model.active_component_index != null) && (model.active_form != null)'
-                                                            @change='generateCodeFromModel(  model  )'
+                                                            @change='generateCodeFromModel(   )'
                                                             rows=10
                                                             v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'></textarea>
                                             </div>
@@ -440,7 +441,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                 mm.model = json2
                 mm.edited_app_component_id = saveHelper.getValueOfCodeString(texti, "base_component_id")
 
-                //this.generateCodeFromModel(  json2  )
+                //this.generateCodeFromModel(   )
 
                 this.read_only = saveHelper.getValueOfCodeString(texti, "read_only")
              //alert(this.text)
@@ -559,13 +560,13 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
 
             if (type == 'component') {
                 this.model.forms[this.model.active_form].components[this.model.active_component_index][property.id] = val
-                this.generateCodeFromModel(  this.model  )
+                this.generateCodeFromModel(   )
 
 
             } else if (type == 'form') {
                 if (property.id == "name" ) {
                     this.properties = []
-                    //zzz
+
                     var oldval = this.model.active_form
                     //alert("Rename form "  + oldval + " to " + val)
 
@@ -592,12 +593,12 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
 
                 } else {
                     this.model.forms[this.model.active_form][property.id] = val
-                    this.generateCodeFromModel(  this.model  )
+                    this.generateCodeFromModel(   )
                 }
 
             } else if (type == 'app') {
                 this.model[property.id] = val
-                this.generateCodeFromModel(  this.model  )
+                this.generateCodeFromModel(   )
             }
 
          },
@@ -653,7 +654,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                                             type:   "String"
                                             })
 
-            mm.generateCodeFromModel(  mm.model  )
+            mm.generateCodeFromModel( )
             setTimeout(function() {
                 mm.refresh ++
                 mm.select_app()
@@ -711,7 +712,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
              this.properties.push({   id:     "form_activate",   name:   "Activate Event",   type:   "Event"    })
              mm.model.active_form = formId
              mm.refresh ++
-             this.generateCodeFromModel(  mm.model  )
+             this.generateCodeFromModel( )
 
              if (mm.model.forms[formId].form_activate && (!mm.design_mode)) {
                  //alert(JSON.stringify(this.args,null,2))
@@ -723,15 +724,24 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                  var app = this.model
                  var crt = mm.model.forms[formId].form_activate
                  //alert(crt)
-                 var ffff = eval("(" + crt + ")")
-                 ffff()
+                 //var ffff = eval("(" + crt + ")")
+                 //ffff()
+
+
+                 //zzz
+                 var formEvent = {
+                     type:               "form_event",
+                     form_name:           formId,
+                     code:                crt
+                 }
+                 this.processControlEvent(formEvent)
              }
          },
 
 
 
 
-
+//zzz
               processControlEvent: async function(  eventMessage  ) {
                 var mm = this
                 if ((!mm.design_mode) && (mm.model)) {
@@ -754,97 +764,84 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                              return "Not found"
                          }
                     }
+                    var formEval = ""
+                    var allForms = this.getForms();
+                    for (var fi =0; fi < allForms.length ; fi ++) {
+                         var aForm = allForms[fi]
+                         formEval += ("var " + aForm.name +
+                             " = new Proxy({name: '" + aForm.name + "'}, formHandler);")
+
+                    }
+                    eval(formEval)
+
+
+
+
+
+                    //
+                    // set up property access for all controls on this form
+                    //
+                    var allC = this.model.forms[this.model.active_form].components
+                    var cacc =""
+                    for (var xi =0; xi< allC.length ; xi ++) {
+                         var comp = allC[xi]
+                         cacc += ( "var " + comp.name + " = mm.form_runtime_info['" + this.model.active_form + "'].component_lookup_by_name['" + comp.name + "'];")
+                    }
+                    eval(cacc)
+
+
 
                     if (eventMessage.type == "subcomponent_event") {
                             var fcc = "(async function(){" + eventMessage.code +"})"
 
-                           var formEval = ""
-                           var allForms = this.getForms();
-                           for (var fi =0; fi < allForms.length ; fi ++) {
-                                var aForm = allForms[fi]
-                                formEval += ("var " + aForm.name +
-                                    " = new Proxy({name: '" + aForm.name + "'}, formHandler);")
-
-                           }
-                           eval(formEval)
-
-
-                           //
-                           // set up property access for all controls on this form
-                           //
-                           var allC = this.model.forms[this.model.active_form].components
-                           var cacc =""
-                           for (var xi =0; xi< allC.length ; xi ++) {
-                                var comp = allC[xi]
-                                cacc += ( "var " + comp.name + " = mm.form_runtime_info['" + this.model.active_form + "'].component_lookup_by_name['" + comp.name + "'];")
-                                //eval("alert(mm.model.active_form)")
-                           }
-                           //alert(cacc)
-                           console.log(8)
-                           eval(cacc)
-
-                           console.log(9)
                            this.model.active_form
-       console.log(this.model.active_form)
-       console.log(JSON.stringify(this.form_runtime_info,null,2))
-       console.log(JSON.stringify(this.form_runtime_info[this.model.active_form],null,2))
                            var thisControl = this.form_runtime_info[this.model.active_form].component_lookup_by_name[eventMessage.control_name]
                            if (isValidObject(thisControl)) {
-                               console.log(10)
-                               console.log(thisControl.base_component_id)
+                                var compEvaled = await this.getComponentProperties(thisControl.base_component_id)
+                                var errr=""
 
+                                //
+                                // set up property access for this control
+                                //
+                                for (var rtt=0; rtt < compEvaled.length; rtt++) {
+                                    if (thisControl[compEvaled[rtt].id]) {
+                                        errr += ( compEvaled[rtt].id + " = `" + thisControl[compEvaled[rtt].id] + "`;")
+                                    }
+                                }
 
-                                   console.log(12)
-                                   var compEvaled = await this.getComponentProperties(thisControl.base_component_id)
-                                   var errr=""
+                                eval( errr  )
 
-                                   //
-                                   // set up property access for this control
-                                   //
-                                   for (var rtt=0; rtt < compEvaled.length; rtt++) {
-                                        //alert(JSON.stringify(compEvaled[rtt],null,2))
-                                        if (thisControl[compEvaled[rtt].id]) {
-                                            errr += ( compEvaled[rtt].id + " = `" + thisControl[compEvaled[rtt].id] + "`;")
+                                var efcc = eval(fcc)
+                                efcc()
+
+                                //
+                                // save any changed properties for this control
+                                //
+                                for (var rtt=0; rtt < compEvaled.length; rtt++) {
+                                    //alert(JSON.stringify(compEvaled[rtt],null,2))
+                                    if (thisControl[compEvaled[rtt].id]) {
+                                        if (eval(compEvaled[rtt].id ) != thisControl[compEvaled[rtt].id]) {
+                                            thisControl[compEvaled[rtt].id] = eval(compEvaled[rtt].id )
                                         }
-                                   }
-
-                                   console.log(13)
-
-
-
-
-
-
-
-                                   eval( errr  )
-                                   console.log(14)
-
-
-
-                                   var efcc = eval(fcc)
-                                   efcc()
-                                   console.log(15)
-
-                                   //
-                                   // save any changed properties for this control
-                                   //
-                                   for (var rtt=0; rtt < compEvaled.length; rtt++) {
-                                        //alert(JSON.stringify(compEvaled[rtt],null,2))
-                                        if (thisControl[compEvaled[rtt].id]) {
-                                            if (eval(compEvaled[rtt].id ) != thisControl[compEvaled[rtt].id]) {
-                                                thisControl[compEvaled[rtt].id] = eval(compEvaled[rtt].id )
-                                            }
-                                        }
-                                   }
-
-                                   mm.refresh ++
-                                   mm.$forceUpdate();
-
-
+                                    }
+                                }
                            }
 
+                     //
+                     // form events
+                     //
+                     } else if (eventMessage.type == "form_event") {
+                        var fcc = "(async function(){" + eventMessage.code +"})"
+                        var efcc = eval(fcc)
+                        efcc()
+                     }
 
-                   }
+
+
+
+
+                     mm.refresh ++
+                     mm.$forceUpdate();
                 }
 
               },
@@ -891,7 +888,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                 this.model.forms[this.model.active_form].height = newHeight
 
                 this.model.active_component_index = null
-                this.generateCodeFromModel(  mm.model  )
+                this.generateCodeFromModel( )
               }
           },
 
@@ -954,7 +951,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                  await load(newItem.base_component_id)
                  this.model.forms[this.model.active_form].components.push(newItem)
                  ev.preventDefault();
-                 this.generateCodeFromModel(  mm.model  )
+                 this.generateCodeFromModel(  )
                  this.model.active_component_index = this.model.forms[this.model.active_form].components.length - 1
                  //alert(this.active_component_index)
 
@@ -966,7 +963,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                 this.model.forms[this.model.active_form].components[data.index].topY = (ev.clientY  - rrr.top) - data.offsetY;
                 ev.preventDefault();
                 this.model.active_component_index = data.index
-                this.generateCodeFromModel(  mm.model  )
+                this.generateCodeFromModel(   )
 
 
              } else if (data.type == "resize_top_left") {
@@ -984,7 +981,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
 
                  ev.preventDefault();
                  this.model.active_component_index = data.index
-                 this.generateCodeFromModel(  mm.model  )
+                 this.generateCodeFromModel(  )
 
 
 
@@ -1004,7 +1001,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
 
                  ev.preventDefault();
                  this.model.active_component_index = data.index
-                 this.generateCodeFromModel(  mm.model  )
+                 this.generateCodeFromModel(  )
 
              } else if (data.type == "resize_bottom_left") {
                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
@@ -1020,7 +1017,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                  this.model.forms[this.model.active_form].components[data.index].height = newY - this.model.forms[this.model.active_form].components[data.index].topY
                  ev.preventDefault();
                  this.model.active_component_index = data.index
-                 this.generateCodeFromModel(  mm.model  )
+                 this.generateCodeFromModel(  )
 
 
 
@@ -1041,7 +1038,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
 
                  ev.preventDefault();
                  this.model.active_component_index = data.index
-                 this.generateCodeFromModel(  mm.model  )
+                 this.generateCodeFromModel(    )
              }
 
 
@@ -1127,7 +1124,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
             mm.model.active_form = newFormName
             mm.refresh ++
             //alert(JSON.stringify(mm.model,null,2))
-            this.generateCodeFromModel(  mm.model  )
+            this.generateCodeFromModel( )
          }
          ,
 
@@ -1154,7 +1151,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
 
             }
 
-            this.generateCodeFromModel(  mm.model  )
+            this.generateCodeFromModel(  )
         },
 
         //-------------------------------------------------------------------
@@ -1177,7 +1174,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
 
             }
 
-            this.generateCodeFromModel(  mm.model  )
+            this.generateCodeFromModel(   )
         },
 
         //-------------------------------------------------------------------
@@ -1198,12 +1195,13 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                 }
             }
 
-            this.generateCodeFromModel(  mm.model  )
+            this.generateCodeFromModel(  )
             //alert("Added: " + JSON.stringify(mm.model,null,2))
         },
         //-------------------------------------------------------------------
         getText: function() {
         //-------------------------------------------------------------------
+            this.generateCodeFromModel()
             return this.text
         },
         //-------------------------------------------------------------------
@@ -1213,7 +1211,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
             this.text =  textValue
             var json2 = this.getJsonModelFromCode(  textValue  )
             mm.model = json2
-            this.generateCodeFromModel(  json2  )
+            this.generateCodeFromModel(  )
         }
         ,
         //-------------------------------------------------------------------
@@ -1226,7 +1224,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
 
         ,
         //-------------------------------------------------------------------
-        generateCodeFromModel: async function(  jsonModel  ) {
+        generateCodeFromModel: async function(  ) {
         //-------------------------------------------------------------------
             var mm = this
             if (!this.design_mode) {
@@ -1399,7 +1397,8 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
           "background_color": ""
         }
       ],
-      "form_activate_old": "function() {\n                if (app && app.forms && app.forms[\"Form_1\"] && app.forms[\"Form_1\"].components[0]) {\n                    app.forms[\"Form_1\"].components[0].text = args.test\n                }\n             }"
+      "form_activate_old": "function() {\n                if (app && app.forms && app.forms[\"Form_1\"] && app.forms[\"Form_1\"].components[0]) {\n                    app.forms[\"Form_1\"].components[0].text = args.test\n                }\n             }",
+      "form_activate": "display_out.text = await sqlFirstCol(\"select name from items\")"
     },
     "Form_2": {
       "name": "Form_2",
