@@ -4233,8 +4233,6 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
 
                                     newStaticFileContent = newStaticFileContent.toString().replace("var isStaticHtmlPageApp = false", "var isStaticHtmlPageApp = true")
 
-                                    var tr = babel.transform("(" + code + ")", {plugins: [path.join(__dirname, "../node_modules/babel-plugin-transform-es2015-template-literals")]})
-
                                     var newcode = escape("(" + code.toString() + ")")
 
 
