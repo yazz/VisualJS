@@ -224,7 +224,7 @@ load_once_from_file(true)
                                           <div>
                                               <div  v-bind:style='(((form.name == model.active_form) && (model.active_component_index == null) && (!model.app_selected)) ?"border: 3px solid red;background-color:gray;color:white;":"color:black;") + "padding:4px;margin:0px;margin-left:30px;"'
                                                     v-on:click='$event.stopPropagation();selectForm(form.name)'>
-                                                            {{form.name}}
+                                                            {{form.name}} ({{form.components.length}})
                                               </div>
 
                                               <div    v-if='form.name == model.active_form'
