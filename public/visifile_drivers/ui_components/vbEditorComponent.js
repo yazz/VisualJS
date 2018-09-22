@@ -24,7 +24,7 @@ load_once_from_file(true)
                         >
                     <div>
                         <h4 style='display: inline-block; margin-right: 10px; ' v-if='design_mode' >VB app designer</h4>
-                        <slot style='display: inline-block;' v-if='text' :text2="text"></slot>
+                        <slot style='display: inline-block;' v-if='text'></slot>
                     </div>
 
 
@@ -437,7 +437,7 @@ load_once_from_file(true)
 
             if (type == 'component') {
                 this.model.forms[this.model.active_form].components[this.model.active_component_index][property.id] = val
-                this.generateCodeFromModel(   )
+                //this.generateCodeFromModel(   )
 
 
             } else if (type == 'form') {
@@ -470,12 +470,12 @@ load_once_from_file(true)
 
                 } else {
                     this.model.forms[this.model.active_form][property.id] = val
-                    this.generateCodeFromModel(   )
+                    //this.generateCodeFromModel(   )
                 }
 
             } else if (type == 'app') {
                 this.model[property.id] = val
-                this.generateCodeFromModel(   )
+                //this.generateCodeFromModel(   )
             }
 
          },
@@ -589,7 +589,7 @@ load_once_from_file(true)
              this.properties.push({   id:     "form_activate",   name:   "Activate Event",   type:   "Event"    })
              mm.model.active_form = formId
              mm.refresh ++
-             this.generateCodeFromModel( )
+             //this.generateCodeFromModel( )
 
              if (mm.model.forms[formId].form_activate && (!mm.design_mode)) {
                  //alert(JSON.stringify(this.args,null,2))
@@ -605,7 +605,7 @@ load_once_from_file(true)
                  //ffff()
 
 
-                 //zzz
+
                  var formEvent = {
                      type:               "form_event",
                      form_name:           formId,
@@ -618,7 +618,7 @@ load_once_from_file(true)
 
 
 
-//zzz
+
               processControlEvent: async function(  eventMessage  ) {
                 var mm = this
                 if ((!mm.design_mode) && (mm.model)) {
@@ -765,7 +765,7 @@ load_once_from_file(true)
                 this.model.forms[this.model.active_form].height = newHeight
 
                 this.model.active_component_index = null
-                this.generateCodeFromModel( )
+                //this.generateCodeFromModel( )
               }
           },
 
@@ -828,7 +828,7 @@ load_once_from_file(true)
                  await load(newItem.base_component_id)
                  this.model.forms[this.model.active_form].components.push(newItem)
                  ev.preventDefault();
-                 this.generateCodeFromModel(  )
+                 //this.generateCodeFromModel(  )
                  this.model.active_component_index = this.model.forms[this.model.active_form].components.length - 1
                  //alert(this.active_component_index)
 
@@ -840,7 +840,7 @@ load_once_from_file(true)
                 this.model.forms[this.model.active_form].components[data.index].topY = (ev.clientY  - rrr.top) - data.offsetY;
                 ev.preventDefault();
                 this.model.active_component_index = data.index
-                this.generateCodeFromModel(   )
+                //this.generateCodeFromModel(   )
 
 
              } else if (data.type == "resize_top_left") {
@@ -858,7 +858,7 @@ load_once_from_file(true)
 
                  ev.preventDefault();
                  this.model.active_component_index = data.index
-                 this.generateCodeFromModel(  )
+                 //this.generateCodeFromModel(  )
 
 
 
@@ -878,7 +878,7 @@ load_once_from_file(true)
 
                  ev.preventDefault();
                  this.model.active_component_index = data.index
-                 this.generateCodeFromModel(  )
+                 //this.generateCodeFromModel(  )
 
              } else if (data.type == "resize_bottom_left") {
                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
@@ -894,7 +894,7 @@ load_once_from_file(true)
                  this.model.forms[this.model.active_form].components[data.index].height = newY - this.model.forms[this.model.active_form].components[data.index].topY
                  ev.preventDefault();
                  this.model.active_component_index = data.index
-                 this.generateCodeFromModel(  )
+                 //this.generateCodeFromModel(  )
 
 
 
@@ -915,7 +915,7 @@ load_once_from_file(true)
 
                  ev.preventDefault();
                  this.model.active_component_index = data.index
-                 this.generateCodeFromModel(    )
+                 //this.generateCodeFromModel(    )
              }
 
 
@@ -1001,7 +1001,7 @@ load_once_from_file(true)
             mm.model.active_form = newFormName
             mm.refresh ++
             //alert(JSON.stringify(mm.model,null,2))
-            this.generateCodeFromModel( )
+            //this.generateCodeFromModel( )
          }
          ,
 
@@ -1028,7 +1028,7 @@ load_once_from_file(true)
 
             }
 
-            this.generateCodeFromModel(  )
+            //this.generateCodeFromModel(  )
         },
 
         //-------------------------------------------------------------------
@@ -1051,7 +1051,7 @@ load_once_from_file(true)
 
             }
 
-            this.generateCodeFromModel(   )
+            //this.generateCodeFromModel(   )
         },
 
         //-------------------------------------------------------------------
@@ -1071,17 +1071,23 @@ load_once_from_file(true)
                   mm.model.fields.splice(index, 1);
                 }
             }
-
-            this.generateCodeFromModel(  )
-            //alert("Added: " + JSON.stringify(mm.model,null,2))
         },
+
+
+
+
+
         //-------------------------------------------------------------------
-        getText: function() {
+        getText: async function() {
         //-------------------------------------------------------------------
         console.log("2) VB: getText")
-            this.generateCodeFromModel()
+            await this.generateCodeFromModel()
             return this.text
         },
+
+
+
+
         //-------------------------------------------------------------------
         setText: function(textValue) {
         //-------------------------------------------------------------------
@@ -1089,7 +1095,6 @@ load_once_from_file(true)
             this.text =  textValue
             var json2 = this.getJsonModelFromCode(  textValue  )
             mm.model = json2
-            this.generateCodeFromModel(  )
         }
         ,
         //-------------------------------------------------------------------
@@ -1108,6 +1113,8 @@ load_once_from_file(true)
             if (!this.design_mode) {
                 return
             }
+            //zzz
+            console.log("3) generateCodeFromModel")
 
             var startIndex = this.text.indexOf("//** gen_" + "start **//")
             var endIndex = this.text.indexOf("//** gen_" + "end **//")
@@ -1184,7 +1191,8 @@ load_once_from_file(true)
                                                           mm.model.app_properties,
                                                           ")//prope" + "rties")
 
-
+            console.log("4) generateCodeFromModel.Done")
+            return
         }
 
      }

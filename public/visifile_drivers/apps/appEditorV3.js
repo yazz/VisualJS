@@ -248,7 +248,8 @@ load_once_from_file(true)
            // ---------------------------------------------------------------
            save: async function( base_component_id, code_id ) {
            console.log("1) AppEditor: save")
-           var text =  this.$refs.editorComponentRef.getText()
+           var text =  await this.$refs.editorComponentRef.getText()
+           console.log("5) AppEditor: getText done")
            //zzz
                var mm = this
                if (mm.read_only) {
