@@ -346,7 +346,7 @@ load_once_from_file(true)
            //
            // get the availabe components
            //
-           var sql =    "select  base_component_id  ,  logo_url   from  system_code  where " +
+           var sql =    "select  base_component_id  ,  name  ,  logo_url   from  system_code  where " +
                         "        code_tag = 'LATEST' and logo_url is not null"
 
            var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
