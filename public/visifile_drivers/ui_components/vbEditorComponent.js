@@ -1078,6 +1078,7 @@ load_once_from_file(true)
         //-------------------------------------------------------------------
         getText: function() {
         //-------------------------------------------------------------------
+        console.log("2) VB: getText")
             this.generateCodeFromModel()
             return this.text
         },

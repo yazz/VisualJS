@@ -62,7 +62,7 @@ load_once_from_file(true)
                                           <button v-if='!read_only'
                                                   v-bind:style="'visibility: ' + ((app_shown && code_shown)?'':'hidden')"
                                                   slot-scope="editor_component"
-                                                  v-on:click='setTimeout(function(){save(base_component_id, code_id, editor_component.text2)},100)'
+                                                  v-on:click='setTimeout(function(){save(base_component_id, code_id)},100)'
                                                   type="button" class="btn btn-primary btn-sm">
 
                                                       Save changes
@@ -246,7 +246,10 @@ load_once_from_file(true)
            //
            // This is called to save the currently edited code
            // ---------------------------------------------------------------
-           save: async function( base_component_id, code_id, text ) {
+           save: async function( base_component_id, code_id ) {
+           console.log("1) AppEditor: save")
+           var text =  this.$refs.editorComponentRef.getText()
+           //zzz
                var mm = this
                if (mm.read_only) {
                     return
