@@ -329,19 +329,23 @@ load_once_from_file(true)
            //
            // load the default form
            //
-           for (var rtw = 0; rtw < mm.model.forms[mm.model.active_form].components.length ; rtw++ )
-           {
-                var newItem = mm.model.forms[mm.model.active_form].components[rtw]
-                //alert(newItem.base_component_id)
-                await load(newItem.base_component_id)
-                var compEvaled = await this.getComponentProperties(this.model.forms[this.model.active_form].components[rtw].base_component_id)
-                for (var cpp = 0 ; cpp< compEvaled.length; cpp ++){
-                    var prop = compEvaled[cpp].id
-                    if (!isValidObject(this.model.forms[mm.model.active_form].components[rtw][prop])){
-                        this.model.forms[mm.model.active_form].components[rtw][prop] = ""
-                    }
-                }
+           var forms = this.getForms()
+           for (var formIndex = 0; formIndex < forms.length; formIndex ++) {
+                var formName = forms[formIndex].name
+                for (var rtw = 0; rtw < mm.model.forms[formName].components.length ; rtw++ )
+                {
+                     var newItem = mm.model.forms[formName].components[rtw]
+                     //alert(newItem.base_component_id)
+                     await loadFast(newItem.base_component_id)
+                     var compEvaled = await this.getComponentProperties(this.model.forms[formName].components[rtw].base_component_id)
+                     for (var cpp = 0 ; cpp< compEvaled.length; cpp ++){
+                         var prop = compEvaled[cpp].id
+                         if (!isValidObject(this.model.forms[formName].components[rtw][prop])){
+                             this.model.forms[formName].components[rtw][prop] = ""
+                         }
+                     }
 
+                }
            }
 
 
@@ -565,7 +569,7 @@ load_once_from_file(true)
                 return {}
               }
               var propEm = results[0].properties
-              if (propEm == '') {
+              if ((propEm == null) || (propEm == '')) {
                 return {}
               }
               var props = eval("(" + results[0].properties + ")")
@@ -825,7 +829,7 @@ load_once_from_file(true)
                  newItem.width = 100
                  newItem.height = 100
                  this.refresh++
-                 await load(newItem.base_component_id)
+                 await loadFast(newItem.base_component_id)
                  this.model.forms[this.model.active_form].components.push(newItem)
                  ev.preventDefault();
                  //this.generateCodeFromModel(  )

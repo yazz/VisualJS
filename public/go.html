@@ -1234,6 +1234,10 @@ function callDriverMethod(findComponentArgs, args, callbackFn) {
 }
 
 
+async function loadFast(baseComponentId, args) {
+    await callApp({base_component_id: baseComponentId},args)
+    return null
+}
 async function load(baseComponentId, args) {
     var comp = await callApp({base_component_id: baseComponentId},args)
 
