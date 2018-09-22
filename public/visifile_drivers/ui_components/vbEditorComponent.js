@@ -6,9 +6,9 @@ load_once_from_file(true)
 
     //alert(JSON.stringify(args,null,2))
     var mm = null
-    var codeToLoad = null
+    var texti = null
     if (args) {
-        codeToLoad = args.text
+        texti = args.text
     }
     var designMode = true
     var runtimeMode = false
@@ -300,26 +300,28 @@ load_once_from_file(true)
 
 
 
-        // ------------------------------------------------------------------
-        //
-        // set up the VB editor
-        //
-        // ------------------------------------------------------------------
+
         mounted: async function() {
-            var mm                  =  this
-            mm.uid2                 =  uuidv4()
-            mm.vb_grid_element_id   =  vb_grid_"+ uuidv4()
-            mm.vb_editor_element_id = "vb_editor_"+ uuidv4()
+            var mm = this
+
+            mm.uid2 =                       uuidv4()
+            mm.vb_grid_element_id =          "vb_grid_"+ uuidv4()
+            mm.vb_editor_element_id =         "vb_editor_"+ uuidv4()
 
 
 
             //
             // get the base component ID of the code to edit/run
             //
-            if (codeToLoad) {
-                mm.model                    = this.getJsonModelFromCode(  codeToLoad  )
-                mm.edited_app_component_id  = saveHelper.getValueOfCodeString(codeToLoad, "base_component_id")
-                mm.read_only                = saveHelper.getValueOfCodeString(codeToLoad, "read_only")
+            if (texti) {
+                var json2 = this.getJsonModelFromCode(  texti  )
+                mm.model = json2
+                mm.edited_app_component_id = saveHelper.getValueOfCodeString(texti, "base_component_id")
+
+                //this.generateCodeFromModel(   )
+
+                this.read_only = saveHelper.getValueOfCodeString(texti, "read_only")
+             //alert(this.text)
            }
 
            mm.model.active_form = mm.model.default_form
@@ -339,14 +341,15 @@ load_once_from_file(true)
                         this.model.forms[mm.model.active_form].components[rtw][prop] = ""
                     }
                 }
+
            }
 
 
 
            //
-           // get the availabe components
+           // get the availabe compoents
            //
-           var sql =    "select  base_component_id  ,  name  ,  logo_url   from  system_code  where " +
+           var sql =    "select  *  from  system_code  where " +
                         "        code_tag = 'LATEST' and logo_url is not null"
 
            var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
@@ -1135,7 +1138,7 @@ load_once_from_file(true)
 
                 `//** gen_start **//
                 var mm = null
-                var codeToLoad = null
+                var texti = null
                 var designMode = false
                 var runtimeMode = true
                 Vue.component('${this.edited_app_component_id}', {`
@@ -1152,7 +1155,7 @@ load_once_from_file(true)
                       refresh: 0,
                       runtime_mode: runtimeMode,
                       form_runtime_info: {},
-                      text: codeToLoad,
+                      text: texti,
                       model: `
                       + JSON.stringify( mm.model,
 
@@ -1203,7 +1206,7 @@ load_once_from_file(true)
            design_mode:                 designMode,
            runtime_mode:                runtimeMode,
            edited_app_component_id:     null,
-           text:                        codeToLoad,
+           text:                        texti,
            leftHandWidth:               200,
            add_property:                false,
            new_property_name: "",
