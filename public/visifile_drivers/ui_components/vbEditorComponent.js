@@ -339,6 +339,7 @@ load_once_from_file(true)
                      if (!this.component_loaded[newItem.base_component_id]) {
                         await loadFast(newItem.base_component_id)
                         this.component_loaded[newItem.base_component_id] = true
+                        this.component_usage[newItem.base_component_id] = true
                      }
                      var compEvaled = await this.getComponentProperties(this.model.forms[formName].components[rtw].base_component_id)
                      for (var cpp = 0 ; cpp< compEvaled.length; cpp ++){
@@ -354,28 +355,41 @@ load_once_from_file(true)
 
 
            //
-           // get the availabe compoents
+           // get the availabe components
            //
            var sql =    "select  base_component_id,logo_url  from  system_code  where " +
                         "        code_tag = 'LATEST' and logo_url is not null"
 
            var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
                {   sql: sql  })
-
            mm.available_components = results
+
+
+           //
+           // get the component usage
+           //
+           if (mm.edited_app_component_id) {
+               var sql =    "select  child_component_id  from  component_usage  where " +
+                            "        base_component_id = '" + mm.edited_app_component_id + "'"
+
+               var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
+                   {   sql: sql  })
+               //alert(JSON.stringify(results,null,2))
+
+
+               for (var i = 0; i < results.length; i++) {
+                    mm.component_usage[results[i].child_component_id] = true
+               }
+           }
+
+
+
+
            this.updateAllFormCaches()
-
-
-
 
            this.selectForm(mm.model.default_form)
 
-
            mm.$forceUpdate();
-
-
-
-
      },
 
 
@@ -836,6 +850,7 @@ load_once_from_file(true)
                  if (!this.component_loaded[newItem.base_component_id]) {
                     await loadFast(newItem.base_component_id)
                     this.component_loaded[newItem.base_component_id] = true
+                    this.component_usage[newItem.base_component_id] = true
                  }
                  this.model.forms[this.model.active_form].components.push(newItem)
                  ev.preventDefault();
@@ -1166,6 +1181,7 @@ load_once_from_file(true)
                       refresh: 0,
                       runtime_mode: runtimeMode,
                       component_loaded:            new Object(),
+                      component_usage:             new Object(),
                       form_runtime_info: {},
                       text: texti,
                       model: `
@@ -1228,6 +1244,7 @@ load_once_from_file(true)
            read_only:                   false,
            available_components:        [],
            component_loaded:            new Object(),
+           component_usage:             new Object(),
            form_runtime_info: {},
            model:                      {
                                             next_id: 1,
