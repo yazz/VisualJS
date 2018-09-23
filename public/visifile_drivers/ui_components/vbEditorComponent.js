@@ -336,7 +336,10 @@ load_once_from_file(true)
                 {
                      var newItem = mm.model.forms[formName].components[rtw]
                      //alert(newItem.base_component_id)
-                     await loadFast(newItem.base_component_id)
+                     if (!this.component_loaded[newItem.base_component_id]) {
+                        await loadFast(newItem.base_component_id)
+                        this.component_loaded[newItem.base_component_id] = true
+                     }
                      var compEvaled = await this.getComponentProperties(this.model.forms[formName].components[rtw].base_component_id)
                      for (var cpp = 0 ; cpp< compEvaled.length; cpp ++){
                          var prop = compEvaled[cpp].id
@@ -830,7 +833,10 @@ load_once_from_file(true)
                  newItem.width = 100
                  newItem.height = 100
                  this.refresh++
-                 await loadFast(newItem.base_component_id)
+                 if (!this.component_loaded[newItem.base_component_id]) {
+                    await loadFast(newItem.base_component_id)
+                    this.component_loaded[newItem.base_component_id] = true
+                 }
                  this.model.forms[this.model.active_form].components.push(newItem)
                  ev.preventDefault();
                  //this.generateCodeFromModel(  )
@@ -1159,6 +1165,7 @@ load_once_from_file(true)
                       design_mode: designMode,
                       refresh: 0,
                       runtime_mode: runtimeMode,
+                      component_loaded:            new Object(),
                       form_runtime_info: {},
                       text: texti,
                       model: `
@@ -1220,6 +1227,7 @@ load_once_from_file(true)
            properties:                  [],
            read_only:                   false,
            available_components:        [],
+           component_loaded:            new Object(),
            form_runtime_info: {},
            model:                      {
                                             next_id: 1,
