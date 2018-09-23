@@ -4246,7 +4246,7 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
 
 
 
-                                    var newCode =  `cachedCode["${sha1sum}"] = {
+                                    newCode =  `cachedCode["${sha1sum}"] = {
                                       "type": "ws_to_browser_callDriverMethod_results",
                                       "value": {
                                         "code": unescape(\`${newcode}\`),
@@ -4260,12 +4260,31 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
                                       "seq_num": 0
                                     }
 
-                                        finderToCachedCodeMapping["${baseComponentId}"] = "${sha1sum}"`
+                               finderToCachedCodeMapping["${baseComponentId}"] = "${sha1sum}"`
+
+
+                                dbsearch.serialize(
+                                    function() {
+                                        var stmt = dbsearch.all(
+                                        "select  child_component_id  from  component_usage  where   base_component_id = ?",
+                                                     [  baseComponentId  ],
+
+                                            function(err, results)
+                                            {
+                                                    for (var i=0;i < results.length; i++){
+                                                        //zzz
+                                                    }
+                                            })
+                                       }
+                                 , sqlite3.OPEN_READONLY)
+
+
+
 
                                     newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_STATIC_CODE", newCode)
 
 
-                                    //zzz
+
                                     newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/","'"+hostaddress+"'")
                                     newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*static_port_start*/","/*static_port_end*/",port)
 
