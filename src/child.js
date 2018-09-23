@@ -4271,6 +4271,7 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
                                         function() {
                                             var stmt = dbsearch.all(
                                                 `select
+                                                    system_code.id as sha1,
                                                     child_component_id,
                                                     code
                                                 from
@@ -4289,8 +4290,24 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
                                             function(err, results)
                                             {
                                                     for (var i = 0  ;   i < results.length;    i ++ ) {
-                                                        newCode += `//${results[i].child_component_id}
+                                                        var newcodeEs = escape("(" + results[i].code.toString() + ")")
+                                                        var newCode2 =  `cachedCode["${results[i].sha1}"] = {
+                                                          "type": "ws_to_browser_callDriverMethod_results",
+                                                          "value": {
+                                                            "code": unescape(\`${newcodeEs}\`),
+                                                            "is_code_result": true,
+                                                            "use_db": ${useDb?"\"" + useDb + "\"":null},
+                                                            "libs": [],
+                                                            "code_id": "${results[i].sha1}",
+                                                            "on_condition": "\\\"app\\\"",
+                                                            "base_component_id": "${results[i].child_component_id}"
+                                                          },
+                                                          "seq_num": 0
+                                                        }
+
+                                                        finderToCachedCodeMapping["${results[i].child_component_id}"] = "${results[i].sha1}"
                                                         `
+                                                        newCode += newCode2
                                                     }
                                                     newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_STATIC_CODE", newCode)
 
