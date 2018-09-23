@@ -4263,19 +4263,33 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
                                     finderToCachedCodeMapping["${baseComponentId}"] = "${sha1sum}"`
 
 
+                                    //zzz
                                     newCode += `
                                         //newcodehere
                                     `
                                     dbsearch.serialize(
                                         function() {
                                             var stmt = dbsearch.all(
-                                                "select  child_component_id  from  component_usage  where   base_component_id = ?",
+                                                `select
+                                                    child_component_id,
+                                                    code
+                                                from
+                                                    component_usage,
+                                                    system_code
+                                                where
+                                                    component_usage.base_component_id = ?
+                                                and
+                                                    system_code.base_component_id = component_usage.child_component_id
+                                                and
+                                                    code_tag = 'LATEST'
+                                                    `,
+
                                                      [  baseComponentId  ],
 
                                             function(err, results)
                                             {
                                                     for (var i = 0  ;   i < results.length;    i ++ ) {
-                                                        newCode += `//${JSON.stringify(results[i],null,2)}
+                                                        newCode += `//${results[i].child_component_id}
                                                         `
                                                     }
                                                     newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_STATIC_CODE", newCode)
