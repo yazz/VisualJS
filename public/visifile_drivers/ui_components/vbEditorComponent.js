@@ -326,6 +326,30 @@ load_once_from_file(true)
 
            mm.model.active_form = mm.model.default_form
 
+
+
+
+
+          //
+          // get the component usage
+          //
+          if (mm.edited_app_component_id) {
+              var sql =    "select  child_component_id  from  component_usage  where " +
+                           "        base_component_id = '" + mm.edited_app_component_id + "'"
+
+              var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
+                  {   sql: sql  })
+              //alert(JSON.stringify(results,null,2))
+
+
+              for (var i = 0; i < results.length; i++) {
+                   mm.component_usage[results[i].child_component_id] = true
+              }
+          }
+
+
+
+
            //
            // load the default form
            //
@@ -339,8 +363,22 @@ load_once_from_file(true)
                      if (!this.component_loaded[newItem.base_component_id]) {
                         await loadFast(newItem.base_component_id)
                         this.component_loaded[newItem.base_component_id] = true
-                        this.component_usage[newItem.base_component_id] = true
+                        if (mm.edited_app_component_id) {
+                            //alert(mm.edited_app_component_id)
+                            if (!mm.component_usage[newItem.base_component_id]) {
+                                mm.component_usage[newItem.base_component_id] = true
+                                var sql =   "insert into component_usage (base_component_id, child_component_id)" +
+                                            " values ('" + mm.edited_app_component_id + "', '" + newItem.base_component_id + "')"
+
+                                var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
+                                    {   sql: sql  })
+
+                            }
+
+                        }
                      }
+
+
                      var compEvaled = await this.getComponentProperties(this.model.forms[formName].components[rtw].base_component_id)
                      for (var cpp = 0 ; cpp< compEvaled.length; cpp ++){
                          var prop = compEvaled[cpp].id
@@ -365,22 +403,6 @@ load_once_from_file(true)
            mm.available_components = results
 
 
-           //
-           // get the component usage
-           //
-           if (mm.edited_app_component_id) {
-               var sql =    "select  child_component_id  from  component_usage  where " +
-                            "        base_component_id = '" + mm.edited_app_component_id + "'"
-
-               var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
-                   {   sql: sql  })
-               //alert(JSON.stringify(results,null,2))
-
-
-               for (var i = 0; i < results.length; i++) {
-                    mm.component_usage[results[i].child_component_id] = true
-               }
-           }
 
 
 
