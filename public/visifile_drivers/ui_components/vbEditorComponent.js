@@ -442,6 +442,7 @@ load_once_from_file(true)
             if (type == 'component') {
                 this.model.forms[this.model.active_form].components[this.model.active_component_index][property.id] = val
                 //this.generateCodeFromModel(   )
+                this.refresh ++
 
 
             } else if (type == 'form') {
