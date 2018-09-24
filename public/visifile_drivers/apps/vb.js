@@ -2,6 +2,8 @@ async function(args) {
 /*
 created_timestamp(1537522006661)
 base_component_id("vb")
+visibility("PUBLIC")
+
 editors([
   "vb_editor_component"
 ])
@@ -121,7 +123,7 @@ formEditor({
   },
   "active_component_index": null
 })//formEditor
-read_only(false)
+read_only(true)
 
 
 
