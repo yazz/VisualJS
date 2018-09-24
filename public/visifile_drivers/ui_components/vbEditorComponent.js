@@ -360,9 +360,8 @@ load_once_from_file(true)
                 {
                      var newItem = mm.model.forms[formName].components[rtw]
                      //alert(newItem.base_component_id)
-                     if (!this.component_loaded[newItem.base_component_id]) {
+                     if (!component_loaded[newItem.base_component_id]) {
                         await loadFast(newItem.base_component_id)
-                        this.component_loaded[newItem.base_component_id] = true
                         if (mm.edited_app_component_id) {
                             //alert(mm.edited_app_component_id)
                             if (!mm.component_usage[newItem.base_component_id]) {
@@ -869,9 +868,8 @@ load_once_from_file(true)
                  newItem.width = 100
                  newItem.height = 100
                  this.refresh++
-                 if (!this.component_loaded[newItem.base_component_id]) {
+                 if (!component_loaded[newItem.base_component_id]) {
                     await loadFast(newItem.base_component_id)
-                    this.component_loaded[newItem.base_component_id] = true
                     this.component_usage[newItem.base_component_id] = true
                  }
                  this.model.forms[this.model.active_form].components.push(newItem)
@@ -1202,7 +1200,6 @@ load_once_from_file(true)
                       design_mode: designMode,
                       refresh: 0,
                       runtime_mode: runtimeMode,
-                      component_loaded:            new Object(),
                       component_usage:             new Object(),
                       form_runtime_info: {},
                       text: texti,
@@ -1265,7 +1262,6 @@ load_once_from_file(true)
            properties:                  [],
            read_only:                   false,
            available_components:        [],
-           component_loaded:            new Object(),
            component_usage:             new Object(),
            form_runtime_info: {},
            model:                      {

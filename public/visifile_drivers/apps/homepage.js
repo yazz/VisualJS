@@ -175,6 +175,7 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                for (var rt=0; rt < results.length; rt++) {
                    var appId = results[rt].base_component_id
                    mm.addAppFast(appId,-1, results[rt])
+                   component_loaded[appId] = true
                }
 
 

@@ -5,7 +5,8 @@
     <meta charset="UTF-8" />
 
     <script>
-    var libLoaded = new Object()
+    var libLoaded        = new Object()
+    var component_loaded = new Object()
 
     //***ADD_SCRIPT
     </script>
@@ -1243,10 +1244,12 @@ function callDriverMethod(findComponentArgs, args, callbackFn) {
 
 async function loadFast(baseComponentId, args) {
     await callApp({base_component_id: baseComponentId},args)
+    component_loaded[baseComponentId] = true
     return null
 }
 async function load(baseComponentId, args) {
     var comp = await callApp({base_component_id: baseComponentId},args)
+    component_loaded[baseComponentId] = true
 
     var msql = `select * from system_code where base_component_id = '${baseComponentId}' and code_tag = 'LATEST'`
     var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},  {   sql: msql  })
