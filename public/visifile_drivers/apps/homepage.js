@@ -48,9 +48,13 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                                            <h4>
                                             Create a new app
                                            </h4>
-                                           <button style='margin-bottom:10px;'  class='btn btn-primary' v-on:click='copyAndEditApp($event,"todo")'>Add database app</button>
-                                           <button style='margin-bottom:10px;'  class='btn btn-primary' v-on:click='copyAndEditApp($event,"game")'>Add 3d AFrame app</button>
-                                           <button style='margin-bottom:10px;' class='btn btn-primary' v-on:click='copyAndEditApp($event,"new_app")'>Text only</button>
+                                           <select v-model="app_type">
+                                              <option selected value="homepage_5">Visual Builder 6</option>
+                                              <option          value="todo">Database app</option>
+                                              <option          value="game">3d AFrame app</option>
+                                              <option          value="new_app">Text only</option>
+                                            </select>
+                                           <button style='margin-bottom:10px;' class='btn btn-primary' v-on:click='copyAndEditApp($event,app_type)'>Go</button>
                                            </div>
                                            </div>
 
@@ -132,6 +136,7 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
     data: function() {
         return {
                     apps: [],
+                    app_type: "homepage_5",
                     intro_apps: [],
                     loaded_app: new Object(),
                     show_menu: null,
