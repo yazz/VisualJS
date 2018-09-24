@@ -217,7 +217,7 @@ function processMessagesFromMainProcess() {
                     dbsearch.serialize(
                         function() {
                             var stmt = dbsearch.all(
-                              "SELECT * FROM system_code where base_component_id = ? and code_tag = 'LATEST'; ",
+                              "SELECT id FROM system_code where base_component_id = ? and code_tag = 'LATEST'; ",
 
                                msg.find_component.base_component_id,
 
