@@ -12,7 +12,7 @@ read_only(true)
 logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Homepages--796x563.jpg")
 */
     var introa = []//['homepage_1','homepage_2','homepage_3','homepage_4',
-                   // 'homepage_5','homepage_6',"todo","form_subscribe_to_appshare","test"]
+                   // 'vb','homepage_6',"todo","form_subscribe_to_appshare","test"]
     await load("app_editor_3")
     var mm = null
 
@@ -49,7 +49,7 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                                             Create a new app
                                            </h4>
                                            <select v-model="app_type">
-                                              <option selected value="homepage_5">Visual Builder 6</option>
+                                              <option selected value="vb">Visual Builder 6</option>
                                               <option          value="todo">Database app</option>
                                               <option          value="game">3d AFrame app</option>
                                               <option          value="new_app">Text only</option>
@@ -136,7 +136,7 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
     data: function() {
         return {
                     apps: [],
-                    app_type: "homepage_5",
+                    app_type: "vb",
                     intro_apps: [],
                     loaded_app: new Object(),
                     show_menu: null,

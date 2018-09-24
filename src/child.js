@@ -2958,7 +2958,7 @@ function setUpDbDrivers() {
     evalLocalSystemDriver('homepage_2',   path.join(__dirname, '../public/visifile_drivers/apps/homepage_2.js'))
     evalLocalSystemDriver('homepage_3',   path.join(__dirname, '../public/visifile_drivers/apps/homepage_3.js'))
     evalLocalSystemDriver('homepage_4',   path.join(__dirname, '../public/visifile_drivers/apps/homepage_4.js'))
-    evalLocalSystemDriver('homepage_5',   path.join(__dirname, '../public/visifile_drivers/apps/homepage_5.js'))
+    evalLocalSystemDriver('vb',   path.join(__dirname, '../public/visifile_drivers/apps/vb.js'))
     //evalLocalSystemDriver('homepage_6',   path.join(__dirname, '../public/visifile_drivers/apps/homepage_6.js'))
 
 

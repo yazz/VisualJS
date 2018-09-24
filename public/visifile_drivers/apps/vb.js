@@ -1,7 +1,7 @@
 async function(args) {
 /*
 created_timestamp(1537522006661)
-base_component_id("homepage_5")
+base_component_id("vb")
 editors([
   "vb_editor_component"
 ])
@@ -18,7 +18,7 @@ formEditor({
   "active_form": "Form_1",
   "default_form": "Form_1",
   "app_selected": false,
-  "id": "homepage_5",
+  "id": "vb",
   "next_component_id": 102,
   "app_properties": [
     {
@@ -139,7 +139,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                 var texti = null
                 var designMode = false
                 var runtimeMode = true
-                Vue.component('homepage_5', {
+                Vue.component('vb', {
       props: [ "args"],
       template: `<div   v-bind:id='uid2'
                         v-if='uid2 != null'
@@ -1327,7 +1327,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
   "active_form": "Form_1",
   "default_form": "Form_1",
   "app_selected": false,
-  "id": "homepage_5",
+  "id": "vb",
   "next_component_id": 102,
   "app_properties": [
     {
