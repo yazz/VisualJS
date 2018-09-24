@@ -62,7 +62,7 @@ load_once_from_file(true)
                                           <button v-if='!read_only'
                                                   v-bind:style="'visibility: ' + ((app_shown && code_shown)?'':'hidden')"
                                                   slot-scope="editor_component"
-                                                  v-on:click='setTimeout(function(){save(base_component_id, code_id)},100)'
+                                                  v-on:click='setTimeout(function(){save(base_component_id, code_id,null)},100)'
                                                   type="button" class="btn btn-primary btn-sm">
 
                                                       Save changes
@@ -147,7 +147,7 @@ load_once_from_file(true)
                 this.mode      = "edit"
 
 
-                var text = this.$refs.editorComponentRef.getText()
+                var text = await this.$refs.editorComponentRef.getText()
 
                 //
                 // there may be a problem here - we have to make sure that we saved
@@ -199,7 +199,7 @@ load_once_from_file(true)
                 var mm = this
                 //zzz
                 var text = await this.$refs.editorComponentRef.getText()
-                alert(text.indexOf("editors_old"))
+                //alert(text.indexOf("editors_old"))
 
                 var eds = saveHelper.getValueOfCodeString(text, "editors")
                 if (eds) {
@@ -210,7 +210,7 @@ load_once_from_file(true)
                 await mm.save(   this.base_component_id,   this.code_id,   text   )
 
                 await mm.load_new_app( this.base_component_id )
-                alert(text.indexOf("editors_old"))
+                //alert(text.indexOf("editors_old"))
             },
 
 
@@ -249,10 +249,13 @@ load_once_from_file(true)
            //
            // This is called to save the currently edited code
            // ---------------------------------------------------------------
-           save: async function( base_component_id, code_id ) {
-           console.log("1) AppEditor: save")
-           var text =  await this.$refs.editorComponentRef.getText()
-           console.log("5) AppEditor: getText done")
+           save: async function( base_component_id, code_id , textIn) {
+               console.log("1) AppEditor: save")
+               var text =  textIn
+               if (text == null) {
+                    text = await this.$refs.editorComponentRef.getText()
+               }
+               console.log("5) AppEditor: getText done")
 
                var mm = this
                if (mm.read_only) {
