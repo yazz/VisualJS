@@ -301,7 +301,7 @@ function executeCode(callId, codeId, args, on_condition,  base_component_id) {
     dbsearch.serialize(
         function() {
             var stmt = dbsearch.all(
-                "SELECT * FROM system_code where id  = ?; ",
+                "SELECT base_component_id,component_options,use_db,on_condition,code FROM system_code where id  = ?; ",
                 codeId,
 
                 function(err, results)
