@@ -365,6 +365,7 @@ var ttq=0
                      var newItem = mm.model.forms[formName].components[rtw]
                      //alert(newItem.base_component_id)
                      if (!component_loaded[newItem.base_component_id]) {
+                        console.log(`Loading ${newItem.base_component_id}`)
                         await loadFast(newItem.base_component_id)
                         if (mm.edited_app_component_id) {
                             //alert(mm.edited_app_component_id)
