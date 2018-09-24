@@ -685,7 +685,7 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
 function findFoldersFn() {
-    console.log("**  called findFoldersFn");
+    //console.log("**  called findFoldersFn");
     callDriverMethod( "folderScannerService", "scan_folders", {}, function(result) {
         console.log("    **** SCANNED THE FOLDERS ON LOCAL FILE SYSTEM ***: ")
     })
@@ -3201,7 +3201,6 @@ function downloadWebDocument(queryId, callbackFn) {
 
                     } else if (contentRow.base_component_id.toLowerCase().endsWith("outlook2012") ) {
                         try {
-                            console.log('1')
                             html = "<pre>";
                             var contents = rows[0].content.toString()
                             html += contents;
@@ -3297,7 +3296,6 @@ function downloadWebDocument(queryId, callbackFn) {
                                         rows[0].content,
                                             rows[0].content.toString().length  )) {
                         try {
-                            console.log('1')
                             html = "<pre>";
                             var contents = rows[0].content.toString()
                             html += contents;
@@ -3983,28 +3981,28 @@ function updateRevisions(sqlite, baseComponentId) {
                     function() {
                       try {
                         appDb.run("begin exclusive transaction");
-                        console.log(JSON.stringify(sqlite,null,2))
+                        //console.log(JSON.stringify(sqlite,null,2))
                         var newLatestRev = null
                         var readIn = false
                         for (var i=0; i < sqlite.length; i+=2) {
                             var sqlStKey = sqlite[i]
-                            console.log("sqlStKey: = " + sqlStKey)
+                            //console.log("sqlStKey: = " + sqlStKey)
                             for (var j = 0  ;  j < sqlite[i + 1].length  ;  j++ ) {
                                 if ((latestRevision == null) || readIn) {
                                     var sqlSt = sqlite[i + 1][j]
-                                    console.log("sqlSt: = " + sqlSt)
+                                    //console.log("sqlSt: = " + sqlSt)
                                     appDb.run(sqlSt);
                                     newLatestRev = sqlStKey
                                 }
                                 if (latestRevision == sqlStKey) {
-                                    console.log("testing: " + latestRevision + " == " + sqlStKey)
+                                    //console.log("testing: " + latestRevision + " == " + sqlStKey)
                                     readIn = true
                                 }
                             }
                         }
                         appDb.run("commit");
                         appDb.run("PRAGMA wal_checkpoint;")
-                        console.log("**************************************")
+                        //console.log("**************************************")
 
 
                         try {
@@ -4202,7 +4200,7 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
                                     var scriptCode = ""
                                     var jsLibs = saveHelper.getValueOfCodeString(code, "uses_javascript_librararies")
                                     if (jsLibs) {
-                                          console.log(JSON.stringify(jsLibs,null,2))
+                                          //console.log(JSON.stringify(jsLibs,null,2))
                                           for (var tt = 0; tt < jsLibs.length ; tt++) {
                                               scriptCode += `libLoaded[ "${jsLibs[tt]}" ] = true;
                                               `

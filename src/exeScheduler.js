@@ -213,7 +213,7 @@ function processMessagesFromMainProcess() {
 
 
         } else if (msg.find_component.base_component_id) {
-            console.log("In msg.find_component.base_component_id")
+            //console.log("In msg.find_component.base_component_id")
                     dbsearch.serialize(
                         function() {
                             var stmt = dbsearch.all(
@@ -224,7 +224,7 @@ function processMessagesFromMainProcess() {
                                 function(err, results)
                                 {
                                     if (results && (results.length > 0)) {
-                                        console.log("    msg.find_component.base_component_id: " + msg.find_component.base_component_id  + " = " + results[0].id)
+                                        //console.log("    msg.find_component.base_component_id: " + msg.find_component.base_component_id  + " = " + results[0].id)
                                        scheduleJobWithCodeId(  results[0].id,
                                                                msg.args,
                                                                msg.caller_call_id,
