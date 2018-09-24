@@ -23,7 +23,7 @@ load_once_from_file(true)
 
                     function(err, results)
                     {
-                    console.log("Results: " + JSON.stringify(results,null,2))
+                    //console.log("Results: " + JSON.stringify(results,null,2))
                         appDb.run("commit");
                         appDb.run("PRAGMA wal_checkpoint;")
                         returnResult(results)
