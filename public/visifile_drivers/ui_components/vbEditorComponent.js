@@ -349,11 +349,15 @@ load_once_from_file(true)
 
 
 
+var startTime = new Date().getTime()
+var ttq=0
 
            //
            // load the default form
            //
            var forms = this.getForms()
+           console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
+
            for (var formIndex = 0; formIndex < forms.length; formIndex ++) {
                 var formName = forms[formIndex].name
                 for (var rtw = 0; rtw < mm.model.forms[formName].components.length ; rtw++ )
@@ -378,6 +382,7 @@ load_once_from_file(true)
                      }
 
 
+
                      var compEvaled = await this.getComponentProperties(this.model.forms[formName].components[rtw].base_component_id)
                      for (var cpp = 0 ; cpp< compEvaled.length; cpp ++){
                          var prop = compEvaled[cpp].id
@@ -386,8 +391,11 @@ load_once_from_file(true)
                          }
                      }
 
+
                 }
            }
+
+           console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
 
 
 
@@ -400,6 +408,8 @@ load_once_from_file(true)
            var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
                {   sql: sql  })
            mm.available_components = results
+           console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
+
 
 
 
@@ -407,10 +417,15 @@ load_once_from_file(true)
 
 
            this.updateAllFormCaches()
+           console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
+
 
            this.selectForm(mm.model.default_form)
+           console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
+
 
            mm.$forceUpdate();
+           console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
      },
 
 
