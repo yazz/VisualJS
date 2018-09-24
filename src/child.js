@@ -4204,6 +4204,8 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
                                     if (jsLibs) {
                                           console.log(JSON.stringify(jsLibs,null,2))
                                           for (var tt = 0; tt < jsLibs.length ; tt++) {
+                                              scriptCode += `libLoaded[ "${jsLibs[tt]}" ] = true;
+                                              `
                                               stmtInsertDependency.run(
                                                   uuidv1(),
                                                   sha1sum,

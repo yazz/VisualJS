@@ -5,6 +5,8 @@
     <meta charset="UTF-8" />
 
     <script>
+    var libLoaded = new Object()
+
     //***ADD_SCRIPT
     </script>
 
@@ -1073,7 +1075,6 @@ function scriptTag(src, callback) {
     (document.body || head).appendChild(s);
 }
 
-var libLoaded = new Object()
 function checkLibs(data){
 
 
@@ -1085,7 +1086,7 @@ function checkLibs(data){
                 if ( data.value.libs[tt].dependency_name == "aframe" ) {
 
                     scriptTag(
-                        "http:\/\/" +  useHostname + ":" + usePort + "/js_libs/aframe.min.js"
+                        `http://${useHostname}:${usePort}/js_libs/aframe.min.js`
                         ,
                         function() {
                             callCode(data)
