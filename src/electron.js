@@ -53,8 +53,6 @@ var cors            = require('cors')
 var mammoth         = require("mammoth");
 var isBinaryFile    = require("isbinaryfile");
 var csvToJson       = require('csvtojson')
-var babel           = require("babel-core")
-//require("babel-plugin-transform-es2015-template-literals")
 
 var sqlite3                     = require('sqlite3');
 
@@ -190,21 +188,6 @@ var PDFParser       = require("pdf2json");
 
 
 
-
-
-
-var babel = require("babel-core")
-
-/*
-console.log("****************************")
-var fgt = fs.readFileSync("/Users/faroukzquraishi/visifile_installer/public/visifile_drivers/ui_components/comp.js")
-//console.log("fgt: " + fgt)
-
-var tr = babel.transform("(" + fgt + ")", {plugins: [path.join(__dirname, "../node_modules/babel-plugin-transform-es2015-template-literals")]})
-console.log("****************************")
-console.log(tr.code);
-console.log("****************************")
-*/
 
 
 
@@ -805,8 +788,8 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
                 if (msg.result) {
                     if (msg.result.code) {
-                        var tr = babel.transform("(" + msg.result.code + ")", {plugins: [path.join(__dirname, "../node_modules/babel-plugin-transform-es2015-template-literals")]})
-                        msg.result.code = tr.code
+                        var tr = "(" + msg.result.code + ")"
+                        msg.result.code = tr
                     }
                 }
                 sendToBrowserViaWebSocket(
@@ -2114,18 +2097,6 @@ function testFirewall(req, res) {
 
 
 
-/*
-console.log("****************************")
-var fgt = fs.readFileSync(path.join(__dirname, "../public/visifile_drivers/apps/test.js"))
-//console.log("fgt: " + fgt)
-
-//var tr = babel.transform("(" + fgt + ")", {plugins: ["/Users/faroukzquraishi/visifile_installer/node_modules/babel-plugin-transform-es2015-template-literals"]})
-//var tr = babel.transform("(" + fgt + ")", {plugins: ["/Users/faroukzquraishi/visifile_installer/node_modules/babel-plugin-transform-es2015-template-literals"]})
-var tr = babel.transform("(" + fgt + ")", {plugins: [path.join(__dirname, "../node_modules/babel-plugin-transform-es2015-template-literals")]})
-console.log("****************************")
-console.log(tr.code);
-console.log("****************************")
-*/
 
 
 

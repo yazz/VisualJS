@@ -3948,7 +3948,7 @@ function shutdownExeProcess(err) {
 
 
 
-var babel = require("babel-core")
+
 var saveHelper = require('./save_helpers')
 
 var esprima = require('esprima');
