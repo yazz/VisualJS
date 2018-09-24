@@ -1081,7 +1081,7 @@ function checkLibs(data){
     if (data.value.libs && data.value.libs.length > 0 ) {
         //alert(JSON.stringify(data.value.libs,null,2))
         for (var tt = 0; tt < data.value.libs.length ; tt++) {
-            //if (!libLoaded[ data.value.libs[tt].dependency_name ]) {
+            if (!libLoaded[ data.value.libs[tt].dependency_name ]) {
                 libLoaded[ data.value.libs[tt].dependency_name ] = true
                 if ( data.value.libs[tt].dependency_name == "aframe" ) {
 
@@ -1092,7 +1092,13 @@ function checkLibs(data){
                             callCode(data)
                     })
                 }
-            //}
+
+            //
+            // if the lib is already loaded then just call the code
+            //
+            } else {
+                callCode(data)
+            }
         }
     } else {
         callCode(data)
