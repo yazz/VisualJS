@@ -136,7 +136,7 @@ load_once_from_file(true)
             //
             // This is called when the end user selects an app from the menu
             // ---------------------------------------------------------------
-            chooseApp: function() {
+            chooseApp: async function() {
                 var mm = this
                 this.code_width = "0%"
                 this.code_shown = false
@@ -154,7 +154,7 @@ load_once_from_file(true)
                 // the correct code_id which is supposed to be the parent code id, so we
                 // have to make sure that we save it every time we save code
                 //
-                this.save( this.base_component_id, this.code_id, text )
+                await this.save( this.base_component_id, this.code_id, text )
                 //alert(1)
             },
 
@@ -199,6 +199,7 @@ load_once_from_file(true)
                 var mm = this
                 //zzz
                 var text = await this.$refs.editorComponentRef.getText()
+                alert(text.indexOf("editors_old"))
 
                 var eds = saveHelper.getValueOfCodeString(text, "editors")
                 if (eds) {
@@ -206,9 +207,10 @@ load_once_from_file(true)
                     text = saveHelper.insertCodeString(text, "editors_old",eds)
                 }
 
-                mm.save(   this.base_component_id,   this.code_id,   text   )
+                await mm.save(   this.base_component_id,   this.code_id,   text   )
 
-                mm.load_new_app( this.base_component_id )
+                await mm.load_new_app( this.base_component_id )
+                alert(text.indexOf("editors_old"))
             },
 
 
@@ -228,8 +230,8 @@ load_once_from_file(true)
                                       new_app_id:           newAppId
                                    }
                             ,
-                            function(result) {
-                                mm.load_new_app( result.value.base_component_id )
+                            async function(result) {
+                                await mm.load_new_app( result.value.base_component_id )
                                 mm.$root.$emit('message', {
                                                                 type:               "insert_app_at",
                                                                 base_component_id:   result.value.base_component_id,
