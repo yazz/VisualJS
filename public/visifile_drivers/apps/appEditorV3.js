@@ -195,9 +195,10 @@ load_once_from_file(true)
 
 
 
-            editAsText: function() {
+            editAsText: async function() {
                 var mm = this
-                var text = this.$refs.editorComponentRef.getText()
+                //zzz
+                var text = await this.$refs.editorComponentRef.getText()
 
                 var eds = saveHelper.getValueOfCodeString(text, "editors")
                 if (eds) {
@@ -206,7 +207,7 @@ load_once_from_file(true)
                 }
 
                 mm.save(   this.base_component_id,   this.code_id,   text   )
-                //zzz
+
                 mm.load_new_app( this.base_component_id )
             },
 
@@ -250,7 +251,7 @@ load_once_from_file(true)
            console.log("1) AppEditor: save")
            var text =  await this.$refs.editorComponentRef.getText()
            console.log("5) AppEditor: getText done")
-           //zzz
+
                var mm = this
                if (mm.read_only) {
                     return

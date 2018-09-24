@@ -45,7 +45,7 @@ load_once_from_file(true)
                                                         })'
                                     style='width:100%;height: 55px; margin: 4px;border: 1px solid gray;overflow-x:auto;overflow-y:hidden'>
 
-                                <img v-bind:src='av.logo_url' style='display:inline-block;max-width: 50px; width: auto;height: auto; max-height: 50px;'></img>
+                                <img v-if='isValidObject(av)' v-bind:src='av.logo_url' style='display:inline-block;max-width: 50px; width: auto;height: auto; max-height: 50px;'></img>
                                 <div style='width:100%;display:inline-block;overflow: hidden;'>{{av.base_component_id}}</div>
                             </div>
                         </div>

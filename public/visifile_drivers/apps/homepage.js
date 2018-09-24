@@ -79,7 +79,7 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                                         <span v-if='isEditable(item.data.id)' class="badge badge-warning" >Editable</span>
                                         <span v-if='!isEditable(item.data.id)' class="badge badge-info" >Read only</span>
 
-                                        <img    v-if='(app_records[item.data.id].logo_url && (app_records[item.data.id].logo_url != ""))'
+                                        <img    v-if='(app_records[item.data.id] && app_records[item.data.id].logo_url && (app_records[item.data.id].logo_url != ""))'
                                                 v-bind:src='app_records[item.data.id].logo_url'
                                                 style='width: 100%;'
                                                 v-bind:alt='app_records[item.data.id].logo_url'
