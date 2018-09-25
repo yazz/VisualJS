@@ -303,12 +303,15 @@ load_once_from_file(true)
 
         mounted: async function() {
             var mm = this
+            var startTime = new Date().getTime()
+            var ttq=0
 
             mm.uid2 =                       uuidv4()
             mm.vb_grid_element_id =          "vb_grid_"+ uuidv4()
             mm.vb_editor_element_id =         "vb_editor_"+ uuidv4()
 
 
+            console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
 
             //
             // get the base component ID of the code to edit/run
@@ -328,6 +331,7 @@ load_once_from_file(true)
 
 
 
+           console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
 
 
           //
@@ -347,10 +351,9 @@ load_once_from_file(true)
               }
           }
 
+          console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
 
 
-var startTime = new Date().getTime()
-var ttq=0
 
            //
            // load the default form

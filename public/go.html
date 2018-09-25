@@ -1109,6 +1109,7 @@ function checkLibs(data){
 }
 function callCode(data) {
     var callbackFn = queuedResponses[data.seq_num]
+    console.log(`go.html:callCode( ${data.seq_num} )`)
 //zzz
     try {
         //alert(data.value.code_id)
