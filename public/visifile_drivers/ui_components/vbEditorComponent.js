@@ -902,9 +902,26 @@ var ttq=0
 
              } else if (data.type == "move_component") {
                 var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
-                //alert(this.model.forms[this.model.active_form].components[data.index].base_component_id)
-                this.model.forms[this.model.active_form].components[data.index].leftX = (ev.clientX  - rrr.left) - data.offsetX;
-                this.model.forms[this.model.active_form].components[data.index].topY = (ev.clientY  - rrr.top) - data.offsetY;
+
+                var newLeftX = (ev.clientX  - rrr.left) - data.offsetX;
+                var newTopY = (ev.clientY  - rrr.top) - data.offsetY;
+                if (newLeftX < 0) {
+                    newLeftX = 0
+                }
+                if (newTopY < 0) {
+                    newTopY = 0
+                }
+                if ((newLeftX + this.model.forms[this.model.active_form].components[data.index].width)
+                        > this.model.forms[this.model.active_form].width) {
+                    newLeftX = this.model.forms[this.model.active_form].width - this.model.forms[this.model.active_form].components[data.index].width
+                }
+                if ((newTopY + this.model.forms[this.model.active_form].components[data.index].height)
+                        > this.model.forms[this.model.active_form].height) {
+                    newTopY = this.model.forms[this.model.active_form].height - this.model.forms[this.model.active_form].components[data.index].height
+                }
+
+                this.model.forms[this.model.active_form].components[data.index].leftX = newLeftX
+                this.model.forms[this.model.active_form].components[data.index].topY = newTopY
                 this.model.active_component_index = data.index
                 //this.generateCodeFromModel(   )
 
@@ -919,14 +936,19 @@ var ttq=0
 
                  console.log(`resize_top_left: (${newLeftX},${newTopY})`)
 
-                 if ((newLeftX >= 0 ) && (newTopY >= 0)) {
-                     this.model.forms[this.model.active_form].components[data.index].leftX = newLeftX
-                     this.model.forms[this.model.active_form].components[data.index].topY = newTopY
-                     var diffX = this.model.forms[this.model.active_form].components[data.index].leftX - oldX
-                     var diffY = this.model.forms[this.model.active_form].components[data.index].topY - oldY
-                     this.model.forms[this.model.active_form].components[data.index].width -= diffX
-                     this.model.forms[this.model.active_form].components[data.index].height -= diffY
+                 if (newLeftX < 0) {
+                     newLeftX = 0
                  }
+                 if (newTopY < 0) {
+                     newTopY = 0
+                 }
+
+                 this.model.forms[this.model.active_form].components[data.index].leftX = newLeftX
+                 this.model.forms[this.model.active_form].components[data.index].topY = newTopY
+                 var diffX = this.model.forms[this.model.active_form].components[data.index].leftX - oldX
+                 var diffY = this.model.forms[this.model.active_form].components[data.index].topY - oldY
+                 this.model.forms[this.model.active_form].components[data.index].width -= diffX
+                 this.model.forms[this.model.active_form].components[data.index].height -= diffY
 
                  this.model.active_component_index = data.index
 
