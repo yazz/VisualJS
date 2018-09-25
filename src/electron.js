@@ -330,11 +330,11 @@ function setUpChildListeners(processName, fileName, debugPort) {
             //console.log("Child set up DB complete: " + msg.child_process_name)
 
             if (msg.child_process_name == "forkedIndexer") {
-                forkedProcesses["forkedIndexer"].send({         message_type: "setUpSql" });
+                //forkedProcesses["forkedIndexer"].send({         message_type: "setUpSql" });
                 if (typeOfSystem == 'client') {
                     if (runServices) {
                         //forkedProcesses["forkedIndexer"].send({ message_type: "childRunFindFolders" });
-                        forkedProcesses["forkedIndexer"].send({ message_type: "childRunIndexer" });
+                        //forkedProcesses["forkedIndexer"].send({ message_type: "childRunIndexer" });
                     }
                 }
             }
@@ -342,15 +342,15 @@ function setUpChildListeners(processName, fileName, debugPort) {
             if (msg.child_process_name == "forkedFileScanner") {
                 if (typeOfSystem == 'client') {
                     if (runServices) {
-                        forkedProcesses["forkedFileScanner"].send({ message_type: "setUpSql" });
-                        forkedProcesses["forkedFileScanner"].send({ message_type: "childScanFiles" });
+                        //forkedProcesses["forkedFileScanner"].send({ message_type: "setUpSql" });
+                        //forkedProcesses["forkedFileScanner"].send({ message_type: "childScanFiles" });
                     }
                 }
             }
 
             if (msg.child_process_name == "forkedPowershell") {
                 if (runServices) {
-                    forkedProcesses["forkedPowershell"].send({ message_type: "setUpSql" });
+                    //forkedProcesses["forkedPowershell"].send({ message_type: "setUpSql" });
                     //forkedProcesses["forkedPowershell"].send({ message_type: "call_powershell" });
                 }
             }
@@ -905,11 +905,11 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
 
 
 
-    if (processName == "forkedIndexer") {
-        forkedProcesses["forkedIndexer"].send({ message_type: "init" ,
-                                                user_data_path: userData,
-                                                child_process_name: "forkedIndexer"
-                                            });}
+    //if (processName == "forkedIndexer") {
+        //forkedProcesses["forkedIndexer"].send({ message_type: "init" ,
+        //                                        user_data_path: userData,
+        //                                        child_process_name: "forkedIndexer"
+        //                                    });}
 
 
 
@@ -917,19 +917,19 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
 
     if (processName == "forkedFileScanner") {
         if (runServices) {
-                forkedProcesses["forkedFileScanner"].send({ message_type: "init" ,
-                                                            user_data_path: userData,
-                                                            child_process_name: "forkedFileScanner"
-                                                            });
+                //forkedProcesses["forkedFileScanner"].send({ message_type: "init" ,
+                //                                            user_data_path: userData,
+                //                                            child_process_name: "forkedFileScanner"
+                //                                            });
         }
     }
 
     if (processName == "forkedPowershell") {
         outputToBrowser("- sending user_data_path to child 'powershell':  " + userData)
-        forkedProcesses["forkedPowershell"].send({  message_type: "init" ,
-                                                    user_data_path: userData,
-                                                    child_process_name: "forkedPowershell"
-                                                });
+        //forkedProcesses["forkedPowershell"].send({  message_type: "init" ,
+        //                                            user_data_path: userData,
+        //                                            child_process_name: "forkedPowershell"
+        //                                        });
     }
 
 
@@ -951,11 +951,11 @@ function setupChildProcesses() {
     //console.log("-------------------------------------------------------------------");
     //console.log("-------------------------------------------------------------------");
 
-    setupForkedProcess("forkedIndexer","child.js", 40000)
-    setupForkedProcess("forkedFileScanner","child.js", 40001)
+    //setupForkedProcess("forkedIndexer","child.js", 40000)
+    //setupForkedProcess("forkedFileScanner","child.js", 40001)
 
     if (isWin) {
-        setupForkedProcess("forkedPowershell","powershell.js", 40002)
+        //setupForkedProcess("forkedPowershell","powershell.js", 40002)
     }
 
     setupForkedProcess("forkedExeScheduler", "exeScheduler.js", 40004)
@@ -1374,18 +1374,18 @@ function shutDown() {
             console.log("Killed Exe Scheduler process")
             forkedProcesses["forkedExeScheduler"].kill();
         }
-        if (forkedProcesses["forkedIndexer"]) {
-            console.log("Killed Process forkedIndexer")
-            forkedProcesses["forkedIndexer"].kill();
-        }
-        if (forkedProcesses["forkedPowershell"]) {
-            console.log("Killed Process forkedPowershell")
-            forkedProcesses["forkedPowershell"].kill();
-        }
-        if (forkedProcesses["forkedFileScanner"]) {
-            console.log("Killed Process forkedFileScanner")
-            forkedProcesses["forkedFileScanner"].kill();
-        }
+        //if (forkedProcesses["forkedIndexer"]) {
+        //    console.log("Killed Process forkedIndexer")
+        //    forkedProcesses["forkedIndexer"].kill();
+        //}
+        //if (forkedProcesses["forkedPowershell"]) {
+        //    console.log("Killed Process forkedPowershell")
+        //    forkedProcesses["forkedPowershell"].kill();
+        //}
+        //if (forkedProcesses["forkedFileScanner"]) {
+        //    console.log("Killed Process forkedFileScanner")
+        //    forkedProcesses["forkedFileScanner"].kill();
+        //}
         for (var i = 0; i < executionProcessCount; i++ ) {
             var exeProcName = "forkedExeProcess" + i
             forkedProcesses[exeProcName].kill();
