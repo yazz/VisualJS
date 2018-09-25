@@ -49,7 +49,7 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                                             Create a new app
                                            </h4>
                                            <select v-model="app_type">
-                                              <option selected value="vb">Visual Builder 6</option>
+                                              <option selected value="vb">Drag and Drop Builder</option>
                                               <option          value="todo">Database app</option>
                                               <option          value="game">3d AFrame app</option>
                                               <option          value="new_app">Text only</option>
