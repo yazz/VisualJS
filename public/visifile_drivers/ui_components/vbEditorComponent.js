@@ -384,12 +384,17 @@ var ttq=0
 
 
 
-                     var compEvaled = await this.getComponentProperties(this.model.forms[formName].components[rtw].base_component_id)
-                     for (var cpp = 0 ; cpp< compEvaled.length; cpp ++){
-                         var prop = compEvaled[cpp].id
-                         if (!isValidObject(this.model.forms[formName].components[rtw][prop])){
-                             this.model.forms[formName].components[rtw][prop] = ""
-                         }
+                     var compEvaled1 = component_cache[this.model.forms[formName].components[rtw].base_component_id]
+                     if (isValidObject(compEvaled1)) {
+                            var compEvaled = compEvaled1.properties
+                            if (isValidObject(compEvaled)) {
+                                for (var cpp = 0 ; cpp< compEvaled.length; cpp ++){
+                                    var prop = compEvaled[cpp].id
+                                    if (!isValidObject(this.model.forms[formName].components[rtw][prop])){
+                                        this.model.forms[formName].components[rtw][prop] = ""
+                                    }
+                                }
+                            }
                      }
 
 
