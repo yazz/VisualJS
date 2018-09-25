@@ -302,7 +302,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
             var editorCodeToCopyStart = editorCode.indexOf(stt) + stt.length
             var editorCodeToCopyEnd = editorCode.indexOf("//*** COPY_" + "END ***//")
             var editorCodeToCopy = editorCode.substring(editorCodeToCopyStart, editorCodeToCopyEnd)
-            console.log(editorCodeToCopy)
+            //console.log(editorCodeToCopy)
             //alert(JSON.stringify(mm.model,null,2))
 
             this.text = this.text.substring(0,startIndex) +
