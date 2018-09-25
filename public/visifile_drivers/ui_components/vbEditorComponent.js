@@ -366,7 +366,7 @@ var ttq=0
                      //alert(newItem.base_component_id)
                      if (!component_loaded[newItem.base_component_id]) {
                         console.log(`Loading ${newItem.base_component_id}`)
-                        await loadFast(newItem.base_component_id)
+                        await load(newItem.base_component_id)
                         if (mm.edited_app_component_id) {
                             //alert(mm.edited_app_component_id)
                             if (!mm.component_usage[newItem.base_component_id]) {
@@ -885,7 +885,7 @@ var ttq=0
                  newItem.height = 100
                  this.refresh++
                  if (!component_loaded[newItem.base_component_id]) {
-                    await loadFast(newItem.base_component_id)
+                    await load(newItem.base_component_id)
                     this.component_usage[newItem.base_component_id] = true
                  }
                  this.model.forms[this.model.active_form].components.push(newItem)

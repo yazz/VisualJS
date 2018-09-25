@@ -7,6 +7,7 @@
     <script>
     var libLoaded        = new Object()
     var component_loaded = new Object()
+    var component_cache  = new Object()
 
     //***ADD_SCRIPT
     </script>
@@ -1108,7 +1109,7 @@ function checkLibs(data){
 }
 function callCode(data) {
     var callbackFn = queuedResponses[data.seq_num]
-
+//zzz
     try {
         //alert(data.value.code_id)
         //alert(data.value.base_component_id)
@@ -1242,11 +1243,6 @@ function callDriverMethod(findComponentArgs, args, callbackFn) {
 }
 
 
-async function loadFast(baseComponentId, args) {
-    await callApp({base_component_id: baseComponentId},args)
-    component_loaded[baseComponentId] = true
-    return null
-}
 async function load(baseComponentId, args) {
     var comp = await callApp({base_component_id: baseComponentId},args)
     component_loaded[baseComponentId] = true
