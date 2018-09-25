@@ -301,7 +301,7 @@ function executeCode(callId, codeId, args, on_condition,  base_component_id) {
     dbsearch.serialize(
         function() {
             var stmt = dbsearch.all(
-                "SELECT base_component_id,component_options,use_db,on_condition,code FROM system_code where id  = ?; ",
+                "SELECT base_component_id,component_options,use_db,on_condition,code,properties FROM system_code where id  = ?; ",
                 codeId,
 
                 function(err, results)
@@ -311,13 +311,14 @@ function executeCode(callId, codeId, args, on_condition,  base_component_id) {
                         //                results[0].method )
                         //console.log(    "    callId:" + callId )
 
-                        currentDriver = results[0].base_component_id
-                        var componentOptions = results[0].component_options
-                        var useDb = results[0].use_db
-                        currentEvent = results[0].on_condition
-                        currentCodeID = codeId
-                        currentArgs = args
-                        //console.log(code)
+                        currentDriver           = results[0].base_component_id
+                        var componentOptions    = results[0].component_options
+                        var useDb               = results[0].use_db
+                        currentEvent            = results[0].on_condition
+                        currentCodeID           = codeId
+                        currentArgs             = args
+                        var properties          = results[0].properties
+
                         var code = results[0].code.toString()
                         try {
                             if (isFrontEndOnlyCode( code )) {
@@ -335,7 +336,8 @@ function executeCode(callId, codeId, args, on_condition,  base_component_id) {
                                                                                    libs:                results2,
                                                                                    code_id:             codeId,
                                                                                    on_condition:        on_condition,
-                                                                                   base_component_id:   base_component_id
+                                                                                   base_component_id:   base_component_id,
+                                                                                   properties:          properties
                                                                                       },
                                                             child_process_name:    childProcessName,
                                                             driver_name:           currentDriver,

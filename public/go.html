@@ -1117,6 +1117,15 @@ function callCode(data) {
         if (data.value.use_db) {
             useDb = data.value.use_db
         }
+
+        if (!component_cache[data.value.base_component_id]) {
+            component_cache[data.value.base_component_id] = new Object()
+        }
+        if (isValidObject(data.value.properties)) {
+            component_cache[data.value.base_component_id].properties = eval("(" +  data.value.properties + ")")
+        }
+
+
         var addP = "'" + data.value.code_id + "', '" + useDb + "', "
         //alert("data: " + addP);
         data.value.code = data.value.code.toString().replaceAll(" sql[(]"," rxsql(" + addP)
