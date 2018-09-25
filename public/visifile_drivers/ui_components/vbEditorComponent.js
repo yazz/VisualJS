@@ -867,6 +867,7 @@ var ttq=0
          //-------------------------------------------------------------------
          drop: async function (ev) {
          //-------------------------------------------------------------------
+             ev.preventDefault();
              var mm = this
 
              var data2 = ev.dataTransfer.getData("message");
@@ -894,7 +895,6 @@ var ttq=0
                     this.component_usage[newItem.base_component_id] = true
                  }
                  this.model.forms[this.model.active_form].components.push(newItem)
-                 ev.preventDefault();
                  //this.generateCodeFromModel(  )
                  this.model.active_component_index = this.model.forms[this.model.active_form].components.length - 1
                  //alert(this.active_component_index)
@@ -905,7 +905,6 @@ var ttq=0
                 //alert(this.model.forms[this.model.active_form].components[data.index].base_component_id)
                 this.model.forms[this.model.active_form].components[data.index].leftX = (ev.clientX  - rrr.left) - data.offsetX;
                 this.model.forms[this.model.active_form].components[data.index].topY = (ev.clientY  - rrr.top) - data.offsetY;
-                ev.preventDefault();
                 this.model.active_component_index = data.index
                 //this.generateCodeFromModel(   )
 
@@ -923,7 +922,6 @@ var ttq=0
                  this.model.forms[this.model.active_form].components[data.index].height -= diffY
 
 
-                 ev.preventDefault();
                  this.model.active_component_index = data.index
                  //this.generateCodeFromModel(  )
 
@@ -943,7 +941,6 @@ var ttq=0
                  this.model.forms[this.model.active_form].components[data.index].height = newHeight
 
 
-                 ev.preventDefault();
                  this.model.active_component_index = data.index
                  //this.generateCodeFromModel(  )
 
@@ -959,7 +956,6 @@ var ttq=0
                  this.model.forms[this.model.active_form].components[data.index].width = newWidth
 
                  this.model.forms[this.model.active_form].components[data.index].height = newY - this.model.forms[this.model.active_form].components[data.index].topY
-                 ev.preventDefault();
                  this.model.active_component_index = data.index
                  //this.generateCodeFromModel(  )
 
@@ -980,7 +976,6 @@ var ttq=0
                  var newHeight = newY - this.model.forms[this.model.active_form].components[data.index].topY
                  this.model.forms[this.model.active_form].components[data.index].height = newHeight
 
-                 ev.preventDefault();
                  this.model.active_component_index = data.index
                  //this.generateCodeFromModel(    )
              }
