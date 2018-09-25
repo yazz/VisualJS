@@ -914,16 +914,22 @@ var ttq=0
                  var oldX = this.model.forms[this.model.active_form].components[data.index].leftX
                  var oldY = this.model.forms[this.model.active_form].components[data.index].topY
 
-                 this.model.forms[this.model.active_form].components[data.index].leftX = ev.clientX  - rrr.left - data.offsetX;
-                 this.model.forms[this.model.active_form].components[data.index].topY = ev.clientY  - rrr.top - data.offsetY;
-                 var diffX = this.model.forms[this.model.active_form].components[data.index].leftX - oldX
-                 var diffY = this.model.forms[this.model.active_form].components[data.index].topY - oldY
-                 this.model.forms[this.model.active_form].components[data.index].width -= diffX
-                 this.model.forms[this.model.active_form].components[data.index].height -= diffY
+                 var newLeftX = ev.clientX  - rrr.left - data.offsetX;
+                 var newTopY = ev.clientY  - rrr.top - data.offsetY;
 
+                 console.log(`resize_top_left: (${newLeftX},${newTopY})`)
+
+                 if ((newLeftX >= 0 ) && (newTopY >= 0)) {
+                     this.model.forms[this.model.active_form].components[data.index].leftX = newLeftX
+                     this.model.forms[this.model.active_form].components[data.index].topY = newTopY
+                     var diffX = this.model.forms[this.model.active_form].components[data.index].leftX - oldX
+                     var diffY = this.model.forms[this.model.active_form].components[data.index].topY - oldY
+                     this.model.forms[this.model.active_form].components[data.index].width -= diffX
+                     this.model.forms[this.model.active_form].components[data.index].height -= diffY
+                 }
 
                  this.model.active_component_index = data.index
-                 //this.generateCodeFromModel(  )
+
 
 
 
