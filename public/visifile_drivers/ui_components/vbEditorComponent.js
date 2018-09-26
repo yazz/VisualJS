@@ -887,11 +887,29 @@ load_once_from_file(true)
 
                  newItem.leftX = (ev.clientX  - rrr.left)  - data.offsetX;
                  newItem.topY = (ev.clientY  - rrr.top)   - data.offsetY;
+                 if (newItem.leftX < 0) {
+                    newItem.leftX = 0
+                 }
+                 if (newItem.topY < 0) {
+                    newItem.topY = 0
+                 }
+
 
                  newItem.name = data.text + "_" + this.model.next_component_id++
                  newItem.base_component_id = data.text
                  newItem.width = 100
                  newItem.height = 100
+
+                 if ((newItem.leftX + newItem.width)
+                         > this.model.forms[this.model.active_form].width) {
+                     newItem.leftX = this.model.forms[this.model.active_form].width - newItem.width
+                 }
+                 if ((newItem.topY + newItem.height)
+                         > this.model.forms[this.model.active_form].height) {
+                     newItem.topY = this.model.forms[this.model.active_form].height - newItem.height
+                 }
+
+
                  this.refresh++
                  if (!component_loaded[newItem.base_component_id]) {
                     await load(newItem.base_component_id)
@@ -1206,7 +1224,7 @@ load_once_from_file(true)
             if (!this.design_mode) {
                 return
             }
-            //zzz
+
             console.log("3) generateCodeFromModel")
 
             var startIndex = this.text.indexOf("//** gen_" + "start **//")
