@@ -2132,7 +2132,7 @@ function websocketFn(ws) {
         } else if (receivedMessage.message_type == "loadUiComponent") {
             console.log("***** } else if (msg.message_type == loadUiComponent) ")
 
-            var compId = receivedMessage.find_component.base_component_id
+            var compId = receivedMessage.find_components.base_component_ids
 
             dbsearch.serialize(
                 function() {
