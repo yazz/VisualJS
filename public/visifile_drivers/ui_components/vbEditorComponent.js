@@ -620,23 +620,17 @@ load_once_from_file(true)
 
 
           //-------------------------------------------------------------------
-          getComponentProperties: async function(componentName) {
+          getComponentProperties: function(componentName) {
           //-------------------------------------------------------------------
-              var sql =    "select  properties  from  system_code  where " +
-                           "        base_component_id = '" + componentName + "'   and   code_tag = 'LATEST' "
+                var compEvaled1 = component_cache[componentName]
+                if (isValidObject(compEvaled1)) {
+                     var compEvaled = compEvaled1.properties
+                     if (isValidObject(compEvaled)) {
+                         return compEvaled
+                     }
+                }
 
-              var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
-                  {   sql: sql  })
-
-              if (results.length == 0) {
-                return {}
-              }
-              var propEm = results[0].properties
-              if ((propEm == null) || (propEm == '')) {
-                return {}
-              }
-              var props = eval("(" + results[0].properties + ")")
-              return props
+                return []
            }
           ,
 
@@ -741,7 +735,7 @@ load_once_from_file(true)
                            this.model.active_form
                            var thisControl = this.form_runtime_info[this.model.active_form].component_lookup_by_name[eventMessage.control_name]
                            if (isValidObject(thisControl)) {
-                                var compEvaled = await this.getComponentProperties(thisControl.base_component_id)
+                                var compEvaled = this.getComponentProperties(thisControl.base_component_id)
                                 var errr=""
 
                                 //
@@ -1101,7 +1095,7 @@ load_once_from_file(true)
             this.properties.push({   id:     "height",   name:   "Height",   type:   "Number"    })
 
 
-               var compEvaled = await this.getComponentProperties(this.model.forms[this.model.active_form].components[index].base_component_id)
+               var compEvaled = this.getComponentProperties(this.model.forms[this.model.active_form].components[index].base_component_id)
                this.properties = this.properties.concat(compEvaled)
             this.refresh ++
          },
