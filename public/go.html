@@ -1017,9 +1017,11 @@ var dataIds = new Object()
             var fn = queuedResponses[data.seq_num]
             var sdf = eval("(" + data.record + ")")
             console.log("callig 2")
-            checkLibsV2(sdf[0])
-            console.log("callig 3")
-            fn(sdf[0])
+            for (var i=0; i< sdf.length; i++) {
+                checkLibsV2(sdf[i])
+                console.log("callig 3")
+                fn(sdf[i])
+            }
     });
 
 
