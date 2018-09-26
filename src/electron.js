@@ -2131,19 +2131,16 @@ function websocketFn(ws) {
 
         } else if (receivedMessage.message_type == "loadUiComponent") {
             console.log("***** } else if (msg.message_type == loadUiComponent) ")
-            //
-            var seqNum = queuedResponseSeqNum;
-            queuedResponseSeqNum ++;
-            queuedResponses[seqNum] = ws;
 
+            var compId = receivedMessage.find_component.base_component_id
 
-            var new_ws = queuedResponses[ seqNum ]
 
             sendToBrowserViaWebSocket(
-                new_ws,
+                ws,
                 {
-                    type:      "server_returns_loadUiComponent_to_browser",
-                    seq_num:    receivedMessage.seq_num
+                    type:                   "server_returns_loadUiComponent_to_browser",
+                    seq_num:                 receivedMessage.seq_num,
+                    base_component_id:       compId
                 });
 
 

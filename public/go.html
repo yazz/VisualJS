@@ -1014,7 +1014,7 @@ var dataIds = new Object()
     socket.on('server_returns_loadUiComponent_to_browser',function(data) {
             //alert("component returned: " + JSON.stringify(data,null,2))
             var fn = queuedResponses[data.seq_num]
-            fn()
+            fn(data)
     });
 
 
@@ -1270,7 +1270,7 @@ async function loadV2( baseComponentId, args ) {
 
         var seqNum = queuedBrowserResponseSeqNum ++;
         queuedResponses[seqNum] = function(response) {
-            console.log("loadV2: 5")
+            console.log("loadV2: 5 = " + JSON.stringify(response,null,2))
             returnfn(response)
         };
         console.log("loadV2: 3")
