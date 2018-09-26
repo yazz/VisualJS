@@ -356,20 +356,31 @@ load_once_from_file(true)
 
 
            //
-           // load the default form
+           // load the forms and their controls
            //
            var forms = this.getForms()
            console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
 
            for (var formIndex = 0; formIndex < forms.length; formIndex ++) {
                 var formName = forms[formIndex].name
+
+                var compsToLoad = []
+                for (var rtw = 0; rtw < mm.model.forms[formName].components.length ; rtw++ )
+                {
+                    var newItem = mm.model.forms[formName].components[rtw]
+                    if (!component_loaded[newItem.base_component_id]) {
+                        compsToLoad.push(newItem.base_component_id)
+                    }
+                }
+                await loadV2(compsToLoad)
+
                 for (var rtw = 0; rtw < mm.model.forms[formName].components.length ; rtw++ )
                 {
                      var newItem = mm.model.forms[formName].components[rtw]
                      //alert(newItem.base_component_id)
                      if (!component_loaded[newItem.base_component_id]) {
                         console.log(`Loading ${newItem.base_component_id}`)
-                        await loadV2([newItem.base_component_id])
+
                         if (mm.edited_app_component_id) {
                             //alert(mm.edited_app_component_id)
                             if (!mm.component_usage[newItem.base_component_id]) {
