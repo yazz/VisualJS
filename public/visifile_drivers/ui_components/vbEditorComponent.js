@@ -915,6 +915,24 @@ load_once_from_file(true)
                     await load(newItem.base_component_id)
                     this.component_usage[newItem.base_component_id] = true
                  }
+
+                 var compEvaled1 = component_cache[newItem.base_component_id]
+                 if (isValidObject(compEvaled1)) {
+                        var compEvaled = compEvaled1.properties
+                        if (isValidObject(compEvaled)) {
+                            for (var cpp = 0 ; cpp< compEvaled.length; cpp ++){
+                                var prop = compEvaled[cpp].id
+                                if (!isValidObject(newItem[prop])){
+                                    newItem[prop] = ""
+                                }
+                            }
+                        }
+                 }
+
+
+
+
+
                  this.model.forms[this.model.active_form].components.push(newItem)
                  //this.generateCodeFromModel(  )
                  this.model.active_component_index = this.model.forms[this.model.active_form].components.length - 1
