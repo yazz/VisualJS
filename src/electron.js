@@ -2137,8 +2137,8 @@ function websocketFn(ws) {
             dbsearch.serialize(
                 function() {
                     var stmt = dbsearch.all(
-                        "SELECT  *  FROM   system_code   WHERE   base_component_id = " +
-                            "?" +
+                        "SELECT  *  FROM   system_code   WHERE   base_component_id in " +
+                            "("  + componentIds.map(function(){ return "?" }).join(",") + " )" +
                             "   and   code_tag = 'LATEST' ",
                         componentIds
                         ,
