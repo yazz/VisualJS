@@ -378,22 +378,15 @@ load_once_from_file(true)
                 {
                      var newItem = mm.model.forms[formName].components[rtw]
                      //alert(newItem.base_component_id)
-                     if (!component_loaded[newItem.base_component_id]) {
                         console.log(`Loading ${newItem.base_component_id}`)
 
                         if (mm.edited_app_component_id) {
-                            //alert(mm.edited_app_component_id)
-                            if (!mm.component_usage[newItem.base_component_id]) {
-                                mm.component_usage[newItem.base_component_id] = true
-                                var sql =   "insert into component_usage (base_component_id, child_component_id)" +
-                                            " values ('" + mm.edited_app_component_id + "', '" + newItem.base_component_id + "')"
+                            mm.component_usage[newItem.base_component_id] = true
+                            var sql =   "insert into component_usage (base_component_id, child_component_id)" +
+                                        " values ('" + mm.edited_app_component_id + "', '" + newItem.base_component_id + "')"
 
-                                var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
-                                    {   sql: sql  })
-
-                            }
-
-                        }
+                            //var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
+                            //    {   sql: sql  })
                      }
 
 
