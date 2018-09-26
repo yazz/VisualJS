@@ -370,6 +370,7 @@ load_once_from_file(true)
                      if (!component_loaded[newItem.base_component_id]) {
                         console.log(`Loading ${newItem.base_component_id}`)
                         await load(newItem.base_component_id)
+                        await loadV2(newItem.base_component_id)
                         if (mm.edited_app_component_id) {
                             //alert(mm.edited_app_component_id)
                             if (!mm.component_usage[newItem.base_component_id]) {
@@ -907,6 +908,7 @@ load_once_from_file(true)
                  this.refresh++
                  if (!component_loaded[newItem.base_component_id]) {
                     await load(newItem.base_component_id)
+                    await loadV2(newItem.base_component_id)
                     this.component_usage[newItem.base_component_id] = true
                  }
 

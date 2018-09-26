@@ -49,7 +49,7 @@ load_once_from_file(true)
                                 }
                             }
 
-                            console.log("new code: " + code)
+                            //console.log("new code: " + code)
                             saveCodeV2( newBaseid, parentHashId, code )
 
                             returnfn({

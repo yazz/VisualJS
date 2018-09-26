@@ -1012,7 +1012,9 @@ var dataIds = new Object()
 
 
     socket.on('server_returns_loadUiComponent_to_browser',function(data) {
-            alert("component returned")
+            //alert("component returned: " + JSON.stringify(data,null,2))
+            var fn = queuedResponses[data.seq_num]
+            fn()
     });
 
 
@@ -1262,18 +1264,23 @@ function callDriverMethod(findComponentArgs, args, callbackFn) {
 
 //zzz
 async function loadV2( baseComponentId, args ) {
+    console.log("loadV2: 1")
     var promise = new Promise(returnfn => {
+        console.log("loadV2: 2")
 
         var seqNum = queuedBrowserResponseSeqNum ++;
         queuedResponses[seqNum] = function(response) {
+            console.log("loadV2: 5")
             returnfn(response)
         };
+        console.log("loadV2: 3")
         sendToServerViaWebSocket({
-            message_type: "loadUiComponent",
-                find_component: {base_component_id: baseComponentId},
-                args:           args,
-                seqNum:         seqNum
-                });
+            message_type:    "loadUiComponent",
+            find_component:  {base_component_id: baseComponentId},
+            args:             args,
+            seq_num:          seqNum
+        });
+        console.log("loadV2: 4")
     })
 
     var ret = await promise
