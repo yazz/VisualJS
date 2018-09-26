@@ -251,6 +251,27 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
+        } else if (msg.message_type == "loadUiComponent") {
+
+//
+            var seqNum = queuedResponseSeqNum;
+            queuedResponseSeqNum ++;
+            queuedResponses[seqNum] = ws;
+
+
+            var new_ws = queuedResponses[ seqNum ]
+
+            sendToBrowserViaWebSocket(
+                new_ws,
+                {
+                    type:      "server_returns_loadUiComponent_to_browser",
+                    data_id:    msg.data_id,
+                    result:     msg.result,
+                    data_name:    msg.data_name
+                    //result:    JSON.stringify({  result: rett.result})
+                });
+
+
         } else if (msg.message_type == "save_code") {
 
             forkedProcesses["forked"].send({

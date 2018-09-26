@@ -1011,6 +1011,13 @@ var dataIds = new Object()
 
 
 
+    socket.on('server_returns_loadUiComponent_to_browser',function(data) {
+            alert("component returned")
+    });
+
+
+
+
     socket.on('ws_to_browser_callDriverMethod_results',function(data) {
 
 
