@@ -1014,7 +1014,8 @@ var dataIds = new Object()
     socket.on('server_returns_loadUiComponent_to_browser',function(data) {
             //alert("component returned: " + JSON.stringify(data,null,2))
             var fn = queuedResponses[data.seq_num]
-            fn(data)
+            var sdf = eval("(" + data.record + ")")
+            fn(sdf[0])
     });
 
 
@@ -1117,6 +1118,36 @@ function checkLibs(data){
     }
 
 }
+function checkLibsV2(componentRecord){
+
+
+    if (data.value.libs && componentRecord.libs.length > 0 ) {
+        //alert(JSON.stringify(componentRecord.libs,null,2))
+        for (var tt = 0; tt < componentRecord.libs.length ; tt++) {
+            if (!libLoaded[ componentRecord.libs[tt].dependency_name ]) {
+                libLoaded[ componentRecord.libs[tt].dependency_name ] = true
+                if ( componentRecord.libs[tt].dependency_name == "aframe" ) {
+
+                    scriptTag(
+                        `http://${useHostname}:${usePort}/js_libs/aframe.min.js`
+                        ,
+                        function() {
+                            callCodeV2(componentRecord)
+                    })
+                }
+
+            //
+            // if the lib is already loaded then just call the code
+            //
+            } else {
+                callCodeV2(componentRecord)
+            }
+        }
+    } else {
+        callCodeV2(componentRecord)
+    }
+
+}
 function callCode(data) {
     var callbackFn = queuedResponses[data.seq_num]
     console.log(`go.html:callCode( ${data.seq_num} )`)
@@ -1158,6 +1189,50 @@ function callCode(data) {
                 var fnfnRes = await fnfn(args)
                 callbackFn(fnfnRes)
                 queuedResponses[data.seq_num] = null
+            }
+            runAsync()
+        }
+
+
+
+
+    } catch (err) {
+        alert(err)
+    }
+}
+function callCodeV2(componentRecord) {
+    try {
+        var useDb = componentRecord.base_component_id
+        if (componentRecord.use_db) {
+            useDb = componentRecord.use_db
+        }
+
+        if (!component_cache[componentRecord.base_component_id]) {
+            component_cache[componentRecord.base_component_id] = new Object()
+        }
+        if (isValidObject(componentRecord.properties)) {
+            component_cache[componentRecord.base_component_id].properties = eval("(" + componentRecord.properties + ")")
+        }
+
+
+        var addP = "'" + componentRecord.code_id + "', '" + useDb + "', "
+        //alert("data: " + addP);
+        componentRecord.code = componentRecord.code.toString().replaceAll(" sql[(]"," rxsql(" + addP)
+        componentRecord.code = componentRecord.code.toString().replaceAll(" sql1[(]"," rxsql1(" + addP)
+        componentRecord.code = componentRecord.code.toString().replaceAll(" sqlFirstCol[(]"," rxsqlFirstCol(" + addP)
+        componentRecord.code = componentRecord.code.toString().replaceAll(" sqlFirstCol1[(]"," rxsqlFirstCol1(" + addP)
+
+
+        var fnfn = eval( componentRecord.code )
+
+        if (componentRecord.code.indexOf("async ")  == -1) {
+            var fnfnRes = fnfn({})
+            callbackFn(fnfnRes)
+
+        } else {
+            var runAsync = async function() {
+                var fnfnRes = await fnfn({})
+                callbackFn(fnfnRes)
             }
             runAsync()
         }
@@ -1262,7 +1337,7 @@ function callDriverMethod(findComponentArgs, args, callbackFn) {
 
 }
 
-//zzz
+
 async function loadV2( baseComponentId, args ) {
     console.log("loadV2: 1")
     var promise = new Promise(returnfn => {
@@ -1270,6 +1345,7 @@ async function loadV2( baseComponentId, args ) {
 
         var seqNum = queuedBrowserResponseSeqNum ++;
         queuedResponses[seqNum] = function(response) {
+            //zzz
             console.log("loadV2: 5 = " + JSON.stringify(response,null,2))
             returnfn(response)
         };
