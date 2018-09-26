@@ -2128,20 +2128,33 @@ function websocketFn(ws) {
 
 
 
-
+//zzz
         } else if (receivedMessage.message_type == "loadUiComponent") {
             console.log("***** } else if (msg.message_type == loadUiComponent) ")
 
             var compId = receivedMessage.find_component.base_component_id
 
+            dbsearch.serialize(
+                function() {
+                    var stmt = dbsearch.all(
+                        "SELECT  *  FROM   system_code   WHERE   base_component_id = ?   and   code_tag = 'LATEST' ",
+                        compId
+                        ,
 
-            sendToBrowserViaWebSocket(
-                ws,
-                {
-                    type:                   "server_returns_loadUiComponent_to_browser",
-                    seq_num:                 receivedMessage.seq_num,
-                    base_component_id:       compId
-                });
+                        function(err, results)
+                        {
+                            sendToBrowserViaWebSocket(
+                                ws,
+                                {
+                                    type:                   "server_returns_loadUiComponent_to_browser",
+                                    seq_num:                 receivedMessage.seq_num,
+                                    base_component_id:       compId,
+                                    record:                  JSON.stringify(results,null,2),
+                                    test:                   1
+                                });
+                        })
+            }, sqlite3.OPEN_READONLY)
+
 
 
 
