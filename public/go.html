@@ -7,6 +7,7 @@
     <script>
     var libLoaded        = new Object()
     var component_loaded = new Object()
+    var component_load_started = new Object()
     var component_cache  = new Object()
 
     //***ADD_SCRIPT
@@ -1252,6 +1253,26 @@ function callDriverMethod(findComponentArgs, args, callbackFn) {
 
 }
 
+//zzz
+async function loadV2( baseComponentId, args ) {
+    var promise = new Promise(returnfn => {
+
+        var seqNum = queuedBrowserResponseSeqNum ++;
+        queuedResponses[seqNum] = function(response) {
+            returnfn(response)
+        };
+        sendToServerViaWebSocket({
+            message_type: "loadUiComponent",
+                find_component: {base_component_id: baseComponentId},
+                args:           args,
+                seqNum:         seqNum
+                });
+    })
+
+    var ret = await promise
+    return ret
+
+}
 
 async function load(baseComponentId, args) {
     var comp = await callApp({base_component_id: baseComponentId},args)
