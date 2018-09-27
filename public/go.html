@@ -1354,9 +1354,17 @@ async function loadV2( baseComponentIds, args ) {
     var componentsIdToLoad = []
     for (var tt=0; tt < baseComponentIds.length; tt++) {
         var componentId = baseComponentIds[tt]
-        if (!component_loaded[componentId]) {
+        if (isStaticHtmlPageApp && finderToCachedCodeMapping[ componentId ]) {
             component_loaded[componentId] = true
-            componentsIdToLoad.push(componentId)
+            //alert("Reading app from cache: " + findComponentArgs.base_component_id)
+            var newDataCodeId = finderToCachedCodeMapping[ componentId ]
+            var newData       = cachedCode[ newDataCodeId ]
+            checkLibsV2(newData.value)
+        } else {
+            if (!component_loaded[componentId]) {
+                component_loaded[componentId] = true
+                componentsIdToLoad.push(componentId)
+            }
         }
         //zzz
     }

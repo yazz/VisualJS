@@ -385,8 +385,8 @@ load_once_from_file(true)
                             var sql =   "insert into component_usage (base_component_id, child_component_id)" +
                                         " values ('" + mm.edited_app_component_id + "', '" + newItem.base_component_id + "')"
 
-                            //var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
-                            //    {   sql: sql  })
+                            var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
+                                {   sql: sql  })
                      }
 
 
