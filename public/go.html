@@ -13,13 +13,26 @@
         var localSqliteDb = new window.SQL.Database()
     }
     function localSql(sql) {
-        if (!window.SQL) {
-            console.log("Local SQLite only works for static Appshare apps")
-        } else {
-            var res = localSqliteDb.exec(sql);
-            return res
-        }
-    }
+         if (!window.SQL) {
+             console.log("Local SQLite only works for static Appshare apps")
+         } else {
+             var res = localSqliteDb.exec(sql);
+             resOut = []
+             var cols   = res[0].columns
+             var values = res[0].values
+             for (var rowi = 0; rowi < values.length ; rowi ++) {
+                 var row    = values[ rowi ]
+                 var newRow = new Object()
+
+                 for (var coli = 0 ; coli < cols.length ; coli ++ ) {
+                     var colName       = cols[coli]
+                     newRow[ colName ] = row[coli]
+                 }
+                 resOut.push(newRow)
+             }
+             return resOut
+         }
+     }
     var libLoaded        = new Object()
     var component_loaded = new Object()
     var component_cache  = new Object()
