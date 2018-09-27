@@ -6,37 +6,14 @@
 
 
 
-<script type="text/javascript" charset="utf-8" src="sql.js"></script>
-
     <script>
-    if (window.SQL) {
-        var localSqliteDb = new window.SQL.Database()
-    }
-    function localSql(sql) {
-         if (!window.SQL) {
-             console.log("Local SQLite only works for static Appshare apps")
-         } else {
-             var res = localSqliteDb.exec(sql);
-             resOut = []
-             var cols   = res[0].columns
-             var values = res[0].values
-             for (var rowi = 0; rowi < values.length ; rowi ++) {
-                 var row    = values[ rowi ]
-                 var newRow = new Object()
-
-                 for (var coli = 0 ; coli < cols.length ; coli ++ ) {
-                     var colName       = cols[coli]
-                     newRow[ colName ] = row[coli]
-                 }
-                 resOut.push(newRow)
-             }
-             return resOut
-         }
-     }
+    var localSqliteDb    = null
     var libLoaded        = new Object()
     var component_loaded = new Object()
     var component_cache  = new Object()
+    </script>
 
+    <script>
     //***ADD_SCRIPT
     </script>
 
@@ -95,7 +72,31 @@ key:"_addFormElementData",value:function(a){if("FORM"===this.element.tagName)for
 
 
 <script>
-String.prototype.replaceAll = function(search, replacement) {
+if (window.SQL) {
+    localSqliteDb = new window.SQL.Database()
+}
+function localSql(sql) {
+     if (!window.SQL) {
+         console.log("Local SQLite only works for static Appshare apps")
+     } else {
+         var res = localSqliteDb.exec(sql);
+         resOut = []
+         var cols   = res[0].columns
+         var values = res[0].values
+         for (var rowi = 0; rowi < values.length ; rowi ++) {
+             var row    = values[ rowi ]
+             var newRow = new Object()
+
+             for (var coli = 0 ; coli < cols.length ; coli ++ ) {
+                 var colName       = cols[coli]
+                 newRow[ colName ] = row[coli]
+             }
+             resOut.push(newRow)
+         }
+         return resOut
+     }
+ }
+ String.prototype.replaceAll = function(search, replacement) {
     var target = this;
     return target.replace(new RegExp(search, 'g'), replacement);
 };

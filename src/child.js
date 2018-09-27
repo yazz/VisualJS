@@ -1970,7 +1970,7 @@ function processMessagesFromMainProcess() {
 
       } else if (msg.message_type == "save_code") {
 
-              saveCodeV2(  msg.base_component_id, msg.parent_hash  ,  msg.code  );
+              saveCodeV2(  msg.base_component_id, msg.parent_hash  ,  msg.code  , msg.options);
 
 
 
@@ -4037,7 +4037,7 @@ function updateRevisions(sqlite, baseComponentId) {
 
 
 
-async function saveCodeV2( baseComponentId, parentHash, code ) {
+async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
     var promise = new Promise(returnFn => {
         //console.log("function saveCodeV2( baseComponentId, parentHash, code ) {")
@@ -4218,6 +4218,16 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
 
 
                                           }
+                                     }
+                                     if (options) {
+                                        if (options.offline_enabled) {
+                                            scriptCode +=
+                                                "</script>" +
+                                                "<script>" +
+                                                fs.readFileSync( path.join(__dirname, '../public/sql.js') ) +
+                                                "</script>" +
+                                                "<script>"
+                                        }
                                      }
 
                                     dbsearch.run("commit", function() {

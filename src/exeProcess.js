@@ -794,11 +794,12 @@ function display_name(d) {
 function created_timestamp(d) {
 
 }
-function saveCodeV2(baseComponentId, parentHash, code) {
+function saveCodeV2(baseComponentId, parentHash, code,options) {
     process.send({  message_type:       "save_code" ,
                     base_component_id:   baseComponentId,
                     parent_hash:         parentHash,
-                    code:                code
+                    code:                code,
+                    options:             options
                     });
 }
 
