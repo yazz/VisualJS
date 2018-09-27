@@ -4214,19 +4214,17 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
                                               if ( jsLibs[tt] == "aframe" ) {
                                                 scriptCode += fs.readFileSync( path.join(__dirname, '../public/js_libs/aframe.min.js') )
+                                                scriptCode += `
+                                                `
                                               }
 
 
                                           }
                                      }
+                                     var sqliteCode = ""
                                      if (options) {
                                         if (options.offline_enabled) {
-                                            scriptCode +=
-                                                "</script>" +
-                                                "<script>" +
-                                                fs.readFileSync( path.join(__dirname, '../public/sql.js') ) +
-                                                "</script>" +
-                                                "<script>"
+                                            sqliteCode = fs.readFileSync( path.join(__dirname, '../public/sql.js') )
                                         }
                                      }
 
@@ -4327,9 +4325,16 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                     newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/","'"+hostaddress+"'")
                                                     newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*static_port_start*/","/*static_port_end*/",port)
 
+
+                                                    var indexOfSqlite = newStaticFileContent.indexOf("//SQLITE")
+                                                    newStaticFileContent = newStaticFileContent.substring(0,indexOfSqlite) +
+                                                                                sqliteCode +
+                                                                                    newStaticFileContent.substring(indexOfSqlite)
                                                     newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_SCRIPT", scriptCode)
 
-                                                    fs.writeFile( newStaticFilePath,  newStaticFileContent )                                            })
+                                                    //fs.writeFile( path.join(__dirname, '../public/sql2.js'),  sqliteCode )
+                                                    fs.writeFile( newStaticFilePath,  newStaticFileContent )
+                                                    })
                                        }
                                  , sqlite3.OPEN_READONLY)
 
