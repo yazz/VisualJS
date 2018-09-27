@@ -4,7 +4,22 @@
     <meta name="viewport" Content-Type="text/javascript; charset=utf-8" content="initial-scale=1.0, width=device-width, height=device-height, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta charset="UTF-8" />
 
+
+
+<script type="text/javascript" charset="utf-8" src="sql.js"></script>
+
     <script>
+    if (window.SQL) {
+        var localSqliteDb = new window.SQL.Database()
+    }
+    function localSql(sql) {
+        if (!window.SQL) {
+            console.log("Local SQLite only works for static Appshare apps")
+        } else {
+            var res = localSqliteDb.exec(sql);
+            return res
+        }
+    }
     var libLoaded        = new Object()
     var component_loaded = new Object()
     var component_cache  = new Object()
