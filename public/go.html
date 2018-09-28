@@ -1511,21 +1511,26 @@ function created_timestamp(d) {
 }
 
 async function rxsql(code_id,base_component_id, sqlcode, params) {
-    var results = await callApp(
-        {
-             driver_name:    "systemFunctionAppSql",
-             method_name:    "sql"
-        }
-        ,
-        {
-            sql:                sqlcode,
-            params:             params,
-            code_id:            code_id,
-            base_component_id:  base_component_id
-        })
+    if (useLocalDb) {
+        var results = localSql(sqlcode,params)
+        return results
+    } else {
+        var results = await callApp(
+            {
+                 driver_name:    "systemFunctionAppSql",
+                 method_name:    "sql"
+            }
+            ,
+            {
+                sql:                sqlcode,
+                params:             params,
+                code_id:            code_id,
+                base_component_id:  base_component_id
+            })
 
 
-    return results
+        return results
+    }
 }
 
 async function rxsql1(code_id,base_component_id,sqlcode, params) {
