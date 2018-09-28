@@ -4224,7 +4224,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                      var sqliteCode = ""
                                      if (options) {
                                         if (options.offline_enabled) {
-                                            sqliteCode = fs.readFileSync( path.join(__dirname, '../public/sql.js') )
+                                            //sqliteCode = fs.readFileSync( path.join(__dirname, '../public/sql.js') )
                                         }
                                      }
 
@@ -4326,17 +4326,18 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                     newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/","'"+hostaddress+"'")
                                                     newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*static_port_start*/","/*static_port_end*/",port)
 
+                                                    newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_SCRIPT", scriptCode)
 
 
                                                     //fs.writeFile( path.join(__dirname, '../public/sql2.js'),  sqliteCode )
                                                     fs.writeFile( newStaticFilePath,  newStaticFileContent )
 
 
+                                                    sqliteCode = fs.readFileSync( path.join(__dirname, '../public/sql.js') )
                                                     var indexOfSqlite = newStaticFileContent.indexOf("//SQLITE")
                                                     newStaticFileContent = newStaticFileContent.substring(0,indexOfSqlite) +
                                                                                 sqliteCode +
                                                                                     newStaticFileContent.substring(indexOfSqlite)
-                                                    newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_SCRIPT", scriptCode)
                                                     newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*use_local_sqlite_start*/","/*use_local_sqlite_end*/","var useLocalDb = true")
                                                     fs.writeFile( newLocalStaticFilePath,  newStaticFileContent )
                                                     })
