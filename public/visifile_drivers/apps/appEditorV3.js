@@ -81,9 +81,16 @@ load_once_from_file(true)
                                 (show_new_tab_tooltip?"visible":"hidden") + ";font-family: Helvetica;"'>
                             Open page in new browser tab (shareable :)
                             </span>
+                            <span
+                                  v-bind:style='"  padding: 10px;bottom: 0px;right:0px;background-color: darkgray;color: white;width: auto;" +
+                                  "border-radius: 5px;opacity: 1;position:relative;visibility: " +
+                                  (show_open_app_tooltip?"visible":"hidden") + ";font-family: Helvetica;"'>
+                              Create shippable HTML file
+                              </span>
                           <div v-bind:style="'background-color: rgb(242,242,242);padding: 5px;; border: 2px solid lightgray;'">
                                 &larr; &rarr; <span class=reload>&#x21bb;</span>
-                                <input  readonly size="45" style='font-size: 13px;' v-bind:value='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'></input>
+                                <input  readonly size="40" style='font-size: 13px;' 
+                                        v-bind:value='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'></input>
 
 
                                 <a
@@ -92,6 +99,13 @@ load_once_from_file(true)
                                     v-on:mouseover="show_new_tab_tooltip = true"
                                     v-on:mouseleave="show_new_tab_tooltip = false"
                                     class=reload>&#x274F;
+                                    </a>
+                                <a
+                                    v-bind:href='"http://" + location.hostname + ":" + location.port + "/app/appshare_" + base_component_id + ".html"'
+                                    target="_blank" rel="noopener noreferrer"
+                                    v-on:mouseover="show_open_app_tooltip = true"
+                                    v-on:mouseleave="show_open_app_tooltip = false"
+                                    class=reload>&#x2668;
                                     </a>
                           </div>
                           <component  v-bind:is="app_component_name" v-if="app_loaded">
@@ -125,7 +139,8 @@ load_once_from_file(true)
                show_name:           true,
                edit_name:           false,
                new_name:            "",
-               show_new_tab_tooltip:false
+               show_new_tab_tooltip:false,
+               show_open_app_tooltip:false
            }
        }
        ,
