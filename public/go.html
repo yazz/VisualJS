@@ -87,19 +87,22 @@ function localSql(sql) {
      } else {
          var res = localSqliteDb.exec(sql);
          resOut = []
-         var cols   = res[0].columns
-         var values = res[0].values
-         for (var rowi = 0; rowi < values.length ; rowi ++) {
-             var row    = values[ rowi ]
-             var newRow = new Object()
+         if (res[0]) {
+             var cols   = res[0].columns
+             var values = res[0].values
+             for (var rowi = 0; rowi < values.length ; rowi ++) {
+                 var row    = values[ rowi ]
+                 var newRow = new Object()
 
-             for (var coli = 0 ; coli < cols.length ; coli ++ ) {
-                 var colName       = cols[coli]
-                 newRow[ colName ] = row[coli]
+                 for (var coli = 0 ; coli < cols.length ; coli ++ ) {
+                     var colName       = cols[coli]
+                     newRow[ colName ] = row[coli]
+                 }
+                 resOut.push(newRow)
              }
-             resOut.push(newRow)
+             return resOut
          }
-         return resOut
+         return []
      }
  }
  String.prototype.replaceAll = function(search, replacement) {
@@ -1046,7 +1049,7 @@ var dataIds = new Object()
 
 
     socket.on('server_returns_loadUiComponent_to_browser',function(data) {
-        //zzz
+
             //alert("component returned: " + JSON.stringify(data,null,2))
             var fn = queuedResponses[data.seq_num]
             var sdf = eval("(" + data.record + ")")
@@ -1192,7 +1195,7 @@ function checkLibsV2(componentRecord){
 function callCode(data) {
     var callbackFn = queuedResponses[data.seq_num]
     console.log(`go.html:callCode( ${data.seq_num} )`)
-//zzz
+
     try {
         //alert(data.value.code_id)
         //alert(data.value.base_component_id)
@@ -1211,6 +1214,23 @@ function callCode(data) {
 
         var addP = "'" + data.value.code_id + "', '" + useDb + "', "
         //alert("data: " + addP);
+        if (useLocalDb) {
+            //zzz
+            var eds = saveHelper.getValueOfCodeString(data.value.code, "sqlite",")//sqlite")
+            if (eds){
+                    for (var te = 1; te < eds.length ; te = te + 2) {
+                        var sqlStatements = eds[te]
+                        console.log(`${te}`)
+                        for (var te2 = 0; te2 < sqlStatements.length ; te2 ++) {
+                            var sqlStatement = sqlStatements[te2]
+                            console.log(`   SQL ${te2}: ${sqlStatement}`)
+                            localSql(sqlStatement)
+                        }
+
+                    }
+            }
+            //alert(eds.length)
+        }
         data.value.code = data.value.code.toString().replaceAll(" sql[(]"," rxsql(" + addP)
         data.value.code = data.value.code.toString().replaceAll(" sql1[(]"," rxsql1(" + addP)
         data.value.code = data.value.code.toString().replaceAll(" sqlFirstCol[(]"," rxsqlFirstCol(" + addP)
@@ -1401,7 +1421,7 @@ async function loadV2( baseComponentIds, args ) {
                 componentsIdToLoad.push(componentId)
             }
         }
-        //zzz
+
     }
 
 
@@ -1412,7 +1432,7 @@ async function loadV2( baseComponentIds, args ) {
 
             var seqNum = queuedBrowserResponseSeqNum ++;
             queuedResponses[seqNum] = function(response) {
-                //zzz
+
                 //console.log("loadV2: 5 = " + JSON.stringify(response,null,2))
                 returnfn(response)
             };
