@@ -4337,7 +4337,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                                                 sqliteCode +
                                                                                     newStaticFileContent.substring(indexOfSqlite)
                                                     newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_SCRIPT", scriptCode)
-                                                    //newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*use_local_sqlite_start*/","/*use_local_sqlite_end*/","var useLocalDb = true")
+                                                    newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*use_local_sqlite_start*/","/*use_local_sqlite_end*/","var useLocalDb = true")
                                                     fs.writeFile( newLocalStaticFilePath,  newStaticFileContent )
                                                     })
                                        }
