@@ -81,28 +81,25 @@ key:"_addFormElementData",value:function(a){if("FORM"===this.element.tagName)for
 if (window.SQL) {
     localSqliteDb = new window.SQL.Database()
 }
-function localSql(sql) {
+function localSql(sql, params) {
      if (!window.SQL) {
          console.log("Local SQLite only works for static Appshare apps")
      } else {
-         var res = localSqliteDb.exec(sql);
          resOut = []
-         if (res[0]) {
-             var cols   = res[0].columns
-             var values = res[0].values
-             for (var rowi = 0; rowi < values.length ; rowi ++) {
-                 var row    = values[ rowi ]
-                 var newRow = new Object()
-
-                 for (var coli = 0 ; coli < cols.length ; coli ++ ) {
-                     var colName       = cols[coli]
-                     newRow[ colName ] = row[coli]
-                 }
+         try {
+             var stmt = localSqliteDb.prepare(sql);
+             var res = stmt.bind(params)
+             var moreRows = stmt.step()
+             while (moreRows) {
+                 var newRow = stmt.getAsObject()
                  resOut.push(newRow)
+                 moreRows = stmt.step()
              }
-             return resOut
+             stmt.free();
+         } catch (err) {
+             console.log(err)
          }
-         return []
+         return resOut
      }
  }
  String.prototype.replaceAll = function(search, replacement) {
