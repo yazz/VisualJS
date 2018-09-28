@@ -4237,6 +4237,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
                                     var origFilePath = path.join(__dirname, '../public/go.html')
                                     var newStaticFilePath = path.join( userData, 'apps/' + baseComponentId + '.html' )
+                                    var newLocalStaticFilePath = path.join( userData, 'apps/appshare_' + baseComponentId + '.html' )
 
                                     var newStaticFileContent = fs.readFileSync( origFilePath )
 
@@ -4326,14 +4327,18 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                     newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*static_port_start*/","/*static_port_end*/",port)
 
 
+
+                                                    //fs.writeFile( path.join(__dirname, '../public/sql2.js'),  sqliteCode )
+                                                    fs.writeFile( newStaticFilePath,  newStaticFileContent )
+
+
                                                     var indexOfSqlite = newStaticFileContent.indexOf("//SQLITE")
                                                     newStaticFileContent = newStaticFileContent.substring(0,indexOfSqlite) +
                                                                                 sqliteCode +
                                                                                     newStaticFileContent.substring(indexOfSqlite)
                                                     newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_SCRIPT", scriptCode)
-
-                                                    //fs.writeFile( path.join(__dirname, '../public/sql2.js'),  sqliteCode )
-                                                    fs.writeFile( newStaticFilePath,  newStaticFileContent )
+                                                    //newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*use_local_sqlite_start*/","/*use_local_sqlite_end*/","var useLocalDb = true")
+                                                    fs.writeFile( newLocalStaticFilePath,  newStaticFileContent )
                                                     })
                                        }
                                  , sqlite3.OPEN_READONLY)
