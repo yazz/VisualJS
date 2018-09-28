@@ -78,18 +78,13 @@ load_once_from_file(true)
                           <span
                                 v-bind:style='"  padding: 10px;bottom: 0px;right:0px;background-color: darkgray;color: white;width: auto;" +
                                 "border-radius: 5px;opacity: 1;position:relative;visibility: " +
-                                (show_new_tab_tooltip?"visible":"hidden") + ";font-family: Helvetica;"'>
-                            Open page in new browser tab (shareable :)
+                                ((show_new_tab_tooltip || show_open_app_tooltip)?"visible":"hidden") + ";font-family: Helvetica;"'>
+                                    {{show_new_tab_tooltip?"Open page in new browser tab (shareable :)":""}}
+                                    {{show_open_app_tooltip?"Create shippable HTML file":""}}
                             </span>
-                            <span
-                                  v-bind:style='"  padding: 10px;bottom: 0px;right:0px;background-color: darkgray;color: white;width: auto;" +
-                                  "border-radius: 5px;opacity: 1;position:relative;visibility: " +
-                                  (show_open_app_tooltip?"visible":"hidden") + ";font-family: Helvetica;"'>
-                              Create shippable HTML file
-                              </span>
                           <div v-bind:style="'background-color: rgb(242,242,242);padding: 5px;; border: 2px solid lightgray;'">
                                 &larr; &rarr; <span class=reload>&#x21bb;</span>
-                                <input  readonly size="40" style='font-size: 13px;' 
+                                <input  readonly size="40" style='font-size: 13px;'
                                         v-bind:value='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'></input>
 
 
