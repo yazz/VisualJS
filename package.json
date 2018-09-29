@@ -65,6 +65,7 @@
     "sqldown": "^2.1.0",
     "sqlite3": "^4.0.0",
     "tesseract.js": "^1.0.10",
+    "text-encoding": "^0.7.0",
     "unzip": "^0.1.11",
     "uuid": "^3.1.0",
     "vue": "^2.5.2",

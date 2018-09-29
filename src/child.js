@@ -4273,7 +4273,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                     finderToCachedCodeMapping["${baseComponentId}"] = "${sha1sum}"`
 
 
-                                    //zzz
+
                                     newCode += `
                                         //newcodehere
                                     `
@@ -4333,12 +4333,34 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                     fs.writeFile( newStaticFilePath,  newStaticFileContent )
 
 
+
+                                                    //
+                                                    // save the standalone app
+                                                    //
                                                     sqliteCode = fs.readFileSync( path.join(__dirname, '../public/sql.js') )
                                                     var indexOfSqlite = newStaticFileContent.indexOf("//SQLITE")
                                                     newStaticFileContent = newStaticFileContent.substring(0,indexOfSqlite) +
                                                                                 sqliteCode +
                                                                                     newStaticFileContent.substring(indexOfSqlite)
                                                     newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*use_local_sqlite_start*/","/*use_local_sqlite_end*/","var useLocalDb = true")
+
+
+
+                                                    //zzz
+                                                    var sqliteAppDbPath = path.join( userData, 'app_dbs/' + baseComponentId + '.visi' )
+
+                                                    if (fs.existsSync(sqliteAppDbPath)) {
+                                                        var sqliteAppDbContent = fs.readFileSync( sqliteAppDbPath )
+                                                        var sqliteAppDbContentAsString = new (require('text-encoding').TextDecoder)('utf-8').decode(sqliteAppDbContent);
+                                                        var indexOfSqliteData = newStaticFileContent.indexOf("var sqlitedata = ''")
+
+
+                                                        newStaticFileContent = newStaticFileContent.substring(0,indexOfSqliteData + 17) +
+                                                                                    JSON.stringify(sqliteAppDbContentAsString) +
+                                                                                        newStaticFileContent.substring(indexOfSqliteData + 19)
+
+                                                    }
+
                                                     fs.writeFile( newLocalStaticFilePath,  newStaticFileContent )
                                                     })
                                        }
