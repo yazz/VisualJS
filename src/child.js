@@ -4350,13 +4350,13 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                     var sqliteAppDbPath = path.join( userData, 'app_dbs/' + baseComponentId + '.visi' )
 
                                                     if (fs.existsSync(sqliteAppDbPath)) {
-                                                        var sqliteAppDbContent = fs.readFileSync( sqliteAppDbPath )
+                                                        var sqliteAppDbContent = fs.readFileSync( sqliteAppDbPath , 'base64')
                                                         var sqliteAppDbContentAsString = new (require('text-encoding').TextDecoder)('utf-8').decode(sqliteAppDbContent);
                                                         var indexOfSqliteData = newStaticFileContent.indexOf("var sqlitedata = ''")
 
 
                                                         newStaticFileContent = newStaticFileContent.substring(0,indexOfSqliteData + 17) +
-                                                                                    JSON.stringify(sqliteAppDbContentAsString) +
+                                                                                    "'" + sqliteAppDbContent + "'" +
                                                                                         newStaticFileContent.substring(indexOfSqliteData + 19)
 
                                                     }

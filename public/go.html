@@ -82,6 +82,15 @@ key:"_addFormElementData",value:function(a){if("FORM"===this.element.tagName)for
 
 
 <script>
+function base64ToUint8Array (string) {
+  var raw = atob(string);
+  var rawLength = raw.length;
+  var array = new Uint8Array(new ArrayBuffer(rawLength));
+  for (var i = 0; i < rawLength; i += 1) {
+    array[i] = raw.charCodeAt(i);
+  }
+  return array;
+}
 if (window.SQL) {
     localSqliteDb = new window.SQL.Database()
 }
@@ -1230,6 +1239,8 @@ function callCode(data) {
 
                     }
             }
+            var b = base64ToUint8Array(sqlitedata)
+            localSqliteDb = new SQL.Database(b);
             //alert(eds.length)
         }
         data.value.code = data.value.code.toString().replaceAll(" sql[(]"," rxsql(" + addP)
