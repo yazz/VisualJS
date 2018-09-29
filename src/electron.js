@@ -2787,6 +2787,7 @@ function startServices() {
 
     app.use("/files",   express.static(path.join(userData, '/files/')));
     app.use("/app", express.static(path.join(userData, '/apps/')));
+    //app.use("/app_dbs", express.static(path.join(userData, '/app_dbs/')));
 
     app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
     app.use('/viewer',  express.static(path.join(__dirname, '../node_viewerjs/release')));
