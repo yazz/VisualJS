@@ -12,6 +12,7 @@
     var libLoaded        = new Object()
     var component_loaded = new Object()
     var component_cache  = new Object()
+    var online           = false
     </script>
 
     <script>
@@ -326,9 +327,12 @@ function initFn() {
 
 
         vf.drivers = new Object()
-        sendToServerViaWebSocket({
-                message_type: "drivers"
-                });
+        if (online) {
+            sendToServerViaWebSocket({
+                    message_type: "drivers"
+                    });
+
+        }
 
            setTimeout(function() {
 
@@ -873,7 +877,9 @@ function populateCache() {
 
 var socket=null;
 function sendToServerViaWebSocket(msg) {
-    socket.send(JSON.stringify(msg));
+    if (online) {
+        socket.send(JSON.stringify(msg));        
+    }
     //console.log("Sent over socket: " + JSON.stringify(msg,null,2));
 }
 
@@ -884,6 +890,7 @@ function setupWebSocket(host, port)
     socket = io('http://' + host + ":" + port);
     //console.log('opening web socketio');
     socket.on('socket_connected',function(data){
+        online = true
         //console.log("Connected: " + JSON.stringify(data,null,2));
 
     setTimeout(function(){
