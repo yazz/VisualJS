@@ -382,11 +382,13 @@ load_once_from_file(true)
 
                         if (mm.edited_app_component_id) {
                             mm.component_usage[newItem.base_component_id] = true
-                            var sql =   "insert into component_usage (base_component_id, child_component_id)" +
-                                        " values ('" + mm.edited_app_component_id + "', '" + newItem.base_component_id + "')"
+                            if (online) {
+                                var sql =   "insert into component_usage (base_component_id, child_component_id)" +
+                                            " values ('" + mm.edited_app_component_id + "', '" + newItem.base_component_id + "')"
 
-                            var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
-                                {   sql: sql  })
+                                var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
+                                    {   sql: sql  })
+                            }
                      }
 
 
@@ -415,13 +417,15 @@ load_once_from_file(true)
            //
            // get the availabe components
            //
-           var sql =    "select  base_component_id,logo_url  from  system_code  where " +
-                        "        code_tag = 'LATEST' and logo_url is not null"
+           if (online) {
+               var sql =    "select  base_component_id,logo_url  from  system_code  where " +
+                            "        code_tag = 'LATEST' and logo_url is not null"
 
-           var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
-               {   sql: sql  })
-           mm.available_components = results
-           console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
+               var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
+                   {   sql: sql  })
+               mm.available_components = results
+               console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
+           }
 
 
 
@@ -1240,6 +1244,7 @@ load_once_from_file(true)
             if (!this.design_mode) {
                 return
             }
+            if (online) {
 
             console.log("3) generateCodeFromModel")
 
@@ -1321,6 +1326,7 @@ load_once_from_file(true)
 
             console.log("4) generateCodeFromModel.Done")
             return
+            }
         }
 
      }
