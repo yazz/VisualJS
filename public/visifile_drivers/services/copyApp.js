@@ -49,13 +49,33 @@ load_once_from_file(true)
                                 }
                             }
 
-                            //console.log("new code: " + code)
-                            saveCodeV2( newBaseid, parentHashId, code )
 
-                            returnfn({
-                                        new_display_name:   newDisplayName,
-                                        base_component_id:  newBaseid
-                                        })
+                            dbsearch.all(
+                                "SELECT    child_component_id    FROM    component_usage    where    base_component_id = ? ;  "
+                                ,
+                                parentHashId
+                                ,
+
+                                function(err, listOfSubComponentsRes)
+                                {
+                                    var listOfSubComponents = []
+                                    for (var yuy = 0; yuy < listOfSubComponentsRes.length ; yuy++ ) {
+
+                                        listOfSubComponents.push( listOfSubComponentsRes[yuy].child_component_id )
+
+                                    }
+                                    saveCodeV2( newBaseid, parentHashId, code ,
+                                                {
+                                                    sub_components: listOfSubComponents
+                                                })
+
+                                    returnfn({
+                                                new_display_name:   newDisplayName,
+                                                base_component_id:  newBaseid
+                                                })
+                                })
+
+
                         }
 
 
