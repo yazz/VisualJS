@@ -32,6 +32,11 @@
     "exceljs": "^1.6.2",
     "express": "^4.14.0",
     "express-ws": "^3.0.0",
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-es2015-template-literals": "^6.22.0",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-electron": "^1.4.15",
+    "gulp-babel": "^7.0.1",
     "fast-csv": "^2.4.1",
     "fd-diskspace": "^1.0.0",
     "glob": "^7.1.2",
@@ -67,6 +72,11 @@
     "vue": "^2.5.2",
     "vuex": "^3.0.1",
     "xlsx": "^0.11.6"
+  },
+  "babel": {
+    "plugins": [
+      "babel-plugin-transform-es2015-template-literals"
+    ]
   },
   "devDependencies": {
     "electron-builder": "^20.8.1",
