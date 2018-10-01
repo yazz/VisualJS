@@ -1244,7 +1244,7 @@ load_once_from_file(true)
             if (!this.design_mode) {
                 return
             }
-            if (online) {
+            if (online && this.design_mode) {
 
             console.log("3) generateCodeFromModel")
 
