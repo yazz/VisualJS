@@ -35,7 +35,10 @@ Command line options :
 ##### 5) Install the NodeJS modules
     npm install
 ##### 6) Install SQlite3 for Electron
-    Copy node_macos64/node_sqlite3.noderename to node_modules/sqlite3/lib/binding/node-v57-darwin-x64/node_sqlite3.node
+    Copy 
+        node_macos64/node_sqlite3.noderename
+    to 
+        node_modules/sqlite3/lib/binding/node-v57-darwin-x64/node_sqlite3.node
 ##### 7) Run the AppShare Electron application
     electron .
 
