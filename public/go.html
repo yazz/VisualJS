@@ -1444,10 +1444,6 @@ async function loadV2( baseComponentIds, args ) {
 
     }
 
-    console.log(" **** **** dev_app_component_loaded ")
-    console.log(JSON.stringify(dev_app_component_loaded,null,2))
-    console.log("           dev_app_component_loaded **** ****")
-
 
     if (componentsIdToLoad.length > 0) {
         var promise = new Promise(returnfn => {
@@ -1476,10 +1472,6 @@ async function loadV2( baseComponentIds, args ) {
 
 async function load(baseComponentId, args) {
     dev_app_component_loaded[baseComponentId] = true
-
-    console.log(" **** **** dev_app_component_loaded ")
-    console.log(JSON.stringify(dev_app_component_loaded,null,2))
-    console.log("           dev_app_component_loaded **** ****")
 
     var comp = await callApp({base_component_id: baseComponentId},args)
     component_loaded[baseComponentId] = true
