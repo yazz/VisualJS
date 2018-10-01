@@ -283,7 +283,9 @@ load_once_from_file(true)
                         base_component_id:      base_component_id,
                         code_id:                code_id,
                         code:                   text,
-                        options:                Object.keys(dev_app_component_loaded)
+                        options:                {
+                                                    sub_components: Object.keys(dev_app_component_loaded)
+                                                }
                    })
                //alert("Saved " + text)
 

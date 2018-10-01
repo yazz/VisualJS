@@ -4232,8 +4232,12 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                      var sqliteCode = ""
                                      if (options) {
                                         //zzz
+                                        console.log(JSON.stringify(options,null,2))
                                         if (options.sub_components) {
-                                            for (var tew=0; tew< options.sub_components.length; tew++) {
+                                            console.log("Save options: " + options.sub_components.length)
+                                            console.log(JSON.stringify(options,null,2))
+                                            for (var tew = 0; tew < options.sub_components.length ; tew ++) {
+                                                console.log("Saving " + options.sub_components[tew])
                                                 stmtInsertSubComponent.run(
                                                     baseComponentId,
                                                     options.sub_components[tew])
