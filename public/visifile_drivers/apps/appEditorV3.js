@@ -84,10 +84,6 @@ load_once_from_file(true)
                             </span>
                           <div v-bind:style="'background-color: rgb(242,242,242);padding: 5px;; border: 2px solid lightgray;'">
                                 &larr; &rarr; <span class=reload>&#x21bb;</span>
-                                <input  readonly size="40" style='font-size: 13px;'
-                                        v-bind:value='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'></input>
-
-
                                 <a
                                     v-bind:href='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'
                                     target="_blank" rel="noopener noreferrer"
@@ -95,6 +91,11 @@ load_once_from_file(true)
                                     v-on:mouseleave="show_new_tab_tooltip = false"
                                     class=reload>&#x274F;
                                     </a>
+                                    <input  readonly size="40" style='font-size: 13px;'
+                                        v-bind:value='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'></input>
+
+
+
                                 <a
                                     v-bind:href='"http://" + location.hostname + ":" + location.port + "/app/appshare_" + base_component_id + ".html"'
                                     target="_blank" rel="noopener noreferrer"
