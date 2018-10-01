@@ -156,7 +156,7 @@ function setUpSql() {
                                 " values " +
                                 "    (?, ?, ?, ?, ? );");
 
-    stmtInsertSubComponent = dbsearch.prepare(`insert
+    stmtInsertSubComponent = dbsearch.prepare(`insert or ignore 
                                                     into
                                                component_usage
                                                     (base_component_id, child_component_id)
