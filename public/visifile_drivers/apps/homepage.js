@@ -19,7 +19,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     Vue.component('homepage', {
 
       template: `<div>
-                    <div    style="position: sticky; left:0px; top:0px; height:70px; width: 100vw ;z-index: 200000;background-color: white;padding:0;margin:0;">
+                    <div    style="position: sticky; left:0px; top:0px; height:70px; width: 100vw ;z-index: -2000;background-color: white;padding:0;margin:0;">
                     <h3 style="border:solid 1px;border-color: lightgray; padding: 14px; margin: 0px;font-family: Helvetica;">Appshare</h3>
                     </div>
 
