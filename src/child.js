@@ -46,6 +46,7 @@ var stmtUpdateFolder;
 var stmtResetFolders;
 var stmtInsertDriver;
 var stmtInsertDependency;
+var stmtInsertSubComponent;
 var stmtUpdateDriver;
 var stmtDeleteDependencies;
 var stmtInsertIntoQueries;
@@ -154,6 +155,13 @@ function setUpSql() {
                                 "    (id,  code_id, dependency_type, dependency_name, dependency_version ) " +
                                 " values " +
                                 "    (?, ?, ?, ?, ? );");
+
+    stmtInsertSubComponent = dbsearch.prepare(`insert
+                                                    into
+                                               component_usage
+                                                    (base_component_id, child_component_id)
+                                               values (?,?)`)
+
 
 
     stmtDeleteDependencies = dbsearch.prepare(" delete from  app_dependencies   where   code_id = ?");
@@ -4226,6 +4234,14 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                         if (options.offline_enabled) {
                                             //sqliteCode = fs.readFileSync( path.join(__dirname, '../public/sql.js') )
                                         }
+                                        //zzz
+                                        if (options.sub_components) {
+                                            for (var tew=0; tew< options.sub_components.length; tew++) {
+                                                stmtInsertSubComponent.run(
+                                                    baseComponentId,
+                                                    options.sub_components[tew])
+                                            }
+                                        }
                                      }
 
                                     dbsearch.run("commit", function() {
@@ -4346,7 +4362,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
 
 
-                                                    //zzz
+
                                                     var sqliteAppDbPath = path.join( userData, 'app_dbs/' + baseComponentId + '.visi' )
 
                                                     if (fs.existsSync(sqliteAppDbPath)) {
