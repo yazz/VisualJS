@@ -1,5 +1,5 @@
 # AppShare
-PC/Mac Software to create SQL webapps in minutes. There is demo here :
+VB 6 style editor for Javascript to compile VueJS/Sqlite apps to a single HTML file. There is demo here :
 
 http://appshare.co
 
@@ -35,9 +35,17 @@ Command line options :
 ##### 5) Install the NodeJS modules
     npm install
 ##### 6) Install SQlite3 for Electron
-    sudo npm install sqlite3 --build-from-source --runtime=electron --target=1.8.4 --dist-url=https://atom.io/download/electron (this step may not be needed on some platforms)
+    Copy node_macos64/node_sqlite3.noderename to node_modules/sqlite3/lib/binding/node-v57-darwin-x64/node_sqlite3.node
 ##### 7) Run the AppShare Electron application
     electron .
+
+
+
+### To build the Mac .app you also need to 
+##### 1) Install SQlite3 for Electron
+    sudo npm install sqlite3 --build-from-source --runtime=electron --target=1.8.4 --dist-url=https://atom.io/download/electron (this step may not be needed on some platforms)
+##### 2) Run electron packager
+    Sudo electron-forge make
 
 
 
