@@ -8,10 +8,7 @@ load_once_from_file(true)
         //console.log("in SaveCode::")
         //console.log(JSON.stringify(args,null,2))
         if (args) {
-            saveCodeV2(  args.base_component_id, args.code_id  ,  args.code,
-            {
-                offline_enabled: true
-            })
+            saveCodeV2(  args.base_component_id, args.code_id  ,  args.code,  args.options)
         }
         //console.log("leaving SaveCode::")
         returnFn({})

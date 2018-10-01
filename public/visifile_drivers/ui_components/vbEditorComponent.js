@@ -382,8 +382,7 @@ load_once_from_file(true)
 
                         if (mm.edited_app_component_id) {
                             mm.component_usage[newItem.base_component_id] = true
-
-                     }
+                        }
 
 
 

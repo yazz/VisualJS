@@ -4231,9 +4231,6 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                      }
                                      var sqliteCode = ""
                                      if (options) {
-                                        if (options.offline_enabled) {
-                                            //sqliteCode = fs.readFileSync( path.join(__dirname, '../public/sql.js') )
-                                        }
                                         //zzz
                                         if (options.sub_components) {
                                             for (var tew=0; tew< options.sub_components.length; tew++) {
