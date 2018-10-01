@@ -53,7 +53,7 @@ load_once_from_file(true)
                             dbsearch.all(
                                 "SELECT    child_component_id    FROM    component_usage    where    base_component_id = ? ;  "
                                 ,
-                                parentHashId
+                                argsBaseComponentId
                                 ,
 
                                 function(err, listOfSubComponentsRes)
