@@ -12,6 +12,7 @@ module.exports = {
         "asar": (isWin?true:false),// Mac OS X does not work with ASAR files
         "extendInfo": path.resolve(__dirname,"src/info.plist"),
         "packageManager": false,
+        "dir": "src/",
         "extraResources": [
           "src/",
           "public/"
