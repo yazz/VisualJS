@@ -14,7 +14,6 @@
     "babel-preset-electron": "^1.4.15",
     "body-parser": "^1.17.2",
     "bplist-parser": "^0.1.1",
-    "browserify": "^14.1.0",
     "child_process": "^1.0.2",
     "commander": "^2.9.0",
     "compression": "^1.7.0",
@@ -60,12 +59,10 @@
     "socket.io": "^2.0.4",
     "sqldown": "^2.1.0",
     "sqlite3": "^4.0.0",
-    "tesseract.js": "^1.0.10",
     "text-encoding": "^0.7.0",
     "unzip": "^0.1.11",
     "uuid": "^3.1.0",
     "vue": "^2.5.2",
-    "vuex": "^3.0.1",
     "xlsx": "^0.11.6"
   },
   "devDependencies": {
