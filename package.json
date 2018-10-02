@@ -11,9 +11,6 @@
   "dependencies": {
     "@rgrove/parse-xml": "^1.1.1",
     "async": "^2.6.0",
-    "babel-core": "^6.26.3",
-    "babel-plugin-transform-es2015-template-literals": "^6.22.0",
-    "babel-polyfill": "^6.23.0",
     "babel-preset-electron": "^1.4.15",
     "body-parser": "^1.17.2",
     "bplist-parser": "^0.1.1",
@@ -41,7 +38,6 @@
     "fast-csv": "^2.4.1",
     "fd-diskspace": "^1.0.0",
     "glob": "^7.1.2",
-    "gulp-babel": "^7.0.1",
     "has-flag": "^2.0.0",
     "http": "0.0.0",
     "ip": "^1.1.4",
@@ -53,9 +49,6 @@
     "natives": "^1.1.0",
     "net": "^1.0.2",
     "node-notifier": "^5.2.1",
-    "node-powershell": "^3.3.1",
-    "node-pre-gyp": "^0.11.0",
-    "node-tesseract": "^0.2.7",
     "opn": "^5.3.0",
     "os": "^0.1.1",
     "path": "^0.12.7",
@@ -74,11 +67,6 @@
     "vue": "^2.5.2",
     "vuex": "^3.0.1",
     "xlsx": "^0.11.6"
-  },
-  "babel": {
-    "plugins": [
-      "babel-plugin-transform-es2015-template-literals"
-    ]
   },
   "devDependencies": {
     "electron-builder": "^20.8.1",
