@@ -11,10 +11,9 @@ module.exports = {
     "electronPackagerConfig": {
         "asar": (isWin?true:false),// Mac OS X does not work with ASAR files
         "extendInfo": path.resolve(__dirname,"src/info.plist"),
-        "packageManager": "npm",
+        "packageManager": false,
         "extraResources": [
           "src/",
-          "node_viewerjs",
           "public/"
         ],
         "icon": path.resolve(__dirname,"src/visifile.ico")

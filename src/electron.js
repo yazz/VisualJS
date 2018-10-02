@@ -2790,7 +2790,6 @@ function startServices() {
     //app.use("/app_dbs", express.static(path.join(userData, '/app_dbs/')));
 
     app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
-    app.use('/viewer',  express.static(path.join(__dirname, '../node_viewerjs/release')));
     app.use(            express.static(path.join(__dirname, '../public/')))
     app.use(bodyParser.json()); // support json encoded bodies
     app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
