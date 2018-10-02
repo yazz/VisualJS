@@ -156,7 +156,7 @@ function setUpSql() {
                                 " values " +
                                 "    (?, ?, ?, ?, ? );");
 
-    stmtInsertSubComponent = dbsearch.prepare(`insert or ignore 
+    stmtInsertSubComponent = dbsearch.prepare(`insert or ignore
                                                     into
                                                component_usage
                                                     (base_component_id, child_component_id)
@@ -4368,7 +4368,6 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
                                                     if (fs.existsSync(sqliteAppDbPath)) {
                                                         var sqliteAppDbContent = fs.readFileSync( sqliteAppDbPath , 'base64')
-                                                        var sqliteAppDbContentAsString = new (require('text-encoding').TextDecoder)('utf-8').decode(sqliteAppDbContent);
                                                         var indexOfSqliteData = newStaticFileContent.indexOf("var sqlitedata = ''")
 
 
