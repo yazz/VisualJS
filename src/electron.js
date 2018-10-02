@@ -3438,7 +3438,6 @@ setInterval(function() {
 
 
 
-const shell = require('node-powershell');
 
 function lsFn(callbackFn) {
     var remoteServerUrl = 'http://' + centralHostAddress  + ":" +
