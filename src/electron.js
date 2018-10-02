@@ -39,7 +39,6 @@ var perf            = require('./perf')
 var compression     = require('compression')
 var crypto          = require('crypto');
 var dns             = require('dns');
-//var unzip           = require('unzip');
 var postgresdb      = require('pg');
 
 var program         = require('commander');
