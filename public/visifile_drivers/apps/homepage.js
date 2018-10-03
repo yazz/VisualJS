@@ -148,6 +148,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
       mounted: async function() {
             mm = this
+            alert(1)
 
             this.msnry = new Masonry( mm.$refs.maingrid, {
               itemSelector: '.grid-item'
