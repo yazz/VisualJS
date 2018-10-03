@@ -1398,6 +1398,7 @@ var queuedResponses = new Object()
 var queuedBrowserResponseSeqNum = 0
 var callDriverMethodArgs = new Object()
 function callDriverMethod(findComponentArgs, args, callbackFn) {
+    console.log(`online: ${online}`)
     console.log(`function callDriverMethod(findComponentArgs, args, callbackFn) {`)
     var seqNum = queuedBrowserResponseSeqNum ++;
     queuedResponses[seqNum] = callbackFn;
