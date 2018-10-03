@@ -14,7 +14,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     var introa = []//['homepage_1','homepage_2','homepage_3','homepage_4',
                    // 'vb','homepage_6',"todo","form_subscribe_to_appshare","test"]
                    //alert(3)
-    //await load("app_editor_3")
+    await loadV2("app_editor_3")
     var mm = null
 //alert(2)
     Vue.component('homepage', {
