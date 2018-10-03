@@ -22,6 +22,9 @@
 
 
 
+!/sqlite/
+!/sqlite/*
+
 
 
 !/src/
