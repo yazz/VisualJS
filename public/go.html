@@ -1083,6 +1083,7 @@ var dataIds = new Object()
 
 
     socket.on('ws_to_browser_callDriverMethod_results',function(data) {
+        console.log(`socket.on('ws_to_browser_callDriverMethod_results',function(data) {`)
 
 
         if (data.value.is_code_result) {
@@ -1413,7 +1414,7 @@ function callDriverMethod(findComponentArgs, args, callbackFn) {
         checkLibs(newData)
         console.log(`             3`)
     } else {
-        console.log(`             4`)
+        console.log(`             4: ${findComponentArgs}`)
         sendToServerViaWebSocket({
             message_type: "callDriverMethod",
                 find_component: findComponentArgs,
