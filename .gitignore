@@ -22,8 +22,9 @@
 
 
 
-!/sqlite/
-!/sqlite/*
+!/node_modules/
+!/node_modules/sqlite/
+!/node_modules/sqlite/*
 
 
 
