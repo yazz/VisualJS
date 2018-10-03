@@ -1491,21 +1491,29 @@ async function load(baseComponentId, args) {
 }
 
 async function callApp(findComponentArgs, args) {
+    console.log(`async function load(baseComponentId, args) {`)
     var promise = new Promise(returnfn => {
+        console.log(`async function load(baseComponentId, args) {  2`)
 
         callDriverMethod( findComponentArgs , args, function(result) {
             var ret = null
+            console.log(`async function load(baseComponentId, args) {  3`)
             //alert(JSON.stringify(result))
             if (result) {
+                console.log(`async function load(baseComponentId, args) {  4`)
                 if (result.value) {
+                    console.log(`async function load(baseComponentId, args) {  5`)
                     ret = result.value
                 } else {
+                    console.log(`async function load(baseComponentId, args) {  6`)
                     ret = result
                 }
             }
+            console.log(`async function load(baseComponentId, args) {  7`)
             returnfn(ret) })
     })
 
+    console.log(`async function load(baseComponentId, args) {  8`)
     var ret = await promise
     return ret
 }
