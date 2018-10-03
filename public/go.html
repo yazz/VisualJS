@@ -1397,18 +1397,23 @@ var queuedResponses = new Object()
 var queuedBrowserResponseSeqNum = 0
 var callDriverMethodArgs = new Object()
 function callDriverMethod(findComponentArgs, args, callbackFn) {
+    console.log(`function callDriverMethod(findComponentArgs, args, callbackFn) {`)
     var seqNum = queuedBrowserResponseSeqNum ++;
     queuedResponses[seqNum] = callbackFn;
     callDriverMethodArgs[seqNum] = args
 
 
     if (isStaticHtmlPageApp && findComponentArgs.base_component_id && finderToCachedCodeMapping[findComponentArgs.base_component_id]) {
+        console.log(`             1`)
         //alert("Reading app from cache: " + findComponentArgs.base_component_id)
         var newDataCodeId = finderToCachedCodeMapping[findComponentArgs.base_component_id]
         var newData       = cachedCode[newDataCodeId]
         newData.seq_num = seqNum
+        console.log(`             2`)
         checkLibs(newData)
+        console.log(`             3`)
     } else {
+        console.log(`             4`)
         sendToServerViaWebSocket({
             message_type: "callDriverMethod",
                 find_component: findComponentArgs,
