@@ -13,10 +13,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 */
     var introa = []//['homepage_1','homepage_2','homepage_3','homepage_4',
                    // 'vb','homepage_6',"todo","form_subscribe_to_appshare","test"]
-                   alert(3)
+                   //alert(3)
     //await load("app_editor_3")
     var mm = null
-alert(2)
+//alert(2)
     Vue.component('homepage', {
 
       template: `<div>
@@ -149,7 +149,7 @@ alert(2)
 
       mounted: async function() {
             mm = this
-            alert(1)
+            //alert(1)
 
             this.msnry = new Masonry( mm.$refs.maingrid, {
               itemSelector: '.grid-item'
