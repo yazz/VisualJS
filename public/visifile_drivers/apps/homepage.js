@@ -15,7 +15,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                    // 'vb','homepage_6',"todo","form_subscribe_to_appshare","test"]
     await load("app_editor_3")
     var mm = null
-
+alert(2)
     Vue.component('homepage', {
 
       template: `<div>
