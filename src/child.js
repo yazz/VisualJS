@@ -4413,19 +4413,22 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                             //
                             } else {
                                 var oldStaticFilePath = path.join( userData, 'apps/' + baseComponentId + '.html' )
+								if (fs.existsSync(oldStaticFilePath)) {
+									var oldStaticFileContent = fs.readFileSync( oldStaticFilePath )
 
-                                var oldStaticFileContent = fs.readFileSync( oldStaticFilePath )
+									var oldHostname = saveHelper.getValueOfCodeString(oldStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/")
+									var oldPort = saveHelper.getValueOfCodeString(oldStaticFileContent, "/*static_port_start*/","/*static_port_end*/")
 
-                                var oldHostname = saveHelper.getValueOfCodeString(oldStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/")
-                                var oldPort = saveHelper.getValueOfCodeString(oldStaticFileContent, "/*static_port_start*/","/*static_port_end*/")
+									if ((oldHostname != hostaddress) || (oldPort != port)) {
+										var newStaticFileContent = oldStaticFileContent.toString()
+										newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/","'"+hostaddress+"'")
+										newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*static_port_start*/","/*static_port_end*/",port)
+										fs.writeFileSync( oldStaticFilePath,  newStaticFileContent )
+									}
 
-                                if ((oldHostname != hostaddress) || (oldPort != port)) {
-                                    var newStaticFileContent = oldStaticFileContent.toString()
-                                    newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/","'"+hostaddress+"'")
-                                    newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*static_port_start*/","/*static_port_end*/",port)
-                                    fs.writeFileSync( oldStaticFilePath,  newStaticFileContent )
-                                }
-
+									
+								}
+								
                             }
                         }
 
