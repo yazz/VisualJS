@@ -1397,7 +1397,7 @@ var isStaticHtmlPageApp = false
 var queuedResponses = new Object()
 var queuedBrowserResponseSeqNum = 0
 var callDriverMethodArgs = new Object()
-function callDriverMethod(findComponentArgs, args, callbackFn) {
+function callDriverMethod2(findComponentArgs, args, callbackFn) {
     console.log(`online: ${online}`)
     console.log(`function callDriverMethod(findComponentArgs, args, callbackFn) {`)
     var seqNum = queuedBrowserResponseSeqNum ++;
@@ -1422,6 +1422,17 @@ function callDriverMethod(findComponentArgs, args, callbackFn) {
                 args: args,
                 seqNum: seqNum
                 });
+    }
+
+}
+function callDriverMethod(findComponentArgs, args, callbackFn) {
+    console.log(`online: ${online}`)
+    if (online) {
+        return callDriverMethod2(findComponentArgs, args, callbackFn);
+    } else {
+        setTimeout(function(){
+            callDriverMethod(findComponentArgs, args, callbackFn)
+            },2000)
     }
 
 }
