@@ -3801,11 +3801,7 @@ function getqueryresultFn(  connectionId, queryId, definition, callbackFn) {
                         if (rows.length > 0) {
                             var buffer = new Buffer(rows[0].content, 'binary');
 
-                            fs.writeFile(path.join(userData, "/files/a.pdf"), buffer,  "binary",
-                                function(err) {
-                                    //console.log('trying to save pdf 6: ');
-
-                                });
+                            fs.writeFileSync(path.join(userData, "/files/a.pdf"), buffer,  "binary");
                         }
                     }
                 })
@@ -4346,8 +4342,8 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                     newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_SCRIPT", scriptCode)
 
 
-                                                    //fs.writeFile( path.join(__dirname, '../public/sql2.js'),  sqliteCode )
-                                                    fs.writeFile( newStaticFilePath,  newStaticFileContent )
+                                                    //fs.writeFileSync( path.join(__dirname, '../public/sql2.js'),  sqliteCode )
+                                                    fs.writeFileSync( newStaticFilePath,  newStaticFileContent )
 
 
 
@@ -4377,7 +4373,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
                                                     }
 
-                                                    fs.writeFile( newLocalStaticFilePath,  newStaticFileContent )
+                                                    fs.writeFileSync( newLocalStaticFilePath,  newStaticFileContent )
                                                     })
                                        }
                                  , sqlite3.OPEN_READONLY)
@@ -4427,7 +4423,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                     var newStaticFileContent = oldStaticFileContent.toString()
                                     newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/","'"+hostaddress+"'")
                                     newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*static_port_start*/","/*static_port_end*/",port)
-                                    fs.writeFile( oldStaticFilePath,  newStaticFileContent )
+                                    fs.writeFileSync( oldStaticFilePath,  newStaticFileContent )
                                 }
 
                             }
