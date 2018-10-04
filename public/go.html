@@ -133,7 +133,7 @@ async function initFn() {
             methods: {
                 click_card: async function(id) {
                     autoScroll = false;
-                    select_card(id)
+                    await select_card(id)
                 }
             },
           data: function () {
@@ -266,8 +266,8 @@ async function initFn() {
                         }});
             mainMoonApp.show_loader = false
             autoScroll = false
-            setTimeout(function() {
-                select_card(nid)
+            setTimeout(async function() {
+                await select_card(nid)
             },20)
             refresh();
         }
@@ -300,8 +300,8 @@ async function initFn() {
             mainMoonApp.show_loader = true
             mainMoonApp.show_app_only = true
         } else if (!isStaticHtmlPageApp) {
-                setTimeout(function() {
-                        select_card(1)
+                setTimeout(async function() {
+                        await select_card(1)
                     },200)
         } else if (isStaticHtmlPageApp) {
             mainMoonApp.is_static = true
@@ -740,7 +740,7 @@ function getPosition(el) {
     y: yPos
   };
 }
-function select_card(id) {
+async function select_card(id) {
     if (mainMoonApp.selected_card == id) {
         return;
     }
@@ -973,8 +973,8 @@ function setupWebSocket(host, port)
                                 var cardId = nid
                                 //alert(wait_and_select_app + " : " + data.results[i].base_component_id  )
                                 mainMoonApp.show_loader = false
-                                setTimeout(function() {
-                                    select_card(cardId)
+                                setTimeout(async function() {
+                                    await select_card(cardId)
                                 },200)
                             }
                         }
@@ -1369,8 +1369,8 @@ function find(term) {
 
 function closeCard() {
     autoScroll = false
-    setTimeout(function(){
-        select_card(-1)
+    setTimeout(async function(){
+        await select_card(-1)
     },200)
 }
 
