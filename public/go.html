@@ -1362,7 +1362,6 @@ function callDriverMethod2(findComponentArgs, args, callbackFn) {
         newData.seq_num = seqNum
         checkLibs(newData)
     } else {
-        if (online) {
             console.log(`  sendToServerViaWebSocket`)
             sendToServerViaWebSocket({
                 message_type: "callDriverMethod",
@@ -1370,8 +1369,6 @@ function callDriverMethod2(findComponentArgs, args, callbackFn) {
                     args: args,
                     seqNum: seqNum
                     });
-
-        }
     }
 
 }
@@ -1397,7 +1394,7 @@ async function loadV2( baseComponentIds, args ) {
     for (var tt=0; tt < baseComponentIds.length; tt++) {
         var componentId = baseComponentIds[tt]
         dev_app_component_loaded[componentId] = true
-        if (isStaticHtmlPageApp && finderToCachedCodeMapping[ componentId ]) {
+        if (isStaticHtmlPageApp && finderToCachedCodeMapping[ componentId ] && (!component_loaded[componentId])) {
             component_loaded[componentId] = true
             //alert("Reading app from cache: " + findComponentArgs.base_component_id)
             var newDataCodeId = finderToCachedCodeMapping[ componentId ]
@@ -1408,46 +1405,48 @@ async function loadV2( baseComponentIds, args ) {
                 component_loaded[componentId] = true
                 componentsIdToLoad.push(componentId)
             }
+
+
+            if (componentsIdToLoad.length > 0) {
+                var promise = new Promise(returnfn => {
+                    console.log("loadV2: 2")
+
+                    var seqNum = queuedBrowserResponseSeqNum ++;
+                    queuedResponses[seqNum] = function(response) {
+
+                        //console.log("loadV2: 5 = " + JSON.stringify(response,null,2))
+                        returnfn(response)
+                    };
+                    console.log("loadV2: 3")
+                    sendToServerViaWebSocket({
+                        message_type:    "loadUiComponent",
+                        find_components:  {base_component_ids: componentsIdToLoad},
+                        args:             args,
+                        seq_num:          seqNum
+                    });
+                    console.log("loadV2: 4")
+                })
+
+                var ret = await promise
+                return ret
+            }
         }
 
     }
 
 
-    if (componentsIdToLoad.length > 0) {
-        var promise = new Promise(returnfn => {
-            console.log("loadV2: 2")
-
-            var seqNum = queuedBrowserResponseSeqNum ++;
-            queuedResponses[seqNum] = function(response) {
-
-                //console.log("loadV2: 5 = " + JSON.stringify(response,null,2))
-                returnfn(response)
-            };
-            console.log("loadV2: 3")
-            sendToServerViaWebSocket({
-                message_type:    "loadUiComponent",
-                find_components:  {base_component_ids: componentsIdToLoad},
-                args:             args,
-                seq_num:          seqNum
-            });
-            console.log("loadV2: 4")
-        })
-
-        var ret = await promise
-        return ret
-    }
 }
 
 async function load(baseComponentId, args) {
     console.log(`async function load(baseComponentId, args) ${baseComponentId}`)
     console.log(`   isStaticHtmlPageApp: ${isStaticHtmlPageApp}`)
     //if (isStaticHtmlPageApp && finderToCachedCodeMapping[ baseComponentId ] && (!dev_app_component_loaded[baseComponentId]) ) {
-      //  console.log(`   Load cached`)
-      //  await loadV2(baseComponentId)
+    //    console.log(`   Load cached`)
+    //    await loadV2(baseComponentId)
 
-    //} else
+    //}
+    //else
     if (!dev_app_component_loaded[baseComponentId]) {
-        if (online){
             dev_app_component_loaded[baseComponentId] = true
 
             var comp = await callApp({base_component_id: baseComponentId},args)
@@ -1463,13 +1462,11 @@ async function load(baseComponentId, args) {
                 return results[0]
             }
             console.log(`    6`)
-        }
     }
     return null
 }
 
 async function callApp(findComponentArgs, args) {
-    if (online) {
         var promise = new Promise(returnfn => {
 
             callDriverMethod( findComponentArgs , args, function(result) {
@@ -1488,7 +1485,7 @@ async function callApp(findComponentArgs, args) {
         var ret = await promise
         return ret
 
-    }
+
 }
 
 
