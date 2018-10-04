@@ -579,7 +579,7 @@ div.tilt {
 
 //lll
 var newAppArgs = []
-function prepareApp(  id,  base_component_id,  args  ) {
+async function prepareApp(  id,  base_component_id,  args  ) {
     //alert(id)
     //alert(base_component_id)
     //alert(JSON.stringify(args,null,2))
@@ -761,7 +761,7 @@ async function select_card(id) {
             //document.getElementById("wrapper").scrollTop = getPosition(document.querySelector('#card_' + id)).y - 200
             if (isStaticHtmlPageApp) {
                     mainMoonApp.selected_card = id;
-                    setTimeout(function() {
+                    setTimeout(async function() {
                         var thisApp = mainMoonApp.cards[id - 1]
                         //alert("id: " + JSON.stringify(thisApp,null,2))
                         //alert("thisApp: " + JSON.stringify(thisApp,null,2))
@@ -773,7 +773,7 @@ async function select_card(id) {
                             //alert(1)
                         }
                         if (thisApp.card.base_component_id) {
-                            prepareApp(  thisApp.id,   thisApp.card.base_component_id,   {}  )
+                            await prepareApp(  thisApp.id,   thisApp.card.base_component_id,   {}  )
                         }
                     },200)
 
@@ -783,7 +783,7 @@ async function select_card(id) {
                 document.querySelector('#card_' + id).classList.add('expand');
                 setTimeout(function() {
                     mainMoonApp.selected_card = id;
-                    setTimeout(function() {
+                    setTimeout(async function() {
                         var thisApp = mainMoonApp.cards[id - 1]
                         //alert("id: " + JSON.stringify(thisApp,null,2))
                         //alert("thisApp: " + JSON.stringify(thisApp,null,2))
@@ -795,7 +795,7 @@ async function select_card(id) {
                             //alert(1)
                         }
                         if (thisApp.card.base_component_id) {
-                            prepareApp(  thisApp.id,   thisApp.card.base_component_id,   {}  )
+                            await prepareApp(  thisApp.id,   thisApp.card.base_component_id,   {}  )
                         }
                     },200)
                 },1000)
