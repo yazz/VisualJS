@@ -593,27 +593,11 @@ async function prepareApp(  id,  base_component_id,  args  ) {
     }
     //alert(JSON.stringify(newAppArgs[id],null,2))
 
-    callDriverMethod(
-        {
-            base_component_id:    base_component_id
-        }
-        ,
-        newAppArgs[id]
-        ,
-        function(appResult) {
+    await load(base_component_id)
+    if (mainMoonApp.cards[id - 1].card.base_component_id == base_component_id) {
+        loadAppIntoElement(base_component_id, rootElement)
+    }
 
-            if (mainMoonApp.cards[id - 1].card.base_component_id == base_component_id) {
-                loadAppIntoElement(base_component_id, rootElement)
-            } else {
-                //alert("load a different app")
-                sendToServerViaWebSocket({
-                        message_type:       "browser_asks_server_to_update_card_app",
-                        card_id:             id,
-                        base_component_id:   base_component_id,
-                        tag_name:            base_component_id
-                        });
-            }
-        })
 }
 
 

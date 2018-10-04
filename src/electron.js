@@ -2231,21 +2231,6 @@ function websocketFn(ws) {
 
 
 
-    } else if (receivedMessage.message_type == "browser_asks_server_to_update_card_app") {
-
-       // console.log("******************* browser_asks_server_for_apps *******************")
-        findLatestVersionOfApp( receivedMessage.base_component_id, function(result) {
-           // console.log(JSON.stringify(result,null,2))
-
-            sendToBrowserViaWebSocket(  ws,
-                                        {
-                                            type:     "vf_update_card_app",
-                                            result:    result,
-                                            card_id:   receivedMessage.card_id,
-                                            tag_name:  receivedMessage.tag_name
-                                        });
-            })
-
 
 
 
@@ -3625,28 +3610,6 @@ function parseVfCliCommand(args, callbackFn) {
 
 
 
-
-function findLatestVersionOfApp( baseComponentId,  callbackFn) {
-    dbsearch.serialize(
-        function() {
-            var stmt = dbsearch.all(
-                "SELECT id,base_component_id,display_name, component_options FROM system_code " +
-                "       where component_type = ? and code_tag = ? and base_component_id = ?; ",
-                "app",
-                "LATEST",
-                baseComponentId,
-
-                function(err, results)
-                {
-                    if (results.length > 0) {
-                        callbackFn(results[0])
-                    } else {
-                        callbackFn(null)
-                    }
-
-                })
-    }, sqlite3.OPEN_READONLY)
-}
 
 
 
