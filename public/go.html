@@ -802,42 +802,8 @@ var defaultCards = [
     {
         html:
         `<div>
-            <h2><b>AppShare - Create amazing interactive forms for your website</b></h2>
-
-            <ul>
-                <li>Build forms in under 5 minutes in Javascript</li>
-                <li>Embed forms easily into your website</li>
-                <li>Many templates available to get started easily</li>
-            </ul>
-
-            <button class='btn btn-info btn-lg' onclick='javascript:copyApp("todo");'>Create my form now!</button>
-
-
-
-            <h1>Or change an existing app from the AppShare store</h1>
-                <div style='margin-top: 30px; margin-bottom:70px;' id='app_store'>
-                    <list_apps>
-                    </list_apps>
-                </div>
-            </div>
-
-            <div  id='subscribe'>
-                <form_subscribe_to_appshare></form_subscribe_to_appshare>
-            </div>
         </div>
-        `,
-
-
-
-        fn: async function() {
-
-            await load("form_subscribe_to_appshare")
-            await load("list_apps")
-            new Vue({el: "#app_store"})
-            new Vue({el: "#subscribe"})
-
-
-        }
+        `
     }
 
 ];
@@ -1489,7 +1455,7 @@ async function load(baseComponentId, args) {
             console.log(`    5`)
             return results[0]
         }
-        console.log(`    6`)        
+        console.log(`    6`)
     }
     return null
 }
