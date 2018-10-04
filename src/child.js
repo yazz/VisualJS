@@ -4278,7 +4278,9 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                         "libs": [],
                                         "code_id": "${sha1sum}",
                                         "on_condition": "\\\"app\\\"",
-                                        "base_component_id": "${baseComponentId}"
+                                        "base_component_id": "${baseComponentId}",
+                                        "component_options": "${componentOptions}",
+                                        "properties": "${properties}"
                                       },
                                       "seq_num": 0
                                     }
@@ -4426,9 +4428,9 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 										fs.writeFileSync( oldStaticFilePath,  newStaticFileContent )
 									}
 
-									
+
 								}
-								
+
                             }
                         }
 
