@@ -125,7 +125,7 @@ function localSql(sql, params) {
 var useHostname = null
 var usePort = null
 
-function initFn() {
+async function initFn() {
     setTimeout(function(){
 
         Vue.component('card_component', {
