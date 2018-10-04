@@ -126,12 +126,12 @@ var useHostname = null
 var usePort = null
 
 async function initFn() {
-    setTimeout(function(){
+    setTimeout(async function(){
 
         Vue.component('card_component', {
             props: ["item","visible","element_id", "full_screen", "show_app_only", "card_selected", "is_static"],
             methods: {
-                click_card: function(id) {
+                click_card: async function(id) {
                     autoScroll = false;
                     select_card(id)
                 }
