@@ -1349,29 +1349,29 @@ var queuedBrowserResponseSeqNum = 0
 var callDriverMethodArgs = new Object()
 function callDriverMethod2(findComponentArgs, args, callbackFn) {
     console.log(`online: ${online}`)
-    console.log(`function callDriverMethod(findComponentArgs, args, callbackFn) {`)
+    console.log(`function callDriverMethod2(findComponentArgs, args, callbackFn) {`)
     var seqNum = queuedBrowserResponseSeqNum ++;
     queuedResponses[seqNum] = callbackFn;
     callDriverMethodArgs[seqNum] = args
 
 
     if (isStaticHtmlPageApp && findComponentArgs.base_component_id && finderToCachedCodeMapping[findComponentArgs.base_component_id]) {
-        console.log(`             1`)
         //alert("Reading app from cache: " + findComponentArgs.base_component_id)
         var newDataCodeId = finderToCachedCodeMapping[findComponentArgs.base_component_id]
         var newData       = cachedCode[newDataCodeId]
         newData.seq_num = seqNum
-        console.log(`             2`)
         checkLibs(newData)
-        console.log(`             3`)
     } else {
-        console.log(`             4: ${findComponentArgs}`)
-        sendToServerViaWebSocket({
-            message_type: "callDriverMethod",
-                find_component: findComponentArgs,
-                args: args,
-                seqNum: seqNum
-                });
+        if (online) {
+            console.log(`  sendToServerViaWebSocket`)
+            sendToServerViaWebSocket({
+                message_type: "callDriverMethod",
+                    find_component: findComponentArgs,
+                    args: args,
+                    seqNum: seqNum
+                    });
+
+        }
     }
 
 }
@@ -1439,53 +1439,56 @@ async function loadV2( baseComponentIds, args ) {
 }
 
 async function load(baseComponentId, args) {
-    console.log(`async function load(baseComponentId, args) {`)
+    console.log(`async function load(baseComponentId, args) ${baseComponentId}`)
+    console.log(`   isStaticHtmlPageApp: ${isStaticHtmlPageApp}`)
+    //if (isStaticHtmlPageApp && finderToCachedCodeMapping[ baseComponentId ] && (!dev_app_component_loaded[baseComponentId]) ) {
+      //  console.log(`   Load cached`)
+      //  await loadV2(baseComponentId)
+
+    //} else
     if (!dev_app_component_loaded[baseComponentId]) {
-        dev_app_component_loaded[baseComponentId] = true
+        if (online){
+            dev_app_component_loaded[baseComponentId] = true
 
-        var comp = await callApp({base_component_id: baseComponentId},args)
-        console.log(`    2`)
-        component_loaded[baseComponentId] = true
+            var comp = await callApp({base_component_id: baseComponentId},args)
+            console.log(`    2`)
+            component_loaded[baseComponentId] = true
 
-        var msql = `select * from system_code where base_component_id = '${baseComponentId}' and code_tag = 'LATEST'`
-        var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},  {   sql: msql  })
-        console.log(`    4`)
-        //return comp
-        if (results.length > 0) {
-            console.log(`    5`)
-            return results[0]
+            var msql = `select * from system_code where base_component_id = '${baseComponentId}' and code_tag = 'LATEST'`
+            var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},  {   sql: msql  })
+            console.log(`    4`)
+            //return comp
+            if (results.length > 0) {
+                console.log(`    5`)
+                return results[0]
+            }
+            console.log(`    6`)
         }
-        console.log(`    6`)
     }
     return null
 }
 
 async function callApp(findComponentArgs, args) {
-    console.log(`async function load(baseComponentId, args) {`)
-    var promise = new Promise(returnfn => {
-        console.log(`async function load(baseComponentId, args) {  2`)
+    if (online) {
+        var promise = new Promise(returnfn => {
 
-        callDriverMethod( findComponentArgs , args, function(result) {
-            var ret = null
-            console.log(`async function load(baseComponentId, args) {  3`)
-            //alert(JSON.stringify(result))
-            if (result) {
-                console.log(`async function load(baseComponentId, args) {  4`)
-                if (result.value) {
-                    console.log(`async function load(baseComponentId, args) {  5`)
-                    ret = result.value
-                } else {
-                    console.log(`async function load(baseComponentId, args) {  6`)
-                    ret = result
+            callDriverMethod( findComponentArgs , args, function(result) {
+                var ret = null
+                //alert(JSON.stringify(result))
+                if (result) {
+                    if (result.value) {
+                        ret = result.value
+                    } else {
+                        ret = result
+                    }
                 }
-            }
-            console.log(`async function load(baseComponentId, args) {  7`)
-            returnfn(ret) })
-    })
+                returnfn(ret) })
+        })
 
-    console.log(`async function load(baseComponentId, args) {  8`)
-    var ret = await promise
-    return ret
+        var ret = await promise
+        return ret
+
+    }
 }
 
 
