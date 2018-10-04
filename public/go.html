@@ -1474,21 +1474,23 @@ async function loadV2( baseComponentIds, args ) {
 
 async function load(baseComponentId, args) {
     console.log(`async function load(baseComponentId, args) {`)
-    dev_app_component_loaded[baseComponentId] = true
+    if (!dev_app_component_loaded[baseComponentId]) {
+        dev_app_component_loaded[baseComponentId] = true
 
-    var comp = await callApp({base_component_id: baseComponentId},args)
-    console.log(`    2`)
-    component_loaded[baseComponentId] = true
+        var comp = await callApp({base_component_id: baseComponentId},args)
+        console.log(`    2`)
+        component_loaded[baseComponentId] = true
 
-    var msql = `select * from system_code where base_component_id = '${baseComponentId}' and code_tag = 'LATEST'`
-    var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},  {   sql: msql  })
-    console.log(`    4`)
-    //return comp
-    if (results.length > 0) {
-        console.log(`    5`)
-        return results[0]
+        var msql = `select * from system_code where base_component_id = '${baseComponentId}' and code_tag = 'LATEST'`
+        var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},  {   sql: msql  })
+        console.log(`    4`)
+        //return comp
+        if (results.length > 0) {
+            console.log(`    5`)
+            return results[0]
+        }
+        console.log(`    6`)        
     }
-    console.log(`    6`)
     return null
 }
 
