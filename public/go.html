@@ -151,13 +151,7 @@ async function initFn() {
           "<div " +
 		               " v-bind:style=\"'; padding-bottom:2vw;padding-top:' + (is_static?'0px':'2vw') + '; font-family: Helvetica ;  width: ' + (is_static?'100vw':'100%') + ' ;visibility: ' + (visible?'':'hidden') + ';' \">"+
 
-                   "<div v-if='(!show_app_only) && (!(item.card.hide_header && full_screen) ) && (!is_static)' style='margin-bottom: 20px; margin-right: 2%;'>"+
-                   "    <h2  class='caption' style='display: inline-block;'>{{item.card.name}}</h2>"+
-                   "    <div class='btn-group' style='float: right;' role=group >" +
-                   "           <button  type=button v-if='full_screen && (item.card.type == \"app\")' class='btn btn-primary'   style=\"right: 0px;text-align:right;\" v-on:click='prepareApp(item.id, \"app_editor\", {card_id: item.id , base_component_id: item.card.base_component_id})' >Edit</button>"+
-                   "    </div>"+
-                   "</div>"+
-                   //"<br />"+
+
 
 
                    "<div v-if='!show_app_only' class='row' style='margin-bottom: 0px;'>"+
