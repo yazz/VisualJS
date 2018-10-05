@@ -945,7 +945,7 @@ var dataIds = new Object()
     //
     // Server  --DATA ITEM--  Browser
     //
-    socket.on('client_data_item_received_from_server',function(data) {
+    socket.on('client_data_item_received_from_server',async function(data) {
         //console.log("Update query item: " + JSON.stringify(data,null,2));
         //alert(data.query.name)
         if (!dataIds[data.data_item.name]) {
@@ -1016,14 +1016,14 @@ var dataIds = new Object()
 
 
 
-    socket.on('server_returns_loadUiComponent_to_browser',function(data) {
+    socket.on('server_returns_loadUiComponent_to_browser',async function(data) {
 
             //alert("component returned: " + JSON.stringify(data,null,2))
             var fn = queuedResponses[data.seq_num]
             var sdf = eval("(" + data.record + ")")
             console.log("callig 2")
             for (var i=0; i< sdf.length; i++) {
-                checkLibsV2(sdf[i])
+                await checkLibsV2(sdf[i])
                 console.log("callig 3")
                 fn(sdf[i])
             }
@@ -1032,7 +1032,7 @@ var dataIds = new Object()
 
 
 
-    socket.on('ws_to_browser_callDriverMethod_results',function(data) {
+    socket.on('ws_to_browser_callDriverMethod_results',async function(data) {
         console.log(`socket.on('ws_to_browser_callDriverMethod_results',function(data) {`)
 
 
@@ -1064,7 +1064,7 @@ var dataIds = new Object()
                     cachedCode[data.value.code_id] = data
                 }
 
-                checkLibs(data)
+                await checkLibs(data)
             }
 
 
@@ -1079,7 +1079,7 @@ var dataIds = new Object()
 
 
 
-function scriptTag(src, callback) {
+async function scriptTag(src, callback) {
 
     var s = document.createElement('script');
     s.type = 'text/' + (src.type || 'javascript');
@@ -1100,7 +1100,7 @@ function scriptTag(src, callback) {
     (document.body || head).appendChild(s);
 }
 
-function checkLibs(data){
+async function checkLibs(data){
 
 
     if (data.value.libs && data.value.libs.length > 0 ) {
@@ -1110,7 +1110,7 @@ function checkLibs(data){
                 libLoaded[ data.value.libs[tt].dependency_name ] = true
                 if ( data.value.libs[tt].dependency_name == "aframe" ) {
 
-                    scriptTag(
+                    await scriptTag(
                         `http://${useHostname}:${usePort}/js_libs/aframe.min.js`
                         ,
                         function() {
@@ -1130,7 +1130,7 @@ function checkLibs(data){
     }
 
 }
-function checkLibsV2(componentRecord){
+async function checkLibsV2(componentRecord){
     console.log("CheckLibsV2: ")
 
 
@@ -1141,7 +1141,7 @@ function checkLibsV2(componentRecord){
                 libLoaded[ componentRecord.libs[tt].dependency_name ] = true
                 if ( componentRecord.libs[tt].dependency_name == "aframe" ) {
 
-                    scriptTag(
+                    await scriptTag(
                         `http://${useHostname}:${usePort}/js_libs/aframe.min.js`
                         ,
                         function() {
@@ -1347,7 +1347,7 @@ var isStaticHtmlPageApp = false
 var queuedResponses = new Object()
 var queuedBrowserResponseSeqNum = 0
 var callDriverMethodArgs = new Object()
-function callDriverMethod2(findComponentArgs, args, callbackFn) {
+async function callDriverMethod2(findComponentArgs, args, callbackFn) {
     console.log(`online: ${online}`)
     console.log(`function callDriverMethod2(findComponentArgs, args, callbackFn) {`)
     var seqNum = queuedBrowserResponseSeqNum ++;
@@ -1360,7 +1360,7 @@ function callDriverMethod2(findComponentArgs, args, callbackFn) {
         var newDataCodeId = finderToCachedCodeMapping[findComponentArgs.base_component_id]
         var newData       = cachedCode[newDataCodeId]
         newData.seq_num = seqNum
-        checkLibs(newData)
+        await checkLibs(newData)
     } else {
             console.log(`  sendToServerViaWebSocket`)
             sendToServerViaWebSocket({
@@ -1372,10 +1372,10 @@ function callDriverMethod2(findComponentArgs, args, callbackFn) {
     }
 
 }
-function callDriverMethod(findComponentArgs, args, callbackFn) {
+async function callDriverMethod(findComponentArgs, args, callbackFn) {
     console.log(`online: ${online}`)
     if (online) {
-        return callDriverMethod2(findComponentArgs, args, callbackFn);
+        return await callDriverMethod2(findComponentArgs, args, callbackFn);
     } else {
         setTimeout(function(){
             callDriverMethod(findComponentArgs, args, callbackFn)
@@ -1399,7 +1399,7 @@ async function loadV2( baseComponentIds, args ) {
             //alert("Reading app from cache: " + findComponentArgs.base_component_id)
             var newDataCodeId = finderToCachedCodeMapping[ componentId ]
             var newData       = cachedCode[ newDataCodeId ]
-            checkLibsV2(newData.value)
+            await checkLibsV2(newData.value)
         } else {
             if (!component_loaded[componentId]) {
                 component_loaded[componentId] = true
