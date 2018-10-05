@@ -62,7 +62,7 @@ load_once_from_file(true)
                                           <button v-if='!read_only'
                                                   v-bind:style="'visibility: ' + ((app_shown && code_shown)?'':'hidden')"
                                                   slot-scope="editor_component"
-                                                  v-on:click='setTimeout(function(){save(base_component_id, code_id,null)},100)'
+                                                  v-on:click='setTimeout(async function(){await save(base_component_id, code_id,null)},100)'
                                                   type="button" class="btn btn-primary btn-sm">
 
                                                       Save changes
@@ -365,9 +365,9 @@ load_once_from_file(true)
                        if (mm.editor_loaded && (mm.code != code)) {
                             //alert("changed: " + code)
                             this.$refs.editorComponentRef.setText(code)
+                            mm.code = code
+                            mm.code_id = codeId
                        }
-                       mm.code = code
-                       mm.code_id = codeId
                        //alert(JSON.stringify(1,null,2))
 
                        if (!mm.editor_loaded) {
