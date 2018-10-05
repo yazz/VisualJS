@@ -593,7 +593,7 @@ async function prepareApp(  id,  base_component_id,  args  ) {
     }
     //alert(JSON.stringify(newAppArgs[id],null,2))
 
-    await load(base_component_id)
+    await loadV2(base_component_id)
     if (mainMoonApp.cards[id - 1].card.base_component_id == base_component_id) {
         loadAppIntoElement(base_component_id, rootElement)
     }
@@ -1251,6 +1251,25 @@ async function callCodeV2(componentRecord) {
 
         var addP = "'" + componentRecord.code_id + "', '" + useDb + "', "
         //alert("data: " + addP);
+        if (useLocalDb) {
+            //zzz
+            var eds = saveHelper.getValueOfCodeString(componentRecord.code, "sqlite",")//sqlite")
+            if (eds){
+                    for (var te = 1; te < eds.length ; te = te + 2) {
+                        var sqlStatements = eds[te]
+                        console.log(`${te}`)
+                        for (var te2 = 0; te2 < sqlStatements.length ; te2 ++) {
+                            var sqlStatement = sqlStatements[te2]
+                            console.log(`   SQL ${te2}: ${sqlStatement}`)
+                            localSql(sqlStatement)
+                        }
+
+                    }
+            }
+            var b = base64ToUint8Array(sqlitedata)
+            localSqliteDb = new SQL.Database(b);
+            //alert(eds.length)
+        }
         componentRecord.code = componentRecord.code.toString().replaceAll(" sql[(]"," rxsql(" + addP)
         componentRecord.code = componentRecord.code.toString().replaceAll(" sql1[(]"," rxsql1(" + addP)
         componentRecord.code = componentRecord.code.toString().replaceAll(" sqlFirstCol[(]"," rxsqlFirstCol(" + addP)
