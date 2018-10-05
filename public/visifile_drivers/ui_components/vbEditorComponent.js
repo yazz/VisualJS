@@ -804,20 +804,15 @@ load_once_from_file(true)
               var doc = document.documentElement;
               var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0) ;
               var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
-              console.log(" ")
-              console.log(" window left,window top: ------------ " +  left + "," +  top)
 
               if (data.type == "resize_form_bottom_right") {
 
                 //alert(data.form_name)
 
                 var rrr = document.getElementById(this.vb_editor_element_id).getBoundingClientRect()
-                console.log(" editor left,editor top: ------------ " +  rrr.left + "," +  rrr.top)
 
                 var newWidth = (ev.clientX + 20)  - rrr.left - data.offsetX - this.leftHandWidth;
                 var newHeight = (ev.clientY + 20) - rrr.top - data.offsetY;
-                console.log(" ev.clientX,ev.clientY: ------------ " +  ev.clientX + "," +  ev.clientY)
-                console.log(" newWidth,newHeight: ------------ " +  newWidth + "," +  newHeight)
 
 
                 this.model.forms[this.model.active_form].width = newWidth
@@ -961,7 +956,6 @@ load_once_from_file(true)
                  var newLeftX = ev.clientX  - rrr.left - data.offsetX;
                  var newTopY = ev.clientY  - rrr.top - data.offsetY;
 
-                 console.log(`resize_top_left: (${newLeftX},${newTopY})`)
 
                  if (newLeftX < 0) {
                      newLeftX = 0
@@ -987,7 +981,6 @@ load_once_from_file(true)
                  var newX = (ev.clientX + 20) - rrr.left - data.offsetX;
                  var newY = ev.clientY - rrr.top - data.offsetY;
 
-                 console.log(" X,Y: ------------ " +  newX + "," +  newY)
 
                  this.model.forms[this.model.active_form].components[data.index].width = newX - this.model.forms[this.model.active_form].components[data.index].leftX
 
@@ -1003,7 +996,6 @@ load_once_from_file(true)
                  var newX = ev.clientX  - rrr.left - data.offsetX;
                  var newY = (ev.clientY + 20)  - rrr.top - data.offsetY;
 
-                 console.log(" X,Y: ------------ " +  newX + "," +  newY)
 
                  var newWidth = (this.model.forms[this.model.active_form].components[data.index].leftX + this.model.forms[this.model.active_form].components[data.index].width) - newX
                  this.model.forms[this.model.active_form].components[data.index].leftX = newX
@@ -1019,9 +1011,6 @@ load_once_from_file(true)
                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
                  var newX = (ev.clientX + 20)  - rrr.left - data.offsetX;
                  var newY = (ev.clientY + 20) - rrr.top - data.offsetY;
-                 console.log(" editor left,editor top: ------------ " +  rrr.left + "," +  rrr.top)
-
-                 console.log(" newX,newY: ------------ " +  newX + "," +  newY)
 
                  var newWidth = newX - this.model.forms[this.model.active_form].components[data.index].leftX
                  this.model.forms[this.model.active_form].components[data.index].width = newWidth
@@ -1245,8 +1234,6 @@ load_once_from_file(true)
             var editorCodeToCopyStart = editorCode.indexOf(stt) + stt.length
             var editorCodeToCopyEnd = editorCode.indexOf("//*** COPY_" + "END ***//")
             var editorCodeToCopy = editorCode.substring(editorCodeToCopyStart, editorCodeToCopyEnd)
-            //console.log(editorCodeToCopy)
-            //alert(JSON.stringify(mm.model,null,2))
 
             this.text = this.text.substring(0,startIndex) +
 
@@ -1289,7 +1276,6 @@ load_once_from_file(true)
 
               +
               this.text.substring(endIndex)
-              //console.log(this.text)
 
               this.text = saveHelper.deleteCodeString(  this.text, "formEditor", ")//form" + "Editor")
 
