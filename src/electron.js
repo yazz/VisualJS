@@ -2159,6 +2159,7 @@ function websocketFn(ws) {
                                                 type:                   "server_returns_loadUiComponent_to_browser",
                                                 seq_num:                 receivedMessage.seq_num,
                                                 record:                  JSON.stringify(results,null,2),
+                                                args:                    JSON.stringify(receivedMessage.args,null,2),
                                                 test:                   1
                                             });
                                     })

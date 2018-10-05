@@ -376,7 +376,7 @@ load_once_from_file(true)
                                  editorName = newEditor
                             }
 
-                            await load(editorName,{text: code})
+                            await loadV2(editorName,{text: code})
                             mm.editor_loaded = true
                             mm.editor_component = editorName
                        }

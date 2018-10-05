@@ -1013,11 +1013,13 @@ var dataIds = new Object()
     socket.on('server_returns_loadUiComponent_to_browser',async function(data) {
 
             //alert("component returned: " + JSON.stringify(data,null,2))
-            var fn = queuedResponses[data.seq_num]
-            var sdf = eval("(" + data.record + ")")
+            var fn      = queuedResponses[data.seq_num]
+            var sdf     = eval("(" + data.record + ")")
+            var args    = eval("(" + data.args + ")")
+
             console.log("callig 2")
             for (var i=0; i< sdf.length; i++) {
-                await checkLibsV2(sdf[i])
+                checkLibsV2(sdf[i],args)
                 console.log("callig 3")
                 fn(sdf[i])
             }
@@ -1124,7 +1126,7 @@ async function checkLibs(data){
     }
 
 }
-async function checkLibsV2(componentRecord){
+async function checkLibsV2(componentRecord,args){
     console.log("CheckLibsV2: ")
 
 
@@ -1139,7 +1141,7 @@ async function checkLibsV2(componentRecord){
                         `http://${useHostname}:${usePort}/js_libs/aframe.min.js`
                         ,
                         async function() {
-                            await callCodeV2(componentRecord)
+                            await callCodeV2(componentRecord,args)
                     })
                 }
 
@@ -1147,11 +1149,11 @@ async function checkLibsV2(componentRecord){
             // if the lib is already loaded then just call the code
             //
             } else {
-                await callCodeV2(componentRecord)
+                await callCodeV2(componentRecord,args)
             }
         }
     } else {
-        await callCodeV2(componentRecord)
+        await callCodeV2(componentRecord,args)
     }
 
 }
@@ -1226,7 +1228,7 @@ function callCode(data) {
         alert(err)
     }
 }
-async function callCodeV2(componentRecord) {
+async function callCodeV2(componentRecord,args) {
     console.log("Code to run !: ")
 
     try {
@@ -1274,10 +1276,10 @@ async function callCodeV2(componentRecord) {
         //console.log("Code to run: " + componentRecord.code)
 
         if (componentRecord.code.indexOf("async ")  == -1) {
-            fnfn({})
+            fnfn(args)
 
         } else {
-            await fnfn({})
+            await fnfn(args)
         }
 
 
@@ -1409,7 +1411,7 @@ async function loadV2( baseComponentIds, args ) {
             //alert("Reading app from cache: " + findComponentArgs.base_component_id)
             var newDataCodeId = finderToCachedCodeMapping[ componentId ]
             var newData       = cachedCode[ newDataCodeId ]
-            await checkLibsV2(newData.value)
+            await checkLibsV2(newData.value, args)
         } else {
             if (!component_loaded[componentId]) {
                 component_loaded[componentId] = true
