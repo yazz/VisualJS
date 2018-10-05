@@ -19,7 +19,7 @@ load_once_from_file(true)
 
     var argBaseComponentId = null
     var cardId = null
-    await load("appEmbed")
+    await loadV2("appEmbed")
 
     if (args) {
         argBaseComponentId = args.base_component_id
@@ -413,6 +413,11 @@ load_once_from_file(true)
             if (this.app_id) {
                 //alert(this.app_id)
                 //this.base_component_id = app_id
+
+                component_loaded[this.app_id]           = false
+                dev_app_component_loaded[this.app_id]   = false
+                component_cache[this.app_id]            = null
+
                 this.load_app(this.app_id)
             }
            else if (argBaseComponentId) {

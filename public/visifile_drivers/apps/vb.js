@@ -458,7 +458,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
            {
                 var newItem = mm.model.forms[mm.model.active_form].components[rtw]
                 //alert(newItem.base_component_id)
-                await load(newItem.base_component_id)
+                await loadV2(newItem.base_component_id)
                 var compEvaled = await this.getComponentProperties(this.model.forms[this.model.active_form].components[rtw].base_component_id)
                 for (var cpp = 0 ; cpp< compEvaled.length; cpp ++){
                     var prop = compEvaled[cpp].id
@@ -950,7 +950,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                  newItem.width = 100
                  newItem.height = 100
                  this.refresh++
-                 await load(newItem.base_component_id)
+                 await loadV2(newItem.base_component_id)
                  this.model.forms[this.model.active_form].components.push(newItem)
                  ev.preventDefault();
                  this.generateCodeFromModel(  )
