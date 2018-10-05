@@ -1144,8 +1144,8 @@ async function checkLibsV2(componentRecord){
                     await scriptTag(
                         `http://${useHostname}:${usePort}/js_libs/aframe.min.js`
                         ,
-                        function() {
-                            callCodeV2(componentRecord)
+                        async function() {
+                            await callCodeV2(componentRecord)
                     })
                 }
 
@@ -1153,11 +1153,11 @@ async function checkLibsV2(componentRecord){
             // if the lib is already loaded then just call the code
             //
             } else {
-                callCodeV2(componentRecord)
+                await callCodeV2(componentRecord)
             }
         }
     } else {
-        callCodeV2(componentRecord)
+        await callCodeV2(componentRecord)
     }
 
 }
@@ -1232,7 +1232,7 @@ function callCode(data) {
         alert(err)
     }
 }
-function callCodeV2(componentRecord) {
+async function callCodeV2(componentRecord) {
     console.log("Code to run !: ")
 
     try {
@@ -1264,10 +1264,7 @@ function callCodeV2(componentRecord) {
             fnfn({})
 
         } else {
-            var runAsync = async function() {
-                await fnfn({})
-            }
-            runAsync()
+            await fnfn({})
         }
 
 
