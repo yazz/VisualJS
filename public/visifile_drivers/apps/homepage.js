@@ -253,6 +253,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     mm.intro_apps.push( app  )
                   }
                   mm.loaded_app[baseComponentId] = true
+                  component_loaded[baseComponentId] = false
+                  dev_app_component_loaded[baseComponentId] = false
+                  component_cache[baseComponentId] = null
                   var vv = await loadV2(baseComponentId)
                   if (vv) {
                       mm.app_records[vv.base_component_id] = vv
