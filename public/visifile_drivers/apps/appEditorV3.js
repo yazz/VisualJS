@@ -145,7 +145,7 @@ load_once_from_file(true)
             // ---------------------------------------------------------------
             //                         chooseApp
             //
-            // This is called when the end user selects an app from the menu
+            // This is called when the end user selects "app"
             // ---------------------------------------------------------------
             chooseApp: async function() {
                 var mm = this

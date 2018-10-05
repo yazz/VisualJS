@@ -538,12 +538,10 @@ load_once_from_file(true)
 
                 } else {
                     this.model.forms[this.model.active_form][property.id] = val
-                    //this.generateCodeFromModel(   )
                 }
 
             } else if (type == 'app') {
                 this.model[property.id] = val
-                //this.generateCodeFromModel(   )
             }
 
          },
@@ -651,7 +649,6 @@ load_once_from_file(true)
              this.properties.push({   id:     "form_activate",   name:   "Activate Event",   type:   "Event"    })
              mm.model.active_form = formId
              mm.refresh ++
-             //this.generateCodeFromModel( )
 
              if (mm.model.forms[formId].form_activate && (!mm.design_mode)) {
                  //alert(JSON.stringify(this.args,null,2))
@@ -827,7 +824,6 @@ load_once_from_file(true)
                 this.model.forms[this.model.active_form].height = newHeight
 
                 this.model.active_component_index = null
-                //this.generateCodeFromModel( )
               }
           },
 
@@ -929,9 +925,7 @@ load_once_from_file(true)
 
 
                  this.model.forms[this.model.active_form].components.push(newItem)
-                 //this.generateCodeFromModel(  )
                  this.model.active_component_index = this.model.forms[this.model.active_form].components.length - 1
-                 //alert(this.active_component_index)
 
 
              } else if (data.type == "move_component") {
@@ -957,7 +951,6 @@ load_once_from_file(true)
                 this.model.forms[this.model.active_form].components[data.index].leftX = newLeftX
                 this.model.forms[this.model.active_form].components[data.index].topY = newTopY
                 this.model.active_component_index = data.index
-                //this.generateCodeFromModel(   )
 
 
              } else if (data.type == "resize_top_left") {
@@ -1004,7 +997,6 @@ load_once_from_file(true)
 
 
                  this.model.active_component_index = data.index
-                 //this.generateCodeFromModel(  )
 
              } else if (data.type == "resize_bottom_left") {
                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
@@ -1019,7 +1011,6 @@ load_once_from_file(true)
 
                  this.model.forms[this.model.active_form].components[data.index].height = newY - this.model.forms[this.model.active_form].components[data.index].topY
                  this.model.active_component_index = data.index
-                 //this.generateCodeFromModel(  )
 
 
 
@@ -1039,7 +1030,6 @@ load_once_from_file(true)
                  this.model.forms[this.model.active_form].components[data.index].height = newHeight
 
                  this.model.active_component_index = data.index
-                 //this.generateCodeFromModel(    )
              }
 
 
@@ -1124,8 +1114,6 @@ load_once_from_file(true)
             }
             mm.model.active_form = newFormName
             mm.refresh ++
-            //alert(JSON.stringify(mm.model,null,2))
-            //this.generateCodeFromModel( )
          }
          ,
 
@@ -1152,7 +1140,6 @@ load_once_from_file(true)
 
             }
 
-            //this.generateCodeFromModel(  )
         },
 
         //-------------------------------------------------------------------
@@ -1175,7 +1162,6 @@ load_once_from_file(true)
 
             }
 
-            //this.generateCodeFromModel(   )
         },
 
         //-------------------------------------------------------------------
@@ -1219,6 +1205,7 @@ load_once_from_file(true)
             this.text =  textValue
             var json2 = this.getJsonModelFromCode(  textValue  )
             mm.model = json2
+            mm.refresh ++
         }
         ,
         //-------------------------------------------------------------------
