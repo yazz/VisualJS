@@ -208,7 +208,7 @@ load_once_from_file(true)
 
             editAsText: async function() {
                 var mm = this
-                //zzz
+
                 var text = await this.$refs.editorComponentRef.getText()
                 //alert(text.indexOf("editors_old"))
 
@@ -364,7 +364,7 @@ load_once_from_file(true)
                        //alert(code)
                        if (mm.editor_loaded && (mm.code != code)) {
                             //alert("changed: " + code)
-                            this.$refs.editorComponentRef.setText(code)
+                            //this.$refs.editorComponentRef.setText(code)
                             mm.code = code
                             mm.code_id = codeId
                        }
@@ -394,6 +394,8 @@ load_once_from_file(true)
                        mm.baseComponentId = baseComponentId
                        mm.app_component_name = baseComponentId
                        //alert(results.name + " loaded")
+                       mm.$refs.editorComponentRef.setText(code)
+                       //zzz
                    },200)
                }
 
