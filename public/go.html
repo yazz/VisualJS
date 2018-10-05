@@ -1017,10 +1017,10 @@ var dataIds = new Object()
             var sdf     = eval("(" + data.record + ")")
             var args    = eval("(" + data.args + ")")
 
-            console.log("callig 2")
+            //console.log("callig 2")
             for (var i=0; i< sdf.length; i++) {
                 checkLibsV2(sdf[i],args)
-                console.log("callig 3")
+                //console.log("callig 3")
                 fn(sdf[i])
             }
     });
@@ -1029,7 +1029,7 @@ var dataIds = new Object()
 
 
     socket.on('ws_to_browser_callDriverMethod_results',async function(data) {
-        console.log(`socket.on('ws_to_browser_callDriverMethod_results',function(data) {`)
+        //console.log(`socket.on('ws_to_browser_callDriverMethod_results',function(data) {`)
 
 
         if (data.value.is_code_result) {
@@ -1127,7 +1127,7 @@ async function checkLibs(data){
 
 }
 async function checkLibsV2(componentRecord,args){
-    console.log("CheckLibsV2: ")
+    //console.log("CheckLibsV2: ")
 
 
     if (componentRecord.libs && componentRecord.libs.length > 0 ) {
@@ -1159,7 +1159,7 @@ async function checkLibsV2(componentRecord,args){
 }
 function callCode(data) {
     var callbackFn = queuedResponses[data.seq_num]
-    console.log(`go.html:callCode( ${data.seq_num} )`)
+    //console.log(`go.html:callCode( ${data.seq_num} )`)
 
     try {
         //alert(data.value.code_id)
@@ -1229,7 +1229,7 @@ function callCode(data) {
     }
 }
 async function callCodeV2(componentRecord,args) {
-    console.log("Code to run !: ")
+    //console.log("Code to run !: ")
 
     try {
         var useDb = componentRecord.base_component_id
@@ -1360,8 +1360,8 @@ var queuedResponses = new Object()
 var queuedBrowserResponseSeqNum = 0
 var callDriverMethodArgs = new Object()
 async function callDriverMethod2(findComponentArgs, args, callbackFn) {
-    console.log(`online: ${online}`)
-    console.log(`function callDriverMethod2(findComponentArgs, args, callbackFn) {`)
+    //console.log(`online: ${online}`)
+    //console.log(`function callDriverMethod2(findComponentArgs, args, callbackFn) {`)
     var seqNum = queuedBrowserResponseSeqNum ++;
     queuedResponses[seqNum] = callbackFn;
     callDriverMethodArgs[seqNum] = args
@@ -1374,7 +1374,7 @@ async function callDriverMethod2(findComponentArgs, args, callbackFn) {
         newData.seq_num = seqNum
         await checkLibs(newData)
     } else {
-            console.log(`  sendToServerViaWebSocket`)
+            //console.log(`  sendToServerViaWebSocket`)
             sendToServerViaWebSocket({
                 message_type: "callDriverMethod",
                     find_component: findComponentArgs,
@@ -1385,7 +1385,7 @@ async function callDriverMethod2(findComponentArgs, args, callbackFn) {
 
 }
 async function callDriverMethod(findComponentArgs, args, callbackFn) {
-    console.log(`online: ${online}`)
+    //console.log(`online: ${online}`)
     if (online) {
         return await callDriverMethod2(findComponentArgs, args, callbackFn);
     } else {
@@ -1398,7 +1398,7 @@ async function callDriverMethod(findComponentArgs, args, callbackFn) {
 
 
 async function loadV2( baseComponentIds, args ) {
-    console.log("loadV2: 1")
+    //console.log("loadV2: 1")
     if (!Array.isArray(baseComponentIds)) {
         baseComponentIds = [baseComponentIds]
     }
@@ -1421,7 +1421,7 @@ async function loadV2( baseComponentIds, args ) {
 
             if (componentsIdToLoad.length > 0) {
                 var promise = new Promise(returnfn => {
-                    console.log("loadV2: 2")
+                    //console.log("loadV2: 2")
 
                     var seqNum = queuedBrowserResponseSeqNum ++;
                     queuedResponses[seqNum] = function(response) {
@@ -1429,14 +1429,14 @@ async function loadV2( baseComponentIds, args ) {
                         //console.log("loadV2: 5 = " + JSON.stringify(response,null,2))
                         returnfn(response)
                     };
-                    console.log("loadV2: 3")
+                    //console.log("loadV2: 3")
                     sendToServerViaWebSocket({
                         message_type:    "loadUiComponent",
                         find_components:  {base_component_ids: componentsIdToLoad},
                         args:             args,
                         seq_num:          seqNum
                     });
-                    console.log("loadV2: 4")
+                    //console.log("loadV2: 4")
                 })
 
                 var ret = await promise

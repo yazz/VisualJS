@@ -407,6 +407,7 @@ load_once_from_file(true)
        },
 
        mounted: async function () {
+        console.log(`appEditor: mounted: this.app_id = ${this.app_id}`)
            var mm = this
            //alert(argBaseComponentId)
            //alert(this.app_id)

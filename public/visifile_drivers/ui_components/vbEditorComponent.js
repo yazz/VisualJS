@@ -311,7 +311,7 @@ load_once_from_file(true)
             mm.vb_editor_element_id =         "vb_editor_"+ uuidv4()
 
 
-            console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
+            //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
 
             //
             // get the base component ID of the code to edit/run
@@ -331,7 +331,7 @@ load_once_from_file(true)
 
 
 
-           console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
+           //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
 
 
           //
@@ -351,7 +351,7 @@ load_once_from_file(true)
               }
           }
 
-          console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
+          //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
 
 
 
@@ -359,7 +359,7 @@ load_once_from_file(true)
            // load the forms and their controls
            //
            var forms = this.getForms()
-           console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
+           //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
 
            for (var formIndex = 0; formIndex < forms.length; formIndex ++) {
                 var formName = forms[formIndex].name
@@ -378,7 +378,7 @@ load_once_from_file(true)
                 {
                      var newItem = mm.model.forms[formName].components[rtw]
                      //alert(newItem.base_component_id)
-                        console.log(`Loading ${newItem.base_component_id}`)
+                        //console.log(`Loading ${newItem.base_component_id}`)
 
                         if (mm.edited_app_component_id) {
                             mm.component_usage[newItem.base_component_id] = true
@@ -403,7 +403,7 @@ load_once_from_file(true)
                 }
            }
 
-           console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
+           //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
 
 
 
@@ -417,7 +417,7 @@ load_once_from_file(true)
                var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
                    {   sql: sql  })
                mm.available_components = results
-               console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
+               //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
            }
 
 
@@ -427,15 +427,15 @@ load_once_from_file(true)
 
 
            this.updateAllFormCaches()
-           console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
+           //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
 
 
            this.selectForm(mm.model.default_form)
-           console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
+           //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
 
 
            mm.$forceUpdate();
-           console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
+           //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
      },
 
 
@@ -1201,11 +1201,13 @@ load_once_from_file(true)
         //-------------------------------------------------------------------
         setText: function(textValue) {
         //-------------------------------------------------------------------
+            console.log("start setText")
             var mm = this
             this.text =  textValue
             var json2 = this.getJsonModelFromCode(  textValue  )
             mm.model = json2
             mm.refresh ++
+            console.log("end setText")
         }
         ,
         //-------------------------------------------------------------------
@@ -1226,7 +1228,7 @@ load_once_from_file(true)
             }
             if (online && this.design_mode) {
 
-            console.log("3) generateCodeFromModel")
+            console.log("start generateCodeFromModel")
 
             var startIndex = this.text.indexOf("//** gen_" + "start **//")
             var endIndex = this.text.indexOf("//** gen_" + "end **//")
@@ -1304,7 +1306,7 @@ load_once_from_file(true)
                                                           mm.model.app_properties,
                                                           ")//prope" + "rties")
 
-            console.log("4) generateCodeFromModel.Done")
+            console.log("end generateCodeFromModel.Done")
             return
             }
         }
