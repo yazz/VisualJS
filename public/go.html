@@ -1435,14 +1435,14 @@ async function loadV2( baseComponentIds, args ) {
                     console.log("loadV2: 4:online: " + online)
                     if (!online) {
                         setTimeout(function(){
+                            console.log("loadV2: 4:online: " + online)
                             sendToServerViaWebSocket({
                                 message_type:    "loadUiComponent",
                                 find_components:  {base_component_ids: componentsIdToLoad},
                                 args:             args,
                                 seq_num:          seqNum
-                            },1000);
-
-                            })
+                            });
+                        },1000)
                     } else {
                         sendToServerViaWebSocket({
                             message_type:    "loadUiComponent",
