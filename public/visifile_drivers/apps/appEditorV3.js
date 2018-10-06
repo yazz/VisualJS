@@ -80,7 +80,7 @@ load_once_from_file(true)
                                 "border-radius: 5px;opacity: 1;position:relative;visibility: " +
                                 ((show_new_tab_tooltip || show_open_app_tooltip)?"visible":"hidden") + ";font-family: Helvetica;"'>
                                     {{show_new_tab_tooltip?"Open page in new browser tab (shareable :)":""}}
-                                    {{show_open_app_tooltip?"Create shippable HTML file":""}}
+                                    {{show_open_app_tooltip?"Download as HTML app (emailable :)":""}}
                             </span>
                           <div v-bind:style="'background-color: rgb(242,242,242);padding: 5px;; border: 2px solid lightgray;'">
                                 &larr; &rarr; <span class=reload>&#x21bb;</span>
