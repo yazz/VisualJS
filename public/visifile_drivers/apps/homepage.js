@@ -16,6 +16,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                    //alert(3)
    console.log(`calling await loadV2("app_editor_3")`)
     await loadV2("app_editor_3")
+    console.log(`calling await loadV2("app_editor_3") loaded`)
     var mm = null
 //alert(2)
     Vue.component('homepage', {
