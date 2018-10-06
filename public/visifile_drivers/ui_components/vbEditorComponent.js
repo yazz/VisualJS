@@ -318,6 +318,7 @@ load_once_from_file(true)
             //
             if (texti) {
                 var json2 = this.getJsonModelFromCode(  texti  )
+                console.log("mounted: mm.model = json2")
                 mm.model = json2
                 mm.edited_app_component_id = saveHelper.getValueOfCodeString(texti, "base_component_id")
 
@@ -436,6 +437,8 @@ load_once_from_file(true)
 
            mm.$forceUpdate();
            //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
+
+           texti = null
      },
 
 
@@ -1194,6 +1197,7 @@ load_once_from_file(true)
             var mm = this
             this.text =  textValue
             var json2 = this.getJsonModelFromCode(  textValue  )
+            console.log("setText: mm.model = json2")
             mm.model = json2
             mm.refresh ++
             console.log("end setText")
