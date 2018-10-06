@@ -98,7 +98,7 @@ load_once_from_file(true)
 
                                 <a
                                     v-bind:href='"http://" + location.hostname + ":" + location.port + "/app/appshare_" + base_component_id + ".html"'
-                                    target="_blank" rel="noopener noreferrer"
+                                    download
                                     v-on:mouseover="show_open_app_tooltip = true"
                                     v-on:mouseleave="show_open_app_tooltip = false"
                                     class=reload>&#x2668;
