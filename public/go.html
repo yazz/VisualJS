@@ -1432,6 +1432,7 @@ async function loadV2( baseComponentIds, args ) {
                         returnfn(response)
                     };
                     console.log("loadV2: 4")
+                    console.log("loadV2: 4:online: " + online)
                     sendToServerViaWebSocket({
                         message_type:    "loadUiComponent",
                         find_components:  {base_component_ids: componentsIdToLoad},
