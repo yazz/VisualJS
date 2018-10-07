@@ -2409,15 +2409,20 @@ function file_uploadFn(req, res, next) {
           localp2 =  path.join(userData,  'uploads/' + ifile.filename);
               var localp = localp2 + '.' + ext;
               fs.renameSync(localp2, localp);
+              var readIn = fs.readFileSync(localp)
+              console.log('');
               console.log('Local saved path: ' + localp);
-
-              fs.stat(localp, function(err, stat) {
-                    //console.log('ifile: ' + ifile.originalname);
-
-                    saveConnectionAndQueryForFile(localp);
-
-              });
-
+              var indexStart = readIn.indexOf("/*APP_START*/")
+              var indexEnd = readIn.indexOf("/*APP_END*/")
+              console.log(`indexStart: ${indexStart}`)
+              console.log(`indexEnd: ${indexEnd}`)
+              if ((indexStart > 0) && (indexEnd > 0)) {
+                indexStart += 13 + 10
+                indexEnd -= 2
+                var tts = readIn.toString().substring(indexStart,indexEnd)
+                var ytr = unescape(tts)
+                  console.log(ytr)
+              }
           } else {
             console.log('Ignoring file ');
 

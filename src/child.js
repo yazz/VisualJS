@@ -4271,7 +4271,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                     var newCode =  `cachedCode["${sha1sum}"] = {
                                       "type": "ws_to_browser_callDriverMethod_results",
                                       "value": {
-                                        "code": unescape(\`${newcode}\`),
+                                        "code": /*APP_START*/unescape(\`${newcode}\`)/*APP_END*/,
                                         "is_code_result": true,
                                         "use_db": ${useDb?"\"" + useDb + "\"":null},
                                         "libs": [],
