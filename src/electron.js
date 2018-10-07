@@ -2377,45 +2377,52 @@ function stopscanharddiskFn(req, res) {
 
 
 function file_uploadFn(req, res, next) {
-      //console.log('-------------------------------------------------------------------------------------');
-      //console.log('-------------------------------------------------------------------------------------');
-      //console.log('-------------------------------------------------------------------------------------');
-      //console.log('-------------------------------------------------------------------------------------');
-      //console.log('-------------------------------------------------------------------------------------');
+      console.log('-------------------------------------------------------------------------------------');
+      console.log('-------------------------------------------------------------------------------------');
+      console.log('-------------------------------------------------------------------------------------');
+      console.log('-------------------------------------------------------------------------------------');
+      console.log('-------------------------------------------------------------------------------------');
 
-      //console.log(JSON.stringify(req.files.length));
-      //console.log("**FILES** " + JSON.stringify(req.files));
-      //console.log(    "    next: " + JSON.stringify(next));
+      console.log(JSON.stringify(req.files.length));
+      console.log("**FILES** " + JSON.stringify(req.files));
+      console.log(    "    next: " + JSON.stringify(next));
 
 
-      //console.log('......................................................................................');
-      //console.log('......................................................................................');
-      //console.log('......................................................................................');
-      //console.log('......................................................................................');
-      //console.log('......................................................................................');
+      console.log('......................................................................................');
+      console.log('......................................................................................');
+      console.log('......................................................................................');
+      console.log('......................................................................................');
+      console.log('......................................................................................');
       res.status( 200 ).send( req.files );
 
 
       var ll = req.files.length;
       for (var i = 0; i < ll ; i ++) {
+          console.log('Loading saved appshare app' );
           var ifile = req.files[i];
-          //console.log("        " + JSON.stringify(ifile));
+          console.log("        " + JSON.stringify(ifile));
           var ext = ifile.originalname.split('.').pop();
           ext = ext.toLowerCase();
-          //console.log('Ext: ' + ext);
-
+          console.log('Ext: ' + ext);
+          if ((ext == "html") || (ext == "html")) {
           var localp2;
           localp2 =  path.join(userData,  'uploads/' + ifile.filename);
-          var localp = localp2 + '.' + ext;
-          fs.renameSync(localp2, localp);
-          //console.log('Local saved path: ' + localp);
+              var localp = localp2 + '.' + ext;
+              fs.renameSync(localp2, localp);
+              console.log('Local saved path: ' + localp);
 
-          fs.stat(localp, function(err, stat) {
-                //console.log('ifile: ' + ifile.originalname);
+              fs.stat(localp, function(err, stat) {
+                    //console.log('ifile: ' + ifile.originalname);
 
-                saveConnectionAndQueryForFile(localp);
+                    saveConnectionAndQueryForFile(localp);
 
-          });
+              });
+
+          } else {
+            console.log('Ignoring file ');
+
+          }
+
     }
 
 };
