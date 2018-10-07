@@ -1983,6 +1983,20 @@ function processMessagesFromMainProcess() {
 
 
 
+      } else if (msg.message_type == "save_code_from_upload") {
+
+        var asyy = async function() {
+            var ret = await saveCodeV2(  msg.base_component_id, msg.parent_hash  ,  msg.code  , msg.options);
+            console.log(`Uploaded code ID = ${ret.code_id}`)
+        }
+        asyy()
+
+
+
+
+
+
+
 
       } else if (msg.message_type == 'getRelatedDocuments') {
             //console.log("got message getRelatedDocuments" );
@@ -4400,7 +4414,10 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
 
 
-                                    returnFn( {code: code.toString()})
+                                    returnFn( {
+                                                    code:               code.toString(),
+                                                    code_id:            sha1sum
+                                                    })
 
                                 })
                                 } catch(err) {

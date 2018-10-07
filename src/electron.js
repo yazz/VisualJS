@@ -52,6 +52,7 @@ var cors            = require('cors')
 var mammoth         = require("mammoth");
 var isBinaryFile    = require("isbinaryfile");
 var csvToJson       = require('csvtojson')
+var saveHelper      = require('./save_helpers')
 
 var sqlite3                     = require('sqlite3');
 
@@ -2421,7 +2422,15 @@ function file_uploadFn(req, res, next) {
                 indexEnd -= 2
                 var tts = readIn.toString().substring(indexStart,indexEnd)
                 var ytr = unescape(tts)
-                  console.log(ytr)
+                console.log(ytr)
+                var bci = saveHelper.getValueOfCodeString(ytr, "base_component_id")
+                forkedProcesses["forked"].send({
+                                                    message_type:        "save_code_from_upload",
+                                                    base_component_id:    bci,
+                                                    parent_hash:          null,
+                                                    code:                 ytr,
+                                                    options:             {}
+                                               });
               }
           } else {
             console.log('Ignoring file ');
