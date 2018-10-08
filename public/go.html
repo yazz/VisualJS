@@ -315,9 +315,17 @@ async function initFn() {
             url: "/file_upload"
             ,
             createImageThumbnails: false
+            ,
+            sending: function(file, xhr, formData){
+                //zzz
+                var fdfs = uuidv4()
+                alert(fdfs)
+                formData.append('client_file_upload_id', fdfs);
+            }
         });
         myDropzone.on("complete", function(file) {
             myDropzone.removeFile(file);
+            //var eds = saveHelper.getValueOfCodeString(data.value.code, "sqlite",")//sqlite")
         });
 
 
@@ -1187,7 +1195,7 @@ function callCode(data) {
         var addP = "'" + data.value.code_id + "', '" + useDb + "', "
         //alert("data: " + addP);
         if (useLocalDb) {
-            //zzz
+
             var eds = saveHelper.getValueOfCodeString(data.value.code, "sqlite",")//sqlite")
             if (eds){
                     for (var te = 1; te < eds.length ; te = te + 2) {
@@ -1255,7 +1263,7 @@ async function callCodeV2(componentRecord,args) {
         var addP = "'" + componentRecord.code_id + "', '" + useDb + "', "
         //alert("data: " + addP);
         if (useLocalDb) {
-            //zzz
+
             var eds = saveHelper.getValueOfCodeString(componentRecord.code, "sqlite",")//sqlite")
             if (eds){
                     for (var te = 1; te < eds.length ; te = te + 2) {

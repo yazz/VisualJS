@@ -2395,6 +2395,7 @@ function file_uploadFn(req, res, next) {
       console.log('-------------------------------------------------------------------------------------');
 
       console.log(JSON.stringify(req.files.length));
+      console.log("client_file_upload_id: " + JSON.stringify(req.body.client_file_upload_id,null,2))
       console.log("**FILES** " + JSON.stringify(req.files));
       console.log(    "    next: " + JSON.stringify(next));
 
