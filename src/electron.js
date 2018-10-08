@@ -332,8 +332,11 @@ function setUpChildListeners(processName, fileName, debugPort) {
                 // ______
                 //
                 sendOverWebSockets({
-                                      type:      "uploaded_app_as_file_from_server",
-                                      code_id:    msg.code_id
+                                      type:                 "uploaded_app_as_file_from_server",
+                                      code_id:               msg.code_id,
+                                      base_component_id:     msg.base_component_id,
+                                      client_file_upload_id: msg.client_file_upload_id
+
                     });
 
 
@@ -2396,6 +2399,7 @@ function file_uploadFn(req, res, next) {
 
       console.log(JSON.stringify(req.files.length));
       console.log("client_file_upload_id: " + JSON.stringify(req.body.client_file_upload_id,null,2))
+      var client_file_upload_id = req.body.client_file_upload_id
       console.log("**FILES** " + JSON.stringify(req.files));
       console.log(    "    next: " + JSON.stringify(next));
 
@@ -2436,11 +2440,12 @@ function file_uploadFn(req, res, next) {
                 //console.log(ytr)
                 var bci = saveHelper.getValueOfCodeString(ytr, "base_component_id")
                 forkedProcesses["forked"].send({
-                                                    message_type:        "save_code_from_upload",
-                                                    base_component_id:    bci,
-                                                    parent_hash:          null,
-                                                    code:                 ytr,
-                                                    options:             {}
+                                                    message_type:           "save_code_from_upload",
+                                                    base_component_id:      bci,
+                                                    parent_hash:            null,
+                                                    code:                   ytr,
+                                                    client_file_upload_id:  client_file_upload_id,
+                                                    options:                {}
                                                });
               }
           } else {

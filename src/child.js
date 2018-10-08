@@ -1991,8 +1991,10 @@ function processMessagesFromMainProcess() {
 
             process.send(
                 {
-                    message_type:       'ipc_child_returning_uploaded_app_as_file_in_child_response',
-                    code_id:             ret.code_id
+                    message_type:           'ipc_child_returning_uploaded_app_as_file_in_child_response',
+                    code_id:                 ret.code_id,
+                    base_component_id:       ret.base_component_id,
+                    client_file_upload_id:   msg.client_file_upload_id
                 })
         }
         asyy()
@@ -4060,6 +4062,12 @@ function updateRevisions(sqlite, baseComponentId) {
 
 
 
+
+
+
+
+
+
 async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
     var promise = new Promise(returnFn => {
@@ -4422,7 +4430,8 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
                                     returnFn( {
                                                     code:               code.toString(),
-                                                    code_id:            sha1sum
+                                                    code_id:            sha1sum,
+                                                    base_component_id:  baseComponentId
                                                     })
 
                                 })

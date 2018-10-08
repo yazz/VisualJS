@@ -14,6 +14,7 @@
     var component_cache  = new Object()
     var online           = false
     var dev_app_component_loaded = new Object()
+    var file_upload_uuid = null
     </script>
 
     <script>
@@ -318,9 +319,9 @@ async function initFn() {
             ,
             sending: function(file, xhr, formData){
                 //zzz
-                var fdfs = uuidv4()
-                alert(fdfs)
-                formData.append('client_file_upload_id', fdfs);
+                file_upload_uuid = uuidv4()
+                //alert(fdfs)
+                formData.append('client_file_upload_id', file_upload_uuid);
             }
         });
         myDropzone.on("complete", function(file) {
@@ -870,8 +871,11 @@ function setupWebSocket(host, port)
 
 
     socket.on('uploaded_app_as_file_from_server',function(data) {
+        //zzz
         //console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
-        alert("File uploaded: " + JSON.stringify(data,null,2))
+        if (data.client_file_upload_id == file_upload_uuid) {
+            alert("File uploaded: " + JSON.stringify(data,null,2))
+        }
     });
 
 
