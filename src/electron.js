@@ -323,7 +323,9 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
-
+        } else if (msg.message_type == "ipc_child_returning_uploaded_app_as_file_in_child_response") {
+            //zzz
+            console.log("uploaded_app_as_file_in_child: " + JSON.stringify(msg))
 
 
 
@@ -2129,7 +2131,7 @@ function websocketFn(ws) {
 
 
 
-//zzz
+
         } else if (receivedMessage.message_type == "loadUiComponent") {
             console.log("***** } else if (msg.message_type == loadUiComponent) ")
 
@@ -2422,7 +2424,7 @@ function file_uploadFn(req, res, next) {
                 indexEnd -= 2
                 var tts = readIn.toString().substring(indexStart,indexEnd)
                 var ytr = unescape(tts)
-                console.log(ytr)
+                //console.log(ytr)
                 var bci = saveHelper.getValueOfCodeString(ytr, "base_component_id")
                 forkedProcesses["forked"].send({
                                                     message_type:        "save_code_from_upload",

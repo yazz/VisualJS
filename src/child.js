@@ -1988,6 +1988,14 @@ function processMessagesFromMainProcess() {
         var asyy = async function() {
             var ret = await saveCodeV2(  msg.base_component_id, msg.parent_hash  ,  msg.code  , msg.options);
             console.log(`Uploaded code ID = ${ret.code_id}`)
+
+            process.send(
+                {
+                    message_type:       'ipc_child_returning_uploaded_app_as_file_in_child_response',
+                    seq_num_browser:     msg.seq_num_browser,
+                    seq_num_parent:      msg.seq_num_parent,
+                    code_id:             ret.code_id
+                })
         }
         asyy()
 
@@ -4240,7 +4248,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                      }
                                      var sqliteCode = ""
                                      if (options) {
-                                        //zzz
+
                                         console.log(JSON.stringify(options,null,2))
                                         if (options.sub_components) {
                                             console.log("Save options: " + options.sub_components.length)
