@@ -327,6 +327,14 @@ function setUpChildListeners(processName, fileName, debugPort) {
             //zzz
             console.log("uploaded_app_as_file_in_child: " + JSON.stringify(msg))
 
+                // ______
+                // Server  --1 data item-->  Browser
+                // ______
+                //
+                sendOverWebSockets({
+                                      type:      "uploaded_app_as_file_from_server",
+                                      code_id:    msg.code_id
+                    });
 
 
 

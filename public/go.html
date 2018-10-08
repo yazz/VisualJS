@@ -861,6 +861,13 @@ function setupWebSocket(host, port)
 
 
 
+    socket.on('uploaded_app_as_file_from_server',function(data) {
+        //console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
+        alert("File uploaded: " + JSON.stringify(data,null,2))
+    });
+
+
+
     socket.on('client_data_returned_from_server',function(data) {
         //console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
     });

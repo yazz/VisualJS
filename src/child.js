@@ -1992,8 +1992,6 @@ function processMessagesFromMainProcess() {
             process.send(
                 {
                     message_type:       'ipc_child_returning_uploaded_app_as_file_in_child_response',
-                    seq_num_browser:     msg.seq_num_browser,
-                    seq_num_parent:      msg.seq_num_parent,
                     code_id:             ret.code_id
                 })
         }
