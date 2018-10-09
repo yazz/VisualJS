@@ -2439,13 +2439,28 @@ function file_uploadFn(req, res, next) {
                 var ytr = unescape(tts)
                 //console.log(ytr)
                 var bci = saveHelper.getValueOfCodeString(ytr, "base_component_id")
+
+                var indexStart = readIn.indexOf("/*APP_START*/")
+                var indexEnd = readIn.indexOf("/*APP_END*/")
+
+                var indexOfSqliteData = readIn.indexOf("var sqlitedata = '")
+                var indexOfSqliteDataEnd = readIn.indexOf("'//sqlitedata")
+
+                var sqlitedatafromupload = null
+                if ((indexOfSqliteData != -1) && (indexOfSqliteDataEnd != -1)) {
+                    sqlitedatafromupload = readIn.toString().substring( indexOfSqliteData + 18,
+                                                                        indexOfSqliteDataEnd)
+                }
+
+
                 forkedProcesses["forked"].send({
                                                     message_type:           "save_code_from_upload",
                                                     base_component_id:      bci,
                                                     parent_hash:            null,
                                                     code:                   ytr,
                                                     client_file_upload_id:  client_file_upload_id,
-                                                    options:                {}
+                                                    options:                {},
+                                                    sqlite_data:            sqlitedatafromupload
                                                });
               }
           } else {

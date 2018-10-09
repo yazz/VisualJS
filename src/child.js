@@ -1984,10 +1984,14 @@ function processMessagesFromMainProcess() {
 
 
       } else if (msg.message_type == "save_code_from_upload") {
+        //zzz
 
         var asyy = async function() {
             var ret = await saveCodeV2(  msg.base_component_id, msg.parent_hash  ,  msg.code  , msg.options);
             console.log(`Uploaded code ID = ${ret.code_id}`)
+            if (msg.sqlite_data) {
+                    console.log("msg.sqlite_data: " + msg.sqlite_data)
+            }
 
             process.send(
                 {
@@ -4395,7 +4399,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
 
                                                         newStaticFileContent = newStaticFileContent.substring(0,indexOfSqliteData + 17) +
-                                                                                    "'" + sqliteAppDbContent + "'" +
+                                                                                    "'" + sqliteAppDbContent + "'//sqlitedata" +
                                                                                         newStaticFileContent.substring(indexOfSqliteData + 19)
 
                                                     }
