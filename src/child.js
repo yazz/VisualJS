@@ -1989,8 +1989,14 @@ function processMessagesFromMainProcess() {
         var asyy = async function() {
             var ret = await saveCodeV2(  msg.base_component_id, msg.parent_hash  ,  msg.code  , msg.options);
             console.log(`Uploaded code ID = ${ret.code_id}`)
+            var useDb = msg.base_component_id //saveHelper.getValueOfCodeString(msg.code ,"use_db")
             if (msg.sqlite_data) {
-                    console.log("msg.sqlite_data: " + msg.sqlite_data)
+                    //console.log("msg.sqlite_data: " + msg.sqlite_data)
+                    var b = Buffer.from(msg.sqlite_data, 'base64')
+                    console.log("use_db: " + useDb)
+                    var sqliteAppDbPath = path.join( userData, 'app_dbs/' + msg.base_component_id + '.visi' )
+                    fs.writeFileSync(sqliteAppDbPath, b);
+
             }
 
             process.send(
