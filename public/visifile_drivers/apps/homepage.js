@@ -183,7 +183,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                }
 
 
-                   //zzz
                mm.search()
 
 
@@ -198,6 +197,17 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     mm.refresh++
                 }
             })
+
+             globalEventBus.$on('new-appshare-app-uploaded',
+                async function(data) {
+                    //zzz
+                    //alert(JSON.stringify(data,null,2))
+                    mm.intro_apps.splice(1, 0, {});
+                    mm.addApp(data, 1)
+                    setTimeout(function() {
+                          mm.editApp(null, data)
+                    },50)
+             });
       },
       methods: {
           addAdder: async function() {
@@ -314,7 +324,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                return false
           },
           editApp: async function(event,item) {
-              event.stopPropagation()
+              if (event) {
+                  event.stopPropagation()
+              }
               this.show_menu = null;
               this.edit_app = item;
           },

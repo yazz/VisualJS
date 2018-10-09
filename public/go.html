@@ -318,7 +318,7 @@ async function initFn() {
             createImageThumbnails: false
             ,
             sending: function(file, xhr, formData){
-                //zzz
+
                 file_upload_uuid = uuidv4()
                 //alert(fdfs)
                 formData.append('client_file_upload_id', file_upload_uuid);
@@ -580,6 +580,7 @@ div.tilt {
 
 <script>
 
+var globalEventBus = new Vue();
 //lll
 var newAppArgs = []
 async function prepareApp(  id,  base_component_id,  args  ) {
@@ -870,11 +871,12 @@ function setupWebSocket(host, port)
 
 
 
-    socket.on('uploaded_app_as_file_from_server',function(data) {
+    socket.on('uploaded_app_as_file_from_server',async function(data) {
         //zzz
         //console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
         if (data.client_file_upload_id == file_upload_uuid) {
-            alert("File uploaded: " + JSON.stringify(data,null,2))
+            //alert("File uploaded: " + JSON.stringify(data.base_component_id,null,2))
+                globalEventBus.$emit('new-appshare-app-uploaded', data.base_component_id); 
         }
     });
 
