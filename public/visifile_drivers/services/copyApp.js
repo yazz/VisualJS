@@ -5,6 +5,33 @@ base_component_id("copyApp")
 load_once_from_file(true)
 */
 
+    function asdf(argsBaseComponentId, newBaseid, parentHashId, code, returnfn, newDisplayName) {
+        dbsearch.all(
+            "SELECT    child_component_id    FROM    component_usage    where    base_component_id = ? ;  "
+            ,
+            argsBaseComponentId
+            ,
+
+            function(err, listOfSubComponentsRes)
+            {
+                var listOfSubComponents = []
+                for (var yuy = 0; yuy < listOfSubComponentsRes.length ; yuy++ ) {
+
+                    listOfSubComponents.push( listOfSubComponentsRes[yuy].child_component_id )
+
+                }
+                saveCodeV2( newBaseid, parentHashId, code ,
+                            {
+                                sub_components: listOfSubComponents
+                            })
+
+                returnfn({
+                            new_display_name:   newDisplayName,
+                            base_component_id:  newBaseid
+                            })
+            })
+    }
+
     var promise = new Promise(returnfn => {
 
         var argsBaseComponentId = args.base_component_id
@@ -49,31 +76,8 @@ load_once_from_file(true)
                                 }
                             }
 
-
-                            dbsearch.all(
-                                "SELECT    child_component_id    FROM    component_usage    where    base_component_id = ? ;  "
-                                ,
-                                argsBaseComponentId
-                                ,
-
-                                function(err, listOfSubComponentsRes)
-                                {
-                                    var listOfSubComponents = []
-                                    for (var yuy = 0; yuy < listOfSubComponentsRes.length ; yuy++ ) {
-
-                                        listOfSubComponents.push( listOfSubComponentsRes[yuy].child_component_id )
-
-                                    }
-                                    saveCodeV2( newBaseid, parentHashId, code ,
-                                                {
-                                                    sub_components: listOfSubComponents
-                                                })
-
-                                    returnfn({
-                                                new_display_name:   newDisplayName,
-                                                base_component_id:  newBaseid
-                                                })
-                                })
+                            //zzz
+                            asdf(argsBaseComponentId, newBaseid, parentHashId, code, returnfn,newDisplayName)
 
 
                         }
