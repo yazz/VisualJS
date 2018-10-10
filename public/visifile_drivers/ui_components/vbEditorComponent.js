@@ -318,7 +318,7 @@ load_once_from_file(true)
             //
             if (texti) {
                 var json2 = this.getJsonModelFromCode(  texti  )
-                console.log("mounted: mm.model = json2")
+                //console.log("mounted: mm.model = json2")
                 mm.model = json2
                 mm.edited_app_component_id = saveHelper.getValueOfCodeString(texti, "base_component_id")
 
@@ -1182,7 +1182,7 @@ load_once_from_file(true)
         //-------------------------------------------------------------------
         getText: async function() {
         //-------------------------------------------------------------------
-        console.log("2) VB: getText")
+            //console.log("2) VB: getText")
             await this.generateCodeFromModel()
             return this.text
         },
@@ -1193,14 +1193,14 @@ load_once_from_file(true)
         //-------------------------------------------------------------------
         setText: function(textValue) {
         //-------------------------------------------------------------------
-            console.log("start setText")
+            //console.log("start setText")
             var mm = this
             this.text =  textValue
             var json2 = this.getJsonModelFromCode(  textValue  )
-            console.log("setText: mm.model = json2")
+            //console.log("setText: mm.model = json2")
             mm.model = json2
             mm.refresh ++
-            console.log("end setText")
+            //console.log("end setText")
         }
         ,
         //-------------------------------------------------------------------
@@ -1221,7 +1221,7 @@ load_once_from_file(true)
             }
             if (online && this.design_mode) {
 
-            console.log("start generateCodeFromModel")
+            //console.log("start generateCodeFromModel")
 
             var startIndex = this.text.indexOf("//** gen_" + "start **//")
             var endIndex = this.text.indexOf("//** gen_" + "end **//")
@@ -1296,7 +1296,7 @@ load_once_from_file(true)
                                                           mm.model.app_properties,
                                                           ")//prope" + "rties")
 
-            console.log("end generateCodeFromModel.Done")
+            //console.log("end generateCodeFromModel.Done")
             return
             }
         }

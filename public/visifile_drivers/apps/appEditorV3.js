@@ -317,6 +317,7 @@ load_once_from_file(true)
            // 'baseComponentId'
            // ---------------------------------------------------------------
            load_app: async function ( baseComponentId ) {
+               console.log(`load_app:`)
                var mm = this
                if ((!baseComponentId) || (baseComponentId == "") || (!mm)) {
                     return

@@ -1419,7 +1419,7 @@ async function callDriverMethod(findComponentArgs, args, callbackFn) {
 
 
 async function loadV2( baseComponentIds, args ) {
-    console.log("loadV2: 1")
+    //console.log("loadV2: 1")
     if (!Array.isArray(baseComponentIds)) {
         baseComponentIds = [baseComponentIds]
     }
@@ -1452,11 +1452,11 @@ async function loadV2( baseComponentIds, args ) {
                         //console.log("loadV2: 6 = " + JSON.stringify(response,null,2))
                         returnfn(response)
                     };
-                    console.log("loadV2: 4")
-                    console.log("loadV2: 4:online: " + online)
+                    //console.log("loadV2: 4")
+                    //console.log("loadV2: 4:online: " + online)
                     if (!online) {
                         setTimeout(function(){
-                            console.log("loadV2: 4:online: " + online)
+                            //console.log("loadV2: 4:online: " + online)
                             sendToServerViaWebSocket({
                                 message_type:    "loadUiComponent",
                                 find_components:  {base_component_ids: componentsIdToLoad},
@@ -1482,7 +1482,7 @@ async function loadV2( baseComponentIds, args ) {
         }
 
     }
-    console.log("loadV2: 9")
+    //console.log("loadV2: 9")
     return {}
 
 
