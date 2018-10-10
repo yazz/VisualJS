@@ -17,13 +17,8 @@ load_once_from_file(true)
     //
 
 
-    var argBaseComponentId  = null
-
     await loadV2("appEmbed")
 
-    if (args) {
-        argBaseComponentId  = args.base_component_id
-    }
     Vue.component("app_editor_3",
     {
       props: ['app_id', 'card_index'],
@@ -410,7 +405,6 @@ load_once_from_file(true)
        mounted: async function () {
         console.log(`appEditor: mounted: this.app_id = ${this.app_id}`)
            var mm = this
-           //alert(argBaseComponentId)
            //alert(this.app_id)
             if (this.app_id) {
                 //alert(this.app_id)
@@ -422,9 +416,6 @@ load_once_from_file(true)
 
                 await this.load_app(this.app_id)
                 //alert(Object.keys(component_cache[this.app_id]))
-            }
-           else if (argBaseComponentId) {
-                await this.load_app(argBaseComponentId)
             } else {
                 var result = await callApp( {
                                         driver_name:  "systemFunctions",
