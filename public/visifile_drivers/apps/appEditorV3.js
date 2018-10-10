@@ -261,6 +261,7 @@ load_once_from_file(true)
            // This is called to save the currently edited code
            // ---------------------------------------------------------------
            save: async function( base_component_id, code_id , textIn) {
+           //alert(code_id)
                console.log("1) AppEditor: save")
                var text =  textIn
                if (text == null) {
@@ -388,16 +389,16 @@ load_once_from_file(true)
 
                    }
 
-
-                   setTimeout(async function() {
+//zzz
+                   //setTimeout(async function() {
                        var results = await callApp( {code_id:    codeId },{})
                        mm.app_loaded = true
                        mm.baseComponentId = baseComponentId
                        mm.app_component_name = baseComponentId
                        //alert(results.name + " loaded")
                        mm.$refs.editorComponentRef.setText(code)
-                       //zzz
-                   },200)
+
+                   //},200)
                }
 
 
@@ -422,10 +423,11 @@ load_once_from_file(true)
                 dev_app_component_loaded[this.app_id]   = false
                 component_cache[this.app_id]            = null
 
-                this.load_app(this.app_id)
+                await this.load_app(this.app_id)
+                //alert(Object.keys(component_cache[this.app_id]))
             }
            else if (argBaseComponentId) {
-                this.load_app(argBaseComponentId)
+                await this.load_app(argBaseComponentId)
             } else {
                 var result = await callApp( {
                                         driver_name:  "systemFunctions",
