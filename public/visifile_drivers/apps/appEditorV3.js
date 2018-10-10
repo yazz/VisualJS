@@ -395,7 +395,7 @@ load_once_from_file(true)
                        //alert(results.name + " loaded")
                        mm.$refs.editorComponentRef.setText(code)
 
-                   },200)
+                   },500)
                }
 
 
