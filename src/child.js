@@ -4081,7 +4081,7 @@ function updateRevisions(sqlite, baseComponentId) {
 async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
     var promise = new Promise(returnFn => {
-        //console.log("function saveCodeV2( baseComponentId, parentHash, code ) {")
+        console.log(`function saveCodeV2( ${baseComponentId}, ${parentHash} ) {`)
         if (!baseComponentId) {
             baseComponentId = uuidv1()
         }

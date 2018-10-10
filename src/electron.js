@@ -2159,24 +2159,26 @@ function websocketFn(ws) {
 
                         function(err, results)
                         {
-                            var codeId = results[0].id
-                                dbsearch.all(
-                                    "SELECT dependency_name FROM app_dependencies where code_id = ?; ",
-                                    codeId,
+                            if (results.length > 0) {
+                                var codeId = results[0].id
+                                    dbsearch.all(
+                                        "SELECT dependency_name FROM app_dependencies where code_id = ?; ",
+                                        codeId,
 
-                                    function(err, results2)
-                                    {
-                                        results[0].libs = results2
-                                        sendToBrowserViaWebSocket(
-                                            ws,
-                                            {
-                                                type:                   "server_returns_loadUiComponent_to_browser",
-                                                seq_num:                 receivedMessage.seq_num,
-                                                record:                  JSON.stringify(results,null,2),
-                                                args:                    JSON.stringify(receivedMessage.args,null,2),
-                                                test:                   1
-                                            });
-                                    })
+                                        function(err, results2)
+                                        {
+                                            results[0].libs = results2
+                                            sendToBrowserViaWebSocket(
+                                                ws,
+                                                {
+                                                    type:                   "server_returns_loadUiComponent_to_browser",
+                                                    seq_num:                 receivedMessage.seq_num,
+                                                    record:                  JSON.stringify(results,null,2),
+                                                    args:                    JSON.stringify(receivedMessage.args,null,2),
+                                                    test:                   1
+                                                });
+                                        })
+                            }
 
                         })
             }, sqlite3.OPEN_READONLY)
