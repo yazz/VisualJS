@@ -17,13 +17,12 @@ load_once_from_file(true)
     //
 
 
-    var argBaseComponentId = null
-    var cardId = null
+    var argBaseComponentId  = null
+
     await loadV2("appEmbed")
 
     if (args) {
-        argBaseComponentId = args.base_component_id
-        cardId = args.card_id
+        argBaseComponentId  = args.base_component_id
     }
     Vue.component("app_editor_3",
     {
@@ -125,7 +124,6 @@ load_once_from_file(true)
                base_component_id:   null,
                code_id:            "...",
                version: 0,
-               card_id: null,
                app_width:           "33%",
                code_width:          "63%",
                app_shown:           true,
@@ -331,7 +329,6 @@ load_once_from_file(true)
                mm.app_loaded            = false
                mm.base_component_id     = baseComponentId
                mm.app_component_name    = null
-               mm.card_id               = cardId
 
 
                //
@@ -389,16 +386,16 @@ load_once_from_file(true)
 
                    }
 
+                   var results = await callApp( {code_id:    codeId },{})
+                   mm.app_loaded = true
+                   mm.baseComponentId = baseComponentId
 //zzz
-                   //setTimeout(async function() {
-                       var results = await callApp( {code_id:    codeId },{})
-                       mm.app_loaded = true
-                       mm.baseComponentId = baseComponentId
+                   setTimeout(async function() {
                        mm.app_component_name = baseComponentId
                        //alert(results.name + " loaded")
                        mm.$refs.editorComponentRef.setText(code)
 
-                   //},200)
+                   },200)
                }
 
 
