@@ -5,14 +5,14 @@ base_component_id("copyApp")
 load_once_from_file(true)
 */
 
-    function asdf(argsBaseComponentId, newBaseid, parentHashId, code, returnfn, newDisplayName) {
+    async function asdf(argsBaseComponentId, newBaseid, parentHashId, code, returnfn, newDisplayName) {
         dbsearch.all(
             "SELECT    child_component_id    FROM    component_usage    where    base_component_id = ? ;  "
             ,
             argsBaseComponentId
             ,
 
-            function(err, listOfSubComponentsRes)
+            async function(err, listOfSubComponentsRes)
             {
                 var listOfSubComponents = []
                 for (var yuy = 0; yuy < listOfSubComponentsRes.length ; yuy++ ) {
@@ -20,7 +20,7 @@ load_once_from_file(true)
                     listOfSubComponents.push( listOfSubComponentsRes[yuy].child_component_id )
 
                 }
-                saveCodeV2( newBaseid, parentHashId, code ,
+                await saveCodeV2( newBaseid, parentHashId, code ,
                             {
                                 sub_components: listOfSubComponents
                             })
@@ -38,7 +38,7 @@ load_once_from_file(true)
         var argsNewAppId        = args.new_app_id
 
         dbsearch.serialize(
-            function() {
+            async function() {
                 dbsearch.all(
                     "SELECT    id, code, display_name    FROM    system_code    where    " +
                         " base_component_id = ? and code_tag = 'LATEST';  "
@@ -46,7 +46,7 @@ load_once_from_file(true)
                     argsBaseComponentId
                     ,
 
-                    function(err, results)
+                    async function(err, results)
                     {
                         if (results.length > 0) {
                             var code = results[0].code
@@ -77,7 +77,7 @@ load_once_from_file(true)
                             }
 
                             //zzz
-                            asdf(argsBaseComponentId, newBaseid, parentHashId, code, returnfn,newDisplayName)
+                            await asdf(argsBaseComponentId, newBaseid, parentHashId, code, returnfn,newDisplayName)
 
 
                         }
