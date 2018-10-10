@@ -1,5 +1,5 @@
 # AppShare
-VB 6 style editor for Javascript to compile VueJS/Sqlite apps to a single HTML file. There is demo here :
+Appshare is an App Store for HTML Apps. It has a VB 6 style editor for Javascript to compile VueJS/Sqlite apps to a single HTML file. It can be used on the web, or as a Windows/Mac Os X app. There is demo here :
 
 http://appshare.co
 
