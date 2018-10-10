@@ -876,7 +876,7 @@ function setupWebSocket(host, port)
         //console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
         if (data.client_file_upload_id == file_upload_uuid) {
             //alert("File uploaded: " + JSON.stringify(data.base_component_id,null,2))
-                globalEventBus.$emit('new-appshare-app-uploaded', data.base_component_id); 
+                globalEventBus.$emit('new-appshare-app-uploaded', data.base_component_id);
         }
     });
 
@@ -1428,14 +1428,14 @@ async function loadV2( baseComponentIds, args ) {
         var componentId = baseComponentIds[tt]
         dev_app_component_loaded[componentId] = true
         if (isStaticHtmlPageApp && finderToCachedCodeMapping[ componentId ] && (!component_loaded[componentId])) {
-            console.log("loadV2: 2")
+            //console.log("loadV2: 2")
             component_loaded[componentId] = true
             //alert("Reading app from cache: " + findComponentArgs.base_component_id)
             var newDataCodeId = finderToCachedCodeMapping[ componentId ]
             var newData       = cachedCode[ newDataCodeId ]
             await checkLibsV2(newData.value, args)
         } else {
-            console.log("loadV2: 3")
+            //console.log("loadV2: 3")
             if (!component_loaded[componentId]) {
                 component_loaded[componentId] = true
                 componentsIdToLoad.push(componentId)
@@ -1444,12 +1444,12 @@ async function loadV2( baseComponentIds, args ) {
 
             if (componentsIdToLoad.length > 0) {
                 var promise = new Promise(returnfn => {
-                    console.log("loadV2: 5")
+                    //console.log("loadV2: 5")
 
                     var seqNum = queuedBrowserResponseSeqNum ++;
                     queuedResponses[seqNum] = function(response) {
 
-                        console.log("loadV2: 6 = " + JSON.stringify(response,null,2))
+                        //console.log("loadV2: 6 = " + JSON.stringify(response,null,2))
                         returnfn(response)
                     };
                     console.log("loadV2: 4")
