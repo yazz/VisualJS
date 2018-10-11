@@ -298,7 +298,7 @@ load_once_from_file(true)
                }
                dev_app_component_loaded = new Object()
                this.editor_loaded = false
-               this.load_app(baseComponentId)
+               await this.load_app(baseComponentId)
            }
            ,
 
