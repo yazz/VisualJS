@@ -32,7 +32,7 @@ load_once_from_file(true)
             })
     }
 
-    var promise = new Promise(returnfn => {
+    var promise = new Promise(async function(returnfn) {
 
         var argsBaseComponentId = args.base_component_id
         var argsNewAppId        = args.new_app_id
