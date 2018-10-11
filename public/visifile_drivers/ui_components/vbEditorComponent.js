@@ -1198,6 +1198,8 @@ load_once_from_file(true)
             this.text =  textValue
             var json2 = this.getJsonModelFromCode(  textValue  )
             //console.log("setText: mm.model = json2")
+            mm.edited_app_component_id = saveHelper.getValueOfCodeString(textValue, "base_component_id")
+
             mm.model = json2
             mm.refresh ++
             //console.log("end setText")
@@ -1207,6 +1209,7 @@ load_once_from_file(true)
         getJsonModelFromCode: function(  codeV  ) {
         //-------------------------------------------------------------------
             var mm = this
+            mm.edited_app_component_id = saveHelper.getValueOfCodeString(codeV, "base_component_id")
             var json2 = saveHelper.getValueOfCodeString(codeV,"formEditor",")//formEditor")
             return json2
         }
