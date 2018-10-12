@@ -4428,7 +4428,11 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                     //
                                     var sqlite = saveHelper.getValueOfCodeString(code, "sqlite",")//sqlite")
                                     if (sqlite) {
-                                        updateRevisions(sqlite, baseComponentId)
+                                        if (!(options && options.ignore_db_creation)) {
+                                            console.log('updateRevisions(sqlite, baseComponentId)')
+                                            console.log('    ' + JSON.stringify(options,null,2))
+                                            updateRevisions(sqlite, baseComponentId)
+                                        }
 
                                     }
                                     //

@@ -22,13 +22,26 @@ load_once_from_file(true)
                 }
                 await saveCodeV2( newBaseid, parentHashId, code ,
                             {
-                                sub_components: listOfSubComponents
+                                sub_components:         listOfSubComponents,
+                                ignore_db_creation:     true //used as we copy the db file
                             })
 
-                returnfn({
-                            new_display_name:   newDisplayName,
-                            base_component_id:  newBaseid
-                            })
+                //
+                // copy the database
+                //
+                var sqliteAppDbPathOld = path.join( userData, 'app_dbs/' + argsBaseComponentId + '.visi' )
+                var sqliteAppDbPathNew = path.join( userData, 'app_dbs/' + newBaseid + '.visi' )
+                console.log("sqliteAppDbPathOld: " + sqliteAppDbPathOld)
+                console.log("sqliteAppDbPathNew: " + sqliteAppDbPathNew)
+                copyFile(sqliteAppDbPathOld,sqliteAppDbPathNew, async function(){
+                    returnfn({
+                                new_display_name:   newDisplayName,
+                                base_component_id:  newBaseid
+                                })
+
+                });
+
+
             })
     }
 
