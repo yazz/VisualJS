@@ -877,7 +877,7 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
 
     if (processName == "forked") {
 
-        outputToBrowser("- sending user_data_path to child 'forked':  " + userData)
+        //outputToBrowser("- sending user_data_path to child 'forked':  " + userData)
         forkedProcesses["forked"].send({         message_type: "init" ,
                                                  user_data_path: userData,
                                                  child_process_name: "forked"
@@ -897,7 +897,7 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
 
     if (processName == "forkedExeScheduler") {
 
-        outputToBrowser("- sending user_data_path to child 'forkedExeScheduler':  " + userData)
+        //outputToBrowser("- sending user_data_path to child 'forkedExeScheduler':  " + userData)
         forkedProcesses["forkedExeScheduler"].send({  message_type: "init" ,
                                                       user_data_path: userData,
                                                       child_process_name: "forkedExeScheduler"
@@ -907,7 +907,7 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
     for (var i=0;i<executionProcessCount; i++ ) {
         var exeProcName = "forkedExeProcess" + i
         if (processName == exeProcName) {
-            outputToBrowser("- sending user_data_path to child '" + exeProcName + "':  " + userData)
+            //outputToBrowser("- sending user_data_path to child '" + exeProcName + "':  " + userData)
             forkedProcesses[exeProcName].send({  message_type: "init" ,
                                                  user_data_path: userData,
                                                  child_process_name: exeProcName
@@ -941,7 +941,7 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
     }
 
     if (processName == "forkedPowershell") {
-        outputToBrowser("- sending user_data_path to child 'powershell':  " + userData)
+        //outputToBrowser("- sending user_data_path to child 'powershell':  " + userData)
         //forkedProcesses["forkedPowershell"].send({  message_type: "init" ,
         //                                            user_data_path: userData,
         //                                            child_process_name: "forkedPowershell"
@@ -1254,8 +1254,8 @@ if (electronApp) {
           outputToBrowser("getPath(userData): " + electronApp.getPath('userData'))
           outputToBrowser("process.env keys: " + Object.keys(process.env))
 
-          outputToBrowser("dbPath: " + JSON.stringify(dbPath ,null,2))
-          outputToBrowser("LOCAL: " + path.join(__dirname, '/'))
+          //outputToBrowser("dbPath: " + JSON.stringify(dbPath ,null,2))
+          //outputToBrowser("LOCAL: " + path.join(__dirname, '/'))
 
           if (debug) {
               visifile.webContents.toggleDevTools();
@@ -1336,8 +1336,8 @@ else {
         	  outputToBrowser("userData: " + JSON.stringify(userData ,null,2))
               outputToBrowser("process.env keys: " + Object.keys(process.env))
 
-              outputToBrowser("dbPath: " + JSON.stringify(dbPath ,null,2))
-              outputToBrowser("LOCAL: " + path.join(__dirname, '/'))
+              //outputToBrowser("dbPath: " + JSON.stringify(dbPath ,null,2))
+              //outputToBrowser("LOCAL: " + path.join(__dirname, '/'))
             //visifile.webContents.toggleDevTools();
 
             dbsearch = new sqlite3.Database(dbPath);
@@ -2001,7 +2001,7 @@ function runOnPageExists(req, res, homepage) {
 
 function getRoot(req, res) {
 	hostcount++;
-	console.log("Host: " + req.headers.host + ", " + hostcount);
+	//console.log("Host: " + req.headers.host + ", " + hostcount);
 	//console.log("Full URL: " + req.protocol + '://' + req.get('host') + req.originalUrl);
 
     var homepage = path.join(__dirname, '../public/go.html')
@@ -2144,7 +2144,7 @@ function websocketFn(ws) {
 
 
         } else if (receivedMessage.message_type == "loadUiComponent") {
-            console.log("***** } else if (msg.message_type == loadUiComponent) ")
+            //console.log("***** } else if (msg.message_type == loadUiComponent) ")
 
             var componentIds = receivedMessage.find_components.base_component_ids
 

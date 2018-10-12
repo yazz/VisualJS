@@ -282,7 +282,7 @@ function announceFree() {
     if ((inUseIndex == 0) && (inUse == true)) {
         inUse = false
 
-        console.log("@announceFree "+ childProcessName )
+        //console.log("@announceFree "+ childProcessName )
         process.send({  message_type:       "processor_free" ,
                         child_process_name:  childProcessName
                     })

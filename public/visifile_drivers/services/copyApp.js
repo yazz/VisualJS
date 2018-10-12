@@ -31,8 +31,8 @@ load_once_from_file(true)
                 //
                 var sqliteAppDbPathOld = path.join( userData, 'app_dbs/' + argsBaseComponentId + '.visi' )
                 var sqliteAppDbPathNew = path.join( userData, 'app_dbs/' + newBaseid + '.visi' )
-                console.log("sqliteAppDbPathOld: " + sqliteAppDbPathOld)
-                console.log("sqliteAppDbPathNew: " + sqliteAppDbPathNew)
+                //console.log("sqliteAppDbPathOld: " + sqliteAppDbPathOld)
+                //console.log("sqliteAppDbPathNew: " + sqliteAppDbPathNew)
                 copyFile(sqliteAppDbPathOld,sqliteAppDbPathNew, async function(){
                     returnfn({
                                 new_display_name:   newDisplayName,

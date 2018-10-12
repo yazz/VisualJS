@@ -3999,17 +3999,17 @@ function updateRevisions(sqlite, baseComponentId) {
 
             function(err, results)
             {
-                console.log("**************************************")
-                console.log("****       Creating App DB        ****")
-                console.log("baseComponentId: " + JSON.stringify(baseComponentId,null,2))
+                //console.log("**************************************")
+                //console.log("****       Creating App DB        ****")
+                //console.log("baseComponentId: " + JSON.stringify(baseComponentId,null,2))
                 //console.log("results: " + JSON.stringify(results,null,2))
                 var latestRevision = null
                 if (results.length > 0) {
                     latestRevision = results[0].latest_revision
                 }
-                console.log("latestRevision: " + JSON.stringify(latestRevision,null,2))
+                //console.log("latestRevision: " + JSON.stringify(latestRevision,null,2))
                 var dbPath = path.join(userData, 'app_dbs/' + baseComponentId + '.visi')
-                console.log("dbPath: " + JSON.stringify(dbPath,null,2))
+                //console.log("dbPath: " + JSON.stringify(dbPath,null,2))
                 var appDb = new sqlite3.Database(dbPath);
                 appDb.run("PRAGMA journal_mode=WAL;")
 
@@ -4081,7 +4081,7 @@ function updateRevisions(sqlite, baseComponentId) {
 async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
     var promise = new Promise(returnFn => {
-        console.log(`function saveCodeV2( ${baseComponentId}, ${parentHash} ) {`)
+        //console.log(`function saveCodeV2( ${baseComponentId}, ${parentHash} ) {`)
         if (!baseComponentId) {
             baseComponentId = uuidv1()
         }
@@ -4265,12 +4265,12 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                      var sqliteCode = ""
                                      if (options) {
 
-                                        console.log(JSON.stringify(options,null,2))
+                                        //console.log(JSON.stringify(options,null,2))
                                         if (options.sub_components) {
-                                            console.log("Save options: " + options.sub_components.length)
-                                            console.log(JSON.stringify(options,null,2))
+                                            //console.log("Save options: " + options.sub_components.length)
+                                            //console.log(JSON.stringify(options,null,2))
                                             for (var tew = 0; tew < options.sub_components.length ; tew ++) {
-                                                console.log("Saving " + options.sub_components[tew])
+                                                //console.log("Saving " + options.sub_components[tew])
                                                 stmtInsertSubComponent.run(
                                                     baseComponentId,
                                                     options.sub_components[tew])
