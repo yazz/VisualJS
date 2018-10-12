@@ -23,41 +23,21 @@ load_once_from_file(true)
                 await saveCodeV2( newBaseid, parentHashId, code ,
                             {
                                 sub_components:         listOfSubComponents,
-                                ignore_db_creation:     true //used as we copy the db file
+                                copy_db_from:           argsBaseComponentId
                             })
 
-                //
-                // copy the database
-                //
-                var sqliteAppDbPathOld = path.join( userData, 'app_dbs/' + argsBaseComponentId + '.visi' )
-                var sqliteAppDbPathNew = path.join( userData, 'app_dbs/' + newBaseid + '.visi' )
-                //console.log("sqliteAppDbPathOld: " + sqliteAppDbPathOld)
-                //console.log("sqliteAppDbPathNew: " + sqliteAppDbPathNew)
-                copyFile(sqliteAppDbPathOld,sqliteAppDbPathNew, async function(){
-                    returnfn({
-                                new_display_name:   newDisplayName,
-                                base_component_id:  newBaseid
-                                })
-
-                });
-                var copyMigration = dbsearch.prepare(
-                `                insert into  app_db_latest_ddl_revisions
-                                   (base_component_id,latest_revision)
-                                select '${newBaseid}',  latest_revision from app_db_latest_ddl_revisions
-                            	 where base_component_id='${argsBaseComponentId}'
-
-                `
-                );
-                dbsearch.serialize(function() {
-                    dbsearch.run("begin exclusive transaction");
-                    copyMigration.run()
-                    dbsearch.run("commit");
-                    })
-
+                returnfn({
+                            new_display_name:   newDisplayName,
+                            base_component_id:  newBaseid
+                            })
 
 
             })
     }
+
+
+
+
 
     var promise = new Promise(async function(returnfn) {
 

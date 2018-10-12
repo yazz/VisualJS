@@ -69,6 +69,7 @@ var stmtInsertIntoConnections;
 var stmtInsertIntoConnections2;
 
 var stmtInsertIntoIntranetClientConnects;
+var copyMigration;
 
 var stmtInsertInsertIntoQueries;
 var stmtUpdateRelatedDocumentCount;
@@ -130,6 +131,15 @@ testDiffFn();
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
 function setUpSql() {
+    copyMigration = dbsearch.prepare(
+    `                insert into  app_db_latest_ddl_revisions
+                       (base_component_id,latest_revision)
+                    select ?,  latest_revision from app_db_latest_ddl_revisions
+                     where base_component_id=?
+
+    `
+    );
+
     stmtInsertIntoIntranetClientConnects = dbsearch.prepare(" insert  into  intranet_client_connects " +
                             "    ( id, internal_host, internal_port, public_ip, via, public_host, user_name, client_user_name, when_connected) " +
                             " values " +
@@ -1984,7 +1994,7 @@ function processMessagesFromMainProcess() {
 
 
       } else if (msg.message_type == "save_code_from_upload") {
-        //zzz
+
 
         var asyy = async function() {
             var ret = await saveCodeV2(  msg.base_component_id, msg.parent_hash  ,  msg.code  , msg.options);
@@ -4076,6 +4086,34 @@ function updateRevisions(sqlite, baseComponentId) {
 
 
 
+function copyFile(source, target, cb) {
+  var cbCalled = false;
+
+  var rd = fs.createReadStream(source);
+  rd.on("error", function(err) {
+    done(err);
+  });
+  var wr = fs.createWriteStream(target);
+  wr.on("error", function(err) {
+    done(err);
+  });
+  wr.on("close", function(ex) {
+    done();
+  });
+  rd.pipe(wr);
+
+  function done(err) {
+    if (!cbCalled) {
+      cb(err);
+      cbCalled = true;
+    }
+  }
+}
+
+
+
+
+
 
 
 async function saveCodeV2( baseComponentId, parentHash, code , options) {
@@ -4428,7 +4466,25 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                     //
                                     var sqlite = saveHelper.getValueOfCodeString(code, "sqlite",")//sqlite")
                                     if (sqlite) {
-                                        if (!(options && options.ignore_db_creation)) {
+                                        if (options && options.copy_db_from) {
+                                        //zzz
+                                            var newBaseid = baseComponentId
+                                            //
+                                            // copy the database
+                                            //
+                                            var sqliteAppDbPathOld = path.join( userData, 'app_dbs/' + options.copy_db_from + '.visi' )
+                                            var sqliteAppDbPathNew = path.join( userData, 'app_dbs/' + newBaseid + '.visi' )
+                                            //console.log("sqliteAppDbPathOld: " + sqliteAppDbPathOld)
+                                            //console.log("sqliteAppDbPathNew: " + sqliteAppDbPathNew)
+                                            copyFile(sqliteAppDbPathOld,sqliteAppDbPathNew, async function(){
+
+                                            });
+                                            dbsearch.serialize(function() {
+                                                dbsearch.run("begin exclusive transaction");
+                                                copyMigration.run(  newBaseid,  options.copy_db_from)
+                                                dbsearch.run("commit");
+                                                })
+                                        } else {
                                             //console.log('updateRevisions(sqlite, baseComponentId)')
                                             //console.log('    ' + JSON.stringify(options,null,2))
                                             updateRevisions(sqlite, baseComponentId)
