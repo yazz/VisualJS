@@ -40,6 +40,20 @@ load_once_from_file(true)
                                 })
 
                 });
+                var copyMigration = dbsearch.prepare(
+                `                insert into  app_db_latest_ddl_revisions
+                                   (base_component_id,latest_revision)
+                                select '${newBaseid}',  latest_revision from app_db_latest_ddl_revisions
+                            	 where base_component_id='${argsBaseComponentId}'
+
+                `
+                );
+                dbsearch.serialize(function() {
+                    dbsearch.run("begin exclusive transaction");
+                    copyMigration.run()
+                    dbsearch.run("commit");
+                    })
+
 
 
             })
