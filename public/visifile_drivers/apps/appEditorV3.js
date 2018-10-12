@@ -26,7 +26,7 @@ load_once_from_file(true)
                     <div>
                         <h2  class='caption' style='display: inline-block;' v-on:click='if (!read_only) {edit_name=true;show_name=false;}' v-if='show_name'>{{app_component_name?"" + app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 30))?"...":"")}} </h2>
                         <input  class='caption' style='display: inline-block;' v-if='edit_name' v-model='new_name'></input>
-                        <button type=button class='btn btn-primary' style='margin-left: 10px' v-if='edit_name' v-on:click='rename(new_name)'>Save new name</button>
+                        <button type=button class='btn btn-primary' style='margin-left: 10px' v-if='edit_name' v-on:click='(async function(){await rename(new_name)})()'>Save new name</button>
 
                         <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
                             <select v-if='false' class="custom-select" v-model="selected_app" v-bind:onchange='load_new_app(selected_app)'>
@@ -189,12 +189,12 @@ load_once_from_file(true)
                 this.mode      = "edit"
             },
 
-            rename: function(nn) {
+            rename: async function(nn) {
                 this.edit_name = false
                 this.show_name = true
 
                 nn = nn.replace(/[\W_]+/g,"_");
-                this.copyAppMethod( this.base_component_id , nn)
+                await this.copyAppMethod( this.base_component_id , nn)
             },
 
 
