@@ -695,7 +695,7 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
 function findFoldersFn() {
     //console.log("**  called findFoldersFn");
     callDriverMethod( "folderScannerService", "scan_folders", {}, function(result) {
-        console.log("    **** SCANNED THE FOLDERS ON LOCAL FILE SYSTEM ***: ")
+        //console.log("    **** SCANNED THE FOLDERS ON LOCAL FILE SYSTEM ***: ")
     })
     return
 
@@ -712,7 +712,7 @@ function findFoldersFn() {
             dbsearch.run("commit",
                 function(err) {
                     directSearchFolders(useDrive);
-                    console.log('******************* Finished finding folders');
+                    //console.log('******************* Finished finding folders');
                     finishedFindingFolders = true;
                     });
                 })
@@ -1988,12 +1988,12 @@ function processMessagesFromMainProcess() {
 
         var asyy = async function() {
             var ret = await saveCodeV2(  msg.base_component_id, msg.parent_hash  ,  msg.code  , msg.options);
-            console.log(`Uploaded code ID = ${ret.code_id}`)
+            //console.log(`Uploaded code ID = ${ret.code_id}`)
             var useDb = msg.base_component_id //saveHelper.getValueOfCodeString(msg.code ,"use_db")
             if (msg.sqlite_data) {
                     //console.log("msg.sqlite_data: " + msg.sqlite_data)
                     var b = Buffer.from(msg.sqlite_data, 'base64')
-                    console.log("use_db: " + useDb)
+                    //console.log("use_db: " + useDb)
                     var sqliteAppDbPath = path.join( userData, 'app_dbs/' + msg.base_component_id + '.visi' )
                     fs.writeFileSync(sqliteAppDbPath, b);
 
@@ -2086,7 +2086,7 @@ function processMessagesFromMainProcess() {
         console.log("**** createTables");
         db_helper.createTables(dbsearch,
             function() {
-                console.log("**** createTables returned");
+               //console.log("**** createTables returned");
                 process.send({  message_type:       "createdTablesInChild"  });
 
             });
@@ -2094,7 +2094,7 @@ function processMessagesFromMainProcess() {
 
 
     } else if (msg.message_type == 'setUpDbDrivers') {
-        console.log("**** setUpDbDrivers");
+       //console.log("**** setUpDbDrivers");
         setUpDbDrivers();
 
 
@@ -4429,8 +4429,8 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                     var sqlite = saveHelper.getValueOfCodeString(code, "sqlite",")//sqlite")
                                     if (sqlite) {
                                         if (!(options && options.ignore_db_creation)) {
-                                            console.log('updateRevisions(sqlite, baseComponentId)')
-                                            console.log('    ' + JSON.stringify(options,null,2))
+                                            //console.log('updateRevisions(sqlite, baseComponentId)')
+                                            //console.log('    ' + JSON.stringify(options,null,2))
                                             updateRevisions(sqlite, baseComponentId)
                                         }
 
