@@ -20,10 +20,7 @@ var userData
 var childProcessName
 
 
-var inProcessFilesFn                    = false;
 var isWin                               = /^win/.test(process.platform);
-var numberOfSecondsIndexFilesInterval   = 5;
-var inScan                              = false;
 var stmtInsertRowFullTextSearch                               = null;
 var stmtInsertRowHashes                               = null;
 var setIn                               = null;
@@ -55,11 +52,6 @@ var stmtUpdateFileProperties;
 
 var stmtInsertIntoContents;
 var stmtInsertProcessError;
-var stmtSetDataStatus;
-var stmtSetDataHash;
-var stmtSetName;
-var stmtSetAddedTimestamp;
-var stmtSetEstimatedModifiedTimestamp;
 var stmtUpdateTags;
 var stmtUpdateProperties;
 var stmtInsertIntoFolders;
@@ -200,52 +192,6 @@ function processMessagesFromMainProcess() {
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
 function setUpSql() {
-    stmtInsertRowFullTextSearch = dbsearch.prepare("INSERT INTO zfts_search_rows_hashed_2 (row_hash, data) VALUES (?, ?)");
-
-    stmtInsertRowHashes         = dbsearch.prepare("INSERT INTO search_rows_hierarchy_2 (document_binary_hash, parent_hash, child_hash) VALUES (?,?,?)");
-
-    stmtInsertIntoContents = dbsearch.prepare(  " insert into contents_2 " +
-                                                "      ( id, content, content_type ) " +
-                                                " values " +
-                                                "      ( ?,  ?, ? );");
-
-    stmtSetDataStatus = dbsearch.prepare(   " update all_data " +
-                                            "      set status = ?" +
-                                            " where " +
-                                            "      id = ? ;");
-
-    stmtSetDataHash = dbsearch.prepare(     " update all_data " +
-                                            "      set hash = ?" +
-                                            " where " +
-                                            "      id = ? ;");
-
-    stmtSetName = dbsearch.prepare(     " update all_data " +
-                                        "      set name = ?" +
-                                        " where " +
-                                        "      id = ? ;");
-
-    stmtSetAddedTimestamp = dbsearch.prepare(   " update all_data " +
-                                                "      set timestamp_added = ?" +
-                                                " where " +
-                                                "      id = ? ;");
-
-    stmtSetEstimatedModifiedTimestamp = dbsearch.prepare(   " update all_data " +
-                                                            "      set estimated_modified_timestamp = ?" +
-                                                            " where " +
-                                                            "      id = ? ;");
-
-
-
-    stmtUpdateTags = dbsearch.prepare(      " update all_data " +
-                                            "      set tags = ?" +
-                                            " where " +
-                                            "      id = ? ;");
-
-    stmtUpdateProperties = dbsearch.prepare(    " update all_data " +
-                                                "      set properties = ?" +
-                                                " where " +
-                                                "      id = ? ;");
-
 
     stmtInsertProcessError = dbsearch.prepare(  ` insert into
                                                       system_process_errors
@@ -261,12 +207,6 @@ function setUpSql() {
                                                   values
                                                       ( ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ? );`)
 }
-
-
-
-
-
-
 
 
 
@@ -460,27 +400,6 @@ function callDriverMethod( driverName, methodName, args, callbackFn ) {
 
 
 
-
-function getProperty(record,propName) {
-    var properties = record.properties
-    var rt = properties.indexOf("||  " + propName + "=") + 5 + propName.length
-    var st = properties.substring(rt)
-    var xt = st.indexOf("  ||")
-    var amiga = st.substring(0,xt)
-    return amiga
-}
-
-function getFileName(fullFileNamePath) {
-    var fileName = path.basename( fullFileNamePath )
-    return fileName
-}
-
-function getFileExtension(fullFileNamePath) {
-    var extension = fullFileNamePath.substr(fullFileNamePath.lastIndexOf('.') + 1).toLowerCase()
-    return extension
-}
-
-
 function findDriverWithMethod(methodName, callbackFn) {
     dbsearch.serialize(
         function() {
@@ -504,296 +423,6 @@ function findDriverWithMethod(methodName, callbackFn) {
 
 
 
-
-
-
-
-function saveDocumentContent(  documentHash,  resultData  ) {
-
-    //
-    // get the data, either passed in as an array or a set
-    //
-    var rrows = [];
-    if( Object.prototype.toString.call( resultData ) === '[object Array]' ) {
-        rrows = resultData;
-    } else {
-        rrows = resultData.values;
-    }
-    if ((rrows == null) || (rrows.length == 0)) {
-        return}
-
-
-    //
-    // see if the document has already been saved. Only save it if not saved already
-    //
-    dbsearch.serialize(
-        function() {
-            var stmt = dbsearch.all(
-                        "select  " +
-                        "    document_binary_hash  "  +
-                        "from  " +
-                        "    search_rows_hierarchy_2  " +
-                        "where  " +
-                        "    document_binary_hash = '" + documentHash + "'"
-                        ,
-                        function(err, results) {
-                            if (results) {
-                                if (results.length == 0) {
-                                    dbsearch.serialize(
-                                        function() {
-                                            dbsearch.run("begin exclusive transaction");
-                                            for (var i = 0 ; i < rrows.length; i++) {
-
-                                                var rowhash = crypto.createHash('sha256');
-                                                var row = JSON.stringify(rrows[i]);
-                                                rowhash.setEncoding('hex');
-                                                rowhash.write(row);
-                                                rowhash.end();
-                                                var sha1sum = rowhash.read();
-                                                stmtInsertRowFullTextSearch.run(sha1sum, row)
-                                                stmtInsertRowHashes.run(documentHash, null, sha1sum)
-                                            }
-                                            dbsearch.run("commit");
-                                    })
-                                }
-                            }
-
-                        });
-    })
-
-}
-
-
-
-
-function createContent(     fullFileNamePath,
-                            sha1ofFileContents,
-                            contentType) {
-
-
-        //
-        // create the content if it doesn't exist
-        //
-        dbsearch.serialize(
-            function() {
-                var stmt = dbsearch.all(
-                    "select  *  from  contents_2  where  id = ? ", [  sha1ofFileContents  ],
-
-                    function(err, results)
-                    {
-                        if (!err)
-                        {
-                            if (results.length == 0) {
-                                try {
-                                    var fileContent = fs.readFileSync(fullFileNamePath)
-
-                                    dbsearch.serialize(function() {
-
-                                        dbsearch.run("begin exclusive transaction");
-                                        stmtInsertIntoContents.run(
-
-                                            sha1ofFileContents,
-                                            fileContent,
-                                            contentType)
-                                        dbsearch.run("commit");
-                                    })
-
-                                   } catch (err) {
-                                       console.log(err);
-                                       var stack = new Error().stack
-                                       console.log( stack )
-                                   }
-                           }
-                       }
-                   })
-               }, sqlite3.OPEN_READONLY)
-}
-
-
-
-
-
-function createHashedDocumentContent(fileName, contentType) {
-    try {
-        var contents = fs.readFileSync(fileName, "utf8");
-        var hash = crypto.createHash('sha256');
-        hash.setEncoding('hex');
-        hash.write(contents);
-        hash.end();
-        var sha1sum = hash.read();
-        createContent(fileName, sha1sum, contentType);
-        return sha1sum;
-    } catch (err) {
-        console.log(err);
-        var stack = new Error().stack
-        console.log( stack )
-        return null;
-    }
-}
-
-function getFirstRecord(records) {
-    return records[0];
-}
-
-
-
-
-
-function setHash(record, value) {
-    dbsearch.serialize(function() {
-
-        dbsearch.run("begin exclusive transaction");
-        stmtSetDataHash.run(
-            value,
-            record.id)
-
-        dbsearch.run("commit");
-    })
-}
-
-
-
-function setStatus(record, value) {
-    dbsearch.serialize(function() {
-
-        dbsearch.run("begin exclusive transaction");
-        stmtSetDataStatus.run(
-            value,
-            record.id)
-
-        dbsearch.run("commit");
-    })
-}
-
-function setAddedTimestamp(record, value) {
-    dbsearch.serialize(function() {
-
-        dbsearch.run("begin exclusive transaction");
-        stmtSetAddedTimestamp.run(
-            value,
-            record.id)
-
-        dbsearch.run("commit");
-    })
-}
-
-function setEstimatedModifiedTimestamp(record, value) {
-    dbsearch.serialize(function() {
-
-        dbsearch.run("begin exclusive transaction");
-        stmtSetEstimatedModifiedTimestamp.run(
-            value,
-            record.id)
-
-        dbsearch.run("commit");
-    })
-}
-
-
-
-
-
-function setName(record, value) {
-    dbsearch.serialize(function() {
-
-        dbsearch.run("begin exclusive transaction");
-        stmtSetName.run(
-            value,
-            record.id)
-
-        dbsearch.run("commit");
-    })
-}
-
-
-
-function addTag(record, tag) {
-    if (record.tags == null) {
-        record.tags = "||  " + tag + "  ||"
-
-
-    } else  if (record.tags.indexOf("||  " + tag + "  ||") != -1) {
-        return
-
-    } else if (record.tags == "") {
-        record.tags = "||  " + tag + "  ||"
-
-    } else {
-        record.tags += "  " + tag + "  ||"
-    }
-
-
-    dbsearch.serialize(function() {
-
-        dbsearch.run("begin exclusive transaction");
-        stmtUpdateTags.run(
-            record.tags,
-            record.id)
-
-        dbsearch.run("commit");
-    })
-}
-
-
-
-
-
-
-
-
-function setProperty(record, propName, propValue) {
-    var valToInsert = ""
-    if (propValue != null) {
-        valToInsert = propValue
-    }
-    if (record.properties == null) {
-        record.properties = "||  " + propName + "=" + valToInsert + "  ||"
-
-
-    } else if (record.properties.indexOf("||  " + propName + "=") != -1) {
-        var startPropValIndex = record.properties.indexOf("||  " + propName + "=") + 5
-        var valOnwards = record.properties.substring(startPropValIndex)
-        var start = record.properties.substring(0,startPropValIndex)
-        var endPropValIndex = valOnwards.indexOf("  ||")
-
-        var end = valOnwards.substring(endPropValIndex)
-        record.properties = start + valToInsert + end
-
-
-    } else if (record.properties == "") {
-        record.properties = "||  " + propName + "=" + valToInsert + "  ||"
-
-
-    } else  {
-        record.properties += "  " + propName + "=" + valToInsert + "  ||"
-    }
-
-
-    dbsearch.serialize(function() {
-
-        dbsearch.run("begin exclusive transaction");
-        stmtUpdateProperties.run(
-            record.properties,
-            record.id)
-
-        dbsearch.run("commit");
-    })
-}
-
-
-function description(d) {
-
-}
-
-function base_component_id(d) {
-
-}
-function display_name(d) {
-
-}
-function created_timestamp(d) {
-
-}
 function saveCodeV2(baseComponentId, parentHash, code,options) {
     process.send({  message_type:       "save_code" ,
                     base_component_id:   baseComponentId,
