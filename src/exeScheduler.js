@@ -474,7 +474,7 @@ function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
     var processToUse = null
     var processNames = Object.keys(processesInUse)
 
-    for( var processNameIndex = 0 ; processNameIndex < processNames.length; processNameIndex ++) {
+    for ( var processNameIndex = 0 ; processNameIndex < processNames.length; processNameIndex ++ ) {
 
         var actualProcessName   = processNames[ processNameIndex ]
         var isInUse             = processesInUse[ actualProcessName ]
@@ -492,6 +492,9 @@ function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
     }
     if (!processToUse) {
         console.log("Could not find a process to use for " + codeId)
+        for ( var processNameIndex = 0 ; processNameIndex < processNames.length; processNameIndex ++ ) {
+                console.log(`${processNameIndex}: ${processesInUse[actualProcessName]}`  )
+        }
         if (tryAgain) {
             console.log("Retry in 2 seconds ..." )
             setTimeout(function() {
