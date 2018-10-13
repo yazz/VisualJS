@@ -195,6 +195,7 @@ load_once_from_file(true)
 
                 nn = nn.replace(/[\W_]+/g,"_");
                 await this.copyAppMethod( this.base_component_id , nn)
+                this.new_name = ""
             },
 
 
