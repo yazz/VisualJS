@@ -160,13 +160,15 @@ function processMessagesFromMainProcess() {
 
      } else if (msg.message_type == "processor_free") {
 
-        processesInUse[msg.child_process_name] = false
 
         dbsearch.serialize(
             function() {
                 dbsearch.run("begin exclusive transaction");
                 decrJobCount.run(msg.child_process_name)
-                dbsearch.run("commit");
+                //zzz
+                dbsearch.run("commit", function() {
+                    processesInUse[msg.child_process_name] = false
+                });
             })
 
 
@@ -253,7 +255,6 @@ function processMessagesFromMainProcess() {
              //console.log("     Node ID: " + msg.node_id)
              //console.log("     Process ID: " + msg.child_process_id)
              //console.log("     Started: " + msg.started)
-             processesInUse[msg.node_id] = false
              dbsearch.serialize(
                  function() {
                      dbsearch.run("begin exclusive transaction");
@@ -264,7 +265,9 @@ function processMessagesFromMainProcess() {
                          "IDLE",
                          null
                          )
-                     dbsearch.run("commit");
+                     dbsearch.run("commit", function() {
+                            processesInUse[msg.node_id] = false
+                     });
                  })
 
         }
