@@ -14,60 +14,20 @@ var userData
 var childProcessName
 var nextCallId = 0
 
-var inProcessFilesFn                    = false;
 var isWin                               = /^win/.test(process.platform);
-var numberOfSecondsIndexFilesInterval   = 5;
 var inScan                              = false;
 var stmt2                               = null;
 var stmt3                               = null;
 var setIn                               = null;
 var updateProcessTable                  = null;
-var lockData                            = null;
-var unlockData                          = null;
-var inGetRelatedDocumentHashes          = false;
-var inIndexFileRelationshipsFn          = false;
 var finishedFindingFolders              = false;
 var username                            = "Unknown user";
 var dbsearch;
-var xdiff;
-var lhs;
-var rhs;
-var stmtInsertIntoRelationships;
-var stmtUpdateRelationships2;
-
-var stmtUpdateFolder;
-var stmtResetFolders;
-var stmtInsertDriver;
-var stmtUpdateDriver;
-var stmtInsertIntoQueries;
-
-var stmtResetFiles;
-var stmtFileChanged;
-var stmtInsertIntoMessages;
-var stmtInsertIntoFiles;
-var stmtInsertIntoFiles2;
-var stmtUpdateFileStatus;
-var stmtUpdateFileSizeAndShaAndConnectionId;
-var stmtUpdateFileProperties;
-
-var stmtInsertIntoContents;
-var stmtInsertIntoFolders;
-var stmtInsertIntoConnections;
-var stmtInsertIntoConnections2;
-
-var stmtInsertIntoIntranetClientConnects;
-
-var stmtInsertInsertIntoQueries;
-var stmtUpdateRelatedDocumentCount;
-var stmtUpdateRelationships;
 
 var setProcessToRunning;
 
 var setProcessToIdle;
 
-
-var in_when_queries_changes             = false;
-var in_when_connections_change          = false;
 
 
 username = os.userInfo().username.toLowerCase();
@@ -308,39 +268,7 @@ function setUpSql() {
         "     (?,?,?,?,?)"
     )
 
-    lockData = dbsearch.prepare("UPDATE all_data SET status = 'LOCKED' WHERE id = ?");
-
-    unlockData = dbsearch.prepare("UPDATE all_data SET status = NULL WHERE id = ?");
-
-
 }
-
-
-
-function driversFn(callbackFn) {
-    dbsearch.serialize(
-        function() {
-            var stmt = dbsearch.all(
-                "SELECT * FROM drivers",
-
-                function(err, results) {
-                    callbackFn( results );
-                })
-    }, sqlite3.OPEN_READONLY)
-}
-
-
-
-
-
-
-
-
-
-var functions = new Object()
-
-
-
 
 
 
