@@ -416,7 +416,7 @@ function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
         if ( !isInUse ) {
             processToUse = actualProcessName
             processesInUse[actualProcessName] = true
-            //console.log("    " + JSON.stringify(processToUse,null,2))
+            console.log(" Sending job to process:    " + JSON.stringify(processToUse,null,2))
             sendJobToProcessName(codeId, args, actualProcessName, parentCallId, callbackIndex)
             break
         }
@@ -450,20 +450,17 @@ function sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processName  ,  
         function() {
             dbsearch.run("begin exclusive transaction");
             setProcessToRunning.run( base_component_id, on_condition, id, processName )
-            dbsearch.run("commit");
-
-
-           process.send({  message_type:       "execute_code_in_exe_child_process" ,
-                           child_process_name:  processName,
-                           code_id:             id,
-                           args:                args,
-                           call_id:             newCallId,
-                           callback_index:      callbackIndex,
-                           on_condition:        on_condition,
-                           base_component_id:   base_component_id
-                           });
-
-
+            dbsearch.run("commit", function() {
+                process.send({  message_type:       "execute_code_in_exe_child_process" ,
+                                child_process_name:  processName,
+                                code_id:             id,
+                                args:                args,
+                                call_id:             newCallId,
+                                callback_index:      callbackIndex,
+                                on_condition:        on_condition,
+                                base_component_id:   base_component_id
+                                });
+            });
         })
 }
 
