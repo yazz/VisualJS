@@ -418,7 +418,7 @@ function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
             processesInUse[actualProcessName] = true
             console.log(" Sending job to process:    " + JSON.stringify(processToUse,null,2))
             sendJobToProcessName(codeId, args, actualProcessName, parentCallId, callbackIndex)
-            break
+            return
         }
     }
     if (!processToUse) {
