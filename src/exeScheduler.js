@@ -61,9 +61,9 @@ var stmtInsertInsertIntoQueries;
 var stmtUpdateRelatedDocumentCount;
 var stmtUpdateRelationships;
 
-var incrJobCount;
+var setProcessToRunning;
 
-var decrJobCount;
+var setProcessToIdle;
 
 
 var in_when_queries_changes             = false;
@@ -164,7 +164,7 @@ function processMessagesFromMainProcess() {
         dbsearch.serialize(
             function() {
                 dbsearch.run("begin exclusive transaction");
-                decrJobCount.run(msg.child_process_name)
+                setProcessToIdle.run(msg.child_process_name)
                 //zzz
                 dbsearch.run("commit", function() {
                     processesInUse[msg.child_process_name] = false
@@ -296,9 +296,9 @@ function processMessagesFromMainProcess() {
 //-----------------------------------------------------------------------------------------//
 function setUpSql() {
 
-    incrJobCount = dbsearch.prepare("UPDATE system_process_info SET status = 'RUNNING', last_driver = ?, last_event = ?, system_code_id = ? WHERE process = ?");
+    setProcessToRunning = dbsearch.prepare("UPDATE system_process_info SET status = 'RUNNING', last_driver = ?, last_event = ?, system_code_id = ? WHERE process = ?");
 
-    decrJobCount = dbsearch.prepare("UPDATE system_process_info SET status = 'IDLE' WHERE process = ?");
+    setProcessToIdle = dbsearch.prepare("UPDATE system_process_info SET status = 'IDLE' WHERE process = ?");
 
 
     updateProcessTable = dbsearch.prepare(
@@ -521,7 +521,7 @@ function sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processName  ,  
     dbsearch.serialize(
         function() {
             dbsearch.run("begin exclusive transaction");
-            incrJobCount.run( base_component_id, on_condition, id, processName )
+            setProcessToRunning.run( base_component_id, on_condition, id, processName )
             dbsearch.run("commit");
 
 
