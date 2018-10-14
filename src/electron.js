@@ -719,37 +719,6 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
 
 
 
-
-
-    //if (processName == "forkedIndexer") {
-        //forkedProcesses["forkedIndexer"].send({ message_type: "init" ,
-        //                                        user_data_path: userData,
-        //                                        child_process_name: "forkedIndexer"
-        //                                    });}
-
-
-
-
-
-    if (processName == "forkedFileScanner") {
-        if (runServices) {
-                //forkedProcesses["forkedFileScanner"].send({ message_type: "init" ,
-                //                                            user_data_path: userData,
-                //                                            child_process_name: "forkedFileScanner"
-                //                                            });
-        }
-    }
-
-    if (processName == "forkedPowershell") {
-        //outputToBrowser("- sending user_data_path to child 'powershell':  " + userData)
-        //forkedProcesses["forkedPowershell"].send({  message_type: "init" ,
-        //                                            user_data_path: userData,
-        //                                            child_process_name: "forkedPowershell"
-        //                                        });
-    }
-
-
-
     console.log("Started subprocess '" + processName + "' ")
 
 
@@ -940,21 +909,6 @@ if (electronApp) {
         dbsearch = new sqlite3.Database(dbPath);
         dbsearch.run("PRAGMA journal_mode=WAL;")
 
-        dbsearch.serialize(
-            function() {
-                dbsearch.all(
-                    "SELECT count(name) as cnt FROM sqlite_master ;  "
-                    ,
-
-                    function(err, results)
-                    {
-                        for (var i = 0; i < results.length; i++) {
-                            outputToBrowser("Sqlite: " + results[i].cnt)
-                        }
-
-
-                    })
-        }, sqlite3.OPEN_READONLY)
 
 
 
@@ -963,17 +917,12 @@ if (electronApp) {
     	var myConsole = new nodeConsole.Console(process.stdout, process.stderr);
     	myConsole.log('Hello World!');
 
-
-
         console.log("New electron app")
 
         //var index = require(path.resolve('src/index.js'))
 
 
         setupChildProcesses2();
-
-
-
 
     })
 }
@@ -1002,19 +951,11 @@ else {
             mkdirp.sync(path.join(userData,  'app_dbs'));
 
 
-
-
-
-
-
         	  outputToBrowser('process.env.LOCALAPPDATA: ' + JSON.stringify(localappdata ,null,2))
               outputToBrowser("Local home data path: " + process.env.HOME)
         	  outputToBrowser("userData: " + JSON.stringify(userData ,null,2))
               outputToBrowser("process.env keys: " + Object.keys(process.env))
 
-              //outputToBrowser("dbPath: " + JSON.stringify(dbPath ,null,2))
-              //outputToBrowser("LOCAL: " + path.join(__dirname, '/'))
-            //visifile.webContents.toggleDevTools();
 
             dbsearch = new sqlite3.Database(dbPath);
             dbsearch.run("PRAGMA journal_mode=WAL;")
@@ -1035,11 +976,11 @@ else {
 
 
             setupChildProcesses2();
-
-
-
-
 }
+
+
+
+
 
 
 var shuttingDown = false;
@@ -1050,12 +991,12 @@ process.on('quit', function() {
   shutDown();
 });
 
+
+
+
 function shutDown() {
     if (!shuttingDown) {
         shuttingDown = true;
-
-
-
 
 
         if (forkedProcesses["forked"]) {
@@ -1066,18 +1007,7 @@ function shutDown() {
             console.log("Killed Exe Scheduler process")
             forkedProcesses["forkedExeScheduler"].kill();
         }
-        //if (forkedProcesses["forkedIndexer"]) {
-        //    console.log("Killed Process forkedIndexer")
-        //    forkedProcesses["forkedIndexer"].kill();
-        //}
-        //if (forkedProcesses["forkedPowershell"]) {
-        //    console.log("Killed Process forkedPowershell")
-        //    forkedProcesses["forkedPowershell"].kill();
-        //}
-        //if (forkedProcesses["forkedFileScanner"]) {
-        //    console.log("Killed Process forkedFileScanner")
-        //    forkedProcesses["forkedFileScanner"].kill();
-        //}
+
         for (var i = 0; i < executionProcessCount; i++ ) {
             var exeProcName = "forkedExeProcess" + i
             forkedProcesses[exeProcName].kill();
@@ -1096,12 +1026,11 @@ function shutDown() {
         if (dbsearch) {
             dbsearch.run("PRAGMA wal_checkpoint;")
         }
-
-
-
     }
 
 }
+
+
 
 
 function outputToBrowser(txt) {
@@ -1190,55 +1119,6 @@ function mainProgram() {
 
 
 
-//console.log("Deep: " + diff)
-
-
-var lhs = [
-{line: 2, value: "The cat sat on the mat"}
-,
-{line: 1, value: "The cat sat on the mat2"}
-,
-{line: 3, value: "The cat sat on the mat2"}
-    ]
-;
-
-var rhs = [
-
-{line: 1, value: "The cat sat on the mat2"}
-,
-{line: 2, value: "The cat sat on the mat"}
-,
-{line: 3, value: "The cat sat on the mat2"}
-,
-{line: 4, value: "The cat sat on the mat2"}
-
-];
-
-var diffFn = function(lhs2, rhs2) {
-    var differences = diff(lhs2, rhs2);
-    return {
-            new:     differences.filter(function (el) {return el.kind == 'N'}).length,
-            deleted: differences.filter(function (el) {return el.kind == 'D'}).length,
-            edited:  differences.filter(function (el) {return el.kind == 'E'}).length,
-            array:   differences.filter(function (el) {return el.kind == 'A'}).length
-    };
-
-};
-//console.log("")
-//console.log("")
-//console.log("")
-//console.log("----------------------------------------------------------------------------------------------")
-//console.log(JSON.stringify(differences,null,2))
-//var xdiff = diffFn(lhs, rhs);
-//console.log("N: "  + JSON.stringify(xdiff.new,null,2))
-//console.log("D: "  + JSON.stringify(xdiff.deleted,null,2))
-//console.log("E: "  + JSON.stringify(xdiff.edited,null,2))
-//console.log("A: "  + JSON.stringify(xdiff.array,null,2))
-//console.log("----------------------------------------------------------------------------------------------")
-//console.log("")
-//console.log("")
-//console.log("")
-
 
 
 
@@ -1266,55 +1146,6 @@ function outputToConsole(text) {
 
 
 
-
-
-
-
-
-function isExcelFile(fname) {
-    if (!fname) {
-        return false;
-    };
-    var ext = fname.split('.').pop();
-    ext = ext.toLowerCase();
-    if (ext == "xls") return true;
-    if (ext == "xlsx") return true;
-    return false;
-}
-
-
-function isWordFile(fname) {
-    if (!fname) {
-        return false;
-    };
-    var ext = fname.split('.').pop();
-    ext = ext.toLowerCase();
-    if (ext == "docx") return true;
-    return false;
-}
-
-function isPdfFile(fname) {
-    if (!fname) {
-        return false;
-    };
-    var ext = fname.split('.').pop();
-    ext = ext.toLowerCase();
-    if (ext == "pdf") return true;
-    return false;
-}
-
-
-
-
-function isCsvFile(fname) {
-	if (!fname) {
-	return false;
-	};
-	var ext = fname.split('.').pop();
-	ext = ext.toLowerCase();
-	if (ext == "csv") return true;
-	return false;
-}
 
 
 function isGlbFile(fname) {
