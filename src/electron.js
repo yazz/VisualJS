@@ -14,7 +14,7 @@ var ip = require('ip');
 var isWin         = /^win/.test(process.platform);
 var isPiModule = require('detect-rpi');
 var mainNodeProcessStarted = false;
-const notifier = require('node-notifier');
+
 
 
 
@@ -1053,131 +1053,7 @@ function setupVisifileParams() {
 
 
 if (electronApp) {
-    const isSecondInstance = electronApp.makeSingleInstance((commandLine, workingDirectory) => {
-      // Someone tried to run a second instance, we should focus our window.
-      if (visifile) {
-        if (visifile.isMinimized()) visifile.restore()
-        visifile.focus()
-        notifier.notify(
-          {
-            title: 'VisiFile file/URL added on Windows',
-            message: JSON.stringify(commandLine.slice(1),null,2),
-            icon: path.join(__dirname, '../public/VisiFileColor.png'), // Absolute path (doesn't work on balloons)
-            sound: true, // Only Notification Center or Windows Toasters
-            wait: true // Wait with callback, until user action is taken against notification
-          },
-          function(err, response) {
-            // Response is response from notification
-          }
-        );
-      }
-    })
 
-    if (isSecondInstance) {
-        /*notifier.notify(
-          {
-            title: 'VisiFile warning',
-            message: 'VisiFile started twice',
-            icon: path.join(__dirname, '../public/VisiFileColor.png'), // Absolute path (doesn't work on balloons)
-            sound: true, // Only Notification Center or Windows Toasters
-            wait: true // Wait with callback, until user action is taken against notification
-          },
-          function(err, response) {
-            // Response is response from notification
-          }
-      );*/
-        electronApp.quit()
-    }
-
-
-    electronApp.on('will-finish-launching', function() {
-        electronApp.on('open-file', function(ev2, path2) {
-            var  tt = ''
-            var isurl = false
-            var title = ""
-            var message = ""
-            var urlLink = "Unknown"
-            if (path2.indexOf('.webloc') != -1 ) {
-                isurl = true
-                tt = fs.readFileSync( path2)
-                fs.writeFileSync(path.join(userData, '/linkPath.txt'), path2);
-                fs.writeFileSync(path.join(userData, '/linkFull.txt'), tt);
-                if (tt.indexOf("DTD PLIST") != -1) {
-                    //urlLink = tt.toString().substring(tt.indexOf("<string>") )
-                    urlLink = tt.toString().substring(tt.indexOf("<string>") + 8, tt.indexOf("</string>"))
-                    fs.writeFileSync(path.join(userData, '/link.txt'), urlLink);
-                    //urlLink = "" + tt.indexOf("<string>") + "," + tt.indexOf("</string>")
-                    //urlLink = "google chrome link: "
-                    title = 'URL added '
-                    message = 'URL added: ' + urlLink
-                    notifier.notify(
-                      {
-                        title: title,
-                        message: message,
-                        icon: path.join(__dirname, '../public/VisiFileColor.png'), // Absolute path (doesn't work on balloons)
-                        sound: true, // Only Notification Center or Windows Toasters
-                        wait: true // Wait with callback, until user action is taken against notification
-                      },
-                      function(err, response) {
-                        // Response is response from notification
-                      }
-                    );
-                } else if (tt.indexOf("bplist") != -1) {
-                    var bplist = require('bplist-parser');
-
-                    bplist.parseFile(path2, function(err, obj) {
-                      if (err) throw err;
-
-                      //urlLink = JSON.stringify(obj)
-                      urlLink = obj[0].URL
-                      fs.writeFileSync(path.join(userData, '/link.txt'), urlLink);
-                      title = 'URL added '
-                      message = 'URL added: ' + urlLink
-                      notifier.notify(
-                        {
-                          title: title,
-                          message: message,
-                          icon: path.join(__dirname, '../public/VisiFileColor.png'), // Absolute path (doesn't work on balloons)
-                          sound: true, // Only Notification Center or Windows Toasters
-                          wait: true // Wait with callback, until user action is taken against notification
-                        },
-                        function(err, response) {
-                          // Response is response from notification
-                        }
-                      );
-                    });
-
-
-                }
-
-
-
-            } else {
-                tt = path2
-                title = 'File added '
-                message = 'File added: ' +  path2
-                saveConnectionAndQueryForFile(path2);
-                notifier.notify(
-                  {
-                    title: title,
-                    message: message,
-                    icon: path.join(__dirname, '../public/VisiFileColor.png'), // Absolute path (doesn't work on balloons)
-                    sound: true, // Only Notification Center or Windows Toasters
-                    wait: true // Wait with callback, until user action is taken against notification
-                  },
-                  function(err, response) {
-                    // Response is response from notification
-                  }
-                );
-            }
-
-
-
-
-
-        })
-
-    })
     electronApp.on('ready', function() {
 
     	if (isWin) {
@@ -1501,7 +1377,6 @@ function mainProgram() {
     startServices()
     outputToBrowser('Start Services' );
 
-    scanHardDisk();
     outputToBrowser('Start Hard Disk Scan' );
 }
 
@@ -1652,62 +1527,6 @@ function isGlbFile(fname) {
 				return true;
 		return false;
 }
-
-
-function saveConnectionAndQueryForFile(fileName) {
-    //console.log("... in saveConnectionAndQueryForFile:::: " + fileId)
-    sendOverWebSockets({
-                            type:   "server_scan_status",
-                            value:  "Found file " + fileName
-                            });
-    if (!fileName) {
-        return;
-    };
-    if (fileName.indexOf("$") != -1) {
-        return;
-    };
-    if (fileName.indexOf("gsd_") != -1) {
-        return;
-    };
-    try {
-        forkedProcesses["forked"].send({
-                        message_type:       'saveConnectionAndQueryForFile',
-                        fileId:             fileName
-                        });
-
-    } catch(err) {
-        //console.log("Error " + err + " with file: " + fileName);
-        return err;
-    } finally {
-
-    }
-}
-
-
-
-
-
-
-
-
-
-function scanHardDiskFromChild() {
-    if (typeOfSystem == 'client') {
-        if (runServices) {
-            //forkedProcesses["forkedIndexer"].send({ message_type: "childRunFindFolders" });
-            //forkedProcesses["forkedFileScanner"].send({ message_type: "childScanFiles" });
-        }
-    }
-}
-
-
-function scanHardDisk() {
-    scanHardDiskFromChild();
-    sendOverWebSockets({
-                          type:   "server_scan_status",
-                          value:  "Hard disk scan in progress"
-                          });
-};
 
 
 
@@ -3379,23 +3198,6 @@ function startServices() {
                 //visifile.webContents.executeJavaScript("document.addEventListener('dragover', event => event.preventDefault())");
                 //visifile.webContents.executeJavaScript("document.addEventListener('drop', event => event.preventDefault())");
             }
-
-
-
-
-              notifier.notify(
-                {
-                  title: 'VisiFile Started',
-                  message: 'Hello from VisiFile!',
-                  icon: path.join(__dirname, '../public/VisiFileColor.png'), // Absolute path (doesn't work on balloons)
-                  sound: true, // Only Notification Center or Windows Toasters
-                  wait: true // Wait with callback, until user action is taken against notification
-                },
-                function(err, response) {
-                  // Response is response from notification
-                }
-              );
-
 
 
 
