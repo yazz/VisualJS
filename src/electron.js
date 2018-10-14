@@ -247,9 +247,6 @@ function setUpChildListeners(processName, fileName, debugPort) {
                                     });
 
 
-        } else if (msg.message_type == "return_set_connection") {
-
-
 
 
 
@@ -262,49 +259,6 @@ function setUpChildListeners(processName, fileName, debugPort) {
                                                 code:                msg.code,
                                                 options:             msg.options
                                            });
-
-
-
-
-
-
-        } else if (msg.message_type == "return_set_query") {
-
-            //console.log(".. Main process received a 'return_set_query' message: " + msg.name)
-            var queryRaw = {  id:            msg.id,
-                             name:          msg.name,
-                             connection:    msg.connection,
-                             base_component_id:        msg.base_component_id,
-                             size:          msg.size,
-                             hash:          msg.hash,
-                             fileName:      msg.fileName,
-                             type:          msg.type,
-                             definition:    msg.definition,
-                             preview:       msg.preview
-                         }
-
-             var query = JSON.stringify(queryRaw)
-
-            sendOverWebSockets({
-                                    type: "uploaded",
-                                    id:    msg.id,
-                                    query:
-                                    {
-                                    }});
-
-            sendOverWebSockets({
-                                    type: "update_query_item",
-                                    query: queryRaw
-            });
-
-
-            sendOverWebSockets({   type: "client_get_all_queries_done"  });
-
-
-        // this needs to be fixed so that it only sends the similar documents
-        // to the client that requested them
-        } else if (msg.message_type == "return_similar_documents") {
-
 
 
 
@@ -355,21 +309,8 @@ function setUpChildListeners(processName, fileName, debugPort) {
                 }
             }
 
-            if (msg.child_process_name == "forkedFileScanner") {
-                if (typeOfSystem == 'client') {
-                    if (runServices) {
-                        //forkedProcesses["forkedFileScanner"].send({ message_type: "setUpSql" });
-                        //forkedProcesses["forkedFileScanner"].send({ message_type: "childScanFiles" });
-                    }
-                }
-            }
 
-            if (msg.child_process_name == "forkedPowershell") {
-                if (runServices) {
-                    //forkedProcesses["forkedPowershell"].send({ message_type: "setUpSql" });
-                    //forkedProcesses["forkedPowershell"].send({ message_type: "call_powershell" });
-                }
-            }
+
 
 
 
@@ -390,10 +331,6 @@ function setUpChildListeners(processName, fileName, debugPort) {
                                               }
 
 
-        } else if (msg.message_type == "parentSetSharedGlobalVar") {
-
-
-
 
 
         } else if (msg.message_type == "getResultReturned") {
@@ -405,44 +342,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
-        } else if (msg.message_type == "returnDownloadWebDocument") {
-            var rett = eval("(" + msg.returned + ")");
-            var newres = queuedResponses[ msg.seq_num ]
 
-            newres.writeHead(200, {'Content-Type': 'text/plain'});
-            newres.end(JSON.stringify({  result: rett.result}));
-
-            newres = null;
-
-
-
-
-
-        // __________
-        // Subprocess   -- Return document preview -->   Server
-        // __________
-        //
-        } else if (msg.message_type == "subprocess_returns_document_preview_to_server") {
-            //console.log("**5) subprocess_returns_document_preview_to_server: " + msg.data_id)
-            //var rett = eval("(" + msg.returned + ")");
-
-            var new_ws = queuedResponses[ msg.seq_num ]
-
-            // ______
-            // Server   -- Document Preview -->   Browser
-            // ______
-            //
-            sendToBrowserViaWebSocket(
-                new_ws,
-                {
-                    type:      "server_returns_document_preview_to_browser",
-                    data_id:    msg.data_id,
-                    result:     msg.result,
-                    data_name:    msg.data_name
-                    //result:    JSON.stringify({  result: rett.result})
-                });
-
-            //new_ws = null;
 
 
 
@@ -465,72 +365,6 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
-
-        } else if (msg.message_type == "return_get_search_results") {
-            //console.log("6 - return_get_search_results: " + msg.returned);
-            var rett = eval("(" + msg.returned + ")");
-            var newres = queuedResponses[ msg.seq_num ]
-
-            newres.writeHead(200, {'Content-Type': 'text/plain'});
-            newres.end(msg.returned);
-
-            newres = null;
-
-
-
-    } else if (msg.message_type == "return_get_search_results_json") {
-       // console.log("3 - /client/1/search: return_get_search_results_json")
-
-            //console.log("6 - return_get_query_results: " + JSON.stringify(msg,null,2));
-            var rett = eval("(" + msg.returned + ")");
-            var newres = queuedResponses[ msg.seq_num ]
-
-            var result = {
-                            message:          "Search results for: '" + msg.search_term + "'",
-                            results_count:    -1,
-                            links:           {"self": { "href": "/client/1/search" }},
-                            results:         []
-                        }
-
-            var realCount = 0
-            for (var i = 0; i < rett.data_states.length; i++) {
-                var resitem = rett.data_states[i];
-                if (resitem && (resitem.data.length > 0)) {
-                    result.results.push({
-                        query_id:      resitem.id,
-                        computer_name: username + "@" + hostaddress + ":" + port,
-                        file_name:          resitem.file_name,
-						name:               resitem.name,
-                        type:               resitem.type,
-                        size:               resitem.size,
-                        base_component_id:             resitem.base_component_id,
-                        when_timestamp:     resitem.when_timestamp
-                    })
-                    realCount ++
-                }
-            }
-            result.results_count = realCount
-//msg.result
-
-
-            newres.writeHead(200, {'Content-Type': 'application/json'});
-            newres.end(JSON.stringify(result));
-
-            newres = null;
-
-
-
-
-
-        } else if (msg.message_type == "return_get_query_results") {
-                //console.log("6 - return_get_query_results: " + msg.result);
-                var rett = eval("(" + msg.result + ")");
-                var newres = queuedResponses[ msg.seq_num ]
-
-                newres.writeHead(200, {'Content-Type': 'text/plain'});
-                newres.end(msg.result);
-
-                newres = null;
 
 
 
@@ -625,40 +459,6 @@ function setUpChildListeners(processName, fileName, debugPort) {
                 newres = null;
 
 
-
-        } else if (msg.message_type == "returnDownloadDocuments") {
-            var newres = queuedResponses[ msg.seq_num ]
-
-            if (msg.returned.error) {
-                newres.end(JSON.stringify({  error: msg.returned.error}));
-
-            } else if (msg.returned.result) {
-                var contentRecord = msg.returned.result
-                var content = Buffer.from(JSON.parse(msg.content).data);
-
-                //console.log("9: " + contentRecord.content_type);
-                //console.log("10: " + contentRecord.id);
-                //console.log("11: " + contentRecord.base_component_id);
-                //console.log("12: " + content.length);
-                //console.log("13: " + content);
-                //console.log("14: " + Object.keys(contentRecord));
-                newres.writeHead(
-
-                                200,
-
-                                {
-                                    'Content-Type': contentRecord.content_type,
-                                    'Content-disposition': 'attachment;filename=' + contentRecord.id  + "." + getFileExtension(contentRecord.base_component_id),
-                                    'Content-Length': content.length
-                                });
-
-
-                newres.end(new Buffer(  content, 'binary'  ));
-            } else {
-                newres.end(JSON.stringify({  error: "No results"}));
-            }
-
-            newres = null;
 
 
         } else if (msg.message_type == "returnIntranetServers") {
