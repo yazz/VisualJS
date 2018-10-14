@@ -31,15 +31,12 @@ var inScan                              = false;
 var stmt2                               = null;
 var stmt3                               = null;
 var setIn                               = null;
-var inGetRelatedDocumentHashes          = false;
 var finishedFindingFolders              = false;
 var username                            = "Unknown user";
 var dbsearch;
 var xdiff;
 var lhs;
 var rhs;
-var stmtInsertIntoRelationships;
-var stmtUpdateRelationships2;
 
 var stmtUpdateFolder;
 var stmtResetFolders;
@@ -71,8 +68,6 @@ var stmtInsertIntoIntranetClientConnects;
 var copyMigration;
 
 var stmtInsertInsertIntoQueries;
-var stmtUpdateRelatedDocumentCount;
-var stmtUpdateRelationships;
 var in_when_queries_changes             = false;
 var in_when_connections_change          = false;
 
@@ -99,7 +94,6 @@ username = os.userInfo().username.toLowerCase();
 processMessagesFromMainProcess();
 
 
-testDiffFn();
 
 
 
@@ -186,19 +180,6 @@ function setUpSql() {
                                                          "        status = ? " +
                                                          " where " +
                                                          "     id = ?");
-    stmtInsertIntoRelationships = dbsearch.prepare( " insert into relationships " +
-                                                        "    ( id, source_query_hash, target_query_hash, similar_row_count ) " +
-                                                        " values " +
-                                                        "    (?,  ?,?,  ?);");
-
-    stmtUpdateRelationships2 = dbsearch.prepare( " update relationships " +
-                                                         "    set " +
-                                                         "        new_source = ?, new_target = ?, " +
-                                                         "        edited_source = ?, edited_target = ?, " +
-                                                         "        deleted_source = ?, deleted_target = ?, " +
-                                                         "        array_source = ?, array_target = ? " +
-                                                         " where " +
-                                                         "     source_query_hash = ?    and     target_query_hash = ? ");
 
 
      stmtInsertIntoContents = dbsearch.prepare(  " insert into contents " +
@@ -282,15 +263,6 @@ function setUpSql() {
                                 " values " +
                                 "    (?,  ?,?,?,  ?,?,?, ?,?,?, 1,  ?);");
 
-    stmtUpdateRelatedDocumentCount = dbsearch.prepare(" update data_states " +
-                                "    set  similar_count = ?  " +
-                                " where  " +
-                                "    id = ? ;");
-
-    stmtUpdateRelationships = dbsearch.prepare(" update data_states " +
-                                "    set  related_status = ?  " +
-                                " where  " +
-                                "    hash = ? ;");
     stmt2 = dbsearch.prepare("INSERT INTO zfts_search_rows_hashed (row_hash, data) VALUES (?, ?)");
 
     stmt3 = dbsearch.prepare("INSERT INTO search_rows_hierarchy (document_binary_hash, parent_hash, child_hash) VALUES (?,?,?)");
@@ -499,86 +471,15 @@ function markFileForProcessing(  fullFilePath ) {
 
 
 
-//-----------------------------------------------------------------------------------------//
-//                                                                                         //
-//                                    getRelatedDocuments                                  //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//-----------------------------------------------------------------------------------------//
-function getRelatedDocuments(  id,  callback  ) {
-        //console.log("In getRelatedDocuments" );
-    var sql = "select  " +
-                "    distinct(id), cc, name, base_component_id, size from ( " +
-                "            select document_binary_hash,  count(child_hash) as cc from  " +
-                "            search_rows_hierarchy where child_hash in ( " +
-                "            select  " +
-                "                child_hash " +
-                "            from  " +
-                "                search_rows_hierarchy " +
-                "            where  " +
-                "                document_binary_hash = ( " +
-                "                    select   " +
-                "                        hash from data_states where id = '" + id+ "' " +
-                "                 )) group by document_binary_hash ) as ttt,  " +
-                "            data_states " +
-                "where hash = document_binary_hash " +
-                "group by id " +
-                "order by cc desc "
 
 
-    try
-    {
-        //console.log("**** : **********************")
-        //console.log("**** : **********************")
-        //console.log("**** : **********************")
-         dbsearch.serialize(function() {
-        var stmt = dbsearch.all(
-            sql,
-            function(err, results)
-            {
-                if (!err)
-                {
-                    dbsearch.serialize(function() {
-                        dbsearch.run("begin exclusive transaction");
-                        stmtUpdateRelatedDocumentCount.run(
-                            results.length,
-                            id)
 
-                        dbsearch.run("commit");
-                        })
 
-                    for (var i = 0; i < results.length; i ++) {
-                        //console.log("**** : " + JSON.stringify(results[i],null,2));
-                        //var dxz = diffFn();
-                    }
 
 
 
-                    //console.log("OK")
-                    if (callback) {
-                        callback(results);
-                    }
-                    process.send({  message_type:       "return_similar_documents",
-                                    query_id:            id,
-                                    results: JSON.stringify(results,null,2)  });
-                }
-            })
-        }, sqlite3.OPEN_READONLY)
-    } catch(err) {
-        console.log(err);
-        var stack = new Error().stack
-        console.log( stack )
 
-        process.send({  message_type:       "return_similar_documents",
-        sqlite: "Err: " + err  });
 
-    }
-}
 
 
 
@@ -586,435 +487,8 @@ function getRelatedDocuments(  id,  callback  ) {
 
 
 
-//-----------------------------------------------------------------------------------------//
-//                                                                                         //
-//                                 getRelatedDocumentHashes                                //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//-----------------------------------------------------------------------------------------//
-function getRelatedDocumentHashes(  doc_hash,  callback  ) {
-    if (inGetRelatedDocumentHashes) {
-        return;
-    }
-    inGetRelatedDocumentHashes = true;
-    //console.log("In getRelatedDocuments" );
-    var sql =
-                "select                                                                       " +
-                "    distinct(hash), cc, base_component_id, size from (                                  " +
-                "        select document_binary_hash,  count(child_hash) as cc from           " +
-                "            search_rows_hierarchy where child_hash in (                      " +
-                "                select                                                       " +
-                "                   child_hash                                                " +
-                "                from                                                         " +
-                "                        search_rows_hierarchy                                " +
-                "                where                                                        " +
-                "                       document_binary_hash = '" + doc_hash + "')            " +
-                "                group by document_binary_hash ) as ttt,                      " +
-                "                data_states                                                      " +
-                "             where hash = document_binary_hash                               " +
-                "               group by id                                                   " +
-                "                order by cc desc                                             " ;
 
 
-    try
-    {
-        dbsearch.serialize(
-            function() {
-        var stmt = dbsearch.all(
-            sql,
-            function(err, results)
-            {
-                if (!err)
-                {
-                    for (var i = 0 ; i < results.length; i++) {
-                        if (results[i]) {
-                            var target_hash = results[i].hash;
-                            //console.log("    " + doc_hash + " : " + target_hash );
-
-                            if (target_hash) {
-                                var similar_count = results[i].size;
-                                createRelationship(doc_hash, target_hash, similar_count);
-                            }
-                        }
-                    }
-                    dbsearch.serialize(
-                        function() {
-                            dbsearch.run("begin exclusive transaction");
-                            stmtUpdateRelationships.run(
-                                'INDEXED',
-                                doc_hash)
-                            dbsearch.run("commit");
-                            })
-
-                    //console.log("       OK")
-                    if (callback) {
-                        callback(results);
-                    }
-                    process.send({  message_type:       "return_similar_hashes",
-                                    document_hash:       doc_hash,
-                                    results: JSON.stringify(results,null,2)  });
-                }
-            })
-        }, sqlite3.OPEN_READONLY)
-    } catch(err) {
-        console.log(err);
-        var stack = new Error().stack
-        console.log( stack )
-
-                        process.send({  message_type:       "return_similar_hashes",
-                                        sqlite: "Err: " + err  });
-
-    }
-    inGetRelatedDocumentHashes = false;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//-----------------------------------------------------------------------------------------//
-//                                                                                         //
-//                                      findFoldersFn                                      //
-//                                                                                         //
-// This indexes the data_states for full text search                                           //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//-----------------------------------------------------------------------------------------//
-function findFoldersFn() {
-    //console.log("**  called findFoldersFn");
-    callDriverMethod( "folderScannerService", "scan_folders", {}, function(result) {
-        //console.log("    **** SCANNED THE FOLDERS ON LOCAL FILE SYSTEM ***: ")
-    })
-    return
-
-	var useDrive = "C:\\";
-    if (!isWin) {
-        useDrive = '/';
-    }
-
-    dbsearch.serialize(
-        function() {
-            dbsearch.run("begin exclusive transaction");
-            stmtResetFolders.run()
-            stmtResetFiles.run()
-            dbsearch.run("commit",
-                function(err) {
-                    directSearchFolders(useDrive);
-                    //console.log('******************* Finished finding folders');
-                    finishedFindingFolders = true;
-                    });
-                })
-
-
-
-    //remoteWalk(useDrive);
-
-
-
-    //    sendOverWebSockets({
-    //                            type:   "server_scan_status",
-    //                            value:  "Hard disk scan in progress"
-    //                            });
-
-
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//-----------------------------------------------------------------------------------------//
-//                                                                                         //
-//                                         getResult                                       //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//-----------------------------------------------------------------------------------------//
-function getResult(  source,  connectionName,  driverName,  definition,  callback  ) {
-    //console.log("var getResult = function(" + source + ", " + connectionName + ", " + driverName );
-
-    var error = new Object();
-    getConnection(connectionName, function(connection) {
-        if (connection) {
-            //console.log("     02");
-            try {
-                //console.log("22");
-                dbsearch.serialize(function() {
-                    dbsearch.run("begin exclusive transaction");
-                    setIn.run(
-                        "PROCESSING",
-                        source)
-                    dbsearch.run("commit",
-                        function(err){
-
-                            getDriver(driverName, function(base_component_id) {
-                                if (base_component_id) {
-                                    eval(base_component_id.code)['get_v2'](
-                                connection,
-                                definition
-                                ,
-                                function(ordata) {
-                                    //console.log("23");
-                                    if (ordata.error) {
-                                        dbsearch.serialize(
-                                            function() {
-                                            //console.log("24");
-                                            //console.log("****************** err 4:" + ordata.error);
-                                            //console.log("25");
-                                            dbsearch.run("begin exclusive transaction");
-                                            setIn.run(
-                                                "ERROR: " + ordata.error,
-                                                source)
-                                            dbsearch.run("commit",
-                                                function(err) {
-                                                    callback.call(this,{error: true});
-                                                });
-
-                                    })
-                            } else {
-                                //console.log("26");
-                                var rrows = [];
-                                if( Object.prototype.toString.call( ordata ) === '[object Array]' ) {
-                                    rrows = ordata;
-                                } else {
-                                    rrows = ordata.values;
-                                }
-                                //console.log("27");
-                                //console.log( "   ordata: " + JSON.stringify(ordata));
-                                var findHashSql = "select  hash from data_states where id = '" + source + "'";
-                                //console.log("FindHashSql : " + findHashSql );
-                                //console.log("1");
-                                dbsearch.serialize(function() {
-                                var stmt4 = dbsearch.all(
-                                    findHashSql
-                                    ,
-                                    function(err, results2) {
-                                        //console.log("2");
-                                        if( err) {
-                                            console.log("Error: " + JSON.stringify(error) + "'");
-                                        }
-                                        if( results2.length == 0) {
-                                            console.log("No sresults for hash" + source + "'");
-                                        }
-                                        var binHash = results2[0].hash;
-                                        dbsearch.serialize(
-                                            function() {
-                                                var stmt = dbsearch.all(
-                                                            "select  " +
-                                                            "    document_binary_hash  "  +
-                                                            "from  " +
-                                                            "    search_rows_hierarchy  " +
-                                                            "where  " +
-                                                            "    document_binary_hash = '" + binHash + "'"
-                                                            ,
-                                        function(err, results) {
-                                            //console.log("3");
-                                            if (!err) {
-                                                //console.log("4");
-                                                if( results.length == 0) {
-                                                    //console.log("5");
-
-                                                    callback.call(this,ordata);
-                                                    //console.log("Inserting rows");
-
-                                                    if (rrows && rrows.length) {
-                                                        dbsearch.serialize(
-                                                            function() {
-                                                                dbsearch.run("begin exclusive transaction");
-                                                                //console.log("Committing... " + rrows.length)
-                                                                for (var i = 0 ; i < rrows.length; i++) {
-
-                                                                    var rowhash = crypto.createHash('sha256');
-                                                                    var row = JSON.stringify(rrows[i]);
-                                                                    rowhash.setEncoding('hex');
-                                                                    rowhash.write(row);
-                                                                    rowhash.end();
-                                                                    var sha1sum = rowhash.read();
-                                                                    //console.log('                 : ' + JSON.stringify(rrows[i]));
-                                                                    stmt2.run(sha1sum, row)
-                                                                    stmt3.run(binHash, null, sha1sum)
-
-
-                                                                }
-                                                                //console.log("Committed: " + rrows.length)
-                                                                //console.log('                 : ' + JSON.stringify(rrows.length));
-                                                                //console.log('                 source: ' + JSON.stringify(source));
-                                                                setIn.run("INDEXED",source)
-                                                                dbsearch.run("commit");
-
-                                                        })
-
-                                                    } else {
-                                                        //console.log("****************** err 2");
-                                                        callback.call(this,{error: true});
-                                                        dbsearch.serialize(
-                                                            function() {
-                                                                dbsearch.run("begin exclusive transaction");
-                                                                setIn.run("INDEXED: Other error",source)
-                                                                dbsearch.run("commit");
-                                                            })
-                                                    }
-                                                } else {
-                                                    //console.log("****************** err 5: no rows");
-                                                    callback.call(this,ordata);
-                                                    dbsearch.serialize(function() {
-                                                        dbsearch.run("begin exclusive transaction");
-                                                        setIn.run("INDEXED: ",source)
-                                                        dbsearch.run("commit");
-                                                    });
-                                                }
-                                            } else {
-                                                //console.log("****************** err 3" + err);
-                                                dbsearch.serialize(function() {
-                                                    dbsearch.run("begin exclusive transaction");
-                                                    setIn.run("ERROR: " + err, source)
-                                                    dbsearch.run("commit");
-
-
-                                                    callback.call(this,{error: true});
-                                                })
-                                            }
-                                        });
-                                    }, sqlite3.OPEN_READONLY)
-                                })
-                            }, sqlite3.OPEN_READONLY)
-
-                        }})
-                    }})
-                    });
-
-                }
-                )
-
-            }
-            catch(err){
-                console.log(err);
-                var stack = new Error().stack
-                console.log( stack )
-
-                //console.log("03");
-                //console.log("****************** err 1: " + err);
-                callback.call(this,{error: true});
-            }
-        } else {
-            //console.log("04");
-            //console.log("****************** err 7 child for connection: " +connection );
-            dbsearch.serialize(function() {
-                //console.log("05");
-                dbsearch.run("begin exclusive transaction");
-                setIn.run("ERROR: no connection for " + source , source)
-                dbsearch.run("commit",
-                    function(err){
-                        callback.call(this,{error: true});
-                });
-
-            });
-        }
-    })
-    //console.log("****************** err 10 child for connection: " +connection );
-}
-
-
-
-
-
-
-
-//-----------------------------------------------------------------------------------------//
-//                                                                                         //
-//                                           diffFn                                        //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//-----------------------------------------------------------------------------------------//
-function diffFn( lhs2,  rhs2 ) {
-    var differences = diff(lhs2, rhs2);
-    if ((typeof differences !== 'undefined')) {
-        return {
-                new:     differences.filter(function (el) {return el.kind == 'N'}).length,
-                deleted: differences.filter(function (el) {return el.kind == 'D'}).length,
-                edited:  differences.filter(function (el) {return el.kind == 'E'}).length,
-                array:   differences.filter(function (el) {return el.kind == 'A'}).length
-        };
-    }
-    return {
-                new:     -1,
-                deleted: -1,
-                edited:  -1,
-                array:   -1
-    }
-
-};
-
-
-
-
-
-
-function getFileName(str) {
-    return str.split('\\').pop().split('/').pop();
-}
-
-function saveFullPath( fullPath ) {
-    if (!fullPath) {
-        return
-    }
-
-    try {
-        markFileForProcessing( fullPath )
-    } catch (err) {
-        console.log(err);
-        var stack = new Error().stack
-        console.log( stack )
-    }
-}
 
 
 
@@ -1326,100 +800,8 @@ function processMessagesFromMainProcess() {
 
 
 
-    //                                          __________
-    // Server   -- Open document natively -->   Subprocess
-    //                                          __________
-    //
-    } else if (msg.message_type == 'server_asks_subprocess_to_open_document_natively') {
-
-        dbsearch.serialize(
-            function() {
-                dbsearch.all(
-                    "select  *  from  all_data  where  " +
-                    "    id = ?"
-                    ,
-                    msg.data_id
-                    ,
-
-                    function(err, existsResults)
-                    {
-                        if (!err)
-                        {
-                            //console.log("    " + doc_hash + " : " + target_hash + "... existsResults.length = " +  existsResults.length);
-                            if (existsResults.length != 0) {
-                                var record = existsResults[0]
-                                var path = getProperty(record, "path")
-
-                                open(path);
-                             }
-                        }
-                    }
-                )
-        }, sqlite3.OPEN_READONLY)
 
 
-
-    //                                            __________
-    // Server   -- Send me document preview -->   Subprocess
-    //                                            __________
-    //
-    } else if (msg.message_type == 'server_asks_subprocess_for_document_preview') {
-        //console.log("**3) server_asks_subprocess_for_document_preview: " + msg.data_id)
-
-        // __________
-        // Subprocess   -- Return document preview -->   Server
-        // __________
-        //
-
-            dbsearch.serialize(
-                function() {
-                    dbsearch.all(
-                        "select  *  from  all_data  where  " +
-                        "    id = ?"
-                        ,
-                        msg.data_id
-                        ,
-
-                        function(err, existsResults)
-                        {
-                            if (!err)
-                            {
-                                //console.log("    " + doc_hash + " : " + target_hash + "... existsResults.length = " +  existsResults.length);
-                                if (existsResults.length != 0) {
-                                    var record = existsResults[0]
-                                    callDriverMethod( "webPreview", "preview", {data_item: record}, function(result) {
-                                        var returnDownloadDocToParentMsg = {
-                                            message_type:       'subprocess_returns_document_preview_to_server',
-                                            seq_num:             msg.seq_num,
-                                            data_id:             msg.data_id,
-                                            data_name:           msg.data_name,
-                                            result:              result
-                                        };
-                                        process.send( returnDownloadDocToParentMsg );
-                                    } )                                }
-                            }
-                        }
-                    )
-            }, sqlite3.OPEN_READONLY)
-
-
-
-
-
-
-
-    } else if (msg.message_type == 'downloadDocuments') {
-        downloadDocuments(  msg.file_id,
-                            function(result) {
-                               // console.log("5")
-                                var returnDownloadDocumentsMsg = {
-                                    message_type:       'returnDownloadDocuments',
-                                    seq_num:             msg.seq_num,
-                                    returned:            result,
-                                    content:             result.content
-                                };
-                                process.send( returnDownloadDocumentsMsg );
-                    }  )
 
 
 
@@ -1529,22 +911,6 @@ function processMessagesFromMainProcess() {
 
 
 
-    } else if (msg.message_type == 'get_search_results') {
-       // console.log("3 - get_search_results: " + msg.seq_num )
-        get_search_resultsFn(   msg.searchTerm,
-                                msg.timeStart,
-
-                                function(result) {
-                                    //console.log("5 - get_search_results: " + JSON.stringify(result))
-                                    var return_get_search_resultsMsg = {
-                                        message_type:           'return_get_search_results',
-                                        seq_num:                msg.seq_num,
-                                        returned:               JSON.stringify(result)
-                                    };
-                                   // console.log("5.1: " + JSON.stringify(return_get_search_resultsMsg))
-                                    process.send( return_get_search_resultsMsg );
-                                   // console.log("5.3: ")
-                    }  )
 
 
 
@@ -1555,122 +921,6 @@ function processMessagesFromMainProcess() {
 
 
 
-    } else if (msg.message_type == 'get_search_results_json') {
-       // console.log("2 - /client/1/search: get_search_results_json")
-        get_search_resultsFn(   msg.searchTerm,
-                                msg.timeStart,
-
-                                function(result) {
-                                    //console.log("5 - get_search_results: " + JSON.stringify(result))
-                                    var return_get_search_resultsMsg = {
-                                        message_type:           'return_get_search_results_json',
-                                        search_term:            msg.searchTerm,
-                                        seq_num:                msg.seq_num,
-                                        returned:               JSON.stringify(result)
-                                    };
-                                    //console.log("5.1: " + JSON.stringify(return_get_search_resultsMsg))
-                                    process.send( return_get_search_resultsMsg );
-                                    //console.log("5.3: ")
-                    }  )
-
-    } else if (msg.message_type == 'ipc_from_main_find') {
-
-        get_search_results_2_Fn(    msg.search_term,
-                                    {
-                                        hashes:     false,
-                                        data_items: true
-                                    },
-                                    new Date().getTime(),
-            function(results) {
-               // console.log(" .......2 ");
-                        var return_get_search_resultsMsg = {
-                            message_type:           'ipc_child_returning_find_results',
-                            search_term:             msg.search_term,
-                            seq_num:                 msg.seq_num,
-                            results:                 results.data_states
-                        };
-                        //console.log("5.1: " + JSON.stringify(return_get_search_resultsMsg))
-                        process.send( return_get_search_resultsMsg );
-                    })
-
-
-
-
-    } else if (msg.message_type == 'get_query_result') {
-        //console.log("3 - get_query_result:     " + msg.seq_num )
-        //console.log("           connection_id: " + msg.connection_id )
-        //console.log("           query_id:      " + msg.query_id )
-        //console.log("           definition:    " + msg.definition )
-
-        getqueryresultFn(       msg.connection_id,
-                                msg.query_id,
-                                msg.definition,
-
-                                function(result) {
-                                    //console.log("5 - get_query_result: " + JSON.stringify(result.length))
-                                    var return_get_query_result_msg = {
-                                        message_type:        'return_get_query_results',
-                                        seq_num:              msg.seq_num,
-                                        result:               JSON.stringify(result)
-                                    };
-                                    //console.log("5.1: " + JSON.stringify(return_get_query_result_msg))
-                                    process.send( return_get_query_result_msg );
-                                    //console.log("5.3: ")
-                    }  )
-
-
-
-
-
-
-        } else if (msg.message_type == 'get_all_tables') {
-            //console.log("3 - get_all_tables:     " + msg.seq_num )
-            //console.log("           table_name:  " + msg.table_name )
-            //console.log("           fields:      " + msg.fields )
-
-            get_all_tableFn(   msg.table_name,
-                               msg.fields,
-
-                                    function(result) {
-                                        //console.log("5 - get_all_tables: " + JSON.stringify(result.length))
-                                        var return_get_all_table_result_msg = {
-                                            message_type:        'return_get_all_table',
-                                            seq_num:              msg.seq_num,
-                                            result:               result
-                                        };
-                                        //console.log("5.1: " + JSON.stringify(return_get_all_table_result_msg))
-                                        process.send( return_get_all_table_result_msg );
-                                        //console.log("5.3: ")
-                        }  )
-
-
-
-
-
-
-    } else if (msg.message_type == 'get_all_queries') {
-        //console.log("3 - get_all_queries: " + msg.seq_num )
-        get_all_queries(
-                            function(result) {
-                                //console.log("5: " + JSON.stringify(result))
-                                var returnQueryItemMsg = {
-                                    message_type:           'return_query_item',
-                                    seq_num:                msg.seq_num,
-                                    returned:               result.query
-                                }
-                                process.send( returnQueryItemMsg );
-                            },
-
-
-                            function() {
-                                var returnQueryItemsEndedMsg = {
-                                    message_type:           'return_query_items_ended',
-                                    seq_num:                msg.seq_num
-                                };
-                                process.send( returnQueryItemsEndedMsg );
-                                //console.log("6: Query ended ")
-                            }
-                        )
 
 
 
@@ -1713,13 +963,6 @@ function processMessagesFromMainProcess() {
 
 
 
-
-        } else if (msg.message_type == 'when_queries_changes') {
-            //when_queries_changes(null);
-
-
-        } else if (msg.message_type == 'when_connections_changes') {
-            //when_connections_change();
         }
 
     });
@@ -1738,103 +981,6 @@ function processMessagesFromMainProcess() {
 
 
 
-
-
-
-
-
-//-----------------------------------------------------------------------------------------//
-//                                                                                         //
-//                                       testDiffFn                                        //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//-----------------------------------------------------------------------------------------//
-function testDiffFn() {
-    //console.log("Deep: " + diff)
-    lhs = [
-    {line: 2, value: "The cat sat on the mat"}
-    ,
-    {line: 1, value: "The cat sat on the mat2"}
-    ,
-    {line: 3, value: "The cat sat on the mat2"}
-        ]
-    ;
-
-    rhs = [
-
-    {line: 1, value: "The cat sat on the mat2"}
-    ,
-    {line: 2, value: "The cat sat on the mat"}
-    ,
-    {line: 3, value: "The cat sat on the mat2"}
-    ,
-    {line: 4, value: "The cat sat on the mat2"}
-
-    ];
-
-    //console.log("")
-    //console.log("")
-    //console.log("")
-    //console.log("----------------------------------------------------------------------------------------------")
-    //console.log(JSON.stringify(differences,null,2))
-    xdiff = diffFn(lhs, rhs);
-    //console.log("N: "  + JSON.stringify(xdiff.new,null,2))
-    //console.log("D: "  + JSON.stringify(xdiff.deleted,null,2))
-    //console.log("E: "  + JSON.stringify(xdiff.edited,null,2))
-    //console.log("A: "  + JSON.stringify(xdiff.array,null,2))
-    //console.log("----------------------------------------------------------------------------------------------")
-    //console.log("")
-    //console.log("")
-    //console.log("")
-}
-
-
-
-
-
-//-----------------------------------------------------------------------------------------//
-//                                                                                         //
-//                                    createRelationship                                   //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//-----------------------------------------------------------------------------------------//
-function createRelationship(  doc_hash,  target_hash,  similar_count ) {
-
-    dbsearch.serialize(
-        function() {
-    dbsearch.all(
-        "select  id  from  relationships  where  " +
-        "    source_query_hash = '"  +  doc_hash  +  "' and target_query_hash = '"  +  target_hash + "'"
-        ,
-
-        function(err, existsResults)
-        {
-            if (!err)
-            {
-                //console.log("    " + doc_hash + " : " + target_hash + "... existsResults.length = " +  existsResults.length);
-                if (existsResults.length == 0) {
-                    var newId = uuidv1();
-                    dbsearch.serialize(function() {
-                        dbsearch.run("begin exclusive transaction");
-                        stmtInsertIntoRelationships.run(newId,  doc_hash, target_hash,  similar_count)
-                        dbsearch.run("commit")
-                    })
-                }
-            }
-        }
-    )
-    }, sqlite3.OPEN_READONLY)
-}
 
 
 
