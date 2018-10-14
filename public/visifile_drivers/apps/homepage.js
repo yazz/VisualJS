@@ -219,8 +219,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               addAppFast: async function(baseComponentId, cardIndex,vv) {
                   if (baseComponentId) {
 
-                      var x = eval("(" + vv.code + ")")
-                      x.call()
+                      if (vv.code) {
+                          var x = eval("(" + vv.code + ")")
+                          x.call()
+                      }
                       setTimeout(function() {
                           var app = {
                                                 type: "app",
@@ -342,9 +344,16 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
           search: async function() {
-              var sql =    "SELECT  *  " +
-                           " FROM system_code where component_type = 'app' and code_tag = 'LATEST' and " +
-                           " visibility = 'PUBLIC' order by base_component_id asc; "
+              var sql =    `SELECT  id, base_component_id, logo_url, read_write_status
+                                FROM
+                            system_code
+                                where
+                                    component_type = 'app'
+                                        and
+                                    code_tag = 'LATEST'
+                                        and
+                                    visibility = 'PUBLIC'
+                            order by base_component_id asc; `
 
               var results = await callApp(
                   {
