@@ -48,40 +48,7 @@ module.exports = {
         },
 
         function(err, results){
-            //console.log("async test ");
-            //console.log("    err= " + JSON.stringify(err,null,2));
-            //console.log("    res= " + JSON.stringify(results,null,2));
-
-            try
-            {
-                dbsearch.serialize(function() {
-                    var stmt = dbsearch.all(
-                    "SELECT name FROM sqlite_master WHERE type='table' AND name='zfts_search_rows_hashed';",
-                    function(err, results)
-                    {
-                        if (!err)
-                        {
-                            console.log("Count zfts_search_rows_hashed: " + results);
-                            if( results.length == 0)
-                            {
-                                console.log("   ... creating");
-                                dbsearch.serialize(function()
-                                {
-                                    console.log("    Create   zfts_search_rows_hashed");
-                                    dbsearch.run("CREATE VIRTUAL TABLE zfts_search_rows_hashed USING fts5(row_hash, data);")
-                                    dbsearch.run("CREATE VIRTUAL TABLE zfts_search_rows_hashed_2 USING fts5(row_hash, data);")
-
-                                    console.log("       ...done");
-                                });
-                            }
-                            callbackFn.call(this);
-
-                        }
-                    })
-                }, sqlite3.OPEN_READONLY);
-            } catch(err) {
-                console.log(err);
-            } finally {
-            }});
+            callbackFn.call(this);
+        });
         }
     }
