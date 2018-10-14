@@ -1142,25 +1142,6 @@ function outputToConsole(text) {
 
 
 
-
-
-
-
-
-
-function isGlbFile(fname) {
-		if (!fname) {
-				return false;
-		};
-		var ext = fname.split('.').pop();
-		ext = ext.toLowerCase();
-		if (ext == "glb")
-				return true;
-		return false;
-}
-
-
-
 function copyFileSync( source, target ) {
 
     var targetFile = target;
@@ -2785,7 +2766,7 @@ function startServices() {
     setupChildProcesses();
 
     if (typeOfSystem == 'client') {
-        setInterval(aliveCheckFn ,numberOfSecondsAliveCheck * 1000);
+        //setInterval(aliveCheckFn ,numberOfSecondsAliveCheck * 1000);
     }
 
 
@@ -2881,21 +2862,6 @@ function startServices() {
 
 
 
-var isPcDoingStuff = false;
-//Set delay for second Measure
-setInterval(function() {
-    perf.isDoingStuff(function(retVal){
-        if ((retVal == false) &&  (isPcDoingStuff)){
-            sendOverWebSockets({
-                                    type:   "server_scan_status",
-                                    value:  "VisiFile Server busy - scanning paused "
-                                    });
-        }
-
-        isPcDoingStuff = retVal;
-        //console.log("    isPcDoingStuff = " + isPcDoingStuff);
-    });
-}, 1000);
 
 
 
@@ -2909,192 +2875,6 @@ setInterval(function() {
 
 
 
-
-function lsFn(callbackFn) {
-    var remoteServerUrl = 'http://' + centralHostAddress  + ":" +
-        centralHostPort + "/get_intranet_servers?time=" + new Date().getTime();
-
-    request({
-        uri: remoteServerUrl,
-        method: "GET",
-        timeout: 10000,
-        agent: false,
-        followRedirect: true,
-        maxRedirects: 10
-  },
-  function(error, response, body) {
-    if (error) {
-        console.log("Error opening central server: " + error);
-    } else {
-        console.log("back: " );
-        var servers = []
-        var returned= eval( "(" + body + ")");
-        for (var i = 0 ; i < returned.allServers.length; i++) {
-            //console.log('got server ' + i)
-            //console.log(JSON.stringify(returned.allServers[i],null,2))
-            var tt = new Object();
-            tt.username = returned.allServers[i].client_user_name;
-            tt.internal_host = returned.allServers[i].internal_host;
-            tt.internal_port = returned.allServers[i].internal_port;
-            tt.via           = returned.allServers[i].via;
-            servers.push(tt)
-        };
-        callbackFn(servers)
-
-    }
-  });
-}
-
-
-
-function driversFn(callbackFn) {
-    dbsearch.serialize(
-        function() {
-            var result = []
-            var stmt = dbsearch.all(
-                "SELECT * FROM drivers",
-
-                function(err, results)
-                {
-                    for (var i =0 ; i< results.length; i ++) {
-                        result.push(results[i].name)
-                    }
-                    callbackFn( result);
-                })
-    }, sqlite3.OPEN_READONLY)
-}
-
-function driversFullFn(callbackFn) {
-    dbsearch.serialize(
-        function() {
-            var result = {}
-            var stmt = dbsearch.all(
-                "SELECT * FROM drivers",
-
-                function(err, results)
-                {
-                    for (var i =0 ; i< results.length; i ++) {
-                        result[results[i].name] = results[i]
-                    }
-                    callbackFn( result);
-                })
-    }, sqlite3.OPEN_READONLY)
-}
-
-
-
-
-
-function parseVfCliCommand(args, callbackFn) {
-    var result = ""
-    var addedVf = false;
-
-    //result += (args)+ "\n"+ "\n"
-
-    if (args[0] == 'vf') {
-        args.shift()
-        addedVf = true
-
-    }
-    var countArgs = args.length
-    var verb = args[0]
-    var noun = args[1]
-    var object1 = args[2]
-
-    if ((countArgs == 1) && (verb == 'help')) {
-
-        result += "Help:\n\n"
-        result += "home:        \n"
-        result += "drivers:        \n"
-        result += "add base_component_id:        \n"
-        result += "add localdriver:        \n"
-        result += "test:        \n"
-
-        callbackFn(result)
-
-
-    } else if ((countArgs == 1) && (verb == 'home')) {
-
-        result += "Details of this server:\n\n"
-        result += "Address:        " + hostaddress + ":" + port + "\n"
-        result += "User:           " + username + "\n"
-        result += "NodeJS version: " + process.versions.node + "\n"
-        result += "Debug mode:     " + debug + "\n"
-        result += "OS Type:        " + os.type() + "\n"
-        result += "OS Version:     " + os.release() + "\n"
-        result += "OS Platform:    " + os.platform() + "\n"
-
-        callbackFn(result)
-
-    } else if ((countArgs == 1) && (verb == 'drivers')) {
-        driversFn(function(driverNames) {
-            for (var i =0 ; i< driverNames.length; i ++) {
-                result += driverNames[i] + "\n"
-            }
-            callbackFn(result)
-        })
-
-
-    } else if (verb == 'add') {
-        if (noun == 'base_component_id') {
-            request({
-                uri: "http://" + hostaddress + ":" + port + "/visifile_drivers/outlook2010.json",
-                method: "GET",
-                timeout: 10000,
-                agent: false,
-                followRedirect: true,
-                maxRedirects: 10
-            },
-            function(error, response, body) {
-                if (error) {
-                    result += "base_component_id error " + error + "\n"
-                } else {
-                    result += "base_component_id added" + JSON.stringify(response,null,2) + "\n"
-                }
-                callbackFn(result)
-                return
-           })
-        }
-
-
-
-        if (noun == 'localdriver') {
-            var driverName = object1
-
-            var seqNum = queuedResponseSeqNum;
-            queuedResponseSeqNum ++;
-            queuedResponses[seqNum] = callbackFn;
-            //console.log("2 - get_search_results")
-            forkedProcesses["forked"].send({
-                            message_type:               "add_local_driver",
-                            seq_num:                    seqNum,
-                            driver_name:                driverName
-                            });    }
-
-
-
-
-
-
-
-
-    } else if ((countArgs == 1) && (verb == 'test')) {
-        result += "Test successful. Connected to " + hostaddress + ":" + port
-        callbackFn(result)
-        return
-
-
-    } else {
-        if (addedVf && (countArgs == 0)) {
-            result += "You must enter a command. eg: 'vf help'"
-        }
-        else {
-            result += "Unknown command: '" + verb + "'"
-        }
-        callbackFn(result)
-        return
-        }
-}
 
 
 
