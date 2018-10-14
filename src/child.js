@@ -1056,33 +1056,6 @@ function clientConnectFn(
 
 
 
-function getDriver(id, callbackFn) {
-    try {
-        dbsearch.serialize(
-            function() {
-        var stmt = dbsearch.all(
-            "SELECT * FROM drivers WHERE name = ? ",
-            id
-            ,
-
-            function(err, results)
-            {
-                if (err)
-                {
-                    console.log("getDriver error: " + err)
-                    callbackFn(null)
-                    return
-                }
-                callbackFn(results[0])
-            })
-        }, sqlite3.OPEN_READONLY)
-    } catch(err) {
-        callbackFn(null)
-    }
-}
-
-
-
 
 process.on('exit', function(err) {
     shutdownExeProcess(err);
