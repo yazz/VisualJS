@@ -330,22 +330,8 @@ async function initFn() {
         });
 
 
-        vf.drivers = new Object()
-        if (online) {
-            sendToServerViaWebSocket({
-                    message_type: "drivers"
-                    });
-
-        }
-
-           setTimeout(function() {
 
 
-                if (!wait_and_select_app) {
-                    autoScroll = false
-                }
-
-        },3500)
     },100)
 };
 
@@ -983,51 +969,8 @@ var dataIds = new Object()
 
 
 
-    //
-    // ______
-    // Server  --preview of a document--  Browser
-    // ______
-    //
-    socket.on('server_returns_document_preview_to_browser',function(data) {
-
-        //console.log("**6) server_returns_document_preview_to_browser: ")
-        //console.log("    : " + JSON.stringify(data,null,2))
-        document.getElementById("popup").style.zIndex = '1000000';
-        document.getElementById("popup").style.display = '';
-
-        if (data.result.html) {
-            document.getElementById("popup_content").innerHTML = data.result.html
-        } else if (data.result.client_js) {
-            //console.log("data.result.client_js: " + data.result.client_js)
-            try {
-                //alert(data.result.client_js)
-                eval(""+ data.result.client_js + "")
-            } catch(err) {
-                alert(err)
-            }
-        }
-
-        //}
-    });
 
 
-
-
-    socket.on('vf_reply',function(data) {
-        //console.log(data.result);
-    });
-
-
-    //console.log('1) ws_to_browser_drivers');
-    socket.on('ws_to_browser_drivers',function(data) {
-        //console.log('2) ws_to_browser_drivers');
-        vf.drivers = data.result
-    });
-
-
-    socket.on('ws_to_browser_find_results',function(data) {
-        //console.log(data.results);
-    });
 
 
 
@@ -1313,7 +1256,7 @@ async function callCodeV2(componentRecord,args) {
 var listElm = null
 var params = {}
 
-var autoScroll = true;
+var autoScroll = false;
 var autoId = 0;
 var nextItem = 1;
 var wait_and_select_app = null
@@ -1339,14 +1282,6 @@ function onemouseup() {
     //console.log("onmouseup")
     mousedown = false
 };
-var vf = new Object()
-function find(term) {
-    sendToServerViaWebSocket({
-            message_type: "find",
-            term: term
-            });
-}
-
 
 
 
@@ -1362,13 +1297,7 @@ function alj(jj) {
     alert(JSON.stringify(jj,null,2))
 }
 
-function cmd(stringArgs) {
-    var args = stringArgs.split(" ");
-    sendToServerViaWebSocket({
-            message_type: "vf",
-            args: args
-            });
-}
+
 
 function isValidObject(variable){
     if ((typeof variable !== 'undefined') && (variable != null)) {
