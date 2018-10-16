@@ -159,10 +159,9 @@ load_once_from_file(true)
                 // have to make sure that we save it every time we save code
                 //
                 await this.save( this.base_component_id, this.code_id, text )
-                //alert(1)
             },
 
-            chooseCode: function() {
+            chooseCode: async function() {
                 var mm = this
                 this.code_width = "95%"
                 this.code_shown = true
@@ -172,13 +171,13 @@ load_once_from_file(true)
 
                 this.mode      = "edit"
 
-                mm.load_app( this.base_component_id )
+                await mm.load_app( this.base_component_id )
             },
 
 
 
 
-            chooseBoth: function() {
+            chooseBoth: async function() {
                 var mm = this
                 this.code_width = "63%"
                 this.code_shown = true
@@ -204,7 +203,6 @@ load_once_from_file(true)
                 var mm = this
 
                 var text = await this.$refs.editorComponentRef.getText()
-                //alert(text.indexOf("editors_old"))
 
                 var eds = saveHelper.getValueOfCodeString(text, "editors")
                 if (eds) {
@@ -215,7 +213,6 @@ load_once_from_file(true)
                 await mm.save(   this.base_component_id,   this.code_id,   text   )
 
                 await mm.load_new_app( this.base_component_id )
-                //alert(text.indexOf("editors_old"))
             },
 
 
@@ -253,22 +250,18 @@ load_once_from_file(true)
            // This is called to save the currently edited code
            // ---------------------------------------------------------------
            save: async function( base_component_id, code_id , textIn) {
-           //alert(code_id)
-               console.log("1) AppEditor: save")
                var text =  textIn
                if (text == null) {
                     text = await this.$refs.editorComponentRef.getText()
                }
-               console.log("5) AppEditor: getText done")
+
 
                var mm = this
                if (mm.read_only) {
                     return
                }
-               //alert("Saving " + code_id)
-               //alert("Saving " + text)
-               //alert(base_component_id)
-               var results = await callApp(
+
+               var results = await callFunction(
                {
                    driver_name:     "appEditorV2SaveCode",
                    method_name:     "saveCode"
@@ -281,13 +274,11 @@ load_once_from_file(true)
                                                     sub_components: Object.keys(dev_app_component_loaded)
                                                 }
                    })
-               //alert("Saved " + text)
 
-
-               //alert("Reloading 2: " + JSON.stringify(results,null,2))
-               //alert("Reloading 2: " + JSON.stringify(mm.base_component_id,null,2))
-               mm.load_app( mm.base_component_id )
+               await mm.load_app( mm.base_component_id )
            },
+
+
 
 
            load_new_app: async function ( baseComponentId ) {
