@@ -237,12 +237,17 @@ load_once_from_file(true)
 
 
 
+
+
+
+
            // ---------------------------------------------------------------
            //                           save
            //
            // This is called to save the currently edited code
            // ---------------------------------------------------------------
            save: async function( base_component_id, code_id , textIn) {
+
                var text =  textIn
                if (text == null) {
                     text = await this.$refs.editorComponentRef.getText()
@@ -308,7 +313,7 @@ load_once_from_file(true)
                // set up vars
                //
                mm.selected_app          = ""
-               mm.app_loaded            = false
+               //mm.app_loaded            = false
                mm.base_component_id     = baseComponentId
                mm.app_component_name    = null
 
