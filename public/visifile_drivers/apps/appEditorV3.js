@@ -29,12 +29,6 @@ load_once_from_file(true)
                         <button type=button class='btn btn-primary' style='margin-left: 10px' v-if='edit_name' v-on:click='(async function(){await rename(new_name)})()'>Save new name</button>
 
                         <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
-                            <select v-if='false' class="custom-select" v-model="selected_app" v-bind:onchange='load_new_app(selected_app)'>
-                              <option value='' selected>Select an application to edit</option>
-                              <option v-for='app in apps'
-                                      v-bind:value="app.base_component_id"
-                                      >{{app.display_name}}</option>
-                            </select>
                             <button  type=button class='btn btn-primary'      v-on:click='chooseApp()'  >App</button>
                             <button  type=button class=' btn btn-secondary'   v-on:click='chooseCode()' >Code</button>
                             <button  type=button class=' btn btn-info'        v-on:click='chooseBoth()' >Both</button>
@@ -114,7 +108,6 @@ load_once_from_file(true)
                selected_app:        '',
                editor_component:    null,
                app_loaded:          false,
-               apps:               [],
                app_component_name:  null,
                base_component_id:   null,
                code_id:            "...",
@@ -391,26 +384,18 @@ load_once_from_file(true)
 
 
 
-       mounted: async function () {
-        console.log(`appEditor: mounted: this.app_id = ${this.app_id}`)
-           var mm = this
-           //alert(this.app_id)
-            if (this.app_id) {
-                //alert(this.app_id)
-                //this.base_component_id = app_id
+        mounted: async function () {
+            var mm = this
 
+            //
+            // make sure we load the component for this app
+            //
+            if (mm.app_id) {
                 component_loaded[this.app_id]           = false
                 dev_app_component_loaded[this.app_id]   = false
                 component_cache[this.app_id]            = null
 
                 await this.load_app(this.app_id)
-                //alert(Object.keys(component_cache[this.app_id]))
-            } else {
-                var result = await callApp( {
-                                        driver_name:  "systemFunctions",
-                                        method_name:  "get_apps_list"  } ,{})
-
-                mm.apps = result
             }
        }
        })
