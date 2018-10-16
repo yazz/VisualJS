@@ -338,30 +338,45 @@ load_once_from_file(true)
 
                if (results) {
                    if (results.length > 0) {
-                       var editors2 = results[0].editors
-                       var newEditor = null
-                       if (editors2) {
+
+                        //
+                        // find the editor
+                        //
+                        var editors2 = results[0].editors
+                        var newEditor = null
+                        if (editors2) {
                             var edd = eval("(" + editors2 + ")")
                             newEditor = edd[0]
-                       }
-                       var code = results[0].code
-                       var codeId = results[0].id
-                       if (mm.editor_loaded && (mm.code != code)) {
+                        }
+
+
+                        //
+                        // find the code
+                        //
+                        var code = results[0].code
+                        var codeId = results[0].id
+                        if (mm.editor_loaded && (mm.code != code)) {
                             mm.code = code
                             mm.code_id = codeId
-                       }
+                        }
 
-                       if (!mm.editor_loaded) {
+                        //
+                        // load the editor
+                        //
+                        if ( !mm.editor_loaded ) {
                             var editorName = "editor_component"
                             if (newEditor) {
                                  editorName = newEditor
                             }
 
-                            await loadV2(editorName,{text: code})
-                            mm.editor_loaded = true
+                            await loadV2( editorName, {text: code} )
+                            mm.editor_loaded    = true
                             mm.editor_component = editorName
                        }
 
+                       //
+                       // set readonly
+                       //
                        this.read_only = saveHelper.getValueOfCodeString(code, "read_only")
                    }
 
@@ -384,20 +399,20 @@ load_once_from_file(true)
 
 
 
-        mounted: async function () {
-            var mm = this
+            mounted: async function () {
+                var mm = this
 
-            //
-            // make sure we load the component for this app
-            //
-            if (mm.app_id) {
-                component_loaded[this.app_id]           = false
-                dev_app_component_loaded[this.app_id]   = false
-                component_cache[this.app_id]            = null
+                //
+                // make sure we load the component for this app
+                //
+                if (mm.app_id) {
+                    component_loaded[this.app_id]           = false
+                    dev_app_component_loaded[this.app_id]   = false
+                    component_cache[this.app_id]            = null
 
-                await this.load_app(this.app_id)
-            }
-       }
+                    await this.load_app(this.app_id)
+                }
+           }
        })
        return {name: "app_editor"}
 
