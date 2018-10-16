@@ -301,16 +301,20 @@ load_once_from_file(true)
            // 'baseComponentId'
            // ---------------------------------------------------------------
            load_app: async function ( baseComponentId ) {
-               console.log(`load_app:`)
-               var mm = this
-               if ((!baseComponentId) || (baseComponentId == "") || (!mm)) {
+
+                //
+                // make sure that we reference an app
+                //
+                var mm = this
+                if ((!baseComponentId) || (baseComponentId == "") || (!mm)) {
                     return
-               }
-                mm.selected_app = ""
+                }
+
 
                //
                // set up vars
                //
+               mm.selected_app          = ""
                mm.app_loaded            = false
                mm.base_component_id     = baseComponentId
                mm.app_component_name    = null
@@ -319,9 +323,14 @@ load_once_from_file(true)
                //
                // read the code for the component that we are editing
                //
-               var sql =    "select  id, cast(code as text)  as  code, editors  from  system_code  where " +
-                            "        base_component_id = '" + baseComponentId + "'" +
-                            "        and code_tag = 'LATEST' "
+               var sql =    `select
+                                id, cast(code as text)  as  code, editors
+                             from
+                                system_code
+                             where
+                                    base_component_id = '${baseComponentId}'
+                                       and
+                                    code_tag = 'LATEST' `
 
                var results = await callApp(
                    {
@@ -335,7 +344,6 @@ load_once_from_file(true)
 
 
                if (results) {
-                   //alert(JSON.stringify(results,null,2))
                    if (results.length > 0) {
                        var editors2 = results[0].editors
                        var newEditor = null
@@ -345,14 +353,10 @@ load_once_from_file(true)
                        }
                        var code = results[0].code
                        var codeId = results[0].id
-                       //alert(code)
                        if (mm.editor_loaded && (mm.code != code)) {
-                            //alert("changed: " + code)
-                            //this.$refs.editorComponentRef.setText(code)
                             mm.code = code
                             mm.code_id = codeId
                        }
-                       //alert(JSON.stringify(1,null,2))
 
                        if (!mm.editor_loaded) {
                             var editorName = "editor_component"
@@ -366,31 +370,26 @@ load_once_from_file(true)
                        }
 
                        this.read_only = saveHelper.getValueOfCodeString(code, "read_only")
-
-
-
                    }
 
                    var results = await callApp( {code_id:    codeId },{})
                    mm.app_loaded = true
                    mm.baseComponentId = baseComponentId
-//zzz
+
                    setTimeout(async function() {
                        mm.app_component_name = baseComponentId
-                       //alert(results.name + " loaded")
                        mm.$refs.editorComponentRef.setText(code)
-
                    },500)
                }
-
-
-
-
-
-
-               }
-
+           }
        },
+
+
+
+
+
+
+
 
        mounted: async function () {
         console.log(`appEditor: mounted: this.app_id = ${this.app_id}`)
