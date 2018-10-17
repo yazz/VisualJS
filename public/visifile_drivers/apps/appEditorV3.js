@@ -269,7 +269,8 @@ load_once_from_file(true)
                         code_id:                code_id,
                         code:                   text,
                         options:                {
-                                                    sub_components: Object.keys(dev_app_component_loaded)
+                                                    sub_components: Object.keys(dev_app_component_loaded),
+                                                    save_html:              true
                                                 }
                    })
 

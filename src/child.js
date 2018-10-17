@@ -818,7 +818,7 @@ function setUpDbDrivers() {
     //
     // apps
     //
-    evalLocalSystemDriver('homepage',     path.join(__dirname, '../public/visifile_drivers/apps/homepage.js'))
+    evalLocalSystemDriver('homepage',     path.join(__dirname, '../public/visifile_drivers/apps/homepage.js'),{save_html: true})
     evalLocalSystemDriver('homepage_1',   path.join(__dirname, '../public/visifile_drivers/apps/homepage_1.js'))
     evalLocalSystemDriver('homepage_2',   path.join(__dirname, '../public/visifile_drivers/apps/homepage_2.js'))
     evalLocalSystemDriver('homepage_3',   path.join(__dirname, '../public/visifile_drivers/apps/homepage_3.js'))
@@ -1407,135 +1407,140 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                     stmtInsertNewCode.finalize();
                                     stmtDeprecateOldCode.finalize();
 
-                                    var origFilePath = path.join(__dirname, '../public/go.html')
-                                    var newStaticFilePath = path.join( userData, 'apps/' + baseComponentId + '.html' )
-                                    var newLocalStaticFilePath = path.join( userData, 'apps/appshare_' + baseComponentId + '.html' )
+                                    if (options && options.save_html) {
+                                        //
+                                        // create the static HTML file to link to on the web/intranet
+                                        //
+                                        var origFilePath = path.join(__dirname, '../public/go.html')
+                                        var newStaticFilePath = path.join( userData, 'apps/' + baseComponentId + '.html' )
+                                        var newLocalStaticFilePath = path.join( userData, 'apps/appshare_' + baseComponentId + '.html' )
 
-                                    var newStaticFileContent = fs.readFileSync( origFilePath )
+                                        var newStaticFileContent = fs.readFileSync( origFilePath )
 
-                                    newStaticFileContent = newStaticFileContent.toString().replace("var isStaticHtmlPageApp = false", "var isStaticHtmlPageApp = true")
+                                        newStaticFileContent = newStaticFileContent.toString().replace("var isStaticHtmlPageApp = false", "var isStaticHtmlPageApp = true")
 
-                                    var newcode = escape("(" + code.toString() + ")")
-
-
-                                    newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_NAME***",displayName)
-                                    newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_NAME***",displayName)
-                                    newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_BASE_COMPONENT_ID***",baseComponentId)
-                                    newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_BASE_COMPONENT_ID***",baseComponentId)
-                                    newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_CODE_ID***",sha1sum)
-                                    newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_CODE_ID***",sha1sum)
+                                        var newcode = escape("(" + code.toString() + ")")
 
 
-
-
-                                    var newCode =  `cachedCode["${sha1sum}"] = {
-                                      "type": "ws_to_browser_callDriverMethod_results",
-                                      "value": {
-                                        "code": /*APP_START*/unescape(\`${newcode}\`)/*APP_END*/,
-                                        "is_code_result": true,
-                                        "use_db": ${useDb?"\"" + useDb + "\"":null},
-                                        "libs": [],
-                                        "code_id": "${sha1sum}",
-                                        "on_condition": "\\\"app\\\"",
-                                        "base_component_id": "${baseComponentId}"
-                                      },
-                                      "seq_num": 0
-                                    }
-
-                                    finderToCachedCodeMapping["${baseComponentId}"] = "${sha1sum}"`
+                                        newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_NAME***",displayName)
+                                        newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_NAME***",displayName)
+                                        newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_BASE_COMPONENT_ID***",baseComponentId)
+                                        newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_BASE_COMPONENT_ID***",baseComponentId)
+                                        newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_CODE_ID***",sha1sum)
+                                        newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_CODE_ID***",sha1sum)
 
 
 
-                                    newCode += `
-                                        //newcodehere
-                                    `
-                                    dbsearch.serialize(
-                                        function() {
-                                            var stmt = dbsearch.all(
-                                                `select
-                                                    system_code.id as sha1,
-                                                    child_component_id,
-                                                    code
-                                                from
-                                                    component_usage,
-                                                    system_code
-                                                where
-                                                    component_usage.base_component_id = ?
-                                                and
-                                                    system_code.base_component_id = component_usage.child_component_id
-                                                and
-                                                    code_tag = 'LATEST'
-                                                    `,
 
-                                                     [  baseComponentId  ],
+                                        var newCode =  `cachedCode["${sha1sum}"] = {
+                                          "type": "ws_to_browser_callDriverMethod_results",
+                                          "value": {
+                                            "code": /*APP_START*/unescape(\`${newcode}\`)/*APP_END*/,
+                                            "is_code_result": true,
+                                            "use_db": ${useDb?"\"" + useDb + "\"":null},
+                                            "libs": [],
+                                            "code_id": "${sha1sum}",
+                                            "on_condition": "\\\"app\\\"",
+                                            "base_component_id": "${baseComponentId}"
+                                          },
+                                          "seq_num": 0
+                                        }
 
-                                            function(err, results)
-                                            {
-                                                    for (var i = 0  ;   i < results.length;    i ++ ) {
-                                                        var newcodeEs = escape("(" + results[i].code.toString() + ")")
-                                                        var newCode2 =  `cachedCode["${results[i].sha1}"] = {
-                                                          "type": "ws_to_browser_callDriverMethod_results",
-                                                          "value": {
-                                                            "code": unescape(\`${newcodeEs}\`),
-                                                            "is_code_result": true,
-                                                            "use_db": ${useDb?"\"" + useDb + "\"":null},
-                                                            "libs": [],
-                                                            "code_id": "${results[i].sha1}",
-                                                            "on_condition": "\\\"app\\\"",
-                                                            "base_component_id": "${results[i].child_component_id}"
-                                                          },
-                                                          "seq_num": 0
+                                        finderToCachedCodeMapping["${baseComponentId}"] = "${sha1sum}"`
+
+
+
+                                        newCode += `
+                                            //newcodehere
+                                        `
+                                        dbsearch.serialize(
+                                            function() {
+                                                var stmt = dbsearch.all(
+                                                    `select
+                                                        system_code.id as sha1,
+                                                        child_component_id,
+                                                        code
+                                                    from
+                                                        component_usage,
+                                                        system_code
+                                                    where
+                                                        component_usage.base_component_id = ?
+                                                    and
+                                                        system_code.base_component_id = component_usage.child_component_id
+                                                    and
+                                                        code_tag = 'LATEST'
+                                                        `,
+
+                                                         [  baseComponentId  ],
+
+                                                function(err, results)
+                                                {
+                                                        for (var i = 0  ;   i < results.length;    i ++ ) {
+                                                            var newcodeEs = escape("(" + results[i].code.toString() + ")")
+                                                            var newCode2 =  `cachedCode["${results[i].sha1}"] = {
+                                                              "type": "ws_to_browser_callDriverMethod_results",
+                                                              "value": {
+                                                                "code": unescape(\`${newcodeEs}\`),
+                                                                "is_code_result": true,
+                                                                "use_db": ${useDb?"\"" + useDb + "\"":null},
+                                                                "libs": [],
+                                                                "code_id": "${results[i].sha1}",
+                                                                "on_condition": "\\\"app\\\"",
+                                                                "base_component_id": "${results[i].child_component_id}"
+                                                              },
+                                                              "seq_num": 0
+                                                            }
+
+                                                            finderToCachedCodeMapping["${results[i].child_component_id}"] = "${results[i].sha1}"
+                                                            `
+                                                            newCode += newCode2
+                                                        }
+                                                        newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_STATIC_CODE", newCode)
+
+
+
+                                                        newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/","'"+hostaddress+"'")
+                                                        newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*static_port_start*/","/*static_port_end*/",port)
+
+                                                        newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_SCRIPT", scriptCode)
+
+
+                                                        //fs.writeFileSync( path.join(__dirname, '../public/sql2.js'),  sqliteCode )
+                                                        fs.writeFileSync( newStaticFilePath,  newStaticFileContent )
+
+
+
+                                                        //
+                                                        // save the standalone app
+                                                        //
+                                                        sqliteCode = fs.readFileSync( path.join(__dirname, '../node_modules/sqlite/sql.js') )
+                                                        var indexOfSqlite = newStaticFileContent.indexOf("//SQLITE")
+                                                        newStaticFileContent = newStaticFileContent.substring(0,indexOfSqlite) +
+                                                                                    sqliteCode +
+                                                                                        newStaticFileContent.substring(indexOfSqlite)
+                                                        newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*use_local_sqlite_start*/","/*use_local_sqlite_end*/","var useLocalDb = true")
+
+
+
+
+                                                        var sqliteAppDbPath = path.join( userData, 'app_dbs/' + baseComponentId + '.visi' )
+
+                                                        if (fs.existsSync(sqliteAppDbPath)) {
+                                                            var sqliteAppDbContent = fs.readFileSync( sqliteAppDbPath , 'base64')
+                                                            var indexOfSqliteData = newStaticFileContent.indexOf("var sqlitedata = ''")
+
+
+                                                            newStaticFileContent = newStaticFileContent.substring(0,indexOfSqliteData + 17) +
+                                                                                        "'" + sqliteAppDbContent + "'//sqlitedata" +
+                                                                                            newStaticFileContent.substring(indexOfSqliteData + 19)
+
                                                         }
 
-                                                        finderToCachedCodeMapping["${results[i].child_component_id}"] = "${results[i].sha1}"
-                                                        `
-                                                        newCode += newCode2
-                                                    }
-                                                    newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_STATIC_CODE", newCode)
-
-
-
-                                                    newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/","'"+hostaddress+"'")
-                                                    newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*static_port_start*/","/*static_port_end*/",port)
-
-                                                    newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_SCRIPT", scriptCode)
-
-
-                                                    //fs.writeFileSync( path.join(__dirname, '../public/sql2.js'),  sqliteCode )
-                                                    fs.writeFileSync( newStaticFilePath,  newStaticFileContent )
-
-
-
-                                                    //
-                                                    // save the standalone app
-                                                    //
-                                                    sqliteCode = fs.readFileSync( path.join(__dirname, '../node_modules/sqlite/sql.js') )
-                                                    var indexOfSqlite = newStaticFileContent.indexOf("//SQLITE")
-                                                    newStaticFileContent = newStaticFileContent.substring(0,indexOfSqlite) +
-                                                                                sqliteCode +
-                                                                                    newStaticFileContent.substring(indexOfSqlite)
-                                                    newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*use_local_sqlite_start*/","/*use_local_sqlite_end*/","var useLocalDb = true")
-
-
-
-
-                                                    var sqliteAppDbPath = path.join( userData, 'app_dbs/' + baseComponentId + '.visi' )
-
-                                                    if (fs.existsSync(sqliteAppDbPath)) {
-                                                        var sqliteAppDbContent = fs.readFileSync( sqliteAppDbPath , 'base64')
-                                                        var indexOfSqliteData = newStaticFileContent.indexOf("var sqlitedata = ''")
-
-
-                                                        newStaticFileContent = newStaticFileContent.substring(0,indexOfSqliteData + 17) +
-                                                                                    "'" + sqliteAppDbContent + "'//sqlitedata" +
-                                                                                        newStaticFileContent.substring(indexOfSqliteData + 19)
-
-                                                    }
-
-                                                    fs.writeFileSync( newLocalStaticFilePath,  newStaticFileContent )
-                                                    })
-                                       }
-                                 , sqlite3.OPEN_READONLY)
+                                                        fs.writeFileSync( newLocalStaticFilePath,  newStaticFileContent )
+                                                        })
+                                           }
+                                     , sqlite3.OPEN_READONLY)
+                                 }
 
 
 
@@ -1597,23 +1602,22 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                             // otherwise we only update the static file if our IP address has changed
                             //
                             } else {
-                                var oldStaticFilePath = path.join( userData, 'apps/' + baseComponentId + '.html' )
-								if (fs.existsSync(oldStaticFilePath)) {
-									var oldStaticFileContent = fs.readFileSync( oldStaticFilePath )
+                                if (options && options.save_html) {
+                                    var oldStaticFilePath = path.join( userData, 'apps/' + baseComponentId + '.html' )
+    								if (fs.existsSync(oldStaticFilePath)) {
+    									var oldStaticFileContent = fs.readFileSync( oldStaticFilePath )
 
-									var oldHostname = saveHelper.getValueOfCodeString(oldStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/")
-									var oldPort = saveHelper.getValueOfCodeString(oldStaticFileContent, "/*static_port_start*/","/*static_port_end*/")
+    									var oldHostname = saveHelper.getValueOfCodeString(oldStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/")
+    									var oldPort = saveHelper.getValueOfCodeString(oldStaticFileContent, "/*static_port_start*/","/*static_port_end*/")
 
-									if ((oldHostname != hostaddress) || (oldPort != port)) {
-										var newStaticFileContent = oldStaticFileContent.toString()
-										newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/","'"+hostaddress+"'")
-										newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*static_port_start*/","/*static_port_end*/",port)
-										fs.writeFileSync( oldStaticFilePath,  newStaticFileContent )
-									}
-
-
-								}
-
+    									if ((oldHostname != hostaddress) || (oldPort != port)) {
+    										var newStaticFileContent = oldStaticFileContent.toString()
+    										newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/","'"+hostaddress+"'")
+    										newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*static_port_start*/","/*static_port_end*/",port)
+    										fs.writeFileSync( oldStaticFilePath,  newStaticFileContent )
+    									}
+    								}
+                                }
                             }
                         }
 

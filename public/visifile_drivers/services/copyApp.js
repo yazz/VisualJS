@@ -23,7 +23,8 @@ load_once_from_file(true)
                 await saveCodeV2( newBaseid, parentHashId, code ,
                             {
                                 sub_components:         listOfSubComponents,
-                                copy_db_from:           argsBaseComponentId
+                                copy_db_from:           argsBaseComponentId,
+                                save_html:              true
                             })
 
                 returnfn({
