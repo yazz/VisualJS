@@ -1799,7 +1799,7 @@ function file_uploadFn(req, res, next) {
                                                     parent_hash:            null,
                                                     code:                   ytr,
                                                     client_file_upload_id:  client_file_upload_id,
-                                                    options:                {},
+                                                    options:                {save_html: true},
                                                     sqlite_data:            sqlitedatafromupload
                                                });
               }
