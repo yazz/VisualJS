@@ -768,9 +768,9 @@ function processMessagesFromMainProcess() {
 
 
 
-function evalLocalSystemDriver(driverName, location) {
+function evalLocalSystemDriver(driverName, location, options) {
 	var evalDriver = fs.readFileSync(location);
-	addOrUpdateDriver(driverName, evalDriver)
+	addOrUpdateDriver(driverName, evalDriver,options)
 }
 
 
@@ -888,7 +888,7 @@ function setUpDbDrivers() {
 
 
 
-function addOrUpdateDriver(  name, codeString  ) {
+function addOrUpdateDriver(  name, codeString ,options ) {
     //console.log('addOrUpdateDriver: ' + name);
 
 
@@ -912,7 +912,7 @@ function addOrUpdateDriver(  name, codeString  ) {
                                 parentId = rows[0].id
                             }
 
-                            saveCodeV2(  name, parentId,    codeString  );
+                            saveCodeV2(  name, parentId,    codeString  ,options);
 
 
 
