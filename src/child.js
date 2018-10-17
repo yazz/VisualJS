@@ -818,7 +818,7 @@ function setUpDbDrivers() {
     //
     // apps
     //
-    evalLocalSystemDriver('homepage',     path.join(__dirname, '../public/visifile_drivers/apps/homepage.js'), {save_html: true})
+    evalLocalSystemDriver('homepage',     path.join(__dirname, '../public/visifile_drivers/apps/homepage.js'))
     evalLocalSystemDriver('homepage_1',   path.join(__dirname, '../public/visifile_drivers/apps/homepage_1.js'))
     evalLocalSystemDriver('homepage_2',   path.join(__dirname, '../public/visifile_drivers/apps/homepage_2.js'))
     evalLocalSystemDriver('homepage_3',   path.join(__dirname, '../public/visifile_drivers/apps/homepage_3.js'))
@@ -1407,10 +1407,6 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                     stmtInsertNewCode.finalize();
                                     stmtDeprecateOldCode.finalize();
 
-
-
-
-                                     if (options && options.save_html) {
                                     var origFilePath = path.join(__dirname, '../public/go.html')
                                     var newStaticFilePath = path.join( userData, 'apps/' + baseComponentId + '.html' )
                                     var newLocalStaticFilePath = path.join( userData, 'apps/appshare_' + baseComponentId + '.html' )
@@ -1578,16 +1574,6 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                             updateRevisions(sqlite, baseComponentId)
                                         }
 
-                                    }
-                                    //
-                                    // if we don't save the HTML
-                                    //
-                                    } else {
-                                        returnFn( {
-                                                        code:               code.toString(),
-                                                        code_id:            sha1sum,
-                                                        base_component_id:  baseComponentId
-                                                        })
                                     }
                                     //
                                     // END OF save app db
