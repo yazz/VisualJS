@@ -1551,6 +1551,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                     //
                                     var sqlite = saveHelper.getValueOfCodeString(code, "sqlite",")//sqlite")
                                     if (sqlite) {
+                                        console.log(`SQLite options: ${JSON.stringify(options,null,2)}`)
                                         if (options && options.copy_db_from) {
                                         //zzz
                                             var newBaseid = baseComponentId

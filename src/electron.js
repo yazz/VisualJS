@@ -1731,47 +1731,47 @@ function websocketFn(ws) {
 
 
 function file_uploadFn(req, res, next) {
-      console.log('-------------------------------------------------------------------------------------');
-      console.log('-------------------------------------------------------------------------------------');
-      console.log('-------------------------------------------------------------------------------------');
-      console.log('-------------------------------------------------------------------------------------');
-      console.log('-------------------------------------------------------------------------------------');
+      //console.log('-------------------------------------------------------------------------------------');
+      //console.log('-------------------------------------------------------------------------------------');
+      //console.log('-------------------------------------------------------------------------------------');
+      //console.log('-------------------------------------------------------------------------------------');
+      //console.log('-------------------------------------------------------------------------------------');
 
-      console.log(JSON.stringify(req.files.length));
-      console.log("client_file_upload_id: " + JSON.stringify(req.body.client_file_upload_id,null,2))
+      //console.log(JSON.stringify(req.files.length));
+      //console.log("client_file_upload_id: " + JSON.stringify(req.body.client_file_upload_id,null,2))
       var client_file_upload_id = req.body.client_file_upload_id
-      console.log("**FILES** " + JSON.stringify(req.files));
-      console.log(    "    next: " + JSON.stringify(next));
+      //console.log("**FILES** " + JSON.stringify(req.files));
+      //console.log(    "    next: " + JSON.stringify(next));
 
 
-      console.log('......................................................................................');
-      console.log('......................................................................................');
-      console.log('......................................................................................');
-      console.log('......................................................................................');
-      console.log('......................................................................................');
+      //console.log('......................................................................................');
+      //console.log('......................................................................................');
+      //console.log('......................................................................................');
+      //console.log('......................................................................................');
+      //console.log('......................................................................................');
       res.status( 200 ).send( req.files );
 
 
       var ll = req.files.length;
       for (var i = 0; i < ll ; i ++) {
-          console.log('Loading saved appshare app' );
+          //console.log('Loading saved appshare app' );
           var ifile = req.files[i];
-          console.log("        " + JSON.stringify(ifile));
+          //console.log("        " + JSON.stringify(ifile));
           var ext = ifile.originalname.split('.').pop();
           ext = ext.toLowerCase();
-          console.log('Ext: ' + ext);
+          //console.log('Ext: ' + ext);
           if ((ext == "html") || (ext == "html")) {
           var localp2;
           localp2 =  path.join(userData,  'uploads/' + ifile.filename);
               var localp = localp2 + '.' + ext;
               fs.renameSync(localp2, localp);
               var readIn = fs.readFileSync(localp)
-              console.log('');
-              console.log('Local saved path: ' + localp);
+              //console.log('');
+              //console.log('Local saved path: ' + localp);
               var indexStart = readIn.indexOf("/*APP_START*/")
               var indexEnd = readIn.indexOf("/*APP_END*/")
-              console.log(`indexStart: ${indexStart}`)
-              console.log(`indexEnd: ${indexEnd}`)
+              //console.log(`indexStart: ${indexStart}`)
+              //console.log(`indexEnd: ${indexEnd}`)
               if ((indexStart > 0) && (indexEnd > 0)) {
                 indexStart += 13 + 10
                 indexEnd -= 2
