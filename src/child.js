@@ -1065,7 +1065,7 @@ process.on('quit', function(err) {
 });
 
 function shutdownExeProcess(err) {
-    console.log("** Scheduler process was killed: " )
+    console.log("** child.js process was killed " )
     if (err) {
         console.log("    : " + err)
     }
