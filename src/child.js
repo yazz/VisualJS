@@ -533,12 +533,12 @@ function processMessagesFromMainProcess() {
 
 
 
-      } else if (msg.message_type == "save_code_from_upload") {
+    } else if (msg.message_type == "save_code_from_upload") {
+        console.log(`Entering  save_code_from_upload`)
 
 
         var asyy = async function() {
             var ret = await saveCodeV2(  msg.base_component_id, msg.parent_hash  ,  msg.code  , msg.options);
-            //console.log(`Uploaded code ID = ${ret.code_id}`)
             var useDb = msg.base_component_id //saveHelper.getValueOfCodeString(msg.code ,"use_db")
             if (msg.sqlite_data) {
                     //console.log("msg.sqlite_data: " + msg.sqlite_data)
@@ -1570,6 +1570,10 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                 copyMigration.run(  newBaseid,  options.copy_db_from)
                                                 dbsearch.run("commit");
                                                 })
+
+                                        } else if (options.ignore_db) {
+                                            // do nothing in many cases
+
                                         } else {
                                             //console.log('updateRevisions(sqlite, baseComponentId)')
                                             //console.log('    ' + JSON.stringify(options,null,2))
