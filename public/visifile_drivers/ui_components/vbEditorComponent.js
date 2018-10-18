@@ -22,6 +22,7 @@ load_once_from_file(true)
                         v-if='uid2 != null'
                         style='width: 100%; height: 45vh;'
                         >
+                        <div v-if='local_app'>Local appshare app</div>
                     <div>
                         <h4 style='display: inline-block; margin-right: 10px; ' v-if='design_mode' >VB app designer</h4>
                         <slot style='display: inline-block;' v-if='text'></slot>
@@ -309,6 +310,7 @@ load_once_from_file(true)
             mm.uid2 =                       uuidv4()
             mm.vb_grid_element_id =          "vb_grid_"+ uuidv4()
             mm.vb_editor_element_id =         "vb_editor_"+ uuidv4()
+            mm.local_app = localAppshareApp
 
 
             //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
@@ -1260,6 +1262,7 @@ load_once_from_file(true)
                       vb_grid_element_id:          null,
                       vb_editor_element_id:        null,
                       design_mode: designMode,
+                      local_app:                    false,
                       refresh: 0,
                       runtime_mode: runtimeMode,
                       component_usage:             new Object(),
@@ -1320,6 +1323,7 @@ load_once_from_file(true)
            add_property:                false,
            new_property_name: "",
            new_property_id: "",
+           local_app:                    false,
            refresh:                     0,
            properties:                  [],
            read_only:                   false,
