@@ -7,7 +7,7 @@
 
 
     <script>
-    /*use_local_sqlite_start*/var useLocalDb = false/*use_local_sqlite_end*/
+    /*use_local_sqlite_start*/var localAppshareApp = false/*use_local_sqlite_end*/
     var localSqliteDb    = null
     var libLoaded        = new Object()
     var component_loaded = new Object()
@@ -1132,7 +1132,7 @@ function callCode(data) {
 
         var addP = "'" + data.value.code_id + "', '" + useDb + "', "
         //alert("data: " + addP);
-        if (useLocalDb) {
+        if (localAppshareApp) {
 
             var eds = saveHelper.getValueOfCodeString(data.value.code, "sqlite",")//sqlite")
             if (eds){
@@ -1200,7 +1200,7 @@ async function callCodeV2(componentRecord,args) {
 
         var addP = "'" + componentRecord.code_id + "', '" + useDb + "', "
         //alert("data: " + addP);
-        if (useLocalDb) {
+        if (localAppshareApp) {
 
             var eds = saveHelper.getValueOfCodeString(componentRecord.code, "sqlite",")//sqlite")
             if (eds){
@@ -1467,7 +1467,7 @@ function created_timestamp(d) {
 }
 
 async function rxsql(code_id,base_component_id, sqlcode, params) {
-    if (useLocalDb) {
+    if (localAppshareApp) {
         var results = localSql(sqlcode,params)
         return results
     } else {

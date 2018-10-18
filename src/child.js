@@ -1518,7 +1518,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                         newStaticFileContent = newStaticFileContent.substring(0,indexOfSqlite) +
                                                                                     sqliteCode +
                                                                                         newStaticFileContent.substring(indexOfSqlite)
-                                                        newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*use_local_sqlite_start*/","/*use_local_sqlite_end*/","var useLocalDb = true")
+                                                        newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*use_local_sqlite_start*/","/*use_local_sqlite_end*/","var localAppshareApp = true")
 
 
 
