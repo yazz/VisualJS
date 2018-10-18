@@ -1161,6 +1161,60 @@ function updateRevisions(sqlite, baseComponentId) {
 
 
 
+function fastForwardToLatestRevision(sqlite, baseComponentId) {
+    try {
+
+        dbsearch.serialize(
+            function() {
+                dbsearch.all(
+                    "SELECT  *  from  app_db_latest_ddl_revisions  where  base_component_id = ? ; "
+                    ,
+                    baseComponentId
+                    ,
+
+                    function(err, results)
+                    {
+                        var latestRevision = null
+                        if (results.length > 0) {
+                            latestRevision = results[0].latest_revision
+                        }
+                        var newLatestRev = null
+                        var readIn = false
+                        for (var i=0; i < sqlite.length; i+=2) {
+                            var sqlStKey = sqlite[i]
+
+                            for (var j = 0  ;  j < sqlite[i + 1].length  ;  j++ ) {
+                                if ((latestRevision == null) || readIn) {
+                                    var sqlSt = sqlite[i + 1][j]
+                                    newLatestRev = sqlStKey
+                                }
+                                if (latestRevision == sqlStKey) {
+                                    readIn = true
+                                }
+                            }
+                        }
+
+                        dbsearch.serialize(function() {
+                            dbsearch.run("begin exclusive transaction");
+                            if (results.length == 0) {
+                                stmtInsertAppDDLRevision.run(baseComponentId, newLatestRev)
+                            } else {
+                                if (newLatestRev) {
+                                    stmtUpdateLatestAppDDLRevision.run(newLatestRev,baseComponentId)
+                                }
+                            }
+                            dbsearch.run("commit")
+                        })
+
+
+                 })
+        }
+        ,
+        sqlite3.OPEN_READONLY)
+    } catch (ewr) {
+        console.log(ewr)
+    }
+}
 
 
 
@@ -1195,6 +1249,14 @@ function copyFile(source, target, cb) {
 
 
 
+
+
+function isValidObject(variable){
+    if ((typeof variable !== 'undefined') && (variable != null)) {
+        return true
+    }
+    return false
+}
 
 async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
@@ -1381,7 +1443,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                           }
                                      }
                                      var sqliteCode = ""
-                                     if (options) {
+                                     if (isValidObject(options)) {
 
                                         //console.log(JSON.stringify(options,null,2))
                                         if (options.sub_components) {
@@ -1403,7 +1465,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                     stmtInsertNewCode.finalize();
                                     stmtDeprecateOldCode.finalize();
 
-                                    if (options && options.save_html) {
+                                    if (isValidObject(options) && options.save_html) {
                                         //
                                         // create the static HTML file to link to on the web/intranet
                                         //
@@ -1552,7 +1614,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                     var sqlite = saveHelper.getValueOfCodeString(code, "sqlite",")//sqlite")
                                     if (sqlite) {
                                         console.log(`SQLite options: ${JSON.stringify(options,null,2)}`)
-                                        if (options && options.copy_db_from) {
+                                        if (isValidObject(options) && options.copy_db_from) {
                                         //zzz
                                             var newBaseid = baseComponentId
                                             //
@@ -1571,8 +1633,8 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                 dbsearch.run("commit");
                                                 })
 
-                                        } else if (options.ignore_db) {
-                                            // do nothing in many cases
+                                        } else if (isValidObject(options) && options.fast_forward_database_to_latest_revision) {
+                                            fastForwardToLatestRevision(sqlite, baseComponentId)
 
                                         } else {
                                             //console.log('updateRevisions(sqlite, baseComponentId)')
