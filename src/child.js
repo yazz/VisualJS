@@ -1085,6 +1085,8 @@ var esprima = require('esprima');
 
 
 function updateRevisions(sqlite, baseComponentId) {
+    try {
+
     dbsearch.serialize(
     function() {
         dbsearch.all(
@@ -1160,6 +1162,10 @@ function updateRevisions(sqlite, baseComponentId) {
                  })
              })
     }, sqlite3.OPEN_READONLY)
+    } catch (ewr) {
+        console.log(ewr)
+    }
+
 
 }
 
