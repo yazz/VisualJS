@@ -820,8 +820,8 @@ function setupPublicWebSocket()
 {
 
     //console.log('opening web socketio');
-    //socket = io('http://appshare.co:80');
-    staticAppSocket = io('http://192.168.0.63:3000');
+    staticAppSocket = io('http://appshare.co:80');
+    //staticAppSocket = io('http://192.168.0.63:3000');
 
     //console.log('opening web socketio');
     staticAppSocket.on('socket_connected',function(data){
