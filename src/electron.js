@@ -278,7 +278,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
         } else if (msg.message_type == "ipc_child_returning_uploaded_app_as_file_in_child_response") {
-            //zzz
+
             console.log("uploaded_app_as_file_in_child: " + JSON.stringify(msg))
 
                 // ______
@@ -1599,6 +1599,21 @@ function websocketFn(ws) {
                         })
             }, sqlite3.OPEN_READONLY)
 
+
+
+        //zzz
+
+        //                                  ______
+        // Browser  --Send me your data-->  Server
+        //                                  ______
+        //
+        } else if (receivedMessage.message_type == "edit_static_app") {
+        console.log("*** server got message from static app: edit_static_app")
+            sendToBrowserViaWebSocket(  ws,
+                                        {
+                                            type:             "edit_static_app_url",
+                                            url:              "dummy URL"
+                                        });
 
 
 

@@ -815,21 +815,31 @@ function sendToServerViaWebSocket(msg) {
 
 
 //zzz
+var staticAppSocket
 function setupPublicWebSocket()
 {
 
     //console.log('opening web socketio');
     //socket = io('http://appshare.co:80');
-    socket = io('http://192.168.0.63:3000');
+    staticAppSocket = io('http://192.168.0.63:3000');
 
     //console.log('opening web socketio');
-    socket.on('socket_connected',function(data){
-        online = true
+    staticAppSocket.on('socket_connected',function(data){
         //console.log("Connected: " + JSON.stringify(data,null,2));
         alert("Connected 2")
-        socket.send(JSON.stringify({type: "edit_static_app", msg: "Hi from client"}));
+        staticAppSocket.send(JSON.stringify({message_type: "edit_static_app", msg: "Hi from client"}));
 
     });
+
+    staticAppSocket.on('edit_static_app_url', function(msg) {
+        alert(JSON.stringify(msg.url,null,2))
+        //var receivedMessage = eval("(" + msg + ")");
+        //console.log(" 1- Server recieved message: " + JSON.stringify(receivedMessage));
+
+        // if we get the message "server_get_all_queries" from the web browser
+        //alert("Browser received from server socket: " + JSON.stringify(msg,null,2));
+    })
+
 }
 
 function setupWebSocket(host, port)
