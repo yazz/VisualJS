@@ -1608,11 +1608,12 @@ function websocketFn(ws) {
         //                                  ______
         //
         } else if (receivedMessage.message_type == "edit_static_app") {
-        console.log("*** server got message from static app: edit_static_app")
+            console.log("*** server got message from static app: edit_static_app")
+            var sql_data = receivedMessage.sql_data
             sendToBrowserViaWebSocket(  ws,
                                         {
                                             type:             "edit_static_app_url",
-                                            url:              "dummy URL"
+                                            url:              "dummy URL: " + (sql_data?sql_data.length:0)
                                         });
 
 

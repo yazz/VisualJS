@@ -814,20 +814,26 @@ function sendToServerViaWebSocket(msg) {
 }
 
 
-//zzz
+
 var staticAppSocket
 function setupPublicWebSocket()
 {
 
     //console.log('opening web socketio');
-    staticAppSocket = io('http://appshare.co:80');
-    //staticAppSocket = io('http://192.168.0.63:3000');
+    //staticAppSocket = io('http://appshare.co:80');
+    staticAppSocket = io('http://192.168.0.63:3000');
 
     //console.log('opening web socketio');
     staticAppSocket.on('socket_connected',function(data){
         //console.log("Connected: " + JSON.stringify(data,null,2));
         alert("Connected 2")
-        staticAppSocket.send(JSON.stringify({message_type: "edit_static_app", msg: "Hi from client"}));
+        //zzz
+        staticAppSocket.send(JSON.stringify(
+            {
+                message_type:   "edit_static_app",
+                sql_data:        sqlitedata,
+                msg:            "Hi from client"
+            }));
 
     });
 
