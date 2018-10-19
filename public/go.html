@@ -15,6 +15,7 @@
     var online           = false
     var dev_app_component_loaded = new Object()
     var file_upload_uuid = null
+    var base_component_id = null
     </script>
 
     <script>
@@ -568,10 +569,11 @@ div.tilt {
 var globalEventBus = new Vue();
 //lll
 var newAppArgs = []
-async function prepareApp(  id,  base_component_id,  args  ) {
+async function prepareApp(  id,  bbase_component_id,  args  ) {
     //alert(id)
-    //alert(base_component_id)
     //alert(JSON.stringify(args,null,2))
+    base_component_id = bbase_component_id
+    //alert(base_component_id)
 
     console.log(" prepareApp base_component_id: " + base_component_id)
     //alert(JSON.stringify(args,null,2))
@@ -837,9 +839,10 @@ function setupPublicWebSocket()
         //zzz
         staticAppSocket.send(JSON.stringify(
             {
-                message_type:   "edit_static_app",
-                sql_data:        sqlitedata,
-                msg:            "Hi from client"
+                message_type:           "edit_static_app",
+                sql_data:                sqlitedata,
+                base_component_id:       base_component_id,
+                msg:                    "Hi from client"
             }));
 
     });

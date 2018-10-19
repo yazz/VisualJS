@@ -1613,7 +1613,7 @@ function websocketFn(ws) {
             sendToBrowserViaWebSocket(  ws,
                                         {
                                             type:             "edit_static_app_url",
-                                            url:              "dummy URL: " + (sql_data?sql_data.length:0)
+                                            url:              "" + receivedMessage.base_component_id + ": " + (sql_data?sql_data.length:0)
                                         });
 
 
