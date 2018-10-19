@@ -22,7 +22,7 @@ load_once_from_file(true)
                         v-if='uid2 != null'
                         style='width: 100%; height: 45vh;'
                         >
-                        <div v-if='local_app'>Local appshare app</div>
+                        <div v-on:click='setupPublicWebSocket()' v-if='local_app'>Local appshare app</div>
                     <div>
                         <h4 style='display: inline-block; margin-right: 10px; ' v-if='design_mode' >VB app designer</h4>
                         <slot style='display: inline-block;' v-if='text'></slot>

@@ -1206,21 +1206,6 @@ function copyFolderRecursiveSync( source, target ) {
 
 
 
-function sendOverWebSockets(data) {
-    var ll = serverwebsockets.length;
-    //console.log('send to sockets Count: ' + JSON.stringify(serverwebsockets.length));
-    for (var i =0 ; i < ll; i++ ) {
-        var sock = serverwebsockets[i];
-        sock.emit(data.type,data);
-        //console.log('                    sock ' + i + ': ' + JSON.stringify(sock.readyState));
-    }
-}
-
-
-
-
-
-
 
 
 
