@@ -200,6 +200,12 @@ async function initFn() {
               show_app_only: false
               ,
               is_static: false
+              ,
+              local_app:                    false
+        }
+        ,
+        mounted: function(){
+            this.local_app = localAppshareApp
         }
         });
 
@@ -522,6 +528,7 @@ div.tilt {
             <template v-for="item  in  cards" >
                 <div v-if="item.id == selected_card"
                         style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:scroll;">
+                        <div v-on:click='setupPublicWebSocket()' v-if='local_app'>Local appshare app</div>
                         <card_component :item='item' :visible='true' :element_id='"current_card"'
                                         :full_screen='true' :show_app_only='show_app_only'
                                         :is_static='is_static' :card_selected='true'>
