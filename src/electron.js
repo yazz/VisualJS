@@ -1483,7 +1483,33 @@ function getRoot(req, res) {
 }
 
 
+function getEditApp(req, res) {
+	hostcount++;
+	//console.log("Host: " + req.headers.host + ", " + hostcount);
+	//console.log("Full URL: " + req.protocol + '://' + req.get('host') + req.originalUrl);
 
+    var homepage = path.join(__dirname, '../public/go.html')
+	if (req.headers.host) {
+        if (req.query.goto) {
+            console.log("*** FOUND goto")
+            res.end(fs.readFileSync(homepage));
+            return
+        }
+        if (req.query.embed) {
+            console.log("*** FOUND embed")
+            res.end(fs.readFileSync(homepage));
+            return
+        }
+	};
+
+    if (runapp && (!req.query.goto) && (!req.query.embed)) {
+        homepage = path.join( userData, 'apps/' + runapp + '.html' )
+        runOnPageExists(req,res,homepage)
+        return
+    }
+
+
+}
 
 
 
@@ -1934,8 +1960,16 @@ function startServices() {
     // Show the default page for the different domains
     //------------------------------------------------------------------------------
     app.get('/', function (req, res) {
-        //console.log("app.get('/'");
     	return getRoot(req, res);
+    })
+
+
+    //zzz
+    //------------------------------------------------------------------------------
+    // Allow an app to be edited
+    //------------------------------------------------------------------------------
+    app.get('/edit/*', function (req, res) {
+    	return getEditApp(req, res);
     })
 
 
