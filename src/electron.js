@@ -1613,7 +1613,8 @@ function websocketFn(ws) {
             sendToBrowserViaWebSocket(  ws,
                                         {
                                             type:             "edit_static_app_url",
-                                            url:              "" + receivedMessage.base_component_id + ": " + (sql_data?sql_data.length:0)
+                                            url:               receivedMessage.host_editor_address + "/editor/todo",
+                                            url2:             "" + receivedMessage.base_component_id + ": " + (sql_data?sql_data.length:0)
                                         });
 
 

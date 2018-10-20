@@ -827,10 +827,11 @@ function sendToServerViaWebSocket(msg) {
 var staticAppSocket
 function setupPublicWebSocket()
 {
-
+    var hostEditorAddress = "http://192.168.1.253:3000"
     //console.log('opening web socketio');
     //staticAppSocket = io('http://appshare.co:80');
-    staticAppSocket = io('http://192.168.0.63:3000');
+
+    staticAppSocket = io(hostEditorAddress);
 
     //console.log('opening web socketio');
     staticAppSocket.on('socket_connected',function(data){
@@ -840,6 +841,7 @@ function setupPublicWebSocket()
         staticAppSocket.send(JSON.stringify(
             {
                 message_type:           "edit_static_app",
+                host_editor_address:     hostEditorAddress,
                 sql_data:                sqlitedata,
                 base_component_id:       base_component_id,
                 msg:                    "Hi from client"
