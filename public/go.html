@@ -8,6 +8,7 @@
 
     <script>
     /*use_local_sqlite_start*/var localAppshareApp = false/*use_local_sqlite_end*/
+    /*edit_app_share_app_start*/var editAppShareApp = null/*edit_app_share_app_end*/
     var localSqliteDb    = null
     var libLoaded        = new Object()
     var component_loaded = new Object()
@@ -300,6 +301,34 @@ async function initFn() {
         } else if (isStaticHtmlPageApp) {
             mainMoonApp.is_static = true
         }
+
+//zzz
+        if (editAppShareApp) {
+            console.log(1)
+            var nid = nextItem++;
+            console.log(2)
+            await loadV2(editAppShareApp)
+            console.log(3)
+            add_card({
+                        id: nid,
+                        card: {
+                            id:                 nid,
+                            name:               "fdsfsd",
+                            base_component_id:  editAppShareApp,
+                            code_id:            editAppShareApp,
+                            display_name:       "fdsfds",
+                            type:               "app"
+                        }});
+            mainMoonApp.show_loader = false
+            autoScroll = false
+            setTimeout(async function() {
+                await select_card(nid)
+            },20)
+            refresh();
+        }
+
+
+
 
         Dropzone.autoDiscover = false;
 
