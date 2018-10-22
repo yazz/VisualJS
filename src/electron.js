@@ -1077,19 +1077,12 @@ function getPort () {
                                                      port: port
                                                   });
 
-            mainProgram()
+            startServices()
     })
 }
 
 
 
-function mainProgram() {
-
-    startServices()
-    outputToBrowser('Start Services' );
-
-    outputToBrowser('Start Hard Disk Scan' );
-}
 
 
 
