@@ -2157,26 +2157,18 @@ function startServices() {
     aliveCheckFn();
 
 
-    setupChildProcesses();
+
 
     if (typeOfSystem == 'client') {
         //setInterval(aliveCheckFn ,numberOfSecondsAliveCheck * 1000);
     }
 
 
-
-
-    forkedProcesses["forked"].send({ message_type: "when_connections_changes" });
-    forkedProcesses["forked"].send({ message_type: "when_queries_changes" });
-
-
-
-
-
     forkedProcesses["forked"].send({message_type:       'setUpDbDrivers'});
 
 
-
+//yyy
+setupChildProcesses();
 
 
 

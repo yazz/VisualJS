@@ -63,8 +63,6 @@ var stmtInsertIntoIntranetClientConnects;
 var stmtInsertInsertIntoQueries;
 var stmtUpdateRelatedDocumentCount;
 var stmtUpdateRelationships;
-var in_when_queries_changes             = false;
-var in_when_connections_change          = false;
 var inUse = false
 
 username = os.userInfo().username.toLowerCase();
