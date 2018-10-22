@@ -277,6 +277,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
+
         } else if (msg.message_type == "ipc_child_returning_uploaded_app_as_file_in_child_response") {
 
             console.log("uploaded_app_as_file_in_child: " + JSON.stringify(msg))
@@ -1076,8 +1077,8 @@ function getPort () {
                                                      ip: hostaddress,
                                                      port: port
                                                   });
+              startServices()
 
-            startServices()
     })
 }
 
