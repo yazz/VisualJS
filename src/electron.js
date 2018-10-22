@@ -2164,7 +2164,7 @@ function startServices() {
     }
 
 
-    forkedProcesses["forked"].send({message_type:       'setUpDbDrivers'});
+    forkedProcesses["forked"].send({message_type:       'setUpPredefinedComponents'});
 
 
 //yyy

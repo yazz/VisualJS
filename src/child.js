@@ -616,8 +616,8 @@ function processMessagesFromMainProcess() {
 
 
 
-    } else if (msg.message_type == 'setUpDbDrivers') {
-        setUpDbDriversLocally();
+    } else if (msg.message_type == 'setUpPredefinedComponents') {
+        setUpComponentsLocally();
 
 
 
@@ -781,7 +781,7 @@ function evalLocalSystemDriver(driverName, location, options) {
 
 
 
-function setUpDbDriversLocally() {
+function setUpComponentsLocally() {
     //evalLocalSystemDriver('glb',                    path.join(__dirname, '../public/visifile_drivers/glb.js'))
     //evalLocalSystemDriver('csv',                    path.join(__dirname, '../public/visifile_drivers/csv.js'))
     //evalLocalSystemDriver('txt',                    path.join(__dirname, '../public/visifile_drivers/glb.js'))
