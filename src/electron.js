@@ -729,25 +729,17 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
 
 
 
+function setupMainChildProcess() {
+    setupForkedProcess("forked",        "child.js", 40003)
+}
+
+
+
 function setupChildProcesses() {
-    //console.log("-------------------------------------------------------------------");
-    //console.log("-------------------------------------------------------------------");
-    //console.log("-------------------------------------------------------------------");
-    //console.log("-------------------------------------------------------------------");
-    //console.log("-------------------------------------------------------------------");
-
-    //setupForkedProcess("forkedIndexer","child.js", 40000)
-    //setupForkedProcess("forkedFileScanner","child.js", 40001)
-
-    if (isWin) {
-        //setupForkedProcess("forkedPowershell","powershell.js", 40002)
-    }
-
     setupForkedProcess("forkedExeScheduler", "exeScheduler.js", 40004)
     for (var i=0;i<executionProcessCount; i++ ) {
         var exeProcName = "forkedExeProcess" + i
             setupForkedProcess(exeProcName, "exeProcess.js", 40100 + i)
-
     }
 }
 
@@ -755,16 +747,6 @@ function setupChildProcesses() {
 
 
 
-function setupChildProcesses2() {
-    //console.log("-------------------------------------------------------------------");
-    //console.log("-------------------------------------------------------------------");
-    //console.log("-------------------------------------------------------------------");
-    //console.log("-------------------------------------------------------------------");
-    //console.log("-------------------------------------------------------------------");
-
-    setupForkedProcess("forked",        "child.js", 40003)
-
-}
 
 
 
@@ -922,7 +904,7 @@ if (electronApp) {
         //var index = require(path.resolve('src/index.js'))
 
 
-        setupChildProcesses2();
+        setupMainChildProcess();
 
     })
 }
@@ -975,7 +957,7 @@ else {
             //var index = require(path.resolve('src/index.js'))
 
 
-            setupChildProcesses2();
+            setupMainChildProcess();
 }
 
 

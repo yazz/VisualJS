@@ -605,7 +605,11 @@ function processMessagesFromMainProcess() {
         console.log("**** createTables");
         db_helper.createTables(dbsearch,
             function() {
-               //console.log("**** createTables returned");
+                console.log("");
+                console.log("***********************************");
+                console.log("**** createTables returned");
+                console.log("***********************************");
+                console.log("");
                 process.send({  message_type:       "createdTablesInChild"  });
 
             });
