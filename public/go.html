@@ -17,6 +17,11 @@
     var dev_app_component_loaded = new Object()
     var file_upload_uuid = null
     var base_component_id = null
+    var isStaticHtmlPageApp = false
+    var queuedResponses = new Object()
+    var queuedBrowserResponseSeqNum = 0
+    var callDriverMethodArgs = new Object()
+
     </script>
 
     <script>
@@ -307,16 +312,17 @@ async function initFn() {
             console.log(1)
             var nid = nextItem++;
             console.log(2)
-            await loadV2(editAppShareApp)
+            await loadV2("app_editor_3")
             console.log(3)
             add_card({
                         id: nid,
                         card: {
                             id:                 nid,
                             name:               "fdsfsd",
-                            base_component_id:  editAppShareApp,
-                            code_id:            editAppShareApp,
+                            base_component_id:  "app_editor_3",
+                            code_id:            "app_editor_3",
                             display_name:       "fdsfds",
+                            args:                {app_id: editAppShareApp},
                             type:               "app"
                         }});
             mainMoonApp.show_loader = false
@@ -633,8 +639,9 @@ function loadAppIntoElement(tagName, rootElement) {
         document.getElementById(newCardId).appendChild(animation);
 
     }
+    //zzz
     new Vue({
-        template: "<" + tagName + "></" + tagName + ">",
+        template: `<${tagName} app_id='${editAppShareApp}' v-bind:card_index='1'></${tagName}>`,
         el: "#" + rootElement
     })
 }
@@ -777,7 +784,7 @@ async function select_card(id) {
                             //alert(1)
                         }
                         if (thisApp.card.base_component_id) {
-                            await prepareApp(  thisApp.id,   thisApp.card.base_component_id,   {}  )
+                            await prepareApp(  thisApp.id,   thisApp.card.base_component_id,   thisApp.card.args  )
                         }
                     },200)
 
@@ -798,7 +805,7 @@ async function select_card(id) {
                             //alert(1)
                         }
                         if (thisApp.card.base_component_id) {
-                            await prepareApp(  thisApp.id,   thisApp.card.base_component_id,   {}  )
+                            await prepareApp(  thisApp.id,   thisApp.card.base_component_id,   thisApp.card.args  )
                         }
                     },200)
                 },1000)
@@ -865,7 +872,7 @@ function setupPublicWebSocket()
     //console.log('opening web socketio');
     staticAppSocket.on('socket_connected',function(data){
         //console.log("Connected: " + JSON.stringify(data,null,2));
-        alert("Connected 2")
+        //alert("Connected 2")
         //zzz
         staticAppSocket.send(JSON.stringify(
             {
@@ -879,7 +886,7 @@ function setupPublicWebSocket()
     });
 
     staticAppSocket.on('edit_static_app_url', function(msg) {
-        alert(JSON.stringify(msg.url,null,2))
+        //alert(JSON.stringify(msg.url,null,2))
         //var receivedMessage = eval("(" + msg + ")");
         //console.log(" 1- Server recieved message: " + JSON.stringify(receivedMessage));
 
@@ -1369,10 +1376,6 @@ function isValidObject(variable){
     }
     return false
 }
-var isStaticHtmlPageApp = false
-var queuedResponses = new Object()
-var queuedBrowserResponseSeqNum = 0
-var callDriverMethodArgs = new Object()
 async function callDriverMethod2(findComponentArgs, args, callbackFn) {
     //console.log(`online: ${online}`)
     //console.log(`function callDriverMethod2(findComponentArgs, args, callbackFn) {`)
