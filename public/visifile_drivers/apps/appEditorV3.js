@@ -408,10 +408,6 @@ load_once_from_file(true)
             mounted: async function () {
                 var mm = this
 
-                if (args && args.app_id){
-                    this.app_id = args.app_id
-                }
-
                 //
                 // make sure we load the component for this app
                 //
@@ -421,6 +417,7 @@ load_once_from_file(true)
                     component_cache[this.app_id]            = null
 
                     await this.load_app(this.app_id)
+                    
                 }
            }
        })
