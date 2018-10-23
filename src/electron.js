@@ -1462,19 +1462,24 @@ function getRoot(req, res) {
 //zzz
 function getEditApp(req, res) {
 	hostcount++;
-	//console.log("Host: " + req.headers.host + ", " + hostcount);
+
+    // I dont know why sockets.io calls .map files here
+    if (req.path.endsWith(".map")) {
+        return
+    }
+    var parts = req.path.split('/');
+    var lastSegment = parts.pop() || parts.pop();
+
+    console.log("URL PATH: " + lastSegment);
 	//console.log("Full URL: " + req.protocol + '://' + req.get('host') + req.originalUrl);
 
     var homepage = path.join(__dirname, '../public/go.html')
-    var baseComponentId = "homepage"
+    var baseComponentId = lastSegment
     var newStaticFileContent = fs.readFileSync(homepage)
-    newStaticFileContent = newStaticFileContent.toString().replace("var isStaticHtmlPageApp = false", "var isStaticHtmlPageApp = true")
-    newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_BASE_COMPONENT_ID***",baseComponentId)
-    newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_BASE_COMPONENT_ID***",baseComponentId)
+    newStaticFileContent = newStaticFileContent.toString().replace("var editAppShareApp = null", "var editAppShareApp = '" + baseComponentId + "'")
+
+    res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
     res.end(newStaticFileContent);
-
-
-
 }
 
 
