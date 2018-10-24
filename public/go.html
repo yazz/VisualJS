@@ -867,6 +867,7 @@ function setupPublicWebSocket()
 
     staticAppSocket.on('edit_static_app_url', function(msg) {
         //alert(JSON.stringify(msg.url,null,2))
+        window.location.href = msg.url;
         //var receivedMessage = eval("(" + msg + ")");
         //console.log(" 1- Server recieved message: " + JSON.stringify(receivedMessage));
 
