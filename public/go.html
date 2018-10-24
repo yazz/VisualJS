@@ -149,7 +149,7 @@ async function initFn() {
           template: "<div   v-bind:id='element_id'"+
           "                  v-bind:style=\"'padding:' + (is_static?'0px':'20px') + ';position: relative; margin-left: ' + (is_static?'0':'auto') + '; margin-right: ' + (is_static?'0':'auto') + ';height:90%; overflow-y:' + (is_static?'':'scroll') + ';'\" "+
           "                  v-on:click='click_card(item.id)'"+
-          "                  v-bind:class='card_selected?(is_static?\"container\":\"polaroid container\"):\"polaroid tilt container\"' >"+
+          "                  v-bind:class='card_selected?(is_static?\"container\":\" container\"):\" container\"' >"+
           "<div " +
 		               " v-bind:style=\"'; padding-bottom:2vw;padding-top:' + (is_static?'0px':'2vw') + '; font-family: Helvetica ;  width: ' + (is_static?'100vw':'100%') + ' ;visibility: ' + (visible?'':'hidden') + ';' \">"+
 
@@ -406,71 +406,7 @@ body {
 
 }
 
-.perspective {
-    -webkit-perspective: 1200px;
-    -moz-perspective: 1200px;
-    -o-perspective: 1200px;
-    perspective: 1200px;
-}
 
-div.polaroid {
-    padding-top: 10;
-    padding-bottom: 100;
-    padding-left: 10;
-    padding-right: 10;
-    border: 1px solid #BFBFBF;
-    background-color: white;
-    box-shadow: 10px 10px 5px #aaaaaa;
-    margin-top: 0;
-    margin-bottom: -100;
-    margin-left: 0;
-    margin-right: 0;
-    height:90%;
-  }
-
-div.tilt {
-    -o-transform: rotateX( -55deg ) scale(0.7);
-    -moz-transform: rotateX( -55deg ) scale(0.7);
-    -webkit-transform: rotateX( -55deg ) scale(0.7);
-    transform: rotateX( -55deg ) scale(0.7);
-}
-
-
-@keyframes move_card {
-    0% {transform: rotateX( -55deg ) scale(0.7);}
-    100% {transform: rotateX( 0deg ) scale(1);
-    }
-}
-@keyframes move_card_back {
-    from {transform: rotateX( 0deg ) scale(1);}
-    to {transform: rotateX( -55deg ) scale(0.7);}
-}
-
-
-
-@-webkit-keyframes move_card {
-    0% {-webkit-transform: rotateX( -55deg ) scale(0.7);}
-    100% {-webkit-transform: rotateX( 0deg ) scale(1);
-}
-}
-@-webkit-keyframes move_card_back {
-    from {-webkit-transform: rotateX( 0deg ) scale(1);}
-    to {-webkit-transform: rotateX( -55deg ) scale(0.7);}
-}
-
-
-.expand {
-    animation: move_card 1s;
-    -webkit-animation: move_card 1s;
-    animation-fill-mode: forwards;
-    -webkit-animation-fill-mode: forwards;
-}
-.contract {
-    animation: move_card_back 1s;
-    -webkit-animation: move_card_back 1s;
-    animation-fill-mode: forwards;
-    -webkit-animation-fill-mode: forwards;
-}
 
 .link {
      cursor:pointer;
@@ -560,7 +496,7 @@ div.tilt {
 
 
     <template v-for="item  in  cards" >
-        <div v-bind:style='"width: 100%; display:" + (is_static?"none;":"") + ";"'  class='perspective'>
+        <div v-bind:style='"width: 100%; display:" + (is_static?"none;":"") + ";"'>
                 <card_component :item='item' :visible='true' :element_id='"card_" + item.id'
                                 :full_screen='false'
                                 :is_static='is_static' :card_selected='(item.id == selected_card)'>
