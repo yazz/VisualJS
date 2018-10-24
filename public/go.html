@@ -133,7 +133,7 @@ async function initFn() {
     setTimeout(async function(){
 
         Vue.component('card_component', {
-            props: ["item","visible","element_id", "full_screen", "show_app_only", "card_selected", "is_static"],
+            props: ["item","visible","element_id", "full_screen", "card_selected", "is_static"],
             methods: {
                 click_card: async function(id) {
                     autoScroll = false;
@@ -150,25 +150,12 @@ async function initFn() {
           "                  v-bind:style=\"'padding:' + (is_static?'0px':'20px') + ';position: relative; margin-left: ' + (is_static?'0':'auto') + '; margin-right: ' + (is_static?'0':'auto') + ';height:90%; overflow-y:' + (is_static?'':'scroll') + ';'\" "+
           "                  v-on:click='click_card(item.id)'"+
           "                  v-bind:class='card_selected?(is_static?\"container\":\"polaroid container\"):\"polaroid tilt container\"' >"+
-          "                <button  v-if='(!show_app_only) && (!is_static)' type=button  class='btn btn-danger btn-lg btn-block' v-on:click='closeCard()'              style='width: 49%; display: inline-block;margin: 0' >Close</button>"+
-          "                <button  v-if='(!show_app_only) && (!is_static)' type=button  class='btn btn-info btn-lg btn-block' v-on:click='select_card(item.id + 1)' style='width: 49%; display: inline-block;margin: 0'>Next</button>"+
           "<div " +
 		               " v-bind:style=\"'; padding-bottom:2vw;padding-top:' + (is_static?'0px':'2vw') + '; font-family: Helvetica ;  width: ' + (is_static?'100vw':'100%') + ' ;visibility: ' + (visible?'':'hidden') + ';' \">"+
 
 
 
 
-                   "<div v-if='!show_app_only' class='row' style='margin-bottom: 0px;'>"+
-                   "            <a class='col-xl-12' style='font-size: 2em;' v-bind:href='item.card.link' v-if='item.card.link'>{{item.card.link_name}}</a>"+
-                   ""+
-                   "            <a class='col-xl-12' style='font-size: 2em;'  v-if='item.card.html' v-html='item.card.html'></a>"+
-                    ""+
-                    "            <div   class='col-xl-12' style='font-size: 2em;' v-on:click='loadContent(item.card.data_id,item.card.name)'"+
-                    "                    v-if='item.card.load_content'>Preview</div>"+
-                    ""+
-                    "            <div  class='col-xl-12'  style='font-size: 2em;' v-on:click='openContent(item.card.data_id,item.card.name)'"+
-                    "                    v-if='item.card.load_content'>Open</div>"+
-                    "</div>"+
 
 
 ""+
@@ -185,10 +172,6 @@ async function initFn() {
 
 
 "</div>"+
-    " <div v-if='false' style='position: relative; bottom: 0%;'>" +
-    "                <button  v-if='(!show_app_only) && (!is_static)' type=button  class='btn btn-danger btn-lg btn-block' v-on:click='closeCard()'              style='width: 49%; display: inline-block;margin: 0' >Close</button>"+
-    "                <button  v-if='(!show_app_only) && (!is_static)' type=button  class='btn btn-info btn-lg btn-block' v-on:click='select_card(item.id + 1)' style='width: 49%; display: inline-block;margin: 0'>Next</button>"+
-    "</div>"+
 "            </div>"})
 
 
@@ -203,8 +186,6 @@ async function initFn() {
               cards: []
               ,
               show_loader: false
-              ,
-              show_app_only: false
               ,
               is_static: false
               ,
@@ -298,7 +279,6 @@ async function initFn() {
             wait_and_select_app = params.embed.replaceAll("%20"," ").toLowerCase()
             autoScroll = false;
             mainMoonApp.show_loader = true
-            mainMoonApp.show_app_only = true
         } else if (!isStaticHtmlPageApp) {
                 setTimeout(async function() {
                         await select_card(1)
@@ -566,7 +546,7 @@ div.tilt {
                         style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:scroll;">
                         <div v-on:click='setupPublicWebSocket()' v-if='local_app'>Local appshare app</div>
                         <card_component :item='item' :visible='true' :element_id='"current_card"'
-                                        :full_screen='true' :show_app_only='show_app_only'
+                                        :full_screen='true'
                                         :is_static='is_static' :card_selected='true'>
                         </card_component>
                 </div>
