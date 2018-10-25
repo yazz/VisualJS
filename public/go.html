@@ -287,7 +287,7 @@ async function initFn() {
             mainMoonApp.is_static = true
         }
 
-//zzz
+
         if (editAppShareApp) {
             console.log(1)
             var nid = nextItem++;
@@ -555,7 +555,7 @@ function loadAppIntoElement(tagName, rootElement) {
         document.getElementById(newCardId).appendChild(animation);
 
     }
-    //zzz
+
     new Vue({
         template: `<${tagName} app_id='${editAppShareApp}' v-bind:card_index='1'></${tagName}>`,
         el: "#" + rootElement
@@ -785,16 +785,30 @@ function setupPublicWebSocket()
 
     staticAppSocket = io(hostEditorAddress);
 
+    var code_fn = ""
+    //alert(JSON.stringify(component_cache[base_component_id],null,2)) --> {}
+    //alert(JSON.stringify(finderToCachedCodeMapping[base_component_id],null,2))
+    var codeiii = finderToCachedCodeMapping[base_component_id]
+    var hjhg = eval(cachedCode[codeiii])
+    //alert(JSON.stringify(hjhg.value.code,null,2))
+    code_fn = hjhg.value.code
+
+
+
+
+
+
     //console.log('opening web socketio');
     staticAppSocket.on('socket_connected',function(data){
         //console.log("Connected: " + JSON.stringify(data,null,2));
         //alert("Connected 2")
-        //zzz
+
         staticAppSocket.send(JSON.stringify(
             {
                 message_type:           "edit_static_app",
                 host_editor_address:     hostEditorAddress,
                 sql_data:                sqlitedata,
+                code_fn:                 code_fn,
                 base_component_id:       base_component_id,
                 msg:                    "Hi from client"
             }));
@@ -802,7 +816,7 @@ function setupPublicWebSocket()
     });
 
     staticAppSocket.on('edit_static_app_url', function(msg) {
-        //alert(JSON.stringify(msg.url,null,2))
+        //alert(JSON.stringify(msg,null,2))
         window.location.href = msg.url;
         //var receivedMessage = eval("(" + msg + ")");
         //console.log(" 1- Server recieved message: " + JSON.stringify(receivedMessage));

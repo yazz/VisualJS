@@ -1459,7 +1459,7 @@ function getRoot(req, res) {
 }
 
 
-//zzz
+
 function getEditApp(req, res) {
 	hostcount++;
 
@@ -1473,10 +1473,17 @@ function getEditApp(req, res) {
     console.log("URL PATH: " + lastSegment);
 	//console.log("Full URL: " + req.protocol + '://' + req.get('host') + req.originalUrl);
 
+
+
+    //
+    // send the edit page
+    //
     var homepage = path.join(__dirname, '../public/go.html')
     var baseComponentId = lastSegment
     var newStaticFileContent = fs.readFileSync(homepage)
     newStaticFileContent = newStaticFileContent.toString().replace("var editAppShareApp = null", "var editAppShareApp = '" + baseComponentId + "'")
+
+
 
     res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
     res.end(newStaticFileContent);
@@ -1607,15 +1614,21 @@ function websocketFn(ws) {
         } else if (receivedMessage.message_type == "edit_static_app") {
             console.log("*** server got message from static app: edit_static_app")
             var sql_data = receivedMessage.sql_data
+            var code_fn = receivedMessage.code_fn
             sendToBrowserViaWebSocket(  ws,
                                         {
-                                            type:             "edit_static_app_url",
+                                            type:       "edit_static_app_url"
+                                            ,
 
-                                            url:               receivedMessage.host_editor_address +
-                                                                "/edit/" +
-                                                                receivedMessage.base_component_id,
+                                            url:        receivedMessage.host_editor_address +
+                                                        "/edit/" +
+                                                        receivedMessage.base_component_id
+                                            ,
 
-                                            size_of_db:             "" + receivedMessage.base_component_id + ": " + (sql_data?sql_data.length:0)
+                                            size_of_db: "" + (sql_data?sql_data.length:0)
+                                            ,
+                                            code_fn: "" + (code_fn?code_fn.length:0)
+
                                         });
 
 
@@ -1794,7 +1807,7 @@ function file_uploadFn(req, res, next) {
                     sqlitedatafromupload = readIn.toString().substring( indexOfSqliteData + 18,
                                                                         indexOfSqliteDataEnd)
                 }
-
+//zzz
 
                 forkedProcesses["forked"].send({
                                                     message_type:           "save_code_from_upload",
@@ -1939,7 +1952,7 @@ function startServices() {
     })
 
 
-    //zzz
+
     //------------------------------------------------------------------------------
     // Allow an app to be edited
     //------------------------------------------------------------------------------
