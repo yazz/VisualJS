@@ -1605,7 +1605,7 @@ function websocketFn(ws) {
 
 
 
-        //zzz
+
 
         //                                  ______
         // Browser  --Send me your data-->  Server
@@ -1615,6 +1615,21 @@ function websocketFn(ws) {
             console.log("*** server got message from static app: edit_static_app")
             var sql_data = receivedMessage.sql_data
             var code_fn = receivedMessage.code_fn
+
+            //zzz
+
+            forkedProcesses["forked"].send({
+                    message_type:           "save_code_from_upload",
+                    base_component_id:      receivedMessage.base_component_id,
+                    parent_hash:            null,
+                    code:                   code_fn,
+                    client_file_upload_id:  -1,
+                    options:                {save_html: true, fast_forward_database_to_latest_revision: true},
+                    sqlite_data:            sql_data
+               });
+
+
+
             sendToBrowserViaWebSocket(  ws,
                                         {
                                             type:       "edit_static_app_url"
@@ -1630,7 +1645,6 @@ function websocketFn(ws) {
                                             code_fn: "" + (code_fn?code_fn.length:0)
 
                                         });
-
 
 
 
