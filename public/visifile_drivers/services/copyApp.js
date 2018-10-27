@@ -66,8 +66,10 @@ load_once_from_file(true)
                             var newDisplayName = "Copy of " + oldDisplayName
                             code = saveHelper.deleteCodeString(code, "load_once_from_file")
                             code = saveHelper.deleteCodeString(code, "read_only")
+                            code = saveHelper.deleteCodeString(code, "visibility")
                             code = saveHelper.deleteCodeString(code, "display_name")
                             code = saveHelper.insertCodeString(code, "display_name", newDisplayName)
+                            code = saveHelper.insertCodeString(code, "visibility", "PRIVATE")
 
                             var newBaseid = argsBaseComponentId + "_" + uuidv1().replace(/\-/g, '');
                             if (argsNewAppId) {
