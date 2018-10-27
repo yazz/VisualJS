@@ -35,6 +35,7 @@ load_once_from_file(true)
                             <button  type=button class=' btn btn-secondary'   v-on:click='copyAppMethod(base_component_id,null)' >Copy app</button>
                             <button  type=button class=' btn btn-info'        v-on:click='embedApp(base_component_id)' >Embed app</button>
                             <button  v-if='(editor_component != "editor_component") && (!read_only)' type=button class=' btn btn-secondary'   v-on:click='editAsText()' >Edit as text</button>
+                            <button  v-if='(editor_component != "editor_component") && (!read_only)' type=button class=' btn btn-secondary'   v-on:click='setVisibility("PUBLIC")' >Publish!</button>
 
                         </div>
                     </div>
@@ -201,6 +202,24 @@ load_once_from_file(true)
                 if (eds) {
                     text = saveHelper.deleteCodeString(text, "editors")
                     text = saveHelper.insertCodeString(text, "editors_old",eds)
+                }
+
+                await mm.save(   this.base_component_id,   this.code_id,   text   )
+
+                await mm.load_new_app( this.base_component_id )
+            },
+
+
+
+            setVisibility: async function(value) {
+                var mm = this
+
+                var text = await this.$refs.editorComponentRef.getText()
+
+                var eds = saveHelper.getValueOfCodeString(text, "visibility")
+                if (eds) {
+                    text = saveHelper.deleteCodeString(text, "visibility")
+                    text = saveHelper.insertCodeString(text, "visibility",value)
                 }
 
                 await mm.save(   this.base_component_id,   this.code_id,   text   )
