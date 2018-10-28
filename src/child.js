@@ -1106,7 +1106,7 @@ function updateRevisions(sqlite, baseComponentId) {
                         }
                         var dbPath = path.join(userData, 'app_dbs/' + baseComponentId + '.visi')
                         var appDb = new sqlite3.Database(dbPath);
-                        appDb.run("PRAGMA journal_mode=WAL;")
+                        //appDb.run("PRAGMA journal_mode=WAL;")
 
                         appDb.serialize(
                             function() {
@@ -1130,7 +1130,7 @@ function updateRevisions(sqlite, baseComponentId) {
                                     }
                                 }
                                 appDb.run("commit");
-                                appDb.run("PRAGMA wal_checkpoint;")
+                                //appDb.run("PRAGMA wal_checkpoint;")
 
                                 try {
                                     dbsearch.serialize(function() {
