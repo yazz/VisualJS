@@ -263,29 +263,32 @@ load_once_from_file(true)
 
 
 
-        <div style='height:30%;'>
+        <div style='height:15%;'>
 
               Properties
 
-              <button  v-if='model.app_selected'  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addProperty()'  > Add property </button>
-              <div v-if='(model.app_selected) && (add_property)'>
-                Add a property
-                <div class='row'>
-                    <div class='col-md-4'>ID</div>
-                    <input class='col-md-7 small'  v-model='new_property_id'> </input>
-                </div>
-                <div class='row'>
-                    <div class='col-md-4'>Name</div>
-                    <input class='col-md-7 small'  v-model='new_property_name'></input>
-                </div>
-                <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addPropertyCancel()'  > Cancel </button>
-                <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addPropertySave()'  > Save </button>
-              </div>
         </div>
 
 
         <div    v-bind:refresh='refresh'
-                style='height:70%;overflow-y:scroll; padding:5px; '>
+                style='height:85%;overflow-y:scroll; padding:5px; '>
+
+                <button  v-if='model.app_selected'  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addProperty()'  > Add property </button>
+                <div v-if='(model.app_selected) && (add_property)'>
+                  Add a property
+                  <div class='row'>
+                      <div class='col-md-4'>ID</div>
+                      <input class='col-md-7 small'  v-model='new_property_id'> </input>
+                  </div>
+                  <div class='row'>
+                      <div class='col-md-4'>Name</div>
+                      <input class='col-md-7 small'  v-model='new_property_name'></input>
+                  </div>
+                  <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addPropertyCancel()'  > Cancel </button>
+                  <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addPropertySave()'  > Save </button>
+                </div>
+
+
 
 
                 <div v-bind:refresh='refresh' v-for='property in properties' >
@@ -318,7 +321,7 @@ load_once_from_file(true)
                                   </div>
                           </div>
                       </div>
-             
+
 
 
 </div>
