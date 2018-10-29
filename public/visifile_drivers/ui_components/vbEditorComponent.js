@@ -269,8 +269,7 @@ load_once_from_file(true)
 
 
                 <zzz></zzz>
-                <div    v-bind:refresh='refresh'
-                        style='height: 50%;  padding:5px; border: 1px solid black;'>
+                <div   style='height: 50%;  padding:5px; border: 1px solid black;'>
 
 
                     <div v-bind:style='"height:" + (model.app_selected?"30":"15") +"%;"'>
@@ -279,32 +278,31 @@ load_once_from_file(true)
                     </div>
 
 
-                    <div    v-bind:refresh='refresh'
-                            v-bind:style='"height:" + (model.app_selected?"70":"85") +"%;overflow-y:scroll; padding:5px; "'>
+                    <div    v-bind:style='"height:" + (model.app_selected?"70":"85") +"%;overflow-y:scroll; padding:5px; "'>
 
 
 
 
 
-                    <div v-bind:refresh='refresh' v-for='property in properties' >
+                    <div v-for='property in properties' >
                         <br/>
                         <div class='row'>
                         <div  class='col-md-4 small'   >{{property.name}}</div>
                         <div class='col-md-7 small' >
                             <div v-if='!property.readonly'>
                                 <div v-if="(property.type  == 'String')  || (property.type  == 'Number')">
-                                    <input v-bind:refresh='refresh' class='col-md-12 small'  @change='setVBEditorProperty($event, property)' v-bind:value='getVBEditorProperty(property)'></input>
+                                    <input class='col-md-12 small'  @change='setVBEditorProperty($event, property)' v-bind:value='getVBEditorProperty(property)'></input>
                                 </div>
 
                                 <div v-if="(property.type  == 'Event')  ">
-                                    <textarea   class="form-control" v-bind:refresh='refresh'
+                                    <textarea   class="form-control"
                                                 v-if='(model.active_component_index == null) && (model.active_form != null)'
                                                 @change='generateCodeFromModel(   )'
                                                 rows=10
                                                 v-model='model.forms[model.active_form][property.id]'>
                                     </textarea>
 
-                                    <textarea   class="form-control" v-bind:refresh='refresh'
+                                    <textarea   class="form-control"
                                                 v-if='(model.active_component_index != null) && (model.active_form != null)'
                                                 @change='generateCodeFromModel(   )'
                                                 rows=10
@@ -314,14 +312,14 @@ load_once_from_file(true)
                             </div>
 
                             <div v-if='property.readonly'>
-                                <div v-bind:refresh='refresh' v-if='model.active_component_index != null' class='col-md-12 small'  >
+                                <div v-if='model.active_component_index != null' class='col-md-12 small'  >
                                     {{model.forms[model.active_form].components[model.active_component_index][property.id]}}
                                 </div>
 
-                                <div v-bind:refresh='refresh' v-if='(model.active_component_index == null) && (model.active_form != null) && (model.app_selected == false)' class='col-md-12 small'   v-model='model.forms[model.active_form][property.id]'>
+                                <div v-if='(model.active_component_index == null) && (model.active_form != null) && (model.app_selected == false)' class='col-md-12 small'   v-model='model.forms[model.active_form][property.id]'>
                                 </div>
 
-                                <div v-bind:refresh='refresh' v-if='model.app_selected' class='col-md-12 small'  >
+                                <div v-if='model.app_selected' class='col-md-12 small'  >
                                     {{property.get_fn?property.get_fn():model[property.id]}}
                                 </div>
                             </div>
