@@ -328,36 +328,48 @@ load_once_from_file(true)
                             </div>
                         </div>
 
+                        <div  v-if='model.app_selected && (!add_property)' class='row'>
+                            <div  class='col-md-12 small'>
+                                <button    type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addProperty()'  >
+                                    Add property
+                                </button>
+                            </div>
+                        </div>
 
-                        <button  v-if='model.app_selected'  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addProperty()'  >
-                            Add property
-                        </button>
+                        <div v-if='(model.app_selected) && (add_property)' class='row'>
+                            <div  class='col-md-12 small'>
+                                Add a property
+                            </div>
+                        </div>
 
-
-                        <div v-if='(model.app_selected) && (add_property)'>
-                            Add a property
-                            <div class='row'>
-
-                                <div class='col-md-4'>
-                                   cID
-                                </div>
-
-                                <input class='col-md-7 small'  v-model='new_property_id'>
-                                </input>
+                        <div v-if='(model.app_selected) && (add_property)' class='row'>
+                            <div class='col-md-4'>
+                               ID
                             </div>
 
-                            <div class='row'>
-                                <div class='col-md-4'>Name</div>
-                                <input class='col-md-7 small'  v-model='new_property_name'></input>
+                            <input class='col-md-7 small'  v-model='new_property_id'>
+                            </input>
+                        </div>
+
+                        <div v-if='(model.app_selected) && (add_property)' class='row'>
+                            <div class='col-md-4'>
+                                Name
                             </div>
 
-                            <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addPropertyCancel()'  >
-                                Cancel
-                            </button>
+                            <input class='col-md-7 small'  v-model='new_property_name'>
+                            </input>
+                        </div>
 
-                            <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addPropertySave()'  >
-                                Save
-                            </button>
+                        <div v-if='(model.app_selected) && (add_property)' class='row'>
+                            <div class='col-md-12'>
+                                <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addPropertyCancel()'  >
+                                    Cancel
+                                </button>
+
+                                <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addPropertySave()'  >
+                                    Save
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
