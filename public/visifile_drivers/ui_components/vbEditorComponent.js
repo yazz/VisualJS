@@ -496,7 +496,7 @@ load_once_from_file(true)
            //
            if (online) {
                var sql =    "select  base_component_id,logo_url  from  system_code  where " +
-                            "        code_tag = 'LATEST' and logo_url is not null"
+                            "        code_tag = 'LATEST' and logo_url is not null and control_type = 'VB'"
 
                var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
                    {   sql: sql  })

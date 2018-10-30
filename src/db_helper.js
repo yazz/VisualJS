@@ -24,12 +24,13 @@ module.exports = {
 
             "CREATE TABLE IF NOT EXISTS app_db_latest_ddl_revisions (base_component_id TEXT , latest_revision TEXT);",
 
-            "CREATE TABLE IF NOT EXISTS system_code (id TEXT, on_condition TEXT, component_type TEXT, base_component_id TEXT,method TEXT, code TEXT, max_processes INTEGER, code_tag TEXT, parent_id TEXT, creation_timestamp INTEGER, display_name TEXT, component_options TEXT, logo_url TEXT, visibility TEXT, interfaces TEXT, use_db TEXT, editors TEXT, read_write_status TEXT, properties TEXT);",
+            "CREATE TABLE IF NOT EXISTS system_code (id TEXT, on_condition TEXT, component_type TEXT, base_component_id TEXT,method TEXT, code TEXT, max_processes INTEGER, code_tag TEXT, parent_id TEXT, creation_timestamp INTEGER, display_name TEXT, component_options TEXT, logo_url TEXT, visibility TEXT, interfaces TEXT, use_db TEXT, editors TEXT, read_write_status TEXT, properties TEXT, control_type TEXT);",
             "CREATE INDEX IF NOT EXISTS system_code_base_component_id_idx ON system_code (base_component_id);",
             "CREATE INDEX IF NOT EXISTS system_code_on_condition_idx      ON system_code (on_condition);",
             "CREATE INDEX IF NOT EXISTS system_code_id_idx                ON system_code (id);",
             "CREATE INDEX IF NOT EXISTS system_code_logo_url_idx          ON system_code (logo_url);",
-            "CREATE INDEX IF NOT EXISTS system_code_code_tag_idx          ON system_code (code_tag);"
+            "CREATE INDEX IF NOT EXISTS system_code_code_tag_idx          ON system_code (code_tag);",
+            "CREATE INDEX IF NOT EXISTS system_code_control_type_idx      ON system_code (control_type);"
 
                 ],
 

@@ -1,7 +1,7 @@
 function(args) {
 /*
 is_app(true)
-is_control(true)
+control_type("VB")
 display_name("Label control")
 description("This will return the label control")
 base_component_id("label_control")
