@@ -21,7 +21,7 @@ load_once_from_file(true)
       template:
 `<div   v-bind:id='uid2'
         v-if='uid2 != null'
-        v-bind:style='"width: 100%; height: 100%; " + (design_mode?"background: darkgray;":"")'>
+        v-bind:style='"width: 100%; height: 100%; " + (design_mode?"background: white;":"")'>
 
 
     <div style='background-color: blue; padding: 5px;'>
@@ -270,20 +270,20 @@ load_once_from_file(true)
 
 
                 <zzz></zzz>
-                <div   style='height: 50%;  padding:5px; border: 1px solid black;'>
+                <div   style='height: 50%;  padding:5px; border: 8px solid lightgray;display: flex;flex-direction: column;'>
 
 
-                    <div style="height:15%;">
+                    <div style="height:15%; background-color: darkgray;">
 
                         Properties
                     </div>
 
 
-                    <div    style="height:85%;overflow-y:scroll; padding:5px; ">
+                    <div    style="align-items: stretch;overflow-y:scroll; padding:5px; ">
 
 
                         <div v-for='property in properties' >
-                            <br/>
+
                             <div class='row'>
                                 <div  class='col-md-4 small'>
                                     {{property.name}}
