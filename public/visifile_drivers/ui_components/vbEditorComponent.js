@@ -21,11 +21,11 @@ load_once_from_file(true)
       template:
 `<div   v-bind:id='uid2'
         v-if='uid2 != null'
-        style='width: 100%; height: 45vh;'>
+        style='width: 100%; height: 100%; background: darkgray; z-'>
 
 
-    <div>
-        <h4 style='display: inline-block; margin-right: 10px; ' v-if='design_mode' >
+    <div style='background-color: blue; '>
+        <h4 style='display: inline-block; margin-right: 10px; color: white;' v-if='design_mode' >
             VB app designer
         </h4>
 
