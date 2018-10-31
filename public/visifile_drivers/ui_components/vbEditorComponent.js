@@ -24,7 +24,7 @@ load_once_from_file(true)
         v-bind:style='"width: 100%; height: 100%; " + (design_mode?"background: white;":"")'>
 
 
-    <div style='background-color: blue; padding: 5px;'>
+    <div style='background-color: blue; padding: 5px;' v-if='design_mode' >
         <h4 style='display: inline-block; margin-right: 10px; color: white; ' v-if='design_mode' >
             VB app designer
         </h4>
