@@ -21,7 +21,7 @@ load_once_from_file(true)
       template:
 `<div   v-bind:id='uid2'
         v-if='uid2 != null'
-        style='width: 100%; height: 100%; background: darkgray; z-'>
+        v-bind:style='"width: 100%; height: 100%; " + (design_mode?"background: darkgray;":"")'>
 
 
     <div style='background-color: blue; '>
