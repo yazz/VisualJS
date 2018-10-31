@@ -24,8 +24,8 @@ load_once_from_file(true)
         v-bind:style='"width: 100%; height: 100%; " + (design_mode?"background: darkgray;":"")'>
 
 
-    <div style='background-color: blue; '>
-        <h4 style='display: inline-block; margin-right: 10px; color: white;' v-if='design_mode' >
+    <div style='background-color: blue; padding: 5px;'>
+        <h4 style='display: inline-block; margin-right: 10px; color: white; ' v-if='design_mode' >
             VB app designer
         </h4>
 
@@ -224,12 +224,14 @@ load_once_from_file(true)
           v-bind:refresh='refresh'>
 
         <div    v-bind:refresh='refresh'
-                style='height: 50%;  padding:5px; border: 1px solid black;'>
+                style='height: 50%;  padding:5px; border: 8px solid lightgray;display: flex;flex-direction: column;'>
 
             <zzz></zzz>
-                <div style='height:30%;'>
+                <div style='background-color: lightgray;'>
 
-                    Project explorer
+                    <div style='background-color: darkgray;'>
+                        Project explorer
+                    </div>
 
                     <button type=button class='btn btn-sm btn-info'
                             v-on:click='$event.stopPropagation();addForm()'  >
@@ -238,8 +240,7 @@ load_once_from_file(true)
                 </div>
 
 
-                <div    v-bind:refresh='refresh'
-                        style='height:70%;overflow-y:scroll; padding:5px; '>
+                <div    style='overflow-y:scroll; padding:5px; background-color: white; align-items: stretch;'>
 
                     <div    v-bind:style='"background-color:black;color:white;padding:4px;margin:0px;margin-top: 5px;" + (model.app_selected?"border: 3px solid red":"")'
                             v-on:click='$event.stopPropagation();select_app()'>
