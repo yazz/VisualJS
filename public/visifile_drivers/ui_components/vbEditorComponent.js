@@ -42,7 +42,7 @@ load_once_from_file(true)
         <div    v-if='design_mode'
                 v-bind:style='(design_mode?"border: 1px solid black;":"") + " width: " + leftHandWidth + "px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: scroll;vertical-align: top; "'>
 
-            <div class='container' style='background-color: gray'>
+            <div class='container' style='background-color: lightgray'>
                 <div class='row'>
                     <div    class='col-md-5'
                             style='width:100%;height: 55px; margin: 0px;border: 0px;padding:3px;overflow-x:auto;overflow-y:hidden'>
