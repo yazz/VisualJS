@@ -183,10 +183,16 @@ load_once_from_file(true)
                 this.app_shown = true
 
                 this.mode      = "edit"
+                await mm.load_app( this.base_component_id )
             },
 
             chooseProfiler: async function() {
                 var mm = this
+                this.code_width = "0%"
+                this.code_shown = false
+
+                this.app_width = "0%"
+                this.app_shown = false
                 this.mode = "profiler"
             },
 
