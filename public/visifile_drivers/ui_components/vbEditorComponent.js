@@ -42,19 +42,25 @@ load_once_from_file(true)
         <div    v-if='design_mode'
                 v-bind:style='(design_mode?"border: 1px solid black;":"") + " width: " + leftHandWidth + "px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: scroll;vertical-align: top; "'>
 
-            <div    v-for='av in available_components'
-                    draggable="true"
-                    v-on:dragstart='drag($event,{
-                                           type:   "add_component",
-                                           text:    av.base_component_id
-                                        })'
-                    style='width:100%;height: 55px; margin: 4px;border: 1px solid gray;overflow-x:auto;overflow-y:hidden'>
+            <div class='container'>
+                <div class='row'>
+                    <div    v-for='av in available_components'
+                            draggable="true"
+                            class='col-md-5'
+                            v-on:dragstart='drag($event,{
+                                                   type:   "add_component",
+                                                   text:    av.base_component_id
+                                                })'
+                            style='width:100%;height: 55px; margin: 0px;border: 0px;padding:0px;overflow-x:auto;overflow-y:hidden'>
 
-                <img v-if='isValidObject(av)' v-bind:src='av.logo_url' style='display:inline-block;max-width: 50px; width: auto;height: auto; max-height: 50px;'>
-                </img>
+                        <img    v-if='isValidObject(av)'
+                                v-bind:src='av.logo_url'
+                                style='width: 100%;'
+                                class='img-fluid'>
+                        </img>
 
-                <div style='width:100%;display:inline-block;overflow: hidden;'>
-                    {{av.base_component_id}}
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -1401,7 +1407,7 @@ load_once_from_file(true)
            runtime_mode:                runtimeMode,
            edited_app_component_id:     null,
            text:                        texti,
-           leftHandWidth:               200,
+           leftHandWidth:               100,
            add_property:                false,
            new_property_name: "",
            new_property_id: "",
