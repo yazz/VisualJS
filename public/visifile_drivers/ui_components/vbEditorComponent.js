@@ -42,8 +42,16 @@ load_once_from_file(true)
         <div    v-if='design_mode'
                 v-bind:style='(design_mode?"border: 1px solid black;":"") + " width: " + leftHandWidth + "px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: scroll;vertical-align: top; "'>
 
-            <div class='container'>
+            <div class='container' style='background-color: gray'>
                 <div class='row'>
+                    <div    class='col-md-5'
+                            style='width:100%;height: 55px; margin: 0px;border: 0px;padding:3px;overflow-x:auto;overflow-y:hidden'>
+                        <img    src='https://cdn0.iconfinder.com/data/icons/seo-web-15/153/seo-social-web-network-internet_61-512.png'
+                                style='width: 100%;'
+                                class='img-fluid'>
+                        </img>
+                    </div>
+
                     <div    v-for='av in available_components'
                             draggable="true"
                             class='col-md-5'
@@ -51,7 +59,7 @@ load_once_from_file(true)
                                                    type:   "add_component",
                                                    text:    av.base_component_id
                                                 })'
-                            style='width:100%;height: 55px; margin: 0px;border: 0px;padding:0px;overflow-x:auto;overflow-y:hidden'>
+                            style='width:100%;height: 55px; margin: 0px;border: 0px;padding:3px;overflow-x:auto;overflow-y:hidden'>
 
                         <img    v-if='isValidObject(av)'
                                 v-bind:src='av.logo_url'
