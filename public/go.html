@@ -21,6 +21,37 @@
     var queuedResponses = new Object()
     var queuedBrowserResponseSeqNum = 0
     var callDriverMethodArgs = new Object()
+    var executionCode = new Object()
+    executionCode.a =
+`var a = 1
+a = a + 1
+`
+
+    var executionTimeline = [
+        {
+            code: "a"
+            ,
+            line: 1
+            ,
+            time: 7
+        }
+        ,
+        {
+            code: "a"
+            ,
+            line: 2
+            ,
+            time: 9
+        }
+        ,
+        {
+            code: "a"
+            ,
+            line: 5
+            ,
+            time: 29
+        }
+    ]
 
     </script>
 
