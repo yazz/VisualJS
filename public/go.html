@@ -8545,7 +8545,7 @@ var dataIds = new Object()
 
 
 
-
+//zzz
     socket.on('server_returns_loadUiComponent_to_browser',async function(data) {
 
             //alert("component returned: " + JSON.stringify(data,null,2))
@@ -8556,7 +8556,22 @@ var dataIds = new Object()
             //console.log("callig 2")
             for (var i=0; i< sdf.length; i++) {
                 checkLibsV2(sdf[i],args)
+                //alert(JSON.stringify(Object.keys(sdf[i]),null,2))
                 //console.log("callig 3")
+
+                executionCode[sdf[i].base_component_id] = {
+                        code: sdf[i].code,
+
+                        start: startTimelineTop
+
+                }
+                startTimelineTop += 10;//sdf[i].code.length
+                executionTimeline.push({ code:   sdf[i].base_component_id,
+                                         line:   1,
+                                         time:   startTimelineMillis ++
+                                       })
+
+
                 fn(sdf[i])
             }
     });
