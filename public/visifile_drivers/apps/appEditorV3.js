@@ -115,7 +115,8 @@ load_once_from_file(true)
         <div class='container'>
 
             <div class='row'>
-                <div class='md-col4'>
+                <div class='col-md-4'>
+                    <b>{{highlighted_block_name}}</b>
                     <div   v-if='highlighted_block != null'
                            v-for='(exeLine,index) in highlighted_blocks'>
 
@@ -128,18 +129,20 @@ load_once_from_file(true)
                 </div>
 
 
-                <div class='md-col7'>
+                <div class='col-md-7'>
                     <div style='color: black; position: relative;'>
 
                         <div    v-for='exePoint in execution_timeline'
                                 @mouseover="mouseOverTimeline(exePoint)"
-                                v-bind:style='" color: black;position: absolute;" +
 
+                                v-bind:style='  "color: darkgray; " +
+                                                "position: absolute;" +
                                                 "top:" + (exePoint.line * 10) + ";" +
                                                 "left:" + (exePoint.time * 5) + " ;" +
-                                                "border: 1px solid black;" +
-                                                "width:5px;" + "height: 5px; " +
-                                                "background-color: black;" +
+                                                "border: 1px solid darkgray;" +
+                                                "width:10px;" +
+                                                "height: 10px; " +
+                                                "background-color: darkgray;" +
                                                 ""'>
                         </div>
                     </div>
@@ -163,6 +166,7 @@ load_once_from_file(true)
                execution_code: null,
                highlighted_line:    -1,
                highlighted_block:    "",
+               highlighted_block_name:    "",
                highlighted_blocks:   [],
                app_loaded:          false,
                app_component_name:  null,
@@ -190,6 +194,7 @@ load_once_from_file(true)
                 //alert(JSON.stringify(x,null,2))
                 this.highlighted_line = x.line
                 this.highlighted_block = executionCode[x.code]
+                this.highlighted_block_name = x.code
                 this.highlighted_blocks = this.highlighted_block.split(/\r?\n/)
                 //alert(JSON.stringify(this.highlighted_blocks,null,2))
             }
