@@ -22,24 +22,32 @@
     var queuedBrowserResponseSeqNum = 0
     var callDriverMethodArgs = new Object()
     var executionCode = new Object()
-    executionCode.a =
-`var a = 1
-a = a + 1
-var c=2
-c = a + 3
-console.log(c)
-`
-executionCode.b =
-`var a = 1
-a = a + 1
-var c=2
-c = a + 3
-console.log(c)
-var a = 1
-a = a + 1
-var c=2
-c = a + 3
-console.log(c)`
+    executionCode.a = {
+        code: `var a = 1
+        a = a + 1
+        var c=2
+        c = a + 3
+        console.log(c)
+        `,
+
+        start: 1
+    }
+
+executionCode.b = {
+        code: `var a = 1
+        a = a + 1
+        var c=2
+        c = a + 3
+        console.log(c)
+        var a = 1
+        a = a + 1
+        var c=2
+        c = a + 3
+        console.log(c)`,
+
+        start: 6
+
+}
 
     var executionTimeline = [
         {
@@ -126,6 +134,54 @@ console.log(c)`
             ,
             time: 55
         }
+
+        ,
+
+
+
+
+
+        {
+            code: "a"
+            ,
+            line: 1
+            ,
+            time: 77
+        }
+        ,
+        {
+            code: "a"
+            ,
+            line: 2
+            ,
+            time: 79
+        }
+        ,
+        {
+            code: "a"
+            ,
+            line: 3
+            ,
+            time: 81
+        }
+        ,
+        {
+            code: "a"
+            ,
+            line: 4
+            ,
+            time: 83
+        }
+        ,
+        {
+            code: "a"
+            ,
+            line: 5
+            ,
+            time: 85
+        }
+
+
     ]
 
     </script>

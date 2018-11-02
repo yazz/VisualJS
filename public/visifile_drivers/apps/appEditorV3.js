@@ -137,7 +137,7 @@ load_once_from_file(true)
 
                                 v-bind:style='  "color: darkgray; " +
                                                 "position: absolute;" +
-                                                "top:" + (exePoint.line * 10) + ";" +
+                                                "top:" + ((exePoint.line + executionCode[exePoint.code].start) * 10) + ";" +
                                                 "left:" + (exePoint.time * 5) + " ;" +
                                                 "border: 1px solid darkgray;" +
                                                 "width:10px;" +
@@ -193,7 +193,7 @@ load_once_from_file(true)
             mouseOverTimeline: function(x) {
                 //alert(JSON.stringify(x,null,2))
                 this.highlighted_line = x.line
-                this.highlighted_block = executionCode[x.code]
+                this.highlighted_block = executionCode[x.code].code
                 this.highlighted_block_name = x.code
                 this.highlighted_blocks = this.highlighted_block.split(/\r?\n/)
                 //alert(JSON.stringify(this.highlighted_blocks,null,2))
