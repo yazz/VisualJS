@@ -29,6 +29,17 @@ var c=2
 c = a + 3
 console.log(c)
 `
+executionCode.b =
+`var a = 1
+a = a + 1
+var c=2
+c = a + 3
+console.log(c)
+var a = 1
+a = a + 1
+var c=2
+c = a + 3
+console.log(c)`
 
     var executionTimeline = [
         {
@@ -50,9 +61,70 @@ console.log(c)
         {
             code: "a"
             ,
+            line: 3
+            ,
+            time: 11
+        }
+        ,
+        {
+            code: "a"
+            ,
+            line: 4
+            ,
+            time: 13
+        }
+        ,
+        {
+            code: "a"
+            ,
             line: 5
             ,
-            time: 29
+            time: 15
+        }
+
+
+
+        ,
+
+
+        {
+            code: "b"
+            ,
+            line: 1
+            ,
+            time: 47
+        }
+        ,
+        {
+            code: "b"
+            ,
+            line: 2
+            ,
+            time: 49
+        }
+        ,
+        {
+            code: "b"
+            ,
+            line: 5
+            ,
+            time: 51
+        }
+        ,
+        {
+            code: "b"
+            ,
+            line: 1
+            ,
+            time: 53
+        }
+        ,
+        {
+            code: "b"
+            ,
+            line: 2
+            ,
+            time: 55
         }
     ]
 

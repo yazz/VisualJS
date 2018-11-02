@@ -119,7 +119,7 @@ load_once_from_file(true)
                     <div   v-if='highlighted_block != null'
                            v-for='(exeLine,index) in highlighted_blocks'>
 
-                           <div v-bind:style='"" + (index == highlighted_line?"background-color: lightgray;":"") '>
+                           <div v-bind:style='"" + (index == (highlighted_line - 1)?"background-color: lightgray;":"") '>
                                {{exeLine}}
                            </div>
                     </div>
