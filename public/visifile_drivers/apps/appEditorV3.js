@@ -116,10 +116,15 @@ load_once_from_file(true)
 
             <div class='row'>
                 <div class='md-col4'>
-                    <textarea>
-                        This is some code
-                        line 2
-                    </textarea>
+                    <div   v-if='highlighted_block != null'
+                           v-for='(exeLine,index) in highlighted_blocks'>
+
+                           <div v-bind:style='"" + (index == highlighted_line?"background-color: lightgray;":"") '>
+                               {{exeLine}}
+                           </div>
+                    </div>
+
+
                 </div>
 
 
@@ -127,12 +132,15 @@ load_once_from_file(true)
                     <div style='color: black; position: relative;'>
 
                         <div    v-for='exePoint in execution_timeline'
+                                @mouseover="mouseOverTimeline(exePoint)"
                                 v-bind:style='" color: black;position: absolute;" +
 
                                                 "top:" + (exePoint.line * 10) + ";" +
-                                                "left:" + (exePoint.time * 5) +
-
-                                                " ;border: 1px solid black;width:5px;height: 5px; background-color: black;"'>
+                                                "left:" + (exePoint.time * 5) + " ;" +
+                                                "border: 1px solid black;" +
+                                                "width:5px;" + "height: 5px; " +
+                                                "background-color: black;" +
+                                                ""'>
                         </div>
                     </div>
                 </div>
@@ -152,6 +160,10 @@ load_once_from_file(true)
                selected_app:        '',
                editor_component:    null,
                execution_timeline:  null,
+               execution_code: null,
+               highlighted_line:    -1,
+               highlighted_block:    "",
+               highlighted_blocks:   [],
                app_loaded:          false,
                app_component_name:  null,
                base_component_id:   null,
@@ -174,6 +186,18 @@ load_once_from_file(true)
        ,
 
        methods: {
+            mouseOverTimeline: function(x) {
+                //alert(JSON.stringify(x,null,2))
+                this.highlighted_line = x.line
+                this.highlighted_block = executionCode[x.code]
+                this.highlighted_blocks = this.highlighted_block.split(/\r?\n/)
+                //alert(JSON.stringify(this.highlighted_blocks,null,2))
+            }
+            ,
+
+
+
+
             // ---------------------------------------------------------------
             //                         chooseApp
             //
@@ -485,6 +509,7 @@ load_once_from_file(true)
                 var mm = this
 
                 this.execution_timeline = executionTimeline
+                this.execution_code     = executionCode
 
                 //
                 // make sure we load the component for this app
