@@ -115,21 +115,19 @@ load_once_from_file(true)
         <div class='container'>
 
             <div class='row'>
-                <div class='col-md-4'>
+                <div class='col-md-6' style='overflow: auto;'>
                     <b>{{highlighted_block_name}}</b>
                     <div   v-if='highlighted_block != null'
                            v-for='(exeLine,index) in highlighted_blocks'>
 
-                           <div v-bind:style='"" + (index == (highlighted_line - 1)?"background-color: lightgray;":"") '>
-                               {{exeLine}}
-                           </div>
+                           <pre v-bind:style='"padding:0;margin:0;border:0;" + (index == (highlighted_line - 1)?"background-color: lightgray;":"") '>{{exeLine}}</pre>
                     </div>
 
 
                 </div>
 
 
-                <div class='col-md-7'>
+                <div class='col-md-5'>
                     <div style='color: black; position: relative;'>
 
                         <div    v-for='exePoint in execution_timeline'
@@ -494,6 +492,144 @@ load_once_from_file(true)
                    var results = await callApp( {code_id:    codeId },{})
                    mm.app_loaded = true
                    mm.baseComponentId = baseComponentId
+
+                   executionTimeline = [
+                       {
+                           code: "a"
+                           ,
+                           line: 1
+                           ,
+                           time: 7
+                       }
+                       ,
+                       {
+                           code: "a"
+                           ,
+                           line: 2
+                           ,
+                           time: 9
+                       }
+                       ,
+                       {
+                           code: "a"
+                           ,
+                           line: 3
+                           ,
+                           time: 11
+                       }
+                       ,
+                       {
+                           code: "a"
+                           ,
+                           line: 4
+                           ,
+                           time: 13
+                       }
+                       ,
+                       {
+                           code: "a"
+                           ,
+                           line: 5
+                           ,
+                           time: 15
+                       }
+
+
+
+                       ,
+
+
+                       {
+                           code: "b"
+                           ,
+                           line: 1
+                           ,
+                           time: 47
+                       }
+                       ,
+                       {
+                           code: "b"
+                           ,
+                           line: 2
+                           ,
+                           time: 49
+                       }
+                       ,
+                       {
+                           code: "b"
+                           ,
+                           line: 5
+                           ,
+                           time: 51
+                       }
+                       ,
+                       {
+                           code: "b"
+                           ,
+                           line: 1
+                           ,
+                           time: 53
+                       }
+                       ,
+                       {
+                           code: "b"
+                           ,
+                           line: 2
+                           ,
+                           time: 55
+                       }
+
+                       ,
+
+
+
+
+
+                       {
+                           code: "a"
+                           ,
+                           line: 1
+                           ,
+                           time: 77
+                       }
+                       ,
+                       {
+                           code: "a"
+                           ,
+                           line: 2
+                           ,
+                           time: 79
+                       }
+                       ,
+                       {
+                           code: "a"
+                           ,
+                           line: 3
+                           ,
+                           time: 81
+                       }
+                       ,
+                       {
+                           code: "a"
+                           ,
+                           line: 4
+                           ,
+                           time: 83
+                       }
+                       ,
+                       {
+                           code: "a"
+                           ,
+                           line: 5
+                           ,
+                           time: 85
+                       }
+
+
+                   ]
+                   this.execution_timeline = executionTimeline
+                   this.execution_code     = executionCode
+                   //zzz
 
                    setTimeout(async function() {
                        mm.app_component_name = baseComponentId
