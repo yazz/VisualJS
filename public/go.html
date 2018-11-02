@@ -22,6 +22,8 @@
     var queuedBrowserResponseSeqNum = 0
     var callDriverMethodArgs = new Object()
     var executionCode = new Object()
+    var startTimelineMillis = 0
+    var startTimelineTop = 6
 
 //zzz
     var executionTimeline = []
@@ -33,24 +35,9 @@
         console.log(c)
         `,
 
-        start: 1
+        start: startTimelineTop
     }
 
-executionCode.b = {
-        code: `var a = 1
-        a = a + 1
-        var c=2
-        c = a + 3
-        console.log(c)
-        var a = 1
-        a = a + 1
-        var c=2
-        c = a + 3
-        console.log(c)`,
-
-        start: 6
-
-}
     </script>
 
     <script>
@@ -8958,12 +8945,19 @@ async function loadV2( baseComponentIds, args ) {
             await checkLibsV2(newData.value, args)
             //zzz
             //alert(JSON.stringify(Object.keys(newData.value.code),null,2))
-            executionCode.b = {
+            //startTimelineMillis = new Date().getTime()
+
+            executionCode[componentId] = {
                     code: newData.value.code,
 
-                    start: 6
+                    start: startTimelineTop
 
             }
+            startTimelineTop += startTimelineTop
+            executionTimeline.push({ code:   componentId,
+                                     line:   1,
+                                     time:   startTimelineMillis ++
+                                   })
         } else {
             //console.log("loadV2: 3")
             if (!component_loaded[componentId]) {
