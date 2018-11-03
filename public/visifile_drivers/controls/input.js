@@ -56,7 +56,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAA
       watch: {
         // This would be called anytime the value of title changes
         refresh(newValue, oldValue) {
-            console.log("refresh: " + this.args.text)
+            //console.log("refresh: " + this.args.text)
             if (isValidObject(this.args)) {
                 this.label = this.args.label
                 this.text = this.args.text
