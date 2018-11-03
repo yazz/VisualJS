@@ -8837,7 +8837,42 @@ async function callCodeV2(componentRecord,args) {
         trcode = escodegen.generate(trcodeTree)
         console.log(3)
 
-        var fnfn = eval( trcode  )
+
+        var a = trcode
+        var b = esprima.parse(a,{loc:true, range: true})
+        var line = -1
+        estraverse.traverse(b, {
+            enter: function (node, parent) {
+                if (node.type == "ExpressionStatement") {
+                    if (node.loc.start.line > line){
+                        line = node.loc.start.line
+        				var newLine = "console.log(" + line +");"
+                        var newNode = esprima.parse(newLine)
+                        for (var rr=0; rr<parent.body.length; rr++){
+                            if (parent.body[rr] == node) {
+                                //parent.body.push(newNode)
+        						parent.body.splice(rr, 0, newNode);
+        break
+                                console.log("Line " + line + ": " + escodegen.generate(newNode))
+                                //console.log("parent: " + JSON.stringify(parent,null,2));
+                                //return newNode;
+                            }
+        				}
+                    }
+                }
+            },
+            leave: function (node, parent) {
+
+            },
+
+     keys: {
+		'AwaitExpression': ['value', 'xxx' ]
+     }
+        });
+        var trcode2 = escodegen.generate(b)
+
+
+        var fnfn = eval( trcode2  )
         //console.log("Code to run: " + componentRecord.code)
 
         if (componentRecord.code.indexOf("async ")  == -1) {
