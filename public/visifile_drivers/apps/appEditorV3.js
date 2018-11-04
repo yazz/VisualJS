@@ -127,7 +127,7 @@ load_once_from_file(true)
                 </div>
 
 
-                <div class='col-md-5'>
+                <div class='col-md-5'  style='overflow: auto; height: 50vh;'>
                     <div style='color: black; position: relative;'>
 
                         <div    v-for='exePoint in execution_timeline'
@@ -496,7 +496,7 @@ load_once_from_file(true)
                    //executionTimeline = []
                    this.execution_timeline = executionTimeline
                    this.execution_code     = executionCode
-                   
+
 
                    setTimeout(async function() {
                        mm.app_component_name = baseComponentId
