@@ -240,7 +240,6 @@ load_once_from_file(true)
         <div    v-bind:refresh='refresh'
                 style='height: 50%;  padding:5px; border: 8px solid lightgray;display: flex;flex-direction: column;'>
 
-            <zzz></zzz>
                 <div style='background-color: lightgray;'>
 
                     <div style='background-color: darkgray;'>
@@ -283,7 +282,6 @@ load_once_from_file(true)
 
 
 
-                <zzz></zzz>
                 <div   style='height: 50%;  padding:5px; border: 8px solid lightgray;display: flex;flex-direction: column;'>
 
 

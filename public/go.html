@@ -23,20 +23,10 @@
     var callDriverMethodArgs = new Object()
     var executionCode = new Object()
     var startTimelineMillis = 0
-    var startTimelineTop = 6
+    var startTimelineTop = 0
 
-//zzz
+
     var executionTimeline = []
-    executionCode.a = {
-        code: `var a = 1
-        a = a + 1
-        var c=2
-        c = a + 3
-        console.log(c)
-        `,
-
-        start: startTimelineTop
-    }
 
     </script>
 
@@ -7856,11 +7846,8 @@ async function initFn() {
 
 
         if (editAppShareApp) {
-            console.log(1)
             var nid = nextItem++;
-            console.log(2)
             await loadV2("app_editor_3")
-            console.log(3)
             add_card({
                         id: nid,
                         card: {
@@ -8546,7 +8533,7 @@ var dataIds = new Object()
 
 
 
-//zzz
+
     socket.on('server_returns_loadUiComponent_to_browser',async function(data) {
 
             //alert("component returned: " + JSON.stringify(data,null,2))
@@ -8746,10 +8733,10 @@ function callCode(data) {
             if (eds){
                     for (var te = 1; te < eds.length ; te = te + 2) {
                         var sqlStatements = eds[te]
-                        console.log(`${te}`)
+                        //console.log(`${te}`)
                         for (var te2 = 0; te2 < sqlStatements.length ; te2 ++) {
                             var sqlStatement = sqlStatements[te2]
-                            console.log(`   SQL ${te2}: ${sqlStatement}`)
+                            //console.log(`   SQL ${te2}: ${sqlStatement}`)
                             localSql(sqlStatement)
                         }
 
@@ -8819,10 +8806,10 @@ async function callCodeV2(componentRecord,args) {
             if (eds){
                     for (var te = 1; te < eds.length ; te = te + 2) {
                         var sqlStatements = eds[te]
-                        console.log(`${te}`)
+                        //console.log(`${te}`)
                         for (var te2 = 0; te2 < sqlStatements.length ; te2 ++) {
                             var sqlStatement = sqlStatements[te2]
-                            console.log(`   SQL ${te2}: ${sqlStatement}`)
+                            //console.log(`   SQL ${te2}: ${sqlStatement}`)
                             localSql(sqlStatement)
                         }
 
@@ -8839,12 +8826,9 @@ async function callCodeV2(componentRecord,args) {
 
 
         trcoderaw = componentRecord.code
-        console.log(1)
         trcodeTree = esprima.parse("(" + componentRecord.code + ")", { tolerant: true })
 
-        console.log(2)
         trcode = escodegen.generate(trcodeTree)
-        console.log(3)
 
 
         var a = trcode
@@ -8852,27 +8836,6 @@ async function callCodeV2(componentRecord,args) {
         var line = -1
         estraverse.traverse(b, {
             enter: function (node, parent) {
-                if (node.type == "ExpressionStatement") {
-                    if (parent) {
-                        if (node.loc.start.line > line){
-                            line = node.loc.start.line
-            				//var newLine = "console.log(" + line +");"
-                            var newLine = "logExecutionPoint('" + componentRecord.base_component_id + "', " + line +");"
-                            var newNode = esprima.parse(newLine)
-                            for (var rr=0; rr<parent.body.length; rr++){
-                                if (parent.body[rr] == node) {
-                                    //parent.body.push(newNode)
-            						//parent.body.splice(rr, 0, newNode);
-                                    break
-                                    //console.log("Line " + line + ": " + escodegen.generate(newNode))
-                                    //console.log("parent: " + JSON.stringify(parent,null,2));
-                                    //return newNode;
-                                }
-            				}
-                        }
-                    }
-                }
-                return node
             },
             leave: function (node, parent) {
 
@@ -8887,6 +8850,7 @@ async function callCodeV2(componentRecord,args) {
 
         var fnfn = eval( trcode2  )
         //console.log("Code to run: " + componentRecord.code)
+        //zzz
 
         if (componentRecord.code.indexOf("async ")  == -1) {
             fnfn(args)
@@ -9003,7 +8967,7 @@ async function callFunction(findComponentArgs, args) {
     return ret
 }
 
-//zzz
+
 async function loadV2( baseComponentIds, args ) {
     //console.log("loadV2: 1")
     if (!Array.isArray(baseComponentIds)) {
@@ -9020,7 +8984,7 @@ async function loadV2( baseComponentIds, args ) {
             var newDataCodeId = finderToCachedCodeMapping[ componentId ]
             var newData       = cachedCode[ newDataCodeId ]
             await checkLibsV2(newData.value, args)
-            //zzz
+
             //alert(JSON.stringify(Object.keys(newData.value.code),null,2))
             //startTimelineMillis = new Date().getTime()
 
