@@ -109,7 +109,7 @@ load_once_from_file(true)
 
     <div v-if='mode == "profiler"'>
         <div class='caption'  style='color: black;'>
-            Profiler
+            Profiler : {{highlighted_block_name}} : {{highlighted_line}}
         </div>
 
         <div class='container'>
