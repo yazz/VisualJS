@@ -118,12 +118,10 @@ load_once_from_file(true)
             <div class='row'>
                 <div class='col-md-6' style='overflow: auto;'>
                     <b>{{highlighted_block_name}}</b>
-                    <div   v-if='highlighted_block != null'
-                           v-for='(exeLine,index) in highlighted_blocks'>
+                    <div   v-if='highlighted_block != null'>
 
-                           <pre v-if='index < 100'
-                                v-bind:style='"padding:0;margin:0;border:0;" + (index == (highlighted_line - 1)?"color: black;":"color: lightgray;") '>
-                                    {{exeLine}}
+                           <pre style='padding:0;margin:0;border:0;color: black; '>
+                                {{highlighted_blocks[highlighted_line - 1]}}
                             </pre>
                     </div>
 
