@@ -8824,13 +8824,13 @@ async function callCodeV2(componentRecord,args) {
 
 
         trcoderaw = componentRecord.code
-        trcodeTree = esprima.parse("(" + componentRecord.code + ")", { tolerant: true })
+        trcodeTree = esprima.parse("(" + componentRecord.code + ")", { tolerant: true , attachComment: true})
 
-        trcode = escodegen.generate(trcodeTree)
+        trcode = escodegen.generate(trcodeTree,{comment: true})
 
 
         var a = trcode
-        var b = esprima.parse(a,{loc:true, range: true})
+        var b = esprima.parse(a,{loc:true, range: true, attachComment: true})
         var line = -1
         estraverse.traverse(b, {
             enter: function (node, parent) {
@@ -8838,9 +8838,10 @@ async function callCodeV2(componentRecord,args) {
                     if (parent) {
                         if (node.loc.start.line > line){
                             line = node.loc.start.line
+                            console.log("Debugger loading line: " + componentRecord.base_component_id  + ":" + line)
             				//var newLine = "console.log(" + line +");"
                             var newLine = "logExecutionPoint('" + componentRecord.base_component_id + "', " + line +",'" +
-                                JSON.stringify(Object.keys(node.expression)) + "');"
+                                JSON.stringify(node.type) + "');"
                                 //alert(newLine)
                             var newNode = esprima.parse(newLine)
                             for (var rr=0; rr<parent.body.length; rr++){
@@ -8866,11 +8867,11 @@ async function callCodeV2(componentRecord,args) {
 		'AwaitExpression': ['value', 'xxx' ]
      }
         });
-        var trcode2 = escodegen.generate(b)
+        var trcode2 = escodegen.generate(b, {comment: true})
 
 
         var fnfn = eval( trcode2  )
-        //console.log("Code to run: " + componentRecord.code)
+        console.log("Code to run: " + trcode2)
         //zzz
 
         if (componentRecord.code.indexOf("async ")  == -1) {
