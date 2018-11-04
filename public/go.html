@@ -8678,6 +8678,15 @@ async function checkLibs(data){
     }
 
 }
+
+function logExecutionPoint(componentId, line) {
+    executionTimeline.push({ code:   componentId,
+                             line:   line,
+                             time:   startTimelineMillis ++
+                           })
+
+}
+
 async function checkLibsV2(componentRecord,args){
     //console.log("CheckLibsV2: ")
 
@@ -8846,14 +8855,15 @@ async function callCodeV2(componentRecord,args) {
                 if (node.type == "ExpressionStatement") {
                     if (node.loc.start.line > line){
                         line = node.loc.start.line
-        				var newLine = "console.log(" + line +");"
+        				//var newLine = "console.log(" + line +");"
+                        var newLine = "logExecutionPoint('" + componentRecord.base_component_id + "', " + line +");"
                         var newNode = esprima.parse(newLine)
                         for (var rr=0; rr<parent.body.length; rr++){
                             if (parent.body[rr] == node) {
                                 //parent.body.push(newNode)
         						parent.body.splice(rr, 0, newNode);
-        break
-                                console.log("Line " + line + ": " + escodegen.generate(newNode))
+                                break
+                                //console.log("Line " + line + ": " + escodegen.generate(newNode))
                                 //console.log("parent: " + JSON.stringify(parent,null,2));
                                 //return newNode;
                             }
