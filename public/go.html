@@ -8846,7 +8846,7 @@ async function callCodeV2(componentRecord,args) {
                             for (var rr=0; rr<parent.body.length; rr++){
                                 if (parent.body[rr] == node) {
                                     //parent.body.push(newNode)
-            						//parent.body.splice(rr, 0, newNode);
+            						parent.body.splice(rr, 0, newNode);
                                     break
                                     //console.log("Line " + line + ": " + escodegen.generate(newNode))
                                     //console.log("parent: " + JSON.stringify(parent,null,2));
