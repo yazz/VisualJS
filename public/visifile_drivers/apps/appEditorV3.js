@@ -110,6 +110,7 @@ load_once_from_file(true)
     <div v-if='mode == "profiler"'>
         <div class='caption'  style='color: black;'>
             Profiler : {{highlighted_block_name}} : {{highlighted_line}}
+            <pre>{{highlighted_node}}</pre>
         </div>
 
         <div class='container'>
@@ -168,6 +169,7 @@ load_once_from_file(true)
                highlighted_line:    -1,
                highlighted_block:    "",
                highlighted_block_name:    "",
+               highlighted_node:    null,
                highlighted_blocks:   [],
                app_loaded:          false,
                app_component_name:  null,
@@ -196,6 +198,7 @@ load_once_from_file(true)
                 this.highlighted_line = x.line
                 this.highlighted_block = executionCode[x.code].code
                 this.highlighted_block_name = x.code
+                this.highlighted_node = x.node
                 this.highlighted_blocks = this.highlighted_block.split(/\r?\n/)
                 //alert(JSON.stringify(this.highlighted_blocks,null,2))
             }

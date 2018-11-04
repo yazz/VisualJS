@@ -8663,10 +8663,11 @@ async function checkLibs(data){
 
 }
 
-function logExecutionPoint(componentId, line) {
+function logExecutionPoint(componentId, line,node) {
     executionTimeline.push({ code:   componentId,
                              line:   line,
-                             time:   startTimelineMillis ++
+                             time:   startTimelineMillis ++,
+                             node:   node
                            })
 
 }
@@ -8838,7 +8839,9 @@ async function callCodeV2(componentRecord,args) {
                         if (node.loc.start.line > line){
                             line = node.loc.start.line
             				//var newLine = "console.log(" + line +");"
-                            var newLine = "logExecutionPoint('" + componentRecord.base_component_id + "', " + line +");"
+                            var newLine = "logExecutionPoint('" + componentRecord.base_component_id + "', " + line +",'" +
+                                JSON.stringify(Object.keys(node.expression)) + "');"
+                                //alert(newLine)
                             var newNode = esprima.parse(newLine)
                             for (var rr=0; rr<parent.body.length; rr++){
                                 if (parent.body[rr] == node) {
