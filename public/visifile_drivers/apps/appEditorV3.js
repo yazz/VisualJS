@@ -111,6 +111,7 @@ load_once_from_file(true)
         <div class='caption'  style='color: black;'>
             Profiler : {{highlighted_block_name}} : {{highlighted_line}}
             <pre>{{highlighted_node}}</pre>
+            execution_time: {{execution_time}}
         </div>
 
         <div class='container'>
@@ -130,7 +131,7 @@ load_once_from_file(true)
 
 
                 <div class='col-md-5'  style='overflow: auto; height: 50vh;'>
-                    <div style='color: black; position: relative;'>
+                    <div style='color: black; position: relative; height: 100%;'>
 
 
 
@@ -150,16 +151,30 @@ load_once_from_file(true)
 
 
                         <div    v-for='exePoint in execution_timeline'
-                                @mouseover="mouseOverTimeline(exePoint)"
 
-                                v-bind:style='  "color: darkgray; " +
+                                v-bind:style='  "z-index: " + ((execution_time == exePoint.time)?"100":"0" ) + "; color: darkgray; " +
                                                 "position: absolute;" +
                                                 "top:" + ((exePoint.line + executionCode[exePoint.code_block_name].start) * 1) + ";" +
                                                 "left:" + (200 + (exePoint.time * 1)) + " ;" +
-                                                "border: 1px solid darkgray;" +
+                                                "border: 1px solid " + ((execution_time == exePoint.time)?"black":"darkgray" ) + ";" +
                                                 "width:7px;" +
                                                 "height: 7px; " +
-                                                "background-color: darkgray;" +
+                                                "background-color: " + ((execution_time == exePoint.time)?"black":"darkgray" ) + ";" +
+                                                ""'>
+                        </div>
+                        <div    v-for='exePoint in execution_timeline'
+                                @mouseover="mouseOverTimeline(exePoint)"
+
+                                v-bind:style='  "position: absolute;" +
+                                                "top:0;" +
+                                                "opacity: " + ((execution_time == exePoint.time)?"1":"0" ) + ";"+
+                                                "bottom:0;" +
+                                                "left:" + (200 + (exePoint.time * 1)) + " ;" +
+                                                "border: 1px solid " +
+                                                    ((execution_time == exePoint.time)?"black":"white" )  +";" +
+                                                "width:1px;" +
+                                                "background-color: " +
+                                                    ((execution_time == exePoint.time)?"black":"white") +";" +
                                                 ""'>
                         </div>
                     </div>
@@ -180,6 +195,7 @@ load_once_from_file(true)
                selected_app:        '',
                editor_component:    null,
                execution_timeline:  null,
+               execution_time:  -1,
                execution_code: null,
                execution_block_list: [],
                highlighted_line:    -1,
@@ -212,6 +228,7 @@ load_once_from_file(true)
             mouseOverTimeline: function(x) {
                 //alert(JSON.stringify(x,null,2))
                 this.highlighted_line = x.line
+                this.execution_time = x.time
                 this.highlighted_block = executionCode[x.code_block_name].code
                 this.highlighted_block_name = x.code_block_name
                 this.highlighted_node = x.node
