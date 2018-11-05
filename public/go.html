@@ -8553,7 +8553,7 @@ var dataIds = new Object()
                         start: startTimelineTop
 
                 }
-                startTimelineTop += 10;//sdf[i].code.length
+                startTimelineTop += 50;//sdf[i].code.length
 
 
 
@@ -9018,11 +9018,8 @@ async function loadV2( baseComponentIds, args ) {
                     start: startTimelineTop
 
             }
-            startTimelineTop += startTimelineTop
-            executionTimeline.push({ code_block_name:   componentId,
-                                     line:   1,
-                                     time:   startTimelineMillis ++
-                                   })
+            startTimelineTop += 50
+
         } else {
             //console.log("loadV2: 3")
             if (!component_loaded[componentId]) {

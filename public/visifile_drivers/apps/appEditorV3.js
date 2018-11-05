@@ -133,13 +133,29 @@ load_once_from_file(true)
                     <div style='color: black; position: relative;'>
 
 
+
+                        <div    v-for='block_name in execution_block_list'
+
+                                v-bind:style='  "color: black; " +
+                                                "position: absolute;" +
+                                                "top:" + (execution_code[block_name].start) + ";" +
+                                                "left: 0px ;" +
+                                                "height:100%; " +
+                                                "width: 100%;" '>
+
+                            {{block_name}}
+
+                        </div>
+
+
+
                         <div    v-for='exePoint in execution_timeline'
                                 @mouseover="mouseOverTimeline(exePoint)"
 
                                 v-bind:style='  "color: darkgray; " +
                                                 "position: absolute;" +
                                                 "top:" + ((exePoint.line + executionCode[exePoint.code_block_name].start) * 1) + ";" +
-                                                "left:" + (exePoint.time * 1) + " ;" +
+                                                "left:" + (200 + (exePoint.time * 1)) + " ;" +
                                                 "border: 1px solid darkgray;" +
                                                 "width:7px;" +
                                                 "height: 7px; " +
@@ -165,6 +181,7 @@ load_once_from_file(true)
                editor_component:    null,
                execution_timeline:  null,
                execution_code: null,
+               execution_block_list: [],
                highlighted_line:    -1,
                highlighted_block:    "",
                highlighted_block_name:    "",
@@ -501,6 +518,7 @@ load_once_from_file(true)
                    //executionTimeline = []
                    this.execution_timeline = executionTimeline
                    this.execution_code     = executionCode
+                   this.execution_block_list = Object.keys(this.execution_code)
 
 
                    setTimeout(async function() {
@@ -523,6 +541,7 @@ load_once_from_file(true)
 
                 this.execution_timeline = executionTimeline
                 this.execution_code     = executionCode
+                this.execution_block_list = Object.keys(this.execution_code)
 
                 //
                 // make sure we load the component for this app
