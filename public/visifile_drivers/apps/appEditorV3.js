@@ -132,16 +132,17 @@ load_once_from_file(true)
                 <div class='col-md-5'  style='overflow: auto; height: 50vh;'>
                     <div style='color: black; position: relative;'>
 
+
                         <div    v-for='exePoint in execution_timeline'
                                 @mouseover="mouseOverTimeline(exePoint)"
 
                                 v-bind:style='  "color: darkgray; " +
                                                 "position: absolute;" +
-                                                "top:" + ((exePoint.line + executionCode[exePoint.code].start) * 10) + ";" +
-                                                "left:" + (exePoint.time * 5) + " ;" +
+                                                "top:" + ((exePoint.line + executionCode[exePoint.code].start) * 1) + ";" +
+                                                "left:" + (exePoint.time * 1) + " ;" +
                                                 "border: 1px solid darkgray;" +
-                                                "width:10px;" +
-                                                "height: 10px; " +
+                                                "width:7px;" +
+                                                "height: 7px; " +
                                                 "background-color: darkgray;" +
                                                 ""'>
                         </div>
