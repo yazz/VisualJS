@@ -125,6 +125,7 @@ load_once_from_file(true)
                                 {{highlighted_blocks[highlighted_line - 1]}}
                             </pre>
                     </div>
+                    <div id='timeline_editor' ></div>
 
 
                 </div>
@@ -195,6 +196,7 @@ load_once_from_file(true)
                selected_app:        '',
                editor_component:    null,
                execution_timeline:  null,
+               editor: null,
                execution_time:  -1,
                execution_code: null,
                execution_block_list: [],
@@ -239,6 +241,36 @@ load_once_from_file(true)
 
 
 
+            setupTimelineEditor: function() {
+                var mm = this
+                if (document.getElementById('timeline_editor') && (this.editor == null)) {
+                    //
+                    //set up the ace editor for the timeline view
+                    //
+                    ace.config.set('basePath', '/');
+                    this.editor = ace.edit(           "timeline_editor", {
+                                                            selectionStyle: "text",
+                                                            mode:           "ace/mode/javascript"
+                                                        })
+
+                    //Bug fix: Need a delay when setting theme or view is corrupted
+                    setTimeout(function(){
+                       mm.editor.setTheme("ace/theme/pastel_on_dark");
+                    },100)
+
+
+                    document.getElementById("timeline_editor").style.width = "100%"
+                    document.getElementById("timeline_editor").style.border = "10px solid #2C2828"
+
+                    document.getElementById("timeline_editor").style.height = "45vh"
+                    this.editor.getSession().setValue("code");
+                    this.editor.getSession().setUseWorker(false);
+                    this.editor.setReadOnly(true)
+                }
+            },
+
+
+
 
             // ---------------------------------------------------------------
             //                         chooseApp
@@ -264,6 +296,7 @@ load_once_from_file(true)
                 // have to make sure that we save it every time we save code
                 //
                 await this.save( this.base_component_id, this.code_id, text )
+                this.editor = null
             },
 
             chooseCode: async function() {
@@ -277,6 +310,7 @@ load_once_from_file(true)
                 this.mode      = "edit"
 
                 await mm.load_app( this.base_component_id )
+                this.editor = null
             },
 
 
@@ -292,6 +326,7 @@ load_once_from_file(true)
 
                 this.mode      = "edit"
                 await mm.load_app( this.base_component_id )
+                this.editor = null
             },
 
             chooseProfiler: async function() {
@@ -302,6 +337,11 @@ load_once_from_file(true)
                 this.app_width = "0%"
                 this.app_shown = false
                 this.mode = "profiler"
+
+                setTimeout(function() {
+                    mm.setupTimelineEditor()
+                },
+                200)
             },
 
             rename: async function(nn) {
@@ -571,6 +611,8 @@ load_once_from_file(true)
                     await this.load_app(this.app_id)
 
                 }
+
+
            }
        })
        return {name: "app_editor"}
