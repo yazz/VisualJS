@@ -8663,11 +8663,13 @@ async function checkLibs(data){
 
 }
 
-function logExecutionPoint(componentId, line,node) {
-    executionTimeline.push({ code:   componentId,
-                             line:   line,
-                             time:   startTimelineMillis ++,
-                             node:   node
+//zzz
+function logExecutionPoint(codeBlockName, line, node) {
+
+    executionTimeline.push({ code_block_name:    codeBlockName,
+                             line:               line,
+                             time:               startTimelineMillis ++,
+                             node:               node
                            })
 
 }
@@ -9017,7 +9019,7 @@ async function loadV2( baseComponentIds, args ) {
 
             }
             startTimelineTop += startTimelineTop
-            executionTimeline.push({ code:   componentId,
+            executionTimeline.push({ code_block_name:   componentId,
                                      line:   1,
                                      time:   startTimelineMillis ++
                                    })
