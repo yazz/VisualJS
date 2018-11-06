@@ -238,6 +238,13 @@ load_once_from_file(true)
                 //alert(JSON.stringify(this.highlighted_blocks,null,2))
                 this.editor.getSession().setValue(executionCode[x.code_block_name].code);
 
+                this.editor.scrollToLine(x.line - 1, true, true, function () {});
+
+                this.editor.gotoLine(x.line - 1, 10, true);
+
+                this.editor.selection.moveCursorToPosition({row: x.line - 1, column: 0});
+                this.editor.selection.selectLine();
+
             }
             ,
 
