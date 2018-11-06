@@ -27,6 +27,7 @@
     var startTimelineMillis = 0
     var startTimelineTop    = 0
     var executionTimeline   = []
+    var executionTimelineMapTimeToLine   = {}
 
     </script>
 
@@ -8666,11 +8667,14 @@ async function checkLibs(data){
 //zzz
 function logExecutionPoint(codeBlockName, line, node) {
 
-    executionTimeline.push({ code_block_name:    codeBlockName,
+    var recor = { code_block_name:    codeBlockName,
                              line:               line,
                              time:               startTimelineMillis ++,
                              node:               node
-                           })
+                           }
+    executionTimeline.push(recor)
+
+    executionTimelineMapTimeToLine[recor.time] = recor
 
 }
 

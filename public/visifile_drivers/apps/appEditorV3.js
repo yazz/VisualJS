@@ -125,56 +125,46 @@ load_once_from_file(true)
                 </div>
 
 
-                <div class='col-md-5'  style='overflow: auto; height: 50vh;'>
-                    <div style='color: black; position: relative; height: 100%;'>
+                <div    class='col-md-5'
+                        style='height: 50vh;background-color: white; '
+                        >
 
-
-
-                        <div    v-for='block_name in execution_block_list'
-
-                                v-bind:style='  "color: black; " +
-                                                "position: absolute;" +
-                                                "top:" + (execution_code[block_name].start) + ";" +
-                                                "left: 0px ;" +
-                                                "height:100%; " +
-                                                "width: 100%;" '>
-
-                            {{block_name}}
-
+                        <div
+                            v-bind:style='  "width: 2px;border: 2px solid black;" + "position: absolute; pointer-events: none;" +"top: 0; height:100%;" +"left: " + (timeline_x) + "px ;" +"" '>
                         </div>
 
+                        <div    style='overflow: scroll; border: 1px solid blue; padding:0; height:100%; width:100%;position:absolute;left:0;top:0'
+                                id='timeline_el'
+                                @mousemove="mouseOverTimeline($event)"
+                        >
+
+                            <div    v-for='block_name in execution_block_list'
+                                    v-bind:style='  "color: black; " +
+                                                    "position: absolute; pointer-events: none;" +
+                                                    "top:" + (execution_code[block_name].start) + ";" +
+                                                    "left: 0px ;" +
+                                                    "height:100%; " +
+                                                    "width: 100%;" '>
+
+                                {{block_name}}
+
+                            </div>
+
+                            <div    v-for='exePoint in execution_timeline'
+
+                                    v-bind:style='  "z-index: " + ((execution_time == exePoint.time)?"100":"0" ) + "; color: darkgray; " +
+                                                    "position: absolute; pointer-events: none;" +
+                                                    "top:" + ((exePoint.line + executionCode[exePoint.code_block_name].start) * 1) + ";" +
+                                                    "left:" + (200 + (exePoint.time * 1)) + "px;" +
+                                                    "border: 1px solid " + ((execution_time == exePoint.time)?"black":"darkgray" ) + ";" +
+                                                    "width:7px;" +
+                                                    "height: 7px; " +
+                                                    "background-color: " + ((execution_time == exePoint.time)?"black":"darkgray" ) + ";" +
+                                                    ""'>
+                            </div>
 
 
 
-                        <div    v-for='exePoint in execution_timeline'
-
-                                v-bind:style='  "z-index: " + ((execution_time == exePoint.time)?"100":"0" ) + "; color: darkgray; " +
-                                                "position: absolute;" +
-                                                "top:" + ((exePoint.line + executionCode[exePoint.code_block_name].start) * 1) + ";" +
-                                                "left:" + (200 + (exePoint.time * 1)) + " ;" +
-                                                "border: 1px solid " + ((execution_time == exePoint.time)?"black":"darkgray" ) + ";" +
-                                                "width:7px;" +
-                                                "height: 7px; " +
-                                                "background-color: " + ((execution_time == exePoint.time)?"black":"darkgray" ) + ";" +
-                                                ""'>
-                        </div>
-
-
-                        <div    v-for='exePoint in execution_timeline'
-                                @mouseover="mouseOverTimeline(exePoint)"
-
-                                v-bind:style='  "position: absolute;" +
-                                                "top:0;" +
-                                                "opacity: " + ((execution_time == exePoint.time)?"1":"0" ) + ";"+
-                                                "bottom:0;" +
-                                                "left:" + (200 + (exePoint.time * 1)) + " ;" +
-                                                "border: 1px solid " +
-                                                    ((execution_time == exePoint.time)?"black":"white" )  +";" +
-                                                "width:1px;" +
-                                                "background-color: " +
-                                                    ((execution_time == exePoint.time)?"black":"white") +";" +
-                                                ""'>
-                        </div>
                     </div>
                 </div>
 
@@ -198,6 +188,7 @@ load_once_from_file(true)
                execution_code: null,
                execution_block_list: [],
                highlighted_line:    -1,
+               timeline_x: -1,
                highlighted_block:    "",
                highlighted_block_name:    "",
                highlighted_node:    null,
@@ -224,23 +215,36 @@ load_once_from_file(true)
        ,
 
        methods: {
-            mouseOverTimeline: function(x) {
-                //alert(JSON.stringify(x,null,2))
-                this.highlighted_line = x.line
-                this.execution_time = x.time
-                this.highlighted_block = executionCode[x.code_block_name].code
-                this.highlighted_block_name = x.code_block_name
-                this.highlighted_node = x.node
-                this.highlighted_blocks = this.highlighted_block.split(/\r?\n/)
-                //alert(JSON.stringify(this.highlighted_blocks,null,2))
-                this.editor.getSession().setValue(executionCode[x.code_block_name].code);
+            mouseOverTimeline: function(ev) {
+                //ev.preventDefault();
 
-                this.editor.scrollToLine(x.line - 1, true, true, function () {});
+                var elementTimeline = document.getElementById("timeline_el"  )
+                var left = (elementTimeline.scrollLeft + ev.offsetX) - 200;
+                var top = elementTimeline.scrollTop + ev.offsetY;
 
-                this.editor.gotoLine(x.line - 1, 10, true);
+                this.timeline_x = ev.offsetX
 
-                this.editor.selection.moveCursorToPosition({row: x.line - 1, column: 0});
-                this.editor.selection.selectLine();
+                if (left > -1){
+                    console.log( "("+ left + "," + top + ")" )
+
+                    var x=executionTimelineMapTimeToLine[left]
+                    //alert(JSON.stringify(x,null,2))
+                    this.highlighted_line = x.line
+                    this.execution_time = x.time
+                    this.highlighted_block = executionCode[x.code_block_name].code
+                    this.highlighted_block_name = x.code_block_name
+                    this.highlighted_node = x.node
+                    this.highlighted_blocks = this.highlighted_block.split(/\r?\n/)
+                    //alert(JSON.stringify(this.highlighted_blocks,null,2))
+                    this.editor.getSession().setValue(executionCode[x.code_block_name].code);
+
+                    this.editor.scrollToLine(x.line - 1, true, true, function () {});
+
+                    this.editor.gotoLine(x.line - 1, 10, true);
+
+                    this.editor.selection.moveCursorToPosition({row: x.line - 1, column: 0});
+                    this.editor.selection.selectLine();
+                }
 
             }
             ,
