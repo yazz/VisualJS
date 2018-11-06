@@ -108,23 +108,12 @@ load_once_from_file(true)
 
 
     <div v-if='mode == "profiler"'>
-        <div class='caption'  style='color: black;'>
-            Profiler : {{highlighted_block_name}} : {{highlighted_line}}
-            <pre>{{highlighted_node}}</pre>
-            execution_time: {{execution_time}}
-        </div>
 
-        <div class='container'>
+        <div class='container' style='padding:0; margin:0; border: 0;'>
 
             <div class='row'>
                 <div class='col-md-6' style='overflow: auto;'>
                     <b>{{highlighted_block_name}}</b>
-                    <div   v-if='highlighted_block != null'>
-
-                           <pre style='padding:0;margin:0;border:0;color: black; '>
-                                {{highlighted_blocks[highlighted_line - 1]}}
-                            </pre>
-                    </div>
                     <div id='timeline_editor' ></div>
 
 
