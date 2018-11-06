@@ -21,12 +21,12 @@
     var queuedResponses = new Object()
     var queuedBrowserResponseSeqNum = 0
     var callDriverMethodArgs = new Object()
-    var executionCode = new Object()
+
+
+    var executionCode       = new Object()
     var startTimelineMillis = 0
-    var startTimelineTop = 0
-
-
-    var executionTimeline = []
+    var startTimelineTop    = 0
+    var executionTimeline   = []
 
     </script>
 
@@ -8553,7 +8553,7 @@ var dataIds = new Object()
                         start: startTimelineTop
 
                 }
-                startTimelineTop += 50;//sdf[i].code.length
+                startTimelineTop += sdf[i].code.length
 
 
 
@@ -9018,7 +9018,7 @@ async function loadV2( baseComponentIds, args ) {
                     start: startTimelineTop
 
             }
-            startTimelineTop += 50
+            startTimelineTop += newData.value.code.length
 
         } else {
             //console.log("loadV2: 3")
