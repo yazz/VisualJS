@@ -236,6 +236,8 @@ load_once_from_file(true)
                 this.highlighted_node = x.node
                 this.highlighted_blocks = this.highlighted_block.split(/\r?\n/)
                 //alert(JSON.stringify(this.highlighted_blocks,null,2))
+                this.editor.getSession().setValue(executionCode[x.code_block_name].code);
+
             }
             ,
 
@@ -263,7 +265,7 @@ load_once_from_file(true)
                     document.getElementById("timeline_editor").style.border = "10px solid #2C2828"
 
                     document.getElementById("timeline_editor").style.height = "45vh"
-                    this.editor.getSession().setValue("code");
+                    this.editor.getSession().setValue("");
                     this.editor.getSession().setUseWorker(false);
                     this.editor.setReadOnly(true)
                 }
