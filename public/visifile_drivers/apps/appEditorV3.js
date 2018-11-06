@@ -72,7 +72,8 @@ load_once_from_file(true)
                                 ((show_new_tab_tooltip || show_open_app_tooltip)?"visible":"hidden") + ";font-family: Helvetica;"'>
                                     {{show_new_tab_tooltip?"Open app in new browser tab (shareable :)":""}}
                                     {{show_open_app_tooltip?"Download app as .HTML file (emailable :)":""}}
-                            </span>
+                          </span>
+
                           <div v-bind:style="'background-color: rgb(242,242,242);padding: 5px;; border: 2px solid lightgray;'">
                                 &larr; &rarr; <span class=reload>&#x21bb;</span>
                                 <a
@@ -81,9 +82,11 @@ load_once_from_file(true)
                                     v-on:mouseover="show_new_tab_tooltip = true"
                                     v-on:mouseleave="show_new_tab_tooltip = false"
                                     class=reload>&#x274F;
-                                    </a>
-                                    <input  readonly size="40" style='font-size: 13px;'
-                                        v-bind:value='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'></input>
+                                </a>
+
+                                <input  readonly size="40" style='font-size: 13px;'
+                                    v-bind:value='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'>
+                                </input>
 
 
 
@@ -93,8 +96,10 @@ load_once_from_file(true)
                                     v-on:mouseover="show_open_app_tooltip = true"
                                     v-on:mouseleave="show_open_app_tooltip = false"
                                     class=reload>&#x2668;
-                                    </a>
+                                </a>
                           </div>
+
+
                           <component  v-bind:is="app_component_name" v-if="app_loaded">
                             APP HERE
                           </component>
@@ -107,16 +112,16 @@ load_once_from_file(true)
 
 
 
-    <div v-if='mode == "profiler"'>
+    <div v-if='mode == "profiler"' style='width:100%;'>
 
-        <div class='container' style='padding:0; margin:0; border: 0;'>
+        <div class='container' style='width:100%;padding:0; margin:0; border: 0;'>
 
             <div class='row'>
                 <div class='col-md-6' style='overflow: auto;'>
                     <b>{{highlighted_block_name}}</b>
-                    <div id='timeline_editor' ></div>
 
-
+                    <div id='timeline_editor' >
+                    </div>
                 </div>
 
 
@@ -140,6 +145,7 @@ load_once_from_file(true)
 
 
 
+
                         <div    v-for='exePoint in execution_timeline'
 
                                 v-bind:style='  "z-index: " + ((execution_time == exePoint.time)?"100":"0" ) + "; color: darkgray; " +
@@ -152,6 +158,8 @@ load_once_from_file(true)
                                                 "background-color: " + ((execution_time == exePoint.time)?"black":"darkgray" ) + ";" +
                                                 ""'>
                         </div>
+
+
                         <div    v-for='exePoint in execution_timeline'
                                 @mouseover="mouseOverTimeline(exePoint)"
 
