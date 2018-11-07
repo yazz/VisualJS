@@ -156,7 +156,7 @@ load_once_from_file(true)
                         >
 
                     <div
-                        v-bind:style='  "width: 2px;border: 2px solid black;" + "position: absolute; " +"top: 0; height:100%;" +"left: " + (timeline_x) + "px;" '>
+                        v-bind:style='  "width: 2px;border: 2px solid black;" + "position: absolute; " +"top: 0; height:100%;" +"left: " + (timeline_x_cursor) + "px;" '>
                     </div>
 
                     <div    style='overflow: scroll; border: 1px solid blue; padding:0; height:100%; width:100%;position:absolute;left:0;top:0'
@@ -214,7 +214,7 @@ load_once_from_file(true)
                execution_code: null,
                execution_block_list: [],
                highlighted_line:    -1,
-               timeline_x: -1,
+               timeline_x_cursor: -1,
                highlighted_block:    "",
                highlighted_block_name:    "",
                highlighted_node:    null,
@@ -279,15 +279,14 @@ load_once_from_file(true)
                     this.editor.selection.selectLine();
 
                     var elementTimeline = document.getElementById("timeline_el"  )
-                    elementTimeline.scrollTop = (executionCode[x.code_block_name].start + x.line) * this.execution_horiz_scale
+                    elementTimeline.scrollTop = (executionCode[x.code_block_name].start + (Math.floor(x.line/30)*30)) * this.execution_horiz_scale
 
-                    this.timeline_x = this.execution_horiz_scale * this.execution_time
-                    console.log("this.timeline_x: " + this.timeline_x)
+                    this.timeline_x_cursor = this.execution_horiz_scale * this.execution_time
+                    console.log("this.timeline_x_cursor: " + this.timeline_x_cursor)
                     console.log("elementTimeline.offsetWidth: " + elementTimeline.offsetWidth)
-                    if (this.timeline_x > elementTimeline.offsetWidth) {
-                        this.timeline_x = 0
-                        elementTimeline.scrollLeft = (this.execution_horiz_scale * this.execution_time)
-                    }
+                    //if (this.timeline_x_cursor > elementTimeline.offsetWidth) {
+                    //    elementTimeline.scrollLeft = this.timeline_x_cursor
+                    //}
 
                 }
             }
