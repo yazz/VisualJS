@@ -156,7 +156,7 @@ load_once_from_file(true)
                         >
 
                     <div
-                        v-bind:style='  "position: absolute;pointer-events: none;width: 2px;border: 2px solid black; top: 0; height:100%;" +"left: " + (timeline_x_cursor) + "px;" '>
+                        v-bind:style='  "position: absolute;pointer-events: none;width: 2px;border: 2px solid black; top: 0; height:100%;" +"left: " + (timeline_x_cursor + 15)  + "px;" '>
                     </div>
 
                     <div    style='position:relative;overflow: scroll; border: 1px solid blue; padding:0; height:100%; width:100%;left:0;top:0'
@@ -284,12 +284,13 @@ load_once_from_file(true)
                     var elementTimeline = document.getElementById("timeline_el"  )
                     elementTimeline.scrollTop = (executionCode[x.code_block_name].start + (Math.floor(x.line/30)*30)) * this.execution_horiz_scale
 
-                    this.timeline_x_cursor = this.execution_horiz_scale * this.execution_time
+                    this.timeline_x_cursor = (this.execution_horiz_scale * this.execution_time) - elementTimeline.scrollLeft
                     console.log("this.timeline_x_cursor: " + this.timeline_x_cursor)
                     console.log("elementTimeline.offsetWidth: " + elementTimeline.offsetWidth)
-                    //if (this.timeline_x_cursor > elementTimeline.offsetWidth) {
-                    //    elementTimeline.scrollLeft = this.timeline_x_cursor
-                    //}
+                    if (this.timeline_x_cursor > elementTimeline.offsetWidth) {
+                        elementTimeline.scrollLeft += elementTimeline.offsetWidth
+                        this.timeline_x_cursor = (this.execution_horiz_scale * this.execution_time) - elementTimeline.scrollLeft
+                    }
 
                 }
             }
