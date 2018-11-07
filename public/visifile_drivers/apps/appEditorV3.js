@@ -155,7 +155,7 @@ load_once_from_file(true)
                                     v-bind:style='  "z-index: " + ((execution_time == exePoint.time)?"100":"0" ) + "; color: darkgray; " +
                                                     "position: absolute; pointer-events: none;" +
                                                     "top:" + ((exePoint.line + executionCode[exePoint.code_block_name].start) * 1) + ";" +
-                                                    "left:" + (200 + (exePoint.time * 1)) + "px;" +
+                                                    "left:" + (200 + (exePoint.time * execution_horiz_scale)) + "px;" +
                                                     "border: 1px solid " + ((execution_time == exePoint.time)?"black":"darkgray" ) + ";" +
                                                     "width:7px;" +
                                                     "height: 7px; " +
@@ -183,6 +183,7 @@ load_once_from_file(true)
                selected_app:        '',
                editor_component:    null,
                execution_timeline:  null,
+               execution_horiz_scale: 10,
                editor: null,
                execution_time:  -1,
                execution_code: null,
@@ -219,7 +220,7 @@ load_once_from_file(true)
                 //ev.preventDefault();
 
                 var elementTimeline = document.getElementById("timeline_el"  )
-                var left = (elementTimeline.scrollLeft + ev.offsetX) - 200;
+                var left = (elementTimeline.scrollLeft + ev.offsetX)  - 200;
                 var top = elementTimeline.scrollTop + ev.offsetY;
 
                 this.timeline_x = ev.offsetX
@@ -227,7 +228,7 @@ load_once_from_file(true)
                 if ((left > -1) && elementTimeline) {
                     console.log( "("+ left + "," + top + ")" )
 
-                    var x=executionTimelineMapTimeToLine[left]
+                    var x=executionTimelineMapTimeToLine[ Math.floor(left / this.execution_horiz_scale)]
                     if (x) {
                         //alert(JSON.stringify(x,null,2))
                         this.highlighted_line = x.line
