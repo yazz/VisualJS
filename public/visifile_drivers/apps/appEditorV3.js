@@ -578,9 +578,9 @@ load_once_from_file(true)
                mm.app_loaded = true
                mm.baseComponentId = baseComponentId
 
-               startTimelineMillis = 0
-               executionTimeline   = []
-               executionTimelineMapTimeToLine   = {}
+               //startTimelineMillis = 0
+               //executionTimeline   = []
+               //executionTimelineMapTimeToLine   = {}
 
                this.execution_timeline = executionTimeline
                this.execution_code     = executionCode
