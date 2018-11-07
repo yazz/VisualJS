@@ -211,7 +211,6 @@ load_once_from_file(true)
                highlighted_block:    "",
                highlighted_block_name:    "",
                highlighted_node:    null,
-               highlighted_blocks:   [],
                app_loaded:          false,
                app_component_name:  null,
                base_component_id:   null,
@@ -234,25 +233,50 @@ load_once_from_file(true)
        ,
 
        methods: {
-           stepForward: function() {
-            this.execution_time ++
-           }
-           ,
-           stepBack: function() {
-            this.execution_time --
-           }
-           ,
-           timelineZoomIn: function() {
-            this.execution_horiz_scale ++
-           }
-           ,
-           timelineZoomOut: function() {
-            this.execution_horiz_scale --
-           }
+            stepForward: function() {
+                this.execution_time ++
+                this.updateTimeline()
+            }
+            ,
+            stepBack: function() {
+                this.execution_time --
+                this.updateTimeline()
+            }
+            ,
+            timelineZoomIn: function() {
+                this.execution_horiz_scale ++
+                this.updateTimeline()
+            }
+            ,
+            timelineZoomOut: function() {
+                this.execution_horiz_scale --
+                this.updateTimeline()
+            }
+            ,
+
+
+
+
+            updateTimeline: function(  ) {
+                var x = executionTimelineMapTimeToLine[  this.execution_time  ]
+                if (x) {
+                    this.highlighted_line = x.line
+                    this.highlighted_block = executionCode[x.code_block_name].code
+                    this.highlighted_block_name = x.code_block_name
+                    this.highlighted_node = x.node
+
+                    this.editor.getSession().setValue(executionCode[x.code_block_name].code);
+                    this.editor.scrollToLine(x.line - 1, true, true, function () {});
+                    this.editor.gotoLine(x.line - 1, 10, true);
+                    this.editor.selection.moveCursorToPosition({row: x.line - 1, column: 0});
+                    this.editor.selection.selectLine();
+
+                    var elementTimeline = document.getElementById("timeline_el"  )
+                    elementTimeline.scrollTop = (executionCode[x.code_block_name].start + x.line) * this.execution_horiz_scale
+                }
+            }
            ,
             mouseOverTimeline: function(ev) {
-                //ev.preventDefault();
-
                 var elementTimeline = document.getElementById("timeline_el"  )
                 var left = (elementTimeline.scrollLeft + ev.offsetX)  - 200;
                 var top = elementTimeline.scrollTop + ev.offsetY;
@@ -264,24 +288,8 @@ load_once_from_file(true)
 
                     var x=executionTimelineMapTimeToLine[ Math.floor(left / this.execution_horiz_scale)]
                     if (x) {
-                        //alert(JSON.stringify(x,null,2))
-                        this.highlighted_line = x.line
                         this.execution_time = x.time
-                        this.highlighted_block = executionCode[x.code_block_name].code
-                        this.highlighted_block_name = x.code_block_name
-                        this.highlighted_node = x.node
-                        this.highlighted_blocks = this.highlighted_block.split(/\r?\n/)
-                        //alert(JSON.stringify(this.highlighted_blocks,null,2))
-                        this.editor.getSession().setValue(executionCode[x.code_block_name].code);
-
-                        this.editor.scrollToLine(x.line - 1, true, true, function () {});
-
-                        this.editor.gotoLine(x.line - 1, 10, true);
-
-                        this.editor.selection.moveCursorToPosition({row: x.line - 1, column: 0});
-                        this.editor.selection.selectLine();
-
-                        elementTimeline.scrollTop = executionCode[x.code_block_name].start + x.line
+                        this.updateTimeline()
                     }
                 }
 
