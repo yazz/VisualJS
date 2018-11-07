@@ -130,7 +130,19 @@ load_once_from_file(true)
                         >
 
                         <div
-                            v-bind:style='  "width: 2px;border: 2px solid black;" + "position: absolute; pointer-events: none;" +"top: 0; height:100%;" +"left: " + (timeline_x) + "px ;" +"" '>
+                            v-bind:style='  "width: 2px;border: 2px solid black;" + "position: absolute; " +"top: 0; height:100%;" +"left: " + (timeline_x) + "px;" '>
+                        </div>
+
+                        <div
+                            style="position: absolute; ;left:0px; z-index: 200; width:200px; height:100%; background-color: white;border: 1px solid black;">
+
+                            <div style="position: absolute; ;bottom: 0;left:0px; ">
+
+                                <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
+                                    <button type=button class='btn btn-info' style='margin: 1px;padding:2px;'  v-on:click='timelineZoomOut()'>Zoom out</button>
+                                    <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='timelineZoomIn()'>Zoom in</button>
+                                </div>
+                            </div>
                         </div>
 
                         <div    style='overflow: scroll; border: 1px solid blue; padding:0; height:100%; width:100%;position:absolute;left:0;top:0'
@@ -142,7 +154,7 @@ load_once_from_file(true)
                                     v-bind:style='  "color: black; " +
                                                     "position: absolute; pointer-events: none;" +
                                                     "top:" + (execution_code[block_name].start) + ";" +
-                                                    "left: 0px ;" +
+                                                    "left: 200px ;" +
                                                     "height:100%; " +
                                                     "width: 100%;" '>
 
@@ -216,6 +228,14 @@ load_once_from_file(true)
        ,
 
        methods: {
+           timelineZoomIn: function() {
+            this.execution_horiz_scale ++
+           }
+           ,
+           timelineZoomOut: function() {
+            this.execution_horiz_scale --
+           }
+           ,
             mouseOverTimeline: function(ev) {
                 //ev.preventDefault();
 
