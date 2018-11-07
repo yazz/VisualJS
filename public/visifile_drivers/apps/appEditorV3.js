@@ -224,26 +224,30 @@ load_once_from_file(true)
 
                 this.timeline_x = ev.offsetX
 
-                if (left > -1){
+                if ((left > -1) && elementTimeline) {
                     console.log( "("+ left + "," + top + ")" )
 
                     var x=executionTimelineMapTimeToLine[left]
-                    //alert(JSON.stringify(x,null,2))
-                    this.highlighted_line = x.line
-                    this.execution_time = x.time
-                    this.highlighted_block = executionCode[x.code_block_name].code
-                    this.highlighted_block_name = x.code_block_name
-                    this.highlighted_node = x.node
-                    this.highlighted_blocks = this.highlighted_block.split(/\r?\n/)
-                    //alert(JSON.stringify(this.highlighted_blocks,null,2))
-                    this.editor.getSession().setValue(executionCode[x.code_block_name].code);
+                    if (x) {
+                        //alert(JSON.stringify(x,null,2))
+                        this.highlighted_line = x.line
+                        this.execution_time = x.time
+                        this.highlighted_block = executionCode[x.code_block_name].code
+                        this.highlighted_block_name = x.code_block_name
+                        this.highlighted_node = x.node
+                        this.highlighted_blocks = this.highlighted_block.split(/\r?\n/)
+                        //alert(JSON.stringify(this.highlighted_blocks,null,2))
+                        this.editor.getSession().setValue(executionCode[x.code_block_name].code);
 
-                    this.editor.scrollToLine(x.line - 1, true, true, function () {});
+                        this.editor.scrollToLine(x.line - 1, true, true, function () {});
 
-                    this.editor.gotoLine(x.line - 1, 10, true);
+                        this.editor.gotoLine(x.line - 1, 10, true);
 
-                    this.editor.selection.moveCursorToPosition({row: x.line - 1, column: 0});
-                    this.editor.selection.selectLine();
+                        this.editor.selection.moveCursorToPosition({row: x.line - 1, column: 0});
+                        this.editor.selection.selectLine();
+
+                        elementTimeline.scrollTop = executionCode[x.code_block_name].start + x.line
+                    }
                 }
 
             }
