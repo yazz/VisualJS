@@ -642,11 +642,16 @@ load_once_from_file(true)
                        this.visibility = saveHelper.getValueOfCodeString(code, "visibility")
                    }
 
+                   executionCode       = new Object()
                    var results = await callApp( {code_id:    codeId },{})
                    mm.app_loaded = true
                    mm.baseComponentId = baseComponentId
 
-                   //executionTimeline = []
+                   startTimelineMillis = 0
+                   startTimelineTop    = 0
+                   executionTimeline   = []
+                   executionTimelineMapTimeToLine   = {}
+
                    this.execution_timeline = executionTimeline
                    this.execution_code     = executionCode
                    this.execution_block_list = Object.keys(this.execution_code)
