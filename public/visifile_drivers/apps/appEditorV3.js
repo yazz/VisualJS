@@ -574,6 +574,18 @@ load_once_from_file(true)
                mm.base_component_id     = baseComponentId
                mm.app_component_name    = null
 
+               //executionCode       = new Object()
+               mm.app_loaded = true
+               mm.baseComponentId = baseComponentId
+
+               startTimelineMillis = 0
+               executionTimeline   = []
+               executionTimelineMapTimeToLine   = {}
+
+               this.execution_timeline = executionTimeline
+               this.execution_code     = executionCode
+               this.execution_block_list = Object.keys(this.execution_code)
+
 
                //
                // read the code for the component that we are editing
@@ -643,18 +655,7 @@ load_once_from_file(true)
                        this.visibility = saveHelper.getValueOfCodeString(code, "visibility")
                    }
 
-                   //executionCode       = new Object()
                    var results = await callApp( {code_id:    codeId },{})
-                   mm.app_loaded = true
-                   mm.baseComponentId = baseComponentId
-
-                   startTimelineMillis = 0
-                   executionTimeline   = []
-                   executionTimelineMapTimeToLine   = {}
-
-                   this.execution_timeline = executionTimeline
-                   this.execution_code     = executionCode
-                   this.execution_block_list = Object.keys(this.execution_code)
 
 
                    setTimeout(async function() {
