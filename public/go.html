@@ -9020,13 +9020,6 @@ async function loadV2( baseComponentIds, args ) {
             //alert(JSON.stringify(Object.keys(newData.value.code),null,2))
             //startTimelineMillis = new Date().getTime()
 
-            executionCode[componentId] = {
-                    code: newData.value.code,
-
-                    start: startTimelineTop
-
-            }
-            startTimelineTop += newData.value.code.length
 
         } else {
             //console.log("loadV2: 3")
