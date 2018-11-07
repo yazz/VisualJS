@@ -139,8 +139,8 @@ load_once_from_file(true)
                         <div style="position: absolute; ;bottom: 0;left:0px; ">
 
                         <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
-                            <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='stepBack()'>-&lt;</button>
-                            <button type=button class='btn btn-info' style='margin: 1px;padding:2px;'  v-on:click='stepForward()'>-&gt;</button>
+                            <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='stepBack()'>&lt;--</button>
+                            <button type=button class='btn btn-info' style='margin: 1px;padding:2px;'  v-on:click='stepForward()'>--&gt;</button>
                         </div>
 
 
@@ -273,6 +273,15 @@ load_once_from_file(true)
 
                     var elementTimeline = document.getElementById("timeline_el"  )
                     elementTimeline.scrollTop = (executionCode[x.code_block_name].start + x.line) * this.execution_horiz_scale
+
+                    this.timeline_x = 200 + (this.execution_horiz_scale * this.execution_time)
+                    console.log("this.timeline_x: " + this.timeline_x)
+                    console.log("elementTimeline.offsetWidth: " + elementTimeline.offsetWidth)
+                    if (this.timeline_x > elementTimeline.offsetWidth) {
+                        this.timeline_x = 200
+                        elementTimeline.scrollLeft = 200 + (this.execution_horiz_scale * this.execution_time)
+                    }
+
                 }
             }
            ,
@@ -280,8 +289,6 @@ load_once_from_file(true)
                 var elementTimeline = document.getElementById("timeline_el"  )
                 var left = (elementTimeline.scrollLeft + ev.offsetX)  - 200;
                 var top = elementTimeline.scrollTop + ev.offsetY;
-
-                this.timeline_x = ev.offsetX
 
                 if ((left > -1) && elementTimeline) {
                     console.log( "("+ left + "," + top + ")" )
