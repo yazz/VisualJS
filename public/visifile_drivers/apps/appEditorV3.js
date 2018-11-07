@@ -152,43 +152,46 @@ load_once_from_file(true)
 
 
                 <div    class='col-md-4'
-                        style='height: 50vh;background-color: white; '
+                        style='height: 50vh;background-color: white; position: relative;'
                         >
 
                     <div
-                        v-bind:style='  "width: 2px;border: 2px solid black;" + "position: absolute; " +"top: 0; height:100%;" +"left: " + (timeline_x_cursor) + "px;" '>
+                        v-bind:style='  "position: absolute;pointer-events: none;width: 2px;border: 2px solid black; top: 0; height:100%;" +"left: " + (timeline_x_cursor) + "px;" '>
                     </div>
 
-                    <div    style='overflow: scroll; border: 1px solid blue; padding:0; height:100%; width:100%;position:absolute;left:0;top:0'
+                    <div    style='position:relative;overflow: scroll; border: 1px solid blue; padding:0; height:100%; width:100%;left:0;top:0'
                             id='timeline_el'
                             @mousemove="mouseOverTimeline($event)"
                     >
 
-                    <div    v-for='block_name in execution_block_list'
-                            v-bind:style='  "color: black; " +
-                                            "position: absolute; pointer-events: none;" +
-                                            "top:" + (execution_code[block_name].start) + ";" +
-                                            "left: 0px ;" +
-                                            "height:100%; " +
-                                            "width: 100%;" '>
 
-                        {{block_name}}
+                        <div    v-for='block_name in execution_block_list'
+                                v-bind:style='  "color: black; " +
+                                                "position: absolute; pointer-events: none;" +
+                                                "top:" + (execution_code[block_name].start) + ";" +
+                                                "left: 0px ;" +
+                                                "height:100%; " +
+                                                "width: 100%;pointer-events: none;" '>
+
+                            {{block_name}}
+
+                        </div>
+
+                        <div    v-for='exePoint in execution_timeline'
+
+                                v-bind:style='  "z-index: " + ((execution_time == exePoint.time)?"100":"0" ) + "; color: darkgray; " +
+                                                "position: absolute; pointer-events: none;" +
+                                                "top:" + ((exePoint.line + executionCode[exePoint.code_block_name].start) * execution_horiz_scale) + "px;" +
+                                                "left:" +  (exePoint.time * execution_horiz_scale) + "px;" +
+                                                "border: 1px solid " + ((execution_time == exePoint.time)?"black":"darkgray" ) + ";" +
+                                                "width:7px;" +
+                                                "height: 7px; " +
+                                                "background-color: " + ((execution_time == exePoint.time)?"black":"darkgray" ) + ";" +
+                                                ""'>
+                        </div>
+
 
                     </div>
-
-                    <div    v-for='exePoint in execution_timeline'
-
-                            v-bind:style='  "z-index: " + ((execution_time == exePoint.time)?"100":"0" ) + "; color: darkgray; " +
-                                            "position: absolute; pointer-events: none;" +
-                                            "top:" + ((exePoint.line + executionCode[exePoint.code_block_name].start) * execution_horiz_scale) + "px;" +
-                                            "left:" +  (exePoint.time * execution_horiz_scale) + "px;" +
-                                            "border: 1px solid " + ((execution_time == exePoint.time)?"black":"darkgray" ) + ";" +
-                                            "width:7px;" +
-                                            "height: 7px; " +
-                                            "background-color: " + ((execution_time == exePoint.time)?"black":"darkgray" ) + ";" +
-                                            ""'>
-                    </div>
-
 
 
                 </div>
