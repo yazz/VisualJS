@@ -1,6 +1,7 @@
 function component( args ) {
 /*
 base_component_id("editor_component")
+control_type("SYSTEM")
 load_once_from_file(true)
 */
 
@@ -36,7 +37,7 @@ load_once_from_file(true)
             editor.setTheme("ace/theme/pastel_on_dark");
          },100)
 
-         
+
          document.getElementById(editorDomId).style.width="100%"
          document.getElementById(editorDomId).style.border="10px solid #2C2828"
 

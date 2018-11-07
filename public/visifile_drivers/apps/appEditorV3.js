@@ -3,6 +3,7 @@ async function(args) {
 created_timestamp(-1)
 base_component_id("app_editor_3")
 is_app(true)
+control_type("SYSTEM")
 display_name("Editor App V3")
 description("This will return the editor app V3")
 logo_url("https://2.bp.blogspot.com/-6Hdixw3dFxk/WfSQOnB9lDI/AAAAAAAAFFc/84DRGgcwOpYBOgknkHQ-qmgxvFv1D-iHACLcBGAs/s1600/BracketsDarks.PNG")
@@ -642,13 +643,12 @@ load_once_from_file(true)
                        this.visibility = saveHelper.getValueOfCodeString(code, "visibility")
                    }
 
-                   executionCode       = new Object()
+                   //executionCode       = new Object()
                    var results = await callApp( {code_id:    codeId },{})
                    mm.app_loaded = true
                    mm.baseComponentId = baseComponentId
 
                    startTimelineMillis = 0
-                   startTimelineTop    = 0
                    executionTimeline   = []
                    executionTimelineMapTimeToLine   = {}
 
