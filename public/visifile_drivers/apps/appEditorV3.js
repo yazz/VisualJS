@@ -125,18 +125,16 @@ load_once_from_file(true)
                 </div>
 
 
-                <div    class='col-md-5'
+                <div    class='col-md-2'
                         style='height: 50vh;background-color: white; '
                         >
 
-                    <div
-                        v-bind:style='  "width: 2px;border: 2px solid black;" + "position: absolute; " +"top: 0; height:100%;" +"left: " + (timeline_x) + "px;" '>
-                    </div>
 
-                    <div
-                        style="position: absolute; ;left:0px; z-index: 200; width:200px; height:100%; background-color: white;border: 1px solid black;">
+                    <div  style="left:0px; z-index: 200; width:100%; height:100%; background-color: white;border: 1px solid black;">
 
-                        <div style="position: absolute; ;bottom: 0;left:0px; ">
+                        <div>
+                            Step: {{execution_time}}, Scale: {{execution_horiz_scale}}
+                        </div>
 
                         <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
                             <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='stepBack()'>&lt;--</button>
@@ -144,12 +142,21 @@ load_once_from_file(true)
                         </div>
 
 
-                            <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
-                                <button type=button class='btn btn-info' style='margin: 1px;padding:2px;'  v-on:click='timelineZoomOut()'>Zoom out</button>
-                                <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='timelineZoomIn()'>Zoom in</button>
-                            </div>
-                            Step: {{execution_time}}, Scale: {{execution_horiz_scale}}
+                        <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
+                            <button type=button class='btn btn-info' style='margin: 1px;padding:2px;'  v-on:click='timelineZoomOut()'>Zoom out</button>
+                            <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='timelineZoomIn()'>Zoom in</button>
                         </div>
+
+                    </div>
+                </div>
+
+
+                <div    class='col-md-4'
+                        style='height: 50vh;background-color: white; '
+                        >
+
+                    <div
+                        v-bind:style='  "width: 2px;border: 2px solid black;" + "position: absolute; " +"top: 0; height:100%;" +"left: " + (timeline_x) + "px;" '>
                     </div>
 
                     <div    style='overflow: scroll; border: 1px solid blue; padding:0; height:100%; width:100%;position:absolute;left:0;top:0'
@@ -161,7 +168,7 @@ load_once_from_file(true)
                             v-bind:style='  "color: black; " +
                                             "position: absolute; pointer-events: none;" +
                                             "top:" + (execution_code[block_name].start) + ";" +
-                                            "left: 200px ;" +
+                                            "left: 0px ;" +
                                             "height:100%; " +
                                             "width: 100%;" '>
 
@@ -174,7 +181,7 @@ load_once_from_file(true)
                             v-bind:style='  "z-index: " + ((execution_time == exePoint.time)?"100":"0" ) + "; color: darkgray; " +
                                             "position: absolute; pointer-events: none;" +
                                             "top:" + ((exePoint.line + executionCode[exePoint.code_block_name].start) * execution_horiz_scale) + "px;" +
-                                            "left:" + (200 + (exePoint.time * execution_horiz_scale)) + "px;" +
+                                            "left:" +  (exePoint.time * execution_horiz_scale) + "px;" +
                                             "border: 1px solid " + ((execution_time == exePoint.time)?"black":"darkgray" ) + ";" +
                                             "width:7px;" +
                                             "height: 7px; " +
@@ -274,12 +281,12 @@ load_once_from_file(true)
                     var elementTimeline = document.getElementById("timeline_el"  )
                     elementTimeline.scrollTop = (executionCode[x.code_block_name].start + x.line) * this.execution_horiz_scale
 
-                    this.timeline_x = 200 + (this.execution_horiz_scale * this.execution_time)
+                    this.timeline_x = this.execution_horiz_scale * this.execution_time
                     console.log("this.timeline_x: " + this.timeline_x)
                     console.log("elementTimeline.offsetWidth: " + elementTimeline.offsetWidth)
                     if (this.timeline_x > elementTimeline.offsetWidth) {
-                        this.timeline_x = 200
-                        elementTimeline.scrollLeft = 200 + (this.execution_horiz_scale * this.execution_time)
+                        this.timeline_x = 0
+                        elementTimeline.scrollLeft = (this.execution_horiz_scale * this.execution_time)
                     }
 
                 }
@@ -287,7 +294,7 @@ load_once_from_file(true)
            ,
             mouseOverTimeline: function(ev) {
                 var elementTimeline = document.getElementById("timeline_el"  )
-                var left = (elementTimeline.scrollLeft + ev.offsetX)  - 200;
+                var left = (elementTimeline.scrollLeft + ev.offsetX);
                 var top = elementTimeline.scrollTop + ev.offsetY;
 
                 if ((left > -1) && elementTimeline) {
