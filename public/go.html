@@ -8852,7 +8852,13 @@ async function callCodeV2(componentRecord,args) {
                         }
                     }
                     //console.log("node.type = " + node.type)
-                    if (node.type == "ExpressionStatement") {
+                    if (
+                        (node.type == "ExpressionStatement")
+                        ||
+                        (node.type == "VariableDeclaration")
+                        ||
+                        (node.type == "AssignmentExpression")
+                        ) {
                         if (parent) {
                             if (node.loc.start.line > line){
                                 line = node.loc.start.line

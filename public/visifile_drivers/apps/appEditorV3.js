@@ -136,6 +136,9 @@ load_once_from_file(true)
                         <div>
                             Step: {{execution_time}}, Scale: {{execution_horiz_scale}}
                         </div>
+                        <div>
+                            Total: {{execution_timeline.length}}
+                        </div>
 
                         <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
                             <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='stepBack()'>&lt;--</button>
@@ -286,8 +289,8 @@ load_once_from_file(true)
                     elementTimeline.scrollTop = (executionCode[x.code_block_name].start + (Math.floor(x.line/30)*30)) * this.execution_horiz_scale
 
                     this.timeline_x_cursor = (this.execution_horiz_scale * this.execution_time) - elementTimeline.scrollLeft
-                    console.log("this.timeline_x_cursor: " + this.timeline_x_cursor)
-                    console.log("elementTimeline.offsetWidth: " + elementTimeline.offsetWidth)
+                    //console.log("this.timeline_x_cursor: " + this.timeline_x_cursor)
+                    //console.log("elementTimeline.offsetWidth: " + elementTimeline.offsetWidth)
                     if (this.timeline_x_cursor > elementTimeline.offsetWidth) {
                         elementTimeline.scrollLeft += elementTimeline.offsetWidth
                         this.timeline_x_cursor = (this.execution_horiz_scale * this.execution_time) - elementTimeline.scrollLeft
@@ -302,7 +305,7 @@ load_once_from_file(true)
                 var top = elementTimeline.scrollTop + ev.offsetY;
 
                 if ((left > -1) && elementTimeline) {
-                    console.log( "("+ left + "," + top + ")" )
+                    //console.log( "("+ left + "," + top + ")" )
 
                     var x=executionTimelineMapTimeToLine[ Math.floor(left / this.execution_horiz_scale)]
                     if (x) {
