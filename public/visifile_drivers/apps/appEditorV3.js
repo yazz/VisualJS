@@ -37,8 +37,8 @@ load_once_from_file(true)
                             <button  type=button class=' btn btn-secondary'   v-on:click='copyAppMethod(base_component_id,null)' >Copy app</button>
                             <button  type=button class=' btn btn-info'        v-on:click='embedApp(base_component_id)' >Embed app</button>
                             <button  v-if='(editor_component != "editor_component") && (!read_only)' type=button class=' btn btn-secondary'   v-on:click='editAsText()' >Edit as text</button>
-                            <button  v-if='(editor_component != "editor_component") && (!read_only) && (visibility == "PUBLIC")' type=button class=' btn btn-success'   v-on:click='setVisibility("PRIVATE")' >Public: Switch to private</button>
-                            <button  v-if='(editor_component != "editor_component") && (!read_only) && (visibility == "PRIVATE")' type=button class=' btn btn-danger'   v-on:click='setVisibility("PUBLIC")' >Private: Switch to public</button>
+                            <button  v-if='(!read_only) && (visibility == "PUBLIC")' type=button class=' btn btn-success'   v-on:click='setVisibility("PRIVATE")' >Public: Switch to private</button>
+                            <button  v-if='(!read_only) && (visibility == "PRIVATE")' type=button class=' btn btn-danger'   v-on:click='setVisibility("PUBLIC")' >Private: Switch to public</button>
 
                         </div>
                     </div>
