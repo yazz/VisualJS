@@ -8840,7 +8840,9 @@ async function callCodeV2(componentRecord,args) {
         var a = trcode
         var b = esprima.parse(a,{loc:true, range: true, attachComment: true})
         var line = -1
-        if (componentRecord.control_type != "SYSTEM") {
+        if ((componentRecord.control_type != "SYSTEM") &&
+            (componentRecord.control_type != "VB"))
+        {
             estraverse.traverse(b, {
                 enter: function (node, parent) {
                     if (node.type == "ExpressionStatement") {
