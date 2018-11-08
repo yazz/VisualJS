@@ -8845,11 +8845,18 @@ async function callCodeV2(componentRecord,args) {
         {
             estraverse.traverse(b, {
                 enter: function (node, parent) {
+                    var ccc = escodegen.generate(node)
+                    if (isValidObject(ccc)) {
+                        if (ccc.length < 200){
+                            console.log(escodegen.generate(node) + " = " + node.type)
+                        }
+                    }
+                    //console.log("node.type = " + node.type)
                     if (node.type == "ExpressionStatement") {
                         if (parent) {
                             if (node.loc.start.line > line){
                                 line = node.loc.start.line
-                                console.log("Debugger loading line: " + componentRecord.base_component_id  + ":" + line)
+                                //console.log("Debugger loading line: " + componentRecord.base_component_id  + ":" + line)
                 				//var newLine = "console.log(" + line +");"
                                 var newLine = "logExecutionPoint('" + componentRecord.base_component_id + "', " + line +",'" +
                                     JSON.stringify(node.type) + "');"
@@ -8883,7 +8890,7 @@ async function callCodeV2(componentRecord,args) {
 
 
         var fnfn = eval( trcode2  )
-        console.log("Code to run: " + trcode2)
+        //console.log("Code to run: " + trcode2)
         //zzz
 
         if (componentRecord.code.indexOf("async ")  == -1) {
