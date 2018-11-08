@@ -8548,11 +8548,15 @@ var dataIds = new Object()
                 //alert(JSON.stringify(Object.keys(sdf[i]),null,2))
                 //console.log("callig 3")
 
-                executionCode[sdf[i].base_component_id] = {
-                        code: sdf[i].code,
+                if (executionCode[sdf[i].base_component_id]) {
+                    executionCode[sdf[i].base_component_id].code  = sdf[i].code
+                    executionCode[sdf[i].base_component_id].start = startTimelineTop
+                } else {
+                    executionCode[sdf[i].base_component_id] = {
+                            code: sdf[i].code,
 
-                        start: startTimelineTop
-
+                            start: startTimelineTop
+                    }
                 }
                 startTimelineTop += sdf[i].code.length
 
@@ -8666,6 +8670,7 @@ async function checkLibs(data){
 
 //zzz
 function logExecutionPoint(codeBlockName, line, node) {
+    console.log("logExecutionPoint(" + codeBlockName + "," + line)
 
     if (executionCode[codeBlockName]) {
         var recor = { code_block_name:    codeBlockName,
