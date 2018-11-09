@@ -5,6 +5,7 @@ display_name("Embed an app in your site")
 description("This will return the app embedder app")
 base_component_id("appEmbed")
 hide_header(true)
+control_type("SYSTEM")
 read_only(true)
 load_once_from_file(true)
 */

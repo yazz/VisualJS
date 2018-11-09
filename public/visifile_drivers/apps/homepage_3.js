@@ -3,6 +3,7 @@ async function(args) {
 created_timestamp(-1)
 base_component_id("homepage_3")
 is_app(true)
+control_type("SYSTEM")
 display_name("Homepage 3")
 description('Homepage 3')
 load_once_from_file(true)

@@ -3,6 +3,7 @@ async function(args) {
 created_timestamp(-1)
 base_component_id("homepage")
 is_app(true)
+control_type("SYSTEM")
 display_name("Homepage app")
 description('Homepage app')
 uses_javascript_librararies(["aframe"])

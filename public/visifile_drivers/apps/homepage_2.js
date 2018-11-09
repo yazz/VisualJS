@@ -3,6 +3,7 @@ async function(args) {
 created_timestamp(1534877333570)
 base_component_id("homepage_2")
 read_only(true)
+control_type("SYSTEM")
 editors([
   "simple_display_editor_component"
 ])
