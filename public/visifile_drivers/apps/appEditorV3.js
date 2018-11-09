@@ -256,6 +256,7 @@ load_once_from_file(true)
                executionTimeline   = []
                executionTimelineMapTimeToLine   = {}
                this.execution_timeline = []
+               startTimelineMillis = 0
 
                this.execution_time = 0
                this.updateTimeline()
