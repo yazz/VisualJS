@@ -1501,6 +1501,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                             "code": /*APP_START*/unescape(\`${newcode}\`)/*APP_END*/,
                                             "is_code_result": true,
                                             "use_db": ${useDb?"\"" + useDb + "\"":null},
+                                            "control_type": \"SYSTEM\",
                                             "libs": [],
                                             "code_id": "${sha1sum}",
                                             "on_condition": "\\\"app\\\"",
@@ -1547,6 +1548,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                                 "is_code_result": true,
                                                                 "use_db": ${useDb?"\"" + useDb + "\"":null},
                                                                 "libs": [],
+                                                                "control_type": \"SYSTEM\",
                                                                 "code_id": "${results[i].sha1}",
                                                                 "on_condition": "\\\"app\\\"",
                                                                 "base_component_id": "${results[i].child_component_id}"
