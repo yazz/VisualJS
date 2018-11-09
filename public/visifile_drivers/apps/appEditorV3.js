@@ -133,6 +133,10 @@ load_once_from_file(true)
 
                     <div  style="left:0px; z-index: 200; width:100%; height:100%; background-color: white;border: 1px solid black;">
 
+                        <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
+                            <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='resetDebugger()'>CLEAR</button>
+                        </div>
+
                         <div>
                             Step: {{execution_time}}, Scale: {{execution_horiz_scale}}
                         </div>
@@ -247,6 +251,16 @@ load_once_from_file(true)
        ,
 
        methods: {
+           resetDebugger: function() {
+                //zzz
+               executionTimeline   = []
+               executionTimelineMapTimeToLine   = {}
+               this.execution_timeline = []
+
+               this.execution_time = 0
+               this.updateTimeline()
+           }
+           ,
             stepForward: function() {
                 this.execution_time ++
                 this.updateTimeline()
@@ -580,10 +594,6 @@ load_once_from_file(true)
                //executionCode       = new Object()
                mm.app_loaded = true
                mm.baseComponentId = baseComponentId
-
-               //startTimelineMillis = 0
-               //executionTimeline   = []
-               //executionTimelineMapTimeToLine   = {}
 
                this.execution_timeline = executionTimeline
                this.execution_code     = executionCode
