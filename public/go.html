@@ -8548,20 +8548,6 @@ var dataIds = new Object()
                 //alert(JSON.stringify(Object.keys(sdf[i]),null,2))
                 //console.log("callig 3")
 
-                if (executionCode[sdf[i].base_component_id]) {
-                    executionCode[sdf[i].base_component_id].code  = sdf[i].code
-                    executionCode[sdf[i].base_component_id].start = startTimelineTop
-                } else {
-                    executionCode[sdf[i].base_component_id] = {
-                            code: sdf[i].code,
-
-                            start: startTimelineTop
-                    }
-                }
-                startTimelineTop += sdf[i].code.length
-
-
-
                 fn(sdf[i])
             }
     });
@@ -8795,6 +8781,7 @@ var trcode = null
 var trcoderaw = null
 async function callCodeV2(componentRecord,args) {
     //console.log("Code to run !: ")
+    //debugger;
 
     try {
         var useDb = componentRecord.base_component_id
@@ -8845,9 +8832,12 @@ async function callCodeV2(componentRecord,args) {
         var a = trcode
         var b = esprima.parse(a,{loc:true, range: true, attachComment: true})
         var line = -1
+        var debugComponent = false
+
         if ((componentRecord.control_type != "SYSTEM") &&
             (componentRecord.control_type != "VB"))
         {
+            debugComponent = true
             estraverse.traverse(b, {
                 enter: function (node, parent) {
                     var ccc = escodegen.generate(node)
@@ -8899,17 +8889,13 @@ async function callCodeV2(componentRecord,args) {
         }
         var trcode2 = escodegen.generate(b, {comment: true})
 
-        if (isValidObject(componentRecord.base_component_id)){
-            if (executionCode[componentRecord.base_component_id]) {
-                executionCode[componentRecord.base_component_id].debug_code = trcode2
-            } else {
-                executionCode[componentRecord.base_component_id] = {}
-                executionCode[componentRecord.base_component_id].debug_code = trcode2
-                executionCode[componentRecord.base_component_id].code = componentRecord.code
-                executionCode[componentRecord.base_component_id].start = startTimelineTop
-                startTimelineTop += componentRecord.code.length
-            }
-
+        if (debugComponent){
+            executionCode[componentRecord.base_component_id] = {}
+            executionCode[componentRecord.base_component_id].debug_code = trcode2
+            executionCode[componentRecord.base_component_id].code = componentRecord.code
+            executionCode[componentRecord.base_component_id].start = startTimelineTop
+            executionCode[componentRecord.base_component_id].control_type = componentRecord.control_type
+            startTimelineTop += componentRecord.code.length
         }
 
         var fnfn = eval( trcode2  )
