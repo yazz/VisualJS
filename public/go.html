@@ -8704,11 +8704,6 @@ async function checkLibsV2(componentRecord,args){
 
 }
 
-var trcodeTree = null
-
-var trcode = null
-
-var trcoderaw = null
 async function callCodeV2(componentRecord,args, seq_no) {
     //console.log("Code to run !: ")
     //debugger;
@@ -8759,13 +8754,8 @@ async function callCodeV2(componentRecord,args, seq_no) {
         componentRecord.code = componentRecord.code.toString().replaceAll(" sqlFirstCol1[(]"," rxsqlFirstCol1(" + addP)
 
 
-        trcoderaw = componentRecord.code
-        trcodeTree = esprima.parse("(" + componentRecord.code + ")", { tolerant: true , attachComment: true})
-
-        trcode = escodegen.generate(trcodeTree,{comment: true})
-
-        var a = trcode
-        var b = esprima.parse(a,{loc:true, range: true, attachComment: true})
+        var a = "(" + componentRecord.code + ")"
+        var b = esprima.parse(a,{tolerant: true , loc:true, range: true, attachComment: true})
         var line = -1
         var debugComponent = false
 
@@ -8811,14 +8801,13 @@ async function callCodeV2(componentRecord,args, seq_no) {
                             }
                         }
                     }
-                    return node
                 },
                 leave: function (node, parent) {
 
                 },
 
                  keys: {
-            		'AwaitExpression': ['value', 'xxx' ]
+            		'AwaitExpression': ['argument']
                  }
             });
         }
