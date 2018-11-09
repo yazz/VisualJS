@@ -8636,8 +8636,8 @@ async function checkLibs(data){
                     await scriptTag(
                         `http://${useHostname}:${usePort}/js_libs/aframe.min.js`
                         ,
-                        function() {
-                            callCode(data)
+                        async function() {
+                            await callCodeV2(data.value,  callDriverMethodArgs[data.seq_num],  data.seq_num)
                     })
                 }
 
@@ -8645,11 +8645,11 @@ async function checkLibs(data){
             // if the lib is already loaded then just call the code
             //
             } else {
-                callCode(data)
+                await callCodeV2(data.value,  callDriverMethodArgs[data.seq_num],  data.seq_num)
             }
         }
     } else {
-        callCode(data)
+        await callCodeV2(data.value,  callDriverMethodArgs[data.seq_num],  data.seq_num)
     }
 
 }
