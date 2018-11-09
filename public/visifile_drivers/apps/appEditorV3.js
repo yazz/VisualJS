@@ -274,10 +274,10 @@ load_once_from_file(true)
             updateTimeline: function(  ) {
                 var x = executionTimelineMapTimeToLine[  this.execution_time  ]
                 if (x) {
-                    this.highlighted_line = x.line
-                    this.highlighted_block = executionCode[x.code_block_name].code
-                    this.highlighted_block_name = x.code_block_name
-                    this.highlighted_node = x.node
+                    this.highlighted_line           = x.line
+                    this.highlighted_block          = executionCode[x.code_block_name].code
+                    this.highlighted_block_name     = x.code_block_name
+                    this.highlighted_node           = x.node
 
                     this.editor.getSession().setValue(executionCode[x.code_block_name].code);
                     this.editor.scrollToLine(x.line - 1, true, true, function () {});

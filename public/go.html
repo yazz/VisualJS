@@ -8899,6 +8899,18 @@ async function callCodeV2(componentRecord,args) {
         }
         var trcode2 = escodegen.generate(b, {comment: true})
 
+        if (isValidObject(componentRecord.base_component_id)){
+            if (executionCode[componentRecord.base_component_id]) {
+                executionCode[componentRecord.base_component_id].debug_code = trcode2
+            } else {
+                executionCode[componentRecord.base_component_id] = {}
+                executionCode[componentRecord.base_component_id].debug_code = trcode2
+                executionCode[componentRecord.base_component_id].code = componentRecord.code
+                executionCode[componentRecord.base_component_id].start = startTimelineTop
+                startTimelineTop += componentRecord.code.length
+            }
+
+        }
 
         var fnfn = eval( trcode2  )
         //console.log("Code to run: " + trcode2)
