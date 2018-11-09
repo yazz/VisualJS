@@ -8703,77 +8703,7 @@ async function checkLibsV2(componentRecord,args){
     }
 
 }
-function callCode(data) {
-    var callbackFn = queuedResponses[data.seq_num]
-    //console.log(`go.html:callCode( ${data.seq_num} )`)
 
-    try {
-        //alert(data.value.code_id)
-        //alert(data.value.base_component_id)
-        var useDb = data.value.base_component_id
-        if (data.value.use_db) {
-            useDb = data.value.use_db
-        }
-
-        if (!component_cache[data.value.base_component_id]) {
-            component_cache[data.value.base_component_id] = new Object()
-        }
-        if (isValidObject(data.value.properties)) {
-            component_cache[data.value.base_component_id].properties = eval("(" +  data.value.properties + ")")
-        }
-
-
-        var addP = "'" + data.value.code_id + "', '" + useDb + "', "
-        //alert("data: " + addP);
-        if (localAppshareApp) {
-
-            var eds = saveHelper.getValueOfCodeString(data.value.code, "sqlite",")//sqlite")
-            if (eds){
-                    for (var te = 1; te < eds.length ; te = te + 2) {
-                        var sqlStatements = eds[te]
-                        //console.log(`${te}`)
-                        for (var te2 = 0; te2 < sqlStatements.length ; te2 ++) {
-                            var sqlStatement = sqlStatements[te2]
-                            //console.log(`   SQL ${te2}: ${sqlStatement}`)
-                            localSql(sqlStatement)
-                        }
-
-                    }
-            }
-            var b = base64ToUint8Array(sqlitedata)
-            localSqliteDb = new SQL.Database(b);
-            //alert(eds.length)
-        }
-        data.value.code = data.value.code.toString().replaceAll(" sql[(]"," rxsql(" + addP)
-        data.value.code = data.value.code.toString().replaceAll(" sql1[(]"," rxsql1(" + addP)
-        data.value.code = data.value.code.toString().replaceAll(" sqlFirstCol[(]"," rxsqlFirstCol(" + addP)
-        data.value.code = data.value.code.toString().replaceAll(" sqlFirstCol1[(]"," rxsqlFirstCol1(" + addP)
-
-
-        var fnfn = eval( data.value.code )
-        var args =     callDriverMethodArgs[data.seq_num]
-
-        if (data.value.code.indexOf("async ")  == -1) {
-            var fnfnRes = fnfn(args)
-            callbackFn(fnfnRes)
-            queuedResponses[data.seq_num] = null
-
-        } else {
-            var runAsync = async function() {
-                var fnfnRes = await fnfn(args)
-                callbackFn(fnfnRes)
-                queuedResponses[data.seq_num] = null
-            }
-            runAsync()
-        }
-
-
-
-
-    } catch (err) {
-        alert(err)
-    }
-}
 var trcodeTree = null
 
 var trcode = null
