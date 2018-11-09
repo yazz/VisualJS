@@ -8908,10 +8908,18 @@ async function callCodeV2(componentRecord,args, seq_no) {
         //zzz
 
         if (componentRecord.code.indexOf("async ")  == -1) {
-            fnfn(args)
+            var fnfnRes = fnfn(args)
+            if (callbackFn) {
+                callbackFn(fnfnRes)
+                queuedResponses[seq_no] = null
+            }
 
         } else {
-            await fnfn(args)
+            var fnfnRes = await fnfn(args)
+            if (callbackFn) {
+                callbackFn(fnfnRes)
+                queuedResponses[seq_no] = null
+            }
         }
 
 
