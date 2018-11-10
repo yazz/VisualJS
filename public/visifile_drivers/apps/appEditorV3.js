@@ -414,6 +414,8 @@ load_once_from_file(true)
 
                 this.mode      = "edit"
 
+                this.timeline_editor.destroy()
+                this.timeline_editor = null
 
                 if (this.$refs.editorComponentRef) {
                     var text = await this.$refs.editorComponentRef.getText()
@@ -424,7 +426,6 @@ load_once_from_file(true)
                     // have to make sure that we save it every time we save code
                     //
                     await this.save( this.base_component_id, this.code_id, text )
-                    this.timeline_editor = null
                 }
             },
 
@@ -439,6 +440,7 @@ load_once_from_file(true)
                 this.mode      = "edit"
 
                 await mm.load_app( this.base_component_id )
+                this.timeline_editor.destroy()
                 this.timeline_editor = null
             },
 
@@ -455,6 +457,7 @@ load_once_from_file(true)
 
                 this.mode      = "edit"
                 await mm.load_app( this.base_component_id )
+                this.timeline_editor.destroy()
                 this.timeline_editor = null
             },
 
