@@ -24,7 +24,7 @@
 
 
     var executionCode       = new Object()
-    var startTimelineMillis = 0
+    var maxTimelineLogPoint = 0
     var startTimelineTop    = 0
     var executionTimeline   = []
     var executionTimelineMapTimeToLine   = {}
@@ -8656,12 +8656,12 @@ async function checkLibs(data){
 
 //zzz
 function logExecutionPoint(codeBlockName, line, node) {
-    console.log("logExecutionPoint(" + codeBlockName + "," + line)
+    //console.log("logExecutionPoint(" + codeBlockName + "," + line)
 
     if (executionCode[codeBlockName]) {
         var recor = { code_block_name:    codeBlockName,
                                  line:               line,
-                                 time:               startTimelineMillis ++,
+                                 time:               maxTimelineLogPoint ++,
                                  node:               node
                                }
         executionTimeline.push(recor)
@@ -8966,9 +8966,6 @@ async function loadV2( baseComponentIds, args ) {
             var newDataCodeId = finderToCachedCodeMapping[ componentId ]
             var newData       = cachedCode[ newDataCodeId ]
             await checkLibsV2(newData.value, args)
-
-            //alert(JSON.stringify(Object.keys(newData.value.code),null,2))
-            //startTimelineMillis = new Date().getTime()
 
 
         } else {
