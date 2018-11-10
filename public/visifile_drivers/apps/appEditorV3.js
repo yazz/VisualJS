@@ -263,10 +263,11 @@ load_once_from_file(true)
                 //zzz
                executionTimeline   = []
                executionTimelineMapTimeToLine   = {}
-               this.execution_timeline = []
+               this.execution_timeline = executionTimeline
                maxTimelineLogPoint = 0
 
                this.execution_time = 0
+               this.execution_time_y = -1
                this.updateTimeline()
            }
            ,
@@ -330,7 +331,7 @@ load_once_from_file(true)
                         this.timeline_x_cursor = (this.execution_horiz_scale * this.execution_time) - elementTimeline.scrollLeft
                     }
                     if ( this.timeline_x_cursor < 0 ) {
-                        elementTimeline.scrollLeft = (elementTimeline.scrollLeft + 3) - elementTimeline.offsetWidth
+                        elementTimeline.scrollLeft = (elementTimeline.scrollLeft + 7) - elementTimeline.offsetWidth
                         this.timeline_x_cursor = (this.execution_horiz_scale * this.execution_time) - elementTimeline.scrollLeft
                     }
 
