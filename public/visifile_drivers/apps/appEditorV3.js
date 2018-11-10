@@ -225,7 +225,7 @@ load_once_from_file(true)
                editor_component:    null,
                execution_timeline:  null,
                execution_horiz_scale: 10,
-               editor: null,
+               timeline_editor: null,
                execution_time:  -1,
                execution_time_y:  -1,
                execution_code: null,
@@ -310,12 +310,12 @@ load_once_from_file(true)
                     this.highlighted_block_name     = x.code_block_name
                     this.highlighted_node           = x.node
 
-                    if (this.editor && this.editor.getSession()) {
-                        this.editor.getSession().setValue(executionCode[x.code_block_name].code);
-                        this.editor.scrollToLine(x.line - 1, true, true, function () {});
-                        this.editor.gotoLine(x.line - 1, 10, true);
-                        this.editor.selection.moveCursorToPosition({row: x.line - 1, column: 0});
-                        this.editor.selection.selectLine();
+                    if (this.timeline_editor && this.timeline_editor.getSession()) {
+                        this.timeline_editor.getSession().setValue(executionCode[x.code_block_name].code);
+                        this.timeline_editor.scrollToLine(x.line - 1, true, true, function () {});
+                        this.timeline_editor.gotoLine(x.line - 1, 10, true);
+                        this.timeline_editor.selection.moveCursorToPosition({row: x.line - 1, column: 0});
+                        this.timeline_editor.selection.selectLine();
                     }
 
 
@@ -370,19 +370,19 @@ load_once_from_file(true)
 
             setupTimelineEditor: function() {
                 var mm = this
-                if (document.getElementById('timeline_editor') && (this.editor == null)) {
+                if (document.getElementById('timeline_editor') && (this.timeline_editor == null)) {
                     //
                     //set up the ace editor for the timeline view
                     //
                     ace.config.set('basePath', '/');
-                    this.editor = ace.edit(           "timeline_editor", {
+                    this.timeline_editor = ace.edit(           "timeline_editor", {
                                                             selectionStyle: "text",
                                                             mode:           "ace/mode/javascript"
                                                         })
 
                     //Bug fix: Need a delay when setting theme or view is corrupted
                     setTimeout(function(){
-                       mm.editor.setTheme("ace/theme/pastel_on_dark");
+                       mm.timeline_editor.setTheme("ace/theme/pastel_on_dark");
                     },100)
 
 
@@ -390,9 +390,9 @@ load_once_from_file(true)
                     document.getElementById("timeline_editor").style.border = "10px solid #2C2828"
 
                     document.getElementById("timeline_editor").style.height = "45vh"
-                    this.editor.getSession().setValue("");
-                    this.editor.getSession().setUseWorker(false);
-                    this.editor.setReadOnly(true)
+                    this.timeline_editor.getSession().setValue("");
+                    this.timeline_editor.getSession().setUseWorker(false);
+                    this.timeline_editor.setReadOnly(true)
                 }
             },
 
@@ -424,7 +424,7 @@ load_once_from_file(true)
                     // have to make sure that we save it every time we save code
                     //
                     await this.save( this.base_component_id, this.code_id, text )
-                    this.editor = null
+                    this.timeline_editor = null
                 }
             },
 
@@ -439,7 +439,7 @@ load_once_from_file(true)
                 this.mode      = "edit"
 
                 await mm.load_app( this.base_component_id )
-                this.editor = null
+                this.timeline_editor = null
             },
 
 
@@ -455,7 +455,7 @@ load_once_from_file(true)
 
                 this.mode      = "edit"
                 await mm.load_app( this.base_component_id )
-                this.editor = null
+                this.timeline_editor = null
             },
 
             chooseProfiler: async function() {
