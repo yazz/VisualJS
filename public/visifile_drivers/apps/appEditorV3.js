@@ -272,11 +272,19 @@ load_once_from_file(true)
            ,
             stepForward: function() {
                 this.execution_time ++
+                var x=executionTimelineMapTimeToLine[this.execution_time]
+                if (x) {
+                    this.execution_time_y = x.line
+                }
                 this.updateTimeline()
             }
             ,
             stepBack: function() {
                 this.execution_time --
+                var x=executionTimelineMapTimeToLine[this.execution_time]
+                if (x) {
+                    this.execution_time_y = x.line
+                }
                 this.updateTimeline()
             }
             ,
@@ -330,7 +338,7 @@ load_once_from_file(true)
             }
             ,
             mouseClickTimeline: function(ev) {
-                this.timeline_pause = true
+                this.timeline_pause = !this.timeline_pause
             }
 
 
