@@ -164,12 +164,17 @@ load_once_from_file(true)
                         >
 
                     <div
-                        v-bind:style='  "position: absolute;pointer-events: none;width: 2px;border: 2px solid black; top: 0; height:100%;" +"left: " + (timeline_x_cursor + 15)  + "px;" '>
+                        v-bind:style='  "position: absolute;pointer-events: none;width: 1px;border: 1px solid gray; top: 0; height:100%;" +"left: " + (timeline_x_cursor + 20)  + "px;" '>
+                    </div>
+                    <div
+                        v-bind:style='  "position: absolute;pointer-events: none;height: 1px;border: 1px solid gray; left: 0; width:100%;" +"top: " + (timeline_y_cursor + 5)  + "px;" '>
                     </div>
 
                     <div    style='position:relative;overflow: scroll; border: 1px solid blue; padding:0; height:100%; width:100%;left:0;top:0'
                             id='timeline_el'
-                            @mousemove="mouseOverTimeline($event)"
+                            @mousemove="mouseMoveTimeline($event)"
+                            @click="mouseClickTimeline($event)"
+                            @mouseenter="mouseEnterTimeline($event)"
                     >
 
 
@@ -192,8 +197,8 @@ load_once_from_file(true)
                                                 "top:" + ((exePoint.line + executionCode[exePoint.code_block_name].start) * execution_horiz_scale) + "px;" +
                                                 "left:" +  (exePoint.time * execution_horiz_scale) + "px;" +
                                                 "border: 1px solid " + ((execution_time == exePoint.time)?"black":"darkgray" ) + ";" +
-                                                "width:7px;" +
-                                                "height: 7px; " +
+                                                "width:" + ((execution_time == exePoint.time)?"10":"7") + "px;" +
+                                                "height: " + ((execution_time == exePoint.time)?"10":"7") + "px; " +
                                                 "background-color: " + ((execution_time == exePoint.time)?"black":"darkgray" ) + ";" +
                                                 ""'>
                         </div>
@@ -222,10 +227,13 @@ load_once_from_file(true)
                execution_horiz_scale: 10,
                editor: null,
                execution_time:  -1,
+               execution_time_y:  -1,
                execution_code: null,
                execution_block_list: [],
                highlighted_line:    -1,
                timeline_x_cursor: -1,
+               timeline_y_cursor: 10,
+               timeline_pause: false,
                highlighted_block:    "",
                highlighted_block_name:    "",
                highlighted_node:    null,
@@ -304,6 +312,7 @@ load_once_from_file(true)
                     elementTimeline.scrollTop = (executionCode[x.code_block_name].start + (Math.floor(x.line/30)*30)) * this.execution_horiz_scale
 
                     this.timeline_x_cursor = (this.execution_horiz_scale * this.execution_time) - elementTimeline.scrollLeft
+                    this.timeline_y_cursor = (this.execution_horiz_scale * this.execution_time_y) - elementTimeline.scrollTop
                     //console.log("this.timeline_x_cursor: " + this.timeline_x_cursor)
                     //console.log("elementTimeline.offsetWidth: " + elementTimeline.offsetWidth)
                     if (this.timeline_x_cursor > elementTimeline.offsetWidth) {
@@ -313,22 +322,37 @@ load_once_from_file(true)
 
                 }
             }
+
+
+            ,
+            mouseEnterTimeline: function(ev) {
+                this.timeline_pause = false
+            }
+            ,
+            mouseClickTimeline: function(ev) {
+                this.timeline_pause = true
+            }
+
+
+
            ,
-            mouseOverTimeline: function(ev) {
-                var elementTimeline = document.getElementById("timeline_el"  )
-                var left = (elementTimeline.scrollLeft + ev.offsetX);
-                var top = elementTimeline.scrollTop + ev.offsetY;
+            mouseMoveTimeline: function(ev) {
+                if (!this.timeline_pause) {
+                    var elementTimeline = document.getElementById("timeline_el"  )
+                    var left = (elementTimeline.scrollLeft + ev.offsetX);
+                    var top = elementTimeline.scrollTop + ev.offsetY;
 
-                if ((left > -1) && elementTimeline) {
-                    //console.log( "("+ left + "," + top + ")" )
+                    if ((left > -1) && elementTimeline) {
+                        //console.log( "("+ left + "," + top + ")" )
 
-                    var x=executionTimelineMapTimeToLine[ Math.floor(left / this.execution_horiz_scale)]
-                    if (x) {
-                        this.execution_time = x.time
-                        this.updateTimeline()
+                        var x=executionTimelineMapTimeToLine[ Math.floor(left / this.execution_horiz_scale)]
+                        if (x) {
+                            this.execution_time = x.time
+                            this.execution_time_y = x.line
+                            this.updateTimeline()
+                        }
                     }
                 }
-
             }
             ,
 
