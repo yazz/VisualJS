@@ -281,7 +281,7 @@ load_once_from_file(true)
             ,
             stepBack: function() {
                 this.execution_time --
-                var x=executionTimelineMapTimeToLine[this.execution_time]
+                var x = executionTimelineMapTimeToLine[  this.execution_time  ]
                 if (x) {
                     this.execution_time_y = x.line
                 }
@@ -327,6 +327,10 @@ load_once_from_file(true)
 
                     if (this.timeline_x_cursor > elementTimeline.offsetWidth) {
                         elementTimeline.scrollLeft += elementTimeline.offsetWidth
+                        this.timeline_x_cursor = (this.execution_horiz_scale * this.execution_time) - elementTimeline.scrollLeft
+                    }
+                    if ( this.timeline_x_cursor < 0 ) {
+                        elementTimeline.scrollLeft = (elementTimeline.scrollLeft + 3) - elementTimeline.offsetWidth
                         this.timeline_x_cursor = (this.execution_horiz_scale * this.execution_time) - elementTimeline.scrollLeft
                     }
 
@@ -440,6 +444,7 @@ load_once_from_file(true)
                 this.mode      = "edit"
 
                 await mm.load_app( this.base_component_id )
+
                 this.timeline_editor.destroy()
                 this.timeline_editor = null
             },
@@ -457,6 +462,7 @@ load_once_from_file(true)
 
                 this.mode      = "edit"
                 await mm.load_app( this.base_component_id )
+
                 this.timeline_editor.destroy()
                 this.timeline_editor = null
             },
@@ -471,9 +477,9 @@ load_once_from_file(true)
                 this.mode = "profiler"
 
                 setTimeout(function() {
-                    mm.setupTimelineEditor()
-                },
-                200)
+                        mm.setupTimelineEditor()
+                    },
+                    200)
             },
 
             rename: async function(nn) {
