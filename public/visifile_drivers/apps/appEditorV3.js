@@ -310,19 +310,21 @@ load_once_from_file(true)
                     this.highlighted_block_name     = x.code_block_name
                     this.highlighted_node           = x.node
 
-                    this.editor.getSession().setValue(executionCode[x.code_block_name].code);
-                    this.editor.scrollToLine(x.line - 1, true, true, function () {});
-                    this.editor.gotoLine(x.line - 1, 10, true);
-                    this.editor.selection.moveCursorToPosition({row: x.line - 1, column: 0});
-                    this.editor.selection.selectLine();
+                    if (this.editor && this.editor.getSession()) {
+                        this.editor.getSession().setValue(executionCode[x.code_block_name].code);
+                        this.editor.scrollToLine(x.line - 1, true, true, function () {});
+                        this.editor.gotoLine(x.line - 1, 10, true);
+                        this.editor.selection.moveCursorToPosition({row: x.line - 1, column: 0});
+                        this.editor.selection.selectLine();
+                    }
+
 
                     var elementTimeline = document.getElementById("timeline_el"  )
                     elementTimeline.scrollTop = (executionCode[x.code_block_name].start + (Math.floor(x.line/30)*30)) * this.execution_horiz_scale
 
                     this.timeline_x_cursor = (this.execution_horiz_scale * this.execution_time) - elementTimeline.scrollLeft
                     this.timeline_y_cursor = (this.execution_horiz_scale * this.execution_time_y) - elementTimeline.scrollTop
-                    //console.log("this.timeline_x_cursor: " + this.timeline_x_cursor)
-                    //console.log("elementTimeline.offsetWidth: " + elementTimeline.offsetWidth)
+
                     if (this.timeline_x_cursor > elementTimeline.offsetWidth) {
                         elementTimeline.scrollLeft += elementTimeline.offsetWidth
                         this.timeline_x_cursor = (this.execution_horiz_scale * this.execution_time) - elementTimeline.scrollLeft
@@ -413,15 +415,17 @@ load_once_from_file(true)
                 this.mode      = "edit"
 
 
-                var text = await this.$refs.editorComponentRef.getText()
+                if (this.$refs.editorComponentRef) {
+                    var text = await this.$refs.editorComponentRef.getText()
 
-                //
-                // there may be a problem here - we have to make sure that we saved
-                // the correct code_id which is supposed to be the parent code id, so we
-                // have to make sure that we save it every time we save code
-                //
-                await this.save( this.base_component_id, this.code_id, text )
-                this.editor = null
+                    //
+                    // there may be a problem here - we have to make sure that we saved
+                    // the correct code_id which is supposed to be the parent code id, so we
+                    // have to make sure that we save it every time we save code
+                    //
+                    await this.save( this.base_component_id, this.code_id, text )
+                    this.editor = null
+                }
             },
 
             chooseCode: async function() {
