@@ -343,7 +343,9 @@ load_once_from_file(true)
                     elementTimeline.scrollTop = (executionCode[x.code_block_name].start + (Math.floor(x.line/this.y_step)*this.y_step)) * this.execution_horiz_scale
 
                     this.timeline_x_cursor = (this.execution_horiz_scale * this.current_execution_step) - elementTimeline.scrollLeft
-                    this.timeline_y_cursor = (this.execution_horiz_scale * this.current_execution_step_y_line) - elementTimeline.scrollTop
+                    this.timeline_y_cursor = (this.execution_horiz_scale *
+                                                    (this.current_execution_step_y_line + this.execution_code[x.code_block_name].start)
+                                                            ) - elementTimeline.scrollTop
 
                     if (this.timeline_x_cursor > elementTimeline.offsetWidth) {
                         elementTimeline.scrollLeft += elementTimeline.offsetWidth
