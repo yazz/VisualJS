@@ -8558,43 +8558,44 @@ var dataIds = new Object()
     socket.on('ws_to_browser_callDriverMethod_results',async function(data) {
         //console.log(`socket.on('ws_to_browser_callDriverMethod_results',function(data) {`)
 
+        if (data.value) {
+            if (data.value.is_code_result) {
+                if (data.value.component_options){
+                    //alert("code: " + JSON.stringify(data.value.component_options,null,2));
+                }
+                //alert("code2: " + JSON.stringify(data.value.use_db,null,2));
+                //alert("data: " + JSON.stringify(data.value.code_id,null,2));
+                //alert("data: " + JSON.stringify(data.value.base_component_id,null,2));
+                var useDb = data.value.base_component_id
+                if (data.value.use_db) {
+                    useDb = data.value.use_db
+                }
+                var addP = "'" + data.value.code_id + "', '" + useDb + "', "
+                //alert("data: " + addP);
+                data.value.code = data.value.code.toString().replaceAll(" sql[(]"," rxsql(" + addP)
+                data.value.code = data.value.code.toString().replaceAll(" sql1[(]"," rxsql1(" + addP)
+                data.value.code = data.value.code.toString().replaceAll(" sqlFirstCol[(]"," rxsqlFirstCol(" + addP)
+                data.value.code = data.value.code.toString().replaceAll(" sqlFirstCol1[(]"," rxsqlFirstCol1(" + addP)
+                //alert("data: " + data.value.code);
 
-        if (data.value.is_code_result) {
-            if (data.value.component_options){
-                //alert("code: " + JSON.stringify(data.value.component_options,null,2));
-            }
-            //alert("code2: " + JSON.stringify(data.value.use_db,null,2));
-            //alert("data: " + JSON.stringify(data.value.code_id,null,2));
-            //alert("data: " + JSON.stringify(data.value.base_component_id,null,2));
-            var useDb = data.value.base_component_id
-            if (data.value.use_db) {
-                useDb = data.value.use_db
-            }
-            var addP = "'" + data.value.code_id + "', '" + useDb + "', "
-            //alert("data: " + addP);
-            data.value.code = data.value.code.toString().replaceAll(" sql[(]"," rxsql(" + addP)
-            data.value.code = data.value.code.toString().replaceAll(" sql1[(]"," rxsql1(" + addP)
-            data.value.code = data.value.code.toString().replaceAll(" sqlFirstCol[(]"," rxsqlFirstCol(" + addP)
-            data.value.code = data.value.code.toString().replaceAll(" sqlFirstCol1[(]"," rxsqlFirstCol1(" + addP)
-            //alert("data: " + data.value.code);
 
+                if (data.value.code_id) {
 
-            if (data.value.code_id) {
+                    if (data.value.base_component_id && (!finderToCachedCodeMapping[data.value.base_component_id])) {
+                        //alert(""  + data.value.base_component_id + " := " + data.value.code_id )
+                        finderToCachedCodeMapping[data.value.base_component_id] = data.value.code_id
+                        cachedCode[data.value.code_id] = data
+                    }
 
-                if (data.value.base_component_id && (!finderToCachedCodeMapping[data.value.base_component_id])) {
-                    //alert(""  + data.value.base_component_id + " := " + data.value.code_id )
-                    finderToCachedCodeMapping[data.value.base_component_id] = data.value.code_id
-                    cachedCode[data.value.code_id] = data
+                    await checkLibs(data)
                 }
 
-                await checkLibs(data)
-            }
 
-
-        } else {
-            var callbackFn = queuedResponses[data.seq_num]
-            callbackFn({value: data.value})
-            queuedResponses[data.seq_num] = null
+            } else {
+                var callbackFn = queuedResponses[data.seq_num]
+                callbackFn({value: data.value})
+                queuedResponses[data.seq_num] = null
+            }            
         }
     });
 
