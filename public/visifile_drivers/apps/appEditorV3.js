@@ -435,8 +435,10 @@ load_once_from_file(true)
 
                 this.mode      = "edit"
 
-                this.timeline_editor.destroy()
-                this.timeline_editor = null
+                if (this.timeline_editor) {
+                    this.timeline_editor.destroy()
+                    this.timeline_editor = null
+                }
 
                 if (this.$refs.editorComponentRef) {
                     this.editor_text = await this.$refs.editorComponentRef.getText()
@@ -462,8 +464,10 @@ load_once_from_file(true)
 
                 await mm.load_app( this.base_component_id )
 
-                this.timeline_editor.destroy()
-                this.timeline_editor = null
+                if (this.timeline_editor) {
+                    this.timeline_editor.destroy()
+                    this.timeline_editor = null
+                }
             },
 
 
@@ -480,8 +484,10 @@ load_once_from_file(true)
                 this.mode      = "edit"
                 await mm.load_app( this.base_component_id )
 
-                this.timeline_editor.destroy()
-                this.timeline_editor = null
+                if (this.timeline_editor) {
+                    this.timeline_editor.destroy()
+                    this.timeline_editor = null
+                }
             },
 
             chooseProfiler: async function() {
