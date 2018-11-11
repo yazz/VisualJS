@@ -260,7 +260,7 @@ load_once_from_file(true)
 
        methods: {
            resetDebugger: function() {
-                //zzz
+
                executionTimeline   = []
                executionTimelineMapTimeToLine   = {}
                this.execution_timeline = executionTimeline
@@ -272,31 +272,40 @@ load_once_from_file(true)
            }
            ,
             stepForward: function() {
-                this.execution_time ++
-                var x=executionTimelineMapTimeToLine[this.execution_time]
-                if (x) {
-                    this.execution_time_y = x.line
+            //zzz
+                if (this.execution_time < (executionTimeline.length - 1)) {
+                    this.execution_time ++
+                    var x=executionTimelineMapTimeToLine[this.execution_time]
+                    if (x) {
+                        this.execution_time_y = x.line
+                    }
+                    this.updateTimeline()
                 }
-                this.updateTimeline()
             }
             ,
             stepBack: function() {
-                this.execution_time --
-                var x = executionTimelineMapTimeToLine[  this.execution_time  ]
-                if (x) {
-                    this.execution_time_y = x.line
+                if (this.execution_time > 0) {
+                    this.execution_time --
+                    var x = executionTimelineMapTimeToLine[  this.execution_time  ]
+                    if (x) {
+                        this.execution_time_y = x.line
+                    }
+                    this.updateTimeline()
                 }
-                this.updateTimeline()
             }
             ,
             timelineZoomIn: function() {
-                this.execution_horiz_scale ++
-                this.updateTimeline()
+                if (this.execution_horiz_scale < 20) {
+                    this.execution_horiz_scale ++
+                    this.updateTimeline()
+                }
             }
             ,
             timelineZoomOut: function() {
-                this.execution_horiz_scale --
-                this.updateTimeline()
+                if (this.execution_horiz_scale > 1) {
+                    this.execution_horiz_scale --
+                    this.updateTimeline()
+                }
             }
             ,
 
