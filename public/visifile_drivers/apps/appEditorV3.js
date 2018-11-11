@@ -255,6 +255,7 @@ load_once_from_file(true)
                edit_name:           false,
                new_name:            "",
                show_new_tab_tooltip:false,
+               editor_text: "",
                show_open_app_tooltip:false
            }
        }
@@ -333,7 +334,7 @@ load_once_from_file(true)
 
                     var elementTimeline = document.getElementById("timeline_el"  )
                     this.y_step = Math.floor(elementTimeline.offsetHeight / this.execution_horiz_scale ) - 10
-                    //zzz
+
                     elementTimeline.scrollTop = (executionCode[x.code_block_name].start + (Math.floor(x.line/this.y_step)*this.y_step)) * this.execution_horiz_scale
 
                     this.timeline_x_cursor = (this.execution_horiz_scale * this.current_execution_step) - elementTimeline.scrollLeft
@@ -438,14 +439,14 @@ load_once_from_file(true)
                 this.timeline_editor = null
 
                 if (this.$refs.editorComponentRef) {
-                    var text = await this.$refs.editorComponentRef.getText()
+                    this.editor_text = await this.$refs.editorComponentRef.getText()
 
                     //
                     // there may be a problem here - we have to make sure that we saved
                     // the correct code_id which is supposed to be the parent code id, so we
                     // have to make sure that we save it every time we save code
                     //
-                    await this.save( this.base_component_id, this.code_id, text )
+                    await this.save( this.base_component_id, this.code_id, this.editor_text )
                 }
             },
 
@@ -512,15 +513,15 @@ load_once_from_file(true)
             editAsText: async function() {
                 var mm = this
 
-                var text = await this.$refs.editorComponentRef.getText()
+                this.editor_text = await this.$refs.editorComponentRef.getText()
 
-                var eds = saveHelper.getValueOfCodeString(text, "editors")
+                var eds = saveHelper.getValueOfCodeString(this.editor_text, "editors")
                 if (eds) {
-                    text = saveHelper.deleteCodeString(text, "editors")
-                    text = saveHelper.insertCodeString(text, "editors_old",eds)
+                    this.editor_text = saveHelper.deleteCodeString(this.editor_text, "editors")
+                    this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors_old",eds)
                 }
 
-                await mm.save(   this.base_component_id,   this.code_id,   text   )
+                await mm.save(   this.base_component_id,   this.code_id,   this.editor_text   )
 
                 await mm.load_new_app( this.base_component_id )
             },
@@ -530,15 +531,17 @@ load_once_from_file(true)
             setVisibility: async function(value) {
                 var mm = this
 
-                var text = await this.$refs.editorComponentRef.getText()
-
-                var eds = saveHelper.getValueOfCodeString(text, "visibility")
-                if (eds) {
-                    text = saveHelper.deleteCodeString(text, "visibility")
-                    text = saveHelper.insertCodeString(text, "visibility",value)
+                if (this.$refs.editorComponentRef) {
+                    this.editor_text = await this.$refs.editorComponentRef.getText()
                 }
 
-                await mm.save(   this.base_component_id,   this.code_id,   text   )
+                var eds = saveHelper.getValueOfCodeString(this.editor_text, "visibility")
+                if (eds) {
+                    this.editor_text = saveHelper.deleteCodeString(this.editor_text, "visibility")
+                    this.editor_text = saveHelper.insertCodeString(this.editor_text, "visibility",value)
+                }
+
+                await mm.save(   this.base_component_id,   this.code_id,   this.editor_text   )
 
                 await mm.load_new_app( this.base_component_id )
             },
@@ -583,9 +586,10 @@ load_once_from_file(true)
            // ---------------------------------------------------------------
            save: async function( base_component_id, code_id , textIn) {
 
-               var text =  textIn
-               if (text == null) {
-                    text = await this.$refs.editorComponentRef.getText()
+               if (textIn == null) {
+                    this.editor_text = await this.$refs.editorComponentRef.getText()
+               } else {
+                    this.editor_text = textIn
                }
 
 
@@ -602,7 +606,7 @@ load_once_from_file(true)
                    {
                         base_component_id:      base_component_id,
                         code_id:                code_id,
-                        code:                   text,
+                        code:                   this.editor_text,
                         options:                {
                                                     sub_components: Object.keys(dev_app_component_loaded),
                                                     save_html:              true
@@ -735,7 +739,9 @@ load_once_from_file(true)
 
                    setTimeout(async function() {
                        mm.app_component_name = baseComponentId
-                       mm.$refs.editorComponentRef.setText(code)
+                       if (mm.$refs.editorComponentRef) {
+                            mm.$refs.editorComponentRef.setText(code)
+                       }
                    },500)
                }
            }
