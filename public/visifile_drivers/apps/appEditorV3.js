@@ -138,7 +138,7 @@ load_once_from_file(true)
                         </div>
 
                         <div>
-                            Step: {{execution_time}}, Scale: {{execution_horiz_scale}}
+                            Step: {{current_execution_step}}, Scale: {{execution_horiz_scale}}
                         </div>
                         <div>
                             Total: {{execution_timeline.length}}
@@ -192,14 +192,14 @@ load_once_from_file(true)
 
                         <div    v-for='exePoint in execution_timeline'
 
-                                v-bind:style='  "z-index: " + ((execution_time == exePoint.time)?"100":"0" ) + "; color: darkgray; " +
+                                v-bind:style='  "z-index: " + ((current_execution_step == exePoint.time)?"100":"0" ) + "; color: darkgray; " +
                                                 "position: absolute; pointer-events: none;" +
                                                 "top:" + ((exePoint.line + executionCode[exePoint.code_block_name].start) * execution_horiz_scale) + "px;" +
                                                 "left:" +  (exePoint.time * execution_horiz_scale) + "px;" +
-                                                "border: 1px solid " + ((execution_time == exePoint.time)?"black":"darkgray" ) + ";" +
-                                                "width:" + ((execution_time == exePoint.time)?"10":"7") + "px;" +
-                                                "height: " + ((execution_time == exePoint.time)?"10":"7") + "px; " +
-                                                "background-color: " + ((execution_time == exePoint.time)?"black":"darkgray" ) + ";" +
+                                                "border: 1px solid " + ((current_execution_step == exePoint.time)?"black":"darkgray" ) + ";" +
+                                                "width:" + ((current_execution_step == exePoint.time)?"10":"7") + "px;" +
+                                                "height: " + ((current_execution_step == exePoint.time)?"10":"7") + "px; " +
+                                                "background-color: " + ((current_execution_step == exePoint.time)?"black":"darkgray" ) + ";" +
                                                 ""'>
                         </div>
 
@@ -226,8 +226,8 @@ load_once_from_file(true)
                execution_timeline:  null,
                execution_horiz_scale: 10,
                timeline_editor: null,
-               execution_time:  -1,
-               execution_time_y:  -1,
+               current_execution_step:  -1,
+               current_execution_y_line:  -1,
                execution_code: null,
                execution_block_list: [],
                highlighted_line:    -1,
@@ -266,29 +266,29 @@ load_once_from_file(true)
                this.execution_timeline = executionTimeline
                maxTimelineLogPoint = 0
 
-               this.execution_time = 0
-               this.execution_time_y = -1
+               this.current_execution_step = 0
+               this.current_execution_y_line = -1
                this.updateTimeline()
            }
            ,
             stepForward: function() {
-            //zzz
-                if (this.execution_time < (executionTimeline.length - 1)) {
-                    this.execution_time ++
-                    var x=executionTimelineMapTimeToLine[this.execution_time]
+                if (this.current_execution_step < (executionTimeline.length - 1)) {
+                    this.current_execution_step ++
+
+                    var x = executionTimelineMapTimeToLine[ this.current_execution_step ]
                     if (x) {
-                        this.execution_time_y = x.line
+                        this.current_execution_y_line = x.line
                     }
                     this.updateTimeline()
                 }
             }
             ,
             stepBack: function() {
-                if (this.execution_time > 0) {
-                    this.execution_time --
-                    var x = executionTimelineMapTimeToLine[  this.execution_time  ]
+                if (this.current_execution_step > 0) {
+                    this.current_execution_step --
+                    var x = executionTimelineMapTimeToLine[  this.current_execution_step  ]
                     if (x) {
-                        this.execution_time_y = x.line
+                        this.current_execution_y_line = x.line
                     }
                     this.updateTimeline()
                 }
@@ -313,7 +313,7 @@ load_once_from_file(true)
 
 
             updateTimeline: function(  ) {
-                var x = executionTimelineMapTimeToLine[  this.execution_time  ]
+                var x = executionTimelineMapTimeToLine[  this.current_execution_step  ]
                 if (x) {
                     this.highlighted_line           = x.line
                     this.highlighted_block          = executionCode[x.code_block_name].code
@@ -332,16 +332,16 @@ load_once_from_file(true)
                     var elementTimeline = document.getElementById("timeline_el"  )
                     elementTimeline.scrollTop = (executionCode[x.code_block_name].start + (Math.floor(x.line/30)*30)) * this.execution_horiz_scale
 
-                    this.timeline_x_cursor = (this.execution_horiz_scale * this.execution_time) - elementTimeline.scrollLeft
-                    this.timeline_y_cursor = (this.execution_horiz_scale * this.execution_time_y) - elementTimeline.scrollTop
+                    this.timeline_x_cursor = (this.execution_horiz_scale * this.current_execution_step) - elementTimeline.scrollLeft
+                    this.timeline_y_cursor = (this.execution_horiz_scale * this.current_execution_y_line) - elementTimeline.scrollTop
 
                     if (this.timeline_x_cursor > elementTimeline.offsetWidth) {
                         elementTimeline.scrollLeft += elementTimeline.offsetWidth
-                        this.timeline_x_cursor = (this.execution_horiz_scale * this.execution_time) - elementTimeline.scrollLeft
+                        this.timeline_x_cursor = (this.execution_horiz_scale * this.current_execution_step) - elementTimeline.scrollLeft
                     }
                     if ( this.timeline_x_cursor < 0 ) {
                         elementTimeline.scrollLeft = (elementTimeline.scrollLeft + 7) - elementTimeline.offsetWidth
-                        this.timeline_x_cursor = (this.execution_horiz_scale * this.execution_time) - elementTimeline.scrollLeft
+                        this.timeline_x_cursor = (this.execution_horiz_scale * this.current_execution_step) - elementTimeline.scrollLeft
                     }
 
                 }
@@ -371,8 +371,8 @@ load_once_from_file(true)
 
                         var x=executionTimelineMapTimeToLine[ Math.floor(left / this.execution_horiz_scale)]
                         if (x) {
-                            this.execution_time = x.time
-                            this.execution_time_y = x.line
+                            this.current_execution_step = x.time
+                            this.current_execution_y_line = x.line
                             this.updateTimeline()
                         }
                     }
