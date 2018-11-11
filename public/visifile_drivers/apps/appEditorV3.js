@@ -143,12 +143,6 @@ load_once_from_file(true)
                         <div>
                             Total: {{execution_timeline.length}}
                         </div>
-                        <div>
-                            Y Line: {{current_execution_step_y_line}}
-                        </div>
-                        <div>
-                            Y Max Lines: {{y_step}}
-                        </div>
 
 
                         <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
