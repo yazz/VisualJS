@@ -143,6 +143,13 @@ load_once_from_file(true)
                         <div>
                             Total: {{execution_timeline.length}}
                         </div>
+                        <div>
+                            Y Line: {{current_execution_step_y_line}}
+                        </div>
+                        <div>
+                            Y Max Lines: {{y_step}}
+                        </div>
+
 
                         <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
                             <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='stepBack()'>&lt;--</button>
@@ -225,9 +232,10 @@ load_once_from_file(true)
                editor_component:    null,
                execution_timeline:  null,
                execution_horiz_scale: 10,
+               y_step: 30,
                timeline_editor: null,
                current_execution_step:  -1,
-               current_execution_y_line:  -1,
+               current_execution_step_y_line:  -1,
                execution_code: null,
                execution_block_list: [],
                highlighted_line:    -1,
@@ -266,8 +274,8 @@ load_once_from_file(true)
                this.execution_timeline = executionTimeline
                maxTimelineLogPoint = 0
 
-               this.current_execution_step = 0
-               this.current_execution_y_line = -1
+               this.current_execution_step = -1
+               this.current_execution_step_y_line = -1
                this.updateTimeline()
            }
            ,
@@ -277,7 +285,7 @@ load_once_from_file(true)
 
                     var x = executionTimelineMapTimeToLine[ this.current_execution_step ]
                     if (x) {
-                        this.current_execution_y_line = x.line
+                        this.current_execution_step_y_line = x.line
                     }
                     this.updateTimeline()
                 }
@@ -288,7 +296,7 @@ load_once_from_file(true)
                     this.current_execution_step --
                     var x = executionTimelineMapTimeToLine[  this.current_execution_step  ]
                     if (x) {
-                        this.current_execution_y_line = x.line
+                        this.current_execution_step_y_line = x.line
                     }
                     this.updateTimeline()
                 }
@@ -330,10 +338,12 @@ load_once_from_file(true)
 
 
                     var elementTimeline = document.getElementById("timeline_el"  )
-                    elementTimeline.scrollTop = (executionCode[x.code_block_name].start + (Math.floor(x.line/30)*30)) * this.execution_horiz_scale
+                    this.y_step = Math.floor(elementTimeline.offsetHeight / this.execution_horiz_scale ) - 10
+                    //zzz
+                    elementTimeline.scrollTop = (executionCode[x.code_block_name].start + (Math.floor(x.line/this.y_step)*this.y_step)) * this.execution_horiz_scale
 
                     this.timeline_x_cursor = (this.execution_horiz_scale * this.current_execution_step) - elementTimeline.scrollLeft
-                    this.timeline_y_cursor = (this.execution_horiz_scale * this.current_execution_y_line) - elementTimeline.scrollTop
+                    this.timeline_y_cursor = (this.execution_horiz_scale * this.current_execution_step_y_line) - elementTimeline.scrollTop
 
                     if (this.timeline_x_cursor > elementTimeline.offsetWidth) {
                         elementTimeline.scrollLeft += elementTimeline.offsetWidth
@@ -372,7 +382,7 @@ load_once_from_file(true)
                         var x=executionTimelineMapTimeToLine[ Math.floor(left / this.execution_horiz_scale)]
                         if (x) {
                             this.current_execution_step = x.time
-                            this.current_execution_y_line = x.line
+                            this.current_execution_step_y_line = x.line
                             this.updateTimeline()
                         }
                     }
