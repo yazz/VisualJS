@@ -714,8 +714,10 @@ load_once_from_file(true)
                         //
                         var code = results[0].code
                         var codeId = results[0].id
-                        if (mm.editor_loaded && (mm.code != code)) {
-                            mm.code = code
+
+                        //zzz
+                        if (mm.editor_loaded && (mm.editor_text != code)) {
+                            mm.editor_text = code
                             mm.code_id = codeId
                         }
 
