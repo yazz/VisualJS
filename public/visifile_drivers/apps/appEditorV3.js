@@ -654,6 +654,8 @@ load_once_from_file(true)
                     return
                 }
 
+                this.resetDebugger()
+
 
                //
                // set up vars
