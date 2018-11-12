@@ -126,38 +126,6 @@ load_once_from_file(true)
                 </div>
 
 
-                <div    class='col-md-2'
-                        style='height: 50vh;background-color: white; '
-                        >
-
-
-                    <div  style="left:0px; z-index: 200; width:100%; height:100%; background-color: white;border: 1px solid black;">
-
-                        <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
-                            <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='resetDebugger()'>CLEAR</button>
-                        </div>
-
-                        <div>
-                            Step: {{current_execution_step}}, Scale: {{execution_horiz_scale}}
-                        </div>
-                        <div>
-                            Total: {{execution_timeline.length}}
-                        </div>
-
-
-                        <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
-                            <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='stepBack()'>&lt;--</button>
-                            <button type=button class='btn btn-info' style='margin: 1px;padding:2px;'  v-on:click='stepForward()'>--&gt;</button>
-                        </div>
-
-
-                        <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
-                            <button type=button class='btn btn-info' style='margin: 1px;padding:2px;'  v-on:click='timelineZoomOut()'>Zoom out</button>
-                            <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='timelineZoomIn()'>Zoom in</button>
-                        </div>
-
-                    </div>
-                </div>
 
 
                 <div    class='col-md-4'
@@ -209,6 +177,47 @@ load_once_from_file(true)
 
 
                 </div>
+
+
+
+
+                <div    class='col-md-2'
+                        style='height: 50vh;background-color: white; '
+                        >
+
+
+                    <div  style="left:0px; z-index: 200; width:100%; height:100%; background-color: white;border: 1px solid black;">
+
+                        <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
+                            <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='resetDebugger()'>CLEAR</button>
+                        </div>
+
+                        <div>
+                            Step: {{current_execution_step}}, Scale: {{execution_horiz_scale}}
+                        </div>
+                        <div>
+                            Total: {{execution_timeline.length}}
+                        </div>
+
+
+                        <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
+                            <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='stepBack()'>&lt;--</button>
+                            <button type=button class='btn btn-info' style='margin: 1px;padding:2px;'  v-on:click='stepForward()'>--&gt;</button>
+                        </div>
+
+
+                        <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
+                            <button type=button class='btn btn-info' style='margin: 1px;padding:2px;'  v-on:click='timelineZoomOut()'>Zoom out</button>
+                            <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='timelineZoomIn()'>Zoom in</button>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+
             </div>
 
 
