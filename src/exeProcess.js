@@ -368,7 +368,7 @@ function executeCode(callId, codeId, args, on_condition,  base_component_id) {
 function isFrontEndOnlyCode(code) {
     if (code.indexOf("Vue.") != -1) { return true }
     if (code.indexOf("only_run_on_server") != -1) { return false }
-    return false
+    return true
 }
 //pure_function
 
