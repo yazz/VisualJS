@@ -654,7 +654,6 @@ load_once_from_file(true)
                     return
                 }
 
-                this.resetDebugger()
 
 
                //
@@ -747,6 +746,7 @@ load_once_from_file(true)
                    if ((isValidObject(runThisApp))   && (!runThisApp)) {
                     //do nothing if we set "runthisapp" to false
                    } else {
+                        this.resetDebugger()
                         var results = await callApp( {code_id:    codeId }, {} )
                    }
 
