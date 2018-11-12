@@ -415,6 +415,15 @@ load_once_from_file(true)
                     this.timeline_editor.getSession().setUseWorker(false);
                     this.timeline_editor.setReadOnly(true)
                 }
+
+//zzz
+                this.current_execution_step = 0
+                var x = executionTimelineMapTimeToLine[ this.current_execution_step ]
+                if (x) {
+                    this.current_execution_step_y_line = x.line
+                }
+                this.updateTimeline()
+
             },
 
 
@@ -716,7 +725,7 @@ load_once_from_file(true)
                         var code = results[0].code
                         var codeId = results[0].id
 
-                        //zzz
+
                         if (mm.editor_loaded && (mm.editor_text != code)) {
                             mm.editor_text = code
                             mm.code_id = codeId
