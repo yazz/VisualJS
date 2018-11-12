@@ -119,7 +119,7 @@ load_once_from_file(true)
 
             <div class='row'>
                 <div class='col-md-6' style='overflow: auto;'>
-                    <b>{{highlighted_block_name}}</b>
+                    <b style='color: white; background-color: red;'>CODE IN READ ONLY MODE</b>: {{highlighted_block_name}}
 
                     <div id='timeline_editor' >
                     </div>
@@ -462,7 +462,7 @@ load_once_from_file(true)
 
                 this.mode      = "edit"
 
-                await mm.load_app( this.base_component_id )
+                await mm.load_app( this.base_component_id , false)
 
                 if (this.timeline_editor) {
                     this.timeline_editor.destroy()
@@ -644,7 +644,7 @@ load_once_from_file(true)
            // This loads the latest version of the code stream marked with
            // 'baseComponentId'
            // ---------------------------------------------------------------
-           load_app: async function ( baseComponentId ) {
+           load_app: async function ( baseComponentId, runThisApp ) {
 
                 //
                 // make sure that we reference an app
@@ -742,7 +742,11 @@ load_once_from_file(true)
                        this.visibility = saveHelper.getValueOfCodeString(code, "visibility")
                    }
 
-                   var results = await callApp( {code_id:    codeId },{})
+                   if ((isValidObject(runThisApp))   && (!runThisApp)) {
+                    //do nothing if we set "runthisapp" to false
+                   } else {
+                        var results = await callApp( {code_id:    codeId }, {} )
+                   }
 
 
                    setTimeout(async function() {
