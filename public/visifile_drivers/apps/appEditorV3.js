@@ -260,6 +260,7 @@ load_once_from_file(true)
                read_only:           false,
                visibility:          null,
                mode:                "edit",
+               sub_mode:            "both",
                show_name:           true,
                edit_name:           false,
                new_name:            "",
@@ -452,6 +453,7 @@ load_once_from_file(true)
                 this.app_shown = true
 
                 this.mode      = "edit"
+                this.sub_mode  = "app"
 
                 if (this.timeline_editor) {
                     this.timeline_editor.destroy()
@@ -479,6 +481,7 @@ load_once_from_file(true)
                 this.app_shown = false
 
                 this.mode      = "edit"
+                this.sub_mode  = "code"
 
                 await mm.load_app( this.base_component_id , false)
 
@@ -500,6 +503,7 @@ load_once_from_file(true)
                 this.app_shown = true
 
                 this.mode      = "edit"
+                this.sub_mode  = "both"
                 await mm.load_app( this.base_component_id )
 
                 if (this.timeline_editor) {
@@ -515,6 +519,12 @@ load_once_from_file(true)
 
                 this.app_width = "0%"
                 this.app_shown = false
+
+                if (this.$refs.editorComponentRef && (this.mode=="edit") && (this.sub_mode=="code")) {
+                    this.editor_text = await this.$refs.editorComponentRef.getText()
+                    await this.save( this.base_component_id, this.code_id, this.editor_text )
+                    await mm.load_app( this.base_component_id )
+                }
                 this.mode = "profiler"
 
                 setTimeout(function() {
