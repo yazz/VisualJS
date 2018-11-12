@@ -3,6 +3,7 @@ async function get_public_apps_list(args) {
 description("This will return the apps available")
 base_component_id("systemFunctions3")
 load_once_from_file(true)
+only_run_on_server(true)
 */
     var getAppsList = new Promise(function(resolve, reject) {
             dbsearch.serialize(

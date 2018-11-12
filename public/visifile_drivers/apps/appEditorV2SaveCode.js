@@ -3,6 +3,7 @@ async function saveCode( args ) {
 base_component_id("appEditorV2SaveCode")
 description("Save the editor code")
 load_once_from_file(true)
+only_run_on_server(true)
 */
     var promise = new Promise(async function(returnFn) {
         //console.log("in SaveCode::")

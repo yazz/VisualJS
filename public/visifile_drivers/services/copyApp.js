@@ -3,6 +3,7 @@ async function copyAppshareApp(args) {
 description("copyAppshareApp function")
 base_component_id("copyApp")
 load_once_from_file(true)
+only_run_on_server(true)
 */
 
     async function asdf(argsBaseComponentId, newBaseid, parentHashId, code, returnfn, newDisplayName) {
