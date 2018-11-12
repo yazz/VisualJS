@@ -26,6 +26,7 @@ load_once_from_file(true)
 
      mounted: function() {
          var thisVueInstance = this
+         args.text = null
          ace.config.set('basePath', '/');
          editor = ace.edit(           editorDomId, {
                                                  selectionStyle: "text",
@@ -42,9 +43,12 @@ load_once_from_file(true)
          document.getElementById(editorDomId).style.border="10px solid #2C2828"
 
          document.getElementById(editorDomId).style.height="45vh"
-         editor.getSession().setValue(thisVueInstance.text);
+         if (thisVueInstance.text) {
+             editor.getSession().setValue(thisVueInstance.text);
+             this.read_only = saveHelper.getValueOfCodeString(thisVueInstance.text, "read_only")
+         }
+
          editor.getSession().setUseWorker(false);
-         this.read_only = saveHelper.getValueOfCodeString(thisVueInstance.text, "read_only")
          if (this.read_only) {
             editor.setReadOnly(true)
          }
