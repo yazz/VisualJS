@@ -1274,6 +1274,12 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
         if (!baseComponentId) {
             baseComponentId = uuidv1()
         }
+        if (!code.toString().substring(0,20).includes("function")) {
+            code =
+`function() {
+    ${code}
+}`
+        }
         code = saveHelper.deleteCodeString(code, "base_component_id")
         code = saveHelper.insertCodeString(code, "base_component_id", baseComponentId)
 
