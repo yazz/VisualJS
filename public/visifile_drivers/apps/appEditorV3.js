@@ -106,10 +106,10 @@ load_once_from_file(true)
                             APP HERE
                           </component>
 
-                          
+
 
                           <div  v-if='app_loaded && (!is_ui_app)'>
-                            console app
+<pre>{{console_output}}</pre>
                           </div>
                     </div>
 
@@ -237,6 +237,7 @@ load_once_from_file(true)
        data: function() {
            return {
                editor_loaded:       false,
+               console_output:      "",
                selected_app:        '',
                is_ui_app:           true,
                editor_component:    null,
@@ -775,6 +776,16 @@ load_once_from_file(true)
                             await loadV2( editorName, {text: code} )
                             mm.editor_loaded    = true
                             mm.editor_component = editorName
+                            mm.console_output = ""
+                            console.log = function() {
+                                for (var a=0; a < arguments.length ; a++) {
+                                    mm.console_output += arguments[a] + " "
+                                }
+                                mm.console_output +=
+`
+`
+                            }
+
                        }
 
                        //
