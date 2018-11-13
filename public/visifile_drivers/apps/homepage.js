@@ -54,6 +54,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                            </h4>
                                            <select v-model="app_type">
                                               <option selected value="quicksort">Quicksort</option>
+                                              <option          value="bubblesort">Bubblesort</option>
                                               <option          value="vb">Drag and Drop Builder</option>
                                               <option          value="todo">Database app</option>
                                               <option          value="game">3d AFrame app</option>

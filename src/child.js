@@ -855,7 +855,8 @@ function setUpComponentsLocally() {
     //
     // non GUI front end apps
     //
-    evalLocalSystemDriver('quicksort',   path.join(__dirname, '../public/visifile_drivers/apps/quicksort.js'),{save_html: true})
+    evalLocalSystemDriver('quicksort',  path.join(__dirname, '../public/visifile_drivers/apps/quicksort.js'),{save_html: true})
+    evalLocalSystemDriver('bubblesort', path.join(__dirname, '../public/visifile_drivers/apps/bubblesort.js'),{save_html: true})
 
     //
     // controls

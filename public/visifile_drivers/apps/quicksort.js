@@ -1,4 +1,4 @@
-(function() {
+function() {
 /*
 base_component_id("quicksort")
 */
@@ -25,4 +25,4 @@ base_component_id("quicksort")
 
     console.log('Sorted array', sorted);
 
-})
+}
