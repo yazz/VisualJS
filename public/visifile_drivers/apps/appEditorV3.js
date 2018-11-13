@@ -101,10 +101,16 @@ load_once_from_file(true)
                           </div>
 
 
-                          <component  v-bind:is="app_component_name" v-if="app_loaded">
+                          <component  v-if='app_loaded && is_ui_app'
+                                      v-bind:is="app_component_name">
                             APP HERE
                           </component>
 
+                          
+
+                          <div  v-if='app_loaded && (!is_ui_app)'>
+                            console app
+                          </div>
                     </div>
 
 
@@ -232,6 +238,7 @@ load_once_from_file(true)
            return {
                editor_loaded:       false,
                selected_app:        '',
+               is_ui_app:           true,
                editor_component:    null,
                execution_timeline:  null,
                execution_horiz_scale: 10,
@@ -426,7 +433,7 @@ load_once_from_file(true)
                     this.timeline_editor.setReadOnly(true)
                 }
 
-//zzz
+
                 this.current_execution_step = 0
                 var x = executionTimelineMapTimeToLine[ this.current_execution_step ]
                 if (x) {
@@ -743,6 +750,12 @@ load_once_from_file(true)
                         //
                         var code = results[0].code
                         var codeId = results[0].id
+
+                        if (code.toString().includes("Vue.")) {
+                            this.is_ui_app = true
+                        } else {
+                            this.is_ui_app = false
+                        }
 
 
                         if (mm.editor_loaded && (mm.editor_text != code)) {
