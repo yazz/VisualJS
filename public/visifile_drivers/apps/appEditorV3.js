@@ -39,7 +39,6 @@ load_once_from_file(true)
                             <button  v-if='(editor_component != "editor_component") && (!read_only)' type=button class=' btn btn-secondary'   v-on:click='editAsText()' >Edit as text</button>
                             <button  v-if='(!read_only) && (visibility == "PUBLIC")' type=button class=' btn btn-success'   v-on:click='setVisibility("PRIVATE")' >Public: Switch to private</button>
                             <button  v-if='(!read_only) && (visibility == "PRIVATE")' type=button class=' btn btn-danger'   v-on:click='setVisibility("PUBLIC")' >Private: Switch to public</button>
-
                         </div>
                     </div>
 
@@ -110,6 +109,9 @@ load_once_from_file(true)
 
                           <div  v-if='app_loaded && (!is_ui_app)'>
 <pre>{{console_output}}</pre>
+<div class='btn-group' style='float: right; margin-right: 2%;' role=group >
+    <button  type=button class=' btn btn-primary'        v-on:click='chooseProfiler()' >Profile app</button>
+</div>
                           </div>
                     </div>
 
@@ -194,7 +196,14 @@ load_once_from_file(true)
 
                     <div  style="left:0px; z-index: 200; width:100%; height:100%; background-color: white;border: 1px solid black;">
 
-                        <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
+                        <div class='btn-group' style='width:100%;margin-right: 2%;margin-bottom: 30px;' role=group >
+                            <button  type=button class=' btn btn-info'        v-on:click='chooseBoth()' >Edit app</button>
+                        </div>
+
+
+
+
+                        <div class='btn-group' style='width:100%; margin-right: 2%;' role=group >
                             <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='resetDebugger()'>CLEAR</button>
                         </div>
 
@@ -216,6 +225,10 @@ load_once_from_file(true)
                             <button type=button class='btn btn-info' style='margin: 1px;padding:2px;'  v-on:click='timelineZoomOut()'>Zoom out</button>
                             <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='timelineZoomIn()'>Zoom in</button>
                         </div>
+
+
+
+
 
                     </div>
                 </div>
