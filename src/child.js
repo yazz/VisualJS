@@ -853,6 +853,11 @@ function setUpComponentsLocally() {
     evalLocalSystemDriver('newAppFromTemplate',   path.join(__dirname, '../public/visifile_drivers/apps/newAppFromTemplate.js'))
 
     //
+    // non GUI front end apps
+    //
+    evalLocalSystemDriver('quicksort',   path.join(__dirname, '../public/visifile_drivers/apps/quicksort.js'),{save_html: true})
+
+    //
     // controls
     //
     evalLocalSystemDriver('list_control',   path.join(__dirname, '../public/visifile_drivers/controls/list.js'))
