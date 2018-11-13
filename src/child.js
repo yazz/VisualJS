@@ -1277,7 +1277,11 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
         if (!code.toString().substring(0,20).includes("function")) {
             code =
 `function() {
-    ${code}
+
+
+${code}
+
+
 }`
         }
         code = saveHelper.deleteCodeString(code, "base_component_id")
