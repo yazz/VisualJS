@@ -757,6 +757,17 @@ load_once_from_file(true)
                         } else {
                             this.is_ui_app = false
                         }
+                        mm.console_output = ""
+                        console.log = function() {
+                            if (isValidObject(mm.console_output)) {
+                                for (var a=0; a < arguments.length ; a++) {
+                                    mm.console_output += arguments[a] + " "
+                                }
+                                mm.console_output +=
+`
+`
+                            }
+                        }
 
 
                         if (mm.editor_loaded && (mm.editor_text != code)) {
@@ -776,16 +787,6 @@ load_once_from_file(true)
                             await loadV2( editorName, {text: code} )
                             mm.editor_loaded    = true
                             mm.editor_component = editorName
-                            mm.console_output = ""
-                            console.log = function() {
-                                for (var a=0; a < arguments.length ; a++) {
-                                    mm.console_output += arguments[a] + " "
-                                }
-                                mm.console_output +=
-`
-`
-                            }
-
                        }
 
                        //
