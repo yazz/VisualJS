@@ -605,7 +605,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
                 if (msg.result) {
                     if (msg.result.code) {
-                        var tr = "(" + msg.result.code + ")"
+                        var tr = msg.result.code
                         msg.result.code = tr
                     }
                 }
