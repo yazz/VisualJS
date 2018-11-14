@@ -27,6 +27,7 @@
     var maxTimelineLogPoint = 0
     var startTimelineTop    = 0
     var executionTimeline   = []
+    var executionTimelineVars   = {}
     var executionTimelineMapTimeToLine   = {}
 
     </script>
@@ -8657,9 +8658,18 @@ async function checkLibs(data){
 
 
 function logVarBefore(codeBlockName, line, varName, varValue) {
+    var recor = { code_block_name:               codeBlockName,
+                             line:               line,
+                             var_name:           varName,
+                             var_value:          varValue
+                           }
+    executionTimelineVars[line] = recor
 }
 
 function logVarAfter(codeBlockName, line, varName, varValue) {
+    if (executionTimelineVars[line]) {
+            executionTimelineVars[line].after = varValue
+        }
 }
 
 //zzz
