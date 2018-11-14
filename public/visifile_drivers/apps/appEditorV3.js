@@ -326,16 +326,22 @@ load_once_from_file(true)
             }
             ,
             timelineZoomIn: function() {
+                var mm = this
                 if (this.execution_horiz_scale < 20) {
                     this.execution_horiz_scale ++
-                    this.updateTimeline()
+                    setTimeout(function(){
+                        mm.updateTimeline()
+                    },200)
                 }
             }
             ,
             timelineZoomOut: function() {
+                var mm = this
                 if (this.execution_horiz_scale > 1) {
                     this.execution_horiz_scale --
-                    this.updateTimeline()
+                    setTimeout(function(){
+                        mm.updateTimeline()
+                    },200)
                 }
             }
             ,
