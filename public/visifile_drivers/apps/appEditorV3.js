@@ -54,9 +54,9 @@ load_once_from_file(true)
                                                   v-bind:style="'visibility: ' + ((app_shown && code_shown)?'':'hidden')"
                                                   slot-scope="editor_component"
                                                   v-on:click='setTimeout(async function(){await save(base_component_id, code_id,null)},100)'
-                                                  type="button" class="btn btn-primary btn-sm">
+                                                  type="button" class="btn btn-primary btn-lg">
 
-                                                      Save changes
+                                                      Run
                                          </button>
                           </component>
                       </div>
@@ -557,6 +557,7 @@ load_once_from_file(true)
                 nn = nn.replace(/[\W_]+/g,"_");
                 await this.copyAppMethod( this.base_component_id , nn)
                 this.new_name = ""
+                this.console_output = ""
             },
 
 
