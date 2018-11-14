@@ -74,7 +74,8 @@ load_once_from_file(true)
                                     {{show_open_app_tooltip?"Download app as .HTML file (emailable :)":""}}
                           </span>
 
-                          <div v-bind:style="'background-color: rgb(242,242,242);padding: 5px;; border: 2px solid lightgray;'">
+                          <div  v-if='is_ui_app'
+                                v-bind:style="'background-color: rgb(242,242,242);padding: 5px;; border: 2px solid lightgray;'">
                                 &larr; &rarr; <span class=reload>&#x21bb;</span>
                                 <a
                                     v-bind:href='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'
