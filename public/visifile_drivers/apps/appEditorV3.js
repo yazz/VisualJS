@@ -138,11 +138,11 @@ load_once_from_file(true)
 
 
                 <div    class='col-md-4'
-                        style='height: 50vh;background-color: white; position: relative;'
+                        style='height: 50vh;background-color: white; position: relative;padding:0px;'
                         >
 
                     <div
-                        v-bind:style='  "position: absolute;pointer-events: none;width: 1px;border: 1px solid gray; top: 0; height:100%;" +"left: " + (timeline_x_cursor + 20)  + "px;" '>
+                        v-bind:style='  "position: absolute;pointer-events: none;width: 1px;border: 1px solid gray; top: 0; height:100%;" +"left: " + (timeline_x_cursor + 5)  + "px;" '>
                     </div>
                     <div
                         v-bind:style='  "position: absolute;pointer-events: none;height: 1px;border: 1px solid gray; left: 0; width:100%;" +"top: " + (timeline_y_cursor + 5)  + "px;" '>
