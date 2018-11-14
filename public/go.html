@@ -8806,14 +8806,15 @@ async function callCodeV2(componentRecord,args, seq_no) {
                     if (node.type == "VariableDeclaration") {
                         if (node.declarations[0].init) {
                             //alert(`var ${node.declarations[0].id.name} = ${node.declarations[0].init.value}`)
-                            //var newLine = "logVarBefore('" + componentRecord.base_component_id + "', " + node.loc.start.line +",'" +
-                            //    JSON.stringify(node.type) + "');"
-                            //var newNode = esprima.parse(newLine)
-                            //for (var rr=0; rr<parent.body.length; rr++){
-                            //    if (parent.body[rr] == node) {
-                                    //parent.body.splice(rr, 0, newNode);
-                            //    }
-                            //}
+                            var newLine = "logVarBefore('" + componentRecord.base_component_id + "', " + node.loc.start.line +",'" +
+                                JSON.stringify(node.type) + "');"
+                            var newNode = esprima.parse(newLine)
+                            for (var rr=0; rr<parent.body.length; rr++){
+                                if (parent.body[rr] == node) {
+                                    parent.body.splice(rr, 0, newNode);
+                                    break;
+                                }
+                            }
                         }
                     }
                     if ((node.type == "ExpressionStatement") && node.expression) {
