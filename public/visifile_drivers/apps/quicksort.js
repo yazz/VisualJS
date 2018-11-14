@@ -1,6 +1,8 @@
 function() {
 /*
 base_component_id("quicksort")
+display_name("Quick sort")
+
 */
 
     function quicksort(array) {

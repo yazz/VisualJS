@@ -1,6 +1,7 @@
 function() {
 /*
 base_component_id("bubblesort")
+display_name("Bubble sort")
 */
 
 function bubbleSort(a) {
