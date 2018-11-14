@@ -8770,31 +8770,7 @@ async function callCodeV2(componentRecord,args, seq_no) {
             debugComponent = true
             estraverse.traverse(b, {
                 enter: function (node, parent) {
-                    var ccc = escodegen.generate(node)
-                    if (isValidObject(ccc)) {
-                        if (ccc.length < 200){
-                            //console.log(escodegen.generate(node) + " = " + node.type)
-                        }
-                    }
                     //console.log("node.type = " + node.type)
-                    if (node.type == "VariableDeclaration") {
-                        if (node.declarations[0].init) {
-                            //alert(`var ${node.declarations[0].id.name} = ${node.declarations[0].init.value}`)
-                            //var newLine = "logVarBefore('" + componentRecord.base_component_id + "', " + node.loc.start.line +",'" +
-                            //    JSON.stringify(node.type) + "');"
-                            //var newNode = esprima.parse(newLine)
-                            //for (var rr=0; rr<parent.body.length; rr++){
-                            //    if (parent.body[rr] == node) {
-                                    //parent.body.splice(rr, 0, newNode);
-                            //    }
-                            //}
-                        }
-                    }
-                    if ((node.type == "ExpressionStatement") && node.expression) {
-                        if ((node.expression.type == "AssignmentExpression") &&
-                            (node.expression.operator == "=")) {
-                        }
-                    }
 
                     if (
                         (node.type == "ExpressionStatement")
@@ -8827,6 +8803,24 @@ async function callCodeV2(componentRecord,args, seq_no) {
                     }
                 },
                 leave: function (node, parent) {
+                    if (node.type == "VariableDeclaration") {
+                        if (node.declarations[0].init) {
+                            //alert(`var ${node.declarations[0].id.name} = ${node.declarations[0].init.value}`)
+                            //var newLine = "logVarBefore('" + componentRecord.base_component_id + "', " + node.loc.start.line +",'" +
+                            //    JSON.stringify(node.type) + "');"
+                            //var newNode = esprima.parse(newLine)
+                            //for (var rr=0; rr<parent.body.length; rr++){
+                            //    if (parent.body[rr] == node) {
+                                    //parent.body.splice(rr, 0, newNode);
+                            //    }
+                            //}
+                        }
+                    }
+                    if ((node.type == "ExpressionStatement") && node.expression) {
+                        if ((node.expression.type == "AssignmentExpression") &&
+                            (node.expression.operator == "=")) {
+                        }
+                    }
 
                 },
 
