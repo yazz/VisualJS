@@ -61,7 +61,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                               <option          value="game">3d AFrame app</option>
                                               <option          value="new_app">Text only</option>
                                             </select>
-                                           <button style='margin-bottom:10px;' class='btn btn-primary' v-on:click='copyAndEditApp($event,app_type)'>Go</button>
+                                           <button style='margin-bottom:10px;' class='btn btn-primary btn-lg' v-on:click='copyAndEditApp($event,app_type)'>Go</button>
                                            </div>
                                            </div>
 

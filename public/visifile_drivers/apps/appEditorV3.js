@@ -437,12 +437,12 @@ load_once_from_file(true)
 
                     //Bug fix: Need a delay when setting theme or view is corrupted
                     setTimeout(function(){
-                       mm.timeline_editor.setTheme("ace/theme/pastel_on_dark");
+                       mm.timeline_editor.setTheme("ace/theme/vibrant");
                     },100)
 
 
                     document.getElementById("timeline_editor").style.width = "100%"
-                    document.getElementById("timeline_editor").style.border = "10px solid #2C2828"
+                    document.getElementById("timeline_editor").style.border = "1px solid #2C2828"
 
                     document.getElementById("timeline_editor").style.height = "45vh"
                     this.timeline_editor.getSession().setValue("");
