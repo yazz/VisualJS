@@ -196,16 +196,12 @@ load_once_from_file(true)
 
                     <div  style="left:0px; z-index: 200; width:100%; height:100%; background-color: white;border: 1px solid black;">
 
-                        <div class='btn-group' style='width:100%;margin-right: 2%;margin-bottom: 30px;' role=group >
+                        <div class='btn-group' style='width:100%;margin: 10px;margin-bottom: 30px;' role=group >
                             <button  type=button class=' btn btn-info'        v-on:click='chooseBoth()' >Edit app</button>
                         </div>
 
 
 
-
-                        <div class='btn-group' style='width:100%; margin-right: 2%;' role=group >
-                            <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='resetDebugger()'>CLEAR</button>
-                        </div>
 
                         <div>
                             Step: {{current_execution_step}}, Scale: {{execution_horiz_scale}}
