@@ -204,23 +204,34 @@ load_once_from_file(true)
 
 
 
-                        <div>
-                            Step: {{current_execution_step}}, Scale: {{execution_horiz_scale}}
-                        </div>
-                        <div>
-                            Total: {{execution_timeline.length}}
+                        <div class='container'>
+                            <div>
+                                Step: {{current_execution_step}}
+                            </div>
+                            <div>
+                                Scale: {{execution_horiz_scale}}
+                            </div>
+                            <div>
+                                Total: {{execution_timeline.length}}
+                            </div>
                         </div>
 
 
-                        <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
+                        <div class='btn-group' style=' margin-right: 2%;padding-bottom: 30px;' role=group >
                             <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='stepBack()'>&lt;--</button>
                             <button type=button class='btn btn-info' style='margin: 1px;padding:2px;'  v-on:click='stepForward()'>--&gt;</button>
                         </div>
 
 
-                        <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
+                        <div class='btn-group' style=' margin-right: 2%;padding-bottom: 30px;' role=group >
                             <button type=button class='btn btn-info' style='margin: 1px;padding:2px;'  v-on:click='timelineZoomOut()'>Zoom out</button>
                             <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='timelineZoomIn()'>Zoom in</button>
+                        </div>
+
+                        <div class='container'>
+                            <div v-if='execution_timeline_vars[this.current_execution_step_y_line]'>
+                                found var
+                            </div>
                         </div>
 
 
@@ -259,6 +270,7 @@ load_once_from_file(true)
                current_execution_step_y_line:  -1,
                execution_code: null,
                execution_block_list: [],
+               execution_timeline_vars: {},
                highlighted_line:    -1,
                timeline_x_cursor: -1,
                timeline_y_cursor: 10,
@@ -724,9 +736,10 @@ load_once_from_file(true)
                mm.app_loaded = true
                mm.baseComponentId = baseComponentId
 
-               this.execution_timeline = executionTimeline
-               this.execution_code     = executionCode
-               this.execution_block_list = Object.keys(this.execution_code)
+               this.execution_timeline      = executionTimeline
+               this.execution_code          = executionCode
+               this.execution_block_list    = Object.keys(this.execution_code)
+               this.execution_timeline_vars = executionTimelineVars
 
 
                //
