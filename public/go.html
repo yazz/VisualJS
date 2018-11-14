@@ -8656,10 +8656,10 @@ async function checkLibs(data){
 }
 
 
-function logVarBefore(codeBlockName, line, node) {
+function logVarBefore(codeBlockName, line, varName, varValue) {
 }
 
-function logVarAfter(codeBlockName, line, node) {
+function logVarAfter(codeBlockName, line, varName, varValue) {
 }
 
 //zzz
@@ -8810,11 +8810,11 @@ async function callCodeV2(componentRecord,args, seq_no) {
                         if (node.declarations[0].init) {
                             //alert(`var ${node.declarations[0].id.name} = ${node.declarations[0].init.value}`)
                             var newLine = "logVarBefore('" + componentRecord.base_component_id + "', " + node.loc.start.line +",'" +
-                                node.declarations[0].id.name + "');"
+                                node.declarations[0].id.name + "', " + node.declarations[0].id.name  + ");"
                             var newNode = esprima.parse(newLine)
 
                             var newLineAfter = "logVarAfter('" + componentRecord.base_component_id + "', " + node.loc.start.line +",'" +
-                                node.declarations[0].id.name + "');"
+                                node.declarations[0].id.name + "'," + node.declarations[0].id.name  + ");"
                             var newNodeAfter = esprima.parse(newLineAfter)
 
                             for (var rr=0; rr<parent.body.length; rr++){
