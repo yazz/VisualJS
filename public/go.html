@@ -24,6 +24,7 @@
 
 
     var executionCode       = new Object()
+    var currentTimelineLogPoint = 0
     var maxTimelineLogPoint = 0
     var startTimelineTop    = 0
     var executionTimeline   = []
@@ -8662,7 +8663,7 @@ function logVarBefore(codeBlockName, line, varName, varValue) {
                              line:               line,
                              var_name:           varName,
                              var_value:          varValue,
-                             timeline_step:      maxTimelineLogPoint
+                             timeline_step:      currentTimelineLogPoint
                            }
     executionTimelineVars[line] = recor
 }
@@ -8676,11 +8677,12 @@ function logVarAfter(codeBlockName, line, varName, varValue) {
 //zzz
 function logExecutionPoint(codeBlockName, line, node) {
     //console.log("logExecutionPoint(" + codeBlockName + "," + line)
+    currentTimelineLogPoint = maxTimelineLogPoint ++
 
     if (executionCode[codeBlockName]) {
         var recor = { code_block_name:    codeBlockName,
                                  line:               line,
-                                 time:               maxTimelineLogPoint ++,
+                                 time:               currentTimelineLogPoint,
                                  node:               node
                                }
         executionTimeline.push(recor)
@@ -8785,34 +8787,7 @@ async function callCodeV2(componentRecord,args, seq_no) {
             estraverse.traverse(b, {
                 enter: function (node, parent) {
                     //console.log("node.type = " + node.type)
-                    //
-                    // vars
-                    //
-                    if (node.type == "VariableDeclaration") {
-                        if (node.declarations[0].init) {
-                            //alert(`var ${node.declarations[0].id.name} = ${node.declarations[0].init.value}`)
-                            var newLine = "logVarBefore('" + componentRecord.base_component_id + "', " + node.loc.start.line +",'" +
-                                node.declarations[0].id.name + "', " + node.declarations[0].id.name  + ");"
-                            var newNode = esprima.parse(newLine)
 
-                            var newLineAfter = "logVarAfter('" + componentRecord.base_component_id + "', " + node.loc.start.line +",'" +
-                                node.declarations[0].id.name + "'," + node.declarations[0].id.name  + ");"
-                            var newNodeAfter = esprima.parse(newLineAfter)
-
-                            for (var rr=0; rr<parent.body.length; rr++){
-                                if (parent.body[rr] == node) {
-                                    parent.body.splice(rr + 1, 0, newNodeAfter);
-                                    parent.body.splice(rr, 0, newNode);
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    if ((node.type == "ExpressionStatement") && node.expression) {
-                        if ((node.expression.type == "AssignmentExpression") &&
-                            (node.expression.operator == "=")) {
-                        }
-                    }
 
 
 
@@ -8848,6 +8823,42 @@ async function callCodeV2(componentRecord,args, seq_no) {
                             }
                         }
                     }
+
+
+
+
+                    //
+                    // vars
+                    //
+                    if (node.type == "VariableDeclaration") {
+                        if (node.declarations[0].init) {
+                            //alert(`var ${node.declarations[0].id.name} = ${node.declarations[0].init.value}`)
+                            var newLine = "logVarBefore('" + componentRecord.base_component_id + "', " + node.loc.start.line +",'" +
+                                node.declarations[0].id.name + "', " + node.declarations[0].id.name  + ");"
+                            var newNode = esprima.parse(newLine)
+
+                            var newLineAfter = "logVarAfter('" + componentRecord.base_component_id + "', " + node.loc.start.line +",'" +
+                                node.declarations[0].id.name + "'," + node.declarations[0].id.name  + ");"
+                            var newNodeAfter = esprima.parse(newLineAfter)
+
+                            for (var rr=0; rr<parent.body.length; rr++){
+                                if (parent.body[rr] == node) {
+                                    parent.body.splice(rr + 1, 0, newNodeAfter);
+                                    parent.body.splice(rr, 0, newNode);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if ((node.type == "ExpressionStatement") && node.expression) {
+                        if ((node.expression.type == "AssignmentExpression") &&
+                            (node.expression.operator == "=")) {
+                        }
+                    }
+
+
+
+
                 },
                 leave: function (node, parent) {
                 },
