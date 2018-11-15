@@ -229,8 +229,8 @@ load_once_from_file(true)
                         </div>
 
                         <div class='container'>
-                            <div v-if='execution_timeline_vars[this.current_execution_step_y_line]'>
-                                found var: {{execution_timeline_vars[this.current_execution_step_y_line].timeline_step}}
+                            <div v-if='execution_timeline[current_execution_step]'>
+                                {{JSON.stringify(execution_timeline[current_execution_step].vars,null,2)}}
                             </div>
                         </div>
 
@@ -270,7 +270,6 @@ load_once_from_file(true)
                current_execution_step_y_line:  -1,
                execution_code: null,
                execution_block_list: [],
-               execution_timeline_vars: {},
                highlighted_line:    -1,
                timeline_x_cursor: -1,
                timeline_y_cursor: 10,
@@ -739,7 +738,6 @@ load_once_from_file(true)
                this.execution_timeline      = executionTimeline
                this.execution_code          = executionCode
                this.execution_block_list    = Object.keys(this.execution_code)
-               this.execution_timeline_vars = executionTimelineVars
 
 
                //

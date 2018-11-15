@@ -8661,20 +8661,11 @@ async function checkLibs(data){
 function logVarBefore(codeBlockName, line, varName, varValue) {
     if (executionCode[codeBlockName]) {
 
-        var recor = { code_block_name:               codeBlockName,
-                                 line:               line,
-                                 var_name:           varName,
-                                 var_value:          varValue,
-                                 timeline_step:      currentTimelineLogPoint
-                               }
-        executionTimelineVars[line] = recor
-
-
         if (executionTimeline[currentTimelineLogPoint]) {
-            if (!executionTimeline[currentTimelineLogPoint][varName]) {
-                executionTimeline[currentTimelineLogPoint][varName] = {}
+            if (!executionTimeline[currentTimelineLogPoint].vars[varName]) {
+                executionTimeline[currentTimelineLogPoint].vars[varName] = {}
             }
-            executionTimeline[currentTimelineLogPoint][varName].before = varValue
+            executionTimeline[currentTimelineLogPoint].vars[varName].before = varValue
         }
 
     }
@@ -8684,14 +8675,11 @@ function logVarBefore(codeBlockName, line, varName, varValue) {
 
 function logVarAfter(codeBlockName, line, varName, varValue) {
     if (executionCode[codeBlockName]) {
-        if (executionTimelineVars[line]) {
-                executionTimelineVars[line].after = varValue
-            }
         if (executionTimeline[currentTimelineLogPoint]) {
-            if (!executionTimeline[currentTimelineLogPoint][varName]) {
-                executionTimeline[currentTimelineLogPoint][varName] = {}
+            if (!executionTimeline[currentTimelineLogPoint].vars[varName]) {
+                executionTimeline[currentTimelineLogPoint].vars[varName] = {}
             }
-            executionTimeline[currentTimelineLogPoint][varName].after = varValue
+            executionTimeline[currentTimelineLogPoint].vars[varName].after = varValue
         }
     }
 }
