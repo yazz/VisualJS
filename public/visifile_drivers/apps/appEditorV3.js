@@ -145,7 +145,7 @@ load_once_from_file(true)
                         v-bind:style='  "position: absolute;pointer-events: none;width: 1px;border: 1px solid gray; top: 0; height:100%;" +"left: " + (timeline_x_cursor + 5)  + "px;" '>
                     </div>
                     <div
-                        v-bind:style='  "position: absolute;pointer-events: none;height: 1px;border: 1px solid gray; left: 0; width:100%;" +"top: " + (timeline_y_cursor + 5)  + "px;" '>
+                        v-bind:style='  "position: absolute;pointer-events: none;height: 1px;border: 1px solid #F8F9F9; left: 0; width:100%;" +"top: " + (timeline_y_cursor + 5)  + "px;" '>
                     </div>
 
                     <div    style='position:relative;overflow: scroll; border: 1px solid blue; padding:0; height:100%; width:100%;left:0;top:0'
@@ -197,7 +197,7 @@ load_once_from_file(true)
 
                     <div  style="left:0px; z-index: 200; width:100%; height:100%; background-color: white;border: 1px solid black;">
 
-                        <div class='btn-group' style='width:100%;margin: 10px;margin-bottom: 30px;' role=group >
+                        <div class='btn-group' style='width:100%;margin: 10px;margin-bottom: 15px;' role=group >
                             <button  type=button class=' btn btn-info'        v-on:click='chooseBoth()' >Edit app</button>
                         </div>
 
@@ -207,14 +207,12 @@ load_once_from_file(true)
                         <div class='container'>
                             <div>
                                 Step: {{current_execution_step}}/{{execution_timeline.length}}
-                            </div>
-                            <div>
-                                Scale: <input type="range" min="1" max="20" v-bind:onchange='timelineRefresh()' v-model="execution_horiz_scale"></input>
+                                <input type="range" min="1" max="20" v-bind:onchange='timelineRefresh()' v-model="execution_horiz_scale"></input>
                             </div>
                         </div>
 
 
-                        <div class='btn-group' style=' margin-right: 2%;padding-bottom: 30px;' role=group >
+                        <div class='btn-group' style=' margin-left: 20%;padding-bottom: 30px;' role=group >
                             <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='stepBack()'>&lt;--</button>
                             <button type=button class='btn btn-info' style='margin: 1px;padding:2px;'  v-on:click='stepForward()'>--&gt;</button>
                         </div>
