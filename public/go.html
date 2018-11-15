@@ -8864,6 +8864,20 @@ async function callCodeV2(componentRecord,args, seq_no) {
                     if ((node.type == "ExpressionStatement") && node.expression) {
                         if ((node.expression.type == "AssignmentExpression") &&
                             (node.expression.operator == "=")) {
+                                var newLine = "logVarBefore('" + componentRecord.base_component_id + "', " + node.loc.start.line +",'" +
+                                    node.expression.left.name + "', " + node.expression.left.name  + ");"
+                                var newNode = esprima.parse(newLine)
+
+                                var newLineAfter = "logVarAfter('" + componentRecord.base_component_id + "', " + node.loc.start.line +",'" +
+                                    node.expression.left.name + "'," + node.expression.left.name  + ");"
+                                var newNodeAfter = esprima.parse(newLineAfter)
+                        }
+                        for (var rr=0; rr<parent.body.length; rr++){
+                            if (parent.body[rr] == node) {
+                                //parent.body.splice(rr + 1, 0, newNodeAfter);
+                                parent.body.splice(rr, 0, newNode);
+                                break;
+                            }
                         }
                     }
 
