@@ -8675,6 +8675,7 @@ function logVarBefore(codeBlockName, line, varName, varValue) {
 
 function logVarAfter(codeBlockName, line, varName, varValue) {
     if (executionCode[codeBlockName]) {
+
         if (executionTimeline[currentTimelineLogPoint]) {
             if (!executionTimeline[currentTimelineLogPoint].vars[varName]) {
                 executionTimeline[currentTimelineLogPoint].vars[varName] = {}
@@ -8787,7 +8788,7 @@ async function callCodeV2(componentRecord,args, seq_no) {
 
 
         var a = "(" + componentRecord.code + ")"
-        var b = esprima.parse(a,{tolerant: true , loc:true, range: true, attachComment: true})
+        var b = esprima.parse(a,{tolerant: true , loc:true, range: true, attachComment: false})
         var line = -1
         var debugComponent = false
 
