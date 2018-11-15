@@ -370,10 +370,13 @@ load_once_from_file(true)
 
                     if (this.timeline_editor && this.timeline_editor.getSession()) {
                         this.timeline_editor.getSession().setValue(executionCode[x.code_block_name].code);
-                        this.timeline_editor.scrollToLine(x.line - 1, true, true, function () {});
-                        this.timeline_editor.gotoLine(x.line - 1, 10, true);
-                        this.timeline_editor.selection.moveCursorToPosition({row: x.line - 1, column: 0});
-                        this.timeline_editor.selection.selectLine();
+
+                        this.timeline_editor.scrollToLine(x.line , true, true, function () {});
+                        this.timeline_editor.gotoLine(x.line , 10, true);
+                        this.timeline_editor.resize(true);
+
+                        //this.timeline_editor.selection.moveCursorToPosition({row: x.line - 1, column: 0});
+                        //this.timeline_editor.selection.selectLine();
                     }
 
 
