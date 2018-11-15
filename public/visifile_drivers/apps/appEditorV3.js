@@ -230,7 +230,7 @@ load_once_from_file(true)
 
                         <div class='container'>
                             <div v-if='execution_timeline_vars[this.current_execution_step_y_line]'>
-                                found var
+                                found var: {{execution_timeline_vars[this.current_execution_step_y_line].timeline_step}}
                             </div>
                         </div>
 
