@@ -8894,7 +8894,7 @@ async function callCodeV2(componentRecord,args, seq_no) {
                  }
             });
         }
-        var trcode2 = escodegen.generate(b, {comment: true})
+        var trcode2 = escodegen.generate(b, {comment: false})
 
         if (debugComponent){
             executionCode[componentRecord.base_component_id] = {}
