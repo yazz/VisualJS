@@ -206,13 +206,10 @@ load_once_from_file(true)
 
                         <div class='container'>
                             <div>
-                                Step: {{current_execution_step}}
+                                Step: {{current_execution_step}}/{{execution_timeline.length}}
                             </div>
                             <div>
-                                Scale: {{execution_horiz_scale}}
-                            </div>
-                            <div>
-                                Total: {{execution_timeline.length}}
+                                Scale: <input type="range" min="1" max="20" v-bind:onchange='timelineRefresh()' v-model="execution_horiz_scale"></input>
                             </div>
                         </div>
 
@@ -222,11 +219,6 @@ load_once_from_file(true)
                             <button type=button class='btn btn-info' style='margin: 1px;padding:2px;'  v-on:click='stepForward()'>--&gt;</button>
                         </div>
 
-
-                        <div class='btn-group' style=' margin-right: 2%;padding-bottom: 30px;' role=group >
-                            <button type=button class='btn btn-info' style='margin: 1px;padding:2px;'  v-on:click='timelineZoomOut()'>Zoom out</button>
-                            <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='timelineZoomIn()'>Zoom in</button>
-                        </div>
 
                         <div class='container'>
                             <div v-if='execution_timeline[current_execution_step]'>
@@ -342,27 +334,13 @@ load_once_from_file(true)
                 }
             }
             ,
-            timelineZoomIn: function() {
+            timelineRefresh: function() {
                 var mm = this
-                if (this.execution_horiz_scale < 20) {
-                    this.execution_horiz_scale ++
-                    setTimeout(function(){
-                        mm.updateTimeline()
-                    },200)
-                }
+                setTimeout(function(){
+                    mm.updateTimeline()
+                },200)
             }
             ,
-            timelineZoomOut: function() {
-                var mm = this
-                if (this.execution_horiz_scale > 1) {
-                    this.execution_horiz_scale --
-                    setTimeout(function(){
-                        mm.updateTimeline()
-                    },200)
-                }
-            }
-            ,
-
 
 
 
