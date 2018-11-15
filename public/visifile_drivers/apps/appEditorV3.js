@@ -230,7 +230,12 @@ load_once_from_file(true)
 
                         <div class='container'>
                             <div v-if='execution_timeline[current_execution_step]'>
-                                {{JSON.stringify(execution_timeline[current_execution_step].vars,null,2)}}
+                                <div v-for="varV in execution_var_list">
+                                    {{varV}} =
+                                        {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].before,null,2)}}
+                                                    --&gt;
+                                                    {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].after,null,2)}}
+                                </div>
                             </div>
                         </div>
 
@@ -270,6 +275,7 @@ load_once_from_file(true)
                current_execution_step_y_line:  -1,
                execution_code: null,
                execution_block_list: [],
+               execution_var_list: [],
                highlighted_line:    -1,
                timeline_x_cursor: -1,
                timeline_y_cursor: 10,
@@ -399,6 +405,9 @@ load_once_from_file(true)
                         this.timeline_x_cursor = (this.execution_horiz_scale * this.current_execution_step) - elementTimeline.scrollLeft
                     }
 
+                }
+                if (this.execution_timeline[this.current_execution_step]){
+                    this.execution_var_list = Object.keys(this.execution_timeline[this.current_execution_step].vars)
                 }
             }
 
@@ -741,6 +750,7 @@ load_once_from_file(true)
                this.execution_timeline      = executionTimeline
                this.execution_code          = executionCode
                this.execution_block_list    = Object.keys(this.execution_code)
+
 
 
                //
