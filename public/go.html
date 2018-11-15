@@ -8659,19 +8659,41 @@ async function checkLibs(data){
 
 
 function logVarBefore(codeBlockName, line, varName, varValue) {
-    var recor = { code_block_name:               codeBlockName,
-                             line:               line,
-                             var_name:           varName,
-                             var_value:          varValue,
-                             timeline_step:      currentTimelineLogPoint
-                           }
-    executionTimelineVars[line] = recor
+    if (executionCode[codeBlockName]) {
+
+        var recor = { code_block_name:               codeBlockName,
+                                 line:               line,
+                                 var_name:           varName,
+                                 var_value:          varValue,
+                                 timeline_step:      currentTimelineLogPoint
+                               }
+        executionTimelineVars[line] = recor
+
+
+        if (executionTimeline[currentTimelineLogPoint]) {
+            if (!executionTimeline[currentTimelineLogPoint][varName]) {
+                executionTimeline[currentTimelineLogPoint][varName] = {}
+            }
+            executionTimeline[currentTimelineLogPoint][varName].before = varValue
+        }
+
+    }
+
+
 }
 
 function logVarAfter(codeBlockName, line, varName, varValue) {
-    if (executionTimelineVars[line]) {
-            executionTimelineVars[line].after = varValue
+    if (executionCode[codeBlockName]) {
+        if (executionTimelineVars[line]) {
+                executionTimelineVars[line].after = varValue
+            }
+        if (executionTimeline[currentTimelineLogPoint]) {
+            if (!executionTimeline[currentTimelineLogPoint][varName]) {
+                executionTimeline[currentTimelineLogPoint][varName] = {}
+            }
+            executionTimeline[currentTimelineLogPoint][varName].after = varValue
         }
+    }
 }
 
 //zzz
@@ -8683,7 +8705,8 @@ function logExecutionPoint(codeBlockName, line, node) {
         var recor = { code_block_name:    codeBlockName,
                                  line:               line,
                                  time:               currentTimelineLogPoint,
-                                 node:               node
+                                 node:               node,
+                                 vars:               {}
                                }
         executionTimeline.push(recor)
 
