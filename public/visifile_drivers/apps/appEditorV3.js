@@ -231,7 +231,7 @@ load_once_from_file(true)
                             <div v-if='execution_timeline[current_execution_step]'>
 
                             <div v-for="varWatchName in execution_watch_list">
-                                <div style='border: 1px solid blue;'>
+                                <div style='border: 1px solid blue;' v-if='globalWatchList[varWatchName][current_execution_step]'>
                                     <b>{{varWatchName}}:</b> {{JSON.stringify(globalWatchList[varWatchName][current_execution_step].value,null,2)}}
                                 </div>
                             </div>
@@ -450,6 +450,10 @@ load_once_from_file(true)
             //zzz
                 globalWatchList[varN]={}
                 await this.load_app( this.base_component_id )
+                var allWatches = Object.keys(globalWatchList)
+                for (var rt = 0 ; rt < allWatches.length; rt++) {
+                    fillInMissingWatchTimelineValues(allWatches[rt],0)
+                }
             },
 
 
