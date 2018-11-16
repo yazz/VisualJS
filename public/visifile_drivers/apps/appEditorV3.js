@@ -198,7 +198,23 @@ load_once_from_file(true)
 
                     </div>
 
+                    <div class='container'>
+                        <div class=row>
+                            <div class='col-md-3'>
+                                Step: {{current_execution_step}}/{{execution_timeline.length}}
+                            </div>
 
+
+                            <div class='btn-group col-md-3' role=group >
+                                <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='stepBack()'>&lt;--</button>
+                                <button type=button class='btn btn-info' style='margin: 1px;padding:2px;'  v-on:click='stepForward()'>--&gt;</button>
+                            </div>
+
+                            <div class='col-md-3'>
+                                <input type="range" min="1" max="20" v-bind:onchange='timelineRefresh()' v-model="execution_horiz_scale"></input>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
 
@@ -210,20 +226,6 @@ load_once_from_file(true)
 
 
                     <div  style="left:0px; z-index: 200; width:100%; height:100%; background-color: white;border: 1px solid black;">
-
-                        <div class='container'>
-                            <div>
-                                Step: {{current_execution_step}}/{{execution_timeline.length}}
-                                <input type="range" min="1" max="20" v-bind:onchange='timelineRefresh()' v-model="execution_horiz_scale"></input>
-                            </div>
-                        </div>
-
-
-                        <div class='btn-group' style=' margin-left: 20%;padding-bottom: 30px;' role=group >
-                            <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='stepBack()'>&lt;--</button>
-                            <button type=button class='btn btn-info' style='margin: 1px;padding:2px;'  v-on:click='stepForward()'>--&gt;</button>
-                        </div>
-
 
                         <div class='container'>
                             <div v-if='execution_timeline[current_execution_step]'>
