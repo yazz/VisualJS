@@ -8687,8 +8687,24 @@ function logVarAfter(codeBlockName, line, varName, varValue) {
 }
 
 
+function copyLastWatchPoint(vName, executionStepNo) {
+    if (!globalWatchList[vName]) {
+        globalWatchList[vName] = {}
+    }
+    globalWatchList[vName][executionStepNo] = {}
+    if (executionStepNo == 0) {
+        globalWatchList[vName][executionStepNo].value = null
+    } else if (globalWatchList[vName][executionStepNo - 1]) {
+        globalWatchList[vName][executionStepNo].value = globalWatchList[vName][executionStepNo - 1].value
+    } else {
+        copyLastWatchPoint(vName, executionStepNo - 1)
+        globalWatchList[vName][executionStepNo].value = globalWatchList[vName][executionStepNo - 1].value
+    }
+}
+
 function addWatchPoint(vName,value) {
-    globalWatchList[vName][currentTimelineLogPoint] = eval("(" + JSON.stringify(value) + ")")
+    globalWatchList[vName][currentTimelineLogPoint] = {}
+    globalWatchList[vName][currentTimelineLogPoint].value = eval("(" + JSON.stringify(value) + ")")
 }
 
 
@@ -8862,7 +8878,7 @@ async function callCodeV2(componentRecord,args, seq_no) {
                                 node.declarations[0].id.name + "'," + node.declarations[0].id.name  + ");"
                             var newNodeAfter = esprima.parse(newLineAfter)
 
-                            var logWatchVarsCode = `for (var _uu=0; _uu<Object.keys(globalWatchList).length; _uu++){try { var _vName = Object.keys(globalWatchList)[_uu];if (isValidObject(_vName)){ addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`
+                            var logWatchVarsCode = `for (var _uu=0; _uu<Object.keys(globalWatchList).length; _uu++){try { var _vName = Object.keys(globalWatchList)[_uu];if (isValidObject(_vName)){ addWatchPoint(_vName, eval(_vName) ) }} catch(_err){copyLastWatchPoint(_vName,currentTimelineLogPoint)}}`
                             var logWatchVarsNode = esprima.parse(logWatchVarsCode)
 
                             for (var rr=0; rr<parent.body.length; rr++){
@@ -8885,9 +8901,17 @@ async function callCodeV2(componentRecord,args, seq_no) {
                                 var newLineAfter = "logVarAfter('" + componentRecord.base_component_id + "', " + node.loc.start.line +",'" +
                                     node.expression.left.name + "', " + node.expression.left.name  + ");"
                                 var newNodeAfter = esprima.parse(newLineAfter)
+
+                                var logWatchVarsCode = `for (var _uu=0; _uu<Object.keys(globalWatchList).length; _uu++){try { var _vName = Object.keys(globalWatchList)[_uu];if (isValidObject(_vName)){ addWatchPoint(_vName, eval(_vName) ) }} catch(_err){copyLastWatchPoint(_vName,currentTimelineLogPoint)}}`
+                                var logWatchVarsNode = esprima.parse(logWatchVarsCode)
+
+
                         }
                         for (var rr=0; rr<parent.body.length; rr++){
                             if (parent.body[rr] == node) {
+                                if (logWatchVarsNode){
+                                    parent.body.splice(rr + 1, 0, logWatchVarsNode);
+                                }
                                 if (newNodeAfter){
                                     parent.body.splice(rr + 1, 0, newNodeAfter);
                                 }

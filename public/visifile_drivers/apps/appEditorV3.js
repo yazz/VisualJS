@@ -232,7 +232,7 @@ load_once_from_file(true)
 
                             <div v-for="varWatchName in execution_watch_list">
                                 <div style='border: 1px solid blue;'>
-                                    <b>{{varWatchName}}:</b> {{JSON.stringify(globalWatchList[varWatchName][current_execution_step],null,2)}}
+                                    <b>{{varWatchName}}:</b> {{JSON.stringify(globalWatchList[varWatchName][current_execution_step].value,null,2)}}
                                 </div>
                             </div>
 
