@@ -8827,19 +8827,15 @@ async function callCodeV2(componentRecord,args, seq_no) {
                                 //console.log("Debugger loading line: " + componentRecord.base_component_id  + ":" + line)
                 				//var newLine = "console.log(" + line +");"
                                 var newLine = "logExecutionPoint('" + componentRecord.base_component_id + "', " + line +",'" + JSON.stringify(node.type) + "');"
+                                    newLine += `for (var _uu=0; _uu<Object.keys(globalWatchList).length; _uu++){try { var _vName = Object.keys(globalWatchList)[_uu];if (isValidObject(_vName)){ addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`
                                 var newNode = esprima.parse(newLine)
 
-
-                                var newLine2 = `for (var _uu=0; _uu<Object.keys(globalWatchList).length; _uu++){try { var _vName = Object.keys(globalWatchList)[_uu];if (isValidObject(_vName)){ addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`
-                                var newNode2 = esprima.parse(newLine2)
-                                //globalWatchList
 
 
                                 for (var rr=0; rr<parent.body.length; rr++){
                                     if (parent.body[rr] == node) {
                                         //parent.body.push(newNode)
                                         parent.body.splice(rr, 0, newNode);
-                                        parent.body.splice(rr + 1, 0, newNode2);
                                         break
                                         //console.log("Line " + line + ": " + escodegen.generate(newNode))
                                         //console.log("parent: " + JSON.stringify(parent,null,2));
