@@ -30,6 +30,10 @@
     var executionTimeline   = []
     var executionTimelineVars   = {}
     var executionTimelineMapTimeToLine   = {}
+    var globalWatchList   = {
+        a: {},
+        b: {}
+    }
 
     </script>
 
@@ -8818,14 +8822,20 @@ async function callCodeV2(componentRecord,args, seq_no) {
                                 line = node.loc.start.line
                                 //console.log("Debugger loading line: " + componentRecord.base_component_id  + ":" + line)
                 				//var newLine = "console.log(" + line +");"
-                                var newLine = "logExecutionPoint('" + componentRecord.base_component_id + "', " + line +",'" +
-                                    JSON.stringify(node.type) + "');"
-                                    //alert(newLine)
+                                var newLine = "logExecutionPoint('" + componentRecord.base_component_id + "', " + line +",'" + JSON.stringify(node.type) + "');"
                                 var newNode = esprima.parse(newLine)
+
+
+                                var newLine2 = "logExecutionPoint('" + componentRecord.base_component_id + "', " + line +",'" + JSON.stringify(node.type) + "');"
+                                var newNode2 = esprima.parse(newLine2)
+                                //globalWatchList
+
+
                                 for (var rr=0; rr<parent.body.length; rr++){
                                     if (parent.body[rr] == node) {
                                         //parent.body.push(newNode)
-                						parent.body.splice(rr, 0, newNode);
+                                        parent.body.splice(rr, 0, newNode);
+                                        parent.body.splice(rr, 0, newNode2);
                                         break
                                         //console.log("Line " + line + ": " + escodegen.generate(newNode))
                                         //console.log("parent: " + JSON.stringify(parent,null,2));
