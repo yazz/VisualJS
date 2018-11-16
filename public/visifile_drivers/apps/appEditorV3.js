@@ -231,7 +231,7 @@ load_once_from_file(true)
                             <div v-if='execution_timeline[current_execution_step]'>
 
                             <div v-for="varWatchName in execution_watch_list">
-                                {{varWatchName}}: {{JSON.stringify(globalWatchList[varWatchName].value,null,2)}}
+                                {{varWatchName}}: {{JSON.stringify(globalWatchList[varWatchName][current_execution_step],null,2)}}
                             </div>
 
 
@@ -444,8 +444,10 @@ load_once_from_file(true)
             }
             ,
 
-            addWatch: function(varN){
+            addWatch: async function(varN){
+            //zzz
                 globalWatchList[varN]={}
+                await this.load_app( this.base_component_id )
             },
 
 

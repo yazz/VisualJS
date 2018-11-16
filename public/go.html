@@ -8823,7 +8823,7 @@ async function callCodeV2(componentRecord,args, seq_no) {
                                 var newNode = esprima.parse(newLine)
 
 
-                                var newLine2 = `for (var _uu=0; _uu<Object.keys(globalWatchList).length; _uu++){try { globalWatchList[Object.keys(globalWatchList)[_uu]].value = eval("" + Object.keys(globalWatchList)[_uu])} catch(_err){}}`
+                                var newLine2 = `for (var _uu=0; _uu<Object.keys(globalWatchList).length; _uu++){try { globalWatchList[Object.keys(globalWatchList)[_uu]][currentTimelineLogPoint] = eval("" + Object.keys(globalWatchList)[_uu])} catch(_err){}}`
                                 var newNode2 = esprima.parse(newLine2)
                                 //globalWatchList
 
@@ -8832,7 +8832,7 @@ async function callCodeV2(componentRecord,args, seq_no) {
                                     if (parent.body[rr] == node) {
                                         //parent.body.push(newNode)
                                         parent.body.splice(rr, 0, newNode);
-                                        parent.body.splice(rr, 0, newNode2);
+                                        parent.body.splice(rr + 1, 0, newNode2);
                                         break
                                         //console.log("Line " + line + ": " + escodegen.generate(newNode))
                                         //console.log("parent: " + JSON.stringify(parent,null,2));
