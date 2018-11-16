@@ -231,7 +231,9 @@ load_once_from_file(true)
                             <div v-if='execution_timeline[current_execution_step]'>
 
                             <div v-for="varWatchName in execution_watch_list">
-                                {{varWatchName}}: {{JSON.stringify(globalWatchList[varWatchName][current_execution_step],null,2)}}
+                                <div style='border: 1px solid blue;'>
+                                    <b>{{varWatchName}}:</b> {{JSON.stringify(globalWatchList[varWatchName][current_execution_step],null,2)}}
+                                </div>
                             </div>
 
 
