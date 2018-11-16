@@ -8791,8 +8791,8 @@ async function callCodeV2(componentRecord,args, seq_no) {
         componentRecord.code = componentRecord.code.toString().replaceAll(" sqlFirstCol1[(]"," rxsqlFirstCol1(" + addP)
 
 
-        var a = "(" + componentRecord.code + ")"
-        var b = esprima.parse(a,{tolerant: true , loc:true, range: true, attachComment: false})
+        var _a = "(" + componentRecord.code + ")"
+        var _b = esprima.parse(_a,{tolerant: true , loc:true, range: true, attachComment: false})
         var line = -1
         var debugComponent = false
 
@@ -8800,7 +8800,7 @@ async function callCodeV2(componentRecord,args, seq_no) {
             (componentRecord.control_type != "VB"))
         {
             debugComponent = true
-            estraverse.traverse(b, {
+            estraverse.traverse(_b, {
                 enter: function (node, parent) {
                     //console.log("node.type = " + node.type)
 
@@ -8826,7 +8826,7 @@ async function callCodeV2(componentRecord,args, seq_no) {
                                 var newNode = esprima.parse(newLine)
 
 
-                                var newLine2 = "logExecutionPoint('" + componentRecord.base_component_id + "', " + line +",'" + JSON.stringify(node.type) + "');"
+                                var newLine2 = `for (var _uu=0; _uu<Object.keys(globalWatchList).length; _uu++){try { console.log("var " + Object.keys(globalWatchList)[_uu] + "=" + eval("" + Object.keys(globalWatchList)[_uu]))} catch(_err){}}`
                                 var newNode2 = esprima.parse(newLine2)
                                 //globalWatchList
 
@@ -8906,7 +8906,7 @@ async function callCodeV2(componentRecord,args, seq_no) {
                  }
             });
         }
-        var trcode2 = escodegen.generate(b, {comment: false})
+        var trcode2 = escodegen.generate(_b, {comment: false})
 
         if (debugComponent){
             executionCode[componentRecord.base_component_id] = {}
