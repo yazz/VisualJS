@@ -124,10 +124,10 @@ load_once_from_file(true)
 
     <div v-if='mode == "profiler"' style='width:100%;'>
 
-        <div class='container' style='width:100%;padding:0; margin:0; border: 0;'>
+        <div class='container' style='max-width:100%;width:100%;padding:0; margin:0; border: 0;'>
 
             <div class='row'>
-                <div class='col-md-6' style='overflow: auto;'>
+                <div class='col-md-5' style='overflow: auto;'>
                     <div id='timeline_editor' >
                     </div>
 
@@ -151,7 +151,7 @@ load_once_from_file(true)
 
 
 
-                <div    class='col-md-4'
+                <div    class='col-md-3'
                         style='height: 50vh;background-color: white; position: relative;padding:0px;'
                         >
 
@@ -220,7 +220,7 @@ load_once_from_file(true)
 
 
 
-                <div    class='col-md-2'
+                <div    class='col-md-4'
                         style='height: 50vh;background-color: white; '
                         >
 
