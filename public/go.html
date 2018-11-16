@@ -8686,6 +8686,13 @@ function logVarAfter(codeBlockName, line, varName, varValue) {
     }
 }
 
+
+function addWatchPoint(vName,value) {
+    globalWatchList[vName][currentTimelineLogPoint] = eval("(" + JSON.stringify(value) + ")")
+}
+
+
+
 //zzz
 function logExecutionPoint(codeBlockName, line, node) {
     //console.log("logExecutionPoint(" + codeBlockName + "," + line)
@@ -8823,7 +8830,7 @@ async function callCodeV2(componentRecord,args, seq_no) {
                                 var newNode = esprima.parse(newLine)
 
 
-                                var newLine2 = `for (var _uu=0; _uu<Object.keys(globalWatchList).length; _uu++){try { var _vName = Object.keys(globalWatchList)[_uu];if (isValidObject(_vName)){globalWatchList[_vName][currentTimelineLogPoint] = JSON.stringify(eval(_vName),null,2)}} catch(_err){}}`
+                                var newLine2 = `for (var _uu=0; _uu<Object.keys(globalWatchList).length; _uu++){try { var _vName = Object.keys(globalWatchList)[_uu];if (isValidObject(_vName)){ addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`
                                 var newNode2 = esprima.parse(newLine2)
                                 //globalWatchList
 
