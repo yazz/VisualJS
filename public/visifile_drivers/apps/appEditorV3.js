@@ -128,10 +128,24 @@ load_once_from_file(true)
 
             <div class='row'>
                 <div class='col-md-6' style='overflow: auto;'>
-                    <b style='color: white; background-color: red;'>CODE IN READ ONLY MODE</b>: {{highlighted_block_name}}
-
                     <div id='timeline_editor' >
                     </div>
+
+                    {{highlighted_block_name}}
+                    <b style='color: white; background-color: red;'>READ ONLY MODE</b>
+
+                    <div class='btn-group col-md-5' role=group>
+
+                        <button     type=button
+                                    class='btn btn-info'
+                                    v-on:click='chooseBoth()'>
+
+                             Edit app
+
+                        </button>
+                    </div>
+
+
                 </div>
 
 
@@ -196,13 +210,6 @@ load_once_from_file(true)
 
 
                     <div  style="left:0px; z-index: 200; width:100%; height:100%; background-color: white;border: 1px solid black;">
-
-                        <div class='btn-group' style='width:100%;margin: 10px;margin-bottom: 15px;' role=group >
-                            <button  type=button class=' btn btn-info'        v-on:click='chooseBoth()' >Edit app</button>
-                        </div>
-
-
-
 
                         <div class='container'>
                             <div>
