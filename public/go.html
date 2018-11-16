@@ -30,10 +30,7 @@
     var executionTimeline   = []
     var executionTimelineVars   = {}
     var executionTimelineMapTimeToLine   = {}
-    var globalWatchList   = {
-        a: {},
-        b: {}
-    }
+    var globalWatchList   = {}
 
     </script>
 
@@ -8826,7 +8823,7 @@ async function callCodeV2(componentRecord,args, seq_no) {
                                 var newNode = esprima.parse(newLine)
 
 
-                                var newLine2 = `for (var _uu=0; _uu<Object.keys(globalWatchList).length; _uu++){try { console.log("var " + Object.keys(globalWatchList)[_uu] + "=" + eval("" + Object.keys(globalWatchList)[_uu]))} catch(_err){}}`
+                                var newLine2 = `for (var _uu=0; _uu<Object.keys(globalWatchList).length; _uu++){try { globalWatchList[Object.keys(globalWatchList)[_uu]].value = eval("" + Object.keys(globalWatchList)[_uu])} catch(_err){}}`
                                 var newNode2 = esprima.parse(newLine2)
                                 //globalWatchList
 

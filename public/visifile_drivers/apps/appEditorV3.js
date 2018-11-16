@@ -229,12 +229,25 @@ load_once_from_file(true)
 
                         <div class='container'>
                             <div v-if='execution_timeline[current_execution_step]'>
+
+                            <div v-for="varWatchName in execution_watch_list">
+                                {{varWatchName}}: {{JSON.stringify(globalWatchList[varWatchName].value,null,2)}}
+                            </div>
+
+
+
+
                                 <div v-for="varV in execution_var_list">
                                     {{varV}} =
                                         {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].before,null,2)}}
                                                     --&gt;
                                                     {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].after,null,2)}}
+
+                                                    <div class='btn-group col-md-3' role=group >
+                                                        <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='addWatch(varV)'>Add watch</button>
+                                                    </div>
                                 </div>
+
                             </div>
                         </div>
 
@@ -275,6 +288,7 @@ load_once_from_file(true)
                execution_code: null,
                execution_block_list: [],
                execution_var_list: [],
+               execution_watch_list: [],
                highlighted_line:    -1,
                timeline_x_cursor: -1,
                timeline_y_cursor: 10,
@@ -393,6 +407,7 @@ load_once_from_file(true)
                 }
                 if (this.execution_timeline[this.current_execution_step]){
                     this.execution_var_list = Object.keys(this.execution_timeline[this.current_execution_step].vars)
+                    this.execution_watch_list = Object.keys(globalWatchList)
                 }
             }
 
@@ -428,6 +443,10 @@ load_once_from_file(true)
                 }
             }
             ,
+
+            addWatch: function(varN){
+                globalWatchList[varN]={}
+            },
 
 
 
