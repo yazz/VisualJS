@@ -201,7 +201,7 @@ load_once_from_file(true)
                     <div class='container'>
                         <div class=row>
                             <div class='col-md-3'>
-                                Step: {{current_execution_step}}/{{execution_timeline.length}}
+                                Step: {{current_execution_step}}/{{execution_timeline.length - 1}}
                             </div>
 
 
