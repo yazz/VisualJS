@@ -8891,11 +8891,11 @@ async function callCodeV2(componentRecord,args, seq_no) {
                             (node.expression.operator == "=")) {
                                 var varName = node.expression.left.name
                                 if (!isValidObject(varName)) {
-                                    debugger
                                     if (node.expression.left.object.type == "ThisExpression") {
                                         varName = "this." + node.expression.left.property.name
                                     }
                                 }
+                                varsToAdd[varName] = {}
 
                                 var newLine = "logVarBefore('" + componentRecord.base_component_id + "', " + node.loc.start.line +",'" +
                                     varName + "', " + varName  + ");"
