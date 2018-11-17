@@ -388,22 +388,24 @@ load_once_from_file(true)
 
 
                     var elementTimeline = document.getElementById("timeline_el"  )
-                    this.y_step = Math.floor(elementTimeline.offsetHeight / this.execution_horiz_scale ) - 10
+                    if (elementTimeline) {
+                        this.y_step = Math.floor(elementTimeline.offsetHeight / this.execution_horiz_scale ) - 10
 
-                    elementTimeline.scrollTop = (executionCode[x.code_block_name].start + (Math.floor(x.line/this.y_step)*this.y_step)) * this.execution_horiz_scale
+                        elementTimeline.scrollTop = (executionCode[x.code_block_name].start + (Math.floor(x.line/this.y_step)*this.y_step)) * this.execution_horiz_scale
 
-                    this.timeline_x_cursor = (this.execution_horiz_scale * this.current_execution_step) - elementTimeline.scrollLeft
-                    this.timeline_y_cursor = (this.execution_horiz_scale *
-                                                    (this.current_execution_step_y_line + this.execution_code[x.code_block_name].start)
-                                                            ) - elementTimeline.scrollTop
-
-                    if (this.timeline_x_cursor > elementTimeline.offsetWidth) {
-                        elementTimeline.scrollLeft += elementTimeline.offsetWidth
                         this.timeline_x_cursor = (this.execution_horiz_scale * this.current_execution_step) - elementTimeline.scrollLeft
-                    }
-                    if ( this.timeline_x_cursor < 0 ) {
-                        elementTimeline.scrollLeft = (elementTimeline.scrollLeft + 7) - elementTimeline.offsetWidth
-                        this.timeline_x_cursor = (this.execution_horiz_scale * this.current_execution_step) - elementTimeline.scrollLeft
+                        this.timeline_y_cursor = (this.execution_horiz_scale *
+                                                        (this.current_execution_step_y_line + this.execution_code[x.code_block_name].start)
+                                                                ) - elementTimeline.scrollTop
+
+                        if (this.timeline_x_cursor > elementTimeline.offsetWidth) {
+                            elementTimeline.scrollLeft += elementTimeline.offsetWidth
+                            this.timeline_x_cursor = (this.execution_horiz_scale * this.current_execution_step) - elementTimeline.scrollLeft
+                        }
+                        if ( this.timeline_x_cursor < 0 ) {
+                            elementTimeline.scrollLeft = (elementTimeline.scrollLeft + 7) - elementTimeline.offsetWidth
+                            this.timeline_x_cursor = (this.execution_horiz_scale * this.current_execution_step) - elementTimeline.scrollLeft
+                        }
                     }
 
                 }
@@ -823,6 +825,11 @@ load_once_from_file(true)
 `
 `
                             }
+                        }
+
+                        var allWatches = Object.keys(globalWatchList)
+                        for (var rt = 0 ; rt < allWatches.length; rt++) {
+                            fillInMissingWatchTimelineValues(allWatches[rt],0)
                         }
 
 
