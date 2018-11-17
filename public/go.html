@@ -8890,11 +8890,12 @@ async function callCodeV2(componentRecord,args, seq_no) {
                         if ((node.expression.type == "AssignmentExpression") &&
                             (node.expression.operator == "=")) {
                                 var varName = node.expression.left.name
-                                //if (!isValidObject(varName)) {
-                                //    if (node.exepression.left.type == "ThisExpression") {
-                                //        varName = "this." + node.expression.left.property.name
-                                //    }
-                                //}
+                                if (!isValidObject(varName)) {
+                                    debugger
+                                    if (node.expression.left.object.type == "ThisExpression") {
+                                        varName = "this." + node.expression.left.property.name
+                                    }
+                                }
 
                                 var newLine = "logVarBefore('" + componentRecord.base_component_id + "', " + node.loc.start.line +",'" +
                                     varName + "', " + varName  + ");"
