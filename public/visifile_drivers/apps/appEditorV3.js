@@ -329,7 +329,7 @@ load_once_from_file(true)
                this.execution_timeline = executionTimeline
                maxTimelineLogPoint = 0
 
-               this.current_execution_step = -1
+               this.current_execution_step = 0
                this.current_execution_step_y_line = -1
                this.updateTimeline()
            }
@@ -590,6 +590,10 @@ load_once_from_file(true)
 
                 setTimeout(function() {
                         mm.setupTimelineEditor()
+                        var allWatches = Object.keys(globalWatchList)
+                        for (var rt = 0 ; rt < allWatches.length; rt++) {
+                            fillInMissingWatchTimelineValues(allWatches[rt],0)
+                        }
                     },
                     200)
             },
@@ -827,10 +831,6 @@ load_once_from_file(true)
                             }
                         }
 
-                        var allWatches = Object.keys(globalWatchList)
-                        for (var rt = 0 ; rt < allWatches.length; rt++) {
-                            fillInMissingWatchTimelineValues(allWatches[rt],0)
-                        }
 
 
                         if (mm.editor_loaded && (mm.editor_text != code)) {
