@@ -8715,7 +8715,7 @@ function addWatchPoint(vName,value) {
 
 
 
-//zzz
+
 function logExecutionPoint(codeBlockName, line, node) {
     //console.log("logExecutionPoint(" + codeBlockName + "," + line)
     currentTimelineLogPoint = maxTimelineLogPoint ++
@@ -8790,6 +8790,7 @@ async function callCodeV2(componentRecord,args, seq_no) {
         }
 
 
+        var varsToAdd = {}
         var addP = "'" + componentRecord.code_id + "', '" + useDb + "', "
         //alert("data: " + addP);
         if (localAppshareApp) {
@@ -8879,6 +8880,7 @@ async function callCodeV2(componentRecord,args, seq_no) {
                             var newLine = "logVarBefore('" + componentRecord.base_component_id + "', " + node.loc.start.line +",'" +
                                 node.declarations[0].id.name + "', " + node.declarations[0].id.name  + ");"
                             var newNode = esprima.parse(newLine)
+                            varsToAdd[node.declarations[0].id.name] = {}
 
                             var newLineAfter = "logVarAfter('" + componentRecord.base_component_id + "', " + node.loc.start.line +",'" +
                                 node.declarations[0].id.name + "'," + node.declarations[0].id.name  + ");"
@@ -8940,6 +8942,12 @@ async function callCodeV2(componentRecord,args, seq_no) {
             });
         }
 
+//zzz
+        for ( var fds = 0 ; fds < Object.keys(varsToAdd).length ; fds ++ ) {
+            var nnn = Object.keys(varsToAdd)[fds]
+            globalWatchList[nnn]={}
+        }
+
 
         var trcode2 = escodegen.generate(_b, {comment: false})
 
@@ -8954,7 +8962,7 @@ async function callCodeV2(componentRecord,args, seq_no) {
 
         var fnfn = eval( trcode2  )
         //console.log("Code to run: " + trcode2)
-        //zzz
+
 
         if (componentRecord.code.indexOf("async ")  == -1) {
             var fnfnRes = fnfn(args)
