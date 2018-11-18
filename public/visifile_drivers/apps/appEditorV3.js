@@ -244,11 +244,11 @@ load_once_from_file(true)
                                         <div>
                                             <b>{{varV}}</b>
                                         </div>
-                                        <div>
+                                        <div v-bind:v-if='execution_timeline[current_execution_step].vars[varV]'>
                                         Before:
                                             {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].before,null,2)}}
                                         </div>
-                                        <div>
+                                        <div v-bind:v-if='execution_timeline[current_execution_step].vars[varV]'>
                                         After:
                                             {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].after,null,2)}}
                                         </div>
