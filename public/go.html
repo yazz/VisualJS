@@ -8910,19 +8910,19 @@ async function callCodeV2(componentRecord,args, seq_no) {
                                 var logWatchVarsCode = `for (var _uu=0; _uu<Object.keys(globalWatchList).length; _uu++){try { var _vName = Object.keys(globalWatchList)[_uu];if (isValidObject(_vName)){ addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`
                                 var logWatchVarsNode = esprima.parse(logWatchVarsCode)
 
+                                for (var rr=0; rr<parent.body.length; rr++){
+                                    if (parent.body[rr] == node) {
+                                        if (logWatchVarsNode){
+                                            parent.body.splice(rr + 1, 0, logWatchVarsNode);
+                                        }
+                                        if (newNodeAfter){
+                                            parent.body.splice(rr + 1, 0, newNodeAfter);
+                                        }
+                                        parent.body.splice(rr, 0, newNode);
+                                        break;
+                                    }
+                                }
 
-                        }
-                        for (var rr=0; rr<parent.body.length; rr++){
-                            if (parent.body[rr] == node) {
-                                if (logWatchVarsNode){
-                                    parent.body.splice(rr + 1, 0, logWatchVarsNode);
-                                }
-                                if (newNodeAfter){
-                                    parent.body.splice(rr + 1, 0, newNodeAfter);
-                                }
-                                parent.body.splice(rr, 0, newNode);
-                                break;
-                            }
                         }
                     }
 
