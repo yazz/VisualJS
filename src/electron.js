@@ -137,8 +137,7 @@ if (process.argv.length > 1) {
       .option('-n, --nogui [nogui]', 'Allow server to be run in headless mode (default false) [nogui]', 'false')
       .option('-d, --debug [debug]', 'Allow to run in debug mode (default false) [debug]', 'false')
       .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
-      .option('-r, --runservices [runservices]', 'Run the services (default true) [runservices]', false)
-      .option('-d, --deleteonexit [deleteonexit]', 'Delete database files on exit (default false) [deleteonexit]', false)
+      .option('-x, --deleteonexit [deleteonexit]', 'Delete database files on exit (default false) [deleteonexit]', 'false')
       .option('-a, --runapp [runapp]', 'Run the app with ID as the homepage (default not set) [runapp]', null)
       .parse(process.argv);
 } else {
@@ -147,8 +146,7 @@ if (process.argv.length > 1) {
     program.locked = 'true'
     program.nogui = 'false'
     program.debug = 'false'
-    program.runservices = false
-    program.deleteonexit = false
+    program.deleteonexit = 'false'
     program.runapp = null
 }
 var semver = require('semver')
@@ -165,8 +163,7 @@ if (program.debug == 'true') {
     console.log("       debug: false" );
 };
 
-var runServices = (program.runservices == true);
-var deleteOnExit = (program.deleteonexit == true);
+var deleteOnExit = (program.deleteonexit == 'true');
 console.log("deleteOnExit: " + deleteOnExit)
 
 
@@ -302,21 +299,6 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
         } else if (msg.message_type == "database_setup_in_child") {
-
-            //console.log("Child set up DB complete: " + msg.child_process_name)
-
-            if (msg.child_process_name == "forkedIndexer") {
-                //forkedProcesses["forkedIndexer"].send({         message_type: "setUpSql" });
-                if (typeOfSystem == 'client') {
-                    if (runServices) {
-                        //forkedProcesses["forkedIndexer"].send({ message_type: "childRunFindFolders" });
-                        //forkedProcesses["forkedIndexer"].send({ message_type: "childRunIndexer" });
-                    }
-                }
-            }
-
-
-
 
 
 
@@ -690,12 +672,6 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
                                               });
 
         forkedProcesses["forked"].send({         message_type: "createTables" });
-        if (runServices) {
-            setTimeout(function() {
-                console.log('forkedProcesses["forked"].send({         message_type: "childRunFindFolders" });')
-                forkedProcesses["forked"].send({         message_type: "childRunFindFolders" });
-            },5000)
-        }
     }
 
 
