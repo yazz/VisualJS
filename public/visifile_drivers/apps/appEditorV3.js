@@ -237,17 +237,26 @@ load_once_from_file(true)
                             </div>
 
 
-
+                            <div style='height:10px;'> </div>
 
                                 <div v-for="varV in execution_var_list">
-                                    {{varV}} =
-                                        {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].before,null,2)}}
-                                                    --&gt;
-                                                    {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].after,null,2)}}
+                                    <div v-bind:v-if='execution_timeline[current_execution_step].vars[varV]'>
+                                        <div>
+                                            <b>{{varV}}</b>
+                                        </div>
+                                        <div>
+                                        Before:
+                                            {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].before,null,2)}}
+                                        </div>
+                                        <div>
+                                        After:
+                                            {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].after,null,2)}}
+                                        </div>
 
                                                     <div class='btn-group col-md-3' role=group >
                                                         <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='addWatch(varV)'>Add watch</button>
                                                     </div>
+                                     </div>
                                 </div>
 
                             </div>
