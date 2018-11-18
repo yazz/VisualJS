@@ -8828,7 +8828,6 @@ async function callCodeV2(componentRecord,args, seq_no) {
             (componentRecord.control_type != "VB"))
         {
             debugComponent = true
-            console.log("estraverse...")
             estraverse.traverse(_b, {
                 enter: function (node, parent) {
                     //
@@ -8866,13 +8865,15 @@ async function callCodeV2(componentRecord,args, seq_no) {
                     if (node.type == "VariableDeclaration") {
                         if (node.declarations[0].init) {
                             //alert(`var ${node.declarations[0].id.name} = ${node.declarations[0].init.value}`)
+                            var varNameToUse = node.declarations[0].id.name
+
                             var newLine = "logVarBefore('" + componentRecord.base_component_id + "', " + node.loc.start.line +",'" +
-                                node.declarations[0].id.name + "', " + node.declarations[0].id.name  + ");"
+                                varNameToUse + "', " + varNameToUse  + ");"
                             var newNode = esprima.parse(newLine)
-                            varsToAdd[node.declarations[0].id.name] = {}
+                            varsToAdd[varNameToUse] = {}
 
                             var newLineAfter = "logVarAfter('" + componentRecord.base_component_id + "', " + node.loc.start.line +",'" +
-                                node.declarations[0].id.name + "'," + node.declarations[0].id.name  + ");"
+                                varNameToUse + "'," + varNameToUse  + ");"
                             var newNodeAfter = esprima.parse(newLineAfter)
 
                             var logWatchVarsCode = `for (var _uu=0; _uu<Object.keys(globalWatchList).length; _uu++){try { var _vName = Object.keys(globalWatchList)[_uu];if (isValidObject(_vName)){ addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`
@@ -8938,7 +8939,6 @@ async function callCodeV2(componentRecord,args, seq_no) {
                  }
             });
         }
-        console.log("...estraverse")
 
 //zzz
         for ( var fds = 0 ; fds < Object.keys(varsToAdd).length ; fds ++ ) {
