@@ -8718,9 +8718,10 @@ function addWatchPoint(vName,value) {
 
 function logExecutionPoint(codeBlockName, line, node) {
     //console.log("logExecutionPoint(" + codeBlockName + "," + line)
-    currentTimelineLogPoint = maxTimelineLogPoint ++
 
     if (executionCode[codeBlockName]) {
+        currentTimelineLogPoint = maxTimelineLogPoint ++
+        
         var recor = { code_block_name:    codeBlockName,
                                  line:               line,
                                  time:               currentTimelineLogPoint,
