@@ -961,6 +961,15 @@ function shutDown() {
     if (!shuttingDown) {
         shuttingDown = true;
 
+        if (dbsearch) {
+            console.log("Database closing...")
+            dbsearch.run("PRAGMA wal_checkpoint;")
+            dbsearch.close(function(err){
+                console.log("...database closed")
+                visifile = null
+
+            })
+        }
 
         if (forkedProcesses["forked"]) {
             console.log("Killed Process forked")
@@ -985,15 +994,6 @@ function shutDown() {
             }
         }
 
-
-        if (dbsearch) {
-            dbsearch.run("PRAGMA wal_checkpoint;")
-            dbsearch.close(function(){
-                console.log("Database closed")
-                visifile = null
-
-            })
-        }
         if (deleteOnExit) {
         //zzz
             console.log("deleting dir :" + userData)
