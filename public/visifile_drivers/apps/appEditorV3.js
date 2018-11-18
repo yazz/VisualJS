@@ -827,16 +827,16 @@ load_once_from_file(true)
                             this.is_ui_app = true
                         } else {
                             this.is_ui_app = false
+                            mm.console_output = ""
+                            console.log = function() {
+                                if (isValidObject(mm.console_output)) {
+                                    for (var a=0; a < arguments.length ; a++) {
+                                        mm.console_output += arguments[a] + " "
+                                    }
+                                    mm.console_output +=
+`
+`
                         }
-                        mm.console_output = ""
-                        console.log = function() {
-                            if (isValidObject(mm.console_output)) {
-                                for (var a=0; a < arguments.length ; a++) {
-                                    mm.console_output += arguments[a] + " "
-                                }
-                                mm.console_output +=
-`
-`
                             }
                         }
 

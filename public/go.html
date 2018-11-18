@@ -8721,7 +8721,7 @@ function logExecutionPoint(codeBlockName, line, node) {
 
     if (executionCode[codeBlockName]) {
         currentTimelineLogPoint = maxTimelineLogPoint ++
-        
+
         var recor = { code_block_name:    codeBlockName,
                                  line:               line,
                                  time:               currentTimelineLogPoint,
@@ -8828,6 +8828,7 @@ async function callCodeV2(componentRecord,args, seq_no) {
             (componentRecord.control_type != "VB"))
         {
             debugComponent = true
+            console.log("estraverse...")
             estraverse.traverse(_b, {
                 enter: function (node, parent) {
                     //
@@ -8937,6 +8938,7 @@ async function callCodeV2(componentRecord,args, seq_no) {
                  }
             });
         }
+        console.log("...estraverse")
 
 //zzz
         for ( var fds = 0 ; fds < Object.keys(varsToAdd).length ; fds ++ ) {
