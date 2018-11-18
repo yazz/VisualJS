@@ -829,7 +829,6 @@ if (electronApp) {
 
             visifile.on('closed', function () {
                 shutDown();
-                visifile = null
             })
 
             visifile.loadURL(url.format({
@@ -988,15 +987,40 @@ function shutDown() {
 
 
         if (dbsearch) {
-            dbsearch.run("PRAGMA wal_checkpoint;",function(){
-                if (deleteOnExit) {
-                    var localappdata  = process.env.LOCALAPPDATA
-                    console.log("deleting dir :" + localappdata)
-                }
+            dbsearch.run("PRAGMA wal_checkpoint;")
+            dbsearch.close(function(){
+                console.log("Database closed")
+                visifile = null
+
             })
         }
-    }
+        if (deleteOnExit) {
+        //zzz
+            console.log("deleting dir :" + userData)
+            if (userData.length > 14) {
+                var deleteFolderRecursive = function(path) {
+                      if (fs.existsSync(path)) {
+                        fs.readdirSync(path).forEach(function(file, index){
+                          var curPath = path + "/" + file;
+                          if (fs.lstatSync(curPath).isDirectory()) { // recurse
+                            deleteFolderRecursive(curPath);
+                          } else { // delete file
+                            fs.unlinkSync(curPath);
+                          }
+                        });
+                        fs.rmdirSync(path);
+                      }
+                    };
 
+                var files = fs.readdirSync( userData );
+                files.forEach( function ( file ) {
+                    console.log("Deleting: " + file)
+                    deleteFolderRecursive(path.join( userData,file))
+                    console.log("...: " + file)
+                });
+            }
+        }
+    }
 }
 
 
