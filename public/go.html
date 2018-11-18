@@ -8698,7 +8698,7 @@ function fillInMissingWatchTimelineValues(vName, executionStepNo) {
     if (executionStepNo == executionTimeline.length) {
         return
 
-    } else if (!globalWatchList[vName][executionStepNo].value) {
+    } else if (!globalWatchList[vName][executionStepNo].isSet) {
         if (executionStepNo == 0) {
             globalWatchList[vName][executionStepNo].value = null
         } else {
@@ -8711,6 +8711,7 @@ function fillInMissingWatchTimelineValues(vName, executionStepNo) {
 function addWatchPoint(vName,value) {
     globalWatchList[vName][currentTimelineLogPoint] = {}
     globalWatchList[vName][currentTimelineLogPoint].value = eval("(" + JSON.stringify(value) + ")")
+    globalWatchList[vName][currentTimelineLogPoint].isSet = true
 }
 
 
