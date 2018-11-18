@@ -221,11 +221,11 @@ load_once_from_file(true)
 
 
                 <div    class='col-md-4'
-                        style='height: 50vh;background-color: white; '
+                        style='height: 50vh;background-color: white;overflow: scroll; background-color: white;border: 1px solid black;'
                         >
 
 
-                    <div  style="left:0px; z-index: 200; width:100%; height:100%; background-color: white;border: 1px solid black;">
+                    <div  style="left:0px; z-index: 200; width:100%; height:100%;">
 
                         <div class='container'>
                             <div v-if='execution_timeline[current_execution_step]'>
@@ -237,34 +237,30 @@ load_once_from_file(true)
                             </div>
 
 
-                            <div style='height:10px;'> </div>
+                            <div style='height:20px;'> </div>
 
-                                <div v-for="varV in execution_var_list">
+                            <div style='background-color: blue; color: white;'> Current scope</div>
+
+                            <div v-for="varV in execution_var_list">
+                                <div v-bind:v-if='execution_timeline[current_execution_step].vars[varV]'>
+                                    <div>
+                                        <b>{{varV}}</b>
+                                    </div>
                                     <div v-bind:v-if='execution_timeline[current_execution_step].vars[varV]'>
-                                        <div>
-                                            <b>{{varV}}</b>
-                                        </div>
-                                        <div v-bind:v-if='execution_timeline[current_execution_step].vars[varV]'>
-                                        Before:
-                                            {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].before,null,2)}}
-                                        </div>
-                                        <div v-bind:v-if='execution_timeline[current_execution_step].vars[varV]'>
-                                        After:
-                                            {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].after,null,2)}}
-                                        </div>
+                                    Before:
+                                        {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].before,null,2)}}
+                                    </div>
+                                    <div v-bind:v-if='execution_timeline[current_execution_step].vars[varV]'>
+                                    After:
+                                        {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].after,null,2)}}
+                                    </div>
 
-                                                    <div class='btn-group col-md-3' role=group >
-                                                        <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='addWatch(varV)'>Add watch</button>
-                                                    </div>
-                                     </div>
+                                    <div class='btn-group col-md-3' role=group >
+                                        <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='addWatch(varV)'>Add watch</button>
+                                    </div>
                                 </div>
-
                             </div>
                         </div>
-
-
-
-
 
                     </div>
                 </div>
