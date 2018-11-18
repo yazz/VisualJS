@@ -138,6 +138,7 @@ if (process.argv.length > 1) {
       .option('-d, --debug [debug]', 'Allow to run in debug mode (default false) [debug]', 'false')
       .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
       .option('-r, --runservices [runservices]', 'Run the services (default true) [runservices]', false)
+      .option('-d, --deleteonexit [deleteonexit]', 'Delete database files on exit (default false) [deleteonexit]', false)
       .option('-a, --runapp [runapp]', 'Run the app with ID as the homepage (default not set) [runapp]', null)
       .parse(process.argv);
 } else {
@@ -147,6 +148,7 @@ if (process.argv.length > 1) {
     program.nogui = 'false'
     program.debug = 'false'
     program.runservices = false
+    program.deleteonexit = false
     program.runapp = null
 }
 var semver = require('semver')
@@ -164,6 +166,9 @@ if (program.debug == 'true') {
 };
 
 var runServices = (program.runservices == true);
+var deleteOnExit = (program.deleteonexit == true);
+console.log("deleteOnExit: " + deleteOnExit)
+
 
 locked = (program.locked == 'true');
 var nogui = (program.nogui == 'true');
@@ -1007,7 +1012,12 @@ function shutDown() {
 
 
         if (dbsearch) {
-            dbsearch.run("PRAGMA wal_checkpoint;")
+            dbsearch.run("PRAGMA wal_checkpoint;",function(){
+                if (deleteOnExit) {
+                    var localappdata  = process.env.LOCALAPPDATA
+                    console.log("deleting dir :" + localappdata)
+                }
+            })
         }
     }
 
@@ -1616,7 +1626,6 @@ function websocketFn(ws) {
             var sql_data = receivedMessage.sql_data
             var code_fn = receivedMessage.code_fn
 
-            //zzz
 
             forkedProcesses["forked"].send({
                     message_type:           "save_code_from_upload",
@@ -1821,7 +1830,7 @@ function file_uploadFn(req, res, next) {
                     sqlitedatafromupload = readIn.toString().substring( indexOfSqliteData + 18,
                                                                         indexOfSqliteDataEnd)
                 }
-//zzz
+
 
                 forkedProcesses["forked"].send({
                                                     message_type:           "save_code_from_upload",
