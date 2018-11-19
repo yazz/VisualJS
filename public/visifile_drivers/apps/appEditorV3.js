@@ -23,43 +23,52 @@ load_once_from_file(true)
     Vue.component("app_editor_3",
     {
       props: ['app_id', 'card_index'],
-      template: `<div>
-                    <div>
-                        <h2  class='caption' style='display: inline-block;' v-on:click='if (!read_only) {edit_name=true;show_name=false;}' v-if='show_name'>{{app_component_name?"" + app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 30))?"...":"")}} </h2>
-                        <input  class='caption' style='display: inline-block;' v-if='edit_name' v-model='new_name'></input>
-                        <button type=button class='btn btn-primary' style='margin-left: 10px' v-if='edit_name' v-on:click='(async function(){await rename(new_name)})()'>Save new name</button>
+      template:
+`<div>
+    <div>
+        <h2  class='caption' style='display: inline-block;' v-on:click='if (!read_only) {edit_name=true;show_name=false;}' v-if='show_name'>{{app_component_name?"" + app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 30))?"...":"")}} </h2>
 
-                        <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
-                            <button  type=button class='btn btn-primary'      v-on:click='chooseApp()'  >App</button>
-                            <button  type=button class=' btn btn-secondary'   v-on:click='chooseCode()' >Code</button>
-                            <button  type=button class=' btn btn-info'        v-on:click='chooseBoth()' >Both</button>
-                            <button  type=button class=' btn btn-primary'        v-on:click='chooseProfiler()' >Profiler</button>
-                            <button  type=button class=' btn btn-secondary'   v-on:click='copyAppMethod(base_component_id,null)' >Copy app</button>
-                            <button  type=button class=' btn btn-info'        v-on:click='embedApp(base_component_id)' >Embed app</button>
-                            <button  v-if='(editor_component != "editor_component") && (!read_only)' type=button class=' btn btn-secondary'   v-on:click='editAsText()' >Edit as text</button>
-                            <button  v-if='(!read_only) && (visibility == "PUBLIC")' type=button class=' btn btn-success'   v-on:click='setVisibility("PRIVATE")' >Public: Switch to private</button>
-                            <button  v-if='(!read_only) && (visibility == "PRIVATE")' type=button class=' btn btn-danger'   v-on:click='setVisibility("PUBLIC")' >Private: Switch to public</button>
-                        </div>
-                    </div>
+        <input  class='caption' style='display: inline-block;' v-if='edit_name' v-model='new_name'></input>
 
-                  <div v-if='mode == "embed"'>
-                        <appEmbed v-bind:base_component_id_arg='base_component_id'></appEmbed>
-                  </div>
+        <button type=button class='btn btn-primary' style='margin-left: 10px' v-if='edit_name' v-on:click='(async function(){await rename(new_name)})()'>
+            Save new name
+        </button>
 
-                  <div v-if='mode == "edit"'>
-                      <div id=editor_id v-bind:style="'height: 100%; width: ' + code_width + '; left: 0px; display: ' + (code_shown?'inline-block':'none') + ';'">
+        <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
+            <button  type=button class='btn btn-primary'      v-on:click='chooseApp()'  >App</button>
+            <button  type=button class=' btn btn-secondary'   v-on:click='chooseCode()' >Code</button>
+            <button  type=button class=' btn btn-info'        v-on:click='chooseBoth()' >Both</button>
+            <button  type=button class=' btn btn-primary'        v-on:click='chooseProfiler()' >Profiler</button>
+            <button  type=button class=' btn btn-secondary'   v-on:click='copyAppMethod(base_component_id,null)' >Copy app</button>
+            <button  type=button class=' btn btn-info'        v-on:click='embedApp(base_component_id)' >Embed app</button>
+            <button  v-if='(editor_component != "editor_component") && (!read_only)' type=button class=' btn btn-secondary'   v-on:click='editAsText()' >Edit as text</button>
+            <button  v-if='(!read_only) && (visibility == "PUBLIC")' type=button class=' btn btn-success'   v-on:click='setVisibility("PRIVATE")' >Public: Switch to private</button>
+            <button  v-if='(!read_only) && (visibility == "PRIVATE")' type=button class=' btn btn-danger'   v-on:click='setVisibility("PUBLIC")' >Private: Switch to public</button>
+        </div>
+    </div>
 
-                          <component  v-bind:is="editor_component" v-if="editor_loaded" ref="editorComponentRef">
-                                          <button v-if='!read_only'
-                                                  v-bind:style="'visibility: ' + ((app_shown && code_shown)?'':'hidden')"
-                                                  slot-scope="editor_component"
-                                                  v-on:click='setTimeout(async function(){await save(base_component_id, code_id,null)},100)'
-                                                  type="button" class="btn btn-primary btn-lg">
 
-                                                      Run
-                                         </button>
-                          </component>
-                      </div>
+    <div v-if='mode == "embed"'>
+        <appEmbed v-bind:base_component_id_arg='base_component_id'></appEmbed>
+    </div>
+
+    <div v-if='mode == "edit"'>
+        <div id=editor_id v-bind:style="'height: 100%; width: ' + code_width + '; left: 0px; display: ' + (code_shown?'inline-block':'none') + ';'">
+
+        <component  v-bind:is="editor_component" v-if="editor_loaded" ref="editorComponentRef">
+
+            <button   v-if='!read_only'
+                      v-bind:style="'visibility: ' + ((app_shown && code_shown)?'':'hidden')"
+                      slot-scope="editor_component"
+                      v-on:click='setTimeout(async function(){await save(base_component_id, code_id,null)},100)'
+                      type="button" class="btn btn-primary btn-lg">
+
+                  Run
+
+            </button>
+
+        </component>
+    </div>
 
 
 
