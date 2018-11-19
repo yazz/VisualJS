@@ -341,6 +341,7 @@ load_once_from_file(true)
                executionTimelineMapTimeToLine   = {}
                this.execution_timeline = executionTimeline
                maxTimelineLogPoint = 0
+               globalWatchList = {}
 
                this.current_execution_step = 0
                this.current_execution_step_y_line = -1
