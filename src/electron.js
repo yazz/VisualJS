@@ -998,26 +998,12 @@ function shutDown() {
         //zzz
             console.log("deleting dir :" + userData)
             if (userData.length > 14) {
-                var deleteFolderRecursive = function(path) {
-                      if (fs.existsSync(path)) {
-                        fs.readdirSync(path).forEach(function(file, index){
-                          var curPath = path + "/" + file;
-                          if (fs.lstatSync(curPath).isDirectory()) { // recurse
-                            deleteFolderRecursive(curPath);
-                          } else { // delete file
-                            fs.unlinkSync(curPath);
-                          }
-                        });
-                        fs.rmdirSync(path);
-                      }
-                    };
-
-                var files = fs.readdirSync( userData );
-                files.forEach( function ( file ) {
-                    console.log("Deleting: " + file)
-                    deleteFolderRecursive(path.join( userData,file))
-                    console.log("...: " + file)
-                });
+                fork.exec('cd "' + userData + '" && rm -rf *', function(err, stdout, stderr) {
+                if (err) {
+                    // node couldn't execute the command
+                    return;
+                    }
+                })
             }
         }
     }
