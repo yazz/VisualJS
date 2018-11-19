@@ -288,11 +288,6 @@ load_once_from_file(true)
                                                 </div>
                                             </div>
 
-                                            <div class='btn-group col-md-3' role=group >
-                                                <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='addWatch(varV)'>
-                                                    Add watch
-                                                </button>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
