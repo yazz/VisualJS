@@ -236,9 +236,12 @@ load_once_from_file(true)
                         <div class='container'>
                             <div v-if='execution_timeline[current_execution_step]'>
 
-                                <div v-for="varWatchName in execution_watch_list">
-                                    <div style='border: 1px solid blue;' v-if='globalWatchList[varWatchName][current_execution_step]'>
-                                        <b>{{varWatchName}}:</b> {{JSON.stringify(globalWatchList[varWatchName][current_execution_step].value,null,2)}}
+                                <div style='margin:0;padding:0;border:2px solid blue; min-height:50px;'>
+                                    <div style='background-color: blue; color: white; padding: 2px'>Watch vars</div>
+                                    <div v-for="varWatchName in execution_watch_list">
+                                        <div style='border: 1px solid blue; padding: 2px;' v-if='globalWatchList[varWatchName][current_execution_step]'>
+                                            <b>{{varWatchName}}:</b> {{JSON.stringify(globalWatchList[varWatchName][current_execution_step].value,null,2)}}
+                                        </div>
                                     </div>
                                 </div>
 
@@ -246,10 +249,10 @@ load_once_from_file(true)
                                 <div style='height:20px;'> </div>
 
                                 <div style='margin:0;padding:0;border:2px solid blue; min-height:50px;'>
-                                    <div style='background-color: blue; color: white;'> Current scope</div>
+                                    <div style='background-color: blue; color: white; padding: 2px'> Current scope</div>
 
 
-                                    <div v-for="varV in execution_var_list">
+                                    <div v-for="varV in execution_var_list" style='padding: 2px;'>
                                         <div v-bind:v-if='execution_timeline[current_execution_step].vars[varV]'>
                                             <div>
                                                 <b>{{varV}}</b>
