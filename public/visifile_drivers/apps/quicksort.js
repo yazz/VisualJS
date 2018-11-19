@@ -22,7 +22,13 @@ display_name("Quick sort")
       return quicksort(left).concat(pivot, quicksort(right));
     };
 
-    var unsorted = [23, 45, 16, 37, 3, 99, 22];
+    var unsorted = [];
+    var max = 100
+    var sizeArray = 10
+
+    for( var cc = 0 ; cc< sizeArray; cc++){
+        unsorted.push(Math.floor(Math.random() * max))
+    }
     var sorted = quicksort(unsorted);
 
     console.log('Sorted array', sorted);
