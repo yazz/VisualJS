@@ -72,42 +72,39 @@ load_once_from_file(true)
 
 
 
+    <div v-bind:style="'height: 100%; width: ' + app_width + '; right: 0px; display: ' + (app_shown?'inline-block':'none')+';vertical-align: top;border: 1px solid lightgray;border-radius: 10px;'">
+
+        <span   v-bind:style='"  padding: 10px;bottom: 0px;right:0px;background-color: darkgray;color: white;width: auto;" +
+                "border-radius: 5px;opacity: 1;position:relative;visibility: " +
+                ((show_new_tab_tooltip || show_open_app_tooltip)?"visible":"hidden") + ";font-family: Helvetica;"'>
+                    {{show_new_tab_tooltip?"Open app in new browser tab (shareable :)":""}}
+                    {{show_open_app_tooltip?"Download app as .HTML file (emailable :)":""}}
+        </span>
 
 
-                      <div v-bind:style="'height: 100%; width: ' + app_width + '; right: 0px; display: ' + (app_shown?'inline-block':'none')+';vertical-align: top;border: 1px solid lightgray;border-radius: 10px;'">
-                          <span
-                                v-bind:style='"  padding: 10px;bottom: 0px;right:0px;background-color: darkgray;color: white;width: auto;" +
-                                "border-radius: 5px;opacity: 1;position:relative;visibility: " +
-                                ((show_new_tab_tooltip || show_open_app_tooltip)?"visible":"hidden") + ";font-family: Helvetica;"'>
-                                    {{show_new_tab_tooltip?"Open app in new browser tab (shareable :)":""}}
-                                    {{show_open_app_tooltip?"Download app as .HTML file (emailable :)":""}}
-                          </span>
+        <div    v-if='is_ui_app'
+                v-bind:style="'background-color: rgb(242,242,242);padding: 5px;; border: 2px solid lightgray;'">
+                &larr; &rarr; <span class=reload>&#x21bb;</span>
 
-                          <div  v-if='is_ui_app'
-                                v-bind:style="'background-color: rgb(242,242,242);padding: 5px;; border: 2px solid lightgray;'">
-                                &larr; &rarr; <span class=reload>&#x21bb;</span>
-                                <a
-                                    v-bind:href='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'
-                                    target="_blank" rel="noopener noreferrer"
-                                    v-on:mouseover="show_new_tab_tooltip = true"
-                                    v-on:mouseleave="show_new_tab_tooltip = false"
-                                    class=reload>&#x274F;
-                                </a>
+            <a      v-bind:href='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'
+                    target="_blank" rel="noopener noreferrer"
+                    v-on:mouseover="show_new_tab_tooltip = true"
+                    v-on:mouseleave="show_new_tab_tooltip = false"
+                    class=reload>&#x274F;
+            </a>
 
-                                <input  readonly size="40" style='font-size: 13px;'
-                                    v-bind:value='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'>
-                                </input>
+            <input  readonly size="40" style='font-size: 13px;'
+                    v-bind:value='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'>
+            </input>
 
 
-
-                                <a
-                                    v-bind:href='"http://" + location.hostname + ":" + location.port + "/app/appshare_" + base_component_id + ".html"'
-                                    download
-                                    v-on:mouseover="show_open_app_tooltip = true"
-                                    v-on:mouseleave="show_open_app_tooltip = false"
-                                    class=reload>&#x2668;
-                                </a>
-                          </div>
+            <a  v-bind:href='"http://" + location.hostname + ":" + location.port + "/app/appshare_" + base_component_id + ".html"'
+                download
+                v-on:mouseover="show_open_app_tooltip = true"
+                v-on:mouseleave="show_open_app_tooltip = false"
+                class=reload>&#x2668;
+            </a>
+        </div>
 
 
                           <component  v-if='app_loaded && is_ui_app'
