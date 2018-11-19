@@ -998,12 +998,16 @@ function shutDown() {
         //zzz
             console.log("deleting dir :" + userData)
             if (userData.length > 14) {
-                fork.exec('cd "' + userData + '" && rm -rf *', function(err, stdout, stderr) {
-                if (err) {
-                    // node couldn't execute the command
-                    return;
-                    }
-                })
+                if (isWin) {
+                    forkedProcessPath = path.join(__dirname, '..\\src\\' + fileName)
+                } else {
+                    fork.exec('cd "' + userData + '" && rm -rf *', function(err, stdout, stderr) {
+                    if (err) {
+                        // node couldn't execute the command
+                        return;
+                        }
+                    })
+                }
             }
         }
     }
