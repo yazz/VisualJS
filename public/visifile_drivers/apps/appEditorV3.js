@@ -109,15 +109,15 @@ load_once_from_file(true)
 
 
                           <div  v-if='app_loaded && (!is_ui_app)' style='padding: 10px;'>
-<pre>{{console_output}}</pre>
-<div class='btn-group' style='float: right; margin-right: 2%;' role=group >
-    <button  type=button class=' btn btn-primary'        v-on:click='chooseProfiler()' >Profile app</button>
-</div>
+                              <pre>{{console_output}}</pre>
+                              <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
+                                  <button  type=button class=' btn btn-primary'        v-on:click='chooseProfiler()' >Profile app</button>
+                              </div>
                           </div>
-                    </div>
+                      </div>
 
 
-    </div>
+                  </div>
 
 
 
@@ -152,12 +152,12 @@ load_once_from_file(true)
 
 
                 <div    class='col-md-3'
-                        style='height: 50vh;background-color: white; position: relative;padding:0px;'
-                        >
+                        style='height: 50vh;background-color: white; position: relative;padding:0px;'>
 
                     <div
                         v-bind:style='  "position: absolute;pointer-events: none;width: 1px;border: 1px solid gray; top: 0; height:100%;" +"left: " + (timeline_x_cursor + 5)  + "px;" '>
                     </div>
+
                     <div
                         v-bind:style='  "position: absolute;pointer-events: none;height: 1px;border: 1px solid #F8F9F9; left: 0; width:100%;" +"top: " + (timeline_y_cursor + 5)  + "px;" '>
                     </div>
@@ -248,15 +248,17 @@ load_once_from_file(true)
                                         <div>
                                             <b>{{varV}}</b>
                                         </div>
+
                                         <div v-bind:v-if='execution_timeline[current_execution_step].vars[varV]'>
                                             <div style='margin-left:20px; margin-bottom: 15px;'>
                                                 <b>Before</b>:
                                                 {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].before,null,2)}}
                                             </div>
                                         </div>
+
                                         <div v-bind:v-if='execution_timeline[current_execution_step].vars[varV]'>
                                             <div style='margin-left:20px;'>
-                                                <b>After</b>: 
+                                                <b>After</b>:
                                                 {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].after,null,2)}}
                                             </div>
                                         </div>
