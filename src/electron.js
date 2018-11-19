@@ -2193,12 +2193,13 @@ function startServices() {
     }
 
 
-    forkedProcesses["forked"].send({message_type:       'setUpPredefinedComponents'});
 
 
 
 
     setTimeout(function(){
+        forkedProcesses["forked"].send({message_type:       'setUpPredefinedComponents'});
+
         //yyy
         setupChildProcesses();
 
