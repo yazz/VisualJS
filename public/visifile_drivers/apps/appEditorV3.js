@@ -239,13 +239,23 @@ load_once_from_file(true)
                                 <div style='margin:0;padding:0;border:2px solid blue; min-height:50px;'>
                                     <div style='background-color: blue; color: white; padding: 2px'>Watch vars</div>
                                     <div v-for="varWatchName in execution_watch_list">
-                                        <div style='border: 1px solid blue; padding: 4px;' v-if='globalWatchList[varWatchName][current_execution_step]'>
-                                            <b>{{varWatchName}}:</b> {{JSON.stringify(globalWatchList[varWatchName][current_execution_step].value,null,2)}}
-                                            <button type=button class='btn btn-primary' style='margin: 0px;padding:0px; float: right;'
-                                                    v-on:click='deleteWatch(varWatchName)'>
+                                        <div style='border: 1px solid blue; padding: 4px; min-height:50px;'
+                                             v-if='globalWatchList[varWatchName][current_execution_step]'>
 
-                                                Delete
-                                            </button>
+                                            <b>{{varWatchName}}:</b> {{JSON.stringify(globalWatchList[varWatchName][current_execution_step].value,null,2)}}
+
+                                            <div>
+                                                <button type=button class='btn btn-danger' style='margin: 0px;padding:0px; '
+                                                        v-on:click='deleteWatch(varWatchName)'>
+
+                                                    Delete
+                                                </button>
+                                                <button type=button class='btn btn-primary' style='margin: 0px;padding:0px; '
+                                                        v-on:click='keepWatch(varWatchName)'>
+
+                                                    Keep
+                                                </button>
+                                            </div>
 
                                         </div>
                                     </div>
@@ -482,6 +492,14 @@ load_once_from_file(true)
             },
             deleteWatch: async function(varN){
                 delete globalWatchList[varN]
+            },
+            keepWatch: async function(varN){
+                var allWatches = Object.keys(globalWatchList)
+                for (var rt = 0 ; rt < allWatches.length; rt++) {
+                    if (allWatches[rt] != varN) {
+                        delete globalWatchList[allWatches[rt]]
+                    }
+                }
             },
 
 
