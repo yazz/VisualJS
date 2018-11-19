@@ -239,8 +239,14 @@ load_once_from_file(true)
                                 <div style='margin:0;padding:0;border:2px solid blue; min-height:50px;'>
                                     <div style='background-color: blue; color: white; padding: 2px'>Watch vars</div>
                                     <div v-for="varWatchName in execution_watch_list">
-                                        <div style='border: 1px solid blue; padding: 2px;' v-if='globalWatchList[varWatchName][current_execution_step]'>
+                                        <div style='border: 1px solid blue; padding: 4px;' v-if='globalWatchList[varWatchName][current_execution_step]'>
                                             <b>{{varWatchName}}:</b> {{JSON.stringify(globalWatchList[varWatchName][current_execution_step].value,null,2)}}
+                                            <button type=button class='btn btn-primary' style='margin: 0px;padding:0px; float: right;'
+                                                    v-on:click='deleteWatch(varWatchName)'>
+
+                                                Delete
+                                            </button>
+
                                         </div>
                                     </div>
                                 </div>
@@ -466,13 +472,16 @@ load_once_from_file(true)
             ,
 
             addWatch: async function(varN){
-            //zzz
+
                 globalWatchList[varN]={}
                 await this.load_app( this.base_component_id )
                 var allWatches = Object.keys(globalWatchList)
                 for (var rt = 0 ; rt < allWatches.length; rt++) {
                     fillInMissingWatchTimelineValues(allWatches[rt],0)
                 }
+            },
+            deleteWatch: async function(varN){
+                delete globalWatchList[varN]
             },
 
 
