@@ -236,62 +236,55 @@ load_once_from_file(true)
                         <div class='container'>
                             <div v-if='execution_timeline[current_execution_step]'>
 
-                            <div v-for="varWatchName in execution_watch_list">
-                                <div style='border: 1px solid blue;' v-if='globalWatchList[varWatchName][current_execution_step]'>
-                                    <b>{{varWatchName}}:</b> {{JSON.stringify(globalWatchList[varWatchName][current_execution_step].value,null,2)}}
+                                <div v-for="varWatchName in execution_watch_list">
+                                    <div style='border: 1px solid blue;' v-if='globalWatchList[varWatchName][current_execution_step]'>
+                                        <b>{{varWatchName}}:</b> {{JSON.stringify(globalWatchList[varWatchName][current_execution_step].value,null,2)}}
+                                    </div>
                                 </div>
-                            </div>
 
 
-                            <div style='height:20px;'> </div>
+                                <div style='height:20px;'> </div>
 
-                            <div style='margin:0;padding:0;border:2px solid blue; min-height:50px;'>
-                                <div style='background-color: blue; color: white;'> Current scope</div>
+                                <div style='margin:0;padding:0;border:2px solid blue; min-height:50px;'>
+                                    <div style='background-color: blue; color: white;'> Current scope</div>
 
 
-                                <div v-for="varV in execution_var_list">
-                                    <div v-bind:v-if='execution_timeline[current_execution_step].vars[varV]'>
-                                        <div>
-                                            <b>{{varV}}</b>
-                                        </div>
-
+                                    <div v-for="varV in execution_var_list">
                                         <div v-bind:v-if='execution_timeline[current_execution_step].vars[varV]'>
-                                            <div style='margin-left:20px; margin-bottom: 15px;'>
-                                                <b>Before</b>:
-                                                {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].before,null,2)}}
+                                            <div>
+                                                <b>{{varV}}</b>
                                             </div>
-                                        </div>
 
-                                        <div v-bind:v-if='execution_timeline[current_execution_step].vars[varV]'>
-                                            <div style='margin-left:20px;'>
-                                                <b>After</b>:
-                                                {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].after,null,2)}}
+                                            <div v-bind:v-if='execution_timeline[current_execution_step].vars[varV]'>
+                                                <div style='margin-left:20px; margin-bottom: 15px;'>
+                                                    <b>Before</b>:
+                                                    {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].before,null,2)}}
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <div class='btn-group col-md-3' role=group >
-                                            <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='addWatch(varV)'>Add watch</button>
+                                            <div v-bind:v-if='execution_timeline[current_execution_step].vars[varV]'>
+                                                <div style='margin-left:20px;'>
+                                                    <b>After</b>:
+                                                    {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].after,null,2)}}
+                                                </div>
+                                            </div>
+
+                                            <div class='btn-group col-md-3' role=group >
+                                                <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='addWatch(varV)'>
+                                                    Add watch
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
-
-
-
-
-
             </div>
-
-
         </div>
     </div>
 </div>
-
-
 `
        ,
        data: function() {
