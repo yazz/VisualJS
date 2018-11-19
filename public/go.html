@@ -8712,6 +8712,16 @@ function addWatchPoint(vName,value) {
     globalWatchList[vName][currentTimelineLogPoint] = {}
     globalWatchList[vName][currentTimelineLogPoint].value = eval("(" + JSON.stringify(value) + ")")
     globalWatchList[vName][currentTimelineLogPoint].isSet = true
+    if (value){
+        globalWatchList[vName].type = typeof(value)
+        if (typeof(value) == "object") {
+            if (value[0]) {
+                if (typeof(value[0]) == "number") {
+                    globalWatchList[vName].type = "ListOfNumbers"
+                }
+            }
+        }
+    }
 }
 
 
@@ -8892,7 +8902,7 @@ async function callCodeV2(componentRecord,args, seq_no) {
                     }
 
 
-                    
+
                     if ((node.type == "ExpressionStatement") && node.expression) {
                         if (node.expression.type == "CallExpression") {
                                 var logWatchVarsCode = `for (var _uu=0; _uu<Object.keys(globalWatchList).length; _uu++){try { var _vName = Object.keys(globalWatchList)[_uu];if (isValidObject(_vName)){ addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`

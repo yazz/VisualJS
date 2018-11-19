@@ -255,6 +255,10 @@ load_once_from_file(true)
 
                                                     Keep
                                                 </button>
+
+                                                <div v-if='globalWatchList[varWatchName].type == "ListOfNumbers"'>
+                                                    ListOfNumbers
+                                                </div>
                                             </div>
 
                                         </div>
@@ -285,6 +289,7 @@ load_once_from_file(true)
                                                 <div style='margin-left:20px;'>
                                                     <b>After</b>:
                                                     {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].after,null,2)}}
+
                                                 </div>
                                             </div>
 
