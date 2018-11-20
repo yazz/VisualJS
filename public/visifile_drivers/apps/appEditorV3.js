@@ -378,12 +378,14 @@ load_once_from_file(true)
                     return "<div>No data</div>"
                 }
                 var html = "<div> "
-                //for (var gg=0; gg< value.length; gg++) {
+
                 var gg=0
+                while (typeof(value[gg])=='number'){
                     var vv = value[gg]
                     html += `<div style='width: ${vv}px;font: 10px sans-serif;background-color: steelblue;text-align: right;padding: 3px;margin: 1px;color: white;'>`
                     html += `${vv}</div>`
-                //}
+                    gg++
+                }
                 html += "</div> "
                 return html
 
