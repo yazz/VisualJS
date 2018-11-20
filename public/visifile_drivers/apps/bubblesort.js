@@ -22,8 +22,8 @@ function bubbleSort(a) {
 
 
     var unsorted = [];
-    var max = 100
-    var sizeArray = 10
+    var max = 200
+    var sizeArray = 20
 
     for( var cc = 0 ; cc< sizeArray; cc++){
         unsorted.push(Math.floor(Math.random() * max))
