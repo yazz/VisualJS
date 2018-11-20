@@ -8689,7 +8689,9 @@ function logVarAfter(codeBlockName, line, varName, varValue) {
 
 function fillInMissingWatchTimelineValues(vName, executionStepNo) {
     if (!globalWatchList[vName]) {
-        globalWatchList[vName] = {}
+        globalWatchList[vName] = {
+            viewer: ""
+        }
     }
     if (!globalWatchList[vName][executionStepNo]) {
         globalWatchList[vName][executionStepNo] = {}
@@ -8972,7 +8974,9 @@ async function callCodeV2(componentRecord,args, seq_no) {
 //zzz
         for ( var fds = 0 ; fds < Object.keys(varsToAdd).length ; fds ++ ) {
             var nnn = Object.keys(varsToAdd)[fds]
-            globalWatchList[nnn]={}
+            globalWatchList[nnn]={
+                viewer: ""
+            }
         }
 
 

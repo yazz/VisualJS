@@ -257,7 +257,15 @@ load_once_from_file(true)
                                                 </button>
 
                                                 <div v-if='globalWatchList[varWatchName].type == "ListOfNumbers"'>
-                                                    ListOfNumbers
+
+                                                    <select v-model="globalWatchList[varWatchName].viewer">
+                                                       <option selected="selected"   value="">View as text</option>
+                                                       <option                       value="graph">Graph</option>
+                                                     </select>
+                                                </div>
+
+                                                <div v-if='globalWatchList[varWatchName].viewer == "graph"'>
+                                                    Graph viewer**
                                                 </div>
                                             </div>
 
