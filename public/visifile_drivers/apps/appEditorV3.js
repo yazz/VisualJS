@@ -504,7 +504,21 @@ timeline_pause: {{timeline_pause}}
                 var mm = this
                 mm.timeline_pause = true;
                 setTimeout(function() {
-                    mm.timeline_pause = false;
+                    var elementTimeline = document.getElementById("timeline_el"  )
+                    var left = elementTimeline.scrollLeft;
+
+                    if ((left > -1) && elementTimeline) {
+                        var stepp = Math.floor(left / mm.execution_horiz_scale)
+                        var x = executionTimelineMapTimeToLine[ stepp ]
+                        if (x) {
+                            mm.current_execution_step = x.time
+                            mm.current_execution_step_y_line = x.line
+                            mm.updateTimeline()
+                        }
+                    }
+                    setTimeout(function() {
+                        mm.timeline_pause = false;
+                        },200)
                 }, 66);
             }
 
