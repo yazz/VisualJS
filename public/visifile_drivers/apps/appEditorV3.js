@@ -265,7 +265,8 @@ load_once_from_file(true)
                                                 </div>
 
                                                 <div v-if='globalWatchList[varWatchName].viewer == "graph"'>
-                                                    Graph viewer**
+                                                    Graph viewer
+                                                    <div v-html='getVarAsHtml("graph",varWatchName)'></div>
                                                 </div>
                                             </div>
 
@@ -362,6 +363,32 @@ load_once_from_file(true)
        ,
 
        methods: {
+           getVarAsHtml: function(viewer,varName) {
+               var value = globalWatchList[varName][this.current_execution_step].value
+               var returnVal = "<div>No viewer</div>"
+               if (viewer=="graph") {
+                    returnVal = this.getVarAsBarChart(value)
+               }
+               return returnVal
+
+           },
+
+            getVarAsBarChart: function(value) {
+                if ((!value)  || (!value[0])) {
+                    return "<div>No data</div>"
+                }
+                var html = "<div> "
+                //for (var gg=0; gg< value.length; gg++) {
+                var gg=0
+                    var vv = value[gg]
+                    html += `<div style='width: ${vv}px;font: 10px sans-serif;background-color: steelblue;text-align: right;padding: 3px;margin: 1px;color: white;'>`
+                    html += `${vv}</div>`
+                //}
+                html += "</div> "
+                return html
+
+            },
+
            resetDebugger: function() {
 
                executionTimeline   = []
