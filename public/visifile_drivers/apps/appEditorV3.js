@@ -506,21 +506,7 @@ load_once_from_file(true)
                 var mm = this
                 mm.timeline_pause = true;
                 setTimeout(function() {
-                    var elementTimeline = document.getElementById("timeline_el"  )
-                    var left = elementTimeline.scrollLeft;
-
-                    if ((left > -1) && elementTimeline) {
-                        var stepp = Math.floor(left / mm.execution_horiz_scale)
-                        var x = executionTimelineMapTimeToLine[ stepp ]
-                        if (x) {
-                            mm.current_execution_step = x.time
-                            mm.current_execution_step_y_line = x.line
-                            mm.updateTimeline()
-                        }
-                    }
-                    setTimeout(function() {
-                        mm.timeline_pause = false;
-                        },200)
+                    mm.timeline_pause = false;
                 }, 66);
             }
 
