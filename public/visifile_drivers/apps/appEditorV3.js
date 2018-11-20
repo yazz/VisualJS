@@ -169,9 +169,10 @@ load_once_from_file(true)
                         v-bind:style='  "position: absolute;pointer-events: none;height: 1px;border: 1px solid #F8F9F9; left: 0; width:100%;" +"top: " + (timeline_y_cursor + 5)  + "px;" '>
                     </div>
 
+timeline_pause: {{timeline_pause}}
                     <div    style='position:relative;overflow: scroll; border: 1px solid blue; padding:0; height:100%; width:100%;left:0;top:0'
                             id='timeline_el'
-                            onscroll="in_timeline_scroll = true; setTimeout(function() {in_timeline_scroll=true}, 66);"
+                            v-on:scroll='inTimelineScroll()'
                             @mousemove="mouseMoveTimeline($event)"
                             @click="mouseClickTimeline($event)"
                             @mouseenter="mouseEnterTimeline($event)"
@@ -317,7 +318,6 @@ load_once_from_file(true)
        data: function() {
            return {
                editor_loaded:       false,
-               in_timeline_scroll:  false,
                console_output:      "",
                selected_app:        '',
                is_ui_app:           true,
@@ -493,23 +493,23 @@ load_once_from_file(true)
 
             ,
             mouseEnterTimeline: function(ev) {
-                if (this.in_timeline_scroll) {
-                    return
-                }
                 this.timeline_pause = false
             }
             ,
             mouseClickTimeline: function(ev) {
                 this.timeline_pause = !this.timeline_pause
+            },
+
+            inTimelineScroll: function() {
+                var mm = this
+                mm.timeline_pause = true;
+                setTimeout(function() {
+                    mm.timeline_pause = false;
+                }, 66);
             }
-
-
 
            ,
             mouseMoveTimeline: function(ev) {
-                if (this.in_timeline_scroll) {
-                    return
-                }
                 if (!this.timeline_pause) {
                     var elementTimeline = document.getElementById("timeline_el"  )
                     var left = (elementTimeline.scrollLeft + ev.offsetX);
