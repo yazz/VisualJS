@@ -265,10 +265,7 @@ load_once_from_file(true)
                                                      </select>
                                                 </div>
 
-                                                <div v-if='globalWatchList[varWatchName].viewer == "graph"'>
-                                                    Graph viewer
-                                                    <div v-html='getVarAsHtml("graph",varWatchName)'></div>
-                                                </div>
+                                                    <div v-html='getVarAsHtml(globalWatchList[varWatchName].viewer,varWatchName)'></div>
                                             </div>
 
                                         </div>
@@ -367,6 +364,11 @@ load_once_from_file(true)
            getVarAsHtml: function(viewer,varName) {
                var value = globalWatchList[varName][this.current_execution_step].value
                var returnVal = "<div>No viewer</div>"
+               if ((viewer == null) || (viewer.length=="")) {
+                    if (globalWatchList[varName].type == "ListOfNumbers") {
+                        viewer="graph"
+                    }
+               }
                if (viewer=="graph") {
                     returnVal = this.getVarAsBarChart(value)
                }
