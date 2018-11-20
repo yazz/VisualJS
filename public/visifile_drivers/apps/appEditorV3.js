@@ -169,7 +169,6 @@ load_once_from_file(true)
                         v-bind:style='  "position: absolute;pointer-events: none;height: 1px;border: 1px solid #F8F9F9; left: 0; width:100%;" +"top: " + (timeline_y_cursor + 5)  + "px;" '>
                     </div>
 
-timeline_pause: {{timeline_pause}}
                     <div    style='position:relative;overflow: scroll; border: 1px solid blue; padding:0; height:100%; width:100%;left:0;top:0'
                             id='timeline_el'
                             v-on:scroll='inTimelineScroll()'
@@ -323,7 +322,7 @@ timeline_pause: {{timeline_pause}}
                is_ui_app:           true,
                editor_component:    null,
                execution_timeline:  null,
-               execution_horiz_scale: 2,
+               execution_horiz_scale: 4,
                y_step: 30,
                timeline_editor: null,
                current_execution_step:  -1,
@@ -417,7 +416,7 @@ timeline_pause: {{timeline_pause}}
                     if (x) {
                         this.current_execution_step_y_line = x.line
                     }
-                    this.updateTimeline()
+                    this.updateTimeline({allowScroll: true})
                 }
             }
             ,
@@ -428,7 +427,7 @@ timeline_pause: {{timeline_pause}}
                     if (x) {
                         this.current_execution_step_y_line = x.line
                     }
-                    this.updateTimeline()
+                    this.updateTimeline({allowScroll: true})
                 }
             }
             ,
@@ -442,7 +441,7 @@ timeline_pause: {{timeline_pause}}
 
 
 
-            updateTimeline: function(  ) {
+            updateTimeline: function( args ) {
                 var x = executionTimelineMapTimeToLine[  this.current_execution_step  ]
                 if (x) {
                     this.highlighted_line           = x.line
@@ -473,13 +472,15 @@ timeline_pause: {{timeline_pause}}
                                                         (this.current_execution_step_y_line + this.execution_code[x.code_block_name].start)
                                                                 ) - elementTimeline.scrollTop
 
-                        if (this.timeline_x_cursor > elementTimeline.offsetWidth) {
-                            elementTimeline.scrollLeft += elementTimeline.offsetWidth
-                            this.timeline_x_cursor = (this.execution_horiz_scale * this.current_execution_step) - elementTimeline.scrollLeft
-                        }
-                        if ( this.timeline_x_cursor < 0 ) {
-                            elementTimeline.scrollLeft = (elementTimeline.scrollLeft + 7) - elementTimeline.offsetWidth
-                            this.timeline_x_cursor = (this.execution_horiz_scale * this.current_execution_step) - elementTimeline.scrollLeft
+                        if (isValidObject(args) && args.allowScroll) {
+                            if (this.timeline_x_cursor > elementTimeline.offsetWidth) {
+                                elementTimeline.scrollLeft += elementTimeline.offsetWidth
+                                this.timeline_x_cursor = (this.execution_horiz_scale * this.current_execution_step) - elementTimeline.scrollLeft
+                            }
+                            if ( this.timeline_x_cursor < 0 ) {
+                                elementTimeline.scrollLeft = (elementTimeline.scrollLeft + 7) - elementTimeline.offsetWidth
+                                this.timeline_x_cursor = (this.execution_horiz_scale * this.current_execution_step) - elementTimeline.scrollLeft
+                            }
                         }
                     }
 
@@ -488,6 +489,7 @@ timeline_pause: {{timeline_pause}}
                     this.execution_var_list = Object.keys(this.execution_timeline[this.current_execution_step].vars)
                     this.execution_watch_list = Object.keys(globalWatchList)
                 }
+
             }
 
 
