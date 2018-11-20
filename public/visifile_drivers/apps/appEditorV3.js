@@ -117,7 +117,8 @@ load_once_from_file(true)
                           <div  v-if='app_loaded && (!is_ui_app)' style='padding: 10px;'>
                               <pre>{{console_output}}</pre>
                               <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
-                                  <button  type=button class=' btn btn-primary'        v-on:click='chooseProfiler()' >Profile app</button>
+                                  <button  type=button class=' btn btn-danger btn-lg'
+                                            v-on:click='chooseProfiler()' >See Javascript timeline</button>
                               </div>
                           </div>
                       </div>

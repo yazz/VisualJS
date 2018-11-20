@@ -53,9 +53,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                             Create a new app
                                            </h4>
                                            <select v-model="app_type">
-                                             <option selected  value="new">Blank app</option>
+                                             <option           value="new">Blank app</option>
                                              <option           value="quicksort">Quicksort</option>
-                                              <option          value="bubblesort">Bubblesort</option>
+                                              <option selected value="bubblesort">Bubblesort</option>
                                               <option          value="vb">Drag and Drop Builder</option>
                                               <option          value="todo">Database app</option>
                                               <option          value="game">3d AFrame app</option>
@@ -143,7 +143,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     data: function() {
         return {
                     apps: [],
-                    app_type: "new",
+                    app_type: "bubblesort",
                     intro_apps: [],
                     loaded_app: new Object(),
                     show_menu: null,
