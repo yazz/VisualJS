@@ -8716,10 +8716,13 @@ function addWatchPoint(vName,value) {
     globalWatchList[vName][currentTimelineLogPoint].isSet = true
     if (value){
         globalWatchList[vName].type = typeof(value)
+        globalWatchList[vName].viewer = "text"
+
         if (typeof(value) == "object") {
             if (value[0]) {
                 if (typeof(value[0]) == "number") {
                     globalWatchList[vName].type = "ListOfNumbers"
+                    globalWatchList[vName].viewer = "graph"
                 }
             }
         }

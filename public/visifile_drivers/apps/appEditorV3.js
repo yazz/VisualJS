@@ -263,8 +263,8 @@ load_once_from_file(true)
                                                 <div v-if='globalWatchList[varWatchName].type == "ListOfNumbers"'>
 
                                                     <select v-model="globalWatchList[varWatchName].viewer">
-                                                       <option selected="selected"   value="">View as text</option>
-                                                       <option                       value="graph">Graph</option>
+                                                       <option value="text">View as text</option>
+                                                       <option value="graph">Graph</option>
                                                      </select>
                                                 </div>
 
