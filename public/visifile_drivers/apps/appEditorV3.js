@@ -382,8 +382,8 @@ load_once_from_file(true)
            },
 
             getVarAsBarChart: function(value) {
-                if ((!value)  || (!value[0])) {
-                    return "<div>No data</div>"
+                if (!isValidObject(value)) {
+                    return "<div></div>"
                 }
                 var html = "<div> "
 
