@@ -117,8 +117,8 @@ load_once_from_file(true)
                           <div  v-if='app_loaded && (!is_ui_app)' style='padding: 10px;'>
                               <pre>{{console_output}}</pre>
                               <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
-                                  <button  type=button class=' btn btn-danger btn-lg'
-                                            v-on:click='chooseProfiler()' >See Javascript timeline</button>
+                                  <button  type=button class=' btn btn-success btn-lg'
+                                            v-on:click='chooseProfiler()' >Visualie this!</button>
                               </div>
                           </div>
                       </div>
@@ -442,6 +442,7 @@ load_once_from_file(true)
 
 
             updateTimeline: function( args ) {
+                var mm = this
                 var x = executionTimelineMapTimeToLine[  this.current_execution_step  ]
                 if (x) {
                     this.highlighted_line           = x.line
@@ -455,6 +456,10 @@ load_once_from_file(true)
                         this.timeline_editor.scrollToLine(x.line , true, true, function () {});
                         this.timeline_editor.gotoLine(x.line , 10, true);
                         this.timeline_editor.resize(true);
+                        this.timeline_editor.on("focus", function() {
+                            console.log(": focus __")
+                            mm.chooseBoth()
+                         });
 
                         //this.timeline_editor.selection.moveCursorToPosition({row: x.line - 1, column: 0});
                         //this.timeline_editor.selection.selectLine();
@@ -657,13 +662,13 @@ load_once_from_file(true)
                 this.app_width = "33%"
                 this.app_shown = true
 
-                this.mode      = "edit"
-                this.sub_mode  = "both"
                 await mm.load_app( this.base_component_id )
 
                 if (this.timeline_editor) {
                     this.timeline_editor.destroy()
                     this.timeline_editor = null
+                    this.mode      = "edit"
+                    this.sub_mode  = "both"
                 }
             },
 
