@@ -457,8 +457,9 @@ load_once_from_file(true)
                         this.timeline_editor.gotoLine(x.line , 10, true);
                         this.timeline_editor.resize(true);
                         this.timeline_editor.on("focus", function() {
-                            console.log(": focus __")
-                            mm.chooseBoth()
+                            if (mm.mode == "profiler") {
+                                mm.chooseBoth()
+                            }
                          });
 
                         //this.timeline_editor.selection.moveCursorToPosition({row: x.line - 1, column: 0});
@@ -656,6 +657,9 @@ load_once_from_file(true)
 
             chooseBoth: async function() {
                 var mm = this
+                this.mode      = "edit"
+                this.sub_mode  = "both"
+
                 this.code_width = "63%"
                 this.code_shown = true
 
@@ -667,8 +671,6 @@ load_once_from_file(true)
                 if (this.timeline_editor) {
                     this.timeline_editor.destroy()
                     this.timeline_editor = null
-                    this.mode      = "edit"
-                    this.sub_mode  = "both"
                 }
             },
 
