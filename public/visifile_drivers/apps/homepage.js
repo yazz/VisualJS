@@ -69,7 +69,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                    <div v-if="item.type == 'app'" >
                                        <div v-if="(edit_app == item.data.id)"
                                                style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:scroll; padding: 20px;">
-                                               <div v-on:click='editApp($event,null);addApp(item.data.id,index)' class="btn-lg btn-danger" style='margin-bottom: 20px;'>Close</div>
                                                <component v-if='' :is='"app_editor_3"' v-bind:app_id='item.data.id' v-bind:card_index='index'></component>
                                        </div>
 
