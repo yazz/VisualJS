@@ -48,7 +48,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                 <div    v-for="(item, index) in intro_apps"
                                         class="grid-item col-lg-4">
                                         <div
-                                        style="border-radius: 30px;background-color:white;border-width: 0px;margin:0px;padding:10px;"
+                                        style="border-radius: 0px;background-color:white;border-width: 0px;margin:0px;padding:10px;"
                                        >
 
                                        <div v-if="item.type == 'add'" >
@@ -79,7 +79,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-                                   <div style='border-radius: 25px;padding:20px; margin:0;border: 2px solid lightgray;'>
+                                   <div style='border-radius: 0px;padding:0px; margin:0;border: 2px solid lightgray;'>
                                     <div v-if='isInlineApp(item.data.id)' >
                                        <kbd v-on:click='editApp($event,item.data.id)'>{{item.data.id?"" + item.data.id.substring(0,20):""}}{{(item.data.id && ((item.data.id.length > 20))?"...":"")}}</kbd>
                                        <component v-if='edit_app != item.data.id' :is='item.data.id'></component>

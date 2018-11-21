@@ -24,8 +24,8 @@ load_once_from_file(true)
     {
       props: ['app_id', 'card_index'],
       template:
-`<div>
-    <div style='background-color: black; color: white;padding: 4px;'>
+`<div style="width:100%;padding:0; margin:0; border: 0;">
+    <div style='background-color: black; color: white;padding: 2px; margin-left: 15px;'>
         <h5  class='caption' style='display: inline-block;' v-on:click='if (!read_only) {edit_name=true;show_name=false;}' v-if='show_name'>{{app_component_name?"" + app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 50))?"...":"")}} </h5>
 
         <input  class='caption' style='display: inline-block;' v-if='edit_name' v-model='new_name'></input>
@@ -134,10 +134,10 @@ load_once_from_file(true)
 
         <div class='container' style='max-width:100%;width:100%;padding:0; margin:0; border: 0;'>
 
-            <div class='row' style='background-color: blue;color: white;padding: 4px;'>
+            <div class='row' style=';padding: 4px;'>
 
 
-                <div class='col-md-12' style='overflow: auto;'>
+                <div class='col-md-12' style='overflow: auto; background-color: blue;color: white'>
                     <span>Debugging: {{highlighted_block_name}}</span>
                     <b style='color: white; background-color: red;'>READ ONLY MODE</b>
                     <span class='col-md-3'>
