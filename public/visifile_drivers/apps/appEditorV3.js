@@ -25,7 +25,7 @@ load_once_from_file(true)
       props: ['app_id', 'card_index'],
       template:
 `<div>
-    <div>
+    <div style='background-color: black; color: white;padding: 4px;'>
         <h5  class='caption' style='display: inline-block;' v-on:click='if (!read_only) {edit_name=true;show_name=false;}' v-if='show_name'>{{app_component_name?"" + app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 50))?"...":"")}} </h5>
 
         <input  class='caption' style='display: inline-block;' v-if='edit_name' v-model='new_name'></input>
