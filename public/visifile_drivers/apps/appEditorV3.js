@@ -312,7 +312,7 @@ load_once_from_file(true)
                is_ui_app:           true,
                editor_component:    null,
                execution_timeline:  null,
-               execution_horiz_scale: 1,
+               execution_horiz_scale: 3,
                y_step: 30,
                timeline_editor: null,
                current_execution_step:  -1,
