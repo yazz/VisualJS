@@ -135,18 +135,20 @@ load_once_from_file(true)
         <div class='container' style='max-width:100%;width:100%;padding:0; margin:0; border: 0;'>
 
             <div class='row'>
+
+
+                <div class='col-md-12' style='overflow: auto;'>
+                    <span>Debugging: {{highlighted_block_name}}</span>
+                    <b style='color: white; background-color: red;'>READ ONLY MODE</b>
+                </div>
+            </div>
+
+
+            <div class='row'>
                 <div class='col-md-5' style='overflow: auto;'>
                     <div id='timeline_editor' >
                     </div>
-
-                    {{highlighted_block_name}}
-                    <b style='color: white; background-color: red;'>READ ONLY MODE</b>
-
-
-
                 </div>
-
-
 
 
                 <div    class='col-md-3'
