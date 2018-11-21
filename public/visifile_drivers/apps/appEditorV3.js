@@ -244,7 +244,9 @@ load_once_from_file(true)
                                         <div style='border: 1px solid blue; padding: 4px; min-height:50px;'
                                              v-if='globalWatchList[varWatchName][current_execution_step]'>
 
-                                            <b>{{varWatchName}}:</b> {{JSON.stringify(globalWatchList[varWatchName][current_execution_step].value,null,2)}}
+                                            <b>{{varWatchName}}:</b>
+
+                                            <div v-html='getVarAsHtml(globalWatchList[varWatchName].viewer,varWatchName)'></div>
 
                                             <div>
                                                 <button type=button class='btn btn-danger' style='margin: 0px;padding:0px; '
@@ -266,7 +268,6 @@ load_once_from_file(true)
                                                      </select>
                                                 </div>
 
-                                                    <div v-html='getVarAsHtml(globalWatchList[varWatchName].viewer,varWatchName)'></div>
                                             </div>
 
                                         </div>
@@ -364,7 +365,7 @@ load_once_from_file(true)
        methods: {
            getVarAsHtml: function(viewer,varName) {
                var value = globalWatchList[varName][this.current_execution_step].value
-               var returnVal = "<div>No viewer</div>"
+               var returnVal = null
                if ((viewer == null) || (viewer.length=="")) {
                     if (globalWatchList[varName].type == "ListOfNumbers") {
                         viewer="graph"
@@ -372,6 +373,9 @@ load_once_from_file(true)
                }
                if (viewer=="graph") {
                     returnVal = this.getVarAsBarChart(value)
+               }
+               if (returnVal == null) {
+                    returnVal = "<div>" + JSON.stringify(value,null,2) + "</div>"
                }
                return returnVal
 
