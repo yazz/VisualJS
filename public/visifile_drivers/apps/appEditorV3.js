@@ -186,7 +186,7 @@ load_once_from_file(true)
                                                 "height:100%; " +
                                                 "width: 100%;pointer-events: none;" '>
 
-                            {{block_name}}
+                            
 
                         </div>
 
@@ -209,7 +209,7 @@ load_once_from_file(true)
                     <div class='container'>
                         <div class=row>
                             <div class='col-md-3'>
-                                Step: {{current_execution_step}}/{{execution_timeline.length - 1}}
+                                Step: {{current_execution_step + 1}}/{{execution_timeline.length}}
                             </div>
 
 
