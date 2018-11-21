@@ -134,12 +134,25 @@ load_once_from_file(true)
 
         <div class='container' style='max-width:100%;width:100%;padding:0; margin:0; border: 0;'>
 
-            <div class='row'>
+            <div class='row' style='background-color: blue;color: white;padding: 4px;'>
 
 
                 <div class='col-md-12' style='overflow: auto;'>
                     <span>Debugging: {{highlighted_block_name}}</span>
                     <b style='color: white; background-color: red;'>READ ONLY MODE</b>
+                    <span class='col-md-3'>
+                        Step: {{current_execution_step + 1}}/{{execution_timeline.length}}
+                    </span>
+
+
+                    <span class='btn-group col-md-3' role=group >
+                        <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='stepBack()'>&lt;--</button>
+                        <button type=button class='btn btn-info' style='margin: 1px;padding:2px;'  v-on:click='stepForward()'>--&gt;</button>
+                    </span>
+
+                    <span class='col-md-3'>
+                        <input type="range" min="1" max="20" v-bind:onchange='timelineRefresh()' v-model="execution_horiz_scale"></input>
+                    </span>
                 </div>
             </div>
 
@@ -199,23 +212,6 @@ load_once_from_file(true)
 
                     </div>
 
-                    <div class='container'>
-                        <div class=row>
-                            <div class='col-md-3'>
-                                Step: {{current_execution_step + 1}}/{{execution_timeline.length}}
-                            </div>
-
-
-                            <div class='btn-group col-md-3' role=group >
-                                <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='stepBack()'>&lt;--</button>
-                                <button type=button class='btn btn-info' style='margin: 1px;padding:2px;'  v-on:click='stepForward()'>--&gt;</button>
-                            </div>
-
-                            <div class='col-md-3'>
-                                <input type="range" min="1" max="20" v-bind:onchange='timelineRefresh()' v-model="execution_horiz_scale"></input>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
 
@@ -316,7 +312,7 @@ load_once_from_file(true)
                is_ui_app:           true,
                editor_component:    null,
                execution_timeline:  null,
-               execution_horiz_scale: 1,
+               execution_horiz_scale: 3,
                y_step: 30,
                timeline_editor: null,
                current_execution_step:  -1,
