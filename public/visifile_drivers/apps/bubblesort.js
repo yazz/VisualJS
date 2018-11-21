@@ -21,17 +21,17 @@ function bubbleSort(a) {
 }
 
 
-    var unsorted = [];
+    var aUnsorted = [];
     var max = 200
     var sizeArray = 12
 
     for( var cc = 0 ; cc< sizeArray; cc++){
-        unsorted.push(Math.floor(Math.random() * max))
+        aUnsorted.push(Math.floor(Math.random() * max))
     }
 
 
-    var sorted = bubbleSort(unsorted);
+    var aSorted = bubbleSort(aUnsorted);
 
-    console.log('Sorted array', sorted);
+    console.log('Sorted array', aSorted);
 
 }

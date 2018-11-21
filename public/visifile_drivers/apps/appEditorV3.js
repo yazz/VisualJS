@@ -498,6 +498,7 @@ load_once_from_file(true)
                 if (this.execution_timeline[this.current_execution_step]){
                     this.execution_var_list = Object.keys(this.execution_timeline[this.current_execution_step].vars)
                     this.execution_watch_list = Object.keys(globalWatchList)
+                    this.execution_watch_list.sort()
                 }
 
             }
