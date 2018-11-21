@@ -201,6 +201,13 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     mm.edit_app = text.base_component_id
                     mm.refresh++
                 }
+
+                if (text.type == "close_app") {
+                    mm.show_menu = null;
+                    mm.edit_app = null;
+                    mm.refresh++
+                }
+
             })
 
              globalEventBus.$on('new-appshare-app-uploaded',
