@@ -23,8 +23,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     Vue.component('homepage', {
 
       template: `<div>
-                    <div    style="position: sticky; left:0px; top:0px; height:70px; width: 100vw ;z-index: -2000;background-color: white;padding:0;margin:0;">
-                    <h3 style="border:solid 1px;border-color: lightgray; padding: 14px; margin: 0px;font-family: Helvetica;">Appshare</h3>
+                    <div    style="position: sticky; left:0px; top:0px; height:35px; width: 100vw ;z-index: -2000;background-color: white;padding:0;margin:0;">
+                        <h4 style="border:0px; padding: 2px; margin: 0px;margin-left:15px;font-family: Helvetica;">Appshare</h4>
+                        <h6 style="color: blue;border:0px;padding: 2px; margin: 0px;margin-left:15px;font-family: Helvetica;">Build apps in minutes</h6>
                     </div>
 
       <div  class="container-fluid" style='position: relative; padding:20;margin:0; width: 95%;'>

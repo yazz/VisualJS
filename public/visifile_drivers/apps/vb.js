@@ -2,6 +2,7 @@ async function(args) {
 /*
 created_timestamp(1537522006661)
 base_component_id("vb")
+control_type("SYSTEM")
 visibility("PUBLIC")
 
 editors([
