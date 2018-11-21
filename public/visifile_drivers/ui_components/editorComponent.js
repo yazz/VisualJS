@@ -18,7 +18,7 @@ load_once_from_file(true)
         }
       },
       template: `<div>
-                      <div style='background-color: blue; padding: 5px;' >
+                      <div style='background-color: blue; padding: 5px;padding-left: 15px;' >
                           <h4 style='display: inline-block; margin-right: 10px; color: white; ' >
                               Text editor
                           </h4>

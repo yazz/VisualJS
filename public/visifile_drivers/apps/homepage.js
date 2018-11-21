@@ -24,10 +24,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
       template: `<div>
                     <div    style="position: sticky; left:0px; top:0px; width: 100vw ;z-index: -2000;background-color: black;padding:0;margin:0;">
-                        <h4 style="border:0px; padding: 2px; margin: 0px;margin-left:15px;font-family: Helvetica;color: white;">
+                        <h4 style="border:0px; padding: 5px; margin: 0px;padding-left:15px;font-family: Helvetica;color: white;">
                             Appshare
                         </h4>
-                        <h6 style="color: lightgray;border:0px;padding: 2px; margin: 0px;margin-left:15px;font-family: Helvetica;">
+                        <h6 style="color: lightgray;border:0px;padding: 2px; margin: 0px;padding-left:15px;font-family: Helvetica;">
                             Build apps in minutes
                         </h6>
                     </div>
@@ -72,7 +72,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                                    <div v-if="item.type == 'app'" >
                                        <div v-if="(edit_app == item.data.id)"
-                                               style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:scroll; padding: 20px;">
+                                               style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:scroll; padding: 0px;">
                                                <component v-if='' :is='"app_editor_3"' v-bind:app_id='item.data.id' v-bind:card_index='index'></component>
                                        </div>
 

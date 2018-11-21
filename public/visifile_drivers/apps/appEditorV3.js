@@ -25,7 +25,7 @@ load_once_from_file(true)
       props: ['app_id', 'card_index'],
       template:
 `<div style="width:100%;padding:0; margin:0; border: 0;">
-    <div style='background-color: black; color: white;padding: 2px; margin-left: 15px;'>
+    <div style='background-color: black; color: white;padding: 7px; padding-left: 15px;'>
         <h5  class='caption' style='display: inline-block;' v-on:click='if (!read_only) {edit_name=true;show_name=false;}' v-if='show_name'>{{app_component_name?"" + app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 50))?"...":"")}} </h5>
 
         <input  class='caption' style='display: inline-block;' v-if='edit_name' v-model='new_name'></input>
@@ -41,7 +41,7 @@ load_once_from_file(true)
             <button  type=button class=' btn btn-primary btn-sm'        v-on:click='chooseProfiler()' >Profiler</button>
             <button  type=button class=' btn btn-secondary btn-sm'   v-on:click='copyAppMethod(base_component_id,null)' >Copy app</button>
             <button  type=button class=' btn btn-info btn-sm'        v-on:click='embedApp(base_component_id)' >Embed app</button>
-            <button  v-if='(editor_component != "editor_component") && (!read_only)' type=button class=' btn btn-secondary'   v-on:click='editAsText()' >Edit as text</button>
+            <button  v-if='(editor_component != "editor_component") && (!read_only)' type=button class=' btn btn-secondary btn-sm'   v-on:click='editAsText()' >Edit as text</button>
             <button  v-if='(!read_only) && (visibility == "PUBLIC")' type=button class=' btn btn-success btn-sm'   v-on:click='setVisibility("PRIVATE")' >Public: Switch to private</button>
             <button  v-if='(!read_only) && (visibility == "PRIVATE")' type=button class=' btn btn-secondary btn-sm'   v-on:click='setVisibility("PUBLIC")' >Private: Switch to public</button>
             <button  type=button class=' btn btn-danger btn-sm'   v-on:click='closeApp()' >Close</button>
@@ -134,10 +134,10 @@ load_once_from_file(true)
 
         <div class='container' style='max-width:100%;width:100%;padding:0; margin:0; border: 0;'>
 
-            <div class='row' style=';padding: 4px;'>
+            <div class='row' style=';padding: 0px;padding: 5px; padding-left: 15px;background-color: blue;color: white;'>
 
 
-                <div class='col-md-12' style='overflow: auto; background-color: blue;color: white'>
+                <div class='col-md-12' style='overflow: auto;  '>
                     <span>Debugging: {{highlighted_block_name}}</span>
                     <b style='color: white; background-color: red;'>READ ONLY MODE</b>
                     <span class='col-md-3'>
@@ -284,7 +284,7 @@ load_once_from_file(true)
                                             </div>
 
                                             <div v-bind:v-if='execution_timeline[current_execution_step].vars[varV]'>
-                                                <div style='margin-left:20px;'>
+                                                <div style='padding-left:20px;'>
                                                     <b>After</b>:
                                                     {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].after,null,2)}}
 
