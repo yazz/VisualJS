@@ -18,9 +18,17 @@ load_once_from_file(true)
         }
       },
       template: `<div>
+                      <div style='background-color: blue; padding: 5px;' >
+                          <h4 style='display: inline-block; margin-right: 10px; color: white; ' >
+                              Text editor
+                          </h4>
+
+                          <slot style='display: inline-block;' v-if='text' :text2="text">
+                          </slot>
+                      </div>
+
                     <div v-bind:id='editorDomId' ></div>
                     <hr />
-                     <slot  :text2="text"></slot>
                  </div>`
      ,
 

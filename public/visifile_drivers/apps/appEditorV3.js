@@ -35,16 +35,16 @@ load_once_from_file(true)
         </button>
 
         <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
-            <button  type=button class='btn btn-primary'      v-on:click='chooseApp()'  >App</button>
-            <button  type=button class=' btn btn-secondary'   v-on:click='chooseCode()' >Code</button>
-            <button  type=button class=' btn btn-info'        v-on:click='chooseBoth()' >Both</button>
-            <button  type=button class=' btn btn-primary'        v-on:click='chooseProfiler()' >Profiler</button>
-            <button  type=button class=' btn btn-secondary'   v-on:click='copyAppMethod(base_component_id,null)' >Copy app</button>
-            <button  type=button class=' btn btn-info'        v-on:click='embedApp(base_component_id)' >Embed app</button>
+            <button  type=button class='btn btn-primary btn-sm'      v-on:click='chooseApp()'  >App</button>
+            <button  type=button class=' btn btn-secondary btn-sm'   v-on:click='chooseCode()' >Code</button>
+            <button  type=button class=' btn btn-info btn-sm'        v-on:click='chooseBoth()' >Both</button>
+            <button  type=button class=' btn btn-primary btn-sm'        v-on:click='chooseProfiler()' >Profiler</button>
+            <button  type=button class=' btn btn-secondary btn-sm'   v-on:click='copyAppMethod(base_component_id,null)' >Copy app</button>
+            <button  type=button class=' btn btn-info btn-sm'        v-on:click='embedApp(base_component_id)' >Embed app</button>
             <button  v-if='(editor_component != "editor_component") && (!read_only)' type=button class=' btn btn-secondary'   v-on:click='editAsText()' >Edit as text</button>
-            <button  v-if='(!read_only) && (visibility == "PUBLIC")' type=button class=' btn btn-success'   v-on:click='setVisibility("PRIVATE")' >Public: Switch to private</button>
-            <button  v-if='(!read_only) && (visibility == "PRIVATE")' type=button class=' btn btn-secondary'   v-on:click='setVisibility("PUBLIC")' >Private: Switch to public</button>
-            <button  type=button class=' btn btn-danger'   v-on:click='closeApp()' >Close</button>
+            <button  v-if='(!read_only) && (visibility == "PUBLIC")' type=button class=' btn btn-success btn-sm'   v-on:click='setVisibility("PRIVATE")' >Public: Switch to private</button>
+            <button  v-if='(!read_only) && (visibility == "PRIVATE")' type=button class=' btn btn-secondary btn-sm'   v-on:click='setVisibility("PUBLIC")' >Private: Switch to public</button>
+            <button  type=button class=' btn btn-danger btn-sm'   v-on:click='closeApp()' >Close</button>
         </div>
     </div>
 
@@ -142,16 +142,6 @@ load_once_from_file(true)
                     {{highlighted_block_name}}
                     <b style='color: white; background-color: red;'>READ ONLY MODE</b>
 
-                    <div class='btn-group col-md-5' role=group>
-
-                        <button     type=button
-                                    class='btn btn-info'
-                                    v-on:click='chooseBoth()'>
-
-                             Edit app
-
-                        </button>
-                    </div>
 
 
                 </div>
