@@ -160,8 +160,8 @@ load_once_from_file(true)
 
 
             <div class='row'>
-                <div class='col-md-5' style='overflow: auto;padding:0px;margin:0px;'>
-                    <div id='timeline_editor' >
+                <div class='col-md-5' style='height: 50vh;overflow: auto;padding:0px;margin:0px;'>
+                    <div id='timeline_editor' style='height: 100%;' >
                     </div>
                 </div>
 
@@ -226,7 +226,7 @@ load_once_from_file(true)
 
                     <div  style="left:0px; z-index: 200; width:100%; height:100%;">
 
-                        <div class='container'>
+                        <div class='container' style="padding:0;margin:0">
                             <div v-if='execution_timeline[current_execution_step]'>
 
                                 <div style='margin:0;padding:0;border:2px solid blue; min-height:50px;'>
@@ -585,7 +585,7 @@ load_once_from_file(true)
                     document.getElementById("timeline_editor").style.width = "100%"
                     document.getElementById("timeline_editor").style.border = "1px solid #2C2828"
 
-                    document.getElementById("timeline_editor").style.height = "45vh"
+                    document.getElementById("timeline_editor").style.height = "50vh"
                     this.timeline_editor.getSession().setValue("");
                     this.timeline_editor.getSession().setUseWorker(false);
                     this.timeline_editor.setReadOnly(true)
