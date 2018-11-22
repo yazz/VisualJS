@@ -145,9 +145,6 @@ load_once_from_file(true)
                         <input type="range" min="1" max="20" v-bind:onchange='timelineRefresh()' v-model="execution_horiz_scale"></input>
                     </span>
 
-                    <span class='col-md-3'>
-                        Step: {{current_execution_step + 1}}/{{execution_timeline.length}}
-                    </span>
 
 
                     <span class='btn-group col-md-3' role=group >
@@ -172,10 +169,22 @@ load_once_from_file(true)
                     <div
                         v-bind:style='  "position: absolute;pointer-events: none;width: 1px;border: 1px solid gray; top: 0; height:100%;" +"left: " + (timeline_x_cursor + 5)  + "px;" '>
                     </div>
+                    <div
+                        v-bind:style='  "position: absolute;pointer-events: none;width: 100%;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor + 10)  + "px; font-size: 12px;" '>
+                            {{current_execution_step + 1}} / {{execution_timeline.length}}
+                    </div>
+                    <div v-if='timeline_x_cursor > 100'
+                        v-bind:style='  "position: absolute;pointer-events: none;width: 100px;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor - 100)  + "px; font-size: 12px;" '>
+                            {{current_execution_step + 1}} / {{execution_timeline.length}}
+                    </div>
 
                     <div
                         v-bind:style='  "position: absolute;pointer-events: none;height: 1px;border: 1px solid lightgray; left: 0; width:100%;" +"top: " + (timeline_y_cursor + 5)  + "px;" '>
                     </div>
+
+
+
+
 
                     <div    style='position:relative;overflow: scroll; border: 1px solid blue; padding:0; height:100%; width:100%;left:0;top:0'
                             id='timeline_el'
