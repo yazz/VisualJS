@@ -169,12 +169,12 @@ load_once_from_file(true)
                     <div
                         v-bind:style='  "position: absolute;pointer-events: none;width: 1px;border: 1px solid gray; top: 0; height:100%;" +"left: " + (timeline_x_cursor + 5)  + "px;" '>
                     </div>
-                    <div
+                    <div v-if='timeline_x_cursor <= 200'
                         v-bind:style='  "position: absolute;pointer-events: none;width: 100%;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor + 10)  + "px; font-size: 12px;" '>
                             {{current_execution_step + 1}} / {{execution_timeline.length}}
                     </div>
-                    <div v-if='timeline_x_cursor > 100'
-                        v-bind:style='  "position: absolute;pointer-events: none;width: 100px;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor - 100)  + "px; font-size: 12px;" '>
+                    <div v-if='timeline_x_cursor > 200'
+                        v-bind:style='  "position: absolute;pointer-events: none;width: 100px;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor - 100)  + "px; font-size: 12px; text-align:right;" '>
                             {{current_execution_step + 1}} / {{execution_timeline.length}}
                     </div>
 
