@@ -160,14 +160,14 @@ load_once_from_file(true)
 
 
             <div class='row'>
-                <div class='col-md-5' style='overflow: auto;'>
+                <div class='col-md-5' style='overflow: auto;padding:0px;margin:0px;'>
                     <div id='timeline_editor' >
                     </div>
                 </div>
 
 
                 <div    class='col-md-3'
-                        style='height: 50vh;background-color: white; position: relative;padding:0px;'>
+                        style='height: 50vh;background-color: white; position: relative;padding:0px;margin:0px;'>
 
                     <div
                         v-bind:style='  "position: absolute;pointer-events: none;width: 1px;border: 1px solid gray; top: 0; height:100%;" +"left: " + (timeline_x_cursor + 5)  + "px;" '>
@@ -220,7 +220,7 @@ load_once_from_file(true)
 
 
                 <div    class='col-md-4'
-                        style='height: 50vh;background-color: white;overflow: scroll; background-color: white;border: 1px solid black;'
+                        style='height: 50vh;background-color: white;overflow: scroll; background-color: white;border: 1px solid black;padding:0;margin:0;'
                         >
 
 
