@@ -174,7 +174,7 @@ load_once_from_file(true)
                     </div>
 
                     <div
-                        v-bind:style='  "position: absolute;pointer-events: none;height: 1px;border: 1px solid #F8F9F9; left: 0; width:100%;" +"top: " + (timeline_y_cursor + 5)  + "px;" '>
+                        v-bind:style='  "position: absolute;pointer-events: none;height: 1px;border: 1px solid lightgray; left: 0; width:100%;" +"top: " + (timeline_y_cursor + 5)  + "px;" '>
                     </div>
 
                     <div    style='position:relative;overflow: scroll; border: 1px solid blue; padding:0; height:100%; width:100%;left:0;top:0'
@@ -204,10 +204,10 @@ load_once_from_file(true)
                                                 "position: absolute; pointer-events: none;" +
                                                 "top:" + ((exePoint.line + executionCode[exePoint.code_block_name].start) * execution_horiz_scale) + "px;" +
                                                 "left:" +  (exePoint.time * execution_horiz_scale) + "px;" +
-                                                "border: 1px solid " + ((current_execution_step == exePoint.time)?"black":"darkgray" ) + ";" +
+                                                "border: 1px solid " + ((current_execution_step >= exePoint.time)?"black":"darkgray" ) + ";" +
                                                 "width:" + ((current_execution_step == exePoint.time)?"10":"7") + "px;" +
                                                 "height: " + ((current_execution_step == exePoint.time)?"10":"7") + "px; " +
-                                                "background-color: " + ((current_execution_step == exePoint.time)?"black":"darkgray" ) + ";" +
+                                                "background-color: " + ((current_execution_step >= exePoint.time)?"black":"darkgray" ) + ";" +
                                                 ""'>
                         </div>
 
