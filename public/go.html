@@ -7712,7 +7712,7 @@ async function initFn() {
           "                  v-on:click='click_card(item.id)'"+
           "                  v-bind:class='card_selected?(is_static?\"container\":\" container\"):\" container\"' >"+
           "<div " +
-		               " v-bind:style=\"'; padding-bottom:2vw;padding-top:' + (is_static?'0px':'2vw') + '; font-family: Helvetica ;  width: ' + (is_static?'100vw':'100%') + ' ;visibility: ' + (visible?'':'hidden') + ';' \">"+
+		               " v-bind:style=\"'; padding0px; font-family: Helvetica ;  width: 100vw ;visibility: ' + (visible?'':'hidden') + ';' \">"+
 
 
 
@@ -8339,7 +8339,7 @@ function sendToServerViaWebSocket(msg) {
 var staticAppSocket
 function setupPublicWebSocket()
 {
-    //var hostEditorAddress = "http://192.168.1.253:3000"
+    //var hostEditorAddress = "http://192.168.0.63:3000"
     var hostEditorAddress = "http://appshare.co:80"
     //console.log('opening web socketio');
     //staticAppSocket = io('http://appshare.co:80');
