@@ -138,8 +138,13 @@ load_once_from_file(true)
 
 
                 <div class='col-md-12' style='overflow: auto;  '>
-                    <span>Debugging: {{highlighted_block_name}}</span>
-                    <b style='color: white; background-color: red;'>READ ONLY MODE</b>
+                    <b style='color: white; background-color: red;padding: 2px;color:black;'>Debugging in READ ONLY MODE:</b>
+                    <span>{{highlighted_block_name}}</span>
+
+                    <span class='col-md-3'>
+                        <input type="range" min="1" max="20" v-bind:onchange='timelineRefresh()' v-model="execution_horiz_scale"></input>
+                    </span>
+
                     <span class='col-md-3'>
                         Step: {{current_execution_step + 1}}/{{execution_timeline.length}}
                     </span>
@@ -150,9 +155,6 @@ load_once_from_file(true)
                         <button type=button class='btn btn-info' style='margin: 1px;padding:2px;'  v-on:click='stepForward()'>--&gt;</button>
                     </span>
 
-                    <span class='col-md-3'>
-                        <input type="range" min="1" max="20" v-bind:onchange='timelineRefresh()' v-model="execution_horiz_scale"></input>
-                    </span>
                 </div>
             </div>
 
