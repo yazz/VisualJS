@@ -1499,7 +1499,7 @@ ${code}
 
                                         newStaticFileContent = newStaticFileContent.toString().replace("var isStaticHtmlPageApp = false", "var isStaticHtmlPageApp = true")
 
-                                        var newcode = escape("(" + code.toString() + ")")
+                                        var newcode = escape( code.toString() )
 
 
                                         newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_NAME***",displayName)
