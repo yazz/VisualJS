@@ -1464,6 +1464,14 @@ ${code}
 
                                           }
                                      }
+                                     var subComponents = saveHelper.getValueOfCodeString(code, "sub_components")
+                                     if (subComponents) {
+                                           for (var tt = 0; tt < subComponents.length ; tt++) {
+                                               stmtInsertSubComponent.run(
+                                                   baseComponentId,
+                                                   subComponents[tt])
+                                           }
+                                      }
                                      var sqliteCode = ""
                                      if (isValidObject(options)) {
 

@@ -4,6 +4,7 @@ created_timestamp(1542959355326)
 base_component_id("vb")
 control_type("SYSTEM")
 visibility("PUBLIC")
+sub_components(["app_editor_3","appEmbed","vb_editor_component","input_control","button_control","label_control"])
 
 editors([
   "vb_editor_component"
