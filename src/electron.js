@@ -1794,7 +1794,7 @@ function file_uploadFn(req, res, next) {
           localp2 =  path.join(userData,  'uploads/' + ifile.filename);
               var localp = localp2 + '.' + ext;
               fs.renameSync(localp2, localp);
-              var readIn = fs.readFileSync(localp)
+              var readIn = fs.readFileSync(localp).toString()
               //console.log('');
               //console.log('Local saved path: ' + localp);
               var indexStart = readIn.indexOf("/*APP_START*/")
@@ -1804,9 +1804,10 @@ function file_uploadFn(req, res, next) {
               if ((indexStart > 0) && (indexEnd > 0)) {
                 indexStart += 13 + 10
                 indexEnd -= 2
-                var tts = readIn.toString().substring(indexStart,indexEnd)
+                var tts = readIn.substring(indexStart,indexEnd)
+                console.log(tts)
                 var ytr = unescape(tts)
-                //console.log(ytr)
+                console.log("SENDINF FROM UPLAOD___=+++****")
                 var bci = saveHelper.getValueOfCodeString(ytr, "base_component_id")
 
                 var indexStart = readIn.indexOf("/*APP_START*/")
@@ -1817,7 +1818,7 @@ function file_uploadFn(req, res, next) {
 
                 var sqlitedatafromupload = null
                 if ((indexOfSqliteData != -1) && (indexOfSqliteDataEnd != -1)) {
-                    sqlitedatafromupload = readIn.toString().substring( indexOfSqliteData + 18,
+                    sqlitedatafromupload = readIn.substring( indexOfSqliteData + 18,
                                                                         indexOfSqliteDataEnd)
                 }
 
