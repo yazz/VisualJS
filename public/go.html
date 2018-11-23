@@ -8840,8 +8840,9 @@ async function callCodeV2(componentRecord,args, seq_no) {
         var line = -1
         var debugComponent = false
 
-        if ((componentRecord.control_type != "SYSTEM") &&
-            (componentRecord.control_type != "VB"))
+        var control_type = saveHelper.getValueOfCodeString(componentRecord.code, "control_type")
+        if ((control_type != "SYSTEM") &&
+            (control_type != "VB"))
         {
             debugComponent = true
             estraverse.traverse(_b, {
