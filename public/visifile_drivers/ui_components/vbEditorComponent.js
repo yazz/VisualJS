@@ -1382,6 +1382,12 @@ load_once_from_file(true)
               +
               this.text.substring(endIndex)
 
+              this.text = saveHelper.deleteCodeString(  this.text, "control_type")
+
+              this.text = saveHelper.insertCodeString(  this.text,
+                                                          "control_type",
+                                                          "SYSTEM")
+
               this.text = saveHelper.deleteCodeString(  this.text, "formEditor", ")//form" + "Editor")
 
               this.text = saveHelper.insertCodeString(  this.text,
