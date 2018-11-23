@@ -1047,6 +1047,13 @@ function outputToBrowser(txt) {
 var httpServer = null;
 function getPort () {
     outputToBrowser('** called getPort v2')
+
+    //yyy
+    setupChildProcesses();
+
+
+
+
     httpServer = http.createServer(app)
 
 
@@ -2200,9 +2207,6 @@ function startServices() {
 
     setTimeout(function(){
         forkedProcesses["forked"].send({message_type:       'setUpPredefinedComponents'});
-
-        //yyy
-        setupChildProcesses();
 
 
     	//--------------------------------------------------------
