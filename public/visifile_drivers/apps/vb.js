@@ -1,6 +1,6 @@
 async function(args) {
 /*
-created_timestamp(1542958913952)
+created_timestamp(1542959355326)
 base_component_id("vb")
 control_type("SYSTEM")
 visibility("PUBLIC")
@@ -81,8 +81,8 @@ formEditor({
           "background_color": ""
         },
         {
-          "leftX": 134.5625,
-          "topY": 4,
+          "leftX": 7.5625,
+          "topY": 6,
           "name": "title_label",
           "base_component_id": "label_control",
           "width": 112,
@@ -122,10 +122,11 @@ formEditor({
       ]
     }
   },
-  "active_component_index": null
+  "active_component_index": 4
 })//formEditor
 read_only(true)
 display_name("VB")
+
 
 
 
@@ -1608,8 +1609,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
           "background_color": ""
         },
         {
-          "leftX": 134.5625,
-          "topY": 4,
+          "leftX": 7.5625,
+          "topY": 6,
           "name": "title_label",
           "base_component_id": "label_control",
           "width": 112,
@@ -1649,7 +1650,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
       ]
     }
   },
-  "active_component_index": null
+  "active_component_index": 4
 }}
                 }
               })//** gen_end **//
