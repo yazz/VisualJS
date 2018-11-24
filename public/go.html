@@ -8835,16 +8835,17 @@ async function callCodeV2(componentRecord,args, seq_no) {
         componentRecord.code = componentRecord.code.toString().replaceAll(" sqlFirstCol1[(]"," rxsqlFirstCol1(" + addP)
 
 
-        var _a = "(" + componentRecord.code + ")"
-        var _b = esprima.parse(_a,{tolerant: true , loc:true, range: true, attachComment: false})
-        var line = -1
         var debugComponent = false
+        var trcode2 = "(" + componentRecord.code + ")"
 
         var control_type = saveHelper.getValueOfCodeString(componentRecord.code, "control_type")
         if ((control_type != "SYSTEM") &&
             (control_type != "VB"))
         {
             debugComponent = true
+            var _b = esprima.parse(trcode2,{tolerant: true , loc:true, range: true, attachComment: false})
+            var line = -1
+
             estraverse.traverse(_b, {
                 enter: function (node, parent) {
                     //
@@ -8973,18 +8974,19 @@ async function callCodeV2(componentRecord,args, seq_no) {
             		'AwaitExpression': ['argument']
                  }
             });
+
+            for ( var fds = 0 ; fds < Object.keys(varsToAdd).length ; fds ++ ) {
+                var nnn = Object.keys(varsToAdd)[fds]
+                globalWatchList[nnn]={
+                    viewer: ""
+                }
+            }
+
+
+            trcode2 = escodegen.generate(_b, {comment: false})
         }
 
 //zzz
-        for ( var fds = 0 ; fds < Object.keys(varsToAdd).length ; fds ++ ) {
-            var nnn = Object.keys(varsToAdd)[fds]
-            globalWatchList[nnn]={
-                viewer: ""
-            }
-        }
-
-
-        var trcode2 = escodegen.generate(_b, {comment: false})
 
         if (debugComponent){
             executionCode[componentRecord.base_component_id] = {}
