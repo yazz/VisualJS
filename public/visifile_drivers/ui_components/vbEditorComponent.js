@@ -847,7 +847,8 @@ load_once_from_file(true)
 
                                 eval( errr  )
 
-                                var efcc = eval(fcc)
+                                var debugFcc = getDebugCode("form_eval",fcc)
+                                var efcc = eval(debugFcc)
                                 efcc()
 
                                 //
