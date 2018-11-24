@@ -828,7 +828,10 @@ load_once_from_file(true)
 
 
                     if (eventMessage.type == "subcomponent_event") {
-                            var fcc = "(async function(){" + eventMessage.code +"})"
+                            var fcc =
+`(async function(){
+${eventMessage.code}
+})`
 
                            this.model.active_form
                            var thisControl = this.form_runtime_info[this.model.active_form].component_lookup_by_name[eventMessage.control_name]
@@ -847,7 +850,7 @@ load_once_from_file(true)
 
                                 eval( errr  )
 
-                                var debugFcc = getDebugCode("form_eval",fcc)
+                                var debugFcc = getDebugCode("form_eval",fcc,{skipFirstAndLastLine: true})
                                 var efcc = eval(debugFcc)
                                 efcc()
 
