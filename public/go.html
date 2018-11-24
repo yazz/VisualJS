@@ -8835,13 +8835,13 @@ async function callCodeV2(componentRecord,args, seq_no) {
         componentRecord.code = componentRecord.code.toString().replaceAll(" sqlFirstCol1[(]"," rxsqlFirstCol1(" + addP)
 
 
-        var debugComponent = false
         var trcode2 = "(" + componentRecord.code + ")"
 
         var control_type = saveHelper.getValueOfCodeString(componentRecord.code, "control_type")
         if ((control_type != "SYSTEM") &&
             (control_type != "VB"))
         {
+            var debugComponent = false
             debugComponent = true
             var _b = esprima.parse(trcode2,{tolerant: true , loc:true, range: true, attachComment: false})
             var line = -1
@@ -8984,18 +8984,20 @@ async function callCodeV2(componentRecord,args, seq_no) {
 
 
             trcode2 = escodegen.generate(_b, {comment: false})
+
+
+            if (debugComponent){
+                executionCode[componentRecord.base_component_id] = {}
+                executionCode[componentRecord.base_component_id].debug_code = trcode2
+                executionCode[componentRecord.base_component_id].code = componentRecord.code
+                executionCode[componentRecord.base_component_id].start = startTimelineTop
+                executionCode[componentRecord.base_component_id].control_type = componentRecord.control_type
+                startTimelineTop += componentRecord.code.length
+            }
         }
 
 //zzz
 
-        if (debugComponent){
-            executionCode[componentRecord.base_component_id] = {}
-            executionCode[componentRecord.base_component_id].debug_code = trcode2
-            executionCode[componentRecord.base_component_id].code = componentRecord.code
-            executionCode[componentRecord.base_component_id].start = startTimelineTop
-            executionCode[componentRecord.base_component_id].control_type = componentRecord.control_type
-            startTimelineTop += componentRecord.code.length
-        }
 
         var fnfn = eval( trcode2  )
         //console.log("Code to run: " + trcode2)
