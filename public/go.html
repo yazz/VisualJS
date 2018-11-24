@@ -8883,6 +8883,11 @@ function getDebugCode(blockName,  trcode2 , args) {
                                         if (!isValidObject(varName)) {
                                             if (node.expression.left.object.type == "ThisExpression") {
                                                 varName = "this." + node.expression.left.property.name
+                                            } else if (node.expression.left.type == "MemberExpression") {
+                                                varName = node.expression.left.object.name
+                                                if (node.expression.left.property.type == "Identifier") {
+                                                    varName += "." + node.expression.left.property.name
+                                                }
                                             }
                                         }
                                         varsToAdd[varName] = {}
