@@ -8573,13 +8573,6 @@ var dataIds = new Object()
                 if (data.value.use_db) {
                     useDb = data.value.use_db
                 }
-                var addP = "'" + data.value.code_id + "', '" + useDb + "', "
-                //alert("data: " + addP);
-                data.value.code = data.value.code.toString().replaceAll(" sql[(]"," rxsql(" + addP)
-                data.value.code = data.value.code.toString().replaceAll(" sql1[(]"," rxsql1(" + addP)
-                data.value.code = data.value.code.toString().replaceAll(" sqlFirstCol[(]"," rxsqlFirstCol(" + addP)
-                data.value.code = data.value.code.toString().replaceAll(" sqlFirstCol1[(]"," rxsqlFirstCol1(" + addP)
-                //alert("data: " + data.value.code);
 
 
                 if (data.value.code_id) {
@@ -9020,10 +9013,6 @@ async function callCodeV2(componentRecord,args, seq_no) {
             localSqliteDb = new SQL.Database(b);
             //alert(eds.length)
         }
-        componentRecord.code = componentRecord.code.toString().replaceAll(" sql[(]"," rxsql(" + addP)
-        componentRecord.code = componentRecord.code.toString().replaceAll(" sql1[(]"," rxsql1(" + addP)
-        componentRecord.code = componentRecord.code.toString().replaceAll(" sqlFirstCol[(]"," rxsqlFirstCol(" + addP)
-        componentRecord.code = componentRecord.code.toString().replaceAll(" sqlFirstCol1[(]"," rxsqlFirstCol1(" + addP)
 
 
         var trcode2 = "(" + componentRecord.code + ")"
@@ -9036,13 +9025,18 @@ async function callCodeV2(componentRecord,args, seq_no) {
         }
 
 //zzz
+        trcode2 = trcode2.toString().replaceAll(" sql[(]"," rxsql(" + addP)
+        trcode2 = trcode2.toString().replaceAll(" sql1[(]"," rxsql1(" + addP)
+        trcode2 = trcode2.toString().replaceAll(" sqlFirstCol[(]"," rxsqlFirstCol(" + addP)
+        trcode2 = trcode2.toString().replaceAll(" sqlFirstCol1[(]"," rxsqlFirstCol1(" + addP)
+
 
 
         var fnfn = eval( trcode2  )
         //console.log("Code to run: " + trcode2)
 
 
-        if (componentRecord.code.indexOf("async ")  == -1) {
+        if (trcode2.indexOf("async ")  == -1) {
             var fnfnRes = fnfn(args)
             if (callbackFn) {
                 callbackFn(fnfnRes)
