@@ -1001,7 +1001,7 @@ function shutDown() {
                 if (isWin) {
                     forkedProcessPath = path.join(__dirname, '..\\src\\' + fileName)
                 } else {
-                    fork.exec('cd "' + userData + '" && rm -rf *', function(err, stdout, stderr) {
+                    fork.exec('sleep 3 && cd "' + userData + '" && rm -rf *', function(err, stdout, stderr) {
                     if (err) {
                         // node couldn't execute the command
                         return;
