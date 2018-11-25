@@ -22,125 +22,117 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 //alert(2)
     Vue.component('homepage', {
 
-      template: `<div>
-                    <div    style="position: sticky; left:0px; top:0px; width: 100vw ;z-index: 2;background-color: black;padding:0;margin:0;">
-                        <h4 style="border:0px; padding: 5px; margin: 0px;padding-left:15px;font-family: Helvetica;color: white;">
-                            Appshare
-                        </h4>
-                        <h6 style="color: lightgray;border:0px;padding: 2px; margin: 0px;padding-left:15px;font-family: Helvetica;">
-                            Build apps in minutes
-                        </h6>
+      template:
+`<div>
+    <div    style="position: sticky; left:0px; top:0px; width: 100vw ;z-index: 2;background-color: black;padding:0;margin:0;">
+        <h4 style="border:0px; padding: 5px; margin: 0px;padding-left:15px;font-family: Helvetica;color: white;">
+            Appshare
+        </h4>
+        <h6 style="color: lightgray;border:0px;padding: 2px; margin: 0px;padding-left:15px;font-family: Helvetica;">
+            Build apps in minutes
+        </h6>
+    </div>
+
+
+
+    <div    style='padding:10px; margin:0;border: 2px solid pink;'>
+        <h4>
+            Create a new app
+        </h4>
+
+        <select v-model="app_type">
+            <option           value="new">Blank app</option>
+            <option           value="quicksort">Quicksort</option>
+            <option selected value="bubblesort">Bubblesort</option>
+            <option          value="vb">Drag and Drop Builder</option>
+            <option          value="todo">Database app</option>
+            <option          value="game">3d AFrame app</option>
+            <option          value="new_app">Text only</option>
+        </select>
+
+        <button style='margin-bottom:10px;' class='btn btn-primary btn-lg' v-on:click='copyAndEditApp($event,app_type)'>
+            Go
+        </button>
+    </div>
+
+
+
+    <div  class="container-fluid" style='position: relative; padding:20;margin:0; width: 95%;'>
+
+        <div v-bind:refresh='refresh'
+             ref='maingrid'
+             class="grid"
+             style='background-color: white; color: black; padding-top: 20px;padding-bottom: 20px;'>
+
+            <div    v-for="(item, index) in intro_apps"
+                    class="grid-item col-lg-4">
+                    <div
+                    style="border-radius: 0px;background-color:white;border-width: 0px;margin:0px;padding:10px;">
+
+
+               <div v-if="item.type == 'app'" >
+
+               <div v-if="(edit_app == item.data.id)"
+                       style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:none; padding: 0px;">
+                       <component v-if='' :is='"app_editor_3"' v-bind:app_id='item.data.id' v-bind:card_index='index'></component>
+               </div>
+
+
+
+
+               <div style='border-radius: 0px;padding:0px; margin:0;border: 2px solid lightgray;'>
+
+                    <div v-if='isInlineApp(item.data.id)' >
+                        <kbd v-on:click='editApp($event,item.data.id)'>
+                            {{item.data.id?"" + item.data.id.substring(0,20):""}}{{(item.data.id && ((item.data.id.length > 20))?"...":"")}}
+                        </kbd>
+
+                        <component v-if='edit_app != item.data.id' :is='item.data.id'>
+                        </component>
                     </div>
 
-      <div  class="container-fluid" style='position: relative; padding:20;margin:0; width: 95%;'>
+                    <div v-if='!isInlineApp(item.data.id)' >
+                        <kbd v-on:click='editApp($event,item.data.id)'>{{item.data.id?"" + item.data.id.substring(0,20):""}}{{(item.data.id && ((item.data.id.length > 20))?"...":"")}}
+                        </kbd>
 
+                        <span v-if='isEditable(item.data.id)' class="badge badge-warning" >
+                            Editable
+                        </span>
 
+                        <span v-if='!isEditable(item.data.id)' class="badge badge-info" >
+                            Read only
+                        </span>
 
-                    <div v-bind:refresh='refresh'
-                         ref='maingrid'
-                         class="grid"
-                         style='background-color: white; color: black; padding-top: 20px;padding-bottom: 20px;'>
-
-
-
-
-
-                                <div    v-for="(item, index) in intro_apps"
-                                        class="grid-item col-lg-4">
-                                        <div
-                                        style="border-radius: 0px;background-color:white;border-width: 0px;margin:0px;padding:10px;"
-                                       >
-
-                                       <div v-if="item.type == 'add'" >
-                                        <div    style='border-radius: 5px;padding:20px; margin:0;border: 2px solid pink;'
-                                                >
-                                           <h4>
-                                            Create a new app
-                                           </h4>
-                                           <select v-model="app_type">
-                                             <option           value="new">Blank app</option>
-                                             <option           value="quicksort">Quicksort</option>
-                                              <option selected value="bubblesort">Bubblesort</option>
-                                              <option          value="vb">Drag and Drop Builder</option>
-                                              <option          value="todo">Database app</option>
-                                              <option          value="game">3d AFrame app</option>
-                                              <option          value="new_app">Text only</option>
-                                            </select>
-                                           <button style='margin-bottom:10px;' class='btn btn-primary btn-lg' v-on:click='copyAndEditApp($event,app_type)'>Go</button>
-                                           </div>
-                                           </div>
-
-                                   <div v-if="item.type == 'app'" >
-                                       <div v-if="(edit_app == item.data.id)"
-                                               style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:none; padding: 0px;">
-                                               <component v-if='' :is='"app_editor_3"' v-bind:app_id='item.data.id' v-bind:card_index='index'></component>
-                                       </div>
-
-
-
-
-                                   <div style='border-radius: 0px;padding:0px; margin:0;border: 2px solid lightgray;'>
-                                    <div v-if='isInlineApp(item.data.id)' >
-                                       <kbd v-on:click='editApp($event,item.data.id)'>{{item.data.id?"" + item.data.id.substring(0,20):""}}{{(item.data.id && ((item.data.id.length > 20))?"...":"")}}</kbd>
-                                       <component v-if='edit_app != item.data.id' :is='item.data.id'></component>
-                                    </div>
-
-                                    <div v-if='!isInlineApp(item.data.id)' >
-                                        <kbd v-on:click='editApp($event,item.data.id)'>{{item.data.id?"" + item.data.id.substring(0,20):""}}{{(item.data.id && ((item.data.id.length > 20))?"...":"")}}</kbd>
-                                        <span v-if='isEditable(item.data.id)' class="badge badge-warning" >Editable</span>
-                                        <span v-if='!isEditable(item.data.id)' class="badge badge-info" >Read only</span>
-
-                                        <img    v-if='(app_records[item.data.id] && app_records[item.data.id].logo_url && (app_records[item.data.id].logo_url != ""))'
-                                                v-bind:src='app_records[item.data.id].logo_url'
-                                                style='width: 100%;'
-                                                v-bind:alt='app_records[item.data.id].logo_url'
-                                                v-on:click='editApp($event,item.data.id)'
-                                                ></img>
-                                    </div>
-
-
-                                    <ul class="nav flex-column">
-                                    <li class="nav-item" v-if='!isEditable(item.data.id)'>
-                                      <a  v-on:click='editApp($event,item.data.id)'
-                                          class="nav-link active" href="#">View source</a>
-                                    </li>
-
-                                      <li class="nav-item" v-if='isEditable(item.data.id)'>
-                                        <a  v-on:click='editApp($event,item.data.id)'
-                                            class="nav-link active" href="#">Edit</a>
-                                      </li>
-                                    </ul>
-
-                            </div>
-
-
-
-
-
-                                    </div>
-                                    </div>
-
-
-
-
-
-
-
-
-                            </div>
-
-                        </div>
+                        <img    v-if='(app_records[item.data.id] && app_records[item.data.id].logo_url && (app_records[item.data.id].logo_url != ""))'
+                                v-bind:src='app_records[item.data.id].logo_url'
+                                style='width: 100%;'
+                                v-bind:alt='app_records[item.data.id].logo_url'
+                                v-on:click='editApp($event,item.data.id)'
+                                >
+                        </img>
                     </div>
 
 
+                    <ul class="nav flex-column">
+                        <li class="nav-item" v-if='!isEditable(item.data.id)'>
+                            <a  v-on:click='editApp($event,item.data.id)'
+                                class="nav-link active" href="#">View source</a>
+                        </li>
 
-
-
-
-
+                        <li class="nav-item" v-if='isEditable(item.data.id)'>
+                            <a  v-on:click='editApp($event,item.data.id)'
+                                class="nav-link active" href="#">Edit</a>
+                        </li>
+                    </ul>
 
                 </div>
-       </div>`
+            </div>
+        </div>
+
+
+    </div>
+
+</div>`
       ,
 
 
