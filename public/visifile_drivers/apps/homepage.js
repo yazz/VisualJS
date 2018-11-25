@@ -207,7 +207,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                 if (text.type == "close_app") {
                     mm.show_menu = null;
-                    mm.addApp(mm.edit_app,1)
                     mm.edit_app = null;
                     mm.refresh++
                 }

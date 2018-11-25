@@ -22,7 +22,7 @@ load_once_from_file(true)
 
     Vue.component("app_editor_3",
     {
-      props: ['app_id', 'card_index'],
+      props: ['app_id'],
       template:
 `<div style="width:100%;padding:0; margin:0; border: 0;">
     <div style='background-color: black; color: white;padding: 7px; padding-left: 15px;'>
@@ -780,7 +780,7 @@ load_once_from_file(true)
                 mm.$root.$emit('message', {
                                                 type:               "insert_app_at",
                                                 base_component_id:   result.value.base_component_id,
-                                                card_index:          mm.card_index
+                                                card_index:          1
                                             })
                 setTimeout(async function() {
                     mm.console_output = ""
@@ -844,6 +844,11 @@ load_once_from_file(true)
                dev_app_component_loaded = new Object()
                this.editor_loaded = false
                await this.load_app(baseComponentId)
+               mm.$root.$emit('message', {
+                                               type:               "insert_app_at",
+                                               base_component_id:   result.value.base_component_id,
+                                               card_index:          1
+                                           })
            }
            ,
 
