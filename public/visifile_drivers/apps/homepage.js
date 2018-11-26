@@ -232,6 +232,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 await mm.addApp(text.base_component_id, text.card_index)
                 mm.edit_app = text.base_component_id
                 mm.refresh++
+                mm.msnry.reloadItems();
+                mm.msnry.layout();
             }
 
             if (text.type == "close_app") {
@@ -250,17 +252,12 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 await mm.addApp(data, 1)
                 setTimeout(function() {
                       mm.editApp(null, data)
+                      mm.msnry.reloadItems();
+                      mm.msnry.layout();
                 },50)
          });
-
-         setTimeout(function() {
-             mm.msnry.reloadItems();
-             mm.msnry.layout();
-         },50)
-
-
-
-
+         mm.msnry.reloadItems();
+         mm.msnry.layout();
       },
 
 
