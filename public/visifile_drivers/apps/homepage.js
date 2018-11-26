@@ -176,12 +176,13 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
            ,
            {
                sql: sql
-           })
-           for (var rt=0; rt < results.length; rt++) {
-               var appId = results[rt].base_component_id
-               mm.addAppFast(appId,-1, results[rt])
-               component_loaded[appId] = true
            }
+       )
+       for (var rt=0; rt < results.length; rt++) {
+           var appId = results[rt].base_component_id
+           mm.addAppFast(appId,-1, results[rt])
+           component_loaded[appId] = true
+       }
 
 
            await mm.search()
@@ -217,45 +218,51 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 },50)
          });
 
+         setTimeout(function() {
+             mm.msnry.reloadItems();
+             mm.msnry.layout();
+         },50)
+
+
+
+
       },
 
 
 
       methods: {
-              addAppFast: async function(baseComponentId, cardIndex,vv) {
-                  if (baseComponentId) {
+          addAppFast: function(baseComponentId, cardIndex,vv) {
+              if (baseComponentId) {
 
-                      if (vv.code) {
-                          var x = eval("(" + vv.code + ")")
-                          x.call()
-                      }
-                      setTimeout(function() {
-                          var app = {
-                                                type: "app",
-                                                data:
-                                                    {
-                                                        id: baseComponentId
-                                                    }
-                                              }
-                          if (cardIndex != -1) {
-                            mm.intro_apps[cardIndex] =  app
-
-                          } else {
-                            mm.intro_apps.push( app  )
-                          }
-                          mm.loaded_app[baseComponentId] = true
-                          if (vv) {
-                              mm.app_records[vv.base_component_id] = vv
-                              mm.refresh++
-                          }
-                          setTimeout(function() {
-                              mm.msnry.reloadItems();
-                              mm.msnry.layout();
-                          },50)
-                      },100)
-
+                  if (vv.code) {
+                      var x = eval("(" + vv.code + ")")
+                      x.call()
                   }
-              },
+                  var app = {
+                                        type: "app",
+                                        data:
+                                            {
+                                                id: baseComponentId
+                                            }
+                                      }
+                  if (cardIndex != -1) {
+                    mm.intro_apps[cardIndex] =  app
+
+                  } else {
+                    mm.intro_apps.push( app  )
+                  }
+                  mm.loaded_app[baseComponentId] = true
+                  if (vv) {
+                      mm.app_records[vv.base_component_id] = vv
+                      mm.refresh++
+                  }
+
+              }
+          },
+
+
+
+
             addApp: async function(baseComponentId, cardIndex) {
               if (baseComponentId) {
                   var app = {
