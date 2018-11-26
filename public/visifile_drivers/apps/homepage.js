@@ -161,7 +161,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                   this.msnry.layout();
               });
 
-           mm.addAdder()
 
            var sql =    "select  *  from  system_code  where " +
                         "        component_type = 'app' and base_component_id like 'homepage_%'" +
@@ -217,12 +216,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
              });
       },
       methods: {
-          addAdder: async function() {
-                  mm.intro_apps.push( {
-                                        type: "add",
-                                      } )
-                mm.refresh++
-              },
               addAppFast: async function(baseComponentId, cardIndex,vv) {
                   if (baseComponentId) {
 
