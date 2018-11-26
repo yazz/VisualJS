@@ -154,14 +154,12 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     mounted: async function() {
         mm = this
 
-        this.msnry = new Masonry( mm.$refs.maingrid, {
-            itemSelector: '.grid-item'
-        });
-
-        Vue.nextTick(function() {
-            mm.msnry.reloadItems();
-            mm.msnry.layout();
-        });
+        this.msnry = new Masonry(
+            mm.$refs.maingrid,
+            {
+                itemSelector: '.grid-item'
+            }
+        );
 
 
        var sql =    "select  *  from  system_code  where " +
@@ -324,11 +322,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                       mm.app_records[vv.base_component_id] = vv
                       mm.refresh++
                   }
-                  setTimeout(function() {
-                      mm.msnry.reloadItems();
-                      mm.msnry.layout();
-                  },50)
               }
+              return null
           },
           copyApp: async function(  baseComponentId ) {
               callDriverMethod( {driver_name: "copyApp",
