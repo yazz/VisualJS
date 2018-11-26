@@ -217,9 +217,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 },50)
          });
 
-         setTimeout(async function() {
-            mm.refresh ++
-         },200)
       },
 
 
