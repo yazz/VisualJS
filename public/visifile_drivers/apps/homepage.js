@@ -185,7 +185,44 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
        }
 
 
-           await mm.search()
+
+
+
+       //
+       // search
+       //
+       var sql2 =    `SELECT  id, base_component_id, logo_url, read_write_status
+                         FROM
+                     system_code
+                         where
+                             component_type = 'app'
+                                 and
+                             code_tag = 'LATEST'
+                                 and
+                             visibility = 'PUBLIC'
+                     order by base_component_id asc; `
+
+       var results2 = await callApp(
+           {
+                driver_name:    "systemFunctions2",
+                method_name:    "sql"
+           }
+           ,
+           {
+               sql: sql2
+           })
+       for (var rt2=0; rt2 < results2.length; rt2++) {
+           var appId = results2[rt2].base_component_id
+           if (!mm.loaded_app[  appId  ]) {
+                 mm.addAppFast(appId,-1, results2[rt2])
+           }
+       }
+
+
+
+
+
+
 
 
 
@@ -347,46 +384,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           },
           showMenu: async function(item) {
             this.show_menu= item;
-          },
-
-
-
-
-
-
-
-
-          search: async function() {
-              var sql =    `SELECT  id, base_component_id, logo_url, read_write_status
-                                FROM
-                            system_code
-                                where
-                                    component_type = 'app'
-                                        and
-                                    code_tag = 'LATEST'
-                                        and
-                                    visibility = 'PUBLIC'
-                            order by base_component_id asc; `
-
-              var results = await callApp(
-                  {
-                       driver_name:    "systemFunctions2",
-                       method_name:    "sql"
-                  }
-                  ,
-                  {
-                      sql: sql
-                  })
-              for (var rt=0; rt < results.length; rt++) {
-                  var appId = results[rt].base_component_id
-                  if (!mm.loaded_app[  appId  ]) {
-                        mm.addAppFast(appId,-1, results[rt])
-                  }
-              }
-              }
-
-
-
+          }
 
 
       }
