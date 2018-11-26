@@ -155,7 +155,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         mm = this
 
         this.msnry = new Masonry(
-            mm.$refs.maingrid,
+           document.getElementById("maingrid"),
             {
                 itemSelector: '.grid-item'
             }
