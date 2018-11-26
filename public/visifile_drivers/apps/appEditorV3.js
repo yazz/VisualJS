@@ -56,7 +56,7 @@ load_once_from_file(true)
     <div v-if='mode == "edit"'>
         <div id=editor_id v-bind:style="'height: 100%; width: ' + code_width + '; left: 0px; display: ' + (code_shown?'inline-block':'none') + ';'">
 
-        <component  v-bind:is="editor_component" v-if="editor_loaded" ref="editorComponentRef">
+        <component  v-bind:is="editor_component" v-if="editor_loaded" ref="editor_component_ref">
 
             <button   v-if='!read_only'
                       v-bind:style="'visibility: ' + ((app_shown && code_shown)?'':'hidden')"
@@ -634,8 +634,8 @@ load_once_from_file(true)
                     this.timeline_editor = null
                 }
 
-                if (this.$refs.editorComponentRef) {
-                    this.editor_text = await this.$refs.editorComponentRef.getText()
+                if (this.$refs.editor_component_ref) {
+                    this.editor_text = await this.$refs.editor_component_ref.getText()
 
                     //
                     // there may be a problem here - we have to make sure that we saved
@@ -695,8 +695,8 @@ load_once_from_file(true)
                 this.app_width = "0%"
                 this.app_shown = false
 
-                if (this.$refs.editorComponentRef && (this.mode=="edit") && (this.sub_mode=="code")) {
-                    this.editor_text = await this.$refs.editorComponentRef.getText()
+                if (this.$refs.editor_component_ref && (this.mode=="edit") && (this.sub_mode=="code")) {
+                    this.editor_text = await this.$refs.editor_component_ref.getText()
                     await this.save( this.base_component_id, this.code_id, this.editor_text )
                     await mm.load_app( this.base_component_id )
                 }
@@ -727,7 +727,7 @@ load_once_from_file(true)
             editAsText: async function() {
                 var mm = this
 
-                this.editor_text = await this.$refs.editorComponentRef.getText()
+                this.editor_text = await this.$refs.editor_component_ref.getText()
 
                 var eds = saveHelper.getValueOfCodeString(this.editor_text, "editors")
                 if (eds) {
@@ -745,8 +745,8 @@ load_once_from_file(true)
             setVisibility: async function(value) {
                 var mm = this
 
-                if (this.$refs.editorComponentRef) {
-                    this.editor_text = await this.$refs.editorComponentRef.getText()
+                if (this.$refs.editor_component_ref) {
+                    this.editor_text = await this.$refs.editor_component_ref.getText()
                 }
 
                 var eds = saveHelper.getValueOfCodeString(this.editor_text, "visibility")
@@ -804,7 +804,7 @@ load_once_from_file(true)
            save: async function( base_component_id, code_id , textIn) {
 
                if (textIn == null) {
-                    this.editor_text = await this.$refs.editorComponentRef.getText()
+                    this.editor_text = await this.$refs.editor_component_ref.getText()
                } else {
                     this.editor_text = textIn
                }
@@ -988,8 +988,8 @@ load_once_from_file(true)
 
                    setTimeout(async function() {
                        mm.app_component_name = baseComponentId
-                       if (mm.$refs.editorComponentRef) {
-                            mm.$refs.editorComponentRef.setText(code)
+                       if (mm.$refs.editor_component_ref) {
+                            mm.$refs.editor_component_ref.setText(code)
                        }
                    },500)
                }

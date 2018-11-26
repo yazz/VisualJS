@@ -68,7 +68,7 @@ load_once_from_file(true)
             });
      },
      methods: {
-        getText: function() {
+        getText: async function() {
             return this.text
         },
         setText: function(textValue) {
