@@ -227,11 +227,11 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-        this.$root.$on('message', (text) => {
+        this.$root.$on('message', async function(text) {
             if (text.type == "insert_app_at") {
                 console.log(JSON.stringify(text,null,2));
                 mm.intro_apps.splice(text.card_index, 0, {});
-                mm.addApp(text.base_component_id, text.card_index)
+                await mm.addApp(text.base_component_id, text.card_index)
                 mm.edit_app = text.base_component_id
                 mm.refresh++
             }
@@ -249,7 +249,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 //zzz
                 //alert(JSON.stringify(data,null,2))
                 mm.intro_apps.splice(1, 0, {});
-                mm.addApp(data, 1)
+                await mm.addApp(data, 1)
                 setTimeout(function() {
                       mm.editApp(null, data)
                 },50)
@@ -335,9 +335,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                  method_name: "copyAppshareApp"}
                                 ,{base_component_id:    baseComponentId}
                           ,
-                          function(result) {
+                          async function(result) {
                               mm.intro_apps.splice(1, 0, {});
-                              mm.addApp(result.value.base_component_id, 1)
+                              await mm.addApp(result.value.base_component_id, 1)
 
                           })
           },
@@ -346,9 +346,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                  method_name: "copyAppshareApp"}
                                 ,{base_component_id:    baseComponentId}
                           ,
-                          function(result) {
+                          async function(result) {
                               mm.intro_apps.splice(1, 0, {});
-                              mm.addApp(result.value.base_component_id, 1)
+                              await mm.addApp(result.value.base_component_id, 1)
                               setTimeout(function() {
                                     mm.editApp(event, result.value.base_component_id)
                               },50)
