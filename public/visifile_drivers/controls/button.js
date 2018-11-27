@@ -56,6 +56,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAA
             this.$emit('send', {
                                             type:               "subcomponent_event",
                                             control_name:        this.name,
+                                            sub_type:           "click",
                                             code:                this.args.click_event
                                         })
 

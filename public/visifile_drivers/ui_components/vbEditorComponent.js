@@ -850,7 +850,7 @@ ${eventMessage.code}
 
                                 eval( errr  )
 
-                                var debugFcc = getDebugCode("form_eval",fcc,{skipFirstAndLastLine: true})
+                                var debugFcc = getDebugCode(""+eventMessage.control_name+"_"+eventMessage.sub_type,fcc,{skipFirstAndLastLine: true})
                                 var efcc = eval(debugFcc)
                                 efcc()
 
