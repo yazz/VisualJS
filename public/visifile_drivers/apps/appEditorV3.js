@@ -139,7 +139,7 @@ load_once_from_file(true)
 
                 <div class='col-md-12' style='overflow: auto;  '>
                     <b style='color: white; background-color: red;padding: 2px;color:black;'>Debugging in READ ONLY MODE:</b>
-                    <span>{{highlighted_block_name}}</span>
+                    <b style='color: white; background-color: black;padding: 2px;color:white;'>{{highlighted_block_name}}</b>
 
                     <span class='col-md-3'>
                         <input type="range" min="1" max="20" v-bind:onchange='timelineRefresh()' v-model="execution_horiz_scale"></input>
