@@ -8962,10 +8962,10 @@ function getDebugCode(blockName,  trcode2 , args) {
         }
     }
 
-    trcode2 = trcode2.toString().replaceAll(" rxsql[(][^,]*,"," sql(")
-    trcode2 = trcode2.toString().replaceAll(" rxsql1[(][^,]*,"," sql1(" )
-    trcode2 = trcode2.toString().replaceAll(" rxsqlFirstCol[(][^,]*,"," sqlFirstCol(" )
-    trcode2 = trcode2.toString().replaceAll(" rxsqlFirstCol1[(][^,]*,"," sqlFirstCol1(" )
+    trcode2 = trcode2.toString().replaceAll(" rxsql[(][^,]*,[^,]*,"," sql(")
+    trcode2 = trcode2.toString().replaceAll(" rxsql1[(][^,]*,[^,]*,"," sql1(" )
+    trcode2 = trcode2.toString().replaceAll(" rxsqlFirstCol[(][^,]*,[^,]*,"," sqlFirstCol(" )
+    trcode2 = trcode2.toString().replaceAll(" rxsqlFirstCol1[(][^,]*,[^,]*,"," sqlFirstCol1(" )
 
     executionCode[blockName].code = trcode2
     executionCode[blockName].start = startTimelineTop
