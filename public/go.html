@@ -8780,6 +8780,7 @@ async function checkLibsV2(componentRecord,args){
 
 
 function getDebugCode(blockName,  trcode2 , args) {
+
     var _b = esprima.parse(trcode2,{tolerant: true , loc:true, range: true, attachComment: false})
     var line = -1
     var varsToAdd = {}
@@ -8944,6 +8945,9 @@ function getDebugCode(blockName,  trcode2 , args) {
     var debugCode = escodegen.generate(_b, {comment: false})
 
 
+//zzz
+
+
     executionCode[blockName] = {}
     executionCode[blockName].debug_code = debugCode
     if (skipFirstAndLastLine){
@@ -8957,6 +8961,12 @@ function getDebugCode(blockName,  trcode2 , args) {
             trcode2 = trcode2.substring(0,indexOfLast)
         }
     }
+
+    trcode2 = trcode2.toString().replaceAll(" rxsql[(][^,]*,"," sql(")
+    trcode2 = trcode2.toString().replaceAll(" rxsql1[(][^,]*,"," sql1(" )
+    trcode2 = trcode2.toString().replaceAll(" rxsqlFirstCol[(][^,]*,"," sqlFirstCol(" )
+    trcode2 = trcode2.toString().replaceAll(" rxsqlFirstCol1[(][^,]*,"," sqlFirstCol1(" )
+
     executionCode[blockName].code = trcode2
     executionCode[blockName].start = startTimelineTop
     startTimelineTop += trcode2.length
