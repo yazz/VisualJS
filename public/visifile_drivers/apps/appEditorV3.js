@@ -287,7 +287,7 @@ load_once_from_file(true)
                                                 <b>{{varV}}</b>
                                             </div>
 
-                                            <div v-bind:v-if='execution_timeline[current_execution_step].vars[varV]'>
+                                            <div v-bind:v-if='isValidObject(execution_timeline[current_execution_step].vars[varV])'>
                                                 <div style='margin-left:20px; margin-bottom: 15px;'>
                                                     <b>Before</b>:
                                                     {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].before,null,2)}}
