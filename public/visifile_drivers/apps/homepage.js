@@ -35,6 +35,12 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     </div>
 
 
+    <div    style='padding:10px; margin:0;border: 2px solid pink;'>
+        <h1>
+            Build interactive business apps in minutes
+        </h1>
+    </div>
+
 
     <div    style='padding:10px; margin:0;border: 2px solid pink;'>
         <h4>
