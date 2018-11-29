@@ -1,5 +1,5 @@
 # AppShare
-### Appshare lets you create interactive apps that can be viewed anywhere. A few key features:
+### Build interactive apps that can be viewed anywhere
 
 - An interactive editor to create Visual Basic 6 style documents 
 - Each document has a built in full SQL database
