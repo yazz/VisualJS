@@ -1,11 +1,17 @@
 # AppShare
-Appshare is an App Store for HTML Apps. It has a VB 6 style editor to build apps easily. It can be used on the web, or as a Windows/Mac Os X app. There is demo here:
+Appshare lets you create interactive documents that can be viewed by anyone. A few key features:
+
+- An interactive editor to create Visual Basic 6 style documents 
+- Each document has a built in full SQL database
+- Each document can be viewed as a self contained HTML file
+- Uses the Appshare app all documents can be run as a multiuser app
+- All documents can be edited in the cloud, no installation for end users
 
 http://appshare.co
 
 : Key workflow :
 
-1) Open Appshare.co or download for Windows/OS X and open the Electron app
+1) Open Appshare.co or download for Windows or OS X
 2) Create an app with drag and drop editor
 3) Download the app to your local machine as a HTML file
 4) Email the app to someone
