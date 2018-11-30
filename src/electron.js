@@ -1466,6 +1466,7 @@ function getRoot(req, res) {
         runOnPageExists(req,res,homepage)
         return
     }
+    console.log("Serving: " + homepage)
 
 
 	if (typeOfSystem == 'server') {
