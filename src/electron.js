@@ -139,6 +139,7 @@ if (process.argv.length > 1) {
       .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
       .option('-x, --deleteonexit [deleteonexit]', 'Delete database files on exit (default false) [deleteonexit]', 'false')
       .option('-a, --runapp [runapp]', 'Run the app with ID as the homepage (default not set) [runapp]', null)
+      .option('-b, --runhtml [runhtml]', 'Run using a local HTML page as the homepage (default not set) [runhtml]', null)
       .parse(process.argv);
 } else {
     program.type = 'client'
@@ -148,6 +149,7 @@ if (process.argv.length > 1) {
     program.debug = 'false'
     program.deleteonexit = 'false'
     program.runapp = null
+    program.runhtml = null
 }
 var semver = require('semver')
 
@@ -174,6 +176,8 @@ var runapp = program.runapp;
 if ( electronApp ) {
     runapp = "homepage"
 }
+var runhtml = program.runhtml;
+
 if (!isNumber(port)) {
     port = 80;
 };
@@ -1453,7 +1457,11 @@ function getRoot(req, res) {
 		};
 	};
 
-    if (runapp && (!req.query.goto) && (!req.query.embed)) {
+    if (runhtml && (!req.query.goto) && (!req.query.embed)) {
+        homepage = runhtml
+        runOnPageExists(req,res,homepage)
+        return
+    } else if (runapp && (!req.query.goto) && (!req.query.embed)) {
         homepage = path.join( userData, 'apps/' + runapp + '.html' )
         runOnPageExists(req,res,homepage)
         return
