@@ -1,11 +1,7 @@
 async function(args) {
 /*
-created_timestamp(1542959355326)
+created_timestamp(1543646365225)
 base_component_id("vb")
-control_type("SYSTEM")
-visibility("PUBLIC")
-sub_components(["app_editor_3","appEmbed","vb_editor_component","input_control","button_control","label_control"])
-
 editors([
   "vb_editor_component"
 ])
@@ -126,7 +122,11 @@ formEditor({
   "active_component_index": 4
 })//formEditor
 read_only(true)
+control_type("SYSTEM")
+visibility("PRIVATE")
 display_name("VB")
+sub_components(["app_editor_3","appEmbed","vb_editor_component","input_control","button_control","label_control"])
+
 
 
 
@@ -956,7 +956,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
 
 
                     if (eventMessage.type == "subcomponent_event") {
-                            var fcc = "(async function(){" + eventMessage.code +"})"
+                            var fcc =
+`(async function(){
+${eventMessage.code}
+})`
 
                            this.model.active_form
                            var thisControl = this.form_runtime_info[this.model.active_form].component_lookup_by_name[eventMessage.control_name]
@@ -975,7 +978,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
 
                                 eval( errr  )
 
-                                var efcc = eval(fcc)
+                                var debugFcc = getDebugCode(this.model.active_form +"_"+eventMessage.control_name+"_"+eventMessage.sub_type,fcc,{skipFirstAndLastLine: true})
+                                var efcc = eval(debugFcc)
                                 efcc()
 
                                 //
@@ -1509,6 +1513,12 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
 
               +
               this.text.substring(endIndex)
+
+              this.text = saveHelper.deleteCodeString(  this.text, "control_type")
+
+              this.text = saveHelper.insertCodeString(  this.text,
+                                                          "control_type",
+                                                          "SYSTEM")
 
               this.text = saveHelper.deleteCodeString(  this.text, "formEditor", ")//form" + "Editor")
 
