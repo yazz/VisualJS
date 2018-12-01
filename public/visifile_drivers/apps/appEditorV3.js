@@ -129,8 +129,11 @@ load_once_from_file(true)
 
 
 
+    <div v-if='mode == "profiler" && (execution_timeline.length == 0) ' style='width:100%;'>
+        No code to profile. Please do something in your app
+    </div>
 
-    <div v-if='mode == "profiler"' style='width:100%;'>
+    <div v-if='mode == "profiler" && (execution_timeline.length > 0)' style='width:100%;'>
 
         <div class='container' style='max-width:100%;width:100%;padding:0; margin:0; border: 0;'>
 
@@ -363,7 +366,7 @@ load_once_from_file(true)
        ,
 
        methods: {
-       //zzz
+
            closeApp: async function(event,item) {
                this.$root.$emit('message', {
                    type:               "close_app"
