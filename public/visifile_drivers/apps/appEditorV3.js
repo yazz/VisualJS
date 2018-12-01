@@ -62,9 +62,11 @@ load_once_from_file(true)
                       v-bind:style="'visibility: ' + ((app_shown && code_shown)?'':'hidden')"
                       slot-scope="editor_component"
                       v-on:click='setTimeout(async function(){await save(base_component_id, code_id,null)},100)'
-                      type="button" class="btn btn-primary btn-lg">
+                      type="button" class="btn btn-lg">
 
-                  Run
+                  <svg x="0px" y="0px" width="25px" height="25px" viewBox="0 0 384 384" style="color: black;" xml:space="preserve">
+                      <path d="M32,0l320,192L32,384V0z"/>
+                  </svg>
 
             </button>
 
