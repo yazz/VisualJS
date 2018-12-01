@@ -130,7 +130,20 @@ load_once_from_file(true)
 
 
     <div v-if='mode == "profiler" && (execution_timeline.length == 0) ' style='width:100%;'>
-        No code to profile. Please do something in your app
+        <div    style="position: sticky; left:0px; top:0px; width: 100vw ;z-index: 2;padding:0;margin:0;">
+            <h4 style="border:0px; padding: 5px; margin: 0px;margin-top: 20vh; padding-left:15px;font-family: Helvetica;color: black; text-align: center;">
+                No code to profile
+
+            </h4>
+            <h6 style="color: lightgray;border:0px;padding: 2px; margin: 0px;padding-left:15px;font-family: Helvetica; text-align: center;">
+                Please do something in your app
+            </h6>
+
+            <div style='text-align: center;margin-top: 4vh;'>
+                <button  type=button class=' btn btn-info btn-lg'        v-on:click='chooseBoth()' >Return to code</button>
+            </div>
+
+        </div>
     </div>
 
     <div v-if='mode == "profiler" && (execution_timeline.length > 0)' style='width:100%;'>
