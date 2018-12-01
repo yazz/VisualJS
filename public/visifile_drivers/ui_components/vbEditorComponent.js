@@ -26,7 +26,7 @@ load_once_from_file(true)
 
 
     <div style='background-color: lightgray; padding: 5px; padding-left: 15px;' v-if='design_mode' >
-        <h4 style='display: inline-block; margin-right: 10px; color: white; ' v-if='design_mode' >
+        <h4 style='display: inline-block; margin-right: 10px; color: black; ' v-if='design_mode' >
             VB app designer
         </h4>
 

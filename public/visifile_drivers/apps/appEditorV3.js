@@ -26,7 +26,9 @@ load_once_from_file(true)
       template:
 `<div style="width:100%;padding:0; margin:0; border: 0;">
     <div style='background-color: black; color: white;padding: 7px; padding-left: 15px;'>
-        <h5  class='caption' style='display: inline-block;' v-on:click='if (!read_only) {edit_name=true;show_name=false;}' v-if='show_name'>{{app_component_name?"" + app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 50))?"...":"")}} </h5>
+        <h5  class='caption' style='display: inline-block;' v-on:click='if (!read_only) {edit_name=true;show_name=false;}' v-if='show_name'>
+            {{app_component_name?"" + app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 50))?"...":"")}} - AppShare (Design Mode)
+        </h5>
 
         <input  class='caption' style='display: inline-block;' v-if='edit_name' v-model='new_name'></input>
 
