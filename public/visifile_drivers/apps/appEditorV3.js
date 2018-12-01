@@ -24,8 +24,13 @@ load_once_from_file(true)
     {
       props: ['app_id'],
       template:
-`<div style="width:100%;padding:0; margin:0; border: 0;">
-    <div style='background-image: linear-gradient(to right, blue, white); color: white;padding: 7px; padding-left: 15px;'>
+`<div style="width:100%;padding:0; margin:0; border: 3px solid lightgray;">
+    <div style='background-image: linear-gradient(to right,  #000099, lightblue); color: white;padding: 7px; padding-left: 15px;'>
+        <img
+            src='driver_icons/project.png'
+            style='width: 20px; margin-right: 10px;'
+            class='img-fluid'>
+       </img>
         <h5  class='caption' style='display: inline-block;' v-on:click='if (!read_only) {edit_name=true;show_name=false;}' v-if='show_name'>
             {{app_component_name?"" + app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 50))?"...":"")}} - AppShare (Design Mode)
         </h5>
