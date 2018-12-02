@@ -187,11 +187,6 @@ console.log('VisiFile node local hostname: ' + ip.address() + ' ')
 
 setupVisifileParams();
 
-var PDFParser       = require("pdf2json");
-
-
-
-
 
 
 
