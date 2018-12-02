@@ -45,7 +45,6 @@ var program         = require('commander');
 var bodyParser      = require('body-parser');
 var multer          = require('multer');
 var diff            = require('deep-diff').diff
-var XLSX            = require('xlsx');
 var csv             = require('fast-csv');
 var mysql           = require('mysql');
 var cors            = require('cors')
@@ -1506,19 +1505,6 @@ function getEditApp(req, res) {
 }
 
 
-
-
-
-function getFileExtension(base_component_id) {
-    if (base_component_id == "excel") { return "xlsx"}
-    if (base_component_id == "pdf") { return "pdf"}
-    if (base_component_id == "word") { return "docx"}
-    if (base_component_id == "csv") { return "csv"}
-    if (base_component_id == "glb") { return "glb"}
-    if (base_component_id == "txt") { return "txt"}
-    if (base_component_id == "outlook2012") { return "txt"}
-    return ""
-}
 
 
 

@@ -3,7 +3,6 @@
 var fs                          = require('fs');
 var path                        = require('path');
 var mkdirp                      = require('mkdirp')
-var XLSX                        = require('xlsx');
 var csv                         = require('fast-csv');
 var mammoth                     = require("mammoth");
 var postgresdb                  = require('pg');
