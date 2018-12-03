@@ -102,6 +102,7 @@ processMessagesFromMainProcess();
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
 function setUpSql() {
+    console.log("setUpSql    ")
     copyMigration = dbsearch.prepare(
     `                insert into  app_db_latest_ddl_revisions
                        (base_component_id,latest_revision)
@@ -589,16 +590,22 @@ function processMessagesFromMainProcess() {
 
         //console.log("DB path: " + dbPath)
         dbsearch = new sqlite3.Database(dbPath);
-        dbsearch.run("PRAGMA journal_mode=WAL;")
-        process.send({  message_type:       "database_setup_in_child" ,
-                        child_process_name:  childProcessName
-                        });
+        dbsearch.run("PRAGMA journal_mode=WAL;",function() {
+            setTimeout(function(){
+                setUpSql();
+                process.send({  message_type:       "database_setup_in_child" ,
+                                child_process_name:  childProcessName
+                                });
+            },1000)
+        })
+        
+        
 
 
     } else if (msg.message_type == 'setUpSql') {
 
 
-        setUpSql();
+        //setUpSql();
 
     } else if (msg.message_type == 'createTables') {
         console.log("**** createTables");
@@ -891,6 +898,10 @@ function setUpComponentsLocally() {
     evalLocalSystemDriver('form_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/formEditorComponent.js'))
     evalLocalSystemDriver('simple_display_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/simpleDisplayEditorComponent.js'))
     evalLocalSystemDriver('vb_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/vbEditorComponent.js'))
+    
+    //zzz
+    process.send({  message_type:       "drivers_loaded_by_child"                 });
+
 }
 
 
@@ -1094,6 +1105,7 @@ function shutdownExeProcess(err) {
 
 
 function updateRevisions(sqlite, baseComponentId) {
+    console.log("updateRevisions    ")
     try {
 
         dbsearch.serialize(
@@ -1171,6 +1183,7 @@ function updateRevisions(sqlite, baseComponentId) {
 
 
 function fastForwardToLatestRevision(sqlite, baseComponentId) {
+    console.log("fastForwardToLatestRevision    ")
     try {
 
         dbsearch.serialize(
@@ -1646,7 +1659,7 @@ ${code}
                                     if (sqlite) {
                                         console.log(`SQLite options: ${JSON.stringify(options,null,2)}`)
                                         if (isValidObject(options) && options.copy_db_from) {
-                                        //zzz
+                                        
                                             var newBaseid = baseComponentId
                                             //
                                             // copy the database

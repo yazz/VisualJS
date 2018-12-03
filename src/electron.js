@@ -275,6 +275,72 @@ function setUpChildListeners(processName, fileName, debugPort) {
                 getPort()
             }
 
+            
+            
+
+        
+    } else if (msg.message_type == "drivers_loaded_by_child") {
+        
+    	//--------------------------------------------------------
+    	// open the app in a web browser
+    	//--------------------------------------------------------
+
+
+    	if (typeOfSystem == 'client') {
+            var localClientUrl = 'http://' + hostaddress  + ":" + port;
+            var remoteServerUrl = 'http://' + centralHostAddress  + ":" + centralHostPort + "/visifile/list_intranet_servers.html?time=" + new Date().getTime();
+            if(!nogui) {
+                //open(localClientUrl);
+                alreadyOpen = true
+                visifile.loadURL(localClientUrl)
+                if (visifile.webContents) {
+                    //visifile.webContents.executeJavaScript("document.addEventListener('dragover', event => event.preventDefault())");
+                    //visifile.webContents.executeJavaScript("document.addEventListener('drop', event => event.preventDefault())");
+                }
+
+
+
+            }
+
+
+
+
+            request({
+                      uri: remoteServerUrl,
+                      method: "GET",
+                      timeout: 10000,
+                      agent: false,
+                      followRedirect: true,
+                      maxRedirects: 10
+                },
+                function(error, response, body) {
+                  if (error) {
+                      //console.log("Error opening central server: " + error);
+                      if (!alreadyOpen) {
+                          alreadyOpen = true;
+                      }
+                  } else {
+                    if (!alreadyOpen) {
+                        alreadyOpen = true;
+                        //open(remoteServerUrl);
+                    }
+                  }
+                });
+    	} else if (typeOfSystem == 'server') {
+            if (!alreadyOpen) {
+                alreadyOpen = true;
+                //open('http://' + hostaddress  + ":" + port + "/visifile/list_intranet_servers.html?time=" + new Date().getTime());
+                if (!nogui) {
+                    visifile.loadURL('http://' + hostaddress  + ":" + port + "/visifile/list_intranet_servers.html?time=" + new Date().getTime())
+                }
+
+
+            }
+    	}            
+            
+            
+            
+            
 
 
 
@@ -1047,7 +1113,6 @@ function getPort () {
     outputToBrowser('** called getPort v2')
 
     //yyy
-    setupChildProcesses();
 
 
 
@@ -1082,7 +1147,8 @@ function getPort () {
                                                      ip: hostaddress,
                                                      port: port
                                                   });
-              startServices()
+            startServices()
+            setupChildProcesses();
 
     })
 }
@@ -2202,62 +2268,6 @@ function startServices() {
         forkedProcesses["forked"].send({message_type:       'setUpPredefinedComponents'});
 
 
-    	//--------------------------------------------------------
-    	// open the app in a web browser
-    	//--------------------------------------------------------
-
-
-    	if (typeOfSystem == 'client') {
-            var localClientUrl = 'http://' + hostaddress  + ":" + port;
-            var remoteServerUrl = 'http://' + centralHostAddress  + ":" + centralHostPort + "/visifile/list_intranet_servers.html?time=" + new Date().getTime();
-            if(!nogui) {
-                //open(localClientUrl);
-                alreadyOpen = true
-                visifile.loadURL(localClientUrl)
-                if (visifile.webContents) {
-                    //visifile.webContents.executeJavaScript("document.addEventListener('dragover', event => event.preventDefault())");
-                    //visifile.webContents.executeJavaScript("document.addEventListener('drop', event => event.preventDefault())");
-                }
-
-
-
-            }
-
-
-
-
-            request({
-                      uri: remoteServerUrl,
-                      method: "GET",
-                      timeout: 10000,
-                      agent: false,
-                      followRedirect: true,
-                      maxRedirects: 10
-                },
-                function(error, response, body) {
-                  if (error) {
-                      //console.log("Error opening central server: " + error);
-                      if (!alreadyOpen) {
-                          alreadyOpen = true;
-                      }
-                  } else {
-                    if (!alreadyOpen) {
-                        alreadyOpen = true;
-                        //open(remoteServerUrl);
-                    }
-                  }
-                });
-    	} else if (typeOfSystem == 'server') {
-            if (!alreadyOpen) {
-                alreadyOpen = true;
-                //open('http://' + hostaddress  + ":" + port + "/visifile/list_intranet_servers.html?time=" + new Date().getTime());
-                if (!nogui) {
-                    visifile.loadURL('http://' + hostaddress  + ":" + port + "/visifile/list_intranet_servers.html?time=" + new Date().getTime())
-                }
-
-
-            }
-    	}
     },1000)
 
 }
