@@ -781,6 +781,7 @@ function processMessagesFromMainProcess() {
 
 
 function evalLocalSystemDriver(driverName, location, options) {
+    console.log("*** Loading driver: *** : " + driverName)
 	var evalDriver = fs.readFileSync(location);
 	addOrUpdateDriver(driverName, evalDriver,options)
 }
@@ -811,7 +812,7 @@ function setUpComponentsLocally() {
     // services
     //
     if (isWin) {
-        evalLocalSystemDriver('powershell',         path.join(__dirname, '../public/visifile_drivers/services/powershell.js'))
+        //evalLocalSystemDriver('powershell',         path.join(__dirname, '../public/visifile_drivers/services/powershell.js'))
     }
     evalLocalSystemDriver('commandLine',            path.join(__dirname, '../public/visifile_drivers/services/commandLine.js'))
     evalLocalSystemDriver('commandLine2',            path.join(__dirname, '../public/visifile_drivers/services/commandLine2.js'))
@@ -898,6 +899,7 @@ function setUpComponentsLocally() {
     evalLocalSystemDriver('form_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/formEditorComponent.js'))
     evalLocalSystemDriver('simple_display_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/simpleDisplayEditorComponent.js'))
     evalLocalSystemDriver('vb_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/vbEditorComponent.js'))
+    console.log("Loaded all drivers")
     
     //zzz
     process.send({  message_type:       "drivers_loaded_by_child"                 });
@@ -1392,6 +1394,7 @@ ${code}
                                 //
                                 // 1) call this first
                                 //
+                                console.log("::::" + baseComponentId)
                                 var prjs = esprima.parse( "(" + code.toString() + ")");
                                 if (prjs.body) {
                                     if (prjs.body[0]) {
