@@ -102,7 +102,7 @@ processMessagesFromMainProcess();
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
 function setUpSql() {
-    console.log("setUpSql    ")
+    //console.log("setUpSql    ")
     copyMigration = dbsearch.prepare(
     `                insert into  app_db_latest_ddl_revisions
                        (base_component_id,latest_revision)
@@ -534,7 +534,7 @@ function processMessagesFromMainProcess() {
 
 
     } else if (msg.message_type == "save_code_from_upload") {
-        console.log(`Entering  save_code_from_upload`)
+        //console.log(`Entering  save_code_from_upload`)
 
 
         var asyy = async function() {
@@ -598,8 +598,8 @@ function processMessagesFromMainProcess() {
                                 });
             },1000)
         })
-        
-        
+
+
 
 
     } else if (msg.message_type == 'setUpSql') {
@@ -781,7 +781,7 @@ function processMessagesFromMainProcess() {
 
 
 function evalLocalSystemDriver(driverName, location, options) {
-    console.log("*** Loading driver: *** : " + driverName)
+    //console.log("*** Loading driver: *** : " + driverName)
 	var evalDriver = fs.readFileSync(location);
 	addOrUpdateDriver(driverName, evalDriver,options)
 }
@@ -900,7 +900,7 @@ function setUpComponentsLocally() {
     evalLocalSystemDriver('simple_display_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/simpleDisplayEditorComponent.js'))
     evalLocalSystemDriver('vb_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/vbEditorComponent.js'))
     console.log("Loaded all drivers")
-    
+
     //zzz
     process.send({  message_type:       "drivers_loaded_by_child"                 });
 
@@ -1107,7 +1107,7 @@ function shutdownExeProcess(err) {
 
 
 function updateRevisions(sqlite, baseComponentId) {
-    console.log("updateRevisions    ")
+    //console.log("updateRevisions    ")
     try {
 
         dbsearch.serialize(
@@ -1185,7 +1185,7 @@ function updateRevisions(sqlite, baseComponentId) {
 
 
 function fastForwardToLatestRevision(sqlite, baseComponentId) {
-    console.log("fastForwardToLatestRevision    ")
+    //console.log("fastForwardToLatestRevision    ")
     try {
 
         dbsearch.serialize(
@@ -1394,7 +1394,7 @@ ${code}
                                 //
                                 // 1) call this first
                                 //
-                                console.log("::::" + baseComponentId)
+                                //console.log("::::" + baseComponentId)
                                 var prjs = esprima.parse( "(" + code.toString() + ")");
                                 if (prjs.body) {
                                     if (prjs.body[0]) {
@@ -1662,7 +1662,7 @@ ${code}
                                     if (sqlite) {
                                         console.log(`SQLite options: ${JSON.stringify(options,null,2)}`)
                                         if (isValidObject(options) && options.copy_db_from) {
-                                        
+
                                             var newBaseid = baseComponentId
                                             //
                                             // copy the database
