@@ -159,7 +159,7 @@ load_once_from_file(true)
 
         <div class='container' style='max-width:100%;width:100%;padding:0; margin:0; border: 0;'>
 
-            <div class='row' style=';padding: 0px;padding: 5px; padding-left: 15px;background-color: blue;color: white;'>
+            <div class='row' style='margin:0px;padding: 0px;padding: 5px; padding-left: 15px;background-color: blue;color: white;'>
 
 
                 <div class='col-md-12' style='overflow: auto;  '>
@@ -181,7 +181,7 @@ load_once_from_file(true)
             </div>
 
 
-            <div class='row'>
+            <div class='row' style='margin:0px'>
                 <div class='col-md-5' style='height: 50vh;overflow: auto;padding:0px;margin:0px;'>
                     <div id='timeline_editor' style='height: 100%;' >
                     </div>
