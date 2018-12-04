@@ -77,7 +77,7 @@ load_once_from_file(true)
         <div            v-bind:style='"margin: 10px; display: inline-block; vertical-align: top; position: relative; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 0px solid lightgray; padding:0px;":"" ) '>
 
             <div    v-if='design_mode'
-                    style='background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0'>
+                    style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0'>
 
                 <img
                     src='/driver_icons/project.png'
@@ -92,7 +92,7 @@ load_once_from_file(true)
                             v-on:ondragover="allowDrop($event)"
                             v-bind:class='(design_mode?"dotted":"" )'
                             v-on:click='if (design_mode) {$event.stopPropagation();selectForm(model.active_form)}'
-                            v-bind:style='"display: inline-block; vertical-align: top; position: relative; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 4px solid lightgray;":"" ) '>
+                            v-bind:style='"box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);display: inline-block; vertical-align: top; position: relative; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 4px solid lightgray;":"" ) '>
 
 
 
