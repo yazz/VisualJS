@@ -44,7 +44,7 @@ load_once_from_file(true)
         <div    v-if='design_mode'
                 v-bind:style='(design_mode?"border: 4px solid lightgray;":"") + " width: " + leftHandWidth + "px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: auto;vertical-align: top; background-color: lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"'>
 
-            <div style="background-color: darkgray;padding: 4px;color: white;">
+            <div style="background-color: darkgray;padding: 4px;color: white; margin-bottom: 10px;">
                 Blocks
             </div>
             <div class='container' style=''>
@@ -78,7 +78,7 @@ load_once_from_file(true)
             </div>
         </div>
 
-        <div            v-bind:style='"margin: 10px; display: inline-block; vertical-align: top; position: relative; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 0px solid lightgray; padding:0px;":"" ) '>
+        <div            v-bind:style='"margin: 15px; display: inline-block; vertical-align: top; position: relative; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 0px solid lightgray; padding:0px;":"" ) '>
 
             <div    v-if='design_mode'
                     style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0'>
