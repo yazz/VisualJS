@@ -41,7 +41,7 @@ load_once_from_file(true)
             v-on:ondragover="allowDropEditor($event)">
 
         <div    v-if='design_mode'
-                v-bind:style='(design_mode?"border: 1px solid black;":"") + " width: " + leftHandWidth + "px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: scroll;vertical-align: top; "'>
+                v-bind:style='(design_mode?"border: 0px solid black;":"") + " width: " + leftHandWidth + "px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: scroll;vertical-align: top; "'>
 
             <div class='container' style='background-color: lightgray'>
                 <div class='row'>
@@ -248,7 +248,7 @@ load_once_from_file(true)
 
 
     <div    v-if='design_mode'
-          v-bind:style='(design_mode?"border: 1px solid black;":"") + " position:absolute;top:0px;right:0px;width: 250px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: scroll;vertical-align: top; "'
+          v-bind:style='(design_mode?"border: 0px solid black;":"") + " position:absolute;top:0px;right:0px;width: 250px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: scroll;vertical-align: top; "'
           v-bind:refresh='refresh'>
 
         <div    v-bind:refresh='refresh'
