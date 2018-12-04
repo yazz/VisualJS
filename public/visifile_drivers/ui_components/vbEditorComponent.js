@@ -25,8 +25,9 @@ load_once_from_file(true)
         v-bind:style='"width: 100%; height: 100%; " + (design_mode?"background: white;":"")'>
 
 
-    <div style='background-color: lightgray; padding: 5px; padding-left: 15px;' v-if='design_mode' >
-        <h4 style='display: inline-block; margin-right: 10px; color: black; ' v-if='design_mode' >
+    <div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: lightgray; padding: 5px; padding-left: 15px;' v-if='design_mode' >
+        <h4 style='display: inline-block; margin-right: 10px; color: black; '
+            v-if='design_mode' >
             VB app designer
         </h4>
 
@@ -248,11 +249,11 @@ load_once_from_file(true)
 
 
     <div    v-if='design_mode'
-          v-bind:style='(design_mode?"border: 0px solid black;":"") + " position:absolute;top:0px;right:0px;width: 250px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: scroll;vertical-align: top; "'
+          v-bind:style='(design_mode?"border: 0px solid black;":"") + " position:absolute;top:0px;right:0px;width: 250px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: auto;vertical-align: top; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"'
           v-bind:refresh='refresh'>
 
         <div    v-bind:refresh='refresh'
-                style='height: 50%;  padding:5px; border: 8px solid lightgray;display: flex;flex-direction: column;'>
+                style='height: 50%;  padding:5px; border: 4px solid lightgray;display: flex;flex-direction: column;'>
 
                 <div style='background-color: lightgray;'>
 
@@ -296,7 +297,7 @@ load_once_from_file(true)
 
 
 
-                <div   style='height: 50%;  padding:5px; border: 8px solid lightgray;display: flex;flex-direction: column;'>
+                <div   style='height: 50%;  padding:5px; border: 4px solid lightgray;display: flex;flex-direction: column;'>
 
 
                     <div style="height:15%; background-color: darkgray;">
