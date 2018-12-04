@@ -42,7 +42,7 @@ load_once_from_file(true)
             v-on:ondragover="allowDropEditor($event)">
 
         <div    v-if='design_mode'
-                v-bind:style='(design_mode?"border: 4px solid lightgray;":"") + " width: " + leftHandWidth + "px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: auto;vertical-align: top; background-color: lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"'>
+                v-bind:style='(design_mode?"border: 4px solid lightgray;":"") + " width: " + leftHandWidth + "px;height: 75vmin; display: inline-block;overflow-x: none;overflow-y: auto;vertical-align: top; background-color: lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"'>
 
             <div style="background-color: darkgray;padding: 4px;color: white; margin-bottom: 10px;">
                 Blocks
@@ -50,7 +50,7 @@ load_once_from_file(true)
             <div class='container' style=''>
                 <div class='row'>
                     <div    class='col-md-5'
-                            style='width:100%;height: 55px; margin: 0px;border: 0px;padding:3px;overflow-x:auto;overflow-y:hidden'>
+                            style='width:100%;height: 75px; margin: 0px;border: 0px;padding:3px;overflow-x:auto;overflow-y:hidden'>
                         <img    src='https://cdn0.iconfinder.com/data/icons/seo-web-15/153/seo-social-web-network-internet_61-512.png'
                                 style='width: 100%;'
                                 class='img-fluid'>
@@ -252,7 +252,7 @@ load_once_from_file(true)
 
 
     <div    v-if='design_mode'
-          v-bind:style='(design_mode?"border: 0px solid black;":"") + " position:absolute;top:0px;right:0px;width: 250px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: auto;vertical-align: top; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"'
+          v-bind:style='(design_mode?"border: 0px solid black;":"") + " position:absolute;top:0px;right:0px;width: 250px;height: 75vmin; display: inline-block;overflow-x: none;overflow-y: auto;vertical-align: top; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"'
           v-bind:refresh='refresh'>
 
         <div    v-bind:refresh='refresh'
