@@ -27,7 +27,7 @@ load_once_from_file(true)
 `<div style="width:100%;padding:0; margin:0; border: 3px solid lightgray;">
     <div style='background-image: linear-gradient(to right,  #000099, lightblue); color: white;padding: 7px; padding-left: 15px;'>
         <img
-            src='driver_icons/project.png'
+            src='/driver_icons/project.png'
             style='width: 20px; margin-right: 10px;'
             class='img-fluid'>
        </img>

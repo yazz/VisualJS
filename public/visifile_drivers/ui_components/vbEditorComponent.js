@@ -80,7 +80,7 @@ load_once_from_file(true)
                     style='background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0'>
 
                 <img
-                    src='driver_icons/project.png'
+                    src='/driver_icons/project.png'
                     style='width: 20px; margin-right: 10px;'
                     class='img-fluid'>
                </img>
