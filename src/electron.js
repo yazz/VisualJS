@@ -275,12 +275,12 @@ function setUpChildListeners(processName, fileName, debugPort) {
                 getPort()
             }
 
-            
-            
 
-        
+
+
+
     } else if (msg.message_type == "drivers_loaded_by_child") {
-        
+
     	//--------------------------------------------------------
     	// open the app in a web browser
     	//--------------------------------------------------------
@@ -336,11 +336,11 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
             }
-    	}            
-            
-            
-            
-            
+    	}
+
+
+
+
 
 
 
@@ -2250,7 +2250,7 @@ function startServices() {
 
 
 
-    aliveCheckFn();
+    //aliveCheckFn();
 
 
 
