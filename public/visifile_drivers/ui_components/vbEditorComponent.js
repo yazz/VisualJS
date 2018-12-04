@@ -74,7 +74,7 @@ load_once_from_file(true)
             </div>
         </div>
 
-        <div            v-bind:style='"display: inline-block; vertical-align: top; position: relative; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 0px solid black;":"" ) '>
+        <div            v-bind:style='"margin: 10px; display: inline-block; vertical-align: top; position: relative; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 0px solid lightgray; padding:0px;":"" ) '>
 
             <div    v-if='design_mode'
                     style='background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0'>
