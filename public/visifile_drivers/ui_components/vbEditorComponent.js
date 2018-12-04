@@ -42,8 +42,11 @@ load_once_from_file(true)
             v-on:ondragover="allowDropEditor($event)">
 
         <div    v-if='design_mode'
-                v-bind:style='(design_mode?"border: 0px solid black;":"") + " width: " + leftHandWidth + "px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: auto;vertical-align: top; background-color: lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"'>
+                v-bind:style='(design_mode?"border: 4px solid lightgray;":"") + " width: " + leftHandWidth + "px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: auto;vertical-align: top; background-color: lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"'>
 
+            <div style="background-color: darkgray;padding: 4px;color: white;">
+                Blocks
+            </div>
             <div class='container' style=''>
                 <div class='row'>
                     <div    class='col-md-5'
@@ -257,7 +260,7 @@ load_once_from_file(true)
 
                 <div style='background-color: lightgray;'>
 
-                    <div style='background-color: darkgray;'>
+                    <div style='background-color: darkgray; padding: 4px;color: white;'>
                         Project explorer
                     </div>
 
@@ -299,9 +302,7 @@ load_once_from_file(true)
 
                 <div   style='height: 50%;  padding:5px; border: 4px solid lightgray;display: flex;flex-direction: column;'>
 
-
-                    <div style="height:15%; background-color: darkgray;">
-
+                    <div style="background-color: darkgray;padding: 4px;color: white;">
                         Properties
                     </div>
 
