@@ -193,10 +193,8 @@ load_once_from_file(true)
 
         <div class='container' style='max-width:100%;width:100%;padding:0; margin:0; border: 0;'>
 
-            <div class='row' style='margin:0px;padding: 0px;padding: 5px; padding-left: 15px;background-color: blue;color: white;'>
 
-
-                <div class='col-md-12' style='overflow: auto;  '>
+                <div class='col-md-12' style='overflow: auto; padding: 4px; '>
                     <b style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);color: white; background-color: red;padding: 4px;border-radius: 4px; margin-right: 10px;'>
                         Debugging in READ ONLY MODE:
                     </b>
@@ -222,14 +220,16 @@ load_once_from_file(true)
 
 
             <div class='row' style='margin:0px'>
-                <div class='col-md-5' style='height: 50vh;overflow: auto;padding:0px;margin:0px;'>
+                <div    class='col-md-5'
+                        style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;overflow: auto;padding:0px;margin:0px;'>
+
                     <div id='timeline_editor' style='height: 100%;' >
                     </div>
                 </div>
 
 
                 <div    class='col-md-3'
-                        style='height: 50vh;background-color: white; position: relative;padding:0px;margin:0px;'>
+                        style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;background-color: white; position: relative;padding:0px;margin:0px;'>
 
                     <div
                         v-bind:style='  "position: absolute;pointer-events: none;width: 1px;border: 1px solid gray; top: 0; height:100%;" +"left: " + (timeline_x_cursor + 5)  + "px;" '>
@@ -251,7 +251,7 @@ load_once_from_file(true)
 
 
 
-                    <div    style='position:relative;overflow: scroll; border: 1px solid blue; padding:0; height:100%; width:100%;left:0;top:0'
+                    <div    style='position:relative;overflow: scroll; border: 0px solid blue; padding:0; height:100%; width:100%;left:0;top:0'
                             id='timeline_el'
                             v-on:scroll='inTimelineScroll()'
                             @mousemove="mouseMoveTimeline($event)"
@@ -294,7 +294,7 @@ load_once_from_file(true)
 
 
                 <div    class='col-md-4'
-                        style='height: 50vh;background-color: white;overflow: scroll; background-color: white;border: 1px solid black;padding:0;margin:0;'
+                        style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;background-color: white;overflow: scroll; background-color: white;border: 0px solid black;padding:0;margin:0;'
                         >
 
 
@@ -306,7 +306,7 @@ load_once_from_file(true)
                                 <div style='margin:0;padding:0;border:2px solid blue; min-height:50px;'>
                                     <div style='background-color: blue; color: white; padding: 2px'>Watch vars</div>
                                     <div v-for="varWatchName in execution_watch_list">
-                                        <div style='border: 1px solid blue; padding: 4px; min-height:50px;'
+                                        <div style='border: 0px solid blue; padding: 4px; min-height:50px;'
                                              v-if='globalWatchList[varWatchName][current_execution_step]'>
 
                                             <b>{{varWatchName}}:</b>
@@ -657,9 +657,9 @@ load_once_from_file(true)
 
 
                     document.getElementById("timeline_editor").style.width = "100%"
-                    document.getElementById("timeline_editor").style.border = "1px solid #2C2828"
+                    document.getElementById("timeline_editor").style.border = "0px solid #2C2828"
 
-                    document.getElementById("timeline_editor").style.height = "50vh"
+                    document.getElementById("timeline_editor").style.height = "75vh"
                     this.timeline_editor.getSession().setValue("");
                     this.timeline_editor.getSession().setUseWorker(false);
                     this.timeline_editor.setReadOnly(true)
