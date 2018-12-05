@@ -197,18 +197,24 @@ load_once_from_file(true)
 
 
                 <div class='col-md-12' style='overflow: auto;  '>
-                    <b style='color: white; background-color: red;padding: 2px;color:black;'>Debugging in READ ONLY MODE:</b>
-                    <b style='color: white; background-color: black;padding: 2px;color:white;'>{{highlighted_block_name}}</b>
+                    <b style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);color: white; background-color: red;padding: 4px;border-radius: 4px; margin-right: 10px;'>
+                        Debugging in READ ONLY MODE:
+                    </b>
+
+                    <b style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);color: black; background-color: blue;padding: 4px;border-radius: 4px;'>
+                        {{highlighted_block_name}}
+                    </b>
 
                     <span class='col-md-3'>
-                        <input type="range" min="1" max="20" v-bind:onchange='timelineRefresh()' v-model="execution_horiz_scale"></input>
+                        <input  style=''
+                                type="range" min="1" max="20" v-bind:onchange='timelineRefresh()' v-model="execution_horiz_scale"></input>
                     </span>
 
 
 
                     <span class='btn-group col-md-3' role=group >
-                        <button type=button class='btn btn-primary' style='margin: 1px;padding:2px;'  v-on:click='stepBack()'>&lt;--</button>
-                        <button type=button class='btn btn-info' style='margin: 1px;padding:2px;'  v-on:click='stepForward()'>--&gt;</button>
+                        <button type=button class='btn btn-primary' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin: 1px;padding:2px;'  v-on:click='stepBack()'>&lt;--</button>
+                        <button type=button class='btn btn-info' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin: 1px;padding:2px;'  v-on:click='stepForward()'>--&gt;</button>
                     </span>
 
                 </div>
