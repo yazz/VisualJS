@@ -42,16 +42,22 @@ load_once_from_file(true)
         </button>
 
         <span style='float: right; margin-right: 2%;' >
-            <div class='btn-group' role=group >
-                <button  v-if='(mode != "profiler")' type=button class=' btn btn-secondary btn-sm'   v-on:click='copyAppMethod(base_component_id,null)' >Copy app</button>
-                <button  v-if='(mode != "profiler")' type=button class=' btn btn-info btn-sm'        v-on:click='embedApp(base_component_id)' >Embed app</button>
-                <button  v-if='(editor_component != "editor_component") && (!read_only) && (mode != "profiler")' type=button class=' btn btn-secondary btn-sm'   v-on:click='editAsText()' >Edit as text</button>
-                <button  v-if='(!read_only) && (visibility == "PUBLIC") && (mode != "profiler")' type=button class=' btn btn-success btn-sm'   v-on:click='setVisibility("PRIVATE")' >Public: Switch to private</button>
-                <button  v-if='(!read_only) && (visibility == "PRIVATE") && (mode != "profiler")' type=button class=' btn btn-secondary btn-sm'   v-on:click='setVisibility("PUBLIC")' >Private: Switch to public</button>
+            <div class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);'>
+                <button  v-if='(mode != "profiler")' type=button class=' btn btn-info btn-sm'   v-on:click='copyAppMethod(base_component_id,null)' >Copy</button>
+                <button  v-if='(mode != "profiler")' type=button class=' btn btn-info btn-sm'        v-on:click='embedApp(base_component_id)' >Embed</button>
+                <button  v-if='(editor_component != "editor_component") && (!read_only) && (mode != "profiler")' type=button class=' btn btn-info btn-sm'   v-on:click='editAsText()' >Edit as text</button>
             </div>
 
 
-            <div class='btn-group' style='' role=group >
+            <div class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);'>
+                <button  v-if='(!read_only) && (visibility == "PUBLIC") && (mode != "profiler")' type=button class='btn-sm btn btn-info '   v-on:click='setVisibility("PRIVATE")' >Public</button>
+                <button  v-if='(!read_only) && (visibility == "PRIVATE") && (mode != "profiler")' type=button class='btn-sm btn btn-danger '   v-on:click='setVisibility("PUBLIC")' >Private</button>
+            </div>
+
+
+
+
+            <div class='btn-group' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);' role=group >
                 <button  type=button
                          v-bind:class='"btn btn-sm " + ((mode == "edit" && sub_mode == "app")?"btn-secondary":"btn-light")'
                          v-on:click='chooseApp()'  >App</button>
@@ -68,12 +74,16 @@ load_once_from_file(true)
                          v-bind:class='"btn btn-sm " + (mode == "profiler"?"btn-secondary":"btn-light")'
                          v-on:click='chooseProfiler()' >Profiler</button>
              </div>
-             <div class='btn-group' style='' role=group >
+
+
+
+             <div class='btn-group' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);' role=group >
                 <button  type=button class=' btn btn-danger btn-sm'   v-on:click='closeApp()' >Close</button>
              </div>
 
         </span>
     </div>
+
 
 
     <div v-if='mode == "embed"'>
