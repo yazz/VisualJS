@@ -114,17 +114,20 @@ load_once_from_file(true)
 
     <div v-bind:style="'height: 100%; width: ' + app_width + '; right: 0px; display: ' + (app_shown?'inline-block':'none')+';vertical-align: top;border: 1px solid lightgray;border-radius: 10px;'">
 
-        <span   v-bind:style='"  padding: 10px;bottom: 0px;right:0px;background-color: darkgray;color: white;width: auto;" +
-                "border-radius: 5px;opacity: 1;position:relative;visibility: " +
-                ((show_new_tab_tooltip || show_open_app_tooltip)?"visible":"hidden") + ";font-family: Helvetica;"'>
-                    {{show_new_tab_tooltip?"Open app in new browser tab (shareable :)":""}}
-                    {{show_open_app_tooltip?"Download app as .HTML file (emailable :)":""}}
-        </span>
 
 
         <div    v-if='is_ui_app'
-                v-bind:style="'background-color: rgb(242,242,242);padding: 5px;; border: 2px solid lightgray;'">
+                v-bind:style="'background-color: rgb(242,242,242);padding: 5px;postion: relative; border: 2px solid lightgray;'">
                 &larr; &rarr; <span class=reload>&#x21bb;</span>
+
+
+            <span   v-bind:style='"z-index: 2000;  padding: 10px;top: 0px;right:100px;background-color: darkgray;color: white;width: auto;" +
+                    "border-radius: 5px;opacity: 1;position:absolute;visibility: " +
+                    ((show_new_tab_tooltip || show_open_app_tooltip)?"visible":"hidden") + ";font-family: Helvetica;"'>
+                        {{show_new_tab_tooltip?"Open app in new browser tab (shareable :)":""}}
+                        {{show_open_app_tooltip?"Download app as .HTML file (emailable :)":""}}
+            </span>
+
 
             <a      v-bind:href='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'
                     target="_blank" rel="noopener noreferrer"
