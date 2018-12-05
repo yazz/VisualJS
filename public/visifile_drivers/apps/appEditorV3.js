@@ -168,7 +168,7 @@ load_once_from_file(true)
                 Please do something in your app
             </h6>
 
-            <div style='text-align: center;margin-top: 4vh;'>
+            <div style='text-align: center;margin-top: 4vh;padding-bottom: 40vh;'>
                 <button  type=button class=' btn btn-info btn-lg'        v-on:click='chooseBoth()' >Return to code</button>
             </div>
 
