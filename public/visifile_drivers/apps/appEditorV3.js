@@ -67,8 +67,10 @@ load_once_from_file(true)
                 <button  type=button
                          v-bind:class='"btn btn-sm " + (mode == "profiler"?"btn-secondary":"btn-light")'
                          v-on:click='chooseProfiler()' >Profiler</button>
-                         <button  type=button class=' btn btn-danger btn-sm'   v-on:click='closeApp()' >Close</button>
-            </div>
+             </div>
+             <div class='btn-group' style='' role=group >
+                <button  type=button class=' btn btn-danger btn-sm'   v-on:click='closeApp()' >Close</button>
+             </div>
 
         </span>
     </div>
