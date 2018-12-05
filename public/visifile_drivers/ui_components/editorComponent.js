@@ -18,12 +18,12 @@ load_once_from_file(true)
         }
       },
       template: `<div>
-                      <div style='background-color: blue; padding: 5px;padding-left: 15px;' >
-                          <h4 style='display: inline-block; margin-right: 10px; color: white; ' >
+                      <div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: blue; padding: 5px;padding-left: 15px;' >
+                          <h4 style='border-radius:4px;padding:4px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);display: inline-block; margin-right: 10px; color: white; ' >
                               Text editor
                           </h4>
 
-                          <slot style='display: inline-block;' v-if='text' :text2="text">
+                          <slot style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);display: inline-block;' v-if='text' :text2="text">
                           </slot>
                       </div>
 

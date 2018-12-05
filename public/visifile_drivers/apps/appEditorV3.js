@@ -66,7 +66,7 @@ load_once_from_file(true)
         <component  v-bind:is="editor_component" v-if="editor_loaded" ref="editor_component_ref">
 
             <button   v-if='!read_only'
-                      v-bind:style="'visibility: ' + ((app_shown && code_shown)?'':'hidden')"
+                      v-bind:style="'box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + ((app_shown && code_shown)?'':'hidden')"
                       slot-scope="editor_component"
                       v-on:click='setTimeout(async function(){await save(base_component_id, code_id,null)},100)'
                       type="button" class="btn btn-lg">

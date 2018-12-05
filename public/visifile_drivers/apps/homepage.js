@@ -27,7 +27,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 `<div>
     <div    style="position: sticky; left:0px; top:0px; width: 100vw ;z-index: 2;background-color: black;padding:0;margin:0;">
         <h4 style="border:0px; padding: 5px; margin: 0px;padding-left:15px;font-family: Helvetica;color: white;">
-            Appshare
+             <b>App</b>Share
         </h4>
         <h6 style="color: lightgray;border:0px;padding: 2px; margin: 0px;padding-left:15px;font-family: Helvetica;">
             Build apps in minutes
