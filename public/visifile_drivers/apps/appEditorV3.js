@@ -117,11 +117,12 @@ load_once_from_file(true)
 
 
         <div    v-if='is_ui_app'
-                v-bind:style="'background-color: rgb(242,242,242);padding: 5px;postion: relative; border: 2px solid lightgray;'">
-                &larr; &rarr; <span class=reload>&#x21bb;</span>
+                v-bind:style="'background-color: rgb(242,242,242);padding: 5px;position: relative; border: 2px solid lightgray;'">
+
+            &larr; &rarr; <span class=reload>&#x21bb;</span>
 
 
-            <span   v-bind:style='"z-index: 2000;  padding: 10px;top: 0px;right:100px;background-color: darkgray;color: white;width: auto;" +
+            <span   v-bind:style='"z-index: 2000;  padding: 10px;left: 0px;top:40px;background-color: darkgray;color: white;width: auto;" +
                     "border-radius: 5px;opacity: 1;position:absolute;visibility: " +
                     ((show_new_tab_tooltip || show_open_app_tooltip)?"visible":"hidden") + ";font-family: Helvetica;"'>
                         {{show_new_tab_tooltip?"Open app in new browser tab (shareable :)":""}}
