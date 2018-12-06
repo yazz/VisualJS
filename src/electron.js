@@ -1856,7 +1856,7 @@ function file_uploadFn(req, res, next) {
 
       var ll = req.files.length;
       for (var i = 0; i < ll ; i ++) {
-          //console.log('Loading saved appshare app' );
+          //console.log('Loading saved Creator app' );
           var ifile = req.files[i];
           //console.log("        " + JSON.stringify(ifile));
           var ext = ifile.originalname.split('.').pop();
