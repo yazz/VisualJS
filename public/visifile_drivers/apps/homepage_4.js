@@ -16,7 +16,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIPEhUQEBI
       template:
 `<div  class="container" style='padding: 20px; font-size: 18'>
 
-Advanced Appshare apps can be made with a single Javascript function and support the following features:
+Advanced Creator apps can be made with a single Javascript function and support the following features:
 <br>
 <ul>
     <li>Create the UI using VueJS</li>

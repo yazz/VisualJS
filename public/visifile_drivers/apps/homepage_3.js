@@ -16,7 +16,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIPEhUQEBI
       template:
 `<div  class="container" style='padding: 20px; font-size: 18'>
 
-Appshare is built from the following technologies:
+Creator is built from the following technologies:
 <ul>
 <li>Electron</li>
 <li>NodeJS</li>

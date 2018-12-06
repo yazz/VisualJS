@@ -35,7 +35,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIPEhUQEBI
                         <a-entity
                             mixin="RobotoFont"
                             position="3.5 0 .6"
-                            text='color: black; align: left; value: AppShare ; width: 15; opacity:1;'>
+                            text='color: black; align: left; value: Creator ; width: 15; opacity:1;'>
                             </a-entity>
                         <a-animation attribute="position"
                               to="1 0 -1.5" dur="2000" direction="normal" ></a-animation>
@@ -49,21 +49,21 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIPEhUQEBI
               <li >All apps backed by a SQLite database</li>
               <li >Share an app by sending a URL link</li>
               <li >Use templates to get started with information apps, forms, database apps, and 3D interactive apps</li>
-              <li >Open source (<a href='https://github.com/zubairq/appshare'>https://github.com/zubairq/appshare</a>)</li>
+              <li >Open source (<a href='https://github.com/zubairq/creator'>https://github.com/zubairq/creator</a>)</li>
               <li >Can be hosted locally on Mac/PC</li>
           </ul>
 
 
 
           <div style='height:20px; width: 10px;'></div>
-         <a href="http://appshare.co/visifile/64/Appshare_Setup.exe" class="btn btn-secondary">
+         <a href="http://dannea.com/visifile/64/Appshare_Setup.exe" class="btn btn-secondary">
                  <img src='/windows.png' style='height: 30px;'></img>
-                 Download Appshare for Windows
+                 Download Creator for Windows
               </a>
               <div style='height:20px; width: 10px;'></div>
-              <a href="http://appshare.co/visifile/64/Appshare_Setup.dmg" class="btn btn-primary">
+              <a href="http://dannea.com/visifile/64/Appshare_Setup.dmg" class="btn btn-primary">
                  <img src='/mac.png' style='height: 30px;'></img>
-                 Download Appshare for Mac
+                 Download Creator for Mac
               </a>
               <div style='height:20px; width: 10px;'></div>
 

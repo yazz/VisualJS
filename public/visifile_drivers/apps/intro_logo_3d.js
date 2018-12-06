@@ -26,7 +26,7 @@ load_once_from_file(true)
                   <a-entity
                        mixin="RobotoFont"
                        position="1 0 .6"
-                       text='color: black; align: left; value: AppShare ; width: 9; opacity:1;'>
+                       text='color: black; align: left; value: Creator ; width: 9; opacity:1;'>
                        </a-entity>
                    <a-animation attribute="position"
 											to="2 0 -1.5" dur="2000" direction="normal" ></a-animation>
