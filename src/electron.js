@@ -131,7 +131,7 @@ if (process.argv.length > 1) {
       .version('0.0.1')
       .option('-t, --type [type]', 'Add the specified type of app (client/server) [type]', 'client')
       .option('-p, --port [port]', 'Which port should I listen on? (default 80) [port]', parseInt)
-      .option('-h, --host [host]', 'Server address of the central host (default vappshare.co) [host]', 'appshare.co')
+      .option('-h, --host [host]', 'Server address of the central host (default dannea.com) [host]', 'dannea.com')
       .option('-l, --locked [locked]', 'Allow server to be locked/unlocked on start up (default true) [locked]', 'true')
       .option('-n, --nogui [nogui]', 'Allow server to be run in headless mode (default false) [nogui]', 'false')
       .option('-d, --debug [debug]', 'Allow to run in debug mode (default false) [debug]', 'false')
@@ -142,7 +142,7 @@ if (process.argv.length > 1) {
       .parse(process.argv);
 } else {
     program.type = 'client'
-    program.host = 'appshare.co'
+    program.host = 'dannea.com'
     program.locked = 'true'
     program.nogui = 'false'
     program.debug = 'false'
@@ -1468,7 +1468,7 @@ function getRoot(req, res) {
 	//console.log("Full URL: " + req.protocol + '://' + req.get('host') + req.originalUrl);
 
     var homepage = path.join(__dirname, '../public/go.html')
-    var homepageUrl = 'http://appshare.co/visifile/index.html?time=' + new Date().getTime()
+    var homepageUrl = 'http://dannea.com/visifile/index.html?time=' + new Date().getTime()
 	if (req.headers.host) {
         if (req.query.goto) {
             console.log("*** FOUND goto")
