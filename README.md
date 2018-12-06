@@ -1,5 +1,5 @@
 # AppShare
-### Build interactive apps that can be viewed anywhere
+### Build internal tools visually
 
 - An interactive editor to create Visual Basic 6 style documents 
 - Each document has a built in full SQL database
@@ -8,7 +8,7 @@
 - All documents can be edited in the cloud, no installation for end users
 - Apps work offline as well
 
-http://appshare.co
+http://dannea.com
 
 : Key workflow :
 
@@ -46,9 +46,9 @@ Command line options :
 ##### 1) Install GIT from https://git-scm.com/downloads
 ##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
 ##### 3) From the command line get the Git repository
-    git clone https://github.com/zubairq/appshare.git
-##### 4) Go to the AppShare directory
-    cd appshare
+    git clone https://github.com/zubairq/creator.git
+##### 4) Go to the Creator directory
+    cd creator
 ##### 5) Install the NodeJS modules
     npm install
 ##### 6) Install SQlite3 for Electron
@@ -56,7 +56,7 @@ Command line options :
         node_macos64/node_sqlite3.noderename
     to 
         node_modules/sqlite3/lib/binding/node-v57-darwin-x64/node_sqlite3.node
-##### 7) Run the AppShare Electron application
+##### 7) Run the Creator Electron application
     electron .
 
 
@@ -69,9 +69,9 @@ Command line options :
 
 
 
-### What is AppShare's killer feature?
+### What is Creator's killer feature?
 
-AppShare's killer feature is being able to build simple internal apps fast.
+Creator's killer feature is being able to build simple internal apps fast without needing any local software
 
-### Is there commercial support for AppShare?
-If you require commercial support then please go to http://appshare.co
+### Is there commercial support for Creator?
+If you require commercial support then please go to http://dannea.com
