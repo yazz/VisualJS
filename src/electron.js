@@ -1480,6 +1480,13 @@ function getRoot(req, res) {
             res.end(fs.readFileSync(homepage));
             return
         }
+        if (req.headers.host.toLowerCase().endsWith('dannea.com')) {
+		res.writeHead(301,
+			{Location: homepageUrl }
+			);
+			res.end();
+			return;
+		};
 		if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
 		res.writeHead(301,
 			{Location: 'http://canlabs.com/canlabs'}
