@@ -112,12 +112,12 @@ load_once_from_file(true)
 
 
 
-    <div v-bind:style="'height: 100%; width: ' + app_width + '; right: 0px; display: ' + (app_shown?'inline-block':'none')+';vertical-align: top;border: 4px solid lightgray;border-radius: 10px;'">
+    <div v-bind:style="'background-color: rgb(242,242,242);height: 100%; width: ' + app_width + '; right: 0px; display: ' + (app_shown?'inline-block':'none')+';vertical-align: top;border: 4px solid blue;border-radius: 10px;'">
 
 
 
         <div    v-if='is_ui_app'
-                v-bind:style="'background-color: rgb(242,242,242);padding: 5px; margin-top: 3px; position: relative; border: 4px solid lightgray;'">
+                v-bind:style="'padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid blue;'">
 
             &larr; &rarr; <span class=reload>&#x21bb;</span>
 
@@ -152,13 +152,15 @@ load_once_from_file(true)
 
 
                           <component  v-if='app_loaded && is_ui_app'
+                                      style='background-color: white;'
                                       v-bind:is="app_component_name">
                             APP HERE
                           </component>
 
 
 
-                          <div  v-if='app_loaded && (!is_ui_app)' style='padding: 10px;'>
+                          <div  v-if='app_loaded && (!is_ui_app)'
+                                style='padding: 10px;background-color: white; height: 100%;'>
                               <pre>{{console_output}}</pre>
                               <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
                                   <button  type=button class=' btn btn-success btn-lg'
