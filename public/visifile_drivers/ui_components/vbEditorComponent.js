@@ -33,7 +33,33 @@ load_once_from_file(true)
 
         <slot style='display: inline-block;' v-if='text'>
         </slot>
-    </div>
+
+
+        <div class='btn-group' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);float: right; margin-right: 2%;' role=group >
+
+
+
+            <button  type=button
+                     v-bind:class='"btn btn " + ((right_mode == "project")?"btn-secondary":"btn-light")'
+                     v-on:click=''>
+
+                     Project
+            </button>
+            <button  type=button
+                     v-bind:class='"btn btn " + ((right_mode == "properties")?"btn-secondary":"btn-light")'
+                     v-on:click=''>
+
+                     Properties
+            </button>
+            <button  type=button
+                     v-bind:class='"btn btn " + ((right_mode == "all")?"btn-secondary":"btn-light")'
+                     v-on:click=''>
+
+                     All
+            </button>
+
+         </div>
+     </div>
 
 
     <div    v-bind:id='vb_editor_element_id' v-if='vb_editor_element_id != null'
@@ -1440,6 +1466,7 @@ ${eventMessage.code}
            edited_app_component_id:     null,
            text:                        texti,
            leftHandWidth:               100,
+           right_mode:                  "all",
            add_property:                false,
            new_property_name: "",
            new_property_id: "",
