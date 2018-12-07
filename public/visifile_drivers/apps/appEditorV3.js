@@ -24,7 +24,7 @@ load_once_from_file(true)
     {
       props: ['app_id'],
       template:
-`<div style="width:100%;padding:0; margin:0; border: 3px solid lightgray;">
+`<div style="height: 100%; width:100%;padding:0; margin:0; border: 3px solid lightgray;">
     <div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white;padding: 7px; padding-left: 15px;'>
         <img
             src='/driver_icons/project.png'
@@ -112,12 +112,12 @@ load_once_from_file(true)
 
 
 
-    <div v-bind:style="'height: 100%; width: ' + app_width + '; right: 0px; display: ' + (app_shown?'inline-block':'none')+';vertical-align: top;border: 1px solid lightgray;border-radius: 10px;'">
+    <div v-bind:style="'height: 100%; width: ' + app_width + '; right: 0px; display: ' + (app_shown?'inline-block':'none')+';vertical-align: top;border: 4px solid lightgray;border-radius: 10px;'">
 
 
 
         <div    v-if='is_ui_app'
-                v-bind:style="'background-color: rgb(242,242,242);padding: 5px;position: relative; border: 2px solid lightgray;'">
+                v-bind:style="'background-color: rgb(242,242,242);padding: 5px; margin-top: 3px; position: relative; border: 4px solid lightgray;'">
 
             &larr; &rarr; <span class=reload>&#x21bb;</span>
 
