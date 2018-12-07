@@ -41,19 +41,19 @@ load_once_from_file(true)
 
             <button  type=button
                      v-bind:class='"btn btn " + ((right_mode == "project")?"btn-secondary":"btn-light")'
-                     v-on:click=''>
+                     v-on:click='chooseRight("project")'>
 
                      Project
             </button>
             <button  type=button
                      v-bind:class='"btn btn " + ((right_mode == "properties")?"btn-secondary":"btn-light")'
-                     v-on:click=''>
+                     v-on:click='chooseRight("properties")'>
 
                      Properties
             </button>
             <button  type=button
                      v-bind:class='"btn btn " + ((right_mode == "all")?"btn-secondary":"btn-light")'
-                     v-on:click=''>
+                     v-on:click='chooseRight("all")'>
 
                      All
             </button>
@@ -610,6 +610,12 @@ load_once_from_file(true)
                 this.form_runtime_info[formName].component_lookup_by_name[cc.name] = cc
             }
         },
+
+
+        chooseRight: function(ff) {
+            this.right_mode = ff
+        },
+
 
          //-------------------------------------------------------------------
          getForms: function() {
