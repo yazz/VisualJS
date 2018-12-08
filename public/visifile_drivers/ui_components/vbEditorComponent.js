@@ -334,20 +334,23 @@ load_once_from_file(true)
             </div>
 
 
-            <div    style="align-items: stretch;overflow-y:scroll; padding:5px; ">
+            <div    style="align-items: stretch;overflow-y:scroll; padding:5px; border: 4px solid gray;">
 
 
-                <div v-for='property in properties' >
+                <div v-for='property in properties'  style='border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
 
-                    <div class='row'>
-                        <div  class='col-md-4 small'>
+                    <div class='row' style='width:100%;padding:0px;margin:0px;'>
+                        <div  class='col-md-4 small' style='border-right: 1px solid lightgray;'>
                             {{property.name}}
                         </div>
 
                         <div class='col-md-7 small' >
                             <div v-if='!property.readonly'>
                                 <div v-if="(property.type  == 'String')  || (property.type  == 'Number')">
-                                    <input class='col-md-12 small'  @change='setVBEditorProperty($event, property)' v-bind:value='getVBEditorProperty(property)'>
+                                    <input  class='col-md-12 small'
+                                            @change='setVBEditorProperty($event, property)'
+                                            v-bind:value='getVBEditorProperty(property)'
+                                            style='width: 100%;'>
                                     </input>
                                 </div>
 
