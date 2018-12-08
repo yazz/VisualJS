@@ -112,12 +112,12 @@ load_once_from_file(true)
 
 
 
-    <div v-bind:style="'background-color: rgb(242,242,242);height: 100%; width: ' + app_width + '; right: 0px; display: ' + (app_shown?'inline-block':'none')+';vertical-align: top;border: 4px solid blue;border-radius: 10px;'">
+    <div v-bind:style="'background-color: rgb(242,242,242);height: 100%; width: ' + app_width + '; right: 0px; display: ' + (app_shown?'inline-block':'none')+';vertical-align: top;border: 4px solid lightsteelblue;border-radius: 10px;'">
 
 
 
         <div    v-if='is_ui_app'
-                v-bind:style="'padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid blue;'">
+                v-bind:style="'padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;'">
 
             &larr; &rarr; <span class=reload>&#x21bb;</span>
 
@@ -201,7 +201,7 @@ load_once_from_file(true)
                         Debugging in READ ONLY MODE:
                     </b>
 
-                    <b style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);color: black; background-color: blue;padding: 4px;border-radius: 4px;'>
+                    <b style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);color: black; background-color: lightsteelblue;padding: 4px;border-radius: 4px;'>
                         {{highlighted_block_name}}
                     </b>
 
