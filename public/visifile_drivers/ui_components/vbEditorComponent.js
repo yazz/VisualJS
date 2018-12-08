@@ -40,19 +40,19 @@ load_once_from_file(true)
 
 
             <button  type=button
-                     v-bind:class='"btn btn " + ((right_mode == "project")?"btn-secondary":"btn-light")'
+                     v-bind:class='"btn btn " + ((right_mode == "project")?"btn-info":"btn-light")'
                      v-on:click='chooseRight("project")'>
 
                      Project
             </button>
             <button  type=button
-                     v-bind:class='"btn btn " + ((right_mode == "properties")?"btn-secondary":"btn-light")'
+                     v-bind:class='"btn btn " + ((right_mode == "properties")?"btn-info":"btn-light")'
                      v-on:click='chooseRight("properties")'>
 
                      Properties
             </button>
             <button  type=button
-                     v-bind:class='"btn btn " + ((right_mode == "all")?"btn-secondary":"btn-light")'
+                     v-bind:class='"btn btn " + ((right_mode == "all")?"btn-info":"btn-light")'
                      v-on:click='chooseRight("all")'>
 
                      All
@@ -70,7 +70,7 @@ load_once_from_file(true)
         <div    v-if='design_mode'
                 v-bind:style='(design_mode?"border: 4px solid lightgray;":"") + " width: " + leftHandWidth + "px;height: 75vmin; display: inline-block;overflow-x: none;overflow-y: auto;vertical-align: top; background-color: lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"'>
 
-            <div style="background-color: darkgray;padding: 4px;color: white; margin-bottom: 10px;">
+            <div style="background-color: lightsteelblue;;padding: 4px;color: black; margin-bottom: 10px;">
                 Blocks
             </div>
             <div class='container' style=''>
@@ -107,7 +107,7 @@ load_once_from_file(true)
         <div            v-bind:style='" display: inline-block; vertical-align: top; position: relative; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
 
             <div    v-if='design_mode'
-                    style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0'>
+                    style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: lightsteelblue; color: black; border: 4px solid lightgray; padding:4px; margin:0'>
 
                 <img
                     src='/driver_icons/project.png'
@@ -286,7 +286,7 @@ load_once_from_file(true)
 
             <div style='background-color: lightgray;'>
 
-                <div style='background-color: darkgray; padding: 4px;color: white;'>
+                <div style='background-color: lightsteelblue;; padding: 4px;color: black;'>
                     Project explorer
                 </div>
 
@@ -328,7 +328,7 @@ load_once_from_file(true)
 
         <div   v-bind:style='"height: " + (right_mode == "properties"?"100":"50") + "%;  padding:5px; border: 4px solid lightgray;display: " + (right_mode != "project"?"flex":"none") + ";flex-direction: column;"'>
 
-            <div style="background-color: darkgray;padding: 4px;color: white;">
+            <div style="background-color: lightsteelblue;padding: 4px;color: black;">
                 Properties
             </div>
 
