@@ -330,7 +330,7 @@ load_once_from_file(true)
         <div   v-bind:style='"height: " + (right_mode == "properties"?"100":"50") + "%;  padding:5px; border: 4px solid lightgray;display: " + (right_mode != "project"?"flex":"none") + ";flex-direction: column;"'>
 
             <div style="background-color: lightsteelblue;padding: 4px;color: black;">
-                Properties
+                Properties - {{model.active_component_index?model.forms[model.active_form].components[model.active_component_index].name + " (Component)" : model.active_form + " (Form)"}}
             </div>
 
 
