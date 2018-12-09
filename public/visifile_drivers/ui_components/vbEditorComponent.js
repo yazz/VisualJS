@@ -110,7 +110,7 @@ load_once_from_file(true)
                     style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: lightsteelblue; color: black; border: 4px solid lightgray; padding:4px; margin:0'>
 
                 <img
-                    src='/driver_icons/project.png'
+                    src='/driver_icons/form.png'
                     style='width: 20px; margin-right: 10px;'
                     class='img-fluid'>
                </img>
