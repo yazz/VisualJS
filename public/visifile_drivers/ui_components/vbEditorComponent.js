@@ -334,23 +334,25 @@ load_once_from_file(true)
             </div>
 
 
-            <div    style="align-items: stretch;overflow-y:scroll; padding:5px; border: 4px solid gray;">
+            <div    style="align-items: stretch;overflow-y:scroll; padding:0px; border: 4px solid lightgray;">
 
 
-                <div v-for='property in properties'  style='border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+                <div    v-for='property in properties'
+                        style='font-size:12px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
 
                     <div class='row' style='width:100%;padding:0px;margin:0px;'>
-                        <div  class='col-md-4 small' style='border-right: 1px solid lightgray;'>
+                        <div    class='col-md-4 small'
+                                style='font-size:12px;padding:0px;border-right: 1px solid lightgray;margin-left:1px;margin-right:5px;'>
                             {{property.name}}
                         </div>
 
-                        <div class='col-md-7 small' >
+                        <div class='col-md-7 small' style='padding:0px;'>
                             <div v-if='!property.readonly'>
                                 <div v-if="(property.type  == 'String')  || (property.type  == 'Number')">
                                     <input  class='col-md-12 small'
                                             @change='setVBEditorProperty($event, property)'
                                             v-bind:value='getVBEditorProperty(property)'
-                                            style='width: 100%;'>
+                                            style='width: 100%;border: 0px;font-size:12px;padding:0px;'>
                                     </input>
                                 </div>
 
@@ -358,6 +360,7 @@ load_once_from_file(true)
                                     <textarea   class="form-control"
                                                 v-if='(model.active_component_index == null) && (model.active_form != null)'
                                                 @change='generateCodeFromModel(   )'
+                                                style='border:0px;font-size:12px;padding:0px;'
                                                 rows=10
                                                 v-model='model.forms[model.active_form][property.id]'>
                                     </textarea>
@@ -366,21 +369,30 @@ load_once_from_file(true)
                                                 v-if='(model.active_component_index != null) && (model.active_form != null)'
                                                 @change='generateCodeFromModel(   )'
                                                 rows=10
+                                                style='border:0px;font-size:12px;padding:0px;'
                                                 v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'>
                                     </textarea>
                                 </div>
                             </div>
 
                             <div v-if='property.readonly'>
-                                <div v-if='model.active_component_index != null' class='col-md-12 small'  >
+                                <div    v-if='model.active_component_index != null'
+                                        style='padding:0px;font-size:12px;'
+                                        class='col-md-12 small'>
+
                                     {{model.forms[model.active_form].components[model.active_component_index][property.id]}}
+
                                 </div>
 
                                 <div v-if='(model.active_component_index == null) && (model.active_form != null) && (model.app_selected == false)' class='col-md-12 small'   v-model='model.forms[model.active_form][property.id]'>
                                 </div>
 
-                                <div v-if='model.app_selected' class='col-md-12 small'  >
+                                <div    v-if='model.app_selected'
+                                        style='padding:0px;font-size:12px;'
+                                        class='col-md-12 small'  >
+
                                     {{property.get_fn?property.get_fn():model[property.id]}}
+
                                 </div>
                             </div>
                         </div>
@@ -415,7 +427,9 @@ load_once_from_file(true)
                         Name
                     </div>
 
-                    <input class='col-md-7 small'  v-model='new_property_name'>
+                    <input  class='col-md-7 small'
+                            style='border:0px'
+                            v-model='new_property_name'>
                     </input>
                 </div>
 
