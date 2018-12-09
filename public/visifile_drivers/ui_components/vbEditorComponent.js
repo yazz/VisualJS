@@ -278,11 +278,11 @@ load_once_from_file(true)
 
 
     <div    v-if='design_mode'
-          v-bind:style='(design_mode?"border: 0px solid black;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);":"") + " position:absolute;top:0px;right:0px;width: 250px;height: 75vmin; display: inline-block;overflow-x: none;overflow-y: auto;vertical-align: top; "'
+          v-bind:style='(design_mode?"border: 0px solid black;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);":"") + " position:absolute;top:0px;right:0px;width: 250px;height: 75vmin; display: inline-block;overflow-x: none;overflow-y: auto;vertical-align: top;padding:0px;height:100%; "'
           v-bind:refresh='refresh'>
 
         <div    v-bind:refresh='refresh'
-                v-bind:style='"height: " + (right_mode == "project"?"100":"50") + "%;  padding:5px; border: 4px solid lightgray;display: " + (right_mode != "properties"?"flex":"none") + ";flex-direction: column;"'>
+                v-bind:style='"height: " + (right_mode == "project"?"100":"50") + "%;  padding:0px; border: 4px solid lightgray;display: " + (right_mode != "properties"?"flex":"none") + ";flex-direction: column;"'>
 
             <div style='background-color: lightgray;'>
 
@@ -334,14 +334,14 @@ load_once_from_file(true)
 
 
 
-        <div   v-bind:style='"height: " + (right_mode == "properties"?"100":"50") + "%;  padding:5px; border: 4px solid lightgray;display: " + (right_mode != "project"?"flex":"none") + ";flex-direction: column;"'>
+        <div   v-bind:style='"height: " + (right_mode == "properties"?"100":"50") + "%;  padding:0px; border: 4px solid lightgray;display: " + (right_mode != "project"?"flex":"none") + ";flex-direction: column;padding:0px;height:100%;"'>
 
             <div style="background-color: lightsteelblue;padding: 4px;color: black;">
                 Properties - {{model.active_component_index?model.forms[model.active_form].components[model.active_component_index].name + " (Component)" : model.active_form + " (Form)"}}
             </div>
 
 
-            <div    style="align-items: stretch;overflow-y:scroll; padding:0px; border: 4px solid lightgray;">
+            <div    style="align-items: stretch;overflow-y:scroll; padding:0px; border: 0px solid lightgray;">
 
 
                 <div    v-for='property in properties'
