@@ -302,6 +302,7 @@ load_once_from_file(true)
 
                 <div    v-bind:style='"background-color:black;color:white;padding:4px;margin:0px;margin-top: 5px;" + (model.app_selected?"border: 3px solid red":"")'
                         v-on:click='$event.stopPropagation();select_app()'>
+
                               {{edited_app_component_id}}
                 </div>
 
@@ -309,6 +310,12 @@ load_once_from_file(true)
                     <div>
                         <div  v-bind:style='(((form.name == model.active_form) && (model.active_component_index == null) && (!model.app_selected)) ?"border: 3px solid red;background-color:gray;color:white;":"color:black;") + "padding:4px;margin:0px;margin-left:30px;"'
                               v-on:click='$event.stopPropagation();selectForm(form.name)'>
+
+                              <img
+                                  src='/driver_icons/form.png'
+                                  style='width: 20px; margin-right: 10px;'
+                                  class='img-fluid'>
+                              </img>
 
                                     {{form.name}} ({{form.components.length}})
                         </div>
