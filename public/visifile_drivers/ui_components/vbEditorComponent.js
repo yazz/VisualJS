@@ -300,15 +300,15 @@ load_once_from_file(true)
 
             <div    style='overflow-y:scroll; padding:5px; background-color: white; align-items: stretch;'>
 
-                <div    v-bind:style='"background-color:black;color:white;padding:4px;margin:0px;margin-top: 5px;" + (model.app_selected?"border: 3px solid red":"")'
+                <div    v-bind:style='"padding:4px;margin:0px;margin-top: 5px;" + (model.app_selected?"background-color:gray;color:white;":"background-color:white;color:black;")'
                         v-on:click='$event.stopPropagation();selected_pane = "project";select_app()'>
 
-                              {{edited_app_component_id}}
+                              <b>{{edited_app_component_id}}</b>
                 </div>
 
                 <div v-for='form in getForms()' v-bind:refresh='refresh'>
                     <div>
-                        <div  v-bind:style='(((form.name == model.active_form) && (model.active_component_index == null) && (!model.app_selected)) ?"border: 3px solid red;background-color:gray;color:white;":"color:black;") + "padding:4px;margin:0px;margin-left:30px;"'
+                        <div  v-bind:style='(((form.name == model.active_form) && (model.active_component_index == null) && (!model.app_selected)) ?"border: 0px solid red;background-color:gray;color:white;":"color:black;") + "padding:4px;margin:0px;margin-left:30px;"'
                               v-on:click='$event.stopPropagation();selected_pane = "project";selectForm(form.name)'>
 
                               <img
@@ -323,7 +323,7 @@ load_once_from_file(true)
                         <div    v-if='form.name == model.active_form'
                                 v-for='(av,index) in getActiveFormComponents()'
                                 v-on:click='$event.stopPropagation();selected_pane = "project";select_component(index)'
-                                v-bind:style='(((index == model.active_component_index) && design_mode)?"border: 3px solid red;background-color: lightgray;":"") + "margin-left:60px; padding:2px;"'>
+                                v-bind:style='(((index == model.active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:60px; padding:2px;"'>
 
                             <div style='width:100%;display:inline-block;overflow: hidden;'>{{av.name}}</div>
                         </div>
