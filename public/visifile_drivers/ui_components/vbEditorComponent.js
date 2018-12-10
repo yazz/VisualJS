@@ -25,7 +25,7 @@ load_once_from_file(true)
         v-bind:style='"width: 100%; height: 100%; " + (design_mode?"background: white;":"")'>
 
 
-    <div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: lightgray; padding: 5px; padding-left: 15px;' v-if='design_mode' >
+    <div style='box-shadow: 2px 2px 10px lightgray;background-color: lightgray; padding: 5px; padding-left: 15px;' v-if='design_mode' >
         <h4 style='border-radius:4px;padding:4px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);display: inline-block; margin-right: 10px; color: black; '
             v-if='design_mode' >
             VB app designer
@@ -68,7 +68,7 @@ load_once_from_file(true)
             v-on:ondragover="allowDropEditor($event)">
 
         <div    v-if='design_mode'
-                v-bind:style='(design_mode?"border: 4px solid lightgray;":"") + " width: " + leftHandWidth + "px;height: 75vmin; display: inline-block;overflow-x: none;overflow-y: auto;vertical-align: top; background-color: lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"'>
+                v-bind:style='(design_mode?"border: 4px solid lightgray;":"") + " width: " + leftHandWidth + "px;height: 75vmin; display: inline-block;overflow-x: none;overflow-y: auto;vertical-align: top; background-color: lightgray;box-shadow: 2px 2px 10px lightgray;"'>
 
             <div    v-bind:style='"background-color: " + (selected_pane == "blocks"?"#000099":"gray") + ";padding: 4px;color: white; margin-bottom: 10px;"'
                     v-on:click='selected_pane = "blocks";'>
@@ -337,7 +337,7 @@ load_once_from_file(true)
         <div   v-bind:style='"height: " + (right_mode == "properties"?"100":"50") + "%;  padding:0px; border: 4px solid lightgray;display: " + (right_mode != "project"?"flex":"none") + ";flex-direction: column;padding:0px;height:100%;"'>
 
             <div    v-bind:style='"background-color: " + (selected_pane == "properties"?"#000099":"gray") + ";padding: 4px;color: white;"'
-                    v-on:click='selected_pane = "project";'>
+                    v-on:click='selected_pane = "properties";'>
                 Properties - {{model.active_component_index?model.forms[model.active_form].components[model.active_component_index].name + " (Component)" : model.active_form + " (Form)"}}
             </div>
 
