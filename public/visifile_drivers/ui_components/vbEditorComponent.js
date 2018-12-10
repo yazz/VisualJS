@@ -346,11 +346,11 @@ load_once_from_file(true)
 
 
                 <div    v-for='property in properties'
-                        v-bind:style='"font-size:12px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;" + (active_property_index == property.name?"background-color:blue;color:white;":"")'>
+                        style='font-size:12px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
 
                     <div class='row' style='width:100%;padding:0px;margin:0px;'>
                         <div    class='col-md-4 small'
-                                style='font-size:12px;padding:0px;border-right: 1px solid lightgray;margin-left:1px;margin-right:5px;'
+                                v-bind:style='"font-size:12px;padding:0px;border-right: 1px solid lightgray;margin-left:1px;margin-right:5px;" + (active_property_index == property.name?"background-color:blue;color:white;":"")'
                                 v-on:click='selected_pane = "properties";active_property_index = property.name;'>
                             {{property.name}}
                         </div>
