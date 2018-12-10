@@ -70,7 +70,7 @@ load_once_from_file(true)
         <div    v-if='design_mode'
                 v-bind:style='(design_mode?"border: 4px solid lightgray;":"") + " width: " + leftHandWidth + "px;height: 75vmin; display: inline-block;overflow-x: none;overflow-y: auto;vertical-align: top; background-color: lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"'>
 
-            <div style="background-color: lightsteelblue;;padding: 4px;color: black; margin-bottom: 10px;">
+            <div v-bind:style='"background-color: " + (selected_pane == "blocks"?"blue":"gray") + ";padding: 4px;color: white; margin-bottom: 10px;"'>
                 Blocks
             </div>
             <div class='container' style=''>
@@ -107,7 +107,7 @@ load_once_from_file(true)
         <div            v-bind:style='" display: inline-block; vertical-align: top; position: relative; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
 
             <div    v-if='design_mode'
-                    style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: lightsteelblue; color: black; border: 4px solid lightgray; padding:4px; margin:0'>
+                    style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0'>
 
                 <img
                     src='/driver_icons/form.png'
@@ -266,10 +266,8 @@ load_once_from_file(true)
                 </div>
 
             </div>
+
         </div>
-
-
-
 
     </div>
 
@@ -286,13 +284,14 @@ load_once_from_file(true)
 
             <div style='background-color: lightgray;'>
 
-                <div style='background-color: lightsteelblue;; padding: 4px;color: black;'>
+                <div v-bind:style='"background-color: " + (selected_pane == "project"?"blue":"gray") + "; padding: 4px;color: white;"'
+                     v-on:click='$event.stopPropagation();selected_pane = "project";addForm()'>
                     Project explorer
                 </div>
 
                 <button type=button class='btn btn-sm btn-info'
                         style='margin: 6px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);'
-                        v-on:click='$event.stopPropagation();addForm()'  >
+                        v-on:click='$event.stopPropagation();selected_pane = "project";addForm()'  >
                             Add form
                 </button>
             </div>
@@ -301,7 +300,7 @@ load_once_from_file(true)
             <div    style='overflow-y:scroll; padding:5px; background-color: white; align-items: stretch;'>
 
                 <div    v-bind:style='"background-color:black;color:white;padding:4px;margin:0px;margin-top: 5px;" + (model.app_selected?"border: 3px solid red":"")'
-                        v-on:click='$event.stopPropagation();select_app()'>
+                        v-on:click='$event.stopPropagation();selected_pane = "project";select_app()'>
 
                               {{edited_app_component_id}}
                 </div>
@@ -309,7 +308,7 @@ load_once_from_file(true)
                 <div v-for='form in getForms()' v-bind:refresh='refresh'>
                     <div>
                         <div  v-bind:style='(((form.name == model.active_form) && (model.active_component_index == null) && (!model.app_selected)) ?"border: 3px solid red;background-color:gray;color:white;":"color:black;") + "padding:4px;margin:0px;margin-left:30px;"'
-                              v-on:click='$event.stopPropagation();selectForm(form.name)'>
+                              v-on:click='$event.stopPropagation();selected_pane = "project";selectForm(form.name)'>
 
                               <img
                                   src='/driver_icons/form.png'
@@ -322,7 +321,7 @@ load_once_from_file(true)
 
                         <div    v-if='form.name == model.active_form'
                                 v-for='(av,index) in getActiveFormComponents()'
-                                v-on:click='$event.stopPropagation();select_component(index)'
+                                v-on:click='$event.stopPropagation();selected_pane = "project";select_component(index)'
                                 v-bind:style='(((index == model.active_component_index) && design_mode)?"border: 3px solid red;background-color: lightgray;":"") + "margin-left:60px; padding:2px;"'>
 
                             <div style='width:100%;display:inline-block;overflow: hidden;'>{{av.name}}</div>
@@ -336,7 +335,8 @@ load_once_from_file(true)
 
         <div   v-bind:style='"height: " + (right_mode == "properties"?"100":"50") + "%;  padding:0px; border: 4px solid lightgray;display: " + (right_mode != "project"?"flex":"none") + ";flex-direction: column;padding:0px;height:100%;"'>
 
-            <div style="background-color: lightsteelblue;padding: 4px;color: black;">
+            <div    v-bind:style='"background-color: " + (selected_pane == "properties"?"blue":"gray") + ";padding: 4px;color: white;"'
+                    v-on:click='selected_pane = "project";'>
                 Properties - {{model.active_component_index?model.forms[model.active_form].components[model.active_component_index].name + " (Component)" : model.active_form + " (Form)"}}
             </div>
 
@@ -349,13 +349,15 @@ load_once_from_file(true)
 
                     <div class='row' style='width:100%;padding:0px;margin:0px;'>
                         <div    class='col-md-4 small'
-                                style='font-size:12px;padding:0px;border-right: 1px solid lightgray;margin-left:1px;margin-right:5px;'>
+                                style='font-size:12px;padding:0px;border-right: 1px solid lightgray;margin-left:1px;margin-right:5px;'
+                                v-on:click='selected_pane = "properties";'>
                             {{property.name}}
                         </div>
 
-                        <div class='col-md-7 small' style='padding:0px;'>
+                        <div class='col-md-7 small' style='padding:0px;'
+                             v-on:click='selected_pane = "properties";'>
                             <div v-if='!property.readonly'>
-                                <div v-if="(property.type  == 'String')  || (property.type  == 'Number')">
+                                <div    v-if="(property.type  == 'String')  || (property.type  == 'Number')">
                                     <input  class='col-md-12 small'
                                             @change='setVBEditorProperty($event, property)'
                                             v-bind:value='getVBEditorProperty(property)'
@@ -1211,6 +1213,7 @@ ${eventMessage.code}
 
             this.model.active_component_index = null
             this.model.app_selected = true
+
             this.properties = []
             this.properties.push({   id:     "id",   name:   "ID",   type:   "String" , readonly: true,
                                      get_fn: function() {
@@ -1503,6 +1506,7 @@ ${eventMessage.code}
            refresh:                     0,
            properties:                  [],
            read_only:                   false,
+           selected_pane:               null,
            available_components:        [],
            component_usage:             new Object(),
            form_runtime_info: {},
