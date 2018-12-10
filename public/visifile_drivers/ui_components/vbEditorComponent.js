@@ -346,12 +346,12 @@ load_once_from_file(true)
 
 
                 <div    v-for='property in properties'
-                        style='font-size:12px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+                        v-bind:style='"font-size:12px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;" + (active_property_index == property.name?"background-color:blue;color:white;":"")'>
 
                     <div class='row' style='width:100%;padding:0px;margin:0px;'>
                         <div    class='col-md-4 small'
                                 style='font-size:12px;padding:0px;border-right: 1px solid lightgray;margin-left:1px;margin-right:5px;'
-                                v-on:click='selected_pane = "properties";'>
+                                v-on:click='selected_pane = "properties";active_property_index = property.name;'>
                             {{property.name}}
                         </div>
 
@@ -1508,9 +1508,10 @@ ${eventMessage.code}
            properties:                  [],
            read_only:                   false,
            selected_pane:               null,
+           active_property_index:       null,
            available_components:        [],
            component_usage:             new Object(),
-           form_runtime_info: {},
+           form_runtime_info:           {},
            model:                      {
                                             next_id: 1,
                                             next_component_id: 1,
