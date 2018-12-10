@@ -334,124 +334,126 @@ load_once_from_file(true)
 
 
 
-        <div   v-bind:style='"height: " + (right_mode == "properties"?"100":"50") + "%;  padding:0px; border: 4px solid lightgray;display: " + (right_mode != "project"?"flex":"none") + ";flex-direction: column;padding:0px;"'>
+        <div  v-bind:style='"height: " + (right_mode == "properties"?"100":"50") + "%;  padding:0px; border: 4px solid lightgray;display: " + (right_mode != "project"?"flex":"none") + ";flex-direction: column;padding:0px;background-color: lightgray;"'>
 
-            <div    v-bind:style='"background-color: " + (selected_pane == "properties"?"#000099":"gray") + ";padding: 4px;color: white;"'
+            <div    v-bind:style='"border-radius: 3px; background-color: " + (selected_pane == "properties"?"#000099":"gray") + ";padding: 4px;color: white;"'
                     v-on:click='selected_pane = "properties";'>
                 Properties - {{model.active_component_index?model.forms[model.active_form].components[model.active_component_index].name + " (Component)" : model.active_form + " (Form)"}}
             </div>
 
 
-            <div    style="align-items: stretch;overflow-y:scroll; padding:0px; border: 0px solid lightgray;">
+            <div  style="border-radius: 3px; padding:4px; border-right:1px solid gray;border-bottom:1px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 100%;">
+                <div    style="align-items: stretch;border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 1px solid gray;border-top: 1px solid gray; background-color:white;height:100%;">
 
 
-                <div    v-for='property in properties'
-                        style='font-size:12px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+                    <div    v-for='property in properties'
+                            style='font-size:12px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
 
-                    <div class='row' style='width:100%;padding:0px;margin:0px;'>
-                        <div    class='col-md-4 small'
-                                v-bind:style='"margin: 0px;font-size:12px;padding-left: 1px;padding-top:2px;padding-bottom:2px;border-right: 1px solid lightgray;margin-right:5px;" + (active_property_index == property.name?"background-color:#000099;color:white;":"")'
-                                v-on:click='selected_pane = "properties";active_property_index = property.name;'>
-                            {{property.name}}
-                        </div>
-
-                        <div class='col-md-7 small' style='padding:0px;'
-                             v-on:click='selected_pane = "properties";'>
-                            <div v-if='!property.readonly'>
-                                <div    v-if="(property.type  == 'String')  || (property.type  == 'Number')">
-                                    <input  class='col-md-12 small'
-                                            @change='setVBEditorProperty($event, property)'
-                                            v-bind:value='getVBEditorProperty(property)'
-                                            style='width: 100%;border: 0px;font-size:12px;padding:0px;'>
-                                    </input>
-                                </div>
-
-                                <div v-if="(property.type  == 'Event')  ">
-                                    <textarea   class="form-control"
-                                                v-if='(model.active_component_index == null) && (model.active_form != null)'
-                                                @change='generateCodeFromModel(   )'
-                                                style='border:0px;font-size:12px;padding:0px;'
-                                                rows=10
-                                                v-model='model.forms[model.active_form][property.id]'>
-                                    </textarea>
-
-                                    <textarea   class="form-control"
-                                                v-if='(model.active_component_index != null) && (model.active_form != null)'
-                                                @change='generateCodeFromModel(   )'
-                                                rows=10
-                                                style='border:0px;font-size:12px;padding:0px;'
-                                                v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'>
-                                    </textarea>
-                                </div>
+                        <div class='row' style='width:100%;padding:0px;margin:0px;'>
+                            <div    class='col-md-4 small'
+                                    v-bind:style='"margin: 0px;font-size:12px;padding-left: 1px;padding-top:2px;padding-bottom:2px;border-right: 1px solid lightgray;margin-right:5px;" + (active_property_index == property.name?"background-color:#000099;color:white;":"")'
+                                    v-on:click='selected_pane = "properties";active_property_index = property.name;'>
+                                {{property.name}}
                             </div>
 
-                            <div v-if='property.readonly'>
-                                <div    v-if='model.active_component_index != null'
-                                        style='padding:0px;font-size:12px;'
-                                        class='col-md-12 small'>
+                            <div class='col-md-7 small' style='padding:0px;'
+                                 v-on:click='selected_pane = "properties";'>
+                                <div v-if='!property.readonly'>
+                                    <div    v-if="(property.type  == 'String')  || (property.type  == 'Number')">
+                                        <input  class='col-md-12 small'
+                                                @change='setVBEditorProperty($event, property)'
+                                                v-bind:value='getVBEditorProperty(property)'
+                                                style='width: 100%;border: 0px;font-size:12px;padding:0px;'>
+                                        </input>
+                                    </div>
 
-                                    {{model.forms[model.active_form].components[model.active_component_index][property.id]}}
+                                    <div v-if="(property.type  == 'Event')  ">
+                                        <textarea   class="form-control"
+                                                    v-if='(model.active_component_index == null) && (model.active_form != null)'
+                                                    @change='generateCodeFromModel(   )'
+                                                    style='border:0px;font-size:12px;padding:0px;'
+                                                    rows=10
+                                                    v-model='model.forms[model.active_form][property.id]'>
+                                        </textarea>
 
+                                        <textarea   class="form-control"
+                                                    v-if='(model.active_component_index != null) && (model.active_form != null)'
+                                                    @change='generateCodeFromModel(   )'
+                                                    rows=10
+                                                    style='border:0px;font-size:12px;padding:0px;'
+                                                    v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'>
+                                        </textarea>
+                                    </div>
                                 </div>
 
-                                <div v-if='(model.active_component_index == null) && (model.active_form != null) && (model.app_selected == false)' class='col-md-12 small'   v-model='model.forms[model.active_form][property.id]'>
-                                </div>
+                                <div v-if='property.readonly'>
+                                    <div    v-if='model.active_component_index != null'
+                                            style='padding:0px;font-size:12px;'
+                                            class='col-md-12 small'>
 
-                                <div    v-if='model.app_selected'
-                                        style='padding:0px;font-size:12px;'
-                                        class='col-md-12 small'  >
+                                        {{model.forms[model.active_form].components[model.active_component_index][property.id]}}
 
-                                    {{property.get_fn?property.get_fn():model[property.id]}}
+                                    </div>
 
+                                    <div v-if='(model.active_component_index == null) && (model.active_form != null) && (model.app_selected == false)' class='col-md-12 small'   v-model='model.forms[model.active_form][property.id]'>
+                                    </div>
+
+                                    <div    v-if='model.app_selected'
+                                            style='padding:0px;font-size:12px;'
+                                            class='col-md-12 small'  >
+
+                                        {{property.get_fn?property.get_fn():model[property.id]}}
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div  v-if='model.app_selected && (!add_property)' class='row'>
-                    <div  class='col-md-12 small'>
-                        <button    type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addProperty()'  >
-                            Add property
-                        </button>
-                    </div>
-                </div>
-
-                <div v-if='(model.app_selected) && (add_property)' class='row'>
-                    <div  class='col-md-12 small'>
-                        Add a property
-                    </div>
-                </div>
-
-                <div v-if='(model.app_selected) && (add_property)' class='row'>
-                    <div class='col-md-4'>
-                       ID
+                    <div  v-if='model.app_selected && (!add_property)' class='row'>
+                        <div  class='col-md-12 small'>
+                            <button    type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addProperty()'  >
+                                Add property
+                            </button>
+                        </div>
                     </div>
 
-                    <input class='col-md-7 small'  v-model='new_property_id'>
-                    </input>
-                </div>
-
-                <div v-if='(model.app_selected) && (add_property)' class='row'>
-                    <div class='col-md-4'>
-                        Name
+                    <div v-if='(model.app_selected) && (add_property)' class='row'>
+                        <div  class='col-md-12 small'>
+                            Add a property
+                        </div>
                     </div>
 
-                    <input  class='col-md-7 small'
-                            style='border:0px'
-                            v-model='new_property_name'>
-                    </input>
-                </div>
+                    <div v-if='(model.app_selected) && (add_property)' class='row'>
+                        <div class='col-md-4'>
+                           ID
+                        </div>
 
-                <div v-if='(model.app_selected) && (add_property)' class='row'>
-                    <div class='col-md-12'>
-                        <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addPropertyCancel()'  >
-                            Cancel
-                        </button>
+                        <input class='col-md-7 small'  v-model='new_property_id'>
+                        </input>
+                    </div>
 
-                        <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addPropertySave()'  >
-                            Save
-                        </button>
+                    <div v-if='(model.app_selected) && (add_property)' class='row'>
+                        <div class='col-md-4'>
+                            Name
+                        </div>
+
+                        <input  class='col-md-7 small'
+                                style='border:0px'
+                                v-model='new_property_name'>
+                        </input>
+                    </div>
+
+                    <div v-if='(model.app_selected) && (add_property)' class='row'>
+                        <div class='col-md-12'>
+                            <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addPropertyCancel()'  >
+                                Cancel
+                            </button>
+
+                            <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addPropertySave()'  >
+                                Save
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
