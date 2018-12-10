@@ -114,8 +114,8 @@ load_once_from_file(true)
                     src='/driver_icons/form.png'
                     style='width: 20px; margin-right: 10px;'
                     class='img-fluid'>
-               </img>
-               {{model.active_form}} (Form)
+                 </img>
+                 {{model.active_form}} (Form)
             </div>
 
             <div            v-bind:id='vb_grid_element_id'  v-if='vb_grid_element_id != null'
@@ -170,98 +170,100 @@ load_once_from_file(true)
                                index:   index
                             })'>
 
+                        <div    v-if='design_mode'
+                                ondrop="return false;"
+                                v-bind:refresh='refresh'
+                                v-bind:style='"position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%; background-color: lightgray;" +
+                                                ((index == model.active_component_index)?"opacity: 0;":"opacity: .6;") '>
+
+                        </div>
+                    </div>
+
+
+
+
+
                     <div    v-if='design_mode'
-                            ondrop="return false;"
                             v-bind:refresh='refresh'
-                            v-bind:style='"position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%; background-color: lightgray;" +
-                                            ((index == model.active_component_index)?"opacity: 0;":"opacity: .6;") '>
+                            style='opacity:0.5;position: absolute; top: 0px; left: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
+                            v-bind:draggable='true'
+                            ondrop="return false;"
+                            v-on:dragstart='drag($event,{
+                               type:   "resize_top_left",
+                               text:    item.base_component_id,
+                               index:   index
+                            })'>
+                        <div    style='position: absolute; top: 0px; left: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
+                        </div>
+
+                        <div    style='position: absolute; top: 0px; left: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
+                        </div>
 
                     </div>
-                </div>
 
 
+                    <div    v-if='design_mode'
+                            v-bind:refresh='refresh'
+                            style='opacity:0.5;position: absolute; top: 0px; right: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
+                            v-bind:draggable='true'
+                            v-on:dragstart='drag($event,{
+                               type:   "resize_top_right",
+                               text:    item.base_component_id,
+                               index:   index  })'>
 
+                        <div    style='position: absolute; top: 0px; right: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
+                        </div>
 
-
-                <div    v-if='design_mode'
-                        v-bind:refresh='refresh'
-                        style='opacity:0.5;position: absolute; top: 0px; left: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
-                        v-bind:draggable='true'
-                        ondrop="return false;"
-                        v-on:dragstart='drag($event,{
-                           type:   "resize_top_left",
-                           text:    item.base_component_id,
-                           index:   index
-                        })'>
-                    <div    style='position: absolute; top: 0px; left: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
+                        <div    style='position: absolute; top: 0px; right: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
+                        </div>
                     </div>
 
-                    <div    style='position: absolute; top: 0px; left: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
+
+
+                    <div    v-if='design_mode'
+                            v-bind:refresh='refresh'
+                            style='opacity:0.5;position: absolute; bottom: 0px; left: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
+                            v-bind:draggable='true'
+                            v-on:dragstart='drag($event,{
+                                                        type:   "resize_bottom_left",
+                                                        text:    item.base_component_id,
+                                                        index:   index
+                                                     })'>
+                        <div    style='position: absolute; bottom: 0px; left: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
+                        </div>
+
+                        <div    style='position: absolute; bottom: 0px; left: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
+                        </div>
                     </div>
 
-                </div>
 
 
-                <div    v-if='design_mode'
-                        v-bind:refresh='refresh'
-                        style='opacity:0.5;position: absolute; top: 0px; right: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
-                        v-bind:draggable='true'
-                        v-on:dragstart='drag($event,{
-                           type:   "resize_top_right",
-                           text:    item.base_component_id,
-                           index:   index  })'>
+                    <div  v-if='design_mode'
+                          v-bind:refresh='refresh'
+                          style='opacity:0.5;position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
+                          v-bind:draggable='true'
+                          v-on:dragstart='drag($event,{
+                                                         type:   "resize_bottom_right",
+                                                         text:    item.base_component_id,
+                                                         index:   index
+                                                              })'>
+                        <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
+                        </div>
 
-                    <div    style='position: absolute; top: 0px; right: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
+                        <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
+                        </div>
                     </div>
 
-                    <div    style='position: absolute; top: 0px; right: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
-                    </div>
-                </div>
 
+                    <div     v-if='design_mode'
+                             v-bind:refresh='refresh'
+                             style='opacity:0.5;position: absolute; bottom: 0px; right: 20px;z-index: 30000000;width: 20px;height: 20px;background-color: red;'
+                             v-on:click='$event.stopPropagation();deleteComponent(index)'>
 
+                        <div style='text-align: center;vertical-align: middle;'>
+                            X
+                        </div>
 
-                <div    v-if='design_mode'
-                        v-bind:refresh='refresh'
-                        style='opacity:0.5;position: absolute; bottom: 0px; left: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
-                        v-bind:draggable='true'
-                        v-on:dragstart='drag($event,{
-                                                    type:   "resize_bottom_left",
-                                                    text:    item.base_component_id,
-                                                    index:   index
-                                                 })'>
-                    <div    style='position: absolute; bottom: 0px; left: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
-                    </div>
-
-                    <div    style='position: absolute; bottom: 0px; left: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
-                    </div>
-                </div>
-
-
-
-                <div  v-if='design_mode'
-                      v-bind:refresh='refresh'
-                      style='opacity:0.5;position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
-                      v-bind:draggable='true'
-                      v-on:dragstart='drag($event,{
-                                                     type:   "resize_bottom_right",
-                                                     text:    item.base_component_id,
-                                                     index:   index
-                                                          })'>
-                    <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
-                    </div>
-
-                    <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
-                    </div>
-                </div>
-
-
-                <div     v-if='design_mode'
-                         v-bind:refresh='refresh'
-                         style='opacity:0.5;position: absolute; bottom: 0px; right: 20px;z-index: 30000000;width: 20px;height: 20px;background-color: red;'
-                         v-on:click='$event.stopPropagation();deleteComponent(index)'>
-
-                    <div style='text-align: center;vertical-align: middle;'>
-                        X
                     </div>
 
                 </div>
@@ -270,194 +272,207 @@ load_once_from_file(true)
 
         </div>
 
-    </div>
 
 
 
 
+        <div    v-if='design_mode'
+              v-bind:style='(design_mode?"border: 4px solid lightgray;box-shadow: 2px 2px 10px lightgray;":"") + " position:absolute;top:0px;right:0px;width: 250px;height: 75vmin; display: inline-block;overflow-x: none;overflow-y: hidden;vertical-align: top;padding:0px;height:100%; "'
+              v-bind:refresh='refresh'>
 
-    <div    v-if='design_mode'
-          v-bind:style='(design_mode?"border: 4px solid lightgray;box-shadow: 2px 2px 10px lightgray;":"") + " position:absolute;top:0px;right:0px;width: 250px;height: 75vmin; display: inline-block;overflow-x: none;overflow-y: hidden;vertical-align: top;padding:0px;height:100%; "'
-          v-bind:refresh='refresh'>
 
-        <div    v-bind:refresh='refresh'
-                v-bind:style='"height: " + (right_mode == "project"?"100":"50") + "%;  padding:0px; border: 4px solid lightgray;display: " + (right_mode != "properties"?"flex":"none") + ";flex-direction: column;"'>
 
-            <div style='background-color: lightgray;'>
 
-                <div v-bind:style='"background-color: " + (selected_pane == "project"?"#000099":"gray") + "; padding: 4px;color: white;"'
-                     v-on:click='$event.stopPropagation();selected_pane = "project";addForm()'>
-                    Project explorer
+            <div  v-bind:style='"height: " + (right_mode == "properties"?"100":"50") + "%;  padding:0px; border: 4px solid lightgray;display: " + (right_mode != "project"?"block":"none") + ";padding:0px;background-color: lightgray;"'>
+
+                <div    v-bind:style='"border-radius: 3px; background-color: " + (selected_pane == "properties"?"#000099":"gray") + ";padding: 4px;color: white;"'
+                        v-on:click='selected_pane = "properties";'>
+                    Properties - {{model.active_component_index?model.forms[model.active_form].components[model.active_component_index].name + " (Component)" : model.active_form + " (Form)"}}
                 </div>
 
-                <button type=button class='btn btn-sm btn-info'
-                        style='margin: 6px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);'
-                        v-on:click='$event.stopPropagation();selected_pane = "project";addForm()'  >
-                            Add form
-                </button>
-            </div>
+
+                <div  style="border-radius: 3px; padding:4px; border-right:1px solid gray;border-bottom:1px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 100%;">
+                    <div    style="align-items: stretch;border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 1px solid gray;border-top: 1px solid gray; background-color:white;height:100%;">
 
 
-            <div    style='overflow-y:scroll; padding:5px; background-color: white; align-items: stretch;'>
+                        <div    v-for='property in properties'
+                                style='font-size:12px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
 
-                <div    v-bind:style='"padding:4px;margin:0px;margin-top: 5px;" + (model.app_selected?"background-color:gray;color:white;":"background-color:white;color:black;")'
-                        v-on:click='$event.stopPropagation();selected_pane = "project";select_app()'>
-
-                              <b>{{edited_app_component_id}}</b>
-                </div>
-
-                <div v-for='form in getForms()' v-bind:refresh='refresh'>
-                    <div>
-                        <div  v-bind:style='(((form.name == model.active_form) && (model.active_component_index == null) && (!model.app_selected)) ?"border: 0px solid red;background-color:gray;color:white;":"color:black;") + "padding:4px;margin:0px;margin-left:30px;"'
-                              v-on:click='$event.stopPropagation();selected_pane = "project";selectForm(form.name)'>
-
-                              <img
-                                  src='/driver_icons/form.png'
-                                  style='width: 20px; margin-right: 10px;'
-                                  class='img-fluid'>
-                              </img>
-
-                                    {{form.name}} ({{form.components.length}})
-                        </div>
-
-                        <div    v-if='form.name == model.active_form'
-                                v-for='(av,index) in getActiveFormComponents()'
-                                v-on:click='$event.stopPropagation();selected_pane = "project";select_component(index)'
-                                v-bind:style='(((index == model.active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:60px; padding:2px;"'>
-
-                            <div style='width:100%;display:inline-block;overflow: hidden;'>{{av.name}}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
-        <div  v-bind:style='"height: " + (right_mode == "properties"?"100":"50") + "%;  padding:0px; border: 4px solid lightgray;display: " + (right_mode != "project"?"flex":"none") + ";flex-direction: column;padding:0px;background-color: lightgray;"'>
-
-            <div    v-bind:style='"border-radius: 3px; background-color: " + (selected_pane == "properties"?"#000099":"gray") + ";padding: 4px;color: white;"'
-                    v-on:click='selected_pane = "properties";'>
-                Properties - {{model.active_component_index?model.forms[model.active_form].components[model.active_component_index].name + " (Component)" : model.active_form + " (Form)"}}
-            </div>
-
-
-            <div  style="border-radius: 3px; padding:4px; border-right:1px solid gray;border-bottom:1px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 100%;">
-                <div    style="align-items: stretch;border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 1px solid gray;border-top: 1px solid gray; background-color:white;height:100%;">
-
-
-                    <div    v-for='property in properties'
-                            style='font-size:12px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
-
-                        <div class='row' style='width:100%;padding:0px;margin:0px;'>
-                            <div    class='col-md-4 small'
-                                    v-bind:style='"margin: 0px;font-size:12px;padding-left: 1px;padding-top:2px;padding-bottom:2px;border-right: 1px solid lightgray;margin-right:5px;" + (active_property_index == property.name?"background-color:#000099;color:white;":"")'
-                                    v-on:click='selected_pane = "properties";active_property_index = property.name;'>
-                                {{property.name}}
-                            </div>
-
-                            <div class='col-md-7 small' style='padding:0px;'
-                                 v-on:click='selected_pane = "properties";'>
-                                <div v-if='!property.readonly'>
-                                    <div    v-if="(property.type  == 'String')  || (property.type  == 'Number')">
-                                        <input  class='col-md-12 small'
-                                                @change='setVBEditorProperty($event, property)'
-                                                v-bind:value='getVBEditorProperty(property)'
-                                                style='width: 100%;border: 0px;font-size:12px;padding:0px;'>
-                                        </input>
-                                    </div>
-
-                                    <div v-if="(property.type  == 'Event')  ">
-                                        <textarea   class="form-control"
-                                                    v-if='(model.active_component_index == null) && (model.active_form != null)'
-                                                    @change='generateCodeFromModel(   )'
-                                                    style='border:0px;font-size:12px;padding:0px;'
-                                                    rows=10
-                                                    v-model='model.forms[model.active_form][property.id]'>
-                                        </textarea>
-
-                                        <textarea   class="form-control"
-                                                    v-if='(model.active_component_index != null) && (model.active_form != null)'
-                                                    @change='generateCodeFromModel(   )'
-                                                    rows=10
-                                                    style='border:0px;font-size:12px;padding:0px;'
-                                                    v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'>
-                                        </textarea>
-                                    </div>
+                            <div class='row' style='width:100%;padding:0px;margin:0px;'>
+                                <div    class='col-md-4 small'
+                                        v-bind:style='"margin: 0px;font-size:12px;padding-left: 1px;padding-top:2px;padding-bottom:2px;border-right: 1px solid lightgray;margin-right:5px;" + (active_property_index == property.name?"background-color:#000099;color:white;":"")'
+                                        v-on:click='selected_pane = "properties";active_property_index = property.name;'>
+                                    {{property.name}}
                                 </div>
 
-                                <div v-if='property.readonly'>
-                                    <div    v-if='model.active_component_index != null'
-                                            style='padding:0px;font-size:12px;'
-                                            class='col-md-12 small'>
+                                <div class='col-md-7 small' style='padding:0px;'
+                                     v-on:click='selected_pane = "properties";'>
+                                    <div v-if='!property.readonly'>
+                                        <div    v-if="(property.type  == 'String')  || (property.type  == 'Number')">
+                                            <input  class='col-md-12 small'
+                                                    @change='setVBEditorProperty($event, property)'
+                                                    v-bind:value='getVBEditorProperty(property)'
+                                                    style='width: 100%;border: 0px;font-size:12px;padding:0px;'>
+                                            </input>
+                                        </div>
 
-                                        {{model.forms[model.active_form].components[model.active_component_index][property.id]}}
+                                        <div v-if="(property.type  == 'Event')  ">
+                                            <textarea   class="form-control"
+                                                        v-if='(model.active_component_index == null) && (model.active_form != null)'
+                                                        @change='generateCodeFromModel(   )'
+                                                        style='border:0px;font-size:12px;padding:0px;'
+                                                        rows=10
+                                                        v-model='model.forms[model.active_form][property.id]'>
+                                            </textarea>
 
+                                            <textarea   class="form-control"
+                                                        v-if='(model.active_component_index != null) && (model.active_form != null)'
+                                                        @change='generateCodeFromModel(   )'
+                                                        rows=10
+                                                        style='border:0px;font-size:12px;padding:0px;'
+                                                        v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'>
+                                            </textarea>
+                                        </div>
                                     </div>
 
-                                    <div v-if='(model.active_component_index == null) && (model.active_form != null) && (model.app_selected == false)' class='col-md-12 small'   v-model='model.forms[model.active_form][property.id]'>
-                                    </div>
+                                    <div v-if='property.readonly'>
+                                        <div    v-if='model.active_component_index != null'
+                                                style='padding:0px;font-size:12px;'
+                                                class='col-md-12 small'>
 
-                                    <div    v-if='model.app_selected'
-                                            style='padding:0px;font-size:12px;'
-                                            class='col-md-12 small'  >
+                                            {{model.forms[model.active_form].components[model.active_component_index][property.id]}}
 
-                                        {{property.get_fn?property.get_fn():model[property.id]}}
+                                        </div>
 
+                                        <div v-if='(model.active_component_index == null) && (model.active_form != null) && (model.app_selected == false)' class='col-md-12 small'   v-model='model.forms[model.active_form][property.id]'>
+                                        </div>
+
+                                        <div    v-if='model.app_selected'
+                                                style='padding:0px;font-size:12px;'
+                                                class='col-md-12 small'  >
+
+                                            {{property.get_fn?property.get_fn():model[property.id]}}
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div  v-if='model.app_selected && (!add_property)' class='row'>
-                        <div  class='col-md-12 small'>
-                            <button    type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addProperty()'  >
-                                Add property
-                            </button>
-                        </div>
-                    </div>
-
-                    <div v-if='(model.app_selected) && (add_property)' class='row'>
-                        <div  class='col-md-12 small'>
-                            Add a property
-                        </div>
-                    </div>
-
-                    <div v-if='(model.app_selected) && (add_property)' class='row'>
-                        <div class='col-md-4'>
-                           ID
+                        <div  v-if='model.app_selected && (!add_property)' class='row'>
+                            <div  class='col-md-12 small'>
+                                <button    type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addProperty()'  >
+                                    Add property
+                                </button>
+                            </div>
                         </div>
 
-                        <input class='col-md-7 small'  v-model='new_property_id'>
-                        </input>
-                    </div>
-
-                    <div v-if='(model.app_selected) && (add_property)' class='row'>
-                        <div class='col-md-4'>
-                            Name
+                        <div v-if='(model.app_selected) && (add_property)' class='row'>
+                            <div  class='col-md-12 small'>
+                                Add a property
+                            </div>
                         </div>
 
-                        <input  class='col-md-7 small'
-                                style='border:0px'
-                                v-model='new_property_name'>
-                        </input>
+                        <div v-if='(model.app_selected) && (add_property)' class='row'>
+                            <div class='col-md-4'>
+                               ID
+                            </div>
+
+                            <input class='col-md-7 small'  v-model='new_property_id'>
+                            </input>
+                        </div>
+
+                        <div v-if='(model.app_selected) && (add_property)' class='row'>
+                            <div class='col-md-4'>
+                                Name
+                            </div>
+
+                            <input  class='col-md-7 small'
+                                    style='border:0px'
+                                    v-model='new_property_name'>
+                            </input>
+                        </div>
+
+                        <div v-if='(model.app_selected) && (add_property)' class='row'>
+                            <div class='col-md-12'>
+                                <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addPropertyCancel()'  >
+                                    Cancel
+                                </button>
+
+                                <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addPropertySave()'  >
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div    v-bind:refresh='refresh'
+                    v-bind:style='"height: " + (right_mode == "project"?"100":"50") + "%;  padding:0px; border: 4px solid lightgray;display: " + (right_mode != "properties"?"block":"none") + ";"'>
+
+                <div style='background-color: lightgray;'>
+
+                    <div v-bind:style='"background-color: " + (selected_pane == "project"?"#000099":"gray") + "; padding: 4px;color: white;"'
+                         v-on:click='$event.stopPropagation();selected_pane = "project";addForm()'>
+                        Project explorer
                     </div>
 
-                    <div v-if='(model.app_selected) && (add_property)' class='row'>
-                        <div class='col-md-12'>
-                            <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addPropertyCancel()'  >
-                                Cancel
-                            </button>
+                    <button type=button class='btn btn-sm btn-info'
+                            style='margin: 6px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);'
+                            v-on:click='$event.stopPropagation();selected_pane = "project";addForm()'  >
+                                Add form
+                    </button>
+                </div>
 
-                            <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addPropertySave()'  >
-                                Save
-                            </button>
+
+                <div    style='overflow-y:scroll; padding:5px; background-color: white; align-items: stretch;'>
+
+                    <div    v-bind:style='"padding:4px;margin:0px;margin-top: 5px;" + (model.app_selected?"background-color:gray;color:white;":"background-color:white;color:black;")'
+                            v-on:click='$event.stopPropagation();selected_pane = "project";select_app()'>
+
+                                  <b>{{edited_app_component_id}}</b>
+                    </div>
+
+                    <div v-for='form in getForms()' v-bind:refresh='refresh'>
+                        <div>
+                            <div  v-bind:style='(((form.name == model.active_form) && (model.active_component_index == null) && (!model.app_selected)) ?"border: 0px solid red;background-color:gray;color:white;":"color:black;") + "padding:4px;margin:0px;margin-left:30px;"'
+                                  v-on:click='$event.stopPropagation();selected_pane = "project";selectForm(form.name)'>
+
+                                  <img
+                                      src='/driver_icons/form.png'
+                                      style='width: 20px; margin-right: 10px;'
+                                      class='img-fluid'>
+                                  </img>
+
+                                        {{form.name}} ({{form.components.length}})
+                            </div>
+
+                            <div    v-if='form.name == model.active_form'
+                                    v-for='(av,index) in getActiveFormComponents()'
+                                    v-on:click='$event.stopPropagation();selected_pane = "project";select_component(index)'
+                                    v-bind:style='(((index == model.active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:60px; padding:2px;"'>
+
+                                <div style='width:100%;display:inline-block;overflow: hidden;'>{{av.name}}</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+
+
+
+
+
+
+
+
+
+
     </div>
 </div>`
         ,
