@@ -277,7 +277,7 @@ load_once_from_file(true)
 
 
     <div    v-if='design_mode'
-          v-bind:style='(design_mode?"border: 4px solid lightgray;box-shadow: 2px 2px 10px lightgray;":"") + " position:absolute;top:0px;right:0px;width: 250px;height: 75vmin; display: inline-block;overflow-x: none;overflow-y: auto;vertical-align: top;padding:0px;height:100%; "'
+          v-bind:style='(design_mode?"border: 4px solid lightgray;box-shadow: 2px 2px 10px lightgray;":"") + " position:absolute;top:0px;right:0px;width: 250px;height: 75vmin; display: inline-block;overflow-x: none;overflow-y: hidden;vertical-align: top;padding:0px;height:100%; "'
           v-bind:refresh='refresh'>
 
         <div    v-bind:refresh='refresh'
@@ -334,7 +334,7 @@ load_once_from_file(true)
 
 
 
-        <div   v-bind:style='"height: " + (right_mode == "properties"?"100":"50") + "%;  padding:0px; border: 4px solid lightgray;display: " + (right_mode != "project"?"flex":"none") + ";flex-direction: column;padding:0px;height:100%;"'>
+        <div   v-bind:style='"height: " + (right_mode == "properties"?"100":"50") + "%;  padding:0px; border: 4px solid lightgray;display: " + (right_mode != "project"?"flex":"none") + ";flex-direction: column;padding:0px;"'>
 
             <div    v-bind:style='"background-color: " + (selected_pane == "properties"?"#000099":"gray") + ";padding: 4px;color: white;"'
                     v-on:click='selected_pane = "properties";'>
