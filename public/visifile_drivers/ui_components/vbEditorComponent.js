@@ -350,7 +350,7 @@ load_once_from_file(true)
 
                     <div class='row' style='width:100%;padding:0px;margin:0px;'>
                         <div    class='col-md-4 small'
-                                v-bind:style='"font-size:12px;padding:0px;border-right: 1px solid lightgray;margin-left:1px;margin-right:5px;" + (active_property_index == property.name?"background-color:blue;color:white;":"")'
+                                v-bind:style='"margin: 0px;font-size:12px;padding-left: 1px;padding-top:2px;padding-bottom:2px;border-right: 1px solid lightgray;margin-right:5px;" + (active_property_index == property.name?"background-color:#000099;color:white;":"")'
                                 v-on:click='selected_pane = "properties";active_property_index = property.name;'>
                             {{property.name}}
                         </div>
@@ -1214,6 +1214,7 @@ ${eventMessage.code}
 
             this.model.active_component_index = null
             this.model.app_selected = true
+            this.active_property_index = null
 
             this.properties = []
             this.properties.push({   id:     "id",   name:   "ID",   type:   "String" , readonly: true,
@@ -1242,6 +1243,7 @@ ${eventMessage.code}
             if (index == null) {
                 return
             }
+            this.active_property_index = null
             this.model.app_selected = false
             this.model.active_component_index = index
             this.properties = []
