@@ -41,19 +41,19 @@ load_once_from_file(true)
 
             <button  type=button
                      v-bind:class='"btn btn " + ((right_mode == "project")?"btn-info":"btn-light")'
-                     v-on:click='chooseRight("project")'>
+                     v-on:click='chooseRight("project");selected_pane = "project";'>
 
                      Project
             </button>
             <button  type=button
                      v-bind:class='"btn btn " + ((right_mode == "properties")?"btn-info":"btn-light")'
-                     v-on:click='chooseRight("properties")'>
+                     v-on:click='chooseRight("properties");selected_pane = "properties";'>
 
                      Properties
             </button>
             <button  type=button
                      v-bind:class='"btn btn " + ((right_mode == "all")?"btn-info":"btn-light")'
-                     v-on:click='chooseRight("all")'>
+                     v-on:click='chooseRight("all");'>
 
                      All
             </button>
@@ -70,7 +70,7 @@ load_once_from_file(true)
         <div    v-if='design_mode'
                 v-bind:style='(design_mode?"border: 4px solid lightgray;":"") + " width: " + leftHandWidth + "px;height: 75vmin; display: inline-block;overflow-x: none;overflow-y: auto;vertical-align: top; background-color: lightgray;box-shadow: 2px 2px 10px lightgray;"'>
 
-            <div    v-bind:style='"" + (selected_pane == "blocks"?"background-color:#000099;color: white;":"background-color:lightsteelblue;color: black;") + ";padding: 4px; margin-bottom: 10px;"'
+            <div    v-bind:style='"border-radius: 3px;" + (selected_pane == "blocks"?"background-color:#000099;color: white;":"background-color:lightsteelblue;color: black;") + ";padding: 4px; margin-bottom: 10px;"'
                     v-on:click='selected_pane = "blocks";'>
                 Blocks
             </div>
