@@ -277,7 +277,7 @@ load_once_from_file(true)
 
 
         <div    v-if='design_mode'
-              v-bind:style='(design_mode?"border: 4px solid lightgray;box-shadow: 2px 2px 10px lightgray;":"") + " position:absolute;top:0px;right:0px;width: 250px;height: 75vmin; display: inline-block;overflow-x: none;overflow-y: hidden;vertical-align: top;padding:0px;height:100%; "'
+              v-bind:style='(design_mode?"border: 4px solid lightgray;box-shadow: 2px 2px 10px lightgray;":"") + " position:absolute;top:0px;right:0px;width: 250px;height: 75vmin; display: inline-block;overflow-x: none;overflow: hidden;vertical-align: top;padding:0px;height:100%; "'
               v-bind:refresh='refresh'>
 
 
@@ -287,7 +287,7 @@ load_once_from_file(true)
 
 
               <div    v-bind:refresh='refresh'
-                      v-bind:style='"height: " + (right_mode == "project"?"100":"50") + "%;  padding:0px; border: 4px solid lightgray;display: " + (right_mode != "properties"?"block":"none") + ";"'>
+                      v-bind:style='"height: " + (right_mode == "project"?"100":"50") + "%;  padding:0px; border: 4px solid lightgray;display: " + (right_mode != "properties"?"block":"none") + ";white-space:nowrap"'>
 
                   <div style='background-color: lightgray;height: 15%;overflow-x:none;'>
 
@@ -351,7 +351,7 @@ load_once_from_file(true)
 
             <div  v-bind:style='"height: " + (right_mode == "properties"?"100":"50") + "%;  padding:0px; border: 4px solid lightgray;display: " + (right_mode != "project"?"block":"none") + ";padding:0px;background-color: lightgray;"'>
 
-                <div    v-bind:style='"border-radius: 3px; background-color: " + (selected_pane == "properties"?"#000099":"gray") + ";padding: 4px;color: white;height: 15%;overflow-x:none;"'
+                <div    v-bind:style='"border-radius: 3px; background-color: " + (selected_pane == "properties"?"#000099":"gray") + ";padding: 4px;color: white;height: 15%;overflow-x:none;white-space:nowrap"'
                         v-on:click='selected_pane = "properties";'>
                     Properties - {{model.active_component_index?model.forms[model.active_form].components[model.active_component_index].name + " (Component)" : model.active_form + " (Form)"}}
                 </div>
