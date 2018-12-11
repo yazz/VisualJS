@@ -354,6 +354,9 @@ load_once_from_file(true)
                 </div>
 
 
+                <select id='property_selector' >
+                </select>
+
                 <div  style="border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:85%;">
                     <div    style="align-items: stretch;border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
 
@@ -630,6 +633,8 @@ load_once_from_file(true)
 
            mm.$forceUpdate();
            //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
+
+           mm.updatePropertySelector()
 
            texti = null
      },
@@ -1260,6 +1265,47 @@ ${eventMessage.code}
             }
             this.refresh ++
          },
+
+         myDataRenderFunction: function(data) {
+             var template =
+               "<div  style='border-radius: 1px;display: inline-block;margin: 0 8px 0 0;'>" +
+               "<b>" + data.form + "</b> " +
+               data.component +
+               "</div>";
+             return template;
+         },
+
+
+
+         updatePropertySelector: function() {
+            new Selectr(
+                document.getElementById('property_selector'),
+                {
+
+                data: [
+                   {
+                		value: "1",
+                        app: "myApp",
+                        form: "form1",
+                        component: "name"
+                	}
+                    ,
+                    {
+                        value: "2",
+                        app: "myApp",
+                        form: "form1",
+                        component: "age"
+                     }
+
+                    ],
+
+            	renderOption: this.myDataRenderFunction,
+                renderSelection: this.myDataRenderFunction,
+        		selectedValue: "2"
+                });
+
+         },
+
 
          //-------------------------------------------------------------------
          select_component: async function(index) {
