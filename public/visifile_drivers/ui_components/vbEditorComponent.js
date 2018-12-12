@@ -356,7 +356,7 @@ load_once_from_file(true)
                 </div>
 
 
-                <div id='property_selector_parent' >
+                <div id='property_selector_parent' style='margin: 5px;'>
 
                 </div>
 
@@ -1273,9 +1273,9 @@ ${eventMessage.code}
 
          myDataRenderFunction: function(data) {
              var template =
-               "<div  style='border-radius: 1px;display: inline-block;margin: 0 8px 0 0;'>" +
-               "<b>" + (data.app?data.app:data.form) + "</b> " +
-               data.component +
+               "<div  style='border-radius: 1px;margin: 0px;padding:0px;border:0px;'>" +
+                    "<b>" + (data.app?data.app:data.form) + "</b> " +
+                    data.component +
                "</div>";
              return template;
          },
@@ -1330,8 +1330,12 @@ ${eventMessage.code}
                 	renderOption: this.myDataRenderFunction,
                     renderSelection: this.myDataRenderFunction,
             		selectedValue: selectedItem,
-                    data: sdata
+                    data: sdata,
+                    customClass: 'my-custom-selectr'
                 });
+            document.getElementsByClassName("selectr-selected")[0].style.padding = "1px"
+            document.getElementsByClassName("selectr-selected")[0].style["border-top"] = "2px solid gray"
+            document.getElementsByClassName("selectr-selected")[0].style["border-left"] = "2px solid gray"
 
             selectProp.on('selectr.select', function(option) {
                 alert(JSON.stringify(sdata[option.idx],null,2))
