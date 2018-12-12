@@ -360,7 +360,7 @@ load_once_from_file(true)
 
                 </div>
 
-                <div  style="border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:85%;">
+                <div  style="border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:65%;">
                     <div    style="align-items: stretch;border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
 
 
@@ -1352,7 +1352,8 @@ ${eventMessage.code}
                     renderSelection: this.myDataRenderFunction,
             		selectedValue: selectedItem,
                     data: sdata,
-                    customClass: 'my-custom-selectr'
+                    customClass: 'my-custom-selectr',
+                    searchable: false
                 });
             document.getElementsByClassName("selectr-selected")[0].style.padding = "1px"
             document.getElementsByClassName("selectr-selected")[0].style["border-top"] = "2px solid gray"
