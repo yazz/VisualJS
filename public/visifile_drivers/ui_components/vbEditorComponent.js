@@ -1266,6 +1266,8 @@ ${eventMessage.code}
                 //alert(JSON.stringify(this.model.app_properties,null,2))
                 this.properties = this.properties.concat(this.model.app_properties)
             }
+            this.updatePropertySelector()
+
             this.refresh ++
          },
 
@@ -1285,20 +1287,49 @@ ${eventMessage.code}
 
             var sdata = []
             var indexProp = 0
-            sdata.push(
-                {
-                    value: "" + (indexProp++),
-                    app: "myApp",
-                    form: "",
-                    component: ""
-                }
-            )
+            var selectedItem = null
+
+            if (this.model.app_selected) {
+                sdata.push(
+                    {
+                        value: "" + indexProp,
+                        app: "myApp",
+                        form: "",
+                        component: ""
+                    }
+                )
+                selectedItem = indexProp++
+
+            } else if (this.model.active_component_index) {
+
+                sdata.push(
+                    {
+                        value: "" + (indexProp++),
+                        app: "myApp",
+                        form: this.model.active_form,
+                        component: "comp"
+                    }
+                )
+            } else {
+                sdata.push(
+                    {
+                        value: "" + (indexProp++),
+                        app: "",
+                        form: this.model.active_form,
+                        component: ""
+                    }
+                )
+
+            }
+
+
+            //zzz
             selectProp = new Selectr(
                 document.getElementById('property_selector'),
                 {
                 	renderOption: this.myDataRenderFunction,
                     renderSelection: this.myDataRenderFunction,
-            		selectedValue: null,
+            		selectedValue: selectedItem,
                     data: sdata
                 });
 
@@ -1333,8 +1364,9 @@ ${eventMessage.code}
             this.properties.push({   id:     "height",   name:   "Height",   type:   "Number"    })
 
 
-               var compEvaled = this.getComponentProperties(this.model.forms[this.model.active_form].components[index].base_component_id)
-               this.properties = this.properties.concat(compEvaled)
+            var compEvaled = this.getComponentProperties(this.model.forms[this.model.active_form].components[index].base_component_id)
+            this.properties = this.properties.concat(compEvaled)
+            this.updatePropertySelector()
             this.refresh ++
          },
 
