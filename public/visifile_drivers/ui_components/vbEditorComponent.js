@@ -1272,10 +1272,19 @@ ${eventMessage.code}
          },
 
          myDataRenderFunction: function(data) {
+             var center = ""
+             if (data.app) {
+                center = "<b>" + (data.app?data.app:data.form) + "</b> "
+
+             } else if (data.component) {
+                 center = "<b>" + data.form + "</b> " + data.component
+             } else if (data.form) {
+                 center = "<b>" + data.form + "</b> "
+             }
+
              var template =
                "<div  style='border-radius: 1px;margin: 0px;padding:0px;border:0px;'>" +
-                    "<b>" + (data.app?data.app:data.form) + "</b> " +
-                    data.component +
+                    center +
                "</div>";
              return template;
          },
@@ -1293,19 +1302,31 @@ ${eventMessage.code}
                 sdata.push(
                     {
                         value: "" + indexProp,
-                        app: "myApp",
-                        form: "",
-                        component: ""
-                    }
-                )
+                        app: this.edited_app_component_id,
+                        form: null,
+                        component: null
+                    })
                 selectedItem = indexProp++
+
+                var forms = this.getForms()
+                for ( var ere=0; ere < forms.length; ere++ ) {
+                    var form = forms[ ere ]
+                    sdata.push(
+                        {
+                            value:      "" + (indexProp++),
+                            app:        null,
+                            form:       form.name,
+                            component:  null
+                        }
+                    )
+                }
 
             } else if (this.model.active_component_index) {
 
                 sdata.push(
                     {
                         value: "" + (indexProp++),
-                        app: "myApp",
+                        app: this.edited_app_component_id,
                         form: this.model.active_form,
                         component: "comp"
                     }
