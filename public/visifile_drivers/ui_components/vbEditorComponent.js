@@ -1292,6 +1292,7 @@ ${eventMessage.code}
 
 
          updatePropertySelector: function() {
+            var mm = this
             document.getElementById("property_selector_parent").innerHTML=' <select id=property_selector ></select>'
 
             var sdata = []
@@ -1360,7 +1361,12 @@ ${eventMessage.code}
             document.getElementsByClassName("selectr-selected")[0].style["border-left"] = "2px solid gray"
 
             selectProp.on('selectr.select', function(option) {
-                alert(JSON.stringify(sdata[option.idx],null,2))
+                var dd = sdata[option.idx]
+                if (dd.component) {
+
+                } else if (dd.form) {
+                    mm.selectForm(dd.form)
+                }
             });
 
 
