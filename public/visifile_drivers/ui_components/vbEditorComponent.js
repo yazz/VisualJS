@@ -1272,7 +1272,7 @@ ${eventMessage.code}
          myDataRenderFunction: function(data) {
              var template =
                "<div  style='border-radius: 1px;display: inline-block;margin: 0 8px 0 0;'>" +
-               "<b>" + data.form + "</b> " +
+               "<b>" + (data.app?data.app:data.form) + "</b> " +
                data.component +
                "</div>";
              return template;
@@ -1283,24 +1283,28 @@ ${eventMessage.code}
          updatePropertySelector: function() {
             document.getElementById("property_selector_parent").innerHTML=' <select id=property_selector ></select>'
 
-            var sdata = [
-            {
-                  value: "4",
-                  app: "myApp",
-                  form: "form1",
-                  component: "address"
-            }
-            ]
+            var sdata = []
+            var indexProp = 0
+            sdata.push(
+                {
+                    value: "" + (indexProp++),
+                    app: "myApp",
+                    form: "",
+                    component: ""
+                }
+            )
             selectProp = new Selectr(
                 document.getElementById('property_selector'),
                 {
                 	renderOption: this.myDataRenderFunction,
                     renderSelection: this.myDataRenderFunction,
-            		selectedValue: "2",
+            		selectedValue: null,
                     data: sdata
                 });
 
-
+            selectProp.on('selectr.select', function(option) {
+                alert(JSON.stringify(sdata[option.idx],null,2))
+            });
 
 
          },
