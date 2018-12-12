@@ -13,6 +13,8 @@ load_once_from_file(true)
     }
     var designMode = true
     var runtimeMode = false
+    var selectProp = null
+
     Vue.component("vb_editor_component",
     {
 
@@ -1278,31 +1280,44 @@ ${eventMessage.code}
 
 
          updatePropertySelector: function() {
-            new Selectr(
-                document.getElementById('property_selector'),
-                {
+            if (selectProp == null) {
 
-                data: [
-                   {
-                		value: "1",
-                        app: "myApp",
-                        form: "form1",
-                        component: "name"
-                	}
-                    ,
+                var selectData = [
                     {
-                        value: "2",
-                        app: "myApp",
-                        form: "form1",
-                        component: "age"
+                         value: "1",
+                         app: "myApp",
+                         form: "form1",
+                         component: "name"
                      }
+                     ,
+                     {
+                         value: "2",
+                         app: "myApp",
+                         form: "form1",
+                         component: "age"
+                      }
+                      ,
+                      {
+                          value: "4",
+                          app: "myApp",
+                          form: "form1",
+                          component: "address"
+                       }
+                ]
 
-                    ],
+                selectProp = new Selectr(
+                    document.getElementById('property_selector'),
+                    {
 
-            	renderOption: this.myDataRenderFunction,
-                renderSelection: this.myDataRenderFunction,
-        		selectedValue: "2"
-                });
+                        data: selectData,
+
+                    	renderOption: this.myDataRenderFunction,
+                        renderSelection: this.myDataRenderFunction,
+                		selectedValue: "2"
+                    });
+
+            }
+
 
          },
 
