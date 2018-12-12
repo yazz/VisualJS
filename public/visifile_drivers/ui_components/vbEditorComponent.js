@@ -356,8 +356,9 @@ load_once_from_file(true)
                 </div>
 
 
-                <select id='property_selector' >
-                </select>
+                <div id='property_selector_parent' >
+
+                </div>
 
                 <div  style="border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:85%;">
                     <div    style="align-items: stretch;border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
@@ -1280,43 +1281,26 @@ ${eventMessage.code}
 
 
          updatePropertySelector: function() {
-            if (selectProp == null) {
+            document.getElementById("property_selector_parent").innerHTML=' <select id=property_selector ></select>'
 
-                var selectData = [
-                    {
-                         value: "1",
-                         app: "myApp",
-                         form: "form1",
-                         component: "name"
-                     }
-                     ,
-                     {
-                         value: "2",
-                         app: "myApp",
-                         form: "form1",
-                         component: "age"
-                      }
-                      ,
-                      {
-                          value: "4",
-                          app: "myApp",
-                          form: "form1",
-                          component: "address"
-                       }
-                ]
-
-                selectProp = new Selectr(
-                    document.getElementById('property_selector'),
-                    {
-
-                        data: selectData,
-
-                    	renderOption: this.myDataRenderFunction,
-                        renderSelection: this.myDataRenderFunction,
-                		selectedValue: "2"
-                    });
-
+            var sdata = [
+            {
+                  value: "4",
+                  app: "myApp",
+                  form: "form1",
+                  component: "address"
             }
+            ]
+            selectProp = new Selectr(
+                document.getElementById('property_selector'),
+                {
+                	renderOption: this.myDataRenderFunction,
+                    renderSelection: this.myDataRenderFunction,
+            		selectedValue: "2",
+                    data: sdata
+                });
+
+
 
 
          },
