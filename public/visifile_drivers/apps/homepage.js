@@ -47,16 +47,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             Create a new app
         </h4>
 
-        <select v-model="app_type">
-            <option           value="new">Blank app</option>
-            <option           value="quicksort">Quicksort</option>
-            <option selected value="bubblesort">Bubblesort</option>
-            <option          value="vb">Drag and Drop Builder</option>
-            <option          value="todo">Database app</option>
-            <option          value="game">3d AFrame app</option>
-        </select>
 
-        <button style='margin-bottom:10px;' class='btn btn-primary btn-lg' v-on:click='copyAndEditApp($event,app_type)'>
+        <button style='margin-bottom:10px;' class='btn btn-primary btn-lg' v-on:click='copyAndEditApp($event,"vb")'>
             Go
         </button>
     </div>
@@ -152,19 +144,12 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     show_menu:      null,
                     refresh:        0,
                     edit_app:       null,
-                    app_records:    new Object(),
-                    msnry:          null
+                    app_records:    new Object()
                 }},
 
     mounted: async function() {
         mm = this
 
-        this.msnry = new Masonry(
-           document.getElementById("maingrid"),
-            {
-                itemSelector: '.grid-item'
-            }
-        );
 
 
        var sql =    "select  *  from  system_code  where " +
@@ -181,14 +166,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                sql: sql
            }
        )
-       for (var rt=0; rt < results.length; rt++) {
-           var appId = results[rt].base_component_id
-           mm.addAppFast(appId,-1, results[rt])
-           component_loaded[appId] = true
-       }
-
-
-
 
 
        //
@@ -214,12 +191,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
            {
                sql: sql2
            })
-       for (var rt2=0; rt2 < results2.length; rt2++) {
-           var appId = results2[rt2].base_component_id
-           if (!mm.loaded_app[  appId  ]) {
-                 mm.addAppFast(appId,-1, results2[rt2])
-           }
-       }
 
 
 
@@ -258,51 +229,11 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 },50)
          });
 
-         setTimeout(function() {
-             mm.msnry.reloadItems();
-             mm.msnry.layout();
-         },50)
-
-
-
-
       },
 
 
 
       methods: {
-          addAppFast: function(baseComponentId, cardIndex,vv) {
-              if (baseComponentId) {
-
-                  if (vv.code) {
-                      var x = eval("(" + vv.code + ")")
-                      x.call()
-                  }
-                  var app = {
-                                        type: "app",
-                                        data:
-                                            {
-                                                id: baseComponentId
-                                            }
-                                      }
-                  if (cardIndex != -1) {
-                    mm.intro_apps[cardIndex] =  app
-
-                  } else {
-                    mm.intro_apps.push( app  )
-                  }
-                  mm.loaded_app[baseComponentId] = true
-                  if (vv) {
-                      mm.app_records[vv.base_component_id] = vv
-                      mm.refresh++
-                  }
-
-              }
-          },
-
-
-
-
             addApp: async function(baseComponentId, cardIndex) {
               if (baseComponentId) {
                   var app = {
