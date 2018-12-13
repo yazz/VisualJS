@@ -1284,7 +1284,7 @@ ${eventMessage.code}
              }
 
              var template =
-               "<div  style='border-radius: 1px;margin: 0px;padding:0px;border:0px;'>" +
+               "<div  style='border-radius: 1px;margin: 0px;padding:0px;border:0px;font-size: 12px;'>" +
                     center +
                "</div>";
              return template;
