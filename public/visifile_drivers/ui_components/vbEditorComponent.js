@@ -27,11 +27,7 @@ load_once_from_file(true)
         v-bind:style='"width: 100%; height: 100%; " + (design_mode?"background: white;":"")'>
 
 
-    <div style='box-shadow: 2px 2px 10px lightgray;background-color: lightgray; padding: 5px; padding-left: 15px;' v-if='design_mode' >
-        <h4 style='border-radius:4px;padding:4px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);display: inline-block; margin-right: 10px; color: black; '
-            v-if='design_mode' >
-            VB app designer
-        </h4>
+    <div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: lightgray; padding: 5px; padding-left: 15px;' v-if='design_mode' >
 
         <slot style='display: inline-block;' v-if='text'>
         </slot>
@@ -70,7 +66,7 @@ load_once_from_file(true)
             v-on:ondragover="allowDropEditor($event)">
 
         <div    v-if='design_mode'
-                v-bind:style='(design_mode?"border: 4px solid lightgray;":"") + " width: " + leftHandWidth + "px;height: 75vmin; display: inline-block;overflow-x: none;overflow-y: auto;vertical-align: top; background-color: lightgray;box-shadow: 2px 2px 10px lightgray;"'>
+                v-bind:style='(design_mode?"border: 4px solid lightgray;":"") + " width: " + leftHandWidth + "px;height: 75vmin; display: inline-block;overflow-x: none;overflow-y: auto;vertical-align: top; background-color: lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"'>
 
             <div    v-bind:style='"border-radius: 3px;" + (selected_pane == "blocks"?"background-color:#000099;color: white;":"background-color:lightsteelblue;color: black;") + ";padding: 4px; margin-bottom: 10px;box-shadow: 2px 2px 10px lightgray;"'
                     v-on:click='selected_pane = "blocks";'>
@@ -290,7 +286,7 @@ load_once_from_file(true)
               <div    v-bind:refresh='refresh'
                       v-bind:style='"height: " + (right_mode == "project"?"100":"50") + "%;  padding:0px; border: 4px solid lightgray;display: " + (right_mode != "properties"?"block":"none") + ";white-space:nowrap"'>
 
-                  <div v-bind:style='"border-radius: 3px; " + (selected_pane == "project"?"background-color:#000099;color: white;":"background-color:lightsteelblue;color: black;") + "; padding: 4px;overflow-x:none;height: 20%;box-shadow: 2px 2px 10px lightgray;"'
+                  <div v-bind:style='"border-radius: 3px; " + (selected_pane == "project"?"background-color:#000099;color: white;":"background-color:lightsteelblue;color: black;") + "; padding: 4px;overflow-x:none;height: 20%;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"'
                        v-on:click='$event.stopPropagation();selected_pane = "project";'>
                       Project explorer
 
@@ -350,7 +346,7 @@ load_once_from_file(true)
 
             <div  v-bind:style='"height: " + (right_mode == "properties"?"100":"50") + "%;  padding:0px; border: 4px solid lightgray;display: " + (right_mode != "project"?"block":"none") + ";padding:0px;background-color: lightgray;"'>
 
-                <div    v-bind:style='"border-radius: 3px; " + (selected_pane == "properties"?"background-color:#000099;color: white;":"background-color:lightsteelblue;color: black;") + ";padding: 4px;height: 15%;overflow-x:none;white-space:nowrap;box-shadow: 2px 2px 10px lightgray;"'
+                <div    v-bind:style='"border-radius: 3px; " + (selected_pane == "properties"?"background-color:#000099;color: white;":"background-color:lightsteelblue;color: black;") + ";padding: 4px;height: 15%;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"'
                         v-on:click='selected_pane = "properties";'>
                     Properties - {{model.active_component_index?model.forms[model.active_form].components[model.active_component_index].name + " (Component)" : model.active_form + " (Form)"}}
                 </div>
