@@ -42,7 +42,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     </div>
 
 
-    <div    style='padding:10px; margin:0;border: 2px solid pink;'>
+    <div    style='padding:10px; margin:0;'>
         <h1>
             Create a new app
             <button style='margin-bottom:10px;margin-left:20px;padding:25px;font-size:45px' class='btn btn-primary btn-lg' v-on:click='copyAndEditApp($event,"vb")'>
@@ -58,6 +58,25 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
     <div  class="container-fluid" style='position: relative; padding:20;margin:0; width: 95%;'>
 
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Type</th>
+          <th scope="col">Last edited</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item, index) in intro_apps">
+              <td>{{item.data?item.data.id:""}}</td>
+              <td>App</td>
+              <td></td>
+        </tr>
+      </tbody>
+    </table>
+
+
         <div v-bind:refresh='refresh'
              ref='maingrid'
              id='maingrid'
@@ -65,7 +84,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
              style='background-color: white; color: black; padding-top: 20px;padding-bottom: 20px;'>
 
             <div    v-for="(item, index) in intro_apps"
-                    class="grid-item col-lg-4">
+                    class="col-lg-4">
                     <div
                     style="border-radius: 0px;background-color:white;border-width: 0px;margin:0px;padding:10px;">
 
