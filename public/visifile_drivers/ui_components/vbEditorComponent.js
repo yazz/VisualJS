@@ -346,7 +346,7 @@ load_once_from_file(true)
 
             <div  v-bind:style='"height: " + (right_mode == "properties"?"100":"50") + "%;  padding:0px; border: 4px solid lightgray;display: " + (right_mode != "project"?"block":"none") + ";padding:0px;background-color: lightgray;"'>
 
-                <div    v-bind:style='"border-radius: 3px; " + (selected_pane == "properties"?"background-color:#000099;color: white;":"background-color:lightsteelblue;color: black;") + ";padding: 4px;height: 15%;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"'
+                <div    v-bind:style='"border-radius: 3px; " + (selected_pane == "properties"?"background-color:#000099;color: white;":"background-color:lightsteelblue;color: black;") + ";padding: 4px;height: 15%;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;"'
                         v-on:click='selected_pane = "properties";'>
                     Properties - {{model.active_component_index?model.forms[model.active_form].components[model.active_component_index].name + " (Component)" : model.active_form + " (Form)"}}
                 </div>
@@ -1280,7 +1280,7 @@ ${eventMessage.code}
              }
 
              var template =
-               "<div  style='border-radius: 1px;margin: 0px;padding:0px;border:0px;font-size: 12px;'>" +
+               "<div  style='overflow:hidden ;text-overflow: ellipsis;border-radius: 1px;margin: 0px;padding:0px;border:0px;font-size: 12px;'>" +
                     center +
                "</div>";
              return template;
