@@ -1335,22 +1335,31 @@ ${eventMessage.code}
 
                 sdata.push(
                     {
-                        value: "" + (indexProp++),
-                        app: this.edited_app_component_id,
-                        form: this.model.active_form,
-                        component: "comp"
+                        value:      "" + indexProp,
+                        app:        null,
+                        form:       this.model.active_form,
+                        component:  null
                     }
                 )
-            } else {
-                sdata.push(
-                    {
-                        value: "" + (indexProp++),
-                        app: "",
-                        form: this.model.active_form,
-                        component: ""
-                    }
-                )
+                indexProp++
 
+                var components = this.getActiveFormComponents()
+                for (  var ere = 0; ere < components.length; ere++  ) {
+                    var component = components[ ere ]
+                    sdata.push(
+                        {
+                            value:              "" + indexProp,
+                            app:                null,
+                            form:               this.model.active_form,
+                            component:          component.name,
+                            component_index:    ere
+                        }
+                    )
+                    if (this.model.active_component_index == ere) {
+                        selectedItem = indexProp
+                    }
+                    indexProp++
+                }
             }
 
 
@@ -1365,6 +1374,7 @@ ${eventMessage.code}
                     customClass: 'my-custom-selectr',
                     searchable: false
                 });
+
             document.getElementsByClassName("selectr-selected")[0].style.padding = "1px"
             document.getElementsByClassName("selectr-selected")[0].style["border-top"] = "2px solid gray"
             document.getElementsByClassName("selectr-selected")[0].style["border-left"] = "2px solid gray"
@@ -1372,7 +1382,7 @@ ${eventMessage.code}
             selectProp.on('selectr.select', function(option) {
                 var dd = sdata[option.idx]
                 if (dd.component) {
-
+                    mm.select_component(dd.component_index)
                 } else if (dd.form) {
                     mm.selectForm(dd.form)
                 } else if (dd.app) {
