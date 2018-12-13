@@ -106,7 +106,7 @@ load_once_from_file(true)
         <div            v-bind:style='" display: inline-block; vertical-align: top; position: relative; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
 
             <div    v-if='design_mode'
-                    style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0'>
+                    style='border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;'>
 
                 <img
                     src='/driver_icons/form.png'
@@ -301,7 +301,7 @@ load_once_from_file(true)
                   <div  style="border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:80%;background-color:lightgray;">
                       <div    style="align-items: stretch;border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
 
-                          <div    v-bind:style='"padding:4px;margin:0px;margin-top: 5px;" + (model.app_selected?"background-color:gray;color:white;":"background-color:white;color:black;")'
+                          <div    v-bind:style='"border-radius: 0px;padding:4px;margin:0px;margin-top: 5px;" + (model.app_selected?"background-color:gray;color:white;":"background-color:white;color:black;")'
                                   v-on:click='$event.stopPropagation();selected_pane = "project";select_app()'>
 
                                         <b>{{edited_app_component_id}}</b>
@@ -309,7 +309,7 @@ load_once_from_file(true)
 
                           <div v-for='form in getForms()' v-bind:refresh='refresh'>
                               <div>
-                                  <div  v-bind:style='(((form.name == model.active_form) && (model.active_component_index == null) && (!model.app_selected)) ?"border: 0px solid red;background-color:gray;color:white;":"color:black;") + "padding:4px;margin:0px;margin-left:30px;"'
+                                  <div  v-bind:style='(((form.name == model.active_form) && (model.active_component_index == null) && (!model.app_selected)) ?"border: 0px solid red;background-color:gray;color:white;":"color:black;") + "padding:4px;margin:0px;margin-left:30px;border-radius: 3px;"'
                                         v-on:click='$event.stopPropagation();selected_pane = "project";selectForm(form.name)'>
 
                                         <img
@@ -324,7 +324,7 @@ load_once_from_file(true)
                                   <div    v-if='form.name == model.active_form'
                                           v-for='(av,index) in getActiveFormComponents()'
                                           v-on:click='$event.stopPropagation();selected_pane = "project";select_component(index)'
-                                          v-bind:style='(((index == model.active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:60px; padding:2px;"'>
+                                          v-bind:style='(((index == model.active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:60px; padding:2px;border-radius: 3px;"'>
 
                                       <div style='width:100%;display:inline-block;overflow: hidden;'>{{av.name}}</div>
                                   </div>
