@@ -882,6 +882,7 @@ load_once_from_file(true)
                  }
                  this.processControlEvent(formEvent)
              }
+             this.updatePropertySelector()
          },
 
 
@@ -1299,7 +1300,7 @@ ${eventMessage.code}
             var indexProp = 0
             var selectedItem = null
 
-            if (this.model.app_selected) {
+            if (this.model.app_selected || (!this.model.active_component_index)) {
                 sdata.push(
                     {
                         value: "" + indexProp,
@@ -1307,19 +1308,27 @@ ${eventMessage.code}
                         form: null,
                         component: null
                     })
-                selectedItem = indexProp++
+
+                if (this.model.app_selected) {
+                    selectedItem = indexProp
+                }
+                indexProp++
 
                 var forms = this.getForms()
-                for ( var ere=0; ere < forms.length; ere++ ) {
+                for (  var ere = 0; ere < forms.length; ere++  ) {
                     var form = forms[ ere ]
                     sdata.push(
                         {
-                            value:      "" + (indexProp++),
+                            value:      "" + indexProp,
                             app:        null,
                             form:       form.name,
                             component:  null
                         }
                     )
+                    if ((!this.model.app_selected) && (form.name == this.model.active_form)) {
+                        selectedItem = indexProp
+                    }
+                    indexProp++
                 }
 
             } else if (this.model.active_component_index) {
@@ -1366,6 +1375,8 @@ ${eventMessage.code}
 
                 } else if (dd.form) {
                     mm.selectForm(dd.form)
+                } else if (dd.app) {
+                    mm.select_app()
                 }
             });
 
