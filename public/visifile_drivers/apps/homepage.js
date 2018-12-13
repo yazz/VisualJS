@@ -43,14 +43,15 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
     <div    style='padding:10px; margin:0;border: 2px solid pink;'>
-        <h4>
+        <h1>
             Create a new app
-        </h4>
+            <button style='margin-bottom:10px;margin-left:20px;padding:25px;font-size:45px' class='btn btn-primary btn-lg' v-on:click='copyAndEditApp($event,"vb")'>
+                Go
+            </button>
+        </h1>
 
 
-        <button style='margin-bottom:10px;' class='btn btn-primary btn-lg' v-on:click='copyAndEditApp($event,"vb")'>
-            Go
-        </button>
+
     </div>
 
 
