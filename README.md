@@ -1,10 +1,10 @@
 # Dannea
 ### Build internal tools visually
 
-- An interactive editor to create Visual Basic 6 style documents 
-- Each document has a built in full SQL database
-- Each document can be viewed as a self contained HTML file
-- Uses the Appshare app all documents can be run as a multiuser app
+- An interactive editor to create GUI apps in the style of Visual Basic 6
+- Each app has a built in full SQL database
+- Each app can be viewed as a self contained HTML file
+- Uses the Dannea app all documents can be run as a multiuser app
 - All documents can be edited in the cloud, no installation for end users
 - Apps work offline as well
 
