@@ -60,11 +60,12 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
              ref='maingrid'
              id='maingrid'
              class="grid"
-             style='background-color: white; color: black; padding-top: 20px;padding-bottom: 20px;overflow-y:hidden; overflow-y: scroll;'>
+             style='background-color: white; color: black; padding-top: 20px;padding-bottom: 20px;overflow-y:hidden; overflow-y: scroll;white-space: nowrap;'>
 
             <div    v-for="(item, index) in intro_apps"
+                    style='display: inline-block;'
                     class="">
-                    <div style="border-radius: 0px;background-color:white;border-width: 0px;margin:0px;padding:10px;">
+                    <div style="border-radius: 0px;background-color:white;border-width: 0px;margin:0px;padding:10px;width:300px;height:300px;">
 
 
                         <div v-if="item.type == 'app'" >
