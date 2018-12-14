@@ -39,9 +39,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
     <div    style='padding:10px; margin:0;'>
-        <h1>
+        <h1 style='font-size:100px; text-align: center;'>
             Create a new app
-            <button style='margin-bottom:10px;margin-left:20px;padding:25px;font-size:45px' class='btn btn-primary btn-lg' v-on:click='copyAndEditApp($event,"vb")'>
+            <button style='margin-bottom:10px;margin-left:20px;padding:25px;font-size:85px' class='btn btn-primary btn-lg' v-on:click='copyAndEditApp($event,"vb")'>
                 Go
             </button>
         </h1>
@@ -55,91 +55,75 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     <div  class="container-fluid" style='position: relative; padding:20;margin:0; width: 95%;'>
 
 
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Type</th>
-          <th scope="col">Last edited</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(item, index) in intro_apps">
-              <td>{{item.data?item.data.id:""}}</td>
-              <td>App</td>
-              <td></td>
-        </tr>
-      </tbody>
-    </table>
-
 
         <div v-bind:refresh='refresh'
              ref='maingrid'
              id='maingrid'
              class="grid"
-             style='background-color: white; color: black; padding-top: 20px;padding-bottom: 20px;'>
+             style='background-color: white; color: black; padding-top: 20px;padding-bottom: 20px;overflow-y:hidden; overflow-y: scroll;'>
 
             <div    v-for="(item, index) in intro_apps"
-                    class="col-lg-4">
-                    <div
-                    style="border-radius: 0px;background-color:white;border-width: 0px;margin:0px;padding:10px;">
+                    class="">
+                    <div style="border-radius: 0px;background-color:white;border-width: 0px;margin:0px;padding:10px;">
 
 
-               <div v-if="item.type == 'app'" >
+                        <div v-if="item.type == 'app'" >
 
-               <div v-if="(edit_app == item.data.id)"
-                       style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:none; padding: 0px;">
-                       <component v-if='' :is='"app_editor_3"' v-bind:app_id='item.data.id' v-bind:card_index='index'></component>
-               </div>
-
-
+                           <div v-if="(edit_app == item.data.id)"
+                                   style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:none; padding: 0px;">
+                                   <component v-if='' :is='"app_editor_3"' v-bind:app_id='item.data.id' v-bind:card_index='index'></component>
+                           </div>
 
 
-               <div style='border-radius: 0px;padding:0px; margin:0;border: 2px solid lightgray;'>
 
-                    <div v-if='isInlineApp(item.data.id)' >
-                        <kbd v-on:click='editApp($event,item.data.id)'>
-                            {{item.data.id?"" + item.data.id.substring(0,20):""}}{{(item.data.id && ((item.data.id.length > 20))?"...":"")}}
-                        </kbd>
 
-                        <component v-if='edit_app != item.data.id' :is='item.data.id'>
-                        </component>
+                       <div style='border-radius: 0px;padding:0px; margin:0;border: 2px solid lightgray;'>
+
+                            <div v-if='isInlineApp(item.data.id)' >
+                                <kbd v-on:click='editApp($event,item.data.id)'>
+                                    {{item.data.id?"" + item.data.id.substring(0,20):""}}{{(item.data.id && ((item.data.id.length > 20))?"...":"")}}
+                                </kbd>
+
+                                <component v-if='edit_app != item.data.id' :is='item.data.id'>
+                                </component>
+                            </div>
+
+                            <div v-if='!isInlineApp(item.data.id)' >
+                                <kbd v-on:click='editApp($event,item.data.id)'>{{item.data.id?"" + item.data.id.substring(0,20):""}}{{(item.data.id && ((item.data.id.length > 20))?"...":"")}}
+                                </kbd>
+
+                                <span v-if='isEditable(item.data.id)' class="badge badge-warning" >
+                                    Editable
+                                </span>
+
+                                <span v-if='!isEditable(item.data.id)' class="badge badge-info" >
+                                    Read only
+                                </span>
+
+                                <img    v-if='(app_records[item.data.id] && app_records[item.data.id].logo_url && (app_records[item.data.id].logo_url != ""))'
+                                        v-bind:src='app_records[item.data.id].logo_url'
+                                        style='width: 100%;'
+                                        v-bind:alt='app_records[item.data.id].logo_url'
+                                        v-on:click='editApp($event,item.data.id)'
+                                        >
+                                </img>
+                            </div>
+
+
+                            <ul class="nav flex-column">
+                                <li class="nav-item" v-if='!isEditable(item.data.id)'>
+                                    <a  v-on:click='editApp($event,item.data.id)'
+                                        class="nav-link active" href="#">View source</a>
+                                </li>
+
+                                <li class="nav-item" v-if='isEditable(item.data.id)'>
+                                    <a  v-on:click='editApp($event,item.data.id)'
+                                        class="nav-link active" href="#">Edit</a>
+                                </li>
+                            </ul>
+
+                        </div>
                     </div>
-
-                    <div v-if='!isInlineApp(item.data.id)' >
-                        <kbd v-on:click='editApp($event,item.data.id)'>{{item.data.id?"" + item.data.id.substring(0,20):""}}{{(item.data.id && ((item.data.id.length > 20))?"...":"")}}
-                        </kbd>
-
-                        <span v-if='isEditable(item.data.id)' class="badge badge-warning" >
-                            Editable
-                        </span>
-
-                        <span v-if='!isEditable(item.data.id)' class="badge badge-info" >
-                            Read only
-                        </span>
-
-                        <img    v-if='(app_records[item.data.id] && app_records[item.data.id].logo_url && (app_records[item.data.id].logo_url != ""))'
-                                v-bind:src='app_records[item.data.id].logo_url'
-                                style='width: 100%;'
-                                v-bind:alt='app_records[item.data.id].logo_url'
-                                v-on:click='editApp($event,item.data.id)'
-                                >
-                        </img>
-                    </div>
-
-
-                    <ul class="nav flex-column">
-                        <li class="nav-item" v-if='!isEditable(item.data.id)'>
-                            <a  v-on:click='editApp($event,item.data.id)'
-                                class="nav-link active" href="#">View source</a>
-                        </li>
-
-                        <li class="nav-item" v-if='isEditable(item.data.id)'>
-                            <a  v-on:click='editApp($event,item.data.id)'
-                                class="nav-link active" href="#">Edit</a>
-                        </li>
-                    </ul>
-
                 </div>
             </div>
         </div>
