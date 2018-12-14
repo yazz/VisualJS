@@ -1,4 +1,4 @@
-# Creator
+# Dannea
 ### Build internal tools visually
 
 - An interactive editor to create Visual Basic 6 style documents 
@@ -12,7 +12,7 @@ http://dannea.com
 
 : Key workflow :
 
-1) Open Appshare.co or download for Windows or OS X
+1) Open dannea.com or download for Windows or OS X
 2) Create an app with drag and drop editor
 3) Download the app to your local machine as a HTML file
 4) Email the app to someone
@@ -46,8 +46,8 @@ Command line options :
 ##### 1) Install GIT from https://git-scm.com/downloads
 ##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
 ##### 3) From the command line get the Git repository
-    git clone https://github.com/zubairq/creator.git
-##### 4) Go to the Creator directory
+    git clone https://github.com/zubairq/dannea.git
+##### 4) Go to the dannea directory
     cd creator
 ##### 5) Install the NodeJS modules
     npm install
@@ -56,7 +56,7 @@ Command line options :
         node_macos64/node_sqlite3.noderename
     to 
         node_modules/sqlite3/lib/binding/node-v57-darwin-x64/node_sqlite3.node
-##### 7) Run the Creator Electron application
+##### 7) Run the Dannea Electron application
     electron .
 
 
@@ -69,9 +69,9 @@ Command line options :
 
 
 
-### What is Creator's killer feature?
+### What is Dannea's killer feature?
 
 Creator's killer feature is being able to build simple internal apps fast without needing any local software
 
-### Is there commercial support for Creator?
+### Is there commercial support for Dannea?
 If you require commercial support then please go to http://dannea.com
