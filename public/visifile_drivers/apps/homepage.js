@@ -27,13 +27,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 `<div>
     <div    style="position: sticky; left:0px; top:0px; width: 100vw ;z-index: 2;background-color: black;padding:0;margin:0;">
 
-        <div style="border:0px; padding: 0px; margin: 0px;padding-left:15px;font-size: 13px;font-family: Helvetica;color: red;">
-             <b>Dannea</b>
-        </div>
-
-        <div class='display-4' style="border:0px; padding: 0px; margin: 0px;padding-left:15px;font-family: Helvetica;color: white;">
-             Creator
-        </div>
+        <h3 class='display' style="border:0px; padding: 0px; margin: 0px;padding-left:15px;font-family: Helvetica;color: red;font-weight: bold;letter-spacing: -3px;">
+             DANNEA
+        </h3>
 
         <h6 class="display-6" style="color: lightgray;border:0px;padding: 0px; margin: 0px;padding-left:15px;font-family: Helvetica;">
             Build internal tools visually

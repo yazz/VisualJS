@@ -1515,7 +1515,7 @@ ${code}
                                         //
                                         var origFilePath = path.join(__dirname, '../public/go.html')
                                         var newStaticFilePath = path.join( userData, 'apps/' + baseComponentId + '.html' )
-                                        var newLocalStaticFilePath = path.join( userData, 'apps/creator_' + baseComponentId + '.html' )
+                                        var newLocalStaticFilePath = path.join( userData, 'apps/dannea_' + baseComponentId + '.html' )
 
                                         var newStaticFileContent = fs.readFileSync( origFilePath )
 
