@@ -208,7 +208,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
        for (var ee=0;ee<results2.length;ee++) {
             //alert(JSON.stringify(results2[ee],null,2))
-            await mm.addApp(results2[ee].base_component_id, ee)
+            await mm.addApp(results2[ee].base_component_id)
 
        }
        mm.refresh++
@@ -223,7 +223,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             if (text.type == "insert_app_at") {
                 console.log(JSON.stringify(text,null,2));
                 mm.intro_apps.splice(text.card_index, 0, {});
-                await mm.addApp(text.base_component_id, text.card_index)
+                await mm.addApp(text.base_component_id)
                 mm.edit_app = text.base_component_id
                 mm.refresh++
             }
@@ -241,7 +241,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 //zzz
                 //alert(JSON.stringify(data,null,2))
                 mm.intro_apps.splice(1, 0, {});
-                await mm.addApp(data, 1)
+                await mm.addApp(data)
                 setTimeout(function() {
                       mm.editApp(null, data)
                 },50)
@@ -252,21 +252,17 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
       methods: {
-            addApp: async function(baseComponentId, cardIndex) {
+            addApp: async function(baseComponentId) {
               if (baseComponentId) {
                   var app = {
-                                        type: "app",
-                                        data:
-                                            {
-                                                id: baseComponentId
-                                            }
-                                      }
-                  if (cardIndex != -1) {
-                    mm.intro_apps[cardIndex] =  app
+                                type: "app",
+                                data:
+                                    {
+                                        id: baseComponentId
+                                    }
+                              }
+                  mm.intro_apps.push( app  )
 
-                  } else {
-                    mm.intro_apps.push( app  )
-                  }
                   mm.loaded_app[baseComponentId] = true
                   component_loaded[baseComponentId] = false
                   dev_app_component_loaded[baseComponentId] = false
@@ -286,7 +282,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                           ,
                           async function(result) {
                               mm.intro_apps.splice(1, 0, {});
-                              await mm.addApp(result.value.base_component_id, 1)
+                              await mm.addApp(result.value.base_component_id)
 
                           })
           },
@@ -297,7 +293,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                           ,
                           async function(result) {
                               mm.intro_apps.splice(1, 0, {});
-                              await mm.addApp(result.value.base_component_id, 1)
+                              await mm.addApp(result.value.base_component_id)
                               setTimeout(function() {
                                     mm.editApp(event, result.value.base_component_id)
                               },50)
