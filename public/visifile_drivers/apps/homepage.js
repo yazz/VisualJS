@@ -57,9 +57,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
         <div v-bind:refresh='refresh'
-             ref='maingrid'
-             id='maingrid'
-             class="grid"
              style='background-color: white; color: black; padding-top: 20px;padding-bottom: 20px;overflow-y:hidden; overflow-y: scroll;white-space: nowrap;'>
 
             <div    v-for="(item, index) in intro_apps"
@@ -195,7 +192,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
        for (var ee=0;ee<results2.length;ee++) {
             //alert(JSON.stringify(results2[ee],null,2))
-            await mm.addApp(results2[ee].base_component_id, 0)
+            await mm.addApp(results2[ee].base_component_id, ee)
 
        }
        mm.refresh++
