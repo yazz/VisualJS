@@ -78,28 +78,17 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                        <div style='border-radius: 0px;padding:0px; margin:0;border: 2px solid lightgray;'>
 
-                            <div v-if='isInlineApp(item.data.id)' >
-                                <kbd v-on:click='editApp($event,item.data.id)'>
-                                    {{item.data.id?"" + item.data.id.substring(0,20):""}}{{(item.data.id && ((item.data.id.length > 20))?"...":"")}}
-                                </kbd>
+                            <kbd v-on:click='editApp($event,item.data.id)'>{{item.data.id?"" + item.data.id.substring(0,20):""}}{{(item.data.id && ((item.data.id.length > 20))?"...":"")}}
+                            </kbd>
+                            <div style='color:white;'>*.{{app_records[item.data.id]}}.*</div>
 
-                                <component v-if='edit_app != item.data.id' :is='item.data.id'>
-                                </component>
-                            </div>
-
-                            <div v-if='!isInlineApp(item.data.id)' >
-                                <kbd v-on:click='editApp($event,item.data.id)'>{{item.data.id?"" + item.data.id.substring(0,20):""}}{{(item.data.id && ((item.data.id.length > 20))?"...":"")}}
-                                </kbd>
-                                <div style='color:white;'>*.{{app_records[item.data.id]}}.*</div>
-
-                                <img    v-if='(app_records[item.data.id] && app_records[item.data.id].logo_url && (app_records[item.data.id].logo_url != ""))'
-                                        v-bind:src='app_records[item.data.id].logo_url'
-                                        style='width: 100%;'
-                                        v-bind:alt='app_records[item.data.id].logo_url'
-                                        v-on:click='editApp($event,item.data.id)'
-                                        >
-                                </img>
-                            </div>
+                            <img    v-if='(app_records[item.data.id] && app_records[item.data.id].logo_url && (app_records[item.data.id].logo_url != ""))'
+                                    v-bind:src='app_records[item.data.id].logo_url'
+                                    style='width: 100%;'
+                                    v-bind:alt='app_records[item.data.id].logo_url'
+                                    v-on:click='editApp($event,item.data.id)'
+                                    >
+                            </img>
 
 
                             <ul class="nav flex-column">
@@ -284,15 +273,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                return false
           },
-          isInlineApp: function(baseComponentId) {
-                if (baseComponentId && (baseComponentId.length > 0)) {
-                    if ((!this.isEditable(baseComponentId)) && (baseComponentId.startsWith("homepage"))) {
-                        return true
-                    }
-                }
 
-               return false
-          },
+
+          
           editApp: async function(event,item) {
               if (event) {
                   event.stopPropagation()
