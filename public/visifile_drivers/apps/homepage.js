@@ -90,14 +90,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                             <div v-if='!isInlineApp(item.data.id)' >
                                 <kbd v-on:click='editApp($event,item.data.id)'>{{item.data.id?"" + item.data.id.substring(0,20):""}}{{(item.data.id && ((item.data.id.length > 20))?"...":"")}}
                                 </kbd>
-
-                                <span v-if='isEditable(item.data.id)' class="badge badge-warning" >
-                                    Editable
-                                </span>
-
-                                <span v-if='!isEditable(item.data.id)' class="badge badge-info" >
-                                    Read only
-                                </span>
+                                <div style='color:white;'>*.{{app_records[item.data.id]}}.*</div>
 
                                 <img    v-if='(app_records[item.data.id] && app_records[item.data.id].logo_url && (app_records[item.data.id].logo_url != ""))'
                                         v-bind:src='app_records[item.data.id].logo_url'
@@ -166,23 +159,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         mm = this
 
 
-
-       var sql =    "select  *  from  system_code  where " +
-                    "        component_type = 'app' and base_component_id like 'homepage_%'" +
-                    "        and code_tag = 'LATEST' order by base_component_id asc"
-
-       var results = await callApp(
-           {
-                driver_name:    "systemFunctions2",
-                method_name:    "sql"
-           }
-           ,
-           {
-               sql: sql
-           }
-       )
-
-
        //
        // search
        //
@@ -207,7 +183,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                sql: sql2
            })
 
-       for (var ee=0;ee<results2.length;ee++) {
+        for (  var ee = 0 ; ee < results2.length ; ee++  ) {
             //alert(JSON.stringify(results2[ee],null,2))
             await mm.addApp(results2[ee].base_component_id)
 
@@ -260,7 +236,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                         id: baseComponentId
                                     }
                               }
-                  mm.intro_apps.push( app  )
 
                   mm.loaded_app[baseComponentId] = true
                   component_loaded[baseComponentId] = false
@@ -269,8 +244,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                   var vv = await loadV2(baseComponentId)
                   if (vv) {
                       mm.app_records[vv.base_component_id] = vv
-                      mm.refresh++
                   }
+                  mm.intro_apps.push( app  )
+                  mm.refresh++
               }
               return null
           },
