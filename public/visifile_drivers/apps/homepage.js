@@ -38,11 +38,11 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     </div>
 
 
-    <div    style='padding:10px; margin:0;'>
+    <div    style='padding:10px; margin:0;padding-top: 30px;padding-bottom:30px; background-color: lightgray;font-weight: bold;'>
         <h1 style='font-size:100px; text-align: center;'>
-            Create a new app
-            <button style='margin-bottom:10px;margin-left:20px;padding:25px;font-size:85px' class='btn btn-primary btn-lg' v-on:click='copyAndEditApp($event,"vb")'>
-                Go
+
+            <button style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 25px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:85px;font-weight: bold;' class='btn btn-success btn-lg' v-on:click='copyAndEditApp($event,"vb")'>
+                Create app
             </button>
         </h1>
 
