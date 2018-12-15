@@ -6,7 +6,7 @@ display_name("List control")
 description("This will return the List control")
 base_component_id("list_control")
 load_once_from_file(true)
-visibility("PUBLIC")
+visibility("PRIVATE")
 read_only(true)
 properties(
     [
