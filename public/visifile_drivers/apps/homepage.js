@@ -193,8 +193,12 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                sql: sql2
            })
 
+       for (var ee=0;ee<results2.length;ee++) {
+            //alert(JSON.stringify(results2[ee],null,2))
+            await mm.addApp(results2[ee].base_component_id, 0)
 
-
+       }
+       mm.refresh++
 
 
 
