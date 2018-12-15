@@ -222,7 +222,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         this.$root.$on('message', async function(text) {
             if (text.type == "insert_app_at") {
                 console.log(JSON.stringify(text,null,2));
-                mm.intro_apps.splice(text.card_index, 0, {});
                 await mm.addApp(text.base_component_id)
                 mm.edit_app = text.base_component_id
                 mm.refresh++
@@ -240,7 +239,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             async function(data) {
                 //zzz
                 //alert(JSON.stringify(data,null,2))
-                mm.intro_apps.splice(1, 0, {});
                 await mm.addApp(data)
                 setTimeout(function() {
                       mm.editApp(null, data)
@@ -281,7 +279,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                 ,{base_component_id:    baseComponentId}
                           ,
                           async function(result) {
-                              mm.intro_apps.splice(1, 0, {});
                               await mm.addApp(result.value.base_component_id)
 
                           })
@@ -292,7 +289,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                 ,{base_component_id:    baseComponentId}
                           ,
                           async function(result) {
-                              mm.intro_apps.splice(1, 0, {});
                               await mm.addApp(result.value.base_component_id)
                               setTimeout(function() {
                                     mm.editApp(event, result.value.base_component_id)
