@@ -79,7 +79,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         <div style='border-radius: 0px;padding:0px; margin:0;border: 2px solid lightgray;'>
                             <img    v-if='(app_logos[item.data.id] && (app_logos[item.data.id] != ""))'
                                     v-bind:src='app_logos[item.data.id]'
-                                    style='max-width: 100%; left:0px; top: 0px;max-height: 100%;'
+                                    style='max-width: 100%; left:0px; top: 0px;max-height: 100%;position: absolute;'
                                     v-bind:alt='app_logos[item.data.id]'
                                     v-on:click='editApp($event,item.data.id)'
                                     >
@@ -116,7 +116,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         <button style='margin-bottom:10px;' class='btn btn-primary btn-sm' v-on:click='copyAndEditApp($event,"bubblesort")'>
             Bubble Sort
         </button>
-        
+
     </div>
 </div>`
       ,
