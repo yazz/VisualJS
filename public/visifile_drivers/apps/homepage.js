@@ -61,7 +61,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     style='display: inline-block; margin: 20px;position: relative;border:1px solid white;'
                     class='app_card'>
 
-                <div style='border-radius: 0px;background-color:white;border-width: 0px;margin:10px;padding:10px;width:100%;height:100%;'>
+                <div style='border-radius: 0px;background-color:white;border-width: 0px;margin:0px;padding:10px;width:100%;height:100%;'>
 
 
                     <div v-if="item.type == 'app'" >
