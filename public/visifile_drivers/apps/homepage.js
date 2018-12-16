@@ -91,17 +91,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                             </img>
 
 
-                            <ul class="nav flex-column">
-                                <li class="nav-item" v-if='!isEditable(item.data.id)'>
-                                    <a  v-on:click='editApp($event,item.data.id)'
-                                        class="nav-link active" href="#">View source</a>
-                                </li>
-
-                                <li class="nav-item" v-if='isEditable(item.data.id)'>
-                                    <a  v-on:click='editApp($event,item.data.id)'
-                                        class="nav-link active" href="#">Edit</a>
-                                </li>
-                            </ul>
+                            <a  v-on:click='editApp($event,item.data.id)'
+                                class="nav-link active" href="#">View source</a>
 
                         </div>
                     </div>
@@ -262,20 +253,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                           })
           },
-          isEditable: function(baseComponentId) {
-                if (this.app_records[baseComponentId]) {
-                    if ((this.app_records[baseComponentId].read_write_status == null ) ||
-                         (this.app_records[baseComponentId].read_write_status.indexOf("READ") == -1 ))   {
-                         return true
-                }
-
-                }
-
-               return false
-          },
 
 
-          
           editApp: async function(event,item) {
               if (event) {
                   event.stopPropagation()
