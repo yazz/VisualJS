@@ -60,39 +60,39 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
              style='background-color: black; color: white; padding-top: 20px;padding-bottom: 20px;overflow-y:hidden; overflow-x: auto;white-space: nowrap;height:500px;'>
 
             <div    v-for="(item, index) in intro_apps"
-                    style='display: inline-block; margin: 20px;position: relative;'
+                    style='display: inline-block; margin: 20px;position: relative;border:1px solid white;'
                     class='app_card'>
 
-                    <div style='border-radius: 0px;background-color:white;border-width: 0px;margin:10px;padding:10px;width:100%;height:100%;'   >
+                <div style='border-radius: 0px;background-color:white;border-width: 0px;margin:10px;padding:10px;width:100%;height:100%;'   >
 
 
-                        <div v-if="item.type == 'app'" >
+                    <div v-if="item.type == 'app'" >
 
-                           <div v-if="(edit_app == item.data.id)"
-                                   style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:none; padding: 0px;">
-                                   <component v-if='' :is='"app_editor_3"' v-bind:app_id='item.data.id' v-bind:card_index='index'></component>
-                           </div>
+                        <div    v-if="(edit_app == item.data.id)"
+                                style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:none; padding: 0px;">
+
+                                <component v-if='' :is='"app_editor_3"' v-bind:app_id='item.data.id' v-bind:card_index='index'></component>
+                        </div>
 
 
 
 
-                       <div style='border-radius: 0px;padding:0px; margin:0;border: 2px solid lightgray;'>
+                        <div style='border-radius: 0px;padding:0px; margin:0;border: 2px solid lightgray;'>
 
-                            <kbd v-on:click='editApp($event,item.data.id)'>{{item.data.id?"" + item.data.id.substring(0,20):""}}{{(item.data.id && ((item.data.id.length > 20))?"...":"")}}
-                            </kbd>
-                            <div style='color:white;'>*.{{app_records[item.data.id]}}.*</div>
 
-                            <img    v-if='(app_records[item.data.id] && app_records[item.data.id].logo_url && (app_records[item.data.id].logo_url != ""))'
-                                    v-bind:src='app_records[item.data.id].logo_url'
-                                    style='width: 100%;'
-                                    v-bind:alt='app_records[item.data.id].logo_url'
+                            <img    v-if='(app_logos[item.data.id] && (app_logos[item.data.id] != ""))'
+                                    v-bind:src='app_logos[item.data.id]'
+                                    style='max-width: 100%; left:0px; top: 0px;max-height: 100%;'
+                                    v-bind:alt='app_logos[item.data.id]'
                                     v-on:click='editApp($event,item.data.id)'
                                     >
                             </img>
 
-
                             <a  v-on:click='editApp($event,item.data.id)'
-                                class="nav-link active" href="#">View source</a>
+                                class="nav-link active" href="#">
+
+                                View source
+                            </a>
 
                         </div>
                     </div>
@@ -131,7 +131,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     loaded_app:     new Object(),
                     refresh:        0,
                     edit_app:       null,
-                    app_records:    new Object()
+                    app_logos:    new Object()
                 }},
 
     mounted: async function() {
@@ -165,6 +165,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         for (  var ee = 0 ; ee < results2.length ; ee++  ) {
             //alert(JSON.stringify(results2[ee],null,2))
             await mm.addApp(results2[ee].base_component_id)
+            mm.app_logos[results2[ee].base_component_id] = results2[ee].logo_url
 
        }
        mm.refresh++
@@ -219,10 +220,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                   component_loaded[baseComponentId] = false
                   dev_app_component_loaded[baseComponentId] = false
                   component_cache[baseComponentId] = null
-                  var vv = await loadV2(baseComponentId)
-                  if (vv) {
-                      mm.app_records[vv.base_component_id] = vv
-                  }
+                  await loadV2(baseComponentId)
                   mm.intro_apps.push( app  )
                   mm.refresh++
               }
