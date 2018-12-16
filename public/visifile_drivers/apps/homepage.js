@@ -55,7 +55,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
         <div v-bind:refresh='refresh'
-             style='background-color: black; color: white; padding-top: 20px;padding-bottom: 20px;overflow-y:hidden; overflow-x: auto;white-space: nowrap;height:500px;'>
+             style='background-color: black; color: black; padding-top: 20px;padding-bottom: 20px;overflow-y:hidden; overflow-x: auto;white-space: nowrap;height:500px;'>
 
             <div    v-for="(item, index) in intro_apps"
                     style='display: inline-block; margin: 20px;position: relative;border:1px solid white;'
