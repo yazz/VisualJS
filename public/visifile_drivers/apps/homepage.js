@@ -39,8 +39,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-    <div    style='padding:10px; margin:0;padding-top: 30px;padding-bottom:30px; background-color: black;font-weight: bold;'>
-        <h1 style='font-size:100px; text-align: center;'>
+    <div    style='padding:10px; margin:0;padding-top: 30px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;'>
+        <h1 style='font-size:100px; text-align: center;margin: 0px;'>
 
             <button style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 25px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:85px;font-weight: bold;' class='btn btn-success btn-lg' v-on:click='copyAndEditApp($event,"vb")'>
                 Create app
@@ -50,18 +50,18 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-    <div  class="" style='position: relative; padding:20;margin:0; width: 100%; background-color: black;height:800px;'>
+    <div  class="" style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:800px;'>
 
 
 
         <div v-bind:refresh='refresh'
-             style='background-color: black; color: black; padding-top: 20px;padding-bottom: 20px;overflow-y:hidden; overflow-x: auto;white-space: nowrap;height:500px;'>
+             style='background-color: black; color: black; padding-top: 0px;padding-bottom: 20px;overflow-y:hidden; overflow-x: auto;white-space: nowrap;height:500px;'>
 
             <div    v-for="(item, index) in intro_apps"
                     style='display: inline-block; margin: 20px;position: relative;border:1px solid white;'
                     class='app_card'>
 
-                <div style='border-radius: 0px;background-color:white;border-width: 0px;margin:0px;padding:10px;width:100%;height:100%;'>
+                <div style='border-radius: 0px;background-color:white;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;'>
 
 
                     <div v-if="item.type == 'app'" >
@@ -76,7 +76,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-                        <div style='border-radius: 0px;padding:0px; margin:0;border: 2px solid lightgray;'>
+                        <div style='border-radius: 0px;padding:0px; margin:0;'>
                             <img    v-if='(app_logos[item.data.id] && (app_logos[item.data.id] != ""))'
                                     v-bind:src='app_logos[item.data.id]'
                                     style='max-width: 100%; left:0px; top: 0px;max-height: 100%;position: absolute;'
@@ -86,9 +86,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                             </img>
 
                             <a  v-on:click='editApp($event,item.data.id)'
-                                class="nav-link active" href="#">
+                                class="nav-link active" href="#" style="position: absolute; top:200px;font-style:bold;width:90%;overflow-x: hidden;white-space: nowrap;font-size: 20px;">
 
-                                View source
+                                {{item.data.id}}
                             </a>
 
                         </div>
