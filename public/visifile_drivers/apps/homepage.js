@@ -129,7 +129,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     app_type:       "bubblesort",
                     intro_apps:     [],
                     loaded_app:     new Object(),
-                    show_menu:      null,
                     refresh:        0,
                     edit_app:       null,
                     app_records:    new Object()
@@ -185,7 +184,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             }
 
             if (text.type == "close_app") {
-                mm.show_menu = null;
                 mm.edit_app = null;
                 mm.refresh++
             }
@@ -259,11 +257,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               if (event) {
                   event.stopPropagation()
               }
-              this.show_menu = null;
               this.edit_app = item;
-          },
-          showMenu: async function(item) {
-            this.show_menu= item;
           }
 
 
