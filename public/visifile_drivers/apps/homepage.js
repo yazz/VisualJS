@@ -34,8 +34,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         <h6 class="display-6" style="color: lightgray;border:0px;padding: 0px; margin: 0px;padding-left:15px;font-family: Helvetica;">
             Build internal tools visually
         </h6>
-
     </div>
+
+
 
 
     <div    style='padding:10px; margin:0;padding-top: 30px;padding-bottom:30px; background-color: black;font-weight: bold;'>
@@ -45,9 +46,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 Create app
             </button>
         </h1>
-
-
-
     </div>
 
 
@@ -63,7 +61,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     style='display: inline-block; margin: 20px;position: relative;border:1px solid white;'
                     class='app_card'>
 
-                <div style='border-radius: 0px;background-color:white;border-width: 0px;margin:10px;padding:10px;width:100%;height:100%;'   >
+                <div style='border-radius: 0px;background-color:white;border-width: 0px;margin:10px;padding:10px;width:100%;height:100%;'>
 
 
                     <div v-if="item.type == 'app'" >
@@ -71,15 +69,14 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         <div    v-if="(edit_app == item.data.id)"
                                 style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:none; padding: 0px;">
 
-                                <component v-if='' :is='"app_editor_3"' v-bind:app_id='item.data.id' v-bind:card_index='index'></component>
+                                <component v-if='' :is='"app_editor_3"' v-bind:app_id='item.data.id' v-bind:card_index='index'>
+                                </component>
                         </div>
 
 
 
 
                         <div style='border-radius: 0px;padding:0px; margin:0;border: 2px solid lightgray;'>
-
-
                             <img    v-if='(app_logos[item.data.id] && (app_logos[item.data.id] != ""))'
                                     v-bind:src='app_logos[item.data.id]'
                                     style='max-width: 100%; left:0px; top: 0px;max-height: 100%;'
@@ -99,8 +96,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 </div>
             </div>
         </div>
-
-
     </div>
 
     <div style='margin-top:1000px; text-align: center;'>
@@ -109,15 +104,19 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         <button style='margin-bottom:10px;' class='btn btn-primary btn-sm' v-on:click='copyAndEditApp($event,"game")'>
             Make 3d app
         </button>
+
         <button style='margin-bottom:10px;' class='btn btn-primary btn-sm' v-on:click='copyAndEditApp($event,"todo")'>
-            todo
+            To Do app
         </button>
+
         <button style='margin-bottom:10px;' class='btn btn-primary btn-sm' v-on:click='copyAndEditApp($event,"new")'>
-            Hello World
+            Hello World app
         </button>
+
         <button style='margin-bottom:10px;' class='btn btn-primary btn-sm' v-on:click='copyAndEditApp($event,"bubblesort")'>
             Bubble Sort
         </button>
+        
     </div>
 </div>`
       ,
