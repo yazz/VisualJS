@@ -42,7 +42,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     <div    style='padding:10px; margin:0;padding-top: 30px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;'>
         <h1 style='font-size:100px; text-align: center;margin: 0px;'>
 
-            <button style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 25px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:85px;font-weight: bold;' class='btn btn-success btn-lg' v-on:click='copyAndEditApp($event,"vb")'>
+            <button style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 25px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:85px;font-weight: bold;' class='btn btn-success btn-lg'
+                    v-on:click='copyAndEditApp($event,"vb")'>
                 Create app
             </button>
         </h1>
@@ -124,7 +125,6 @@ box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;background
 </div>`
       ,
 
-
     data: function() {
         return {
                     apps:           [],
@@ -180,7 +180,7 @@ box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;background
 
         this.$root.$on('message', async function(text) {
             if (text.type == "insert_app_at") {
-                console.log(JSON.stringify(text,null,2));
+                await mm.addLogoForApp(text.base_component_id)
                 await mm.addApp(text.base_component_id)
                 mm.edit_app = text.base_component_id
                 mm.refresh++
@@ -195,8 +195,7 @@ box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;background
 
          globalEventBus.$on('new-appshare-app-uploaded',
             async function(data) {
-                //zzz
-                //alert(JSON.stringify(data,null,2))
+                await mm.addLogoForApp(data)
                 await mm.addApp(data)
                 setTimeout(function() {
                       mm.editApp(null, data)
@@ -208,6 +207,37 @@ box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;background
 
 
       methods: {
+          addLogoForApp: async function(appId) {
+              mm = this
+
+
+             //
+             // search
+             //
+             var sql2 =    `SELECT  base_component_id, logo_url
+                               FROM
+                           system_code
+                               where
+                                   base_component_id = '${appId}'; `
+
+             var results2 = await callApp(
+                 {
+                      driver_name:    "systemFunctions2",
+                      method_name:    "sql"
+                 }
+                 ,
+                 {
+                     sql: sql2
+                 })
+
+              if (results2.length > 0) {
+                mm.app_logos[appId] = results2[0].logo_url
+              };
+
+             mm.refresh++
+
+          },
+
             addApp: async function(baseComponentId) {
               if (baseComponentId) {
                   var app = {
@@ -239,11 +269,14 @@ box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;background
                           })
           },
           copyAndEditApp: async function(event,  baseComponentId ) {
+              var mm = this
               callDriverMethod( {driver_name: "copyApp",
                                  method_name: "copyAppshareApp"}
                                 ,{base_component_id:    baseComponentId}
                           ,
                           async function(result) {
+                              await mm.addLogoForApp(result.value.base_component_id)
+
                               await mm.addApp(result.value.base_component_id)
                               setTimeout(function() {
                                     mm.editApp(event, result.value.base_component_id)
