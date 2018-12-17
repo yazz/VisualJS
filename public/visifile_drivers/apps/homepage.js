@@ -27,7 +27,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 `<div>
     <div    style="position: sticky; left:0px; top:0px; width: 100vw ;z-index: 2;background-color: black;padding:0;margin:0;">
 
-        <h3 class='display' style="border:0px; padding: 0px; margin: 0px;padding-left:15px;font-family: Helvetica;color: red;font-weight: bold;letter-spacing: -3px;">
+        <h3 class='display' style="border:0px; padding: 0px; margin: 0px;padding-left:15px;font-family: Helvetica;color: red;font-weight: bold;letter-spacing: -3px;background-color: black;">
              DANNEA
         </h3>
 
@@ -58,10 +58,12 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
              style='position: relative;background-color: black; color: black; padding-top: 0px;padding-bottom: 20px;overflow-y:hidden; overflow-x: auto;white-space: nowrap;height:500px;'>
 
             <div    v-for="(item, index) in intro_apps"
-                    style='display: inline-block; margin: 20px;position: relative;border:1px solid white;vertical-align: text-top;'
+                    style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
                     class='app_card'>
 
-                <div style='border-radius: 0px;background-color:white;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;'>
+                <div style='-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);
+-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);
+box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;background-color:black;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;'>
 
 
                     <div v-if="item.type == 'app'" >
@@ -76,17 +78,18 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
+
                         <div style='border-radius: 0px;padding:0px; margin:0;'>
                             <img    v-if='(app_logos[item.data.id] && (app_logos[item.data.id] != ""))'
                                     v-bind:src='app_logos[item.data.id]'
-                                    style='max-width: 100%; left:0px; top: 0px;max-height: 100%;position: absolute;'
+                                    style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 75%;margin-left: auto;margin-right: auto;display: block;'
                                     v-bind:alt='app_logos[item.data.id]'
                                     v-on:click='editApp($event,item.data.id)'
                                     >
                             </img>
 
                             <a  v-on:click='editApp($event,item.data.id)'
-                                class="nav-link active" href="#" style="position: absolute; top:200px;font-style:bold;width:90%;overflow-x: hidden;white-space: nowrap;font-size: 20px;">
+                                class="nav-link active" href="#" style="position: absolute; bottom:0px;font-style:bold;width:90%;overflow-x: hidden;white-space: nowrap;font-size: 20px;color:white;">
 
                                 {{item.data.id}}
                             </a>
