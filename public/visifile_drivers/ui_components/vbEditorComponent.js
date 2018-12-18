@@ -33,33 +33,6 @@ load_once_from_file(true)
         </slot>
 
 
-        <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
-
-
-
-            <button  type=button
-                     class='btn'
-                     v-bind:style='"" + ((right_mode == "project")?"background-color: rgb(0, 0, 153);color:white;":"background-color:lightsteelblue;color:black;")'
-                     v-on:click='chooseRight("project");selected_pane = "project";'>
-
-                     Project
-            </button>
-            <button  type=button
-                     class='btn'
-                     v-bind:style='"" + ((right_mode == "properties")?"background-color: rgb(0, 0, 153);color:white;":"background-color:lightsteelblue;color:black;")'
-                     v-on:click='chooseRight("properties");selected_pane = "properties";'>
-
-                     Properties
-            </button>
-            <button  type=button
-                     class='btn'
-                     v-bind:style='"" + ((right_mode == "all")?"background-color: rgb(0, 0, 153);color:white;":"background-color:lightsteelblue;color:black;")'
-                     v-on:click='chooseRight("all");'>
-
-                     All
-            </button>
-
-         </div>
      </div>
 
 
@@ -287,21 +260,21 @@ load_once_from_file(true)
 
 
               <div    v-bind:refresh='refresh'
-                      v-bind:style='"height: " + (right_mode == "project"?"100":"50") + "%;  padding:0px; border: 4px solid lightgray;display: " + (right_mode != "properties"?"block":"none") + ";white-space:nowrap"'>
+                      v-bind:style='"height: " + (right_mode == "project"?"85":"15") + "%;  padding:0px; border: 4px solid lightgray;white-space:nowrap"'>
 
-                  <div v-bind:style='"border-radius: 3px; " + (selected_pane == "project"?"background-color:#000099;color: white;":"background-color:lightsteelblue;color: black;") + "; padding: 4px;overflow-x:none;height: 20%;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"'
-                       v-on:click='$event.stopPropagation();selected_pane = "project";'>
+                  <div v-bind:style='"border-radius: 3px; " + (selected_pane == "project"?"background-color:#000099;color: white;":"background-color:lightsteelblue;color: black;") + "; padding: 4px;overflow-x:none;height: " + (right_mode == "project"?"20%":"100%") + ";box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);" '
+                       v-on:click='$event.stopPropagation();selected_pane = "project";chooseRight("project");'>
                       Project explorer
 
                       <button type=button class='btn btn-sm btn-warning'
-                              style='float: right;'
+                              v-bind:style='"float: right;" + (right_mode == "project"?"":"display:none;")'
                               v-on:click='$event.stopPropagation();selected_pane = "project"; addForm()'  >
                                   Add form
                       </button>
                   </div>
 
 
-                  <div  style="border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:80%;background-color:lightgray;">
+                  <div  v-bind:style='"border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:80%;background-color:lightgray;"  + (right_mode == "project"?"":"display:none;")'>
                       <div    style="align-items: stretch;border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
 
                           <div    v-bind:style='"border-radius: 0px;padding:4px;margin:0px;margin-top: 5px;" + (model.app_selected?"background-color:gray;color:white;":"background-color:white;color:black;")'
@@ -347,10 +320,10 @@ load_once_from_file(true)
 
 
 
-            <div  v-bind:style='"height: " + (right_mode == "properties"?"100":"50") + "%;  padding:0px; border: 4px solid lightgray;display: " + (right_mode != "project"?"block":"none") + ";padding:0px;background-color: lightgray;"'>
+            <div  v-bind:style='"height: " + (right_mode == "properties"?"85":"15") + "%;  padding:0px; border: 4px solid lightgray;padding:0px;background-color: lightgray;"'>
 
-                <div    v-bind:style='"border-radius: 3px; " + (selected_pane == "properties"?"background-color:#000099;color: white;":"background-color:lightsteelblue;color: black;") + ";padding: 4px;height: 15%;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;"'
-                        v-on:click='selected_pane = "properties";'>
+                <div    v-bind:style='"border-radius: 3px; " + (selected_pane == "properties"?"background-color:#000099;color: white;":"background-color:lightsteelblue;color: black;") + ";padding: 4px;height: " + (right_mode == "properties"?"15%":"100%") + ";overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;"'
+                        v-on:click='selected_pane = "properties";chooseRight("properties");'>
                     Properties - {{model.active_component_index?model.forms[model.active_form].components[model.active_component_index].name + " (Component)" : model.active_form + " (Form)"}}
                 </div>
 
@@ -1663,7 +1636,7 @@ ${eventMessage.code}
            edited_app_component_id:     null,
            text:                        texti,
            leftHandWidth:               100,
-           right_mode:                  "all",
+           right_mode:                  "project",
            add_property:                false,
            new_property_name: "",
            new_property_id: "",
