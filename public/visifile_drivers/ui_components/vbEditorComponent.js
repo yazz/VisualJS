@@ -622,11 +622,11 @@ load_once_from_file(true)
 
 
 
-           this.updateAllFormCaches()
+           mm.updateAllFormCaches()
            //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
 
 
-           this.selectForm(mm.model.default_form)
+           mm.selectForm(mm.model.default_form)
            //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
 
 
