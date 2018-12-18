@@ -33,24 +33,27 @@ load_once_from_file(true)
         </slot>
 
 
-        <div class='btn-group' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);float: right; margin-right: 2%;' role=group >
+        <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
 
 
 
             <button  type=button
-                     v-bind:class='"btn btn " + ((right_mode == "project")?"btn-info":"btn-light")'
+                     class='btn'
+                     v-bind:style='"" + ((right_mode == "project")?"background-color: rgb(0, 0, 153);color:white;":"background-color:lightsteelblue;color:black;")'
                      v-on:click='chooseRight("project");selected_pane = "project";'>
 
                      Project
             </button>
             <button  type=button
-                     v-bind:class='"btn btn " + ((right_mode == "properties")?"btn-info":"btn-light")'
+                     class='btn'
+                     v-bind:style='"" + ((right_mode == "properties")?"background-color: rgb(0, 0, 153);color:white;":"background-color:lightsteelblue;color:black;")'
                      v-on:click='chooseRight("properties");selected_pane = "properties";'>
 
                      Properties
             </button>
             <button  type=button
-                     v-bind:class='"btn btn " + ((right_mode == "all")?"btn-info":"btn-light")'
+                     class='btn'
+                     v-bind:style='"" + ((right_mode == "all")?"background-color: rgb(0, 0, 153);color:white;":"background-color:lightsteelblue;color:black;")'
                      v-on:click='chooseRight("all");'>
 
                      All
