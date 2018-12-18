@@ -91,14 +91,14 @@ load_once_from_file(true)
 
         <component  v-bind:is="editor_component" v-if="editor_loaded" ref="editor_component_ref">
 
-            <div      slot-scope="editor_component">
+            <div      slot-scope="editor_component" style='display: inline-block;'>
                 <button vbind:style='"box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 25px;"'
-                        v-if='(!read_only) && (visibility == "PUBLIC") && (mode != "profiler")' type=button class='btn btn-info btn-lg'   v-on:click='setVisibility("PRIVATE")' >
+                        v-if='(!read_only) && (visibility == "PUBLIC") && (mode != "profiler")' type=button class='btn btn-info'   v-on:click='setVisibility("PRIVATE")' >
                     Public
                 </button>
 
                 <button vbind:style='"box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 25px;"'
-                        v-if='(!read_only) && (visibility == "PRIVATE") && (mode != "profiler")' type=button class='btn btn-danger btn-lg'   v-on:click='setVisibility("PUBLIC")' >
+                        v-if='(!read_only) && (visibility == "PRIVATE") && (mode != "profiler")' type=button class='btn btn-danger'   v-on:click='setVisibility("PUBLIC")' >
                     Private
                 </button>
 
@@ -106,9 +106,9 @@ load_once_from_file(true)
                           v-bind:style="'box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + ((app_shown && code_shown)?'':'hidden')"
 
                           v-on:click='setTimeout(async function(){await save(base_component_id, code_id,null)},100)'
-                          type="button" class="btn btn-lg">
+                          type="button" class="btn">
 
-                      <svg x="0px" y="0px" width="25px" height="25px" viewBox="0 0 384 384" style="color: black;" xml:space="preserve">
+                      <svg x="0px" y="0px" width="25px"  viewBox="0 0 384 384" style="color: black;" xml:space="preserve">
                           <path d="M32,0l320,192L32,384V0z"/>
                       </svg>
 
