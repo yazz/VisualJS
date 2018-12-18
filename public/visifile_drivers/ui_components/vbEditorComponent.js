@@ -260,9 +260,9 @@ load_once_from_file(true)
 
 
               <div    id='right_project_pane'
-                      class='right_project_pane_expanded'
+                      v-bind:class='(right_mode == "project"?"right_project_pane_expanded":"right_project_pane_collapsed")''
                       v-bind:refresh='refresh'
-                      v-bind:style='"height: " + (right_mode == "project"?"85":"15") + "%;  padding:0px; border: 4px solid lightgray;white-space:nowrap"'>
+                      v-bind:style='"padding:0px; border: 4px solid lightgray;white-space:nowrap"'>
 
                   <div v-bind:style='"border-radius: 3px; " + (selected_pane == "project"?"background-color:#000099;color: white;":"background-color:lightsteelblue;color: black;") + "; padding: 4px;overflow-x:none;height: " + (right_mode == "project"?"20%":"100%") + ";box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);" '
                        v-on:click='$event.stopPropagation();selected_pane = "project";chooseRight("project");'>
@@ -323,8 +323,8 @@ load_once_from_file(true)
 
 
             <div    id='right_properties_pane'
-                    class='right_properties_pane_collapsed'
-                    v-bind:style='"height: " + (right_mode == "properties"?"85":"15") + "%;  padding:0px; border: 4px solid lightgray;padding:0px;background-color: lightgray;"'>
+                    v-bind:class='(right_mode == "properties"?"right_properties_pane_collapsed":"right_properties_pane_collapsed")'
+                    v-bind:style='"padding:0px; border: 4px solid lightgray;padding:0px;background-color: lightgray;"'>
 
                 <div    v-bind:style='"border-radius: 3px; " + (selected_pane == "properties"?"background-color:#000099;color: white;":"background-color:lightsteelblue;color: black;") + ";padding: 4px;height: " + (right_mode == "properties"?"15%":"100%") + ";overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;"'
                         v-on:click='selected_pane = "properties";chooseRight("properties");'>
