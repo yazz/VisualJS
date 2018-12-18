@@ -49,10 +49,6 @@ load_once_from_file(true)
             </div>
 
 
-            <div class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);'>
-                <button  v-if='(!read_only) && (visibility == "PUBLIC") && (mode != "profiler")' type=button class='btn-sm btn btn-info '   v-on:click='setVisibility("PRIVATE")' >Public</button>
-                <button  v-if='(!read_only) && (visibility == "PRIVATE") && (mode != "profiler")' type=button class='btn-sm btn btn-danger '   v-on:click='setVisibility("PUBLIC")' >Private</button>
-            </div>
 
 
 
@@ -95,17 +91,29 @@ load_once_from_file(true)
 
         <component  v-bind:is="editor_component" v-if="editor_loaded" ref="editor_component_ref">
 
-            <button   v-if='!read_only'
-                      v-bind:style="'box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + ((app_shown && code_shown)?'':'hidden')"
-                      slot-scope="editor_component"
-                      v-on:click='setTimeout(async function(){await save(base_component_id, code_id,null)},100)'
-                      type="button" class="btn btn-lg">
+            <div      slot-scope="editor_component">
+                <button vbind:style='"box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 25px;"'
+                        v-if='(!read_only) && (visibility == "PUBLIC") && (mode != "profiler")' type=button class='btn btn-info btn-lg'   v-on:click='setVisibility("PRIVATE")' >
+                    Public
+                </button>
 
-                  <svg x="0px" y="0px" width="25px" height="25px" viewBox="0 0 384 384" style="color: black;" xml:space="preserve">
-                      <path d="M32,0l320,192L32,384V0z"/>
-                  </svg>
+                <button vbind:style='"box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 25px;"'
+                        v-if='(!read_only) && (visibility == "PRIVATE") && (mode != "profiler")' type=button class='btn btn-danger btn-lg'   v-on:click='setVisibility("PUBLIC")' >
+                    Private
+                </button>
 
-            </button>
+                <button   v-if='!read_only'
+                          v-bind:style="'box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + ((app_shown && code_shown)?'':'hidden')"
+
+                          v-on:click='setTimeout(async function(){await save(base_component_id, code_id,null)},100)'
+                          type="button" class="btn btn-lg">
+
+                      <svg x="0px" y="0px" width="25px" height="25px" viewBox="0 0 384 384" style="color: black;" xml:space="preserve">
+                          <path d="M32,0l320,192L32,384V0z"/>
+                      </svg>
+
+                </button>
+            </div>
 
         </component>
     </div>
