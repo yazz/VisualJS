@@ -72,9 +72,6 @@ load_once_from_file(true)
 
 
 
-             <div v-if='!extra_menu' class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: 20px;'>
-                 <button  type=button class=' btn btn-info btn-sm'   v-on:click='extra_menu=true' >...</button>
-             </div>
              <div v-if='extra_menu' class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: 20px;'>
                  <button  v-if='(mode != "profiler")' type=button class=' btn btn-info btn-sm'   v-on:click='extra_menu=false;copyAppMethod(base_component_id,null)' >Copy</button>
                  <button  v-if='(mode != "profiler")' type=button class=' btn btn-info btn-sm'        v-on:click='extra_menu=false;embedApp(base_component_id)' >Embed</button>
@@ -88,6 +85,13 @@ load_once_from_file(true)
                          v-if='(!read_only) && (visibility == "PRIVATE") && (mode != "profiler")' type=button class='btn btn-info btn-sm'   v-on:click='extra_menu=false;setVisibility("PUBLIC")' >
                      Set to public
                  </button>
+             </div>
+
+             <div v-if='!extra_menu' class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: 20px;'>
+                 <button  type=button class=' btn btn-info btn-sm'   v-on:click='extra_menu=true' >+</button>
+             </div>
+             <div v-if='extra_menu' class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: 20px;'>
+                 <button  type=button class=' btn btn-info btn-sm'   v-on:click='extra_menu=false' >-</button>
              </div>
 
 
