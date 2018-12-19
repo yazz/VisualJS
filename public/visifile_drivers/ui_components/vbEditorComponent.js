@@ -1271,6 +1271,9 @@ ${eventMessage.code}
 
 
          updatePropertySelector: function() {
+            if (!designMode){
+                return
+            }
             var mm = this
             document.getElementById("property_selector_parent").innerHTML=' <select id=property_selector ></select>'
 
