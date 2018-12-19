@@ -51,7 +51,8 @@ load_once_from_file(true)
             <div class='container' style=''>
                 <div class='row'>
                     <div    class='col-md-6'
-                            v-bind:style='"border-radius: 3px;width:50px;height:50px; margin: 0px;border: 0px;padding:8px;overflow-x:hidden;overflow-y:hidden;background-color: #E8E8E8;"'>
+                            v-on:click='highlighted_control = null;'
+                            v-bind:style='"border-radius: 3px;width:50px;height:50px; margin: 0px;border: 0px;padding:10px;overflow-x:hidden;overflow-y:hidden;background-color: " + ((!highlighted_control)?"#E8E8E8;border-left: 2px solid gray;border-top: 2px solid gray;":"lightgray;")'>
                         <img    src='https://cdn0.iconfinder.com/data/icons/seo-web-15/153/seo-social-web-network-internet_61-512.png'
                                 style='width: 100%;'
                                 class='img-fluid'>
@@ -61,11 +62,12 @@ load_once_from_file(true)
                     <div    v-for='av in available_components'
                             draggable="true"
                             class='col-md-6'
-                            v-on:dragstart='drag($event,{
+                            v-on:dragstart='highlighted_control = av.base_component_id;drag($event,{
                                                    type:   "add_component",
                                                    text:    av.base_component_id
                                                 })'
-                            style='border-radius: 3px;width:50px;;height: 50px; margin: 0px;border: 0px;padding:8px;overflow-x:auto;overflow-y:hidden'>
+                            v-on:click='highlighted_control = av.base_component_id;'
+                            v-bind:style='"margin: 2px;border-radius: 3px;width:50px;;height: 50px; margin: 0px;border: 0px;padding:10px;overflow-x:auto;overflow-y:hidden;background-color: " + ((highlighted_control == av.base_component_id)?"#E8E8E8;border-left: 2px solid gray;border-top: 2px solid gray;":"lightgray;")'>
 
                         <img    v-if='isValidObject(av)'
                                 v-bind:src='av.logo_url'
@@ -79,7 +81,7 @@ load_once_from_file(true)
             </div>
         </div>
 
-        <div            v-bind:style='" display: inline-block; vertical-align: top; position: relative; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
+        <div            v-bind:style='"margin: 2px; display: inline-block; vertical-align: top; position: relative; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
 
             <div    v-if='design_mode'
                     style='border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;'>
@@ -1339,7 +1341,7 @@ ${eventMessage.code}
             }
 
 
-            //zzz
+
             selectProp = new Selectr(
                 document.getElementById('property_selector'),
                 {
@@ -1637,6 +1639,7 @@ ${eventMessage.code}
            vb_editor_element_id:        null,
            design_mode:                 designMode,
            runtime_mode:                runtimeMode,
+           highlighted_control: null,
            edited_app_component_id:     null,
            text:                        texti,
            leftHandWidth:               100,
