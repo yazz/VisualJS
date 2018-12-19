@@ -29,7 +29,7 @@ load_once_from_file(true)
 
     <div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: lightgray; padding: 5px; padding-left: 15px;' v-if='design_mode' >
 
-        <slot style='display: inline-block;' v-if='text'>
+        <slot style='display: inline-block;float: right;' v-if='text'>
         </slot>
 
 
@@ -251,7 +251,7 @@ load_once_from_file(true)
 
 
         <div    v-if='design_mode'
-              v-bind:style='(design_mode?"border: 4px solid lightgray;box-shadow: 2px 2px 10px lightgray;":"") + " position:absolute;top:0px;right:0px;width: 250px;height: 75vmin; display: inline-block;overflow-x: none;overflow: hidden;vertical-align: top;padding:0px;height:100%;background-color: lightgray; "'
+              v-bind:style='(design_mode?"border: 4px solid lightgray;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;":"") + " position:absolute;top:0px;right:0px;width: 250px;height: 75vmin; display: inline-block;overflow-x: none;overflow: hidden;vertical-align: top;padding:0px;height:100%;background-color: lightgray; "'
               v-bind:refresh='refresh'>
 
 

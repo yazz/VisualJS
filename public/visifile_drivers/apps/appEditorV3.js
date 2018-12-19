@@ -107,15 +107,15 @@ load_once_from_file(true)
 
         <component  v-bind:is="editor_component" v-if="editor_loaded" ref="editor_component_ref">
 
-            <div      slot-scope="editor_component" style='display: inline-block;'>
+            <div      slot-scope="editor_component" style='display: inline-block;width:100%;'>
 
                 <button   v-if='!read_only'
-                          v-bind:style="'box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + ((app_shown && code_shown)?'':'hidden')"
+                          v-bind:style="'float: right; margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + ((app_shown && code_shown)?'':'hidden')"
 
                           v-on:click='setTimeout(async function(){await save(base_component_id, code_id,null)},100)'
                           type="button" class="btn">
 
-                      <svg x="0px" y="0px" width="25px"  viewBox="0 0 384 384" style="color: black;" xml:space="preserve">
+                      <svg x="0px" y="0px" width="35px"  viewBox="0 0 384 384" style="color: black;" xml:space="preserve">
                           <path d="M32,0l320,192L32,384V0z"/>
                       </svg>
 
