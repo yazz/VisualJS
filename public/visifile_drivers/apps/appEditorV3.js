@@ -50,7 +50,9 @@ load_once_from_file(true)
 
 
 
-            <div class='btn-group' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: 200px;' role=group >
+            <div class='btn-group'
+                 v-bind:style='"box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: " + (extra_menu?"50px;":"200px;")'
+                 role=group >
                 <button  type=button
                          v-bind:class='"btn btn-sm " + ((mode == "edit" && sub_mode == "app")?"btn-secondary":"btn-light")'
                          v-on:click='chooseApp()'  >App</button>
@@ -78,13 +80,13 @@ load_once_from_file(true)
                  <button  v-if='(mode != "profiler")' type=button class=' btn btn-info btn-sm'        v-on:click='extra_menu=false;embedApp(base_component_id)' >Embed</button>
                  <button  v-if='(editor_component != "editor_component") && (!read_only) && (mode != "profiler")' type=button class=' btn btn-info btn-sm'   v-on:click='extra_menu=false;editAsText()' >Edit as text</button>
                  <button vbind:style='"box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 25px;"'
-                         v-if='(!read_only) && (visibility == "PUBLIC") && (mode != "profiler")' type=button class='btn btn-info btn-sm'   v-on:click='extra_menu=false;setVisibility("PRIVATE")' >
-                     Public
+                         v-if='(!read_only) && (visibility == "PUBLIC") && (mode != "profiler")' type=button class='btn btn-danger btn-sm'   v-on:click='extra_menu=false;setVisibility("PRIVATE")' >
+                     Set to private
                  </button>
 
                  <button vbind:style='"box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 25px;"'
-                         v-if='(!read_only) && (visibility == "PRIVATE") && (mode != "profiler")' type=button class='btn btn-danger btn-sm'   v-on:click='extra_menu=false;setVisibility("PUBLIC")' >
-                     Private
+                         v-if='(!read_only) && (visibility == "PRIVATE") && (mode != "profiler")' type=button class='btn btn-info btn-sm'   v-on:click='extra_menu=false;setVisibility("PUBLIC")' >
+                     Set to public
                  </button>
              </div>
 
