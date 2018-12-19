@@ -1278,21 +1278,21 @@ ${eventMessage.code}
             var indexProp = 0
             var selectedItem = null
 
-            if (this.model.app_selected || (!this.model.active_component_index)) {
+            if (mm.model.app_selected || (!mm.model.active_component_index)) {
                 sdata.push(
                     {
                         value: "" + indexProp,
-                        app: this.edited_app_component_id,
+                        app: mm.edited_app_component_id,
                         form: null,
                         component: null
                     })
 
-                if (this.model.app_selected) {
+                if (mm.model.app_selected) {
                     selectedItem = indexProp
                 }
                 indexProp++
 
-                var forms = this.getForms()
+                var forms = mm.getForms()
                 for (  var ere = 0; ere < forms.length; ere++  ) {
                     var form = forms[ ere ]
                     sdata.push(
@@ -1303,37 +1303,37 @@ ${eventMessage.code}
                             component:  null
                         }
                     )
-                    if ((!this.model.app_selected) && (form.name == this.model.active_form)) {
+                    if ((!mm.model.app_selected) && (form.name == mm.model.active_form)) {
                         selectedItem = indexProp
                     }
                     indexProp++
                 }
 
-            } else if (this.model.active_component_index) {
+            } else if (mm.model.active_component_index) {
 
                 sdata.push(
                     {
                         value:      "" + indexProp,
                         app:        null,
-                        form:       this.model.active_form,
+                        form:       mm.model.active_form,
                         component:  null
                     }
                 )
                 indexProp++
 
-                var components = this.getActiveFormComponents()
+                var components = mm.getActiveFormComponents()
                 for (  var ere = 0; ere < components.length; ere++  ) {
                     var component = components[ ere ]
                     sdata.push(
                         {
                             value:              "" + indexProp,
                             app:                null,
-                            form:               this.model.active_form,
+                            form:               mm.model.active_form,
                             component:          component.name,
                             component_index:    ere
                         }
                     )
-                    if (this.model.active_component_index == ere) {
+                    if (mm.model.active_component_index == ere) {
                         selectedItem = indexProp
                     }
                     indexProp++
@@ -1345,8 +1345,8 @@ ${eventMessage.code}
             selectProp = new Selectr(
                 document.getElementById('property_selector'),
                 {
-                	renderOption: this.myDataRenderFunction,
-                    renderSelection: this.myDataRenderFunction,
+                	renderOption: mm.myDataRenderFunction,
+                    renderSelection: mm.myDataRenderFunction,
             		selectedValue: selectedItem,
                     data: sdata,
                     customClass: 'my-custom-selectr',
