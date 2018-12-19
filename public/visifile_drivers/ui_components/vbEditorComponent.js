@@ -265,12 +265,12 @@ load_once_from_file(true)
                       v-bind:style='"padding:0px; border: 4px solid lightgray;white-space:nowrap"'>
 
                   <div v-bind:style='"border-radius: 3px; " + (selected_pane == "project"?"background-color:#000099;color: white;":"background-color:lightsteelblue;color: black;") + "; padding: 4px;overflow-x:none;height: " + (right_mode == "project"?"20%":"100%") + ";box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);" '
-                       v-on:click='$event.stopPropagation();selected_pane = "project";chooseRight("project");'>
+                       v-on:click='$event.stopPropagation();var s = (right_mode == "properties"?"project":"properties");selected_pane = "project";chooseRight(s);'>
                       Project explorer
 
                       <button type=button class='btn btn-sm btn-warning'
-                              v-bind:style='"float: right;" + (right_mode == "project"?"":"display:none;")'
-                              v-on:click='$event.stopPropagation();selected_pane = "project"; addForm()'  >
+                              v-bind:style='"float: right;" + (right_mode == "project"?"":"display:;")'
+                              v-on:click='$event.stopPropagation();selected_pane = "project"; chooseRight("project");addForm()'  >
                                   Add form
                       </button>
                   </div>
@@ -327,7 +327,7 @@ load_once_from_file(true)
                     v-bind:style='"padding:0px; border: 4px solid lightgray;padding:0px;background-color: lightgray;"'>
 
                 <div    v-bind:style='"border-radius: 3px; " + (selected_pane == "properties"?"background-color:#000099;color: white;":"background-color:lightsteelblue;color: black;") + ";padding: 4px;height: " + (right_mode == "properties"?"15%":"100%") + ";overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;"'
-                        v-on:click='selected_pane = "properties";chooseRight("properties");'>
+                        v-on:click='var s = (right_mode == "properties"?"project":"properties");selected_pane = "properties";chooseRight(s);'>
                     Properties - {{model.active_component_index?model.forms[model.active_form].components[model.active_component_index].name + " (Component)" : model.active_form + " (Form)"}}
                 </div>
 
