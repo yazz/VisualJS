@@ -50,8 +50,8 @@ load_once_from_file(true)
             </div>
             <div class='container' style=''>
                 <div class='row'>
-                    <div    class='col-md-5'
-                            style='width:100%;height: 75px; margin: 0px;border: 0px;padding:3px;overflow-x:auto;overflow-y:hidden'>
+                    <div    class='col-md-6'
+                            v-bind:style='"border-radius: 3px;width:50px;height:50px; margin: 0px;border: 0px;padding:8px;overflow-x:hidden;overflow-y:hidden;background-color: #E8E8E8;"'>
                         <img    src='https://cdn0.iconfinder.com/data/icons/seo-web-15/153/seo-social-web-network-internet_61-512.png'
                                 style='width: 100%;'
                                 class='img-fluid'>
@@ -60,12 +60,12 @@ load_once_from_file(true)
 
                     <div    v-for='av in available_components'
                             draggable="true"
-                            class='col-md-5'
+                            class='col-md-6'
                             v-on:dragstart='drag($event,{
                                                    type:   "add_component",
                                                    text:    av.base_component_id
                                                 })'
-                            style='width:100%;height: 55px; margin: 0px;border: 0px;padding:3px;overflow-x:auto;overflow-y:hidden'>
+                            style='border-radius: 3px;width:50px;;height: 50px; margin: 0px;border: 0px;padding:8px;overflow-x:auto;overflow-y:hidden'>
 
                         <img    v-if='isValidObject(av)'
                                 v-bind:src='av.logo_url'
