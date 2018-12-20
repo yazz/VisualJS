@@ -861,22 +861,22 @@ load_once_from_file(true)
              var mm = this
              mm.model.active_component_index = null
              mm.model.app_selected = false
-             this.properties = []
-             this.properties.push({   id:     "name",   name:   "Name",   type:   "String"    })
-             this.properties.push({   id:     "width",   name:   "Width",   type:   "Number"    })
-             this.properties.push({   id:     "height",   name:   "Height",   type:   "Number"    })
-             this.properties.push({   id:     "form_activate",   name:   "Activate Event",   type:   "Event"    })
+             mm.properties = []
+             mm.properties.push({   id:     "name",   name:   "Name",   type:   "String"    })
+             mm.properties.push({   id:     "width",   name:   "Width",   type:   "Number"    })
+             mm.properties.push({   id:     "height",   name:   "Height",   type:   "Number"    })
+             mm.properties.push({   id:     "form_activate",   name:   "Activate Event",   type:   "Event"    })
              mm.model.active_form = formId
              mm.refresh ++
 
              if (mm.model.forms[formId].form_activate && (!mm.design_mode)) {
-                 //alert(JSON.stringify(this.args,null,2))
+                 //alert(JSON.stringify(mm.args,null,2))
                  if (!isValidObject(this.args)) {
-                      this.args = this.model
+                      mm.args = mm.model
                  }
 
-                 var args = this.args
-                 var app = this.model
+                 var args = mm.args
+                 var app = mm.model
                  var crt = mm.model.forms[formId].form_activate
                  //alert(crt)
                  //var ffff = eval("(" + crt + ")")
@@ -889,9 +889,10 @@ load_once_from_file(true)
                      form_name:           formId,
                      code:                crt
                  }
-                 this.processControlEvent(formEvent)
+                 mm.processControlEvent(formEvent)
              }
-             this.updatePropertySelector()
+             mm.updatePropertySelector()
+             mm.refresh ++
          },
 
 
@@ -1313,14 +1314,17 @@ ${eventMessage.code}
             var selectedItem = null
 
             if (mm.model.app_selected || (!mm.model.active_component_index)) {
-                sdata.push(
-                    {
-                        value: "" + indexProp,
-                        app: mm.edited_app_component_id,
-                        form: null,
-                        component: null
-                    })
 
+                if (mm.edited_app_component_id) {
+                    sdata.push(
+                        {
+                            value: "" + indexProp,
+                            app: mm.edited_app_component_id,
+                            form: null,
+                            component: null
+                        })
+                }
+                
                 if (mm.model.app_selected) {
                     selectedItem = indexProp
                 }
