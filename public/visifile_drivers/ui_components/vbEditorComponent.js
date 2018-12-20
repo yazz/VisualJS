@@ -44,7 +44,7 @@ load_once_from_file(true)
         <div    v-if='design_mode'
                 v-bind:style='(design_mode?"border: 4px solid lightgray;":"") + " width: " + leftHandWidth + "px;height: 75vmin; display: inline-block;overflow-x: none;overflow-y: auto;vertical-align: top; background-color: lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"'>
 
-            <div    v-bind:style='"border-radius: 3px;" + (selected_pane == "blocks"?"background-color:#000099;color: white;":"background-color:lightsteelblue;color: black;") + ";padding: 4px; margin-bottom: 10px;box-shadow: 2px 2px 10px lightgray;"'
+            <div    v-bind:style='"font-size:14px;font-weight:bold;border-radius: 3px;" + (selected_pane == "blocks"?"background-color:#000099;color: white;":"background-color:lightsteelblue;color: black;") + ";padding: 4px; margin-bottom: 10px;box-shadow: 2px 2px 10px lightgray;"'
                     v-on:click='selected_pane = "blocks";'>
                 Blocks
             </div>
@@ -84,7 +84,7 @@ load_once_from_file(true)
         <div            v-bind:style='"margin: 2px; display: inline-block; vertical-align: top; position: relative; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
 
             <div    v-if='design_mode'
-                    style='border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;'>
+                    style='font-size:14px;font-weight:bold;border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;'>
 
                 <img
                     src='/driver_icons/form.png'
@@ -266,19 +266,19 @@ load_once_from_file(true)
                       v-bind:refresh='refresh'
                       v-bind:style='"padding:0px; border: 4px solid lightgray;white-space:nowrap"'>
 
-                  <div v-bind:style='"border-radius: 3px; " + (selected_pane == "project"?"background-color:#000099;color: white;":"background-color:lightsteelblue;color: black;") + "; padding: 4px;overflow-x:none;height: 40px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);" '
+                  <div v-bind:style='"border-radius: 3px; " + (selected_pane == "project"?"background-color:#000099;color: white;":"background-color:lightsteelblue;color: black;") + "; padding: 4px;overflow-x:none;height: 40px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);font-size:14px;font-weight:bold;" '
                        v-on:mouseover='$event.stopPropagation();var s = (right_mode == "properties"?"project":"project");selected_pane = "project";chooseRight(s);'>
                       Project explorer
 
                       <button type=button class='btn btn-sm btn-warning'
-                              v-bind:style='"float: right;" + (right_mode == "project"?"":"display:;")'
+                              v-bind:style='"float: right;" + (right_mode == "project"?"":"display:;font-size:14px;")'
                               v-on:click='$event.stopPropagation();selected_pane = "project"; chooseRight("project");addForm()'  >
                                   Add form
                       </button>
                   </div>
 
 
-                  <div  v-bind:style='"border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:80%;background-color:lightgray;"  + (right_mode == "project"?"":"display:none;")'>
+                  <div  v-bind:style='"font-size:14px;border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:80%;background-color:lightgray;"  + (right_mode == "project"?"":"display:none;")'>
                       <div    style="align-items: stretch;border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
 
                           <div    v-bind:style='"border-radius: 0px;padding:4px;margin:0px;margin-top: 5px;" + (model.app_selected?"background-color:gray;color:white;":"background-color:white;color:black;")'
@@ -304,7 +304,7 @@ load_once_from_file(true)
                                   <div    v-if='form.name == model.active_form'
                                           v-for='(av,index) in getActiveFormComponents()'
                                           v-on:click='$event.stopPropagation();selected_pane = "project";select_component(index)'
-                                          v-bind:style='(((index == model.active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:60px; padding:2px;border-radius: 3px;"'>
+                                          v-bind:style='(((index == model.active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:80px; padding:2px;border-radius: 3px;"'>
 
                                       <div style='width:100%;display:inline-block;overflow: hidden;'>{{av.name}}</div>
                                   </div>
@@ -328,7 +328,7 @@ load_once_from_file(true)
                     v-bind:class='(right_mode == "properties"?"right_properties_pane_collapsed":"right_properties_pane_collapsed")'
                     v-bind:style='"padding:0px; border: 4px solid lightgray;padding:0px;background-color: lightgray;"'>
 
-                <div    v-bind:style='"border-radius: 3px; " + (selected_pane == "properties"?"background-color:#000099;color: white;":"background-color:lightsteelblue;color: black;") + ";padding: 4px;height: 40px;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;"'
+                <div    v-bind:style='"border-radius: 3px; " + (selected_pane == "properties"?"background-color:#000099;color: white;":"background-color:lightsteelblue;color: black;") + ";padding: 4px;height: 40px;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;font-size:14px;font-weight:bold;"'
                         v-on:mouseover='var s = (right_mode == "properties"?"properties":"properties");selected_pane = "properties";chooseRight(s);'>
                     Properties - {{model.active_component_index?model.forms[model.active_form].components[model.active_component_index].name + " (Component)" : model.active_form + " (Form)"}}
                 </div>
@@ -343,11 +343,11 @@ load_once_from_file(true)
 
 
                         <div    v-for='property in properties'
-                                style='font-size:12px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+                                style='font-size:14px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
 
                             <div style='width:100%;padding:0px;margin:0px;'>
                                 <div
-                                        v-bind:style='"white-space: pre-line;vertical-align: top;display:inline-block;width:30%;margin: 0px;font-size:12px;padding-left: 1px;padding-top:2px;padding-bottom:2px;border-right: 1px solid lightgray;" + (active_property_index == property.name?"background-color:#000099;color:white;":"")'
+                                        v-bind:style='"white-space: pre-line;vertical-align: top;display:inline-block;width:30%;margin: 0px;font-size:14px;padding-left: 1px;padding-top:2px;padding-bottom:2px;border-right: 1px solid lightgray;" + (active_property_index == property.name?"background-color:#000099;color:white;":"")'
                                         v-on:click='selected_pane = "properties";active_property_index = property.name;'>{{property.name}}
                                 </div>
 
@@ -358,14 +358,14 @@ load_once_from_file(true)
                                             <input
                                                     @change='setVBEditorProperty($event, property)'
                                                     v-bind:value='getVBEditorProperty(property)'
-                                                    style='width: 100%;border: 0px;font-size:12px;padding:0px;'>
+                                                    style='width: 100%;border: 0px;font-size:14px;padding:0px;'>
                                             </input>
                                         </div>
 
                                         <div v-if="(property.type  == 'Event')  ">
                                             <div>
 
-                                                <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:25px;height: 25px;color: white;border-radius: 3px;font-size:20px;font-style:bold;'
+                                                <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:25px;height: 25px;color: white;border-radius: 3px;font-size:14px;font-style:bold;'
                                                             v-on:click='$event.stopPropagation();editAsCode({
                                                                 active_form:            model.active_form,
                                                                 active_component_index: model.active_component_index,
@@ -377,7 +377,7 @@ load_once_from_file(true)
                                             <textarea   class="form-control"
                                                         v-if='(model.active_component_index == null) && (model.active_form != null)'
                                                         @change='generateCodeFromModel(   )'
-                                                        style='border:0px;font-size:12px;padding:0px;'
+                                                        style='border:0px;font-size:14px;padding:0px;'
                                                         rows=10
                                                         v-model='model.forms[model.active_form][property.id]'>
                                             </textarea>
@@ -386,7 +386,7 @@ load_once_from_file(true)
                                                         v-if='(model.active_component_index != null) && (model.active_form != null)'
                                                         @change='generateCodeFromModel(   )'
                                                         rows=10
-                                                        style='border:0px;font-size:12px;padding:0px;'
+                                                        style='border:0px;font-size:14px;padding:0px;'
                                                         v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'>
                                             </textarea>
                                         </div>
@@ -394,7 +394,7 @@ load_once_from_file(true)
 
                                     <div v-if='property.readonly'>
                                         <div    v-if='model.active_component_index != null'
-                                                style='padding:0px;font-size:12px;'
+                                                style='padding:0px;font-size:14px;'
                                                 class='col-md-12 small'>
 
                                             {{model.forms[model.active_form].components[model.active_component_index][property.id]}}
@@ -405,7 +405,7 @@ load_once_from_file(true)
                                         </div>
 
                                         <div    v-if='model.app_selected'
-                                                style='padding:0px;font-size:12px;'
+                                                style='padding:0px;font-size:14px;'
                                                 class='col-md-12 small'  >
 
                                             {{property.get_fn?property.get_fn():model[property.id]}}
@@ -1267,16 +1267,16 @@ ${eventMessage.code}
          myDataRenderFunction: function(data) {
              var center = ""
              if (data.app) {
-                center = "<b>" + (data.app?data.app:data.form) + "</b> "
+                center = "<b style='font-size:14px;'>" + (data.app?data.app:data.form) + "</b> "
 
              } else if (data.component) {
-                 center = "<b>" + data.form + "</b> " + data.component
+                 center = "<b style='font-size:14px;'>" + data.form + "</b> " + data.component
              } else if (data.form) {
-                 center = "<b>" + data.form + "</b> "
+                 center = "<b style='font-size:14px;'>" + data.form + "</b> "
              }
 
              var template =
-               "<div  style='overflow:hidden ;text-overflow: ellipsis;border-radius: 1px;margin: 0px;padding:0px;border:0px;font-size: 12px;'>" +
+               "<div  style='overflow:hidden ;text-overflow: ellipsis;border-radius: 1px;margin: 0px;padding:0px;border:0px;font-size: 14px;'>" +
                     center +
                "</div>";
              return template;
