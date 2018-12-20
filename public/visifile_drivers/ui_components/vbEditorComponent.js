@@ -1324,7 +1324,7 @@ ${eventMessage.code}
                             component: null
                         })
                 }
-                
+
                 if (mm.model.app_selected) {
                     selectedItem = indexProp
                 }
@@ -1557,6 +1557,7 @@ ${eventMessage.code}
             mm.edited_app_component_id = saveHelper.getValueOfCodeString(textValue, "base_component_id")
 
             mm.model = json2
+            mm.updatePropertySelector()
             mm.refresh ++
             //console.log("end setText")
         }
