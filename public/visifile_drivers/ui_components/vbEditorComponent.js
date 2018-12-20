@@ -267,7 +267,7 @@ load_once_from_file(true)
                       v-bind:style='"padding:0px; border: 4px solid lightgray;white-space:nowrap"'>
 
                   <div v-bind:style='"border-radius: 3px; " + (selected_pane == "project"?"background-color:#000099;color: white;":"background-color:lightsteelblue;color: black;") + "; padding: 4px;overflow-x:none;height: 40px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);" '
-                       v-on:click='$event.stopPropagation();var s = (right_mode == "properties"?"project":"project");selected_pane = "project";chooseRight(s);'>
+                       v-on:mouseover='$event.stopPropagation();var s = (right_mode == "properties"?"project":"project");selected_pane = "project";chooseRight(s);'>
                       Project explorer
 
                       <button type=button class='btn btn-sm btn-warning'
@@ -329,7 +329,7 @@ load_once_from_file(true)
                     v-bind:style='"padding:0px; border: 4px solid lightgray;padding:0px;background-color: lightgray;"'>
 
                 <div    v-bind:style='"border-radius: 3px; " + (selected_pane == "properties"?"background-color:#000099;color: white;":"background-color:lightsteelblue;color: black;") + ";padding: 4px;height: 40px;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;"'
-                        v-on:click='var s = (right_mode == "properties"?"properties":"properties");selected_pane = "properties";chooseRight(s);'>
+                        v-on:mouseover='var s = (right_mode == "properties"?"properties":"properties");selected_pane = "properties";chooseRight(s);'>
                     Properties - {{model.active_component_index?model.forms[model.active_form].components[model.active_component_index].name + " (Component)" : model.active_form + " (Form)"}}
                 </div>
 
@@ -364,6 +364,13 @@ load_once_from_file(true)
                                         </div>
 
                                         <div v-if="(property.type  == 'Event')  ">
+                                            <div>
+
+                                                <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:25px;height: 25px;color: white;border-radius: 3px;font-size:20px;font-style:bold;'
+                                                            v-on:click='$event.stopPropagation();editAsCode()'  >
+                                                    ...
+                                                </div>
+                                            </div>
                                             <textarea   class="form-control"
                                                         v-if='(model.active_component_index == null) && (model.active_form != null)'
                                                         @change='generateCodeFromModel(   )'
