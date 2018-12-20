@@ -143,7 +143,7 @@ load_once_from_file(true)
             &larr; &rarr; <span class=reload>&#x21bb;</span>
 
 
-            <span   v-bind:style='"z-index: 2000;  padding: 10px;left: 0px;top:40px;background-color: darkgray;color: white;width: auto;" +
+            <span   v-bind:style='"font-size:14px;z-index: 2000;  padding: 6px;left: 0px;top:40px;background-color: darkgray;color: white;width: auto;" +
                     "border-radius: 5px;opacity: 1;position:absolute;visibility: " +
                     ((show_new_tab_tooltip || show_open_app_tooltip)?"visible":"hidden") + ";font-family: Helvetica;"'>
                         {{show_new_tab_tooltip?"Open app in new browser tab (shareable :)":""}}
@@ -158,7 +158,7 @@ load_once_from_file(true)
                     class=reload>&#x274F;
             </a>
 
-            <input  readonly size="40" style='font-size: 13px;'
+            <input  readonly size="40" style='font-size: 14px;'
                     v-bind:value='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'>
             </input>
 
@@ -258,11 +258,11 @@ load_once_from_file(true)
                         v-bind:style='  "position: absolute;pointer-events: none;width: 1px;border: 1px solid gray; top: 0; height:100%;" +"left: " + (timeline_x_cursor + 5)  + "px;" '>
                     </div>
                     <div v-if='timeline_x_cursor <= 200'
-                        v-bind:style='  "position: absolute;pointer-events: none;width: 100%;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor + 10)  + "px; font-size: 12px;" '>
+                        v-bind:style='  "position: absolute;pointer-events: none;width: 100%;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor + 10)  + "px; font-size: 14px;" '>
                             {{current_execution_step + 1}} / {{execution_timeline.length}}
                     </div>
                     <div v-if='timeline_x_cursor > 200'
-                        v-bind:style='  "position: absolute;pointer-events: none;width: 100px;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor - 100)  + "px; font-size: 12px; text-align:right;" '>
+                        v-bind:style='  "position: absolute;pointer-events: none;width: 100px;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor - 100)  + "px; font-size: 14px; text-align:right;" '>
                             {{current_execution_step + 1}} / {{execution_timeline.length}}
                     </div>
 
