@@ -366,7 +366,11 @@ load_once_from_file(true)
                                             <div>
 
                                                 <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:25px;height: 25px;color: white;border-radius: 3px;font-size:20px;font-style:bold;'
-                                                            v-on:click='$event.stopPropagation();editAsCode()'  >
+                                                            v-on:click='$event.stopPropagation();editAsCode({
+                                                                active_form:            model.active_form,
+                                                                active_component_index: model.active_component_index,
+                                                                property_id:            property.id
+                                                            })'  >
                                                     ...
                                                 </div>
                                             </div>
@@ -631,6 +635,10 @@ load_once_from_file(true)
 
 
      methods: {
+         editAsCode: async function(aa) {
+             alert(JSON.stringify(aa))
+         }
+         ,
          getActiveFormComponents: function() {
              return this.model.forms[this.model.active_form].components
          },
@@ -1650,6 +1658,7 @@ ${eventMessage.code}
            runtime_mode:                runtimeMode,
            highlighted_control: null,
            edited_app_component_id:     null,
+           event_code:                  null,
            text:                        texti,
            leftHandWidth:               100,
            right_mode:                  "project",
