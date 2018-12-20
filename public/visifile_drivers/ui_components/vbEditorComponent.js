@@ -345,13 +345,13 @@ load_once_from_file(true)
                         <div    v-for='property in properties'
                                 style='font-size:14px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
 
-                            <div style='width:100%;padding:0px;margin:0px;'>
+                            <div style='width:100%;padding:0px;margin:0px;display:flex;'>
                                 <div
-                                        v-bind:style='"white-space: pre-line;vertical-align: top;display:inline-block;width:30%;margin: 0px;font-size:14px;padding-left: 1px;padding-top:2px;padding-bottom:2px;border-right: 1px solid lightgray;" + (active_property_index == property.name?"background-color:#000099;color:white;":"")'
+                                        v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-size:14px;padding-left: 1px;padding-top:0px;padding-bottom:0px;" + (active_property_index == property.name?"background-color:#000099;color:white;":"")'
                                         v-on:click='selected_pane = "properties";active_property_index = property.name;'>{{property.name}}
                                 </div>
 
-                                <div style='display:inline-block;width:70%;padding:0px;'
+                                <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'
                                      v-on:click='selected_pane = "properties";'>
                                     <div v-if='!property.readonly'>
                                         <div    v-if="(property.type  == 'String')  || (property.type  == 'Number')">
@@ -365,7 +365,7 @@ load_once_from_file(true)
                                         <div v-if="(property.type  == 'Event')  ">
                                             <div>
 
-                                                <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:25px;height: 25px;color: white;border-radius: 3px;font-size:14px;font-style:bold;'
+                                                <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-size:14px;font-style:bold;'
                                                             v-on:click='$event.stopPropagation();editAsCode({
                                                                 active_form:            model.active_form,
                                                                 active_component_index: model.active_component_index,
