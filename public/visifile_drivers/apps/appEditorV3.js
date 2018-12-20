@@ -116,7 +116,7 @@ load_once_from_file(true)
             <div      slot-scope="editor_component" style='display: inline-block;width:100%;'>
 
                 <button   v-if='!read_only'
-                          v-bind:style="'float: right; margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden')"
+                          v-bind:style="'float: left; margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden')"
 
                           v-on:click='setTimeout(async function(){await save(base_component_id, code_id,null)},100)'
                           type="button" class="btn">
