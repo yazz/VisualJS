@@ -339,24 +339,23 @@ load_once_from_file(true)
                 </div>
 
                 <div  style="border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:65%;">
-                    <div    style="align-items: stretch;border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
+                    <div    style="border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
 
 
                         <div    v-for='property in properties'
                                 style='font-size:12px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
 
-                            <div class='row' style='width:100%;padding:0px;margin:0px;'>
-                                <div    class='col-md-4 small'
-                                        v-bind:style='"margin: 0px;font-size:12px;padding-left: 1px;padding-top:2px;padding-bottom:2px;border-right: 1px solid lightgray;margin-right:5px;" + (active_property_index == property.name?"background-color:#000099;color:white;":"")'
-                                        v-on:click='selected_pane = "properties";active_property_index = property.name;'>
-                                    {{property.name}}
+                            <div style='width:100%;padding:0px;margin:0px;'>
+                                <div
+                                        v-bind:style='"white-space: pre-line;vertical-align: top;display:inline-block;width:30%;margin: 0px;font-size:12px;padding-left: 1px;padding-top:2px;padding-bottom:2px;border-right: 1px solid lightgray;" + (active_property_index == property.name?"background-color:#000099;color:white;":"")'
+                                        v-on:click='selected_pane = "properties";active_property_index = property.name;'>{{property.name}}
                                 </div>
 
-                                <div class='col-md-7 small' style='padding:0px;'
+                                <div style='display:inline-block;width:70%;padding:0px;'
                                      v-on:click='selected_pane = "properties";'>
                                     <div v-if='!property.readonly'>
                                         <div    v-if="(property.type  == 'String')  || (property.type  == 'Number')">
-                                            <input  class='col-md-12 small'
+                                            <input
                                                     @change='setVBEditorProperty($event, property)'
                                                     v-bind:value='getVBEditorProperty(property)'
                                                     style='width: 100%;border: 0px;font-size:12px;padding:0px;'>
