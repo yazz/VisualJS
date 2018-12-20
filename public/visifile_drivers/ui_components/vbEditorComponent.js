@@ -418,45 +418,58 @@ load_once_from_file(true)
 
                         <div  v-if='model.app_selected && (!add_property)' class='row'>
                             <div  class='col-md-12 small'>
-                                <button    type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addProperty()'  >
+                                <button     type=button class='btn btn-sm btn-info'
+                                            style='font-size: 14px;'
+                                            v-on:click='$event.stopPropagation();addProperty()'  >
                                     Add property
                                 </button>
                             </div>
                         </div>
 
                         <div v-if='(model.app_selected) && (add_property)' class='row'>
-                            <div  class='col-md-12 small'>
+                            <div    style='font-size: 14px;'
+                                    class='col-md-12 small'>
                                 Add a property
                             </div>
                         </div>
 
                         <div v-if='(model.app_selected) && (add_property)' class='row'>
-                            <div class='col-md-4'>
+                            <div    style='font-size: 14px;'
+                                    class='col-md-4'>
                                ID
                             </div>
 
-                            <input class='col-md-7 small'  v-model='new_property_id'>
+                            <input  style='font-size: 14px;'
+                                    class='col-md-7 small'
+                                    placeholder='background_color'
+                                    v-model='new_property_id'>
                             </input>
                         </div>
 
                         <div v-if='(model.app_selected) && (add_property)' class='row'>
-                            <div class='col-md-4'>
+                            <div    style='font-size: 14px;'
+                                    class='col-md-4'>
                                 Name
                             </div>
 
                             <input  class='col-md-7 small'
-                                    style='border:0px'
+                                    placeholder='Background Color'
+                                    style='border:0px;font-size: 14px;'
                                     v-model='new_property_name'>
                             </input>
                         </div>
 
                         <div v-if='(model.app_selected) && (add_property)' class='row'>
                             <div class='col-md-12'>
-                                <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addPropertyCancel()'  >
+                                <button style='font-size: 14px;'
+                                        type=button class='btn btn-sm btn-info'
+                                        v-on:click='$event.stopPropagation();addPropertyCancel()'  >
                                     Cancel
                                 </button>
 
-                                <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addPropertySave()'  >
+                                <button style='font-size: 14px;'
+                                        type=button class='btn btn-sm btn-info'
+                                        v-on:click='$event.stopPropagation();addPropertySave()'  >
                                     Save
                                 </button>
                             </div>
@@ -791,6 +804,10 @@ load_once_from_file(true)
          addPropertySave: function() {
          //-------------------------------------------------------------------
             var mm = this
+            if ((mm.new_property_name.length == 0) || (mm.new_property_id.length == 0)) {
+                alert("You must enter a property name and ID")
+                return;
+            }
             mm.add_property = false
 
             mm.model.app_properties.push({
