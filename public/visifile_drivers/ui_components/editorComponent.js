@@ -18,13 +18,14 @@ load_once_from_file(true)
         }
       },
       template: `<div>
-                      <div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: lightgray; padding: 5px;padding-left: 15px;' >
+                      <div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: lightgray; padding: 5px;padding-left: 15px;border: 4px solid lightgray;' >
                           <slot style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);display: inline-block;' v-if='text' :text2="text">
                           </slot>
                       </div>
 
-                    <div v-bind:id='editorDomId' ></div>
-                    <hr />
+                    <div    v-bind:id='editorDomId' >
+                    </div>
+                    <hr></hr>
                  </div>`
      ,
 
@@ -44,7 +45,8 @@ load_once_from_file(true)
 
 
          document.getElementById(editorDomId).style.width="100%"
-         document.getElementById(editorDomId).style.border="10px solid #2C2828"
+         document.getElementById(editorDomId).style.border="4px solid lightgray"
+         document.getElementById(editorDomId).style["box-shadow"] = "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"
 
          document.getElementById(editorDomId).style.height="45vh"
          if (thisVueInstance.text) {
@@ -62,6 +64,8 @@ load_once_from_file(true)
             thisVueInstance.text = editor.getSession().getValue();
             //alert("changed text to : " + thisVueInstance.text)
             });
+            
+        editorresize(true);
      },
      methods: {
         getText: async function() {
