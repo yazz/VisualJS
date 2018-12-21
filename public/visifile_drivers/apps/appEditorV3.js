@@ -133,88 +133,87 @@ load_once_from_file(true)
 
 
 
-    <div v-bind:style="'margin-left:10px;margin-top:10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: rgb(242,242,242);height: 100%; width: ' + app_width + '; right: 0px; display: ' + (app_shown?'inline-block':'none')+';vertical-align: top;border: 4px solid lightsteelblue;border-radius: 10px;'">
+                <div v-bind:style="'margin-left:10px;margin-top:10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: rgb(242,242,242);height: 100%; width: ' + app_width + '; right: 0px; display: ' + (app_shown?'inline-block':'none')+';vertical-align: top;border: 4px solid lightsteelblue;border-radius: 10px;'">
 
 
 
-        <div    v-if='is_ui_app'
-                v-bind:style="'padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;'">
+                    <div    v-if='is_ui_app'
+                            v-bind:style="'padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;'">
 
-            &larr; &rarr; <span class=reload>&#x21bb;</span>
-
-
-            <span   v-bind:style='"font-size:14px;z-index: 2000;  padding: 6px;left: 0px;top:40px;background-color: darkgray;color: white;width: auto;" +
-                    "border-radius: 5px;opacity: 1;position:absolute;visibility: " +
-                    ((show_new_tab_tooltip || show_open_app_tooltip)?"visible":"hidden") + ";font-family: Helvetica;"'>
-                        {{show_new_tab_tooltip?"Open app in new browser tab (shareable :)":""}}
-                        {{show_open_app_tooltip?"Download app as .HTML file (emailable :)":""}}
-            </span>
+                        &larr; &rarr; <span class=reload>&#x21bb;</span>
 
 
-            <a      v-bind:href='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'
-                    target="_blank" rel="noopener noreferrer"
-                    v-on:mouseover="show_new_tab_tooltip = true"
-                    v-on:mouseleave="show_new_tab_tooltip = false"
-                    class=reload>&#x274F;
-            </a>
-
-            <input  readonly size="40" style='font-size: 14px;'
-                    v-bind:value='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'>
-            </input>
+                        <span   v-bind:style='"font-size:14px;z-index: 2000;  padding: 6px;left: 0px;top:40px;background-color: darkgray;color: white;width: auto;" +
+                                "border-radius: 5px;opacity: 1;position:absolute;visibility: " +
+                                ((show_new_tab_tooltip || show_open_app_tooltip)?"visible":"hidden") + ";font-family: Helvetica;"'>
+                                    {{show_new_tab_tooltip?"Open app in new browser tab (shareable :)":""}}
+                                    {{show_open_app_tooltip?"Download app as .HTML file (emailable :)":""}}
+                        </span>
 
 
-            <a  v-bind:href='"http://" + location.hostname + ":" + location.port + "/app/dannea_" + base_component_id + ".html"'
-                download
-                v-on:mouseover="show_open_app_tooltip = true"
-                v-on:mouseleave="show_open_app_tooltip = false"
-                class=reload>&#x2668;
-            </a>
-        </div>
+                        <a      v-bind:href='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'
+                                target="_blank" rel="noopener noreferrer"
+                                v-on:mouseover="show_new_tab_tooltip = true"
+                                v-on:mouseleave="show_new_tab_tooltip = false"
+                                class=reload>&#x274F;
+                        </a>
+
+                        <input  readonly size="40" style='font-size: 14px;'
+                                v-bind:value='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'>
+                        </input>
 
 
-                          <component  v-if='app_loaded && is_ui_app'
-                                      style='background-color: white;'
-                                      v-bind:is="app_component_name">
-                            APP HERE
-                          </component>
+                        <a  v-bind:href='"http://" + location.hostname + ":" + location.port + "/app/dannea_" + base_component_id + ".html"'
+                            download
+                            v-on:mouseover="show_open_app_tooltip = true"
+                            v-on:mouseleave="show_open_app_tooltip = false"
+                            class=reload>&#x2668;
+                        </a>
+                    </div>
 
 
-
-                          <div  v-if='app_loaded && (!is_ui_app)'
-                                style='padding: 10px;background-color: white; height: 100%;'>
-                              <pre>{{console_output}}</pre>
-                              <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
-                                  <button  type=button class=' btn btn-success btn-lg'
-                                            v-on:click='chooseProfiler()' >Visualize this!</button>
-                              </div>
-                          </div>
-                      </div>
-
-
-                  </div>
+                    <component  v-if='app_loaded && is_ui_app'
+                                style='background-color: white;'
+                                v-bind:is="app_component_name">
+                       APP HERE
+                    </component>
 
 
 
-    <div v-if='mode == "profiler" && (execution_timeline.length == 0) ' style='width:100%;'>
-        <div    style="position: sticky; left:0px; top:0px; width: 100vw ;z-index: 2;padding:0;margin:0;">
-            <h4 style="border:0px; padding: 5px; margin: 0px;margin-top: 20vh; padding-left:15px;font-family: Helvetica;color: black; text-align: center;">
-                No code to profile
+                    <div  v-if='app_loaded && (!is_ui_app)'
+                          style='padding: 10px;background-color: white; height: 100%;'>
+                    <pre>{{console_output}}</pre>
 
-            </h4>
-            <h6 style="color: lightgray;border:0px;padding: 2px; margin: 0px;padding-left:15px;font-family: Helvetica; text-align: center;">
-                Please do something in your app
-            </h6>
-
-            <div style='text-align: center;margin-top: 4vh;padding-bottom: 40vh;'>
-                <button  type=button class=' btn btn-info btn-lg'        v-on:click='chooseBoth()' >Return to code</button>
+                    <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
+                        <button  type=button class=' btn btn-success btn-lg'
+                                 v-on:click='chooseProfiler()' >Visualize this!</button>
+                    </div>
+                </div>
             </div>
-
         </div>
-    </div>
 
-    <div v-if='mode == "profiler" && (execution_timeline.length > 0)' style='width:100%;'>
 
-        <div class='container' style='max-width:100%;width:100%;padding:10; margin:0; border: 0; background-color:lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);'>
+
+        <div v-if='mode == "profiler" && (execution_timeline.length == 0) ' style='width:100%;'>
+            <div    style="position: sticky; left:0px; top:0px; width: 100vw ;z-index: 2;padding:0;margin:0;">
+                <h4 style="border:0px; padding: 5px; margin: 0px;margin-top: 20vh; padding-left:15px;font-family: Helvetica;color: black; text-align: center;">
+                    No code to profile
+
+                </h4>
+                <h6 style="color: lightgray;border:0px;padding: 2px; margin: 0px;padding-left:15px;font-family: Helvetica; text-align: center;">
+                    Please do something in your app
+                </h6>
+
+                <div style='text-align: center;margin-top: 4vh;padding-bottom: 40vh;'>
+                    <button  type=button class=' btn btn-info btn-lg'        v-on:click='chooseBoth()' >Return to code</button>
+                </div>
+
+            </div>
+        </div>
+
+        <div v-if='mode == "profiler" && (execution_timeline.length > 0)' style='width:100%;'>
+
+            <div class='container' style='max-width:100%;width:100%;padding:10; margin:0; border: 0; background-color:lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);'>
 
 
                 <div class='col-md-12' style='overflow: auto; padding: 4px; '>
@@ -257,12 +256,14 @@ load_once_from_file(true)
                     <div
                         v-bind:style='  "position: absolute;pointer-events: none;width: 1px;border: 1px solid gray; top: 0; height:100%;" +"left: " + (timeline_x_cursor + 5)  + "px;" '>
                     </div>
+
                     <div v-if='timeline_x_cursor <= 200'
-                        v-bind:style='  "position: absolute;pointer-events: none;width: 100%;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor + 10)  + "px; font-size: 14px;" '>
+                         v-bind:style='  "position: absolute;pointer-events: none;width: 100%;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor + 10)  + "px; font-size: 14px;" '>
                             {{current_execution_step + 1}} / {{execution_timeline.length}}
                     </div>
+
                     <div v-if='timeline_x_cursor > 200'
-                        v-bind:style='  "position: absolute;pointer-events: none;width: 100px;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor - 100)  + "px; font-size: 14px; text-align:right;" '>
+                         v-bind:style='  "position: absolute;pointer-events: none;width: 100px;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor - 100)  + "px; font-size: 14px; text-align:right;" '>
                             {{current_execution_step + 1}} / {{execution_timeline.length}}
                     </div>
 
@@ -279,8 +280,7 @@ load_once_from_file(true)
                             v-on:scroll='inTimelineScroll()'
                             @mousemove="mouseMoveTimeline($event)"
                             @click="mouseClickTimeline($event)"
-                            @mouseenter="mouseEnterTimeline($event)"
-                    >
+                            @mouseenter="mouseEnterTimeline($event)">
 
 
                         <div    v-for='block_name in execution_block_list'
@@ -341,6 +341,7 @@ load_once_from_file(true)
 
                                                     Delete
                                                 </button>
+
                                                 <button type=button class='btn btn-primary' style='margin: 0px;padding:0px; '
                                                         v-on:click='keepWatch(varWatchName)'>
 
@@ -350,9 +351,9 @@ load_once_from_file(true)
                                                 <div v-if='globalWatchList[varWatchName].type == "ListOfNumbers"'>
 
                                                     <select v-model="globalWatchList[varWatchName].viewer">
-                                                       <option value="text">View as text</option>
-                                                       <option value="graph">Graph</option>
-                                                     </select>
+                                                        <option value="text">View as text</option>
+                                                        <option value="graph">Graph</option>
+                                                    </select>
                                                 </div>
 
                                             </div>
