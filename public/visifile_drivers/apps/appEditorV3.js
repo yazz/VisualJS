@@ -675,10 +675,11 @@ load_once_from_file(true)
 
                     //Bug fix: Need a delay when setting theme or view is corrupted
                     setTimeout(function(){
-                       mm.timeline_editor.setTheme("ace/theme/vibrant");
+                       mm.timeline_editor.setTheme("ace/theme/sql_server");
                     },100)
 
 
+                    document.getElementById("timeline_editor").style["font-size"] = "16px"
                     document.getElementById("timeline_editor").style.width = "100%"
                     document.getElementById("timeline_editor").style.border = "0px solid #2C2828"
 

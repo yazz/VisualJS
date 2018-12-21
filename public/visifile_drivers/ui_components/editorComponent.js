@@ -23,6 +23,11 @@ load_once_from_file(true)
                           </slot>
                       </div>
 
+                      <div    style='font-size:14px;font-weight:bold;border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 0px solid lightgray; padding:4px; margin:0;'>
+
+                           (Form)
+                      </div>
+
                     <div    v-bind:id='editorDomId' >
                     </div>
                     <hr></hr>
@@ -40,15 +45,16 @@ load_once_from_file(true)
 
          //Bug fix: Need a delay when setting theme or view is corrupted
          setTimeout(function(){
-            editor.setTheme("ace/theme/pastel_on_dark");
+            editor.setTheme("ace/theme/sql_server");
          },100)
 
 
+         document.getElementById(editorDomId).style["font-size"] = "16px"
          document.getElementById(editorDomId).style.width="100%"
          document.getElementById(editorDomId).style.border="4px solid lightgray"
          document.getElementById(editorDomId).style["box-shadow"] = "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"
 
-         document.getElementById(editorDomId).style.height="45vh"
+         document.getElementById(editorDomId).style.height="75vh"
          if (thisVueInstance.text) {
              editor.getSession().setValue(thisVueInstance.text);
              this.read_only = saveHelper.getValueOfCodeString(thisVueInstance.text, "read_only")
@@ -64,7 +70,7 @@ load_once_from_file(true)
             thisVueInstance.text = editor.getSession().getValue();
             //alert("changed text to : " + thisVueInstance.text)
             });
-            
+
         editorresize(true);
      },
      methods: {
