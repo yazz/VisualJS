@@ -214,7 +214,7 @@ load_once_from_file(true)
 
     <div v-if='mode == "profiler" && (execution_timeline.length > 0)' style='width:100%;'>
 
-        <div class='container' style='max-width:100%;width:100%;padding:0; margin:0; border: 0;'>
+        <div class='container' style='max-width:100%;width:100%;padding:0; margin:0; border: 0; background-color:lightgray;'>
 
 
                 <div class='col-md-12' style='overflow: auto; padding: 4px; '>
