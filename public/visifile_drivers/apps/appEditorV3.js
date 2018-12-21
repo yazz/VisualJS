@@ -26,372 +26,375 @@ load_once_from_file(true)
       template:
 `<div style="height: 100%; width:100%;padding:0; margin:0; border: 5px solid lightgray;">
     <div style='box-shadow: 2px 2px 10px lightgray;background-image: linear-gradient(to right,  #000099, lightblue); color: white;padding: 7px; padding-left: 15px;'>
-                    <img
-                        src='/driver_icons/project.png'
-                        style='width: 20px; margin-right: 10px;'
-                        class='img-fluid'>
-                    </img>
+        <img
+            src='/driver_icons/project.png'
+            style='width: 20px; margin-right: 10px;'
+            class='img-fluid'>
+        </img>
 
-                    <h5  class='caption' style='display: inline-block;' v-on:click='if (!read_only) {edit_name=true;show_name=false;}' v-if='show_name'>
-                        {{app_component_name?"" + app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 50))?"...":"")}} - Dannea (
-                        <span v-bind:style='"color: " + ((visibility == "PUBLIC")?"lightgreen":"pink") + ";"'>{{((visibility == "PUBLIC")?"Public":"Private")}}</span>
-                        )
-                    </h5>
+        <h5  class='caption' style='display: inline-block;' v-on:click='if (!read_only) {edit_name=true;show_name=false;}' v-if='show_name'>
+            {{app_component_name?"" + app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 50))?"...":"")}} - Dannea (
+            <span v-bind:style='"color: " + ((visibility == "PUBLIC")?"lightgreen":"pink") + ";"'>{{((visibility == "PUBLIC")?"Public":"Private")}}</span>
+            )
+        </h5>
 
-                    <input  class='caption' style='display: inline-block;' v-if='edit_name' v-model='new_name'></input>
+        <input  class='caption' style='display: inline-block;' v-if='edit_name' v-model='new_name'></input>
 
-                    <button type=button class='btn btn-primary' style='margin-left: 10px' v-if='edit_name' v-on:click='(async function(){await rename(new_name)})()'>
-                        Save new name
+        <button type=button class='btn btn-primary' style='margin-left: 10px' v-if='edit_name' v-on:click='(async function(){await rename(new_name)})()'>
+            Save new name
+        </button>
+
+        <span style='float: right; margin-right: 2%;' >
+
+
+
+
+            <div class='btn-group'
+                 v-bind:style='"box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: " + (extra_menu?"50px;":"200px;")'
+                 role=group >
+
+                <button type=button
+                        v-bind:class='"btn btn-sm " + ((mode == "edit" && sub_mode == "app")?"btn-secondary":"btn-light")'
+                        v-on:click='chooseApp()'  >App</button>
+
+                <button type=button
+                        v-bind:class='"btn btn-sm " + ((mode == "edit" && sub_mode == "code")?"btn-secondary":"btn-light")'
+                        v-on:click='chooseCode()' >Code</button>
+
+                <button type=button
+                        v-bind:class='"btn btn-sm " + ((mode == "edit" && sub_mode == "both")?"btn-secondary":"btn-light")'
+                        v-on:click='chooseBoth()' >Both</button>
+
+                <button type=button
+                        v-bind:class='"btn btn-sm " + (mode == "profiler"?"btn-secondary":"btn-light")'
+                        v-on:click='chooseProfiler()' >Profiler</button>
+            </div>
+
+
+
+            <div v-if='extra_menu' class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: 20px;'>
+                <button  v-if='(mode != "profiler")' type=button class=' btn btn-info btn-sm'   v-on:click='copyAppMethod(base_component_id,null)' >Copy</button>
+                <button  v-if='(mode != "profiler")' type=button class=' btn btn-info btn-sm'        v-on:click='embedApp(base_component_id)' >Embed</button>
+                <button  v-if='(editor_component != "editor_component") && (!read_only) && (mode != "profiler")' type=button class=' btn btn-info btn-sm'   v-on:click='editAsText()' >Edit as text</button>
+                <button vbind:style='"box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 25px;"'
+                        v-if='(!read_only) && (visibility == "PUBLIC") && (mode != "profiler")' type=button class='btn btn-danger btn-sm'   v-on:click='setVisibility("PRIVATE")' >
+                        Set to private
+                </button>
+
+                <button vbind:style='"box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 25px;"'
+                        v-if='(!read_only) && (visibility == "PRIVATE") && (mode != "profiler")' type=button class='btn btn-info btn-sm'   v-on:click='setVisibility("PUBLIC")' >
+                    Set to public
+                </button>
+            </div>
+
+            <div v-if='!extra_menu' class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: 20px;'>
+                <button  type=button class=' btn btn-info btn-sm'   v-on:click='extra_menu=true' >+</button>
+            </div>
+
+            <div v-if='extra_menu' class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: 20px;'>
+                <button  type=button class=' btn btn-info btn-sm'   v-on:click='extra_menu=false' >-</button>
+            </div>
+
+
+            <div class='btn-group' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);' role=group >
+                <button  type=button class=' btn btn-danger btn-sm'   v-on:click='closeApp()' >Close</button>
+            </div>
+
+        </span>
+    </div>
+
+
+
+    <div v-if='mode == "embed"'>
+        <appEmbed v-bind:base_component_id_arg='base_component_id'></appEmbed>
+    </div>
+
+    <div v-if='mode == "edit"'>
+        <div id=editor_id v-bind:style="'height: 100%; width: ' + code_width + '; left: 0px; display: ' + (code_shown?'inline-block':'none') + ';'">
+
+            <component  v-bind:is="editor_component" v-if="editor_loaded" ref="editor_component_ref">
+
+                <div      slot-scope="editor_component" style='display: inline-block;width:100%;'>
+
+                    <button   v-if='!read_only'
+                              v-bind:style="'float: left; margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden')"
+
+                              v-on:click='setTimeout(async function(){await save(base_component_id, code_id,null)},100)'
+                              type="button" class="btn">
+
+                        <svg x="0px" y="0px" width="35px"  viewBox="0 0 384 384" style="color: black;" xml:space="preserve">
+                            <path d="M32,0l320,192L32,384V0z" />
+                        </svg>
+
                     </button>
-
-                    <span style='float: right; margin-right: 2%;' >
-
-
-
-
-                        <div class='btn-group'
-                             v-bind:style='"box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: " + (extra_menu?"50px;":"200px;")'
-                             role=group >
-
-                            <button type=button
-                                    v-bind:class='"btn btn-sm " + ((mode == "edit" && sub_mode == "app")?"btn-secondary":"btn-light")'
-                                    v-on:click='chooseApp()'  >App</button>
-
-                            <button type=button
-                                    v-bind:class='"btn btn-sm " + ((mode == "edit" && sub_mode == "code")?"btn-secondary":"btn-light")'
-                                    v-on:click='chooseCode()' >Code</button>
-
-                            <button type=button
-                                    v-bind:class='"btn btn-sm " + ((mode == "edit" && sub_mode == "both")?"btn-secondary":"btn-light")'
-                                    v-on:click='chooseBoth()' >Both</button>
-
-                            <button type=button
-                                    v-bind:class='"btn btn-sm " + (mode == "profiler"?"btn-secondary":"btn-light")'
-                                    v-on:click='chooseProfiler()' >Profiler</button>
-                        </div>
-
-
-
-                        <div v-if='extra_menu' class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: 20px;'>
-                            <button  v-if='(mode != "profiler")' type=button class=' btn btn-info btn-sm'   v-on:click='copyAppMethod(base_component_id,null)' >Copy</button>
-                            <button  v-if='(mode != "profiler")' type=button class=' btn btn-info btn-sm'        v-on:click='embedApp(base_component_id)' >Embed</button>
-                            <button  v-if='(editor_component != "editor_component") && (!read_only) && (mode != "profiler")' type=button class=' btn btn-info btn-sm'   v-on:click='editAsText()' >Edit as text</button>
-                            <button vbind:style='"box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 25px;"'
-                                    v-if='(!read_only) && (visibility == "PUBLIC") && (mode != "profiler")' type=button class='btn btn-danger btn-sm'   v-on:click='setVisibility("PRIVATE")' >
-                                    Set to private
-                            </button>
-
-                            <button vbind:style='"box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 25px;"'
-                                    v-if='(!read_only) && (visibility == "PRIVATE") && (mode != "profiler")' type=button class='btn btn-info btn-sm'   v-on:click='setVisibility("PUBLIC")' >
-                                Set to public
-                            </button>
-                        </div>
-
-                        <div v-if='!extra_menu' class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: 20px;'>
-                            <button  type=button class=' btn btn-info btn-sm'   v-on:click='extra_menu=true' >+</button>
-                        </div>
-
-                        <div v-if='extra_menu' class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: 20px;'>
-                            <button  type=button class=' btn btn-info btn-sm'   v-on:click='extra_menu=false' >-</button>
-                        </div>
-
-
-                        <div class='btn-group' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);' role=group >
-                            <button  type=button class=' btn btn-danger btn-sm'   v-on:click='closeApp()' >Close</button>
-                        </div>
-
-                    </span>
                 </div>
 
-
-
-                <div v-if='mode == "embed"'>
-                    <appEmbed v-bind:base_component_id_arg='base_component_id'></appEmbed>
-                </div>
-
-                <div v-if='mode == "edit"'>
-                    <div id=editor_id v-bind:style="'height: 100%; width: ' + code_width + '; left: 0px; display: ' + (code_shown?'inline-block':'none') + ';'">
-
-                    <component  v-bind:is="editor_component" v-if="editor_loaded" ref="editor_component_ref">
-
-                        <div      slot-scope="editor_component" style='display: inline-block;width:100%;'>
-
-                            <button   v-if='!read_only'
-                                      v-bind:style="'float: left; margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden')"
-
-                                      v-on:click='setTimeout(async function(){await save(base_component_id, code_id,null)},100)'
-                                      type="button" class="btn">
-
-                                <svg x="0px" y="0px" width="35px"  viewBox="0 0 384 384" style="color: black;" xml:space="preserve">
-                                    <path d="M32,0l320,192L32,384V0z" />
-                                </svg>
-
-                            </button>
-                        </div>
-
-                    </component>
-                </div>
-
-
-
-                <div v-bind:style="'margin-left:10px;margin-top:10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: rgb(242,242,242);height: 100%; width: ' + app_width + '; right: 0px; display: ' + (app_shown?'inline-block':'none')+';vertical-align: top;border: 4px solid lightsteelblue;border-radius: 10px;'">
-
-
-
-                    <div    v-if='is_ui_app'
-                            v-bind:style="'padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;'">
-
-                        &larr; &rarr; <span class=reload>&#x21bb;</span>
-
-
-                        <span   v-bind:style='"font-size:14px;z-index: 2000;  padding: 6px;left: 0px;top:40px;background-color: darkgray;color: white;width: auto;" +
-                                "border-radius: 5px;opacity: 1;position:absolute;visibility: " +
-                                ((show_new_tab_tooltip || show_open_app_tooltip)?"visible":"hidden") + ";font-family: Helvetica;"'>
-                                    {{show_new_tab_tooltip?"Open app in new browser tab (shareable :)":""}}
-                                    {{show_open_app_tooltip?"Download app as .HTML file (emailable :)":""}}
-                        </span>
-
-
-                        <a      v-bind:href='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'
-                                target="_blank" rel="noopener noreferrer"
-                                v-on:mouseover="show_new_tab_tooltip = true"
-                                v-on:mouseleave="show_new_tab_tooltip = false"
-                                class=reload>&#x274F;
-                        </a>
-
-                        <input  readonly size="40" style='font-size: 14px;'
-                                v-bind:value='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'>
-                        </input>
-
-
-                        <a  v-bind:href='"http://" + location.hostname + ":" + location.port + "/app/dannea_" + base_component_id + ".html"'
-                            download
-                            v-on:mouseover="show_open_app_tooltip = true"
-                            v-on:mouseleave="show_open_app_tooltip = false"
-                            class=reload>&#x2668;
-                        </a>
-                    </div>
-
-
-                    <component  v-if='app_loaded && is_ui_app'
-                                style='background-color: white;'
-                                v-bind:is="app_component_name">
-                       APP HERE
-                    </component>
-
-
-
-                    <div  v-if='app_loaded && (!is_ui_app)'
-                          style='padding: 10px;background-color: white; height: 100%;'>
-                    <pre>{{console_output}}</pre>
-
-                    <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
-                        <button  type=button class=' btn btn-success btn-lg'
-                                 v-on:click='chooseProfiler()' >Visualize this!</button>
-                    </div>
-                </div>
-            </div>
+            </component>
         </div>
 
 
 
-        <div v-if='mode == "profiler" && (execution_timeline.length == 0) ' style='width:100%;'>
-            <div    style="position: sticky; left:0px; top:0px; width: 100vw ;z-index: 2;padding:0;margin:0;">
-                <h4 style="border:0px; padding: 5px; margin: 0px;margin-top: 20vh; padding-left:15px;font-family: Helvetica;color: black; text-align: center;">
-                    No code to profile
+        <div v-bind:style="'margin-left:10px;margin-top:10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: rgb(242,242,242);height: 100%; width: ' + app_width + '; right: 0px; display: ' + (app_shown?'inline-block':'none')+';vertical-align: top;border: 4px solid lightsteelblue;border-radius: 10px;'">
 
-                </h4>
-                <h6 style="color: lightgray;border:0px;padding: 2px; margin: 0px;padding-left:15px;font-family: Helvetica; text-align: center;">
-                    Please do something in your app
-                </h6>
 
-                <div style='text-align: center;margin-top: 4vh;padding-bottom: 40vh;'>
-                    <button  type=button class=' btn btn-info btn-lg'        v-on:click='chooseBoth()' >Return to code</button>
+
+            <div    v-if='is_ui_app'
+                    v-bind:style="'padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;'">
+
+                &larr; &rarr; <span class=reload>&#x21bb;</span>
+
+
+                <span   v-bind:style='"font-size:14px;z-index: 2000;  padding: 6px;left: 0px;top:40px;background-color: darkgray;color: white;width: auto;" +
+                        "border-radius: 5px;opacity: 1;position:absolute;visibility: " +
+                        ((show_new_tab_tooltip || show_open_app_tooltip)?"visible":"hidden") + ";font-family: Helvetica;"'>
+                            {{show_new_tab_tooltip?"Open app in new browser tab (shareable :)":""}}
+                            {{show_open_app_tooltip?"Download app as .HTML file (emailable :)":""}}
+                </span>
+
+
+                <a      v-bind:href='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'
+                        target="_blank" rel="noopener noreferrer"
+                        v-on:mouseover="show_new_tab_tooltip = true"
+                        v-on:mouseleave="show_new_tab_tooltip = false"
+                        class=reload>&#x274F;
+                </a>
+
+                <input  readonly size="40" style='font-size: 14px;'
+                        v-bind:value='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'>
+                </input>
+
+
+                <a  v-bind:href='"http://" + location.hostname + ":" + location.port + "/app/dannea_" + base_component_id + ".html"'
+                    download
+                    v-on:mouseover="show_open_app_tooltip = true"
+                    v-on:mouseleave="show_open_app_tooltip = false"
+                    class=reload>&#x2668;
+                </a>
+            </div>
+
+
+            <component  v-if='app_loaded && is_ui_app'
+                        style='background-color: white;'
+                        v-bind:is="app_component_name">
+               APP HERE
+            </component>
+
+
+
+            <div  v-if='app_loaded && (!is_ui_app)'
+                  style='padding: 10px;background-color: white; height: 100%;'>
+
+                <pre>{{console_output}}</pre>
+
+                <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
+                    <button  type=button class=' btn btn-success btn-lg'
+                             v-on:click='chooseProfiler()' >Visualize this!</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div v-if='mode == "profiler" && (execution_timeline.length == 0) ' style='width:100%;'>
+        <div    style="position: sticky; left:0px; top:0px; width: 100vw ;z-index: 2;padding:0;margin:0;">
+            <h4 style="border:0px; padding: 5px; margin: 0px;margin-top: 20vh; padding-left:15px;font-family: Helvetica;color: black; text-align: center;">
+                No code to profile
+
+            </h4>
+
+            <h6 style="color: lightgray;border:0px;padding: 2px; margin: 0px;padding-left:15px;font-family: Helvetica; text-align: center;">
+                Please do something in your app
+            </h6>
+
+            <div style='text-align: center;margin-top: 4vh;padding-bottom: 40vh;'>
+                <button  type=button class=' btn btn-info btn-lg'        v-on:click='chooseBoth()' >Return to code</button>
+            </div>
+
+        </div>
+    </div>
+
+    <div v-if='mode == "profiler" && (execution_timeline.length > 0)' style='width:100%;'>
+
+        <div class='container' style='max-width:100%;width:100%;padding:10; margin:0; border: 0; background-color:lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);'>
+
+
+            <div class='col-md-12' style='overflow: auto; padding: 4px; '>
+                <b style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);color: white; background-color: red;padding: 4px;border-radius: 4px; margin-right: 10px;'>
+                    Debugging in READ ONLY MODE:
+                </b>
+
+                <b style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);color: black; background-color: lightsteelblue;padding: 4px;border-radius: 4px;'>
+                    {{highlighted_block_name}}
+                </b>
+
+                <span class='col-md-3'>
+                    <input  style=''
+                            type="range" min="1" max="20" v-bind:onchange='timelineRefresh()' v-model="execution_horiz_scale"></input>
+                </span>
+
+
+
+                <span class='btn-group col-md-3' role=group >
+                    <button type=button class='btn btn-primary' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin: 1px;padding:2px;'  v-on:click='stepBack()'>&lt;--</button>
+                    <button type=button class='btn btn-info' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin: 1px;padding:2px;'  v-on:click='stepForward()'>--&gt;</button>
+                </span>
 
             </div>
         </div>
 
-        <div v-if='mode == "profiler" && (execution_timeline.length > 0)' style='width:100%;'>
 
-            <div class='container' style='max-width:100%;width:100%;padding:10; margin:0; border: 0; background-color:lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);'>
+        <div class='row' style='margin:0px'>
+            <div    class='col-md-5'
+                    style='border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;overflow: auto;padding:0px;margin-left:0px;'>
 
-
-                <div class='col-md-12' style='overflow: auto; padding: 4px; '>
-                    <b style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);color: white; background-color: red;padding: 4px;border-radius: 4px; margin-right: 10px;'>
-                        Debugging in READ ONLY MODE:
-                    </b>
-
-                    <b style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);color: black; background-color: lightsteelblue;padding: 4px;border-radius: 4px;'>
-                        {{highlighted_block_name}}
-                    </b>
-
-                    <span class='col-md-3'>
-                        <input  style=''
-                                type="range" min="1" max="20" v-bind:onchange='timelineRefresh()' v-model="execution_horiz_scale"></input>
-                    </span>
-
-
-
-                    <span class='btn-group col-md-3' role=group >
-                        <button type=button class='btn btn-primary' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin: 1px;padding:2px;'  v-on:click='stepBack()'>&lt;--</button>
-                        <button type=button class='btn btn-info' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin: 1px;padding:2px;'  v-on:click='stepForward()'>--&gt;</button>
-                    </span>
-
+                <div id='timeline_editor' style='height: 100%;' >
                 </div>
             </div>
 
 
-            <div class='row' style='margin:0px'>
-                <div    class='col-md-5'
-                        style='border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;overflow: auto;padding:0px;margin-left:0px;'>
+            <div    class='col-md-3'
+                    style='border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;background-color: white; position: relative;padding:0px;margin-left:20px;'>
 
-                    <div id='timeline_editor' style='height: 100%;' >
-                    </div>
+                <div
+                    v-bind:style='  "position: absolute;pointer-events: none;width: 1px;border: 1px solid gray; top: 0; height:100%;" +"left: " + (timeline_x_cursor + 5)  + "px;" '>
                 </div>
 
+                <div v-if='timeline_x_cursor <= 200'
+                     v-bind:style='  "position: absolute;pointer-events: none;width: 100%;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor + 10)  + "px; font-size: 14px;" '>
+                        {{current_execution_step + 1}} / {{execution_timeline.length}}
+                </div>
 
-                <div    class='col-md-3'
-                        style='border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;background-color: white; position: relative;padding:0px;margin-left:20px;'>
+                <div v-if='timeline_x_cursor > 200'
+                     v-bind:style='  "position: absolute;pointer-events: none;width: 100px;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor - 100)  + "px; font-size: 14px; text-align:right;" '>
+                        {{current_execution_step + 1}} / {{execution_timeline.length}}
+                </div>
 
-                    <div
-                        v-bind:style='  "position: absolute;pointer-events: none;width: 1px;border: 1px solid gray; top: 0; height:100%;" +"left: " + (timeline_x_cursor + 5)  + "px;" '>
-                    </div>
-
-                    <div v-if='timeline_x_cursor <= 200'
-                         v-bind:style='  "position: absolute;pointer-events: none;width: 100%;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor + 10)  + "px; font-size: 14px;" '>
-                            {{current_execution_step + 1}} / {{execution_timeline.length}}
-                    </div>
-
-                    <div v-if='timeline_x_cursor > 200'
-                         v-bind:style='  "position: absolute;pointer-events: none;width: 100px;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor - 100)  + "px; font-size: 14px; text-align:right;" '>
-                            {{current_execution_step + 1}} / {{execution_timeline.length}}
-                    </div>
-
-                    <div
-                        v-bind:style='  "position: absolute;pointer-events: none;height: 1px;border: 1px solid lightgray; left: 0; width:100%;" +"top: " + (timeline_y_cursor + 5)  + "px;" '>
-                    </div>
-
-
-
-
-
-                    <div    style='position:relative;overflow: scroll; border: 0px solid blue; padding:0; height:100%; width:100%;left:0;top:0'
-                            id='timeline_el'
-                            v-on:scroll='inTimelineScroll()'
-                            @mousemove="mouseMoveTimeline($event)"
-                            @click="mouseClickTimeline($event)"
-                            @mouseenter="mouseEnterTimeline($event)">
-
-
-                        <div    v-for='block_name in execution_block_list'
-                                v-bind:style='  "color: black; " +
-                                                "position: absolute; pointer-events: none;" +
-                                                "top:" + (execution_code[block_name].start) + ";" +
-                                                "left: 0px ;" +
-                                                "height:100%; " +
-                                                "width: 100%;pointer-events: none;" '>
-
-
-
-                        </div>
-
-                        <div    v-for='exePoint in execution_timeline'
-
-                                v-bind:style='  "z-index: " + ((current_execution_step == exePoint.time)?"100":"0" ) + "; color: darkgray; " +
-                                                "position: absolute; pointer-events: none;" +
-                                                "top:" + ((exePoint.line + executionCode[exePoint.code_block_name].start) * execution_horiz_scale) + "px;" +
-                                                "left:" +  (exePoint.time * execution_horiz_scale) + "px;" +
-                                                "border: 1px solid " + ((current_execution_step >= exePoint.time)?"black":"darkgray" ) + ";" +
-                                                "width:" + ((current_execution_step == exePoint.time)?"10":"7") + "px;" +
-                                                "height: " + ((current_execution_step == exePoint.time)?"10":"7") + "px; " +
-                                                "background-color: " + ((current_execution_step >= exePoint.time)?"black":"darkgray" ) + ";" +
-                                                ""'>
-                        </div>
-
-
-                    </div>
-
+                <div
+                    v-bind:style='  "position: absolute;pointer-events: none;height: 1px;border: 1px solid lightgray; left: 0; width:100%;" +"top: " + (timeline_y_cursor + 5)  + "px;" '>
                 </div>
 
 
 
 
-                <div    class='col-md-3'
-                        style='border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;background-color: white;overflow: scroll; background-color: white;padding:0;margin-left:20px;'
-                        >
 
-                    <div  style="left:0px; z-index: 200; width:100%; height:100%;">
+                <div    style='position:relative;overflow: scroll; border: 0px solid blue; padding:0; height:100%; width:100%;left:0;top:0'
+                        id='timeline_el'
+                        v-on:scroll='inTimelineScroll()'
+                        @mousemove="mouseMoveTimeline($event)"
+                        @click="mouseClickTimeline($event)"
+                        @mouseenter="mouseEnterTimeline($event)">
 
-                        <div class='container' style="padding:0;margin:0">
-                            <div v-if='execution_timeline[current_execution_step]'>
 
-                                <div style='margin:0;padding:0;border:2px solid blue; min-height:50px;'>
-                                    <div style='background-color: blue; color: white; padding: 2px'>Watch vars</div>
-                                    <div v-for="varWatchName in execution_watch_list">
-                                        <div style='border: 0px solid blue; padding: 4px; min-height:50px;'
-                                             v-if='globalWatchList[varWatchName][current_execution_step]'>
+                    <div    v-for='block_name in execution_block_list'
+                            v-bind:style='  "color: black; " +
+                                            "position: absolute; pointer-events: none;" +
+                                            "top:" + (execution_code[block_name].start) + ";" +
+                                            "left: 0px ;" +
+                                            "height:100%; " +
+                                            "width: 100%;pointer-events: none;" '>
 
-                                            <b>{{varWatchName}}:</b>
 
-                                            <div v-html='getVarAsHtml(globalWatchList[varWatchName].viewer,varWatchName)'></div>
 
-                                            <div>
-                                                <button type=button class='btn btn-danger' style='margin: 0px;padding:0px; '
-                                                        v-on:click='deleteWatch(varWatchName)'>
+                    </div>
 
-                                                    Delete
-                                                </button>
+                    <div    v-for='exePoint in execution_timeline'
 
-                                                <button type=button class='btn btn-primary' style='margin: 0px;padding:0px; '
-                                                        v-on:click='keepWatch(varWatchName)'>
+                            v-bind:style='  "z-index: " + ((current_execution_step == exePoint.time)?"100":"0" ) + "; color: darkgray; " +
+                                            "position: absolute; pointer-events: none;" +
+                                            "top:" + ((exePoint.line + executionCode[exePoint.code_block_name].start) * execution_horiz_scale) + "px;" +
+                                            "left:" +  (exePoint.time * execution_horiz_scale) + "px;" +
+                                            "border: 1px solid " + ((current_execution_step >= exePoint.time)?"black":"darkgray" ) + ";" +
+                                            "width:" + ((current_execution_step == exePoint.time)?"10":"7") + "px;" +
+                                            "height: " + ((current_execution_step == exePoint.time)?"10":"7") + "px; " +
+                                            "background-color: " + ((current_execution_step >= exePoint.time)?"black":"darkgray" ) + ";" +
+                                            ""'>
+                    </div>
 
-                                                    Keep
-                                                </button>
 
-                                                <div v-if='globalWatchList[varWatchName].type == "ListOfNumbers"'>
+                </div>
 
-                                                    <select v-model="globalWatchList[varWatchName].viewer">
-                                                        <option value="text">View as text</option>
-                                                        <option value="graph">Graph</option>
-                                                    </select>
-                                                </div>
+            </div>
 
+
+
+
+            <div    class='col-md-3'
+                    style='border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;background-color: white;overflow: scroll; background-color: white;padding:0;margin-left:20px;'
+                    >
+
+                <div  style="left:0px; z-index: 200; width:100%; height:100%;">
+
+                    <div class='container' style="padding:0;margin:0">
+                        <div v-if='execution_timeline[current_execution_step]'>
+
+                            <div style='margin:0;padding:0;border:2px solid blue; min-height:50px;'>
+                                <div style='background-color: blue; color: white; padding: 2px'>Watch vars</div>
+
+                                <div v-for="varWatchName in execution_watch_list">
+
+                                    <div style='border: 0px solid blue; padding: 4px; min-height:50px;'
+                                         v-if='globalWatchList[varWatchName][current_execution_step]'>
+
+                                        <b>{{varWatchName}}:</b>
+
+                                        <div v-html='getVarAsHtml(globalWatchList[varWatchName].viewer,varWatchName)'></div>
+
+                                        <div>
+                                            <button type=button class='btn btn-danger' style='margin: 0px;padding:0px; '
+                                                    v-on:click='deleteWatch(varWatchName)'>
+
+                                                Delete
+                                            </button>
+
+                                            <button type=button class='btn btn-primary' style='margin: 0px;padding:0px; '
+                                                    v-on:click='keepWatch(varWatchName)'>
+
+                                                Keep
+                                            </button>
+
+                                            <div v-if='globalWatchList[varWatchName].type == "ListOfNumbers"'>
+
+                                                <select v-model="globalWatchList[varWatchName].viewer">
+                                                    <option value="text">View as text</option>
+                                                    <option value="graph">Graph</option>
+                                                </select>
                                             </div>
 
                                         </div>
+
                                     </div>
                                 </div>
+                            </div>
 
 
-                                <div style='height:20px;'> </div>
+                            <div style='height:20px;'> </div>
 
-                                <div style='margin:0;padding:0;border:2px solid blue; min-height:50px;'>
-                                    <div style='background-color: blue; color: white; padding: 2px'> Current scope</div>
+                            <div style='margin:0;padding:0;border:2px solid blue; min-height:50px;'>
+                                <div style='background-color: blue; color: white; padding: 2px'> Current scope</div>
 
 
-                                    <div v-for="varV in execution_var_list" style='padding: 2px;'>
-                                        <div v-bind:v-if='execution_timeline[current_execution_step].vars[varV]'>
-                                            <div>
-                                                <b>{{varV}}</b>
-                                            </div>
-
-                                            <div v-bind:v-if='isValidObject(execution_timeline[current_execution_step].vars[varV])'>
-                                                <div style='margin-left:20px; margin-bottom: 15px;'>
-                                                    <b>Before</b>:
-                                                    {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].before,null,2)}}
-                                                </div>
-                                            </div>
-
-                                            <div v-bind:v-if='execution_timeline[current_execution_step].vars[varV]'>
-                                                <div style='padding-left:20px;'>
-                                                    <b>After</b>:
-                                                    {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].after,null,2)}}
-
-                                                </div>
-                                            </div>
-
+                                <div v-for="varV in execution_var_list" style='padding: 2px;'>
+                                    <div v-bind:v-if='execution_timeline[current_execution_step].vars[varV]'>
+                                        <div>
+                                            <b>{{varV}}</b>
                                         </div>
+
+                                        <div v-bind:v-if='isValidObject(execution_timeline[current_execution_step].vars[varV])'>
+                                            <div style='margin-left:20px; margin-bottom: 15px;'>
+                                                <b>Before</b>:
+                                                {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].before,null,2)}}
+                                            </div>
+                                        </div>
+
+                                        <div v-bind:v-if='execution_timeline[current_execution_step].vars[varV]'>
+                                            <div style='padding-left:20px;'>
+                                                <b>After</b>:
+                                                {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].after,null,2)}}
+
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
