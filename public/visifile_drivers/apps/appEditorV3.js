@@ -218,8 +218,13 @@ load_once_from_file(true)
 
 
                 <div class='col-md-12' style='overflow: auto; padding: 4px; '>
+                    <b style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);color: white; background-color: red;padding: 4px;border-radius: 4px; margin-right: 10px;'>
+                        Debugging in READ ONLY MODE:
+                    </b>
 
-
+                    <b style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);color: black; background-color: lightsteelblue;padding: 4px;border-radius: 4px;'>
+                        {{highlighted_block_name}}
+                    </b>
 
                     <span class='col-md-3'>
                         <input  style=''
@@ -241,12 +246,7 @@ load_once_from_file(true)
                 <div    class='col-md-5'
                         style='border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;overflow: auto;padding:0px;margin-left:0px;'>
 
-                    <div    style='font-size:14px;font-weight:bold;border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
-
-                         Debugging: {{highlighted_block_name}} 
-                    </div>
-
-                    <div id='timeline_editor' >
+                    <div id='timeline_editor' style='height: 100%;' >
                     </div>
                 </div>
 
@@ -555,7 +555,6 @@ load_once_from_file(true)
 
                         this.timeline_editor.scrollToLine(x.line , true, true, function () {});
                         this.timeline_editor.gotoLine(x.line , 10, true);
-                        this.timeline_editor.style.height="65vh"
                         this.timeline_editor.resize(true);
                         this.timeline_editor.on("focus", function() {
                             if (mm.mode == "profiler") {
