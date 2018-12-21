@@ -214,7 +214,7 @@ load_once_from_file(true)
 
     <div v-if='mode == "profiler" && (execution_timeline.length > 0)' style='width:100%;'>
 
-        <div class='container' style='max-width:100%;width:100%;padding:0; margin:0; border: 0; background-color:lightgray;'>
+        <div class='container' style='max-width:100%;width:100%;padding:10; margin:0; border: 0; background-color:lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);'>
 
 
                 <div class='col-md-12' style='overflow: auto; padding: 4px; '>
@@ -244,7 +244,7 @@ load_once_from_file(true)
 
             <div class='row' style='margin:0px'>
                 <div    class='col-md-5'
-                        style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;overflow: auto;padding:0px;margin:0px;'>
+                        style='border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;overflow: auto;padding:0px;margin-left:0px;'>
 
                     <div id='timeline_editor' style='height: 100%;' >
                     </div>
@@ -252,7 +252,7 @@ load_once_from_file(true)
 
 
                 <div    class='col-md-3'
-                        style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;background-color: white; position: relative;padding:0px;margin:0px;'>
+                        style='border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;background-color: white; position: relative;padding:0px;margin-left:20px;'>
 
                     <div
                         v-bind:style='  "position: absolute;pointer-events: none;width: 1px;border: 1px solid gray; top: 0; height:100%;" +"left: " + (timeline_x_cursor + 5)  + "px;" '>
@@ -316,10 +316,9 @@ load_once_from_file(true)
 
 
 
-                <div    class='col-md-4'
-                        style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;background-color: white;overflow: scroll; background-color: white;border: 0px solid black;padding:0;margin:0;'
+                <div    class='col-md-3'
+                        style='border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;background-color: white;overflow: scroll; background-color: white;padding:0;margin-left:20px;'
                         >
-
 
                     <div  style="left:0px; z-index: 200; width:100%; height:100%;">
 
