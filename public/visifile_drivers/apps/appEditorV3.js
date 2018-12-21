@@ -26,110 +26,111 @@ load_once_from_file(true)
       template:
 `<div style="height: 100%; width:100%;padding:0; margin:0; border: 5px solid lightgray;">
     <div style='box-shadow: 2px 2px 10px lightgray;background-image: linear-gradient(to right,  #000099, lightblue); color: white;padding: 7px; padding-left: 15px;'>
-        <img
-            src='/driver_icons/project.png'
-            style='width: 20px; margin-right: 10px;'
-            class='img-fluid'>
-       </img>
-        <h5  class='caption' style='display: inline-block;' v-on:click='if (!read_only) {edit_name=true;show_name=false;}' v-if='show_name'>
-            {{app_component_name?"" + app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 50))?"...":"")}} - Dannea (
-            <span v-bind:style='"color: " + ((visibility == "PUBLIC")?"lightgreen":"pink") + ";"'>{{((visibility == "PUBLIC")?"Public":"Private")}}</span>
-            )
-        </h5>
+                    <img
+                        src='/driver_icons/project.png'
+                        style='width: 20px; margin-right: 10px;'
+                        class='img-fluid'>
+                    </img>
 
-        <input  class='caption' style='display: inline-block;' v-if='edit_name' v-model='new_name'></input>
+                    <h5  class='caption' style='display: inline-block;' v-on:click='if (!read_only) {edit_name=true;show_name=false;}' v-if='show_name'>
+                        {{app_component_name?"" + app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 50))?"...":"")}} - Dannea (
+                        <span v-bind:style='"color: " + ((visibility == "PUBLIC")?"lightgreen":"pink") + ";"'>{{((visibility == "PUBLIC")?"Public":"Private")}}</span>
+                        )
+                    </h5>
 
-        <button type=button class='btn btn-primary' style='margin-left: 10px' v-if='edit_name' v-on:click='(async function(){await rename(new_name)})()'>
-            Save new name
-        </button>
+                    <input  class='caption' style='display: inline-block;' v-if='edit_name' v-model='new_name'></input>
 
-        <span style='float: right; margin-right: 2%;' >
+                    <button type=button class='btn btn-primary' style='margin-left: 10px' v-if='edit_name' v-on:click='(async function(){await rename(new_name)})()'>
+                        Save new name
+                    </button>
 
-
-
+                    <span style='float: right; margin-right: 2%;' >
 
 
 
-            <div class='btn-group'
-                 v-bind:style='"box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: " + (extra_menu?"50px;":"200px;")'
-                 role=group >
-                <button  type=button
-                         v-bind:class='"btn btn-sm " + ((mode == "edit" && sub_mode == "app")?"btn-secondary":"btn-light")'
-                         v-on:click='chooseApp()'  >App</button>
 
-                <button  type=button
-                         v-bind:class='"btn btn-sm " + ((mode == "edit" && sub_mode == "code")?"btn-secondary":"btn-light")'
-                         v-on:click='chooseCode()' >Code</button>
+                        <div class='btn-group'
+                             v-bind:style='"box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: " + (extra_menu?"50px;":"200px;")'
+                             role=group >
 
-                <button  type=button
-                         v-bind:class='"btn btn-sm " + ((mode == "edit" && sub_mode == "both")?"btn-secondary":"btn-light")'
-                         v-on:click='chooseBoth()' >Both</button>
+                            <button type=button
+                                    v-bind:class='"btn btn-sm " + ((mode == "edit" && sub_mode == "app")?"btn-secondary":"btn-light")'
+                                    v-on:click='chooseApp()'  >App</button>
 
-                <button  type=button
-                         v-bind:class='"btn btn-sm " + (mode == "profiler"?"btn-secondary":"btn-light")'
-                         v-on:click='chooseProfiler()' >Profiler</button>
-             </div>
+                            <button type=button
+                                    v-bind:class='"btn btn-sm " + ((mode == "edit" && sub_mode == "code")?"btn-secondary":"btn-light")'
+                                    v-on:click='chooseCode()' >Code</button>
 
+                            <button type=button
+                                    v-bind:class='"btn btn-sm " + ((mode == "edit" && sub_mode == "both")?"btn-secondary":"btn-light")'
+                                    v-on:click='chooseBoth()' >Both</button>
 
-
-             <div v-if='extra_menu' class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: 20px;'>
-                 <button  v-if='(mode != "profiler")' type=button class=' btn btn-info btn-sm'   v-on:click='copyAppMethod(base_component_id,null)' >Copy</button>
-                 <button  v-if='(mode != "profiler")' type=button class=' btn btn-info btn-sm'        v-on:click='embedApp(base_component_id)' >Embed</button>
-                 <button  v-if='(editor_component != "editor_component") && (!read_only) && (mode != "profiler")' type=button class=' btn btn-info btn-sm'   v-on:click='editAsText()' >Edit as text</button>
-                 <button vbind:style='"box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 25px;"'
-                         v-if='(!read_only) && (visibility == "PUBLIC") && (mode != "profiler")' type=button class='btn btn-danger btn-sm'   v-on:click='setVisibility("PRIVATE")' >
-                     Set to private
-                 </button>
-
-                 <button vbind:style='"box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 25px;"'
-                         v-if='(!read_only) && (visibility == "PRIVATE") && (mode != "profiler")' type=button class='btn btn-info btn-sm'   v-on:click='setVisibility("PUBLIC")' >
-                     Set to public
-                 </button>
-             </div>
-
-             <div v-if='!extra_menu' class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: 20px;'>
-                 <button  type=button class=' btn btn-info btn-sm'   v-on:click='extra_menu=true' >+</button>
-             </div>
-             <div v-if='extra_menu' class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: 20px;'>
-                 <button  type=button class=' btn btn-info btn-sm'   v-on:click='extra_menu=false' >-</button>
-             </div>
-
-
-             <div class='btn-group' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);' role=group >
-                <button  type=button class=' btn btn-danger btn-sm'   v-on:click='closeApp()' >Close</button>
-             </div>
-
-        </span>
-    </div>
+                            <button type=button
+                                    v-bind:class='"btn btn-sm " + (mode == "profiler"?"btn-secondary":"btn-light")'
+                                    v-on:click='chooseProfiler()' >Profiler</button>
+                        </div>
 
 
 
-    <div v-if='mode == "embed"'>
-        <appEmbed v-bind:base_component_id_arg='base_component_id'></appEmbed>
-    </div>
+                        <div v-if='extra_menu' class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: 20px;'>
+                            <button  v-if='(mode != "profiler")' type=button class=' btn btn-info btn-sm'   v-on:click='copyAppMethod(base_component_id,null)' >Copy</button>
+                            <button  v-if='(mode != "profiler")' type=button class=' btn btn-info btn-sm'        v-on:click='embedApp(base_component_id)' >Embed</button>
+                            <button  v-if='(editor_component != "editor_component") && (!read_only) && (mode != "profiler")' type=button class=' btn btn-info btn-sm'   v-on:click='editAsText()' >Edit as text</button>
+                            <button vbind:style='"box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 25px;"'
+                                    v-if='(!read_only) && (visibility == "PUBLIC") && (mode != "profiler")' type=button class='btn btn-danger btn-sm'   v-on:click='setVisibility("PRIVATE")' >
+                                    Set to private
+                            </button>
 
-    <div v-if='mode == "edit"'>
-        <div id=editor_id v-bind:style="'height: 100%; width: ' + code_width + '; left: 0px; display: ' + (code_shown?'inline-block':'none') + ';'">
+                            <button vbind:style='"box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 25px;"'
+                                    v-if='(!read_only) && (visibility == "PRIVATE") && (mode != "profiler")' type=button class='btn btn-info btn-sm'   v-on:click='setVisibility("PUBLIC")' >
+                                Set to public
+                            </button>
+                        </div>
 
-        <component  v-bind:is="editor_component" v-if="editor_loaded" ref="editor_component_ref">
+                        <div v-if='!extra_menu' class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: 20px;'>
+                            <button  type=button class=' btn btn-info btn-sm'   v-on:click='extra_menu=true' >+</button>
+                        </div>
 
-            <div      slot-scope="editor_component" style='display: inline-block;width:100%;'>
+                        <div v-if='extra_menu' class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: 20px;'>
+                            <button  type=button class=' btn btn-info btn-sm'   v-on:click='extra_menu=false' >-</button>
+                        </div>
 
-                <button   v-if='!read_only'
-                          v-bind:style="'float: left; margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden')"
 
-                          v-on:click='setTimeout(async function(){await save(base_component_id, code_id,null)},100)'
-                          type="button" class="btn">
+                        <div class='btn-group' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);' role=group >
+                            <button  type=button class=' btn btn-danger btn-sm'   v-on:click='closeApp()' >Close</button>
+                        </div>
 
-                      <svg x="0px" y="0px" width="35px"  viewBox="0 0 384 384" style="color: black;" xml:space="preserve">
-                          <path d="M32,0l320,192L32,384V0z"/>
-                      </svg>
+                    </span>
+                </div>
 
-                </button>
-            </div>
 
-        </component>
-    </div>
+
+                <div v-if='mode == "embed"'>
+                    <appEmbed v-bind:base_component_id_arg='base_component_id'></appEmbed>
+                </div>
+
+                <div v-if='mode == "edit"'>
+                    <div id=editor_id v-bind:style="'height: 100%; width: ' + code_width + '; left: 0px; display: ' + (code_shown?'inline-block':'none') + ';'">
+
+                    <component  v-bind:is="editor_component" v-if="editor_loaded" ref="editor_component_ref">
+
+                        <div      slot-scope="editor_component" style='display: inline-block;width:100%;'>
+
+                            <button   v-if='!read_only'
+                                      v-bind:style="'float: left; margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden')"
+
+                                      v-on:click='setTimeout(async function(){await save(base_component_id, code_id,null)},100)'
+                                      type="button" class="btn">
+
+                                <svg x="0px" y="0px" width="35px"  viewBox="0 0 384 384" style="color: black;" xml:space="preserve">
+                                    <path d="M32,0l320,192L32,384V0z" />
+                                </svg>
+
+                            </button>
+                        </div>
+
+                    </component>
+                </div>
 
 
 
