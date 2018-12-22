@@ -318,9 +318,15 @@ load_once_from_file(true)
 
             <div    style='width:30%;right:20px;position: absolute;display:inline-block;border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;background-color: white;overflow: scroll; background-color: white;padding:0;margin-left:20px;'
                     >
+                <div    v-bind:class='(right_mode == "watches"?"right_project_pane_expanded":"right_project_pane_collapsed")''
+                        v-bind:refresh='refresh'
+                        v-bind:style='"padding:0px; border: 4px solid lightgray;white-space:nowrap"'>
 
-                <div  style="left:0px; z-index: 200; width:100%; height:100%;">
-
+                    <div v-bind:style='"border-radius: 3px;  padding: 4px;overflow-x:none;height: 40px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);font-size:14px;font-weight:bold;" '
+                         v-bind:class='(selected_pane == "watches"?"selected_pane_title":"unselected_pane_title") '
+                         v-on:mouseover='$event.stopPropagation();selected_pane = "watches";chooseRight("watches");'>
+                        Watch vars
+                    </div>
                     <div class='container' style="padding:0;margin:0">
                         <div v-if='execution_timeline[current_execution_step]'>
 
@@ -364,38 +370,57 @@ load_once_from_file(true)
                             </div>
 
 
-                            <div style='height:20px;'> </div>
+                        </div>
+                    </div>
+                </div>
 
-                            <div style='margin:0;padding:0;border:2px solid blue; min-height:50px;'>
-                                <div style='background-color: blue; color: white; padding: 2px'> Current scope</div>
 
 
-                                <div v-for="varV in execution_var_list" style='padding: 2px;'>
-                                    <div v-bind:v-if='execution_timeline[current_execution_step].vars[varV]'>
-                                        <div>
-                                            <b>{{varV}}</b>
-                                        </div>
+                <div    v-bind:class='(right_mode == "scope"?"right_properties_pane_collapsed":"right_properties_pane_collapsed")'
+                        v-bind:style='"padding:0px; border: 4px solid lightgray;padding:0px;background-color: lightgray;"'>
 
-                                        <div v-bind:v-if='isValidObject(execution_timeline[current_execution_step].vars[varV])'>
-                                            <div style='margin-left:20px; margin-bottom: 15px;'>
-                                                <b>Before</b>:
-                                                {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].before,null,2)}}
-                                            </div>
-                                        </div>
+                    <div    v-bind:style='"border-radius: 3px;padding: 4px;height: 40px;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;font-size:14px;font-weight:bold;"'
+                            v-bind:class='(selected_pane == "scope"?"selected_pane_title_slower":"unselected_pane_title_slower") '
+                            v-on:mouseover='selected_pane = "scope";chooseRight("scope");'>
+                        Current scope
+                    </div>
+                    <div style='margin:0;padding:0;border:2px solid blue; min-height:50px;'>
+                        <div style='background-color: blue; color: white; padding: 2px'> Current scope</div>
 
-                                        <div v-bind:v-if='execution_timeline[current_execution_step].vars[varV]'>
-                                            <div style='padding-left:20px;'>
-                                                <b>After</b>:
-                                                {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].after,null,2)}}
 
-                                            </div>
-                                        </div>
+                        <div v-for="varV in execution_var_list" style='padding: 2px;'>
+                            <div v-bind:v-if='execution_timeline[current_execution_step].vars[varV]'>
+                                <div>
+                                    <b>{{varV}}</b>
+                                </div>
+
+                                <div v-bind:v-if='isValidObject(execution_timeline[current_execution_step].vars[varV])'>
+                                    <div style='margin-left:20px; margin-bottom: 15px;'>
+                                        <b>Before</b>:
+                                        {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].before,null,2)}}
+                                    </div>
+                                </div>
+
+                                <div v-bind:v-if='execution_timeline[current_execution_step].vars[varV]'>
+                                    <div style='padding-left:20px;'>
+                                        <b>After</b>:
+                                        {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].after,null,2)}}
 
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
+                </div>
+
+
+
+
+
+
+                <div  style="left:0px; z-index: 200; width:100%; height:100%;">
+
                 </div>
             </div>
         </div>
@@ -410,6 +435,8 @@ load_once_from_file(true)
                selected_app:        '',
                is_ui_app:           true,
                editor_component:    null,
+               right_mode:          "watches",
+               selected_pane:       "watches",
                execution_timeline:  null,
                execution_horiz_scale: 3,
                y_step: 30,
@@ -539,6 +566,9 @@ load_once_from_file(true)
                 },200)
             }
             ,
+            chooseRight: function(ff) {
+                this.right_mode = ff
+            },
 
 
 
