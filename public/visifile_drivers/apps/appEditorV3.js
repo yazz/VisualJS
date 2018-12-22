@@ -316,7 +316,7 @@ load_once_from_file(true)
 
 
 
-            <div    style='width:30%;right:20px;position: absolute;display:inline-block;border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;background-color: white;overflow: scroll; background-color: white;padding:0;margin-left:20px;'
+            <div    style='width:30%;right:20px;position: absolute;display:inline-block;border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;background-color: white;overflow: hidden; background-color: white;padding:0;margin-left:20px;'
                     >
                 <div    v-bind:class='(right_mode == "watches"?"right_project_pane_expanded":"right_project_pane_collapsed")''
                         v-bind:refresh='refresh'
@@ -332,8 +332,7 @@ load_once_from_file(true)
                             <div class='container' style="padding:0;margin:0">
                                 <div v-if='execution_timeline[current_execution_step]'>
 
-                                    <div style='margin:0;padding:0;border:2px solid blue; min-height:50px;'>
-                                        <div style='background-color: blue; color: white; padding: 2px'>Watch vars</div>
+                                    <div style='margin:0;padding:0;border:2px solid lightgray; min-height:50px;'>
 
                                         <div v-for="varWatchName in execution_watch_list">
 
@@ -388,8 +387,7 @@ load_once_from_file(true)
                             v-on:mouseover='selected_pane = "scope";chooseRight("scope");'>
                         Current scope
                     </div>
-                    <div style='margin:0;padding:0;border:2px solid blue; min-height:50px;'>
-                        <div style='background-color: blue; color: white; padding: 2px'> Current scope</div>
+                    <div style='margin:0;padding:0; min-height:350px; background-color: white;'>
 
 
                         <div v-for="varV in execution_var_list" style='padding: 2px;'>
