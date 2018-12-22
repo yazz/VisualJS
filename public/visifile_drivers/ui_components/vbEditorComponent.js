@@ -254,67 +254,70 @@ load_once_from_file(true)
 
 
         <div    v-if='design_mode'
-              v-bind:style='(design_mode?"border: 4px solid lightgray;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;":"") + " position:absolute;top:0px;right:0px;width: 250px;height: 75vmin; display: inline-block;overflow-x: none;overflow: hidden;vertical-align: top;padding:0px;height:100%;background-color: lightgray; "'
-              v-bind:refresh='refresh'>
+                v-bind:style='(design_mode?"border: 4px solid lightgray;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;":"") + " position:absolute;top:0px;right:0px;width: 250px;height: 75vmin; display: inline-block;overflow-x: none;overflow: hidden;vertical-align: top;padding:0px;height:100%;background-color: lightgray; "'
+                v-bind:refresh='refresh'>
 
 
 
 
 
 
-              <div    id='right_project_pane'
-                      v-bind:class='(right_mode == "project"?"right_project_pane_expanded":"right_project_pane_collapsed")''
-                      v-bind:refresh='refresh'
-                      v-bind:style='"padding:0px; border: 4px solid lightgray;white-space:nowrap"'>
+            <div    id='right_project_pane'
+                    v-bind:class='(right_mode == "project"?"right_project_pane_expanded":"right_project_pane_collapsed")''
+                    v-bind:refresh='refresh'
+                    v-bind:style='"padding:0px; border: 4px solid lightgray;white-space:nowrap"'>
 
-                  <div v-bind:style='"border-radius: 3px;  padding: 4px;overflow-x:none;height: 40px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);font-size:14px;font-weight:bold;" '
-                       v-bind:class='(selected_pane == "project"?"selected_pane_title":"unselected_pane_title") '
-                       v-on:mouseover='$event.stopPropagation();var s = (right_mode == "properties"?"project":"project");selected_pane = "project";chooseRight(s);'>
-                      Project explorer
+                <div v-bind:style='"border-radius: 3px;  padding: 4px;overflow-x:none;height: 40px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);font-size:14px;font-weight:bold;" '
+                     v-bind:class='(selected_pane == "project"?"selected_pane_title":"unselected_pane_title") '
+                     v-on:mouseover='$event.stopPropagation();var s = (right_mode == "properties"?"project":"project");selected_pane = "project";chooseRight(s);'>
 
-                      <button type=button class='btn btn-sm btn-warning'
-                              v-bind:style='"float: right;" + (right_mode == "project"?"":"display:;font-size:14px;")'
-                              v-on:click='$event.stopPropagation();selected_pane = "project"; chooseRight("project");addForm()'  >
-                                  Add form
-                      </button>
-                  </div>
+                     Project explorer
+
+                    <button type=button class='btn btn-sm btn-warning'
+                            v-bind:style='"float: right;" + (right_mode == "project"?"":"display:;font-size:14px;")'
+                            v-on:click='$event.stopPropagation();selected_pane = "project"; chooseRight("project");addForm()'  >
+
+                         Add form
+
+                    </button>
+                </div>
 
 
-                  <div  v-bind:style='"font-size:14px;border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:80%;background-color:lightgray;"  + (right_mode == "project"?"":"display:none;")'>
-                      <div    style="align-items: stretch;border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
+                <div  v-bind:style='"font-size:14px;border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:80%;background-color:lightgray;"  + (right_mode == "project"?"":"display:none;")'>
+                    <div    style="align-items: stretch;border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
 
-                          <div    v-bind:style='"border-radius: 0px;padding:4px;margin:0px;margin-top: 5px;" + (model.app_selected?"background-color:gray;color:white;":"background-color:white;color:black;")'
-                                  v-on:click='$event.stopPropagation();selected_pane = "project";select_app()'>
+                        <div    v-bind:style='"border-radius: 0px;padding:4px;margin:0px;margin-top: 5px;" + (model.app_selected?"background-color:gray;color:white;":"background-color:white;color:black;")'
+                                v-on:click='$event.stopPropagation();selected_pane = "project";select_app()'>
 
-                                        <b>{{edited_app_component_id}}</b>
-                          </div>
+                                    <b>{{edited_app_component_id}}</b>
+                        </div>
 
-                          <div v-for='form in getForms()' v-bind:refresh='refresh'>
-                              <div>
-                                  <div  v-bind:style='(((form.name == model.active_form) && (model.active_component_index == null) && (!model.app_selected)) ?"border: 0px solid red;background-color:gray;color:white;":"color:black;") + "padding:4px;margin:0px;margin-left:30px;border-radius: 3px;"'
-                                        v-on:click='$event.stopPropagation();selected_pane = "project";selectForm(form.name)'>
+                        <div v-for='form in getForms()' v-bind:refresh='refresh'>
+                            <div>
+                                <div  v-bind:style='(((form.name == model.active_form) && (model.active_component_index == null) && (!model.app_selected)) ?"border: 0px solid red;background-color:gray;color:white;":"color:black;") + "padding:4px;margin:0px;margin-left:30px;border-radius: 3px;"'
+                                      v-on:click='$event.stopPropagation();selected_pane = "project";selectForm(form.name)'>
 
-                                        <img
+                                     <img
                                             src='/driver_icons/form.png'
                                             style='width: 20px; margin-right: 10px;'
                                             class='img-fluid'>
-                                        </img>
+                                     </img>
 
                                               {{form.name}} ({{form.components.length}})
-                                  </div>
+                                </div>
 
-                                  <div    v-if='form.name == model.active_form'
-                                          v-for='(av,index) in getActiveFormComponents()'
-                                          v-on:click='$event.stopPropagation();selected_pane = "project";select_component(index)'
-                                          v-bind:style='(((index == model.active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:80px; padding:2px;border-radius: 3px;"'>
+                                <div    v-if='form.name == model.active_form'
+                                        v-for='(av,index) in getActiveFormComponents()'
+                                        v-on:click='$event.stopPropagation();selected_pane = "project";select_component(index)'
+                                        v-bind:style='(((index == model.active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:80px; padding:2px;border-radius: 3px;"'>
 
-                                      <div style='width:100%;display:inline-block;overflow: hidden;'>{{av.name}}</div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
+                                    <div style='width:100%;display:inline-block;overflow: hidden;'>{{av.name}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
 
