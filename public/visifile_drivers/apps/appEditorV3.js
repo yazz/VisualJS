@@ -222,7 +222,7 @@ load_once_from_file(true)
 
 
         <div style='margin:0px'>
-            <div    style='position: absolute;width:30%;display:inline-block;border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;overflow: hidden;padding:0px;margin-left:0px;border-radius: 5px;'>
+            <div    style='position: absolute;width:30%;display:inline-block;border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;overflow: hidden;padding:0px;margin-left:15px;border-radius: 5px;margin-top: 15px;'>
                 <div    style='white-space: nowrap;overflow: hidden;text-overflow: ellipsis;font-size:14px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
 
                      Debugging: {{highlighted_block_name}}
@@ -233,9 +233,9 @@ load_once_from_file(true)
             </div>
 
 
-            <div    style='position: absolute;left: 35%; width:30%;display:inline-block;border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;background-color: white; position: relative;padding:0px;margin-left:15px;margin-top:15px;'>
+            <div    style='position: absolute;left: 35%; width:30%;display:inline-block;border:5px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;background-color: white; position: relative;padding:0px;margin-left:15px;margin-top:0px;border-radius: 5px;'>
 
-                <div    style='white-space: nowrap;overflow: hidden;text-overflow: ellipsis;font-size:14px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
+                <div    style='white-space: nowrap;overflow: hidden;text-overflow: ellipsis;font-size:14px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white;  padding:4px; margin:0;border-bottom: 0px;'>
                      Stepper
                      <span class='col-md-3'>
                          <input  style=''
@@ -274,7 +274,7 @@ load_once_from_file(true)
 
 
 
-                    <div    style='position:relative;overflow: scroll; border: 0px solid blue; padding:0; height:100%; width:100%;left:0;top:0'
+                    <div    style='position:relative;overflow: scroll; border: 0px solid blue; padding:0; height:90%; width:100%;left:0;top:0'
                             id='timeline_el'
                             v-on:scroll='inTimelineScroll()'
                             @mousemove="mouseMoveTimeline($event)"
