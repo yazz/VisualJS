@@ -218,22 +218,6 @@ load_once_from_file(true)
 
         <div class='container' style='max-width:100%;width:100%;padding:10; margin:0; border: 0; background-color:lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);'>
 
-
-            <div class='col-md-12' style='overflow: auto; padding: 4px; '>
-
-                <span class='col-md-3'>
-                    <input  style=''
-                            type="range" min="1" max="20" v-bind:onchange='timelineRefresh()' v-model="execution_horiz_scale"></input>
-                </span>
-
-
-
-                <span class='btn-group col-md-3' role=group >
-                    <button type=button class='btn btn-primary' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin: 1px;padding:2px;'  v-on:click='stepBack()'>&lt;--</button>
-                    <button type=button class='btn btn-info' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin: 1px;padding:2px;'  v-on:click='stepForward()'>--&gt;</button>
-                </span>
-
-            </div>
         </div>
 
 
@@ -251,59 +235,77 @@ load_once_from_file(true)
 
             <div    style='position: absolute;left: 35%; width:30%;display:inline-block;border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;background-color: white; position: relative;padding:0px;margin-left:15px;margin-top:15px;'>
 
-                <div
-                    v-bind:style='  "position: absolute;pointer-events: none;width: 1px;border: 1px solid gray; top: 0; height:100%;" +"left: " + (timeline_x_cursor + 5)  + "px;" '>
-                </div>
+                <div    style='white-space: nowrap;overflow: hidden;text-overflow: ellipsis;font-size:14px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
+                     Stepper
+                     <span class='col-md-3'>
+                         <input  style=''
+                                 type="range" min="1" max="20" v-bind:onchange='timelineRefresh()' v-model="execution_horiz_scale"></input>
+                     </span>
 
-                <div v-if='timeline_x_cursor <= 200'
-                     v-bind:style='  "position: absolute;pointer-events: none;width: 100%;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor + 10)  + "px; font-size: 14px;" '>
-                        {{current_execution_step + 1}} / {{execution_timeline.length}}
-                </div>
 
-                <div v-if='timeline_x_cursor > 200'
-                     v-bind:style='  "position: absolute;pointer-events: none;width: 100px;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor - 100)  + "px; font-size: 14px; text-align:right;" '>
-                        {{current_execution_step + 1}} / {{execution_timeline.length}}
-                </div>
 
-                <div
-                    v-bind:style='  "position: absolute;pointer-events: none;height: 1px;border: 1px solid lightgray; left: 0; width:100%;" +"top: " + (timeline_y_cursor + 5)  + "px;" '>
+                     <span class='btn-group col-md-3' role=group >
+                         <button type=button class='btn btn-primary' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin: 1px;padding:2px;'  v-on:click='stepBack()'>&lt;--</button>
+                         <button type=button class='btn btn-info' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin: 1px;padding:2px;'  v-on:click='stepForward()'>--&gt;</button>
+                     </span>
                 </div>
 
 
-
-
-
-                <div    style='position:relative;overflow: scroll; border: 0px solid blue; padding:0; height:100%; width:100%;left:0;top:0'
-                        id='timeline_el'
-                        v-on:scroll='inTimelineScroll()'
-                        @mousemove="mouseMoveTimeline($event)"
-                        @click="mouseClickTimeline($event)"
-                        @mouseenter="mouseEnterTimeline($event)">
-
-
-                    <div    v-for='block_name in execution_block_list'
-                            v-bind:style='  "color: black; " +
-                                            "position: absolute; pointer-events: none;" +
-                                            "top:" + (execution_code[block_name].start) + ";" +
-                                            "left: 0px ;" +
-                                            "height:100%; " +
-                                            "width: 100%;pointer-events: none;" '>
-
-
-
+                <div style='position:relative;'>
+                    <div
+                        v-bind:style='  "position: absolute;pointer-events: none;width: 1px;border: 1px solid gray; top: 0; height:100%;" +"left: " + (timeline_x_cursor + 5)  + "px;" '>
                     </div>
 
-                    <div    v-for='exePoint in execution_timeline'
+                    <div v-if='timeline_x_cursor <= 200'
+                         v-bind:style='  "position: absolute;pointer-events: none;width: 100%;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor + 10)  + "px; font-size: 14px;" '>
+                            {{current_execution_step + 1}} / {{execution_timeline.length}}
+                    </div>
 
-                            v-bind:style='  "z-index: " + ((current_execution_step == exePoint.time)?"100":"0" ) + "; color: darkgray; " +
-                                            "position: absolute; pointer-events: none;" +
-                                            "top:" + ((exePoint.line + executionCode[exePoint.code_block_name].start) * execution_horiz_scale) + "px;" +
-                                            "left:" +  (exePoint.time * execution_horiz_scale) + "px;" +
-                                            "border: 1px solid " + ((current_execution_step >= exePoint.time)?"black":"darkgray" ) + ";" +
-                                            "width:" + ((current_execution_step == exePoint.time)?"10":"7") + "px;" +
-                                            "height: " + ((current_execution_step == exePoint.time)?"10":"7") + "px; " +
-                                            "background-color: " + ((current_execution_step >= exePoint.time)?"black":"darkgray" ) + ";" +
-                                            ""'>
+                    <div v-if='timeline_x_cursor > 200'
+                         v-bind:style='  "position: absolute;pointer-events: none;width: 100px;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor - 100)  + "px; font-size: 14px; text-align:right;" '>
+                            {{current_execution_step + 1}} / {{execution_timeline.length}}
+                    </div>
+
+                    <div
+                        v-bind:style='  "position: absolute;pointer-events: none;height: 1px;border: 1px solid lightgray; left: 0; width:100%;" +"top: " + (timeline_y_cursor + 5)  + "px;" '>
+                    </div>
+
+
+
+
+
+                    <div    style='position:relative;overflow: scroll; border: 0px solid blue; padding:0; height:100%; width:100%;left:0;top:0'
+                            id='timeline_el'
+                            v-on:scroll='inTimelineScroll()'
+                            @mousemove="mouseMoveTimeline($event)"
+                            @click="mouseClickTimeline($event)"
+                            @mouseenter="mouseEnterTimeline($event)">
+
+
+                        <div    v-for='block_name in execution_block_list'
+                                v-bind:style='  "color: black; " +
+                                                "position: absolute; pointer-events: none;" +
+                                                "top:" + (execution_code[block_name].start) + ";" +
+                                                "left: 0px ;" +
+                                                "height:100%; " +
+                                                "width: 100%;pointer-events: none;" '>
+
+
+
+                        </div>
+
+                        <div    v-for='exePoint in execution_timeline'
+
+                                v-bind:style='  "z-index: " + ((current_execution_step == exePoint.time)?"100":"0" ) + "; color: darkgray; " +
+                                                "position: absolute; pointer-events: none;" +
+                                                "top:" + ((exePoint.line + executionCode[exePoint.code_block_name].start) * execution_horiz_scale) + "px;" +
+                                                "left:" +  (exePoint.time * execution_horiz_scale) + "px;" +
+                                                "border: 1px solid " + ((current_execution_step >= exePoint.time)?"black":"darkgray" ) + ";" +
+                                                "width:" + ((current_execution_step == exePoint.time)?"10":"7") + "px;" +
+                                                "height: " + ((current_execution_step == exePoint.time)?"10":"7") + "px; " +
+                                                "background-color: " + ((current_execution_step >= exePoint.time)?"black":"darkgray" ) + ";" +
+                                                ""'>
+                        </div>
                     </div>
 
 
