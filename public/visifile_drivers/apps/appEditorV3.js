@@ -327,44 +327,48 @@ load_once_from_file(true)
                          v-on:mouseover='$event.stopPropagation();selected_pane = "watches";chooseRight("watches");'>
                         Watch vars
                     </div>
-                    <div class='container' style="padding:0;margin:0">
-                        <div v-if='execution_timeline[current_execution_step]'>
+                    <div  v-bind:style='"font-size:14px;border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:80%;background-color:lightgray;"  + (right_mode == "watches"?"":"display:none;")'>
+                        <div    style="align-items: stretch;border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
+                            <div class='container' style="padding:0;margin:0">
+                                <div v-if='execution_timeline[current_execution_step]'>
 
-                            <div style='margin:0;padding:0;border:2px solid blue; min-height:50px;'>
-                                <div style='background-color: blue; color: white; padding: 2px'>Watch vars</div>
+                                    <div style='margin:0;padding:0;border:2px solid blue; min-height:50px;'>
+                                        <div style='background-color: blue; color: white; padding: 2px'>Watch vars</div>
 
-                                <div v-for="varWatchName in execution_watch_list">
+                                        <div v-for="varWatchName in execution_watch_list">
 
-                                    <div style='border: 0px solid blue; padding: 4px; min-height:50px;'
-                                         v-if='globalWatchList[varWatchName][current_execution_step]'>
+                                            <div style='border: 0px solid blue; padding: 4px; min-height:50px;'
+                                                 v-if='globalWatchList[varWatchName][current_execution_step]'>
 
-                                        <b>{{varWatchName}}:</b>
+                                                <b>{{varWatchName}}:</b>
 
-                                        <div v-html='getVarAsHtml(globalWatchList[varWatchName].viewer,varWatchName)'></div>
+                                                <div v-html='getVarAsHtml(globalWatchList[varWatchName].viewer,varWatchName)'></div>
 
-                                        <div>
-                                            <button type=button class='btn btn-danger' style='margin: 0px;padding:0px; '
-                                                    v-on:click='deleteWatch(varWatchName)'>
+                                                <div>
+                                                    <button type=button class='btn btn-danger' style='margin: 0px;padding:0px; '
+                                                            v-on:click='deleteWatch(varWatchName)'>
 
-                                                Delete
-                                            </button>
+                                                        Delete
+                                                    </button>
 
-                                            <button type=button class='btn btn-primary' style='margin: 0px;padding:0px; '
-                                                    v-on:click='keepWatch(varWatchName)'>
+                                                    <button type=button class='btn btn-primary' style='margin: 0px;padding:0px; '
+                                                            v-on:click='keepWatch(varWatchName)'>
 
-                                                Keep
-                                            </button>
+                                                        Keep
+                                                    </button>
 
-                                            <div v-if='globalWatchList[varWatchName].type == "ListOfNumbers"'>
+                                                    <div v-if='globalWatchList[varWatchName].type == "ListOfNumbers"'>
 
-                                                <select v-model="globalWatchList[varWatchName].viewer">
-                                                    <option value="text">View as text</option>
-                                                    <option value="graph">Graph</option>
-                                                </select>
+                                                        <select v-model="globalWatchList[varWatchName].viewer">
+                                                            <option value="text">View as text</option>
+                                                            <option value="graph">Graph</option>
+                                                        </select>
+                                                    </div>
+
+                                                </div>
+
                                             </div>
-
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
