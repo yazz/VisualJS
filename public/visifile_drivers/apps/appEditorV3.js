@@ -237,10 +237,9 @@ load_once_from_file(true)
         </div>
 
 
-        <div class='row' style='margin:0px'>
-            <div    class='col-md-5'
-                    style='border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;overflow: hidden;padding:0px;margin-left:0px;'>
-                <div    style='font-size:14px;font-weight:bold;border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
+        <div style='margin:0px'>
+            <div    style='width:30%;display:inline-block;border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;overflow: hidden;padding:0px;margin-left:0px;border-radius: 5px;'>
+                <div    style='white-space: nowrap;overflow: hidden;text-overflow: ellipsis;font-size:14px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
 
                      Debugging: {{highlighted_block_name}}
                 </div>
@@ -250,8 +249,7 @@ load_once_from_file(true)
             </div>
 
 
-            <div    class='col-md-3'
-                    style='border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;background-color: white; position: relative;padding:0px;margin-left:20px;'>
+            <div    style='width:30%;display:inline-block;border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;background-color: white; position: relative;padding:0px;margin-left:15px;margin-top:15px;'>
 
                 <div
                     v-bind:style='  "position: absolute;pointer-events: none;width: 1px;border: 1px solid gray; top: 0; height:100%;" +"left: " + (timeline_x_cursor + 5)  + "px;" '>
@@ -316,8 +314,7 @@ load_once_from_file(true)
 
 
 
-            <div    class='col-md-3'
-                    style='border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;background-color: white;overflow: scroll; background-color: white;padding:0;margin-left:20px;'
+            <div    style='width:30%;right:20px;position: absolute;display:inline-block;border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;background-color: white;overflow: scroll; background-color: white;padding:0;margin-left:20px;'
                     >
 
                 <div  style="left:0px; z-index: 200; width:100%; height:100%;">
