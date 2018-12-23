@@ -322,7 +322,7 @@ load_once_from_file(true)
                         v-bind:refresh='refresh'
                         v-bind:style='"padding:0px; border: 4px solid lightgray;white-space:nowrap"'>
 
-                    <div v-bind:style='"border-radius: 3px;  padding: 4px;overflow-x:none;height: 40px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);font-size:14px;font-weight:bold;" '
+                    <div v-bind:style='"border-radius: 3px;  padding: 4px;overflow-x:none;height: 40px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);font-size:14px;font-weight:bold;padding-left:10px;" '
                          v-bind:class='(selected_pane == "watches"?"selected_pane_title":"unselected_pane_title") '
                          v-on:mouseover='$event.stopPropagation();selected_pane = "watches";chooseRight("watches");'>
                         Watch vars
@@ -382,7 +382,7 @@ load_once_from_file(true)
                 <div    v-bind:class='(right_mode == "scope"?"right_properties_pane_collapsed":"right_properties_pane_collapsed")'
                         v-bind:style='"padding:0px; border: 4px solid lightgray;padding:0px;background-color: lightgray;"'>
 
-                    <div    v-bind:style='"border-radius: 3px;padding: 4px;height: 40px;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;font-size:14px;font-weight:bold;"'
+                    <div    v-bind:style='"border-radius: 3px;padding: 4px;height: 40px;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;font-size:14px;font-weight:bold;padding-left:10px;"'
                             v-bind:class='(selected_pane == "scope"?"selected_pane_title_slower":"unselected_pane_title_slower") '
                             v-on:mouseover='selected_pane = "scope";chooseRight("scope");'>
                         Current scope
