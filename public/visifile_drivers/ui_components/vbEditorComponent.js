@@ -99,7 +99,7 @@ load_once_from_file(true)
                             v-on:drop="drop($event)"
                             v-on:ondragover="allowDrop($event)"
                             v-bind:class='(design_mode?"dotted":"" )'
-                            v-on:click='if (design_mode) {$event.stopPropagation();selectForm(model.active_form)}'
+                            v-on:click='if (design_mode) {$event.stopPropagation();selectForm(model.active_form, true)}'
                             v-bind:style='"display: inline-block; vertical-align: top; position: relative; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 4px solid lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);":"border: 0px;" ) '>
 
 
@@ -122,7 +122,7 @@ load_once_from_file(true)
                 <div    v-bind:refresh='refresh'
                         v-for='(item,index) in getActiveFormComponents()'
                         ondrop="return false;"
-                        v-on:click='$event.stopPropagation();select_component(index)'
+                        v-on:click='$event.stopPropagation();select_component(index,true)'
                         v-bind:style='(design_mode?"border: " +
                                         ((index == model.active_component_index)?"1px solid black;":"1px solid black;"):"") +
                                         "position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:" + item.height + "px;width:" + item.width + "px;background: white;;overflow:none;"'>
@@ -254,7 +254,7 @@ load_once_from_file(true)
 
 
         <div    v-if='design_mode'
-                v-bind:style='(design_mode?"border: 4px solid lightgray;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;":"") + " position:absolute;top:0px;right:0px;width: 250px;height: 75vmin; display: inline-block;overflow-x: none;overflow: hidden;vertical-align: top;padding:0px;height:100%;background-color: lightgray; "'
+                v-bind:style='(design_mode?"border: 4px solid lightgray;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;":"") + " position:absolute;top:0px;right:0px;width: 310px;height: 75vmin; display: inline-block;overflow-x: none;overflow: hidden;vertical-align: top;padding:0px;height:100%;background-color: lightgray; "'
                 v-bind:refresh='refresh'>
 
 
@@ -335,7 +335,7 @@ load_once_from_file(true)
 
                 <div    v-bind:style='"border-radius: 3px;padding: 4px;height: 40px;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;font-size:14px;font-weight:bold;"'
                         v-bind:class='(selected_pane == "properties"?"selected_pane_title_slower":"unselected_pane_title_slower") '
-                        v-on:mouseover='var s = (right_mode == "properties"?"properties":"properties");selected_pane = "properties";chooseRight(s);'>
+                        v-on:mouseover='selected_pane = "properties";chooseRight("properties");'>
                     Properties - {{model.active_component_index?model.forms[model.active_form].components[model.active_component_index].name + " (Component)" : model.active_form + " (Form)"}}
                 </div>
 
@@ -862,9 +862,11 @@ load_once_from_file(true)
 
 
          //-------------------------------------------------------------------
-         selectForm: function(formId) {
+         selectForm: function(formId, showProps) {
          //-------------------------------------------------------------------
              var mm = this
+
+
              mm.model.active_component_index = null
              mm.model.app_selected = false
              mm.properties = []
@@ -898,6 +900,11 @@ load_once_from_file(true)
                  mm.processControlEvent(formEvent)
              }
              mm.updatePropertySelector()
+             if (isValidObject(showProps) && showProps) {
+                 this.selected_pane = "properties";
+                 this.chooseRight("properties");
+             }
+
              mm.refresh ++
          },
 
@@ -1294,7 +1301,7 @@ ${eventMessage.code}
                 center = "<b style='font-size:14px;'>" + (data.app?data.app:data.form) + "</b> "
 
              } else if (data.component) {
-                 center = "<b style='font-size:14px;'>" + data.form + "</b> " + data.component
+                 center = "<b style='font-size:14px;'>" + data.component + "</b> " + data.component_type
              } else if (data.form) {
                  center = "<b style='font-size:14px;'>" + data.form + "</b> "
              }
@@ -1374,6 +1381,8 @@ ${eventMessage.code}
                             app:                null,
                             form:               mm.model.active_form,
                             component:          component.name,
+                            component_type:     component.base_component_id,
+
                             component_index:    ere
                         }
                     )
@@ -1417,7 +1426,7 @@ ${eventMessage.code}
 
 
          //-------------------------------------------------------------------
-         select_component: async function(index) {
+         select_component: async function(index, showProps) {
          //-------------------------------------------------------------------
             if (!this.design_mode) {
                 return
@@ -1442,6 +1451,10 @@ ${eventMessage.code}
             var compEvaled = this.getComponentProperties(this.model.forms[this.model.active_form].components[index].base_component_id)
             this.properties = this.properties.concat(compEvaled)
             this.updatePropertySelector()
+            if (isValidObject(showProps) && showProps) {
+                this.selected_pane = "properties";
+                this.chooseRight("properties");
+            }
             this.refresh ++
          },
 
