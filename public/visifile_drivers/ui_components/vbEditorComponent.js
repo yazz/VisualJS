@@ -82,7 +82,8 @@ load_once_from_file(true)
             </div>
         </div>
 
-        <div            v-bind:style='"margin: 2px; display: inline-block; vertical-align: top; position: relative; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
+        <div    v-if='(!design_mode) || (design_mode && (design_mode_pane.type=="drag_drop"))'
+                v-bind:style='"margin: 2px; display: inline-block; vertical-align: top; position: relative; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
 
             <div    v-if='design_mode'
                     style='font-size:14px;font-weight:bold;border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
@@ -656,6 +657,7 @@ load_once_from_file(true)
      methods: {
          editAsCode: async function(aa) {
              alert(JSON.stringify(aa))
+             this.design_mode_pane = {type: "event_editor"}
          }
          ,
          getActiveFormComponents: function() {
@@ -1712,6 +1714,7 @@ ${eventMessage.code}
            read_only:                   false,
            selected_pane:               null,
            active_property_index:       null,
+           design_mode_pane:            {type: "drag_drop"},
            available_components:        [],
            component_usage:             new Object(),
            form_runtime_info:           {},
