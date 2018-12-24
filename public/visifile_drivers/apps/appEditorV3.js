@@ -55,7 +55,7 @@ load_once_from_file(true)
 
                 <button type=button
                         v-bind:class='"btn btn-sm " + ((mode == "edit" && sub_mode == "app")?"btn-secondary":"btn-light")'
-                        v-on:click='chooseApp()'  >App</button>
+                        v-on:click='chooseApp()'  >Preview</button>
 
                 <button type=button
                         v-bind:class='"btn btn-sm " + ((mode == "edit" && sub_mode == "code")?"btn-secondary":"btn-light")'
@@ -116,8 +116,26 @@ load_once_from_file(true)
 
                 <div      slot-scope="editor_component" style='display: inline-block;width:100%;'>
 
+
+                    <a  v-bind:href='"http://" + location.hostname + ":" + location.port + "/app/dannea_" + base_component_id + ".html"'
+                        download
+                        v-on:mouseover="show_open_app_tooltip = true"
+                        v-on:mouseleave="show_open_app_tooltip = false;show_save_tooltip = false"
+                        v-bind:style="'float: left;'"
+                        class=reload>&#x2668;
+                    </a>
+
+                    <a      v-bind:href='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'
+                            target="_blank" rel="noopener noreferrer"
+                            v-on:mouseover="show_new_tab_tooltip = true"
+                            v-on:mouseleave="show_new_tab_tooltip = false;show_save_tooltip = false"
+                            class=reload>&#x274F;
+                    </a>
+
                     <button   v-if='!read_only'
-                              v-bind:style="'float: left; margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden')"
+                              v-bind:style="'margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden')"
+                              v-on:mouseover="show_save_tooltip = true"
+                              v-on:mouseleave="show_new_tab_tooltip = false;show_open_app_tooltip = false"
 
                               v-on:click='setTimeout(async function(){await save(base_component_id, code_id,null)},100)'
                               type="button" class="btn">
@@ -127,6 +145,15 @@ load_once_from_file(true)
                         </svg>
 
                     </button>
+
+                    <span   v-bind:style='"font-size:24px;z-index: 2000;  padding: 16px;left: 0px;top:100px;background-color: lightgray;color: black;width: auto;" +
+                            "border-radius: 5px;opacity: 1;position:absolute;visibility: " +
+                            ((show_save_tooltip || show_new_tab_tooltip || show_open_app_tooltip)?"visible":"hidden") + ";font-family: Helvetica;"'>
+                                {{show_new_tab_tooltip?"Open app in new browser tab (shareable :)":""}}
+                                {{show_open_app_tooltip?"Download app as .HTML file (emailable :)":""}}
+                                {{show_save_tooltip?"Save changes":""}}
+                    </span>
+
                 </div>
 
             </component>
@@ -144,32 +171,10 @@ load_once_from_file(true)
                 &larr; &rarr; <span class=reload>&#x21bb;</span>
 
 
-                <span   v-bind:style='"font-size:14px;z-index: 2000;  padding: 6px;left: 0px;top:40px;background-color: darkgray;color: white;width: auto;" +
-                        "border-radius: 5px;opacity: 1;position:absolute;visibility: " +
-                        ((show_new_tab_tooltip || show_open_app_tooltip)?"visible":"hidden") + ";font-family: Helvetica;"'>
-                            {{show_new_tab_tooltip?"Open app in new browser tab (shareable :)":""}}
-                            {{show_open_app_tooltip?"Download app as .HTML file (emailable :)":""}}
-                </span>
-
-
-                <a      v-bind:href='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'
-                        target="_blank" rel="noopener noreferrer"
-                        v-on:mouseover="show_new_tab_tooltip = true"
-                        v-on:mouseleave="show_new_tab_tooltip = false"
-                        class=reload>&#x274F;
-                </a>
-
                 <input  readonly size="40" style='font-size: 14px;'
                         v-bind:value='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'>
                 </input>
 
-
-                <a  v-bind:href='"http://" + location.hostname + ":" + location.port + "/app/dannea_" + base_component_id + ".html"'
-                    download
-                    v-on:mouseover="show_open_app_tooltip = true"
-                    v-on:mouseleave="show_open_app_tooltip = false"
-                    class=reload>&#x2668;
-                </a>
             </div>
 
 
@@ -475,7 +480,8 @@ load_once_from_file(true)
                new_name:            "",
                show_new_tab_tooltip:false,
                editor_text: "",
-               show_open_app_tooltip:false
+               show_open_app_tooltip:false,
+               show_save_tooltip:false
            }
        }
        ,
