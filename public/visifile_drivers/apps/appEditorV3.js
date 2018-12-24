@@ -121,17 +121,28 @@ load_once_from_file(true)
                                 download
                                 v-on:mouseover="show_open_app_tooltip = true"
                                 v-on:mouseleave="show_open_app_tooltip = false"
-                                v-bind:style="'float: left;'"
-                                type="button" class="btn">
+                                v-bind:style="'float: left;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);'"
+                                type="button"
+                                class="btn">
 
-                            <svg x="0px" y="0px" width="35px"  viewBox="0 0 384 384" style="color: black;" xml:space="preserve">
-                                <path d="M32,0l320,192L32,384V0z" />
-                            </svg>
-
+                                <svg    xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        version="1.1" id="Capa_1"
+                                        viewBox="0 0 29.978 29.978"
+                                        style="enable-background:new 0 0 29.978 29.978;"
+                                        xml:space="preserve"
+                                        x="0px"
+                                        y="0px"
+                                        width="35px">
+                                	<path d="M25.462,19.105v6.848H4.515v-6.848H0.489v8.861c0,1.111,0.9,2.012,2.016,2.012h24.967c1.115,0,2.016-0.9,2.016-2.012   v-8.861H25.462z" fill="#006DF0"/>
+                                	<path d="M14.62,18.426l-5.764-6.965c0,0-0.877-0.828,0.074-0.828s3.248,0,3.248,0s0-0.557,0-1.416c0-2.449,0-6.906,0-8.723   c0,0-0.129-0.494,0.615-0.494c0.75,0,4.035,0,4.572,0c0.536,0,0.524,0.416,0.524,0.416c0,1.762,0,6.373,0,8.742   c0,0.768,0,1.266,0,1.266s1.842,0,2.998,0c1.154,0,0.285,0.867,0.285,0.867s-4.904,6.51-5.588,7.193   C15.092,18.979,14.62,18.426,14.62,18.426z" fill="#006DF0"/>
+                                </svg>
+                                 Download
                     </a>
 
+
                     <button     v-on:click='window.open("http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html")'
-                                v-bind:style="'margin-left:10px;'"
+                                v-bind:style="'margin-left:10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);'"
                                 v-on:mouseover="show_new_tab_tooltip = true"
                                 v-on:mouseleave="show_new_tab_tooltip = false"
                                 type="button" class="btn">
@@ -150,13 +161,26 @@ load_once_from_file(true)
                               v-on:click='setTimeout(async function(){await save(base_component_id, code_id,null)},100)'
                               type="button" class="btn">
 
-                        <svg x="0px" y="0px" width="35px"  viewBox="0 0 384 384" style="color: black;" xml:space="preserve">
-                            <path d="M32,0l320,192L32,384V0z" />
-                        </svg>
+                              <svg  version="1.1"
+                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    x="0px" y="0px" width="35px"
+                              	    viewBox="0 0 24.758 24.758"
+                                    style="enable-background:new 0 0 24.758 24.758;"
+                                    xml:space="preserve">
+                              <g>
+                              		<path id="_x3C_Group_x3E__6_" d="M12.527,0.003c0.013,0,0.015,0,0.019,0c0.007,0,0.007,0,0.009,0c0,0,0,0,0.004,0l0,0
+                              			c0.002,0,0.008,0,0.01,0c0.004,0,0.004,0,0.004,0s0,0,0.003,0c0.026-0.006,0.035-0.002,0.054-0.002
+                              			c3.205,0,6.32,1.271,8.621,3.503l2.536-2.569c0.122-0.123,0.31-0.16,0.461-0.094c0.159,0.065,0.264,0.219,0.264,0.392v8.351
+                              			c0,0.234-0.19,0.424-0.422,0.424h-8.246c-0.005,0-0.013,0-0.019,0c-0.236,0-0.424-0.189-0.424-0.424
+                              			c0-0.159,0.085-0.296,0.212-0.367l2.499-2.533c-1.482-1.432-3.418-2.213-5.539-2.213c-4.332,0.022-7.858,3.572-7.858,7.97
+                              			c0.034,4.328,3.58,7.849,7.979,7.849l-0.009,4.468h-0.06C5.844,24.756,0.29,19.24,0.247,12.378
+                              			C0.247,5.609,5.75,0.062,12.527,0.003z"/>
+                              	</g>
+                              </svg>
 
                     </button>
 
-                    <span   v-bind:style='"font-size:24px;z-index: 2000;  padding: 16px;left: 0px;top:100px;background-color: lightgray;color: black;width: auto;" +
+                    <span   v-bind:style='"box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);font-size:24px;z-index: 200003300;  padding: 16px;left: 0px;top:120px;background-color: lightgray;color: black;width: auto;" +
                             "border-radius: 5px;opacity: 1;position:absolute;visibility: " +
                             ((show_save_tooltip || show_new_tab_tooltip || show_open_app_tooltip)?"visible":"hidden") + ";font-family: Helvetica;"'>
                                 {{show_new_tab_tooltip?"Open app in new browser tab (shareable :)":""}}
