@@ -117,25 +117,35 @@ load_once_from_file(true)
                 <div      slot-scope="editor_component" style='display: inline-block;width:100%;'>
 
 
-                    <a  v-bind:href='"http://" + location.hostname + ":" + location.port + "/app/dannea_" + base_component_id + ".html"'
-                        download
-                        v-on:mouseover="show_open_app_tooltip = true"
-                        v-on:mouseleave="show_open_app_tooltip = false;show_save_tooltip = false"
-                        v-bind:style="'float: left;'"
-                        class=reload>&#x2668;
+                    <a          v-bind:href='"http://" + location.hostname + ":" + location.port + "/app/dannea_" + base_component_id + ".html"'
+                                download
+                                v-on:mouseover="show_open_app_tooltip = true"
+                                v-on:mouseleave="show_open_app_tooltip = false"
+                                v-bind:style="'float: left;'"
+                                type="button" class="btn">
+
+                            <svg x="0px" y="0px" width="35px"  viewBox="0 0 384 384" style="color: black;" xml:space="preserve">
+                                <path d="M32,0l320,192L32,384V0z" />
+                            </svg>
+
                     </a>
 
-                    <a      v-bind:href='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'
-                            target="_blank" rel="noopener noreferrer"
-                            v-on:mouseover="show_new_tab_tooltip = true"
-                            v-on:mouseleave="show_new_tab_tooltip = false;show_save_tooltip = false"
-                            class=reload>&#x274F;
-                    </a>
+                    <button     v-on:click='window.open("http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html")'
+                                v-bind:style="'margin-left:10px;'"
+                                v-on:mouseover="show_new_tab_tooltip = true"
+                                v-on:mouseleave="show_new_tab_tooltip = false"
+                                type="button" class="btn">
+
+                            <svg x="0px" y="0px" width="35px"  viewBox="0 0 384 384" style="color: black;" xml:space="preserve">
+                                <path d="M32,0l320,192L32,384V0z" />
+                            </svg>
+
+                    </button>
 
                     <button   v-if='!read_only'
                               v-bind:style="'margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden')"
                               v-on:mouseover="show_save_tooltip = true"
-                              v-on:mouseleave="show_new_tab_tooltip = false;show_open_app_tooltip = false"
+                              v-on:mouseleave="show_save_tooltip = false"
 
                               v-on:click='setTimeout(async function(){await save(base_component_id, code_id,null)},100)'
                               type="button" class="btn">
