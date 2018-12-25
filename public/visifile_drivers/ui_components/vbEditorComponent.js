@@ -43,7 +43,7 @@ load_once_from_file(true)
 
         <div    v-if='design_mode'
                 v-on:mouseover='selected_pane = "blocks";'
-                v-bind:style='(design_mode?"border: 4px solid lightgray;":"") + " width: " + leftHandWidth + "px;height: 75vmin; display: inline-block;overflow-x: none;overflow-y: auto;vertical-align: top; background-color: lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"'>
+                v-bind:style='(design_mode?"border: 4px solid lightgray;":"") + " width: " + leftHandWidth + "px;height: 75vmin; display: inline-block;overflow-x: none;overflow-y: auto;vertical-align: top; background-color: lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);float:left;"'>
 
             <div    v-bind:style='"font-size:14px;font-weight:bold;border-radius: 3px;padding: 4px; margin-bottom: 10px;box-shadow: 2px 2px 10px lightgray;"'
                     v-bind:class='(selected_pane == "blocks"?"selected_pane_title":"unselected_pane_title") '>
@@ -82,196 +82,19 @@ load_once_from_file(true)
             </div>
         </div>
 
-        <div    v-if='(!design_mode && design_mode_pane) || (design_mode && (design_mode_pane.type=="event_editor"))'
-                v-bind:style='"margin: 2px; display: inline-block; vertical-align: top; position: relative; width: 30vw;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
-
-            <div    v-if='design_mode'
-                    style='font-size:14px;font-weight:bold;border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
-
-                <div    style='height: 30px;' >
-                    Code
-                </div>
-
-                <div    id='ui_code_editor'>
-                </div>
-
-            </div>
-        </div>
-
-        <div    v-if='(!design_mode) || (design_mode && (design_mode_pane.type=="drag_drop"))'
-                v-bind:style='"margin: 2px; display: inline-block; vertical-align: top; position: relative; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
-
-            <div    v-if='design_mode'
-                    style='font-size:14px;font-weight:bold;border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
-
-                <img
-                    src='/driver_icons/form.png'
-                    style='width: 20px; margin-right: 10px;'
-                    class='img-fluid'>
-                 </img>
-                 {{model.active_form}} (Form)
-            </div>
-
-            <div            v-bind:id='vb_grid_element_id'  v-if='vb_grid_element_id != null'
-                            v-on:drop="drop($event)"
-                            v-on:ondragover="allowDrop($event)"
-                            v-bind:class='(design_mode?"dotted":"" )'
-                            v-on:click='if (design_mode) {$event.stopPropagation();selectForm(model.active_form, true)}'
-                            v-bind:style='"display: inline-block; vertical-align: top; position: relative; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 4px solid lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);":"border: 0px;" ) '>
-
-
-
-                <div    v-if='design_mode'
-                        v-bind:refresh='refresh'
-                        style='opacity:0.5;position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
-                        v-bind:draggable='true'
-                        v-on:dragstart='drag($event,{
-                           type:        "resize_form_bottom_right",
-                           form_name:    model.active_form
-                        })'>
-                    <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
-                    </div>
-
-                    <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
-                    </div>
-                </div>
-
-                <div    v-bind:refresh='refresh'
-                        v-for='(item,index) in getActiveFormComponents()'
-                        ondrop="return false;"
-                        v-on:click='$event.stopPropagation();select_component(index,true)'
-                        v-bind:style='(design_mode?"border: " +
-                                        ((index == model.active_component_index)?"1px solid black;":"1px solid black;"):"") +
-                                        "position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:" + item.height + "px;width:" + item.width + "px;background: white;;overflow:none;"'>
-
-                    <div ondrop="return false;" v-bind:style='"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:auto;"'>
-                        <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[index].name + (design_mode?"_deisgn":"")'
-                                    v-bind:refresh='refresh'
-                                    v-on:send="processControlEvent"
-                                    v-bind:is='item.base_component_id'
-                                    v-bind:name='item.name + (design_mode?"_deisgn":"")'
-                                    v-bind:args='model.forms[model.active_form].components[index]'>
-                        </component>
-                    </div>
-
-                    <div    style='position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%;border: 1px solid black;'
-                            v-bind:draggable='design_mode'
-                            v-if='design_mode'
-                            ondrop="return false;"
-                            v-on:dragstart='drag($event,{
-                               type:   "move_component",
-                               text:    item.base_component_id,
-                               index:   index
-                            })'>
-
-                        <div    v-if='design_mode'
-                                ondrop="return false;"
-                                v-bind:refresh='refresh'
-                                v-bind:style='"position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%; background-color: lightgray;" +
-                                                ((index == model.active_component_index)?"opacity: 0;":"opacity: .6;") '>
-
-                        </div>
-                    </div>
 
 
 
 
 
-                    <div    v-if='design_mode'
-                            v-bind:refresh='refresh'
-                            style='opacity:0.5;position: absolute; top: 0px; left: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
-                            v-bind:draggable='true'
-                            ondrop="return false;"
-                            v-on:dragstart='drag($event,{
-                               type:   "resize_top_left",
-                               text:    item.base_component_id,
-                               index:   index
-                            })'>
-                        <div    style='position: absolute; top: 0px; left: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
-                        </div>
 
-                        <div    style='position: absolute; top: 0px; left: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
-                        </div>
-
-                    </div>
-
-
-                    <div    v-if='design_mode'
-                            v-bind:refresh='refresh'
-                            style='opacity:0.5;position: absolute; top: 0px; right: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
-                            v-bind:draggable='true'
-                            v-on:dragstart='drag($event,{
-                               type:   "resize_top_right",
-                               text:    item.base_component_id,
-                               index:   index  })'>
-
-                        <div    style='position: absolute; top: 0px; right: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
-                        </div>
-
-                        <div    style='position: absolute; top: 0px; right: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
-                        </div>
-                    </div>
-
-
-
-                    <div    v-if='design_mode'
-                            v-bind:refresh='refresh'
-                            style='opacity:0.5;position: absolute; bottom: 0px; left: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
-                            v-bind:draggable='true'
-                            v-on:dragstart='drag($event,{
-                                                        type:   "resize_bottom_left",
-                                                        text:    item.base_component_id,
-                                                        index:   index
-                                                     })'>
-                        <div    style='position: absolute; bottom: 0px; left: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
-                        </div>
-
-                        <div    style='position: absolute; bottom: 0px; left: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
-                        </div>
-                    </div>
-
-
-
-                    <div  v-if='design_mode'
-                          v-bind:refresh='refresh'
-                          style='opacity:0.5;position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
-                          v-bind:draggable='true'
-                          v-on:dragstart='drag($event,{
-                                                         type:   "resize_bottom_right",
-                                                         text:    item.base_component_id,
-                                                         index:   index
-                                                              })'>
-                        <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
-                        </div>
-
-                        <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
-                        </div>
-                    </div>
-
-
-                    <div     v-if='design_mode'
-                             v-bind:refresh='refresh'
-                             style='opacity:0.5;position: absolute; bottom: 0px; right: 20px;z-index: 30000000;width: 20px;height: 20px;background-color: red;'
-                             v-on:click='$event.stopPropagation();deleteComponent(index)'>
-
-                        <div style='text-align: center;vertical-align: middle;'>
-                            X
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
 
 
 
 
 
         <div    v-if='design_mode'
-                v-bind:style='(design_mode?"border: 4px solid lightgray;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;":"") + " position:absolute;top:0px;right:0px;width: 310px;height: 75vmin; display: inline-block;overflow-x: none;overflow: hidden;vertical-align: top;padding:0px;height:100%;background-color: lightgray; "'
+                v-bind:style='(design_mode?"border: 4px solid lightgray;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;":"") + " float:right;top:0px;right:0px;width: 310px;height: 75vmin; display: inline-block;overflow-x: none;overflow: hidden;vertical-align: top;padding:0px;height:75vmin;background-color: lightgray; "'
                 v-bind:refresh='refresh'>
 
 
@@ -335,7 +158,6 @@ load_once_from_file(true)
                     </div>
                 </div>
             </div>
-
 
 
 
@@ -500,6 +322,195 @@ load_once_from_file(true)
                     </div>
                 </div>
             </div>
+        </div>
+
+
+
+        <div style='display: block;text-align:center;'>
+
+            <div    v-if='(!design_mode && design_mode_pane) || (design_mode && (design_mode_pane.type=="event_editor"))'
+                    v-bind:style='"margin: 2px; display: inline-block;text-align:center; vertical-align: top; width: 50%;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
+
+                <div    v-if='design_mode'
+                        style='font-size:14px;font-weight:bold;border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
+
+                    <div    style='height: 30px;' >
+                        Code
+                    </div>
+
+                    <div    id='ui_code_editor'>
+                    </div>
+
+                </div>
+            </div>
+
+            <div    v-if='(!design_mode) || (design_mode && (design_mode_pane.type=="drag_drop"))'
+                    v-bind:style='"margin: 2px; display: inline-block; vertical-align: top; text-align:center; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
+
+                <div    v-if='design_mode'
+                        style='font-size:14px;font-weight:bold;border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
+
+                    <img
+                        src='/driver_icons/form.png'
+                        style='width: 20px; margin-right: 10px;'
+                        class='img-fluid'>
+                     </img>
+                     {{model.active_form}} (Form)
+                </div>
+
+                <div            v-bind:id='vb_grid_element_id'  v-if='vb_grid_element_id != null'
+                                v-on:drop="drop($event)"
+                                v-on:ondragover="allowDrop($event)"
+                                v-bind:class='(design_mode?"dotted":"" )'
+                                v-on:click='if (design_mode) {$event.stopPropagation();selectForm(model.active_form, true)}'
+                                v-bind:style='"display: inline-block; vertical-align: top; position: relative; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 4px solid lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);":"border: 0px;" ) '>
+
+
+
+                    <div    v-if='design_mode'
+                            v-bind:refresh='refresh'
+                            style='opacity:0.5;position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
+                            v-bind:draggable='true'
+                            v-on:dragstart='drag($event,{
+                               type:        "resize_form_bottom_right",
+                               form_name:    model.active_form
+                            })'>
+                        <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
+                        </div>
+
+                        <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
+                        </div>
+                    </div>
+
+                    <div    v-bind:refresh='refresh'
+                            v-for='(item,index) in getActiveFormComponents()'
+                            ondrop="return false;"
+                            v-on:click='$event.stopPropagation();select_component(index,true)'
+                            v-bind:style='(design_mode?"border: " +
+                                            ((index == model.active_component_index)?"1px solid black;":"1px solid black;"):"") +
+                                            "position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:" + item.height + "px;width:" + item.width + "px;background: white;;overflow:none;"'>
+
+                        <div ondrop="return false;" v-bind:style='"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:auto;"'>
+                            <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[index].name + (design_mode?"_deisgn":"")'
+                                        v-bind:refresh='refresh'
+                                        v-on:send="processControlEvent"
+                                        v-bind:is='item.base_component_id'
+                                        v-bind:name='item.name + (design_mode?"_deisgn":"")'
+                                        v-bind:args='model.forms[model.active_form].components[index]'>
+                            </component>
+                        </div>
+
+                        <div    style='position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%;border: 1px solid black;'
+                                v-bind:draggable='design_mode'
+                                v-if='design_mode'
+                                ondrop="return false;"
+                                v-on:dragstart='drag($event,{
+                                   type:   "move_component",
+                                   text:    item.base_component_id,
+                                   index:   index
+                                })'>
+
+                            <div    v-if='design_mode'
+                                    ondrop="return false;"
+                                    v-bind:refresh='refresh'
+                                    v-bind:style='"position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%; background-color: lightgray;" +
+                                                    ((index == model.active_component_index)?"opacity: 0;":"opacity: .6;") '>
+
+                            </div>
+                        </div>
+
+
+
+
+
+                        <div    v-if='design_mode'
+                                v-bind:refresh='refresh'
+                                style='opacity:0.5;position: absolute; top: 0px; left: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
+                                v-bind:draggable='true'
+                                ondrop="return false;"
+                                v-on:dragstart='drag($event,{
+                                   type:   "resize_top_left",
+                                   text:    item.base_component_id,
+                                   index:   index
+                                })'>
+                            <div    style='position: absolute; top: 0px; left: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
+                            </div>
+
+                            <div    style='position: absolute; top: 0px; left: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
+                            </div>
+
+                        </div>
+
+
+                        <div    v-if='design_mode'
+                                v-bind:refresh='refresh'
+                                style='opacity:0.5;position: absolute; top: 0px; right: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
+                                v-bind:draggable='true'
+                                v-on:dragstart='drag($event,{
+                                   type:   "resize_top_right",
+                                   text:    item.base_component_id,
+                                   index:   index  })'>
+
+                            <div    style='position: absolute; top: 0px; right: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
+                            </div>
+
+                            <div    style='position: absolute; top: 0px; right: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
+                            </div>
+                        </div>
+
+
+
+                        <div    v-if='design_mode'
+                                v-bind:refresh='refresh'
+                                style='opacity:0.5;position: absolute; bottom: 0px; left: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
+                                v-bind:draggable='true'
+                                v-on:dragstart='drag($event,{
+                                                            type:   "resize_bottom_left",
+                                                            text:    item.base_component_id,
+                                                            index:   index
+                                                         })'>
+                            <div    style='position: absolute; bottom: 0px; left: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
+                            </div>
+
+                            <div    style='position: absolute; bottom: 0px; left: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
+                            </div>
+                        </div>
+
+
+
+                        <div  v-if='design_mode'
+                              v-bind:refresh='refresh'
+                              style='opacity:0.5;position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
+                              v-bind:draggable='true'
+                              v-on:dragstart='drag($event,{
+                                                             type:   "resize_bottom_right",
+                                                             text:    item.base_component_id,
+                                                             index:   index
+                                                                  })'>
+                            <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
+                            </div>
+
+                            <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
+                            </div>
+                        </div>
+
+
+                        <div     v-if='design_mode'
+                                 v-bind:refresh='refresh'
+                                 style='opacity:0.5;position: absolute; bottom: 0px; right: 20px;z-index: 30000000;width: 20px;height: 20px;background-color: red;'
+                                 v-on:click='$event.stopPropagation();deleteComponent(index)'>
+
+                            <div style='text-align: center;vertical-align: middle;'>
+                                X
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
 
 
 
