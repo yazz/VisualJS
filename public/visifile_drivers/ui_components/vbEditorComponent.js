@@ -87,14 +87,20 @@ load_once_from_file(true)
 
             <div    v-if='design_mode'
                     style='font-size:14px;font-weight:bold;border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
-                <div id='ui_code_editor' style='height: 30px;' >
+
+                <div    style='height: 30px;' >
                     Code
                 </div>
+                
+                <div    id='ui_code_editor'>
+                </div>
+
             </div>
             <div>
-                active_form: {{design_mode_pane.active_form}}.
-                active_component_index: {{design_mode_pane.active_component_index}}.
-                property_id: {{design_mode_pane.property_id}}.
+                <div>active_form: {{design_mode_pane.active_form}}.</div>
+                <div>active_component_index: {{design_mode_pane.active_component_index}}.</div>
+                <div>property_id: {{design_mode_pane.property_id}}.</div>
+                zzz
 
             </div>
         </div>
@@ -673,6 +679,7 @@ load_once_from_file(true)
 
      methods: {
          editAsCode: async function(aa) {
+            var mm = this
              //alert(JSON.stringify(aa))
              this.design_mode_pane =
                 {
@@ -681,6 +688,36 @@ load_once_from_file(true)
                     active_component_index: aa.active_component_index,
                     property_id:            aa.property_id
                 }
+
+            setTimeout(function(){
+                if (document.getElementById('ui_code_editor') && (mm.ui_code_editor == null)) {
+                    //
+                    //set up the ace editor for the timeline view
+                    //
+                    ace.config.set('basePath', '/');
+                    mm.ui_code_editor = ace.edit(           "ui_code_editor",
+                                                                {
+                                                                       selectionStyle:  "text",
+                                                                       mode:            "ace/mode/javascript"
+                                                                })
+
+                    //Bug fix: Need a delay when setting theme or view is corrupted
+                    setTimeout(function(){
+                       mm.ui_code_editor.setTheme("ace/theme/sql_server");
+                    },100)
+
+
+                    document.getElementById("ui_code_editor").style["font-size"] = "16px"
+                    document.getElementById("ui_code_editor").style.width = "100%"
+                    document.getElementById("ui_code_editor").style.border = "0px solid #2C2828"
+
+                    document.getElementById("ui_code_editor").style.height = "55vh"
+                    mm.ui_code_editor.getSession().setValue("");
+                    mm.ui_code_editor.getSession().setUseWorker(false);
+                    mm.ui_code_editor.setReadOnly(true)
+                }
+            },100)
+
          }
          ,
          getActiveFormComponents: function() {
@@ -1666,6 +1703,7 @@ ${eventMessage.code}
                       refresh: 0,
                       runtime_mode: runtimeMode,
                       component_usage:             new Object(),
+                      ui_code_editor: null,
                       form_runtime_info: {},
                       text: texti,
                       model: `
