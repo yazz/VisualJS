@@ -91,7 +91,7 @@ load_once_from_file(true)
                 <div    style='height: 30px;' >
                     Code
                 </div>
-                
+
                 <div    id='ui_code_editor'>
                 </div>
 
@@ -712,9 +712,17 @@ load_once_from_file(true)
                     document.getElementById("ui_code_editor").style.border = "0px solid #2C2828"
 
                     document.getElementById("ui_code_editor").style.height = "55vh"
-                    mm.ui_code_editor.getSession().setValue("");
+                    var ccode = ""
+                    if ((mm.model.active_component_index == null) && (mm.model.active_form != null)) {
+                        ccode = mm.model.forms[mm.model.active_form][aa.property_id]
+
+                    } else if ((mm.model.active_component_index != null) && (mm.model.active_form != null)) {
+                        ccode = mm.model.forms[mm.model.active_form].components[mm.model.active_component_index][aa.property_id]
+                    }
+
+
+                    mm.ui_code_editor.getSession().setValue(ccode);
                     mm.ui_code_editor.getSession().setUseWorker(false);
-                    mm.ui_code_editor.setReadOnly(true)
                 }
             },100)
 
