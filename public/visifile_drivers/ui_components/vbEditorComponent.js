@@ -727,6 +727,16 @@ load_once_from_file(true)
 
                     mm.ui_code_editor.getSession().setValue(ccode);
                     mm.ui_code_editor.getSession().setUseWorker(false);
+
+                    mm.ui_code_editor.on("change", function(e) {
+                        var newC = mm.ui_code_editor.getValue()
+                        if ((mm.model.active_component_index == null) && (mm.model.active_form != null)) {
+                            mm.model.forms[mm.model.active_form][aa.property_id] = newC
+
+                        } else if ((mm.model.active_component_index != null) && (mm.model.active_form != null)) {
+                            mm.model.forms[mm.model.active_form].components[mm.model.active_component_index][aa.property_id] = newC
+                        }
+                    })
                 }
             },100)
 
