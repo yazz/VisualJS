@@ -96,13 +96,6 @@ load_once_from_file(true)
                 </div>
 
             </div>
-            <div>
-                <div>active_form: {{design_mode_pane.active_form}}.</div>
-                <div>active_component_index: {{design_mode_pane.active_component_index}}.</div>
-                <div>property_id: {{design_mode_pane.property_id}}.</div>
-                zzz
-
-            </div>
         </div>
 
         <div    v-if='(!design_mode) || (design_mode && (design_mode_pane.type=="drag_drop"))'
