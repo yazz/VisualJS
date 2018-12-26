@@ -318,6 +318,9 @@ load_once_from_file(true)
 
                     <div    style='height: 30px;' >
                         Code
+                        <button  type=button class=' btn btn-danger btn-sm'
+                                 style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 4px;"
+                                 v-on:click='design_mode_pane.type = "drag_drop"' >x</button>
                     </div>
 
                     <div    id='ui_code_editor'>
