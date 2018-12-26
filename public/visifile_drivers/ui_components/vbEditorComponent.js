@@ -198,7 +198,7 @@ load_once_from_file(true)
 
                                 <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'
                                      v-on:click='selected_pane = "properties";'>
-                                    <div v-if='!property.readonly'>
+                                    <div v-if='!property.readonly' style="width:100%">
                                         <div    v-if="(property.type  == 'String')  || (property.type  == 'Number')">
                                             <input
                                                     @change='setVBEditorProperty($event, property)'
@@ -207,33 +207,15 @@ load_once_from_file(true)
                                             </input>
                                         </div>
 
-                                        <div v-if="(property.type  == 'Event')  ">
-                                            <div>
-
-                                                <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-size:14px;font-style:bold;'
-                                                            v-on:click='$event.stopPropagation();editAsCode({
-                                                                active_form:            model.active_form,
-                                                                active_component_index: model.active_component_index,
-                                                                property_id:            property.id
-                                                            })'  >
-                                                    ...
-                                                </div>
+                                        <div v-if="(property.type  == 'Event')  " style="width:100%">
+                                            <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-size:14px;font-style:bold;'
+                                                        v-on:click='$event.stopPropagation();editAsCode({
+                                                            active_form:            model.active_form,
+                                                            active_component_index: model.active_component_index,
+                                                            property_id:            property.id
+                                                        })'  >
+                                                ...
                                             </div>
-                                            <textarea   class="form-control"
-                                                        v-if='(model.active_component_index == null) && (model.active_form != null)'
-                                                        @change='generateCodeFromModel(   )'
-                                                        style='border:0px;font-size:14px;padding:0px;'
-                                                        rows=10
-                                                        v-model='model.forms[model.active_form][property.id]'>
-                                            </textarea>
-
-                                            <textarea   class="form-control"
-                                                        v-if='(model.active_component_index != null) && (model.active_form != null)'
-                                                        @change='generateCodeFromModel(   )'
-                                                        rows=10
-                                                        style='border:0px;font-size:14px;padding:0px;'
-                                                        v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'>
-                                            </textarea>
                                         </div>
                                     </div>
 
