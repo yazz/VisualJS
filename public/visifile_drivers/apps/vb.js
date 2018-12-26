@@ -1,6 +1,6 @@
 async function(args) {
 /*
-created_timestamp(1543646365225)
+created_timestamp(1545806213081)
 base_component_id("vb")
 editors([
   "vb_editor_component"
@@ -53,7 +53,7 @@ formEditor({
           "width": 85,
           "height": 41,
           "text": "Add",
-          "click_event": "var ins =\ntodoInputBox.text\ntodoInputBox.text = \"\"\nawait sql(\"insert into items (id,name) values (?,?)\",\n[\nnew Date().getTime(),\nins])\ndisplay_out.text = await sqlFirstCol(\"select name from items\")",
+          "click_event": "var ins = todoInputBox.text\n\ntodoInputBox.text = \"\"\nawait sql(\"insert into items (id,name) values (?,?)\",\n          [new Date().getTime(),\n           ins])\ndisplay_out.text = await sqlFirstCol(\"select name from items\")\n",
           "background_color": ""
         },
         {
@@ -78,8 +78,8 @@ formEditor({
           "background_color": ""
         },
         {
-          "leftX": 7.5625,
-          "topY": 6,
+          "leftX": 33.5625,
+          "topY": 9,
           "name": "title_label",
           "base_component_id": "label_control",
           "width": 112,
@@ -121,7 +121,6 @@ formEditor({
   },
   "active_component_index": 4
 })//formEditor
-read_only(true)
 control_type("SYSTEM")
 visibility("PRIVATE")
 display_name("VB")
@@ -153,14 +152,13 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
         v-bind:style='"width: 100%; height: 100%; " + (design_mode?"background: white;":"")'>
 
 
-    <div style='background-color: blue; padding: 5px; padding-left: 15px;' v-if='design_mode' >
-        <h4 style='display: inline-block; margin-right: 10px; color: white; ' v-if='design_mode' >
-            VB app designer
-        </h4>
+    <div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: lightgray; padding: 5px; padding-left: 15px;' v-if='design_mode' >
 
-        <slot style='display: inline-block;' v-if='text'>
+        <slot style='display: inline-block;float: left;' v-if='text'>
         </slot>
-    </div>
+
+
+     </div>
 
 
     <div    v-bind:id='vb_editor_element_id' v-if='vb_editor_element_id != null'
@@ -169,12 +167,18 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
             v-on:ondragover="allowDropEditor($event)">
 
         <div    v-if='design_mode'
-                v-bind:style='(design_mode?"border: 1px solid black;":"") + " width: " + leftHandWidth + "px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: scroll;vertical-align: top; "'>
+                v-on:mouseover='selected_pane = "blocks";'
+                v-bind:style='(design_mode?"border: 4px solid lightgray;":"") + " width: " + leftHandWidth + "px;height: 75vmin; display: inline-block;overflow-x: none;overflow-y: auto;vertical-align: top; background-color: lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);float:left;"'>
 
-            <div class='container' style='background-color: lightgray'>
+            <div    v-bind:style='"font-size:14px;font-weight:bold;border-radius: 3px;padding: 4px; margin-bottom: 10px;box-shadow: 2px 2px 10px lightgray;"'
+                    v-bind:class='(selected_pane == "blocks"?"selected_pane_title":"unselected_pane_title") '>
+                Blocks
+            </div>
+            <div class='container' style=''>
                 <div class='row'>
-                    <div    class='col-md-5'
-                            style='width:100%;height: 55px; margin: 0px;border: 0px;padding:3px;overflow-x:auto;overflow-y:hidden'>
+                    <div    class='col-md-6'
+                            v-on:click='highlighted_control = null;'
+                            v-bind:style='"border-radius: 3px;width:50px;height:50px; margin: 0px;border: 0px;padding:10px;overflow-x:hidden;overflow-y:hidden;background-color: " + ((!highlighted_control)?"#E8E8E8;border-left: 2px solid gray;border-top: 2px solid gray;":"lightgray;")'>
                         <img    src='https://cdn0.iconfinder.com/data/icons/seo-web-15/153/seo-social-web-network-internet_61-512.png'
                                 style='width: 100%;'
                                 class='img-fluid'>
@@ -183,12 +187,13 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
 
                     <div    v-for='av in available_components'
                             draggable="true"
-                            class='col-md-5'
-                            v-on:dragstart='drag($event,{
+                            class='col-md-6'
+                            v-on:dragstart='highlighted_control = av.base_component_id;drag($event,{
                                                    type:   "add_component",
                                                    text:    av.base_component_id
                                                 })'
-                            style='width:100%;height: 55px; margin: 0px;border: 0px;padding:3px;overflow-x:auto;overflow-y:hidden'>
+                            v-on:click='highlighted_control = av.base_component_id;'
+                            v-bind:style='"margin: 2px;border-radius: 3px;width:50px;;height: 50px; margin: 0px;border: 0px;padding:10px;overflow-x:auto;overflow-y:hidden;background-color: " + ((highlighted_control == av.base_component_id)?"#E8E8E8;border-left: 2px solid gray;border-top: 2px solid gray;":"lightgray;")'>
 
                         <img    v-if='isValidObject(av)'
                                 v-bind:src='av.logo_url'
@@ -203,267 +208,160 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
         </div>
 
 
-        <div            v-bind:id='vb_grid_element_id'  v-if='vb_grid_element_id != null'
-                        v-on:drop="drop($event)"
-                        v-on:ondragover="allowDrop($event)"
-                        v-bind:class='(design_mode?"dotted":"" )'
-                        v-on:click='if (design_mode) {$event.stopPropagation();selectForm(model.active_form)}'
-                        v-bind:style='"display: inline-block; vertical-align: top; position: relative; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 1px solid black;":"" ) '>
 
 
 
-            <div    v-if='design_mode'
+
+
+
+
+
+
+
+        <div    v-if='design_mode'
+                v-bind:style='(design_mode?"border: 4px solid lightgray;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;":"") + " float:right;top:0px;right:0px;width: 310px;height: 75vmin; display: inline-block;overflow-x: none;overflow: hidden;vertical-align: top;padding:0px;height:75vmin;background-color: lightgray; "'
+                v-bind:refresh='refresh'>
+
+
+
+
+
+
+            <div    id='right_project_pane'
+                    v-bind:class='(right_mode == "project"?"right_project_pane_expanded":"right_project_pane_collapsed")''
                     v-bind:refresh='refresh'
-                    style='opacity:0.5;position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
-                    v-bind:draggable='true'
-                    v-on:dragstart='drag($event,{
-                       type:        "resize_form_bottom_right",
-                       form_name:    model.active_form
-                    })'>
-                <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
-                </div>
+                    v-bind:style='"padding:0px; border: 4px solid lightgray;white-space:nowrap"'>
 
-                <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
-                </div>
-            </div>
+                <div v-bind:style='"border-radius: 3px;  padding: 4px;overflow-x:none;height: 40px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);font-size:14px;font-weight:bold;" '
+                     v-bind:class='(selected_pane == "project"?"selected_pane_title":"unselected_pane_title") '
+                     v-on:mouseover='$event.stopPropagation();var s = (right_mode == "properties"?"project":"project");selected_pane = "project";chooseRight(s);'>
 
-            <div    v-bind:refresh='refresh'
-                    v-for='(item,index) in getActiveFormComponents()'
-                    ondrop="return false;"
-                    v-on:click='$event.stopPropagation();select_component(index)'
-                    v-bind:style='(design_mode?"border: " +
-                                    ((index == model.active_component_index)?"1px solid black;":"1px solid black;"):"") +
-                                    "position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:" + item.height + "px;width:" + item.width + "px;background: white;;overflow:none;"'>
+                     Project explorer
 
-                <div ondrop="return false;" v-bind:style='"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:auto;"'>
-                    <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[index].name + (design_mode?"_deisgn":"")'
-                                v-bind:refresh='refresh'
-                                v-on:send="processControlEvent"
-                                v-bind:is='item.base_component_id'
-                                v-bind:name='item.name + (design_mode?"_deisgn":"")'
-                                v-bind:args='model.forms[model.active_form].components[index]'>
-                    </component>
-                </div>
+                    <button type=button class='btn btn-sm btn-warning'
+                            v-bind:style='"float: right;" + (right_mode == "project"?"":"display:;font-size:14px;")'
+                            v-on:click='$event.stopPropagation();selected_pane = "project"; chooseRight("project");addForm()'  >
 
-                <div    style='position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%;border: 1px solid black;'
-                        v-bind:draggable='design_mode'
-                        v-if='design_mode'
-                        ondrop="return false;"
-                        v-on:dragstart='drag($event,{
-                           type:   "move_component",
-                           text:    item.base_component_id,
-                           index:   index
-                        })'>
+                         Add form
 
-                <div    v-if='design_mode'
-                        ondrop="return false;"
-                        v-bind:refresh='refresh'
-                        v-bind:style='"position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%; background-color: lightgray;" +
-                                        ((index == model.active_component_index)?"opacity: 0;":"opacity: .6;") '>
-
-                </div>
-            </div>
-
-
-
-
-
-            <div    v-if='design_mode'
-                    v-bind:refresh='refresh'
-                    style='opacity:0.5;position: absolute; top: 0px; left: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
-                    v-bind:draggable='true'
-                    ondrop="return false;"
-                    v-on:dragstart='drag($event,{
-                       type:   "resize_top_left",
-                       text:    item.base_component_id,
-                       index:   index
-                    })'>
-                <div    style='position: absolute; top: 0px; left: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
-                </div>
-
-                <div    style='position: absolute; top: 0px; left: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
-                </div>
-
-            </div>
-
-
-            <div    v-if='design_mode'
-                    v-bind:refresh='refresh'
-                    style='opacity:0.5;position: absolute; top: 0px; right: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
-                    v-bind:draggable='true'
-                    v-on:dragstart='drag($event,{
-                       type:   "resize_top_right",
-                       text:    item.base_component_id,
-                       index:   index  })'>
-
-                <div    style='position: absolute; top: 0px; right: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
-                </div>
-
-                <div    style='position: absolute; top: 0px; right: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
-                </div>
-            </div>
-
-
-
-            <div    v-if='design_mode'
-                    v-bind:refresh='refresh'
-                    style='opacity:0.5;position: absolute; bottom: 0px; left: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
-                    v-bind:draggable='true'
-                    v-on:dragstart='drag($event,{
-                                                type:   "resize_bottom_left",
-                                                text:    item.base_component_id,
-                                                index:   index
-                                             })'>
-                <div    style='position: absolute; bottom: 0px; left: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
-                </div>
-
-                <div    style='position: absolute; bottom: 0px; left: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
-                </div>
-            </div>
-
-
-
-            <div  v-if='design_mode'
-                  v-bind:refresh='refresh'
-                  style='opacity:0.5;position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
-                  v-bind:draggable='true'
-                  v-on:dragstart='drag($event,{
-                                                 type:   "resize_bottom_right",
-                                                 text:    item.base_component_id,
-                                                 index:   index
-                                                      })'>
-                <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
-                </div>
-
-                <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
-                </div>
-            </div>
-
-
-            <div     v-if='design_mode'
-                     v-bind:refresh='refresh'
-                     style='opacity:0.5;position: absolute; bottom: 0px; right: 20px;z-index: 30000000;width: 20px;height: 20px;background-color: red;'
-                     v-on:click='$event.stopPropagation();deleteComponent(index)'>
-
-                <div style='text-align: center;vertical-align: middle;'>
-                    X
-                </div>
-
-            </div>
-
-        </div>
-
-
-
-
-    </div>
-
-
-
-
-
-    <div    v-if='design_mode'
-          v-bind:style='(design_mode?"border: 1px solid black;":"") + " position:absolute;top:0px;right:0px;width: 250px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: scroll;vertical-align: top; "'
-          v-bind:refresh='refresh'>
-
-        <div    v-bind:refresh='refresh'
-                style='height: 50%;  padding:5px; border: 8px solid lightgray;display: flex;flex-direction: column;'>
-
-                <div style='background-color: lightgray;'>
-
-                    <div style='background-color: darkgray;'>
-                        Project explorer
-                    </div>
-
-                    <button type=button class='btn btn-sm btn-info'
-                            v-on:click='$event.stopPropagation();addForm()'  >
-                                Add form
                     </button>
                 </div>
 
 
-                <div    style='overflow-y:scroll; padding:5px; background-color: white; align-items: stretch;'>
+                <div  v-bind:style='"font-size:14px;border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:80%;background-color:lightgray;"  + (right_mode == "project"?"":"display:none;")'>
+                    <div    style="align-items: stretch;border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
 
-                    <div    v-bind:style='"background-color:black;color:white;padding:4px;margin:0px;margin-top: 5px;" + (model.app_selected?"border: 3px solid red":"")'
-                            v-on:click='$event.stopPropagation();select_app()'>
-                                  {{edited_app_component_id}}
-                    </div>
+                        <div    v-bind:style='"border-radius: 0px;padding:4px;margin:0px;margin-top: 5px;" + (model.app_selected?"background-color:gray;color:white;":"background-color:white;color:black;")'
+                                v-on:click='$event.stopPropagation();selected_pane = "project";select_app()'>
 
-                    <div v-for='form in getForms()' v-bind:refresh='refresh'>
-                        <div>
-                            <div  v-bind:style='(((form.name == model.active_form) && (model.active_component_index == null) && (!model.app_selected)) ?"border: 3px solid red;background-color:gray;color:white;":"color:black;") + "padding:4px;margin:0px;margin-left:30px;"'
-                                  v-on:click='$event.stopPropagation();selectForm(form.name)'>
+                                    <b>{{edited_app_component_id}}</b>
+                        </div>
 
-                                        {{form.name}} ({{form.components.length}})
-                            </div>
+                        <div v-for='form in getForms()' v-bind:refresh='refresh'>
+                            <div>
+                                <div  v-bind:style='(((form.name == model.active_form) && (model.active_component_index == null) && (!model.app_selected)) ?"border: 0px solid red;background-color:gray;color:white;":"color:black;") + "padding:4px;margin:0px;margin-left:30px;border-radius: 3px;"'
+                                      v-on:click='$event.stopPropagation();selected_pane = "project";selectForm(form.name)'>
 
-                            <div    v-if='form.name == model.active_form'
-                                    v-for='(av,index) in getActiveFormComponents()'
-                                    v-on:click='$event.stopPropagation();select_component(index)'
-                                    v-bind:style='(((index == model.active_component_index) && design_mode)?"border: 3px solid red;background-color: lightgray;":"") + "margin-left:60px; padding:2px;"'>
+                                     <img
+                                            src='/driver_icons/form.png'
+                                            style='width: 20px; margin-right: 10px;'
+                                            class='img-fluid'>
+                                     </img>
 
-                                <div style='width:100%;display:inline-block;overflow: hidden;'>{{av.name}}</div>
+                                              {{form.name}} ({{form.components.length}})
+                                </div>
+
+                                <div    v-if='form.name == model.active_form'
+                                        v-for='(av,index) in getActiveFormComponents()'
+                                        v-on:click='$event.stopPropagation();selected_pane = "project";select_component(index)'
+                                        v-bind:style='(((index == model.active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:80px; padding:2px;border-radius: 3px;"'>
+
+                                    <div style='width:100%;display:inline-block;overflow: hidden;'>{{av.name}}</div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
 
 
-                <div   style='height: 50%;  padding:5px; border: 8px solid lightgray;display: flex;flex-direction: column;'>
 
 
-                    <div style="height:15%; background-color: darkgray;">
-
-                        Properties
-                    </div>
 
 
-                    <div    style="align-items: stretch;overflow-y:scroll; padding:5px; ">
 
 
-                        <div v-for='property in properties' >
 
-                            <div class='row'>
-                                <div  class='col-md-4 small'>
-                                    {{property.name}}
+            <div    id='right_properties_pane'
+                    v-bind:class='(right_mode == "properties"?"right_properties_pane_collapsed":"right_properties_pane_collapsed")'
+                    v-bind:style='"padding:0px; border: 4px solid lightgray;padding:0px;background-color: lightgray;"'>
+
+                <div    v-bind:style='"border-radius: 3px;padding: 4px;height: 40px;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;font-size:14px;font-weight:bold;"'
+                        v-bind:class='(selected_pane == "properties"?"selected_pane_title_slower":"unselected_pane_title_slower") '
+                        v-on:mouseover='selected_pane = "properties";chooseRight("properties");'>
+                    Properties - {{model.active_component_index?model.forms[model.active_form].components[model.active_component_index].name + " (Component)" : model.active_form + " (Form)"}}
+                </div>
+
+
+                <div id='property_selector_parent' style='margin: 5px;'>
+
+                </div>
+
+                <div  style="border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:65%;">
+                    <div    style="border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
+
+
+                        <div    v-for='property in properties'
+                                style='font-size:14px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+
+                            <div style='width:100%;padding:0px;margin:0px;display:flex;'>
+                                <div
+                                        v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-size:14px;padding-left: 1px;padding-top:0px;padding-bottom:0px;" + (active_property_index == property.name?"background-color:#000099;color:white;":"")'
+                                        v-on:click='selected_pane = "properties";active_property_index = property.name;'>{{property.name}}
                                 </div>
 
-                                <div class='col-md-7 small' >
-                                    <div v-if='!property.readonly'>
-                                        <div v-if="(property.type  == 'String')  || (property.type  == 'Number')">
-                                            <input class='col-md-12 small'  @change='setVBEditorProperty($event, property)' v-bind:value='getVBEditorProperty(property)'>
+                                <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'
+                                     v-on:click='selected_pane = "properties";'>
+                                    <div v-if='!property.readonly' style="width:100%">
+                                        <div    v-if="(property.type  == 'String')  || (property.type  == 'Number')">
+                                            <input
+                                                    @change='setVBEditorProperty($event, property)'
+                                                    v-bind:value='getVBEditorProperty(property)'
+                                                    style='width: 100%;border: 0px;font-size:14px;padding:0px;'>
                                             </input>
                                         </div>
 
-                                        <div v-if="(property.type  == 'Event')  ">
-                                            <textarea   class="form-control"
-                                                        v-if='(model.active_component_index == null) && (model.active_form != null)'
-                                                        @change='generateCodeFromModel(   )'
-                                                        rows=10
-                                                        v-model='model.forms[model.active_form][property.id]'>
-                                            </textarea>
-
-                                            <textarea   class="form-control"
-                                                        v-if='(model.active_component_index != null) && (model.active_form != null)'
-                                                        @change='generateCodeFromModel(   )'
-                                                        rows=10
-                                                        v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'>
-                                            </textarea>
+                                        <div v-if="(property.type  == 'Event')  " style="width:100%">
+                                            <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-size:14px;font-style:bold;'
+                                                        v-on:click='$event.stopPropagation();editAsCode({
+                                                            active_form:            model.active_form,
+                                                            active_component_index: model.active_component_index,
+                                                            property_id:            property.id
+                                                        })'  >
+                                                ...
+                                            </div>
                                         </div>
                                     </div>
 
                                     <div v-if='property.readonly'>
-                                        <div v-if='model.active_component_index != null' class='col-md-12 small'  >
+                                        <div    v-if='model.active_component_index != null'
+                                                style='padding:0px;font-size:14px;'
+                                                class='col-md-12 small'>
+
                                             {{model.forms[model.active_form].components[model.active_component_index][property.id]}}
+
                                         </div>
 
                                         <div v-if='(model.active_component_index == null) && (model.active_form != null) && (model.app_selected == false)' class='col-md-12 small'   v-model='model.forms[model.active_form][property.id]'>
                                         </div>
 
-                                        <div v-if='model.app_selected' class='col-md-12 small'  >
+                                        <div    v-if='model.app_selected'
+                                                style='padding:0px;font-size:14px;'
+                                                class='col-md-12 small'  >
+
                                             {{property.get_fn?property.get_fn():model[property.id]}}
+
                                         </div>
                                     </div>
                                 </div>
@@ -472,43 +370,58 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
 
                         <div  v-if='model.app_selected && (!add_property)' class='row'>
                             <div  class='col-md-12 small'>
-                                <button    type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addProperty()'  >
+                                <button     type=button class='btn btn-sm btn-info'
+                                            style='font-size: 14px;'
+                                            v-on:click='$event.stopPropagation();addProperty()'  >
                                     Add property
                                 </button>
                             </div>
                         </div>
 
                         <div v-if='(model.app_selected) && (add_property)' class='row'>
-                            <div  class='col-md-12 small'>
+                            <div    style='font-size: 14px;'
+                                    class='col-md-12 small'>
                                 Add a property
                             </div>
                         </div>
 
                         <div v-if='(model.app_selected) && (add_property)' class='row'>
-                            <div class='col-md-4'>
+                            <div    style='font-size: 14px;'
+                                    class='col-md-4'>
                                ID
                             </div>
 
-                            <input class='col-md-7 small'  v-model='new_property_id'>
+                            <input  style='font-size: 14px;'
+                                    class='col-md-7 small'
+                                    placeholder='background_color'
+                                    v-model='new_property_id'>
                             </input>
                         </div>
 
                         <div v-if='(model.app_selected) && (add_property)' class='row'>
-                            <div class='col-md-4'>
+                            <div    style='font-size: 14px;'
+                                    class='col-md-4'>
                                 Name
                             </div>
 
-                            <input class='col-md-7 small'  v-model='new_property_name'>
+                            <input  class='col-md-7 small'
+                                    placeholder='Background Color'
+                                    style='border:0px;font-size: 14px;'
+                                    v-model='new_property_name'>
                             </input>
                         </div>
 
                         <div v-if='(model.app_selected) && (add_property)' class='row'>
                             <div class='col-md-12'>
-                                <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addPropertyCancel()'  >
+                                <button style='font-size: 14px;'
+                                        type=button class='btn btn-sm btn-info'
+                                        v-on:click='$event.stopPropagation();addPropertyCancel()'  >
                                     Cancel
                                 </button>
 
-                                <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addPropertySave()'  >
+                                <button style='font-size: 14px;'
+                                        type=button class='btn btn-sm btn-info'
+                                        v-on:click='$event.stopPropagation();addPropertySave()'  >
                                     Save
                                 </button>
                             </div>
@@ -517,6 +430,212 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                 </div>
             </div>
         </div>
+
+
+
+        <div style='display: block;'>
+
+            <div    v-if='(!design_mode && design_mode_pane) || (design_mode && (design_mode_pane.type=="event_editor"))'
+                    v-bind:style='"margin: 2px; display: inline-block; vertical-align: top; width: 50%;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
+
+                <div    v-if='design_mode'
+                        style='font-size:14px;font-weight:bold;border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
+
+                    <div    style='height: 30px;' >
+                        Code
+                        <button  type=button class=' btn btn-danger btn-sm'
+                                 style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 4px;"
+                                 v-on:click='closeUiCodeEditor()' >x</button>
+                    </div>
+
+                    <div    id='ui_code_editor'>
+                    </div>
+
+                </div>
+            </div>
+
+            <div    v-if='(!design_mode) || (design_mode && (design_mode_pane.type=="drag_drop"))'
+                    v-bind:style='"margin: 2px; display: inline-block; vertical-align: top;  width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
+
+                <div    v-if='design_mode'
+                        style='font-size:14px;font-weight:bold;border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
+
+                    <img
+                        src='/driver_icons/form.png'
+                        style='width: 20px; margin-right: 10px;'
+                        class='img-fluid'>
+                     </img>
+                     {{model.active_form}} (Form)
+                </div>
+
+                <div            v-bind:id='vb_grid_element_id'  v-if='vb_grid_element_id != null'
+                                v-on:drop="drop($event)"
+                                v-on:ondragover="allowDrop($event)"
+                                v-bind:class='(design_mode?"dotted":"" )'
+                                v-on:click='if (design_mode) {$event.stopPropagation();selectForm(model.active_form, true)}'
+                                v-bind:style='"display: inline-block; vertical-align: top; position: relative; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 4px solid lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);":"border: 0px;" ) '>
+
+
+
+                    <div    v-if='design_mode'
+                            v-bind:refresh='refresh'
+                            style='opacity:0.5;position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
+                            v-bind:draggable='true'
+                            v-on:dragstart='drag($event,{
+                               type:        "resize_form_bottom_right",
+                               form_name:    model.active_form
+                            })'>
+                        <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
+                        </div>
+
+                        <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
+                        </div>
+                    </div>
+
+                    <div    v-bind:refresh='refresh'
+                            v-for='(item,index) in getActiveFormComponents()'
+                            ondrop="return false;"
+                            v-on:click='$event.stopPropagation();select_component(index,true)'
+                            v-bind:style='(design_mode?"border: " +
+                                            ((index == model.active_component_index)?"1px solid black;":"1px solid black;"):"") +
+                                            "position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:" + item.height + "px;width:" + item.width + "px;background: white;;overflow:none;"'>
+
+                        <div ondrop="return false;" v-bind:style='"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:auto;"'>
+                            <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[index].name + (design_mode?"_deisgn":"")'
+                                        v-bind:refresh='refresh'
+                                        v-on:send="processControlEvent"
+                                        v-bind:is='item.base_component_id'
+                                        v-bind:name='item.name + (design_mode?"_deisgn":"")'
+                                        v-bind:args='model.forms[model.active_form].components[index]'>
+                            </component>
+                        </div>
+
+                        <div    style='position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%;border: 1px solid black;'
+                                v-bind:draggable='design_mode'
+                                v-if='design_mode'
+                                ondrop="return false;"
+                                v-on:dragstart='drag($event,{
+                                   type:   "move_component",
+                                   text:    item.base_component_id,
+                                   index:   index
+                                })'>
+
+                            <div    v-if='design_mode'
+                                    ondrop="return false;"
+                                    v-bind:refresh='refresh'
+                                    v-bind:style='"position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%; background-color: lightgray;" +
+                                                    ((index == model.active_component_index)?"opacity: 0;":"opacity: .6;") '>
+
+                            </div>
+                        </div>
+
+
+
+
+
+                        <div    v-if='design_mode'
+                                v-bind:refresh='refresh'
+                                style='opacity:0.5;position: absolute; top: 0px; left: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
+                                v-bind:draggable='true'
+                                ondrop="return false;"
+                                v-on:dragstart='drag($event,{
+                                   type:   "resize_top_left",
+                                   text:    item.base_component_id,
+                                   index:   index
+                                })'>
+                            <div    style='position: absolute; top: 0px; left: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
+                            </div>
+
+                            <div    style='position: absolute; top: 0px; left: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
+                            </div>
+
+                        </div>
+
+
+                        <div    v-if='design_mode'
+                                v-bind:refresh='refresh'
+                                style='opacity:0.5;position: absolute; top: 0px; right: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
+                                v-bind:draggable='true'
+                                v-on:dragstart='drag($event,{
+                                   type:   "resize_top_right",
+                                   text:    item.base_component_id,
+                                   index:   index  })'>
+
+                            <div    style='position: absolute; top: 0px; right: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
+                            </div>
+
+                            <div    style='position: absolute; top: 0px; right: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
+                            </div>
+                        </div>
+
+
+
+                        <div    v-if='design_mode'
+                                v-bind:refresh='refresh'
+                                style='opacity:0.5;position: absolute; bottom: 0px; left: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
+                                v-bind:draggable='true'
+                                v-on:dragstart='drag($event,{
+                                                            type:   "resize_bottom_left",
+                                                            text:    item.base_component_id,
+                                                            index:   index
+                                                         })'>
+                            <div    style='position: absolute; bottom: 0px; left: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
+                            </div>
+
+                            <div    style='position: absolute; bottom: 0px; left: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
+                            </div>
+                        </div>
+
+
+
+                        <div  v-if='design_mode'
+                              v-bind:refresh='refresh'
+                              style='opacity:0.5;position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
+                              v-bind:draggable='true'
+                              v-on:dragstart='drag($event,{
+                                                             type:   "resize_bottom_right",
+                                                             text:    item.base_component_id,
+                                                             index:   index
+                                                                  })'>
+                            <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
+                            </div>
+
+                            <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
+                            </div>
+                        </div>
+
+
+                        <div     v-if='design_mode'
+                                 v-bind:refresh='refresh'
+                                 style='opacity:0.5;position: absolute; bottom: 0px; right: 20px;z-index: 30000000;width: 20px;height: 20px;background-color: red;'
+                                 v-on:click='$event.stopPropagation();deleteComponent(index)'>
+
+                            <div style='text-align: center;vertical-align: middle;'>
+                                X
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
     </div>
 </div>`
         ,
@@ -652,16 +771,18 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
 
 
 
-           this.updateAllFormCaches()
+           mm.updateAllFormCaches()
            //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
 
 
-           this.selectForm(mm.model.default_form)
+           mm.selectForm(mm.model.default_form)
            //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
 
 
            mm.$forceUpdate();
            //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
+
+           mm.updatePropertySelector()
 
            texti = null
      },
@@ -671,6 +792,66 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
 
 
      methods: {
+         editAsCode: async function(aa) {
+            var mm = this
+             //alert(JSON.stringify(aa))
+             this.design_mode_pane =
+                {
+                    type: "event_editor",
+                    active_form:            aa.active_form,
+                    active_component_index: aa.active_component_index,
+                    property_id:            aa.property_id
+                }
+
+            setTimeout(function(){
+                if (document.getElementById('ui_code_editor') && (mm.ui_code_editor == null)) {
+                    //
+                    //set up the ace editor for the timeline view
+                    //
+                    ace.config.set('basePath', '/');
+                    mm.ui_code_editor = ace.edit(           "ui_code_editor",
+                                                                {
+                                                                       selectionStyle:  "text",
+                                                                       mode:            "ace/mode/javascript"
+                                                                })
+
+                    //Bug fix: Need a delay when setting theme or view is corrupted
+                    setTimeout(function(){
+                       mm.ui_code_editor.setTheme("ace/theme/sql_server");
+                    },100)
+
+
+                    document.getElementById("ui_code_editor").style["font-size"] = "16px"
+                    document.getElementById("ui_code_editor").style.width = "100%"
+                    document.getElementById("ui_code_editor").style.border = "0px solid #2C2828"
+
+                    document.getElementById("ui_code_editor").style.height = "55vh"
+                    var ccode = ""
+                    if ((mm.model.active_component_index == null) && (mm.model.active_form != null)) {
+                        ccode = mm.model.forms[mm.model.active_form][aa.property_id]
+
+                    } else if ((mm.model.active_component_index != null) && (mm.model.active_form != null)) {
+                        ccode = mm.model.forms[mm.model.active_form].components[mm.model.active_component_index][aa.property_id]
+                    }
+
+
+                    mm.ui_code_editor.getSession().setValue(ccode);
+                    mm.ui_code_editor.getSession().setUseWorker(false);
+
+                    mm.ui_code_editor.on("change", function(e) {
+                        var newC = mm.ui_code_editor.getValue()
+                        if ((mm.model.active_component_index == null) && (mm.model.active_form != null)) {
+                            mm.model.forms[mm.model.active_form][aa.property_id] = newC
+
+                        } else if ((mm.model.active_component_index != null) && (mm.model.active_form != null)) {
+                            mm.model.forms[mm.model.active_form].components[mm.model.active_component_index][aa.property_id] = newC
+                        }
+                    })
+                }
+            },100)
+
+         }
+         ,
          getActiveFormComponents: function() {
              return this.model.forms[this.model.active_form].components
          },
@@ -683,6 +864,16 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                 }
             }
         },
+
+        closeUiCodeEditor: function() {
+            this.design_mode_pane.type = "drag_drop";
+            if (this.ui_code_editor) {
+                this.ui_code_editor.destroy()
+                this.ui_code_editor = null
+            }
+
+        }
+        ,
 
         updateFormCache: function(formName) {
             var form = this.model.forms[formName]
@@ -697,6 +888,12 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                 this.form_runtime_info[formName].component_lookup_by_name[cc.name] = cc
             }
         },
+
+
+        chooseRight: function(ff) {
+            this.right_mode = ff
+        },
+
 
          //-------------------------------------------------------------------
          getForms: function() {
@@ -817,6 +1014,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
          addPropertySave: function() {
          //-------------------------------------------------------------------
             var mm = this
+            if ((mm.new_property_name.length == 0) || (mm.new_property_id.length == 0)) {
+                alert("You must enter a property name and ID")
+                return;
+            }
             mm.add_property = false
 
             mm.model.app_properties.push({
@@ -865,27 +1066,29 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
 
 
          //-------------------------------------------------------------------
-         selectForm: function(formId) {
+         selectForm: function(formId, showProps) {
          //-------------------------------------------------------------------
              var mm = this
+
+
              mm.model.active_component_index = null
              mm.model.app_selected = false
-             this.properties = []
-             this.properties.push({   id:     "name",   name:   "Name",   type:   "String"    })
-             this.properties.push({   id:     "width",   name:   "Width",   type:   "Number"    })
-             this.properties.push({   id:     "height",   name:   "Height",   type:   "Number"    })
-             this.properties.push({   id:     "form_activate",   name:   "Activate Event",   type:   "Event"    })
+             mm.properties = []
+             mm.properties.push({   id:     "name",   name:   "Name",   type:   "String"    })
+             mm.properties.push({   id:     "width",   name:   "Width",   type:   "Number"    })
+             mm.properties.push({   id:     "height",   name:   "Height",   type:   "Number"    })
+             mm.properties.push({   id:     "form_activate",   name:   "Activate Event",   type:   "Event"    })
              mm.model.active_form = formId
              mm.refresh ++
 
              if (mm.model.forms[formId].form_activate && (!mm.design_mode)) {
-                 //alert(JSON.stringify(this.args,null,2))
+                 //alert(JSON.stringify(mm.args,null,2))
                  if (!isValidObject(this.args)) {
-                      this.args = this.model
+                      mm.args = mm.model
                  }
 
-                 var args = this.args
-                 var app = this.model
+                 var args = mm.args
+                 var app = mm.model
                  var crt = mm.model.forms[formId].form_activate
                  //alert(crt)
                  //var ffff = eval("(" + crt + ")")
@@ -898,8 +1101,15 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                      form_name:           formId,
                      code:                crt
                  }
-                 this.processControlEvent(formEvent)
+                 mm.processControlEvent(formEvent)
              }
+             mm.updatePropertySelector()
+             if (isValidObject(showProps) && showProps) {
+                 this.selected_pane = "properties";
+                 this.chooseRight("properties");
+             }
+
+             mm.refresh ++
          },
 
 
@@ -1269,6 +1479,8 @@ ${eventMessage.code}
 
             this.model.active_component_index = null
             this.model.app_selected = true
+            this.active_property_index = null
+
             this.properties = []
             this.properties.push({   id:     "id",   name:   "ID",   type:   "String" , readonly: true,
                                      get_fn: function() {
@@ -1282,11 +1494,143 @@ ${eventMessage.code}
                 //alert(JSON.stringify(this.model.app_properties,null,2))
                 this.properties = this.properties.concat(this.model.app_properties)
             }
+            this.updatePropertySelector()
+
             this.refresh ++
          },
 
+         myDataRenderFunction: function(data) {
+             var center = ""
+             if (data.app) {
+                center = "<b style='font-size:14px;'>" + (data.app?data.app:data.form) + "</b> "
+
+             } else if (data.component) {
+                 center = "<b style='font-size:14px;'>" + data.component + "</b> " + data.component_type
+             } else if (data.form) {
+                 center = "<b style='font-size:14px;'>" + data.form + "</b> "
+             }
+
+             var template =
+               "<div  style='overflow:hidden ;text-overflow: ellipsis;border-radius: 1px;margin: 0px;padding:0px;border:0px;font-size: 14px;'>" +
+                    center +
+               "</div>";
+             return template;
+         },
+
+
+
+         updatePropertySelector: function() {
+            if (!designMode){
+                return
+            }
+            var mm = this
+            document.getElementById("property_selector_parent").innerHTML=' <select id=property_selector ></select>'
+
+            var sdata = []
+            var indexProp = 0
+            var selectedItem = null
+
+            if (mm.model.app_selected || (!mm.model.active_component_index)) {
+
+                if (mm.edited_app_component_id) {
+                    sdata.push(
+                        {
+                            value: "" + indexProp,
+                            app: mm.edited_app_component_id,
+                            form: null,
+                            component: null
+                        })
+                }
+
+                if (mm.model.app_selected) {
+                    selectedItem = indexProp
+                }
+                indexProp++
+
+                var forms = mm.getForms()
+                for (  var ere = 0; ere < forms.length; ere++  ) {
+                    var form = forms[ ere ]
+                    sdata.push(
+                        {
+                            value:      "" + indexProp,
+                            app:        null,
+                            form:       form.name,
+                            component:  null
+                        }
+                    )
+                    if ((!mm.model.app_selected) && (form.name == mm.model.active_form)) {
+                        selectedItem = indexProp
+                    }
+                    indexProp++
+                }
+
+            } else if (mm.model.active_component_index) {
+
+                sdata.push(
+                    {
+                        value:      "" + indexProp,
+                        app:        null,
+                        form:       mm.model.active_form,
+                        component:  null
+                    }
+                )
+                indexProp++
+
+                var components = mm.getActiveFormComponents()
+                for (  var ere = 0; ere < components.length; ere++  ) {
+                    var component = components[ ere ]
+                    sdata.push(
+                        {
+                            value:              "" + indexProp,
+                            app:                null,
+                            form:               mm.model.active_form,
+                            component:          component.name,
+                            component_type:     component.base_component_id,
+
+                            component_index:    ere
+                        }
+                    )
+                    if (mm.model.active_component_index == ere) {
+                        selectedItem = indexProp
+                    }
+                    indexProp++
+                }
+            }
+
+
+
+            selectProp = new Selectr(
+                document.getElementById('property_selector'),
+                {
+                	renderOption: mm.myDataRenderFunction,
+                    renderSelection: mm.myDataRenderFunction,
+            		selectedValue: selectedItem,
+                    data: sdata,
+                    customClass: 'my-custom-selectr',
+                    searchable: false
+                });
+
+            document.getElementsByClassName("selectr-selected")[0].style.padding = "1px"
+            document.getElementsByClassName("selectr-selected")[0].style["border-top"] = "2px solid gray"
+            document.getElementsByClassName("selectr-selected")[0].style["border-left"] = "2px solid gray"
+
+            selectProp.on('selectr.select', function(option) {
+                var dd = sdata[option.idx]
+                if (dd.component) {
+                    mm.select_component(dd.component_index)
+                } else if (dd.form) {
+                    mm.selectForm(dd.form)
+                } else if (dd.app) {
+                    mm.select_app()
+                }
+            });
+
+
+         },
+
+
          //-------------------------------------------------------------------
-         select_component: async function(index) {
+         select_component: async function(index, showProps) {
          //-------------------------------------------------------------------
             if (!this.design_mode) {
                 return
@@ -1296,6 +1640,7 @@ ${eventMessage.code}
             if (index == null) {
                 return
             }
+            this.active_property_index = null
             this.model.app_selected = false
             this.model.active_component_index = index
             this.properties = []
@@ -1307,8 +1652,13 @@ ${eventMessage.code}
             this.properties.push({   id:     "height",   name:   "Height",   type:   "Number"    })
 
 
-               var compEvaled = this.getComponentProperties(this.model.forms[this.model.active_form].components[index].base_component_id)
-               this.properties = this.properties.concat(compEvaled)
+            var compEvaled = this.getComponentProperties(this.model.forms[this.model.active_form].components[index].base_component_id)
+            this.properties = this.properties.concat(compEvaled)
+            this.updatePropertySelector()
+            if (isValidObject(showProps) && showProps) {
+                this.selected_pane = "properties";
+                this.chooseRight("properties");
+            }
             this.refresh ++
          },
 
@@ -1430,6 +1780,7 @@ ${eventMessage.code}
             mm.edited_app_component_id = saveHelper.getValueOfCodeString(textValue, "base_component_id")
 
             mm.model = json2
+            mm.updatePropertySelector()
             mm.refresh ++
             //console.log("end setText")
         }
@@ -1489,10 +1840,12 @@ ${eventMessage.code}
                       vb_grid_element_id:          null,
                       vb_editor_element_id:        null,
                       design_mode: designMode,
+                      design_mode_pane:            null,
                       local_app:                    false,
                       refresh: 0,
                       runtime_mode: runtimeMode,
                       component_usage:             new Object(),
+                      ui_code_editor: null,
                       form_runtime_info: {},
                       text: texti,
                       model: `
@@ -1548,10 +1901,12 @@ ${eventMessage.code}
                       vb_grid_element_id:          null,
                       vb_editor_element_id:        null,
                       design_mode: designMode,
+                      design_mode_pane:            null,
                       local_app:                    false,
                       refresh: 0,
                       runtime_mode: runtimeMode,
                       component_usage:             new Object(),
+                      ui_code_editor: null,
                       form_runtime_info: {},
                       text: texti,
                       model: {
@@ -1595,7 +1950,7 @@ ${eventMessage.code}
           "width": 85,
           "height": 41,
           "text": "Add",
-          "click_event": "var ins =\ntodoInputBox.text\ntodoInputBox.text = \"\"\nawait sql(\"insert into items (id,name) values (?,?)\",\n[\nnew Date().getTime(),\nins])\ndisplay_out.text = await sqlFirstCol(\"select name from items\")",
+          "click_event": "var ins = todoInputBox.text\n\ntodoInputBox.text = \"\"\nawait sql(\"insert into items (id,name) values (?,?)\",\n          [new Date().getTime(),\n           ins])\ndisplay_out.text = await sqlFirstCol(\"select name from items\")\n",
           "background_color": ""
         },
         {
@@ -1620,8 +1975,8 @@ ${eventMessage.code}
           "background_color": ""
         },
         {
-          "leftX": 7.5625,
-          "topY": 6,
+          "leftX": 33.5625,
+          "topY": 9,
           "name": "title_label",
           "base_component_id": "label_control",
           "width": 112,
