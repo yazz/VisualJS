@@ -9088,10 +9088,10 @@ function getDebugCode(blockName,  trcode2 , args) {
         }
     }
 
-    trcode2 = trcode2.toString().replaceAll(" rxsql[(][^,]*,[^,]*,"," sql(")
-    trcode2 = trcode2.toString().replaceAll(" rxsql1[(][^,]*,[^,]*,"," sql1(" )
-    trcode2 = trcode2.toString().replaceAll(" rxsqlFirstCol[(][^,]*,[^,]*,"," sqlFirstCol(" )
-    trcode2 = trcode2.toString().replaceAll(" rxsqlFirstCol1[(][^,]*,[^,]*,"," sqlFirstCol1(" )
+    trcode2 = trcode2.toString().replaceAll("await rxsql[(][^,]*,[^,]*,","sql(")
+    trcode2 = trcode2.toString().replaceAll("await rxsql1[(][^,]*,[^,]*,","sql1(" )
+    trcode2 = trcode2.toString().replaceAll("await rxsqlFirstCol[(][^,]*,[^,]*,","sqlFirstCol(" )
+    trcode2 = trcode2.toString().replaceAll("await rxsqlFirstCol1[(][^,]*,[^,]*,","sqlFirstCol1(" )
 
     executionCode[blockName].code = trcode2
     executionCode[blockName].start = startTimelineTop
@@ -9161,10 +9161,10 @@ async function callCodeV2(componentRecord,args, seq_no) {
         }
 
 
-        trcode2 = trcode2.toString().replaceAll(" sql[(]"," rxsql(" + addP)
-        trcode2 = trcode2.toString().replaceAll(" sql1[(]"," rxsql1(" + addP)
-        trcode2 = trcode2.toString().replaceAll(" sqlFirstCol[(]"," rxsqlFirstCol(" + addP)
-        trcode2 = trcode2.toString().replaceAll(" sqlFirstCol1[(]"," rxsqlFirstCol1(" + addP)
+        trcode2 = trcode2.toString().replaceAll("sql[(]","await rxsql(" + addP)
+        trcode2 = trcode2.toString().replaceAll("sql1[(]","await rxsql1(" + addP)
+        trcode2 = trcode2.toString().replaceAll("sqlFirstCol[(]","await rxsqlFirstCol(" + addP)
+        trcode2 = trcode2.toString().replaceAll("sqlFirstCol1[(]","await rxsqlFirstCol1(" + addP)
 
 
 
