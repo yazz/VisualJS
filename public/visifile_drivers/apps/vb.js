@@ -53,7 +53,7 @@ formEditor({
           "width": 85,
           "height": 41,
           "text": "Add",
-          "click_event": "var ins = todoInputBox.text\n\ntodoInputBox.text = \"\"\nawait sql(\"insert into items (id,name) values (?,?)\",\n          [new Date().getTime(),\n           ins])\ndisplay_out.text = await sqlFirstCol(\"select name from items\")\n",
+          "click_event": "var ins = todoInputBox.text\n\ntodoInputBox.text = \"\"\nsql(\"insert into items (id,name) values (?,?)\",\n          [new Date().getTime(),\n           ins])\ndisplay_out.text = sqlFirstCol(\"select name from items\")\n",
           "background_color": ""
         },
         {
@@ -89,7 +89,7 @@ formEditor({
         }
       ],
       "form_activate_old": "function() {\n                if (app && app.forms && app.forms[\"Form_1\"] && app.forms[\"Form_1\"].components[0]) {\n                    app.forms[\"Form_1\"].components[0].text = args.test\n                }\n             }",
-      "form_activate": "display_out.text = await sqlFirstCol(\"select name from items\")"
+      "form_activate": "display_out.text = sqlFirstCol(\"select name from items\")"
     },
     "Form_2": {
       "name": "Form_2",
@@ -1950,7 +1950,7 @@ ${eventMessage.code}
           "width": 85,
           "height": 41,
           "text": "Add",
-          "click_event": "var ins = todoInputBox.text\n\ntodoInputBox.text = \"\"\nawait sql(\"insert into items (id,name) values (?,?)\",\n          [new Date().getTime(),\n           ins])\ndisplay_out.text = await sqlFirstCol(\"select name from items\")\n",
+          "click_event": "var ins = todoInputBox.text\n\ntodoInputBox.text = \"\"\nsql(\"insert into items (id,name) values (?,?)\",\n          [new Date().getTime(),\n           ins])\ndisplay_out.text = sqlFirstCol(\"select name from items\")\n",
           "background_color": ""
         },
         {
@@ -1986,7 +1986,7 @@ ${eventMessage.code}
         }
       ],
       "form_activate_old": "function() {\n                if (app && app.forms && app.forms[\"Form_1\"] && app.forms[\"Form_1\"].components[0]) {\n                    app.forms[\"Form_1\"].components[0].text = args.test\n                }\n             }",
-      "form_activate": "display_out.text = await sqlFirstCol(\"select name from items\")"
+      "form_activate": "display_out.text = sqlFirstCol(\"select name from items\")"
     },
     "Form_2": {
       "name": "Form_2",

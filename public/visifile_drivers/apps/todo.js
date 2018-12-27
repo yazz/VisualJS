@@ -29,19 +29,19 @@ Vue.component("todo", {
     }
 ,
     mounted: async function() {
-        this.items = await sql("select id,name from items")
+        this.items = sql("select id,name from items")
         //alert(JSON.stringify(this.items,null,2))
     },
     methods: {
         add_item: async function(x) {
-             await sql("insert into items (id,name) values (" + new Date().getTime() + " ,'" + x + "')")
-             this.items = await sql("select id,name from items")
+             sql("insert into items (id,name) values (" + new Date().getTime() + " ,'" + x + "')")
+             this.items = sql("select id,name from items")
              this.new_item = ""
         }
         ,
         delete_item: async function(x) {
-             await sql("delete from items where id = ?",[x] )
-             this.items = await sql("select id,name from items")
+             sql("delete from items where id = ?",[x] )
+             this.items = sql("select id,name from items")
         }
 
     }
