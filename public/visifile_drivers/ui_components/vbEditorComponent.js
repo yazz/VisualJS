@@ -715,8 +715,12 @@ load_once_from_file(true)
      methods: {
          editAsCode: async function(aa) {
             var mm = this
-             //alert(JSON.stringify(aa))
-             this.design_mode_pane =
+            if (this.ui_code_editor) {
+                mm.ui_code_editor.destroy()
+                mm.ui_code_editor = null
+            }
+            setTimeout(function(){
+                mm.design_mode_pane =
                 {
                     type: "event_editor",
                     active_form:            aa.active_form,
@@ -724,51 +728,52 @@ load_once_from_file(true)
                     property_id:            aa.property_id
                 }
 
-            setTimeout(function(){
-                if (document.getElementById('ui_code_editor') && (mm.ui_code_editor == null)) {
+                setTimeout(function(){
+                    if (document.getElementById('ui_code_editor') && (mm.ui_code_editor == null)) {
                     //
                     //set up the ace editor for the timeline view
                     //
                     ace.config.set('basePath', '/');
-                    mm.ui_code_editor = ace.edit(           "ui_code_editor",
-                                                                {
-                                                                       selectionStyle:  "text",
-                                                                       mode:            "ace/mode/javascript"
-                                                                })
+                    mm.ui_code_editor = ace.edit( "ui_code_editor",
+                                                        {
+                                                               selectionStyle:  "text",
+                                                               mode:            "ace/mode/javascript"
+                                                        })
 
                     //Bug fix: Need a delay when setting theme or view is corrupted
                     setTimeout(function(){
-                       mm.ui_code_editor.setTheme("ace/theme/sql_server");
-                    },100)
+                           mm.ui_code_editor.setTheme("ace/theme/sql_server");
+                        },100)
 
 
-                    document.getElementById("ui_code_editor").style["font-size"] = "16px"
-                    document.getElementById("ui_code_editor").style.width = "100%"
-                    document.getElementById("ui_code_editor").style.border = "0px solid #2C2828"
+                        document.getElementById("ui_code_editor").style["font-size"] = "16px"
+                        document.getElementById("ui_code_editor").style.width = "100%"
+                        document.getElementById("ui_code_editor").style.border = "0px solid #2C2828"
 
-                    document.getElementById("ui_code_editor").style.height = "55vh"
-                    var ccode = ""
-                    if ((mm.model.active_component_index == null) && (mm.model.active_form != null)) {
-                        ccode = mm.model.forms[mm.model.active_form][aa.property_id]
-
-                    } else if ((mm.model.active_component_index != null) && (mm.model.active_form != null)) {
-                        ccode = mm.model.forms[mm.model.active_form].components[mm.model.active_component_index][aa.property_id]
-                    }
-
-
-                    mm.ui_code_editor.getSession().setValue(ccode);
-                    mm.ui_code_editor.getSession().setUseWorker(false);
-
-                    mm.ui_code_editor.on("change", function(e) {
-                        var newC = mm.ui_code_editor.getValue()
+                        document.getElementById("ui_code_editor").style.height = "55vh"
+                        var ccode = ""
                         if ((mm.model.active_component_index == null) && (mm.model.active_form != null)) {
-                            mm.model.forms[mm.model.active_form][aa.property_id] = newC
+                            ccode = mm.model.forms[mm.model.active_form][aa.property_id]
 
                         } else if ((mm.model.active_component_index != null) && (mm.model.active_form != null)) {
-                            mm.model.forms[mm.model.active_form].components[mm.model.active_component_index][aa.property_id] = newC
+                            ccode = mm.model.forms[mm.model.active_form].components[mm.model.active_component_index][aa.property_id]
                         }
-                    })
-                }
+
+
+                        mm.ui_code_editor.getSession().setValue(ccode);
+                        mm.ui_code_editor.getSession().setUseWorker(false);
+
+                        mm.ui_code_editor.on("change", function(e) {
+                            var newC = mm.ui_code_editor.getValue()
+                            if ((mm.model.active_component_index == null) && (mm.model.active_form != null)) {
+                                mm.model.forms[mm.model.active_form][aa.property_id] = newC
+
+                            } else if ((mm.model.active_component_index != null) && (mm.model.active_form != null)) {
+                                mm.model.forms[mm.model.active_form].components[mm.model.active_component_index][aa.property_id] = newC
+                            }
+                        })
+                    }
+                },100)
             },100)
 
          }
