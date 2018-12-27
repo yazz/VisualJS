@@ -312,7 +312,7 @@ load_once_from_file(true)
                 The main center section of the UI editor
 
         -->
-        <div style='display: block;'>
+        <div style='display: block;width:100%;'>
 
             <!--
 
@@ -351,7 +351,7 @@ load_once_from_file(true)
                     v-bind:style='"margin: 2px; display: inline-block; vertical-align: top;  width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
 
                 <div    v-if='design_mode'
-                        style='font-size:14px;font-weight:bold;border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
+                        style='display:inline-block;font-size:14px;font-weight:bold;border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;width:100%;'>
 
                     <img
                         src='/driver_icons/form.png'
@@ -360,6 +360,7 @@ load_once_from_file(true)
                      </img>
                      {{model.active_form}} (Form)
                 </div>
+                <div style=''></div>
 
                 <div            v-bind:id='vb_grid_element_id'  v-if='vb_grid_element_id != null'
                                 v-on:drop="drop($event)"
