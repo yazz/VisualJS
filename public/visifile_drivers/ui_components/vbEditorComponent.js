@@ -307,9 +307,18 @@ load_once_from_file(true)
         </div>
 
 
+        <!--
 
+                The main center section of the UI editor
+
+        -->
         <div style='display: block;'>
 
+            <!--
+
+                    The code editor for events
+
+            -->
             <div    v-if='(!design_mode && design_mode_pane) || (design_mode && (design_mode_pane.type=="event_editor"))'
                     v-bind:style='"margin: 2px; display: inline-block; vertical-align: top; width: 50%;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
 
@@ -329,6 +338,15 @@ load_once_from_file(true)
                 </div>
             </div>
 
+            <!--
+
+                    The drag drop UI editor.
+
+                    but...
+
+                    Also the main vire of the App
+
+            -->
             <div    v-if='(!design_mode) || (design_mode && (design_mode_pane.type=="drag_drop"))'
                     v-bind:style='"margin: 2px; display: inline-block; vertical-align: top;  width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
 
@@ -370,7 +388,7 @@ load_once_from_file(true)
                     <div    v-bind:refresh='refresh'
                             v-for='(item,index) in getActiveFormComponents()'
                             ondrop="return false;"
-                            v-on:click='$event.stopPropagation();select_component(index,true)'
+                            v-on:click='$event.stopPropagation();select_component(index)'
                             v-bind:style='(design_mode?"border: " +
                                             ((index == model.active_component_index)?"1px solid black;":"1px solid black;"):"") +
                                             "position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:" + item.height + "px;width:" + item.width + "px;background: white;;overflow:none;"'>
