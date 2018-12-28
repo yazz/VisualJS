@@ -1136,8 +1136,12 @@ ${eventMessage.code}
                      // form events
                      //
                      } else if (eventMessage.type == "form_event") {
-                        var fcc = "(async function(){" + eventMessage.code +"})"
-                        var efcc = eval(fcc)
+                        var fcc =
+`(async function(){
+${eventMessage.code}
+})`
+                        var debugFcc = getDebugCode(this.model.active_form ,fcc,{skipFirstAndLastLine: true})
+                        var efcc = eval(debugFcc)
                         efcc()
                      }
 

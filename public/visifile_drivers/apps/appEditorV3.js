@@ -363,7 +363,7 @@ load_once_from_file(true)
 
                     <div v-bind:style='"border-radius: 3px;  padding: 4px;overflow-x:none;height: 40px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);font-size:14px;font-weight:bold;padding-left:10px;" '
                          v-bind:class='(selected_pane == "watches"?"selected_pane_title":"unselected_pane_title") '
-                         v-on:mouseover='$event.stopPropagation();selected_pane = "watches";chooseRight("watches");'>
+                         v-on:click='$event.stopPropagation();selected_pane = "watches";chooseRight("watches");'>
                         Watch vars
                     </div>
                     <div  v-bind:style='"font-size:14px;border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:80%;background-color:lightgray;"  + (right_mode == "watches"?"":"display:none;")'>
@@ -423,7 +423,7 @@ load_once_from_file(true)
 
                     <div    v-bind:style='"border-radius: 3px;padding: 4px;height: 40px;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;font-size:14px;font-weight:bold;padding-left:10px;"'
                             v-bind:class='(selected_pane == "scope"?"selected_pane_title_slower":"unselected_pane_title_slower") '
-                            v-on:mouseover='selected_pane = "scope";chooseRight("scope");'>
+                            v-on:click='selected_pane = "scope";chooseRight("scope");'>
                         Current scope
                     </div>
                     <div style='margin:0;padding:0; min-height:350px; background-color: white;'>
