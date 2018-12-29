@@ -1,4 +1,4 @@
-# JayStation
+# JS Creator
 ### Build intranet apps in minutes
 
 - An interactive editor to create GUI apps in the style of Visual Basic 6
@@ -9,7 +9,7 @@ http://dannea.com
 
 : Key workflow :
 
-1) Download JayStation for Windows or OS X from dannea.com
+1) Download JS Creator for Windows or OS X from dannea.com
 2) Create an app with drag and drop editor
 3) Share the URL with a colleage
 
@@ -38,8 +38,8 @@ Command line options :
 ##### 1) Install GIT from https://git-scm.com/downloads
 ##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
 ##### 3) From the command line get the Git repository
-    git clone https://github.com/zubairq/jaystation.git
-##### 4) Go to the jaystation directory
+    git clone https://github.com/zubairq/jscreator.git
+##### 4) Go to the jscreator directory
     cd creator
 ##### 5) Install the NodeJS modules
     npm install
@@ -48,7 +48,7 @@ Command line options :
         node_macos64/node_sqlite3.noderename
     to 
         node_modules/sqlite3/lib/binding/node-v57-darwin-x64/node_sqlite3.node
-##### 7) Run the Dannea Electron application
+##### 7) Run the JS Creator Electron application
     electron .
 
 
@@ -61,9 +61,9 @@ Command line options :
 
 
 
-### What is JayStation's killer feature?
+### What is JS Creator's killer feature?
 
 JayStation's killer feature is being able to build simple internal business apps fast
 
-### Is there commercial support for JayStation?
+### Is there commercial support for JS Creator?
 If you require commercial support then please go to http://dannea.com
