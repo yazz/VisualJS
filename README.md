@@ -1,25 +1,17 @@
-# JStation
-### Build internal tools visually with JavaScript
+# JayStation
+### Build intranet apps in minutes
 
 - An interactive editor to create GUI apps in the style of Visual Basic 6
 - Each app has a built in full SQL database
-- Each app can be viewed as a self contained HTML file
-- Uses the Dannea app all documents can be run as a multiuser app
-- All documents can be edited in the cloud, no installation for end users
-- Apps work offline as well
+- Apps can be downloaded and emailed within your intranet
 
 http://dannea.com
 
 : Key workflow :
 
-1) Download JStation for Windows or OS X from dannea.com
+1) Download JayStation for Windows or OS X from dannea.com
 2) Create an app with drag and drop editor
-3) Download the app to your local machine as a HTML file
-4) Email the app to someone
-5) When they get the email then they can run the app
-6) If they want to edit the app they press "Edit" at the top of the running app
-7) Congratulations, someone has just forked your app! :)
-
+3) Share the URL with a colleage
 
 : Made with :
 
@@ -46,8 +38,8 @@ Command line options :
 ##### 1) Install GIT from https://git-scm.com/downloads
 ##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
 ##### 3) From the command line get the Git repository
-    git clone https://github.com/zubairq/jstation.git
-##### 4) Go to the jstation directory
+    git clone https://github.com/zubairq/jaystation.git
+##### 4) Go to the jaystation directory
     cd creator
 ##### 5) Install the NodeJS modules
     npm install
@@ -69,9 +61,9 @@ Command line options :
 
 
 
-### What is JStation's killer feature?
+### What is JayStation's killer feature?
 
-JStation's killer feature is being able to build simple internal business apps fast
+JayStation's killer feature is being able to build simple internal business apps fast
 
-### Is there commercial support for JStation?
+### Is there commercial support for JayStation?
 If you require commercial support then please go to http://dannea.com
