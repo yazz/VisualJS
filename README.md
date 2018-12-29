@@ -1,5 +1,5 @@
-# Dannea
-### Build internal tools visually
+# JStation
+### Build internal tools visually with JavaScript
 
 - An interactive editor to create GUI apps in the style of Visual Basic 6
 - Each app has a built in full SQL database
@@ -12,7 +12,7 @@ http://dannea.com
 
 : Key workflow :
 
-1) Open dannea.com or download for Windows or OS X
+1) Download JStation for Windows or OS X from dannea.com
 2) Create an app with drag and drop editor
 3) Download the app to your local machine as a HTML file
 4) Email the app to someone
@@ -46,8 +46,8 @@ Command line options :
 ##### 1) Install GIT from https://git-scm.com/downloads
 ##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
 ##### 3) From the command line get the Git repository
-    git clone https://github.com/zubairq/dannea.git
-##### 4) Go to the dannea directory
+    git clone https://github.com/zubairq/jstation.git
+##### 4) Go to the jstation directory
     cd creator
 ##### 5) Install the NodeJS modules
     npm install
@@ -69,9 +69,9 @@ Command line options :
 
 
 
-### What is Dannea's killer feature?
+### What is JStation's killer feature?
 
-Creator's killer feature is being able to build simple internal apps fast without needing any local software
+JStation's killer feature is being able to build simple internal business apps fast
 
-### Is there commercial support for Dannea?
+### Is there commercial support for JStation?
 If you require commercial support then please go to http://dannea.com
