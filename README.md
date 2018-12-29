@@ -63,7 +63,7 @@ Command line options :
 
 ### What is JS Creator's killer feature?
 
-JayStation's killer feature is being able to build simple internal business apps fast
+JS Creator's killer feature is being able to build simple internal business apps fast
 
 ### Is there commercial support for JS Creator?
 If you require commercial support then please go to http://dannea.com
