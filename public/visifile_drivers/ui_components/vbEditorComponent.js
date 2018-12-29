@@ -449,6 +449,11 @@ load_once_from_file(true)
                                             </input>
                                         </div>
 
+                                        <div    v-if="(property.type  == 'Image') ">
+                                            <input type="file" id="input">
+                                            </input>
+                                        </div>
+
                                         <div v-if="(property.type  == 'Event')  " style="width:100%">
                                             <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-size:14px;font-style:bold;'
                                                         v-on:click='$event.stopPropagation();editAsCode({

@@ -27,6 +27,13 @@ properties(
             name:   "Clicked event",
             type:   "Event"
         }
+        ,
+        {
+            id:     "image_data",
+            name:   "Image",
+            type:   "Image"
+        }
+
     ]
 )//properties
 logo_url("/driver_icons/image.png")
