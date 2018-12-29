@@ -27,11 +27,11 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 `<div>
     <div    style="position: sticky; left:0px; top:0px; width: 100vw ;z-index: 2;background-color: black;padding:0;margin:0;">
 
-        <div style="border:0px; padding: 0px; margin: 0px;padding-left:15px;font-family: Helvetica;color: white;font-weight: bold;letter-spacing: -2px;background-color: black;font-size: 13px;line-height: 1;">
+        <div style="border:0px; padding: 0px; margin: 0px;padding-left:15px;font-family: Helvetica;yellow: white;font-weight: bold;letter-spacing: -2px;background-color: black;font-size: 13px;line-height: 1;">
              DANNEA
         </div>
-        <div style="display: inline-block;border:0px solid black; padding: 0px;margin: 0px;padding-left:15px;padding-right:15px;border-radius: 10px;  font-family: Helvetica;color: black;font-weight: normal;letter-spacing: -1.5px;background-color: yellow;font-size: 32px;margin-left: 15px;white-space: nowrap;">
-             <b>J S</b>tation
+        <div style="display: inline-block;border:0px solid black; padding: 0px;margin: 0px;padding-left:15px;padding-right:15px;border-radius: 10px;  font-family: Helvetica;color: white;font-weight: normal;letter-spacing: -1.5px;background-color: black;font-size: 22px;margin-left: 15px;white-space: nowrap;">
+             <b>JayStation</b>
         </div>
     </div>
 
