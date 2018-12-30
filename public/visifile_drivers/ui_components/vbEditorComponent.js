@@ -450,8 +450,14 @@ load_once_from_file(true)
                                         </div>
 
                                         <div    v-if="(property.type  == 'Image') ">
-                                            <input type="file" id="input">
+                                            <input type="file"
+                                                   id="image_file"
+                                                   @change="previewUpload()">
                                             </input>
+                                            <br />
+                                            <img    src="" height="200"
+                                                    id='image_preview'
+                                                    alt="Image preview...">
                                         </div>
 
                                         <div v-if="(property.type  == 'Event')  " style="width:100%">
@@ -719,6 +725,20 @@ load_once_from_file(true)
 
 
      methods: {
+        previewUpload: function() {
+            var preview = document.getElementById('image_preview');
+            var file    = document.getElementById('image_file').files[0];
+            var reader  = new FileReader();
+
+            reader.addEventListener("load", function () {
+                preview.src = reader.result;
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+        ,
          editAsCode: async function(aa) {
             var mm = this
             if (this.ui_code_editor) {
