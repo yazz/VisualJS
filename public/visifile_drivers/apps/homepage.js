@@ -31,7 +31,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
              DANNEA
         </div>
         <div style="display: inline-block;border:0px solid black; padding: 0px;margin: 0px;padding-left:15px;padding-right:15px;border-radius: 10px;  font-family: Helvetica;color: white;font-weight: normal;letter-spacing: -1.5px;background-color: black;font-size: 22px;margin-left: 15px;white-space: nowrap;">
-             <b>JayStation</b>
+             <b>JSql</b>
         </div>
     </div>
 
