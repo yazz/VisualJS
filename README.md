@@ -6,7 +6,7 @@
 - Each app has a built in full SQL database
 - Apps can be downloaded and emailed within your intranet
 
-http://dannea.com
+http://yazz.com
 
 : Key workflow :
 
@@ -41,7 +41,7 @@ Command line options :
 ##### 3) From the command line get the Git repository
     git clone https://github.com/zubairq/yazz.git
 ##### 4) Go to the yazz directory
-    cd jsql
+    cd yazz
 ##### 5) Install the NodeJS modules
     npm install
 ##### 6) Install SQlite3 for Electron
