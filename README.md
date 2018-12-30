@@ -1,7 +1,8 @@
-# JS Creator
-### Build intranet apps in minutes
+# JSql
+### Build intranet apps in minutes with JS and SQL
 
 - An interactive editor to create GUI apps in the style of Visual Basic 6
+- Build business logic in Javascript
 - Each app has a built in full SQL database
 - Apps can be downloaded and emailed within your intranet
 
@@ -9,7 +10,7 @@ http://dannea.com
 
 : Key workflow :
 
-1) Download JS Creator for Windows or OS X from dannea.com
+1) Download JSql for Windows or OS X from dannea.com
 2) Create an app with drag and drop editor
 3) Share the URL with a colleage
 
@@ -38,9 +39,9 @@ Command line options :
 ##### 1) Install GIT from https://git-scm.com/downloads
 ##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
 ##### 3) From the command line get the Git repository
-    git clone https://github.com/zubairq/jscreator.git
-##### 4) Go to the jscreator directory
-    cd creator
+    git clone https://github.com/zubairq/jsql.git
+##### 4) Go to the jsql directory
+    cd jsql
 ##### 5) Install the NodeJS modules
     npm install
 ##### 6) Install SQlite3 for Electron
@@ -48,7 +49,7 @@ Command line options :
         node_macos64/node_sqlite3.noderename
     to 
         node_modules/sqlite3/lib/binding/node-v57-darwin-x64/node_sqlite3.node
-##### 7) Run the JS Creator Electron application
+##### 7) Run the JSql Electron application
     electron .
 
 
@@ -61,9 +62,9 @@ Command line options :
 
 
 
-### What is JS Creator's killer feature?
+### What is JSql's killer feature?
 
-JS Creator's killer feature is being able to build simple internal business apps fast
+JSql's killer feature is being able to build simple internal business apps fast. It enables this by allowing all apps to be made with our drag and drop editor and the Javascript and SQL scripting language
 
-### Is there commercial support for JS Creator?
+### Is there commercial support for JSql?
 If you require commercial support then please go to http://dannea.com
