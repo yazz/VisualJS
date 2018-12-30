@@ -452,12 +452,8 @@ load_once_from_file(true)
                                         <div    v-if="(property.type  == 'Image') ">
                                             <input type="file"
                                                    id="image_file"
-                                                   @change="previewUpload()">
+                                                   @change="previewUpload(property)">
                                             </input>
-                                            <br />
-                                            <img    src="" height="200"
-                                                    id='image_preview'
-                                                    alt="Image preview...">
                                         </div>
 
                                         <div v-if="(property.type  == 'Event')  " style="width:100%">
@@ -725,13 +721,13 @@ load_once_from_file(true)
 
 
      methods: {
-        previewUpload: function() {
-            var preview = document.getElementById('image_preview');
+        previewUpload: function(property) {
+            var mm = this;
             var file    = document.getElementById('image_file').files[0];
             var reader  = new FileReader();
 
             reader.addEventListener("load", function () {
-                preview.src = reader.result;
+                mm.model.forms[mm.model.active_form].components[mm.model.active_component_index][property.id] = reader.result
             }, false);
 
             if (file) {
