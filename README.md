@@ -1,4 +1,4 @@
-# JSql
+# Yazz
 ### Build intranet apps in minutes with JS and SQL
 
 - An interactive editor to create GUI apps in the style of Visual Basic 6
@@ -10,7 +10,7 @@ http://dannea.com
 
 : Key workflow :
 
-1) Download JSql for Windows or OS X from dannea.com
+1) Download Yazz for Windows or OS X from dannea.com
 2) Create an app with drag and drop editor
 3) Share the URL with a colleage
 
@@ -39,8 +39,8 @@ Command line options :
 ##### 1) Install GIT from https://git-scm.com/downloads
 ##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
 ##### 3) From the command line get the Git repository
-    git clone https://github.com/zubairq/jsql.git
-##### 4) Go to the jsql directory
+    git clone https://github.com/zubairq/yazz.git
+##### 4) Go to the yazz directory
     cd jsql
 ##### 5) Install the NodeJS modules
     npm install
@@ -62,9 +62,9 @@ Command line options :
 
 
 
-### What is JSql's killer feature?
+### What is Yazz's killer feature?
 
-JSql's killer feature is being able to build simple internal business apps fast. It enables this by allowing all apps to be made with our drag and drop editor and the Javascript and SQL scripting language
+Yazz's killer feature is being able to build simple internal business apps fast. It enables this by allowing all apps to be made with our drag and drop editor and the Javascript and SQL scripting language
 
-### Is there commercial support for JSql?
-If you require commercial support then please go to http://dannea.com
+### Is there commercial support for Yazz?
+If you require commercial support then please go to http://yazz.com
