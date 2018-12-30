@@ -3,7 +3,7 @@ function() {
 base_component_id("bubblesort")
 display_name("Bubble sort")
 is_app(true)
-logo_url("bubblesort.jpeg")
+logo_url("/bubblesort.jpeg")
 */
 
 function bubbleSort(a) {
