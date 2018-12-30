@@ -33,7 +33,7 @@ load_once_from_file(true)
         </img>
 
         <h5  class='caption' style='display: inline-block;' v-on:click='if (!read_only) {edit_name=true;show_name=false;}' v-if='show_name'>
-            {{app_component_name?"" + app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 50))?"...":"")}} - JSql (
+            {{app_component_name?"" + app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 50))?"...":"")}} - Yazz (
             <span v-bind:style='"color: " + ((visibility == "PUBLIC")?"lightgreen":"pink") + ";"'>{{((visibility == "PUBLIC")?"Public":"Private")}}</span>
             )
         </h5>
@@ -117,7 +117,7 @@ load_once_from_file(true)
                 <div      slot-scope="editor_component" style='display: inline-block;width:100%;'>
 
 
-                    <a          v-bind:href='"http://" + location.hostname + ":" + location.port + "/app/dannea_" + base_component_id + ".html"'
+                    <a          v-bind:href='"http://" + location.hostname + ":" + location.port + "/app/yazz_" + base_component_id + ".html"'
                                 download
                                 v-on:mouseover="show_open_app_tooltip = true"
                                 v-on:mouseleave="show_open_app_tooltip = false"

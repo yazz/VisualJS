@@ -10,7 +10,7 @@ http://yazz.com
 
 : Key workflow :
 
-1) Download Yazz for Windows or OS X from dannea.com
+1) Download Yazz for Windows or OS X from yazz.com
 2) Create an app with drag and drop editor
 3) Share the URL with a colleage
 
@@ -30,7 +30,7 @@ Command line options :
     -p, --port [port]          Which port should I listen on? [port]
     -h, --host [host]          Server address of the central host [host]
     -s, --hostport [hostport]  Server port of the central host [hostport]
-    
+
 
 
 ### Developer quick start
@@ -45,16 +45,16 @@ Command line options :
 ##### 5) Install the NodeJS modules
     npm install
 ##### 6) Install SQlite3 for Electron
-    Copy 
+    Copy
         node_macos64/node_sqlite3.noderename
-    to 
+    to
         node_modules/sqlite3/lib/binding/node-v57-darwin-x64/node_sqlite3.node
 ##### 7) Run the Yazz Electron application
     electron .
 
 
 
-### To build the Mac .app you also need to 
+### To build the Mac .app you also need to
 ##### 1) Install SQlite3 for Electron
     sudo npm install sqlite3 --build-from-source --runtime=electron --target=1.8.4 --dist-url=https://atom.io/download/electron (this step may not be needed on some platforms)
 ##### 2) Run electron packager

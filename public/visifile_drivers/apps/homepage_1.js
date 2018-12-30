@@ -56,12 +56,12 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIPEhUQEBI
 
 
           <div style='height:20px; width: 10px;'></div>
-         <a href="http://dannea.com/visifile/64/dannea_creator_setup.exe" class="btn btn-secondary">
+         <a href="http://yazz.com/visifile/64/yazz_setup.exe" class="btn btn-secondary">
                  <img src='/windows.png' style='height: 30px;'></img>
                  Download Creator for Windows
               </a>
               <div style='height:20px; width: 10px;'></div>
-              <a href="http://dannea.com/visifile/64/dannea_creator_setup.dmg" class="btn btn-primary">
+              <a href="http://yazz.com/visifile/64/yazz_setup.dmg" class="btn btn-primary">
                  <img src='/mac.png' style='height: 30px;'></img>
                  Download Creator for Mac
               </a>
