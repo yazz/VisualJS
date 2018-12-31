@@ -728,6 +728,7 @@ load_once_from_file(true)
 
             reader.addEventListener("load", function () {
                 mm.model.forms[mm.model.active_form].components[mm.model.active_component_index][property.id] = reader.result
+                mm.refresh ++
             }, false);
 
             if (file) {

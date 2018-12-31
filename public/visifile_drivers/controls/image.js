@@ -40,9 +40,10 @@ logo_url("/driver_icons/image.png")
 */
 
     Vue.component("image_control",{
-      props: ["args", "name"]
+      props: ["args", "name","refresh"]
       ,
       template: `<img   v-bind:width='args.width + "px"'
+                        v-bind:refresh='refresh'
                         alt='No image set'
                         v-bind:src='"" + args.image_data'>
                  </img>`
