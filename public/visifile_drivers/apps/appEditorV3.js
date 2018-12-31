@@ -25,7 +25,7 @@ load_once_from_file(true)
       props: ['app_id'],
       template:
 `<div style="height: 100%; width:100%;padding:0; margin:0; border: 5px solid lightgray;">
-    <div style='box-shadow: 2px 2px 10px lightgray;background-image: linear-gradient(to right,  #000099, lightblue); color: white;padding: 7px; padding-left: 15px;'>
+    <div style='box-shadow: 2px 2px 10px lightgray;background-image: linear-gradient(to right,  #000099, lightblue); color: white;padding: 7px; padding-left: 15px;display: block;overflow: auto;'>
         <img
             src='/driver_icons/project.png'
             style='width: 20px; margin-right: 10px;'
