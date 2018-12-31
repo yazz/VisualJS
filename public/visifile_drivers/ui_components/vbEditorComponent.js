@@ -1317,7 +1317,7 @@ ${eventMessage.code}
                  this.model.active_component_index = this.model.forms[this.model.active_form].components.length - 1
 
                  setTimeout(function() {
-                     mm.select_component(mm.model.active_component_index)
+                     mm.select_component(mm.model.active_component_index, true)
                      mm.refresh ++
                  },100)
 
