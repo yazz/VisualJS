@@ -43,6 +43,7 @@ logo_url("/driver_icons/image.png")
       props: ["args", "name"]
       ,
       template: `<img   v-bind:width='args.width + "px"'
+                        alt='No image set'
                         v-bind:src='"" + args.image_data'>
                  </img>`
       ,
