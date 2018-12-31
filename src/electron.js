@@ -290,16 +290,16 @@ function setUpChildListeners(processName, fileName, debugPort) {
             var localClientUrl = 'http://' + hostaddress  + ":" + port;
             var remoteServerUrl = 'http://' + centralHostAddress  + ":" + centralHostPort + "/visifile/list_intranet_servers.html?time=" + new Date().getTime();
             if(!nogui) {
-                //open(localClientUrl);
-                alreadyOpen = true
-                visifile.loadURL(localClientUrl)
-                if (visifile.webContents) {
-                    //visifile.webContents.executeJavaScript("document.addEventListener('dragover', event => event.preventDefault())");
-                    //visifile.webContents.executeJavaScript("document.addEventListener('drop', event => event.preventDefault())");
-                }
+                setTimeout(function(){
+                    //open(localClientUrl);
+                    alreadyOpen = true
+                    visifile.loadURL(localClientUrl)
+                    if (visifile.webContents) {
+                        //visifile.webContents.executeJavaScript("document.addEventListener('dragover', event => event.preventDefault())");
+                        //visifile.webContents.executeJavaScript("document.addEventListener('drop', event => event.preventDefault())");
+                    }
 
-
-
+                },2000)
             }
 
 
