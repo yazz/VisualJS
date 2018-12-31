@@ -1316,6 +1316,11 @@ ${eventMessage.code}
                  this.model.forms[this.model.active_form].components.push(newItem)
                  this.model.active_component_index = this.model.forms[this.model.active_form].components.length - 1
 
+                 setTimeout(function() {
+                     mm.select_component(mm.model.active_component_index)
+                     mm.refresh ++
+                 },100)
+
 
              } else if (data.type == "move_component") {
                 var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
