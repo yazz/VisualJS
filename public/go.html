@@ -8465,8 +8465,9 @@ function sendToServerViaWebSocket(msg) {
 var staticAppSocket
 function setupPublicWebSocket()
 {
-    //var hostEditorAddress = "http://192.168.0.63:3000"
     var hostEditorAddress = "http://yazz.com:80"
+    //hostEditorAddress = "http://192.168.0.63:3000"
+
     //console.log('opening web socketio');
     //staticAppSocket = io('http://yazz.com:80');
 
@@ -9360,6 +9361,13 @@ async function loadV2( baseComponentIds, args ) {
                         });
 
                     }
+
+                    // ****************************************************************************
+                    // the following line was removed as it caused "Edit app" to fail. Why? I don't know
+                    // returnfn({})
+                    // ****************************************************************************
+
+
                     //console.log("loadV2: 4")
                 })
 
