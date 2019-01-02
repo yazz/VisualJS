@@ -196,6 +196,7 @@ load_once_from_file(true)
                         <div ondrop="return false;" v-bind:style='"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:auto;"'>
                             <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[index].name + (design_mode?"_deisgn":"")'
                                         v-bind:refresh='refresh'
+                                        v-bind:design_mode='design_mode'
                                         v-on:send="processControlEvent"
                                         v-bind:is='item.base_component_id'
                                         v-bind:name='item.name + (design_mode?"_deisgn":"")'

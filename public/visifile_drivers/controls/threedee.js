@@ -27,22 +27,62 @@ logo_url("/driver_icons/3d_control.png")
 */
 
     Vue.component("threedee_control",{
-      props: ["args"]
+      props: ["args","design_mode"]
       ,
       template: `<div id="app2" style='padding: 20px;'>
-            <h1>{{msg}}</h1>
-            <input type="text" v-model="msg"/>
+              <a-scene physics-world="" physics="debug: true">
+                    <a-assets>
+                      <a-mixin id="box" ref="box"
+                                        geometry="primitive: box" material="color: #166678; side: double"
+                                        physics-body="mass: 5; boundingBox: 2 2 2"></a-mixin>
+                    </a-assets>
 
+                    <a-entity id="sky"
+                              geometry="primitive: sphere; radius: 100"
+                              material="color: #74DEED; shader: flat"
+                              scale="1 1 -1"></a-entity>
 
-          <a-scene style='width: 80%; height: 80%;' embedded>
-              <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
-              <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
-              <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
-              <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
-              <a-sky color="#ECECEC"></a-sky>
-            </a-scene>
-       </div>
+                    <a-entity id="ground"
+                              geometry="primitive: box; depth: 50; height: 0.1; width: 50"
+                              material="color: #2E3837"
+                              physics-body="mass: 0; boundingBox: 50 0.1 50" position="0 0 -10"></a-entity>
+
+                    <a-entity mixin="box" position="0 10 -10"></a-entity>
+
+                    <a-entity id="left-box" mixin="box" position="-2.1 1 -10"></a-entity>
+
+                    <a-entity mixin="box" physics-body="angularVelocity: 0 0 60"
+                              position="2 1 -10"></a-entity>
+                    <a-entity id="bullet-box" mixin="box" physics-body="mass: 1; velocity: 0 0 0"
+                              position="2 3 50"></a-entity>
+
+                    <a-entity id="player"
+                              camera look-controls wasd-physics-controls
+                              physics-body="mass: 0; boundingBox: 1 1.8 1"
+                              position="0 5 0"></a-entity>
+                  </a-scene>
+         </div>
       `,
+        mounted: function() {
+            if (!this.design_mode) {
+                setTimeout(function(){
+                    var scene = document.querySelector('a-scene');
+                    scene.addEventListener('click', function () {
+
+                        // Apply impulse;
+                        setTimeout(function () {
+                        debugger
+                            var box = document.getElementById('left-box');
+                            var impulse = { x: 0, y: 10, z: 0 };
+                            var point = { x: 0.5, y: 0, z: 0 };
+                            box.components['physics-body'].applyImpulse(impulse, point);
+                            }, 25);
+                    });
+
+                },4000)
+            }
+        }
+      ,
       data: function() {
           return {
               msg: "Hello Yazz!"
