@@ -5,6 +5,7 @@ base_component_id("vb")
 editors([
   "vb_editor_component"
 ])
+uses_javascript_librararies(["aframe"])
 properties([
   {
     "id": "test",
