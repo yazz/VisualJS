@@ -6,7 +6,6 @@ is_app(true)
 control_type("SYSTEM")
 display_name("Homepage app")
 description('Homepage app')
-uses_javascript_librararies(["aframe"])
 
 load_once_from_file(true)
 read_only(true)
