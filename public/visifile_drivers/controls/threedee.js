@@ -49,10 +49,16 @@ logo_url("/driver_icons/3d_control.png")
 
                     <a-entity mixin="box" position="0 10 -10"></a-entity>
 
-                    <a-entity id="left-box" mixin="box" position="-2.1 1 -10"></a-entity>
+                    <a-entity   id="left-box"
+                                position="-2.1 1 -10"
+                                geometry="primitive: box"
+                                material="color: #166678; side: double"
+                                body="type: dynamic; mass: 5; shape: none; boundingBox: 2 2 2"
+                    ></a-entity>
 
                     <a-entity mixin="box" physics-body="angularVelocity: 0 0 60"
                               position="2 1 -10"></a-entity>
+
                     <a-entity id="bullet-box" mixin="box" physics-body="mass: 1; velocity: 0 0 0"
                               position="2 3 50"></a-entity>
 
