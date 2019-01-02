@@ -71,7 +71,6 @@ logo_url("/driver_icons/3d_control.png")
 
                         // Apply impulse;
                         setTimeout(function () {
-                        debugger
                             var box = document.getElementById('left-box');
                             var impulse = { x: 0, y: 10, z: 0 };
                             var point = { x: 0.5, y: 0, z: 0 };
