@@ -30,7 +30,7 @@ logo_url("/driver_icons/3d_control.png")
       props: ["args","design_mode"]
       ,
       template: `<div id="app2" style='padding: 20px;'>
-              <a-scene physics-world="" physics="debug: true">
+              <a-scene physics-world="" physics="debug: true" embedded>
                     <a-assets>
                       <a-mixin id="box" ref="box"
                                         geometry="primitive: box" material="color: #166678; side: double"
