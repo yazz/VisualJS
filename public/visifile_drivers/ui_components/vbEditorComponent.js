@@ -200,6 +200,7 @@ uses_javascript_librararies(["aframe"])
                                         v-bind:design_mode='design_mode'
                                         v-on:send="processControlEvent"
                                         v-bind:is='item.base_component_id'
+                                        v-if='!item.parent'
                                         v-bind:name='item.name + (design_mode?"_deisgn":"")'
                                         v-bind:args='model.forms[model.active_form].components[index]'>
                             </component>

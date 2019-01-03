@@ -148,6 +148,7 @@ formEditor({
           "topY": 179.71875,
           "name": "threedee_item_control_106",
           "base_component_id": "threedee_item_control",
+          "parent": "threedee_control_105",
           "width": 100,
           "height": 100,
           "text": "",
