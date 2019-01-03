@@ -18,11 +18,11 @@ read_only(true)
             <input type="text" v-model="msg"/>
 
 
-            <a-scene physics="debug: true" style='width: 80%; height: 80%;' embedded>
+            <a-scene physics-world="" physics="debug: true" style='width: 80%; height: 80%;' embedded>
 
                 <a-box    id="interact_box_three"
                           position="-1 3.5 -3"
-                          dynamic-body="shape: box; mass: 2"
+                          body="shape: box; mass: 2"
                           rotation="0 45 0"
                           color="#4CC3D9">
                 </a-box>
@@ -46,13 +46,13 @@ read_only(true)
       }
       ,
       mounted: function() {
-      return
+      
           var scene = document.querySelector('a-scene');
           scene.addEventListener('click', function () {
               var box = document.getElementById('interact_box_three');
               var impulse = { x: 0, y: 10, z: 0 };
               var point = { x: 0.5, y: 0, z: 0 };
-              box.components['physics-body'].applyImpulse(impulse, point);
+              box['body'].applyImpulse(impulse, point);
           });
       }
 
