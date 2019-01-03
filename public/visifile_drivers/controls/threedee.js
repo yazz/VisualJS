@@ -30,15 +30,10 @@ logo_url("/driver_icons/threedee_control.png")
       props: ["args","design_mode"]
       ,
       template: `<div id="app2" style='padding: 20px;'>
-          <a-scene physics="debug: true" style='width: 80%; height: 80%;' embedded>
+          <a-scene physics-world="" physics="debug: true" style='width: 80%; height: 80%;' embedded>
 
-            <template >
-                          <a-box    position="-1.2 2.5 -3"
-                                    body="shape: box; mass: 200"
-                                    rotation="0 50 0"
-                                    color="yellow">
-                          </a-box>
-                     </template>
+                <threedee_item_control >
+                </threedee_item_control>
             </a-scene>
          </div>
       `,
@@ -53,7 +48,7 @@ logo_url("/driver_icons/threedee_control.png")
                             var box = document.getElementById('left-box');
                             var impulse = { x: 0, y: 10, z: 0 };
                             var point = { x: 0.5, y: 0, z: 0 };
-                            box.components['physics-body'].applyImpulse(impulse, point);
+                            box['physics-body'].applyImpulse(impulse, point);
                             }, 25);
                     });
                 }

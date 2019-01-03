@@ -28,7 +28,7 @@ logo_url("/driver_icons/threedee_item.png")
 
     Vue.component("threedee_item_control",{
       template: `<template >
-                      <a-box    if='left-box'
+                      <a-box    id='left-box'
                                 position="-1.2 2.5 -3"
                                 body="shape: box; mass: 200"
                                 rotation="0 50 0"
