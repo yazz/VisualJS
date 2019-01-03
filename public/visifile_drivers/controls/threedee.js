@@ -23,7 +23,7 @@ properties(
         }
     ]
 )//properties
-logo_url("/driver_icons/3d_control.png")
+logo_url("/driver_icons/threedee_control.png")
 */
 
     Vue.component("threedee_control",{
