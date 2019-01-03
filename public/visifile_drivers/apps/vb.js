@@ -146,8 +146,8 @@ formEditor({
         {
           "leftX": 24.4375,
           "topY": 179.71875,
-          "name": "threedee_item_ontrol_106",
-          "base_component_id": "threedee_item_ontrol",
+          "name": "threedee_item_control_106",
+          "base_component_id": "threedee_item_control",
           "width": 100,
           "height": 100,
           "text": "",
@@ -2167,8 +2167,8 @@ ${eventMessage.code}
         {
           "leftX": 24.4375,
           "topY": 179.71875,
-          "name": "threedee_item_ontrol_106",
-          "base_component_id": "threedee_item_ontrol",
+          "name": "threedee_item_control_106",
+          "base_component_id": "threedee_item_control",
           "width": 100,
           "height": 100,
           "text": "",

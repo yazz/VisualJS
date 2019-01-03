@@ -879,8 +879,8 @@ function setUpComponentsLocally() {
     evalLocalSystemDriver('checkbox_control',   path.join(__dirname, '../public/visifile_drivers/controls/checkbox.js'))
     evalLocalSystemDriver('list_control',   path.join(__dirname, '../public/visifile_drivers/controls/list.js'))
 
-    evalLocalSystemDriver('threedee_control',   path.join(__dirname, '../public/visifile_drivers/controls/threedee.js'))
-    evalLocalSystemDriver('threedee_item_ontrol',   path.join(__dirname, '../public/visifile_drivers/controls/threedee_item.js'))
+    evalLocalSystemDriver('threedee_control',        path.join(__dirname, '../public/visifile_drivers/controls/threedee.js'))
+    evalLocalSystemDriver('threedee_item_control',   path.join(__dirname, '../public/visifile_drivers/controls/threedee_item.js'))
     //
     // forms
     //
