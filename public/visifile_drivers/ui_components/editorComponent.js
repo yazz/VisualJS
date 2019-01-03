@@ -72,7 +72,7 @@ load_once_from_file(true)
             //alert("changed text to : " + thisVueInstance.text)
             });
 
-        editorresize(true);
+        editor.resize(true);
      },
      methods: {
         getText: async function() {
