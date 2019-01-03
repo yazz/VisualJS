@@ -31,20 +31,14 @@ logo_url("/driver_icons/threedee_control.png")
       ,
       template: `<div id="app2" style='padding: 20px;'>
           <a-scene physics="debug: true" style='width: 80%; height: 80%;' embedded>
-              <a-box
-                    position="-1 3.5 -3"
-                    dynamic-body="shape: box; mass: 2"
-                    rotation="0 45 0"
-                    color="#4CC3D9">
-            </a-box>
-              <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
-              <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
 
-              <a-plane  static-body
-                        position="0 0 -4"
-                        rotation="-90 0 0" width="4" height="4" color="#7BC8A4">
-              </a-plane>
-              <a-sky color="#ECECEC"></a-sky>
+            <template >
+                          <a-box    position="-1.2 2.5 -3"
+                                    body="shape: box; mass: 200"
+                                    rotation="0 50 0"
+                                    color="yellow">
+                          </a-box>
+                     </template>
             </a-scene>
          </div>
       `,

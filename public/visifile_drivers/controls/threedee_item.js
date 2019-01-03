@@ -30,11 +30,10 @@ logo_url("/driver_icons/threedee_item.png")
       props: ["args","design_mode"]
       ,
       template: `<template >
-                      <a-box    id="interact_box_three"
-                                position="-1 3.5 -3"
+                      <a-box    position="-1.2 2.5 -3"
                                 body="shape: box; mass: 200"
-                                rotation="0 45 0"
-                                color="#4CC3D9">
+                                rotation="0 50 0"
+                                color="yellow">
                       </a-box>
                  </template>
       `

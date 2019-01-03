@@ -161,7 +161,7 @@ formEditor({
   "active_component_index": 1
 })//formEditor
 control_type("SYSTEM")
-visibility("PUBLIC")
+visibility("PRIVATE")
 display_name("Copy of VB")
 uses_javascript_librararies(["aframe"])
 sub_components(["app_editor_3","appEmbed","vb_editor_component","input_control","button_control","label_control"])
