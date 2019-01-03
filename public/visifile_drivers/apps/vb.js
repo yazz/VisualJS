@@ -1,11 +1,10 @@
 async function(args) {
 /*
-created_timestamp(1545806213081)
+created_timestamp(1546502555900)
 base_component_id("vb")
 editors([
   "vb_editor_component"
 ])
-uses_javascript_librararies(["aframe"])
 properties([
   {
     "id": "test",
@@ -15,12 +14,12 @@ properties([
 ])//properties
 formEditor({
   "next_id": 7,
-  "max_form": 3,
+  "max_form": 4,
   "active_form": "Form_1",
   "default_form": "Form_1",
   "app_selected": false,
   "id": "vb",
-  "next_component_id": 102,
+  "next_component_id": 107,
   "app_properties": [
     {
       "id": "test",
@@ -60,8 +59,8 @@ formEditor({
         {
           "name": "button_control_2",
           "base_component_id": "button_control",
-          "leftX": 225,
-          "topY": 295,
+          "leftX": 4,
+          "topY": 299,
           "width": 143,
           "height": 54,
           "text": "Go to  form 2",
@@ -87,6 +86,17 @@ formEditor({
           "height": 34,
           "text": "Todo App",
           "background_color": ""
+        },
+        {
+          "leftX": 190.4375,
+          "topY": 300,
+          "name": "button_control_104",
+          "base_component_id": "button_control",
+          "width": 146,
+          "height": 55,
+          "text": "Go to 3D",
+          "background_color": "",
+          "click_event": "mm.selectForm(\"form_3d\")"
         }
       ],
       "form_activate_old": "function() {\n                if (app && app.forms && app.forms[\"Form_1\"] && app.forms[\"Form_1\"].components[0]) {\n                    app.forms[\"Form_1\"].components[0].text = args.test\n                }\n             }",
@@ -118,13 +128,42 @@ formEditor({
           "click_event": "mm.selectForm(\"Form_1\")"
         }
       ]
+    },
+    "form_4": null,
+    "form_3d": {
+      "name": "form_3d",
+      "components": [
+        {
+          "leftX": 8.875,
+          "topY": 3.71875,
+          "name": "threedee_control_105",
+          "base_component_id": "threedee_control",
+          "width": 280,
+          "height": 161,
+          "text": "",
+          "background_color": ""
+        },
+        {
+          "leftX": 24.4375,
+          "topY": 179.71875,
+          "name": "threedee_item_ontrol_106",
+          "base_component_id": "threedee_item_ontrol",
+          "width": 100,
+          "height": 100,
+          "text": "",
+          "background_color": ""
+        }
+      ],
+      "width": "300px",
+      "height": "300px"
     }
   },
-  "active_component_index": 4
+  "active_component_index": 1
 })//formEditor
 control_type("SYSTEM")
-visibility("PRIVATE")
-display_name("VB")
+visibility("PUBLIC")
+display_name("Copy of VB")
+uses_javascript_librararies(["aframe"])
 sub_components(["app_editor_3","appEmbed","vb_editor_component","input_control","button_control","label_control"])
 
 
@@ -163,12 +202,24 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
 
 
     <div    v-bind:id='vb_editor_element_id' v-if='vb_editor_element_id != null'
-            style='position:relative'
+            style='position:relative;display: flex;'
             v-on:drop="dropEditor($event)"
             v-on:ondragover="allowDropEditor($event)">
 
-        <div    v-if='design_mode'
-                v-on:mouseover='selected_pane = "blocks";'
+
+
+
+
+
+            <!--
+                    -----------------------------------------
+
+                        The left section of the UI editor
+
+                    -----------------------------------------
+            -->
+            <div    v-if='design_mode'
+                v-on:click='selected_pane = "blocks";'
                 v-bind:style='(design_mode?"border: 4px solid lightgray;":"") + " width: " + leftHandWidth + "px;height: 75vmin; display: inline-block;overflow-x: none;overflow-y: auto;vertical-align: top; background-color: lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);float:left;"'>
 
             <div    v-bind:style='"font-size:14px;font-weight:bold;border-radius: 3px;padding: 4px; margin-bottom: 10px;box-shadow: 2px 2px 10px lightgray;"'
@@ -179,7 +230,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                 <div class='row'>
                     <div    class='col-md-6'
                             v-on:click='highlighted_control = null;'
-                            v-bind:style='"border-radius: 3px;width:50px;height:50px; margin: 0px;border: 0px;padding:10px;overflow-x:hidden;overflow-y:hidden;background-color: " + ((!highlighted_control)?"#E8E8E8;border-left: 2px solid gray;border-top: 2px solid gray;":"lightgray;")'>
+                            v-bind:style='"border-radius: 3px;width:50px;height:50px; margin: 0px;border: 0px;padding:4px;overflow-x:hidden;overflow-y:hidden;background-color: " + ((!highlighted_control)?"#E8E8E8;border-left: 2px solid gray;border-top: 2px solid gray;":"lightgray;")'>
                         <img    src='https://cdn0.iconfinder.com/data/icons/seo-web-15/153/seo-social-web-network-internet_61-512.png'
                                 style='width: 100%;'
                                 class='img-fluid'>
@@ -212,232 +263,24 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
 
 
 
+        <!--
 
+                The main center section of the UI editor
 
+        -->
+        <div style='display: flex;width:100%;'>
 
 
 
+            <!--
 
+                    The code editor for events
 
-        <div    v-if='design_mode'
-                v-bind:style='(design_mode?"border: 4px solid lightgray;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;":"") + " float:right;top:0px;right:0px;width: 310px;height: 75vmin; display: inline-block;overflow-x: none;overflow: hidden;vertical-align: top;padding:0px;height:75vmin;background-color: lightgray; "'
-                v-bind:refresh='refresh'>
+            -->
 
-
-
-
-
-
-            <div    id='right_project_pane'
-                    v-bind:class='(right_mode == "project"?"right_project_pane_expanded":"right_project_pane_collapsed")''
-                    v-bind:refresh='refresh'
-                    v-bind:style='"padding:0px; border: 4px solid lightgray;white-space:nowrap"'>
-
-                <div v-bind:style='"border-radius: 3px;  padding: 4px;overflow-x:none;height: 40px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);font-size:14px;font-weight:bold;" '
-                     v-bind:class='(selected_pane == "project"?"selected_pane_title":"unselected_pane_title") '
-                     v-on:mouseover='$event.stopPropagation();var s = (right_mode == "properties"?"project":"project");selected_pane = "project";chooseRight(s);'>
-
-                     Project explorer
-
-                    <button type=button class='btn btn-sm btn-warning'
-                            v-bind:style='"float: right;" + (right_mode == "project"?"":"display:;font-size:14px;")'
-                            v-on:click='$event.stopPropagation();selected_pane = "project"; chooseRight("project");addForm()'  >
-
-                         Add form
-
-                    </button>
-                </div>
-
-
-                <div  v-bind:style='"font-size:14px;border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:80%;background-color:lightgray;"  + (right_mode == "project"?"":"display:none;")'>
-                    <div    style="align-items: stretch;border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
-
-                        <div    v-bind:style='"border-radius: 0px;padding:4px;margin:0px;margin-top: 5px;" + (model.app_selected?"background-color:gray;color:white;":"background-color:white;color:black;")'
-                                v-on:click='$event.stopPropagation();selected_pane = "project";select_app()'>
-
-                                    <b>{{edited_app_component_id}}</b>
-                        </div>
-
-                        <div v-for='form in getForms()' v-bind:refresh='refresh'>
-                            <div>
-                                <div  v-bind:style='(((form.name == model.active_form) && (model.active_component_index == null) && (!model.app_selected)) ?"border: 0px solid red;background-color:gray;color:white;":"color:black;") + "padding:4px;margin:0px;margin-left:30px;border-radius: 3px;"'
-                                      v-on:click='$event.stopPropagation();selected_pane = "project";selectForm(form.name)'>
-
-                                     <img
-                                            src='/driver_icons/form.png'
-                                            style='width: 20px; margin-right: 10px;'
-                                            class='img-fluid'>
-                                     </img>
-
-                                              {{form.name}} ({{form.components.length}})
-                                </div>
-
-                                <div    v-if='form.name == model.active_form'
-                                        v-for='(av,index) in getActiveFormComponents()'
-                                        v-on:click='$event.stopPropagation();selected_pane = "project";select_component(index)'
-                                        v-bind:style='(((index == model.active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:80px; padding:2px;border-radius: 3px;"'>
-
-                                    <div style='width:100%;display:inline-block;overflow: hidden;'>{{av.name}}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-
-
-
-
-
-
-
-
-            <div    id='right_properties_pane'
-                    v-bind:class='(right_mode == "properties"?"right_properties_pane_collapsed":"right_properties_pane_collapsed")'
-                    v-bind:style='"padding:0px; border: 4px solid lightgray;padding:0px;background-color: lightgray;"'>
-
-                <div    v-bind:style='"border-radius: 3px;padding: 4px;height: 40px;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;font-size:14px;font-weight:bold;"'
-                        v-bind:class='(selected_pane == "properties"?"selected_pane_title_slower":"unselected_pane_title_slower") '
-                        v-on:mouseover='selected_pane = "properties";chooseRight("properties");'>
-                    Properties - {{model.active_component_index?model.forms[model.active_form].components[model.active_component_index].name + " (Component)" : model.active_form + " (Form)"}}
-                </div>
-
-
-                <div id='property_selector_parent' style='margin: 5px;'>
-
-                </div>
-
-                <div  style="border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:65%;">
-                    <div    style="border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
-
-
-                        <div    v-for='property in properties'
-                                style='font-size:14px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
-
-                            <div style='width:100%;padding:0px;margin:0px;display:flex;'>
-                                <div
-                                        v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-size:14px;padding-left: 1px;padding-top:0px;padding-bottom:0px;" + (active_property_index == property.name?"background-color:#000099;color:white;":"")'
-                                        v-on:click='selected_pane = "properties";active_property_index = property.name;'>{{property.name}}
-                                </div>
-
-                                <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'
-                                     v-on:click='selected_pane = "properties";'>
-                                    <div v-if='!property.readonly' style="width:100%">
-                                        <div    v-if="(property.type  == 'String')  || (property.type  == 'Number')">
-                                            <input
-                                                    @change='setVBEditorProperty($event, property)'
-                                                    v-bind:value='getVBEditorProperty(property)'
-                                                    style='width: 100%;border: 0px;font-size:14px;padding:0px;'>
-                                            </input>
-                                        </div>
-
-                                        <div v-if="(property.type  == 'Event')  " style="width:100%">
-                                            <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-size:14px;font-style:bold;'
-                                                        v-on:click='$event.stopPropagation();editAsCode({
-                                                            active_form:            model.active_form,
-                                                            active_component_index: model.active_component_index,
-                                                            property_id:            property.id
-                                                        })'  >
-                                                ...
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div v-if='property.readonly'>
-                                        <div    v-if='model.active_component_index != null'
-                                                style='padding:0px;font-size:14px;'
-                                                class='col-md-12 small'>
-
-                                            {{model.forms[model.active_form].components[model.active_component_index][property.id]}}
-
-                                        </div>
-
-                                        <div v-if='(model.active_component_index == null) && (model.active_form != null) && (model.app_selected == false)' class='col-md-12 small'   v-model='model.forms[model.active_form][property.id]'>
-                                        </div>
-
-                                        <div    v-if='model.app_selected'
-                                                style='padding:0px;font-size:14px;'
-                                                class='col-md-12 small'  >
-
-                                            {{property.get_fn?property.get_fn():model[property.id]}}
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div  v-if='model.app_selected && (!add_property)' class='row'>
-                            <div  class='col-md-12 small'>
-                                <button     type=button class='btn btn-sm btn-info'
-                                            style='font-size: 14px;'
-                                            v-on:click='$event.stopPropagation();addProperty()'  >
-                                    Add property
-                                </button>
-                            </div>
-                        </div>
-
-                        <div v-if='(model.app_selected) && (add_property)' class='row'>
-                            <div    style='font-size: 14px;'
-                                    class='col-md-12 small'>
-                                Add a property
-                            </div>
-                        </div>
-
-                        <div v-if='(model.app_selected) && (add_property)' class='row'>
-                            <div    style='font-size: 14px;'
-                                    class='col-md-4'>
-                               ID
-                            </div>
-
-                            <input  style='font-size: 14px;'
-                                    class='col-md-7 small'
-                                    placeholder='background_color'
-                                    v-model='new_property_id'>
-                            </input>
-                        </div>
-
-                        <div v-if='(model.app_selected) && (add_property)' class='row'>
-                            <div    style='font-size: 14px;'
-                                    class='col-md-4'>
-                                Name
-                            </div>
-
-                            <input  class='col-md-7 small'
-                                    placeholder='Background Color'
-                                    style='border:0px;font-size: 14px;'
-                                    v-model='new_property_name'>
-                            </input>
-                        </div>
-
-                        <div v-if='(model.app_selected) && (add_property)' class='row'>
-                            <div class='col-md-12'>
-                                <button style='font-size: 14px;'
-                                        type=button class='btn btn-sm btn-info'
-                                        v-on:click='$event.stopPropagation();addPropertyCancel()'  >
-                                    Cancel
-                                </button>
-
-                                <button style='font-size: 14px;'
-                                        type=button class='btn btn-sm btn-info'
-                                        v-on:click='$event.stopPropagation();addPropertySave()'  >
-                                    Save
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
-        <div style='display: block;'>
 
             <div    v-if='(!design_mode && design_mode_pane) || (design_mode && (design_mode_pane.type=="event_editor"))'
-                    v-bind:style='"margin: 2px; display: inline-block; vertical-align: top; width: 50%;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
+                    v-bind:style='"margin: 2px; display: inline-block; vertical-align: top; width: 100%;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
 
                 <div    v-if='design_mode'
                         style='font-size:14px;font-weight:bold;border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
@@ -455,11 +298,24 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                 </div>
             </div>
 
+
+
+
+            <!--
+
+                    The drag drop UI editor.
+
+                    but...
+
+                    Also the main vire of the App
+
+            -->
+
             <div    v-if='(!design_mode) || (design_mode && (design_mode_pane.type=="drag_drop"))'
-                    v-bind:style='"margin: 2px; display: inline-block; vertical-align: top;  width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
+                    v-bind:style='"margin: 2px; display: inline-block; vertical-align: top;  width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 0px;margin-left:15px;margin-top:15px;":"margin: 0px;" ) '>
 
                 <div    v-if='design_mode'
-                        style='font-size:14px;font-weight:bold;border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
+                        style='display:inline-block;font-size:14px;font-weight:bold;border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;width:100%;'>
 
                     <img
                         src='/driver_icons/form.png'
@@ -468,6 +324,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                      </img>
                      {{model.active_form}} (Form)
                 </div>
+                <div style=''></div>
 
                 <div            v-bind:id='vb_grid_element_id'  v-if='vb_grid_element_id != null'
                                 v-on:drop="drop($event)"
@@ -496,7 +353,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                     <div    v-bind:refresh='refresh'
                             v-for='(item,index) in getActiveFormComponents()'
                             ondrop="return false;"
-                            v-on:click='$event.stopPropagation();select_component(index,true)'
+                            v-on:click='$event.stopPropagation();select_component(index)'
                             v-bind:style='(design_mode?"border: " +
                                             ((index == model.active_component_index)?"1px solid black;":"1px solid black;"):"") +
                                             "position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:" + item.height + "px;width:" + item.width + "px;background: white;;overflow:none;"'>
@@ -504,6 +361,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                         <div ondrop="return false;" v-bind:style='"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:auto;"'>
                             <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[index].name + (design_mode?"_deisgn":"")'
                                         v-bind:refresh='refresh'
+                                        v-bind:design_mode='design_mode'
                                         v-on:send="processControlEvent"
                                         v-bind:is='item.base_component_id'
                                         v-bind:name='item.name + (design_mode?"_deisgn":"")'
@@ -625,6 +483,242 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
 
 
 
+        </div>
+
+
+
+
+
+
+
+
+        <!--
+            ****************************************************************
+            *                                                              *
+            *             The right section of the UI editor               *
+            *                                                              *
+            ****************************************************************
+        -->
+
+        <div    v-if='design_mode'
+                v-bind:style='(design_mode?"border: 4px solid lightgray;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;":"") + " float:right;top:0px;right:0px;width: 400px;height: 75vmin; display: inline-block;overflow-x: none;overflow: hidden;vertical-align: top;padding:0px;height:75vmin;background-color: lightgray; "'
+                v-bind:refresh='refresh'>
+
+
+
+
+
+
+            <div    id='right_project_pane'
+                    v-bind:class='(right_mode == "project"?"right_project_pane_expanded":"right_project_pane_collapsed")''
+                    v-bind:refresh='refresh'
+                    v-bind:style='"padding:0px; border: 4px solid lightgray;white-space:nowrap"'>
+
+                <div v-bind:style='"border-radius: 3px;  padding: 4px;overflow-x:none;height: 40px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);font-size:14px;font-weight:bold;" '
+                     v-bind:class='(selected_pane == "project"?"selected_pane_title":"unselected_pane_title") '
+                     v-on:click='$event.stopPropagation();var s = (right_mode == "properties"?"project":"project");selected_pane = "project";chooseRight(s);'
+                     >
+
+                     Project explorer
+
+                    <button type=button class='btn btn-sm btn-warning'
+                            v-bind:style='"float: right;" + (right_mode == "project"?"":"display:;font-size:14px;")'
+                            v-on:click='$event.stopPropagation();selected_pane = "project"; chooseRight("project");addForm()'  >
+
+                         Add form
+
+                    </button>
+                </div>
+
+
+                <div  v-bind:style='"font-size:14px;border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:80%;background-color:lightgray;"  + (right_mode == "project"?"":"display:none;")'>
+                    <div    style="align-items: stretch;border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
+
+                        <div    v-bind:style='"border-radius: 0px;padding:4px;margin:0px;margin-top: 5px;" + (model.app_selected?"background-color:gray;color:white;":"background-color:white;color:black;")'
+                                v-on:click='$event.stopPropagation();selected_pane = "project";select_app()'>
+
+                                    <b>{{edited_app_component_id}}</b>
+                        </div>
+
+                        <div v-for='form in getForms()' v-bind:refresh='refresh'>
+                            <div>
+                                <div  v-bind:style='(((form.name == model.active_form) && (model.active_component_index == null) && (!model.app_selected)) ?"border: 0px solid red;background-color:gray;color:white;":"color:black;") + "padding:4px;margin:0px;margin-left:30px;border-radius: 3px;"'
+                                      v-on:click='$event.stopPropagation();selected_pane = "project";selectForm(form.name)'>
+
+                                     <img
+                                            src='/driver_icons/form.png'
+                                            style='width: 20px; margin-right: 10px;'
+                                            class='img-fluid'>
+                                     </img>
+
+                                              {{form.name}} ({{form.components.length}})
+                                </div>
+
+                                <div    v-if='form.name == model.active_form'
+                                        v-for='(av,index) in getActiveFormComponents()'
+                                        v-on:click='$event.stopPropagation();selected_pane = "project";select_component(index)'
+                                        v-bind:style='(((index == model.active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:80px; padding:2px;border-radius: 3px;"'>
+
+                                    <div style='width:100%;display:inline-block;overflow: hidden;'>{{av.name}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+            <div    id='right_properties_pane'
+                    v-bind:class='(right_mode == "properties"?"right_properties_pane_collapsed":"right_properties_pane_collapsed")'
+                    v-bind:style='"padding:0px; border: 4px solid lightgray;padding:0px;background-color: lightgray;"'>
+
+                <div    v-bind:style='"border-radius: 3px;padding: 4px;height: 40px;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;font-size:14px;font-weight:bold;"'
+                        v-bind:class='(selected_pane == "properties"?"selected_pane_title_slower":"unselected_pane_title_slower") '
+                        v-on:click='selected_pane = "properties";chooseRight("properties");'>
+                    Properties - {{model.active_component_index?model.forms[model.active_form].components[model.active_component_index].name + " (Component)" : model.active_form + " (Form)"}}
+                </div>
+
+
+                <div id='property_selector_parent' style='margin: 5px;'>
+
+                </div>
+
+                <div  style="border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:65%;">
+                    <div    style="border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
+
+
+                        <div    v-for='property in properties'
+                                style='font-size:14px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+
+                            <div style='width:100%;padding:0px;margin:0px;display:flex;'>
+                                <div
+                                        v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-size:14px;padding-left: 1px;padding-top:0px;padding-bottom:0px;" + (active_property_index == property.name?"background-color:#000099;color:white;":"")'
+                                        v-on:click='selected_pane = "properties";active_property_index = property.name;'>{{property.name}}
+                                </div>
+
+                                <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'
+                                     v-on:click='selected_pane = "properties";'>
+                                    <div v-if='!property.readonly' style="width:100%">
+                                        <div    v-if="(property.type  == 'String')  || (property.type  == 'Number')">
+                                            <input
+                                                    @change='setVBEditorProperty($event, property)'
+                                                    v-bind:value='getVBEditorProperty(property)'
+                                                    style='width: 100%;border: 0px;font-size:14px;padding:0px;'>
+                                            </input>
+                                        </div>
+
+                                        <div    v-if="(property.type  == 'Image') ">
+                                            <input type="file"
+                                                   id="image_file"
+                                                   @change="previewUpload(property)">
+                                            </input>
+                                        </div>
+
+                                        <div v-if="(property.type  == 'Event')  " style="width:100%">
+                                            <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-size:14px;font-style:bold;'
+                                                        v-on:click='$event.stopPropagation();editAsCode({
+                                                            active_form:            model.active_form,
+                                                            active_component_index: model.active_component_index,
+                                                            property_id:            property.id
+                                                        })'  >
+                                                ...
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div v-if='property.readonly'>
+                                        <div    v-if='model.active_component_index != null'
+                                                style='padding:0px;font-size:14px;'
+                                                class='col-md-12 small'>
+
+                                            {{model.forms[model.active_form].components[model.active_component_index][property.id]}}
+
+                                        </div>
+
+                                        <div v-if='(model.active_component_index == null) && (model.active_form != null) && (model.app_selected == false)' class='col-md-12 small'   v-model='model.forms[model.active_form][property.id]'>
+                                        </div>
+
+                                        <div    v-if='model.app_selected'
+                                                style='padding:0px;font-size:14px;'
+                                                class='col-md-12 small'  >
+
+                                            {{property.get_fn?property.get_fn():model[property.id]}}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div  v-if='model.app_selected && (!add_property)' class='row'>
+                            <div  class='col-md-12 small'>
+                                <button     type=button class='btn btn-sm btn-info'
+                                            style='font-size: 14px;'
+                                            v-on:click='$event.stopPropagation();addProperty()'  >
+                                    Add property
+                                </button>
+                            </div>
+                        </div>
+
+                        <div v-if='(model.app_selected) && (add_property)' class='row'>
+                            <div    style='font-size: 14px;'
+                                    class='col-md-12 small'>
+                                Add a property
+                            </div>
+                        </div>
+
+                        <div v-if='(model.app_selected) && (add_property)' class='row'>
+                            <div    style='font-size: 14px;'
+                                    class='col-md-4'>
+                               ID
+                            </div>
+
+                            <input  style='font-size: 14px;'
+                                    class='col-md-7 small'
+                                    placeholder='background_color'
+                                    v-model='new_property_id'>
+                            </input>
+                        </div>
+
+                        <div v-if='(model.app_selected) && (add_property)' class='row'>
+                            <div    style='font-size: 14px;'
+                                    class='col-md-4'>
+                                Name
+                            </div>
+
+                            <input  class='col-md-7 small'
+                                    placeholder='Background Color'
+                                    style='border:0px;font-size: 14px;'
+                                    v-model='new_property_name'>
+                            </input>
+                        </div>
+
+                        <div v-if='(model.app_selected) && (add_property)' class='row'>
+                            <div class='col-md-12'>
+                                <button style='font-size: 14px;'
+                                        type=button class='btn btn-sm btn-info'
+                                        v-on:click='$event.stopPropagation();addPropertyCancel()'  >
+                                    Cancel
+                                </button>
+
+                                <button style='font-size: 14px;'
+                                        type=button class='btn btn-sm btn-info'
+                                        v-on:click='$event.stopPropagation();addPropertySave()'  >
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
 
@@ -793,10 +887,29 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
 
 
      methods: {
+        previewUpload: function(property) {
+            var mm = this;
+            var file    = document.getElementById('image_file').files[0];
+            var reader  = new FileReader();
+
+            reader.addEventListener("load", function () {
+                mm.model.forms[mm.model.active_form].components[mm.model.active_component_index][property.id] = reader.result
+                mm.refresh ++
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+        ,
          editAsCode: async function(aa) {
             var mm = this
-             //alert(JSON.stringify(aa))
-             this.design_mode_pane =
+            if (this.ui_code_editor) {
+                mm.ui_code_editor.destroy()
+                mm.ui_code_editor = null
+            }
+            setTimeout(function(){
+                mm.design_mode_pane =
                 {
                     type: "event_editor",
                     active_form:            aa.active_form,
@@ -804,51 +917,52 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                     property_id:            aa.property_id
                 }
 
-            setTimeout(function(){
-                if (document.getElementById('ui_code_editor') && (mm.ui_code_editor == null)) {
+                setTimeout(function(){
+                    if (document.getElementById('ui_code_editor') && (mm.ui_code_editor == null)) {
                     //
                     //set up the ace editor for the timeline view
                     //
                     ace.config.set('basePath', '/');
-                    mm.ui_code_editor = ace.edit(           "ui_code_editor",
-                                                                {
-                                                                       selectionStyle:  "text",
-                                                                       mode:            "ace/mode/javascript"
-                                                                })
+                    mm.ui_code_editor = ace.edit( "ui_code_editor",
+                                                        {
+                                                               selectionStyle:  "text",
+                                                               mode:            "ace/mode/javascript"
+                                                        })
 
                     //Bug fix: Need a delay when setting theme or view is corrupted
                     setTimeout(function(){
-                       mm.ui_code_editor.setTheme("ace/theme/sql_server");
-                    },100)
+                           mm.ui_code_editor.setTheme("ace/theme/sql_server");
+                        },100)
 
 
-                    document.getElementById("ui_code_editor").style["font-size"] = "16px"
-                    document.getElementById("ui_code_editor").style.width = "100%"
-                    document.getElementById("ui_code_editor").style.border = "0px solid #2C2828"
+                        document.getElementById("ui_code_editor").style["font-size"] = "16px"
+                        document.getElementById("ui_code_editor").style.width = "100%"
+                        document.getElementById("ui_code_editor").style.border = "0px solid #2C2828"
 
-                    document.getElementById("ui_code_editor").style.height = "55vh"
-                    var ccode = ""
-                    if ((mm.model.active_component_index == null) && (mm.model.active_form != null)) {
-                        ccode = mm.model.forms[mm.model.active_form][aa.property_id]
-
-                    } else if ((mm.model.active_component_index != null) && (mm.model.active_form != null)) {
-                        ccode = mm.model.forms[mm.model.active_form].components[mm.model.active_component_index][aa.property_id]
-                    }
-
-
-                    mm.ui_code_editor.getSession().setValue(ccode);
-                    mm.ui_code_editor.getSession().setUseWorker(false);
-
-                    mm.ui_code_editor.on("change", function(e) {
-                        var newC = mm.ui_code_editor.getValue()
+                        document.getElementById("ui_code_editor").style.height = "55vh"
+                        var ccode = ""
                         if ((mm.model.active_component_index == null) && (mm.model.active_form != null)) {
-                            mm.model.forms[mm.model.active_form][aa.property_id] = newC
+                            ccode = mm.model.forms[mm.model.active_form][aa.property_id]
 
                         } else if ((mm.model.active_component_index != null) && (mm.model.active_form != null)) {
-                            mm.model.forms[mm.model.active_form].components[mm.model.active_component_index][aa.property_id] = newC
+                            ccode = mm.model.forms[mm.model.active_form].components[mm.model.active_component_index][aa.property_id]
                         }
-                    })
-                }
+
+
+                        mm.ui_code_editor.getSession().setValue(ccode);
+                        mm.ui_code_editor.getSession().setUseWorker(false);
+
+                        mm.ui_code_editor.on("change", function(e) {
+                            var newC = mm.ui_code_editor.getValue()
+                            if ((mm.model.active_component_index == null) && (mm.model.active_form != null)) {
+                                mm.model.forms[mm.model.active_form][aa.property_id] = newC
+
+                            } else if ((mm.model.active_component_index != null) && (mm.model.active_form != null)) {
+                                mm.model.forms[mm.model.active_form].components[mm.model.active_component_index][aa.property_id] = newC
+                            }
+                        })
+                    }
+                },100)
             },100)
 
          }
@@ -1210,8 +1324,12 @@ ${eventMessage.code}
                      // form events
                      //
                      } else if (eventMessage.type == "form_event") {
-                        var fcc = "(async function(){" + eventMessage.code +"})"
-                        var efcc = eval(fcc)
+                        var fcc =
+`(async function(){
+${eventMessage.code}
+})`
+                        var debugFcc = getDebugCode(this.model.active_form ,fcc,{skipFirstAndLastLine: true})
+                        var efcc = eval(debugFcc)
                         efcc()
                      }
 
@@ -1364,6 +1482,11 @@ ${eventMessage.code}
 
                  this.model.forms[this.model.active_form].components.push(newItem)
                  this.model.active_component_index = this.model.forms[this.model.active_form].components.length - 1
+
+                 setTimeout(function() {
+                     mm.select_component(mm.model.active_component_index, true)
+                     mm.refresh ++
+                 },100)
 
 
              } else if (data.type == "move_component") {
@@ -1912,12 +2035,12 @@ ${eventMessage.code}
                       text: texti,
                       model: {
   "next_id": 7,
-  "max_form": 3,
-  "active_form": "Form_1",
+  "max_form": 4,
+  "active_form": "form_3d",
   "default_form": "Form_1",
   "app_selected": false,
   "id": "vb",
-  "next_component_id": 102,
+  "next_component_id": 107,
   "app_properties": [
     {
       "id": "test",
@@ -1957,8 +2080,8 @@ ${eventMessage.code}
         {
           "name": "button_control_2",
           "base_component_id": "button_control",
-          "leftX": 225,
-          "topY": 295,
+          "leftX": 4,
+          "topY": 299,
           "width": 143,
           "height": 54,
           "text": "Go to  form 2",
@@ -1984,6 +2107,17 @@ ${eventMessage.code}
           "height": 34,
           "text": "Todo App",
           "background_color": ""
+        },
+        {
+          "leftX": 190.4375,
+          "topY": 300,
+          "name": "button_control_104",
+          "base_component_id": "button_control",
+          "width": 146,
+          "height": 55,
+          "text": "Go to 3D",
+          "background_color": "",
+          "click_event": "mm.selectForm(\"form_3d\")"
         }
       ],
       "form_activate_old": "function() {\n                if (app && app.forms && app.forms[\"Form_1\"] && app.forms[\"Form_1\"].components[0]) {\n                    app.forms[\"Form_1\"].components[0].text = args.test\n                }\n             }",
@@ -2015,9 +2149,37 @@ ${eventMessage.code}
           "click_event": "mm.selectForm(\"Form_1\")"
         }
       ]
+    },
+    "form_4": null,
+    "form_3d": {
+      "name": "form_3d",
+      "components": [
+        {
+          "leftX": 8.875,
+          "topY": 3.71875,
+          "name": "threedee_control_105",
+          "base_component_id": "threedee_control",
+          "width": 280,
+          "height": 161,
+          "text": "",
+          "background_color": ""
+        },
+        {
+          "leftX": 24.4375,
+          "topY": 179.71875,
+          "name": "threedee_item_ontrol_106",
+          "base_component_id": "threedee_item_ontrol",
+          "width": 100,
+          "height": 100,
+          "text": "",
+          "background_color": ""
+        }
+      ],
+      "width": "300px",
+      "height": "300px"
     }
   },
-  "active_component_index": 4
+  "active_component_index": 1
 }}
                 }
               })//** gen_end **//
