@@ -198,6 +198,7 @@ uses_javascript_librararies(["aframe"])
                             <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[index].name + (design_mode?"_deisgn":"")'
                                         v-bind:refresh='refresh'
                                         v-bind:design_mode='design_mode'
+                                        v-bind:children='getChildren(item.name)'
                                         v-on:send="processControlEvent"
                                         v-bind:is='item.base_component_id'
                                         v-if='!item.parent'
@@ -726,6 +727,19 @@ uses_javascript_librararies(["aframe"])
 
 
      methods: {
+        getChildren: function( itemName ) {
+//zzz
+            var mm = this
+            var ccc = mm.model.forms[mm.model.active_form].components
+            var chh = []
+            for (var ytr = 0;ytr < ccc.length;ytr++){
+                if (ccc[ytr].parent == itemName) {
+                    chh.push(ccc[ytr])
+                }
+            }
+            return chh
+        }
+        ,
         previewUpload: function(property) {
             var mm = this;
             var file    = document.getElementById('image_file').files[0];

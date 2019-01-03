@@ -25,8 +25,8 @@ properties(
         {
             id:         "is_container",
             name:       "Is Container?",
-            type:       "String",
-            default:    "True",
+            type:       "Boolean",
+            default:    true,
             hidden:     true
         }
     ]
