@@ -2,7 +2,6 @@ function(args) {
 /*
 is_app(true)
 control_type("VB")
-control_sub_type("CONTAINER")
 display_name("3d control")
 description("This will return the 3d container control")
 base_component_id("threedee_control")
