@@ -44,8 +44,8 @@ logo_url("/driver_icons/threedee_control.png")
       `,
         mounted: function() {
             if (!this.design_mode) {
-                setTimeout(function(){
-                    var scene = document.querySelector('a-scene');
+                var scene = document.querySelector('a-scene');
+                if (isValidObject(scene)) {
                     scene.addEventListener('click', function () {
 
                         // Apply impulse;
@@ -56,8 +56,8 @@ logo_url("/driver_icons/threedee_control.png")
                             box.components['physics-body'].applyImpulse(impulse, point);
                             }, 25);
                     });
+                }
 
-                },4000)
             }
         }
       ,
