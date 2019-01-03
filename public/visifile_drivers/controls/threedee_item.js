@@ -27,13 +27,14 @@ logo_url("/driver_icons/threedee_item.png")
 */
 
     Vue.component("threedee_item_control",{
-      template: `<template >
-                      <a-box    id='left-box'
+        props: ["args","design_mode", "refresh"]
+        ,
+      template: `<a-box    id='left-box'
+                           v-if='!design_mode'
                                 position="-1.2 2.5 -3"
                                 body="shape: box; mass: 200"
                                 rotation="0 50 0"
                                 color="yellow">
-                      </a-box>
-                 </template>`
+                      </a-box>`
     })
 }

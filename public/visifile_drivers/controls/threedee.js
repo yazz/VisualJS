@@ -27,13 +27,15 @@ logo_url("/driver_icons/threedee_control.png")
 */
 
     Vue.component("threedee_control",{
-      props: ["args","design_mode"]
+      props: ["args","design_mode", "refresh"]
       ,
-      template: `<div id="app2" style='padding: 20px;'>
-          <a-scene physics-world="" physics="debug: true" style='width: 80%; height: 80%;' embedded>
+      template: `<div id="app2" style='padding: 20px;' v-bind:refresh='refresh'>
+          <a-scene physics-world="" physics="debug: true" style='width: 80%; height: 80%;' embedded v-bind:refresh='refresh'>
 
-                <threedee_item_control >
-                </threedee_item_control>
+                <component  is='threedee_item_control'
+                            v-bind:design_mode='design_mode'
+                            v-bind:refresh='refresh'>
+                </component>
             </a-scene>
          </div>
       `,
