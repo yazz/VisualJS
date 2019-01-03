@@ -433,9 +433,11 @@ uses_javascript_librararies(["aframe"])
 
 
                         <div    v-for='property in properties'
-                                style='font-size:14px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+                                style='font-size:14px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'
+                                >
 
-                            <div style='width:100%;padding:0px;margin:0px;display:flex;'>
+                            <div style='width:100%;padding:0px;margin:0px;display:flex;'
+                                 v-if='!property.hidden'>
                                 <div
                                         v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-size:14px;padding-left: 1px;padding-top:0px;padding-bottom:0px;" + (active_property_index == property.name?"background-color:#000099;color:white;":"")'
                                         v-on:click='selected_pane = "properties";active_property_index = property.name;'>{{property.name}}
@@ -1307,7 +1309,11 @@ ${eventMessage.code}
                             for (var cpp = 0 ; cpp< compEvaled.length; cpp ++){
                                 var prop = compEvaled[cpp].id
                                 if (!isValidObject(newItem[prop])){
-                                    newItem[prop] = ""
+                                    if (compEvaled[cpp].default) {
+                                        newItem[prop] = compEvaled[cpp].default
+                                    } else {
+                                        newItem[prop] = ""
+                                    }
                                 }
                             }
                         }

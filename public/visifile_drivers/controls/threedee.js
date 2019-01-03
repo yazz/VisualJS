@@ -21,6 +21,14 @@ properties(
             name:   "Background color",
             type:   "String"
         }
+        ,
+        {
+            id:         "is_container",
+            name:       "Is Container?",
+            type:       "String",
+            default:    "True",
+            hidden:     true
+        }
     ]
 )//properties
 logo_url("/driver_icons/threedee_control.png")
