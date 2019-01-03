@@ -1377,6 +1377,7 @@ ${code}
                                 var useDb = saveHelper.getValueOfCodeString(code,"use_db")
                                 var editors2 = saveHelper.getValueOfCodeString(code,"editors")
                                 var controlType = saveHelper.getValueOfCodeString(code,"control_type")
+                                var controlSubType = saveHelper.getValueOfCodeString(code,"control_sub_type")
 
                                 var editors = null
                                 if (editors2) {
@@ -1426,7 +1427,7 @@ ${code}
                                 //console.log("Saving in Sqlite: " + parentHash)
                                 //console.log("Saving in Sqlite: " + code)
                                 var stmtInsertNewCode = dbsearch.prepare(
-                                    " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_type,display_name, creation_timestamp,component_options, logo_url, visibility, interfaces,use_db, editors, read_write_status,properties, control_type) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                                    " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_type,display_name, creation_timestamp,component_options, logo_url, visibility, interfaces,use_db, editors, read_write_status,properties, control_type, control_sub_type) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
                                 var stmtDeprecateOldCode = dbsearch.prepare(
                                     " update system_code  set code_tag = NULL where base_component_id = ? and id != ?");
 
@@ -1452,7 +1453,8 @@ ${code}
                                           editors,
                                           readWriteStatus,
                                           properties,
-                                          controlType
+                                          controlType,
+                                          controlSubType
                                           )
                                     stmtDeprecateOldCode.run(
                                         baseComponentId,

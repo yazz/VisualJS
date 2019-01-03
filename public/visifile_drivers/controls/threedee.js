@@ -3,7 +3,7 @@ function(args) {
 is_app(true)
 control_type("VB")
 display_name("3d control")
-description("This will return the label control")
+description("This will return the 3d container control")
 base_component_id("threedee_control")
 load_once_from_file(true)
 visibility("PRIVATE")
@@ -27,9 +27,10 @@ logo_url("/driver_icons/threedee_control.png")
 */
 
     Vue.component("threedee_control",{
-      props: ["args","design_mode", "refresh"]
+      props: ["args","design_mode", "refresh", "children"]
       ,
       template: `<div id="app2" style='padding: 20px;' v-bind:refresh='refresh'>
+      <div>CHILDREN:{{children}}</div>
           <a-scene physics-world="" physics="debug: true" style='width: 80%; height: 80%;' embedded v-bind:refresh='refresh'>
 
                 <component  is='threedee_item_control'
