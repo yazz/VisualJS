@@ -1,6 +1,6 @@
 async function(args) {
 /*
-created_timestamp(1546502555900)
+created_timestamp(1546585757804)
 base_component_id("vb")
 editors([
   "vb_editor_component"
@@ -19,7 +19,7 @@ formEditor({
   "default_form": "Form_1",
   "app_selected": false,
   "id": "vb",
-  "next_component_id": 107,
+  "next_component_id": 108,
   "app_properties": [
     {
       "id": "test",
@@ -142,11 +142,10 @@ formEditor({
           "height": 161,
           "text": "",
           "background_color": ""
-        }
-        ,
+        },
         {
-          "leftX": 124.4375,
-          "topY": 179.71875,
+          "leftX": 107.4375,
+          "topY": 186.71875,
           "name": "threedee_item_control_106",
           "base_component_id": "threedee_item_control",
           "parent": "threedee_control_105",
@@ -154,12 +153,12 @@ formEditor({
           "width": 100,
           "height": 100,
           "text": "",
-          "background_color": ""
-        }
-        ,
+          "background_color": "",
+          "index_in_parent_array": 1
+        },
         {
-          "leftX": 24.4375,
-          "topY": 179.71875,
+          "leftX": 0,
+          "topY": 180.71875,
           "name": "threedee_item_control_109",
           "base_component_id": "threedee_item_control",
           "parent": "threedee_control_105",
@@ -167,18 +166,30 @@ formEditor({
           "width": 100,
           "height": 100,
           "text": "",
-          "background_color": ""
+          "background_color": "",
+          "index_in_parent_array": 2
+        },
+        {
+          "leftX": 10.4375,
+          "topY": 343.28125,
+          "name": "button_control_107",
+          "base_component_id": "button_control",
+          "width": 182,
+          "height": 58,
+          "text": "Go to form 1",
+          "background_color": "",
+          "click_event": "mm.selectForm(\"Form_1\")"
         }
       ],
-      "width": "300px",
-      "height": "300px"
+      "width": 298.125,
+      "height": 401.28125
     }
   },
-  "active_component_index": 1
+  "active_component_index": 3
 })//formEditor
 control_type("SYSTEM")
 visibility("PRIVATE")
-display_name("Copy of VB")
+display_name("VB")
 uses_javascript_librararies(["aframe"])
 sub_components(["app_editor_3","appEmbed","vb_editor_component","input_control","button_control","label_control"])
 
@@ -375,13 +386,30 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                                             "position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:" + item.height + "px;width:" + item.width + "px;background: white;;overflow:none;"'>
 
                         <div ondrop="return false;" v-bind:style='"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:auto;"'>
-                            <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[index].name + (design_mode?"_deisgn":"")'
+                            <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[index].name + (design_mode?"_design":"")'
                                         v-bind:refresh='refresh'
                                         v-bind:design_mode='design_mode'
+                                        v-bind:children='getChildren(item.name)'
                                         v-on:send="processControlEvent"
                                         v-bind:is='item.base_component_id'
+                                        v-if='!item.parent'
                                         v-bind:name='item.name + (design_mode?"_deisgn":"")'
                                         v-bind:args='model.forms[model.active_form].components[index]'>
+
+                                <template      slot-scope="child_components">
+
+                                    <component  v-for='(child_item,child_index) in getChildren(item.name)'
+                                                v-bind:design_mode='design_mode'
+                                                v-bind:refresh='refresh'
+                                                v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[child_index].name + (design_mode?"_design":"")'
+                                                v-on:send="processControlEvent"
+                                                v-bind:is='child_item.base_component_id'
+                                                v-bind:name='child_item.name + (design_mode?"_deisgn":"")'
+                                                v-bind:args='model.forms[model.active_form].components[child_item.index_in_parent_array]'>
+                                    </component>
+
+                                </template>
+
                             </component>
                         </div>
 
@@ -612,9 +640,11 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
 
 
                         <div    v-for='property in properties'
-                                style='font-size:14px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+                                style='font-size:14px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'
+                                >
 
-                            <div style='width:100%;padding:0px;margin:0px;display:flex;'>
+                            <div style='width:100%;padding:0px;margin:0px;display:flex;'
+                                 v-if='!property.hidden'>
                                 <div
                                         v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-size:14px;padding-left: 1px;padding-top:0px;padding-bottom:0px;" + (active_property_index == property.name?"background-color:#000099;color:white;":"")'
                                         v-on:click='selected_pane = "properties";active_property_index = property.name;'>{{property.name}}
@@ -903,6 +933,20 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
 
 
      methods: {
+        getChildren: function( itemName ) {
+//zzz
+            var mm = this
+            var ccc = mm.model.forms[mm.model.active_form].components
+            var chh = []
+            for (var ytr = 0;ytr < ccc.length;ytr++){
+                if (ccc[ytr].parent == itemName) {
+                    ccc[ytr].index_in_parent_array = ytr
+                    chh.push(ccc[ytr])
+                }
+            }
+            return chh
+        }
+        ,
         previewUpload: function(property) {
             var mm = this;
             var file    = document.getElementById('image_file').files[0];
@@ -1486,7 +1530,11 @@ ${eventMessage.code}
                             for (var cpp = 0 ; cpp< compEvaled.length; cpp ++){
                                 var prop = compEvaled[cpp].id
                                 if (!isValidObject(newItem[prop])){
-                                    newItem[prop] = ""
+                                    if (compEvaled[cpp].default) {
+                                        newItem[prop] = compEvaled[cpp].default
+                                    } else {
+                                        newItem[prop] = ""
+                                    }
                                 }
                             }
                         }
@@ -2056,7 +2104,7 @@ ${eventMessage.code}
   "default_form": "Form_1",
   "app_selected": false,
   "id": "vb",
-  "next_component_id": 107,
+  "next_component_id": 108,
   "app_properties": [
     {
       "id": "test",
@@ -2181,21 +2229,48 @@ ${eventMessage.code}
           "background_color": ""
         },
         {
-          "leftX": 24.4375,
-          "topY": 179.71875,
+          "leftX": 107.4375,
+          "topY": 186.71875,
           "name": "threedee_item_control_106",
           "base_component_id": "threedee_item_control",
+          "parent": "threedee_control_105",
+          "position": "-2.1 1 -10",
           "width": 100,
           "height": 100,
           "text": "",
-          "background_color": ""
+          "background_color": "",
+          "index_in_parent_array": 1
+        },
+        {
+          "leftX": 0,
+          "topY": 180.71875,
+          "name": "threedee_item_control_109",
+          "base_component_id": "threedee_item_control",
+          "parent": "threedee_control_105",
+          "position": "0 10 -10",
+          "width": 100,
+          "height": 100,
+          "text": "",
+          "background_color": "",
+          "index_in_parent_array": 2
+        },
+        {
+          "leftX": 10.4375,
+          "topY": 343.28125,
+          "name": "button_control_107",
+          "base_component_id": "button_control",
+          "width": 182,
+          "height": 58,
+          "text": "Go to form 1",
+          "background_color": "",
+          "click_event": "mm.selectForm(\"Form_1\")"
         }
       ],
-      "width": "300px",
-      "height": "300px"
+      "width": 298.125,
+      "height": 401.28125
     }
   },
-  "active_component_index": 1
+  "active_component_index": 3
 }}
                 }
               })//** gen_end **//

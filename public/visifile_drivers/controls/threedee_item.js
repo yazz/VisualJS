@@ -31,8 +31,8 @@ logo_url("/driver_icons/threedee_item.png")
         props: ["args","design_mode", "refresh"]
         ,
       template: `<a-entity    geometry="primitive: box" material="color: #166678; side: double"
-                                 physics-body="mass: 5; boundingBox: 2 2 2"
-                                 position="0 10 -10">
+                              physics-body="mass: 5; boundingBox: 2 2 2"
+                              position="0 10 -10">
                     </a-entity>`
     })
 }
