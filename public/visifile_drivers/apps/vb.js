@@ -183,6 +183,19 @@ formEditor({
           "background_color": "",
           "click_event": "mm.selectForm(\"Form_1\")"
         }
+        ,
+        {
+          "leftX": 17.4375,
+          "topY": 186.71875,
+          "name": "threedee_item_control_108",
+          "base_component_id": "threedee_item_control",
+          "parent": "threedee_control_105",
+          "position": "-2.1 4 -10",
+          "width": 100,
+          "height": 100,
+          "text": "3",
+          "background_color": ""
+        }
       ],
       "width": 298.125,
       "height": 401.28125

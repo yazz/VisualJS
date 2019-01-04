@@ -39,7 +39,7 @@ logo_url("/driver_icons/threedee_control.png")
       ,
       template: `<div id="app2" style='padding: 20px;' v-bind:refresh='refresh'>
 
-          <a-scene physics-world="" physics="debug: true" style='width: 80%; height: 80%;' embedded v-bind:refresh='refresh'>
+          <a-scene physics-world="" physics="debug: false" style='width: 80%; height: 80%;' embedded v-bind:refresh='refresh'>
               <slot>
               </slot>
 
@@ -51,6 +51,7 @@ logo_url("/driver_icons/threedee_control.png")
               <a-entity id="ground"
                         geometry="primitive: box; depth: 50; height: 0.1; width: 50"
                         material="color: #2E3837"
+                        static-body
                         physics-body="mass: 0; boundingBox: 50 0.1 50" position="0 0 -10"></a-entity>
 
               <a-entity id="player"

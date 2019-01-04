@@ -30,8 +30,10 @@ logo_url("/driver_icons/threedee_item.png")
     Vue.component("threedee_item_control",{
         props: ["args","design_mode", "refresh"]
         ,
-      template: `<a-entity    geometry="primitive: box" material="color: #166678; side: double"
-                              physics-body="mass: 5; boundingBox: 2 2 2"
+      template: `<a-entity    geometry="primitive: box"
+                              material="color: #166678; side: double"
+                              physics-body="mass: 5; boundingBox: 2 2 2; shape: auto;"
+                              dynamic-body
                               v-bind:position='args.position'>
                               <a-text position="1 0 0" v-bind:value='args.text'></a-text>
                     </a-entity>`
