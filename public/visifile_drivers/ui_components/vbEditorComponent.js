@@ -202,19 +202,20 @@ uses_javascript_librararies(["aframe"])
                                         v-on:send="processControlEvent"
                                         v-bind:is='item.base_component_id'
                                         v-if='!item.parent'
-                                        v-bind:name='item.name + (design_mode?"_deisgn":"")'
+                                        v-bind:name='item.name + (design_mode?"_design":"")'
                                         v-bind:args='model.forms[model.active_form].components[index]'>
 
                                 <template      slot-scope="child_components">
 
-                                    <component  v-for='(child_item,child_index) in getChildren(item.name)'
+                                    <component  v-for='child_item  in  getChildren(item.name)'
                                                 v-bind:design_mode='design_mode'
                                                 v-bind:refresh='refresh'
-                                                v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[child_index].name + (design_mode?"_design":"")'
+                                                v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[child_item.index_in_parent_array].name + (design_mode?"_design":"")'
                                                 v-on:send="processControlEvent"
                                                 v-bind:is='child_item.base_component_id'
-                                                v-bind:name='child_item.name + (design_mode?"_deisgn":"")'
+                                                v-bind:name='child_item.name + (design_mode?"_design":"")'
                                                 v-bind:args='model.forms[model.active_form].components[child_item.index_in_parent_array]'>
+                                                {{child_item.index_in_parent_array}}
                                     </component>
 
                                 </template>
