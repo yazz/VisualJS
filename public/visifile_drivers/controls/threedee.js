@@ -38,13 +38,11 @@ logo_url("/driver_icons/threedee_control.png")
       props: ["args","design_mode", "refresh", "children"]
       ,
       template: `<div id="app2" style='padding: 20px;' v-bind:refresh='refresh'>
-      <div>CHILDREN:{{children}}</div>
+      
           <a-scene physics-world="" physics="debug: true" style='width: 80%; height: 80%;' embedded v-bind:refresh='refresh'>
+              <slot>
+              </slot>
 
-                <component  is='threedee_item_control'
-                            v-bind:design_mode='design_mode'
-                            v-bind:refresh='refresh'>
-                </component>
             </a-scene>
          </div>
       `,

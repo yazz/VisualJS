@@ -204,6 +204,21 @@ uses_javascript_librararies(["aframe"])
                                         v-if='!item.parent'
                                         v-bind:name='item.name + (design_mode?"_deisgn":"")'
                                         v-bind:args='model.forms[model.active_form].components[index]'>
+
+                                <template      slot-scope="child_components">
+
+                                    <component  v-for='(child_item,child_index) in getChildren(item.name)'
+                                                v-bind:design_mode='design_mode'
+                                                v-bind:refresh='refresh'
+                                                v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[index].name + (design_mode?"_deisgn":"")'
+                                                v-on:send="processControlEvent"
+                                                v-bind:is='child_item.base_component_id'
+                                                v-bind:name='child_item.name + (design_mode?"_deisgn":"")'
+                                                v-bind:args='model.forms[model.active_form].components[child_index]'>
+                                    </component>
+
+                                </template>
+
                             </component>
                         </div>
 
