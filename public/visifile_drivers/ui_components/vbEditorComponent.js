@@ -1308,7 +1308,7 @@ ${eventMessage.code}
                  if (newItem.topY < 0) {
                     newItem.topY = 0
                  }
-                 alert(`(${newItem.leftX},${newItem.topY})`)
+                 //alert(`(${newItem.leftX},${newItem.topY})`)
 
                  var ccc = mm.model.forms[mm.model.active_form].components
                  for (var ytr = 0;ytr < ccc.length;ytr++){
