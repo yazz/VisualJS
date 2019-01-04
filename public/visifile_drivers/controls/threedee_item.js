@@ -32,7 +32,8 @@ logo_url("/driver_icons/threedee_item.png")
         ,
       template: `<a-entity    geometry="primitive: box" material="color: #166678; side: double"
                               physics-body="mass: 5; boundingBox: 2 2 2"
-                              position="0 10 -10">
+                              v-bind:position='args.position'>
+                              <a-text position="1 0 0" v-bind:value='args.text'></a-text>
                     </a-entity>`
     })
 }

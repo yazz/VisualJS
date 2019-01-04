@@ -142,33 +142,36 @@ formEditor({
           "height": 161,
           "text": "",
           "background_color": ""
-        },
+        }
+        ,
         {
-          "leftX": 107.4375,
+          "leftX": 167.4375,
           "topY": 186.71875,
           "name": "threedee_item_control_106",
           "base_component_id": "threedee_item_control",
           "parent": "threedee_control_105",
-          "position": "-2.1 1 -10",
+          "position": ".1 7 -10",
           "width": 100,
           "height": 100,
-          "text": "",
-          "background_color": "",
-          "index_in_parent_array": 1
-        },
+          "text": "1",
+          "background_color": ""
+        }
+        ,
         {
-          "leftX": 0,
-          "topY": 180.71875,
-          "name": "threedee_item_control_109",
+          "leftX": 17.4375,
+          "topY": 186.71875,
+          "name": "threedee_item_control_105",
           "base_component_id": "threedee_item_control",
           "parent": "threedee_control_105",
-          "position": "0 10 -10",
+          "position": "-3.1 10 -10",
           "width": 100,
           "height": 100,
-          "text": "",
-          "background_color": "",
-          "index_in_parent_array": 2
-        },
+          "text": "2",
+          "background_color": ""
+        }
+        ,
+
+
         {
           "leftX": 10.4375,
           "topY": 343.28125,
