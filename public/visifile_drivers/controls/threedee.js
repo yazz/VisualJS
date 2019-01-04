@@ -38,10 +38,25 @@ logo_url("/driver_icons/threedee_control.png")
       props: ["args","design_mode", "refresh", "children"]
       ,
       template: `<div id="app2" style='padding: 20px;' v-bind:refresh='refresh'>
-      
+
           <a-scene physics-world="" physics="debug: true" style='width: 80%; height: 80%;' embedded v-bind:refresh='refresh'>
               <slot>
               </slot>
+
+              <a-entity id="sky"
+                        geometry="primitive: sphere; radius: 100"
+                        material="color: #74DEED; shader: flat"
+                        scale="1 1 -1"></a-entity>
+
+              <a-entity id="ground"
+                        geometry="primitive: box; depth: 50; height: 0.1; width: 50"
+                        material="color: #2E3837"
+                        physics-body="mass: 0; boundingBox: 50 0.1 50" position="0 0 -10"></a-entity>
+
+              <a-entity id="player"
+                        camera look-controls wasd-physics-controls
+                        physics-body="mass: 0; boundingBox: 1 1.8 1"
+                        position="0 5 0"></a-entity>
 
             </a-scene>
          </div>
@@ -53,12 +68,12 @@ logo_url("/driver_icons/threedee_control.png")
                     scene.addEventListener('click', function () {
 
                         // Apply impulse;
-                        setTimeout(function () {
-                            var box = document.getElementById('left-box');
-                            var impulse = { x: 0, y: 10, z: 0 };
-                            var point = { x: 0.5, y: 0, z: 0 };
-                            box['physics-body'].applyImpulse(impulse, point);
-                            }, 25);
+                        //setTimeout(function () {
+                            //var box = document.getElementById('left-box');
+                            //var impulse = { x: 0, y: 10, z: 0 };
+                            //var point = { x: 0.5, y: 0, z: 0 };
+                            //box['physics-body'].applyImpulse(impulse, point);
+                        //}, 25);
                     });
                 }
 

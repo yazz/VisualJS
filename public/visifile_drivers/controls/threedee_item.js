@@ -30,11 +30,9 @@ logo_url("/driver_icons/threedee_item.png")
     Vue.component("threedee_item_control",{
         props: ["args","design_mode", "refresh"]
         ,
-      template: `<a-box         v-if='!design_mode'
-                                v-bind:position='args.position'
-                                body="shape: box; mass: 200"
-                                rotation="0 50 0"
-                                color="yellow">
-                      </a-box>`
+      template: `<a-entity    geometry="primitive: box" material="color: #166678; side: double"
+                                 physics-body="mass: 5; boundingBox: 2 2 2"
+                                 position="0 10 -10">
+                    </a-entity>`
     })
 }
