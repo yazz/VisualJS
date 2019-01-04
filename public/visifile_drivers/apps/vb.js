@@ -142,13 +142,28 @@ formEditor({
           "height": 161,
           "text": "",
           "background_color": ""
-        },
+        }
+        ,
         {
           "leftX": 24.4375,
           "topY": 179.71875,
           "name": "threedee_item_control_106",
           "base_component_id": "threedee_item_control",
           "parent": "threedee_control_105",
+          "position": "-1.2 2.5 -3",
+          "width": 100,
+          "height": 100,
+          "text": "",
+          "background_color": ""
+        }
+        ,
+        {
+          "leftX": 24.4375,
+          "topY": 179.71875,
+          "name": "threedee_item_control_109",
+          "base_component_id": "threedee_item_control",
+          "parent": "threedee_control_105",
+          "position": "-1 2.5 -3",
           "width": 100,
           "height": 100,
           "text": "",

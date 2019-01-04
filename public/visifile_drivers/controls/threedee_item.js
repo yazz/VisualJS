@@ -17,9 +17,10 @@ properties(
         }
         ,
         {
-            id:     "background_color",
-            name:   "Background color",
-            type:   "String"
+            id:         "position",
+            name:       "Position",
+            type:       "String",
+            default:    "-1.2 2.5 -3"
         }
     ]
 )//properties
@@ -29,9 +30,8 @@ logo_url("/driver_icons/threedee_item.png")
     Vue.component("threedee_item_control",{
         props: ["args","design_mode", "refresh"]
         ,
-      template: `<a-box    id='left-box'
-                           v-if='!design_mode'
-                                position="-1.2 2.5 -3"
+      template: `<a-box         v-if='!design_mode'
+                                v-bind:position='args.position'
                                 body="shape: box; mass: 200"
                                 rotation="0 50 0"
                                 color="yellow">
