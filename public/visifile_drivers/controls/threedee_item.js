@@ -20,7 +20,7 @@ properties(
             id:         "position",
             name:       "Position",
             type:       "String",
-            default:    "-1.2 2.5 -3"
+            default:    "-2.1 4 -10"
         }
     ]
 )//properties

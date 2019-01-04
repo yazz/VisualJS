@@ -744,7 +744,7 @@ uses_javascript_librararies(["aframe"])
 
      methods: {
         getChildren: function( itemName ) {
-//zzz
+
             var mm = this
             var ccc = mm.model.forms[mm.model.active_form].components
             var chh = []
@@ -1294,8 +1294,6 @@ ${eventMessage.code}
              var data = eval("(" + data2 + ")")
 
              var doc = document.documentElement;
-             var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
-             var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
 
              if (data.type == "add_component") {
                  var newItem = new Object()
@@ -1309,6 +1307,21 @@ ${eventMessage.code}
                  }
                  if (newItem.topY < 0) {
                     newItem.topY = 0
+                 }
+                 alert(`(${newItem.leftX},${newItem.topY})`)
+
+                 var ccc = mm.model.forms[mm.model.active_form].components
+                 for (var ytr = 0;ytr < ccc.length;ytr++){
+                    var baseId =    ccc[ytr].base_component_id
+                    var controlNmae =    ccc[ytr].name
+                    var x1 =        ccc[ytr].leftX
+                    var x2 =        ccc[ytr].leftX + ccc[ytr].width
+                    var y1 =        ccc[ytr].topY
+                    var y2 =        ccc[ytr].topY + ccc[ytr].height
+                    if ((x1 <= newItem.leftX) && (newItem.leftX <= x2) && (y1 <= newItem.topY) && (newItem.topY <= y2)) {
+                        //alert(`${baseId}:(${x1},${y1}) - (${x2},${y2})`)
+                        newItem.parent = controlNmae
+                    }
                  }
 
 
