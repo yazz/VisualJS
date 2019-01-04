@@ -195,7 +195,7 @@ uses_javascript_librararies(["aframe"])
                                             "position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:" + item.height + "px;width:" + item.width + "px;background: white;;overflow:none;"'>
 
                         <div ondrop="return false;" v-bind:style='"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:auto;"'>
-                            <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[index].name + (design_mode?"_deisgn":"")'
+                            <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[index].name + (design_mode?"_design":"")'
                                         v-bind:refresh='refresh'
                                         v-bind:design_mode='design_mode'
                                         v-bind:children='getChildren(item.name)'
@@ -210,11 +210,11 @@ uses_javascript_librararies(["aframe"])
                                     <component  v-for='(child_item,child_index) in getChildren(item.name)'
                                                 v-bind:design_mode='design_mode'
                                                 v-bind:refresh='refresh'
-                                                v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[index].name + (design_mode?"_deisgn":"")'
+                                                v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[child_index].name + (design_mode?"_design":"")'
                                                 v-on:send="processControlEvent"
                                                 v-bind:is='child_item.base_component_id'
                                                 v-bind:name='child_item.name + (design_mode?"_deisgn":"")'
-                                                v-bind:args='model.forms[model.active_form].components[child_index]'>
+                                                v-bind:args='model.forms[model.active_form].components[child_item.index_in_parent_array]'>
                                     </component>
 
                                 </template>
@@ -749,6 +749,7 @@ uses_javascript_librararies(["aframe"])
             var chh = []
             for (var ytr = 0;ytr < ccc.length;ytr++){
                 if (ccc[ytr].parent == itemName) {
+                    ccc[ytr].index_in_parent_array = ytr
                     chh.push(ccc[ytr])
                 }
             }
