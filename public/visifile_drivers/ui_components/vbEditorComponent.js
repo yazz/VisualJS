@@ -189,7 +189,7 @@ uses_javascript_librararies(["aframe"])
                     <div    v-bind:refresh='refresh'
                             v-for='(item,index) in getActiveFormComponents()'
                             ondrop="return false;"
-                            v-on:click='$event.stopPropagation();select_component(index)'
+                            v-on:click='$event.stopPropagation();select_component(index,true)'
                             v-bind:style='(design_mode?"border: " +
                                             ((index == model.active_component_index)?"1px solid black;":"1px solid black;"):"") +
                                             "position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:" + item.height + "px;width:" + item.width + "px;background: white;;overflow:none;"'>
