@@ -1269,10 +1269,12 @@ ${eventMessage.code}
               if (data.type == "resize_form_bottom_right") {
 
                 //alert(data.form_name)
+                //debugger
 
-                var rrr = document.getElementById(this.vb_editor_element_id).getBoundingClientRect()
+                var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+                //alert(`(${ev.clientX},${ev.clientY})`)
 
-                var newWidth = (ev.clientX + 20)  - rrr.left - data.offsetX - this.leftHandWidth;
+                var newWidth = (ev.clientX + 20)  - rrr.left - data.offsetX;
                 var newHeight = (ev.clientY + 20) - rrr.top - data.offsetY;
 
 
