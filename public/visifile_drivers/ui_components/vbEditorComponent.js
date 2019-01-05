@@ -163,13 +163,14 @@ uses_javascript_librararies(["aframe"])
                 <div style=''></div>
 
 
-                <div style='width:100%;background-color:white;height: 100%;'>
+                <div style='width:100%;background-color:white;height: 100%;position:relative;'>
+
                     <div            v-bind:id='vb_grid_element_id'  v-if='vb_grid_element_id != null'
                                     v-on:drop="drop($event)"
                                     v-on:ondragover="allowDrop($event)"
                                     v-bind:class='(design_mode?"dotted":"" )'
                                     v-on:click='if (design_mode) {$event.stopPropagation();selectForm(model.active_form, true)}'
-                                    v-bind:style='"display: inline-block; vertical-align: top; position: relative; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 4px solid lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);":"border: 0px;" ) '>
+                                    v-bind:style='"position:absolute;left:15px;top:15px;display: inline-block; vertical-align: top; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 4px solid lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);":"border: 0px;" ) '>
 
 
 
