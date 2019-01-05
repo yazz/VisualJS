@@ -236,6 +236,55 @@ uses_javascript_librararies(["aframe"])
                                         ((model.forms[model.active_form].components[model.active_component_index].topY) - 15) +  "px;"'
                                     >
                             </div>
+                            <!-- top middle -->
+                            <div    v-if='design_mode && (model.active_component_index)'
+                                    v-bind:style='"display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
+                                        ((model.forms[model.active_form].components[model.active_component_index].leftX) + (model.forms[model.active_form].components[model.active_component_index].width/2) - 15) +  "px;top:" +
+                                        ((model.forms[model.active_form].components[model.active_component_index].topY) - 15) +  "px;"'
+                                    >
+                            </div>
+                            <!-- top right -->
+                            <div    v-if='design_mode && (model.active_component_index)'
+                                    v-bind:style='"display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
+                                        ((model.forms[model.active_form].components[model.active_component_index].leftX) + (model.forms[model.active_form].components[model.active_component_index].width) ) +  "px;top:" +
+                                        ((model.forms[model.active_form].components[model.active_component_index].topY) - 15) +  "px;"'
+                                    >
+                            </div>
+                            <!-- middle left -->
+                            <div    v-if='design_mode && (model.active_component_index)'
+                                    v-bind:style='"display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
+                                        ((model.forms[model.active_form].components[model.active_component_index].leftX) - 15) +  "px;top:" +
+                                        ((model.forms[model.active_form].components[model.active_component_index].topY) + ((model.forms[model.active_form].components[model.active_component_index].height / 2)) - 7) +  "px;"'
+                                    >
+                            </div>
+                            <!-- middle right -->
+                            <div    v-if='design_mode && (model.active_component_index)'
+                                    v-bind:style='"display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
+                                        ((model.forms[model.active_form].components[model.active_component_index].leftX) + (model.forms[model.active_form].components[model.active_component_index].width)) +  "px;top:" +
+                                        ((model.forms[model.active_form].components[model.active_component_index].topY) + ((model.forms[model.active_form].components[model.active_component_index].height / 2)) - 7) +  "px;"'
+                                    >
+                            </div>
+                            <!-- bottom left -->
+                            <div    v-if='design_mode && (model.active_component_index)'
+                                    v-bind:style='"display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
+                                        ((model.forms[model.active_form].components[model.active_component_index].leftX) - 15) +  "px;top:" +
+                                        ((model.forms[model.active_form].components[model.active_component_index].topY) + ((model.forms[model.active_form].components[model.active_component_index].height))) +  "px;"'
+                                    >
+                            </div>
+                            <!-- bottom middle -->
+                            <div    v-if='design_mode && (model.active_component_index)'
+                                    v-bind:style='"display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
+                                        ((model.forms[model.active_form].components[model.active_component_index].leftX) + (model.forms[model.active_form].components[model.active_component_index].width/2) - 15) +  "px;top:" +
+                                        ((model.forms[model.active_form].components[model.active_component_index].topY) + ((model.forms[model.active_form].components[model.active_component_index].height))) +  "px;"'
+                                    >
+                            </div>
+                            <!-- bottom right -->
+                            <div    v-if='design_mode && (model.active_component_index)'
+                                    v-bind:style='"display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
+                                        ((model.forms[model.active_form].components[model.active_component_index].leftX) + (model.forms[model.active_form].components[model.active_component_index].width) ) +  "px;top:" +
+                                        ((model.forms[model.active_form].components[model.active_component_index].topY) + ((model.forms[model.active_form].components[model.active_component_index].height))) +  "px;"'
+                                    >
+                            </div>
 
 
 
