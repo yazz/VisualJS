@@ -28,7 +28,7 @@ uses_javascript_librararies(["aframe"])
         v-bind:style='"width: 100%; height: 100%; " + (design_mode?"background: white;":"")'>
 
 
-    <div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: lightgray; padding: 5px; padding-left: 15px;' v-if='design_mode' >
+    <div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: lightgray; padding: 5px; padding-left: 15px;padding-bottom: 10px;' v-if='design_mode' >
 
         <slot style='display: inline-block;float: left;' v-if='text'>
         </slot>
@@ -58,7 +58,7 @@ uses_javascript_librararies(["aframe"])
                 v-on:click='selected_pane = "blocks";'
                 v-bind:style='(design_mode?"border: 4px solid lightgray;":"") + " width: " + leftHandWidth + "px;height: 75vmin; display: inline-block;overflow-x: none;overflow-y: auto;vertical-align: top; background-color: lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);float:left;"'>
 
-            <div    v-bind:style='"font-size:14px;border-radius: 3px;padding: 4px; margin-bottom: 10px;box-shadow: 2px 2px 10px lightgray;"'
+            <div    v-bind:style='"font-family:verdana;font-size: 13px;border-radius: 3px;padding: 4px; margin-bottom: 10px;box-shadow: 2px 2px 10px lightgray;"'
                     v-bind:class='(selected_pane == "blocks"?"selected_pane_title":"unselected_pane_title") '>
                 Blocks
             </div>
@@ -119,7 +119,7 @@ uses_javascript_librararies(["aframe"])
                     v-bind:style='"margin: 2px; display: inline-block; vertical-align: top; width: 100%;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
 
                 <div    v-if='design_mode'
-                        style='font-size:14px;font-weight:bold;border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
+                        style='font-family:verdana;font-size: 13px;font-weight:bold;border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
 
                     <div    style='height: 30px;' >
                         Code
@@ -151,7 +151,7 @@ uses_javascript_librararies(["aframe"])
                     v-bind:style='"margin: 2px; display: inline-block; vertical-align: top;  width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 0px;margin-left:15px;margin-top:15px;":"margin: 0px;" ) '>
 
                 <div    v-if='design_mode'
-                        style='display:inline-block;font-size:14px;font-weight:bold;border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;width:100%;'>
+                        style='display:inline-block;font-family:verdana;font-size: 13px;font-weight:bold;border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;width:100%;'>
 
                     <img
                         src='/driver_icons/form.png'
@@ -368,7 +368,7 @@ uses_javascript_librararies(["aframe"])
                     v-bind:refresh='refresh'
                     v-bind:style='"padding:0px; border: 4px solid lightgray;white-space:nowrap"'>
 
-                <div v-bind:style='"border-radius: 3px;  padding: 4px;overflow-x:none;height: 40px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);font-size:14px;" '
+                <div v-bind:style='"border-radius: 3px;  padding: 4px;overflow-x:none;height: 40px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);font-family:verdana;font-size: 13px;" '
                      v-bind:class='(selected_pane == "project"?"selected_pane_title":"unselected_pane_title") '
                      v-on:click='$event.stopPropagation();var s = (right_mode == "properties"?"project":"project");selected_pane = "project";chooseRight(s);'
                      >
@@ -376,7 +376,7 @@ uses_javascript_librararies(["aframe"])
                      Project explorer
 
                     <button type=button class='btn btn-sm btn-warning'
-                            v-bind:style='"float: right;" + (right_mode == "project"?"":"display:;font-size:14px;")'
+                            v-bind:style='"float: right;" + (right_mode == "project"?"":"display:;font-family:verdana;font-size: 13px;")'
                             v-on:click='$event.stopPropagation();selected_pane = "project"; chooseRight("project");addForm()'  >
 
                          Add form
@@ -385,7 +385,7 @@ uses_javascript_librararies(["aframe"])
                 </div>
 
 
-                <div  v-bind:style='"font-size:14px;border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:80%;background-color:lightgray;"  + (right_mode == "project"?"":"display:none;")'>
+                <div  v-bind:style='"font-family:verdana;font-size: 13px;border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:80%;background-color:lightgray;"  + (right_mode == "project"?"":"display:none;")'>
                     <div    style="align-items: stretch;border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
 
                         <div    v-bind:style='"border-radius: 0px;padding:4px;margin:0px;margin-top: 5px;" + (model.app_selected?"background-color:gray;color:white;":"background-color:white;color:black;")'
@@ -434,7 +434,7 @@ uses_javascript_librararies(["aframe"])
                     v-bind:class='(right_mode == "properties"?"right_properties_pane_collapsed":"right_properties_pane_collapsed")'
                     v-bind:style='"padding:0px; border: 4px solid lightgray;padding:0px;background-color: lightgray;"'>
 
-                <div    v-bind:style='"border-radius: 3px;padding: 4px;height: 40px;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;font-size:14px;"'
+                <div    v-bind:style='"border-radius: 3px;padding: 4px;height: 40px;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;font-family:verdana;font-size: 13px;"'
                         v-bind:class='(selected_pane == "properties"?"selected_pane_title_slower":"unselected_pane_title_slower") '
                         v-on:click='selected_pane = "properties";chooseRight("properties");'>
                     Properties - {{model.active_component_index?model.forms[model.active_form].components[model.active_component_index].name + " (Component)" : model.active_form + " (Form)"}}
@@ -450,13 +450,13 @@ uses_javascript_librararies(["aframe"])
 
 
                         <div    v-for='property in properties'
-                                style='font-size:14px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'
+                                style='font-family:verdana;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'
                                 >
 
                             <div style='width:100%;padding:0px;margin:0px;display:flex;'
                                  v-if='!property.hidden'>
                                 <div
-                                        v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-size:14px;padding-left: 1px;padding-top:0px;padding-bottom:0px;" + (active_property_index == property.name?"background-color:#000099;color:white;":"")'
+                                        v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;" + (active_property_index == property.name?"background-color:#000099;color:white;":"")'
                                         v-on:click='selected_pane = "properties";active_property_index = property.name;'>{{property.name}}
                                 </div>
 
@@ -467,7 +467,7 @@ uses_javascript_librararies(["aframe"])
                                             <input
                                                     @change='setVBEditorProperty($event, property)'
                                                     v-bind:value='getVBEditorProperty(property)'
-                                                    style='width: 100%;border: 0px;font-size:14px;padding:0px;'>
+                                                    style='width: 100%;border: 0px;font-family:verdana;font-size: 13px;padding:0px;'>
                                             </input>
                                         </div>
 
@@ -479,7 +479,7 @@ uses_javascript_librararies(["aframe"])
                                         </div>
 
                                         <div v-if="(property.type  == 'Event')  " style="width:100%">
-                                            <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-size:14px;font-style:bold;'
+                                            <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-family:verdana;font-size: 13px;font-style:bold;'
                                                         v-on:click='$event.stopPropagation();editAsCode({
                                                             active_form:            model.active_form,
                                                             active_component_index: model.active_component_index,
@@ -492,7 +492,7 @@ uses_javascript_librararies(["aframe"])
 
                                     <div v-if='property.readonly'>
                                         <div    v-if='model.active_component_index != null'
-                                                style='padding:0px;font-size:14px;'
+                                                style='padding:0px;font-family:verdana;font-size: 13px;'
                                                 class='col-md-12 small'>
 
                                             {{model.forms[model.active_form].components[model.active_component_index][property.id]}}
@@ -503,7 +503,7 @@ uses_javascript_librararies(["aframe"])
                                         </div>
 
                                         <div    v-if='model.app_selected'
-                                                style='padding:0px;font-size:14px;'
+                                                style='padding:0px;font-family:verdana;font-size: 13px;'
                                                 class='col-md-12 small'  >
 
                                             {{property.get_fn?property.get_fn():model[property.id]}}
@@ -517,7 +517,7 @@ uses_javascript_librararies(["aframe"])
                         <div  v-if='model.app_selected && (!add_property)' class='row'>
                             <div  class='col-md-12 small'>
                                 <button     type=button class='btn btn-sm btn-info'
-                                            style='font-size: 14px;'
+                                            style='font-family:verdana;font-size: 13px;'
                                             v-on:click='$event.stopPropagation();addProperty()'  >
                                     Add property
                                 </button>
@@ -525,19 +525,19 @@ uses_javascript_librararies(["aframe"])
                         </div>
 
                         <div v-if='(model.app_selected) && (add_property)' class='row'>
-                            <div    style='font-size: 14px;'
+                            <div    style='font-family:verdana;font-size: 13px;'
                                     class='col-md-12 small'>
                                 Add a property
                             </div>
                         </div>
 
                         <div v-if='(model.app_selected) && (add_property)' class='row'>
-                            <div    style='font-size: 14px;'
+                            <div    style='font-family:verdana;font-size: 13px;'
                                     class='col-md-4'>
                                ID
                             </div>
 
-                            <input  style='font-size: 14px;'
+                            <input  style='font-family:verdana;font-size: 13px;'
                                     class='col-md-7 small'
                                     placeholder='background_color'
                                     v-model='new_property_id'>
@@ -545,27 +545,27 @@ uses_javascript_librararies(["aframe"])
                         </div>
 
                         <div v-if='(model.app_selected) && (add_property)' class='row'>
-                            <div    style='font-size: 14px;'
+                            <div    style='font-family:verdana;font-size: 13px;'
                                     class='col-md-4'>
                                 Name
                             </div>
 
                             <input  class='col-md-7 small'
                                     placeholder='Background Color'
-                                    style='border:0px;font-size: 14px;'
+                                    style='border:0px;font-family:verdana;font-size: 13px;'
                                     v-model='new_property_name'>
                             </input>
                         </div>
 
                         <div v-if='(model.app_selected) && (add_property)' class='row'>
                             <div class='col-md-12'>
-                                <button style='font-size: 14px;'
+                                <button style='font-family:verdana;font-size: 13px;'
                                         type=button class='btn btn-sm btn-info'
                                         v-on:click='$event.stopPropagation();addPropertyCancel()'  >
                                     Cancel
                                 </button>
 
-                                <button style='font-size: 14px;'
+                                <button style='font-family:verdana;font-size: 13px;'
                                         type=button class='btn btn-sm btn-info'
                                         v-on:click='$event.stopPropagation();addPropertySave()'  >
                                     Save
@@ -1513,16 +1513,16 @@ ${eventMessage.code}
          myDataRenderFunction: function(data) {
              var center = ""
              if (data.app) {
-                center = "<b style='font-size:14px;'>" + (data.app?data.app:data.form) + "</b> "
+                center = "<b style='font-family:verdana;font-size: 13px;'>" + (data.app?data.app:data.form) + "</b> "
 
              } else if (data.component) {
-                 center = "<b style='font-size:14px;'>" + data.component + "</b> " + data.component_type
+                 center = "<b style='font-family:verdana;font-size: 13px;'>" + data.component + "</b> " + data.component_type
              } else if (data.form) {
-                 center = "<b style='font-size:14px;'>" + data.form + "</b> "
+                 center = "<b style='font-family:verdana;font-size: 13px;'>" + data.form + "</b> "
              }
 
              var template =
-               "<div  style='overflow:hidden ;text-overflow: ellipsis;border-radius: 1px;margin: 0px;padding:0px;border:0px;font-size: 14px;'>" +
+               "<div  style='overflow:hidden ;text-overflow: ellipsis;border-radius: 1px;margin: 0px;padding:0px;border:0px;font-family:verdana;font-size: 13px;'>" +
                     center +
                "</div>";
              return template;
