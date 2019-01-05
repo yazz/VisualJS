@@ -1274,8 +1274,8 @@ ${eventMessage.code}
                 var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
                 //alert(`(${ev.clientX},${ev.clientY})`)
 
-                var newWidth = (ev.clientX + 20)  - rrr.left - data.offsetX;
-                var newHeight = (ev.clientY + 20) - rrr.top - data.offsetY;
+                var newWidth = (ev.clientX - 8)  - rrr.left ;
+                var newHeight = (ev.clientY - 8) - rrr.top ;
 
 
                 this.model.forms[this.model.active_form].width = newWidth
