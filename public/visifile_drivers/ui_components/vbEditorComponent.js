@@ -186,7 +186,13 @@ uses_javascript_librararies(["aframe"])
                     <!-- ACTIVE FORM RESIZERS -->
                     <!-- bottom right -->
                     <div    v-if='design_mode'
-                            v-bind:style='"display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (15 +model.forms[model.active_form].width) +  "px;top:" + (15 + (model.forms[model.active_form].height)) +  "px;"'>
+                            v-bind:style='"display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (15 +model.forms[model.active_form].width) +  "px;top:" + (15 + (model.forms[model.active_form].height)) +  "px;"'
+                            v-bind:draggable='true'
+                            v-on:dragstart='drag($event,{
+                               type:        "resize_form_bottom_right",
+                               form_name:    model.active_form
+                            })'
+                            >
                     </div>
                     <!-- right -->
                     <div    v-if='design_mode'
@@ -197,6 +203,9 @@ uses_javascript_librararies(["aframe"])
                             v-bind:style='"display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (7 +model.forms[model.active_form].width/2) +  "px;top:" + (15 + (model.forms[model.active_form].height)) +  "px;"'>
                     </div>
 
+
+
+
                     <div            v-bind:id='vb_grid_element_id'  v-if='vb_grid_element_id != null'
                                     v-on:drop="drop($event)"
                                     v-on:ondragover="allowDrop($event)"
@@ -206,20 +215,6 @@ uses_javascript_librararies(["aframe"])
 
 
 
-                        <div    v-if='design_mode'
-                                v-bind:refresh='refresh'
-                                style='opacity:0.5;position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
-                                v-bind:draggable='true'
-                                v-on:dragstart='drag($event,{
-                                   type:        "resize_form_bottom_right",
-                                   form_name:    model.active_form
-                                })'>
-                            <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
-                            </div>
-
-                            <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
-                            </div>
-                        </div>
 
                         <div    v-bind:refresh='refresh'
                                 v-for='(item,index) in getActiveFormComponents()'
