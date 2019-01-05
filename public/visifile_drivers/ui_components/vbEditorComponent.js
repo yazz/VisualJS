@@ -230,56 +230,56 @@ uses_javascript_librararies(["aframe"])
 
                             <!-- ACTIVE CONTROL RESIZERS -->
                             <!-- top left -->
-                            <div    v-if='design_mode && (model.active_component_index)'
+                            <div    v-if='design_mode && isValidObject(model.active_component_index)'
                                     v-bind:style='"display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
                                         ((model.forms[model.active_form].components[model.active_component_index].leftX) - 15) +  "px;top:" +
                                         ((model.forms[model.active_form].components[model.active_component_index].topY) - 15) +  "px;"'
                                     >
                             </div>
                             <!-- top middle -->
-                            <div    v-if='design_mode && (model.active_component_index)'
+                            <div    v-if='design_mode && isValidObject(model.active_component_index)'
                                     v-bind:style='"display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
                                         ((model.forms[model.active_form].components[model.active_component_index].leftX) + (model.forms[model.active_form].components[model.active_component_index].width/2) - 15) +  "px;top:" +
                                         ((model.forms[model.active_form].components[model.active_component_index].topY) - 15) +  "px;"'
                                     >
                             </div>
                             <!-- top right -->
-                            <div    v-if='design_mode && (model.active_component_index)'
+                            <div    v-if='design_mode && isValidObject(model.active_component_index)'
                                     v-bind:style='"display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
                                         ((model.forms[model.active_form].components[model.active_component_index].leftX) + (model.forms[model.active_form].components[model.active_component_index].width) ) +  "px;top:" +
                                         ((model.forms[model.active_form].components[model.active_component_index].topY) - 15) +  "px;"'
                                     >
                             </div>
                             <!-- middle left -->
-                            <div    v-if='design_mode && (model.active_component_index)'
+                            <div    v-if='design_mode && isValidObject(model.active_component_index)'
                                     v-bind:style='"display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
                                         ((model.forms[model.active_form].components[model.active_component_index].leftX) - 15) +  "px;top:" +
                                         ((model.forms[model.active_form].components[model.active_component_index].topY) + ((model.forms[model.active_form].components[model.active_component_index].height / 2)) - 7) +  "px;"'
                                     >
                             </div>
                             <!-- middle right -->
-                            <div    v-if='design_mode && (model.active_component_index)'
+                            <div    v-if='design_mode && isValidObject(model.active_component_index)'
                                     v-bind:style='"display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
                                         ((model.forms[model.active_form].components[model.active_component_index].leftX) + (model.forms[model.active_form].components[model.active_component_index].width)) +  "px;top:" +
                                         ((model.forms[model.active_form].components[model.active_component_index].topY) + ((model.forms[model.active_form].components[model.active_component_index].height / 2)) - 7) +  "px;"'
                                     >
                             </div>
                             <!-- bottom left -->
-                            <div    v-if='design_mode && (model.active_component_index)'
+                            <div    v-if='design_mode && isValidObject(model.active_component_index)'
                                     v-bind:style='"display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
                                         ((model.forms[model.active_form].components[model.active_component_index].leftX) - 15) +  "px;top:" +
                                         ((model.forms[model.active_form].components[model.active_component_index].topY) + ((model.forms[model.active_form].components[model.active_component_index].height))) +  "px;"'
                                     >
                             </div>
                             <!-- bottom middle -->
-                            <div    v-if='design_mode && (model.active_component_index)'
+                            <div    v-if='design_mode && isValidObject(model.active_component_index)'
                                     v-bind:style='"display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
                                         ((model.forms[model.active_form].components[model.active_component_index].leftX) + (model.forms[model.active_form].components[model.active_component_index].width/2) - 15) +  "px;top:" +
                                         ((model.forms[model.active_form].components[model.active_component_index].topY) + ((model.forms[model.active_form].components[model.active_component_index].height))) +  "px;"'
                                     >
                             </div>
                             <!-- bottom right -->
-                            <div    v-if='design_mode && (model.active_component_index)'
+                            <div    v-if='design_mode && isValidObject(model.active_component_index)'
                                     v-bind:style='"display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
                                         ((model.forms[model.active_form].components[model.active_component_index].leftX) + (model.forms[model.active_form].components[model.active_component_index].width) ) +  "px;top:" +
                                         ((model.forms[model.active_form].components[model.active_component_index].topY) + ((model.forms[model.active_form].components[model.active_component_index].height))) +  "px;"'
@@ -540,7 +540,7 @@ uses_javascript_librararies(["aframe"])
                 <div    v-bind:style='"border-radius: 3px;padding: 4px;height: 40px;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;font-family:verdana;font-size: 13px;"'
                         v-bind:class='(selected_pane == "properties"?"selected_pane_title_slower":"unselected_pane_title_slower") '
                         v-on:click='selected_pane = "properties";chooseRight("properties");'>
-                    Properties - {{model.active_component_index?model.forms[model.active_form].components[model.active_component_index].name + " (Component)" : model.active_form + " (Form)"}}
+                    Properties - {{isValidObject(model.active_component_index)?model.forms[model.active_form].components[model.active_component_index].name + " (Component)" : model.active_form + " (Form)"}}
                 </div>
 
 
@@ -1658,7 +1658,7 @@ ${eventMessage.code}
             var indexProp = 0
             var selectedItem = null
 
-            if (mm.model.app_selected || (!mm.model.active_component_index)) {
+            if (mm.model.app_selected || (!isValidObject(mm.model.active_component_index))) {
 
                 if (mm.edited_app_component_id) {
                     sdata.push(
@@ -1692,7 +1692,7 @@ ${eventMessage.code}
                     indexProp++
                 }
 
-            } else if (mm.model.active_component_index) {
+            } else if (isValidObject(mm.model.active_component_index)) {
 
                 sdata.push(
                     {
