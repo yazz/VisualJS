@@ -196,11 +196,23 @@ uses_javascript_librararies(["aframe"])
                     </div>
                     <!-- right -->
                     <div    v-if='design_mode'
-                            v-bind:style='"display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (15 +model.forms[model.active_form].width) +  "px;top:" + (7 + (model.forms[model.active_form].height/2)) +  "px;"'>
+                            v-bind:style='"display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (15 +model.forms[model.active_form].width) +  "px;top:" + (7 + (model.forms[model.active_form].height/2)) +  "px;"'
+                            v-bind:draggable='true'
+                            v-on:dragstart='drag($event,{
+                               type:        "resize_form_right",
+                               form_name:    model.active_form
+                            })'
+                            >
                     </div>
                     <!-- bottom -->
                     <div    v-if='design_mode'
-                            v-bind:style='"display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (7 +model.forms[model.active_form].width/2) +  "px;top:" + (15 + (model.forms[model.active_form].height)) +  "px;"'>
+                            v-bind:style='"display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (7 +model.forms[model.active_form].width/2) +  "px;top:" + (15 + (model.forms[model.active_form].height)) +  "px;"'
+                            v-bind:draggable='true'
+                            v-on:dragstart='drag($event,{
+                               type:        "resize_form_bottom",
+                               form_name:    model.active_form
+                            })'
+                            >
                     </div>
 
 
@@ -1267,22 +1279,34 @@ ${eventMessage.code}
               var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
 
               if (data.type == "resize_form_bottom_right") {
-
-                //alert(data.form_name)
-                //debugger
-
                 var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
-                //alert(`(${ev.clientX},${ev.clientY})`)
 
                 var newWidth = (ev.clientX - 8)  - rrr.left ;
                 var newHeight = (ev.clientY - 8) - rrr.top ;
-
 
                 this.model.forms[this.model.active_form].width = newWidth
                 this.model.forms[this.model.active_form].height = newHeight
 
                 this.model.active_component_index = null
-              }
+
+              } else if (data.type == "resize_form_right") {
+                var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+
+                var newWidth = (ev.clientX - 8)  - rrr.left ;
+
+                this.model.forms[this.model.active_form].width = newWidth
+
+                this.model.active_component_index = null
+
+            } else if (data.type == "resize_form_bottom") {
+                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+
+                  var newHeight = (ev.clientY - 8) - rrr.top ;
+
+                  this.model.forms[this.model.active_form].height = newHeight
+
+                  this.model.active_component_index = null
+                }
           },
 
          //-------------------------------------------------------------------
