@@ -163,7 +163,24 @@ uses_javascript_librararies(["aframe"])
                 <div style=''></div>
 
 
+
                 <div style='width:100%;background-color:white;height: 100%;position:relative;'>
+
+                    <div    v-if='design_mode'
+                            v-bind:style='"display:inline-block;background-color: white; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:2px;top:2px;"'>
+                    </div>
+                    <div    v-if='design_mode'
+                            v-bind:style='"display:inline-block;background-color: white; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (7 + (model.forms[model.active_form].width/2)) +  "px;top:2px;"'>
+                    </div>
+                    <div    v-if='design_mode'
+                            v-bind:style='"display:inline-block;background-color: white; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (15 +model.forms[model.active_form].width) +  "px;top:2px;"'>
+                    </div>
+                    <div    v-if='design_mode'
+                            v-bind:style='"display:inline-block;background-color: white; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:2px;top:" + (7 + (model.forms[model.active_form].height/2)) +  "px;"'>
+                    </div>
+                    <div    v-if='design_mode'
+                            v-bind:style='"display:inline-block;background-color: white; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:2px;top:" + (15 + model.forms[model.active_form].height) +  "px;"'>
+                    </div>
 
                     <div            v-bind:id='vb_grid_element_id'  v-if='vb_grid_element_id != null'
                                     v-on:drop="drop($event)"
