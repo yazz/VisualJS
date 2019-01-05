@@ -58,7 +58,7 @@ uses_javascript_librararies(["aframe"])
                 v-on:click='selected_pane = "blocks";'
                 v-bind:style='(design_mode?"border: 4px solid lightgray;":"") + " width: " + leftHandWidth + "px;height: 75vmin; display: inline-block;overflow-x: none;overflow-y: auto;vertical-align: top; background-color: lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);float:left;"'>
 
-            <div    v-bind:style='"font-size:14px;font-weight:bold;border-radius: 3px;padding: 4px; margin-bottom: 10px;box-shadow: 2px 2px 10px lightgray;"'
+            <div    v-bind:style='"font-size:14px;border-radius: 3px;padding: 4px; margin-bottom: 10px;box-shadow: 2px 2px 10px lightgray;"'
                     v-bind:class='(selected_pane == "blocks"?"selected_pane_title":"unselected_pane_title") '>
                 Blocks
             </div>
@@ -104,7 +104,7 @@ uses_javascript_librararies(["aframe"])
                 The main center section of the UI editor
 
         -->
-        <div style='display: flex;width:100%;'>
+        <div style='display: flex;width:100%;background-color: darkgray;'>
 
 
 
@@ -368,7 +368,7 @@ uses_javascript_librararies(["aframe"])
                     v-bind:refresh='refresh'
                     v-bind:style='"padding:0px; border: 4px solid lightgray;white-space:nowrap"'>
 
-                <div v-bind:style='"border-radius: 3px;  padding: 4px;overflow-x:none;height: 40px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);font-size:14px;font-weight:bold;" '
+                <div v-bind:style='"border-radius: 3px;  padding: 4px;overflow-x:none;height: 40px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);font-size:14px;" '
                      v-bind:class='(selected_pane == "project"?"selected_pane_title":"unselected_pane_title") '
                      v-on:click='$event.stopPropagation();var s = (right_mode == "properties"?"project":"project");selected_pane = "project";chooseRight(s);'
                      >
@@ -434,7 +434,7 @@ uses_javascript_librararies(["aframe"])
                     v-bind:class='(right_mode == "properties"?"right_properties_pane_collapsed":"right_properties_pane_collapsed")'
                     v-bind:style='"padding:0px; border: 4px solid lightgray;padding:0px;background-color: lightgray;"'>
 
-                <div    v-bind:style='"border-radius: 3px;padding: 4px;height: 40px;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;font-size:14px;font-weight:bold;"'
+                <div    v-bind:style='"border-radius: 3px;padding: 4px;height: 40px;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;font-size:14px;"'
                         v-bind:class='(selected_pane == "properties"?"selected_pane_title_slower":"unselected_pane_title_slower") '
                         v-on:click='selected_pane = "properties";chooseRight("properties");'>
                     Properties - {{model.active_component_index?model.forms[model.active_form].components[model.active_component_index].name + " (Component)" : model.active_form + " (Form)"}}
