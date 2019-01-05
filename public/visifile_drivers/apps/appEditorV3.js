@@ -205,7 +205,7 @@ load_once_from_file(true)
                 &larr; &rarr; <span class=reload>&#x21bb;</span>
 
 
-                <input  readonly size="40" style='font-size: 14px;'
+                <input  readonly size="40" style='font-family:verdana;font-size: 13px;'
                         v-bind:value='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'>
                 </input>
 
@@ -262,7 +262,7 @@ load_once_from_file(true)
 
         <div style='margin:0px'>
             <div    style='position: absolute;width:30%;display:inline-block;border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;overflow: hidden;padding:0px;margin-left:15px;border-radius: 5px;margin-top: 15px;'>
-                <div    style='white-space: nowrap;overflow: hidden;text-overflow: ellipsis;font-size:14px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; padding:4px; margin:0;border-bottom: 0px;padding-left:10px;'>
+                <div    style='white-space: nowrap;overflow: hidden;text-overflow: ellipsis;font-family:verdana;font-size: 13px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; padding:4px; margin:0;border-bottom: 0px;padding-left:10px;'>
 
                      Debugging: {{highlighted_block_name}}
                 </div>
@@ -274,7 +274,7 @@ load_once_from_file(true)
 
             <div    style='position: absolute;left: 35%; width:30%;display:inline-block;border:5px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;background-color: lightgray; position: relative;padding:0px;margin-left:15px;margin-top:0px;border-radius: 5px;'>
 
-                <div    style='white-space: nowrap;overflow: hidden;text-overflow: ellipsis;font-size:14px;font-weight:bold;border-radius: 5px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white;  padding:4px; margin:0;border-bottom: 3px solid lightgray;padding-left:10px;'>
+                <div    style='white-space: nowrap;overflow: hidden;text-overflow: ellipsis;font-family:verdana;font-size: 13px;font-weight:bold;border-radius: 5px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white;  padding:4px; margin:0;border-bottom: 3px solid lightgray;padding-left:10px;'>
                      Stepper
                      <span class='col-md-3'>
                          <input  style=''
@@ -296,12 +296,12 @@ load_once_from_file(true)
                     </div>
 
                     <div v-if='timeline_x_cursor <= 200'
-                         v-bind:style='  "position: absolute;pointer-events: none;width: 100%;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor + 10)  + "px; font-size: 14px;" '>
+                         v-bind:style='  "position: absolute;pointer-events: none;width: 100%;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor + 10)  + "px; font-family:verdana;font-size: 13px;" '>
                             {{current_execution_step + 1}} / {{execution_timeline.length}}
                     </div>
 
                     <div v-if='timeline_x_cursor > 200'
-                         v-bind:style='  "position: absolute;pointer-events: none;width: 100px;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor - 100)  + "px; font-size: 14px; text-align:right;" '>
+                         v-bind:style='  "position: absolute;pointer-events: none;width: 100px;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor - 100)  + "px; font-family:verdana;font-size: 13px; text-align:right;" '>
                             {{current_execution_step + 1}} / {{execution_timeline.length}}
                     </div>
 
@@ -361,12 +361,12 @@ load_once_from_file(true)
                         v-bind:refresh='refresh'
                         v-bind:style='"padding:0px; border: 4px solid lightgray;white-space:nowrap"'>
 
-                    <div v-bind:style='"border-radius: 3px;  padding: 4px;overflow-x:none;height: 40px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);font-size:14px;font-weight:bold;padding-left:10px;" '
+                    <div v-bind:style='"border-radius: 3px;  padding: 4px;overflow-x:none;height: 40px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);font-family:verdana;font-size: 13px;font-weight:bold;padding-left:10px;" '
                          v-bind:class='(selected_pane == "watches"?"selected_pane_title":"unselected_pane_title") '
                          v-on:click='$event.stopPropagation();selected_pane = "watches";chooseRight("watches");'>
                         Watch vars
                     </div>
-                    <div  v-bind:style='"font-size:14px;border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:80%;background-color:lightgray;"  + (right_mode == "watches"?"":"display:none;")'>
+                    <div  v-bind:style='"font-family:verdana;font-size: 13px;border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:80%;background-color:lightgray;"  + (right_mode == "watches"?"":"display:none;")'>
                         <div    style="align-items: stretch;border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
                             <div class='container' style="padding:0;margin:0">
                                 <div v-if='execution_timeline[current_execution_step]'>
@@ -421,7 +421,7 @@ load_once_from_file(true)
                 <div    v-bind:class='(right_mode == "scope"?"right_properties_pane_collapsed":"right_properties_pane_collapsed")'
                         v-bind:style='"padding:0px; border: 4px solid lightgray;padding:0px;background-color: lightgray;"'>
 
-                    <div    v-bind:style='"border-radius: 3px;padding: 4px;height: 40px;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;font-size:14px;font-weight:bold;padding-left:10px;"'
+                    <div    v-bind:style='"border-radius: 3px;padding: 4px;height: 40px;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;font-family:verdana;font-size: 13px;font-weight:bold;padding-left:10px;"'
                             v-bind:class='(selected_pane == "scope"?"selected_pane_title_slower":"unselected_pane_title_slower") '
                             v-on:click='selected_pane = "scope";chooseRight("scope");'>
                         Current scope
