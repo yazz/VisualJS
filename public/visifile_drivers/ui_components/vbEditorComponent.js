@@ -283,7 +283,12 @@ uses_javascript_librararies(["aframe"])
                                     v-bind:style='"display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
                                         ((model.forms[model.active_form].components[model.active_component_index].leftX) + (model.forms[model.active_form].components[model.active_component_index].width) ) +  "px;top:" +
                                         ((model.forms[model.active_form].components[model.active_component_index].topY) + ((model.forms[model.active_form].components[model.active_component_index].height))) +  "px;"'
-                                    >
+                                    v-bind:draggable='true'
+                                    v-on:dragstart='drag($event,{
+                                                                   type:   "resize_bottom_right",
+                                                                   text:    model.forms[model.active_form].components[model.active_component_index].base_component_id,
+                                                                   index:   model.active_component_index
+                                                                        })'>
                             </div>
 
 
@@ -403,21 +408,6 @@ uses_javascript_librararies(["aframe"])
 
 
 
-                                <div  v-if='design_mode'
-                                      v-bind:refresh='refresh'
-                                      style='opacity:0.5;position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
-                                      v-bind:draggable='true'
-                                      v-on:dragstart='drag($event,{
-                                                                     type:   "resize_bottom_right",
-                                                                     text:    item.base_component_id,
-                                                                     index:   index
-                                                                          })'>
-                                    <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
-                                    </div>
-
-                                    <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
-                                    </div>
-                                </div>
 
 
                                 <div     v-if='design_mode'
@@ -1579,8 +1569,8 @@ ${eventMessage.code}
              } else if (data.type == "resize_bottom_right") {
 
                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
-                 var newX = (ev.clientX + 20)  - rrr.left - data.offsetX;
-                 var newY = (ev.clientY + 20) - rrr.top - data.offsetY;
+                 var newX = ev.clientX  - rrr.left - 10;
+                 var newY = ev.clientY - rrr.top - 10;
 
                  var newWidth = newX - this.model.forms[this.model.active_form].components[data.index].leftX
                  this.model.forms[this.model.active_form].components[data.index].width = newWidth
