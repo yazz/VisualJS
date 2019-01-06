@@ -34,6 +34,7 @@ logo_url("/driver_icons/threedee_item.png")
                               material="color: #166678; side: double"
                               physics-body="mass: 5; boundingBox: 2 2 2; shape: auto;"
                               dynamic-body
+                              v-bind:refresh='refresh'
                               v-bind:position='args.position'>
                     </a-entity>`
     })

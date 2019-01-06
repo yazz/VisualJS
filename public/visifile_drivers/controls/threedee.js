@@ -39,23 +39,29 @@ logo_url("/driver_icons/threedee_control.png")
       ,
       template: `<div id="app2" style='padding: 20px;' v-bind:refresh='refresh'>
 
-          <a-scene physics-world="" physics="debug: false" style='width: 80%; height: 80%;' embedded v-bind:refresh='refresh'>
-              <slot>
+          <a-scene  physics-world=""
+                    physics="debug: false"
+                    style='width: 80%; height: 80%;'
+                    embedded
+                    v-bind:refresh='refresh'>
+
+              <slot v-bind:refresh='refresh'>
               </slot>
 
-              <a-entity id="sky"
-                        geometry="primitive: sphere; radius: 100"
+              <a-entity geometry="primitive: sphere; radius: 100"
                         material="color: #74DEED; shader: flat"
-                        scale="1 1 -1"></a-entity>
+                        v-bind:refresh='refresh'
+                        scale="1 1 -1">
+              </a-entity>
 
-              <a-entity id="ground"
-                        geometry="primitive: box; depth: 50; height: 0.1; width: 50"
+              <a-entity geometry="primitive: box; depth: 50; height: 0.1; width: 50"
                         material="color: #2E3837"
+                        v-bind:refresh='refresh'
                         static-body
                         physics-body="mass: 0; boundingBox: 50 0.1 50" position="0 0 -10"></a-entity>
 
-              <a-entity id="player"
-                        camera look-controls wasd-physics-controls
+              <a-entity camera look-controls wasd-physics-controls
+                        v-bind:refresh='refresh'
                         physics-body="mass: 0; boundingBox: 1 1.8 1"
                         position="0 5 0"></a-entity>
 
@@ -64,9 +70,9 @@ logo_url("/driver_icons/threedee_control.png")
       `,
         mounted: function() {
             if (!this.design_mode) {
-                var scene = document.querySelector('a-scene');
-                if (isValidObject(scene)) {
-                    scene.addEventListener('click', function () {
+                //var scene = document.querySelector('a-scene');
+                //if (isValidObject(scene)) {
+                    //scene.addEventListener('click', function () {
 
                         // Apply impulse;
                         //setTimeout(function () {
@@ -75,8 +81,8 @@ logo_url("/driver_icons/threedee_control.png")
                             //var point = { x: 0.5, y: 0, z: 0 };
                             //box['physics-body'].applyImpulse(impulse, point);
                         //}, 25);
-                    });
-                }
+                    //});
+                //}
 
             }
         }
