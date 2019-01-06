@@ -227,8 +227,7 @@ uses_javascript_librararies(["aframe"])
                                     v-bind:style='"position:absolute;display: inline-block; vertical-align: top; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"left:15px;top:15px;border: 4px solid lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);":"border: 0px;" ) '>
 
 
-                        <div    id='connnnn'
-                                v-bind:refresh='refresh'
+                        <div    v-bind:refresh='refresh'
                                 style='position:absolute;left:0px;top:0px;z-index:10000000;opacity:1;'>
 
                             <!-- ACTIVE CONTROL RESIZERS -->

@@ -43,6 +43,7 @@ logo_url("/driver_icons/threedee_control.png")
                     physics="debug: false"
                     style='width: 80%; height: 80%;'
                     embedded
+                    allowvr="yes"
                     v-bind:refresh='refresh'>
 
               <slot v-bind:refresh='refresh'>
