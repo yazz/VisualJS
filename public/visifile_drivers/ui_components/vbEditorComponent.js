@@ -315,6 +315,7 @@ uses_javascript_librararies(["aframe"])
                                                                 index:   model.active_component_index
                                                              })'>
                             </div>
+
                             <!-- bottom right -->
                             <div    v-if='design_mode && isValidObject(model.active_component_index)'
                                     v-bind:style='"z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
@@ -326,6 +327,25 @@ uses_javascript_librararies(["aframe"])
                                                                    text:    model.forms[model.active_form].components[model.active_component_index].base_component_id,
                                                                    index:   model.active_component_index
                                                                         })'>
+                            </div>
+
+
+
+
+
+                            <!-- DELETE -->
+                            <div     v-if='design_mode && isValidObject(model.active_component_index)'
+                                     v-bind:refresh='refresh'
+                                     v-bind:style='"opacity:0.5;position: absolute; "  +
+                                        "left: " + ((model.forms[model.active_form].components[model.active_component_index].leftX) + (model.forms[model.active_form].components[model.active_component_index].width) + 15) + "px;" +
+                                        "top:  " + ((model.forms[model.active_form].components[model.active_component_index].topY) - 35) +  "px;" +
+                                        "z-index: 30000000;width: 20px;height: 20px;background-color: red;"'
+                                     v-on:click='$event.stopPropagation();deleteComponent(model.active_component_index)'>
+
+                                <div style='text-align: center;vertical-align: middle;'>
+                                    X
+                                </div>
+
                             </div>
 
 
@@ -390,17 +410,6 @@ uses_javascript_librararies(["aframe"])
 
 
 
-
-                                <div     v-if='design_mode'
-                                         v-bind:refresh='refresh'
-                                         style='opacity:0.5;position: absolute; bottom: 0px; right: 20px;z-index: 30000000;width: 20px;height: 20px;background-color: red;'
-                                         v-on:click='$event.stopPropagation();deleteComponent(index)'>
-
-                                    <div style='text-align: center;vertical-align: middle;'>
-                                        X
-                                    </div>
-
-                                </div>
                             </div>
                         </div>
 
