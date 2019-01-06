@@ -1560,6 +1560,15 @@ ${eventMessage.code}
                  this.model.forms[this.model.active_form].components[data.index].height = newHeight
 
                  this.model.active_component_index = data.index
+             } else if (data.type == "resize_bottom") {
+
+                 var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+                 var newY = ev.clientY - rrr.top - 10;
+
+                 var newHeight = newY - this.model.forms[this.model.active_form].components[data.index].topY
+                 this.model.forms[this.model.active_form].components[data.index].height = newHeight
+
+                 this.model.active_component_index = data.index
              }
 
 
