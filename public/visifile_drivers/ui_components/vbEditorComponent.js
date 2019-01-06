@@ -295,7 +295,7 @@ uses_javascript_librararies(["aframe"])
                             <div    v-if='design_mode && isValidObject(model.active_component_index)'
                                     v-bind:style='"z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
                                         ((model.forms[model.active_form].components[model.active_component_index].leftX) - 15) +  "px;top:" +
-                                        ((model.forms[model.active_form].components[model.active_component_index].topY) + ((model.forms[model.active_form].components[model.active_component_index].height))) +  "px;"'
+                                        ((model.forms[model.active_form].components[model.active_component_index].topY) + ((model.forms[model.active_form].components[model.active_component_index].height)) + 2) +  "px;"'
                                         v-bind:draggable='true'
                                         v-on:dragstart='drag($event,{
                                                                     type:   "resize_bottom_left",
@@ -307,7 +307,7 @@ uses_javascript_librararies(["aframe"])
                             <div    v-if='design_mode && isValidObject(model.active_component_index)'
                                     v-bind:style='"z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
                                         ((model.forms[model.active_form].components[model.active_component_index].leftX) + (model.forms[model.active_form].components[model.active_component_index].width/2) - 7) +  "px;top:" +
-                                        ((model.forms[model.active_form].components[model.active_component_index].topY) + ((model.forms[model.active_form].components[model.active_component_index].height))) +  "px;"'
+                                        ((model.forms[model.active_form].components[model.active_component_index].topY) + ((model.forms[model.active_form].components[model.active_component_index].height)) + 2) +  "px;"'
                                     v-bind:draggable='true'
                                     v-on:dragstart='drag($event,{
                                                                 type:   "resize_bottom",
@@ -320,7 +320,7 @@ uses_javascript_librararies(["aframe"])
                             <div    v-if='design_mode && isValidObject(model.active_component_index)'
                                     v-bind:style='"z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
                                         ((model.forms[model.active_form].components[model.active_component_index].leftX) + (model.forms[model.active_form].components[model.active_component_index].width) ) +  "px;top:" +
-                                        ((model.forms[model.active_form].components[model.active_component_index].topY) + ((model.forms[model.active_form].components[model.active_component_index].height))) +  "px;"'
+                                        ((model.forms[model.active_form].components[model.active_component_index].topY) + ((model.forms[model.active_form].components[model.active_component_index].height)) + 2) +  "px;"'
                                     v-bind:draggable='true'
                                     v-on:dragstart='drag($event,{
                                                                    type:   "resize_bottom_right",
@@ -1580,7 +1580,7 @@ ${eventMessage.code}
              } else if (data.type == "resize_bottom_left") {
                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
                  var newX = ev.clientX + 8 - rrr.left ;
-                 var newY = ev.clientY - 10 - rrr.top ;
+                 var newY = ev.clientY - 12 - rrr.top ;
 
 
                  var newWidth = (this.model.forms[this.model.active_form].components[data.index].leftX + this.model.forms[this.model.active_form].components[data.index].width) - newX
@@ -1606,7 +1606,7 @@ ${eventMessage.code}
 
                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
                  var newX = ev.clientX  - rrr.left - 10;
-                 var newY = ev.clientY - rrr.top - 10;
+                 var newY = ev.clientY - rrr.top - 12;
 
                  var newWidth = newX - this.model.forms[this.model.active_form].components[data.index].leftX
                  this.model.forms[this.model.active_form].components[data.index].width = newWidth
@@ -1619,7 +1619,7 @@ ${eventMessage.code}
              } else if (data.type == "resize_bottom") {
 
                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
-                 var newY = ev.clientY - rrr.top - 10;
+                 var newY = ev.clientY - rrr.top - 12;
 
                  var newHeight = newY - this.model.forms[this.model.active_form].components[data.index].topY
                  this.model.forms[this.model.active_form].components[data.index].height = newHeight
