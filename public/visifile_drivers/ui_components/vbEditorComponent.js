@@ -808,7 +808,7 @@ uses_javascript_librararies(["aframe"])
            //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
 
 
-           mm.selectForm(mm.model.default_form)
+
            //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
 
 
@@ -818,6 +818,11 @@ uses_javascript_librararies(["aframe"])
            mm.updatePropertySelector()
 
            texti = null
+
+           setTimeout(function(){
+                mm.selectForm(mm.model.default_form)
+           },500)
+
      },
 
 
