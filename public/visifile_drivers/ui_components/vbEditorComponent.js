@@ -1514,6 +1514,22 @@ ${eventMessage.code}
 
                  this.model.active_component_index = data.index
 
+                 } else if (data.type == "resize_top") {
+                     var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+                     var oldY = this.model.forms[this.model.active_form].components[data.index].topY
+
+                     var newTopY = ev.clientY  + 2 - rrr.top ;
+
+
+                     if (newTopY < 0) {
+                         newTopY = 0
+                     }
+
+                     this.model.forms[this.model.active_form].components[data.index].topY = newTopY
+                     var diffY = this.model.forms[this.model.active_form].components[data.index].topY - oldY
+                     this.model.forms[this.model.active_form].components[data.index].height -= diffY
+
+                     this.model.active_component_index = data.index
 
 
 
