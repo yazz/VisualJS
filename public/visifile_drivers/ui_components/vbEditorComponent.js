@@ -1380,6 +1380,10 @@ ${eventMessage.code}
             var mm = this
             this.model.forms[this.model.active_form].components.splice(index, 1);
             this.selectForm(this.model.active_form)
+            setTimeout(function() {
+                mm.refresh ++
+                mm.$forceUpdate();
+            },400)
          },
 
 

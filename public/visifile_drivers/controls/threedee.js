@@ -37,7 +37,7 @@ logo_url("/driver_icons/threedee_control.png")
     Vue.component("threedee_control",{
       props: ["args","design_mode", "refresh", "children"]
       ,
-      template: `<div id="app2" style='padding: 20px;' v-bind:refresh='refresh'>
+      template: `<div style='padding: 20px;' v-bind:refresh='refresh'>
 
           <a-scene  physics-world=""
                     physics="debug: false"
