@@ -48,9 +48,6 @@ logo_url("/driver_icons/threedee_control.png")
                     allowvr="yes"
                     v-bind:refresh='refresh'>
 
-              <slot v-bind:refresh='refresh'>
-              </slot>
-
               <a-entity geometry="primitive: sphere; radius: 100"
                         material="color: #74DEED; shader: flat"
                         v-bind:refresh='refresh'
@@ -66,7 +63,11 @@ logo_url("/driver_icons/threedee_control.png")
               <a-entity camera look-controls wasd-physics-controls
                         v-bind:refresh='refresh'
                         physics-body="mass: 0; boundingBox: 1 1.8 1"
-                        position="0 5 0"></a-entity>
+                        position="0 5 0">
+              </a-entity>
+
+                <slot v-bind:refresh='refresh'>
+                </slot>
 
             </a-scene>
          </div>
