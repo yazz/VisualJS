@@ -39,7 +39,9 @@ logo_url("/driver_icons/threedee_control.png")
       ,
       template: `<div style='padding: 20px;' v-bind:refresh='refresh'>
 
-          <a-scene  physics-world=""
+          <a-scene  v-bind:id='(design_mode?"design_scene":"scene")'
+                    v-bind:ref='(design_mode?"design_scene":"scene")'
+                    physics-world=""
                     physics="debug: false"
                     style='width: 80%; height: 80%;'
                     embedded
