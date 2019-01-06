@@ -336,10 +336,11 @@ uses_javascript_librararies(["aframe"])
                             <!-- DELETE -->
                             <div     v-if='design_mode && isValidObject(model.active_component_index)'
                                      v-bind:refresh='refresh'
-                                     v-bind:style='"padding:0px; z-index: 2147483647;opacity:1;position: absolute; "  +
+                                     class='btn btn-danger'
+                                     v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 2147483647;opacity:1;position: absolute; "  +
                                         "left: " + ((model.forms[model.active_form].components[model.active_component_index].leftX) + (model.forms[model.active_form].components[model.active_component_index].width) + 15) + "px;" +
                                         "top:  " + ((model.forms[model.active_form].components[model.active_component_index].topY) - 35) +  "px;" +
-                                        "width: 20px; height: 20px; background-color: red;line-height:20px;text-align: center;vertical-align: middle;"'
+                                        "width: 20px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;"'
                                      v-on:click='$event.stopPropagation();deleteComponent(model.active_component_index)'>
 
                                     X
