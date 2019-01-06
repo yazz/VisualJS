@@ -1545,6 +1545,16 @@ ${eventMessage.code}
                  this.model.forms[this.model.active_form].components[data.index].height = newY - this.model.forms[this.model.active_form].components[data.index].topY
                  this.model.active_component_index = data.index
 
+             } else if (data.type == "resize_right") {
+
+                 var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+                 var newX = ev.clientX  - rrr.left - 10;
+
+                 var newWidth = newX - this.model.forms[this.model.active_form].components[data.index].leftX
+                 this.model.forms[this.model.active_form].components[data.index].width = newWidth
+
+                 this.model.active_component_index = data.index
+
 
 
              } else if (data.type == "resize_bottom_right") {
@@ -1560,6 +1570,7 @@ ${eventMessage.code}
                  this.model.forms[this.model.active_form].components[data.index].height = newHeight
 
                  this.model.active_component_index = data.index
+
              } else if (data.type == "resize_bottom") {
 
                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
