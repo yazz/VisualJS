@@ -226,7 +226,7 @@ uses_javascript_librararies(["aframe"])
                                     v-bind:style='"position:absolute;display: inline-block; vertical-align: top; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"left:15px;top:15px;border: 4px solid lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);":"border: 0px;" ) '>
 
 
-                        <div id='connnnn' style='position:absolute;left:0px;top:0px;'>
+                        <div id='connnnn' style='position:absolute;left:0px;top:0px;z-index:10000000;opacity:1;'>
 
                             <!-- ACTIVE CONTROL RESIZERS -->
                             <!-- top left -->
@@ -336,15 +336,13 @@ uses_javascript_librararies(["aframe"])
                             <!-- DELETE -->
                             <div     v-if='design_mode && isValidObject(model.active_component_index)'
                                      v-bind:refresh='refresh'
-                                     v-bind:style='"opacity:0.5;position: absolute; "  +
+                                     v-bind:style='"padding:0px; z-index: 2147483647;opacity:1;position: absolute; "  +
                                         "left: " + ((model.forms[model.active_form].components[model.active_component_index].leftX) + (model.forms[model.active_form].components[model.active_component_index].width) + 15) + "px;" +
                                         "top:  " + ((model.forms[model.active_form].components[model.active_component_index].topY) - 35) +  "px;" +
-                                        "z-index: 30000000;width: 20px;height: 20px;background-color: red;"'
+                                        "width: 20px; height: 20px; background-color: red;line-height:20px;text-align: center;vertical-align: middle;"'
                                      v-on:click='$event.stopPropagation();deleteComponent(model.active_component_index)'>
 
-                                <div style='text-align: center;vertical-align: middle;'>
                                     X
-                                </div>
 
                             </div>
 
