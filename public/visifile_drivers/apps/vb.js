@@ -104,8 +104,8 @@ formEditor({
     },
     "Form_2": {
       "name": "Form_2",
-      "width": "300px",
-      "height": "300px",
+      "width": 300,
+      "height": 300,
       "components": [
         {
           "name": "label_control_1",
