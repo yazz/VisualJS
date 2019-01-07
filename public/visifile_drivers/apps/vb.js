@@ -2459,6 +2459,8 @@ ${eventMessage.code}
           "width": 280,
           "height": 161,
           "text": "",
+          "is_container": true,
+          "hide_children": true,
           "background_color": ""
         },
         {
