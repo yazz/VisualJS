@@ -839,13 +839,33 @@ uses_javascript_librararies(["aframe"])
             var mm = this
             var component = mm.model.forms[formName].components[componentIndex]
             var left = component.leftX
+
+            if (component.parent) {
+                var ccc = mm.model.forms[formName].components
+                for (var ytr = 0;ytr < ccc.length;ytr++){
+                   if (component.parent == ccc[ytr].name) {
+                       left = left + ccc[ytr].leftX
+                   }
+                }
+            }
+
+
             return left
+            //zzz
         }
         ,
         getTop: function(formName, componentIndex) {
             var mm = this
             var component = mm.model.forms[formName].components[componentIndex]
             var top = component.topY
+            if (component.parent) {
+                var ccc = mm.model.forms[formName].components
+                for (var ytr = 0;ytr < ccc.length;ytr++){
+                   if (component.parent == ccc[ytr].name) {
+                       top = top + ccc[ytr].topY
+                   }
+                }
+            }
             return top
         }
         ,
