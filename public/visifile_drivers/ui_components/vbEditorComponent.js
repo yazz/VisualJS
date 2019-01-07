@@ -378,7 +378,7 @@ uses_javascript_librararies(["aframe"])
                                             <component  v-for='child_item  in  getChildren(item.name)'
                                                         v-bind:design_mode='design_mode'
                                                         v-bind:refresh='refresh'
-                                                        v-bind:style='"position: absolute; top: " + child_item.topY + "px; left: " + child_item.leftX + "px;height:" + child_item.height + "px;width:" + child_item.width + "px;overflow:auto;"'
+                                                        v-bind:style='"z-index:100000;position: absolute; top: " + child_item.topY + "px; left: " + child_item.leftX + "px;height:" + child_item.height + "px;width:" + child_item.width + "px;overflow:auto;"'
                                                         v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[child_item.index_in_parent_array].name + (design_mode?"_design":"")'
                                                         v-on:send="processControlEvent"
                                                         v-bind:is='child_item.base_component_id'
