@@ -1,6 +1,6 @@
 async function(args) {
 /*
-created_timestamp(1546875138986)
+created_timestamp(1546894361568)
 base_component_id("vb")
 editors([
   "vb_editor_component"
@@ -15,11 +15,11 @@ properties([
 formEditor({
   "next_id": 7,
   "max_form": 4,
-  "active_form": "Form_1",
+  "active_form": "form_3d",
   "default_form": "Form_1",
   "app_selected": false,
   "id": "vb",
-  "next_component_id": 108,
+  "next_component_id": 109,
   "app_properties": [
     {
       "id": "test",
@@ -123,40 +123,6 @@ formEditor({
       "name": "form_3d",
       "components": [
         {
-          "leftX": 8.875,
-          "topY": 3.71875,
-          "name": "threedee_control_105",
-          "base_component_id": "threedee_control",
-          "width": 280,
-          "height": 161,
-          "text": "",
-          "background_color": ""
-        },
-        {
-          "leftX": 167.4375,
-          "topY": 186.71875,
-          "name": "threedee_item_control_106",
-          "base_component_id": "threedee_item_control",
-          "parent": "threedee_control_105",
-          "position": ".1 7 -10",
-          "width": 100,
-          "height": 100,
-          "text": "1",
-          "background_color": ""
-        },
-        {
-          "leftX": 17.4375,
-          "topY": 186.71875,
-          "name": "threedee_item_control_105",
-          "base_component_id": "threedee_item_control",
-          "parent": "threedee_control_105",
-          "position": "-3.1 10 -10",
-          "width": 100,
-          "height": 100,
-          "text": "2",
-          "background_color": ""
-        },
-        {
           "leftX": 10.4375,
           "topY": 343.28125,
           "name": "button_control_107",
@@ -168,23 +134,23 @@ formEditor({
           "click_event": "mm.selectForm(\"Form_1\")"
         },
         {
-          "leftX": 17.4375,
-          "topY": 186.71875,
-          "name": "threedee_item_control_108",
-          "base_component_id": "threedee_item_control",
-          "parent": "threedee_control_105",
-          "position": "-2.1 4 -10",
-          "width": 100,
-          "height": 100,
-          "text": "3",
-          "background_color": ""
+          "leftX": 0,
+          "topY": 0,
+          "name": "threedee_control_108",
+          "base_component_id": "threedee_control",
+          "width": 274.9791564941406,
+          "height": 206.8645782470703,
+          "text": "",
+          "background_color": "",
+          "is_container": true,
+          "hide_children": true
         }
       ],
       "width": 298.125,
       "height": 401.28125
     }
   },
-  "active_component_index": null
+  "active_component_index": 1
 })//formEditor
 control_type("SYSTEM")
 visibility("PRIVATE")
@@ -418,12 +384,12 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
 
 
                         <div    v-bind:refresh='refresh'
-                                style='position:absolute;left:0px;top:0px;z-index:10000000;opacity:1;'>
+                                style='position:absolute;left:0px;top:0px;z-index:1000000;opacity:1;'>
 
                             <!-- ACTIVE CONTROL RESIZERS -->
                             <!-- top left -->
                             <div    v-if='design_mode && isValidObject(model.active_component_index)'
-                                    v-bind:style='"z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
+                                    v-bind:style='"z-index:10000000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
                                         (getLeft(model.active_form,model.active_component_index) - 15) +  "px;top:" +
                                         ((getTop(model.active_form,model.active_component_index)) - 15) +  "px;"'
                                     v-bind:draggable='true'
@@ -544,9 +510,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                             <div    v-bind:refresh='refresh'
                                     v-for='(item,index) in getActiveFormComponents()'
                                     ondrop="return false;"
-                                    v-on:click='$event.stopPropagation();select_component(index,true)'
-                                    v-bind:style='(design_mode?"border: " +
-                                                    ((index == model.active_component_index)?"1px solid black;":"1px solid black;"):"") +
+                                    v-on:click='if ( isVisible(model.active_form,index)){ $event.stopPropagation();select_component(index,true); }'
+                                    v-bind:style='((design_mode && isVisible(model.active_form,index))?"border: 1px solid black;":"") +
                                                     "position: absolute;top: " + getTop(model.active_form,index) + ";left:" + getLeft(model.active_form,index) + ";height:" + item.height + "px;width:" + item.width + "px;background: white;;overflow:none;"'>
 
                                 <div ondrop="return false;"
@@ -568,7 +533,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                                             <component  v-for='child_item  in  getChildren(item.name)'
                                                         v-bind:design_mode='design_mode'
                                                         v-bind:refresh='refresh'
-                                                        v-bind:style='"position: absolute; top: " + child_item.topY + "px; left: " + child_item.leftX + "px;height:" + child_item.height + "px;width:" + child_item.width + "px;overflow:auto;"'
+                                                        v-bind:style='"z-index:100000;position: absolute; top: " + child_item.topY + "px; left: " + child_item.leftX + "px;height:" + child_item.height + "px;width:" + child_item.width + "px;overflow:auto;"'
                                                         v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[child_item.index_in_parent_array].name + (design_mode?"_design":"")'
                                                         v-on:send="processControlEvent"
                                                         v-bind:is='child_item.base_component_id'
@@ -581,9 +546,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                                     </component>
                                 </div>
 
-                                <div    style='position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%;border: 1px solid black;'
+                                <div    v-bind:style='"position: absolute; top: 0px; left: 0px;z-index: " + (item.is_container?"1":"10000000") + ";width: 100%;height: 100%;border: 1px solid black;"'
                                         v-bind:draggable='design_mode'
-                                        v-if='design_mode'
+                                        v-if='design_mode && isVisible(model.active_form,index)'
                                         ondrop="return false;"
                                         v-on:dragstart='drag($event,{
                                            type:   "move_component",
@@ -591,7 +556,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                                            index:   index
                                         })'>
 
-                                    <div    v-if='design_mode'
+                                    <div    v-if='design_mode && isVisible(model.active_form,index)'
                                             ondrop="return false;"
                                             v-bind:refresh='refresh'
                                             v-bind:style='"position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%; background-color: lightgray;" +
@@ -1024,35 +989,59 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
 
 
 
+
      methods: {
+        isVisible: function(formName, componentIndex) {
+            var mm = this
+            var component = mm.model.forms[formName].components[componentIndex]
+            if (component.hidden) {
+                return false
+            }
+
+            if (isValidObject(component.parent)) {
+                var ccc = mm.model.forms[formName].components
+                for (var ytr = 0;ytr < ccc.length;ytr++) {
+                   if (component.parent == ccc[ytr].name) {
+                       if (ccc[ytr].hide_children) {
+                           return false
+                       }
+                       break
+                   }
+                }
+            }
+
+            return true
+        }
+        ,
         getLeft: function(formName, componentIndex) {
             var mm = this
             var component = mm.model.forms[formName].components[componentIndex]
             var left = component.leftX
 
-            if (component.parent) {
+            if (isValidObject(component.parent)) {
                 var ccc = mm.model.forms[formName].components
                 for (var ytr = 0;ytr < ccc.length;ytr++){
                    if (component.parent == ccc[ytr].name) {
                        left = left + ccc[ytr].leftX
+                       break
                    }
                 }
             }
 
 
             return left
-            //zzz
         }
         ,
         getTop: function(formName, componentIndex) {
             var mm = this
             var component = mm.model.forms[formName].components[componentIndex]
             var top = component.topY
-            if (component.parent) {
+            if (isValidObject(component.parent)) {
                 var ccc = mm.model.forms[formName].components
                 for (var ytr = 0;ytr < ccc.length;ytr++){
                    if (component.parent == ccc[ytr].name) {
                        top = top + ccc[ytr].topY
+                       break
                    }
                 }
             }
@@ -1738,12 +1727,14 @@ ${eventMessage.code}
                 var newLeftX = (ev.clientX  - rrr.left) - data.offsetX;
                 var newTopY = (ev.clientY  - rrr.top) - data.offsetY;
 
-                if (parentId) {
-                   this.model.forms[this.model.active_form].components[data.index].parent = parentName
-                   newLeftX = newLeftX - parentOffsetX
-                   newTopY = newTopY - parentOffsetY
-                } else {
-                   this.model.forms[this.model.active_form].components[data.index].parent = null
+                if (!this.model.forms[this.model.active_form].components[data.index].is_container) {
+                    if (parentId) {
+                       this.model.forms[this.model.active_form].components[data.index].parent = parentName
+                       newLeftX = newLeftX - parentOffsetX
+                       newTopY = newTopY - parentOffsetY
+                    } else {
+                       this.model.forms[this.model.active_form].components[data.index].parent = null
+                    }
                 }
 
                 if (newLeftX < 0) {
@@ -2344,11 +2335,11 @@ ${eventMessage.code}
                       model: {
   "next_id": 7,
   "max_form": 4,
-  "active_form": "Form_1",
+  "active_form": "form_3d",
   "default_form": "Form_1",
   "app_selected": false,
   "id": "vb",
-  "next_component_id": 108,
+  "next_component_id": 109,
   "app_properties": [
     {
       "id": "test",
@@ -2452,42 +2443,6 @@ ${eventMessage.code}
       "name": "form_3d",
       "components": [
         {
-          "leftX": 8.875,
-          "topY": 3.71875,
-          "name": "threedee_control_105",
-          "base_component_id": "threedee_control",
-          "width": 280,
-          "height": 161,
-          "text": "",
-          "is_container": true,
-          "hide_children": true,
-          "background_color": ""
-        },
-        {
-          "leftX": 167.4375,
-          "topY": 186.71875,
-          "name": "threedee_item_control_106",
-          "base_component_id": "threedee_item_control",
-          "parent": "threedee_control_105",
-          "position": ".1 7 -10",
-          "width": 100,
-          "height": 100,
-          "text": "1",
-          "background_color": ""
-        },
-        {
-          "leftX": 17.4375,
-          "topY": 186.71875,
-          "name": "threedee_item_control_105",
-          "base_component_id": "threedee_item_control",
-          "parent": "threedee_control_105",
-          "position": "-3.1 10 -10",
-          "width": 100,
-          "height": 100,
-          "text": "2",
-          "background_color": ""
-        },
-        {
           "leftX": 10.4375,
           "topY": 343.28125,
           "name": "button_control_107",
@@ -2499,23 +2454,23 @@ ${eventMessage.code}
           "click_event": "mm.selectForm(\"Form_1\")"
         },
         {
-          "leftX": 17.4375,
-          "topY": 186.71875,
-          "name": "threedee_item_control_108",
-          "base_component_id": "threedee_item_control",
-          "parent": "threedee_control_105",
-          "position": "-2.1 4 -10",
-          "width": 100,
-          "height": 100,
-          "text": "3",
-          "background_color": ""
+          "leftX": 0,
+          "topY": 0,
+          "name": "threedee_control_108",
+          "base_component_id": "threedee_control",
+          "width": 274.9791564941406,
+          "height": 206.8645782470703,
+          "text": "",
+          "background_color": "",
+          "is_container": true,
+          "hide_children": true
         }
       ],
       "width": 298.125,
       "height": 401.28125
     }
   },
-  "active_component_index": null
+  "active_component_index": 1
 }}
                 }
               })//** gen_end **//

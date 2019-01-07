@@ -354,10 +354,9 @@ uses_javascript_librararies(["aframe"])
                             <div    v-bind:refresh='refresh'
                                     v-for='(item,index) in getActiveFormComponents()'
                                     ondrop="return false;"
-                                    v-on:click='$event.stopPropagation();select_component(index,true)'
-                                    v-bind:style='(design_mode?"border: " +
-                                                    ((index == model.active_component_index)?"1px solid black;":"1px solid black;"):"") +
-                                                    "position: absolute;top: " + getTop(model.active_form,index) + ";left:" + getLeft(model.active_form,index) + ";height:" + item.height + "px;width:" + item.width + "px;background: white;;overflow:none;"'>
+                                    v-on:click='if ( isVisible(model.active_form,index)){ $event.stopPropagation();select_component(index,true); }'
+                                    v-bind:style='((design_mode && isVisible(model.active_form,index))?"border: 1px solid black;background: white;":"") +
+                                                    "position: absolute;top: " + getTop(model.active_form,index) + ";left:" + getLeft(model.active_form,index) + ";height:" + item.height + "px;width:" + item.width + "px;;overflow:none;"'>
 
                                 <div ondrop="return false;"
                                      v-bind:style='"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:auto;"'>
@@ -829,6 +828,7 @@ uses_javascript_librararies(["aframe"])
            },500)
 
      },
+
 
 
 
