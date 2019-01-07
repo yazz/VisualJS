@@ -1,6 +1,6 @@
 async function(args) {
 /*
-created_timestamp(1546585757804)
+created_timestamp(1546875138986)
 base_component_id("vb")
 editors([
   "vb_editor_component"
@@ -99,37 +99,26 @@ formEditor({
           "click_event": "mm.selectForm(\"form_3d\")"
         }
       ],
-      "form_activate_old": "function() {\n                if (app && app.forms && app.forms[\"Form_1\"] && app.forms[\"Form_1\"].components[0]) {\n                    app.forms[\"Form_1\"].components[0].text = args.test\n                }\n             }",
       "form_activate": "display_out.text = sqlFirstCol(\"select name from items\")"
     },
     "Form_2": {
       "name": "Form_2",
-      "width": 300,
-      "height": 300,
+      "width": 400,
+      "height": 400,
       "components": [
-        {
-          "name": "label_control_1",
-          "base_component_id": "label_control",
-          "leftX": 200,
-          "topY": 100,
-          "width": 100,
-          "height": 100,
-          "text": "Hello world"
-        },
         {
           "name": "button_control_2",
           "base_component_id": "button_control",
-          "leftX": 10,
-          "topY": 10,
+          "leftX": 200,
+          "topY": 300,
           "width": 200,
           "background_color": "blue",
-          "height": 100,
+          "height": 50,
           "text": "Go to Form 1",
           "click_event": "mm.selectForm(\"Form_1\")"
         }
       ]
     },
-    "form_4": null,
     "form_3d": {
       "name": "form_3d",
       "components": [
@@ -142,8 +131,7 @@ formEditor({
           "height": 161,
           "text": "",
           "background_color": ""
-        }
-        ,
+        },
         {
           "leftX": 167.4375,
           "topY": 186.71875,
@@ -155,8 +143,7 @@ formEditor({
           "height": 100,
           "text": "1",
           "background_color": ""
-        }
-        ,
+        },
         {
           "leftX": 17.4375,
           "topY": 186.71875,
@@ -168,10 +155,7 @@ formEditor({
           "height": 100,
           "text": "2",
           "background_color": ""
-        }
-        ,
-
-
+        },
         {
           "leftX": 10.4375,
           "topY": 343.28125,
@@ -182,8 +166,7 @@ formEditor({
           "text": "Go to form 1",
           "background_color": "",
           "click_event": "mm.selectForm(\"Form_1\")"
-        }
-        ,
+        },
         {
           "leftX": 17.4375,
           "topY": 186.71875,
@@ -201,7 +184,7 @@ formEditor({
       "height": 401.28125
     }
   },
-  "active_component_index": 3
+  "active_component_index": null
 })//formEditor
 control_type("SYSTEM")
 visibility("PRIVATE")
@@ -235,7 +218,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
         v-bind:style='"width: 100%; height: 100%; " + (design_mode?"background: white;":"")'>
 
 
-    <div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: lightgray; padding: 5px; padding-left: 15px;' v-if='design_mode' >
+    <div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: lightgray; padding: 5px; padding-left: 15px;padding-bottom: 10px;' v-if='design_mode' >
 
         <slot style='display: inline-block;float: left;' v-if='text'>
         </slot>
@@ -265,7 +248,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                 v-on:click='selected_pane = "blocks";'
                 v-bind:style='(design_mode?"border: 4px solid lightgray;":"") + " width: " + leftHandWidth + "px;height: 75vmin; display: inline-block;overflow-x: none;overflow-y: auto;vertical-align: top; background-color: lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);float:left;"'>
 
-            <div    v-bind:style='"font-size:14px;font-weight:bold;border-radius: 3px;padding: 4px; margin-bottom: 10px;box-shadow: 2px 2px 10px lightgray;"'
+            <div    v-bind:style='"font-family:verdana;font-size: 13px;border-radius: 3px;padding: 4px; margin-bottom: 10px;box-shadow: 2px 2px 10px lightgray;"'
                     v-bind:class='(selected_pane == "blocks"?"selected_pane_title":"unselected_pane_title") '>
                 Blocks
             </div>
@@ -311,7 +294,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                 The main center section of the UI editor
 
         -->
-        <div style='display: flex;width:100%;'>
+        <div v-bind:style='"display: flex;width:100%;" + (design_mode?"background-color: darkgray;":"background-color: white;")'>
 
 
 
@@ -326,7 +309,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                     v-bind:style='"margin: 2px; display: inline-block; vertical-align: top; width: 100%;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
 
                 <div    v-if='design_mode'
-                        style='font-size:14px;font-weight:bold;border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
+                        style='font-family:verdana;font-size: 13px;font-weight:bold;border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
 
                     <div    style='height: 30px;' >
                         Code
@@ -355,10 +338,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
             -->
 
             <div    v-if='(!design_mode) || (design_mode && (design_mode_pane.type=="drag_drop"))'
-                    v-bind:style='"margin: 2px; display: inline-block; vertical-align: top;  width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 0px;margin-left:15px;margin-top:15px;":"margin: 0px;" ) '>
+                    v-bind:style='(design_mode?"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;":"") + "margin: 2px; display: inline-block; vertical-align: top;  width: 95%;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 0px;margin-left:15px;margin-top:15px;":"margin: 0px;" ) '>
 
                 <div    v-if='design_mode'
-                        style='display:inline-block;font-size:14px;font-weight:bold;border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;width:100%;'>
+                        style='display:inline-block;font-family:verdana;font-size: 13px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;width:100%;'>
 
                     <img
                         src='/driver_icons/form.png'
@@ -369,175 +352,263 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                 </div>
                 <div style=''></div>
 
-                <div            v-bind:id='vb_grid_element_id'  v-if='vb_grid_element_id != null'
-                                v-on:drop="drop($event)"
-                                v-on:ondragover="allowDrop($event)"
-                                v-bind:class='(design_mode?"dotted":"" )'
-                                v-on:click='if (design_mode) {$event.stopPropagation();selectForm(model.active_form, true)}'
-                                v-bind:style='"display: inline-block; vertical-align: top; position: relative; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 4px solid lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);":"border: 0px;" ) '>
 
 
+                <div style='width:100%;background-color:white;height: 100%;position:relative;'>
 
-                    <div    v-if='design_mode'
-                            v-bind:refresh='refresh'
-                            style='opacity:0.5;position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
+                    <!-- INACTIVE FORM RESIZERS -->
+                    <div    v-if='design_mode && (!isValidObject(model.active_component_index))'
+                            v-bind:style='"display:inline-block;background-color: white; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:2px;top:2px;"'>
+                    </div>
+                    <div    v-if='design_mode && (!isValidObject(model.active_component_index))'
+                            v-bind:style='"display:inline-block;background-color: white; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (7 + (model.forms[model.active_form].width/2)) +  "px;top:2px;"'>
+                    </div>
+                    <div    v-if='design_mode && (!isValidObject(model.active_component_index))'
+                            v-bind:style='"display:inline-block;background-color: white; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (15 +model.forms[model.active_form].width) +  "px;top:2px;"'>
+                    </div>
+                    <div    v-if='design_mode && (!isValidObject(model.active_component_index))'
+                            v-bind:style='"display:inline-block;background-color: white; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:2px;top:" + (7 + (model.forms[model.active_form].height/2)) +  "px;"'>
+                    </div>
+                    <div    v-if='design_mode && (!isValidObject(model.active_component_index))'
+                            v-bind:style='"display:inline-block;background-color: white; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:2px;top:" + (15 + model.forms[model.active_form].height) +  "px;"'>
+                    </div>
+
+                    <!-- ACTIVE FORM RESIZERS -->
+                    <!-- bottom right -->
+                    <div    v-if='design_mode && (!isValidObject(model.active_component_index))'
+                            v-bind:style='"display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (15 +model.forms[model.active_form].width) +  "px;top:" + (15 + (model.forms[model.active_form].height)) +  "px;"'
                             v-bind:draggable='true'
                             v-on:dragstart='drag($event,{
                                type:        "resize_form_bottom_right",
                                form_name:    model.active_form
-                            })'>
-                        <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
-                        </div>
-
-                        <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
-                        </div>
+                            })'
+                            >
+                    </div>
+                    <!-- right -->
+                    <div    v-if='design_mode && (!isValidObject(model.active_component_index))'
+                            v-bind:style='"display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (15 +model.forms[model.active_form].width) +  "px;top:" + (7 + (model.forms[model.active_form].height/2)) +  "px;"'
+                            v-bind:draggable='true'
+                            v-on:dragstart='drag($event,{
+                               type:        "resize_form_right",
+                               form_name:    model.active_form
+                            })'
+                            >
+                    </div>
+                    <!-- bottom -->
+                    <div    v-if='design_mode && (!isValidObject(model.active_component_index))'
+                            v-bind:style='"display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (7 +model.forms[model.active_form].width/2) +  "px;top:" + (15 + (model.forms[model.active_form].height)) +  "px;"'
+                            v-bind:draggable='true'
+                            v-on:dragstart='drag($event,{
+                               type:        "resize_form_bottom",
+                               form_name:    model.active_form
+                            })'
+                            >
                     </div>
 
-                    <div    v-bind:refresh='refresh'
-                            v-for='(item,index) in getActiveFormComponents()'
-                            ondrop="return false;"
-                            v-on:click='$event.stopPropagation();select_component(index)'
-                            v-bind:style='(design_mode?"border: " +
-                                            ((index == model.active_component_index)?"1px solid black;":"1px solid black;"):"") +
-                                            "position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:" + item.height + "px;width:" + item.width + "px;background: white;;overflow:none;"'>
 
-                        <div ondrop="return false;" v-bind:style='"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:auto;"'>
-                            <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[index].name + (design_mode?"_design":"")'
-                                        v-bind:refresh='refresh'
-                                        v-bind:design_mode='design_mode'
-                                        v-bind:children='getChildren(item.name)'
-                                        v-on:send="processControlEvent"
-                                        v-bind:is='item.base_component_id'
-                                        v-if='!item.parent'
-                                        v-bind:name='item.name + (design_mode?"_deisgn":"")'
-                                        v-bind:args='model.forms[model.active_form].components[index]'>
 
-                                <template      slot-scope="child_components">
 
-                                    <component  v-for='(child_item,child_index) in getChildren(item.name)'
-                                                v-bind:design_mode='design_mode'
-                                                v-bind:refresh='refresh'
-                                                v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[child_index].name + (design_mode?"_design":"")'
-                                                v-on:send="processControlEvent"
-                                                v-bind:is='child_item.base_component_id'
-                                                v-bind:name='child_item.name + (design_mode?"_deisgn":"")'
-                                                v-bind:args='model.forms[model.active_form].components[child_item.index_in_parent_array]'>
-                                    </component>
-
-                                </template>
-
-                            </component>
-                        </div>
-
-                        <div    style='position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%;border: 1px solid black;'
-                                v-bind:draggable='design_mode'
-                                v-if='design_mode'
-                                ondrop="return false;"
-                                v-on:dragstart='drag($event,{
-                                   type:   "move_component",
-                                   text:    item.base_component_id,
-                                   index:   index
-                                })'>
-
-                            <div    v-if='design_mode'
-                                    ondrop="return false;"
+                    <div            v-bind:id='vb_grid_element_id'  v-if='vb_grid_element_id != null'
+                                    v-on:drop="drop($event)"
                                     v-bind:refresh='refresh'
-                                    v-bind:style='"position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%; background-color: lightgray;" +
-                                                    ((index == model.active_component_index)?"opacity: 0;":"opacity: .6;") '>
+                                    v-on:ondragover="allowDrop($event)"
+                                    v-bind:class='(design_mode?"dotted":"" )'
+                                    v-on:click='if (design_mode) {$event.stopPropagation();selectForm(model.active_form, true)}'
+                                    v-bind:style='"position:absolute;display: inline-block; vertical-align: top; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"left:15px;top:15px;border: 4px solid lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);":"border: 0px;" ) '>
+
+
+                        <div    v-bind:refresh='refresh'
+                                style='position:absolute;left:0px;top:0px;z-index:10000000;opacity:1;'>
+
+                            <!-- ACTIVE CONTROL RESIZERS -->
+                            <!-- top left -->
+                            <div    v-if='design_mode && isValidObject(model.active_component_index)'
+                                    v-bind:style='"z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
+                                        (getLeft(model.active_form,model.active_component_index) - 15) +  "px;top:" +
+                                        ((getTop(model.active_form,model.active_component_index)) - 15) +  "px;"'
+                                    v-bind:draggable='true'
+                                    v-on:dragstart='drag($event,{
+                                       type:   "resize_top_left",
+                                       text:    model.forms[model.active_form].components[model.active_component_index].base_component_id,
+                                       index:   model.active_component_index
+                                    })'>
+                            </div>
+
+                            <!-- top middle -->
+                            <div    v-if='design_mode && isValidObject(model.active_component_index)'
+                                    v-bind:style='"z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
+                                        ((getLeft(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].width/2) - 7) +  "px;top:" +
+                                        ((getTop(model.active_form,model.active_component_index)) - 15) +  "px;"'
+                                    v-bind:draggable='true'
+                                    v-on:dragstart='drag($event,{
+                                                                type:   "resize_top",
+                                                                text:    model.forms[model.active_form].components[model.active_component_index].base_component_id,
+                                                                index:   model.active_component_index
+                                                             })'>
+                            </div>
+                            <!-- top right -->
+                            <div    v-if='design_mode && isValidObject(model.active_component_index)'
+                                    v-bind:style='"z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
+                                        ((getLeft(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].width) ) +  "px;top:" +
+                                        ((getTop(model.active_form,model.active_component_index)) - 15) +  "px;"'
+                                        v-bind:draggable='true'
+                                        v-on:dragstart='drag($event,{
+                                           type:   "resize_top_right",
+                                           text:    model.forms[model.active_form].components[model.active_component_index].base_component_id,
+                                           index:   model.active_component_index
+                                           })'>
+                            </div>
+
+                            <!-- middle left -->
+                            <div    v-if='design_mode && isValidObject(model.active_component_index)'
+                                    v-bind:style='"z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
+                                        ((getLeft(model.active_form,model.active_component_index)) - 15) +  "px;top:" +
+                                        ((getTop(model.active_form,model.active_component_index)) + ((model.forms[model.active_form].components[model.active_component_index].height / 2)) - 7) +  "px;"'
+                                    v-bind:draggable='true'
+                                    v-on:dragstart='drag($event,{
+                                                                type:   "resize_left",
+                                                                text:    model.forms[model.active_form].components[model.active_component_index].base_component_id,
+                                                                index:   model.active_component_index
+                                                             })'>
+                            </div>
+                            <!-- middle right -->
+                            <div    v-if='design_mode && isValidObject(model.active_component_index)'
+                                    v-bind:style='"z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
+                                        ((getLeft(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].width)) +  "px;top:" +
+                                        ((getTop(model.active_form,model.active_component_index)) + ((model.forms[model.active_form].components[model.active_component_index].height / 2)) - 7) +  "px;"'
+                                    v-bind:draggable='true'
+                                    v-on:dragstart='drag($event,{
+                                                                type:   "resize_right",
+                                                                text:    model.forms[model.active_form].components[model.active_component_index].base_component_id,
+                                                                index:   model.active_component_index
+                                                             })'>
+                            </div>
+                            <!-- bottom left -->
+                            <div    v-if='design_mode && isValidObject(model.active_component_index)'
+                                    v-bind:style='"z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
+                                        ((getLeft(model.active_form,model.active_component_index)) - 15) +  "px;top:" +
+                                        ((getTop(model.active_form,model.active_component_index)) + ((model.forms[model.active_form].components[model.active_component_index].height)) + 2) +  "px;"'
+                                        v-bind:draggable='true'
+                                        v-on:dragstart='drag($event,{
+                                                                    type:   "resize_bottom_left",
+                                                                    text:    model.forms[model.active_form].components[model.active_component_index].base_component_id,
+                                                                    index:   model.active_component_index
+                                                                 })'>
+                            </div>
+                            <!-- bottom middle -->
+                            <div    v-if='design_mode && isValidObject(model.active_component_index)'
+                                    v-bind:style='"z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
+                                        ((getLeft(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].width/2) - 7) +  "px;top:" +
+                                        ((getTop(model.active_form,model.active_component_index)) + ((model.forms[model.active_form].components[model.active_component_index].height)) + 2) +  "px;"'
+                                    v-bind:draggable='true'
+                                    v-on:dragstart='drag($event,{
+                                                                type:   "resize_bottom",
+                                                                text:    model.forms[model.active_form].components[model.active_component_index].base_component_id,
+                                                                index:   model.active_component_index
+                                                             })'>
+                            </div>
+
+                            <!-- bottom right -->
+                            <div    v-if='design_mode && isValidObject(model.active_component_index)'
+                                    v-bind:style='"z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
+                                        ((getLeft(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].width) ) +  "px;top:" +
+                                        ((getTop(model.active_form,model.active_component_index)) + ((model.forms[model.active_form].components[model.active_component_index].height)) + 2) +  "px;"'
+                                    v-bind:draggable='true'
+                                    v-on:dragstart='drag($event,{
+                                                                   type:   "resize_bottom_right",
+                                                                   text:    model.forms[model.active_form].components[model.active_component_index].base_component_id,
+                                                                   index:   model.active_component_index
+                                                                        })'>
+                            </div>
+
+
+
+
+
+                            <!-- DELETE -->
+                            <div     v-if='design_mode && isValidObject(model.active_component_index)'
+                                     v-bind:refresh='refresh'
+                                     class='btn btn-danger'
+                                     v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 2147483647;opacity:1;position: absolute; "  +
+                                        "left: " + ((getLeft(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].width) + 15) + "px;" +
+                                        "top:  " + ((getTop(model.active_form,model.active_component_index)) - 35) +  "px;" +
+                                        "width: 20px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;"'
+                                     v-on:click='$event.stopPropagation();deleteComponent(model.active_component_index)'>
+
+                                    X
+
+                            </div>
+
+
+
+                            <div    v-bind:refresh='refresh'
+                                    v-for='(item,index) in getActiveFormComponents()'
+                                    ondrop="return false;"
+                                    v-on:click='$event.stopPropagation();select_component(index,true)'
+                                    v-bind:style='(design_mode?"border: " +
+                                                    ((index == model.active_component_index)?"1px solid black;":"1px solid black;"):"") +
+                                                    "position: absolute;top: " + getTop(model.active_form,index) + ";left:" + getLeft(model.active_form,index) + ";height:" + item.height + "px;width:" + item.width + "px;background: white;;overflow:none;"'>
+
+                                <div ondrop="return false;"
+                                     v-bind:style='"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:auto;"'>
+                                    <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[index].name + (design_mode?"_design":"")'
+                                                v-bind:refresh='refresh'
+                                                v-bind:design_mode='design_mode'
+                                                v-bind:children='getChildren(item.name)'
+                                                v-on:send="processControlEvent"
+                                                v-bind:is='item.base_component_id'
+                                                v-if='!item.parent'
+                                                v-bind:name='item.name + (design_mode?"_design":"")'
+                                                v-bind:args='model.forms[model.active_form].components[index]'>
+
+                                        <template       slot-scope="child_components"
+                                                        v-bind:refresh='refresh'
+                                                        style='position:relative;'>
+
+                                            <component  v-for='child_item  in  getChildren(item.name)'
+                                                        v-bind:design_mode='design_mode'
+                                                        v-bind:refresh='refresh'
+                                                        v-bind:style='"position: absolute; top: " + child_item.topY + "px; left: " + child_item.leftX + "px;height:" + child_item.height + "px;width:" + child_item.width + "px;overflow:auto;"'
+                                                        v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[child_item.index_in_parent_array].name + (design_mode?"_design":"")'
+                                                        v-on:send="processControlEvent"
+                                                        v-bind:is='child_item.base_component_id'
+                                                        v-bind:name='child_item.name + (design_mode?"_design":"")'
+                                                        v-bind:args='model.forms[model.active_form].components[child_item.index_in_parent_array]'>
+                                            </component>
+
+                                        </template>
+
+                                    </component>
+                                </div>
+
+                                <div    style='position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%;border: 1px solid black;'
+                                        v-bind:draggable='design_mode'
+                                        v-if='design_mode'
+                                        ondrop="return false;"
+                                        v-on:dragstart='drag($event,{
+                                           type:   "move_component",
+                                           text:    item.base_component_id,
+                                           index:   index
+                                        })'>
+
+                                    <div    v-if='design_mode'
+                                            ondrop="return false;"
+                                            v-bind:refresh='refresh'
+                                            v-bind:style='"position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%; background-color: lightgray;" +
+                                                            ((index == model.active_component_index)?"opacity: 0;":"opacity: .6;") '>
+
+                                    </div>
+                                </div>
+
+
+
+
 
                             </div>
                         </div>
 
-
-
-
-
-                        <div    v-if='design_mode'
-                                v-bind:refresh='refresh'
-                                style='opacity:0.5;position: absolute; top: 0px; left: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
-                                v-bind:draggable='true'
-                                ondrop="return false;"
-                                v-on:dragstart='drag($event,{
-                                   type:   "resize_top_left",
-                                   text:    item.base_component_id,
-                                   index:   index
-                                })'>
-                            <div    style='position: absolute; top: 0px; left: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
-                            </div>
-
-                            <div    style='position: absolute; top: 0px; left: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
-                            </div>
-
-                        </div>
-
-
-                        <div    v-if='design_mode'
-                                v-bind:refresh='refresh'
-                                style='opacity:0.5;position: absolute; top: 0px; right: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
-                                v-bind:draggable='true'
-                                v-on:dragstart='drag($event,{
-                                   type:   "resize_top_right",
-                                   text:    item.base_component_id,
-                                   index:   index  })'>
-
-                            <div    style='position: absolute; top: 0px; right: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
-                            </div>
-
-                            <div    style='position: absolute; top: 0px; right: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
-                            </div>
-                        </div>
-
-
-
-                        <div    v-if='design_mode'
-                                v-bind:refresh='refresh'
-                                style='opacity:0.5;position: absolute; bottom: 0px; left: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
-                                v-bind:draggable='true'
-                                v-on:dragstart='drag($event,{
-                                                            type:   "resize_bottom_left",
-                                                            text:    item.base_component_id,
-                                                            index:   index
-                                                         })'>
-                            <div    style='position: absolute; bottom: 0px; left: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
-                            </div>
-
-                            <div    style='position: absolute; bottom: 0px; left: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
-                            </div>
-                        </div>
-
-
-
-                        <div  v-if='design_mode'
-                              v-bind:refresh='refresh'
-                              style='opacity:0.5;position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
-                              v-bind:draggable='true'
-                              v-on:dragstart='drag($event,{
-                                                             type:   "resize_bottom_right",
-                                                             text:    item.base_component_id,
-                                                             index:   index
-                                                                  })'>
-                            <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'>
-                            </div>
-
-                            <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'>
-                            </div>
-                        </div>
-
-
-                        <div     v-if='design_mode'
-                                 v-bind:refresh='refresh'
-                                 style='opacity:0.5;position: absolute; bottom: 0px; right: 20px;z-index: 30000000;width: 20px;height: 20px;background-color: red;'
-                                 v-on:click='$event.stopPropagation();deleteComponent(index)'>
-
-                            <div style='text-align: center;vertical-align: middle;'>
-                                X
-                            </div>
-
-                        </div>
                     </div>
-
                 </div>
-
             </div>
 
 
@@ -574,7 +645,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                     v-bind:refresh='refresh'
                     v-bind:style='"padding:0px; border: 4px solid lightgray;white-space:nowrap"'>
 
-                <div v-bind:style='"border-radius: 3px;  padding: 4px;overflow-x:none;height: 40px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);font-size:14px;font-weight:bold;" '
+                <div v-bind:style='"border-radius: 3px;  padding: 4px;overflow-x:none;height: 40px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);font-family:verdana;font-size: 13px;" '
                      v-bind:class='(selected_pane == "project"?"selected_pane_title":"unselected_pane_title") '
                      v-on:click='$event.stopPropagation();var s = (right_mode == "properties"?"project":"project");selected_pane = "project";chooseRight(s);'
                      >
@@ -582,7 +653,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                      Project explorer
 
                     <button type=button class='btn btn-sm btn-warning'
-                            v-bind:style='"float: right;" + (right_mode == "project"?"":"display:;font-size:14px;")'
+                            v-bind:style='"float: right;" + (right_mode == "project"?"":"display:;font-family:verdana;font-size: 13px;")'
                             v-on:click='$event.stopPropagation();selected_pane = "project"; chooseRight("project");addForm()'  >
 
                          Add form
@@ -591,7 +662,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                 </div>
 
 
-                <div  v-bind:style='"font-size:14px;border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:80%;background-color:lightgray;"  + (right_mode == "project"?"":"display:none;")'>
+                <div  v-bind:style='"font-family:verdana;font-size: 13px;border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:80%;background-color:lightgray;"  + (right_mode == "project"?"":"display:none;")'>
                     <div    style="align-items: stretch;border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
 
                         <div    v-bind:style='"border-radius: 0px;padding:4px;margin:0px;margin-top: 5px;" + (model.app_selected?"background-color:gray;color:white;":"background-color:white;color:black;")'
@@ -640,10 +711,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                     v-bind:class='(right_mode == "properties"?"right_properties_pane_collapsed":"right_properties_pane_collapsed")'
                     v-bind:style='"padding:0px; border: 4px solid lightgray;padding:0px;background-color: lightgray;"'>
 
-                <div    v-bind:style='"border-radius: 3px;padding: 4px;height: 40px;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;font-size:14px;font-weight:bold;"'
+                <div    v-bind:style='"border-radius: 3px;padding: 4px;height: 40px;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;font-family:verdana;font-size: 13px;"'
                         v-bind:class='(selected_pane == "properties"?"selected_pane_title_slower":"unselected_pane_title_slower") '
                         v-on:click='selected_pane = "properties";chooseRight("properties");'>
-                    Properties - {{model.active_component_index?model.forms[model.active_form].components[model.active_component_index].name + " (Component)" : model.active_form + " (Form)"}}
+                    Properties - {{isValidObject(model.active_component_index)?model.forms[model.active_form].components[model.active_component_index].name + " (Component)" : model.active_form + " (Form)"}}
                 </div>
 
 
@@ -656,13 +727,13 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
 
 
                         <div    v-for='property in properties'
-                                style='font-size:14px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'
+                                style='font-family:verdana;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'
                                 >
 
                             <div style='width:100%;padding:0px;margin:0px;display:flex;'
                                  v-if='!property.hidden'>
                                 <div
-                                        v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-size:14px;padding-left: 1px;padding-top:0px;padding-bottom:0px;" + (active_property_index == property.name?"background-color:#000099;color:white;":"")'
+                                        v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;" + (active_property_index == property.name?"background-color:#000099;color:white;":"")'
                                         v-on:click='selected_pane = "properties";active_property_index = property.name;'>{{property.name}}
                                 </div>
 
@@ -673,7 +744,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                                             <input
                                                     @change='setVBEditorProperty($event, property)'
                                                     v-bind:value='getVBEditorProperty(property)'
-                                                    style='width: 100%;border: 0px;font-size:14px;padding:0px;'>
+                                                    style='width: 100%;border: 0px;font-family:verdana;font-size: 13px;padding:0px;'>
                                             </input>
                                         </div>
 
@@ -685,7 +756,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                                         </div>
 
                                         <div v-if="(property.type  == 'Event')  " style="width:100%">
-                                            <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-size:14px;font-style:bold;'
+                                            <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-family:verdana;font-size: 13px;font-style:bold;'
                                                         v-on:click='$event.stopPropagation();editAsCode({
                                                             active_form:            model.active_form,
                                                             active_component_index: model.active_component_index,
@@ -698,7 +769,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
 
                                     <div v-if='property.readonly'>
                                         <div    v-if='model.active_component_index != null'
-                                                style='padding:0px;font-size:14px;'
+                                                style='padding:0px;font-family:verdana;font-size: 13px;'
                                                 class='col-md-12 small'>
 
                                             {{model.forms[model.active_form].components[model.active_component_index][property.id]}}
@@ -709,7 +780,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                                         </div>
 
                                         <div    v-if='model.app_selected'
-                                                style='padding:0px;font-size:14px;'
+                                                style='padding:0px;font-family:verdana;font-size: 13px;'
                                                 class='col-md-12 small'  >
 
                                             {{property.get_fn?property.get_fn():model[property.id]}}
@@ -723,7 +794,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                         <div  v-if='model.app_selected && (!add_property)' class='row'>
                             <div  class='col-md-12 small'>
                                 <button     type=button class='btn btn-sm btn-info'
-                                            style='font-size: 14px;'
+                                            style='font-family:verdana;font-size: 13px;'
                                             v-on:click='$event.stopPropagation();addProperty()'  >
                                     Add property
                                 </button>
@@ -731,19 +802,19 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                         </div>
 
                         <div v-if='(model.app_selected) && (add_property)' class='row'>
-                            <div    style='font-size: 14px;'
+                            <div    style='font-family:verdana;font-size: 13px;'
                                     class='col-md-12 small'>
                                 Add a property
                             </div>
                         </div>
 
                         <div v-if='(model.app_selected) && (add_property)' class='row'>
-                            <div    style='font-size: 14px;'
+                            <div    style='font-family:verdana;font-size: 13px;'
                                     class='col-md-4'>
                                ID
                             </div>
 
-                            <input  style='font-size: 14px;'
+                            <input  style='font-family:verdana;font-size: 13px;'
                                     class='col-md-7 small'
                                     placeholder='background_color'
                                     v-model='new_property_id'>
@@ -751,27 +822,27 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                         </div>
 
                         <div v-if='(model.app_selected) && (add_property)' class='row'>
-                            <div    style='font-size: 14px;'
+                            <div    style='font-family:verdana;font-size: 13px;'
                                     class='col-md-4'>
                                 Name
                             </div>
 
                             <input  class='col-md-7 small'
                                     placeholder='Background Color'
-                                    style='border:0px;font-size: 14px;'
+                                    style='border:0px;font-family:verdana;font-size: 13px;'
                                     v-model='new_property_name'>
                             </input>
                         </div>
 
                         <div v-if='(model.app_selected) && (add_property)' class='row'>
                             <div class='col-md-12'>
-                                <button style='font-size: 14px;'
+                                <button style='font-family:verdana;font-size: 13px;'
                                         type=button class='btn btn-sm btn-info'
                                         v-on:click='$event.stopPropagation();addPropertyCancel()'  >
                                     Cancel
                                 </button>
 
-                                <button style='font-size: 14px;'
+                                <button style='font-family:verdana;font-size: 13px;'
                                         type=button class='btn btn-sm btn-info'
                                         v-on:click='$event.stopPropagation();addPropertySave()'  >
                                     Save
@@ -932,7 +1003,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
            //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
 
 
-           mm.selectForm(mm.model.default_form)
+
            //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
 
 
@@ -942,6 +1013,11 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
            mm.updatePropertySelector()
 
            texti = null
+
+           setTimeout(function(){
+                mm.selectForm(mm.model.default_form)
+           },500)
+
      },
 
 
@@ -949,8 +1025,43 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
 
 
      methods: {
+        getLeft: function(formName, componentIndex) {
+            var mm = this
+            var component = mm.model.forms[formName].components[componentIndex]
+            var left = component.leftX
+
+            if (component.parent) {
+                var ccc = mm.model.forms[formName].components
+                for (var ytr = 0;ytr < ccc.length;ytr++){
+                   if (component.parent == ccc[ytr].name) {
+                       left = left + ccc[ytr].leftX
+                   }
+                }
+            }
+
+
+            return left
+            //zzz
+        }
+        ,
+        getTop: function(formName, componentIndex) {
+            var mm = this
+            var component = mm.model.forms[formName].components[componentIndex]
+            var top = component.topY
+            if (component.parent) {
+                var ccc = mm.model.forms[formName].components
+                for (var ytr = 0;ytr < ccc.length;ytr++){
+                   if (component.parent == ccc[ytr].name) {
+                       top = top + ccc[ytr].topY
+                   }
+                }
+            }
+            return top
+        }
+        ,
+
         getChildren: function( itemName ) {
-//zzz
+
             var mm = this
             var ccc = mm.model.forms[mm.model.active_form].components
             var chh = []
@@ -1443,20 +1554,34 @@ ${eventMessage.code}
               var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
 
               if (data.type == "resize_form_bottom_right") {
+                var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
 
-                //alert(data.form_name)
-
-                var rrr = document.getElementById(this.vb_editor_element_id).getBoundingClientRect()
-
-                var newWidth = (ev.clientX + 20)  - rrr.left - data.offsetX - this.leftHandWidth;
-                var newHeight = (ev.clientY + 20) - rrr.top - data.offsetY;
-
+                var newWidth = (ev.clientX - 8)  - rrr.left ;
+                var newHeight = (ev.clientY - 8) - rrr.top ;
 
                 this.model.forms[this.model.active_form].width = newWidth
                 this.model.forms[this.model.active_form].height = newHeight
 
                 this.model.active_component_index = null
-              }
+
+              } else if (data.type == "resize_form_right") {
+                var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+
+                var newWidth = (ev.clientX - 8)  - rrr.left ;
+
+                this.model.forms[this.model.active_form].width = newWidth
+
+                this.model.active_component_index = null
+
+            } else if (data.type == "resize_form_bottom") {
+                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+
+                  var newHeight = (ev.clientY - 8) - rrr.top ;
+
+                  this.model.forms[this.model.active_form].height = newHeight
+
+                  this.model.active_component_index = null
+                }
           },
 
          //-------------------------------------------------------------------
@@ -1485,6 +1610,10 @@ ${eventMessage.code}
             var mm = this
             this.model.forms[this.model.active_form].components.splice(index, 1);
             this.selectForm(this.model.active_form)
+            setTimeout(function() {
+                mm.refresh ++
+                mm.$forceUpdate();
+            },400)
          },
 
 
@@ -1500,21 +1629,55 @@ ${eventMessage.code}
              var data = eval("(" + data2 + ")")
 
              var doc = document.documentElement;
-             var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
-             var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+
+             var newItem2 = new Object()
+             var rrr2 = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+             newItem2.leftX = (ev.clientX  - rrr2.left)  - data.offsetX;
+             newItem2.topY = (ev.clientY  - rrr2.top)   - data.offsetY;
+
+             var parentId = null
+             var parentName = null
+             var parentOffsetX = 0
+             var parentOffsetY = 0
+             var parentOffsetWidth = 0
+             var parentOffsetHeight = 0
+
+             var ccc = mm.model.forms[mm.model.active_form].components
+             for (var ytr = 0;ytr < ccc.length;ytr++){
+                var baseId =    ccc[ytr].base_component_id
+                var controlNmae =    ccc[ytr].name
+                var x1 =        ccc[ytr].leftX
+                var x2 =        ccc[ytr].leftX + ccc[ytr].width
+                var y1 =        ccc[ytr].topY
+                var y2 =        ccc[ytr].topY + ccc[ytr].height
+                if ((x1 <= newItem2.leftX) && (newItem2.leftX <= x2) && (y1 <= newItem2.topY) && (newItem2.topY <= y2)) {
+                    //alert(`${baseId}:(${x1},${y1}) - (${x2},${y2})`)
+                    parentOffsetX = x1
+                    parentOffsetY = y1
+                    parentId      = ccc[ytr].base_component_id
+                    parentName    = ccc[ytr].name
+                }
+             }
+
 
              if (data.type == "add_component") {
                  var newItem = new Object()
                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
 
-
-                 newItem.leftX = (ev.clientX  - rrr.left)  - data.offsetX;
-                 newItem.topY = (ev.clientY  - rrr.top)   - data.offsetY;
+//alert(parentId +": = (" + parentOffsetX + "," + parentOffsetY + ")")
+                 newItem.leftX = ((ev.clientX  - rrr.left)  - data.offsetX) - parentOffsetX  - 10;
+                 newItem.topY = ((ev.clientY  - rrr.top)   - data.offsetY) - parentOffsetY - 10;
                  if (newItem.leftX < 0) {
                     newItem.leftX = 0
                  }
                  if (newItem.topY < 0) {
                     newItem.topY = 0
+                 }
+                 //alert(`(${newItem.leftX},${newItem.topY})`)
+
+                 if (parentId) {
+                    //alert(`${baseId}:(${x1},${y1}) - (${x2},${y2})`)
+                    newItem.parent = parentName
                  }
 
 
@@ -1574,6 +1737,15 @@ ${eventMessage.code}
 
                 var newLeftX = (ev.clientX  - rrr.left) - data.offsetX;
                 var newTopY = (ev.clientY  - rrr.top) - data.offsetY;
+
+                if (parentId) {
+                   this.model.forms[this.model.active_form].components[data.index].parent = parentName
+                   newLeftX = newLeftX - parentOffsetX
+                   newTopY = newTopY - parentOffsetY
+                } else {
+                   this.model.forms[this.model.active_form].components[data.index].parent = null
+                }
+
                 if (newLeftX < 0) {
                     newLeftX = 0
                 }
@@ -1599,8 +1771,8 @@ ${eventMessage.code}
                  var oldX = this.model.forms[this.model.active_form].components[data.index].leftX
                  var oldY = this.model.forms[this.model.active_form].components[data.index].topY
 
-                 var newLeftX = ev.clientX  - rrr.left - data.offsetX;
-                 var newTopY = ev.clientY  - rrr.top - data.offsetY;
+                 var newLeftX = ev.clientX  + 2 - rrr.left ;
+                 var newTopY = ev.clientY  + 2 - rrr.top ;
 
 
                  if (newLeftX < 0) {
@@ -1619,13 +1791,49 @@ ${eventMessage.code}
 
                  this.model.active_component_index = data.index
 
+             } else if (data.type == "resize_left") {
+                 var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+                 var oldX = this.model.forms[this.model.active_form].components[data.index].leftX
+
+                 var newLeftX = ev.clientX  + 2 - rrr.left ;
+
+
+                 if (newLeftX < 0) {
+                     newLeftX = 0
+                 }
+
+                 this.model.forms[this.model.active_form].components[data.index].leftX = newLeftX
+                 var diffX = this.model.forms[this.model.active_form].components[data.index].leftX - oldX
+                 this.model.forms[this.model.active_form].components[data.index].width -= diffX
+
+                 this.model.active_component_index = data.index
+
+
+
+
+             } else if (data.type == "resize_top") {
+                 var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+                 var oldY = this.model.forms[this.model.active_form].components[data.index].topY
+
+                 var newTopY = ev.clientY  + 2 - rrr.top ;
+
+
+                 if (newTopY < 0) {
+                     newTopY = 0
+                 }
+
+                 this.model.forms[this.model.active_form].components[data.index].topY = newTopY
+                 var diffY = this.model.forms[this.model.active_form].components[data.index].topY - oldY
+                 this.model.forms[this.model.active_form].components[data.index].height -= diffY
+
+                 this.model.active_component_index = data.index
 
 
 
              } else if (data.type == "resize_top_right") {
                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
-                 var newX = (ev.clientX + 20) - rrr.left - data.offsetX;
-                 var newY = ev.clientY - rrr.top - data.offsetY;
+                 var newX = ev.clientX  - 10 - rrr.left ;
+                 var newY = ev.clientY + 2 - rrr.top;
 
 
                  this.model.forms[this.model.active_form].components[data.index].width = newX - this.model.forms[this.model.active_form].components[data.index].leftX
@@ -1639,8 +1847,8 @@ ${eventMessage.code}
 
              } else if (data.type == "resize_bottom_left") {
                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
-                 var newX = ev.clientX  - rrr.left - data.offsetX;
-                 var newY = (ev.clientY + 20)  - rrr.top - data.offsetY;
+                 var newX = ev.clientX + 8 - rrr.left ;
+                 var newY = ev.clientY - 12 - rrr.top ;
 
 
                  var newWidth = (this.model.forms[this.model.active_form].components[data.index].leftX + this.model.forms[this.model.active_form].components[data.index].width) - newX
@@ -1650,16 +1858,36 @@ ${eventMessage.code}
                  this.model.forms[this.model.active_form].components[data.index].height = newY - this.model.forms[this.model.active_form].components[data.index].topY
                  this.model.active_component_index = data.index
 
+             } else if (data.type == "resize_right") {
+
+                 var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+                 var newX = ev.clientX  - rrr.left - 10;
+
+                 var newWidth = newX - this.model.forms[this.model.active_form].components[data.index].leftX
+                 this.model.forms[this.model.active_form].components[data.index].width = newWidth
+
+                 this.model.active_component_index = data.index
+
 
 
              } else if (data.type == "resize_bottom_right") {
 
                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
-                 var newX = (ev.clientX + 20)  - rrr.left - data.offsetX;
-                 var newY = (ev.clientY + 20) - rrr.top - data.offsetY;
+                 var newX = ev.clientX  - rrr.left - 10;
+                 var newY = ev.clientY - rrr.top - 12;
 
                  var newWidth = newX - this.model.forms[this.model.active_form].components[data.index].leftX
                  this.model.forms[this.model.active_form].components[data.index].width = newWidth
+
+                 var newHeight = newY - this.model.forms[this.model.active_form].components[data.index].topY
+                 this.model.forms[this.model.active_form].components[data.index].height = newHeight
+
+                 this.model.active_component_index = data.index
+
+             } else if (data.type == "resize_bottom") {
+
+                 var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+                 var newY = ev.clientY - rrr.top - 12;
 
                  var newHeight = newY - this.model.forms[this.model.active_form].components[data.index].topY
                  this.model.forms[this.model.active_form].components[data.index].height = newHeight
@@ -1706,16 +1934,16 @@ ${eventMessage.code}
          myDataRenderFunction: function(data) {
              var center = ""
              if (data.app) {
-                center = "<b style='font-size:14px;'>" + (data.app?data.app:data.form) + "</b> "
+                center = "<b style='font-family:verdana;font-size: 13px;'>" + (data.app?data.app:data.form) + "</b> "
 
              } else if (data.component) {
-                 center = "<b style='font-size:14px;'>" + data.component + "</b> " + data.component_type
+                 center = "<b style='font-family:verdana;font-size: 13px;'>" + data.component + "</b> " + data.component_type
              } else if (data.form) {
-                 center = "<b style='font-size:14px;'>" + data.form + "</b> "
+                 center = "<b style='font-family:verdana;font-size: 13px;'>" + data.form + "</b> "
              }
 
              var template =
-               "<div  style='overflow:hidden ;text-overflow: ellipsis;border-radius: 1px;margin: 0px;padding:0px;border:0px;font-size: 14px;'>" +
+               "<div  style='overflow:hidden ;text-overflow: ellipsis;border-radius: 1px;margin: 0px;padding:0px;border:0px;font-family:verdana;font-size: 13px;'>" +
                     center +
                "</div>";
              return template;
@@ -1734,7 +1962,7 @@ ${eventMessage.code}
             var indexProp = 0
             var selectedItem = null
 
-            if (mm.model.app_selected || (!mm.model.active_component_index)) {
+            if (mm.model.app_selected || (!isValidObject(mm.model.active_component_index))) {
 
                 if (mm.edited_app_component_id) {
                     sdata.push(
@@ -1768,7 +1996,7 @@ ${eventMessage.code}
                     indexProp++
                 }
 
-            } else if (mm.model.active_component_index) {
+            } else if (isValidObject(mm.model.active_component_index)) {
 
                 sdata.push(
                     {
@@ -2116,7 +2344,7 @@ ${eventMessage.code}
                       model: {
   "next_id": 7,
   "max_form": 4,
-  "active_form": "form_3d",
+  "active_form": "Form_1",
   "default_form": "Form_1",
   "app_selected": false,
   "id": "vb",
@@ -2200,37 +2428,26 @@ ${eventMessage.code}
           "click_event": "mm.selectForm(\"form_3d\")"
         }
       ],
-      "form_activate_old": "function() {\n                if (app && app.forms && app.forms[\"Form_1\"] && app.forms[\"Form_1\"].components[0]) {\n                    app.forms[\"Form_1\"].components[0].text = args.test\n                }\n             }",
       "form_activate": "display_out.text = sqlFirstCol(\"select name from items\")"
     },
     "Form_2": {
       "name": "Form_2",
-      "width": "300px",
-      "height": "300px",
+      "width": 400,
+      "height": 400,
       "components": [
-        {
-          "name": "label_control_1",
-          "base_component_id": "label_control",
-          "leftX": 200,
-          "topY": 100,
-          "width": 100,
-          "height": 100,
-          "text": "Hello world"
-        },
         {
           "name": "button_control_2",
           "base_component_id": "button_control",
-          "leftX": 10,
-          "topY": 10,
+          "leftX": 200,
+          "topY": 300,
           "width": 200,
           "background_color": "blue",
-          "height": 100,
+          "height": 50,
           "text": "Go to Form 1",
           "click_event": "mm.selectForm(\"Form_1\")"
         }
       ]
     },
-    "form_4": null,
     "form_3d": {
       "name": "form_3d",
       "components": [
@@ -2245,30 +2462,28 @@ ${eventMessage.code}
           "background_color": ""
         },
         {
-          "leftX": 107.4375,
+          "leftX": 167.4375,
           "topY": 186.71875,
           "name": "threedee_item_control_106",
           "base_component_id": "threedee_item_control",
           "parent": "threedee_control_105",
-          "position": "-2.1 1 -10",
+          "position": ".1 7 -10",
           "width": 100,
           "height": 100,
-          "text": "",
-          "background_color": "",
-          "index_in_parent_array": 1
+          "text": "1",
+          "background_color": ""
         },
         {
-          "leftX": 0,
-          "topY": 180.71875,
-          "name": "threedee_item_control_109",
+          "leftX": 17.4375,
+          "topY": 186.71875,
+          "name": "threedee_item_control_105",
           "base_component_id": "threedee_item_control",
           "parent": "threedee_control_105",
-          "position": "0 10 -10",
+          "position": "-3.1 10 -10",
           "width": 100,
           "height": 100,
-          "text": "",
-          "background_color": "",
-          "index_in_parent_array": 2
+          "text": "2",
+          "background_color": ""
         },
         {
           "leftX": 10.4375,
@@ -2280,13 +2495,25 @@ ${eventMessage.code}
           "text": "Go to form 1",
           "background_color": "",
           "click_event": "mm.selectForm(\"Form_1\")"
+        },
+        {
+          "leftX": 17.4375,
+          "topY": 186.71875,
+          "name": "threedee_item_control_108",
+          "base_component_id": "threedee_item_control",
+          "parent": "threedee_control_105",
+          "position": "-2.1 4 -10",
+          "width": 100,
+          "height": 100,
+          "text": "3",
+          "background_color": ""
         }
       ],
       "width": 298.125,
       "height": 401.28125
     }
   },
-  "active_component_index": 3
+  "active_component_index": null
 }}
                 }
               })//** gen_end **//
