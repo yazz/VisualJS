@@ -840,11 +840,12 @@ uses_javascript_librararies(["aframe"])
             var component = mm.model.forms[formName].components[componentIndex]
             var left = component.leftX
 
-            if (component.parent) {
+            if (isValidObject(component.parent)) {
                 var ccc = mm.model.forms[formName].components
                 for (var ytr = 0;ytr < ccc.length;ytr++){
                    if (component.parent == ccc[ytr].name) {
                        left = left + ccc[ytr].leftX
+                       break
                    }
                 }
             }
@@ -858,11 +859,12 @@ uses_javascript_librararies(["aframe"])
             var mm = this
             var component = mm.model.forms[formName].components[componentIndex]
             var top = component.topY
-            if (component.parent) {
+            if (isValidObject(component.parent)) {
                 var ccc = mm.model.forms[formName].components
                 for (var ytr = 0;ytr < ccc.length;ytr++){
                    if (component.parent == ccc[ytr].name) {
                        top = top + ccc[ytr].topY
+                       break
                    }
                 }
             }
