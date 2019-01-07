@@ -357,7 +357,7 @@ uses_javascript_librararies(["aframe"])
                                     v-on:click='$event.stopPropagation();select_component(index,true)'
                                     v-bind:style='(design_mode?"border: " +
                                                     ((index == model.active_component_index)?"1px solid black;":"1px solid black;"):"") +
-                                                    "position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:" + item.height + "px;width:" + item.width + "px;background: white;;overflow:none;"'>
+                                                    "position: absolute;top: " + getTop(model.active_form,index) + ";left:" + getLeft(model.active_form,index) + ";height:" + item.height + "px;width:" + item.width + "px;background: white;;overflow:none;"'>
 
                                 <div ondrop="return false;"
                                      v-bind:style='"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:auto;"'>
@@ -835,6 +835,21 @@ uses_javascript_librararies(["aframe"])
 
 
      methods: {
+        getLeft: function(formName, componentIndex) {
+            var mm = this
+            var component = mm.model.forms[formName].components[componentIndex]
+            var left = component.leftX
+            return left
+        }
+        ,
+        getTop: function(formName, componentIndex) {
+            var mm = this
+            var component = mm.model.forms[formName].components[componentIndex]
+            var top = component.topY
+            return top
+        }
+        ,
+
         getChildren: function( itemName ) {
 
             var mm = this
