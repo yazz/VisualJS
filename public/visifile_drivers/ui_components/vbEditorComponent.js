@@ -228,12 +228,12 @@ uses_javascript_librararies(["aframe"])
 
 
                         <div    v-bind:refresh='refresh'
-                                style='position:absolute;left:0px;top:0px;z-index:10000000;opacity:1;'>
+                                style='position:absolute;left:0px;top:0px;z-index:1000000;opacity:1;'>
 
                             <!-- ACTIVE CONTROL RESIZERS -->
                             <!-- top left -->
                             <div    v-if='design_mode && isValidObject(model.active_component_index)'
-                                    v-bind:style='"z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
+                                    v-bind:style='"z-index:10000000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
                                         (getLeft(model.active_form,model.active_component_index) - 15) +  "px;top:" +
                                         ((getTop(model.active_form,model.active_component_index)) - 15) +  "px;"'
                                     v-bind:draggable='true'
