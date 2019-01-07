@@ -1405,6 +1405,38 @@ ${eventMessage.code}
 
              var doc = document.documentElement;
 
+             var newItem2 = new Object()
+             var rrr2 = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+             newItem2.leftX = (ev.clientX  - rrr2.left)  - data.offsetX;
+             newItem2.topY = (ev.clientY  - rrr2.top)   - data.offsetY;
+             if (newItem2.leftX < 0) {
+                newItem2.leftX = 0
+             }
+             if (newItem2.topY < 0) {
+                newItem2.topY = 0
+             }
+
+             var parentOffsetX = 0
+             var parentOffsetY = 0
+             var parentOffsetWidth = 0
+             var parentOffsetHeight = 0
+
+             var ccc = mm.model.forms[mm.model.active_form].components
+             for (var ytr = 0;ytr < ccc.length;ytr++){
+                var baseId =    ccc[ytr].base_component_id
+                var controlNmae =    ccc[ytr].name
+                var x1 =        ccc[ytr].leftX
+                var x2 =        ccc[ytr].leftX + ccc[ytr].width
+                var y1 =        ccc[ytr].topY
+                var y2 =        ccc[ytr].topY + ccc[ytr].height
+                if ((x1 <= newItem2.leftX) && (newItem2.leftX <= x2) && (y1 <= newItem2.topY) && (newItem2.topY <= y2)) {
+                    //alert(`${baseId}:(${x1},${y1}) - (${x2},${y2})`)
+                    parentOffsetX = x1
+                    parentOffsetY = x2
+                }
+             }
+
+
              if (data.type == "add_component") {
                  var newItem = new Object()
                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
