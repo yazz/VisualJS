@@ -1410,6 +1410,8 @@ ${eventMessage.code}
              newItem2.leftX = (ev.clientX  - rrr2.left)  - data.offsetX;
              newItem2.topY = (ev.clientY  - rrr2.top)   - data.offsetY;
 
+             var parentId = null
+             var parentName = null
              var parentOffsetX = 0
              var parentOffsetY = 0
              var parentOffsetWidth = 0
@@ -1427,6 +1429,8 @@ ${eventMessage.code}
                     //alert(`${baseId}:(${x1},${y1}) - (${x2},${y2})`)
                     parentOffsetX = x1
                     parentOffsetY = y1
+                    parentId      = ccc[ytr].base_component_id
+                    parentName    = ccc[ytr].name
                 }
              }
 
@@ -1435,9 +1439,9 @@ ${eventMessage.code}
                  var newItem = new Object()
                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
 
-alert("(" + parentOffsetX + "," + parentOffsetY + ")")
-                 newItem.leftX = ((ev.clientX  - rrr.left)  - data.offsetX) - 0;
-                 newItem.topY = ((ev.clientY  - rrr.top)   - data.offsetY) - 0;
+//alert(parentId +": = (" + parentOffsetX + "," + parentOffsetY + ")")
+                 newItem.leftX = ((ev.clientX  - rrr.left)  - data.offsetX) - parentOffsetX  - 10;
+                 newItem.topY = ((ev.clientY  - rrr.top)   - data.offsetY) - parentOffsetY - 10;
                  if (newItem.leftX < 0) {
                     newItem.leftX = 0
                  }
@@ -1446,18 +1450,9 @@ alert("(" + parentOffsetX + "," + parentOffsetY + ")")
                  }
                  //alert(`(${newItem.leftX},${newItem.topY})`)
 
-                 var ccc = mm.model.forms[mm.model.active_form].components
-                 for (var ytr = 0;ytr < ccc.length;ytr++){
-                    var baseId =    ccc[ytr].base_component_id
-                    var controlNmae =    ccc[ytr].name
-                    var x1 =        ccc[ytr].leftX
-                    var x2 =        ccc[ytr].leftX + ccc[ytr].width
-                    var y1 =        ccc[ytr].topY
-                    var y2 =        ccc[ytr].topY + ccc[ytr].height
-                    if ((x1 <= newItem.leftX) && (newItem.leftX <= x2) && (y1 <= newItem.topY) && (newItem.topY <= y2)) {
-                        //alert(`${baseId}:(${x1},${y1}) - (${x2},${y2})`)
-                        newItem.parent = controlNmae
-                    }
+                 if (parentId) {
+                    //alert(`${baseId}:(${x1},${y1}) - (${x2},${y2})`)
+                    newItem.parent = parentName
                  }
 
 
