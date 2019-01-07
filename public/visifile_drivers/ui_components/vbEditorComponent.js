@@ -1409,12 +1409,6 @@ ${eventMessage.code}
              var rrr2 = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
              newItem2.leftX = (ev.clientX  - rrr2.left)  - data.offsetX;
              newItem2.topY = (ev.clientY  - rrr2.top)   - data.offsetY;
-             if (newItem2.leftX < 0) {
-                newItem2.leftX = 0
-             }
-             if (newItem2.topY < 0) {
-                newItem2.topY = 0
-             }
 
              var parentOffsetX = 0
              var parentOffsetY = 0
@@ -1432,7 +1426,7 @@ ${eventMessage.code}
                 if ((x1 <= newItem2.leftX) && (newItem2.leftX <= x2) && (y1 <= newItem2.topY) && (newItem2.topY <= y2)) {
                     //alert(`${baseId}:(${x1},${y1}) - (${x2},${y2})`)
                     parentOffsetX = x1
-                    parentOffsetY = x2
+                    parentOffsetY = y1
                 }
              }
 
@@ -1441,9 +1435,9 @@ ${eventMessage.code}
                  var newItem = new Object()
                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
 
-
-                 newItem.leftX = (ev.clientX  - rrr.left)  - data.offsetX;
-                 newItem.topY = (ev.clientY  - rrr.top)   - data.offsetY;
+alert("(" + parentOffsetX + "," + parentOffsetY + ")")
+                 newItem.leftX = ((ev.clientX  - rrr.left)  - data.offsetX) - 0;
+                 newItem.topY = ((ev.clientY  - rrr.top)   - data.offsetY) - 0;
                  if (newItem.leftX < 0) {
                     newItem.leftX = 0
                  }
