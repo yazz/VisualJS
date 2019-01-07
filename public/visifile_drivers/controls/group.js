@@ -41,6 +41,8 @@ logo_url("/driver_icons/group_control.png")
                                     "background-color: "+    args["background_color"]  +  ";"'>
 
                                                 {{args.text}}
+                    <slot v-bind:refresh='refresh'>
+                    </slot>
                  </div>`
       ,
       data: function() {
