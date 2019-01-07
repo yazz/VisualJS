@@ -393,7 +393,7 @@ uses_javascript_librararies(["aframe"])
 
                                 <div    v-bind:style='"position: absolute; top: 0px; left: 0px;z-index: " + (item.is_container?"1":"10000000") + ";width: 100%;height: 100%;border: 1px solid black;"'
                                         v-bind:draggable='design_mode'
-                                        v-if='design_mode'
+                                        v-if='design_mode && isVisible(model.active_form,index)'
                                         ondrop="return false;"
                                         v-on:dragstart='drag($event,{
                                            type:   "move_component",
@@ -401,7 +401,7 @@ uses_javascript_librararies(["aframe"])
                                            index:   index
                                         })'>
 
-                                    <div    v-if='design_mode'
+                                    <div    v-if='design_mode && isVisible(model.active_form,index)'
                                             ondrop="return false;"
                                             v-bind:refresh='refresh'
                                             v-bind:style='"position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%; background-color: lightgray;" +
@@ -835,6 +835,28 @@ uses_javascript_librararies(["aframe"])
 
 
      methods: {
+        isVisible: function(formName, componentIndex) {
+            var mm = this
+            var component = mm.model.forms[formName].components[componentIndex]
+            if (component.hidden) {
+                return false
+            }
+
+            if (isValidObject(component.parent)) {
+                var ccc = mm.model.forms[formName].components
+                for (var ytr = 0;ytr < ccc.length;ytr++) {
+                   if (component.parent == ccc[ytr].name) {
+                       if (ccc[ytr].hide_children) {
+                           return false
+                       }
+                       break
+                   }
+                }
+            }
+
+            return true
+        }
+        ,
         getLeft: function(formName, componentIndex) {
             var mm = this
             var component = mm.model.forms[formName].components[componentIndex]
@@ -852,7 +874,6 @@ uses_javascript_librararies(["aframe"])
 
 
             return left
-            //zzz
         }
         ,
         getTop: function(formName, componentIndex) {

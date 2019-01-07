@@ -29,6 +29,14 @@ properties(
             default:    true,
             hidden:     true
         }
+        ,
+        {
+            id:         "hide_children",
+            name:       "Hide Children?",
+            type:       "Boolean",
+            default:    true,
+            hidden:     true
+        }
     ]
 )//properties
 logo_url("/driver_icons/threedee_control.png")
