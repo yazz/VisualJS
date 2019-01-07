@@ -234,8 +234,8 @@ uses_javascript_librararies(["aframe"])
                             <!-- top left -->
                             <div    v-if='design_mode && isValidObject(model.active_component_index)'
                                     v-bind:style='"z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
-                                        ((model.forms[model.active_form].components[model.active_component_index].leftX) - 15) +  "px;top:" +
-                                        ((model.forms[model.active_form].components[model.active_component_index].topY) - 15) +  "px;"'
+                                        (getLeft(model.active_form,model.active_component_index) - 15) +  "px;top:" +
+                                        ((getTop(model.active_form,model.active_component_index)) - 15) +  "px;"'
                                     v-bind:draggable='true'
                                     v-on:dragstart='drag($event,{
                                        type:   "resize_top_left",
@@ -247,8 +247,8 @@ uses_javascript_librararies(["aframe"])
                             <!-- top middle -->
                             <div    v-if='design_mode && isValidObject(model.active_component_index)'
                                     v-bind:style='"z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
-                                        ((model.forms[model.active_form].components[model.active_component_index].leftX) + (model.forms[model.active_form].components[model.active_component_index].width/2) - 7) +  "px;top:" +
-                                        ((model.forms[model.active_form].components[model.active_component_index].topY) - 15) +  "px;"'
+                                        ((getLeft(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].width/2) - 7) +  "px;top:" +
+                                        ((getTop(model.active_form,model.active_component_index)) - 15) +  "px;"'
                                     v-bind:draggable='true'
                                     v-on:dragstart='drag($event,{
                                                                 type:   "resize_top",
@@ -259,8 +259,8 @@ uses_javascript_librararies(["aframe"])
                             <!-- top right -->
                             <div    v-if='design_mode && isValidObject(model.active_component_index)'
                                     v-bind:style='"z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
-                                        ((model.forms[model.active_form].components[model.active_component_index].leftX) + (model.forms[model.active_form].components[model.active_component_index].width) ) +  "px;top:" +
-                                        ((model.forms[model.active_form].components[model.active_component_index].topY) - 15) +  "px;"'
+                                        ((getLeft(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].width) ) +  "px;top:" +
+                                        ((getTop(model.active_form,model.active_component_index)) - 15) +  "px;"'
                                         v-bind:draggable='true'
                                         v-on:dragstart='drag($event,{
                                            type:   "resize_top_right",
@@ -272,8 +272,8 @@ uses_javascript_librararies(["aframe"])
                             <!-- middle left -->
                             <div    v-if='design_mode && isValidObject(model.active_component_index)'
                                     v-bind:style='"z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
-                                        ((model.forms[model.active_form].components[model.active_component_index].leftX) - 15) +  "px;top:" +
-                                        ((model.forms[model.active_form].components[model.active_component_index].topY) + ((model.forms[model.active_form].components[model.active_component_index].height / 2)) - 7) +  "px;"'
+                                        ((getLeft(model.active_form,model.active_component_index)) - 15) +  "px;top:" +
+                                        ((getTop(model.active_form,model.active_component_index)) + ((model.forms[model.active_form].components[model.active_component_index].height / 2)) - 7) +  "px;"'
                                     v-bind:draggable='true'
                                     v-on:dragstart='drag($event,{
                                                                 type:   "resize_left",
@@ -284,8 +284,8 @@ uses_javascript_librararies(["aframe"])
                             <!-- middle right -->
                             <div    v-if='design_mode && isValidObject(model.active_component_index)'
                                     v-bind:style='"z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
-                                        ((model.forms[model.active_form].components[model.active_component_index].leftX) + (model.forms[model.active_form].components[model.active_component_index].width)) +  "px;top:" +
-                                        ((model.forms[model.active_form].components[model.active_component_index].topY) + ((model.forms[model.active_form].components[model.active_component_index].height / 2)) - 7) +  "px;"'
+                                        ((getLeft(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].width)) +  "px;top:" +
+                                        ((getTop(model.active_form,model.active_component_index)) + ((model.forms[model.active_form].components[model.active_component_index].height / 2)) - 7) +  "px;"'
                                     v-bind:draggable='true'
                                     v-on:dragstart='drag($event,{
                                                                 type:   "resize_right",
@@ -296,8 +296,8 @@ uses_javascript_librararies(["aframe"])
                             <!-- bottom left -->
                             <div    v-if='design_mode && isValidObject(model.active_component_index)'
                                     v-bind:style='"z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
-                                        ((model.forms[model.active_form].components[model.active_component_index].leftX) - 15) +  "px;top:" +
-                                        ((model.forms[model.active_form].components[model.active_component_index].topY) + ((model.forms[model.active_form].components[model.active_component_index].height)) + 2) +  "px;"'
+                                        ((getLeft(model.active_form,model.active_component_index)) - 15) +  "px;top:" +
+                                        ((getTop(model.active_form,model.active_component_index)) + ((model.forms[model.active_form].components[model.active_component_index].height)) + 2) +  "px;"'
                                         v-bind:draggable='true'
                                         v-on:dragstart='drag($event,{
                                                                     type:   "resize_bottom_left",
@@ -308,8 +308,8 @@ uses_javascript_librararies(["aframe"])
                             <!-- bottom middle -->
                             <div    v-if='design_mode && isValidObject(model.active_component_index)'
                                     v-bind:style='"z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
-                                        ((model.forms[model.active_form].components[model.active_component_index].leftX) + (model.forms[model.active_form].components[model.active_component_index].width/2) - 7) +  "px;top:" +
-                                        ((model.forms[model.active_form].components[model.active_component_index].topY) + ((model.forms[model.active_form].components[model.active_component_index].height)) + 2) +  "px;"'
+                                        ((getLeft(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].width/2) - 7) +  "px;top:" +
+                                        ((getTop(model.active_form,model.active_component_index)) + ((model.forms[model.active_form].components[model.active_component_index].height)) + 2) +  "px;"'
                                     v-bind:draggable='true'
                                     v-on:dragstart='drag($event,{
                                                                 type:   "resize_bottom",
@@ -321,8 +321,8 @@ uses_javascript_librararies(["aframe"])
                             <!-- bottom right -->
                             <div    v-if='design_mode && isValidObject(model.active_component_index)'
                                     v-bind:style='"z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
-                                        ((model.forms[model.active_form].components[model.active_component_index].leftX) + (model.forms[model.active_form].components[model.active_component_index].width) ) +  "px;top:" +
-                                        ((model.forms[model.active_form].components[model.active_component_index].topY) + ((model.forms[model.active_form].components[model.active_component_index].height)) + 2) +  "px;"'
+                                        ((getLeft(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].width) ) +  "px;top:" +
+                                        ((getTop(model.active_form,model.active_component_index)) + ((model.forms[model.active_form].components[model.active_component_index].height)) + 2) +  "px;"'
                                     v-bind:draggable='true'
                                     v-on:dragstart='drag($event,{
                                                                    type:   "resize_bottom_right",
@@ -340,8 +340,8 @@ uses_javascript_librararies(["aframe"])
                                      v-bind:refresh='refresh'
                                      class='btn btn-danger'
                                      v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 2147483647;opacity:1;position: absolute; "  +
-                                        "left: " + ((model.forms[model.active_form].components[model.active_component_index].leftX) + (model.forms[model.active_form].components[model.active_component_index].width) + 15) + "px;" +
-                                        "top:  " + ((model.forms[model.active_form].components[model.active_component_index].topY) - 35) +  "px;" +
+                                        "left: " + ((getLeft(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].width) + 15) + "px;" +
+                                        "top:  " + ((getTop(model.active_form,model.active_component_index)) - 35) +  "px;" +
                                         "width: 20px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;"'
                                      v-on:click='$event.stopPropagation();deleteComponent(model.active_component_index)'>
 
