@@ -391,7 +391,7 @@ uses_javascript_librararies(["aframe"])
                                     </component>
                                 </div>
 
-                                <div    style='position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%;border: 1px solid black;'
+                                <div    v-bind:style='"position: absolute; top: 0px; left: 0px;z-index: " + (item.is_container?"1":"10000000") + ";width: 100%;height: 100%;border: 1px solid black;"'
                                         v-bind:draggable='design_mode'
                                         v-if='design_mode'
                                         ondrop="return false;"
