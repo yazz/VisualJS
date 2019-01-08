@@ -57,9 +57,21 @@ logo_url("/driver_icons/threedee_control.png")
       template: `<div   style='padding: 10px;'
                         v-bind:refresh='refresh'>
 
-                    <div    v-bind:style='"width:100%;"'
+                    <div    v-bind:style='"width:100%;height:40vh;"'
                             v-if='design_mode == "detail_editor"'>
                         Detail editor
+                        <div    v-bind:style='"border:1px solid gray; padding: 10px;display:flex;"'
+                                v-for='(child_item,index)  in  children'>
+                            <div>{{child_item.name}}</div>
+                            <div     class='btn btn-danger'
+                                     v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 2147483647;opacity:1;"  +
+                                                   "width: 20px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;margin-left: 20px;"'
+                                     v-on:click='$event.stopPropagation();deleteComponent(index)'>
+
+                                    X
+
+                            </div>
+                        </div>
                     </div>
 
 
@@ -124,6 +136,13 @@ logo_url("/driver_icons/threedee_control.png")
 
             }
         }
+      ,
+      methods:
+      {
+          deleteComponent: function() {
+              alert(1)
+          }
+      }
       ,
       data: function() {
           return {
