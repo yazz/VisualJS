@@ -30,7 +30,7 @@ logo_url("/driver_icons/threedee_item.png")
     Vue.component("threedee_item_control",{
         props: ["args","design_mode", "refresh"]
         ,
-      template: `<a-entity
+      template: `<a-entity v-bind:refresh='refresh'>
                     <a-entity v-if='args'
                               geometry="primitive: box"
                               material="color: #166678; side: double"

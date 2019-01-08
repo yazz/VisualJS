@@ -58,13 +58,16 @@ logo_url("/driver_icons/threedee_control.png")
                         v-bind:refresh='refresh'>
 
                     <div    v-bind:style='"width:100%;height:40vh;"'
+                            v-bind:refresh='refresh'
                             v-if='design_mode == "detail_editor"'>
                         Detail editor
                         <div    v-bind:style='"border:1px solid gray; padding: 10px;display:flex;"'
+                                v-bind:refresh='refresh'
                                 v-for='(child_item,index)  in  children'>
-                            <div v-if='child_item'>
-                                <div v-if='child_item'>{{child_item.name}}</div>
+                            <div v-if='child_item' v-bind:refresh='refresh'>
+                                <div v-if='child_item' v-bind:refresh='refresh'>{{child_item.name}}</div>
                                 <div     class='btn btn-danger'
+                                         v-bind:refresh='refresh'
                                          v-if='child_item'
                                          v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 2147483647;opacity:1;"  +
                                                        "width: 20px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;margin-left: 20px;"'
@@ -79,7 +82,7 @@ logo_url("/driver_icons/threedee_control.png")
 
 
 
-                      <div v-bind:style='"width:" + args.width + "; height: " + args.height + ";"'>
+                      <div v-bind:style='"width:" + args.width + "; height: " + args.height + ";"' v-bind:refresh='refresh'>
 
 
                           <a-scene  v-bind:id='(design_mode?"design_scene":"scene")'
