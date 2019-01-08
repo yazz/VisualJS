@@ -57,7 +57,14 @@ logo_url("/driver_icons/threedee_control.png")
       template: `<div   style='padding: 10px;'
                         v-bind:refresh='refresh'>
 
-                      <div v-bind:style='"display:flex; width:" + ((design_mode == "detail_editor")?"50%;":"100%;")'>
+                    <div    v-bind:style='"width:100%;"'
+                            v-if='design_mode == "detail_editor"'>
+                        Detail editor
+                    </div>
+
+
+
+                      <div v-bind:style='"width:" + args.width + "; height: " + args.height + ";"'>
 
 
                           <a-scene  v-bind:id='(design_mode?"design_scene":"scene")'
@@ -91,10 +98,6 @@ logo_url("/driver_icons/threedee_control.png")
                                 </slot>
 
                         </a-scene>
-                    </div>
-                    <div    v-bind:style='"display:flex; width:50%;"'
-                            v-if='design_mode == "detail_editor"'>
-                        Detail editor
                     </div>
 
                  </div>`

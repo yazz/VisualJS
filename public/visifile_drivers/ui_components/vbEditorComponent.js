@@ -160,7 +160,7 @@ uses_javascript_librararies(["aframe"])
 
                 </div>
 
-                <div  v-bind:style='"border: 5px solid lightgray;background: white;;overflow:none;"'>
+                <div  v-bind:style='"border: 5px solid lightgray;background: white;;overflow:none;height:100%; overflow: auto;"'>
 
                     <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[model.active_component_index].name + (design_mode?"_design":"")'
                                 v-bind:refresh='refresh'
