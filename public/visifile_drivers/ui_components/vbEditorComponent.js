@@ -382,7 +382,7 @@ uses_javascript_librararies(["aframe"])
 
 
                             <!-- More details ... button -->
-                            <div     v-if='design_mode && isValidObject(model.active_component_index) && isVisible(model.active_form,model.active_component_index)'
+                            <div     v-if='design_mode && isValidObject(model.active_component_index) && isVisible(model.active_form,model.active_component_index) && hasMoreDetailsUi(model.active_form,model.active_component_index)'
                                      v-bind:refresh='refresh'
                                      class='btn btn-info'
                                      v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 2147483647;opacity:1;position: absolute; "  +
@@ -883,6 +883,30 @@ uses_javascript_librararies(["aframe"])
 
 
      methods: {
+
+         hasMoreDetailsUi: function(formName, componentIndex) {
+             var mm = this
+             var component = mm.model.forms[formName].components[componentIndex]
+             if (isValidObject(component.parent)) {
+                 var ccc = mm.model.forms[formName].components
+                 for (var ytr = 0;ytr < ccc.length;ytr++) {
+                    if (component.parent == ccc[ytr].name) {
+                        if (ccc[ytr].hide_children) {
+                            return false
+                        }
+                        break
+                    }
+                 }
+             }
+
+             if (component.has_details_ui) {
+                 return true
+             }
+
+
+             return false
+         }
+         ,
         isVisible: function(formName, componentIndex) {
             var mm = this
             var component = mm.model.forms[formName].components[componentIndex]

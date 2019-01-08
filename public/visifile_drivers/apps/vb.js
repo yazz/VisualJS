@@ -143,7 +143,8 @@ formEditor({
           "text": "",
           "background_color": "",
           "is_container": true,
-          "hide_children": true
+          "hide_children": true,
+          "has_details_ui": true
         }
       ],
       "width": 298.125,
