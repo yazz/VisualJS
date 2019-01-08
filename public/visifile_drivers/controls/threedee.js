@@ -139,8 +139,12 @@ logo_url("/driver_icons/threedee_control.png")
       ,
       methods:
       {
-          deleteComponent: function() {
-              alert(1)
+          deleteComponent: function(index) {
+              this.$root.$emit('message', {
+                                              type:             "delete_component",
+                                              component_index:   index
+                                          })
+
           }
       }
       ,
