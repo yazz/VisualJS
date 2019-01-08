@@ -912,6 +912,7 @@ uses_javascript_librararies(["aframe"])
                    alert(JSON.stringify(mm.model.forms[mm.model.active_form].components[text.component_index],null,2))
                    //mm.model.forms[mm.model.active_form].components.splice(text.component_index, 1);
                    //zzz
+                   mm.design_mode_pane.type = "drag_drop";
                }
 
 
@@ -1613,7 +1614,8 @@ ${eventMessage.code}
                 var x2 =        ccc[ytr].leftX + ccc[ytr].width
                 var y1 =        ccc[ytr].topY
                 var y2 =        ccc[ytr].topY + ccc[ytr].height
-                if ((x1 <= newItem2.leftX) && (newItem2.leftX <= x2) && (y1 <= newItem2.topY) && (newItem2.topY <= y2)) {
+                var isContainer = ccc[ytr].is_container
+                if (isContainer && (x1 <= newItem2.leftX) && (newItem2.leftX <= x2) && (y1 <= newItem2.topY) && (newItem2.topY <= y2)) {
                     //alert(`${baseId}:(${x1},${y1}) - (${x2},${y2})`)
                     parentOffsetX = x1
                     parentOffsetY = y1
