@@ -908,11 +908,11 @@ uses_javascript_librararies(["aframe"])
 
            mm.$root.$on('message', async function(text) {
                if (text.type == "delete_component") {
-                   alert("Found: " + text.component_index)
-                   alert(JSON.stringify(mm.model.forms[mm.model.active_form].components[text.component_index],null,2))
-                   //mm.model.forms[mm.model.active_form].components.splice(text.component_index, 1);
+                   //alert("Found: " + text.component_index)
+                   //alert(JSON.stringify(mm.model.forms[mm.model.active_form].components[text.component_index],null,2))
+                   mm.model.forms[mm.model.active_form].components.splice(text.component_index, 1);
                    //zzz
-                   mm.design_mode_pane.type = "drag_drop";
+                   //mm.design_mode_pane.type = "drag_drop";
                }
 
 
