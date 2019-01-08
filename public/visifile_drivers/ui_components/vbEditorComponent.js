@@ -164,7 +164,7 @@ uses_javascript_librararies(["aframe"])
 
                     <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[model.active_component_index].name + (design_mode?"_design":"")'
                                 v-bind:refresh='refresh'
-                                v-bind:design_mode='design_mode'
+                                design_mode='detail_editor'
                                 v-bind:children='getChildren( model.forms[model.active_form].components[model.active_component_index].name)'
                                 v-on:send="processControlEvent"
                                 v-bind:is='model.forms[model.active_form].components[model.active_component_index].base_component_id'

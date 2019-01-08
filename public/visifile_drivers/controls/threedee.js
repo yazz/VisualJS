@@ -54,41 +54,55 @@ logo_url("/driver_icons/threedee_control.png")
     Vue.component("threedee_control",{
       props: ["args","design_mode", "refresh", "children"]
       ,
-      template: `<div style='padding: 20px;' v-bind:refresh='refresh'>
+      template: `<div   style='padding: 10px;'
+                        v-bind:refresh='refresh'>
 
-          <a-scene  v-bind:id='(design_mode?"design_scene":"scene")'
-                    v-bind:ref='(design_mode?"design_scene":"scene")'
-                    physics-world=""
-                    physics="debug: false"
-                    style='width: 80%; height: 80%;'
-                    embedded
-                    allowvr="yes"
-                    v-bind:refresh='refresh'>
+                      <div v-bind:style='"display:flex; width:" + ((design_mode == "detail_editor")?"50%;":"100%;")'>
 
-              <a-entity geometry="primitive: sphere; radius: 100"
-                        material="color: #74DEED; shader: flat"
-                        v-bind:refresh='refresh'
-                        scale="1 1 -1">
-              </a-entity>
 
-              <a-entity geometry="primitive: box; depth: 50; height: 0.1; width: 50"
-                        material="color: #2E3837"
-                        v-bind:refresh='refresh'
-                        static-body
-                        physics-body="mass: 0; boundingBox: 50 0.1 50" position="0 0 -10"></a-entity>
+                          <a-scene  v-bind:id='(design_mode?"design_scene":"scene")'
+                                    v-bind:ref='(design_mode?"design_scene":"scene")'
+                                    physics-world=""
+                                    physics="debug: false"
+                                    style='width: 80%; height: 80%;'
+                                    embedded
+                                    allowvr="yes"
+                                    v-bind:refresh='refresh'>
 
-              <a-entity camera look-controls wasd-physics-controls
-                        v-bind:refresh='refresh'
-                        physics-body="mass: 0; boundingBox: 1 1.8 1"
-                        position="0 5 0">
-              </a-entity>
+                              <a-entity geometry="primitive: sphere; radius: 100"
+                                        material="color: #74DEED; shader: flat"
+                                        v-bind:refresh='refresh'
+                                        scale="1 1 -1">
+                              </a-entity>
 
-                <slot v-bind:refresh='refresh'>
-                </slot>
+                              <a-entity geometry="primitive: box; depth: 50; height: 0.1; width: 50"
+                                        material="color: #2E3837"
+                                        v-bind:refresh='refresh'
+                                        static-body
+                                        physics-body="mass: 0; boundingBox: 50 0.1 50" position="0 0 -10"></a-entity>
 
-            </a-scene>
-         </div>
-      `,
+                              <a-entity camera look-controls wasd-physics-controls
+                                        v-bind:refresh='refresh'
+                                        physics-body="mass: 0; boundingBox: 1 1.8 1"
+                                        position="0 5 0">
+                              </a-entity>
+
+                                <slot v-bind:refresh='refresh'>
+                                </slot>
+
+                        </a-scene>
+                    </div>
+                    <div    v-bind:style='"display:flex; width:50%;"'
+                            v-if='design_mode == "detail_editor"'>
+                        Detail editor
+                    </div>
+
+                 </div>`
+                 ,
+
+
+
+
         mounted: function() {
             if (!this.design_mode) {
                 //var scene = document.querySelector('a-scene');
