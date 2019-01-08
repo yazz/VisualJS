@@ -148,7 +148,7 @@ uses_javascript_librararies(["aframe"])
                     v-bind:style='"margin: 2px; display: inline-block; vertical-align: top; width: 100%;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
 
                 <div    v-if='design_mode'
-                        style='font-family:verdana;font-size: 13px;font-weight:bold;border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
+                        style='font-family:verdana;font-size: 13px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
 
                     <div    style='height: 30px;' >
                         Control details
@@ -159,33 +159,37 @@ uses_javascript_librararies(["aframe"])
 
 
                 </div>
-                <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[model.active_component_index].name + (design_mode?"_design":"")'
-                            v-bind:refresh='refresh'
-                            v-bind:design_mode='design_mode'
-                            v-bind:children='getChildren( model.forms[model.active_form].components[model.active_component_index].name)'
-                            v-on:send="processControlEvent"
-                            v-bind:is='model.forms[model.active_form].components[model.active_component_index].base_component_id'
-                            v-bind:name='model.forms[model.active_form].components[model.active_component_index].name + (design_mode?"_design":"")'
-                            v-bind:args='model.forms[model.active_form].components[model.active_component_index]'>
 
-                            <template       slot-scope="child_components"
-                                            v-bind:refresh='refresh'
-                                            style='position:relative;'>
+                <div  v-bind:style='"border: 1px solid black;background: white;;overflow:none;"'>
 
-                                <component  v-for='child_item  in  getChildren(model.forms[model.active_form].components[model.active_component_index].name)'
-                                            v-bind:design_mode='design_mode'
-                                            v-bind:refresh='refresh'
-                                            v-bind:style='"z-index:100000;position: absolute; top: " + child_item.topY + "px; left: " + child_item.leftX + "px;height:" + child_item.height + "px;width:" + child_item.width + "px;overflow:auto;"'
-                                            v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[child_item.index_in_parent_array].name + (design_mode?"_design":"")'
-                                            v-on:send="processControlEvent"
-                                            v-bind:is='child_item.base_component_id'
-                                            v-bind:name='child_item.name + (design_mode?"_design":"")'
-                                            v-bind:args='model.forms[model.active_form].components[child_item.index_in_parent_array]'>
-                                </component>
+                    <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[model.active_component_index].name + (design_mode?"_design":"")'
+                                v-bind:refresh='refresh'
+                                v-bind:design_mode='design_mode'
+                                v-bind:children='getChildren( model.forms[model.active_form].components[model.active_component_index].name)'
+                                v-on:send="processControlEvent"
+                                v-bind:is='model.forms[model.active_form].components[model.active_component_index].base_component_id'
+                                v-bind:name='model.forms[model.active_form].components[model.active_component_index].name + (design_mode?"_design":"")'
+                                v-bind:args='model.forms[model.active_form].components[model.active_component_index]'>
 
-                            </template>
-                 </component>
-            </div>
+                                <template       slot-scope="child_components"
+                                                v-bind:refresh='refresh'
+                                                style='position:relative;'>
+
+                                    <component  v-for='child_item  in  getChildren(model.forms[model.active_form].components[model.active_component_index].name)'
+                                                v-bind:design_mode='design_mode'
+                                                v-bind:refresh='refresh'
+                                                v-bind:style='"z-index:100000;position: absolute; top: " + child_item.topY + "px; left: " + child_item.leftX + "px;height:" + child_item.height + "px;width:" + child_item.width + "px;overflow:auto;"'
+                                                v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[child_item.index_in_parent_array].name + (design_mode?"_design":"")'
+                                                v-on:send="processControlEvent"
+                                                v-bind:is='child_item.base_component_id'
+                                                v-bind:name='child_item.name + (design_mode?"_design":"")'
+                                                v-bind:args='model.forms[model.active_form].components[child_item.index_in_parent_array]'>
+                                    </component>
+
+                                </template>
+                     </component>
+                 </div>
+             </div>
 
 
 
