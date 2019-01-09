@@ -54,72 +54,78 @@ logo_url("/driver_icons/threedee_control.png")
     Vue.component("threedee_control",{
       props: ["args","design_mode", "refresh", "children","delete_component"]
       ,
-      template: `<div   style='padding: 10px;'
-                        v-bind:refresh='refresh'>
+      template:
+`<div   style='padding: 10px;'
+        v-bind:refresh='refresh'>
 
-                    <div    v-bind:style='"width:100%;height:40vh;"'
-                            v-bind:refresh='refresh'
-                            v-if='design_mode == "detail_editor"'>
-                        Detail editor
-                        <div    v-bind:style='"border:1px solid gray; padding: 10px;display:flex;"'
-                                v-bind:refresh='refresh'
-                                v-for='(child_item,index)  in  children'>
-                            <div v-if='child_item' v-bind:refresh='refresh'>
-                                <div v-if='child_item' v-bind:refresh='refresh'>{{child_item.name}}</div>
-                                <div     class='btn btn-danger'
-                                         v-bind:refresh='refresh'
-                                         v-if='child_item'
-                                         v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 2147483647;opacity:1;"  +
-                                                       "width: 20px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;margin-left: 20px;"'
-                                         v-on:click='$event.stopPropagation();delete_component(index)'>
+    <div    v-bind:style='"width:100%;height:40vh;"'
+            v-bind:refresh='refresh'
+            v-if='design_mode == "detail_editor"'>
+        Detail editor
 
-                                        X
+        <div    v-bind:style='"border:1px solid gray; padding: 10px;display:flex;"'
+                v-bind:refresh='refresh'
+                v-for='(child_item,index)  in  children'>
+            <div v-if='child_item' v-bind:refresh='refresh'>
+                <div v-if='child_item' v-bind:refresh='refresh'>{{child_item.name}}</div>
+                <div    class='btn btn-danger'
+                        v-bind:refresh='refresh'
+                        v-if='child_item'
+                        v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 2147483647;opacity:1;"  +
+                        "width: 20px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;margin-left: 20px;"'
+                        v-on:click='$event.stopPropagation();delete_component(child_item.index_in_parent_array)'>
 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        X
 
-
-
-                      <div v-bind:style='"width:" + args.width + "; height: " + args.height + ";"' v-bind:refresh='refresh'>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-                          <a-scene  v-bind:id='(design_mode?"design_scene":"scene")'
-                                    v-bind:ref='(design_mode?"design_scene":"scene")'
-                                    physics-world=""
-                                    physics="debug: false"
-                                    style='width: 80%; height: 80%;'
-                                    embedded
-                                    allowvr="yes"
-                                    v-bind:refresh='refresh'>
 
-                              <a-entity geometry="primitive: sphere; radius: 100"
-                                        material="color: #74DEED; shader: flat"
-                                        v-bind:refresh='refresh'
-                                        scale="1 1 -1">
-                              </a-entity>
+    <div v-bind:style='"width:" + args.width + "; height: " + args.height + ";"' v-bind:refresh='refresh'>
 
-                              <a-entity geometry="primitive: box; depth: 50; height: 0.1; width: 50"
-                                        material="color: #2E3837"
-                                        v-bind:refresh='refresh'
-                                        static-body
-                                        physics-body="mass: 0; boundingBox: 50 0.1 50" position="0 0 -10"></a-entity>
 
-                              <a-entity camera look-controls wasd-physics-controls
-                                        v-bind:refresh='refresh'
-                                        physics-body="mass: 0; boundingBox: 1 1.8 1"
-                                        position="0 5 0">
-                              </a-entity>
+        <a-scene    v-bind:id='(design_mode?"design_scene":"scene")'
+                    v-bind:ref='(design_mode?"design_scene":"scene")'
+                    physics-world=""
+                    physics="debug: false"
+                    style='width: 80%; height: 80%;'
+                    embedded
+                    allowvr="yes"
+                    v-bind:refresh='refresh'>
 
-                                <slot v-bind:refresh='refresh'>
-                                </slot>
+            <a-entity   geometry="primitive: sphere; radius: 100"
+                        material="color: #74DEED; shader: flat"
+                        v-bind:refresh='refresh'
+                        scale="1 1 -1">
+            </a-entity>
 
-                        </a-scene>
-                    </div>
 
-                 </div>`
-                 ,
+            <a-entity   geometry="primitive: box; depth: 50; height: 0.1; width: 50"
+                        material="color: #2E3837"
+                        v-bind:refresh='refresh'
+                        static-body
+                        physics-body="mass: 0; boundingBox: 50 0.1 50" position="0 0 -10">
+            </a-entity>
+
+
+            <a-entity   camera look-controls wasd-physics-controls
+                        v-bind:refresh='refresh'
+                        physics-body="mass: 0; boundingBox: 1 1.8 1"
+                        position="0 5 0">
+            </a-entity>
+
+
+            <slot v-bind:refresh='refresh'>
+            </slot>
+
+        </a-scene>
+    </div>
+
+</div>`
+         ,
 
 
 
