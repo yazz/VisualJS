@@ -55,10 +55,10 @@ logo_url("/driver_icons/threedee_control.png")
       props: ["args","design_mode", "refresh", "children","delete_component"]
       ,
       template:
-`<div   style='padding: 10px;'
+`<div   v-bind:style='"width:100%;overflow-y:auto;height:100%"'
         v-bind:refresh='refresh'>
 
-    <div    v-bind:style='"width:100%;height:40vh;"'
+    <div    v-bind:style='"width:100%;height:40vh;overflow-y:auto;"'
             v-bind:refresh='refresh'
             v-if='design_mode == "detail_editor"'>
         Detail editor
