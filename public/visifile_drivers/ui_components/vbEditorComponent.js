@@ -166,6 +166,7 @@ uses_javascript_librararies(["aframe"])
                                 v-bind:refresh='refresh'
                                 design_mode='detail_editor'
                                 v-bind:delete_component='childDeleteComponent'
+                                v-bind:select_component='childSelectComponent'
                                 v-bind:children='getChildren( model.forms[model.active_form].components[model.active_component_index].name)'
                                 v-on:send="processControlEvent"
                                 v-bind:is='model.forms[model.active_form].components[model.active_component_index].base_component_id'
@@ -914,11 +915,14 @@ uses_javascript_librararies(["aframe"])
                    mm.model.forms[mm.model.active_form].components.splice(text.component_index, 1);
                    //zzz
                    //mm.design_mode_pane.type = "drag_drop";
-               }
 
+
+
+               } else if (text.type == "select_component") {
+                  mm.select_component(text.component_index, true);
+              }
 
            })
-
 
      },
 
@@ -1588,6 +1592,14 @@ ${eventMessage.code}
          childDeleteComponent: function(index) {
              this.$root.$emit('message', {
                                              type:             "delete_component",
+                                             component_index:   index
+                                         })
+
+             }
+             ,
+         childSelectComponent: function(index) {
+             this.$root.$emit('message', {
+                                             type:             "select_component",
                                              component_index:   index
                                          })
 

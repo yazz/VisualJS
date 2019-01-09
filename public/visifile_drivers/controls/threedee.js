@@ -52,7 +52,7 @@ logo_url("/driver_icons/threedee_control.png")
 */
 
     Vue.component("threedee_control",{
-      props: ["args","design_mode", "refresh", "children","delete_component"]
+      props: ["args","design_mode", "refresh", "children","delete_component","select_component"]
       ,
       template:
 `<div   v-bind:style='"width:100%;overflow-y:auto;height:100%"'
@@ -67,7 +67,10 @@ logo_url("/driver_icons/threedee_control.png")
                 v-bind:refresh='refresh'
                 v-for='(child_item,index)  in  children'>
             <div v-if='child_item' v-bind:refresh='refresh'>
-                <div v-if='child_item' v-bind:refresh='refresh'>{{child_item.name}}</div>
+                <div    style="display:inline-block;"
+                        v-on:click='$event.stopPropagation();select_component(child_item.index_in_parent_array)'
+                        v-if='child_item' v-bind:refresh='refresh'>{{child_item.name}}</div>
+
                 <div    class='btn btn-danger'
                         v-bind:refresh='refresh'
                         v-if='child_item'
