@@ -1151,7 +1151,9 @@ load_once_from_file(true)
                    setTimeout(async function() {
                        mm.app_component_name = baseComponentId
                        if (mm.$refs.editor_component_ref) {
-                            mm.$refs.editor_component_ref.setText(code)
+                            if (mm.$refs.editor_component_ref.setText) {
+                                mm.$refs.editor_component_ref.setText(code)
+                            }
                        }
                    },500)
                }

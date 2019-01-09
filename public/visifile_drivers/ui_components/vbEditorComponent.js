@@ -1585,14 +1585,16 @@ ${eventMessage.code}
 
          //-------------------------------------------------------------------
          drop: async function (ev) {
+         //
+         // This is called when something happens on the main drag and drop
+         // grid
+         //
          //-------------------------------------------------------------------
              ev.preventDefault();
              var mm = this
 
              var data2 = ev.dataTransfer.getData("message");
              var data = eval("(" + data2 + ")")
-
-             var doc = document.documentElement;
 
              var newItem2 = new Object()
              var rrr2 = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
@@ -1671,8 +1673,9 @@ ${eventMessage.code}
                  if (isValidObject(compEvaled1)) {
                         var compEvaled = compEvaled1.properties
                         if (isValidObject(compEvaled)) {
-                            for (var cpp = 0 ; cpp< compEvaled.length; cpp ++){
+                            for (var cpp = 0 ; cpp < compEvaled.length; cpp ++){
                                 var prop = compEvaled[cpp].id
+
                                 if (!isValidObject(newItem[prop])){
                                     if (compEvaled[cpp].default) {
                                         newItem[prop] = compEvaled[cpp].default
