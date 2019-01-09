@@ -162,22 +162,22 @@ uses_javascript_librararies(["aframe"])
 
                 <div  v-bind:style='"border: 5px solid lightgray;background: white;;overflow:none;height:100%; overflow: auto;"'>
 
-                    <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[model.active_container_index].name + (design_mode?"_design":"")'
+                    <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[model.active_component_detail_index].name + (design_mode?"_design":"")'
                                 v-bind:refresh='refresh'
                                 design_mode='detail_editor'
                                 v-bind:delete_component='childDeleteComponent'
                                 v-bind:select_component='childSelectComponent'
-                                v-bind:children='getChildren( model.forms[model.active_form].components[model.active_container_index].name)'
+                                v-bind:children='getChildren( model.forms[model.active_form].components[model.active_component_detail_index].name)'
                                 v-on:send="processControlEvent"
-                                v-bind:is='model.forms[model.active_form].components[model.active_container_index].base_component_id'
-                                v-bind:name='model.forms[model.active_form].components[model.active_container_index].name + (design_mode?"_design":"")'
-                                v-bind:args='model.forms[model.active_form].components[model.active_container_index]'>
+                                v-bind:is='model.forms[model.active_form].components[model.active_component_detail_index].base_component_id'
+                                v-bind:name='model.forms[model.active_form].components[model.active_component_detail_index].name + (design_mode?"_design":"")'
+                                v-bind:args='model.forms[model.active_form].components[model.active_component_detail_index]'>
 
                                 <template       slot-scope="child_components"
                                                 v-bind:refresh='refresh'
                                                 style='position:relative;'>
 
-                                    <component  v-for='child_item  in  getChildren(model.forms[model.active_form].components[model.active_container_index].name)'
+                                    <component  v-for='child_item  in  getChildren(model.forms[model.active_form].components[model.active_component_detail_index].name)'
                                                 v-bind:design_mode='design_mode'
                                                 v-bind:refresh='refresh'
                                                 v-bind:style='"z-index:100000;position: absolute; top: " + child_item.topY + "px; left: " + child_item.leftX + "px;height:" + child_item.height + "px;width:" + child_item.width + "px;overflow:auto;"'
@@ -1571,6 +1571,7 @@ ${eventMessage.code}
                active_form:            mm.model.active_form,
                active_component_index: mm.model.active_component_index,
            }
+           this.model.active_component_detail_index = index;
 
            setTimeout(function() {
                mm.refresh ++
@@ -2084,11 +2085,6 @@ ${eventMessage.code}
                 this.selected_pane = "properties";
                 this.chooseRight("properties");
             }
-            if (this.model.forms[this.model.active_form].components[index].is_container) {
-                this.model.active_container_index = index;
-            } else {
-                this.model.active_container_index = null;
-            }
             this.refresh ++
          },
 
@@ -2358,7 +2354,7 @@ ${eventMessage.code}
                                             max_form: 1,
                                             active_form: "Form_1",
                                             active_component_index: null,
-                                            active_container_index: null,
+                                            active_component_detail_index: null,
                                             app_selected: false,
                                             default_form: "Form_1",
                                             app_properties: [],
