@@ -8735,13 +8735,13 @@ async function scriptTag(src, callback) {
     s.src = src.src || src;
     s.async = false;
 
-    s.onreadystatechange = s.onload = function () {
+    s.onreadystatechange = s.onload = async function () {
 
         var state = s.readyState;
 
         if (!callback.done && (!state || /loaded|complete/.test(state))) {
             callback.done = true;
-            callback();
+            await callback();
         }
     };
 
