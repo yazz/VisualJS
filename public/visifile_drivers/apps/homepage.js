@@ -41,7 +41,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         <h1 style='font-size:100px; text-align: center;margin: 0px;'>
 
             <button style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 25px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:85px;font-weight: bold;' class='btn btn-success btn-lg'
-                    v-on:click='copyAndEditApp($event,"vb")'>
+                    v-on:click='copyAndEditApp($event,"vb_blank")'>
                 Create app
             </button>
         </h1>
@@ -102,6 +102,10 @@ box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;background
 
     <div style='margin-top:1000px; text-align: center;'>
         Surprises :)
+
+        <button style='margin-bottom:10px;' class='btn btn-primary btn-sm' v-on:click='copyAndEditApp($event,"vb")'>
+            Kitchen Sink
+        </button>
 
         <button style='margin-bottom:10px;' class='btn btn-primary btn-sm' v-on:click='copyAndEditApp($event,"game")'>
             Make 3d app

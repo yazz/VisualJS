@@ -1,7 +1,7 @@
 async function(args) {
 /*
-created_timestamp(1546894361568)
-base_component_id("vb")
+created_timestamp(1547007881276)
+base_component_id("vb_blank")
 editors([
   "vb_editor_component"
 ])
@@ -15,11 +15,11 @@ properties([
 formEditor({
   "next_id": 7,
   "max_form": 4,
-  "active_form": "form_1",
+  "active_form": "Form_1",
   "default_form": "Form_1",
   "app_selected": false,
-  "id": "vb",
-  "next_component_id": 109,
+  "id": "vb_blank",
+  "next_component_id": 110,
   "app_properties": [
     {
       "id": "test",
@@ -30,132 +30,16 @@ formEditor({
   "forms": {
     "Form_1": {
       "name": "Form_1",
-      "width": 372.875,
+      "width": 372,
       "height": 355,
-      "components": [
-        {
-          "name": "todoInputBox",
-          "base_component_id": "input_control",
-          "leftX": 8,
-          "topY": 49,
-          "width": 238,
-          "height": 40,
-          "text": "",
-          "label": "",
-          "placeholder": "",
-          "background_color": ""
-        },
-        {
-          "name": "add_todo_button",
-          "base_component_id": "button_control",
-          "leftX": 280,
-          "topY": 49,
-          "width": 85,
-          "height": 41,
-          "text": "Add",
-          "click_event": "var ins = todoInputBox.text\n\ntodoInputBox.text = \"\"\nsql(\"insert into items (id,name) values (?,?)\",\n          [new Date().getTime(),\n           ins])\ndisplay_out.text = sqlFirstCol(\"select name from items\")\n",
-          "background_color": ""
-        },
-        {
-          "name": "button_control_2",
-          "base_component_id": "button_control",
-          "leftX": 4,
-          "topY": 299,
-          "width": 143,
-          "height": 54,
-          "text": "Go to  form 2",
-          "click_event": "mm.selectForm(\"Form_2\")",
-          "background_color": "blue"
-        },
-        {
-          "leftX": -0.4375,
-          "topY": 105,
-          "name": "display_out",
-          "base_component_id": "label_control",
-          "width": 365,
-          "height": 178,
-          "text": "",
-          "background_color": ""
-        },
-        {
-          "leftX": 33.5625,
-          "topY": 9,
-          "name": "title_label",
-          "base_component_id": "label_control",
-          "width": 112,
-          "height": 34,
-          "text": "Todo App",
-          "background_color": ""
-        },
-        {
-          "leftX": 190.4375,
-          "topY": 300,
-          "name": "button_control_104",
-          "base_component_id": "button_control",
-          "width": 146,
-          "height": 55,
-          "text": "Go to 3D",
-          "background_color": "",
-          "click_event": "mm.selectForm(\"form_3d\")"
-        }
-      ],
-      "form_activate": "display_out.text = sqlFirstCol(\"select name from items\")"
-    },
-    "Form_2": {
-      "name": "Form_2",
-      "width": 400,
-      "height": 400,
-      "components": [
-        {
-          "name": "button_control_2",
-          "base_component_id": "button_control",
-          "leftX": 200,
-          "topY": 300,
-          "width": 200,
-          "background_color": "blue",
-          "height": 50,
-          "text": "Go to Form 1",
-          "click_event": "mm.selectForm(\"Form_1\")"
-        }
-      ]
-    },
-    "form_3d": {
-      "name": "form_3d",
-      "components": [
-        {
-          "leftX": 10.4375,
-          "topY": 343.28125,
-          "name": "button_control_107",
-          "base_component_id": "button_control",
-          "width": 182,
-          "height": 58,
-          "text": "Go to form 1",
-          "background_color": "",
-          "click_event": "mm.selectForm(\"Form_1\")"
-        },
-        {
-          "leftX": 0,
-          "topY": 0,
-          "name": "threedee_control_108",
-          "base_component_id": "threedee_control",
-          "width": 274.9791564941406,
-          "height": 206.8645782470703,
-          "text": "",
-          "background_color": "",
-          "is_container": true,
-          "hide_children": true,
-          "has_details_ui": true
-        }
-      ],
-      "width": 298.125,
-      "height": 401.28125
+      "components": []
     }
   },
-  "active_component_index": 1
+  "active_component_index": null
 })//formEditor
 control_type("SYSTEM")
 visibility("PRIVATE")
-display_name("VB")
+display_name("GUI App")
 uses_javascript_librararies(["aframe"])
 sub_components(["app_editor_3","appEmbed","vb_editor_component","input_control","button_control","label_control"])
 
@@ -168,7 +52,7 @@ sub_components(["app_editor_3","appEmbed","vb_editor_component","input_control",
 
 
 is_app(true)
-description('VB App')
+description('VB Blank App')
 logo_url("data:image/jpeg;base64,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")
 */
 
@@ -177,7 +61,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                 var texti = null
                 var designMode = false
                 var runtimeMode = true
-                Vue.component('vb', {
+                Vue.component('vb_blank', {
       props: [ "args"],
       template:
 `<div   v-bind:id='uid2'
@@ -276,7 +160,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                     v-bind:style='"margin: 2px; display: inline-block; vertical-align: top; width: 100%;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
 
                 <div    v-if='design_mode'
-                        style='font-family:verdana;font-size: 13px;font-weight:bold;border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
+                        style='font-family:verdana;font-size: 13px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
 
                     <div    style='height: 30px;' >
                         Code
@@ -290,6 +174,67 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
 
                 </div>
             </div>
+
+
+
+
+            <!--
+
+                    The control details editor
+
+            -->
+
+
+            <div    v-if='(!design_mode && design_mode_pane) || (design_mode && (design_mode_pane.type=="control_details_editor"))'
+                    v-bind:style='"box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin: 2px; display: inline-block; vertical-align: top; width: 100%;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
+
+                <div    v-if='design_mode'
+                        style='font-family:verdana;font-size: 13px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
+
+                    <div    style='height: 30px;' >
+                        Control details
+                        <button  type=button class=' btn btn-danger btn-sm'
+                                 style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 4px;"
+                                 v-on:click='closeUiCodeEditor()' >x</button>
+                    </div>
+
+
+                </div>
+
+                <div  v-bind:style='"border: 5px solid lightgray;background: white;;overflow:none;height:100%; overflow: auto;"'>
+
+                    <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[model.active_component_index].name + (design_mode?"_design":"")'
+                                v-bind:refresh='refresh'
+                                design_mode='detail_editor'
+                                v-bind:children='getChildren( model.forms[model.active_form].components[model.active_component_index].name)'
+                                v-on:send="processControlEvent"
+                                v-bind:is='model.forms[model.active_form].components[model.active_component_index].base_component_id'
+                                v-bind:name='model.forms[model.active_form].components[model.active_component_index].name + (design_mode?"_design":"")'
+                                v-bind:args='model.forms[model.active_form].components[model.active_component_index]'>
+
+                                <template       slot-scope="child_components"
+                                                v-bind:refresh='refresh'
+                                                style='position:relative;'>
+
+                                    <component  v-for='child_item  in  getChildren(model.forms[model.active_form].components[model.active_component_index].name)'
+                                                v-bind:design_mode='design_mode'
+                                                v-bind:refresh='refresh'
+                                                v-bind:style='"z-index:100000;position: absolute; top: " + child_item.topY + "px; left: " + child_item.leftX + "px;height:" + child_item.height + "px;width:" + child_item.width + "px;overflow:auto;"'
+                                                v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[child_item.index_in_parent_array].name + (design_mode?"_design":"")'
+                                                v-on:send="processControlEvent"
+                                                v-bind:is='child_item.base_component_id'
+                                                v-bind:name='child_item.name + (design_mode?"_design":"")'
+                                                v-bind:args='model.forms[model.active_form].components[child_item.index_in_parent_array]'>
+                                    </component>
+
+                                </template>
+                     </component>
+                 </div>
+             </div>
+
+
+
+
 
 
 
@@ -389,7 +334,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
 
                             <!-- ACTIVE CONTROL RESIZERS -->
                             <!-- top left -->
-                            <div    v-if='design_mode && isValidObject(model.active_component_index)'
+                            <div    v-if='design_mode && isValidObject(model.active_component_index) && isVisible(model.active_form,model.active_component_index)'
                                     v-bind:style='"z-index:10000000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
                                         (getLeft(model.active_form,model.active_component_index) - 15) +  "px;top:" +
                                         ((getTop(model.active_form,model.active_component_index)) - 15) +  "px;"'
@@ -402,7 +347,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                             </div>
 
                             <!-- top middle -->
-                            <div    v-if='design_mode && isValidObject(model.active_component_index)'
+                            <div    v-if='design_mode && isValidObject(model.active_component_index) && isVisible(model.active_form,model.active_component_index)'
                                     v-bind:style='"z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
                                         ((getLeft(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].width/2) - 7) +  "px;top:" +
                                         ((getTop(model.active_form,model.active_component_index)) - 15) +  "px;"'
@@ -414,7 +359,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                                                              })'>
                             </div>
                             <!-- top right -->
-                            <div    v-if='design_mode && isValidObject(model.active_component_index)'
+                            <div    v-if='design_mode && isValidObject(model.active_component_index) && isVisible(model.active_form,model.active_component_index)'
                                     v-bind:style='"z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
                                         ((getLeft(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].width) ) +  "px;top:" +
                                         ((getTop(model.active_form,model.active_component_index)) - 15) +  "px;"'
@@ -427,7 +372,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                             </div>
 
                             <!-- middle left -->
-                            <div    v-if='design_mode && isValidObject(model.active_component_index)'
+                            <div    v-if='design_mode && isValidObject(model.active_component_index) && isVisible(model.active_form,model.active_component_index)'
                                     v-bind:style='"z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
                                         ((getLeft(model.active_form,model.active_component_index)) - 15) +  "px;top:" +
                                         ((getTop(model.active_form,model.active_component_index)) + ((model.forms[model.active_form].components[model.active_component_index].height / 2)) - 7) +  "px;"'
@@ -439,7 +384,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                                                              })'>
                             </div>
                             <!-- middle right -->
-                            <div    v-if='design_mode && isValidObject(model.active_component_index)'
+                            <div    v-if='design_mode && isValidObject(model.active_component_index) && isVisible(model.active_form,model.active_component_index)'
                                     v-bind:style='"z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
                                         ((getLeft(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].width)) +  "px;top:" +
                                         ((getTop(model.active_form,model.active_component_index)) + ((model.forms[model.active_form].components[model.active_component_index].height / 2)) - 7) +  "px;"'
@@ -451,7 +396,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                                                              })'>
                             </div>
                             <!-- bottom left -->
-                            <div    v-if='design_mode && isValidObject(model.active_component_index)'
+                            <div    v-if='design_mode && isValidObject(model.active_component_index) && isVisible(model.active_form,model.active_component_index)'
                                     v-bind:style='"z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
                                         ((getLeft(model.active_form,model.active_component_index)) - 15) +  "px;top:" +
                                         ((getTop(model.active_form,model.active_component_index)) + ((model.forms[model.active_form].components[model.active_component_index].height)) + 2) +  "px;"'
@@ -463,7 +408,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                                                                  })'>
                             </div>
                             <!-- bottom middle -->
-                            <div    v-if='design_mode && isValidObject(model.active_component_index)'
+                            <div    v-if='design_mode && isValidObject(model.active_component_index) && isVisible(model.active_form,model.active_component_index)'
                                     v-bind:style='"z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
                                         ((getLeft(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].width/2) - 7) +  "px;top:" +
                                         ((getTop(model.active_form,model.active_component_index)) + ((model.forms[model.active_form].components[model.active_component_index].height)) + 2) +  "px;"'
@@ -476,7 +421,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                             </div>
 
                             <!-- bottom right -->
-                            <div    v-if='design_mode && isValidObject(model.active_component_index)'
+                            <div    v-if='design_mode && isValidObject(model.active_component_index) && isVisible(model.active_form,model.active_component_index)'
                                     v-bind:style='"z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
                                         ((getLeft(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].width) ) +  "px;top:" +
                                         ((getTop(model.active_form,model.active_component_index)) + ((model.forms[model.active_form].components[model.active_component_index].height)) + 2) +  "px;"'
@@ -493,7 +438,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
 
 
                             <!-- DELETE -->
-                            <div     v-if='design_mode && isValidObject(model.active_component_index)'
+                            <div     v-if='design_mode && isValidObject(model.active_component_index) && isVisible(model.active_form,model.active_component_index)'
                                      v-bind:refresh='refresh'
                                      class='btn btn-danger'
                                      v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 2147483647;opacity:1;position: absolute; "  +
@@ -507,13 +452,30 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                             </div>
 
 
+                            <!-- More details ... button -->
+                            <div     v-if='design_mode && isValidObject(model.active_component_index) && isVisible(model.active_form,model.active_component_index) && hasMoreDetailsUi(model.active_form,model.active_component_index)'
+                                     v-bind:refresh='refresh'
+                                     class='btn btn-info'
+                                     v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 2147483647;opacity:1;position: absolute; "  +
+                                        "left: " + ((getLeft(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].width) + 15) + "px;" +
+                                        "top:  " + ((getTop(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].height) + 15) +  "px;" +
+                                        "width: 20px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;"'
+                                     v-on:click='$event.stopPropagation();showComponentDetailedDesignUi(model.active_component_index)'>
+
+                                    ...
+
+                            </div>
+
+
+
+
 
                             <div    v-bind:refresh='refresh'
                                     v-for='(item,index) in getActiveFormComponents()'
                                     ondrop="return false;"
                                     v-on:click='if ( isVisible(model.active_form,index)){ $event.stopPropagation();select_component(index,true); }'
-                                    v-bind:style='((design_mode && isVisible(model.active_form,index))?"border: 1px solid black;":"") +
-                                                    "position: absolute;top: " + getTop(model.active_form,index) + ";left:" + getLeft(model.active_form,index) + ";height:" + item.height + "px;width:" + item.width + "px;background: white;;overflow:none;"'>
+                                    v-bind:style='((design_mode && isVisible(model.active_form,index))?"border: 1px solid black;background: white;":"") +
+                                                    "position: absolute;top: " + getTop(model.active_form,index) + ";left:" + getLeft(model.active_form,index) + ";height:" + item.height + "px;width:" + item.width + "px;;overflow:none;"'>
 
                                 <div ondrop="return false;"
                                      v-bind:style='"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:auto;"'>
@@ -984,6 +946,20 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
                 mm.selectForm(mm.model.default_form)
            },500)
 
+
+           mm.$root.$on('message', async function(text) {
+               if (text.type == "delete_component") {
+                   //alert("Found: " + text.component_index)
+                   //alert(JSON.stringify(mm.model.forms[mm.model.active_form].components[text.component_index],null,2))
+                   mm.model.forms[mm.model.active_form].components.splice(text.component_index, 1);
+                   //zzz
+                   //mm.design_mode_pane.type = "drag_drop";
+               }
+
+
+           })
+
+
      },
 
 
@@ -992,6 +968,30 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExM
 
 
      methods: {
+
+         hasMoreDetailsUi: function(formName, componentIndex) {
+             var mm = this
+             var component = mm.model.forms[formName].components[componentIndex]
+             if (isValidObject(component.parent)) {
+                 var ccc = mm.model.forms[formName].components
+                 for (var ytr = 0;ytr < ccc.length;ytr++) {
+                    if (component.parent == ccc[ytr].name) {
+                        if (ccc[ytr].hide_children) {
+                            return false
+                        }
+                        break
+                    }
+                 }
+             }
+
+             if (component.has_details_ui) {
+                 return true
+             }
+
+
+             return false
+         }
+         ,
         isVisible: function(formName, componentIndex) {
             var mm = this
             var component = mm.model.forms[formName].components[componentIndex]
@@ -1596,6 +1596,21 @@ ${eventMessage.code}
 
 
 
+        showComponentDetailedDesignUi: async function(index) {
+           var mm = this
+           mm.design_mode_pane =
+           {
+               type: "control_details_editor",
+               active_form:            mm.model.active_form,
+               active_component_index: mm.model.active_component_index,
+           }
+
+           setTimeout(function() {
+               mm.refresh ++
+               mm.$forceUpdate();
+           },400)
+        },
+
          deleteComponent: async function(index) {
             var mm = this
             this.model.forms[this.model.active_form].components.splice(index, 1);
@@ -1640,7 +1655,8 @@ ${eventMessage.code}
                 var x2 =        ccc[ytr].leftX + ccc[ytr].width
                 var y1 =        ccc[ytr].topY
                 var y2 =        ccc[ytr].topY + ccc[ytr].height
-                if ((x1 <= newItem2.leftX) && (newItem2.leftX <= x2) && (y1 <= newItem2.topY) && (newItem2.topY <= y2)) {
+                var isContainer = ccc[ytr].is_container
+                if (isContainer && (x1 <= newItem2.leftX) && (newItem2.leftX <= x2) && (y1 <= newItem2.topY) && (newItem2.topY <= y2)) {
                     //alert(`${baseId}:(${x1},${y1}) - (${x2},${y2})`)
                     parentOffsetX = x1
                     parentOffsetY = y1
@@ -2336,11 +2352,11 @@ ${eventMessage.code}
                       model: {
   "next_id": 7,
   "max_form": 4,
-  "active_form": "form_3d",
+  "active_form": "Form_1",
   "default_form": "Form_1",
   "app_selected": false,
-  "id": "vb",
-  "next_component_id": 109,
+  "id": "vb_blank",
+  "next_component_id": 110,
   "app_properties": [
     {
       "id": "test",
@@ -2351,127 +2367,12 @@ ${eventMessage.code}
   "forms": {
     "Form_1": {
       "name": "Form_1",
-      "width": 372.875,
+      "width": 372,
       "height": 355,
-      "components": [
-        {
-          "name": "todoInputBox",
-          "base_component_id": "input_control",
-          "leftX": 8,
-          "topY": 49,
-          "width": 238,
-          "height": 40,
-          "text": "",
-          "label": "",
-          "placeholder": "",
-          "background_color": ""
-        },
-        {
-          "name": "add_todo_button",
-          "base_component_id": "button_control",
-          "leftX": 280,
-          "topY": 49,
-          "width": 85,
-          "height": 41,
-          "text": "Add",
-          "click_event": "var ins = todoInputBox.text\n\ntodoInputBox.text = \"\"\nsql(\"insert into items (id,name) values (?,?)\",\n          [new Date().getTime(),\n           ins])\ndisplay_out.text = sqlFirstCol(\"select name from items\")\n",
-          "background_color": ""
-        },
-        {
-          "name": "button_control_2",
-          "base_component_id": "button_control",
-          "leftX": 4,
-          "topY": 299,
-          "width": 143,
-          "height": 54,
-          "text": "Go to  form 2",
-          "click_event": "mm.selectForm(\"Form_2\")",
-          "background_color": "blue"
-        },
-        {
-          "leftX": -0.4375,
-          "topY": 105,
-          "name": "display_out",
-          "base_component_id": "label_control",
-          "width": 365,
-          "height": 178,
-          "text": "",
-          "background_color": ""
-        },
-        {
-          "leftX": 33.5625,
-          "topY": 9,
-          "name": "title_label",
-          "base_component_id": "label_control",
-          "width": 112,
-          "height": 34,
-          "text": "Todo App",
-          "background_color": ""
-        },
-        {
-          "leftX": 190.4375,
-          "topY": 300,
-          "name": "button_control_104",
-          "base_component_id": "button_control",
-          "width": 146,
-          "height": 55,
-          "text": "Go to 3D",
-          "background_color": "",
-          "click_event": "mm.selectForm(\"form_3d\")"
-        }
-      ],
-      "form_activate": "display_out.text = sqlFirstCol(\"select name from items\")"
-    },
-    "Form_2": {
-      "name": "Form_2",
-      "width": 400,
-      "height": 400,
-      "components": [
-        {
-          "name": "button_control_2",
-          "base_component_id": "button_control",
-          "leftX": 200,
-          "topY": 300,
-          "width": 200,
-          "background_color": "blue",
-          "height": 50,
-          "text": "Go to Form 1",
-          "click_event": "mm.selectForm(\"Form_1\")"
-        }
-      ]
-    },
-    "form_3d": {
-      "name": "form_3d",
-      "components": [
-        {
-          "leftX": 10.4375,
-          "topY": 343.28125,
-          "name": "button_control_107",
-          "base_component_id": "button_control",
-          "width": 182,
-          "height": 58,
-          "text": "Go to form 1",
-          "background_color": "",
-          "click_event": "mm.selectForm(\"Form_1\")"
-        },
-        {
-          "leftX": 0,
-          "topY": 0,
-          "name": "threedee_control_108",
-          "base_component_id": "threedee_control",
-          "width": 274.9791564941406,
-          "height": 206.8645782470703,
-          "text": "",
-          "background_color": "",
-          "is_container": true,
-          "hide_children": true
-        }
-      ],
-      "width": 298.125,
-      "height": 401.28125
+      "components": []
     }
   },
-  "active_component_index": 1
+  "active_component_index": null
 }}
                 }
               })//** gen_end **//
