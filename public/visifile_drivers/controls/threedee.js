@@ -52,7 +52,7 @@ logo_url("/driver_icons/threedee_control.png")
 */
 
     Vue.component("threedee_control",{
-      props: ["args","design_mode", "refresh", "children"]
+      props: ["args","design_mode", "refresh", "children","delete_component"]
       ,
       template: `<div   style='padding: 10px;'
                         v-bind:refresh='refresh'>
@@ -71,7 +71,7 @@ logo_url("/driver_icons/threedee_control.png")
                                          v-if='child_item'
                                          v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 2147483647;opacity:1;"  +
                                                        "width: 20px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;margin-left: 20px;"'
-                                         v-on:click='$event.stopPropagation();deleteComponent(index)'>
+                                         v-on:click='$event.stopPropagation();delete_component(index)'>
 
                                         X
 
@@ -142,17 +142,6 @@ logo_url("/driver_icons/threedee_control.png")
 
             }
         }
-      ,
-      methods:
-      {
-          deleteComponent: function(index) {
-              this.$root.$emit('message', {
-                                              type:             "delete_component",
-                                              component_index:   index
-                                          })
-
-          }
-      }
       ,
       data: function() {
           return {
