@@ -51,7 +51,7 @@ logo_url("/driver_icons/group_control.png")
                               v-bind:refresh='refresh'
                               v-if='design_mode == "detail_editor"'>
                           Detail editor
-                          <div    v-bind:style='"border:1px solid gray; padding: 10px;display:flex;"'
+                          <div    v-bind:style='"border:1px solid gray; padding: 10px;"'
                                   v-bind:refresh='refresh'
                                   v-for='(child_item,index)  in  children'>
                               <div v-if='child_item' v-bind:refresh='refresh'>
@@ -70,12 +70,18 @@ logo_url("/driver_icons/group_control.png")
                           </div>
                       </div>
 
-                          <div v-bind:style='"height:100%;width:100%; border: 1px solid gray;color: black;" +
-                                    "background-color: "+    args["background_color"]  +  ";"'>
+                          <div v-bind:style='"position:relative;height:" + args.height + ";width:" + args.width + "; color: black;overflow:hidden;"'>
 
-                                                    {{args.text}}
-                        <slot v-bind:refresh='refresh'>
-                        </slot>
+
+                               <div v-bind:style='"position:relative;width:100%;height:100%;border: 2px solid gray;background-color: "+    args["background_color"]  +  ";"'>
+                                   <div style="position:absolute;top:0px">
+                                        {{args.text}}
+                                   </div>
+                                   <div style="position:absolute;top:0px">
+                                       <slot v-bind:refresh='refresh'>
+                                       </slot>
+                                   </div>
+                               </div>
                     </div>
                 </div>`
       ,
