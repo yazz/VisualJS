@@ -47,8 +47,8 @@ logo_url("/driver_icons/group_control.png")
       props: ["args", "design_mode","refresh", "children","delete_component"]
       ,
       template:
-`<div>
-    <div    v-bind:style='"width:100%;height:40vh;"'
+`<div v-bind:style='"width:100%;overflow-y:auto;height:100%"'>
+    <div    v-bind:style='"width:100%;height:100%;"'
             v-bind:refresh='refresh'
             v-if='design_mode == "detail_editor"'>
       Detail editor
