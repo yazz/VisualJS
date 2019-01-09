@@ -434,7 +434,7 @@ uses_javascript_librararies(["aframe"])
                             <div    v-bind:refresh='refresh'
                                     v-for='(item,index) in getActiveFormComponents()'
                                     ondrop="return false;"
-                                    v-on:click='if ( isVisible(model.active_form,index)){ $event.stopPropagation();select_component(index,true); }'
+                                    v-on:click='if ( isVisible(model.active_form,index)){ $event.stopPropagation();selectComponent(index,true); }'
                                     v-bind:style='((design_mode && isVisible(model.active_form,index))?"border: 1px solid black;background: white;":"") +
                                                     "position: absolute;top: " + getTop(model.active_form,index) + ";left:" + getLeft(model.active_form,index) + ";height:" + item.height + "px;width:" + item.width + "px;;overflow:none;"'>
 
@@ -576,7 +576,7 @@ uses_javascript_librararies(["aframe"])
 
                                 <div    v-if='form.name == model.active_form'
                                         v-for='(av,index) in getActiveFormComponents()'
-                                        v-on:click='$event.stopPropagation();selected_pane = "project";select_component(index)'
+                                        v-on:click='$event.stopPropagation();selected_pane = "project";selectComponent(index)'
                                         v-bind:style='(((index == model.active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:80px; padding:2px;border-radius: 3px;"'>
 
                                     <div style='width:100%;display:inline-block;overflow: hidden;'>{{av.name}}</div>
@@ -919,7 +919,7 @@ uses_javascript_librararies(["aframe"])
 
 
                } else if (text.type == "select_component") {
-                  mm.select_component(text.component_index, true);
+                  mm.selectComponent(text.component_index, true);
               }
 
            })
@@ -1718,7 +1718,7 @@ ${eventMessage.code}
                  this.model.active_component_index = this.model.forms[this.model.active_form].components.length - 1
 
                  setTimeout(function() {
-                     mm.select_component(mm.model.active_component_index, true)
+                     mm.selectComponent(mm.model.active_component_index, true)
                      mm.refresh ++
                  },100)
 
@@ -1889,7 +1889,7 @@ ${eventMessage.code}
              }
 
 
-             this.select_component(this.model.active_component_index)
+             this.selectComponent(this.model.active_component_index)
              this.refresh ++
 
 
@@ -2042,7 +2042,7 @@ ${eventMessage.code}
             selectProp.on('selectr.select', function(option) {
                 var dd = sdata[option.idx]
                 if (dd.component) {
-                    mm.select_component(dd.component_index)
+                    mm.selectComponent(dd.component_index)
                 } else if (dd.form) {
                     mm.selectForm(dd.form)
                 } else if (dd.app) {
@@ -2055,7 +2055,7 @@ ${eventMessage.code}
 
 
          //-------------------------------------------------------------------
-         select_component: async function(index, showProps) {
+         selectComponent: async function(index, showProps) {
          //-------------------------------------------------------------------
             if (!this.design_mode) {
                 return
@@ -2083,6 +2083,11 @@ ${eventMessage.code}
             if (isValidObject(showProps) && showProps) {
                 this.selected_pane = "properties";
                 this.chooseRight("properties");
+            }
+            if (this.model.forms[this.model.active_form].components[index].is_container) {
+                this.active_container_index = index;
+            } else {
+                this.active_container_index = null;
             }
             this.refresh ++
          },
@@ -2353,6 +2358,7 @@ ${eventMessage.code}
                                             max_form: 1,
                                             active_form: "Form_1",
                                             active_component_index: null,
+                                            active_container_index: null,
                                             app_selected: false,
                                             default_form: "Form_1",
                                             app_properties: [],
