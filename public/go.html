@@ -7910,7 +7910,7 @@ async function initFn() {
             autoScroll = false
             setTimeout(async function() {
                 await select_card(nid)
-            },20)
+            },2000)
             refresh();
         }
 
@@ -8465,7 +8465,7 @@ function sendToServerViaWebSocket(msg) {
 
 
 var staticAppSocket
-function setupPublicWebSocket()
+async function setupPublicWebSocket()
 {
     var hostEditorAddress = "http://yazz.com:80"
     //hostEditorAddress = "http://192.168.0.63:3000"
@@ -8479,7 +8479,7 @@ function setupPublicWebSocket()
     //alert(JSON.stringify(component_cache[base_component_id],null,2)) --> {}
     //alert(JSON.stringify(finderToCachedCodeMapping[base_component_id],null,2))
     var codeiii = finderToCachedCodeMapping[base_component_id]
-    var hjhg = eval(cachedCode[codeiii])
+    var hjhg = await eval(cachedCode[codeiii])
     //alert(JSON.stringify(hjhg.value.code,null,2))
     code_fn = hjhg.value.code
 
