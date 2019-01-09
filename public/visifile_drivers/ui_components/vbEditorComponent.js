@@ -162,22 +162,22 @@ uses_javascript_librararies(["aframe"])
 
                 <div  v-bind:style='"border: 5px solid lightgray;background: white;;overflow:none;height:100%; overflow: auto;"'>
 
-                    <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[model.active_component_index].name + (design_mode?"_design":"")'
+                    <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[model.active_container_index].name + (design_mode?"_design":"")'
                                 v-bind:refresh='refresh'
                                 design_mode='detail_editor'
                                 v-bind:delete_component='childDeleteComponent'
                                 v-bind:select_component='childSelectComponent'
-                                v-bind:children='getChildren( model.forms[model.active_form].components[model.active_component_index].name)'
+                                v-bind:children='getChildren( model.forms[model.active_form].components[model.active_container_index].name)'
                                 v-on:send="processControlEvent"
-                                v-bind:is='model.forms[model.active_form].components[model.active_component_index].base_component_id'
-                                v-bind:name='model.forms[model.active_form].components[model.active_component_index].name + (design_mode?"_design":"")'
-                                v-bind:args='model.forms[model.active_form].components[model.active_component_index]'>
+                                v-bind:is='model.forms[model.active_form].components[model.active_container_index].base_component_id'
+                                v-bind:name='model.forms[model.active_form].components[model.active_container_index].name + (design_mode?"_design":"")'
+                                v-bind:args='model.forms[model.active_form].components[model.active_container_index]'>
 
                                 <template       slot-scope="child_components"
                                                 v-bind:refresh='refresh'
                                                 style='position:relative;'>
 
-                                    <component  v-for='child_item  in  getChildren(model.forms[model.active_form].components[model.active_component_index].name)'
+                                    <component  v-for='child_item  in  getChildren(model.forms[model.active_form].components[model.active_container_index].name)'
                                                 v-bind:design_mode='design_mode'
                                                 v-bind:refresh='refresh'
                                                 v-bind:style='"z-index:100000;position: absolute; top: " + child_item.topY + "px; left: " + child_item.leftX + "px;height:" + child_item.height + "px;width:" + child_item.width + "px;overflow:auto;"'
@@ -2085,9 +2085,9 @@ ${eventMessage.code}
                 this.chooseRight("properties");
             }
             if (this.model.forms[this.model.active_form].components[index].is_container) {
-                this.active_container_index = index;
+                this.model.active_container_index = index;
             } else {
-                this.active_container_index = null;
+                this.model.active_container_index = null;
             }
             this.refresh ++
          },
