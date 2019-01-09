@@ -1513,6 +1513,7 @@ ${eventMessage.code}
                 this.model.forms[this.model.active_form].height = newHeight
 
                 this.model.active_component_index = null
+                mm.refresh ++
 
               } else if (data.type == "resize_form_right") {
                 var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
@@ -1522,6 +1523,7 @@ ${eventMessage.code}
                 this.model.forms[this.model.active_form].width = newWidth
 
                 this.model.active_component_index = null
+                mm.refresh ++
 
             } else if (data.type == "resize_form_bottom") {
                   var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
@@ -1531,6 +1533,7 @@ ${eventMessage.code}
                   this.model.forms[this.model.active_form].height = newHeight
 
                   this.model.active_component_index = null
+                  mm.refresh ++
                 }
           },
 
@@ -2090,8 +2093,8 @@ ${eventMessage.code}
             mm.model.forms[newFormName] = {
                 name: newFormName,
                 components: [],
-                width: "300px",
-                height: "300px"
+                width: 300,
+                height: 300
             }
             mm.model.active_form = newFormName
             mm.refresh ++
