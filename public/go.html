@@ -7786,6 +7786,10 @@ async function initFn() {
               return {
                   count: 1
                   ,
+                  is_gui_app:              true
+                  ,
+                  console_output:         ""
+                  ,
                   selected_card: -1
                   ,
                   cards: []
@@ -7795,10 +7799,6 @@ async function initFn() {
                   is_static: false
                   ,
                   local_app:                    false
-                  ,
-                  is_gui_app:              true
-                  ,
-                  console_output:         ""
 
               }
         }
@@ -8169,17 +8169,18 @@ e%a.config.pagination?a.items.slice(e,e+a.config.pagination):null}).filter(funct
             onwheel='onemousedown()'     >
 
 
-        <div v-if='!is_gui_app' >
-
-            <pre>{{console_output}}</pre>
-
-        </div>
 
         <div    id='infinite-list'
-                v-if='is_gui_app'
                 style='overflow-y: none;' >
 
-            <template v-for="item  in  cards" >
+            <div v-if='!is_gui_app' >
+
+                <pre>{{console_output}}</pre>
+
+            </div>
+
+            <template   v-if='is_gui_app'
+                        v-for="item  in  cards" >
                 <div v-if="item.id == selected_card"
                         style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:scroll;overflow-x: hidden;">
                         <div    style="background-color: black; color: white; text-align: center;"
@@ -8251,7 +8252,7 @@ async function prepareApp(  id,  bbase_component_id,  args  ) {
 
 function loadAppIntoElement(tagName, rootElement) {
     if (!mainMoonApp.is_gui_app) {
-        //return
+        return
     }
 
     if (!document.getElementById(rootElement)) {
