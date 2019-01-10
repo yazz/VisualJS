@@ -7782,23 +7782,25 @@ async function initFn() {
         mainMoonApp = new Vue({
           el: "#infinite-list"
           ,
-          data: {
-              count: 1
-              ,
-              selected_card: -1
-              ,
-              cards: []
-              ,
-              show_loader: false
-              ,
-              is_static: false
-              ,
-              local_app:                    false
-              ,
-              is_gui_app:              true
-              ,
-              console_output:         ""
+          data: function() {
+              return {
+                  count: 1
+                  ,
+                  selected_card: -1
+                  ,
+                  cards: []
+                  ,
+                  show_loader: false
+                  ,
+                  is_static: false
+                  ,
+                  local_app:                    false
+                  ,
+                  is_gui_app:              true
+                  ,
+                  console_output:         ""
 
+              }
         }
         ,
         mounted: function(){
@@ -8167,12 +8169,14 @@ e%a.config.pagination?a.items.slice(e,e+a.config.pagination):null}).filter(funct
             onwheel='onemousedown()'     >
 
 
-        <div v-if="!is_gui_app">
+        <div v-if='!is_gui_app' >
+
             <pre>{{console_output}}</pre>
+
         </div>
 
         <div    id='infinite-list'
-                v-if="is_gui_app"
+                v-if='is_gui_app'
                 style='overflow-y: none;' >
 
             <template v-for="item  in  cards" >
@@ -8195,7 +8199,9 @@ e%a.config.pagination?a.items.slice(e,e+a.config.pagination):null}).filter(funct
 
 
 
-    <template v-for="item  in  cards" >
+    <template   v-for="item  in  cards"
+                v-if='is_gui_app'>
+
         <div v-bind:style='"width: 100%; display:" + (is_static?"none;":"") + ";"'>
                 <card_component :item='item' :visible='true' :element_id='"card_" + item.id'
                                 :full_screen='false'
@@ -8244,6 +8250,10 @@ async function prepareApp(  id,  bbase_component_id,  args  ) {
 
 
 function loadAppIntoElement(tagName, rootElement) {
+    if (!mainMoonApp.is_gui_app) {
+        //return
+    }
+
     if (!document.getElementById(rootElement)) {
         var newRootId = rootElement.substring(4)
         var newCardId = "app_container_" + newRootId
