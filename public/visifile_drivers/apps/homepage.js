@@ -260,7 +260,7 @@ box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;background
                   component_loaded[baseComponentId] = false
                   dev_app_component_loaded[baseComponentId] = false
                   component_cache[baseComponentId] = null
-                  await loadV2(baseComponentId)
+                  //await loadV2(baseComponentId)
                   mm.intro_apps.push( app  )
                   mm.refresh++
               }
