@@ -3,9 +3,10 @@ function game_app(args) {
 is_app(true)
 display_name("3d Game app")
 base_component_id('game')
+is_app(true)
 description('Game app, this will return the game app')
 load_once_from_file(true)
-visibility("PRIVATE")
+visibility("PUBLIC")
 uses_javascript_librararies(["aframe"])
 logo_url("https://yt3.ggpht.com/Ekz8dWfyjZl56kIa2teWnUgCl3JSqCk5ZLowTlxcsd31GUP0L0xNwvvM734RAAbwoXr65I5rDHKpFvmx2Vw=s900-mo-c-c0xffffffff-rj-k-no")
 read_only(true)
@@ -46,7 +47,7 @@ read_only(true)
       }
       ,
       mounted: function() {
-      
+
           var scene = document.querySelector('a-scene');
           scene.addEventListener('click', function () {
               var box = document.getElementById('interact_box_three');

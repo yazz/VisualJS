@@ -3,6 +3,7 @@ async function() {
 created_timestamp(1547098945116)
 base_component_id("tensorflow")
 visibility("PUBLIC")
+is_app(true)
 read_only(true)
 logo_url("https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/TensorFlowLogo.svg/2000px-TensorFlowLogo.svg.png")
 uses_javascript_librararies(["aframe"])
