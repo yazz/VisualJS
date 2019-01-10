@@ -7794,6 +7794,11 @@ async function initFn() {
               is_static: false
               ,
               local_app:                    false
+              ,
+              is_gui_app:              true
+              ,
+              console_output:         ""
+
         }
         ,
         mounted: function(){
@@ -8479,6 +8484,7 @@ async function setupPublicWebSocket()
     //alert(JSON.stringify(component_cache[base_component_id],null,2)) --> {}
     //alert(JSON.stringify(finderToCachedCodeMapping[base_component_id],null,2))
     var codeiii = finderToCachedCodeMapping[base_component_id]
+
     var hjhg = await eval(cachedCode[codeiii])
     //alert(JSON.stringify(hjhg.value.code,null,2))
     code_fn = hjhg.value.code
@@ -9107,7 +9113,7 @@ function getDebugCode(blockName,  trcode2 , args) {
 
 
 
-
+var console_output = ""
 async function callCodeV2(componentRecord,args, seq_no) {
     //console.log("Code to run !: ")
     //debugger;
@@ -9170,7 +9176,21 @@ async function callCodeV2(componentRecord,args, seq_no) {
         trcode2 = trcode2.toString().replaceAll("sqlFirstCol1[(]","await rxsqlFirstCol1(" + addP)
 
 
-
+//zzz
+        if (!trcode2.toString().includes("Vue.")) {
+            mainMoonApp.console_output = ""
+            console.log2 = function() {
+                if (isValidObject(mainMoonApp.console_output)) {
+                    for (var a=0; a < arguments.length ; a++) {
+                        mainMoonApp.console_output += arguments[a] + " "
+                    }
+                    mainMoonApp.console_output +=
+        `
+        `
+                }
+            }
+            //alert(1)
+        }
         var fnfn = eval( trcode2  )
         //console.log("Code to run: " + trcode2)
 
