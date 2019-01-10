@@ -125,7 +125,7 @@ uses_javascript_librararies(["aframe"])
                         Code
                         <button  type=button class=' btn btn-danger btn-sm'
                                  style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 4px;"
-                                 v-on:click='closeUiCodeEditor()' >x</button>
+                                 v-on:click='gotoDragDropEditor()' >x</button>
                     </div>
 
                     <div    id='ui_code_editor'>
@@ -154,7 +154,7 @@ uses_javascript_librararies(["aframe"])
                         Control details
                         <button  type=button class=' btn btn-danger btn-sm'
                                  style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 4px;"
-                                 v-on:click='closeUiCodeEditor()' >x</button>
+                                 v-on:click='gotoDragDropEditor()' >x</button>
                     </div>
 
 
@@ -1140,12 +1140,14 @@ uses_javascript_librararies(["aframe"])
             }
         },
 
-        closeUiCodeEditor: function() {
+        gotoDragDropEditor: function() {
             this.design_mode_pane.type = "drag_drop";
             if (this.ui_code_editor) {
                 this.ui_code_editor.destroy()
                 this.ui_code_editor = null
             }
+            this.model.active_component_detail_name = null
+            this.model.active_component_detail_index = null
 
         }
         ,
