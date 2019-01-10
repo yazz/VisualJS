@@ -55,20 +55,25 @@ logo_url("/driver_icons/threedee_control.png")
       props: ["args","design_mode", "refresh", "children","delete_component","select_component"]
       ,
       template:
+
 `<div   v-bind:style='"width:100%;overflow-y:auto;height:100%"'
         v-bind:refresh='refresh'>
 
     <div    v-bind:style='"width:100%;height:40vh;overflow-y:auto;"'
             v-bind:refresh='refresh'
             v-if='design_mode == "detail_editor"'>
+
         Detail editor
 
-        <div    v-bind:style='"border:1px solid gray; padding: 10px;display:flex;"'
+        <div    v-bind:style='"border:1px solid gray; padding: 10px;display:flex;" + ((selected_index==index)?"background-color: lightgray;":"")'
                 v-bind:refresh='refresh'
+                v-on:click='$event.stopPropagation();selected_index=index;select_component(child_item.index_in_parent_array)'
                 v-for='(child_item,index)  in  children'>
-            <div v-if='child_item' v-bind:refresh='refresh'>
-                <div    style="display:inline-block;"
-                        v-on:click='$event.stopPropagation();select_component(child_item.index_in_parent_array)'
+
+            <div    v-if='child_item'
+                    v-bind:refresh='refresh'>
+
+                <div    v-bind:style='"display:inline-block;"'
                         v-if='child_item' v-bind:refresh='refresh'>{{child_item.name}}</div>
 
                 <div    class='btn btn-danger'
@@ -87,7 +92,8 @@ logo_url("/driver_icons/threedee_control.png")
 
 
 
-    <div v-bind:style='"width:" + args.width + "; height: " + args.height + ";"' v-bind:refresh='refresh'>
+    <div    v-bind:style='"width:" + args.width + "; height: " + args.height + ";"'
+            v-bind:refresh='refresh'>
 
 
         <a-scene    v-bind:id='(design_mode?"design_scene":"scene")'
@@ -154,7 +160,8 @@ logo_url("/driver_icons/threedee_control.png")
       ,
       data: function() {
           return {
-              msg: "Hello Yazz!"
+              msg: "Hello Yazz!",
+              selected_index: null
           }
       }
     })
