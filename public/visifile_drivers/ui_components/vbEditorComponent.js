@@ -1567,9 +1567,7 @@ ${eventMessage.code}
            var mm = this
            mm.design_mode_pane =
            {
-               type: "control_details_editor",
-               active_form:            mm.model.active_form,
-               active_component_index: mm.model.active_component_index,
+               type:                           "control_details_editor"
            }
            this.model.active_component_detail_index = index;
 
@@ -1950,6 +1948,9 @@ ${eventMessage.code}
                 return
             }
             var mm = this
+            if (!document.getElementById("property_selector_parent")) {
+                return
+            }
             document.getElementById("property_selector_parent").innerHTML=' <select id=property_selector ></select>'
 
             var sdata = []
