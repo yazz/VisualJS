@@ -74,7 +74,8 @@ logo_url("/driver_icons/threedee_control.png")
                     v-bind:refresh='refresh'>
 
                 <div    v-bind:style='"display:inline-block;"'
-                        v-if='child_item' v-bind:refresh='refresh'>{{child_item.name}}</div>
+                        v-if='isValidObject(child_item)'
+                        v-bind:refresh='refresh'>{{child_item.name}}</div>
 
                 <div    class='btn btn-danger'
                         v-bind:refresh='refresh'

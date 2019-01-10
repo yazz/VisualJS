@@ -933,6 +933,25 @@ uses_javascript_librararies(["aframe"])
 
      methods: {
 
+         refreshControlIndexes: function() {
+            if (this.model.active_component_detail_name) {
+
+                var ccc = mm.model.forms[this.model.active_form].components
+                for (var ytr = 0;ytr < ccc.length;ytr++) {
+                   if (this.model.active_component_detail_name == ccc[ytr].name) {
+                       this.model.active_component_detail_name = ytr
+                       break
+                   }
+                }
+
+            } else {
+                this.model.active_component_detail_name = null
+
+            }
+
+         }
+         ,
+
          hasMoreDetailsUi: function(formName, componentIndex) {
              var mm = this
              var component = mm.model.forms[formName].components[componentIndex]
@@ -1570,6 +1589,7 @@ ${eventMessage.code}
                type:                           "control_details_editor"
            }
            this.model.active_component_detail_index = index;
+           this.model.active_component_detail_name = this.model.forms[this.model.active_form].components[index].name;
 
            setTimeout(function() {
                mm.refresh ++
@@ -1580,6 +1600,7 @@ ${eventMessage.code}
          deleteComponent: async function(index) {
             var mm = this
             this.model.forms[this.model.active_form].components.splice(index, 1);
+            this.refreshControlIndexes()
             this.selectForm(this.model.active_form)
             setTimeout(function() {
                 mm.refresh ++
@@ -2356,6 +2377,7 @@ ${eventMessage.code}
                                             active_form: "Form_1",
                                             active_component_index: null,
                                             active_component_detail_index: null,
+                                            active_component_detail_name: null,
                                             app_selected: false,
                                             default_form: "Form_1",
                                             app_properties: [],
