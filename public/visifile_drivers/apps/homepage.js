@@ -121,6 +121,10 @@ box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;background
             Hello World app
         </button>
 
+        <button style='margin-bottom:10px;' class='btn btn-primary btn-sm' v-on:click='copyAndEditApp($event,"tensorflow")'>
+            TensorFlow AI app
+        </button>
+
         <button style='margin-bottom:10px;' class='btn btn-primary btn-sm' v-on:click='copyAndEditApp($event,"bubblesort")'>
             Bubble Sort
         </button>

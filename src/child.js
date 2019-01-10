@@ -865,6 +865,7 @@ function setUpComponentsLocally() {
     evalLocalSystemDriver('quicksort',  path.join(__dirname, '../public/visifile_drivers/apps/quicksort.js'),{save_html: true})
     evalLocalSystemDriver('bubblesort', path.join(__dirname, '../public/visifile_drivers/apps/bubblesort.js'),{save_html: true})
     evalLocalSystemDriver('new', path.join(__dirname, '../public/visifile_drivers/apps/blank_app.js'),{save_html: true})
+    evalLocalSystemDriver('tensorflow', path.join(__dirname, '../public/visifile_drivers/apps/tensorflow.js'),{save_html: true})
 
     //
     // controls
