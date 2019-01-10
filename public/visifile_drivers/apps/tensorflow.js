@@ -4,11 +4,16 @@ created_timestamp(1547098945116)
 base_component_id("tensorflow")
 visibility("PUBLIC")
 read_only(true)
+logo_url("https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/TensorFlowLogo.svg/2000px-TensorFlowLogo.svg.png")
 uses_javascript_librararies(["aframe"])
 display_name("TensorFlow")
 */
     console.log("TensorFlow AI demo in Javascript")
-    
+    console.log("Please wait")
+    console.log("")
+    console.log("Training AI...")
+    console.log("")
+
     var model = tf.sequential();
     model.add(tf.layers.dense({units: 1, inputShape: [1]}));
     model.compile({
