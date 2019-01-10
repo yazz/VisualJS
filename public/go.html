@@ -8167,7 +8167,13 @@ e%a.config.pagination?a.items.slice(e,e+a.config.pagination):null}).filter(funct
             onwheel='onemousedown()'     >
 
 
-        <div  id='infinite-list'  style='overflow-y: none;' >
+        <div v-if="!is_gui_app">
+            <pre>{{console_output}}</pre>
+        </div>
+
+        <div    id='infinite-list'
+                v-if="is_gui_app"
+                style='overflow-y: none;' >
 
             <template v-for="item  in  cards" >
                 <div v-if="item.id == selected_card"
@@ -8179,6 +8185,7 @@ e%a.config.pagination?a.items.slice(e,e+a.config.pagination):null}).filter(funct
                                         :is_static='is_static' :card_selected='true'>
                         </card_component>
                 </div>
+
             </template>
 
 
@@ -9113,7 +9120,6 @@ function getDebugCode(blockName,  trcode2 , args) {
 
 
 
-var console_output = ""
 async function callCodeV2(componentRecord,args, seq_no) {
     //console.log("Code to run !: ")
     //debugger;
@@ -9177,9 +9183,11 @@ async function callCodeV2(componentRecord,args, seq_no) {
 
 
 //zzz
-        if (!trcode2.toString().includes("Vue.")) {
+        if ( (componentRecord.base_component_id == base_component_id) && (!trcode2.toString().includes("Vue."))) {
             mainMoonApp.console_output = ""
-            console.log2 = function() {
+            mainMoonApp.is_gui_app = false
+
+            console.log = function() {
                 if (isValidObject(mainMoonApp.console_output)) {
                     for (var a=0; a < arguments.length ; a++) {
                         mainMoonApp.console_output += arguments[a] + " "
@@ -9189,7 +9197,6 @@ async function callCodeV2(componentRecord,args, seq_no) {
         `
                 }
             }
-            //alert(1)
         }
         var fnfn = eval( trcode2  )
         //console.log("Code to run: " + trcode2)
