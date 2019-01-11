@@ -1099,17 +1099,6 @@ load_once_from_file(true)
                             this.is_ui_app = true
                         } else {
                             this.is_ui_app = false
-                            mm.console_output = ""
-                            console.log = function() {
-                                if (isValidObject(mm.console_output)) {
-                                    for (var a=0; a < arguments.length ; a++) {
-                                        mm.console_output += arguments[a] + " "
-                                    }
-                                    mm.console_output +=
-`
-`
-                                }
-                            }
                         }
 
 
@@ -1129,6 +1118,7 @@ load_once_from_file(true)
                             }
 
                             await loadV2( editorName, {text: code} )
+
                             mm.editor_loaded    = true
                             mm.editor_component = editorName
                        }
@@ -1144,7 +1134,23 @@ load_once_from_file(true)
                     //do nothing if we set "runthisapp" to false
                    } else {
                         this.resetDebugger()
+                        var prevConsole = console.log
+                        if (!mm.is_ui_app) {
+                            mm.console_output = ""
+                            console.log = function() {
+                                if (isValidObject(mm.console_output)) {
+                                    for (var a=0; a < arguments.length ; a++) {
+                                        mm.console_output += arguments[a] + " "
+                                    }
+                                    mm.console_output +=
+`
+`
+                                }
+                            }
+
+                        }
                         var results = await callApp( {code_id:    codeId }, {} )
+                        console.log = prevConsole
                    }
 
 
