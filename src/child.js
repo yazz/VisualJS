@@ -47,6 +47,8 @@ var stmtUpdateLatestAppDDLRevision;
 
 var stmtInsertIntoIntranetClientConnects;
 var copyMigration;
+var stmtInsertNewCode
+var stmtDeprecateOldCode
 
 
 
@@ -145,6 +147,10 @@ function setUpSql() {
                                                           " where " +
                                                           "     base_component_id =  ? ;");
 
+      stmtInsertNewCode = dbsearch.prepare(
+          " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_type,display_name, creation_timestamp,component_options, logo_url, visibility, interfaces,use_db, editors, read_write_status,properties, control_type, control_sub_type) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+      stmtDeprecateOldCode = dbsearch.prepare(
+          " update system_code  set code_tag = NULL where base_component_id = ? and id != ?");
 
 }
 
@@ -1292,9 +1298,6 @@ function isValidObject(variable){
 
 async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
-if (baseComponentId == "vb") {
-    console.log("Loading VB")
-}
     var promise = new Promise(returnFn => {
         //console.log(`function saveCodeV2( ${baseComponentId}, ${parentHash} ) {`)
         if (!baseComponentId) {
@@ -1323,7 +1326,6 @@ ${code}
         }
         code = saveHelper.deleteCodeString(code, "created_timestamp")
         code = saveHelper.insertCodeString(code, "created_timestamp", creationTimestamp)
-
 
 
 
@@ -1431,12 +1433,8 @@ ${code}
 
                                 //console.log("Saving in Sqlite: " + parentHash)
                                 //console.log("Saving in Sqlite: " + code)
-                                var stmtInsertNewCode = dbsearch.prepare(
-                                    " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_type,display_name, creation_timestamp,component_options, logo_url, visibility, interfaces,use_db, editors, read_write_status,properties, control_type, control_sub_type) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-                                var stmtDeprecateOldCode = dbsearch.prepare(
-                                    " update system_code  set code_tag = NULL where base_component_id = ? and id != ?");
 
-                                dbsearch.serialize(function() {
+                                dbsearch.serialize(async function() {
                                     dbsearch.run("begin exclusive transaction");
                                     stmtInsertNewCode.run(
                                           sha1sum,
@@ -1509,20 +1507,30 @@ ${code}
                                             //console.log(JSON.stringify(options,null,2))
                                             for (var tew = 0; tew < options.sub_components.length ; tew ++) {
                                                 //console.log("Saving " + options.sub_components[tew])
-                                                stmtInsertSubComponent.run(
-                                                    baseComponentId,
-                                                    options.sub_components[tew])
+                                                if (isValidObject(baseComponentId)) {
+                                                    stmtInsertSubComponent.run(
+                                                        baseComponentId,
+                                                        options.sub_components[tew])
+                                                }
+if (baseComponentId == "vb") {
+console.log("Loading VB inserted subComponent: " + baseComponentId )
+}
                                             }
                                         }
                                      }
 
-                                    dbsearch.run("commit", function() {
+                                    dbsearch.run("commit", async function() {
 
+                                        //stmtInsertNewCode.finalize();
+                                        //stmtDeprecateOldCode.finalize();
 
-                                    });
-                                    stmtInsertNewCode.finalize();
-                                    stmtDeprecateOldCode.finalize();
+                                        if (baseComponentId == "vb") {
+                                        console.log("Commited VB saved subcomponents: ..."  )}
+                                        });
+                                    console.log("((((((((Loading VB options)))))))): " + baseComponentId)
 
+                                    if (baseComponentId == "vb") {
+                                    console.log("Loading VB options: " + JSON.stringify(options,null,2) )}
                                     if (isValidObject(options) && options.save_html) {
                                         //
                                         // create the static HTML file to link to on the web/intranet
@@ -1571,7 +1579,7 @@ ${code}
                                             //newcodehere
                                         `
                                         dbsearch.serialize(
-                                            function() {
+                                            async function() {
                                                 var stmt = dbsearch.all(
                                                     `select
                                                         system_code.id as sha1,
@@ -1590,7 +1598,7 @@ ${code}
 
                                                          [  baseComponentId  ],
 
-                                                function(err, results)
+                                                async function(err, results)
                                                 {
                                                         for (var i = 0  ;   i < results.length;    i ++ ) {
                                                             var newcodeEs = escape("(" + results[i].code.toString() + ")")
