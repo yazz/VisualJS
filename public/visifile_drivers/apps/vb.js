@@ -2,7 +2,7 @@ async function(args) {
 /*
 created_timestamp(1547200046854)
 base_component_id("vb")
-editors_old([
+editors([
   "vb_editor_component"
 ])
 properties([
