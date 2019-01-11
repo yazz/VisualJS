@@ -1492,16 +1492,10 @@ ${code}
                                      }
                                      var subComponents = saveHelper.getValueOfCodeString(code, "sub_components")
                                      if (subComponents) {
-                                         if (baseComponentId == "vb") {
-                                         console.log("Loading VB inserted subComponent for : " + baseComponentId )
-                                         }
                                            for (var tt = 0; tt < subComponents.length ; tt++) {
                                                stmtInsertSubComponent.run(
                                                    baseComponentId,
                                                    subComponents[tt])
-if (baseComponentId == "vb") {
-console.log("Loading VB inserted subComponent : " + subComponents[tt] )
-}
                                            }
                                       }
                                      var sqliteCode = ""
@@ -1524,12 +1518,8 @@ console.log("Loading VB inserted subComponent : " + subComponents[tt] )
 
                                     dbsearch.run("commit", async function() {
 
-                                        if (baseComponentId == "vb") {
-                                        console.log("Commited VB saved subcomponents: ..."  )}
                                         });
 
-                                    if (baseComponentId == "vb") {
-                                        console.log("Loading VB options: " + JSON.stringify(options,null,2) )}
                                     if (isValidObject(options) && options.save_html) {
                                         //
                                         // create the static HTML file to link to on the web/intranet
@@ -1680,7 +1670,6 @@ console.log("Loading VB inserted subComponent : " + subComponents[tt] )
                                     //
                                     var sqlite = saveHelper.getValueOfCodeString(code, "sqlite",")//sqlite")
                                     if (sqlite) {
-                                        console.log(`SQLite options: ${JSON.stringify(options,null,2)}`)
                                         if (isValidObject(options) && options.copy_db_from) {
 
                                             var newBaseid = baseComponentId
