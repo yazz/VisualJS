@@ -8173,7 +8173,7 @@ e%a.config.pagination?a.items.slice(e,e+a.config.pagination):null}).filter(funct
         <div    id='infinite-list'
                 style='overflow-y: none;' >
 
-            <div v-if='!is_gui_app'><pre v-bind:style='"color: white;"'>{{console_output}}</pre>s</div>
+            <div v-if='!is_gui_app'><pre id="console_id" style="color: white;">{{console_output}}</pre></div>
 
             <template   v-if='is_gui_app'
                         v-for="item  in  cards" >
@@ -9196,31 +9196,54 @@ async function callCodeV2(componentRecord,args, seq_no) {
 
             console.log = function() {
                 if (isValidObject(mainMoonApp.console_output)) {
+                    if (document.getElementById("console_id")) {
+                        document.getElementById("console_id").style.color="black"
+                    }
                     for (var a=0; a < arguments.length ; a++) {
                         mainMoonApp.console_output += arguments[a] + " "
                     }
                     mainMoonApp.console_output +=
-        `
-        `
+`
+`
                 }
             }
-        }
-        var fnfn = eval( trcode2  )
-        //console.log("Code to run: " + trcode2)
+            var fnfn = eval( trcode2  )
+            //console.log("Code to run: " + trcode2)
 
+            setTimeout(async function() {
+                if (trcode2.indexOf("async ")  == -1) {
+                    var fnfnRes = fnfn(args)
+                    if (callbackFn) {
+                        callbackFn(fnfnRes)
+                        queuedResponses[seq_no] = null
+                    }
 
-        if (trcode2.indexOf("async ")  == -1) {
-            var fnfnRes = fnfn(args)
-            if (callbackFn) {
-                callbackFn(fnfnRes)
-                queuedResponses[seq_no] = null
-            }
-
+                } else {
+                    var fnfnRes = await fnfn(args)
+                    if (callbackFn) {
+                        callbackFn(fnfnRes)
+                        queuedResponses[seq_no] = null
+                    }
+                }
+            },100)
         } else {
-            var fnfnRes = await fnfn(args)
-            if (callbackFn) {
-                callbackFn(fnfnRes)
-                queuedResponses[seq_no] = null
+            var fnfn = eval( trcode2  )
+            //console.log("Code to run: " + trcode2)
+
+
+            if (trcode2.indexOf("async ")  == -1) {
+                var fnfnRes = fnfn(args)
+                if (callbackFn) {
+                    callbackFn(fnfnRes)
+                    queuedResponses[seq_no] = null
+                }
+
+            } else {
+                var fnfnRes = await fnfn(args)
+                if (callbackFn) {
+                    callbackFn(fnfnRes)
+                    queuedResponses[seq_no] = null
+                }
             }
         }
 
