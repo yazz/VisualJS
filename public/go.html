@@ -8779,10 +8779,13 @@ async function checkLibs(data){
                 libLoaded[ data.value.libs[tt].dependency_name ] = true
                 if ( data.value.libs[tt].dependency_name == "advanced_bundle" ) {
 
+                    var oldConsole = console.log
+                    console.log = function(){}
                     await scriptTag(
                         `http://${useHostname}:${usePort}/js_libs/aframe.min.js`
                         ,
                         async function() {
+                            console.log = oldConsole
                             await callCodeV2(data.value,  callDriverMethodArgs[data.seq_num],  data.seq_num)
                     })
                 }
@@ -8905,10 +8908,13 @@ async function checkLibsV2(componentRecord,args){
                 libLoaded[ componentRecord.libs[tt].dependency_name ] = true
                 if ( componentRecord.libs[tt].dependency_name == "advanced_bundle" ) {
 
+                    var oldConsole = console.log
+                    console.log = function(){}
                     await scriptTag(
                         `http://${useHostname}:${usePort}/js_libs/aframe.min.js`
                         ,
                         async function() {
+                            console.log = oldConsole
                             await callCodeV2(componentRecord,args)
                     })
                 }
