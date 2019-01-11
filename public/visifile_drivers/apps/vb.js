@@ -240,7 +240,7 @@ formEditor({
 control_type("SYSTEM")
 visibility("PUBLIC")
 display_name("VB")
-uses_javascript_librararies(["aframe"])
+uses_javascript_librararies(["advanced_bundle"])
 sub_components(["app_editor_3","appEmbed","vb_editor_component","input_control","button_control","label_control","threedee_item_control","threedee_control"])
 is_app(true)
 read_only(true)

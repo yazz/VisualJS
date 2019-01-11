@@ -6,7 +6,7 @@ visibility("PUBLIC")
 is_app(true)
 read_only(true)
 logo_url("https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/TensorFlowLogo.svg/2000px-TensorFlowLogo.svg.png")
-uses_javascript_librararies(["aframe"])
+uses_javascript_librararies(["advanced_bundle"])
 display_name("TensorFlow")
 */
     console.log("TensorFlow AI demo in Javascript")

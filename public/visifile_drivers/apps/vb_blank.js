@@ -40,7 +40,7 @@ formEditor({
 control_type("SYSTEM")
 visibility("PRIVATE")
 display_name("GUI App")
-uses_javascript_librararies(["aframe"])
+uses_javascript_librararies(["advanced_bundle"])
 sub_components(["app_editor_3","appEmbed","vb_editor_component","input_control","button_control","label_control"])
 
 

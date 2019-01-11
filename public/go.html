@@ -8777,7 +8777,7 @@ async function checkLibs(data){
         for (var tt = 0; tt < data.value.libs.length ; tt++) {
             if (!libLoaded[ data.value.libs[tt].dependency_name ]) {
                 libLoaded[ data.value.libs[tt].dependency_name ] = true
-                if ( data.value.libs[tt].dependency_name == "aframe" ) {
+                if ( data.value.libs[tt].dependency_name == "advanced_bundle" ) {
 
                     await scriptTag(
                         `http://${useHostname}:${usePort}/js_libs/aframe.min.js`
@@ -8903,7 +8903,7 @@ async function checkLibsV2(componentRecord,args){
         for (var tt = 0; tt < componentRecord.libs.length ; tt++) {
             if (!libLoaded[ componentRecord.libs[tt].dependency_name ]) {
                 libLoaded[ componentRecord.libs[tt].dependency_name ] = true
-                if ( componentRecord.libs[tt].dependency_name == "aframe" ) {
+                if ( componentRecord.libs[tt].dependency_name == "advanced_bundle" ) {
 
                     await scriptTag(
                         `http://${useHostname}:${usePort}/js_libs/aframe.min.js`
