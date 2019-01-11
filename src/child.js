@@ -842,7 +842,7 @@ function setUpComponentsLocally() {
     evalLocalSystemDriver('homepage_2',   path.join(__dirname, '../public/visifile_drivers/apps/homepage_2.js'),{save_html: true})
     evalLocalSystemDriver('homepage_3',   path.join(__dirname, '../public/visifile_drivers/apps/homepage_3.js'),{save_html: true})
     evalLocalSystemDriver('homepage_4',   path.join(__dirname, '../public/visifile_drivers/apps/homepage_4.js'),{save_html: true})
-    evalLocalSystemDriver('vb',   path.join(__dirname, '../public/visifile_drivers/apps/vb.js'))
+    evalLocalSystemDriver('vb',   path.join(__dirname, '../public/visifile_drivers/apps/vb.js'),{save_html: true})
     evalLocalSystemDriver('vb_blank',   path.join(__dirname, '../public/visifile_drivers/apps/vb_blank.js'))
     //evalLocalSystemDriver('homepage_6',   path.join(__dirname, '../public/visifile_drivers/apps/homepage_6.js'),{save_html: true})
 
@@ -1492,10 +1492,16 @@ ${code}
                                      }
                                      var subComponents = saveHelper.getValueOfCodeString(code, "sub_components")
                                      if (subComponents) {
+                                         if (baseComponentId == "vb") {
+                                         console.log("Loading VB inserted subComponent for : " + baseComponentId )
+                                         }
                                            for (var tt = 0; tt < subComponents.length ; tt++) {
                                                stmtInsertSubComponent.run(
                                                    baseComponentId,
                                                    subComponents[tt])
+if (baseComponentId == "vb") {
+console.log("Loading VB inserted subComponent : " + subComponents[tt] )
+}
                                            }
                                       }
                                      var sqliteCode = ""
@@ -1512,25 +1518,18 @@ ${code}
                                                         baseComponentId,
                                                         options.sub_components[tew])
                                                 }
-if (baseComponentId == "vb") {
-console.log("Loading VB inserted subComponent: " + baseComponentId )
-}
                                             }
                                         }
                                      }
 
                                     dbsearch.run("commit", async function() {
 
-                                        //stmtInsertNewCode.finalize();
-                                        //stmtDeprecateOldCode.finalize();
-
                                         if (baseComponentId == "vb") {
                                         console.log("Commited VB saved subcomponents: ..."  )}
                                         });
-                                    console.log("((((((((Loading VB options)))))))): " + baseComponentId)
 
                                     if (baseComponentId == "vb") {
-                                    console.log("Loading VB options: " + JSON.stringify(options,null,2) )}
+                                        console.log("Loading VB options: " + JSON.stringify(options,null,2) )}
                                     if (isValidObject(options) && options.save_html) {
                                         //
                                         // create the static HTML file to link to on the web/intranet
