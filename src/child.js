@@ -937,7 +937,7 @@ function addOrUpdateDriver(  name, codeString ,options ) {
                 ,
                 name
                 ,
-                function(err, rows) {
+                async function(err, rows) {
                     if (!err) {
                         try {
                             var parentId = null
@@ -945,7 +945,7 @@ function addOrUpdateDriver(  name, codeString ,options ) {
                                 parentId = rows[0].id
                             }
 
-                            saveCodeV2(  name, parentId,    codeString  ,options);
+                            await saveCodeV2(  name, parentId,    codeString  ,options);
 
 
 
@@ -1292,6 +1292,9 @@ function isValidObject(variable){
 
 async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
+if (baseComponentId == "vb") {
+    console.log("Loading VB")
+}
     var promise = new Promise(returnFn => {
         //console.log(`function saveCodeV2( ${baseComponentId}, ${parentHash} ) {`)
         if (!baseComponentId) {
