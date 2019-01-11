@@ -9160,21 +9160,24 @@ async function callCodeV2(componentRecord,args, seq_no) {
         //alert("data: " + addP);
         if (localAppshareApp) {
 
-            var eds = saveHelper.getValueOfCodeString(componentRecord.code, "sqlite",")//sqlite")
-            if (eds){
-                    for (var te = 1; te < eds.length ; te = te + 2) {
-                        var sqlStatements = eds[te]
-                        //console.log(`${te}`)
-                        for (var te2 = 0; te2 < sqlStatements.length ; te2 ++) {
-                            var sqlStatement = sqlStatements[te2]
-                            //console.log(`   SQL ${te2}: ${sqlStatement}`)
-                            localSql(sqlStatement)
-                        }
+            if (sqlitedata) {
+                var b = base64ToUint8Array(sqlitedata)
+                localSqliteDb = new SQL.Database(b);
+            } else {
+                var eds = saveHelper.getValueOfCodeString(componentRecord.code, "sqlite",")//sqlite")
+                if (eds){
+                        for (var te = 1; te < eds.length ; te = te + 2) {
+                            var sqlStatements = eds[te]
+                            //console.log(`${te}`)
+                            for (var te2 = 0; te2 < sqlStatements.length ; te2 ++) {
+                                var sqlStatement = sqlStatements[te2]
+                                //console.log(`   SQL ${te2}: ${sqlStatement}`)
+                                localSql(sqlStatement)
+                            }
 
-                    }
+                        }
+                }
             }
-            var b = base64ToUint8Array(sqlitedata)
-            localSqliteDb = new SQL.Database(b);
             //alert(eds.length)
         }
 
