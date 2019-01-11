@@ -978,6 +978,9 @@ uses_javascript_librararies(["advanced_bundle"])
         isVisible: function(formName, componentIndex) {
             var mm = this
             var component = mm.model.forms[formName].components[componentIndex]
+            if (!component) {
+                return false
+            }
             if (component.hidden) {
                 return false
             }
@@ -985,12 +988,14 @@ uses_javascript_librararies(["advanced_bundle"])
             if (isValidObject(component.parent)) {
                 var ccc = mm.model.forms[formName].components
                 for (var ytr = 0;ytr < ccc.length;ytr++) {
-                   if (component.parent == ccc[ytr].name) {
-                       if (ccc[ytr].hide_children) {
-                           return false
-                       }
-                       break
-                   }
+                    if (ccc[ytr]) {
+                        if (component.parent == ccc[ytr].name) {
+                            if (ccc[ytr].hide_children) {
+                                return false
+                            }
+                            break
+                        }
+                    }
                 }
             }
 
@@ -1000,6 +1005,9 @@ uses_javascript_librararies(["advanced_bundle"])
         getLeft: function(formName, componentIndex) {
             var mm = this
             var component = mm.model.forms[formName].components[componentIndex]
+            if (!component) {
+                return 0
+            }
             var left = component.leftX
 
             if (isValidObject(component.parent)) {
@@ -1019,6 +1027,9 @@ uses_javascript_librararies(["advanced_bundle"])
         getTop: function(formName, componentIndex) {
             var mm = this
             var component = mm.model.forms[formName].components[componentIndex]
+            if (!component) {
+                return 0
+            }
             var top = component.topY
             if (isValidObject(component.parent)) {
                 var ccc = mm.model.forms[formName].components
@@ -1162,7 +1173,9 @@ uses_javascript_librararies(["advanced_bundle"])
 
             for (var gjh = 0; gjh < components.length; gjh ++) {
                 var cc = components[gjh]
-                this.form_runtime_info[formName].component_lookup_by_name[cc.name] = cc
+                if (isValidObject(cc)) {
+                    this.form_runtime_info[formName].component_lookup_by_name[cc.name] = cc
+                }
             }
         },
 
