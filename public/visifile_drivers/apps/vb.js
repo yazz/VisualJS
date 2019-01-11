@@ -5,6 +5,7 @@ base_component_id("vb")
 editors([
   "vb_editor_component"
 ])
+read_only(true)
 properties([
   {
     "id": "test",
