@@ -913,7 +913,7 @@ uses_javascript_librararies(["advanced_bundle"])
                    //alert("Found: " + text.component_index)
                    //alert(JSON.stringify(mm.model.forms[mm.model.active_form].components[text.component_index],null,2))
                    mm.model.forms[mm.model.active_form].components.splice(text.component_index, 1);
-                   //zzz
+
                    //mm.design_mode_pane.type = "drag_drop";
 
 
@@ -2285,6 +2285,10 @@ ${eventMessage.code}
             var editorCodeToCopyEnd = editorCode.indexOf("//*** COPY_" + "END ***//")
             var editorCodeToCopy = editorCode.substring(editorCodeToCopyStart, editorCodeToCopyEnd)
 
+
+
+
+
             this.text = this.text.substring(0,startIndex) +
 
                 `//** gen_start **//
@@ -2329,6 +2333,44 @@ ${eventMessage.code}
 
               +
               this.text.substring(endIndex)
+
+
+
+
+
+              var subComponents = saveHelper.getValueOfCodeString(this.text, "sub_components")
+              var subComponentsMap = {}
+
+              if (subComponents) {
+                  saveHelper.deleteCodeString(this.text, "sub_components")
+              } else {
+                  subComponents = []
+              }
+
+              for (var tt = 0; tt < subComponents.length ; tt++) {
+                  var subComponentName = subComponents[tt]
+                  subComponentsMap[subComponentName] = {}
+              }
+              var forms = mm.getForms()
+
+
+              for (  var formIndex = 0;  formIndex < forms.length;  formIndex ++  ) {
+                   var formName = forms[formIndex].name
+
+                   for (  var rtw = 0;  rtw < mm.model.forms[formName].components.length;  rtw ++  ) {
+                       var newItem = mm.model.forms[formName].components[rtw]
+                       if (newItem && newItem.base_component_id) {
+                           if (!subComponentsMap[newItem.base_component_id]) {
+                              subComponentsMap[newItem.base_component_id] = {}
+                           }
+                       }
+                   }
+
+                   var newListOfSubcomponents = Object.keys(  subComponentsMap  )
+                   saveHelper.insertCodeString(this.text, "sub_components", newListOfSubcomponents)
+                  //zzz
+              }
+
 
               this.text = saveHelper.deleteCodeString(  this.text, "control_type")
 
