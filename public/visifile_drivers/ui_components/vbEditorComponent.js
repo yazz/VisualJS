@@ -2262,9 +2262,13 @@ ${eventMessage.code}
         generateCodeFromModel: async function(  ) {
         //-------------------------------------------------------------------
             var mm = this
+            if (this.in_generate_code_from_model) {
+                return
+            }
             if (!this.design_mode) {
                 return
             }
+            this.in_generate_code_from_model = true
             if (online && this.design_mode) {
 
             //console.log("start generateCodeFromModel")
@@ -2341,6 +2345,7 @@ ${eventMessage.code}
               var subComponents = saveHelper.getValueOfCodeString(this.text, "sub_components")
               var subComponentsMap = {}
 
+
               if (subComponents) {
                   saveHelper.deleteCodeString(this.text, "sub_components")
               } else {
@@ -2367,7 +2372,7 @@ ${eventMessage.code}
                    }
 
                    var newListOfSubcomponents = Object.keys(  subComponentsMap  )
-                   saveHelper.insertCodeString(this.text, "sub_components", newListOfSubcomponents)
+                   this.text = saveHelper.insertCodeString(this.text, "sub_components", newListOfSubcomponents)
                   //zzz
               }
 
@@ -2394,6 +2399,7 @@ ${eventMessage.code}
                                                           ")//prope" + "rties")
 
             //console.log("end generateCodeFromModel.Done")
+            this.in_generate_code_from_model = false
             return
             }
         }
@@ -2406,6 +2412,7 @@ ${eventMessage.code}
            uid2:                        null,
            vb_grid_element_id:          null,
            vb_editor_element_id:        null,
+           in_generate_code_from_model: false,
            design_mode:                 designMode,
            runtime_mode:                runtimeMode,
            highlighted_control: null,
