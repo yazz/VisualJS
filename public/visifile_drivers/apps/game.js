@@ -1,6 +1,5 @@
 function game_app(args) {
 /*
-is_app(true)
 display_name("3d Game app")
 base_component_id('game')
 is_app(true)

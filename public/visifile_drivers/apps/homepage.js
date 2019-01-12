@@ -83,7 +83,7 @@ box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;background
                         <div style='border-radius: 0px;padding:0px; margin:0;'>
                             <img    v-if='(app_logos[item.data.id] && (app_logos[item.data.id] != ""))'
                                     v-bind:src='app_logos[item.data.id]'
-                                    style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 75%;margin-left: auto;margin-right: auto;display: block;'
+                                    style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;'
                                     v-bind:alt='app_logos[item.data.id]'
                                     v-on:click='editApp($event,item.data.id)'
                                     >
@@ -107,6 +107,10 @@ box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;background
 
         <button style='margin-bottom:10px;' class='btn btn-primary btn-sm' v-on:click='copyAndEditApp($event,"vb")'>
             Kitchen Sink
+        </button>
+
+        <button style='margin-bottom:10px;' class='btn btn-primary btn-sm' v-on:click='copyAndEditApp($event,"kinetic")'>
+            Kinetic app
         </button>
 
         <button style='margin-bottom:10px;' class='btn btn-primary btn-sm' v-on:click='copyAndEditApp($event,"game")'>
