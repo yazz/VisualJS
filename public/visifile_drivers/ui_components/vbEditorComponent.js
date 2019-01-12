@@ -2347,7 +2347,7 @@ ${eventMessage.code}
 
 
               if (subComponents) {
-                  saveHelper.deleteCodeString(this.text, "sub_components")
+                  this.text = saveHelper.deleteCodeString(this.text, "sub_components")
               } else {
                   subComponents = []
               }
