@@ -1,6 +1,6 @@
 async function kinetic_app(args) {
 /*
-created_timestamp(1547307624507)
+created_timestamp(1547352694251)
 base_component_id("kinetic")
 visibility("PUBLIC")
 display_name("Kinetic app")
@@ -17,14 +17,25 @@ logo_url("/man.jpg")
         Click
     </div>
 
-    <div
+    <div>
+
         <div
             style="display: inline-block;width:50%;vertical-align:top;">
                 <img    id="man22"
                         width="200px"
                         src="/man.jpg">
                 </img>
+                <div></div>
+                <video  autoplay="true"
+                    width=200 height=200
+                    style="width:200px;height:200px;background-color:gray;"
+                    id="videoElement">
+
+                </video>
         </div>
+
+
+
 
         <div
             style="display: inline-block;width:45%;vertical-align:top;">
@@ -50,10 +61,24 @@ logo_url("/man.jpg")
     </div>
 
 </div>`,
+      mounted: async function() {
+          var video = document.querySelector("#videoElement");
+
+            if (navigator.mediaDevices.getUserMedia) {
+                var stream = await navigator.mediaDevices.getUserMedia({video: {
+                  height: 200,
+                  width: 200,
+                  facingMode: 'user'
+                }})
+                video.srcObject = stream;
+            }
+
+      }
+      ,
       methods: {
           evt: async function()  {
                 alert("Started")
-                var aqq = document.getElementById('man22');
+                var aqq = document.getElementById('videoElement');
                 var net = await posenet.load();
                 var  pose2 = await net.estimateSinglePose(aqq,0.5,false,16)
                 alert(JSON.stringify(pose2,null,2))
