@@ -1,9 +1,9 @@
 async function kinetic_app(args) {
 /*
-created_timestamp(1547357908209)
+created_timestamp(1547358111247)
 base_component_id("kinetic")
 visibility("PUBLIC")
-display_name("Kinetic app")
+display_name("Copy of Kinetic app")
 is_app(true)
 description('Kinetic app')
 uses_javascript_librararies(["advanced_bundle"])
@@ -134,17 +134,22 @@ logo_url("/man.jpg")
                   facingMode: 'user'
                 }})
                 video.srcObject = stream;
+                this.evt()
             }
+
 
       }
       ,
       methods: {
           evt: async function()  {
-                //alert("Started")
-                var aqq = document.getElementById('videoElement');
+            //alert("Started")
+            for (var i = 0 ; i <100;i++) {
+            var aqq = document.getElementById('videoElement');
+
+            if (isValidObject(aqq)) {
                 var net = await posenet.load();
-                var  pose2 = await net.estimateSinglePose(aqq,0.5,false,16)
-                alert(JSON.stringify(pose2,null,2))
+                var pose2 = await net.estimateSinglePose(aqq,0.5,false,16)
+                //alert(JSON.stringify(pose2,null,2))
                 var keypoints = pose2.keypoints
                 var shoulderDivider = 30
                 for (var rrr = 0; rrr < keypoints.length; rrr++  ) {
@@ -234,6 +239,8 @@ logo_url("/man.jpg")
                         this.right_ankle_y = 5 - (point.position.y / 60)
                         this.right_ankle_score = point.score
                     }
+                }
+                }
                 }
 
             }
