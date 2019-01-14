@@ -12,9 +12,10 @@ load_once_from_file(true)
     Vue.component("editor_component", {
       data: function () {
         return {
-            text: args.text,
-            read_only: false,
-            editorDomId: editorDomId
+            text:           args.text,
+            read_only:      false,
+            editorDomId:    editorDomId,
+            errors:         null
         }
       },
       template: `<div style='background-color:white; ' >
@@ -31,6 +32,11 @@ load_once_from_file(true)
 
                         <div    v-bind:id='editorDomId' >
                         </div>
+
+                        <pre    v-on:click="gotoLine(errors.lineNumber)"
+                                style="background:pink;color:blue;"
+                                v-if="errors != null">Line {{errors.lineNumber}}: {{errors.description}}</pre>
+
                     </div>
                     <hr></hr>
                  </div>`
@@ -69,12 +75,38 @@ load_once_from_file(true)
 
          editor.getSession().on('change', function() {
             thisVueInstance.text = editor.getSession().getValue();
-            //alert("changed text to : " + thisVueInstance.text)
-            });
+            thisVueInstance.errors = null
+            if (!isValidObject(thisVueInstance.text)) {
+                return
+            }
+            if (thisVueInstance.text.length == 0) {
+                return
+            }
+            try {
+               var newNode = esprima.parse("(" + thisVueInstance.text + ")", { tolerant: true })
+               //alert(JSON.stringify(newNode.errors, null, 2))
+               thisVueInstance.errors = newNode.errors
+               if (thisVueInstance.errors) {
+                    if (thisVueInstance.errors.length == 0) {
+                        thisVueInstance.errors = null
+                    } else {
+                        thisVueInstance.errors = thisVueInstance.errors[0]
+                    }
+               }
+
+            } catch(e) {
+               //alert(JSON.stringify(e, null, 2))
+               thisVueInstance.errors = e
+            }
+         });
 
         editor.resize(true);
      },
      methods: {
+        gotoLine: function(line) {
+            editor.gotoLine(line , 10, true);
+        }
+        ,
         getText: async function() {
             return this.text
         },
