@@ -42,7 +42,12 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
             <button style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 25px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:85px;font-weight: bold;' class='btn btn-success btn-lg'
                     v-on:click='copyAndEditApp($event,"vb_blank")'>
-                Create app
+                Create app visually
+            </button>
+
+            <button style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 25px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:85px;font-weight: bold;' class='btn btn-success btn-lg'
+                    v-on:click='copyAndEditApp($event,"new")'>
+                Code app
             </button>
         </h1>
     </div>
@@ -80,7 +85,8 @@ box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;background
 
 
 
-                        <div style='border-radius: 0px;padding:0px; margin:0;'>
+                        <div style='border-radius: 0px;padding:0px; margin:0;'
+                             v-on:click='editApp($event,item.data.id)'>
                             <img    v-if='(app_logos[item.data.id] && (app_logos[item.data.id] != ""))'
                                     v-bind:src='app_logos[item.data.id]'
                                     style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;'

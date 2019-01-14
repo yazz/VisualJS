@@ -3,14 +3,14 @@ async function kinetic_app(args) {
 created_timestamp(1547470606185)
 base_component_id("kintetic")
 visibility("PUBLIC")
-display_name("Copy of Kinetic app")
+display_name("Kinetic app")
 is_app(true)
 description('Kinetic app')
 uses_javascript_librararies(["advanced_bundle"])
 logo_url("/man.jpg")
 */
 
-    Vue.component('kintetic',{
+    Vue.component('kinetic',{
       template:
 `<div id="app2" style='padding: 20px;'>
     <div class="btn btn-danger" value="Click" v-on:click="evt()" >
