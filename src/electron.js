@@ -29,6 +29,7 @@ var uuidv1          = require('uuid/v1');
 var fork            = require('child_process');
 var express         = require('express')
 var http            = require('http')
+var https           = require('https');
 var app             = express()
 var expressWs       = require('express-ws')(app);
 var request         = require("request");
@@ -99,6 +100,9 @@ var requestClientInternalPort           = -1;
 var requestClientPublicIp               = '';
 var requestClientPublicHostName         = '';
 var locked;
+var https;
+var privateKey;
+var publicCertificate;
 var requestClientPublicIp;
 var hostcount  							= 0;
 var queuedResponses                     = new Object();
@@ -139,6 +143,9 @@ if (process.argv.length > 1) {
       .option('-x, --deleteonexit [deleteonexit]', 'Delete database files on exit (default false) [deleteonexit]', 'false')
       .option('-a, --runapp [runapp]', 'Run the app with ID as the homepage (default not set) [runapp]', null)
       .option('-b, --runhtml [runhtml]', 'Run using a local HTML page as the homepage (default not set) [runhtml]', null)
+      .option('-q, --https [https]', 'Run using a HTTPS (default is http) [https]', 'false')
+      .option('-v, --private [private]', 'Private HTTPS key [private]', null)
+      .option('-c, --public [public]', 'Public HTTPS certificate [public]', null)
       .parse(process.argv);
 } else {
     program.type = 'client'
@@ -149,6 +156,7 @@ if (process.argv.length > 1) {
     program.deleteonexit = 'false'
     program.runapp = null
     program.runhtml = null
+    program.https = 'false'
 }
 var semver = require('semver')
 
@@ -167,8 +175,13 @@ if (program.debug == 'true') {
 var deleteOnExit = (program.deleteonexit == 'true');
 console.log("deleteOnExit: " + deleteOnExit)
 
-
 locked = (program.locked == 'true');
+
+https = (program.https == 'true');
+privateKey = program.private;
+privatePublic = program.public;
+
+
 var nogui = (program.nogui == 'true');
 port = program.port;
 var runapp = program.runapp;
