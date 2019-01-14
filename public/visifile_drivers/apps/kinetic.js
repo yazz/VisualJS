@@ -1,7 +1,7 @@
 async function kinetic_app(args) {
 /*
-created_timestamp(1547358111247)
-base_component_id("kinetic")
+created_timestamp(1547470606185)
+base_component_id("kintetic")
 visibility("PUBLIC")
 display_name("Copy of Kinetic app")
 is_app(true)
@@ -10,41 +10,39 @@ uses_javascript_librararies(["advanced_bundle"])
 logo_url("/man.jpg")
 */
 
-    Vue.component('kinetic',{
+    Vue.component('kintetic',{
       template:
 `<div id="app2" style='padding: 20px;'>
     <div class="btn btn-danger" value="Click" v-on:click="evt()" >
         Click
     </div>
 
-    <div>
+        <video  autoplay="true"
+            width=200 height=200
+            style="width:200px;height:200px;background-color:gray;"
+            id="videoElement">
 
-        <div
-            style="display: inline-block;width:50%;vertical-align:top;">
-                <img    id="man22"
-                        width="200px"
-                        src="/man.jpg">
-                </img>
-                <div></div>
-                <video  autoplay="true"
-                    width=200 height=200
-                    style="width:200px;height:200px;background-color:gray;"
-                    id="videoElement">
-
-                </video>
-        </div>
+        </video>
+        <div></div>
 
 
 
 
         <div
-            style="display: inline-block;width:45%;vertical-align:top;">
+            style="display: inline-block;width:100%;vertical-align:top;">
            <a-scene physics-world="" physics="debug: true" style='width: 80%; height: 80%;' embedded>
 
             <a-entity position="0 1.25 -2" radius="1.25" color="#EF2D5E">
-               <a-sphere v-bind:position='" " + nose_x + " " + nose_y + " -5"'
+
+               <a-box v-bind:position='" " + (nose_x + 0.25) + " " + nose_y + " -5"'
+                        height="1" width="0.5"
+                        v-if='nose_score > .9'
+                        color="gray"></a-box>
+
+               <a-sphere v-bind:position='" " + (nose_x + 0.25) + " " + (nose_y - 0.1) + " -4"'
                          v-if='nose_score > .9'
-                         radius=".1" color="#EF2D5E"></a-sphere>
+                         radius=".2" color="gray"></a-sphere>
+
 
                <a-sphere v-bind:position='" " + left_eye_x + " " + left_eye_y + " -5"'
                          v-if='left_eye_score > .9'
@@ -134,7 +132,6 @@ logo_url("/man.jpg")
                   facingMode: 'user'
                 }})
                 video.srcObject = stream;
-                this.evt()
             }
 
 
@@ -143,7 +140,7 @@ logo_url("/man.jpg")
       methods: {
           evt: async function()  {
             //alert("Started")
-            for (var i = 0 ; i <100;i++) {
+            for (var i = 0 ; i < 10 ;i++) {
             var aqq = document.getElementById('videoElement');
 
             if (isValidObject(aqq)) {
@@ -151,92 +148,94 @@ logo_url("/man.jpg")
                 var pose2 = await net.estimateSinglePose(aqq,0.5,false,16)
                 //alert(JSON.stringify(pose2,null,2))
                 var keypoints = pose2.keypoints
-                var shoulderDivider = 30
+                var widthDivider = 30
+                var xStart = 4
+                var yStart = 5
                 for (var rrr = 0; rrr < keypoints.length; rrr++  ) {
                     var point = keypoints[rrr]
                     if (point.part=="nose") {
-                        this.nose_x = (point.position.x / shoulderDivider) - 5
-                        this.nose_y = 5 - (point.position.y / 60)
+                        this.nose_x = (point.position.x / widthDivider) - xStart
+                        this.nose_y = yStart -  (point.position.y / 60)
                         this.nose_score = point.score
                     }
                     if (point.part=="leftEye") {
-                        this.left_eye_x = (point.position.x / shoulderDivider) - 5
-                        this.left_eye_y = 5 - (point.position.y / 60)
+                        this.left_eye_x = (point.position.x / widthDivider) - xStart
+                        this.left_eye_y = yStart -  (point.position.y / 60)
                         this.left_eye_score = point.score
                     }
                     if (point.part=="rightEye") {
-                        this.right_eye_x = (point.position.x / shoulderDivider) - 5
-                        this.right_eye_y = 5 - (point.position.y / 60)
+                        this.right_eye_x = (point.position.x / widthDivider) - xStart
+                        this.right_eye_y = yStart -  (point.position.y / 60)
                         this.right_eye_score = point.score
                     }
                     if (point.part=="leftEar") {
-                        this.left_ear_x = (point.position.x / shoulderDivider) - 5
-                        this.left_ear_y = 5 - (point.position.y / 60)
+                        this.left_ear_x = (point.position.x / widthDivider) - xStart
+                        this.left_ear_y = yStart -  (point.position.y / 60)
                         this.left_ear_score = point.score
                     }
                     if (point.part=="rightEar") {
-                        this.right_ear_x = (point.position.x / shoulderDivider) - 5
-                        this.right_ear_y = 5 - (point.position.y / 60)
+                        this.right_ear_x = (point.position.x / widthDivider) - xStart
+                        this.right_ear_y = yStart -  (point.position.y / 60)
                         this.right_ear_score = point.score
                     }
                     if (point.part=="leftShoulder") {
-                        this.left_shoulder_x = (point.position.x / shoulderDivider) - 5
-                        this.left_shoulder_y = 5 - (point.position.y / 60)
+                        this.left_shoulder_x = (point.position.x / widthDivider) - xStart
+                        this.left_shoulder_y = yStart -  (point.position.y / 60)
                         this.left_shoulder_score = point.score
                     }
                     if (point.part=="rightShoulder") {
-                        this.right_shoulder_x = (point.position.x / shoulderDivider) - 5
-                        this.right_shoulder_y = 5 - (point.position.y / 60)
+                        this.right_shoulder_x = (point.position.x / widthDivider) - xStart
+                        this.right_shoulder_y = yStart -  (point.position.y / 60)
                         this.right_shoulder_score = point.score
                     }
                     if (point.part=="leftElbow") {
-                        this.left_elbow_x = (point.position.x / shoulderDivider) - 5
-                        this.left_elbow_y = 5 - (point.position.y / 60)
+                        this.left_elbow_x = (point.position.x / widthDivider) - xStart
+                        this.left_elbow_y = yStart -  (point.position.y / 60)
                         this.left_elbow_score = point.score
                     }
                     if (point.part=="rightElbow") {
-                        this.right_elbow_x = (point.position.x / shoulderDivider) - 5
-                        this.right_elbow_y = 5 - (point.position.y / 60)
+                        this.right_elbow_x = (point.position.x / widthDivider) - xStart
+                        this.right_elbow_y = yStart -  (point.position.y / 60)
                         this.right_elbow_score = point.score
                     }
                     if (point.part=="leftWrist") {
-                        this.left_wrist_x = (point.position.x / shoulderDivider) - 5
-                        this.left_wrist_y = 5 - (point.position.y / 60)
+                        this.left_wrist_x = (point.position.x / widthDivider) - xStart
+                        this.left_wrist_y = yStart -  (point.position.y / 60)
                         this.left_wrist_score = point.score
                     }
                     if (point.part=="rightWrist") {
-                        this.right_wrist_x = (point.position.x / shoulderDivider) - 5
-                        this.right_wrist_y = 5 - (point.position.y / 60)
+                        this.right_wrist_x = (point.position.x / widthDivider) - xStart
+                        this.right_wrist_y = yStart -  (point.position.y / 60)
                         this.right_wrist_score = point.score
                     }
                     if (point.part=="leftHip") {
-                        this.left_hip_x = (point.position.x / shoulderDivider) - 5
-                        this.left_hip_y = 5 - (point.position.y / 60)
+                        this.left_hip_x = (point.position.x / widthDivider) - xStart
+                        this.left_hip_y = yStart -  (point.position.y / 60)
                         this.left_hip_score = point.score
                     }
                     if (point.part=="rightHip") {
-                        this.right_hip_x = (point.position.x / shoulderDivider) - 5
-                        this.right_hip_y = 5 - (point.position.y / 60)
+                        this.right_hip_x = (point.position.x / widthDivider) - xStart
+                        this.right_hip_y = yStart -  (point.position.y / 60)
                         this.right_hip_score = point.score
                     }
                     if (point.part=="leftKnee") {
-                        this.left_knee_x = (point.position.x / shoulderDivider) - 5
-                        this.left_knee_y = 5 - (point.position.y / 60)
+                        this.left_knee_x = (point.position.x / widthDivider) - xStart
+                        this.left_knee_y = yStart -  (point.position.y / 60)
                         this.left_knee_score = point.score
                     }
                     if (point.part=="rightKnee") {
-                        this.right_knee_x = (point.position.x / shoulderDivider) - 5
-                        this.right_knee_y = 5 - (point.position.y / 60)
+                        this.right_knee_x = (point.position.x / widthDivider) - xStart
+                        this.right_knee_y = yStart -  (point.position.y / 60)
                         this.right_knee_score = point.score
                     }
                     if (point.part=="leftAnkle") {
-                        this.left_ankle_x = (point.position.x / shoulderDivider) - 5
-                        this.left_ankle_y = 5 - (point.position.y / 60)
+                        this.left_ankle_x = (point.position.x / widthDivider) - xStart
+                        this.left_ankle_y = yStart -  (point.position.y / 60)
                         this.left_ankle_score = point.score
                     }
                     if (point.part=="rightAnkle") {
-                        this.right_ankle_x = (point.position.x / shoulderDivider) - 5
-                        this.right_ankle_y = 5 - (point.position.y / 60)
+                        this.right_ankle_x = (point.position.x / widthDivider) - xStart
+                        this.right_ankle_y = yStart -  (point.position.y / 60)
                         this.right_ankle_score = point.score
                     }
                 }
