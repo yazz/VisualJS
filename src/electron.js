@@ -2048,7 +2048,7 @@ function add_new_queryFn(req, res) {
 //------------------------------------------------------------
 function startServices() {
     if (useHttps) {
-        var newhttp = express.createServer();
+        var newhttp = http.createServer();
         newhttp.get('*', function(req, res) {
             res.redirect('https://' + req.headers.host + req.url);
         })
