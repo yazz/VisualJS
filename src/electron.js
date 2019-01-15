@@ -2252,7 +2252,17 @@ function startServices() {
     // start the web server
     //------------------------------------------------------------------------------
 
-    httpServer = http.createServer(app)
+    if (useHttps) {
+        var certOptions = {
+          key: fs.readFileSync(privateKey, 'utf8'),
+          cert: fs.readFileSync(publicCertificate, 'utf8')
+        }
+        httpServer = https.createServer(certOptions,app)
+
+    } else {
+        httpServer = http.createServer(app)
+
+    }
     socket = require('socket.io')
     httpServer.listen(port, hostaddress, function () {
     	console.log(typeOfSystem + ' started on port ' + port + ' with local folder at ' + process.cwd() + ' and __dirname = ' + __dirname+ "\n");
