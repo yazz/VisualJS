@@ -1494,7 +1494,7 @@ function getRoot(req, res) {
 	//console.log("Full URL: " + req.protocol + '://' + req.get('host') + req.originalUrl);
 
     var homepage = path.join(__dirname, '../public/go.html')
-    var homepageUrl = serverProtocol + '://yazz.com:80/visifile/index.html?time=' + new Date().getTime()
+    var homepageUrl = serverProtocol + '://yazz.com/visifile/index.html?time=' + new Date().getTime()
 	if (req.headers.host) {
         if (req.query.goto) {
             console.log("*** FOUND goto")
