@@ -196,6 +196,9 @@ var runhtml = program.runhtml;
 
 if (!isNumber(port)) {
     port = 80;
+    if (useHttps) {
+        port = 443;
+    }
 };
 
 
