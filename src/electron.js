@@ -100,7 +100,7 @@ var requestClientInternalPort           = -1;
 var requestClientPublicIp               = '';
 var requestClientPublicHostName         = '';
 var locked;
-var https;
+var useHttps;
 var privateKey;
 var publicCertificate;
 var requestClientPublicIp;
@@ -177,7 +177,7 @@ console.log("deleteOnExit: " + deleteOnExit)
 
 locked = (program.locked == 'true');
 
-https = (program.https == 'true');
+useHttps = (program.https == 'true');
 privateKey = program.private;
 publicCertificate = program.public;
 
@@ -1127,12 +1127,12 @@ function getPort () {
 
     //zzz
 
-    if (https) {
+    if (useHttps) {
         var certOptions = {
-          key: fs.readFileSync(privateKey),
-          cert: fs.readFileSync(publicCertificate)
+          key: fs.readFileSync(privateKey, 'utf8'),
+          cert: fs.readFileSync(publicCertificate, 'utf8')
         }
-        httpServer = http.createServer(app)
+        httpServer = https.createServer(certOptions,app)
 
     } else {
         httpServer = http.createServer(app)
