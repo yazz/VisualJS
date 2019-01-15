@@ -7730,6 +7730,7 @@ function localSql(sql, params) {
     return target.replace(new RegExp(search, 'g'), replacement);
 };
 
+var useProtocol = location.protocol
 var useHostname = null
 var usePort = null
 
@@ -8278,7 +8279,7 @@ function copyApp(  baseComponentId ) {
                 ,
                 function(result) {
 
-                    var copLoc = "http://" +  useHostname + ":" + usePort + "/?goto=" + result.value.new_display_name .replaceAll(" ","%20")
+                    var copLoc = useProtocol + "//" +  useHostname + ":" + usePort + "/?goto=" + result.value.new_display_name .replaceAll(" ","%20")
                     window.location.href = copLoc
 
                 })
@@ -8541,7 +8542,7 @@ function setupWebSocket(host, port)
 {
 
     //console.log('opening web socketio');
-    socket = io('http://' + host + ":" + port);
+    socket = io(useProtocol + '//' + host + ":" + port);
     //console.log('opening web socketio');
     socket.on('socket_connected',function(data){
         online = true
@@ -8782,7 +8783,7 @@ async function checkLibs(data){
                     var oldConsole = console.log
                     console.log = function(){}
                     await scriptTag(
-                        `http://${useHostname}:${usePort}/js_libs/aframe.min.js`
+                        `${useProtocol}//${useHostname}:${usePort}/js_libs/aframe.min.js`
                         ,
                         async function() {
                             console.log = oldConsole
@@ -8911,7 +8912,7 @@ async function checkLibsV2(componentRecord,args){
                     var oldConsole = console.log
                     console.log = function(){}
                     await scriptTag(
-                        `http://${useHostname}:${usePort}/js_libs/aframe.min.js`
+                        `${useProtocol}//${useHostname}:${usePort}/js_libs/aframe.min.js`
                         ,
                         async function() {
                             console.log = oldConsole
