@@ -117,7 +117,7 @@ load_once_from_file(true)
                 <div      slot-scope="editor_component" style='display: inline-block;width:100%;'>
 
 
-                    <a          v-bind:href='"http://" + location.hostname + ":" + location.port + "/app/yazz_" + base_component_id + ".html"'
+                    <a          v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + base_component_id + ".html"'
                                 download
                                 v-on:mouseover="show_open_app_tooltip = true"
                                 v-on:mouseleave="show_open_app_tooltip = false"
@@ -141,7 +141,7 @@ load_once_from_file(true)
                     </a>
 
 
-                    <button     v-on:click='window.open("http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html")'
+                    <button     v-on:click='window.open(location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html")'
                                 v-bind:style="'margin-left:10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);'"
                                 v-on:mouseover="show_new_tab_tooltip = true"
                                 v-on:mouseleave="show_new_tab_tooltip = false"
@@ -206,7 +206,7 @@ load_once_from_file(true)
 
 
                 <input  readonly size="40" style='font-family:verdana;font-size: 13px;'
-                        v-bind:value='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'>
+                        v-bind:value='location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'>
                 </input>
 
             </div>
