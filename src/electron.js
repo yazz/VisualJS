@@ -101,6 +101,7 @@ var requestClientPublicIp               = '';
 var requestClientPublicHostName         = '';
 var locked;
 var useHttps;
+var serverProtocol                       = "http";
 var privateKey;
 var publicCertificate;
 var requestClientPublicIp;
@@ -178,6 +179,9 @@ console.log("deleteOnExit: " + deleteOnExit)
 locked = (program.locked == 'true');
 
 useHttps = (program.https == 'true');
+if (useHttps) {
+    serverProtocol = "https"
+}
 privateKey = program.private;
 publicCertificate = program.public;
 
@@ -300,7 +304,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
     	if (typeOfSystem == 'client') {
-            var localClientUrl = 'http://' + hostaddress  + ":" + port;
+            var localClientUrl = serverProtocol + '://' + hostaddress  + ":" + port;
             var remoteServerUrl = 'http://' + centralHostAddress  + ":" + centralHostPort + "/visifile/list_intranet_servers.html?time=" + new Date().getTime();
             if(!nogui) {
                 setTimeout(function(){
@@ -344,7 +348,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
                 alreadyOpen = true;
                 //open('http://' + hostaddress  + ":" + port + "/visifile/list_intranet_servers.html?time=" + new Date().getTime());
                 if (!nogui) {
-                    visifile.loadURL('http://' + hostaddress  + ":" + port + "/visifile/list_intranet_servers.html?time=" + new Date().getTime())
+                    visifile.loadURL(  serverProtocol + '://' + hostaddress  + ":" + port + "/visifile/list_intranet_servers.html?time=" + new Date().getTime())
                 }
 
 
@@ -566,7 +570,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
                     result.main_user    = msg.returned[0].client_user_name
                     result.main         = msg.returned[0].internal_host + ":" + msg.returned[0].internal_port
-                    result.main_url     = "http://" +  msg.returned[0].internal_host + ":" +
+                    result.main_url     = serverProtocol + "://" +  msg.returned[0].internal_host + ":" +
                                             msg.returned[0].internal_port + "/home"
                 }
 
@@ -576,7 +580,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
                     var addr = msg.returned[i].internal_host + ":" + msg.returned[i].internal_port
                     result.list.push( addr )
                     result.links.servers[addr] =
-                        {"href":        "http://" +  addr + "/home" ,
+                        {"href":        serverProtocol + "://" +  addr + "/home" ,
                          "user":         msg.returned[i].client_user_name}
                     }
 
@@ -1490,7 +1494,7 @@ function getRoot(req, res) {
 	//console.log("Full URL: " + req.protocol + '://' + req.get('host') + req.originalUrl);
 
     var homepage = path.join(__dirname, '../public/go.html')
-    var homepageUrl = 'http://yazz.com/visifile/index.html?time=' + new Date().getTime()
+    var homepageUrl = serverProtocol + '://yazz.com/visifile/index.html?time=' + new Date().getTime()
 	if (req.headers.host) {
         if (req.query.goto) {
             console.log("*** FOUND goto")
@@ -1518,7 +1522,7 @@ function getRoot(req, res) {
 		};
 		if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
 		res.writeHead(301,
-			{Location: 'http://canlabs.com/canlabs'}
+			{Location: serverProtocol + '://canlabs.com/canlabs'}
 			);
 			res.end();
 			return;
@@ -2270,7 +2274,7 @@ function startServices() {
         console.log("****PORT=" + port+ "PORT****\n");
         console.log(""+ "\n");
         console.log("Started on:");
-        console.log("http://" + hostaddress + ':' + port);
+        console.log(serverProtocol + "://" + hostaddress + ':' + port);
 
         io = socket.listen(httpServer, {
             log: false,
