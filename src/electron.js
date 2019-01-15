@@ -179,7 +179,7 @@ locked = (program.locked == 'true');
 
 https = (program.https == 'true');
 privateKey = program.private;
-privatePublic = program.public;
+publicCertificate = program.public;
 
 
 var nogui = (program.nogui == 'true');
@@ -1072,7 +1072,7 @@ function shutDown() {
         }
 
         if (deleteOnExit) {
-        //zzz
+
             console.log("deleting dir :" + userData)
             if (userData.length > 14) {
                 if (isWin) {
@@ -1125,12 +1125,21 @@ var httpServer = null;
 function getPort () {
     outputToBrowser('** called getPort v2')
 
-    //yyy
+    //zzz
+
+    if (https) {
+        var certOptions = {
+          key: fs.readFileSync(privateKey),
+          cert: fs.readFileSync(publicCertificate)
+        }
+        httpServer = http.createServer(app)
+
+    } else {
+        httpServer = http.createServer(app)
+
+    }
 
 
-
-
-    httpServer = http.createServer(app)
 
 
     httpServer.listen(port, ip.address(), function (err) {
