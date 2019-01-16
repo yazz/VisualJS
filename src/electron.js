@@ -1132,7 +1132,7 @@ var httpServer = null;
 function getPort () {
     outputToBrowser('** called getPort v2')
 
-    //zzz
+
 
     if (useHttps) {
         var certOptions = {
@@ -2048,8 +2048,12 @@ function add_new_queryFn(req, res) {
 //------------------------------------------------------------
 function startServices() {
     if (useHttps) {
-        var newhttp = http.createServer();
-        newhttp.get('*', function(req, res) {
+    //zzz
+        var app2             = express()
+
+        var newhttp = http.createServer(app2);
+        app2.get('*', function(req, res) {
+            console.log("Redirect HTTP to HTTPS")
             res.redirect('https://' + req.headers.host + req.url);
         })
 
