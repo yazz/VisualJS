@@ -82,7 +82,6 @@ var io = null;
 var forkedProcesses = new Object();
 var timeout                             = 0;
 var port;
-var hostaddress;
 var typeOfSystem;
 var centralHostAddress;
 var centralHostPort;
@@ -147,6 +146,7 @@ if (process.argv.length > 1) {
       .option('-q, --https [https]', 'Run using a HTTPS (default is http) [https]', 'false')
       .option('-v, --private [private]', 'Private HTTPS key [private]', null)
       .option('-c, --public [public]', 'Public HTTPS certificate [public]', null)
+      .option('-u, --usehost [usehost]', 'Use host name [usehost]', null)
       .parse(process.argv);
 } else {
     program.type = 'client'
@@ -158,6 +158,7 @@ if (process.argv.length > 1) {
     program.runapp = null
     program.runhtml = null
     program.https = 'false'
+    program.usehost = null
 }
 var semver = require('semver')
 
@@ -184,6 +185,11 @@ if (useHttps) {
 }
 privateKey = program.private;
 publicCertificate = program.public;
+var useHost = program.usehost;
+if (useHost) {
+    hostaddress = useHost
+    console.log("USE Host: " + useHost)
+}
 
 
 var nogui = (program.nogui == 'true');
@@ -863,7 +869,7 @@ function setupVisifileParams() {
 	console.dir ( ip.address() );
 
 	//console.log('addr: '+ ip.address());
-	hostaddress = ip.address();
+	//hostaddress = ip.address();
 
 	}
 
