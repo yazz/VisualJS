@@ -1531,7 +1531,7 @@ function getRoot(req, res) {
 		};
 		if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
 		res.writeHead(301,
-			{Location: serverProtocol + '://canlabs.com/canlabs'}
+			{Location: 'http://canlabs.com/canlabs'}
 			);
 			res.end();
 			return;
@@ -2058,14 +2058,22 @@ function startServices() {
         var app2             = express()
 
         var newhttp = http.createServer(app2);
+        app2.use("/canlabs",   express.static(path.join(userData, '/canlabs/')));
+        app2.get('/', function (req, res) {
+        	return getRoot(req, res);
+        })
         app2.get('*', function(req, res) {
-            console.log("Redirect HTTP to HTTPS")
-            res.redirect('https://' + req.headers.host + req.url);
+             if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
+             } else {
+                 console.log("Redirect HTTP to HTTPS")
+                 res.redirect('https://' + req.headers.host + req.url);
+             }
         })
 
         newhttp.listen(80);
-
     }
+
+
     app.use(cors({ origin: '*' }));
     app.use(function (req, res, next) {
 
