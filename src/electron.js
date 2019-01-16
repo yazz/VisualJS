@@ -2065,7 +2065,7 @@ function startServices() {
         app2.get('*', function(req, res) {
              if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
                 var rty = req.path
-                if (req.path == " /canlabs") {
+                if (req.path == "/canlabs") {
                     rty = "/canlabs/index.html"
                 }
                 console.log("path: " + rty)
