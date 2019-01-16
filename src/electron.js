@@ -2058,6 +2058,9 @@ function startServices() {
         var app2             = express()
 
         var newhttp = http.createServer(app2);
+        app2.get('/', function (req, res) {
+        	return getRoot(req, res);
+        })
         app2.get('*', function(req, res) {
              if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
                 console.log("path: " + req.path)
@@ -2066,9 +2069,6 @@ function startServices() {
                  console.log("Redirect HTTP to HTTPS")
                  res.redirect('https://' + req.headers.host + req.url);
              }
-        })
-        app2.get('/', function (req, res) {
-        	return getRoot(req, res);
         })
         app2.use("/canlabs",   express.static(path.join(userData, '/canlabs/')));
 
