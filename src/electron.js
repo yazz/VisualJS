@@ -2065,7 +2065,12 @@ function startServices() {
              if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
                 console.log("path: " + req.path)
                 //zzz
-                var fileNameRead = path.join(__dirname, '../public' + req.path)
+                var rty = req.path
+                if (req.path == "/canlabs") {
+                    rty = "/canlabs/index.html"
+                }
+
+                var fileNameRead = path.join(__dirname, '../public' + rty)
                 res.end(fs.readFileSync(fileNameRead));
              } else {
                  console.log("Redirect HTTP to HTTPS")
