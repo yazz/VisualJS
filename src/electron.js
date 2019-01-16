@@ -2058,16 +2058,16 @@ function startServices() {
         var app2             = express()
 
         var newhttp = http.createServer(app2);
-        app2.use("/canlabs",   express.static(path.join(userData, '/canlabs/')));
-        app2.get('/', function (req, res) {
-        	return getRoot(req, res);
-        })
         app2.get('*', function(req, res) {
              if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
              } else {
                  console.log("Redirect HTTP to HTTPS")
                  res.redirect('https://' + req.headers.host + req.url);
              }
+        })
+        app2.use("/canlabs",   express.static(path.join(userData, '/canlabs/')));
+        app2.get('/', function (req, res) {
+        	return getRoot(req, res);
         })
 
         newhttp.listen(80);
