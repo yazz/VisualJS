@@ -1531,7 +1531,7 @@ function getRoot(req, res) {
 		};
 		if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
 		res.writeHead(301,
-			{Location: 'http://canlabs.com/canlabs'}
+			{Location: 'http://canlabs.com/canlabs/index.html'}
 			);
 			res.end();
 			return;
@@ -2063,13 +2063,9 @@ function startServices() {
         })
         app2.get('*', function(req, res) {
              if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
-                var rty = req.path
-                if (req.path == "/canlabs") {
-                    rty = "/canlabs/index.html"
-                }
-                console.log("path: " + rty)
+                console.log("path: " + req.path)
                 //zzz
-                var fileNameRead = path.join(__dirname, '../public' + rty)
+                var fileNameRead = path.join(__dirname, '../public' + req.path)
                 res.end(fs.readFileSync(fileNameRead));
              } else {
                  console.log("Redirect HTTP to HTTPS")
