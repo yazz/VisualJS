@@ -2061,7 +2061,6 @@ function startServices() {
         app2.get('/', function (req, res) {
         	return getRoot(req, res);
         })
-        app2.use("/canlabs",   express.static(path.join(userData, '/canlabs/')));
         app2.get('*', function(req, res) {
              if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
                 var rty = req.path
