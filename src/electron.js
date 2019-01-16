@@ -2061,7 +2061,7 @@ function startServices() {
         app2.get('*', function(req, res) {
              if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
                 console.log("path: " + req.path)
-                res.end(fs.readFileSync(homepage));
+                //res.end(fs.readFileSync(homepage));
              } else {
                  console.log("Redirect HTTP to HTTPS")
                  res.redirect('https://' + req.headers.host + req.url);
