@@ -2054,23 +2054,29 @@ function add_new_queryFn(req, res) {
 //------------------------------------------------------------
 function startServices() {
     if (useHttps) {
-    //zzz
+
         var app2             = express()
 
         var newhttp = http.createServer(app2);
         app2.get('/', function (req, res) {
         	return getRoot(req, res);
         })
+        app2.use("/canlabs",   express.static(path.join(userData, '/canlabs/')));
         app2.get('*', function(req, res) {
              if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
-                console.log("path: " + req.path)
-                //res.end(fs.readFileSync(homepage));
+                var rty = req.path
+                if (req.path == " /canlabs") {
+                    rty = "/canlabs/index.html"
+                }
+                console.log("path: " + rty)
+                //zzz
+                var fileNameRead = path.join(__dirname, '../public' + rty)
+                res.end(fs.readFileSync(fileNameRead));
              } else {
                  console.log("Redirect HTTP to HTTPS")
                  res.redirect('https://' + req.headers.host + req.url);
              }
         })
-        app2.use("/canlabs",   express.static(path.join(userData, '/canlabs/')));
 
         newhttp.listen(80);
     }
