@@ -1802,6 +1802,15 @@ ${eventMessage.code}
                  var newLeftX = ev.clientX  + 2 - rrr.left ;
                  var newTopY = ev.clientY  + 2 - rrr.top ;
 
+                 if (!this.model.forms[this.model.active_form].components[data.index].is_container) {
+                     if (parentId) {
+                        this.model.forms[this.model.active_form].components[data.index].parent = parentName
+                        newLeftX = newLeftX - parentOffsetX
+                        newTopY = newTopY - parentOffsetY
+                     } else {
+                        this.model.forms[this.model.active_form].components[data.index].parent = null
+                     }
+                 }
 
                  if (newLeftX < 0) {
                      newLeftX = 0
@@ -1826,6 +1835,16 @@ ${eventMessage.code}
                  var newLeftX = ev.clientX  + 2 - rrr.left ;
 
 
+                 if (!this.model.forms[this.model.active_form].components[data.index].is_container) {
+                     if (parentId) {
+                        this.model.forms[this.model.active_form].components[data.index].parent = parentName
+                        newLeftX = newLeftX - parentOffsetX
+                        newTopY = newTopY - parentOffsetY
+                     } else {
+                        this.model.forms[this.model.active_form].components[data.index].parent = null
+                     }
+                 }
+
                  if (newLeftX < 0) {
                      newLeftX = 0
                  }
@@ -1845,6 +1864,15 @@ ${eventMessage.code}
 
                  var newTopY = ev.clientY  + 2 - rrr.top ;
 
+                 if (!this.model.forms[this.model.active_form].components[data.index].is_container) {
+                     if (parentId) {
+                        this.model.forms[this.model.active_form].components[data.index].parent = parentName
+                        newLeftX = newLeftX - parentOffsetX
+                        newTopY = newTopY - parentOffsetY
+                     } else {
+                        this.model.forms[this.model.active_form].components[data.index].parent = null
+                     }
+                 }
 
                  if (newTopY < 0) {
                      newTopY = 0
@@ -1863,6 +1891,15 @@ ${eventMessage.code}
                  var newX = ev.clientX  - 10 - rrr.left ;
                  var newY = ev.clientY + 2 - rrr.top;
 
+                 if (!this.model.forms[this.model.active_form].components[data.index].is_container) {
+                     if (parentId) {
+                        this.model.forms[this.model.active_form].components[data.index].parent = parentName
+                        newLeftX = newLeftX - parentOffsetX
+                        newTopY = newTopY - parentOffsetY
+                     } else {
+                        this.model.forms[this.model.active_form].components[data.index].parent = null
+                     }
+                 }
 
                  this.model.forms[this.model.active_form].components[data.index].width = newX - this.model.forms[this.model.active_form].components[data.index].leftX
 
@@ -1878,6 +1915,15 @@ ${eventMessage.code}
                  var newX = ev.clientX + 8 - rrr.left ;
                  var newY = ev.clientY - 12 - rrr.top ;
 
+                 if (!this.model.forms[this.model.active_form].components[data.index].is_container) {
+                     if (parentId) {
+                        this.model.forms[this.model.active_form].components[data.index].parent = parentName
+                        newLeftX = newLeftX - parentOffsetX
+                        newTopY = newTopY - parentOffsetY
+                     } else {
+                        this.model.forms[this.model.active_form].components[data.index].parent = null
+                     }
+                 }
 
                  var newWidth = (this.model.forms[this.model.active_form].components[data.index].leftX + this.model.forms[this.model.active_form].components[data.index].width) - newX
                  this.model.forms[this.model.active_form].components[data.index].leftX = newX
@@ -1890,6 +1936,16 @@ ${eventMessage.code}
 
                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
                  var newX = ev.clientX  - rrr.left - 10;
+
+                 if (!this.model.forms[this.model.active_form].components[data.index].is_container) {
+                     if (parentId) {
+                        this.model.forms[this.model.active_form].components[data.index].parent = parentName
+                        newLeftX = newLeftX - parentOffsetX
+                        newTopY = newTopY - parentOffsetY
+                     } else {
+                        this.model.forms[this.model.active_form].components[data.index].parent = null
+                     }
+                 }
 
                  var newWidth = newX - this.model.forms[this.model.active_form].components[data.index].leftX
                  this.model.forms[this.model.active_form].components[data.index].width = newWidth
@@ -1904,6 +1960,16 @@ ${eventMessage.code}
                  var newX = ev.clientX  - rrr.left - 10;
                  var newY = ev.clientY - rrr.top - 12;
 
+                 if (!this.model.forms[this.model.active_form].components[data.index].is_container) {
+                     if (parentId) {
+                        this.model.forms[this.model.active_form].components[data.index].parent = parentName
+                        newLeftX = newLeftX - parentOffsetX
+                        newTopY = newTopY - parentOffsetY
+                     } else {
+                        this.model.forms[this.model.active_form].components[data.index].parent = null
+                     }
+                 }
+
                  var newWidth = newX - this.model.forms[this.model.active_form].components[data.index].leftX
                  this.model.forms[this.model.active_form].components[data.index].width = newWidth
 
@@ -1916,6 +1982,16 @@ ${eventMessage.code}
 
                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
                  var newY = ev.clientY - rrr.top - 12;
+
+                 if (!this.model.forms[this.model.active_form].components[data.index].is_container) {
+                     if (parentId) {
+                        this.model.forms[this.model.active_form].components[data.index].parent = parentName
+                        newLeftX = newLeftX - parentOffsetX
+                        newTopY = newTopY - parentOffsetY
+                     } else {
+                        this.model.forms[this.model.active_form].components[data.index].parent = null
+                     }
+                 }
 
                  var newHeight = newY - this.model.forms[this.model.active_form].components[data.index].topY
                  this.model.forms[this.model.active_form].components[data.index].height = newHeight
