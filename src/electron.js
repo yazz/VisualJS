@@ -2065,10 +2065,10 @@ function startServices() {
                  res.redirect('https://' + req.headers.host + req.url);
              }
         })
-        app2.use("/canlabs",   express.static(path.join(userData, '/canlabs/')));
         app2.get('/', function (req, res) {
         	return getRoot(req, res);
         })
+        app2.use("/canlabs",   express.static(path.join(userData, '/canlabs/')));
 
         newhttp.listen(80);
     }
