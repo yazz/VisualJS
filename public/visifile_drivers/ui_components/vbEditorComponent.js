@@ -1941,8 +1941,7 @@ ${eventMessage.code}
                  if (!this.model.forms[this.model.active_form].components[data.index].is_container) {
                      if (parentId) {
                         this.model.forms[this.model.active_form].components[data.index].parent = parentName
-                        newLeftX = newLeftX - parentOffsetX
-                        newTopY = newTopY - parentOffsetY
+                        newX = newX - parentOffsetX
                      } else {
                         this.model.forms[this.model.active_form].components[data.index].parent = null
                      }
