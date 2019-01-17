@@ -1614,7 +1614,16 @@ ${eventMessage.code}
 
          deleteComponent: async function(index) {
             var mm = this
+            var thisComponentName = this.model.forms[this.model.active_form].components[index]
             this.model.forms[this.model.active_form].components.splice(index, 1);
+            var ccc = mm.model.forms[mm.model.active_form].components
+            for (   var ytr = ccc.length - 1;    ytr == 0;    ytr--   ) {
+                var component = ccc[ytr]
+                if (component.parent == thisComponentName) {
+                    this.model.forms[this.model.active_form].components.splice(ytr, 1);
+                }
+            }
+            //zzz
             this.refreshControlIndexes()
             this.selectForm(this.model.active_form)
             setTimeout(function() {
@@ -2448,7 +2457,7 @@ ${eventMessage.code}
 
                    var newListOfSubcomponents = Object.keys(  subComponentsMap  )
                    this.text = saveHelper.insertCodeString(this.text, "sub_components", newListOfSubcomponents)
-                  //zzz
+
               }
 
 
