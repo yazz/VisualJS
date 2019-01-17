@@ -63,6 +63,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
             <div    v-for="(item, index) in intro_apps"
                     v-bind:refresh='refresh'
+                    v-on:click='editApp($event,item.data.id)'
                     style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
                     class='app_card'>
 
