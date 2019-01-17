@@ -1924,12 +1924,13 @@ ${eventMessage.code}
                         this.model.forms[this.model.active_form].components[data.index].parent = null
                      }
                  }
-
                  var newWidth = (this.model.forms[this.model.active_form].components[data.index].leftX + this.model.forms[this.model.active_form].components[data.index].width) - newX
+                 var newHeight = newY - this.model.forms[this.model.active_form].components[data.index].topY
+
                  this.model.forms[this.model.active_form].components[data.index].leftX = newX
                  this.model.forms[this.model.active_form].components[data.index].width = newWidth
+                 this.model.forms[this.model.active_form].components[data.index].height = newHeight
 
-                 this.model.forms[this.model.active_form].components[data.index].height = newY - this.model.forms[this.model.active_form].components[data.index].topY
                  this.model.active_component_index = data.index
 
              } else if (data.type == "resize_right") {
