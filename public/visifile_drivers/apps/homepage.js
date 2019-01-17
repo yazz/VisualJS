@@ -40,12 +40,12 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     <div    style='padding:10px; margin:0;padding-top: 30px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;'>
         <h1 style='font-size:100px; text-align: center;margin: 0px;'>
 
-            <button style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 25px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:85px;font-weight: bold;' class='btn btn-success btn-lg'
+            <button style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 25px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:55px;font-weight: bold;' class='btn btn-success btn-lg'
                     v-on:click='copyAndEditApp($event,"vb_blank")'>
                 Create app visually
             </button>
 
-            <button style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 25px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:85px;font-weight: bold;' class='btn btn-success btn-lg'
+            <button style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 25px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:55px;font-weight: bold;' class='btn btn-success btn-lg'
                     v-on:click='copyAndEditApp($event,"new")'>
                 Code app
             </button>
