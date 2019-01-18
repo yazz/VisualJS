@@ -17,6 +17,12 @@ properties(
         }
         ,
         {
+            id:     "checked",
+            name:   "Checked",
+            type:   "String"
+        }
+        ,
+        {
             id:     "background_color",
             name:   "Background color",
             type:   "String"
@@ -31,7 +37,7 @@ logo_url("/driver_icons/checkbox_control.png")
       ,
       template: `<input v-bind:id='design_mode?"":args.name'
                         type="checkbox"
-                        v-model="checked"
+                        v-model="args.checked"
                         v-bind:value='args.text'>{{args.text}}<br>
 
                  </input>`
