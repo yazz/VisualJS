@@ -2314,11 +2314,15 @@ function startServices() {
         console.log("Started on:");
         console.log(serverProtocol + "://" + hostaddress + ':' + port);
 
+        //
+        // We dont listen on websockets here with socket.io as often they stop working!!!
+        // Crazy, I know!!!! So we removed websockets from the list of transports below
+        //
         io = socket.listen(httpServer, {
             log: false,
             agent: false,
             origins: '*:*',
-            transports: ['websocket', 'htmlfile', 'xhr-polling', 'jsonp-polling', 'polling']
+            transports: ['htmlfile', 'xhr-polling', 'jsonp-polling', 'polling']
         });
 
         io.on('connection', function (sck) {
