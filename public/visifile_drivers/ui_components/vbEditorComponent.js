@@ -286,36 +286,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                     v-bind:refresh='refresh'
                                     v-on:ondragover="allowDrop($event)"
                                     v-bind:class='(design_mode?"dotted":"" )'
-                                    v-on:click='if (design_mode)
-                                                {
-                                                    $event.stopPropagation();
-                                                    if (highlighted_control)
-                                                    {
-                                                        //zzz
-                                                        var mm = this
-                                                        var doc = document.documentElement;
-                                                        var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
-                                                        var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
-                                                        var rrr = $event.target.getBoundingClientRect()
-                                                        var offsetX = ($event.clientX - rrr.left )
-                                                        var offsetY = ($event.clientY - rrr.top )
-
-                                                        vr data = {
-                                                           type:       "add_component",
-                                                           text:        highlighted_control,
-                                                           offsetX:     offsetX,
-                                                           offsetY:     offsetY
-                                                        }
-                                                        addComponent(   $event,
-                                                                        data,
-                                                                        parentId,
-                                                                        parentOffsetX,
-                                                                        parentOffsetY)
-
-                                                    } else {
-                                                        selectForm(model.active_form, true);
-                                                    }
-                                                }'
+                                    v-on:click='clickOnMainGrid($event)'
                                     v-bind:style='"position:absolute;display: inline-block; vertical-align: top; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"left:15px;top:15px;border: 4px solid lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);":"border: 0px;" ) '>
 
 
@@ -961,6 +932,50 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
      methods: {
+     clickOnMainGrid: function(event) {
+         if (this.design_mode)
+             {
+                 event.stopPropagation();
+                 if (this.highlighted_control)
+                 {
+                     //zzz
+                     var doc = document.documentElement;
+                     var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
+                     var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+                     var rrr = event.target.getBoundingClientRect()
+                     var offsetX = (event.clientX - rrr.left )
+                     var offsetY = (event.clientY - rrr.top )
+                     var parentId = null
+                     var parentName = null
+                     var parentOffsetX = 0
+                     var parentOffsetY = 0
+                     var parentContainer = this.getContainerForPoint(  newItem2.leftX,  newItem2.topY  )
+                     if (parentContainer) {
+                         parentOffsetX = parentContainer.x
+                         parentOffsetY = parentContainer.y
+                         parentId      = parentContainer.base_component_id
+                         parentName    = parentContainer.name
+                     }
+
+
+                     var data = {
+                        type:       "add_component",
+                        text:        this.highlighted_control,
+                        offsetX:     offsetX,
+                        offsetY:     offsetY
+                     }
+                     this.addComponent(  event,
+                                         data,
+                                         parentId,
+                                         parentOffsetX,
+                                         parentOffsetY)
+
+                 } else {
+                     this.selectForm(ths.model.active_form, true);
+                 }
+             }
+
+     },
      //zzz
      getContainerForPoint: function(leftX,topY) {
 
@@ -1809,7 +1824,6 @@ ${eventMessage.code}
              var parentOffsetY = 0
              var parentOffsetWidth = 0
              var parentOffsetHeight = 0
-             alert(1)
              var parentContainer = this.getContainerForPoint(  newItem2.leftX,  newItem2.topY  )
              if (parentContainer) {
                  parentOffsetX = parentContainer.x
