@@ -286,7 +286,36 @@ uses_javascript_librararies(["advanced_bundle"])
                                     v-bind:refresh='refresh'
                                     v-on:ondragover="allowDrop($event)"
                                     v-bind:class='(design_mode?"dotted":"" )'
-                                    v-on:click='if (design_mode) {$event.stopPropagation();selectForm(model.active_form, true)}'
+                                    v-on:click='if (design_mode)
+                                                {
+                                                    $event.stopPropagation();
+                                                    if (highlighted_control)
+                                                    {
+                                                        //zzz
+                                                        var mm = this
+                                                        var doc = document.documentElement;
+                                                        var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
+                                                        var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+                                                        var rrr = $event.target.getBoundingClientRect()
+                                                        var offsetX = ($event.clientX - rrr.left )
+                                                        var offsetY = ($event.clientY - rrr.top )
+
+                                                        vr data = {
+                                                           type:       "add_component",
+                                                           text:        highlighted_control,
+                                                           offsetX:     offsetX,
+                                                           offsetY:     offsetY
+                                                        }
+                                                        addComponent(   $event,
+                                                                        data,
+                                                                        parentId,
+                                                                        parentOffsetX,
+                                                                        parentOffsetY)
+
+                                                    } else {
+                                                        selectForm(model.active_form, true);
+                                                    }
+                                                }'
                                     v-bind:style='"position:absolute;display: inline-block; vertical-align: top; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"left:15px;top:15px;border: 4px solid lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);":"border: 0px;" ) '>
 
 
@@ -932,6 +961,107 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
      methods: {
+     //zzz
+     getContainerForPoint: function(leftX,topY) {
+
+         var ccc = this.model.forms[this.model.active_form].components
+         for (var ytr = 0;ytr < ccc.length;ytr++){
+            var baseId =    ccc[ytr].base_component_id
+            var controlNmae =    ccc[ytr].name
+            var x1 =        ccc[ytr].leftX
+            var x2 =        ccc[ytr].leftX + ccc[ytr].width
+            var y1 =        ccc[ytr].topY
+            var y2 =        ccc[ytr].topY + ccc[ytr].height
+            var isContainer = ccc[ytr].is_container
+            if (isContainer && (x1 <= leftX) && (leftX <= x2) && (y1 <= topY) && (topY <= y2)) {
+                return {
+                    x:                  x1,
+                    y:                  y1,
+                    base_component_id:  ccc[ytr].base_component_id,
+                    name:               ccc[ytr].name
+                }
+            }
+         }
+         return null
+     }
+     ,
+        addComponent: async function(ev,data, parentId, parentOffsetX, parentOffsetY) {
+            var mm = this
+            alert(JSON.stringify(data,null,2))
+
+            var newItem = new Object()
+            var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+
+       //alert(parentId +": = (" + parentOffsetX + "," + parentOffsetY + ")")
+            newItem.leftX = ((ev.clientX  - rrr.left)  - data.offsetX) - parentOffsetX  - 10;
+            newItem.topY = ((ev.clientY  - rrr.top)   - data.offsetY) - parentOffsetY - 10;
+            if (newItem.leftX < 0) {
+               newItem.leftX = 0
+            }
+            if (newItem.topY < 0) {
+               newItem.topY = 0
+            }
+            //alert(`(${newItem.leftX},${newItem.topY})`)
+
+            if (parentId) {
+               //alert(`${baseId}:(${x1},${y1}) - (${x2},${y2})`)
+               newItem.parent = parentName
+            }
+
+
+            newItem.name = data.text + "_" + this.model.next_component_id++
+            newItem.base_component_id = data.text
+            newItem.width = 100
+            newItem.height = 100
+
+            if ((newItem.leftX + newItem.width)
+                    > this.model.forms[this.model.active_form].width) {
+                newItem.leftX = this.model.forms[this.model.active_form].width - newItem.width
+            }
+            if ((newItem.topY + newItem.height)
+                    > this.model.forms[this.model.active_form].height) {
+                newItem.topY = this.model.forms[this.model.active_form].height - newItem.height
+            }
+
+
+            this.refresh++
+            if (!component_loaded[newItem.base_component_id]) {
+               await loadV2([newItem.base_component_id])
+               this.component_usage[newItem.base_component_id] = true
+            }
+
+            var compEvaled1 = component_cache[newItem.base_component_id]
+            if (isValidObject(compEvaled1)) {
+                   var compEvaled = compEvaled1.properties
+                   if (isValidObject(compEvaled)) {
+                       for (var cpp = 0 ; cpp < compEvaled.length; cpp ++){
+                           var prop = compEvaled[cpp].id
+
+                           if (!isValidObject(newItem[prop])){
+                               if (compEvaled[cpp].default) {
+                                   newItem[prop] = compEvaled[cpp].default
+                               } else {
+                                   newItem[prop] = ""
+                               }
+                           }
+                       }
+                   }
+            }
+
+
+
+
+
+            this.model.forms[this.model.active_form].components.push(newItem)
+            this.model.active_component_index = this.model.forms[this.model.active_form].components.length - 1
+
+            setTimeout(function() {
+                mm.selectComponent(mm.model.active_component_index, true)
+                mm.refresh ++
+            },100)
+        }
+        ,
+
 
          refreshControlIndexes: function() {
             if (this.model.active_component_detail_name) {
@@ -1591,8 +1721,13 @@ ${eventMessage.code}
              var rrr = ev.target.getBoundingClientRect()
              message.offsetX = (ev.clientX - rrr.left )
              message.offsetY = (ev.clientY - rrr.top )
+
+             if (!isValidObject(ev.dataTransfer)) {
+                return
+             }
              ev.dataTransfer.setData("message",
                                      JSON.stringify(message,null,2));
+
          },
 
 
@@ -1623,7 +1758,7 @@ ${eventMessage.code}
                     this.model.forms[this.model.active_form].components.splice(ytr, 1);
                 }
             }
-            //zzz
+
             this.refreshControlIndexes()
             this.selectForm(this.model.active_form)
             setTimeout(function() {
@@ -1674,98 +1809,19 @@ ${eventMessage.code}
              var parentOffsetY = 0
              var parentOffsetWidth = 0
              var parentOffsetHeight = 0
-
-             var ccc = mm.model.forms[mm.model.active_form].components
-             for (var ytr = 0;ytr < ccc.length;ytr++){
-                var baseId =    ccc[ytr].base_component_id
-                var controlNmae =    ccc[ytr].name
-                var x1 =        ccc[ytr].leftX
-                var x2 =        ccc[ytr].leftX + ccc[ytr].width
-                var y1 =        ccc[ytr].topY
-                var y2 =        ccc[ytr].topY + ccc[ytr].height
-                var isContainer = ccc[ytr].is_container
-                if (isContainer && (x1 <= newItem2.leftX) && (newItem2.leftX <= x2) && (y1 <= newItem2.topY) && (newItem2.topY <= y2)) {
-                    //alert(`${baseId}:(${x1},${y1}) - (${x2},${y2})`)
-                    parentOffsetX = x1
-                    parentOffsetY = y1
-                    parentId      = ccc[ytr].base_component_id
-                    parentName    = ccc[ytr].name
-                }
+             alert(1)
+             var parentContainer = this.getContainerForPoint(  newItem2.leftX,  newItem2.topY  )
+             if (parentContainer) {
+                 parentOffsetX = parentContainer.x
+                 parentOffsetY = parentContainer.y
+                 parentId      = parentContainer.base_component_id
+                 parentName    = parentContainer.name
              }
 
 
              if (data.type == "add_component") {
-                 var newItem = new Object()
-                 var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
-
-//alert(parentId +": = (" + parentOffsetX + "," + parentOffsetY + ")")
-                 newItem.leftX = ((ev.clientX  - rrr.left)  - data.offsetX) - parentOffsetX  - 10;
-                 newItem.topY = ((ev.clientY  - rrr.top)   - data.offsetY) - parentOffsetY - 10;
-                 if (newItem.leftX < 0) {
-                    newItem.leftX = 0
-                 }
-                 if (newItem.topY < 0) {
-                    newItem.topY = 0
-                 }
-                 //alert(`(${newItem.leftX},${newItem.topY})`)
-
-                 if (parentId) {
-                    //alert(`${baseId}:(${x1},${y1}) - (${x2},${y2})`)
-                    newItem.parent = parentName
-                 }
-
-
-                 newItem.name = data.text + "_" + this.model.next_component_id++
-                 newItem.base_component_id = data.text
-                 newItem.width = 100
-                 newItem.height = 100
-
-                 if ((newItem.leftX + newItem.width)
-                         > this.model.forms[this.model.active_form].width) {
-                     newItem.leftX = this.model.forms[this.model.active_form].width - newItem.width
-                 }
-                 if ((newItem.topY + newItem.height)
-                         > this.model.forms[this.model.active_form].height) {
-                     newItem.topY = this.model.forms[this.model.active_form].height - newItem.height
-                 }
-
-
-                 this.refresh++
-                 if (!component_loaded[newItem.base_component_id]) {
-                    await loadV2([newItem.base_component_id])
-                    this.component_usage[newItem.base_component_id] = true
-                 }
-
-                 var compEvaled1 = component_cache[newItem.base_component_id]
-                 if (isValidObject(compEvaled1)) {
-                        var compEvaled = compEvaled1.properties
-                        if (isValidObject(compEvaled)) {
-                            for (var cpp = 0 ; cpp < compEvaled.length; cpp ++){
-                                var prop = compEvaled[cpp].id
-
-                                if (!isValidObject(newItem[prop])){
-                                    if (compEvaled[cpp].default) {
-                                        newItem[prop] = compEvaled[cpp].default
-                                    } else {
-                                        newItem[prop] = ""
-                                    }
-                                }
-                            }
-                        }
-                 }
-
-
-
-
-
-                 this.model.forms[this.model.active_form].components.push(newItem)
-                 this.model.active_component_index = this.model.forms[this.model.active_form].components.length - 1
-
-                 setTimeout(function() {
-                     mm.selectComponent(mm.model.active_component_index, true)
-                     mm.refresh ++
-                 },100)
-
+                 await mm.addComponent(ev,data, parentId, parentOffsetX, parentOffsetY)
+//zzz
 
              } else if (data.type == "move_component") {
                 var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
