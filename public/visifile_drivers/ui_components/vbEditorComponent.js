@@ -966,7 +966,8 @@ uses_javascript_librararies(["advanced_bundle"])
                      }
 
 
-                     this.addComponent(  event,
+                     this.addComponent(  offsetX,
+                                         offsetY,
                                          data,
                                          parentId,
                                          parentName,
@@ -1003,7 +1004,7 @@ uses_javascript_librararies(["advanced_bundle"])
          return null
      }
      ,
-        addComponent: async function(ev,data, parentId, parentName, parentOffsetX, parentOffsetY) {
+        addComponent: async function(leftX,topY,data, parentId, parentName, parentOffsetX, parentOffsetY) {
             var mm = this
             //alert(JSON.stringify(data,null,2))
 
@@ -1011,8 +1012,8 @@ uses_javascript_librararies(["advanced_bundle"])
             var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
 
        //alert(parentId +": = (" + parentOffsetX + "," + parentOffsetY + ")")
-            newItem.leftX = ((ev.clientX  - rrr.left)  - data.offsetX) - parentOffsetX  - 10;
-            newItem.topY = ((ev.clientY  - rrr.top)   - data.offsetY) - parentOffsetY - 10;
+            newItem.leftX = leftX
+            newItem.topY = topY
             if (newItem.leftX < 0) {
                newItem.leftX = 0
             }
@@ -1837,7 +1838,10 @@ ${eventMessage.code}
 
 
              if (data.type == "add_component") {
-                 await mm.addComponent(ev,data, parentId, parentName, parentOffsetX, parentOffsetY)
+                 var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+                 var xx = ((ev.clientX  - rrr.left)  - data.offsetX) - parentOffsetX  - 10;
+                 var yy = ((ev.clientY  - rrr.top)   - data.offsetY) - parentOffsetY - 10;
+                 await mm.addComponent(xx,yy,data, parentId, parentName, parentOffsetX, parentOffsetY)
 //zzz
 
              } else if (data.type == "move_component") {
