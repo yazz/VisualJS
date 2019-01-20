@@ -949,6 +949,17 @@ uses_javascript_librararies(["advanced_bundle"])
                      var parentName = null
                      var parentOffsetX = 0
                      var parentOffsetY = 0
+                     var newItem2 = new Object()
+                     var rrr2 = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+                     var data = {
+                        type:       "add_component",
+                        text:        this.highlighted_control,
+                        offsetX:     offsetX,
+                        offsetY:     offsetY
+                     }
+                     newItem2.leftX = (event.clientX  - rrr2.left)  - data.offsetX;
+                     newItem2.topY = (event.clientY  - rrr2.top)   - data.offsetY;
+
                      var parentContainer = this.getContainerForPoint(  newItem2.leftX,  newItem2.topY  )
                      if (parentContainer) {
                          parentOffsetX = parentContainer.x
@@ -958,15 +969,10 @@ uses_javascript_librararies(["advanced_bundle"])
                      }
 
 
-                     var data = {
-                        type:       "add_component",
-                        text:        this.highlighted_control,
-                        offsetX:     offsetX,
-                        offsetY:     offsetY
-                     }
                      this.addComponent(  event,
                                          data,
                                          parentId,
+                                         parentName,
                                          parentOffsetX,
                                          parentOffsetY)
 
@@ -1000,9 +1006,9 @@ uses_javascript_librararies(["advanced_bundle"])
          return null
      }
      ,
-        addComponent: async function(ev,data, parentId, parentOffsetX, parentOffsetY) {
+        addComponent: async function(ev,data, parentId, parentName, parentOffsetX, parentOffsetY) {
             var mm = this
-            alert(JSON.stringify(data,null,2))
+            //alert(JSON.stringify(data,null,2))
 
             var newItem = new Object()
             var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
@@ -1834,7 +1840,7 @@ ${eventMessage.code}
 
 
              if (data.type == "add_component") {
-                 await mm.addComponent(ev,data, parentId, parentOffsetX, parentOffsetY)
+                 await mm.addComponent(ev,data, parentId, parentName, parentOffsetX, parentOffsetY)
 //zzz
 
              } else if (data.type == "move_component") {
