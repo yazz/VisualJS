@@ -950,17 +950,14 @@ uses_javascript_librararies(["advanced_bundle"])
                      var parentOffsetX = 0
                      var parentOffsetY = 0
                      var newItem2 = new Object()
-                     var rrr2 = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
                      var data = {
                         type:       "add_component",
                         text:        this.highlighted_control,
                         offsetX:     offsetX,
                         offsetY:     offsetY
                      }
-                     newItem2.leftX = (event.clientX  - rrr2.left)  - data.offsetX;
-                     newItem2.topY = (event.clientY  - rrr2.top)   - data.offsetY;
 
-                     var parentContainer = this.getContainerForPoint(  newItem2.leftX,  newItem2.topY  )
+                     var parentContainer = this.getContainerForPoint(  offsetX,  offsetY  )
                      if (parentContainer) {
                          parentOffsetX = parentContainer.x
                          parentOffsetY = parentContainer.y
@@ -977,7 +974,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                          parentOffsetY)
 
                  } else {
-                     this.selectForm(ths.model.active_form, true);
+                     this.selectForm(this.model.active_form, true);
                  }
              }
 
