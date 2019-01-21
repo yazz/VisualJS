@@ -823,6 +823,7 @@ async function setUpComponentsLocally() {
     await evalLocalSystemDriver('radio_button_control',   path.join(__dirname, '../public/visifile_drivers/controls/radiobutton.js'))
 
 
+    await evalLocalSystemDriver('dropdown_control',   path.join(__dirname, '../public/visifile_drivers/controls/dropdown.js'))
     await evalLocalSystemDriver('list_control',   path.join(__dirname, '../public/visifile_drivers/controls/list.js'))
 
     await evalLocalSystemDriver('threedee_control',        path.join(__dirname, '../public/visifile_drivers/controls/threedee.js'))
