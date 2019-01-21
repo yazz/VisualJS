@@ -1,5 +1,5 @@
 # Yazz
-### Build intranet apps in minutes with JS and SQL
+### Visual Basic 6 reimagined in Javascript
 
 - An interactive editor to create GUI apps in the style of Visual Basic 6
 - Build business logic in Javascript
