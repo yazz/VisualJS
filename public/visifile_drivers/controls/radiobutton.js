@@ -17,9 +17,14 @@ properties(
         }
         ,
         {
-            id:     "checked",
-            name:   "Checked",
-            type:   "String"
+            id:         "checked",
+            name:       "Checked",
+            type:       "Select",
+            default:    "false",
+            values:     [
+                            {display: "True",   value: ""},
+                            {display: "False",  value: "false"}
+                        ]
         }
         ,
         {

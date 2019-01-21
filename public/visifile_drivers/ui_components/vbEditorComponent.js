@@ -636,7 +636,17 @@ uses_javascript_librararies(["advanced_bundle"])
                                                     style='width: 100%;border: 0px;font-family:verdana;font-size: 13px;padding:0px;'>
                                             </input>
                                         </div>
+                                        <div    v-if="(property.type  == 'Select')  ">
+                                            <select  @change='setVBEditorProperty($event, property)'>
+                                                  <option   v-for="propVal in property.values"
+                                                            v-bind:value="propVal.value"
+                                                            v-bind:selected="propVal.value == model.forms[model.active_form].components[model.active_component_index][property.id]">
 
+                                                        {{propVal.display}}
+
+                                                  </option>
+                                            </select>
+                                        </div>
                                         <div    v-if="(property.type  == 'Image') ">
                                             <input type="file"
                                                    id="image_file"
