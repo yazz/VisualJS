@@ -209,7 +209,7 @@ if (!isNumber(port)) {
 
 
 
-console.log('VisiFile node local hostname: ' + ip.address() + ' ')
+console.log('Yazz node local hostname: ' + ip.address() + ' ')
 
 setupVisifileParams();
 
@@ -881,7 +881,7 @@ if (electronApp) {
 
     	if (isWin) {
     		var localappdata  = process.env.LOCALAPPDATA
-    		userData = path.join(localappdata, '/Visifile/')
+    		userData = path.join(localappdata, '/Yazz/')
     	} else {
     		userData = electronApp.getPath('userData')
     	}
@@ -988,9 +988,9 @@ else {
 
         	if (isWin) {
         		var localappdata  = process.env.LOCALAPPDATA
-        		userData = path.join(localappdata, '/Visifile/')
+        		userData = path.join(localappdata, '/Yazz/')
         	} else {
-        		userData =  path.join(process.env.HOME, '/Visifile/')
+        		userData =  path.join(process.env.HOME, '/Yazz/')
         	}
         	dbPath = path.join(userData, username + '.visi')
 
