@@ -830,6 +830,8 @@ async function setUpComponentsLocally() {
     await evalLocalSystemDriver('vert_scroll_control',   path.join(__dirname, '../public/visifile_drivers/controls/vert_scroll.js'))
 
     await evalLocalSystemDriver('timer_control',   path.join(__dirname, '../public/visifile_drivers/controls/timer.js'))
+    await evalLocalSystemDriver('drive_list_control',   path.join(__dirname, '../public/visifile_drivers/controls/drive_list.js'))
+
 
     await evalLocalSystemDriver('threedee_control',        path.join(__dirname, '../public/visifile_drivers/controls/threedee.js'))
     await evalLocalSystemDriver('threedee_item_control',   path.join(__dirname, '../public/visifile_drivers/controls/threedee_item.js'))
