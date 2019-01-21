@@ -36,7 +36,7 @@ logo_url("/driver_icons/radio.png")
       props: ["args","design_mode"]
       ,
       template: `<input v-bind:id='design_mode?"":args.name'
-                        type="checkbox"
+                        type="radio"
                         v-model="args.checked"
                         v-bind:value='args.text'>{{args.text}}<br>
 
