@@ -141,20 +141,8 @@ load_once_from_file(true)
                     </a>
 
 
-                    <button     v-on:click='window.open(location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html")'
-                                v-bind:style="'margin-left:10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);'"
-                                v-on:mouseover="show_new_tab_tooltip = true"
-                                v-on:mouseleave="show_new_tab_tooltip = false"
-                                type="button" class="btn">
-
-                            <svg x="0px" y="0px" width="35px"  viewBox="0 0 384 384" style="color: black;" xml:space="preserve">
-                                <path d="M32,0l320,192L32,384V0z" />
-                            </svg>
-
-                    </button>
-
                     <button   v-if='!read_only'
-                              v-bind:style="'margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden')"
+                              v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden')"
                               v-on:mouseover="show_save_tooltip = true"
                               v-on:mouseleave="show_save_tooltip = false"
 
@@ -200,13 +188,12 @@ load_once_from_file(true)
 
 
             <div    v-if='is_ui_app'
-                    v-bind:style="'padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;'">
+                    v-on:click='window.open(location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html")'
+                    v-bind:style="'text-decoration: underline;color:blue;padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;'">
 
-                &larr; &rarr; <span class=reload>&#x21bb;</span>
-
-
-                <input  readonly size="40" style='font-family:verdana;font-size: 13px;'
-                        v-bind:value='location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'>
+                Shareable link:<input   readonly
+                                        size="40" style='font-family:verdana;font-size: 13px;margin-left:10px;'
+                                        v-bind:value='location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'>
                 </input>
 
             </div>
