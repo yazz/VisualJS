@@ -61,17 +61,15 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                             style='position:relative;max-width: 80px; left:0px; top: 0px;max-height: 80px;margin-left: auto;margin-right: auto;display: inline-block;'
                             >
                     </img>
-                Code app
+                Write code
             </button>
         </h1>
     </div>
 
 
-
     <div    class=""
             v-bind:refresh='refresh'
             style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:800px;'>
-
 
 
         <div v-bind:refresh='refresh'
@@ -80,6 +78,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             <div    v-for="(item, index) in intro_apps"
                     v-bind:refresh='refresh'
                     v-on:click='editApp($event,item.data.id)'
+                    v-on:mouseenter="preview_app_id = item.data.id;"
                     style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
                     class='app_card'>
 
@@ -90,11 +89,15 @@ box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;background
 
                     <div v-if="item.type == 'app'" v-bind:refresh='refresh'>
 
+                        <div v-if='preview_app_id == item.data.id' >
+                        APP LOADED
+                        </div>
+
                         <div    v-if="(edit_app == item.data.id)"
                                 v-bind:refresh='refresh'
                                 style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:none; padding: 0px;">
 
-                                <component v-if='' :is='"app_editor_3"' v-bind:app_id='item.data.id' v-bind:card_index='index'>
+                                <component v-if='preview_app_id == item.data.id' :is='"app_editor_3"' v-bind:app_id='item.data.id' v-bind:card_index='index'>
                                 </component>
                         </div>
 
@@ -162,6 +165,7 @@ box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;background
 
     data: function() {
         return {
+                    preview_app_id: null,
                     apps:           [],
                     app_type:       "bubblesort",
                     intro_apps:     [],
