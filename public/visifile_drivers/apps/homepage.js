@@ -79,6 +79,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     v-bind:refresh='refresh'
                     v-on:click='editApp($event,item.data.id)'
                     v-on:mouseenter="preview_app_loaded = false; preview_app_id = item.data.id;previewApp(item.data.id)"
+                    v-on:mouseleave="preview_app_loaded = false; preview_app_id = null;"
                     style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
                     class='app_card'>
 
@@ -95,6 +96,13 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 </div>
 
 
+                        <div    v-if="(edit_app == item.data.id)"
+                                v-bind:refresh='refresh'
+                                style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:none; padding: 0px;">
+
+                                <component v-if='' :is='"app_editor_3"' v-bind:app_id='item.data.id' v-bind:card_index='index'>
+                                </component>
+                        </div>
 
 
 
@@ -218,6 +226,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 await mm.addLogoForApp(text.base_component_id)
                 await mm.addApp(text.base_component_id)
                 mm.edit_app = text.base_component_id
+                mm.preview_app_id = null
+                mm.preview_app_loaded = false
                 mm.refresh++
             }
 
@@ -245,6 +255,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           previewApp: async function(appId) {
             await loadV2(appId)
             this.preview_app_loaded = true
+            this.refresh ++
           },
           addLogoForApp: async function(appId) {
               mm = this
@@ -330,6 +341,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                   event.stopPropagation()
               }
               this.edit_app = item;
+              mm.preview_app_id = null
+              mm.preview_app_loaded = false
+              mm.refresh ++
           }
 
 
