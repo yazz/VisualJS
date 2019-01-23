@@ -77,7 +77,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
             <div    v-for="(item, index) in intro_apps"
                     v-bind:refresh='refresh'
-                    v-on:click='editApp($event,item.data.id)'
                     v-on:mouseenter="preview_app_loaded = false; preview_app_id = item.data.id;previewApp(item.data.id)"
                     v-on:mouseleave="preview_app_loaded = false; preview_app_id = null;"
                     style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
@@ -102,6 +101,31 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         :is='preview_app_id'
                         style="z-index:0;">
             </component>
+
+            <button style='position:absolute;top:300px;left:20px;opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;'
+                    class='btn btn-primary btn-sm'
+                    v-on:click='editApp($event,item.data.id)'>
+                    <img    src='/driver_icons/play.png'
+                            style='position:relative;max-width: 40px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
+                            >
+                    </img>
+                Play
+            </button>
+
+
+            <button style='position:absolute;top:300px;left:200px;opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;'
+                    class='btn btn-primary btn-sm'
+                    v-on:click='editApp($event,item.data.id)'>
+                    <img    src='/driver_icons/edit.png'
+                            style='position:relative;max-width: 40px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
+                            >
+                    </img>
+                Edit
+            </button>
+
+
+
+
 
     </div>
 </div>
