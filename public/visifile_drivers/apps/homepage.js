@@ -88,7 +88,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 <div    v-if='(preview_app_id == item.data.id) && preview_app_loaded'
         style="position:absolute;left:0px;top;0px;color:black;background-color:white;background:white;width:100%,height:100%;">
-    <component  v-if='(preview_app_id == item.data.id) && preview_app_loaded'
+    <component  id="preview_component2"
+                v-if='(preview_app_id == item.data.id) && preview_app_loaded'
                 :is='preview_app_id'
                 style="width:100%,height:100%;">
     </component>
@@ -100,7 +101,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                 v-bind:refresh='refresh'
                                 style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:none; padding: 0px;">
 
-                                <component v-if='' :is='"app_editor_3"' v-bind:app_id='item.data.id' v-bind:card_index='index'>
+                                <component  id="editor_component2"
+                                            v-if='' :is='"app_editor_3"' v-bind:app_id='item.data.id' v-bind:card_index='index'>
                                 </component>
                         </div>
 
@@ -253,7 +255,11 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
       methods: {
           previewApp: async function(appId) {
-            await loadV2(appId)
+              if (!component_loaded[appId]) {
+                 await loadV2([appId])
+                 this.component_usage[appId] = true
+              }
+            //await loadV2(appId)
             this.preview_app_loaded = true
             this.refresh ++
           },
