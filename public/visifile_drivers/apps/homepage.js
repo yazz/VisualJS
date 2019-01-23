@@ -84,11 +84,11 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                 <div v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((preview_app_id == item.data.id) && preview_app_loaded)?"background-color:white;":"background-color:black;")'>
 
-<div    v-if='(preview_app_id == item.data.id) && preview_app_loaded'
+<div    v-if='(preview_app_id == item.data.id)'
         v-bind:refresh='refresh'
         style="position:relative;left:0px;top;0px;color:black;background-color:white;background:white;width:100%;height:100%;overflow: auto;">
 
-    <div    v-if='(preview_app_id == item.data.id) && preview_app_loaded'
+    <div    v-if='(preview_app_id == item.data.id) '
             v-bind:refresh='refresh'
             v-on:mouseover="$event.stopPropagation();$event.preventDefault();"
             v-on:click="$event.stopPropagation();$event.preventDefault();"
@@ -104,7 +104,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             </component>
 
 
-            <button style='position:absolute;top:300px;left:20px;opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;'
+            <button style='position:absolute;top:300px;left:20px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:1000;'
                     class='btn btn-primary btn-sm'
                     v-on:click='window.location.href=location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + item.data.id + ".html"'>
                     <img    src='/driver_icons/play.png'
@@ -115,7 +115,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             </button>
 
 
-            <button style='position:absolute;top:300px;left:200px;opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;'
+            <button style='position:absolute;top:300px;left:200px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:1000;'
                     class='btn btn-primary btn-sm'
                     v-on:click='editApp($event,item.data.id)'>
                     <img    src='/driver_icons/edit.png'
@@ -145,7 +145,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-                        <div v-if="!((preview_app_id == item.data.id) && preview_app_loaded)"
+                        <div v-if="!((preview_app_id == item.data.id) )"
                              style='border-radius: 0px;padding:0px; margin:0;'
                              v-on:click='editApp($event,item.data.id)'>
                             <img    v-if='(app_logos[item.data.id] && (app_logos[item.data.id] != ""))'
