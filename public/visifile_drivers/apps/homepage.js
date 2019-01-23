@@ -82,9 +82,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
                     class='app_card'>
 
-                <div style='position:relative;-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);
--moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);
-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;background-color:black;'>
+                <div v-bind:style='"position:relative;-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((preview_app_id == item.data.id) && preview_app_loaded)?"background-color:white;":"background-color:black;")'>
 
 
 <div    v-if='(preview_app_id == item.data.id) && preview_app_loaded'
