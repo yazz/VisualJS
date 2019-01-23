@@ -291,15 +291,18 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
       methods: {
           previewApp: async function(appId) {
-              if (!component_loaded[appId]) {
-                 await loadV2([appId])
-                 this.component_usage[appId] = true
-              }
+              var mm = this
+              setTimeout(async function() {
+                  if (!component_loaded[appId]) {
+                     await loadV2([appId])
+                     this.component_usage[appId] = true
+                  }
 
-              setTimeout(function() {
-                mm.preview_app_loaded = true
-              },50)
-            this.refresh ++
+                  setTimeout(function() {
+                    mm.preview_app_loaded = true
+                    mm.refresh ++
+                  },1500)
+                },150)
           },
           addLogoForApp: async function(appId) {
               mm = this
