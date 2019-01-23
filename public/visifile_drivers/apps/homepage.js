@@ -295,8 +295,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                  await loadV2([appId])
                  this.component_usage[appId] = true
               }
-            //await loadV2(appId)
-            this.preview_app_loaded = true
+
+              setTimeout(function() {
+                mm.preview_app_loaded = true
+              },50)
             this.refresh ++
           },
           addLogoForApp: async function(appId) {
