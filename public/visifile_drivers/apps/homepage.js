@@ -91,15 +91,19 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
     <div    v-if='(preview_app_id == item.data.id) && preview_app_loaded'
             v-bind:refresh='refresh'
-            v-on:click="$event.stopPropagation()"
-            style="opacity:.1;z-index:1000;position:absolute;left:0px;top;0px;color:black;background-color:blue;width:100%;height:100%;">
+            v-on:mouseover="$event.stopPropagation();$event.preventDefault();"
+            v-on:click="$event.stopPropagation();$event.preventDefault();"
+            v-on:mousedown="$event.stopPropagation();$event.preventDefault();"
+            style="opacity:.5;z-index:1000;position:absolute;left:0px;top;0px;color:black;background-color:blue;width:100%;height:100%;">
+
+            <component  id="preview_component2"
+                        v-bind:refresh='refresh'
+                        v-if='(preview_app_id == item.data.id) && preview_app_loaded'
+                        :is='preview_app_id'
+                        style="z-index:0;">
+            </component>
+
     </div>
-    <component  id="preview_component2"
-                v-bind:refresh='refresh'
-                v-if='(preview_app_id == item.data.id) && preview_app_loaded'
-                :is='preview_app_id'
-                style="z-index:-100;width:100%;height:100%;">
-    </component>
 </div>
 
 
