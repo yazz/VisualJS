@@ -8179,7 +8179,10 @@ e%a.config.pagination?a.items.slice(e,e+a.config.pagination):null}).filter(funct
         <div    id='infinite-list'
                 style='overflow-y: none;' >
 
+            <div  v-if='local_app && (!is_gui_app)'  style="background-color: black; color: white; text-align: center;"
+                v-on:click='setupPublicWebSocket()' v-if='local_app'>Edit this app</div>
             <div v-if='!is_gui_app' style="padding:10px;"><pre id="console_id" style="color: white;">{{console_output}}</pre></div>
+
 
             <template   v-if='is_gui_app'
                         v-for="item  in  cards" >
