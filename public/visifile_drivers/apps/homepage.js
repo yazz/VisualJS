@@ -145,7 +145,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-                        <div v-if="!((preview_app_id == item.data.id) )"
+                        <div v-if="preview_app_id != item.data.id"
                              style='border-radius: 0px;padding:0px; margin:0;'
                              v-on:click='editApp($event,item.data.id)'>
                             <img    v-if='(app_logos[item.data.id] && (app_logos[item.data.id] != ""))'
@@ -299,6 +299,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                   }
 
                   setTimeout(function() {
+                    mm.preview_app_id = appId;
                     mm.preview_app_loaded = true
                     mm.refresh ++
                   },1500)
