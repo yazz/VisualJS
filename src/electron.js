@@ -2058,6 +2058,7 @@ function startServices() {
         var app2             = express()
 
         var newhttp = http.createServer(app2);
+        app2.use(compression())
         app2.get('/', function (req, res) {
         	return getRoot(req, res);
         })
@@ -2082,6 +2083,7 @@ function startServices() {
     }
 
 
+    app.use(compression())
     app.use(cors({ origin: '*' }));
     app.use(function (req, res, next) {
 
