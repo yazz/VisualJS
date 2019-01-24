@@ -98,6 +98,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                                     <component  id="preview_component2"
                                                 ref="preview_component2"
+                                                v-bind:refresh='refresh'
                                                 v-if='(preview_app_id == item.data.id) && preview_app_loaded'
                                                 :is='preview_app_id'
                                                 style="z-index:0;">
@@ -294,15 +295,15 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               var mm = this
               if (!component_loaded[appId]) {
                  await loadV2([appId])
-                 this.component_usage[appId] = true
               }
 
               mm.preview_app_id = appId;
 
-              mm.preview_app_loaded = true
               setTimeout(async function() {
+                  mm.preview_app_loaded = true
                   mm.refresh ++
-                },150)
+                  mm.$forceUpdate();
+              },250)
           },
           addLogoForApp: async function(appId) {
               mm = this
