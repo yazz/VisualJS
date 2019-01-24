@@ -82,55 +82,55 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
                     class='app_card'>
 
-                <div v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((preview_app_id == item.data.id) && preview_app_loaded)?"background-color:white;":"background-color:black;")'>
+                <div    v-bind:refresh='refresh'
+                        v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((preview_app_id == item.data.id) && preview_app_loaded)?"background-color:white;":"background-color:black;")'>
 
-<div    v-if='(preview_app_id == item.data.id)'
-        v-bind:refresh='refresh'
-        style="position:relative;left:0px;top;0px;color:black;background-color:white;background:white;width:100%;height:100%;overflow: auto;">
+                        <div    v-if='(preview_app_id == item.data.id) && (!edit_app)'
+                                v-bind:refresh='refresh'
+                                style="position:relative;left:0px;top;0px;color:black;background-color:white;background:white;width:100%;height:100%;overflow: auto;">
 
-    <div    v-if='(preview_app_id == item.data.id) '
-            v-bind:refresh='refresh'
-            v-on:mouseover="$event.stopPropagation();$event.preventDefault();"
-            v-on:click="$event.stopPropagation();$event.preventDefault();"
-            v-on:mousedown="$event.stopPropagation();$event.preventDefault();"
-            style="opacity:.7;z-index:1000;position:absolute;left:0px;top;0px;color:black;background-color:white;width:100%;height:100%;">
+                            <div    v-if='(preview_app_id == item.data.id) '
+                                    v-bind:refresh='refresh'
+                                    v-on:mouseover="$event.stopPropagation();$event.preventDefault();"
+                                    v-on:click="$event.stopPropagation();$event.preventDefault();"
+                                    v-on:mousedown="$event.stopPropagation();$event.preventDefault();"
+                                    style="opacity:.7;z-index:1000;position:absolute;left:0px;top;0px;color:black;background-color:white;width:100%;height:100%;">
 
-            <component  id="preview_component2"
-                        ref="preview_component2"
-                        v-bind:refresh='refresh'
-                        v-if='(preview_app_id == item.data.id) && preview_app_loaded'
-                        :is='preview_app_id'
-                        style="z-index:0;">
-            </component>
-
-
-            <button style='position:absolute;top:300px;left:20px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:1000;'
-                    class='btn btn-primary btn-sm'
-                    v-on:click='window.location.href=location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + item.data.id + ".html"'>
-                    <img    src='/driver_icons/play.png'
-                            style='position:relative;max-width: 40px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
-                            >
-                    </img>
-                Play
-            </button>
+                                    <component  id="preview_component2"
+                                                ref="preview_component2"
+                                                v-if='(preview_app_id == item.data.id) && preview_app_loaded'
+                                                :is='preview_app_id'
+                                                style="z-index:0;">
+                                    </component>
 
 
-            <button style='position:absolute;top:300px;left:200px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:1000;'
-                    class='btn btn-primary btn-sm'
-                    v-on:click='editApp($event,item.data.id)'>
-                    <img    src='/driver_icons/edit.png'
-                            style='position:relative;max-width: 40px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
-                            >
-                    </img>
-                Edit
-            </button>
+                                    <button style='position:absolute;top:300px;left:20px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:1000;'
+                                            class='btn btn-primary btn-sm'
+                                            v-on:click='window.location.href=location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + item.data.id + ".html"'>
+                                            <img    src='/driver_icons/play.png'
+                                                    style='position:relative;max-width: 40px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
+                                                    >
+                                            </img>
+                                        Play
+                                    </button>
 
 
+                                    <button style='position:absolute;top:300px;left:200px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:1000;'
+                                            class='btn btn-primary btn-sm'
+                                            v-on:click='editApp($event,item.data.id)'>
+                                            <img    src='/driver_icons/edit.png'
+                                                    style='position:relative;max-width: 40px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
+                                                    >
+                                            </img>
+                                        Edit
+                                    </button>
 
 
 
-    </div>
-</div>
+
+
+                            </div>
+                        </div>
 
 
                         <div    v-if="(edit_app == item.data.id)"
@@ -292,17 +292,16 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
       methods: {
           previewApp: async function(appId) {
               var mm = this
-              setTimeout(async function() {
-                  if (!component_loaded[appId]) {
-                     await loadV2([appId])
-                     this.component_usage[appId] = true
-                  }
+              if (!component_loaded[appId]) {
+                 await loadV2([appId])
+                 this.component_usage[appId] = true
+              }
 
-                  setTimeout(function() {
-                    mm.preview_app_id = appId;
-                    mm.preview_app_loaded = true
-                    mm.refresh ++
-                  },1500)
+              mm.preview_app_id = appId;
+
+              mm.preview_app_loaded = true
+              setTimeout(async function() {
+                  mm.refresh ++
                 },150)
           },
           addLogoForApp: async function(appId) {
