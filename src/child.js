@@ -761,7 +761,7 @@ function processMessagesFromMainProcess() {
 
 
 async function evalLocalSystemDriver(driverName, location, options) {
-    //console.log("*** Loading driver: *** : " + driverName)
+    console.log("*** Loading driver: *** : " + driverName)
 	var evalDriver = fs.readFileSync(location);
 	await addOrUpdateDriver(driverName, evalDriver,options)
 }
