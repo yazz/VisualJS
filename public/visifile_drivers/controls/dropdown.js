@@ -26,7 +26,7 @@ properties(
             id:         "items",
             name:       "Items",
             type:       "Array",
-            default:    [{value: 1, text:"aa"}, {value: 2,text:"bb"}],
+            default:    [],
             editor:     "detail_editor"
         }
         ,
@@ -57,7 +57,7 @@ logo_url("/driver_icons/dropdown.png")
          <input v-model="new_value"></input>
          <input v-model="new_text"></input>
          <div class="btn btn-sm btn-info"
-         v-on:click="items.push({value: new_value, text:new_text})"
+         v-on:click="items.push({value: new_value, text:new_text});new_value='';new_text='';"
          >
             Add
         </div>
