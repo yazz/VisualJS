@@ -1,5 +1,5 @@
 # Yazz
-### Build Windows apps in seconds
+### Reimagining Visual Basic 6 for the web
 
 - An interactive editor to create GUI apps in the style of Visual Basic 6
 - Build business logic in Javascript
