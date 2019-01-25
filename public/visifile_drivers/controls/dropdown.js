@@ -52,6 +52,16 @@ logo_url("/driver_icons/dropdown.png")
 
     <div v-bind:style='"height:100%;width:100%; border: 0px;color:black;"'
          v-if='design_mode == "detail_editor"'>
+
+
+         <input v-model="new_value"></input>
+         <input v-model="new_text"></input>
+         <div class="btn btn-sm btn-info"
+         v-on:click="items.push({value: new_value, text:new_text})"
+         >
+            Add
+        </div>
+
          <div    v-bind:style='"border:1px solid gray; padding: 10px;display:flex;" + ((selected_index==index)?"background-color: lightgray;":"")'
                  v-bind:refresh='refresh'
                  v-for='(child_item,index)  in  items'>
@@ -61,7 +71,11 @@ logo_url("/driver_icons/dropdown.png")
 
                  <div    v-bind:style='"display:inline-block;"'
                          v-if='isValidObject(child_item)'
-                         v-bind:refresh='refresh'>{{child_item.text}}</div>
+                         v-bind:refresh='refresh'>
+
+                         {{child_item.value}}:{{child_item.text}}
+
+                         </div>
 
                  <div    class='btn btn-info'
                          v-bind:refresh='refresh'
@@ -119,7 +133,9 @@ logo_url("/driver_icons/dropdown.png")
        return {
          value:             null,
          selected_index:    null,
-         items:             []
+         items:             [],
+         new_value:         "",
+         new_text:          ""
        }
      }
      ,
