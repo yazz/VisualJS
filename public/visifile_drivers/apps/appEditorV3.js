@@ -123,8 +123,6 @@ load_once_from_file(true)
 
                     <a          v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + base_component_id + ".html"'
                                 download
-                                v-on:mouseover="show_open_app_tooltip = true"
-                                v-on:mouseleave="show_open_app_tooltip = false"
                                 v-bind:style="'float: left;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);'"
                                 type="button"
                                 class="btn">
@@ -147,8 +145,6 @@ load_once_from_file(true)
 
                     <button   v-if='!read_only'
                               v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden')"
-                              v-on:mouseover="show_save_tooltip = true"
-                              v-on:mouseleave="show_save_tooltip = false"
 
                               v-on:click='setTimeout(async function(){await save(base_component_id, code_id,null)},100)'
                               type="button" class="btn">
@@ -172,13 +168,6 @@ load_once_from_file(true)
 
                     </button>
 
-                    <span   v-bind:style='"box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);font-size:24px;z-index: 200003300;  padding: 16px;left: 0px;top:120px;background-color: lightgray;color: black;width: auto;" +
-                            "border-radius: 5px;opacity: 1;position:absolute;visibility: " +
-                            ((show_save_tooltip || show_new_tab_tooltip || show_open_app_tooltip)?"visible":"hidden") + ";font-family: Helvetica;"'>
-                                {{show_new_tab_tooltip?"Open app in new browser tab (shareable :)":""}}
-                                {{show_open_app_tooltip?"Download app as .HTML file (emailable :)":""}}
-                                {{show_save_tooltip?"Save changes":""}}
-                    </span>
 
                 </div>
 
@@ -502,10 +491,7 @@ load_once_from_file(true)
                show_name:           true,
                edit_name:           false,
                new_name:            "",
-               show_new_tab_tooltip:false,
-               editor_text: "",
-               show_open_app_tooltip:false,
-               show_save_tooltip:false
+               editor_text: ""
            }
        }
        ,
