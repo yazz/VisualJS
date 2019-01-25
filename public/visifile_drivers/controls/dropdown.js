@@ -82,7 +82,7 @@ logo_url("/driver_icons/dropdown.png")
                  <div    class='btn btn-danger'
                          v-bind:refresh='refresh'
                          v-if='child_item'
-                         v-on:click=''
+                         v-on:click='items.splice(index, 1);changedFn();'
                          v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 2147483647;opacity:1;"  +
                          "width: 20px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;margin-left: 20px;"'>
                          X
@@ -123,7 +123,7 @@ logo_url("/driver_icons/dropdown.png")
      ,
      watch: {
        // This would be called anytime the value of the input changes
-       refresh(newValue, oldValue) {
+       refresh: function(newValue, oldValue) {
            //console.log("refresh: " + this.args.text)
            if (isValidObject(this.args)) {
                this.value = this.args.value
@@ -133,9 +133,16 @@ logo_url("/driver_icons/dropdown.png")
      }
      ,
      mounted: function() {
+         if (isValidObject(this.args)) {
+             this.items = this.args.items
+             if (isValidObject(this.args.value)) {
+                this.value = this.args.value
+             }
+         }
 
 
-      },
+      }
+      ,
       methods: {
             changedFn: function() {
                 if (isValidObject(this.args)) {
