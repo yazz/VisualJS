@@ -44,18 +44,36 @@ logo_url("/driver_icons/dropdown.png")
 */
 
     Vue.component("dropdown_control",{
-      props: ["args","refresh"]
+      props: ["args","refresh","design_mode"]
       ,
-      template: `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
-                                    "background-color: "+    args["background_color"]  +  ";"'>
+      template:
+`<div   v-bind:style='"width:100%;overflow-y:auto;height:100%"
+        v-bind:refresh='refresh'>
 
-                                    <select
-                                        v-on:change='changedFn'
-                                        v-model='value'>
-                                        <option v-for='opt in args.items'
-                                                v-bind:value='opt.value'>{{opt.text}}</option>
-                                    </select>
-                 </div>`
+    <div v-bind:style='"height:100%;width:100%; border: 0px;color:black;"'
+         v-if='design_mode == "detail_editor"'>
+         Details
+     </div>
+
+    <div v-bind:style='"height:100%;width:100%; border: 0px;" +
+                       "background-color: "+    args["background_color"]  +  ";"'
+         v-if='design_mode != "detail_editor"'>
+
+        <select
+            v-on:change='changedFn'
+            v-model='value'>
+
+            <option v-for='opt in args.items'
+                    v-bind:value='opt.value'>
+                {{opt.text}}
+            </option>
+        </select>
+    </div>
+
+
+
+
+</div>`
       ,
       data: function() {
        return {
