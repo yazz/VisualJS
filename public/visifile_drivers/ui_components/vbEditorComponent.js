@@ -404,8 +404,8 @@ uses_javascript_librararies(["advanced_bundle"])
                                      class='btn btn-danger'
                                      v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 2147483647;opacity:1;position: absolute; "  +
                                         "left: " + ((getLeft(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].width) + 15) + "px;" +
-                                        "top:  " + ((getTop(model.active_form,model.active_component_index)) - 35) +  "px;" +
-                                        "width: 20px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;"'
+                                        "top:  " + ((getTop(model.active_form,model.active_component_index)) - 45) +  "px;" +
+                                        "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
                                      v-on:click='$event.stopPropagation();deleteComponent(model.active_component_index)'>
 
                                     X
@@ -420,7 +420,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                      v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 2147483647;opacity:1;position: absolute; "  +
                                         "left: " + ((getLeft(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].width) + 15) + "px;" +
                                         "top:  " + ((getTop(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].height) + 15) +  "px;" +
-                                        "width: 20px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;"'
+                                        "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
                                      v-on:click='$event.stopPropagation();showComponentDetailedDesignUi(model.active_component_index)'>
 
                                     ...
