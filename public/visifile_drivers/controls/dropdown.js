@@ -49,7 +49,9 @@ logo_url("/driver_icons/dropdown.png")
       template: `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
                                     "background-color: "+    args["background_color"]  +  ";"'>
 
-                                    <select v-model='value'>
+                                    <select
+                                        v-on:change='changedFn'
+                                        v-model='value'>
                                         <option v-for='opt in args.items'
                                                 v-bind:value='opt.value'>{{opt.text}}</option>
                                     </select>
@@ -74,6 +76,14 @@ logo_url("/driver_icons/dropdown.png")
      mounted: function() {
 
 
+      },
+      methods: {
+            changedFn: function() {
+                if (isValidObject(this.args)) {
+                    this.args.value = this.value
+                }
+            }
       }
+
     })
 }
