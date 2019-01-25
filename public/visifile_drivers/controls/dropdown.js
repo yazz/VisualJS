@@ -52,12 +52,12 @@ logo_url("/driver_icons/dropdown.png")
 
     <div v-bind:style='"height:100%;width:100%; border: 0px;color:black;"'
          v-if='design_mode == "detail_editor"'>
-
+         
      </div>
 
     <div v-bind:style='"height:100%;width:100%; border: 0px;" +
                        "background-color: "+    args["background_color"]  +  ";"'
-         v-if='design_mode != "detail_editor"'>
+         v-else>
 
         <select
             v-on:change='changedFn'
