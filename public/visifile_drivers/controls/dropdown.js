@@ -65,6 +65,7 @@ logo_url("/driver_icons/dropdown.png")
 
                  <div    class='btn btn-info'
                          v-bind:refresh='refresh'
+                         v-on:click='var x = items[index];items.splice(index, 1);items.splice(index - 1, 0, x);changedFn();'
                          v-if='child_item'
                          v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 2147483647;opacity:1;"  +
                          "width: 60px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;margin-left: 20px;"'>
@@ -73,6 +74,7 @@ logo_url("/driver_icons/dropdown.png")
                  </div>
                  <div    class='btn btn-info'
                          v-bind:refresh='refresh'
+                         v-on:click='var x = items[index];items.splice(index, 1);items.splice(index + 1, 0, x);changedFn();'
                          v-if='child_item'
                          v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 2147483647;opacity:1;"  +
                          "width: 60px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;margin-left: 20px;"'>
