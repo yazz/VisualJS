@@ -27,7 +27,7 @@ properties(
             name:       "Items",
             type:       "Array",
             default:    [{value: 1, text:"aa"}, {value: 2,text:"bb"}],
-            editor:     "Control"
+            editor:     "detail_editor"
         }
         ,
 
@@ -52,7 +52,7 @@ logo_url("/driver_icons/dropdown.png")
 
     <div v-bind:style='"height:100%;width:100%; border: 0px;color:black;"'
          v-if='design_mode == "detail_editor"'>
-         Details
+
      </div>
 
     <div v-bind:style='"height:100%;width:100%; border: 0px;" +

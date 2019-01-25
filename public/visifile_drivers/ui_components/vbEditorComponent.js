@@ -206,7 +206,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
                     but...
 
-                    Also the main vire of the App
+                    Also the main view of the App
 
             -->
 
@@ -629,6 +629,17 @@ uses_javascript_librararies(["advanced_bundle"])
                                 <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'
                                      v-on:click='selected_pane = "properties";'>
                                     <div v-if='!property.readonly' style="width:100%">
+
+
+                                    <div v-if="(property.editor  == 'detail_editor')  " style="width:100%">
+                                        <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-family:verdana;font-size: 13px;font-style:bold;'
+                                                    v-on:click='$event.stopPropagation();showComponentDetailedDesignUi(model.active_component_index)'
+                                                    >
+                                            ...
+                                        </div>
+                                    </div>
+
+
                                         <div    v-if="(property.type  == 'String')  || (property.type  == 'Number')">
                                             <input
                                                     @change='setVBEditorProperty($event, property)'
