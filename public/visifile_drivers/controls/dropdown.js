@@ -44,12 +44,12 @@ logo_url("/driver_icons/dropdown.png")
 */
 
     Vue.component("dropdown_control",{
-      props: ["args"]
+      props: ["args","refresh"]
       ,
       template: `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
                                     "background-color: "+    args["background_color"]  +  ";"'>
 
-                                    <select>
+                                    <select v-model='value'>
                                         <option v-for='opt in args.items'
                                                 v-bind:value='opt.value'>{{opt.text}}</option>
                                     </select>
@@ -57,7 +57,17 @@ logo_url("/driver_icons/dropdown.png")
       ,
       data: function() {
        return {
-         msg: "..."
+         value: null
+       }
+     }
+     ,
+     watch: {
+       // This would be called anytime the value of the input changes
+       refresh(newValue, oldValue) {
+           //console.log("refresh: " + this.args.text)
+           if (isValidObject(this.args)) {
+               this.value = this.args.value
+           }
        }
      }
      ,

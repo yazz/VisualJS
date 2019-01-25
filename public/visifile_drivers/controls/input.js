@@ -54,7 +54,7 @@ logo_url("/driver_icons/input_box.png")
                  </div>`
       ,
       watch: {
-        // This would be called anytime the value of title changes
+        // This would be called anytime the value of the input changes
         refresh(newValue, oldValue) {
             //console.log("refresh: " + this.args.text)
             if (isValidObject(this.args)) {
