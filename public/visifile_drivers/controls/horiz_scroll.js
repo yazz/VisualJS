@@ -32,7 +32,7 @@ logo_url("/driver_icons/horiz_scroll.png")
       template: `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
                                     "background-color: "+    args["background_color"]  +  ";"'>
 
-                                                {{args.text}}
+                                                <input type="range" min="1" max="100" value="50">
                  </div>`
       ,
       data: function() {
