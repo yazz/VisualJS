@@ -26,7 +26,7 @@ properties(
             id:         "items",
             name:       "Items",
             type:       "Array",
-            default:    [],
+            default:    [{value: 1, text:"aa"}, {value: 2,text:"bb"}],
             editor:     "Control"
         }
         ,
@@ -50,17 +50,20 @@ logo_url("/driver_icons/dropdown.png")
                                     "background-color: "+    args["background_color"]  +  ";"'>
 
                                     <select>
-                                        <option value="volvo">Volvo</option>
-                                        <option value="saab">Saab</option>
-                                        <option value="mercedes">Mercedes</option>
-                                        <option value="audi">Audi</option>
+                                        <option v-for='opt in args.items'
+                                                v-bind:value='opt.value'>{{opt.text}}</option>
                                     </select>
                  </div>`
       ,
       data: function() {
        return {
          msg: "..."
+       }
      }
-      },
+     ,
+     mounted: function() {
+
+
+      }
     })
 }
