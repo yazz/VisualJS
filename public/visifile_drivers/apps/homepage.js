@@ -94,7 +94,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                     v-on:mouseover="$event.stopPropagation();$event.preventDefault();"
                                     v-on:click="$event.stopPropagation();$event.preventDefault();"
                                     v-on:mousedown="$event.stopPropagation();$event.preventDefault();"
-                                    style="opacity:.7;z-index:1000;position:absolute;left:0px;top;0px;color:black;background-color:white;width:100%;height:100%;">
+                                    style="opacity:.7;z-index:2147483647;position:absolute;left:0px;top;0px;color:black;background-color:lightgray;width:100%;height:100%;">
 
                                     <component  id="preview_component2"
                                                 ref="preview_component2"

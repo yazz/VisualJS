@@ -441,7 +441,7 @@ logo_url("/driver_icons/blocks.png")
                             <div     v-if='design_mode && isValidObject(model.active_component_index) && isVisible(model.active_form,model.active_component_index)'
                                      v-bind:refresh='refresh'
                                      class='btn btn-danger'
-                                     v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 2147483647;opacity:1;position: absolute; "  +
+                                     v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 214748364;opacity:1;position: absolute; "  +
                                         "left: " + ((getLeft(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].width) + 15) + "px;" +
                                         "top:  " + ((getTop(model.active_form,model.active_component_index)) - 35) +  "px;" +
                                         "width: 20px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;"'
