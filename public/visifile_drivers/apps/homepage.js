@@ -94,7 +94,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                     v-on:mouseover="$event.stopPropagation();$event.preventDefault();"
                                     v-on:click="$event.stopPropagation();$event.preventDefault();"
                                     v-on:mousedown="$event.stopPropagation();$event.preventDefault();"
-                                    style="opacity:.7;z-index:2147483647;position:absolute;left:0px;top;0px;color:black;background-color:lightgray;width:100%;height:100%;">
+                                    v-on:mouseup="$event.stopPropagation();$event.preventDefault();"
+                                    style="opacity:.7;z-index:2147483647;position:absolute;left:0px;top;0px;color:black;background-color:lightblue;width:100%;height:100%;">
 
                                     <component  id="preview_component2"
                                                 ref="preview_component2"
@@ -105,8 +106,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                     </component>
 
 
-                                    <button style='position:absolute;top:300px;left:20px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:1000;'
-                                            class='btn btn-primary btn-sm'
+                                    <button style='position:absolute;top:300px;left:20px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
+                                            class='btn btn-dark btn-sm'
                                             v-on:click='window.location.href=location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + item.data.id + ".html"'>
                                             <img    src='/driver_icons/play.png'
                                                     style='position:relative;max-width: 40px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
@@ -116,8 +117,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                     </button>
 
 
-                                    <button style='position:absolute;top:300px;left:200px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:1000;'
-                                            class='btn btn-primary btn-sm'
+                                    <button style='position:absolute;top:300px;left:200px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
+                                            class='btn btn-dark btn-sm'
                                             v-on:click='editApp($event,item.data.id)'>
                                             <img    src='/driver_icons/edit.png'
                                                     style='position:relative;max-width: 40px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
