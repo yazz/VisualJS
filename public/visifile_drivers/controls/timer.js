@@ -27,12 +27,15 @@ logo_url("/driver_icons/timer.png")
 */
 
     Vue.component("timer_control",{
-      props: ["args"]
+      props: ["args", "design_mode"]
       ,
       template: `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
                                     "background-color: "+    args["background_color"]  +  ";"'>
 
-                                                {{args.text}}
+                        <img v-if="design_mode"
+                             v-bind:max-width='args.width + "px"'
+                             v-bind:max-height='args.height + "px"'
+                             src="/driver_icons/timer.png"></img>
                  </div>`
       ,
       data: function() {
