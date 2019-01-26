@@ -163,8 +163,6 @@ logo_url("/driver_icons/dropdown.png")
                 this.value = this.args.value
              }
          }
-
-
       }
       ,
       methods: {
@@ -184,10 +182,6 @@ logo_url("/driver_icons/dropdown.png")
                                                 code:                this.args.changed_event
                                             })
             }
-
-
-
-
       }
 
     })

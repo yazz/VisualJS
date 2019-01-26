@@ -27,19 +27,71 @@ logo_url("/driver_icons/horiz_scroll.png")
 */
 
     Vue.component("horiz_scroll_control",{
-      props: ["args","refresh"]
-      ,
-      template: `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
-                                    "background-color: "+    args["background_color"]  +  ";"'>
+        props: ["args","refresh"]
+        ,
 
-                                                <input  type="range" min="1" max="100" value="50"
-                                                        v-bind:style='"width:" + args.width'>
-                 </div>`
-      ,
-      data: function() {
-       return {
-         msg: "..."
-     }
-      },
+
+
+        template:
+
+`<div v-bind:style='"height:100%;width:100%; border: 0px;" +
+                    "background-color: "+    args["background_color"]  +  ";"'>
+
+    <input  type="range"
+            min="1"
+            max="100"
+            value="50"
+            v-bind:style='"width:" + args.width'>
+    </input>
+
+</div>`
+        ,
+
+
+
+
+        data: function() {
+            return {
+                msg:               "...",
+                value:             null
+            }
+        }
+        ,
+        watch: {
+          refresh: function(newValue, oldValue) {
+              if (isValidObject(this.args)) {
+                  this.value = this.args.value
+              }
+          }
+        }
+        ,
+        mounted: function() {
+            if (isValidObject(this.args)) {
+                this.items = this.args.items
+                if (isValidObject(this.args.value)) {
+                   this.value = this.args.value
+                }
+            }
+        }
+        ,
+        methods: {
+              changedFn: function() {
+                  if (isValidObject(this.args)) {
+                      this.args.value = this.value
+                  }
+              }
+              ,
+
+              runEventHandler: function() {
+                  this.$emit('send', {
+                                                  type:               "subcomponent_event",
+                                                  control_name:        this.args.name,
+                                                  sub_type:           "changed",
+                                                  code:                this.args.changed_event
+                                              })
+              }
+        }
+
+
     })
 }
