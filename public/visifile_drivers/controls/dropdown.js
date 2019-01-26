@@ -38,6 +38,12 @@ properties(
             default:    true,
             hidden:     true
         }
+        ,
+        {
+            id:     "changed_event",
+            name:   "Changed event",
+            type:   "Event"
+        }
     ]
 )//properties
 logo_url("/driver_icons/dropdown.png")
@@ -114,7 +120,7 @@ logo_url("/driver_icons/dropdown.png")
          v-else>
 
         <select
-            v-on:change='changedFn'
+            v-on:change='changedFn();runEventHandler()'
             v-model='value'>
 
             <option v-for='opt in args.items'
@@ -168,6 +174,20 @@ logo_url("/driver_icons/dropdown.png")
                     this.args.items = this.items
                 }
             }
+            ,
+
+            runEventHandler: function() {
+                this.$emit('send', {
+                                                type:               "subcomponent_event",
+                                                control_name:        this.args.name,
+                                                sub_type:           "changed",
+                                                code:                this.args.changed_event
+                                            })
+            }
+
+
+
+
       }
 
     })
