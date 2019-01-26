@@ -1079,7 +1079,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
                            if (!isValidObject(newItem[prop])){
                                if (compEvaled[cpp].default) {
-                                   newItem[prop] = compEvaled[cpp].default
+                                   newItem[prop] = JSON.parse(JSON.stringify(compEvaled[cpp].default))
                                } else {
                                    newItem[prop] = ""
                                }
