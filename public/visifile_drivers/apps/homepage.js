@@ -44,8 +44,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             v-bind:refresh='refresh'>
         <h1 style='font-size:100px; text-align: center;margin: 0px;'>
 
-            <button style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:55px;font-weight: bold;'
-                    class='btn btn-dark btn-lg'
+            <button style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 15px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:55px;font-weight: bold;'
+                    class='btn btn-primary btn-lg'
                     v-on:click='copyAndEditApp($event,"vb_blank")'>
                     <img    src='/driver_icons/blocks.png'
                             style='position:relative;max-width: 80px; left:0px; top: 0px;max-height: 80px;margin-left: auto;margin-right: auto;display: inline-block;'
@@ -54,8 +54,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 Create app visually
             </button>
 
-            <button style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:55px;font-weight: bold;'
-            class='btn btn-dark btn-lg'
+            <button style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 15px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:55px;font-weight: bold;'
+            class='btn btn-secondary btn-lg'
                     v-on:click='copyAndEditApp($event,"new")'>
                     <img    src='/driver_icons/terminal.png'
                             style='position:relative;max-width: 80px; left:0px; top: 0px;max-height: 80px;margin-left: auto;margin-right: auto;display: inline-block;'
