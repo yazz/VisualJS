@@ -21,7 +21,13 @@ properties(
             name:   "Background color",
             type:   "String"
         }
-    ]
+        ,
+        {
+            id:     "changed_event",
+            name:   "Changed event",
+            type:   "Event"
+        }
+        ]
 )//properties
 logo_url("/driver_icons/horiz_scroll.png")
 */
@@ -38,9 +44,13 @@ logo_url("/driver_icons/horiz_scroll.png")
                     "background-color: "+    args["background_color"]  +  ";"'>
 
     <input  type="range"
+            v-on:change='changedFn();runEventHandler()'
+            v-on:input='changedFn();runEventHandler()'
+            v-model='value'
             min="1"
             max="100"
             value="50"
+            step="1"
             v-bind:style='"width:" + args.width'>
     </input>
 
