@@ -23,6 +23,12 @@ properties(
         }
         ,
         {
+            id:     "timer_interval",
+            name:   "Interval in ms",
+            type:   "String"
+        }
+        ,
+        {
             id:     "tick_event",
             name:   "Tick event",
             type:   "Event"
@@ -53,14 +59,17 @@ logo_url("/driver_icons/timer.png")
         var mm = this
         if (!mm.design_mode) {
             if (isValidObject(mm.args.tick_event) && (mm.args.tick_event.length > 0)) {
-                appSetInterval(function() {
-                    mm.$emit('send', {
-                                                    type:               "subcomponent_event",
-                                                    control_name:        mm.args.name,
-                                                    sub_type:           "tick",
-                                                    code:                mm.args.tick_event
-                                                })
-                },1000)
+                var interval = parseInt(mm.args.timer_interval)
+                if (isValidObject(mm.args.timer_interval) && ( interval > 0)) {
+                    appSetInterval(function() {
+                        mm.$emit('send', {
+                                                        type:               "subcomponent_event",
+                                                        control_name:        mm.args.name,
+                                                        sub_type:           "tick",
+                                                        code:                mm.args.tick_event
+                                                    })
+                    },interval)
+                }
             }
         }
       }
