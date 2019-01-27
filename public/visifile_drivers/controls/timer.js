@@ -33,8 +33,7 @@ logo_url("/driver_icons/timer.png")
                                     "background-color: "+    args["background_color"]  +  ";"'>
 
                         <img v-if="design_mode"
-                             v-bind:max-width='args.width + "px"'
-                             v-bind:max-height='args.height + "px"'
+                             v-bind:style='"max-width:" + args.width + "px;max-height: " + args.height + "px;"'
                              src="/driver_icons/timer.png"></img>
                  </div>`
       ,
