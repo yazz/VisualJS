@@ -21,6 +21,12 @@ properties(
             name:   "Background color",
             type:   "String"
         }
+        ,
+        {
+            id:     "tick_event",
+            name:   "Tick event",
+            type:   "Event"
+        }
     ]
 )//properties
 logo_url("/driver_icons/timer.png")
@@ -46,10 +52,16 @@ logo_url("/driver_icons/timer.png")
      mounted: function() {
         var mm = this
         if (!mm.design_mode) {
-            appSetInterval(function() {
-                console.log("TIMER")
-                console.log("Timer " + mm.args.name + " called ")
-            },1000)
+            if (isValidObject(mm.args.tick_event) && (mm.args.tick_event.length > 0)) {
+                appSetInterval(function() {
+                    mm.$emit('send', {
+                                                    type:               "subcomponent_event",
+                                                    control_name:        mm.args.name,
+                                                    sub_type:           "tick",
+                                                    code:                mm.args.tick_event
+                                                })
+                },1000)
+            }
         }
       }
     })
