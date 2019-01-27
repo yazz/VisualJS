@@ -38,9 +38,19 @@ logo_url("/driver_icons/timer.png")
                  </div>`
       ,
       data: function() {
-       return {
-         msg: "..."
+         return {
+             msg: "..."
+         }
      }
-      },
+     ,
+     mounted: function() {
+        var mm = this
+        if (!mm.design_mode) {
+            setInterval(function() {
+            console.log("TIMER")
+                console.log("Timer " + mm.args.name + " called ")
+            },1000)
+        }
+      }
     })
 }
