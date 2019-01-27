@@ -9578,6 +9578,21 @@ async function rxsqlFirstCol1(code_id,base_component_id,sqlcode, params) {
         return null
     }
 }
+
+var appIntervalTimers = []
+function appSetInterval(fnn,interval) {
+    var xx = setInterval(fnn,interval)
+    appIntervalTimers.push(xx)
+}
+function appClearIntervals() {
+    for(var i = 0; i < appIntervalTimers.length; i++){
+        clearInterval(appIntervalTimers[i]);
+    }
+    appIntervalTimers = []
+}
+
+
+
 saveHelper = {
 
      insertCodeString: function(code,st, vall ,optionalEnd) {

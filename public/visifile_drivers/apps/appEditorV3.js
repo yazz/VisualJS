@@ -946,7 +946,7 @@ load_once_from_file(true)
                } else {
                     this.editor_text = textIn
                }
-
+               appClearIntervals()
 
                var mm = this
                if (mm.read_only) {

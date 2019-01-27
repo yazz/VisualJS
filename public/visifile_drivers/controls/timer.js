@@ -46,8 +46,8 @@ logo_url("/driver_icons/timer.png")
      mounted: function() {
         var mm = this
         if (!mm.design_mode) {
-            setInterval(function() {
-            console.log("TIMER")
+            appSetInterval(function() {
+                console.log("TIMER")
                 console.log("Timer " + mm.args.name + " called ")
             },1000)
         }
