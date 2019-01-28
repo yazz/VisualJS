@@ -995,6 +995,8 @@ uses_javascript_librararies(["advanced_bundle"])
                                          parentOffsetX,
                                          parentOffsetY)
 
+                      this.highlighted_control = null
+
                  } else {
                      this.selectForm(this.model.active_form, true);
                  }
@@ -1863,6 +1865,7 @@ ${eventMessage.code}
                  var xx = ((ev.clientX  - rrr.left)  - data.offsetX) - parentOffsetX  - 10;
                  var yy = ((ev.clientY  - rrr.top)   - data.offsetY) - parentOffsetY - 10;
                  await mm.addComponent(xx,yy,data, parentId, parentName, parentOffsetX, parentOffsetY)
+                 this.highlighted_control = null
 //zzz
 
              } else if (data.type == "move_component") {
