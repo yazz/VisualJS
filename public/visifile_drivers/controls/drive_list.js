@@ -32,12 +32,23 @@ logo_url("/driver_icons/drive_list.png")
       template: `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
                                     "background-color: "+    args["background_color"]  +  ";"'>
 
-                                                {{args.text}}
+                                    <select
+                                        v-model='value'>
+
+                                        <option v-for='opt in drives'
+                                                v-bind:value='opt.drive'>
+                                            {{opt.drive}}
+                                        </option>
+                                        
+                                    </select>
+
                  </div>`
       ,
       data: function() {
          return {
-             msg: "..."
+            value: null,
+             msg: "...",
+             drives: []
          }
       }
       ,
@@ -49,7 +60,12 @@ logo_url("/driver_icons/drive_list.png")
                                     method_name: "serverDriveList"  }
                                     ,{ })
 
-           alert(JSON.stringify(result.value))
+           if (result.value) {
+                //alert(JSON.stringify(result.value[0].drive))
+                this.drives = result.value
+
+           }
+           //alert(JSON.stringify(result.value))
 
         }
 
