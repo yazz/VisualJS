@@ -27,7 +27,7 @@ logo_url("/driver_icons/drive_list.png")
 */
 
     Vue.component("drive_list_control",{
-      props: ["args"]
+      props: ["args","design_mode"]
       ,
       template: `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
                                     "background-color: "+    args["background_color"]  +  ";"'>
@@ -36,9 +36,24 @@ logo_url("/driver_icons/drive_list.png")
                  </div>`
       ,
       data: function() {
-       return {
-         msg: "..."
-     }
-      },
-    })
+         return {
+             msg: "..."
+         }
+      }
+      ,
+      mounted: async function() {
+        if (!this.design_mode) {
+            callDriverMethod( {driver_name: "serverDriveList",
+                              method_name: "serverDriveList"}
+                             ,
+                             {}
+                       ,
+                       async function(result) {
+                           alert(JSON.stringify(result))
+
+                       })
+        }
+
+    }
+})
 }
