@@ -21,6 +21,12 @@ properties(
             name:   "Background color",
             type:   "String"
         }
+        ,
+        {
+            id:     "changed_event",
+            name:   "Changed event",
+            type:   "Event"
+        }
     ]
 )//properties
 logo_url("/driver_icons/drive_list.png")
@@ -33,13 +39,14 @@ logo_url("/driver_icons/drive_list.png")
                                     "background-color: "+    args["background_color"]  +  ";"'>
 
                                     <select
+                                        v-on:change='changedFn();runEventHandler()'
                                         v-model='value'>
 
                                         <option v-for='opt in drives'
                                                 v-bind:value='opt.drive'>
                                             {{opt.drive}}
                                         </option>
-                                        
+
                                     </select>
 
                  </div>`
@@ -47,7 +54,6 @@ logo_url("/driver_icons/drive_list.png")
       data: function() {
          return {
             value: null,
-             msg: "...",
              drives: []
          }
       }
@@ -61,14 +67,47 @@ logo_url("/driver_icons/drive_list.png")
                                     ,{ })
 
            if (result.value) {
-                //alert(JSON.stringify(result.value[0].drive))
                 this.drives = result.value
 
            }
-           //alert(JSON.stringify(result.value))
+           if (isValidObject(this.args)) {
+               this.items = this.args.items
+               if (isValidObject(this.args.value)) {
+                  this.value = this.args.value
+               }
+           }
 
+           }
+       }
+        ,
+        watch: {
+          // This would be called anytime the value of the input changes
+          refresh: function(newValue, oldValue) {
+              //console.log("refresh: " + this.args.text)
+              if (isValidObject(this.args)) {
+                  this.value = this.args.value
+              }
+          }
         }
+         ,
+         methods: {
+               changedFn: function() {
+                   if (isValidObject(this.args)) {
+                       this.args.value = this.value
+                   }
+               }
+               ,
 
-    }
+               runEventHandler: function() {
+                   this.$emit('send', {
+                                                   type:               "subcomponent_event",
+                                                   control_name:        this.args.name,
+                                                   sub_type:           "changed",
+                                                   code:                this.args.changed_event
+                                               })
+               }
+         }
+
+
 })
 }
