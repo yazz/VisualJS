@@ -43,15 +43,14 @@ logo_url("/driver_icons/drive_list.png")
       ,
       mounted: async function() {
         if (!this.design_mode) {
-            callDriverMethod( {driver_name: "serverDriveList",
-                              method_name: "serverDriveList"}
-                             ,
-                             {}
-                       ,
-                       async function(result) {
-                           alert(JSON.stringify(result))
+            var result = await callFunction(
+                                {
+                                    driver_name: "serverDriveList",
+                                    method_name: "serverDriveList"  }
+                                    ,{ })
 
-                       })
+           alert(JSON.stringify(result.value))
+
         }
 
     }
