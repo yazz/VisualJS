@@ -7,23 +7,15 @@ only_run_on_server(true)
 */
 
 
-    var njds = require('nodejs-disks');
     var promise = new Promise(async function(returnfn) {
 
-        njds.drives(
-            function (err, drives) {
-                njds.drivesDetail(
-                    drives,
-                    function (err, data) {
-                        returnfn(data)
+        var filterFileFn = function (file) {
+          return fs.statSync(args.path+'/'+file).isDirectory();
+        }
 
+        var nert =  fs.readdirSync(args.path).filter(filterFileFn);
+        returnfn(nert)
 
-
-
-                    }
-                );
-            }
-        )
     })
     var ret = await promise
 

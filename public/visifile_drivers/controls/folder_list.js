@@ -23,6 +23,12 @@ properties(
         }
         ,
         {
+            id:     "path",
+            name:   "Path",
+            type:   "String"
+        }
+        ,
+        {
             id:     "changed_event",
             name:   "Changed event",
             type:   "Event"
@@ -40,11 +46,12 @@ logo_url("/driver_icons/folder_list.png")
 
                                     <select
                                         v-on:change='changedFn();runEventHandler()'
+                                        size="15"
                                         v-model='value'>
 
                                         <option v-for='opt in drives'
-                                                v-bind:value='opt.drive'>
-                                            {{opt.drive}}
+                                                v-bind:value='opt'>
+                                            {{opt}}
                                         </option>
 
                                     </select>
@@ -59,12 +66,14 @@ logo_url("/driver_icons/folder_list.png")
       }
       ,
       mounted: async function() {
+        var mm = this
         if (!this.design_mode) {
             var result = await callFunction(
                                 {
-                                    driver_name: "serverDriveList",
-                                    method_name: "serverDriveList"  }
-                                    ,{ })
+                                    driver_name: "serverFolderHierarchyList",
+                                    method_name: "serverFolderHierarchyList"  }
+                                    ,{ path: mm.args.path })
+            //alert(JSON.stringify(result,null,2))
 
            if (result.value) {
                 this.drives = result.value
