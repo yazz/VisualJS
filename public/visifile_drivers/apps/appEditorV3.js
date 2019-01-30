@@ -284,7 +284,7 @@ load_once_from_file(true)
                      <span class='col-md-3'>
                          <input  style=''
                                  type="range" min="1" max="20"
-                                 v-bind:onchange='timelineRefresh()'
+                                 v-bind:onchange='timelineRefresh(false)'
                                  v-model="execution_horiz_scale">
                          </input>
                      </span>
@@ -298,22 +298,31 @@ load_once_from_file(true)
                 </div>
 
 
+
                 <div style='position:relative;background-color: white;'>
+
+
+
+
+
+                
                     <div
+                        v-if="( timeline_x_cursor >= 0 )"
                         v-bind:style='  "position: absolute;pointer-events: none;width: 1px;border: 1px solid gray; top: 0; height:100%;" +"left: " + (timeline_x_cursor + 5)  + "px;" '>
                     </div>
 
-                    <div v-if='timeline_x_cursor <= 200'
+                    <div v-if='(timeline_x_cursor <= 200) && ( timeline_x_cursor >= 0 )'
                          v-bind:style='  "position: absolute;pointer-events: none;width: 100%;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor + 10)  + "px; font-family:verdana;font-size: 13px;" '>
                             {{current_execution_step + 1}} / {{execution_timeline.length}}
                     </div>
 
-                    <div v-if='timeline_x_cursor > 200'
+                    <div v-if='(timeline_x_cursor > 200) && ( timeline_x_cursor >= 0 )'
                          v-bind:style='  "position: absolute;pointer-events: none;width: 100px;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor - 100)  + "px; font-family:verdana;font-size: 13px; text-align:right;" '>
                             {{current_execution_step + 1}} / {{execution_timeline.length}}
                     </div>
 
                     <div
+                        v-if="( timeline_x_cursor >= 0 )"
                         v-bind:style='  "position: absolute;pointer-events: none;height: 1px;border: 1px solid lightgray; left: 0; width:100%;" +"top: " + (timeline_y_cursor + 5)  + "px;" '>
                     </div>
 
@@ -606,10 +615,10 @@ load_once_from_file(true)
                 }
             }
             ,
-            timelineRefresh: function() {
+            timelineRefresh: function(move) {
                 var mm = this
                 setTimeout(function(){
-                    mm.updateTimeline({allowScroll: true})
+                    mm.updateTimeline({allowScroll: move})
                 },200)
             }
             ,
@@ -662,6 +671,7 @@ load_once_from_file(true)
                                 this.timeline_x_cursor = (this.execution_horiz_scale * this.current_execution_step) - elementTimeline.scrollLeft
                             }
                             if ( this.timeline_x_cursor < 0 ) {
+                                //alert(this.timeline_x_cursor)
                                 elementTimeline.scrollLeft = (elementTimeline.scrollLeft + 7) - elementTimeline.offsetWidth
                                 this.timeline_x_cursor = (this.execution_horiz_scale * this.current_execution_step) - elementTimeline.scrollLeft
                             }
