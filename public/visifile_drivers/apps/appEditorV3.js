@@ -278,11 +278,15 @@ load_once_from_file(true)
 
             <div    style='position: absolute;left: 35%; width:30%;display:inline-block;border:5px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;background-color: lightgray; position: relative;padding:0px;margin-left:15px;margin-top:0px;border-radius: 5px;'>
 
-                <div    style='white-space: nowrap;overflow: hidden;text-overflow: ellipsis;font-family:verdana;font-size: 13px;font-weight:bold;border-radius: 5px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white;  padding:4px; margin:0;border-bottom: 3px solid lightgray;padding-left:10px;'>
+                <div    style='white-space: nowrap;overflow: hidden;text-overflow: ellipsis;font-family:verdana;font-size: 13px;font-weight:bold;border-radius: 5px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);padding:4px; margin:0;border-bottom: 3px solid lightgray;padding-left:10px;'>
                      Stepper
+
                      <span class='col-md-3'>
                          <input  style=''
-                                 type="range" min="1" max="20" v-bind:onchange='timelineRefresh()' v-model="execution_horiz_scale"></input>
+                                 type="range" min="1" max="20"
+                                 v-bind:onchange='timelineRefresh()'
+                                 v-model="execution_horiz_scale">
+                         </input>
                      </span>
 
 
@@ -605,7 +609,7 @@ load_once_from_file(true)
             timelineRefresh: function() {
                 var mm = this
                 setTimeout(function(){
-                    mm.updateTimeline()
+                    mm.updateTimeline({allowScroll: true})
                 },200)
             }
             ,
