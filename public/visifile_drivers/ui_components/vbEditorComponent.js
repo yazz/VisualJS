@@ -76,12 +76,12 @@ uses_javascript_librararies(["advanced_bundle"])
                     <div    v-for='av in available_components'
                             draggable="true"
                             class='col-md-6'
-                            v-on:dragstart='highlighted_control = av.base_component_id;drag($event,{
+                            v-on:dragstart='switchCursor($event,"grab","crosshair");highlighted_control = av.base_component_id;drag($event,{
                                                    type:   "add_component",
                                                    text:    av.base_component_id
                                                 })'
                             v-on:click='highlighted_control = av.base_component_id;'
-                            v-bind:style='"cursor: -webkit-grab; cursor: grab;margin: 2px;border-radius: 3px;width:50px;;height: 50px; margin: 0px;border: 0px;padding:10px;overflow-x:auto;overflow-y:hidden;background-color: " + ((highlighted_control == av.base_component_id)?"#E8E8E8;border-left: 2px solid gray;border-top: 2px solid gray;":"lightgray;")'>
+                            v-bind:style='"cursor: grab;margin: 2px;border-radius: 3px;width:50px;;height: 50px; margin: 0px;border: 0px;padding:10px;overflow-x:auto;overflow-y:hidden;background-color: " + ((highlighted_control == av.base_component_id)?"#E8E8E8;border-left: 2px solid gray;border-top: 2px solid gray;":"lightgray;")'>
 
                         <img    v-if='isValidObject(av)'
                                 v-bind:src='av.logo_url'
@@ -954,6 +954,12 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
      methods: {
+     switchCursor: function(event, oldCursor, newCursor) {
+        this.cursorSource = event.target
+        this.cursorSource.style.cursor = newCursor
+        this.oldCursor = oldCursor
+     }
+     ,
      clickOnMainGrid: function(event) {
          if (this.design_mode)
              {
@@ -1837,6 +1843,12 @@ ${eventMessage.code}
              ev.preventDefault();
              var mm = this
 
+             if (this.oldCursor) {
+                    this.cursorSource.style.cursor = this.oldCursor
+                    this.oldCursor = null
+                    this.cursorSource = null
+             }
+
              var data2 = ev.dataTransfer.getData("message");
              var data = eval("(" + data2 + ")")
 
@@ -2593,6 +2605,8 @@ ${eventMessage.code}
      ,
      data: function () {
        return {
+           oldCursor:                   null,
+           cursorSource:                null,
            uid2:                        null,
            vb_grid_element_id:          null,
            vb_editor_element_id:        null,
