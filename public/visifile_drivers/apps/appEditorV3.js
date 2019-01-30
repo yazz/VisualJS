@@ -801,8 +801,8 @@ load_once_from_file(true)
                     this.timeline_editor = null
                 }
 
-                appClearIntervals()
                 if (this.$refs.editor_component_ref) {
+                    appClearIntervals()
                     this.editor_text = await this.$refs.editor_component_ref.getText()
 
                     //
@@ -811,6 +811,10 @@ load_once_from_file(true)
                     // have to make sure that we save it every time we save code
                     //
                     await this.save( this.base_component_id, this.code_id, this.editor_text )
+                    setTimeout(function() {
+                            mm.load_app( mm.base_component_id , true)
+                        },
+                    200)
                 }
             },
 
@@ -848,7 +852,7 @@ load_once_from_file(true)
                 this.app_shown = true
 
                 appClearIntervals()
-                await mm.load_app( this.base_component_id )
+                await mm.load_app( this.base_component_id , true)
 
                 if (this.timeline_editor) {
                     this.timeline_editor.destroy()
@@ -864,11 +868,11 @@ load_once_from_file(true)
                 this.app_width = "0%"
                 this.app_shown = false
 
-                appClearIntervals()
                 if (this.$refs.editor_component_ref && (this.mode=="edit") && (this.sub_mode=="code")) {
+                    appClearIntervals()
                     this.editor_text = await this.$refs.editor_component_ref.getText()
                     await this.save( this.base_component_id, this.code_id, this.editor_text )
-                    await mm.load_app( this.base_component_id )
+                    await mm.load_app( this.base_component_id  , true)
                 }
                 this.mode = "profiler"
 
