@@ -146,8 +146,8 @@ load_once_from_file(true)
                     </a>
 
 
-                    <button   v-if='!read_only'
-                              v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden')"
+                    <button   v-bind:disabled='read_only?"":false'
+                              v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
 
                               v-on:click='setTimeout(async function(){await save(base_component_id, code_id,null)},100)'
                               type="button" class="btn">
