@@ -171,7 +171,7 @@ load_once_from_file(true)
                     <button   v-bind:disabled='read_only?"":false'
                               v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
 
-                              v-on:click='setTimeout(async function(){await save(base_component_id, code_id,null)},100)'
+                              v-on:click='setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null)},100)'
                               type="button" class="btn">
 
                               <svg  version="1.1"
@@ -801,6 +801,7 @@ load_once_from_file(true)
                     this.timeline_editor = null
                 }
 
+                appClearIntervals()
                 if (this.$refs.editor_component_ref) {
                     this.editor_text = await this.$refs.editor_component_ref.getText()
 
@@ -846,6 +847,7 @@ load_once_from_file(true)
                 this.app_width = "33%"
                 this.app_shown = true
 
+                appClearIntervals()
                 await mm.load_app( this.base_component_id )
 
                 if (this.timeline_editor) {
@@ -862,6 +864,7 @@ load_once_from_file(true)
                 this.app_width = "0%"
                 this.app_shown = false
 
+                appClearIntervals()
                 if (this.$refs.editor_component_ref && (this.mode=="edit") && (this.sub_mode=="code")) {
                     this.editor_text = await this.$refs.editor_component_ref.getText()
                     await this.save( this.base_component_id, this.code_id, this.editor_text )
@@ -975,7 +978,6 @@ load_once_from_file(true)
                } else {
                     this.editor_text = textIn
                }
-               appClearIntervals()
 
                var mm = this
                if (mm.read_only) {
