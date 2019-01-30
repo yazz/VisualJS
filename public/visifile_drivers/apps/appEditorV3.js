@@ -24,7 +24,7 @@ load_once_from_file(true)
     {
       props: ['app_id'],
       template:
-`<div style="height: 100%; width:100%;padding:0; margin:0; border: 5px solid lightgray;">
+`<div style="height: 100%; width:100%;padding:0; margin:0; border: 5px solid lightgray;position:relative;">
     <div style='box-shadow: 2px 2px 10px lightgray;background-image: linear-gradient(to right,  #000099, lightblue); color: white;padding: 7px; padding-left: 15px;display: block;overflow: auto;'>
         <img
             src='/driver_icons/project.png'
@@ -110,6 +110,14 @@ load_once_from_file(true)
         </span>
     </div>
 
+
+
+
+
+
+    <div style='position:absolute;bottom:0px;width:100%;box-shadow: 2px 2px 10px lightgray; color: black;padding: 7px; padding-left: 15px;display: block;overflow: auto;background-color: lightgray;z-index:21474836;'>
+        Status bar
+    </div>
 
 
     <div v-if='mode == "embed"'>
