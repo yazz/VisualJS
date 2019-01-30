@@ -305,7 +305,7 @@ load_once_from_file(true)
 
 
 
-                
+
                     <div
                         v-if="( timeline_x_cursor >= 0 )"
                         v-bind:style='  "position: absolute;pointer-events: none;width: 1px;border: 1px solid gray; top: 0; height:100%;" +"left: " + (timeline_x_cursor + 5)  + "px;" '>
@@ -493,8 +493,8 @@ load_once_from_file(true)
                selected_app:        '',
                is_ui_app:           true,
                editor_component:    null,
-               right_mode:          "watches",
-               selected_pane:       "watches",
+               right_mode:          "scope",
+               selected_pane:       "scope",
                execution_timeline:  null,
                execution_horiz_scale: 3,
                y_step: 30,
