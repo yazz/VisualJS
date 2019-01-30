@@ -77,7 +77,7 @@ uses_javascript_librararies(["advanced_bundle"])
                             draggable="true"
                             class='col-md-6'
                             v-on:dragend='dragEnd()'
-                            v-on:dragstart='switchCursor($event,"grab","crosshair");highlighted_control = av.base_component_id;drag($event,{
+                            v-on:dragstart='switchCursor($event,"grab","grabbing");highlighted_control = av.base_component_id;drag($event,{
                                                    type:   "add_component",
                                                    text:    av.base_component_id
                                                 })'
@@ -250,9 +250,10 @@ uses_javascript_librararies(["advanced_bundle"])
                     <!-- ACTIVE FORM RESIZERS -->
                     <!-- bottom right -->
                     <div    v-if='design_mode && (!isValidObject(model.active_component_index))'
+                            v-on:dragend='dragEnd()'
                             v-bind:style='"cursor: nwse-resize;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (15 +model.forms[model.active_form].width) +  "px;top:" + (15 + (model.forms[model.active_form].height)) +  "px;"'
                             v-bind:draggable='true'
-                            v-on:dragstart='drag($event,{
+                            v-on:dragstart='switchCursor($event,"nwse-resize","move");drag($event,{
                                type:        "resize_form_bottom_right",
                                form_name:    model.active_form
                             })'
