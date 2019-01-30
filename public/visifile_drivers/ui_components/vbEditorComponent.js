@@ -76,6 +76,7 @@ uses_javascript_librararies(["advanced_bundle"])
                     <div    v-for='av in available_components'
                             draggable="true"
                             class='col-md-6'
+                            v-on:dragend='dragEnd()'
                             v-on:dragstart='switchCursor($event,"grab","crosshair");highlighted_control = av.base_component_id;drag($event,{
                                                    type:   "add_component",
                                                    text:    av.base_component_id
@@ -954,6 +955,14 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
      methods: {
+     dragEnd: function() {
+         if (this.oldCursor) {
+                this.cursorSource.style.cursor = this.oldCursor
+                this.oldCursor = null
+                this.cursorSource = null
+         }
+     }
+     ,
      switchCursor: function(event, oldCursor, newCursor) {
         this.cursorSource = event.target
         this.cursorSource.style.cursor = newCursor
