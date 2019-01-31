@@ -115,7 +115,7 @@ load_once_from_file(true)
 
 
 
-    <div style='position:absolute;bottom:0px;width:100%;box-shadow: 2px 2px 10px lightgray; color: black;padding: 7px; padding-left: 15px;display: block;overflow: auto;background-color: lightgray;z-index:21474836;'>
+    <div style='position:absolute;bottom:-5px;width:100%;box-shadow: 2px 2px 10px lightgray; color: black;padding: 7px; padding-left: 15px;display: block;overflow: auto;background-color: lightgray;z-index:21474836;'>
         Status bar
     </div>
 
