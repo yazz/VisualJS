@@ -76,7 +76,7 @@ uses_javascript_librararies(["advanced_bundle"])
                     <div    v-for='av in available_components'
                             draggable="true"
                             class='col-md-6'
-                            v-on:dragend='dragEnd()'
+                            v-on:dragend='deleteCursor()'
                             v-on:dragstart='switchCursor($event,"grab","grabbing");highlighted_control = av.base_component_id;drag($event,{
                                                    type:   "add_component",
                                                    text:    av.base_component_id
@@ -250,7 +250,7 @@ uses_javascript_librararies(["advanced_bundle"])
                     <!-- ACTIVE FORM RESIZERS -->
                     <!-- bottom right -->
                     <div    v-if='design_mode && (!isValidObject(model.active_component_index))'
-                            v-on:dragend='$event.stopPropagation();dragEnd();'
+                            v-on:dragend='$event.stopPropagation();deleteCursor();'
                             v-bind:style='"cursor: nwse-resize;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (15 +model.forms[model.active_form].width) +  "px;top:" + (15 + (model.forms[model.active_form].height)) +  "px;"'
                             v-bind:draggable='true'
                             v-on:dragstart='$event.stopPropagation();switchCursor($event,"nwse-resize","se-resize");drag($event,{
@@ -263,7 +263,7 @@ uses_javascript_librararies(["advanced_bundle"])
                     <div    v-if='design_mode && (!isValidObject(model.active_component_index))'
                             v-bind:style='"cursor: ew-resize;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (15 +model.forms[model.active_form].width) +  "px;top:" + (7 + (model.forms[model.active_form].height/2)) +  "px;"'
                             v-bind:draggable='true'
-                            v-on:dragend='$event.stopPropagation();dragEnd()'
+                            v-on:dragend='$event.stopPropagation();deleteCursor()'
                             v-on:dragstart='$event.stopPropagation();switchCursor($event,"ew-resize","col-resize");drag($event,{
                                type:        "resize_form_right",
                                form_name:    model.active_form
@@ -274,7 +274,7 @@ uses_javascript_librararies(["advanced_bundle"])
                     <div    v-if='design_mode && (!isValidObject(model.active_component_index))'
                             v-bind:style='"cursor: ns-resize;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (7 +model.forms[model.active_form].width/2) +  "px;top:" + (15 + (model.forms[model.active_form].height)) +  "px;"'
                             v-bind:draggable='true'
-                            v-on:dragend='$event.stopPropagation();dragEnd()'
+                            v-on:dragend='$event.stopPropagation();deleteCursor()'
                             v-on:dragstart='$event.stopPropagation();switchCursor($event,"ns-resize","row-resize");drag($event,{
                                type:        "resize_form_bottom",
                                form_name:    model.active_form
@@ -958,22 +958,31 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
      methods: {
-     dragEnd: function() {
+     deleteCursor: function() {
          if (this.oldCursor) {
                 this.cursorSource.style.cursor = this.oldCursor
                 this.oldCursor = null
                 this.cursorSource = null
+                this.newCursor = null
          }
      }
      ,
      switchCursor: function(event, oldCursor, newCursor) {
         var mm = this
 
-        mm.dragEnd()
-
         mm.cursorSource              = event.target
         mm.cursorSource.style.cursor = newCursor
+        mm.newCursor                 = newCursor
         mm.oldCursor                 = oldCursor
+
+     }
+     ,
+     maintainCursor: function(event) {
+        var mm = this
+
+        if (mm.newCursor) {
+            mm.cursorSource.style.cursor = mm.newCursor
+        }
 
      }
      ,
@@ -2622,6 +2631,7 @@ ${eventMessage.code}
      ,
      data: function () {
        return {
+           newCursor:                   null,
            oldCursor:                   null,
            cursorSource:                null,
            uid2:                        null,
