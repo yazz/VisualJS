@@ -250,10 +250,10 @@ uses_javascript_librararies(["advanced_bundle"])
                     <!-- ACTIVE FORM RESIZERS -->
                     <!-- bottom right -->
                     <div    v-if='design_mode && (!isValidObject(model.active_component_index))'
-                            v-on:dragend='dragEnd()'
+                            v-on:dragend='$event.stopPropagation();dragEnd();'
                             v-bind:style='"cursor: nwse-resize;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (15 +model.forms[model.active_form].width) +  "px;top:" + (15 + (model.forms[model.active_form].height)) +  "px;"'
                             v-bind:draggable='true'
-                            v-on:dragstart='switchCursor($event,"nwse-resize","se-resize");drag($event,{
+                            v-on:dragstart='$event.stopPropagation();switchCursor($event,"nwse-resize","se-resize");drag($event,{
                                type:        "resize_form_bottom_right",
                                form_name:    model.active_form
                             })'
@@ -263,8 +263,8 @@ uses_javascript_librararies(["advanced_bundle"])
                     <div    v-if='design_mode && (!isValidObject(model.active_component_index))'
                             v-bind:style='"cursor: ew-resize;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (15 +model.forms[model.active_form].width) +  "px;top:" + (7 + (model.forms[model.active_form].height/2)) +  "px;"'
                             v-bind:draggable='true'
-                            v-on:dragend='dragEnd()'
-                            v-on:dragstart='switchCursor($event,"ew-resize","col-resize");drag($event,{
+                            v-on:dragend='$event.stopPropagation();dragEnd()'
+                            v-on:dragstart='$event.stopPropagation();switchCursor($event,"ew-resize","col-resize");drag($event,{
                                type:        "resize_form_right",
                                form_name:    model.active_form
                             })'
@@ -274,8 +274,8 @@ uses_javascript_librararies(["advanced_bundle"])
                     <div    v-if='design_mode && (!isValidObject(model.active_component_index))'
                             v-bind:style='"cursor: ns-resize;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (7 +model.forms[model.active_form].width/2) +  "px;top:" + (15 + (model.forms[model.active_form].height)) +  "px;"'
                             v-bind:draggable='true'
-                            v-on:dragend='dragEnd()'
-                            v-on:dragstart='switchCursor($event,"ns-resize","row-resize");drag($event,{
+                            v-on:dragend='$event.stopPropagation();dragEnd()'
+                            v-on:dragstart='$event.stopPropagation();switchCursor($event,"ns-resize","row-resize");drag($event,{
                                type:        "resize_form_bottom",
                                form_name:    model.active_form
                             })'
