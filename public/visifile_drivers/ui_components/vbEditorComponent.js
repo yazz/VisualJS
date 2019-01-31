@@ -39,8 +39,8 @@ uses_javascript_librararies(["advanced_bundle"])
 
     <div    v-bind:id='vb_editor_element_id' v-if='vb_editor_element_id != null'
             style='position:relative;display: flex;'
-            v-on:drop="dropEditor($event)"
-            v-on:ondragover="allowDropEditor($event)">
+            v-on:drop="$event.stopPropagation(); dropEditor($event)"
+            v-on:ondragover="$event.stopPropagation();maintainCursor(); allowDropEditor($event)">
 
 
 
@@ -288,7 +288,7 @@ uses_javascript_librararies(["advanced_bundle"])
                     <div            v-bind:id='vb_grid_element_id'  v-if='vb_grid_element_id != null'
                                     v-on:drop="drop($event)"
                                     v-bind:refresh='refresh'
-                                    v-on:ondragover="allowDrop($event)"
+                                    v-on:ondragover="$event.stopPropagation();maintainCursor();allowDrop($event)"
                                     v-bind:class='(design_mode?"dotted":"" )'
                                     v-on:click='clickOnMainGrid($event)'
                                     v-bind:style='"position:absolute;display: inline-block; vertical-align: top; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"left:15px;top:15px;border: 4px solid lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);":"border: 0px;" ) '>
@@ -305,7 +305,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                         ((getTop(model.active_form,model.active_component_index)) - 15) +  "px;"'
                                     v-bind:draggable='true'
 
-                                    v-on:dragstart='drag($event,{
+                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"nwse-resize","nw-resize");drag($event,{
                                        type:   "resize_top_left",
                                        text:    model.forms[model.active_form].components[model.active_component_index].base_component_id,
                                        index:   model.active_component_index
@@ -318,7 +318,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                         ((getLeft(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].width/2) - 7) +  "px;top:" +
                                         ((getTop(model.active_form,model.active_component_index)) - 15) +  "px;"'
                                     v-bind:draggable='true'
-                                    v-on:dragstart='drag($event,{
+                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"ns-resize","row-resize");drag($event,{
                                                                 type:   "resize_top",
                                                                 text:    model.forms[model.active_form].components[model.active_component_index].base_component_id,
                                                                 index:   model.active_component_index
@@ -330,7 +330,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                         ((getLeft(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].width) ) +  "px;top:" +
                                         ((getTop(model.active_form,model.active_component_index)) - 15) +  "px;"'
                                         v-bind:draggable='true'
-                                        v-on:dragstart='drag($event,{
+                                        v-on:dragstart='$event.stopPropagation();switchCursor($event,"nesw-resize","ne-resize");drag($event,{
                                            type:   "resize_top_right",
                                            text:    model.forms[model.active_form].components[model.active_component_index].base_component_id,
                                            index:   model.active_component_index
@@ -343,7 +343,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                         ((getLeft(model.active_form,model.active_component_index)) - 15) +  "px;top:" +
                                         ((getTop(model.active_form,model.active_component_index)) + ((model.forms[model.active_form].components[model.active_component_index].height / 2)) - 7) +  "px;"'
                                     v-bind:draggable='true'
-                                    v-on:dragstart='drag($event,{
+                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"ew-resize","col-resize");drag($event,{
                                                                 type:   "resize_left",
                                                                 text:    model.forms[model.active_form].components[model.active_component_index].base_component_id,
                                                                 index:   model.active_component_index
@@ -355,7 +355,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                         ((getLeft(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].width)) +  "px;top:" +
                                         ((getTop(model.active_form,model.active_component_index)) + ((model.forms[model.active_form].components[model.active_component_index].height / 2)) - 7) +  "px;"'
                                     v-bind:draggable='true'
-                                    v-on:dragstart='drag($event,{
+                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"ew-resize","col-resize");drag($event,{
                                                                 type:   "resize_right",
                                                                 text:    model.forms[model.active_form].components[model.active_component_index].base_component_id,
                                                                 index:   model.active_component_index
@@ -367,7 +367,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                         ((getLeft(model.active_form,model.active_component_index)) - 15) +  "px;top:" +
                                         ((getTop(model.active_form,model.active_component_index)) + ((model.forms[model.active_form].components[model.active_component_index].height)) + 2) +  "px;"'
                                         v-bind:draggable='true'
-                                        v-on:dragstart='drag($event,{
+                                        v-on:dragstart='$event.stopPropagation();switchCursor($event,"nesw-resize","sw-resize");drag($event,{
                                                                     type:   "resize_bottom_left",
                                                                     text:    model.forms[model.active_form].components[model.active_component_index].base_component_id,
                                                                     index:   model.active_component_index
@@ -379,7 +379,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                         ((getLeft(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].width/2) - 7) +  "px;top:" +
                                         ((getTop(model.active_form,model.active_component_index)) + ((model.forms[model.active_form].components[model.active_component_index].height)) + 2) +  "px;"'
                                     v-bind:draggable='true'
-                                    v-on:dragstart='drag($event,{
+                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"ns-resize","row-resize");drag($event,{
                                                                 type:   "resize_bottom",
                                                                 text:    model.forms[model.active_form].components[model.active_component_index].base_component_id,
                                                                 index:   model.active_component_index
@@ -392,7 +392,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                         ((getLeft(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].width) ) +  "px;top:" +
                                         ((getTop(model.active_form,model.active_component_index)) + ((model.forms[model.active_form].components[model.active_component_index].height)) + 2) +  "px;"'
                                     v-bind:draggable='true'
-                                    v-on:dragstart='drag($event,{
+                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"nwse-resize","se-resize");drag($event,{
                                                                    type:   "resize_bottom_right",
                                                                    text:    model.forms[model.active_form].components[model.active_component_index].base_component_id,
                                                                    index:   model.active_component_index
@@ -977,7 +977,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
      }
      ,
-     maintainCursor: function(event) {
+     maintainCursor: function() {
         var mm = this
 
         if (mm.newCursor) {
