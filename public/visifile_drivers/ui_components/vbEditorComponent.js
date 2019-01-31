@@ -40,7 +40,7 @@ uses_javascript_librararies(["advanced_bundle"])
     <div    v-bind:id='vb_editor_element_id' v-if='vb_editor_element_id != null'
             style='position:relative;display: flex;'
             v-on:drop="$event.stopPropagation(); dropEditor($event)"
-            v-on:ondragover="$event.stopPropagation();maintainCursor(); allowDropEditor($event)">
+            v-on:dragover="$event.stopPropagation();maintainCursor(); allowDropEditor($event)">
 
 
 
@@ -76,8 +76,8 @@ uses_javascript_librararies(["advanced_bundle"])
                     <div    v-for='av in available_components'
                             draggable="true"
                             class='col-md-6'
-                            v-on:dragend='deleteCursor()'
-                            v-on:dragstart='switchCursor($event,"grab","grabbing");highlighted_control = av.base_component_id;drag($event,{
+                            v-on:dragend='$event.stopPropagation();deleteCursor()'
+                            v-on:dragstart='$event.stopPropagation();switchCursor($event,"grab","grabbing");highlighted_control = av.base_component_id;drag($event,{
                                                    type:   "add_component",
                                                    text:    av.base_component_id
                                                 })'
@@ -479,11 +479,11 @@ uses_javascript_librararies(["advanced_bundle"])
                                         v-bind:draggable='design_mode'
                                         v-if='design_mode && isVisible(model.active_form,index)'
                                         ondrop="return false;"
-                                        v-on:dragstart='drag($event,{
-                                           type:   "move_component",
-                                           text:    item.base_component_id,
-                                           index:   index
-                                        })'>
+                                        v-on:dragstart='$event.stopPropagation();drag($event,{
+                                                                                       type:   "move_component",
+                                                                                       text:    item.base_component_id,
+                                                                                       index:   index
+                                                                                    })'>
 
                                     <div    v-if='design_mode && isVisible(model.active_form,index)'
                                             ondrop="return false;"
