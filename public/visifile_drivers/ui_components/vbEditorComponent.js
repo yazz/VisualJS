@@ -66,7 +66,7 @@ uses_javascript_librararies(["advanced_bundle"])
                 <div class='row'>
                     <div    class='col-md-6'
                             v-on:click='highlighted_control = null;'
-                            v-bind:style='"cursor: -webkit-grab; cursor: grab;border-radius: 3px;width:50px;height:50px; margin: 0px;border: 0px;padding:4px;overflow-x:hidden;overflow-y:hidden;background-color: " + ((!highlighted_control)?"#E8E8E8;border-left: 2px solid gray;border-top: 2px solid gray;":"lightgray;")'>
+                            v-bind:style='"cursor: grab;border-radius: 3px;width:50px;height:50px; margin: 0px;border: 0px;padding:4px;overflow-x:hidden;overflow-y:hidden;background-color: " + ((!highlighted_control)?"#E8E8E8;border-left: 2px solid gray;border-top: 2px solid gray;":"lightgray;")'>
                         <img    src='/driver_icons/cursor.png'
                                 style='width: 100%;'
                                 class='img-fluid'>
@@ -253,7 +253,7 @@ uses_javascript_librararies(["advanced_bundle"])
                             v-on:dragend='dragEnd()'
                             v-bind:style='"cursor: nwse-resize;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (15 +model.forms[model.active_form].width) +  "px;top:" + (15 + (model.forms[model.active_form].height)) +  "px;"'
                             v-bind:draggable='true'
-                            v-on:dragstart='switchCursor($event,"nwse-resize","move");drag($event,{
+                            v-on:dragstart='switchCursor($event,"nwse-resize","se-resize");drag($event,{
                                type:        "resize_form_bottom_right",
                                form_name:    model.active_form
                             })'
@@ -263,7 +263,8 @@ uses_javascript_librararies(["advanced_bundle"])
                     <div    v-if='design_mode && (!isValidObject(model.active_component_index))'
                             v-bind:style='"cursor: ew-resize;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (15 +model.forms[model.active_form].width) +  "px;top:" + (7 + (model.forms[model.active_form].height/2)) +  "px;"'
                             v-bind:draggable='true'
-                            v-on:dragstart='drag($event,{
+                            v-on:dragend='dragEnd()'
+                            v-on:dragstart='switchCursor($event,"ew-resize","col-resize");drag($event,{
                                type:        "resize_form_right",
                                form_name:    model.active_form
                             })'
@@ -273,7 +274,8 @@ uses_javascript_librararies(["advanced_bundle"])
                     <div    v-if='design_mode && (!isValidObject(model.active_component_index))'
                             v-bind:style='"cursor: ns-resize;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (7 +model.forms[model.active_form].width/2) +  "px;top:" + (15 + (model.forms[model.active_form].height)) +  "px;"'
                             v-bind:draggable='true'
-                            v-on:dragstart='drag($event,{
+                            v-on:dragend='dragEnd()'
+                            v-on:dragstart='switchCursor($event,"ns-resize","row-resize");drag($event,{
                                type:        "resize_form_bottom",
                                form_name:    model.active_form
                             })'
@@ -965,9 +967,14 @@ uses_javascript_librararies(["advanced_bundle"])
      }
      ,
      switchCursor: function(event, oldCursor, newCursor) {
-        this.cursorSource = event.target
-        this.cursorSource.style.cursor = newCursor
-        this.oldCursor = oldCursor
+        var mm = this
+
+        mm.dragEnd()
+
+        mm.cursorSource              = event.target
+        mm.cursorSource.style.cursor = newCursor
+        mm.oldCursor                 = oldCursor
+
      }
      ,
      clickOnMainGrid: function(event) {
