@@ -40,7 +40,7 @@ uses_javascript_librararies(["advanced_bundle"])
     <div    v-bind:id='vb_editor_element_id' v-if='vb_editor_element_id != null'
             style='position:relative;display: flex;'
             v-on:drop="$event.stopPropagation(); dropEditor($event)"
-            v-on:dragover="$event.stopPropagation();maintainCursor(); allowDropEditor($event)">
+            v-on:ondragover="$event.stopPropagation();maintainCursor(); allowDropEditor($event)">
 
 
 
@@ -228,7 +228,8 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
 
-                <div style='width:100%;background-color:white;height: 100%;position:relative;'>
+                <div  drop-target=false
+                      style='width:100%;background-color:white;height: 100%;position:relative;'>
 
                     <!-- INACTIVE FORM RESIZERS -->
                     <div    v-if='design_mode && (!isValidObject(model.active_component_index))'
