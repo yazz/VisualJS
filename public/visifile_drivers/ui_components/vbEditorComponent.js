@@ -890,8 +890,13 @@ uses_javascript_librararies(["advanced_bundle"])
                             if (isValidObject(compEvaled)) {
                                 for (var cpp = 0 ; cpp< compEvaled.length; cpp ++){
                                     var prop = compEvaled[cpp].id
+                                    
                                     if (!isValidObject(this.model.forms[formName].components[rtw][prop])){
-                                        this.model.forms[formName].components[rtw][prop] = ""
+                                        if (compEvaled[cpp].type == "Action") {
+                                            this.model.forms[formName].components[rtw][prop] = function() {alert(1)}
+                                        } else {
+                                            this.model.forms[formName].components[rtw][prop] = ""
+                                        }
                                     }
                                 }
                             }

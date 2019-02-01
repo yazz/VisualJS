@@ -21,6 +21,12 @@ properties(
             name:   "Background color",
             type:   "String"
         }
+        ,
+        {
+            id:     "setText",
+            name:   "setText",
+            type:   "Action"
+        }
     ]
 )//properties
 logo_url("/driver_icons/text_control.png")
