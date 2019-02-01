@@ -115,7 +115,7 @@ load_once_from_file(true)
 
 
 
-    <div style='position:absolute;bottom:-5px;width:100%;box-shadow: 2px 2px 10px lightgray; color: black;padding: 7px; padding-left: 15px;display: block;overflow: auto;background-color: lightgray;z-index:21474836;text-align: center;height: 30px; font-size:16px;'>
+    <div style='position:absolute;bottom:-5px;width:100%;box-shadow: 2px 2px 10px lightgray; color: black;padding: 0px; padding-left: 15px;display: block;overflow: auto;background-color: lightgray;z-index:21474836;text-align: center;height: 30px; font-size:16px;vertical-align: middle;line-height: 30px; '>
         {{info_text?info_text:""}}
     </div>
 
@@ -135,8 +135,10 @@ load_once_from_file(true)
                     <a          v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + base_component_id + ".html"'
                                 download
                                 v-bind:style="'float: left;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); background-color:white;'"
+                                v-on:mouseenter='setInfo("Download a fully self contained runnable HTML file of this app")'
+                                v-on:mouseleave='setInfo(null)'
                                 type="button"
-                                class="btn">
+                                class="btn btn-light">
 
                                 <svg    xmlns="http://www.w3.org/2000/svg"
                                         xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -156,7 +158,9 @@ load_once_from_file(true)
 
                     <button   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                               v-on:click='setTimeout(function(){copyAppMethod(base_component_id, null)},100)'
-                              type="button" class="btn">
+                              v-on:mouseenter='setInfo("Make an editable copy of this app")'
+                              v-on:mouseleave='setInfo(null)'
+                              type="button" class="btn btn-light">
 
                               <svg  version="1.1"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -181,7 +185,7 @@ load_once_from_file(true)
                               v-on:mouseenter='setInfo("Save the changes made in the UI and reload the app")'
                               v-on:mouseleave='setInfo(null)'
                               v-on:click='setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null)},100)'
-                              type="button" class="btn">
+                              type="button" class="btn btn-light">
 
                               <svg  version="1.1"
                                     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
