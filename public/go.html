@@ -7997,13 +7997,16 @@ li {
 
 .loader {
     margin: auto;
-    margin-top:100px;
+    margin-top:25vh;
     border: 26px solid #f3f3f3; /* Light grey */
     border-top: 26px solid #3498db; /* Blue */
-    border-radius: 50%;
-    width: 240px;
-    height: 240px;
+    border-radius: 100%;
+    width: 14vw;
+    position:absolute;
+    left:43vw;
+    height: 14vw;
     animation: spin2 2s linear infinite;
+    z-index: 21474836;
 }
 
 @keyframes spin2 {
@@ -8187,6 +8190,13 @@ e%a.config.pagination?a.items.slice(e,e+a.config.pagination):null}).filter(funct
         <div    id='infinite-list'
                 style='overflow-y: none;' >
 
+
+
+            <div    v-if="show_loader"
+                    v-bind:style='show_loader?"":"display:none;"'
+                    class="loader">
+            </div>
+
             <div  v-if='local_app && (!is_gui_app)'  style="background-color: black; color: white; text-align: center;"
                 v-on:click='setupPublicWebSocket()' v-if='local_app'>Edit this app</div>
             <div v-if='!is_gui_app' style="padding:10px;"><pre id="console_id" style="color: white;">{{console_output}}</pre></div>
@@ -8208,7 +8218,6 @@ e%a.config.pagination?a.items.slice(e,e+a.config.pagination):null}).filter(funct
 
 
 
-<div v-if="show_loader" class="loader"></div>
 
 
 
