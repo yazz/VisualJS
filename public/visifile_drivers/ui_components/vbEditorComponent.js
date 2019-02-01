@@ -1068,8 +1068,8 @@ uses_javascript_librararies(["advanced_bundle"])
             var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
 
        //alert(parentId +": = (" + parentOffsetX + "," + parentOffsetY + ")")
-            newItem.leftX = leftX
-            newItem.topY = topY
+            newItem.leftX = Math.floor(leftX)
+            newItem.topY = Math.floor(topY)
             if (newItem.leftX < 0) {
                newItem.leftX = 0
             }
@@ -1091,11 +1091,11 @@ uses_javascript_librararies(["advanced_bundle"])
 
             if ((newItem.leftX + newItem.width)
                     > this.model.forms[this.model.active_form].width) {
-                newItem.leftX = this.model.forms[this.model.active_form].width - newItem.width
+                newItem.leftX = Math.floor(this.model.forms[this.model.active_form].width - newItem.width)
             }
             if ((newItem.topY + newItem.height)
                     > this.model.forms[this.model.active_form].height) {
-                newItem.topY = this.model.forms[this.model.active_form].height - newItem.height
+                newItem.topY = Math.floor(this.model.forms[this.model.active_form].height - newItem.height)
             }
 
 
