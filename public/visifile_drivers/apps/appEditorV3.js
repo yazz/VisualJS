@@ -817,6 +817,7 @@ load_once_from_file(true)
             // This is called when the end user selects "app"
             // ---------------------------------------------------------------
             chooseApp: async function() {
+                showProgressBar()
                 var mm = this
                 this.code_width = "0%"
                 this.code_shown = false
@@ -842,8 +843,9 @@ load_once_from_file(true)
                     // have to make sure that we save it every time we save code
                     //
                     await this.save( this.base_component_id, this.code_id, this.editor_text )
-                    setTimeout(function() {
-                            mm.load_app( mm.base_component_id , true)
+                    setTimeout(async function() {
+                            await mm.load_app( mm.base_component_id , true)
+                            showProgressBar()
                         },
                     200)
                 }
@@ -872,6 +874,7 @@ load_once_from_file(true)
 
 
             chooseBoth: async function() {
+                showProgressBar()
                 var mm = this
                 this.mode      = "edit"
                 this.sub_mode  = "both"
@@ -889,6 +892,7 @@ load_once_from_file(true)
                     this.timeline_editor.destroy()
                     this.timeline_editor = null
                 }
+                hideProgressBar()
             },
 
             chooseProfiler: async function() {
@@ -1193,8 +1197,8 @@ load_once_from_file(true)
                                             mm.console_output += arguments[a] + " "
                                         }
                                         mm.console_output +=
-    `
-    `
+`
+`
                                     }
                                 }
 
