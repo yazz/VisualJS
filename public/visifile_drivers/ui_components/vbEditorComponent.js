@@ -1780,6 +1780,14 @@ ${eventMessage.code}
                 }
           },
 
+          setInfo: function(text) {
+              this.$root.$emit('message', {
+                  type:   "set_info_text",
+                  text:    text
+              })
+          },
+
+
          //-------------------------------------------------------------------
          allowDrop: function(ev) {
          //-------------------------------------------------------------------

@@ -115,8 +115,8 @@ load_once_from_file(true)
 
 
 
-    <div style='position:absolute;bottom:-5px;width:100%;box-shadow: 2px 2px 10px lightgray; color: black;padding: 7px; padding-left: 15px;display: block;overflow: auto;background-color: lightgray;z-index:21474836;'>
-        Status bar
+    <div style='position:absolute;bottom:-5px;width:100%;box-shadow: 2px 2px 10px lightgray; color: black;padding: 7px; padding-left: 15px;display: block;overflow: auto;background-color: lightgray;z-index:21474836;text-align: center;height: 30px; font-size:16px;'>
+        {{info_text?info_text:""}}
     </div>
 
 
@@ -178,7 +178,8 @@ load_once_from_file(true)
 
                     <button   v-bind:disabled='read_only?"":false'
                               v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
-
+                              v-on:mouseenter='setInfo("Save the changes made in the UI and reload the app")'
+                              v-on:mouseleave='setInfo(null)'
                               v-on:click='setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null)},100)'
                               type="button" class="btn">
 
@@ -496,6 +497,7 @@ load_once_from_file(true)
        ,
        data: function() {
            return {
+               info_text:           null,
                editor_loaded:       false,
                console_output:      "",
                selected_app:        '',
@@ -543,6 +545,13 @@ load_once_from_file(true)
        ,
 
        methods: {
+
+           setInfo: function(text) {
+               this.$root.$emit('message', {
+                   type:   "set_info_text",
+                   text:    text
+               })
+           },
 
            closeApp: async function(event,item) {
                this.$root.$emit('message', {
@@ -1220,6 +1229,13 @@ load_once_from_file(true)
                     await this.load_app(this.app_id)
 
                 }
+
+                this.$root.$on('message', async function(message) {
+                    if (message.type == "set_info_text") {
+                        mm.info_text = message.text
+                    }
+                })
+
 
 
            }
