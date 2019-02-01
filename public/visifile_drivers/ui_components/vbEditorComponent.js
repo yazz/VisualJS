@@ -255,7 +255,7 @@ uses_javascript_librararies(["advanced_bundle"])
                             v-on:dragend='$event.stopPropagation();deleteCursor();'
                             v-bind:style='"cursor: nwse-resize;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (15 +model.forms[model.active_form].width) +  "px;top:" + (15 + (model.forms[model.active_form].height)) +  "px;"'
                             v-bind:draggable='true'
-                            v-on:dragstart='$event.stopPropagation();switchCursor($event,"nwse-resize","se-resize");drag($event,{
+                            v-on:dragstart='$event.stopPropagation();switchCursor($event,"nwse-resize","move");drag($event,{
                                type:        "resize_form_bottom_right",
                                form_name:    model.active_form
                             })'
@@ -308,7 +308,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                     v-on:dragend='$event.stopPropagation();deleteCursor();'
                                     v-bind:draggable='true'
 
-                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"nwse-resize","nw-resize");drag($event,{
+                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"nwse-resize","move");drag($event,{
                                        type:   "resize_top_left",
                                        text:    model.forms[model.active_form].components[model.active_component_index].base_component_id,
                                        index:   model.active_component_index
@@ -335,7 +335,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                         ((getTop(model.active_form,model.active_component_index)) - 15) +  "px;"'
                                     v-on:dragend='$event.stopPropagation();deleteCursor();'
                                         v-bind:draggable='true'
-                                        v-on:dragstart='$event.stopPropagation();switchCursor($event,"nesw-resize","ne-resize");drag($event,{
+                                        v-on:dragstart='$event.stopPropagation();switchCursor($event,"nesw-resize","move");drag($event,{
                                            type:   "resize_top_right",
                                            text:    model.forms[model.active_form].components[model.active_component_index].base_component_id,
                                            index:   model.active_component_index
@@ -375,7 +375,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                         ((getTop(model.active_form,model.active_component_index)) + ((model.forms[model.active_form].components[model.active_component_index].height)) + 2) +  "px;"'
                                     v-on:dragend='$event.stopPropagation();deleteCursor();'
                                         v-bind:draggable='true'
-                                        v-on:dragstart='$event.stopPropagation();switchCursor($event,"nesw-resize","sw-resize");drag($event,{
+                                        v-on:dragstart='$event.stopPropagation();switchCursor($event,"nesw-resize","move");drag($event,{
                                                                     type:   "resize_bottom_left",
                                                                     text:    model.forms[model.active_form].components[model.active_component_index].base_component_id,
                                                                     index:   model.active_component_index
@@ -402,7 +402,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                         ((getTop(model.active_form,model.active_component_index)) + ((model.forms[model.active_form].components[model.active_component_index].height)) + 2) +  "px;"'
                                     v-on:dragend='$event.stopPropagation();deleteCursor();'
                                     v-bind:draggable='true'
-                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"nwse-resize","se-resize");drag($event,{
+                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"nwse-resize","move");drag($event,{
                                                                    type:   "resize_bottom_right",
                                                                    text:    model.forms[model.active_form].components[model.active_component_index].base_component_id,
                                                                    index:   model.active_component_index
