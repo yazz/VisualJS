@@ -134,7 +134,7 @@ load_once_from_file(true)
 
                     <a          v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + base_component_id + ".html"'
                                 download
-                                v-bind:style="'float: left;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); background-color:white;'"
+                                v-bind:style="'float: left;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); '"
                                 v-on:mouseenter='setInfo("Download a fully self contained runnable HTML file of this app")'
                                 v-on:mouseleave='setInfo(null)'
                                 type="button"
