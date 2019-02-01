@@ -1752,8 +1752,8 @@ ${eventMessage.code}
                 var newWidth = (ev.clientX - 8)  - rrr.left ;
                 var newHeight = (ev.clientY - 8) - rrr.top ;
 
-                this.model.forms[this.model.active_form].width = newWidth
-                this.model.forms[this.model.active_form].height = newHeight
+                this.model.forms[this.model.active_form].width = Math.floor(newWidth)
+                this.model.forms[this.model.active_form].height = Math.floor(newHeight)
 
                 this.model.active_component_index = null
                 mm.refresh ++
@@ -1763,7 +1763,7 @@ ${eventMessage.code}
 
                 var newWidth = (ev.clientX - 8)  - rrr.left ;
 
-                this.model.forms[this.model.active_form].width = newWidth
+                this.model.forms[this.model.active_form].width = Math.floor(newWidth)
 
                 this.model.active_component_index = null
                 mm.refresh ++
@@ -1773,7 +1773,7 @@ ${eventMessage.code}
 
                   var newHeight = (ev.clientY - 8) - rrr.top ;
 
-                  this.model.forms[this.model.active_form].height = newHeight
+                  this.model.forms[this.model.active_form].height = Math.floor(newHeight)
 
                   this.model.active_component_index = null
                   mm.refresh ++
