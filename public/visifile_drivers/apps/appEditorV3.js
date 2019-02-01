@@ -1008,35 +1008,40 @@ load_once_from_file(true)
            // ---------------------------------------------------------------
            save: async function( base_component_id, code_id , textIn) {
 
-               if (textIn == null) {
-                    this.editor_text = await this.$refs.editor_component_ref.getText()
-               } else {
-                    this.editor_text = textIn
-               }
+            try {
+                if (textIn == null) {
+                     this.editor_text = await this.$refs.editor_component_ref.getText()
+                } else {
+                     this.editor_text = textIn
+                }
 
-               var mm = this
-               if (mm.read_only) {
-                    return
-               }
-               showProgressBar()
+                var mm = this
+                if (mm.read_only) {
+                     return
+                }
+                showProgressBar()
 
-               var results = await callFunction(
-               {
-                   driver_name:     "appEditorV2SaveCode",
-                   method_name:     "saveCode"
-               },
-                   {
-                        base_component_id:      base_component_id,
-                        code_id:                code_id,
-                        code:                   this.editor_text,
-                        options:                {
-                                                    sub_components: Object.keys(dev_app_component_loaded),
-                                                    save_html:              true
-                                                }
-                   })
+                var results = await callFunction(
+                {
+                    driver_name:     "appEditorV2SaveCode",
+                    method_name:     "saveCode"
+                },
+                    {
+                         base_component_id:      base_component_id,
+                         code_id:                code_id,
+                         code:                   this.editor_text,
+                         options:                {
+                                                     sub_components: Object.keys(dev_app_component_loaded),
+                                                     save_html:              true
+                                                 }
+                    })
 
-               await mm.load_app( mm.base_component_id )
-               hideProgressBar()
+                await mm.load_app( mm.base_component_id )
+                hideProgressBar()
+            } catch (e) {
+                hideProgressBar()
+            }
+
            },
 
 
@@ -1067,146 +1072,154 @@ load_once_from_file(true)
            // 'baseComponentId'
            // ---------------------------------------------------------------
            load_app: async function ( baseComponentId, runThisApp ) {
+                try {
 
-                //
-                // make sure that we reference an app
-                //
-                var mm = this
-                if ((!baseComponentId) || (baseComponentId == "") || (!mm)) {
-                    return
-                }
-
-
-
-               //
-               // set up vars
-               //
-               mm.selected_app          = ""
-               //mm.app_loaded            = false
-               mm.base_component_id     = baseComponentId
-               mm.app_component_name    = null
-
-               //executionCode       = new Object()
-               mm.app_loaded = true
-               mm.baseComponentId = baseComponentId
-
-               this.execution_timeline      = executionTimeline
-               this.execution_code          = executionCode
-               this.execution_block_list    = Object.keys(this.execution_code)
+                    //
+                    // make sure that we reference an app
+                    //
+                    var mm = this
+                    if ((!baseComponentId) || (baseComponentId == "") || (!mm)) {
+                        return
+                    }
 
 
 
-               //
-               // read the code for the component that we are editing
-               //
-               var sql =    `select
-                                id, cast(code as text)  as  code, editors
-                             from
-                                system_code
-                             where
-                                    base_component_id = '${baseComponentId}'
-                                       and
-                                    code_tag = 'LATEST' `
+                   //
+                   // set up vars
+                   //
+                   mm.selected_app          = ""
+                   //mm.app_loaded            = false
+                   mm.base_component_id     = baseComponentId
+                   mm.app_component_name    = null
 
-               var results = await callApp(
-                   {
-                        driver_name:    "systemFunctions2",
-                        method_name:    "sql"
-                   }
-                   ,
-                   {
-                       sql: sql
-                   })
+                   //executionCode       = new Object()
+                   mm.app_loaded = true
+                   mm.baseComponentId = baseComponentId
 
-
-               if (results) {
-                   if (results.length > 0) {
-
-                        //
-                        // find the editor
-                        //
-                        var editors2 = results[0].editors
-                        var newEditor = null
-                        if (editors2) {
-                            var edd = eval("(" + editors2 + ")")
-                            newEditor = edd[0]
-                        }
-
-
-                        //
-                        // find the code
-                        //
-                        var code = results[0].code
-                        var codeId = results[0].id
-
-                        if (code.toString().includes("Vue.")) {
-                            this.is_ui_app = true
-                        } else {
-                            this.is_ui_app = false
-                        }
+                   this.execution_timeline      = executionTimeline
+                   this.execution_code          = executionCode
+                   this.execution_block_list    = Object.keys(this.execution_code)
 
 
 
-                        if (mm.editor_loaded && (mm.editor_text != code)) {
-                            mm.editor_text = code
-                            mm.code_id = codeId
-                        }
+                   //
+                   // read the code for the component that we are editing
+                   //
+                   var sql =    `select
+                                    id, cast(code as text)  as  code, editors
+                                 from
+                                    system_code
+                                 where
+                                        base_component_id = '${baseComponentId}'
+                                           and
+                                        code_tag = 'LATEST' `
 
-                        //
-                        // load the editor
-                        //
-                        if ( !mm.editor_loaded ) {
-                            var editorName = "editor_component"
-                            if (newEditor) {
-                                 editorName = newEditor
+                   var results = await callApp(
+                       {
+                            driver_name:    "systemFunctions2",
+                            method_name:    "sql"
+                       }
+                       ,
+                       {
+                           sql: sql
+                       })
+
+
+                   if (results) {
+                       if (results.length > 0) {
+
+                            //
+                            // find the editor
+                            //
+                            var editors2 = results[0].editors
+                            var newEditor = null
+                            if (editors2) {
+                                var edd = eval("(" + editors2 + ")")
+                                newEditor = edd[0]
                             }
 
-                            await loadV2( editorName, {text: code} )
 
-                            mm.editor_loaded    = true
-                            mm.editor_component = editorName
-                       }
+                            //
+                            // find the code
+                            //
+                            var code = results[0].code
+                            var codeId = results[0].id
 
-                       //
-                       // set readonly
-                       //
-                       this.read_only = saveHelper.getValueOfCodeString(code, "read_only")
-                       this.visibility = saveHelper.getValueOfCodeString(code, "visibility")
-                   }
+                            if (code.toString().includes("Vue.")) {
+                                this.is_ui_app = true
+                            } else {
+                                this.is_ui_app = false
+                            }
 
-                   if ((isValidObject(runThisApp))   && (!runThisApp)) {
-                    //do nothing if we set "runthisapp" to false
-                   } else {
-                        this.resetDebugger()
-                        var prevConsole = console.log
-                        if (!mm.is_ui_app) {
-                            mm.console_output = ""
-                            console.log = function() {
-                                if (isValidObject(mm.console_output)) {
-                                    for (var a=0; a < arguments.length ; a++) {
-                                        mm.console_output += arguments[a] + " "
-                                    }
-                                    mm.console_output +=
-`
-`
+
+
+                            if (mm.editor_loaded && (mm.editor_text != code)) {
+                                mm.editor_text = code
+                                mm.code_id = codeId
+                            }
+
+                            //
+                            // load the editor
+                            //
+                            if ( !mm.editor_loaded ) {
+                                var editorName = "editor_component"
+                                if (newEditor) {
+                                     editorName = newEditor
                                 }
-                            }
 
-                        }
-                        var results = await callApp( {code_id:    codeId }, {} )
-                        console.log = prevConsole
+                                await loadV2( editorName, {text: code} )
+
+                                mm.editor_loaded    = true
+                                mm.editor_component = editorName
+                           }
+
+                           //
+                           // set readonly
+                           //
+                           this.read_only = saveHelper.getValueOfCodeString(code, "read_only")
+                           this.visibility = saveHelper.getValueOfCodeString(code, "visibility")
+                       }
+
+                       if ((isValidObject(runThisApp))   && (!runThisApp)) {
+                        //do nothing if we set "runthisapp" to false
+                       } else {
+                            this.resetDebugger()
+                            var prevConsole = console.log
+                            if (!mm.is_ui_app) {
+                                mm.console_output = ""
+                                console.log = function() {
+                                    if (isValidObject(mm.console_output)) {
+                                        for (var a=0; a < arguments.length ; a++) {
+                                            mm.console_output += arguments[a] + " "
+                                        }
+                                        mm.console_output +=
+    `
+    `
+                                    }
+                                }
+
+                            }
+                            var results = await callApp( {code_id:    codeId }, {} )
+                            console.log = prevConsole
+                       }
+
+
+                       setTimeout(async function() {
+                           mm.app_component_name = baseComponentId
+                           if (mm.$refs.editor_component_ref) {
+                                if (mm.$refs.editor_component_ref.setText) {
+                                    mm.$refs.editor_component_ref.setText(code)
+                                }
+                           }
+                       },500)
                    }
 
-
-                   setTimeout(async function() {
-                       mm.app_component_name = baseComponentId
-                       if (mm.$refs.editor_component_ref) {
-                            if (mm.$refs.editor_component_ref.setText) {
-                                mm.$refs.editor_component_ref.setText(code)
-                            }
-                       }
-                   },500)
+               } catch (e) {
+                   hideProgressBar()
                }
+               hideProgressBar()
+
+
            }
        },
 
