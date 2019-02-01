@@ -960,6 +960,8 @@ uses_javascript_librararies(["advanced_bundle"])
 
            })
 
+           hideProgressBar()
+
      },
 
 

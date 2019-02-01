@@ -7946,7 +7946,7 @@ async function initFn() {
             createImageThumbnails: false
             ,
             sending: function(file, xhr, formData){
-
+                showProgressBar()
                 file_upload_uuid = uuidv4()
                 //alert(fdfs)
                 formData.append('client_file_upload_id', file_upload_uuid);
