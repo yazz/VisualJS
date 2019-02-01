@@ -1018,6 +1018,7 @@ load_once_from_file(true)
                if (mm.read_only) {
                     return
                }
+               showProgressBar()
 
                var results = await callFunction(
                {
@@ -1035,6 +1036,7 @@ load_once_from_file(true)
                    })
 
                await mm.load_app( mm.base_component_id )
+               hideProgressBar()
            },
 
 

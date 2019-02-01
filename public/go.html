@@ -9608,7 +9608,12 @@ function appClearIntervals() {
     appIntervalTimers = []
 }
 
-
+function showProgressBar() {
+    mainMoonApp.show_loader = true
+}
+function hideProgressBar() {
+    mainMoonApp.show_loader = false
+}
 
 saveHelper = {
 
