@@ -1937,8 +1937,8 @@ ${eventMessage.code}
                     newTopY = this.model.forms[this.model.active_form].height - this.model.forms[this.model.active_form].components[data.index].height
                 }
 
-                this.model.forms[this.model.active_form].components[data.index].leftX = newLeftX
-                this.model.forms[this.model.active_form].components[data.index].topY = newTopY
+                this.model.forms[this.model.active_form].components[data.index].leftX = Math.floor(newLeftX)
+                this.model.forms[this.model.active_form].components[data.index].topY = Math.floor(newTopY)
                 this.model.active_component_index = data.index
 
 
@@ -1967,12 +1967,12 @@ ${eventMessage.code}
                      newTopY = 0
                  }
 
-                 this.model.forms[this.model.active_form].components[data.index].leftX = newLeftX
-                 this.model.forms[this.model.active_form].components[data.index].topY = newTopY
+                 this.model.forms[this.model.active_form].components[data.index].leftX = Math.floor(newLeftX)
+                 this.model.forms[this.model.active_form].components[data.index].topY = Math.floor(newTopY)
                  var diffX = this.model.forms[this.model.active_form].components[data.index].leftX - oldX
                  var diffY = this.model.forms[this.model.active_form].components[data.index].topY - oldY
-                 this.model.forms[this.model.active_form].components[data.index].width -= diffX
-                 this.model.forms[this.model.active_form].components[data.index].height -= diffY
+                 this.model.forms[this.model.active_form].components[data.index].width -= Math.floor(diffX)
+                 this.model.forms[this.model.active_form].components[data.index].height -= Math.floor(diffY)
 
                  this.model.active_component_index = data.index
 
@@ -1997,9 +1997,9 @@ ${eventMessage.code}
                      newLeftX = 0
                  }
 
-                 this.model.forms[this.model.active_form].components[data.index].leftX = newLeftX
+                 this.model.forms[this.model.active_form].components[data.index].leftX = Math.floor(newLeftX)
                  var diffX = this.model.forms[this.model.active_form].components[data.index].leftX - oldX
-                 this.model.forms[this.model.active_form].components[data.index].width -= diffX
+                 this.model.forms[this.model.active_form].components[data.index].width -= Math.floor(diffX)
 
                  this.model.active_component_index = data.index
 
@@ -2026,9 +2026,9 @@ ${eventMessage.code}
                      newTopY = 0
                  }
 
-                 this.model.forms[this.model.active_form].components[data.index].topY = newTopY
+                 this.model.forms[this.model.active_form].components[data.index].topY = Math.floor(newTopY)
                  var diffY = this.model.forms[this.model.active_form].components[data.index].topY - oldY
-                 this.model.forms[this.model.active_form].components[data.index].height -= diffY
+                 this.model.forms[this.model.active_form].components[data.index].height -= Math.floor(diffY)
 
                  this.model.active_component_index = data.index
 
@@ -2049,11 +2049,13 @@ ${eventMessage.code}
                      }
                  }
 
-                 this.model.forms[this.model.active_form].components[data.index].width = newX - this.model.forms[this.model.active_form].components[data.index].leftX
+                 this.model.forms[this.model.active_form].components[data.index].width =
+                    Math.floor(newX - this.model.forms[this.model.active_form].components[data.index].leftX)
 
-                 var newHeight = (this.model.forms[this.model.active_form].components[data.index].topY + this.model.forms[this.model.active_form].components[data.index].height) - newY
-                 this.model.forms[this.model.active_form].components[data.index].topY = newY
-                 this.model.forms[this.model.active_form].components[data.index].height = newHeight
+                 var newHeight = (this.model.forms[this.model.active_form].components[data.index].topY +
+                                    this.model.forms[this.model.active_form].components[data.index].height) - newY
+                 this.model.forms[this.model.active_form].components[data.index].topY = Math.floor(newY)
+                 this.model.forms[this.model.active_form].components[data.index].height = Math.floor(newHeight)
 
 
                  this.model.active_component_index = data.index
@@ -2075,9 +2077,9 @@ ${eventMessage.code}
                  var newWidth = (this.model.forms[this.model.active_form].components[data.index].leftX + this.model.forms[this.model.active_form].components[data.index].width) - newX
                  var newHeight = newY - this.model.forms[this.model.active_form].components[data.index].topY
 
-                 this.model.forms[this.model.active_form].components[data.index].leftX = newX
-                 this.model.forms[this.model.active_form].components[data.index].width = newWidth
-                 this.model.forms[this.model.active_form].components[data.index].height = newHeight
+                 this.model.forms[this.model.active_form].components[data.index].leftX = Math.floor(newX)
+                 this.model.forms[this.model.active_form].components[data.index].width = Math.floor(newWidth)
+                 this.model.forms[this.model.active_form].components[data.index].height = Math.floor(newHeight)
 
                  this.model.active_component_index = data.index
 
@@ -2096,7 +2098,7 @@ ${eventMessage.code}
                  }
 
                  var newWidth = newX - this.model.forms[this.model.active_form].components[data.index].leftX
-                 this.model.forms[this.model.active_form].components[data.index].width = newWidth
+                 this.model.forms[this.model.active_form].components[data.index].width = Math.floor(newWidth)
 
                  this.model.active_component_index = data.index
 
@@ -2119,10 +2121,10 @@ ${eventMessage.code}
                  }
 
                  var newWidth = newX - this.model.forms[this.model.active_form].components[data.index].leftX
-                 this.model.forms[this.model.active_form].components[data.index].width = newWidth
+                 this.model.forms[this.model.active_form].components[data.index].width = Math.floor(newWidth)
 
                  var newHeight = newY - this.model.forms[this.model.active_form].components[data.index].topY
-                 this.model.forms[this.model.active_form].components[data.index].height = newHeight
+                 this.model.forms[this.model.active_form].components[data.index].height = Math.floor(newHeight)
 
                  this.model.active_component_index = data.index
 
@@ -2141,7 +2143,7 @@ ${eventMessage.code}
                  }
 
                  var newHeight = newY - this.model.forms[this.model.active_form].components[data.index].topY
-                 this.model.forms[this.model.active_form].components[data.index].height = newHeight
+                 this.model.forms[this.model.active_form].components[data.index].height = Math.floor(newHeight)
 
                  this.model.active_component_index = data.index
              }
