@@ -76,7 +76,7 @@ uses_javascript_librararies(["advanced_bundle"])
                     <div    v-for='av in available_components'
                             draggable="true"
                             class='col-md-6'
-                            v-on:dragend='$event.stopPropagation();deleteCursor()'
+                            v-on:dragend='$event.stopPropagation();deleteCursor();'
                             v-on:dragstart='$event.stopPropagation();switchCursor($event,"grab","grabbing");highlighted_control = av.base_component_id;drag($event,{
                                                    type:   "add_component",
                                                    text:    av.base_component_id
@@ -228,7 +228,8 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
 
-                <div  drop-target=false
+                <div  id="grid_container"
+                      drop-target=false
                       style='width:100%;background-color:white;height: 100%;position:relative;'>
 
                     <!-- INACTIVE FORM RESIZERS -->
@@ -264,7 +265,7 @@ uses_javascript_librararies(["advanced_bundle"])
                     <div    v-if='design_mode && (!isValidObject(model.active_component_index))'
                             v-bind:style='"cursor: ew-resize;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (15 +model.forms[model.active_form].width) +  "px;top:" + (7 + (model.forms[model.active_form].height/2)) +  "px;"'
                             v-bind:draggable='true'
-                            v-on:dragend='$event.stopPropagation();deleteCursor()'
+                            v-on:dragend='$event.stopPropagation();deleteCursor();'
                             v-on:dragstart='$event.stopPropagation();switchCursor($event,"ew-resize","col-resize");drag($event,{
                                type:        "resize_form_right",
                                form_name:    model.active_form
@@ -304,6 +305,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                     v-bind:style='"cursor: nwse-resize;z-index:10000000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
                                         (getLeft(model.active_form,model.active_component_index) - 15) +  "px;top:" +
                                         ((getTop(model.active_form,model.active_component_index)) - 15) +  "px;"'
+                                    v-on:dragend='$event.stopPropagation();deleteCursor();'
                                     v-bind:draggable='true'
 
                                     v-on:dragstart='$event.stopPropagation();switchCursor($event,"nwse-resize","nw-resize");drag($event,{
@@ -318,6 +320,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                     v-bind:style='"cursor: ns-resize;z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
                                         ((getLeft(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].width/2) - 7) +  "px;top:" +
                                         ((getTop(model.active_form,model.active_component_index)) - 15) +  "px;"'
+                                    v-on:dragend='$event.stopPropagation();deleteCursor();'
                                     v-bind:draggable='true'
                                     v-on:dragstart='$event.stopPropagation();switchCursor($event,"ns-resize","row-resize");drag($event,{
                                                                 type:   "resize_top",
@@ -330,6 +333,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                     v-bind:style='"cursor: nesw-resize;z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
                                         ((getLeft(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].width) ) +  "px;top:" +
                                         ((getTop(model.active_form,model.active_component_index)) - 15) +  "px;"'
+                                    v-on:dragend='$event.stopPropagation();deleteCursor();'
                                         v-bind:draggable='true'
                                         v-on:dragstart='$event.stopPropagation();switchCursor($event,"nesw-resize","ne-resize");drag($event,{
                                            type:   "resize_top_right",
@@ -343,6 +347,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                     v-bind:style='"cursor: ew-resize;z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
                                         ((getLeft(model.active_form,model.active_component_index)) - 15) +  "px;top:" +
                                         ((getTop(model.active_form,model.active_component_index)) + ((model.forms[model.active_form].components[model.active_component_index].height / 2)) - 7) +  "px;"'
+                                    v-on:dragend='$event.stopPropagation();deleteCursor();'
                                     v-bind:draggable='true'
                                     v-on:dragstart='$event.stopPropagation();switchCursor($event,"ew-resize","col-resize");drag($event,{
                                                                 type:   "resize_left",
@@ -355,6 +360,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                     v-bind:style='"cursor: ew-resize;z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
                                         ((getLeft(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].width)) +  "px;top:" +
                                         ((getTop(model.active_form,model.active_component_index)) + ((model.forms[model.active_form].components[model.active_component_index].height / 2)) - 7) +  "px;"'
+                                v-on:dragend='$event.stopPropagation();deleteCursor();'
                                     v-bind:draggable='true'
                                     v-on:dragstart='$event.stopPropagation();switchCursor($event,"ew-resize","col-resize");drag($event,{
                                                                 type:   "resize_right",
@@ -367,6 +373,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                     v-bind:style='"cursor: nesw-resize;z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
                                         ((getLeft(model.active_form,model.active_component_index)) - 15) +  "px;top:" +
                                         ((getTop(model.active_form,model.active_component_index)) + ((model.forms[model.active_form].components[model.active_component_index].height)) + 2) +  "px;"'
+                                    v-on:dragend='$event.stopPropagation();deleteCursor();'
                                         v-bind:draggable='true'
                                         v-on:dragstart='$event.stopPropagation();switchCursor($event,"nesw-resize","sw-resize");drag($event,{
                                                                     type:   "resize_bottom_left",
@@ -379,6 +386,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                     v-bind:style='"cursor: ns-resize;z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
                                         ((getLeft(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].width/2) - 7) +  "px;top:" +
                                         ((getTop(model.active_form,model.active_component_index)) + ((model.forms[model.active_form].components[model.active_component_index].height)) + 2) +  "px;"'
+                                    v-on:dragend='$event.stopPropagation();deleteCursor();'
                                     v-bind:draggable='true'
                                     v-on:dragstart='$event.stopPropagation();switchCursor($event,"ns-resize","row-resize");drag($event,{
                                                                 type:   "resize_bottom",
@@ -392,6 +400,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                     v-bind:style='"cursor: nwse-resize;z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
                                         ((getLeft(model.active_form,model.active_component_index)) + (model.forms[model.active_form].components[model.active_component_index].width) ) +  "px;top:" +
                                         ((getTop(model.active_form,model.active_component_index)) + ((model.forms[model.active_form].components[model.active_component_index].height)) + 2) +  "px;"'
+                                    v-on:dragend='$event.stopPropagation();deleteCursor();'
                                     v-bind:draggable='true'
                                     v-on:dragstart='$event.stopPropagation();switchCursor($event,"nwse-resize","se-resize");drag($event,{
                                                                    type:   "resize_bottom_right",
@@ -960,6 +969,8 @@ uses_javascript_librararies(["advanced_bundle"])
 
      methods: {
      deleteCursor: function() {
+         document.getElementById(this.vb_grid_element_id).style.cursor = "crosshair"
+         document.getElementById("grid_container").style.cursor = "default"
          if (this.oldCursor) {
                 this.cursorSource.style.cursor = this.oldCursor
                 this.oldCursor = null
@@ -976,14 +987,16 @@ uses_javascript_librararies(["advanced_bundle"])
         mm.newCursor                 = newCursor
         mm.oldCursor                 = oldCursor
 
+        document.getElementById(mm.vb_grid_element_id).style.cursor = newCursor
+        document.getElementById("grid_container").style.cursor = newCursor
+
+
      }
      ,
      maintainCursor: function() {
         var mm = this
 
-        if (mm.newCursor) {
-            mm.cursorSource.style.cursor = mm.newCursor
-        }
+
 
      }
      ,
