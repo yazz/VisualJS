@@ -9225,7 +9225,7 @@ async function callCodeV2(componentRecord,args, seq_no) {
         trcode2 = trcode2.toString().replaceAll("sqlFirstCol1[(]","await rxsqlFirstCol1(" + addP)
 
 
-//zzz
+
         if ( (componentRecord.base_component_id == base_component_id) && (!trcode2.toString().includes("Vue."))) {
             mainMoonApp.console_output = ""
             mainMoonApp.is_gui_app = false
@@ -9417,6 +9417,17 @@ async function loadV2( baseComponentIds, args ) {
                 //alert("Reading app from cache: " + findComponentArgs.base_component_id)
                 var newDataCodeId = finderToCachedCodeMapping[ componentId ]
                 var newData       = cachedCode[ newDataCodeId ]
+                //zzz
+                //debugger
+                var properties = saveHelper.getValueOfCodeString(newData.value.code, "properties",")//properties")
+                if (properties) {
+                    if (isValidObject(newData.value)) {
+                        //alert(properties)
+                        //var propee = eval("(" + properties + ")")
+                        newData.value.properties = JSON.stringify(properties)
+                    }
+                }
+
                 await checkLibsV2(newData.value, args)
                 loadedStatic = true
             }
