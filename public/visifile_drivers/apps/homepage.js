@@ -51,7 +51,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                             style='position:relative;max-width: 80px; left:0px; top: 0px;max-height: 80px;margin-left: auto;margin-right: auto;display: inline-block;'
                             >
                     </img>
-                Click for app builder
+                New GUI app
             </button>
 
             <button style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:55px;font-weight: bold;'
@@ -61,7 +61,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                             style='position:relative;max-width: 80px; left:0px; top: 0px;max-height: 80px;margin-left: auto;margin-right: auto;display: inline-block;'
                             >
                     </img>
-                Click to write code
+                New JS app
             </button>
         </h1>
     </div>
