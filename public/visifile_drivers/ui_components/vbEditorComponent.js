@@ -796,40 +796,34 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
 
+        /* --------------------------------------------------------------
+              mounted
+
+              This is called whenever an app is loaded, either at design
+              time or at runtime
+           -------------------------------------------------------------- */
 
         mounted: async function() {
-            var mm = this
-            var startTime = new Date().getTime()
-            var ttq=0
-
-            mm.uid2 =                       uuidv4()
-            mm.vb_grid_element_id =          "vb_grid_"+ uuidv4()
-            mm.vb_editor_element_id =         "vb_editor_"+ uuidv4()
-            mm.local_app = localAppshareApp
+            var mm                  = this
+            mm.uid2                 = uuidv4()
+            mm.vb_grid_element_id   = "vb_grid_"+ uuidv4()
+            mm.vb_editor_element_id = "vb_editor_"+ uuidv4()
+            mm.local_app            = localAppshareApp
 
 
-            //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
 
-            //
+            // ---------------------------------------------------------
             // get the base component ID of the code to edit/run
-            //
+            // ---------------------------------------------------------
             if (texti) {
-                var json2 = this.getJsonModelFromCode(  texti  )
-                //console.log("mounted: mm.model = json2")
-                mm.model = json2
-                mm.edited_app_component_id = saveHelper.getValueOfCodeString(texti, "base_component_id")
-
-                //this.generateCodeFromModel(   )
+                var json2                   = this.getJsonModelFromCode(  texti  )
+                mm.model                    = json2
+                mm.edited_app_component_id  = saveHelper.getValueOfCodeString(texti, "base_component_id")
 
                 this.read_only = saveHelper.getValueOfCodeString(texti, "read_only")
-             //alert(this.text)
            }
-
            mm.model.active_form = mm.model.default_form
 
-
-
-           //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
 
 
           //
@@ -890,7 +884,7 @@ uses_javascript_librararies(["advanced_bundle"])
                             if (isValidObject(compEvaled)) {
                                 for (var cpp = 0 ; cpp< compEvaled.length; cpp ++){
                                     var prop = compEvaled[cpp].id
-                                    
+
                                     if (!isValidObject(this.model.forms[formName].components[rtw][prop])){
                                         if (compEvaled[cpp].type == "Action") {
                                             this.model.forms[formName].components[rtw][prop] = function() {alert(1)}
