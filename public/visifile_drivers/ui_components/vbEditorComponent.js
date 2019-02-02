@@ -814,46 +814,46 @@ uses_javascript_librararies(["advanced_bundle"])
 
             // ---------------------------------------------------------
             // get the base component ID of the code to edit/run
+            //
+            // Save it in "this.edited_app_component_id"
             // ---------------------------------------------------------
+
             if (texti) {
                 var json2                   = this.getJsonModelFromCode(  texti  )
                 mm.model                    = json2
                 mm.edited_app_component_id  = saveHelper.getValueOfCodeString(texti, "base_component_id")
 
                 this.read_only = saveHelper.getValueOfCodeString(texti, "read_only")
-           }
-           mm.model.active_form = mm.model.default_form
+            }
+            mm.model.active_form = mm.model.default_form
 
 
 
-          //
-          // get the component usage
-          //
-          if (mm.edited_app_component_id) {
-              var sql =    "select  child_component_id  from  component_usage  where " +
-                           "        base_component_id = '" + mm.edited_app_component_id + "'"
+            // ---------------------------------------------------------
+            // find out which sub components are used by this app
+            //
+            // save the result in "this.component_usage"
+            // ---------------------------------------------------------
+            if (mm.edited_app_component_id) {
+                var sql = "select  child_component_id  from  component_usage  where " +
+                          "        base_component_id = '" + mm.edited_app_component_id + "'"
 
-              var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
-                  {   sql: sql  })
-              //alert(JSON.stringify(results,null,2))
+                var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
+                                            {   sql: sql  })
 
-
-              for (var i = 0; i < results.length; i++) {
-                   mm.component_usage[results[i].child_component_id] = true
-              }
-          }
-
-          //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
+                for (var i = 0; i < results.length; i++) {
+                    mm.component_usage[results[i].child_component_id] = true
+                }
+            }
 
 
 
-           //
-           // load the forms and their controls
-           //
-           var forms = this.getForms()
-           //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
+            // ---------------------------------------------------------
+            // load the forms and their controls
+            // ---------------------------------------------------------
+            var forms = this.getForms()
 
-           for (var formIndex = 0; formIndex < forms.length; formIndex ++) {
+            for (var formIndex = 0; formIndex < forms.length; formIndex ++) {
                 var formName = forms[formIndex].name
 
                 var compsToLoad = []
