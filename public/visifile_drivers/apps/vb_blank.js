@@ -2382,7 +2382,19 @@ ${eventMessage.code}
       "name": "Form_1",
       "width": 372,
       "height": 355,
-      "components": []
+      "components": [
+          {
+            "leftX": 25,
+            "topY": 80,
+            "name": "label_control_110",
+            "base_component_id": "label_control",
+            "width": 320,
+            "height": 56,
+            "text": "Drag controls from the left onto the grid",
+            "background_color": "",
+            "parent": null
+          }
+      ]
     }
   },
   "active_component_index": null
