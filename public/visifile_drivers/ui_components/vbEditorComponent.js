@@ -47,21 +47,22 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
 
-            <!--
-                    -----------------------------------------
+        <!--
+                -----------------------------------------
 
-                        The left section of the UI editor
+                    The left section of the UI editor
 
-                    -----------------------------------------
-            -->
-            <div    v-if='design_mode'
-                v-on:click='selected_pane = "blocks";'
-                v-bind:style='(design_mode?"border: 4px solid lightgray;":"") + " width: " + leftHandWidth + "px;height: 75vmin; display: inline-block;overflow-x: hidden;overflow-y: hidden;vertical-align: top; background-color: lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);float:left;"'>
+                -----------------------------------------
+        -->
+        <div    v-if='design_mode'
+            v-on:click='selected_pane = "blocks";'
+            v-bind:style='(design_mode?"border: 4px solid lightgray;":"") + " max-width: " + leftHandWidth + "px;height: 75vmin; display: inline-block;overflow-x: hidden;overflow-y: hidden;vertical-align: top; background-color: lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);float:left;"'>
 
             <div    v-bind:style='"font-family:verdana;font-size: 13px;border-radius: 3px;padding: 4px; margin-bottom: 10px;box-shadow: 2px 2px 10px lightgray;"'
                     v-bind:class='(selected_pane == "blocks"?"selected_pane_title":"unselected_pane_title") '>
                 Blocks
             </div>
+            
             <div class='' >
                 <div class='' style='display:flex;overflow-y:scroll;flex-flow: row wrap;'>
                     <div    class='flex'
@@ -2669,7 +2670,7 @@ ${eventMessage.code}
            edited_app_component_id:     null,
            event_code:                  null,
            text:                        texti,
-           leftHandWidth:               200,
+           leftHandWidth:               160,
            right_mode:                  "project",
            add_property:                false,
            new_property_name: "",
