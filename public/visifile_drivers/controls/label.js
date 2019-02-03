@@ -33,18 +33,34 @@ logo_url("/driver_icons/text_control.png")
 */
 
     Vue.component("label_control",{
-      props: ["args", "name"]
-      ,
-      template: `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
+        props: ["args", "name"]
+        ,
+        template: `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
                                     "background-color: "+    args["background_color"]  +  ";"'>
 
-                                                {{args.text}}
+                                                {{text}}
                  </div>`
-      ,
-      data: function() {
-       return {
-         msg: "..."
-     }
-      },
+        ,
+        data: function() {
+            return {
+                text: ""
+            }
+        }
+        ,
+        mounted: function() {
+            if (isValidObject(this.args.text)) {
+                this.text = this.args.text
+            }
+
+            if (isValidObject(this.args.name)) {
+                globalControl[this.args.name] =  this
+            }
+        }
+        ,
+        methods: {
+            setText: function(av) {
+                this.text = av
+            }
+        }
     })
 }
