@@ -56,17 +56,17 @@ uses_javascript_librararies(["advanced_bundle"])
             -->
             <div    v-if='design_mode'
                 v-on:click='selected_pane = "blocks";'
-                v-bind:style='(design_mode?"border: 4px solid lightgray;":"") + " width: " + leftHandWidth + "px;height: 75vmin; display: inline-block;overflow-x: none;overflow-y: auto;vertical-align: top; background-color: lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);float:left;"'>
+                v-bind:style='(design_mode?"border: 4px solid lightgray;":"") + " width: " + leftHandWidth + "px;height: 75vmin; display: inline-block;overflow-x: hidden;overflow-y: hidden;vertical-align: top; background-color: lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);float:left;"'>
 
             <div    v-bind:style='"font-family:verdana;font-size: 13px;border-radius: 3px;padding: 4px; margin-bottom: 10px;box-shadow: 2px 2px 10px lightgray;"'
                     v-bind:class='(selected_pane == "blocks"?"selected_pane_title":"unselected_pane_title") '>
                 Blocks
             </div>
-            <div class='container' style=''>
-                <div class='row'>
-                    <div    class='col-md-6'
+            <div class='' >
+                <div class='' style='display:flex;overflow-y:scroll;flex-flow: row wrap;'>
+                    <div    class='flex'
                             v-on:click='highlighted_control = null;'
-                            v-bind:style='"cursor: grab;border-radius: 3px;width:50px;height:50px; margin: 0px;border: 0px;padding:4px;overflow-x:hidden;overflow-y:hidden;background-color: " + ((!highlighted_control)?"#E8E8E8;border-left: 2px solid gray;border-top: 2px solid gray;":"lightgray;")'>
+                            v-bind:style='"display:flex;cursor: grab;border-radius: 3px;width:50px;height:50px; margin: 0px;border: 0px;padding:4px;overflow-x:hidden;overflow-y:hidden;background-color: " + ((!highlighted_control)?"#E8E8E8;border-left: 2px solid gray;border-top: 2px solid gray;":"lightgray;")'>
                         <img    src='/driver_icons/cursor.png'
                                 style='width: 100%;'
                                 class='img-fluid'>
@@ -75,14 +75,14 @@ uses_javascript_librararies(["advanced_bundle"])
 
                     <div    v-for='av in available_components'
                             draggable="true"
-                            class='col-md-6'
+                            class=''
                             v-on:dragend='$event.stopPropagation();deleteCursor();'
                             v-on:dragstart='$event.stopPropagation();switchCursor($event,"grab","grabbing");highlighted_control = av.base_component_id;drag($event,{
                                                    type:   "add_component",
                                                    text:    av.base_component_id
                                                 })'
                             v-on:click='highlighted_control = av.base_component_id;'
-                            v-bind:style='"cursor: grab;margin: 2px;border-radius: 3px;width:50px;;height: 50px; margin: 0px;border: 0px;padding:10px;overflow-x:auto;overflow-y:hidden;background-color: " + ((highlighted_control == av.base_component_id)?"#E8E8E8;border-left: 2px solid gray;border-top: 2px solid gray;":"lightgray;")'>
+                            v-bind:style='"display:flex;cursor: grab;margin: 2px;border-radius: 3px;width:50px;;height: 50px; margin: 0px;border: 0px;padding:10px;overflow-x:auto;overflow-y:hidden;background-color: " + ((highlighted_control == av.base_component_id)?"#E8E8E8;border-left: 2px solid gray;border-top: 2px solid gray;":"lightgray;")'>
 
                         <img    v-if='isValidObject(av)'
                                 v-bind:src='av.logo_url'
@@ -2669,7 +2669,7 @@ ${eventMessage.code}
            edited_app_component_id:     null,
            event_code:                  null,
            text:                        texti,
-           leftHandWidth:               160,
+           leftHandWidth:               200,
            right_mode:                  "project",
            add_property:                false,
            new_property_name: "",
