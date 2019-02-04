@@ -70,6 +70,13 @@ logo_url("/driver_icons/text_control.png")
         methods: {
             setText: function(av) {
                 this.text = "fdsdfsfd"
+                this.changedFn()
+            }
+            ,
+            changedFn: function() {
+                if (isValidObject(this.args)) {
+                    this.args.text = this.text
+                }
             }
         }
     })
