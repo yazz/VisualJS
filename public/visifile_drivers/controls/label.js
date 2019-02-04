@@ -59,7 +59,7 @@ logo_url("/driver_icons/text_control.png")
         ,
         methods: {
             setText: function(av) {
-                this.text = av
+                this.text = "fdsdfsfd"
             }
         }
     })

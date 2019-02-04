@@ -892,7 +892,8 @@ uses_javascript_librararies(["advanced_bundle"])
                                             this.model.forms[formName].components[rtw][prop] =
                                                 mm.getControlMethod(mm.model.forms[formName].components[rtw].base_component_id,
                                                                     mm.model.forms[formName].components[rtw],
-                                                                    compEvaled1)
+                                                                    compEvaled1,
+                                                                    compEvaled[cpp].id )
 
                                         } else {
                                             this.model.forms[formName].components[rtw][prop] = ""
@@ -975,10 +976,13 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
      methods: {
-         getControlMethod: function(base_id,componentDetails,ompEvaled1) {
+         getControlMethod: function(base_id,componentDetails,ompEvaled1, methodId) {
             return function() {
-                alert(JSON.stringify(componentDetails.name,null,2))
-                //var functionIs = globalControl[base_id]
+                //alert(JSON.stringify(componentDetails.name,null,2))
+                var controlDetails = globalControl[componentDetails.name]
+                var fnDetails = controlDetails[methodId]
+                fnDetails()
+
             }
 
          }
