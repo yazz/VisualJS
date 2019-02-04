@@ -891,6 +891,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                         if (compEvaled[cpp].type == "Action") {
                                             this.model.forms[formName].components[rtw][prop] =
                                                 mm.getControlMethod(mm.model.forms[formName].components[rtw].base_component_id,
+                                                                    mm.model.forms[formName].components[rtw],
                                                                     compEvaled1)
 
                                         } else {
@@ -974,9 +975,11 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
      methods: {
-         getControlMethod: function(base_id,compEvaled1) {
-             alert(JSON.stringify(base_id))
-             //var functionIs = globalControl[]
+         getControlMethod: function(base_id,componentDetails,ompEvaled1) {
+            return function() {
+                alert(JSON.stringify(componentDetails.name,null,2))
+                //var functionIs = globalControl[base_id]
+            }
 
          }
 
