@@ -885,10 +885,14 @@ uses_javascript_librararies(["advanced_bundle"])
                             if (isValidObject(compEvaled)) {
                                 for (var cpp = 0 ; cpp< compEvaled.length; cpp ++){
                                     var prop = compEvaled[cpp].id
+                                    var compId = this.model.forms[formName].components[rtw].base_component_id
 
                                     if (!isValidObject(this.model.forms[formName].components[rtw][prop])){
                                         if (compEvaled[cpp].type == "Action") {
-                                            this.model.forms[formName].components[rtw][prop] = function() {alert(1)}
+                                            this.model.forms[formName].components[rtw][prop] =
+                                                mm.getControlMethod(mm.model.forms[formName].components[rtw].base_component_id,
+                                                                    compEvaled1)
+
                                         } else {
                                             this.model.forms[formName].components[rtw][prop] = ""
                                         }
@@ -970,6 +974,13 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
      methods: {
+         getControlMethod: function(base_id,compEvaled1) {
+             alert(JSON.stringify(base_id))
+             //var functionIs = globalControl[]
+
+         }
+
+         ,
      deleteCursor: function() {
          document.getElementById(this.vb_grid_element_id).style.cursor = "crosshair"
          document.getElementById("grid_container").style.cursor = "default"
