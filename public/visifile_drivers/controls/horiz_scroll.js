@@ -27,6 +27,12 @@ properties(
             name:   "Changed event",
             type:   "Event"
         }
+        ,
+        {
+            id:     "value",
+            name:   "Value",
+            type:   "String"
+        }
         ]
 )//properties
 logo_url("/driver_icons/horiz_scroll.png")
