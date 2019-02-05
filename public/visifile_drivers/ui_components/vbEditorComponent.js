@@ -899,26 +899,28 @@ debugger
 
 
                     // ---------------------------------------------------------
-                    // ... 
+                    // ...
                     //
                     //
                     // ---------------------------------------------------------
 
-                    var compEvaled1 = component_cache[this.model.forms[formName].components[compenentInFormIndex].base_component_id]
-                     if (isValidObject(compEvaled1)) {
-                            var compEvaled = compEvaled1.properties
-                            if (isValidObject(compEvaled)) {
-                                for (var cpp = 0 ; cpp< compEvaled.length; cpp ++){
-                                    var prop = compEvaled[cpp].id
+                    var componentId = this.model.forms[formName].components[compenentInFormIndex].base_component_id
+                    var cachedComponentDefinition = component_cache[componentId]
+
+                    if (isValidObject(cachedComponentDefinition)) {
+                        var cachedComponentPropertiesDefinition = cachedComponentDefinition.properties
+                            if (isValidObject(cachedComponentPropertiesDefinition)) {
+                                for (var cpp = 0 ; cpp< cachedComponentPropertiesDefinition.length; cpp ++){
+                                    var prop = cachedComponentPropertiesDefinition[cpp].id
                                     var compId = this.model.forms[formName].components[compenentInFormIndex].base_component_id
 
                                     if (!isValidObject(this.model.forms[formName].components[compenentInFormIndex][prop])){
-                                        if (compEvaled[cpp].type == "Action") {
+                                        if (cachedComponentPropertiesDefinition[cpp].type == "Action") {
                                             this.model.forms[formName].components[compenentInFormIndex][prop] =
                                                 mm.getControlMethod(mm.model.forms[formName].components[compenentInFormIndex].base_component_id,
                                                                     mm.model.forms[formName].components[compenentInFormIndex],
-                                                                    compEvaled1,
-                                                                    compEvaled[cpp].id )
+                                                                    cachedComponentDefinition,
+                                                                    cachedComponentPropertiesDefinition[cpp].id )
 
                                         } else {
                                             this.model.forms[formName].components[compenentInFormIndex][prop] = ""
