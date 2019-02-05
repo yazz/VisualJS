@@ -33,7 +33,13 @@ properties(
             name:   "Changed event",
             type:   "Event"
         }
-    ]
+        ,
+        {
+            id:     "load",
+            name:   "load",
+            type:   "Action"
+        }
+     ]
 )//properties
 logo_url("/driver_icons/folder_list.png")
 */
@@ -66,27 +72,11 @@ logo_url("/driver_icons/folder_list.png")
       }
       ,
       mounted: async function() {
-        var mm = this
-        if (!this.design_mode) {
-            var result = await callFunction(
-                                {
-                                    driver_name: "serverFolderHierarchyList",
-                                    method_name: "serverFolderHierarchyList"  }
-                                    ,{ path: mm.args.path })
-            //alert(JSON.stringify(result,null,2))
+          if (isValidObject(this.args.name)) {
+              globalControl[this.args.name] =  this
+          }
 
-           if (result.value) {
-                this.drives = result.value
-
-           }
-           if (isValidObject(this.args)) {
-               this.items = this.args.items
-               if (isValidObject(this.args.value)) {
-                  this.value = this.args.value
-               }
-           }
-
-           }
+          this.load()
        }
         ,
         watch: {
@@ -100,6 +90,10 @@ logo_url("/driver_icons/folder_list.png")
         }
          ,
          methods: {
+
+
+
+
                changedFn: function() {
                    if (isValidObject(this.args)) {
                        this.args.value = this.value
@@ -115,7 +109,33 @@ logo_url("/driver_icons/folder_list.png")
                                                    code:                this.args.changed_event
                                                })
                }
-         }
+               ,
+                 load: async function() {
+                 var mm = this
+                 if (!this.design_mode) {
+                     var result = await callFunction(
+                                         {
+                                             driver_name: "serverFolderHierarchyList",
+                                             method_name: "serverFolderHierarchyList"  }
+                                             ,{ path: mm.args.path })
+                     //alert(JSON.stringify(result,null,2))
+
+                    if (result.value) {
+                         this.drives = result.value
+
+                    }
+                    if (isValidObject(this.args)) {
+                        this.items = this.args.items
+                        if (isValidObject(this.args.value)) {
+                           this.value = this.args.value
+                        }
+                    }
+
+                    }
+                 }
+
+
+            }
 
 
 })

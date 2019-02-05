@@ -21,6 +21,12 @@ properties(
             name:   "Background color",
             type:   "String"
         }
+        ,
+        {
+            id:     "load",
+            name:   "load",
+            type:   "Action"
+        }
     ]
 )//properties
 logo_url("/driver_icons/file_list.png")
@@ -40,5 +46,10 @@ logo_url("/driver_icons/file_list.png")
          msg: "..."
      }
       },
+      methods: [
+        load: function() {
+            
+        }
+      ]
     })
 }
