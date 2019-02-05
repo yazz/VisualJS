@@ -115,8 +115,10 @@ load_once_from_file(true)
 
 
 
-    <div style='position:absolute;bottom:-5px;width:100%;box-shadow: 2px 2px 10px lightgray; color: black;padding: 0px; padding-left: 15px;display: block;overflow: auto;background-color: lightgray;z-index:21474836;text-align: center;height: 30px; font-size:16px;vertical-align: middle;line-height: 30px; '>
-        {{info_text?info_text:""}}
+    <div    id="status bar"
+            ref="status bar"
+            style='position:absolute;bottom:-5px;width:100%;box-shadow: 2px 2px 10px lightgray; color: black;padding: 0px; padding-left: 15px;display: block;overflow: auto;background-color: lightgray;z-index:21474836;text-align: center;height: 30px; font-size:16px;vertical-align: middle;line-height: 30px; '>
+        {{((info_text != null)?info_text:"")}}
     </div>
 
 
@@ -233,6 +235,7 @@ load_once_from_file(true)
 
 
             <component  id="app_preview_component"
+                        ref="app_preview_component"
                         v-if='app_loaded && is_ui_app'
                         style='background-color: white;'
                         v-bind:is="app_component_name">
@@ -505,7 +508,7 @@ load_once_from_file(true)
        ,
        data: function() {
            return {
-               info_text:           null,
+               info_text:           "",
                editor_loaded:       false,
                console_output:      "",
                selected_app:        '',
