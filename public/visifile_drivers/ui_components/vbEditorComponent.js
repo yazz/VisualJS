@@ -852,24 +852,37 @@ uses_javascript_librararies(["advanced_bundle"])
             // ---------------------------------------------------------
             // load the forms and their controls
             // ---------------------------------------------------------
-            var forms = this.getForms()
+            debugger
 
+
+            // ---------------------------------------------------------
+            // For each form ...
+            // ---------------------------------------------------------
+            var forms = this.getForms()
             for (var formIndex = 0; formIndex < forms.length; formIndex ++) {
                 var formName = forms[formIndex].name
 
+                // ---------------------------------------------------------
+                // ... load the component definitions
+                // ---------------------------------------------------------
                 var compsToLoad = []
-                for (var rtw = 0; rtw < mm.model.forms[formName].components.length ; rtw++ )
+                for (var compenentInFormIndex = 0; compenentInFormIndex < mm.model.forms[formName].components.length ; compenentInFormIndex++ )
                 {
-                    var newItem = mm.model.forms[formName].components[rtw]
+                    var newItem = mm.model.forms[formName].components[compenentInFormIndex]
                     if (!component_loaded[newItem.base_component_id]) {
                         compsToLoad.push(newItem.base_component_id)
                     }
                 }
                 await loadV2(compsToLoad)
 
-                for (var rtw = 0; rtw < mm.model.forms[formName].components.length ; rtw++ )
+
+
+                // ---------------------------------------------------------
+                //
+                // ---------------------------------------------------------
+                for (var compenentInFormIndex = 0; compenentInFormIndex < mm.model.forms[formName].components.length ; compenentInFormIndex++ )
                 {
-                     var newItem = mm.model.forms[formName].components[rtw]
+                     var newItem = mm.model.forms[formName].components[compenentInFormIndex]
                      //alert(newItem.base_component_id)
                         //console.log(`Loading ${newItem.base_component_id}`)
 
@@ -879,24 +892,24 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
 
-                     var compEvaled1 = component_cache[this.model.forms[formName].components[rtw].base_component_id]
+                     var compEvaled1 = component_cache[this.model.forms[formName].components[compenentInFormIndex].base_component_id]
                      if (isValidObject(compEvaled1)) {
                             var compEvaled = compEvaled1.properties
                             if (isValidObject(compEvaled)) {
                                 for (var cpp = 0 ; cpp< compEvaled.length; cpp ++){
                                     var prop = compEvaled[cpp].id
-                                    var compId = this.model.forms[formName].components[rtw].base_component_id
+                                    var compId = this.model.forms[formName].components[compenentInFormIndex].base_component_id
 
-                                    if (!isValidObject(this.model.forms[formName].components[rtw][prop])){
+                                    if (!isValidObject(this.model.forms[formName].components[compenentInFormIndex][prop])){
                                         if (compEvaled[cpp].type == "Action") {
-                                            this.model.forms[formName].components[rtw][prop] =
-                                                mm.getControlMethod(mm.model.forms[formName].components[rtw].base_component_id,
-                                                                    mm.model.forms[formName].components[rtw],
+                                            this.model.forms[formName].components[compenentInFormIndex][prop] =
+                                                mm.getControlMethod(mm.model.forms[formName].components[compenentInFormIndex].base_component_id,
+                                                                    mm.model.forms[formName].components[compenentInFormIndex],
                                                                     compEvaled1,
                                                                     compEvaled[cpp].id )
 
                                         } else {
-                                            this.model.forms[formName].components[rtw][prop] = ""
+                                            this.model.forms[formName].components[compenentInFormIndex][prop] = ""
                                         }
                                     }
                                 }
@@ -2628,8 +2641,8 @@ ${eventMessage.code}
               for (  var formIndex = 0;  formIndex < forms.length;  formIndex ++  ) {
                    var formName = forms[formIndex].name
 
-                   for (  var rtw = 0;  rtw < mm.model.forms[formName].components.length;  rtw ++  ) {
-                       var newItem = mm.model.forms[formName].components[rtw]
+                   for (  var compenentInFormIndex = 0;  compenentInFormIndex < mm.model.forms[formName].components.length;  compenentInFormIndex ++  ) {
+                       var newItem = mm.model.forms[formName].components[compenentInFormIndex]
                        if (newItem && newItem.base_component_id) {
                            if (!subComponentsMap[newItem.base_component_id]) {
                               subComponentsMap[newItem.base_component_id] = {}
