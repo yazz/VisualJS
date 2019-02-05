@@ -42,9 +42,11 @@ logo_url("/driver_icons/shapes.png")
       props: ["args"]
       ,
       template: `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
-                                    "background-color: "+    args["background_color"]  +  ";"'>
+                                    "background-color: "+    args["background_color"]  + ";" +
+                                    ((args.shape == "circle")?"border-radius: 50%;":"border-radius: 0%;") +
+                                    ";"'>
 
-                                                
+
                  </div>`
       ,
       data: function() {
