@@ -1001,11 +1001,11 @@ uses_javascript_librararies(["advanced_bundle"])
 
      methods: {
          getControlMethod: function(base_id,componentDetails,ompEvaled1, methodId) {
-            return function() {
+            return function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
                 //alert(JSON.stringify(componentDetails.name,null,2))
                 var controlDetails = globalControl[componentDetails.name]
                 var fnDetails = controlDetails[methodId]
-                fnDetails()
+                fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
 
             }
 

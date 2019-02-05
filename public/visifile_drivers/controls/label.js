@@ -68,8 +68,8 @@ logo_url("/driver_icons/text_control.png")
         }
         ,
         methods: {
-            setText: function(av) {
-                this.text = "fdsdfsfd"
+            setText: function(newtext) {
+                this.text = newtext
                 this.changedFn()
             }
             ,
