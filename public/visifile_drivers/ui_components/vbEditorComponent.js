@@ -877,7 +877,6 @@ uses_javascript_librararies(["advanced_bundle"])
                 await loadV2(compsToLoad)
 
 
-debugger
 
                 // ---------------------------------------------------------
                 // For each component in the form ...

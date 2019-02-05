@@ -125,9 +125,12 @@ load_once_from_file(true)
     </div>
 
     <div v-if='mode == "edit"'>
-        <div id=editor_id v-bind:style="'height: 100%; width: ' + code_width + '; left: 0px; display: ' + (code_shown?'inline-block':'none') + ';'">
+        <div    id=editor_id
+                v-bind:style="'height: 100%; width: ' + code_width + '; left: 0px; display: ' + (code_shown?'inline-block':'none') + ';'">
 
-            <component  v-bind:is="editor_component" v-if="editor_loaded" ref="editor_component_ref">
+            <component  v-bind:is="editor_component"
+                        v-if="editor_loaded"
+                        ref="editor_component_ref">
 
                 <div      slot-scope="editor_component" style='display: inline-block;width:100%;'>
 
@@ -229,7 +232,8 @@ load_once_from_file(true)
             </div>
 
 
-            <component  v-if='app_loaded && is_ui_app'
+            <component  id="app_preview_component"
+                        v-if='app_loaded && is_ui_app'
                         style='background-color: white;'
                         v-bind:is="app_component_name">
                APP HERE
