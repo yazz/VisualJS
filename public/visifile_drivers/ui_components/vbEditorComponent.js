@@ -913,17 +913,15 @@ uses_javascript_librararies(["advanced_bundle"])
                                 var prop = cachedComponentPropertiesDefinition[cpp].id
                                 var compId = this.model.forms[formName].components[compenentInFormIndex].base_component_id
 
-                                if (!isValidObject(this.model.forms[formName].components[compenentInFormIndex][prop])){
-                                    if (cachedComponentPropertiesDefinition[cpp].type == "Action") {
-                                        this.model.forms[formName].components[compenentInFormIndex][prop] =
-                                            mm.getControlMethod(mm.model.forms[formName].components[compenentInFormIndex].base_component_id,
-                                                                mm.model.forms[formName].components[compenentInFormIndex],
-                                                                cachedComponentDefinition,
-                                                                cachedComponentPropertiesDefinition[cpp].id )
+                                if (cachedComponentPropertiesDefinition[cpp].type == "Action") {
+                                    this.model.forms[formName].components[compenentInFormIndex][prop] =
+                                        mm.getControlMethod(mm.model.forms[formName].components[compenentInFormIndex].base_component_id,
+                                                            mm.model.forms[formName].components[compenentInFormIndex],
+                                                            cachedComponentDefinition,
+                                                            cachedComponentPropertiesDefinition[cpp].id )
 
-                                    } else {
-                                        this.model.forms[formName].components[compenentInFormIndex][prop] = ""
-                                    }
+                                } else if (!isValidObject(this.model.forms[formName].components[compenentInFormIndex][prop])){
+                                    this.model.forms[formName].components[compenentInFormIndex][prop] = ""
                                 }
                             }
                         }
