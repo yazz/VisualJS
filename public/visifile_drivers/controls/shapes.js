@@ -19,7 +19,19 @@ properties(
         {
             id:     "background_color",
             name:   "Background color",
+            default:    "blue",
             type:   "String"
+        }
+        ,
+        {
+            id:         "shape",
+            name:       "Shape",
+            type:       "Select",
+            default:    "square",
+            values:     [
+                            {display: "Square",   square: ""},
+                            {display: "Circle",  value: "circle"}
+                        ]
         }
     ]
 )//properties
@@ -32,7 +44,7 @@ logo_url("/driver_icons/shapes.png")
       template: `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
                                     "background-color: "+    args["background_color"]  +  ";"'>
 
-                                                {{args.text}}
+                                                
                  </div>`
       ,
       data: function() {
