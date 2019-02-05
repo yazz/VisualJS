@@ -55,7 +55,16 @@ logo_url("/driver_icons/line.png")
          msg: "..."
      }
       },
-      mounted: function() {
+      watch: {
+        // This would be called anytime the value of the input changes
+        refresh(newValue, oldValue) {
+            //console.log("refresh: " + this.args.text)
+            if (isValidObject(this.args)) {
+            }
+            this.redraw()
+        }
+      },
+            mounted: function() {
         this.redraw()
       },
       methods: {
