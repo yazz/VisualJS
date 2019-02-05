@@ -29,7 +29,7 @@ properties(
             type:       "Select",
             default:    "square",
             values:     [
-                            {display: "Square",   square: ""},
+                            {display: "Square",   value: "square"},
                             {display: "Circle",  value: "circle"}
                         ]
         }
