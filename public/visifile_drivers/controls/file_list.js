@@ -23,33 +23,120 @@ properties(
         }
         ,
         {
+            id:     "path",
+            name:   "Path",
+            type:   "String"
+        }
+        ,
+        {
+            id:     "changed_event",
+            name:   "Changed event",
+            type:   "Event"
+        }
+        ,
+        {
             id:     "load",
             name:   "load",
             type:   "Action"
         }
-    ]
+     ]
 )//properties
 logo_url("/driver_icons/file_list.png")
 */
 
     Vue.component("file_list_control",{
-      props: ["args"]
+      props: ["args","design_mode"]
       ,
       template: `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
                                     "background-color: "+    args["background_color"]  +  ";"'>
 
-                                                {{args.text}}
+                                    <select
+                                        v-on:change='changedFn();runEventHandler()'
+                                        size="15"
+                                        v-model='value'>
+
+                                        <option v-for='opt in drives'
+                                                v-bind:value='opt'>
+                                            {{opt}}
+                                        </option>
+
+                                    </select>
+
                  </div>`
       ,
       data: function() {
-       return {
-         msg: "..."
-     }
-      },
-      methods: [
-        load: function() {
-            
+         return {
+            value: null,
+             drives: []
+         }
+      }
+      ,
+      mounted: async function() {
+          if (isValidObject(this.args.name)) {
+              globalControl[this.args.name] =  this
+          }
+
+          this.load()
+       }
+        ,
+        watch: {
+          // This would be called anytime the value of the input changes
+          refresh: function(newValue, oldValue) {
+              //console.log("refresh: " + this.args.text)
+              if (isValidObject(this.args)) {
+                  this.value = this.args.value
+              }
+          }
         }
-      ]
-    })
+         ,
+         methods: {
+
+
+
+
+               changedFn: function() {
+                   if (isValidObject(this.args)) {
+                       this.args.value = this.value
+                   }
+               }
+               ,
+
+               runEventHandler: function() {
+                   this.$emit('send', {
+                                                   type:               "subcomponent_event",
+                                                   control_name:        this.args.name,
+                                                   sub_type:           "changed",
+                                                   code:                this.args.changed_event
+                                               })
+               }
+               ,
+                 load: async function() {
+                 var mm = this
+                 if (!this.design_mode) {
+                     var result = await callFunction(
+                                         {
+                                             driver_name: "serverFileList",
+                                             method_name: "serverFileList"  }
+                                             ,{ path: mm.args.path })
+                     //alert(JSON.stringify(result,null,2))
+
+                    if (result.value) {
+                         this.drives = result.value
+
+                    }
+                    if (isValidObject(this.args)) {
+                        this.items = this.args.items
+                        if (isValidObject(this.args.value)) {
+                           this.value = this.args.value
+                        }
+                    }
+
+                    }
+                 }
+
+
+            }
+
+
+})
 }
