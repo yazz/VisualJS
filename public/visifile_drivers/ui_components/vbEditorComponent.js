@@ -852,7 +852,6 @@ uses_javascript_librararies(["advanced_bundle"])
             // ---------------------------------------------------------
             // load the forms and their controls
             // ---------------------------------------------------------
-            debugger
 
 
             // ---------------------------------------------------------
@@ -863,8 +862,10 @@ uses_javascript_librararies(["advanced_bundle"])
                 var formName = forms[formIndex].name
 
                 // ---------------------------------------------------------
-                // ... load the component definitions
+                // ... load the component definitions for all components in
+                //     the form
                 // ---------------------------------------------------------
+
                 var compsToLoad = []
                 for (var compenentInFormIndex = 0; compenentInFormIndex < mm.model.forms[formName].components.length ; compenentInFormIndex++ )
                 {
@@ -876,23 +877,34 @@ uses_javascript_librararies(["advanced_bundle"])
                 await loadV2(compsToLoad)
 
 
+debugger
 
                 // ---------------------------------------------------------
-                //
+                // For each component in the form ...
                 // ---------------------------------------------------------
+
                 for (var compenentInFormIndex = 0; compenentInFormIndex < mm.model.forms[formName].components.length ; compenentInFormIndex++ )
                 {
-                     var newItem = mm.model.forms[formName].components[compenentInFormIndex]
-                     //alert(newItem.base_component_id)
-                        //console.log(`Loading ${newItem.base_component_id}`)
 
-                        if (mm.edited_app_component_id) {
-                            mm.component_usage[newItem.base_component_id] = true
-                        }
+                    // ---------------------------------------------------------
+                    // ... Make sure that the component is added as a
+                    //     dependency of this app (Useful for
+                    //     when we compile the app as standalone HTML)
+                    // ---------------------------------------------------------
+
+                    var componentConfig = mm.model.forms[formName].components[compenentInFormIndex]
+                    if (mm.edited_app_component_id) {
+                        mm.component_usage[  componentConfig.base_component_id  ] = true
+                    }
 
 
+                    // ---------------------------------------------------------
+                    // ... 
+                    //
+                    //
+                    // ---------------------------------------------------------
 
-                     var compEvaled1 = component_cache[this.model.forms[formName].components[compenentInFormIndex].base_component_id]
+                    var compEvaled1 = component_cache[this.model.forms[formName].components[compenentInFormIndex].base_component_id]
                      if (isValidObject(compEvaled1)) {
                             var compEvaled = compEvaled1.properties
                             if (isValidObject(compEvaled)) {
