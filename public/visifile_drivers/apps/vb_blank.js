@@ -60,13 +60,11 @@ formEditor({
           "leftX": 25,
           "topY": 99,
           "name": "bbb",
-          "base_component_id": "group_control",
+          "base_component_id": "label_control",
           "width": 297,
           "height": 79,
           "text": "another text area",
-          "background_color": "",
-          "is_container": true,
-          "has_details_ui": true
+          "background_color": ""
         }
       ]
     }
@@ -2821,13 +2819,11 @@ ${eventMessage.code}
           "leftX": 25,
           "topY": 99,
           "name": "bbb",
-          "base_component_id": "group_control",
+          "base_component_id": "label_control",
           "width": 297,
           "height": 79,
           "text": "another text area",
-          "background_color": "",
-          "is_container": true,
-          "has_details_ui": true
+          "background_color": ""
         }
       ]
     }

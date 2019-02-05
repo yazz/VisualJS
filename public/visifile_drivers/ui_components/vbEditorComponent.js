@@ -909,26 +909,26 @@ debugger
 
                     if (isValidObject(cachedComponentDefinition)) {
                         var cachedComponentPropertiesDefinition = cachedComponentDefinition.properties
-                            if (isValidObject(cachedComponentPropertiesDefinition)) {
-                                for (var cpp = 0 ; cpp< cachedComponentPropertiesDefinition.length; cpp ++){
-                                    var prop = cachedComponentPropertiesDefinition[cpp].id
-                                    var compId = this.model.forms[formName].components[compenentInFormIndex].base_component_id
+                        if (isValidObject(cachedComponentPropertiesDefinition)) {
+                            for (var cpp = 0 ; cpp< cachedComponentPropertiesDefinition.length; cpp ++) {
+                                var prop = cachedComponentPropertiesDefinition[cpp].id
+                                var compId = this.model.forms[formName].components[compenentInFormIndex].base_component_id
 
-                                    if (!isValidObject(this.model.forms[formName].components[compenentInFormIndex][prop])){
-                                        if (cachedComponentPropertiesDefinition[cpp].type == "Action") {
-                                            this.model.forms[formName].components[compenentInFormIndex][prop] =
-                                                mm.getControlMethod(mm.model.forms[formName].components[compenentInFormIndex].base_component_id,
-                                                                    mm.model.forms[formName].components[compenentInFormIndex],
-                                                                    cachedComponentDefinition,
-                                                                    cachedComponentPropertiesDefinition[cpp].id )
+                                if (!isValidObject(this.model.forms[formName].components[compenentInFormIndex][prop])){
+                                    if (cachedComponentPropertiesDefinition[cpp].type == "Action") {
+                                        this.model.forms[formName].components[compenentInFormIndex][prop] =
+                                            mm.getControlMethod(mm.model.forms[formName].components[compenentInFormIndex].base_component_id,
+                                                                mm.model.forms[formName].components[compenentInFormIndex],
+                                                                cachedComponentDefinition,
+                                                                cachedComponentPropertiesDefinition[cpp].id )
 
-                                        } else {
-                                            this.model.forms[formName].components[compenentInFormIndex][prop] = ""
-                                        }
+                                    } else {
+                                        this.model.forms[formName].components[compenentInFormIndex][prop] = ""
                                     }
                                 }
                             }
-                     }
+                        }
+                    }
 
 
                 }
