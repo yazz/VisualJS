@@ -51,7 +51,9 @@ logo_url("/driver_icons/draw.png")
                                     <canvas v-if='design_mode == "detail_editor"'
                                             v-bind:id='args.name + "_canvas_" + (design_mode?"_design_mode":"")'
                                             v-bind:refresh='refresh'
-                                            v-on:mousemove='drawNow($event)'
+                                            v-on:mousemove='if (mousedown) {drawNow($event)}'
+                                            v-on:mousedown='mousedown=true'
+                                            v-on:mouseup='mousedown=false'
                                             style="height:100%:width:100%;">
                                     </canvas>
 
@@ -67,7 +69,8 @@ logo_url("/driver_icons/draw.png")
       ,
       data: function() {
        return {
-         msg: "..."
+         msg: "...",
+         mousedown: false
      }
       }
       ,
