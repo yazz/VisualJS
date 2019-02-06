@@ -2,6 +2,7 @@ async function(args) {
 /*
 created_timestamp(1549357400123)
 base_component_id("vb_blank")
+read_only(true)
 editors([
   "vb_editor_component"
 ])
@@ -61,7 +62,7 @@ sub_components([
   "label_control",
   "group_control"
 ])
-visibility("PUBLIC")
+visibility("PRIVATE")
 display_name("Copy of Copy of GUI App")
 uses_javascript_librararies(["advanced_bundle"])
 
