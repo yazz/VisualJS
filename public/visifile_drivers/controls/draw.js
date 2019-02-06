@@ -68,6 +68,24 @@ logo_url("/driver_icons/draw.png")
        return {
          msg: "..."
      }
-      },
+      }
+      ,
+      mounted: function() {
+        this.loadImageToCanvas()
+      }
+      ,
+      methods: {
+          loadImageToCanvas: function() {
+              var base_image = new Image();
+              alert(this.args.image_data)
+              base_image.src = this.args.image_data;
+              base_image.onload = function() {
+                //context.drawImage(base_image, 0, 0);
+                alert(base_image)
+              }
+          }
+
+      }
+
     })
 }
