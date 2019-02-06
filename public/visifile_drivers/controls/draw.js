@@ -51,6 +51,7 @@ logo_url("/driver_icons/draw.png")
                                     <canvas v-if='design_mode == "detail_editor"'
                                             v-bind:id='args.name + "_canvas_" + (design_mode?"_design_mode":"")'
                                             v-bind:refresh='refresh'
+                                            v-on:mousemove='drawNow($event)'
                                             style="height:100%:width:100%;">
                                     </canvas>
 
@@ -84,6 +85,19 @@ logo_url("/driver_icons/draw.png")
       }
       ,
       methods: {
+          drawNow: function(event) {
+          var mm= this
+          var el = document.getElementById(mm.args.name + "_canvas_" + (mm.design_mode?"_design_mode":""))
+              if (isValidObject(el)) {
+               var rect = el.getBoundingClientRect()
+               var left = event.clientX - rect.left
+               var right = event.clientY - rect.top
+
+               var ctx = el.getContext("2d");
+               ctx.fillRect(left,right,1,1)
+            }
+          }
+          ,
           loadImageToCanvas: function() {
               var mm = this
               var base_image = new Image();
