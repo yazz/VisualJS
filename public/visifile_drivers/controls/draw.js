@@ -94,7 +94,9 @@ logo_url("/driver_icons/draw.png")
                var right = event.clientY - rect.top
 
                var ctx = el.getContext("2d");
-               ctx.fillRect(left,right,1,1)
+               ctx.fillRect(left,right,3,3)
+
+               this.args.image_data = el.toDataURL()
             }
           }
           ,
