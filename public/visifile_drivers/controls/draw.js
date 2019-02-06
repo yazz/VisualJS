@@ -45,7 +45,7 @@ logo_url("/driver_icons/draw.png")
       props: ["args","refresh", "design_mode"]
       ,
       template: `<div   v-bind:style='"height:100%;width:100%; border: 0px;" +
-                                      "background-color: "+    args["background_color"]  +  ";"'
+                                      "background-color: "+    args["background_color"]  +  ";overflow:auto;"'
                         v-bind:refresh='refresh'>
 
                                     <canvas v-if='design_mode == "detail_editor"'
@@ -60,7 +60,7 @@ logo_url("/driver_icons/draw.png")
                                               alt='No image set'
                                               v-bind:src='"" + args.image_data'>
 
-                                              {{design_mode}}
+
                                     </img>
                  </div>`
       ,
@@ -70,18 +70,34 @@ logo_url("/driver_icons/draw.png")
      }
       }
       ,
+      watch: {
+        // This would be called anytime the value of the input changes
+        refresh: function(newValue, oldValue) {
+            //console.log("refresh: " + this.args.text)
+            if (isValidObject(this.args)) {
+            }
+            this.loadImageToCanvas()
+        }
+      },
       mounted: function() {
         this.loadImageToCanvas()
       }
       ,
       methods: {
           loadImageToCanvas: function() {
+              var mm = this
               var base_image = new Image();
-              alert(this.args.image_data)
+              //alert(this.args.image_data)
               base_image.src = this.args.image_data;
               base_image.onload = function() {
-                //context.drawImage(base_image, 0, 0);
-                alert(base_image)
+                var el = document.getElementById(mm.args.name + "_canvas_" + (mm.design_mode?"_design_mode":""))
+                if (isValidObject(el)) {
+                    //alert(el)
+                    var ctx = el.getContext("2d");
+                    ctx.clearRect(0, 0, el.width, el.height);
+                    ctx.drawImage(base_image, 0, 0);
+                    //alert(base_image)
+                }
               }
           }
 
