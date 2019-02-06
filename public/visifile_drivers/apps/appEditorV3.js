@@ -95,11 +95,11 @@ load_once_from_file(true)
             </div>
 
             <div v-if='!extra_menu' class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: 20px;'>
-                <button  type=button class=' btn btn-info btn-sm'   v-on:click='extra_menu=true' >+</button>
+                <button  type=button class=' btn btn-info btn-sm'   v-on:click='extra_menu=true' >More</button>
             </div>
 
             <div v-if='extra_menu' class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: 20px;'>
-                <button  type=button class=' btn btn-info btn-sm'   v-on:click='extra_menu=false' >-</button>
+                <button  type=button class=' btn btn-info btn-sm'   v-on:click='extra_menu=false' >Less</button>
             </div>
 
 
