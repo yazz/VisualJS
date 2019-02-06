@@ -43,28 +43,6 @@ formEditor({
           "text": "Drag controls from the left onto the grid",
           "background_color": "",
           "parent": null
-        },
-        {
-          "leftX": 31,
-          "topY": 213,
-          "name": "button_control_110",
-          "base_component_id": "button_control",
-          "width": 283,
-          "height": 100,
-          "text": "Click to see stuff happen",
-          "background_color": "",
-          "click_event": "aaa.setText(\"Something ... \")\nbbb.setText(\"... happened\")",
-          "parent": null
-        },
-        {
-          "leftX": 25,
-          "topY": 99,
-          "name": "bbb",
-          "base_component_id": "label_control",
-          "width": 297,
-          "height": 79,
-          "text": "another text area",
-          "background_color": ""
         }
       ]
     }
@@ -2826,28 +2804,6 @@ ${eventMessage.code}
           "text": "Drag controls from the left onto the grid",
           "background_color": "",
           "parent": null
-        },
-        {
-          "leftX": 31,
-          "topY": 213,
-          "name": "button_control_110",
-          "base_component_id": "button_control",
-          "width": 283,
-          "height": 100,
-          "text": "Click to see stuff happen",
-          "background_color": "",
-          "click_event": "aaa.setText(\"Something ... \")\nbbb.setText(\"... happened\")",
-          "parent": null
-        },
-        {
-          "leftX": 25,
-          "topY": 99,
-          "name": "bbb",
-          "base_component_id": "label_control",
-          "width": 297,
-          "height": 79,
-          "text": "another text area",
-          "background_color": ""
         }
       ]
     }
