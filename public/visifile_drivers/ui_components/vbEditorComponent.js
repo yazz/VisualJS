@@ -64,7 +64,7 @@ uses_javascript_librararies(["advanced_bundle"])
             </div>
 
             <div class='' >
-                <div class='' style='display:flex;overflow-y:scroll;flex-flow: row wrap;'>
+                <div class='' style='display:flex;overflow-y:scroll;flex-flow: row wrap;height:65vh;'>
                     <div    class='flex'
                             v-on:click='highlighted_control = null;'
                             v-bind:style='"display:flex;cursor: grab;border-radius: 3px;width:50px;height:50px; margin: 0px;border: 0px;padding:4px;overflow-x:hidden;overflow-y:hidden;background-color: " + ((!highlighted_control)?"#E8E8E8;border-left: 2px solid gray;border-top: 2px solid gray;":"lightgray;")'>
