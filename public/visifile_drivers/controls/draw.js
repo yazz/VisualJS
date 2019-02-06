@@ -45,7 +45,7 @@ logo_url("/driver_icons/draw.png")
       props: ["args","refresh", "design_mode"]
       ,
       template: `<div   v-bind:style='"height:100%;width:100%; border: 0px;" +
-                                      "background-color: "+    args["background_color"]  +  ";overflow:auto;"'
+                                      "background-color: "+    args["background_color"]  +  ";"'
                         v-bind:refresh='refresh'>
 
                                     <canvas v-if='design_mode == "detail_editor"'
@@ -95,7 +95,11 @@ logo_url("/driver_icons/draw.png")
                     //alert(el)
                     var ctx = el.getContext("2d");
                     ctx.clearRect(0, 0, el.width, el.height);
-                    ctx.drawImage(base_image, 0, 0);
+                    var hRatio = el.width / base_image.width    ;
+                    var vRatio = el.height / base_image.height  ;
+                    var ratio  = Math.min ( hRatio, vRatio );
+                    ctx.drawImage(base_image,   0, 0, base_image.width,             base_image.height,
+                                                0, 0, base_image.width*ratio,       base_image.height*ratio);
                     //alert(base_image)
                 }
               }
