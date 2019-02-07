@@ -223,7 +223,7 @@ load_once_from_file(true)
 
 
 
-            <div    v-on:click='window.open(location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html")'
+            <div    v-on:click='var win = window.open(location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
                     v-bind:style="'text-decoration: underline;color:blue;padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;'">
 
                 Shareable link:<input   readonly
