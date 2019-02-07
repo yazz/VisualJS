@@ -50,7 +50,7 @@ logo_url("/driver_icons/ducker.png")
                                     ,{ })
 
            if (result.value) {
-                alert(result.value)
+                alert(JSON.stringify(result.value,null,2))
 
            }
 
