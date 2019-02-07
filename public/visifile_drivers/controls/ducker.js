@@ -45,8 +45,8 @@ logo_url("/driver_icons/ducker.png")
         if (!this.design_mode) {
             var result = await callFunction(
                                 {
-                                    driver_name: "serverDatabaseStuff",
-                                    method_name: "serverDatabaseStuff"  }
+                                    driver_name: "serverDockerStuff",
+                                    method_name: "serverDockerStuff"  }
                                     ,{ })
 
            if (result.value) {
