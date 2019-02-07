@@ -21,6 +21,12 @@ properties(
             name:   "Background color",
             type:   "String"
         }
+        ,
+        {
+            id:     "container_list",
+            name:   "Container list",
+            type:   "List"
+        }
     ]
 )//properties
 logo_url("/driver_icons/ducker.png")
@@ -50,7 +56,7 @@ logo_url("/driver_icons/ducker.png")
                                     ,{ })
 
            if (result.value) {
-                alert(JSON.stringify(result.value,null,2))
+                this.args.container_list = result.value.containerList
 
            }
 
