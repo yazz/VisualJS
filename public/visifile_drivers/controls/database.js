@@ -40,5 +40,24 @@ logo_url("/driver_icons/database.png")
          msg: "..."
      }
       },
+
+      mounted: async function() {
+        if (!this.design_mode) {
+            var result = await callFunction(
+                                {
+                                    driver_name: "serverDatabaseStuff",
+                                    method_name: "serverDatabaseStuff"  }
+                                    ,{ })
+
+           if (result.value) {
+                alert(result.value)
+
+           }
+
+
+           }
+       }
+
+
     })
 }
