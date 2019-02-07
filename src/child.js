@@ -841,11 +841,12 @@ async function setUpComponentsLocally() {
     await evalLocalSystemDriver('line_control',   path.join(__dirname, '../public/visifile_drivers/controls/line.js'))
 
     await evalLocalSystemDriver('draw_control',   path.join(__dirname, '../public/visifile_drivers/controls/draw.js'))
-    /*
-
-
     await evalLocalSystemDriver('database_control',   path.join(__dirname, '../public/visifile_drivers/controls/database.js'))
-*/
+
+
+
+
+
     await evalLocalSystemDriver('threedee_control',        path.join(__dirname, '../public/visifile_drivers/controls/threedee.js'))
     await evalLocalSystemDriver('threedee_item_control',   path.join(__dirname, '../public/visifile_drivers/controls/threedee_item.js'))
     //
