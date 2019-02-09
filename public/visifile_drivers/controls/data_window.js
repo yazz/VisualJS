@@ -44,6 +44,23 @@ properties(
             name:   "Changed event",
             type:   "Event"
         }
+        ,
+        {
+            id:         "is_container",
+            name:       "Is Container?",
+            type:       "Boolean",
+            default:    true,
+            hidden:     true
+        }
+        ,
+        {
+            id:         "hide_children",
+            name:       "Hide Children?",
+            type:       "Boolean",
+            default:    false,
+            hidden:     true
+        }
+
     ]
 )//properties
 logo_url("/driver_icons/data_window.png")
