@@ -168,7 +168,10 @@ logo_url("/driver_icons/table.png")
          }
 
          var table = new Tabulator(this.$refs.exampletable, {
-            	data:                       []
+            	data:                       [
+                                                {a: 1, b: 2},
+                                                {a: 12, b: 27}
+                                            ]
                 ,
             	layout:                    "fitColumns"
                 ,
@@ -194,7 +197,9 @@ logo_url("/driver_icons/table.png")
                 ,
 
             	columns:                    [
-            	                            ]
+                                                {title:"A", field:"a"},
+                                                {title:"B", field:"b"}
+                                   	                            ]
             });
 
 
