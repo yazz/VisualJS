@@ -140,11 +140,24 @@ logo_url("/driver_icons/table.png")
       ,
       data: function() {
        return {
-         value:             null,
-         selected_index:    null,
-         items:             [],
-         new_value:         "",
+         value:             null
+         ,
+         selected_index:    null
+         ,
+         items:             []
+         ,
+         new_value:         ""
+         ,
          new_text:          ""
+         ,
+         columnDefinitions: [
+                                         {title:"A", field:"a"},
+                                         {title:"B", field:"b"}
+                                                         ]
+         ,
+         data:              [ ]
+         ,
+         table:   null
        }
      }
      ,
@@ -167,11 +180,8 @@ logo_url("/driver_icons/table.png")
              }
          }
 
-         var table = new Tabulator(this.$refs.exampletable, {
-            	data:                       [
-                                                {a: 1, b: 2},
-                                                {a: 12, b: 27}
-                                            ]
+         this.table = new Tabulator(this.$refs.exampletable, {
+            	data:                       this.data
                 ,
             	layout:                    "fitColumns"
                 ,
@@ -196,13 +206,13 @@ logo_url("/driver_icons/table.png")
                                         	]
                 ,
 
-            	columns:                    [
-                                                {title:"A", field:"a"},
-                                                {title:"B", field:"b"}
-                                   	                            ]
+            	columns:                    this.columnDefinitions
             });
 
-
+            this.setData([
+                                            {a: 1, b: 2},
+                                            {a: 12, b: 27}
+                                        ])
       }
       ,
       methods: {
@@ -221,6 +231,11 @@ logo_url("/driver_icons/table.png")
                                                 sub_type:           "changed",
                                                 code:                this.args.changed_event
                                             })
+            }
+            ,
+            setData(data) {
+                this.data = data
+                this.table.setData(data)
             }
       }
 
