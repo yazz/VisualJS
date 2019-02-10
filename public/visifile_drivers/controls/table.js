@@ -233,7 +233,7 @@ logo_url("/driver_icons/table.png")
                                             })
             }
             ,
-            setData(data) {
+            setData: function(data) {
                 this.data = data
                 this.table.setData(data)
             }
