@@ -23,6 +23,19 @@ properties(
         }
         ,
         {
+            id:     "setData",
+            name:   "setData",
+            type:   "Action"
+        }
+        ,
+        {
+            id:     "setText",
+            name:   "setText",
+            type:   "Action"
+        }
+        ,
+
+                {
             id:         "items",
             name:       "Items",
             type:       "Array",
@@ -233,7 +246,11 @@ logo_url("/driver_icons/table.png")
                                             })
             }
             ,
-            setData: function(data) {
+            setText: function(newtext) {
+                alert(1)
+            }
+            ,
+            setData: async function(data) {
                 this.data = data
                 this.table.setData(data)
             }
