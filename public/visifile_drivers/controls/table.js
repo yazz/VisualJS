@@ -246,7 +246,7 @@ logo_url("/driver_icons/table.png")
                                             })
             }
             ,
-            setText: function(newtext) {
+            setText: async function(newtext) {
                 alert(1)
             }
             ,
