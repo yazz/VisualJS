@@ -60,6 +60,7 @@ sub_components([
   "input_control",
   "button_control",
   "label_control",
+  "table_control",
   "group_control"
 ])
 visibility("PRIVATE")
