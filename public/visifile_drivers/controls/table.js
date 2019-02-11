@@ -192,6 +192,10 @@ logo_url("/driver_icons/table.png")
                 this.value = this.args.value
              }
          }
+         
+         if (isValidObject(this.args.name)) {
+             globalControl[this.args.name] =  this
+         }
 
          this.table = new Tabulator(this.$refs.exampletable, {
             	data:                       this.data
