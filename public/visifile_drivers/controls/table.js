@@ -35,7 +35,7 @@ properties(
         }
         ,
 
-                {
+        {
             id:         "items",
             name:       "Items",
             type:       "Array",
