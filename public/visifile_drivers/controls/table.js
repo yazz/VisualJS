@@ -186,15 +186,13 @@ logo_url("/driver_icons/table.png")
      }
      ,
      mounted: function() {
+        registerComponent(this)
+
          if (isValidObject(this.args)) {
              this.items = this.args.items
              if (isValidObject(this.args.value)) {
                 this.value = this.args.value
              }
-         }
-         
-         if (isValidObject(this.args.name)) {
-             globalControl[this.args.name] =  this
          }
 
          this.table = new Tabulator(this.$refs.exampletable, {

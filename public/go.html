@@ -7715,6 +7715,23 @@ t.func.call(i,e,o,t.params)||n.push({type:t.type,parameters:t.params})}),!n.leng
 
 
 <script>
+function registerComponent(vueComponentObject) {
+    if (isValidObject(vueComponentObject)) {
+        if (isValidObject(vueComponentObject.args)) {
+            if (isValidObject(vueComponentObject.args.name)) {
+                globalControl[vueComponentObject.args.name] =  vueComponentObject
+            }
+        }
+    }
+}
+
+function unregisterComponent(componentName) {
+    globalControl[componentName] = null
+}
+
+
+
+
 function base64ToUint8Array (string) {
   var raw = atob(string);
   var rawLength = raw.length;
