@@ -1394,6 +1394,8 @@ uses_javascript_librararies(["advanced_bundle"])
                                 mm.model.forms[mm.model.active_form].components[mm.model.active_component_index][aa.property_id] = newC
                             }
                         })
+
+                        mm.ui_code_editor.focus();
                     }
                 },100)
             },100)

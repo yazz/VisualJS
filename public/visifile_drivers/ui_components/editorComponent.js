@@ -101,6 +101,7 @@ load_once_from_file(true)
          });
 
         editor.resize(true);
+        editor.focus();
      },
      methods: {
         gotoLine: function(line) {
