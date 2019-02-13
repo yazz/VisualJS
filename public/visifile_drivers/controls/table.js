@@ -34,6 +34,12 @@ properties(
             type:   "Action"
         }
         ,
+        {
+            id:     "addColumn",
+            name:   "addColumn",
+            type:   "Action"
+        }
+        ,
 
         {
             id:         "items",
@@ -163,10 +169,7 @@ logo_url("/driver_icons/table.png")
          ,
          new_text:          ""
          ,
-         columnDefinitions: [
-                                         {title:"A", field:"a"},
-                                         {title:"B", field:"b"}
-                                                         ]
+         columnDefinitions: [ ]
          ,
          data:              [ ]
          ,
@@ -224,10 +227,6 @@ logo_url("/driver_icons/table.png")
             	columns:                    this.columnDefinitions
             });
 
-            this.setData([
-                                            {a: 1, b: 2},
-                                            {a: 12, b: 27}
-                                        ])
       }
       ,
       methods: {
@@ -256,6 +255,11 @@ logo_url("/driver_icons/table.png")
                 this.data = data
                 this.table.setData(data)
             }
+            ,
+            addColumn: async function(colData) {
+                this.table.addColumn(colData, true, "name");
+            }
+
       }
 
     })
