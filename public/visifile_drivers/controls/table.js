@@ -254,6 +254,22 @@ logo_url("/driver_icons/table.png")
             setData: async function(data) {
                 this.data = data
                 this.table.setData(data)
+
+                var keysOfData = new Object()
+                if ((this.columnDefinitions == null)  || (this.columnDefinitions.length == 0)) {
+                    for (var rr = 0 ; rr < data.length; rr ++) {
+                        var dfg = Object.keys(data[rr])
+                        for (var qq = 0 ; qq < dfg.length; qq ++) {
+                            keysOfData[dfg[qq]] = true
+                        }
+                    }
+                }
+
+                var dfg2 = Object.keys(keysOfData)
+                for (var qq2 = 0 ; qq2 < dfg2.length; qq2 ++) {
+                    this.addColumn({title:dfg2[qq2], field:dfg2[qq2]})
+                }
+
             }
             ,
             addColumn: async function(colData) {
