@@ -791,7 +791,7 @@ load_once_from_file(true)
 
                     //Bug fix: Need a delay when setting theme or view is corrupted
                     setTimeout(function(){
-                       mm.timeline_editor.setTheme("ace/theme/sql_server");
+                       mm.timeline_editor.setTheme("ace/theme/sqlserver");
                     },100)
 
 

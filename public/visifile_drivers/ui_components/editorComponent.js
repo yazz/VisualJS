@@ -54,14 +54,16 @@ load_once_from_file(true)
          //Bug fix: Need a delay when setting theme or view is corrupted
          setTimeout(function(){
             editor.setTheme("ace/theme/sqlserver");
+
+            var langTools = ace.require("ace/ext/language_tools");
+            editor.setOptions({
+               enableBasicAutocompletion: true,
+               enableSnippets: true,
+               enableLiveAutocompletion: false
+            });
+
          },100)
 
-         var langTools = ace.require("ace/ext/language_tools");
-         editor.setOptions({
-            enableBasicAutocompletion: true,
-            enableSnippets: true,
-            enableLiveAutocompletion: false
-         });
 
 
          document.getElementById(editorDomId).style["font-size"] = "16px"

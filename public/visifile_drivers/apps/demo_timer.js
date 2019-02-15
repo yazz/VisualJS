@@ -1345,7 +1345,7 @@ logo_url("https://counter.onlineclock.net/tally-counter.jpg")
 
                     //Bug fix: Need a delay when setting theme or view is corrupted
                     setTimeout(function(){
-                           mm.ui_code_editor.setTheme("ace/theme/sql_server");
+                           mm.ui_code_editor.setTheme("ace/theme/sqlserver");
                         },100)
 
 

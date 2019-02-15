@@ -1364,7 +1364,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
                     //Bug fix: Need a delay when setting theme or view is corrupted
                     setTimeout(function(){
-                           mm.ui_code_editor.setTheme("ace/theme/sql_server");
+                           mm.ui_code_editor.setTheme("ace/theme/sqlserver");
                         },100)
 
 
