@@ -1413,6 +1413,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                 }));
                             }
                         }
+                        langTools.setCompleters([]);
                         langTools.addCompleter(rhymeCompleter);
 
                         mm.ui_code_editor.setOptions({
