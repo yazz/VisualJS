@@ -1401,15 +1401,22 @@ uses_javascript_librararies(["advanced_bundle"])
                                 if (prefix.length === 0) {
                                     callback(null, []);
                                     return
-                                    }
+                                }
 
-                                callback(null, {"will": {name:"name", value: "value", score: 1, meta: "rhyme"}} )
+                                var wordList = [
+                                    {"word":"flow","freq":24,"score":300,"flags":"bc","syllables":"1"},
+                                    {"word":"flow2","freq":24,"score":300,"flags":"bc","syllables":"1"},
+                                    {"word":"will","freq":24,"score":300,"flags":"bc","syllables":"1"}
+                                ]
+                                callback(null, wordList.map(function(ea) {
+                                   return {name: ea.word, value: ea.word, score: ea.score, meta: "rhyme"}
+                                }));
                             }
                         }
                         langTools.addCompleter(rhymeCompleter);
 
                         mm.ui_code_editor.setOptions({
-                           enableBasicAutocompletion: true,
+                           enableBasicAutocompletion: false,
                            enableSnippets: false,
                            enableLiveAutocompletion: true
                         });
