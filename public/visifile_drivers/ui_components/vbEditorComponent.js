@@ -1395,10 +1395,23 @@ uses_javascript_librararies(["advanced_bundle"])
                             }
                         })
 
+                        var langTools = ace.require("ace/ext/language_tools");
+                        var rhymeCompleter = {
+                            getCompletions: function(editor, session, pos, prefix, callback) {
+                                if (prefix.length === 0) {
+                                    callback(null, []);
+                                    return
+                                    }
+
+                                callback(null, {"will": {name:"name", value: "value", score: 1, meta: "rhyme"}} )
+                            }
+                        }
+                        langTools.addCompleter(rhymeCompleter);
+
                         mm.ui_code_editor.setOptions({
                            enableBasicAutocompletion: true,
-                           enableSnippets: true,
-                           enableLiveAutocompletion: false
+                           enableSnippets: false,
+                           enableLiveAutocompletion: true
                         });
 
                         mm.ui_code_editor.focus();
