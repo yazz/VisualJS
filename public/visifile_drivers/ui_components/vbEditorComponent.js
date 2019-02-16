@@ -1395,6 +1395,12 @@ uses_javascript_librararies(["advanced_bundle"])
                             }
                         })
 
+                        mm.ui_code_editor.setOptions({
+                           enableBasicAutocompletion: true,
+                           enableSnippets: true,
+                           enableLiveAutocompletion: false
+                        });
+
                         mm.ui_code_editor.focus();
                     }
                 },100)
