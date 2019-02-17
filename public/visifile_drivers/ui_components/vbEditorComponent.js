@@ -1396,7 +1396,11 @@ uses_javascript_librararies(["advanced_bundle"])
                         })
 
                         var langTools = ace.require("ace/ext/language_tools");
-                        var rhymeCompleter = {
+                        langTools.setCompleters([]);
+
+                        var controlAuto = {
+                            identifierRegexps: [/[a-zA-Z_0-9]/]
+                            ,
                             getCompletions: function(editor, session, pos, prefix, callback) {
                                 if (prefix.length === 0) {
                                     callback(null, []);
@@ -1409,12 +1413,46 @@ uses_javascript_librararies(["advanced_bundle"])
                                     {"word":"will","freq":24,"score":300,"flags":"bc","syllables":"1"}
                                 ]
                                 callback(null, wordList.map(function(ea) {
-                                   return {name: ea.word, value: ea.word, score: ea.score, meta: "rhyme"}
+                                   return {name: ea.word, value: ea.word, score: ea.score, meta: "control"}
                                 }));
+
+                                console.log("Called controlAuto: " + pos + " : " + prefix)
                             }
                         }
-                        langTools.setCompleters([]);
-                        langTools.addCompleter(rhymeCompleter);
+                        langTools.addCompleter(controlAuto);
+
+
+                        var periodAuto = {
+                            identifierRegexps: [/[.]/]
+                            ,
+                            getCompletions: function(editor, session, pos, prefix, callback) {
+                                if (prefix.length === 0) {
+                                    callback(null, []);
+                                    return
+                                }
+
+                                var wordList = [
+                                    {"word":"will.a","freq":24,"score":300,"flags":"bc","syllables":"1"},
+                                ]
+                                callback(null, wordList.map(function(ea) {
+                                   return {name: ea.word, value: ea.word, score: ea.score, meta: "control"}
+                                }));
+
+                                console.log("Called periodAuto: " + pos + " : " + prefix)
+                            }
+                        }
+                        //langTools.addCompleter(periodAuto);
+
+                        mm.ui_code_editor.commands.addCommand({
+                            name: "showOtherCompletions",
+                            bindKey: ".",
+                            exec: function(editor) {
+                                //alert(".")
+                                langTools.setCompleters([]);
+                                 mm.ui_code_editor.completer.detach();
+                                 langTools.addCompleter(periodAuto);
+                            }
+                        })
 
                         mm.ui_code_editor.setOptions({
                            enableBasicAutocompletion: false,
