@@ -1448,11 +1448,10 @@ uses_javascript_librararies(["advanced_bundle"])
                             bindKey: ".",
                             exec: function(editor) {
                                 //alert(".")
-                                langTools.setCompleters([]);
                                  mm.ui_code_editor.completer.detach();
-                                 langTools.addCompleter(periodAuto);
                                  mm.ui_code_editor.session.insert(mm.ui_code_editor.getCursorPosition(), ".")
-                                 //mm.ui_code_editor.showPopup(mm.ui_code_editor);
+                                 langTools.setCompleters([]);
+                                 langTools.addCompleter(periodAuto);
                             }
                         })
 
