@@ -1407,11 +1407,14 @@ uses_javascript_librararies(["advanced_bundle"])
                                     return
                                 }
 
-                                var wordList = [
-                                    {"word":"flow","freq":24,"score":300,"flags":"bc","syllables":"1"},
-                                    {"word":"flow2","freq":24,"score":300,"flags":"bc","syllables":"1"},
-                                    {"word":"will","freq":24,"score":300,"flags":"bc","syllables":"1"}
-                                ]
+                                var wordList = []
+//zzz
+                                var ccc = mm.model.forms[mm.model.active_form].components
+                                for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
+                                    var component = ccc[ytr]
+                                    wordList.push({"word":component.name,"freq":24,"score":300,"flags":"bc","syllables":"1"})
+                                }
+
                                 callback(null, wordList.map(function(ea) {
                                    return {name: ea.word, value: ea.word, score: ea.score, meta: "control"}
                                 }));
