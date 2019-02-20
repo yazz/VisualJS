@@ -1386,7 +1386,6 @@ uses_javascript_librararies(["advanced_bundle"])
                         }
 
 
-                        debugger
                         mm.ui_code_editor.getSession().setValue(ccode);
                         mm.ui_code_editor.getSession().setUseWorker(false);
 
