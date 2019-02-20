@@ -1399,72 +1399,72 @@ uses_javascript_librararies(["advanced_bundle"])
                         langTools.setCompleters([]);
 
                         var controlAuto = {
-                            identifierRegexps: [/[a-zA-Z_0-9]/]
+                            identifierRegexps: [/[a-zA-Z_0-9.]/]
                             ,
                             getCompletions: function(editor, session, pos, prefix, callback) {
+                                console.log("Called controlAuto: " + pos + " : " + prefix)
+
                                 if (prefix.length === 0) {
                                     callback(null, []);
                                     return
                                 }
+                                var controlName = null
+                                if (prefix.indexOf(".") != -1) {
+                                    controlName = prefix.substring(0,prefix.indexOf("."))
+                                    console.log("controlName: " + controlName)
+                                }
+
 
                                 var wordList = []
-                                var ccc = mm.model.forms[mm.model.active_form].components
-                                for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
-                                    var component = ccc[ytr]
-                                    wordList.push({"word":component.name,"freq":24,"score":300,"flags":"bc","syllables":"1"})
+                                if (controlName == null) {
+                                    var ccc = mm.model.forms[mm.model.active_form].components
+                                    for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
+                                        var component = ccc[ytr]
+                                        wordList.push({"word":component.name,"freq":24,"score":300,"flags":"bc","syllables":"1"})
+                                    }
+                                } else {
+                                    var componentId = null
+                                    var comps = mm.model.forms[mm.model.active_form].components
+                                    for (var rt=0; rt < comps.length; rt++) {
+                                        if (comps[rt].name == controlName) {
+                                            componentId = comps[rt].base_component_id
+                                        }
+                                    }
+                                    var cachedComponentDefinition = component_cache[componentId]
+
+                                    //debugger
+                                    for (var fg=0;fg < cachedComponentDefinition.properties.length;fg++){
+                                        var propName = controlName + "." + cachedComponentDefinition.properties[fg].id
+                                        wordList.push({"word": propName ,
+                                        "freq":24,"score":300,"flags":"bc","syllables":"1"})
+                                    }
+
+
+
+
+                                    //zzz
+
+                                    //if (isValidObject(cachedComponentDefinition)) {
+                                    //    var cachedComponentPropertiesDefinition = cachedComponentDefinition.properties
                                 }
 
                                 callback(null, wordList.map(function(ea) {
                                    return {name: ea.word, value: ea.word, score: ea.score, meta: "control"}
                                 }));
 
-                                console.log("Called controlAuto: " + pos + " : " + prefix)
+
                             }
                         }
                         langTools.addCompleter(controlAuto);
 
 
-                        var periodAuto = {
-                            identifierRegexps: [/[a-zA-Z_0-9.]/]
-                            ,
-                            getCompletions: function(editor, session, pos, prefix, callback) {
-                                console.log("Called periodAuto: " + pos + " : " + prefix)
-                                if (prefix.length === 0) {
-                                    callback(null, []);
-                                    return
-                                }
-
-                                var wordList = []
-//zzz
-                                var ccc = mm.model.forms[mm.model.active_form].components
-                                for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
-                                    var component = ccc[ytr]
-                                    wordList.push({"word":component.name,"freq":24,"score":300,"flags":"bc","syllables":"1"})
-                                }
-                                callback(null, wordList.map(function(ea) {
-                                   return {name: ea.word, value: ea.word, score: ea.score, meta: "control"}
-                                }));
-
-                            }
-                        }
-                        //langTools.addCompleter(periodAuto);
 
                         mm.ui_code_editor.commands.addCommand({
                             name: "showOtherCompletions",
                             bindKey: ".",
                             exec: function(editor) {
-                                //alert(".")
-                                langTools.setCompleters([]);
-                                langTools.addCompleter(periodAuto);
-                                 //mm.ui_code_editor.completer.detach();
-                                 mm.ui_code_editor.completer.popup.hide(true)
-
                                  mm.ui_code_editor.session.insert(mm.ui_code_editor.getCursorPosition(), ".")
                                  mm.ui_code_editor.completer.updateCompletions()
-
-                                 mm.ui_code_editor.completer.popup.show(true)
-
-
                             }
                         })
 
