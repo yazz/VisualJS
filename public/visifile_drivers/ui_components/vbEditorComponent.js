@@ -1408,7 +1408,6 @@ uses_javascript_librararies(["advanced_bundle"])
                                 }
 
                                 var wordList = []
-//zzz
                                 var ccc = mm.model.forms[mm.model.active_form].components
                                 for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
                                     var component = ccc[ytr]
@@ -1426,22 +1425,26 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
                         var periodAuto = {
-                            identifierRegexps: [/[.]/]
+                            identifierRegexps: [/[a-zA-Z_0-9.]/]
                             ,
                             getCompletions: function(editor, session, pos, prefix, callback) {
+                                console.log("Called periodAuto: " + pos + " : " + prefix)
                                 if (prefix.length === 0) {
                                     callback(null, []);
                                     return
                                 }
 
-                                var wordList = [
-                                    {"word":"will.a","freq":24,"score":300,"flags":"bc","syllables":"1"},
-                                ]
+                                var wordList = []
+//zzz
+                                var ccc = mm.model.forms[mm.model.active_form].components
+                                for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
+                                    var component = ccc[ytr]
+                                    wordList.push({"word":component.name,"freq":24,"score":300,"flags":"bc","syllables":"1"})
+                                }
                                 callback(null, wordList.map(function(ea) {
                                    return {name: ea.word, value: ea.word, score: ea.score, meta: "control"}
                                 }));
 
-                                console.log("Called periodAuto: " + pos + " : " + prefix)
                             }
                         }
                         //langTools.addCompleter(periodAuto);
