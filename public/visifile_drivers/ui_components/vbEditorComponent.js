@@ -1424,7 +1424,13 @@ uses_javascript_librararies(["advanced_bundle"])
                                     var ccc = mm.model.forms[mm.model.active_form].components
                                     for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
                                         var component = ccc[ytr]
-                                        wordList.push({"word":component.name,"freq":24,"score":300,"flags":"bc","syllables":"1"})
+                                        wordList.push(  {"word":    component.name,
+                                                        "freq":     24,
+                                                        "score":    300,
+                                                        "flags":    "bc",
+                                                        "syllables":"1",
+                                                         meta:      "Control"
+                                                        })
                                     }
                                 } else {
                                     var componentId = null
@@ -1436,11 +1442,15 @@ uses_javascript_librararies(["advanced_bundle"])
                                     }
                                     var cachedComponentDefinition = component_cache[componentId]
 
-                                    //debugger
                                     for (var fg=0;fg < cachedComponentDefinition.properties.length;fg++){
                                         var propName = controlName + "." + cachedComponentDefinition.properties[fg].id
-                                        wordList.push({"word": propName ,
-                                        "freq":24,"score":300,"flags":"bc","syllables":"1"})
+                                        wordList.push({ "word": propName ,
+                                                        "freq":         24,
+                                                        "score":        300,
+                                                        "flags":        "bc",
+                                                        "syllables":    "1",
+                                                        "meta":         "Property"
+                                                        })
                                     }
 
 
