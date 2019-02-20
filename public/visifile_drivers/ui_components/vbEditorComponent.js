@@ -1444,7 +1444,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
                                     for (var fg=0;fg < cachedComponentDefinition.properties.length;fg++){
                                         var propName = controlName + "." + cachedComponentDefinition.properties[fg].id
-                                        wordList.push({ "word": propName ,
+                                        wordList.push({ "word":         propName ,
                                                         "freq":         24,
                                                         "score":        300,
                                                         "flags":        "bc",
@@ -1463,7 +1463,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                 }
 
                                 callback(null, wordList.map(function(ea) {
-                                   return {name: ea.word, value: ea.word, score: ea.score, meta: "control"}
+                                   return {name: ea.word, value: ea.word, score: ea.score, meta: ea.meta}
                                 }));
 
 
