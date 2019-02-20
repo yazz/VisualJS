@@ -1381,7 +1381,12 @@ uses_javascript_librararies(["advanced_bundle"])
                             ccode = mm.model.forms[mm.model.active_form].components[mm.model.active_component_index][aa.property_id]
                         }
 
+                        if (!isValidObject(ccode)) {
+                            ccode = ""
+                        }
 
+
+                        debugger
                         mm.ui_code_editor.getSession().setValue(ccode);
                         mm.ui_code_editor.getSession().setUseWorker(false);
 
