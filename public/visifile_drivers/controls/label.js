@@ -26,7 +26,10 @@ properties(
             id:         "setText",
             snippet:    `setText("")`,
             name:       "setText",
-            type:       "Action"
+            type:       "Action",
+            help:       `<div>Help text for
+                            <b>setText</b> function
+                         </div>`
         }
     ]
 )//properties
