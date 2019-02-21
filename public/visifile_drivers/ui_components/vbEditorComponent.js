@@ -1443,13 +1443,22 @@ uses_javascript_librararies(["advanced_bundle"])
                                     var cachedComponentDefinition = component_cache[componentId]
 
                                     for (var fg=0;fg < cachedComponentDefinition.properties.length;fg++){
-                                        var propName = controlName + "." + cachedComponentDefinition.properties[fg].id
+                                        var comm = cachedComponentDefinition.properties[fg]
+                                        var propName = controlName + "." + comm.id
+                                        var meta = "Property"
+                                        if (isValidObject(comm.snippet)) {
+                                            propName = controlName + "." + comm.snippet
+                                        }
+                                        if (comm.type == "Action") {
+                                            meta = "Method"
+                                        }
+
                                         wordList.push({ "word":         propName ,
                                                         "freq":         24,
                                                         "score":        300,
                                                         "flags":        "bc",
                                                         "syllables":    "1",
-                                                        "meta":         "Property"
+                                                        "meta":         meta
                                                         })
                                     }
 

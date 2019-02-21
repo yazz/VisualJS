@@ -23,9 +23,10 @@ properties(
         }
         ,
         {
-            id:     "setText",
-            name:   "setText",
-            type:   "Action"
+            id:         "setText",
+            snippet:    "setText()",
+            name:       "setText",
+            type:       "Action"
         }
     ]
 )//properties
