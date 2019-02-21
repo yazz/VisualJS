@@ -24,7 +24,7 @@ properties(
         ,
         {
             id:         "setText",
-            snippet:    "setText()",
+            snippet:    `setText("")`,
             name:       "setText",
             type:       "Action"
         }
