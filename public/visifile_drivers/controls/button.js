@@ -25,7 +25,10 @@ properties(
         {
             id:     "click_event",
             name:   "Clicked event",
-            type:   "Event"
+            type:   "Event",
+            help:       `<div>Help text for
+                            <b>click_event</b> event
+                         </div>`
         }
     ]
 )//properties
