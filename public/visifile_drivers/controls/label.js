@@ -13,7 +13,10 @@ properties(
         {
             id:     "text",
             name:   "Text",
-            type:   "String"
+            type:   "String",
+            help:       `<div>Help text for
+                            <b>text</b> property
+                         </div>`
         }
         ,
         {
