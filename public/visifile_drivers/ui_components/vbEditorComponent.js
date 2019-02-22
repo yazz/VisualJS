@@ -152,9 +152,8 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
                     <div    id='show_help' style="background-color:white;color:black;">
-                        <pre>
-{{design_mode_pane.help}}
-                        </pre>
+                        <div    style="font-weight:normal;" 
+                                v-html="design_mode_pane.help"></div>
                     </div>
                 </div>
             </div>
