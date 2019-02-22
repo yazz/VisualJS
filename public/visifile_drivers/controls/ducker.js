@@ -71,7 +71,9 @@ logo_url("/driver_icons/ducker.png")
                                          </div>
                                      </div>
                                      <div v-if="args.show_ui == 'true'">
-                                        UI
+                                        <component  style="width:200px;height: 200px;"
+                                                    is="table_control">
+                                        </component>
                                      </div>
 
                  </div>`
