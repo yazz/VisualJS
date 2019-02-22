@@ -200,6 +200,8 @@ logo_url("/driver_icons/table.png")
          }
 
          this.table = new Tabulator(this.$refs.exampletable, {
+                height:                    "100%"
+                ,
             	data:                       this.data
                 ,
             	layout:                    "fitColumns"
