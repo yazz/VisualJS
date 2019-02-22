@@ -12,7 +12,7 @@ properties(
     [
         {
             id:         "text",
-            name:       "Dev Text",
+            name:       "Dev text",
             default:    "Docker connecter",
             type:       "String"
         }
@@ -42,6 +42,17 @@ properties(
             name:   "Container list",
             type:   "List"
         }
+        ,
+        {
+            id:         "show_ui",
+            name:       "Show UI",
+            type:       "Select",
+            default:    "true",
+            values:     [
+                            {display: "True",   value: "true"},
+                            {display: "False",  value: "false"}
+                        ]
+        }
     ]
 )//properties
 logo_url("/driver_icons/ducker.png")
@@ -53,8 +64,14 @@ logo_url("/driver_icons/ducker.png")
       template: `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
                                     "background-color: "+    args["background_color"]  +  ";"'>
 
-                                    <div v-if="design_mode">
-                                        {{args.text}}
+
+                                    <div v-if="args.show_ui == 'false'">
+                                        <div v-if="design_mode">
+                                            {{args.text}}
+                                         </div>
+                                     </div>
+                                     <div v-if="args.show_ui == 'true'">
+                                        UI
                                      </div>
 
                  </div>`
