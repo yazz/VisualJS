@@ -1368,18 +1368,25 @@ uses_javascript_librararies(["advanced_bundle"])
          showHelp: async function(aa) {
             var mm = this
 
+
             if (this.ui_code_editor) {
                 mm.ui_code_editor.destroy()
                 mm.ui_code_editor = null
+
+                // ------------------ HACK CITY! -------------------------
+                // we need this line as otherwise the ace editor isnt always destroyed
+                // properly (related to deletion of the Ace editor parent nodes in Vue)
+                mm.design_mode_pane.type = null
+                // -------------------------------------------------------
             }
 
             setTimeout(function(){
-                mm.refresh++
                 mm.model.active_component_detail_name = null
                 mm.model.active_component_detail_index = null
                 mm.design_mode_pane.type = "help"
                 mm.design_mode_pane.help = aa.help
-            })
+                mm.refresh++
+            },200)
         }
         ,
          editAsCode: async function(aa) {
