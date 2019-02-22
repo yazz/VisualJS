@@ -2539,6 +2539,15 @@ ${eventMessage.code}
          },
 
 
+         existsProp: function(compEvaled,propName) {
+            for (var eee = 0 ;eee < compEvaled.length; eee++) {
+                if (compEvaled[eee].id == propName) {
+                    return true
+                }
+            }
+            return false
+         }
+         ,
          //-------------------------------------------------------------------
          selectComponent: async function(index, showProps) {
          //-------------------------------------------------------------------
@@ -2554,15 +2563,21 @@ ${eventMessage.code}
             this.model.app_selected = false
             this.model.active_component_index = index
             this.properties = []
+
+            var compEvaled = this.getComponentProperties(this.model.forms[this.model.active_form].components[index].base_component_id)
+
             this.properties.push({   id:     "name",   name:   "Name",   type:   "String"    })
             this.properties.push({   id:     "base_component_id",   name:   "Type",   type:   "String" , readonly: true   })
             this.properties.push({   id:     "leftX",   name:   "X",   type:   "Number"    })
             this.properties.push({   id:     "topY",   name:   "Y",   type:   "Number"    })
-            this.properties.push({   id:     "width",   name:   "Width",   type:   "Number"    })
-            this.properties.push({   id:     "height",   name:   "Height",   type:   "Number"    })
+            if (!this.existsProp(compEvaled,"width")) {
+                this.properties.push({   id:     "width",   name:   "Width",   type:   "Number"    })
+            }
+            if (!this.existsProp(compEvaled,"height")) {
+                this.properties.push({   id:     "height",   name:   "Height",   type:   "Number"    })
+            }
 
 
-            var compEvaled = this.getComponentProperties(this.model.forms[this.model.active_form].components[index].base_component_id)
             this.properties = this.properties.concat(compEvaled)
             this.updatePropertySelector()
             if (isValidObject(showProps) && showProps) {
