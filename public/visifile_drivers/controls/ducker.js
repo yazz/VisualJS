@@ -34,10 +34,14 @@ logo_url("/driver_icons/ducker.png")
 */
 
     Vue.component("docker_control",{
-      props: ["args"]
+      props: ["args","design_mode"]
       ,
       template: `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
                                     "background-color: "+    args["background_color"]  +  ";"'>
+
+                                    <div v-if="design_mode">
+                                        {{args.text}}
+                                     </div>
 
                  </div>`
       ,
