@@ -150,9 +150,12 @@ uses_javascript_librararies(["advanced_bundle"])
                                  v-on:click='gotoDragDropEditor()' >x</button>
                     </div>
 
-                    <div    id='ui_code_editor'>
-                    </div>
 
+                    <div    id='show_help' style="background-color:white;color:black;">
+                        <pre>
+{{design_mode_pane.help}}
+                        </pre>
+                    </div>
                 </div>
             </div>
 
@@ -665,7 +668,8 @@ uses_javascript_librararies(["advanced_bundle"])
                                                         v-on:click='$event.stopPropagation();showHelp({
                                                             active_form:            model.active_form,
                                                             active_component_index: model.active_component_index,
-                                                            property_id:            property.id
+                                                            property_id:            property.id,
+                                                            help:                   property.help
                                                         })'  >?</div>
                                         </div>
                                 </div>
@@ -1376,7 +1380,8 @@ uses_javascript_librararies(["advanced_bundle"])
                     type: "help",
                     active_form:            aa.active_form,
                     active_component_index: aa.active_component_index,
-                    property_id:            aa.property_id
+                    property_id:            aa.property_id,
+                    help:                   aa.help
                 }
             })
         }
@@ -1511,7 +1516,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
 
-                                    //zzz
+
 
                                     //if (isValidObject(cachedComponentDefinition)) {
                                     //    var cachedComponentPropertiesDefinition = cachedComponentDefinition.properties
