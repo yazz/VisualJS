@@ -152,7 +152,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
                     <div    id='show_help' style="background-color:white;color:black;">
-                        <div    style="font-weight:normal;" 
+                        <div    style="font-weight:normal;"
                                 v-html="design_mode_pane.help"></div>
                     </div>
                 </div>
@@ -662,12 +662,10 @@ uses_javascript_librararies(["advanced_bundle"])
                                 <div
                                         v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;" + (active_property_index == property.name?"background-color:#000099;color:white;":"")'
                                         v-on:click='selected_pane = "properties";active_property_index = property.name;'>{{property.name}}
-                                        <div v-if="isValidObject(property.help)" style="width:100%;display:inline-block;">
+                                        <div v-if="isValidObject(property.help)"
+                                             style="width:100%;display:inline-block;">
                                             <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: pink; padding:0px; padding-right:5px;padding-left:5px;height: 20px;border-radius: 3px;font-family:verdana;font-size: 13px;font-style:bold;color:black;width:20px;'
                                                         v-on:click='$event.stopPropagation();showHelp({
-                                                            active_form:            model.active_form,
-                                                            active_component_index: model.active_component_index,
-                                                            property_id:            property.id,
                                                             help:                   property.help
                                                         })'  >?</div>
                                         </div>
@@ -1376,11 +1374,8 @@ uses_javascript_librararies(["advanced_bundle"])
             setTimeout(function(){
                 mm.design_mode_pane =
                 {
-                    type: "help",
-                    active_form:            aa.active_form,
-                    active_component_index: aa.active_component_index,
-                    property_id:            aa.property_id,
-                    help:                   aa.help
+                    type:           "help",
+                    help:            aa.help
                 }
             })
         }

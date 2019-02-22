@@ -23,9 +23,10 @@ properties(
         }
         ,
         {
-            id:     "setData",
-            name:   "setData",
-            type:   "Action"
+            id:         "setData",
+            snippet:    `setData([{field_1: 1, field_2: "Hello"},{field_1: 2, field_2: "Goodbye"}])`,
+            name:       "setData",
+            type:       "Action"
         }
         ,
         {
