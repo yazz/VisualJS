@@ -18,6 +18,20 @@ properties(
         }
         ,
         {
+            id:         "width",
+            name:       "Width",
+            default:    200,
+            type:       "Number"
+        }
+        ,
+        {
+            id:         "height",
+            name:       "Height",
+            default:    50,
+            type:       "Number"
+        }
+        ,
+        {
             id:     "background_color",
             name:   "Background color",
             type:   "String"

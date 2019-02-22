@@ -1173,17 +1173,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
             newItem.name = data.text + "_" + this.model.next_component_id++
             newItem.base_component_id = data.text
-            newItem.width = 100
-            newItem.height = 100
 
-            if ((newItem.leftX + newItem.width)
-                    > this.model.forms[this.model.active_form].width) {
-                newItem.leftX = Math.floor(this.model.forms[this.model.active_form].width - newItem.width)
-            }
-            if ((newItem.topY + newItem.height)
-                    > this.model.forms[this.model.active_form].height) {
-                newItem.topY = Math.floor(this.model.forms[this.model.active_form].height - newItem.height)
-            }
 
 
             this.refresh++
@@ -1212,7 +1202,21 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
 
+            if (!isValidObject(newItem.width)) {
+                newItem.width = 100
+            }
+            if (!isValidObject(newItem.height)) {
+                newItem.height = 100
+            }
 
+            if ((newItem.leftX + newItem.width)
+                    > this.model.forms[this.model.active_form].width) {
+                newItem.leftX = Math.floor(this.model.forms[this.model.active_form].width - newItem.width)
+            }
+            if ((newItem.topY + newItem.height)
+                    > this.model.forms[this.model.active_form].height) {
+                newItem.topY = Math.floor(this.model.forms[this.model.active_form].height - newItem.height)
+            }
 
             this.model.forms[this.model.active_form].components.push(newItem)
             this.model.active_component_index = this.model.forms[this.model.active_form].components.length - 1
