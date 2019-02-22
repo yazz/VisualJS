@@ -11,9 +11,10 @@ read_only(true)
 properties(
     [
         {
-            id:     "text",
-            name:   "Text",
-            type:   "String"
+            id:         "text",
+            name:       "Dev Text",
+            default:    "Docker connecter",
+            type:       "String"
         }
         ,
         {
@@ -38,7 +39,6 @@ logo_url("/driver_icons/ducker.png")
       template: `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
                                     "background-color: "+    args["background_color"]  +  ";"'>
 
-                                                {{args.text}}
                  </div>`
       ,
       data: function() {
