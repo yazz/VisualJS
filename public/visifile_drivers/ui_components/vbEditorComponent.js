@@ -117,7 +117,8 @@ uses_javascript_librararies(["advanced_bundle"])
             -->
 
 
-            <div    v-if='(!design_mode && design_mode_pane) || (design_mode && (design_mode_pane.type=="event_editor"))'
+            <div    v-if='(design_mode && (design_mode_pane.type=="event_editor"))'
+                    v-bind:refresh='refresh'
                     v-bind:style='"margin: 2px; display: inline-block; vertical-align: top; width: 100%;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
 
                 <div    v-if='design_mode'
@@ -137,7 +138,8 @@ uses_javascript_librararies(["advanced_bundle"])
             </div>
 
 
-            <div    v-if='(!design_mode && design_mode_pane) || (design_mode && (design_mode_pane.type=="help"))'
+            <div    v-if='(design_mode && (design_mode_pane.type=="help"))'
+                    v-bind:refresh='refresh'
                     v-bind:style='"margin: 2px; display: inline-block; vertical-align: top; width: 100%;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
 
                 <div    v-if='design_mode'
@@ -168,7 +170,7 @@ uses_javascript_librararies(["advanced_bundle"])
             -->
 
 
-            <div    v-if='(!design_mode && design_mode_pane) || (design_mode && (design_mode_pane.type=="control_details_editor"))'
+            <div    v-if='(design_mode && (design_mode_pane.type=="control_details_editor"))'
                     v-bind:style='"box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin: 2px; display: inline-block; vertical-align: top; width: 100%;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
 
                 <div    v-if='design_mode'
@@ -1367,16 +1369,18 @@ uses_javascript_librararies(["advanced_bundle"])
         ,
          showHelp: async function(aa) {
             var mm = this
+
             if (this.ui_code_editor) {
                 mm.ui_code_editor.destroy()
                 mm.ui_code_editor = null
             }
+
             setTimeout(function(){
-                mm.design_mode_pane =
-                {
-                    type:           "help",
-                    help:            aa.help
-                }
+                mm.refresh++
+                mm.model.active_component_detail_name = null
+                mm.model.active_component_detail_index = null
+                mm.design_mode_pane.type = "help"
+                mm.design_mode_pane.help = aa.help
             })
         }
         ,
@@ -1387,13 +1391,10 @@ uses_javascript_librararies(["advanced_bundle"])
                 mm.ui_code_editor = null
             }
             setTimeout(function(){
-                mm.design_mode_pane =
-                {
-                    type: "event_editor",
-                    active_form:            aa.active_form,
-                    active_component_index: aa.active_component_index,
-                    property_id:            aa.property_id
-                }
+                mm.design_mode_pane.type                   = "event_editor"
+                mm.design_mode_pane.active_form            = aa.active_form
+                mm.design_mode_pane.active_component_index = aa.active_component_index
+                mm.design_mode_pane.property_id            = aa.property_id
 
                 setTimeout(function(){
                     if (document.getElementById('ui_code_editor') && (mm.ui_code_editor == null)) {
@@ -2023,10 +2024,8 @@ ${eventMessage.code}
 
         showComponentDetailedDesignUi: async function(index) {
            var mm = this
-           mm.design_mode_pane =
-           {
-               type:                           "control_details_editor"
-           }
+           mm.design_mode_pane.type = "control_details_editor"
+
            this.model.active_component_detail_index = index;
            this.model.active_component_detail_name = this.model.forms[this.model.active_form].components[index].name;
 
@@ -2750,7 +2749,7 @@ ${eventMessage.code}
                       vb_grid_element_id:          null,
                       vb_editor_element_id:        null,
                       design_mode: designMode,
-                      design_mode_pane:            null,
+                      design_mode_pane:            {},
                       local_app:                    false,
                       refresh: 0,
                       runtime_mode: runtimeMode,
