@@ -56,7 +56,7 @@ logo_url("/driver_icons/ducker.png")
 */
 
     Vue.component("docker_control",{
-      props: ["args","design_mode"]
+      props: ["args","design_mode","refresh", "children"]
       ,
       template: `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
                                     "background-color: "+    args["background_color"]  +  ";"'>
@@ -66,6 +66,12 @@ logo_url("/driver_icons/ducker.png")
                                         {{args.text}}
                                      </div>
 
+                                     <div v-bind:style='"position:relative;width:100%;height:100%;border: 0px solid gray;background-color: "+    args["background_color"]  +  ";"'>
+                                         <div style="position:absolute;top:0px">
+                                             <slot v-bind:refresh='refresh'>
+                                             </slot>
+                                         </div>
+                                     </div>
                  </div>`
       ,
       data: function() {
