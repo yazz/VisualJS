@@ -1862,7 +1862,6 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
 
-
                     //
                     // set up property access for all controls on this form
                     //
@@ -1876,15 +1875,27 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
 
+
                     if (eventMessage.type == "subcomponent_event") {
                             var fcc =
 `(async function(){
 ${eventMessage.code}
 })`
 
+
                            this.model.active_form
                            var thisControl = this.form_runtime_info[this.model.active_form].component_lookup_by_name[eventMessage.control_name]
                            if (isValidObject(thisControl)) {
+
+                                if (isValidObject(thisControl.parent)) {
+                                    var cacc =""
+                                     cacc += ( "var parent = mm.form_runtime_info['" + this.model.active_form + "'].component_lookup_by_name['" + thisControl.parent + "'];")
+                                    eval(cacc)
+                                }
+
+
+
+
                                 var compEvaled = this.getComponentProperties(thisControl.base_component_id)
                                 var errr=""
 
