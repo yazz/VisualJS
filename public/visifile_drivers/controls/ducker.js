@@ -62,7 +62,7 @@ logo_url("/driver_icons/ducker.png")
                                     "background-color: "+    args["background_color"]  +  ";"'>
 
 
-                                    <div v-if="design_mode">
+                                    <div v-if="design_mode && (children.length == 0)">
                                         {{args.text}}
                                      </div>
 
