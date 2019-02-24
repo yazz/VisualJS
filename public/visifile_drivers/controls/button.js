@@ -48,7 +48,7 @@ logo_url("/driver_icons/button_control.png")
     ,
     mounted: function() {
         registerComponent(this)
-        alert(this.form)
+        
     }
     ,
     data: function() {

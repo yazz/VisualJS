@@ -70,7 +70,7 @@ logo_url("/driver_icons/table.png")
 */
 
     Vue.component("table_control",{
-      props: ["args","refresh","design_mode"]
+      props: ["form", "name", "args","refresh","design_mode"]
       ,
       template:
 `<div   v-bind:style='"width:100%;overflow-y:auto;height:100%"
@@ -253,7 +253,7 @@ logo_url("/driver_icons/table.png")
             }
             ,
             setText: async function(newtext) {
-                alert(1)
+                
             }
             ,
             setData: async function(data) {
