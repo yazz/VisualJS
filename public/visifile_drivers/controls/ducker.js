@@ -52,6 +52,15 @@ properties(
         }
     ]
 )//properties
+children([
+    {
+        base_component_id: "table_control"
+        ,
+        properties: [
+
+        ]
+    }
+])//children
 logo_url("/driver_icons/ducker.png")
 */
 
