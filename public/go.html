@@ -9237,6 +9237,7 @@ async function callCodeV2(componentRecord,args, seq_no) {
             component_cache[componentRecord.base_component_id] = new Object()
         }
         if (isValidObject(componentRecord.properties)) {
+            component_cache[componentRecord.base_component_id].code = componentRecord.code
             component_cache[componentRecord.base_component_id].properties = eval("(" + componentRecord.properties + ")")
         }
 

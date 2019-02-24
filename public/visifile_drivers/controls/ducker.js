@@ -57,7 +57,7 @@ children([
         base_component_id: "table_control"
         ,
         properties: [
-
+            
         ]
     }
 ])//children

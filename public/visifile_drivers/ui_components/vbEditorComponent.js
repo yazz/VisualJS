@@ -1170,7 +1170,7 @@ uses_javascript_librararies(["advanced_bundle"])
             var newItem = new Object()
             var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
 
-       //alert(parentId +": = (" + parentOffsetX + "," + parentOffsetY + ")")
+            //alert(parentId +": = (" + parentOffsetX + "," + parentOffsetY + ")")
             newItem.leftX = Math.floor(leftX)
             newItem.topY = Math.floor(topY)
             if (newItem.leftX < 0) {
@@ -1241,6 +1241,12 @@ uses_javascript_librararies(["advanced_bundle"])
                 mm.selectComponent(mm.model.active_component_index, true)
                 mm.refresh ++
             },100)
+
+            //zzz
+            var compCode = component_cache[newItem.base_component_id].code
+            var childrenCode  = saveHelper.getValueOfCodeString(compCode, "children",")//children")
+            //alert(childrenCode)
+
         }
         ,
 
