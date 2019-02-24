@@ -45,13 +45,18 @@ logo_url("/driver_icons/button_control.png")
 
                                                 {{args.text}}
                  </button>`
-      ,
-      data: function() {
-       return {
-         msg: "..."
-         }
-     },
-     methods: {
+    ,
+    mounted: function() {
+        registerComponent(this)
+    }
+    ,
+    data: function() {
+        return {
+            msg: "..."
+        }
+    }
+    ,
+    methods: {
         event_callback: function() {
         console.log("----- button_control, event_callback: function() = " + this.name)
             //eval("(function(){" + this.args.click_event + "})")()

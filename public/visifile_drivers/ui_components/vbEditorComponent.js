@@ -966,7 +966,7 @@ uses_javascript_librararies(["advanced_bundle"])
                 {
                     var componentConfig = mm.model.forms[formName].components[compenentInFormIndex]
                     if (isValidObject(componentConfig.load)) {
-                        alert("Load event :" + formName + " : " + componentConfig.name)
+                        //alert("Load event :" + formName + " : " + componentConfig.name)
                     }
                 }
 

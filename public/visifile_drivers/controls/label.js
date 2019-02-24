@@ -65,6 +65,8 @@ logo_url("/driver_icons/text_control.png")
           }
         },
         mounted: function() {
+            registerComponent(this)
+            
             if (isValidObject(this.args.text)) {
                 this.text = this.args.text
             }
