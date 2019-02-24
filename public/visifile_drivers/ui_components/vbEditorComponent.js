@@ -959,6 +959,18 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
                 }
+
+
+                //call the load event on each component
+                for (var compenentInFormIndex = 0; compenentInFormIndex < mm.model.forms[formName].components.length ; compenentInFormIndex++ )
+                {
+                    var componentConfig = mm.model.forms[formName].components[compenentInFormIndex]
+                    if (isValidObject(componentConfig.load)) {
+                        alert("Load event :" + formName + " : " + componentConfig.name)
+                    }
+                }
+
+
            }
 
            //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
@@ -1793,7 +1805,7 @@ uses_javascript_librararies(["advanced_bundle"])
              mm.refresh ++
 
              if (  mm.model.forms[  formId  ].form_activate && (!mm.design_mode)) {
-             
+
                  if (!isValidObject(this.args)) {
                       mm.args = mm.model
                  }
