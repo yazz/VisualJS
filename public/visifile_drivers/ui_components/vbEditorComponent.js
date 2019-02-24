@@ -2587,6 +2587,10 @@ ${eventMessage.code}
             if (!this.existsProp(compEvaled,"height")) {
                 this.properties.push({   id:     "height",   name:   "Height",   type:   "Number"    })
             }
+            if (!this.existsProp(compEvaled,"load")) {
+                this.properties.push({   id:     "load",   name:   "Load Event",   type:   "Event"    })
+            }
+
 
 
             this.properties = this.properties.concat(compEvaled)
