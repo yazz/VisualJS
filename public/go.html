@@ -7723,6 +7723,17 @@ function registerComponent(vueComponentObject) {
             }
         }
     }
+
+    if (isValidObject(vueComponentObject.args.load)) {
+        vueComponentObject.$emit('send', {
+                                        type:               "subcomponent_event",
+                                        form_name:           vueComponentObject.form,
+                                        control_name:        vueComponentObject.name,
+                                        code:                vueComponentObject.args.load
+                                    })
+
+    }
+
 }
 
 function unregisterComponent(componentName) {
@@ -8117,7 +8128,7 @@ body {
                         }
                     });
                 })();
-            
+
 
 </script>
 

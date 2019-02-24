@@ -36,7 +36,7 @@ logo_url("/driver_icons/button_control.png")
 */
 
     Vue.component("button_control",{
-      props: ["args", "name"]
+      props: [ "form",  "name", "args" ]
       ,
       template: `<button    type=button class='btn btn-info btn-lg'
                             v-bind:style='"height:100%;width:100%; border: 0px;" + "background-color: "+    args["background_color"]  +  ";"'
@@ -48,6 +48,7 @@ logo_url("/driver_icons/button_control.png")
     ,
     mounted: function() {
         registerComponent(this)
+        alert(this.form)
     }
     ,
     data: function() {
@@ -58,11 +59,12 @@ logo_url("/driver_icons/button_control.png")
     ,
     methods: {
         event_callback: function() {
-        console.log("----- button_control, event_callback: function() = " + this.name)
+            console.log("----- button_control, event_callback: function() = " + this.name)
             //eval("(function(){" + this.args.click_event + "})")()
 
             this.$emit('send', {
                                             type:               "subcomponent_event",
+                                            form_name:           this.form,
                                             control_name:        this.name,
                                             sub_type:           "click",
                                             code:                this.args.click_event
