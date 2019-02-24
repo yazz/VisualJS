@@ -1792,8 +1792,8 @@ uses_javascript_librararies(["advanced_bundle"])
              mm.model.active_form = formId
              mm.refresh ++
 
-             if (mm.model.forms[formId].form_activate && (!mm.design_mode)) {
-                 //alert(JSON.stringify(mm.args,null,2))
+             if (  mm.model.forms[  formId  ].form_activate && (!mm.design_mode)) {
+             
                  if (!isValidObject(this.args)) {
                       mm.args = mm.model
                  }
@@ -1801,11 +1801,6 @@ uses_javascript_librararies(["advanced_bundle"])
                  var args = mm.args
                  var app = mm.model
                  var crt = mm.model.forms[formId].form_activate
-                 //alert(crt)
-                 //var ffff = eval("(" + crt + ")")
-                 //ffff()
-
-
 
                  var formEvent = {
                      type:               "form_event",
