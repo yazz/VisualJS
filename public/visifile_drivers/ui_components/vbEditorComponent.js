@@ -1238,6 +1238,15 @@ uses_javascript_librararies(["advanced_bundle"])
             this.model.forms[this.model.active_form].components.push(newItem)
             this.model.active_component_index = this.model.forms[this.model.active_form].components.length - 1
 
+            if (isValidObject(   childDefProps   )) {
+                for (  var ee = 0  ;  ee < childrenCode.length ;  ee++  ) {
+                    var prop = childDefProps[ee]
+                    var propName = prop.name
+                    var propValue = prop.value
+                    newItem[propName] = propValue
+                }
+            }
+
             setTimeout(function() {
                 mm.selectComponent(mm.model.active_component_index, true)
                 mm.refresh ++
