@@ -1129,7 +1129,8 @@ uses_javascript_librararies(["advanced_bundle"])
                                          parentId,
                                          parentName,
                                          parentOffsetX,
-                                         parentOffsetY)
+                                         parentOffsetY,
+                                         [])
 
                       this.highlighted_control = null
 
@@ -1163,7 +1164,7 @@ uses_javascript_librararies(["advanced_bundle"])
          return null
      }
      ,
-        addComponent: async function(leftX,topY,data, parentId, parentName, parentOffsetX, parentOffsetY) {
+        addComponent: async function(leftX,topY,data, parentId, parentName, parentOffsetX, parentOffsetY,defProps) {
             var mm = this
             //alert(JSON.stringify(data,null,2))
 
@@ -1249,13 +1250,15 @@ uses_javascript_librararies(["advanced_bundle"])
                 for (  var ee = 0  ;  ee < childrenCode.length ;  ee++  ) {
                     //alert(JSON.stringify(childrenCode[ee],null,2))
                     var childBaseId = childrenCode[ee].base_component_id
+                    var childDefProps = childrenCode[ee].properties
                     await this.addComponent(    0 ,
                                                 0 ,
                                                 {text: childBaseId} ,
                                                 newItem.base_component_id ,
                                                 newItem.name ,
                                                 0 ,
-                                                0  )
+                                                0 ,
+                                                childDefProps )
                 }
             }
 
@@ -2165,7 +2168,7 @@ ${eventMessage.code}
                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
                  var xx = ((ev.clientX  - rrr.left)  - data.offsetX) - parentOffsetX  - 10;
                  var yy = ((ev.clientY  - rrr.top)   - data.offsetY) - parentOffsetY - 10;
-                 await mm.addComponent(xx,yy,data, parentId, parentName, parentOffsetX, parentOffsetY)
+                 await mm.addComponent(xx,yy,data, parentId, parentName, parentOffsetX, parentOffsetY,[])
                  this.highlighted_control = null
 
              } else if (data.type == "move_component") {
