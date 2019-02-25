@@ -1237,11 +1237,10 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
             if (isValidObject(   defProps   )) {
-
-                for (  var ee = 0  ;  ee < defProps.length ;  ee++  ) {
-                    var prop = defProps[ee]
-                    var propName = prop.name
-                    var propValue = prop.value
+                var oo = Object.keys(defProps)
+                for (  var ee = 0  ;  ee < oo.length ;  ee++  ) {
+                    var propName = oo[ee]
+                    var propValue = defProps[propName]
                     newItem[propName] = propValue
                 }
             }
