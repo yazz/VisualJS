@@ -58,7 +58,8 @@ children([
         ,
         properties: [
             {
-                load:  `alert(1)`
+                name:    "load",
+                value:   `alert(1)`
             }
         ]
     }

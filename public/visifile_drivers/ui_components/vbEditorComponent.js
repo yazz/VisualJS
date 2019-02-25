@@ -1235,17 +1235,19 @@ uses_javascript_librararies(["advanced_bundle"])
                 newItem.topY = Math.floor(this.model.forms[this.model.active_form].height - newItem.height)
             }
 
-            this.model.forms[this.model.active_form].components.push(newItem)
-            this.model.active_component_index = this.model.forms[this.model.active_form].components.length - 1
 
-            if (isValidObject(   childDefProps   )) {
-                for (  var ee = 0  ;  ee < childrenCode.length ;  ee++  ) {
-                    var prop = childDefProps[ee]
+            if (isValidObject(   defProps   )) {
+
+                for (  var ee = 0  ;  ee < defProps.length ;  ee++  ) {
+                    var prop = defProps[ee]
                     var propName = prop.name
                     var propValue = prop.value
                     newItem[propName] = propValue
                 }
             }
+
+            this.model.forms[this.model.active_form].components.push(newItem)
+            this.model.active_component_index = this.model.forms[this.model.active_form].components.length - 1
 
             setTimeout(function() {
                 mm.selectComponent(mm.model.active_component_index, true)
@@ -1258,6 +1260,7 @@ uses_javascript_librararies(["advanced_bundle"])
             if (isValidObject(childrenCode)) {
                 for (  var ee = 0  ;  ee < childrenCode.length ;  ee++  ) {
                     //alert(JSON.stringify(childrenCode[ee],null,2))
+
                     var childBaseId = childrenCode[ee].base_component_id
                     var childDefProps = childrenCode[ee].properties
                     await this.addComponent(    0 ,
