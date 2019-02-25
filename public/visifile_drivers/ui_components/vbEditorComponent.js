@@ -1245,7 +1245,19 @@ uses_javascript_librararies(["advanced_bundle"])
             //zzz
             var compCode = component_cache[newItem.base_component_id].code
             var childrenCode  = saveHelper.getValueOfCodeString(compCode, "children",")//children")
-            //alert(childrenCode)
+            if (isValidObject(childrenCode)) {
+                for (  var ee = 0  ;  ee < childrenCode.length ;  ee++  ) {
+                    //alert(JSON.stringify(childrenCode[ee],null,2))
+                    var childBaseId = childrenCode[ee].base_component_id
+                    await this.addComponent(    0 ,
+                                                0 ,
+                                                {text: childBaseId} ,
+                                                newItem.base_component_id ,
+                                                newItem.name ,
+                                                0 ,
+                                                0  )
+                }
+            }
 
         }
         ,
