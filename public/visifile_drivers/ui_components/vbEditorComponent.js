@@ -1945,10 +1945,11 @@ ${eventMessage.code}
                                 //
                                 // set up property access for this control
                                 //
+                                
                                 for (var rtt=0; rtt < compEvaled.length; rtt++) {
-                                    if (isValidObject(thisControl[compEvaled[rtt].id])) {
+                                    //if (isValidObject(thisControl[compEvaled[rtt].id])) {
                                         errr += ( "var " + compEvaled[rtt].id + " = `" + thisControl[compEvaled[rtt].id] + "`;")
-                                    }
+                                    //}
                                 }
 
                                 eval( errr  )
@@ -1962,7 +1963,7 @@ ${eventMessage.code}
                                 //
                                 for (var rtt=0; rtt < compEvaled.length; rtt++) {
                                     //alert(JSON.stringify(compEvaled[rtt],null,2))
-                                    if (thisControl[compEvaled[rtt].id]) {
+                                    if (isValidObject(thisControl[compEvaled[rtt].id])) {
                                         if (eval(compEvaled[rtt].id ) != thisControl[compEvaled[rtt].id]) {
                                             thisControl[compEvaled[rtt].id] = eval(compEvaled[rtt].id )
                                         }
