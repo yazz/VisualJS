@@ -27,7 +27,7 @@ properties(
         {
             id:         "height",
             name:       "Height",
-            default:    50,
+            default:    200,
             type:       "Number"
         }
         ,
