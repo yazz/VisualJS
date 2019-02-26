@@ -1253,7 +1253,6 @@ uses_javascript_librararies(["advanced_bundle"])
                 mm.refresh ++
             },100)
 
-            //zzz
             var compCode = component_cache[newItem.base_component_id].code
             var childrenCode  = saveHelper.getValueOfCodeString(compCode, "children",")//children")
             if (isValidObject(childrenCode)) {
@@ -1945,11 +1944,17 @@ ${eventMessage.code}
                                 //
                                 // set up property access for this control
                                 //
+
                                 
                                 for (var rtt=0; rtt < compEvaled.length; rtt++) {
-                                    //if (isValidObject(thisControl[compEvaled[rtt].id])) {
+                                    if (compEvaled[rtt].type == "Action") {
+                                        errr += ( "var " + compEvaled[rtt].id +
+                                            " = mm.form_runtime_info[this.model.active_form].component_lookup_by_name[eventMessage.control_name][compEvaled[" + rtt + "].id];")
+                                        //zzz
+
+                                    } else {
                                         errr += ( "var " + compEvaled[rtt].id + " = `" + thisControl[compEvaled[rtt].id] + "`;")
-                                    //}
+                                    }
                                 }
 
                                 eval( errr  )
