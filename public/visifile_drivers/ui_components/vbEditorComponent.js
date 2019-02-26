@@ -1945,9 +1945,10 @@ ${eventMessage.code}
                                 //
                                 // set up property access for this control
                                 //
+                                
                                 for (var rtt=0; rtt < compEvaled.length; rtt++) {
-                                    if (thisControl[compEvaled[rtt].id]) {
-                                        errr += ( compEvaled[rtt].id + " = `" + thisControl[compEvaled[rtt].id] + "`;")
+                                    if (isValidObject(thisControl[compEvaled[rtt].id])) {
+                                        errr += ( "" + compEvaled[rtt].id + " = `" + thisControl[compEvaled[rtt].id] + "`;")
                                     }
                                 }
 
