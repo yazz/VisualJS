@@ -57,7 +57,10 @@ children([
         base_component_id: "table_control"
         ,
         properties: {
-                        load:   `alert(1)`
+                        load:
+`setData(
+    parent.container_list
+)`
                     }
     }
 ])//children
