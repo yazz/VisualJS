@@ -1427,6 +1427,9 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
             if (this.ui_code_editor) {
+                if (mm.ui_code_editor.completer) {
+                    mm.ui_code_editor.completer.detach()
+                }
                 mm.ui_code_editor.destroy()
                 mm.ui_code_editor = null
 
@@ -1449,6 +1452,9 @@ uses_javascript_librararies(["advanced_bundle"])
          editAsCode: async function(aa) {
             var mm = this
             if (this.ui_code_editor) {
+                if (mm.ui_code_editor.completer) {
+                    mm.ui_code_editor.completer.detach()
+                }
                 mm.ui_code_editor.destroy()
                 mm.ui_code_editor = null
             }
@@ -1628,6 +1634,9 @@ uses_javascript_librararies(["advanced_bundle"])
         gotoDragDropEditor: function() {
             this.design_mode_pane.type = "drag_drop";
             if (this.ui_code_editor) {
+                if (this.ui_code_editor.completer) {
+                    this.ui_code_editor.completer.detach()
+                }
                 this.ui_code_editor.destroy()
                 this.ui_code_editor = null
             }
