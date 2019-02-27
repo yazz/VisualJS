@@ -189,6 +189,9 @@ uses_javascript_librararies(["advanced_bundle"])
                     <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[model.active_component_detail_index].name + (design_mode?"_design":"")'
                                 v-bind:refresh='refresh'
                                 design_mode='detail_editor'
+
+                                v-bind:meta='{form: model.active_form,name: model.forms[model.active_form].components[model.active_component_detail_index].name + (design_mode?"_design":"")}'
+
                                 v-bind:form="model.active_form"
                                 v-bind:delete_component='childDeleteComponent'
                                 v-bind:select_component='childSelectComponent'
@@ -204,6 +207,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
                                     <component  v-for='child_item  in  getChildren(model.forms[model.active_form].components[model.active_component_detail_index].name)'
                                                 v-bind:design_mode='design_mode'
+                                                v-bind:meta='{form: model.active_form,name: child_item.name + (design_mode?"_design":"")}'
                                                 v-bind:form="model.active_form"
                                                 v-bind:refresh='refresh'
                                                 v-bind:style='"z-index:100000;position: absolute; top: " + child_item.topY + "px; left: " + child_item.leftX + "px;height:" + child_item.height + "px;width:" + child_item.width + "px;overflow:auto;"'
@@ -482,6 +486,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                      v-bind:style='"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:auto;"'>
                                     <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[index].name + (design_mode?"_design":"")'
                                                 v-bind:refresh='refresh'
+                                                v-bind:meta='{form: model.active_form,name: item.name + (design_mode?"_design":"")}'
                                                 v-bind:form="model.active_form"
                                                 v-bind:design_mode='design_mode'
                                                 v-bind:children='getChildren(item.name)'
@@ -498,6 +503,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                             <component  v-for='child_item  in  getChildren(item.name)'
                                                         v-bind:design_mode='design_mode'
                                                         v-bind:refresh='refresh'
+                                                        v-bind:meta='{form: model.active_form,name: child_item.name + (design_mode?"_design":"")}'
                                                         v-bind:form="model.active_form"
                                                         v-bind:style='"z-index:100000;position: absolute; top: " + child_item.topY + "px; left: " + child_item.leftX + "px;height:" + child_item.height + "px;width:" + child_item.width + "px;overflow:auto;"'
                                                         v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[child_item.index_in_parent_array].name + (design_mode?"_design":"")'
@@ -1945,7 +1951,7 @@ ${eventMessage.code}
                                 // set up property access for this control
                                 //
 
-                                
+
                                 for (var rtt=0; rtt < compEvaled.length; rtt++) {
                                     if (compEvaled[rtt].type == "Action") {
                                         errr += ( "var " + compEvaled[rtt].id +
