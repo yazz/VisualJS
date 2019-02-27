@@ -121,11 +121,11 @@ uses_javascript_librararies(["advanced_bundle"])
                     v-bind:refresh='refresh'
                     v-bind:style='"margin: 2px; display: inline-block; vertical-align: top; width: 100%;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
 
-                <div    style='font-family:verdana;font-size: 13px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
+                <div    style='font-family:verdana;font-size: 13px;font-weight:bold;border-radius: 0px;background-color:lightgray; color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
 
-                    <div    style='height: 30px;' >
-                        <div id='select_code_object_parent' style='display: inline-block;margin: 5px;'></div>
-                        <div id='select_code_action_parent' style='display: inline-block;margin: 5px;'></div>
+                    <div    style='height: 50px;' >
+                        <div id='select_code_object_parent' style='display: inline-block;margin: 5px;width: 40%;'></div>
+                        <div id='select_code_action_parent' style='display: inline-block;margin: 5px;width: 40%;'></div>
 
 
                         <button  type=button class=' btn btn-danger btn-sm'
@@ -1685,6 +1685,57 @@ uses_javascript_librararies(["advanced_bundle"])
                 }
                 document.getElementById("select_code_action_parent").innerHTML=' <select id=select_code_action ></select>'
 
+                //
+                //zzz
+                //   selector for code editor
+                //
+                var sdata = []
+                var indexProp = 0
+                var selectedItem = null
+                if (mm.model.app_selected || (!isValidObject(mm.model.active_component_index))) {
+
+                    if (mm.edited_app_component_id) {
+                        sdata.push(
+                            {
+                                value: "" + indexProp,
+                                app: mm.edited_app_component_id,
+                                form: null,
+                                component: null
+                            })
+                    }
+
+                    if (mm.model.app_selected) {
+                        selectedItem = indexProp
+                    }
+                    indexProp++
+
+                    var forms = mm.getForms()
+                    for (  var ere = 0; ere < forms.length; ere++  ) {
+                        var form = forms[ ere ]
+                        sdata.push(
+                            {
+                                value:      "" + indexProp,
+                                app:        null,
+                                form:       form.name,
+                                component:  null
+                            }
+                        )
+                        if ((!mm.model.app_selected) && (form.name == mm.model.active_form)) {
+                            selectedItem = indexProp
+                        }
+                        indexProp++
+                    }
+                }
+                selectProp = new Selectr(
+                    document.getElementById('select_code_object'),
+                    {
+                    	renderOption: mm.myDataRenderFunction,
+                        renderSelection: mm.myDataRenderFunction,
+                		selectedValue: selectedItem,
+                        data: sdata,
+                        customClass: 'my-custom-selectr',
+                        searchable: false
+                    });
             },100)
 
          }
@@ -2535,7 +2586,7 @@ ${eventMessage.code}
              }
 
              var template =
-               "<div  style='overflow:hidden ;text-overflow: ellipsis;border-radius: 1px;margin: 0px;padding:0px;border:0px;font-family:verdana;font-size: 13px;'>" +
+               "<div  style='color:black;overflow:hidden ;text-overflow: ellipsis;border-radius: 1px;margin: 0px;padding:0px;border:0px;font-family:verdana;font-size: 13px;'>" +
                     center +
                "</div>";
              return template;
@@ -2624,8 +2675,10 @@ ${eventMessage.code}
                 }
             }
 
-
-
+            //
+            //zzz
+            //   selector for property inspector
+            //
             selectProp = new Selectr(
                 document.getElementById('property_selector'),
                 {
