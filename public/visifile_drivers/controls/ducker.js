@@ -58,7 +58,7 @@ children([
         ,
         properties: {
                         load:
-`setData(
+`me.setData(
     parent.container_list
 )`
                     }

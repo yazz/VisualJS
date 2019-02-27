@@ -1946,66 +1946,20 @@ ${eventMessage.code}
 
                                 if (isValidObject(thisControl.parent)) {
                                     var cacc =""
-                                     cacc += ( "var parent = mm.form_runtime_info['" + this.model.active_form + "'].component_lookup_by_name['" + thisControl.parent + "'];")
+                                    cacc += ( "var parent = mm.form_runtime_info['" + this.model.active_form + "'].component_lookup_by_name['" + thisControl.parent + "'];")
                                     eval(cacc)
                                 }
 
+                                var meCode =""
+                                meCode += ( "var me = mm.form_runtime_info['" + this.model.active_form + "'].component_lookup_by_name['" + thisControl.name + "'];")
+                                eval(meCode)
 
 
-
-                                var compEvaled = this.getComponentProperties(thisControl.base_component_id)
-                                var errr=""
-
-                                //
-                                // set up property access for this control
-                                //
-
-
-                                for (var rtt=0; rtt < compEvaled.length; rtt++) {
-                                    if (compEvaled[rtt].type == "Action") {
-                                        errr += ( "var " + compEvaled[rtt].id +
-                                            " = mm.form_runtime_info[mm.model.active_form].component_lookup_by_name[eventMessage.control_name][compEvaled[" + rtt + "].id];")
-
-                                    } else {
-                                        var propertyHandler = {
-                                             get: function(target,name){
-                                                 var formName = target.name
-                                                 if (mm.model.forms[formName][name]) {
-                                                     return mm.model.forms[formName][name]
-                                                 }
-
-                                                 if (mm.form_runtime_info[formName].component_lookup_by_name[name]) {
-                                                     return mm.form_runtime_info[formName].component_lookup_by_name[name]
-                                                 }
-
-                                                 return "Not found"
-                                             }
-                                        }
-                                        errr += ( "var " + compEvaled[rtt].id + " = `" + thisControl[compEvaled[rtt].id] + "`;")
-                                        //zzz
-                                    }
-                                }
-
-                                eval( errr  )
 
                                 var debugFcc = getDebugCode(mm.model.active_form +"_"+eventMessage.control_name+"_"+eventMessage.sub_type,fcc,{skipFirstAndLastLine: true})
                                 var efcc = eval(debugFcc)
                                 efcc()
 
-                                //
-                                // save any changed properties for this control
-                                //
-
-                                for (var rtt=0; rtt < compEvaled.length; rtt++) {
-                                    //alert(JSON.stringify(compEvaled[rtt],null,2))
-                                    if (isValidObject(thisControl[compEvaled[rtt].id])) {
-                                        if ((compEvaled[rtt].type != "Action") && (compEvaled[rtt].type != "Event")) {
-                                            if (eval(compEvaled[rtt].id ) != thisControl[compEvaled[rtt].id]) {
-                                                thisControl[compEvaled[rtt].id] = eval(compEvaled[rtt].id )
-                                            }
-                                        }
-                                    }
-                                }
                            }
 
                      //
