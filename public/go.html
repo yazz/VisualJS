@@ -7716,6 +7716,8 @@ t.func.call(i,e,o,t.params)||n.push({type:t.type,parameters:t.params})}),!n.leng
 
 <script>
 function registerComponent(vueComponentObject) {
+
+
     if (isValidObject(vueComponentObject)) {
         if (isValidObject(vueComponentObject.args)) {
             if (isValidObject(vueComponentObject.args.name)) {
@@ -7724,12 +7726,13 @@ function registerComponent(vueComponentObject) {
         }
     }
 
-    if (isValidObject(vueComponentObject.args.load)) {
+    if (isValidObject(vueComponentObject.args.load) && isValidObject(vueComponentObject.meta) ) {
+
         setTimeout(function(){
             vueComponentObject.$emit('send', {
                                             type:               "subcomponent_event",
-                                            form_name:           vueComponentObject.form,
-                                            control_name:        vueComponentObject.name,
+                                            form_name:           vueComponentObject.meta.form,
+                                            control_name:        vueComponentObject.meta.name,
                                             code:                vueComponentObject.args.load
                                         })
             },350)

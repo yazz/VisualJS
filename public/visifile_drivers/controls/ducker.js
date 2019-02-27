@@ -68,11 +68,10 @@ logo_url("/driver_icons/ducker.png")
 */
 
     Vue.component("docker_control",{
-      props: ["args","design_mode","refresh", "children"]
+      props: ["meta", "args","design_mode","refresh", "children"]
       ,
       template: `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
                                     "background-color: "+    args["background_color"]  +  ";"'>
-
 
                                     <div v-if="design_mode && (children.length == 0)">
                                         {{args.text}}
@@ -93,6 +92,8 @@ logo_url("/driver_icons/ducker.png")
       },
 
       mounted: async function() {
+        registerComponent(this)
+
         if (!this.design_mode) {
             var result = await callFunction(
                                 {

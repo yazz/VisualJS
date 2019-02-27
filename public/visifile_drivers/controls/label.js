@@ -40,7 +40,7 @@ logo_url("/driver_icons/text_control.png")
 */
 
     Vue.component("label_control",{
-        props: ["args", "name","refresh"]
+        props: ["meta","args", "name","refresh"]
         ,
         template: `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
                                     "background-color: "+    args["background_color"]  +  ";"'>
@@ -66,7 +66,7 @@ logo_url("/driver_icons/text_control.png")
         },
         mounted: function() {
             registerComponent(this)
-            
+
             if (isValidObject(this.args.text)) {
                 this.text = this.args.text
             }
