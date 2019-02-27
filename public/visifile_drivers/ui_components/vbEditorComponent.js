@@ -1545,7 +1545,31 @@ uses_javascript_librararies(["advanced_bundle"])
                                                     "score":    300,
                                                     "flags":    "bc",
                                                     "syllables":"1",
-                                                     meta:      "App"
+                                                     meta:      "Main application"
+                                                    })
+
+                                    wordList.push(  {"word":    "forms",
+                                                    "freq":     24,
+                                                    "score":    300,
+                                                    "flags":    "bc",
+                                                    "syllables":"1",
+                                                     meta:      "List of forms"
+                                                    })
+
+                                    wordList.push(  {"word":    "me",
+                                                    "freq":     24,
+                                                    "score":    300,
+                                                    "flags":    "bc",
+                                                    "syllables":"1",
+                                                     meta:      "The current control/form/app"
+                                                    })
+
+                                    wordList.push(  {"word":    "parent",
+                                                    "freq":     24,
+                                                    "score":    300,
+                                                    "flags":    "bc",
+                                                    "syllables":"1",
+                                                     meta:      "The parent/container control of this"
                                                     })
 
                                     var ccc = mm.model.forms[mm.model.active_form].components
