@@ -1965,38 +1965,47 @@ ${eventMessage.code}
                                     if (compEvaled[rtt].type == "Action") {
                                         errr += ( "var " + compEvaled[rtt].id +
                                             " = mm.form_runtime_info[mm.model.active_form].component_lookup_by_name[eventMessage.control_name][compEvaled[" + rtt + "].id];")
-                                        //zzz
 
                                     } else {
+                                        var propertyHandler = {
+                                             get: function(target,name){
+                                                 var formName = target.name
+                                                 if (mm.model.forms[formName][name]) {
+                                                     return mm.model.forms[formName][name]
+                                                 }
+
+                                                 if (mm.form_runtime_info[formName].component_lookup_by_name[name]) {
+                                                     return mm.form_runtime_info[formName].component_lookup_by_name[name]
+                                                 }
+
+                                                 return "Not found"
+                                             }
+                                        }
                                         errr += ( "var " + compEvaled[rtt].id + " = `" + thisControl[compEvaled[rtt].id] + "`;")
+                                        //zzz
                                     }
                                 }
 
-                                // ---------------------------------------------
-                                //                 HACK CITY!!!
+                                eval( errr  )
+
+                                var debugFcc = getDebugCode(mm.model.active_form +"_"+eventMessage.control_name+"_"+eventMessage.sub_type,fcc,{skipFirstAndLastLine: true})
+                                var efcc = eval(debugFcc)
+                                efcc()
+
                                 //
-                                // for some reason we need a timeout here ,
-                                // otherwise the functions do not get executed
-                                // ---------------------------------------------
-                                setTimeout(function(){
-                                    eval( errr  )
+                                // save any changed properties for this control
+                                //
 
-                                    var debugFcc = getDebugCode(mm.model.active_form +"_"+eventMessage.control_name+"_"+eventMessage.sub_type,fcc,{skipFirstAndLastLine: true})
-                                    var efcc = eval(debugFcc)
-                                    efcc()
-
-                                    //
-                                    // save any changed properties for this control
-                                    //
-                                    for (var rtt=0; rtt < compEvaled.length; rtt++) {
-                                        //alert(JSON.stringify(compEvaled[rtt],null,2))
-                                        if (isValidObject(thisControl[compEvaled[rtt].id])) {
+                                for (var rtt=0; rtt < compEvaled.length; rtt++) {
+                                    //alert(JSON.stringify(compEvaled[rtt],null,2))
+                                    if (isValidObject(thisControl[compEvaled[rtt].id])) {
+                                        if ((compEvaled[rtt].type != "Action") && (compEvaled[rtt].type != "Event")) {
                                             if (eval(compEvaled[rtt].id ) != thisControl[compEvaled[rtt].id]) {
                                                 thisControl[compEvaled[rtt].id] = eval(compEvaled[rtt].id )
                                             }
                                         }
                                     }
-                                },1)
+                                }
                            }
 
                      //
