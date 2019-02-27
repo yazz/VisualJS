@@ -15,6 +15,8 @@ uses_javascript_librararies(["advanced_bundle"])
     var designMode = true
     var runtimeMode = false
     var selectProp = null
+    var selectCodeObject = null
+    var selectCodeAction = null
 
     Vue.component("vb_editor_component",
     {
@@ -1725,8 +1727,39 @@ uses_javascript_librararies(["advanced_bundle"])
                         }
                         indexProp++
                     }
-                }
-                selectProp = new Selectr(
+                    } else if (isValidObject(mm.model.active_component_index)) {
+
+                        sdata.push(
+                            {
+                                value:      "" + indexProp,
+                                app:        null,
+                                form:       mm.model.active_form,
+                                component:  null
+                            }
+                        )
+                        indexProp++
+
+                        var components = mm.getActiveFormComponents()
+                        for (  var ere = 0; ere < components.length; ere++  ) {
+                            var component = components[ ere ]
+                            sdata.push(
+                                {
+                                    value:              "" + indexProp,
+                                    app:                null,
+                                    form:               mm.model.active_form,
+                                    component:          component.name,
+                                    component_type:     component.base_component_id,
+
+                                    component_index:    ere
+                                }
+                            )
+                            if (mm.model.active_component_index == ere) {
+                                selectedItem = indexProp
+                            }
+                            indexProp++
+                        }
+                    }
+                    selectCodeObject = new Selectr(
                     document.getElementById('select_code_object'),
                     {
                     	renderOption: mm.myDataRenderFunction,
@@ -1736,6 +1769,22 @@ uses_javascript_librararies(["advanced_bundle"])
                         customClass: 'my-custom-selectr',
                         searchable: false
                     });
+                    document.getElementsByClassName("selectr-selected")[0].style.padding = "1px"
+                    document.getElementsByClassName("selectr-selected")[0].style["border-top"] = "2px solid gray"
+                    document.getElementsByClassName("selectr-selected")[0].style["border-left"] = "2px solid gray"
+
+                selectCodeObject.on('selectr.select', function(option) {
+                    var dd = sdata[option.idx]
+                    if (dd.component) {
+                        mm.selectComponent(dd.component_index)
+                    } else if (dd.form) {
+                        mm.selectForm(dd.form)
+                    } else if (dd.app) {
+                        mm.select_app()
+                    }
+                });
+
+
             },100)
 
          }
