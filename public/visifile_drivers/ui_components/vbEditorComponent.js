@@ -1556,13 +1556,31 @@ uses_javascript_librararies(["advanced_bundle"])
                                                      meta:      "List of forms"
                                                     })
 
-                                    wordList.push(  {"word":    "me",
-                                                    "freq":     24,
-                                                    "score":    300,
-                                                    "flags":    "bc",
-                                                    "syllables":"1",
-                                                     meta:      "The current control/form/app"
-                                                    })
+                                    if (mm.design_mode_pane.active_form == null) {
+                                        wordList.push(  {"word":    "me",
+                                                        "freq":     24,
+                                                        "score":    300,
+                                                        "flags":    "bc",
+                                                        "syllables":"1",
+                                                         meta:      "The current app"
+                                                        })
+                                    } else if (mm.design_mode_pane.active_component_index == null) {
+                                        wordList.push(  {"word":    "me",
+                                                        "freq":     24,
+                                                        "score":    300,
+                                                        "flags":    "bc",
+                                                        "syllables":"1",
+                                                         meta:      "The current form"
+                                                        })
+                                    } else {
+                                        wordList.push(  {"word":    "me",
+                                                        "freq":     24,
+                                                        "score":    300,
+                                                        "flags":    "bc",
+                                                        "syllables":"1",
+                                                         meta:      "The current control"
+                                                        })
+                                    }
 
                                     wordList.push(  {"word":    "parent",
                                                     "freq":     24,
