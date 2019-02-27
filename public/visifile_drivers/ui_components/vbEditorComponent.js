@@ -1526,15 +1526,28 @@ uses_javascript_librararies(["advanced_bundle"])
                                     callback(null, []);
                                     return
                                 }
-                                var controlName = null
+                                var firstObjectToAutocomplete = null
                                 if (prefix.indexOf(".") != -1) {
-                                    controlName = prefix.substring(0,prefix.indexOf("."))
-                                    console.log("controlName: " + controlName)
+                                    firstObjectToAutocomplete = prefix.substring(0,prefix.indexOf("."))
+                                    console.log("firstObjectToAutocomplete: " + firstObjectToAutocomplete)
                                 }
 
 
                                 var wordList = []
-                                if (controlName == null) {
+
+                                //
+                                // Create the list of initial objects to complete:
+                                // app, forms, controls
+                                //
+                                if (firstObjectToAutocomplete == null) {
+                                    wordList.push(  {"word":    "app",
+                                                    "freq":     24,
+                                                    "score":    300,
+                                                    "flags":    "bc",
+                                                    "syllables":"1",
+                                                     meta:      "App"
+                                                    })
+
                                     var ccc = mm.model.forms[mm.model.active_form].components
                                     for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
                                         var component = ccc[ytr]
@@ -1550,7 +1563,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                     var componentId = null
                                     var comps = mm.model.forms[mm.model.active_form].components
                                     for (var rt=0; rt < comps.length; rt++) {
-                                        if (comps[rt].name == controlName) {
+                                        if (comps[rt].name == firstObjectToAutocomplete) {
                                             componentId = comps[rt].base_component_id
                                         }
                                     }
@@ -1560,10 +1573,10 @@ uses_javascript_librararies(["advanced_bundle"])
 
                                         for (var fg=0;fg < cachedComponentDefinition.properties.length;fg++){
                                             var comm = cachedComponentDefinition.properties[fg]
-                                            var propName = controlName + "." + comm.id
+                                            var propName = firstObjectToAutocomplete + "." + comm.id
                                             var meta = "Property"
                                             if (isValidObject(comm.snippet)) {
-                                                propName = controlName + "." + comm.snippet
+                                                propName = firstObjectToAutocomplete + "." + comm.snippet
                                             }
                                             if (comm.type == "Action") {
                                                 meta = "Method"
