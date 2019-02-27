@@ -124,7 +124,10 @@ uses_javascript_librararies(["advanced_bundle"])
                 <div    style='font-family:verdana;font-size: 13px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
 
                     <div    style='height: 30px;' >
-                        Code
+                        <div id='select_code_object_parent' style='display: inline-block;margin: 5px;'></div>
+                        <div id='select_code_action_parent' style='display: inline-block;margin: 5px;'></div>
+
+
                         <button  type=button class=' btn btn-danger btn-sm'
                                  style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 4px;"
                                  v-on:click='gotoDragDropEditor()' >x</button>
@@ -1458,6 +1461,9 @@ uses_javascript_librararies(["advanced_bundle"])
                 mm.ui_code_editor.destroy()
                 mm.ui_code_editor = null
             }
+
+
+
             setTimeout(function(){
                 mm.design_mode_pane.type                   = "event_editor"
                 mm.design_mode_pane.active_form            = aa.active_form
@@ -1665,6 +1671,20 @@ uses_javascript_librararies(["advanced_bundle"])
                         mm.ui_code_editor.focus();
                     }
                 },100)
+            },100)
+
+            setTimeout(function(){
+                if (!document.getElementById("select_code_object_parent")) {
+                    return
+                }
+                document.getElementById("select_code_object_parent").innerHTML=' <select id=select_code_object ></select>'
+
+
+                if (!document.getElementById("select_code_action_parent")) {
+                    return
+                }
+                document.getElementById("select_code_action_parent").innerHTML=' <select id=select_code_action ></select>'
+
             },100)
 
          }
