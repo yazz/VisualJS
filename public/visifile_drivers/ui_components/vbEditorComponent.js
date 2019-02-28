@@ -1766,20 +1766,24 @@ uses_javascript_librararies(["advanced_bundle"])
                     //   get the list of properties
                     //
                     //alert(aa.property_id)
+                    debugger
                     var properties = mm.getComponentProperties(component.base_component_id)
                     for (  var ere = 0; ere < properties.length; ere++  ) {
                         var property = properties[ ere ]
-                        sdataActions.push(
-                            {
-                                value:              "" + indexProp,
-                                app:                null,
-                                form:               mm.model.active_form,
-                                component:          component.name,
-                                action_id:          property.id,
-                                action_name:        property.name,
-                                action_index:       ere
-                            }
-                        )
+                        if ((property.type == "Event") || (property.type == "Action")) {
+                            sdataActions.push(
+                                {
+                                    value:              "" + indexProp,
+                                    app:                null,
+                                    form:               mm.model.active_form,
+                                    component:          component.name,
+                                    action_id:          property.id,
+                                    action_name:        property.name,
+                                    action_type:        property.type,
+                                    action_index:       ere
+                                }
+                            )
+                        }
                         if (property.id == aa.property_id) {
                             selectedItem = aa.property_id
                         }
