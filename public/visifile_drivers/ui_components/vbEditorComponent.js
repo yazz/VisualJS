@@ -1766,11 +1766,11 @@ uses_javascript_librararies(["advanced_bundle"])
                     //   get the list of properties
                     //
                     //alert(aa.property_id)
-                    debugger
+
                     var properties = mm.getComponentProperties(component.base_component_id)
                     for (  var ere = 0; ere < properties.length; ere++  ) {
                         var property = properties[ ere ]
-                        if ((property.type == "Event") || (property.type == "Action")) {
+                        if (property.type == "Event") {
                             sdataActions.push(
                                 {
                                     value:              "" + indexProp,
@@ -1789,6 +1789,18 @@ uses_javascript_librararies(["advanced_bundle"])
                         }
                         indexProp++
                     }
+                    sdataActions.push(
+                        {
+                            value:              "" + indexProp,
+                            app:                null,
+                            form:               mm.model.active_form,
+                            component:          component.name,
+                            action_id:          "load",
+                            action_name:        "Load event",
+                            action_type:        "Event",
+                            action_index:       ere
+                        })
+                    indexProp++
 
 
 
@@ -1838,14 +1850,8 @@ uses_javascript_librararies(["advanced_bundle"])
                 });
 
                 selectCodeAction.on('selectr.select', function(option) {
-                    var dd = sdata[option.idx]
-                    if (dd.component) {
-                        mm.selectComponent(dd.component_index)
-                    } else if (dd.form) {
-                        mm.selectForm(dd.form)
-                    } else if (dd.app) {
-                        mm.select_app()
-                    }
+                    var dd = sdataActions[option.idx]
+                    alert(dd.action_id)
                 });
 
 
