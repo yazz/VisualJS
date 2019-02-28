@@ -1851,7 +1851,11 @@ uses_javascript_librararies(["advanced_bundle"])
 
                 selectCodeAction.on('selectr.select', function(option) {
                     var dd = sdataActions[option.idx]
-                    alert(dd.action_id)
+                    mm.editAsCode({
+                        active_form:            mm.model.active_form,
+                        active_component_index: mm.model.active_component_index,
+                        property_id:            dd.action_id
+                    })
                 });
 
 
