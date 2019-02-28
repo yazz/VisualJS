@@ -1760,20 +1760,43 @@ uses_javascript_librararies(["advanced_bundle"])
                         }
                     }
                     selectCodeObject = new Selectr(
-                    document.getElementById('select_code_object'),
-                    {
-                    	renderOption: mm.myDataRenderFunction,
-                        renderSelection: mm.myDataRenderFunction,
-                		selectedValue: selectedItem,
-                        data: sdata,
-                        customClass: 'my-custom-selectr',
-                        searchable: false
-                    });
+                        document.getElementById('select_code_object'),
+                        {
+                        	renderOption: mm.myDataRenderFunction,
+                            renderSelection: mm.myDataRenderFunction,
+                    		selectedValue: selectedItem,
+                            data: sdata,
+                            customClass: 'my-custom-selectr',
+                            searchable: false
+                        });
+
+                    selectCodeAction = new Selectr(
+                        document.getElementById('select_code_action'),
+                        {
+                        	renderOption: mm.myDataRenderFunction,
+                            renderSelection: mm.myDataRenderFunction,
+                    		selectedValue: selectedItem,
+                            data: sdata,
+                            customClass: 'my-custom-selectr',
+                            searchable: false
+                        });
+
                     document.getElementsByClassName("selectr-selected")[0].style.padding = "1px"
                     document.getElementsByClassName("selectr-selected")[0].style["border-top"] = "2px solid gray"
                     document.getElementsByClassName("selectr-selected")[0].style["border-left"] = "2px solid gray"
 
                 selectCodeObject.on('selectr.select', function(option) {
+                    var dd = sdata[option.idx]
+                    if (dd.component) {
+                        mm.selectComponent(dd.component_index)
+                    } else if (dd.form) {
+                        mm.selectForm(dd.form)
+                    } else if (dd.app) {
+                        mm.select_app()
+                    }
+                });
+
+                selectCodeAction.on('selectr.select', function(option) {
                     var dd = sdata[option.idx]
                     if (dd.component) {
                         mm.selectComponent(dd.component_index)
