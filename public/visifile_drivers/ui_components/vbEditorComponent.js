@@ -1785,6 +1785,14 @@ uses_javascript_librararies(["advanced_bundle"])
                     document.getElementsByClassName("selectr-selected")[0].style["border-top"] = "2px solid gray"
                     document.getElementsByClassName("selectr-selected")[0].style["border-left"] = "2px solid gray"
 
+                    document.getElementsByClassName("selectr-selected")[1].style.padding = "1px"
+                    document.getElementsByClassName("selectr-selected")[1].style["border-top"] = "2px solid gray"
+                    document.getElementsByClassName("selectr-selected")[1].style["border-left"] = "2px solid gray"
+
+                    document.getElementsByClassName("selectr-selected")[2].style.padding = "1px"
+                    document.getElementsByClassName("selectr-selected")[2].style["border-top"] = "2px solid gray"
+                    document.getElementsByClassName("selectr-selected")[2].style["border-left"] = "2px solid gray"
+
                 selectCodeObject.on('selectr.select', function(option) {
                     var dd = sdata[option.idx]
                     if (dd.component) {
