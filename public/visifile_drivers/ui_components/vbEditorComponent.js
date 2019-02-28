@@ -1692,6 +1692,7 @@ uses_javascript_librararies(["advanced_bundle"])
                 //   selector for code editor
                 //
                 var sdata = []
+                var sdataActions = []
                 var indexProp = 0
                 var selectedItem = null
                 if (mm.model.app_selected || (!isValidObject(mm.model.active_component_index))) {
@@ -1759,6 +1760,34 @@ uses_javascript_librararies(["advanced_bundle"])
                             indexProp++
                         }
                     }
+
+                    //
+                    //zzz
+                    //   get the list of properties
+                    //
+                    //alert(aa.property_id)
+                    var properties = mm.getComponentProperties(component.base_component_id)
+                    for (  var ere = 0; ere < properties.length; ere++  ) {
+                        var property = properties[ ere ]
+                        sdataActions.push(
+                            {
+                                value:              "" + indexProp,
+                                app:                null,
+                                form:               mm.model.active_form,
+                                component:          component.name,
+                                action_id:          property.id,
+                                action_name:        property.name,
+                                action_index:       ere
+                            }
+                        )
+                        if (property.id == aa.property_id) {
+                            selectedItem = aa.property_id
+                        }
+                        indexProp++
+                    }
+
+
+
                     selectCodeObject = new Selectr(
                         document.getElementById('select_code_object'),
                         {
@@ -1773,10 +1802,10 @@ uses_javascript_librararies(["advanced_bundle"])
                     selectCodeAction = new Selectr(
                         document.getElementById('select_code_action'),
                         {
-                        	renderOption: mm.myDataRenderFunction,
-                            renderSelection: mm.myDataRenderFunction,
+                        	renderOption: mm.actionRenderFunction,
+                            renderSelection: mm.actionRenderFunction,
                     		selectedValue: selectedItem,
-                            data: sdata,
+                            data: sdataActions,
                             customClass: 'my-custom-selectr',
                             searchable: false
                         });
@@ -2664,6 +2693,18 @@ ${eventMessage.code}
              } else if (data.form) {
                  center = "<b style='font-family:verdana;font-size: 13px;'>" + data.form + "</b> "
              }
+
+             var template =
+               "<div  style='font-weight:normal;color:black;overflow:hidden ;text-overflow: ellipsis;border-radius: 1px;margin: 0px;padding:0px;border:0px;font-family:verdana;font-size: 13px;'>" +
+                    center +
+               "</div>";
+             return template;
+         },
+
+
+         actionRenderFunction: function(data) {
+             var center = ""
+             center = "<b style='font-family:verdana;font-size: 13px;'>" + data.action_id + "</b> " + data.action_name
 
              var template =
                "<div  style='font-weight:normal;color:black;overflow:hidden ;text-overflow: ellipsis;border-radius: 1px;margin: 0px;padding:0px;border:0px;font-family:verdana;font-size: 13px;'>" +
