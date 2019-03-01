@@ -1459,7 +1459,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
 
-        
+
          editAsCode: async function(aa) {
             var mm = this
             if (this.ui_code_editor) {
@@ -1873,6 +1873,11 @@ uses_javascript_librararies(["advanced_bundle"])
                      var dd = selectRcodeObjectList[option.idx]
                      if (dd.component) {
                          mm.selectComponent(dd.component_index)
+                         mm.editAsCode({
+                             active_form:            mm.model.active_form,
+                             active_component_index: mm.model.active_component_index,
+                             property_id:            "load"
+                         })
                      } else if (dd.form) {
                          mm.selectForm(dd.form)
                      } else if (dd.app) {
