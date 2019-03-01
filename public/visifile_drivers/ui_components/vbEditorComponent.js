@@ -1694,7 +1694,8 @@ uses_javascript_librararies(["advanced_bundle"])
                 var selectRcodeObjectList = []
                 var selectRcodeActionList = []
                 var indexProp = 0
-                var selectedItem = null
+                var selectedCodeObject      = null
+                var selectedActionObject    = null
 
                 //
                 // if we selected the app or a form
@@ -1712,7 +1713,7 @@ uses_javascript_librararies(["advanced_bundle"])
                     }
 
                     if (mm.model.app_selected) {
-                        selectedItem = indexProp
+                        selectedCodeObject = indexProp
                     }
                     indexProp++
 
@@ -1728,7 +1729,7 @@ uses_javascript_librararies(["advanced_bundle"])
                             }
                         )
                         if ((!mm.model.app_selected) && (form.name == mm.model.active_form)) {
-                            selectedItem = indexProp
+                            selectedCodeObject = indexProp
                         }
                         indexProp++
                     }
@@ -1763,7 +1764,7 @@ uses_javascript_librararies(["advanced_bundle"])
                             }
                         )
                         if (mm.model.active_component_index == ere) {
-                            selectedItem = indexProp
+                            selectedCodeObject = indexProp
                         }
                         indexProp++
                     }
@@ -1793,7 +1794,7 @@ uses_javascript_librararies(["advanced_bundle"])
                             )
                         }
                         if (property.id == aa.property_id) {
-                            selectedItem = aa.property_id
+                            selectedActionObject = aa.property_id
                         }
                         indexProp++
                     }
@@ -1808,6 +1809,9 @@ uses_javascript_librararies(["advanced_bundle"])
                             action_type:        "Event",
                             action_index:       ere
                         })
+                    if ("load" == aa.property_id) {
+                        selectedActionObject = aa.property_id
+                    }
                     indexProp++
 
 
@@ -1815,23 +1819,23 @@ uses_javascript_librararies(["advanced_bundle"])
                     selectCodeObject = new Selectr(
                         document.getElementById('select_code_object'),
                         {
-                        	renderOption: mm.myDataRenderFunction,
-                            renderSelection: mm.myDataRenderFunction,
-                    		selectedValue: selectedItem,
-                            data: selectRcodeObjectList,
-                            customClass: 'my-custom-selectr',
-                            searchable: false
+                            renderOption:       mm.myDataRenderFunction,
+                            renderSelection:    mm.myDataRenderFunction,
+                            selectedValue:      selectedCodeObject,
+                            data:               selectRcodeObjectList,
+                            customClass:       'my-custom-selectr',
+                            searchable:         false
                         });
 
                     selectCodeAction = new Selectr(
                         document.getElementById('select_code_action'),
                         {
-                        	renderOption: mm.actionRenderFunction,
-                            renderSelection: mm.actionRenderFunction,
-                    		selectedValue: selectedItem,
-                            data: selectRcodeActionList,
-                            customClass: 'my-custom-selectr',
-                            searchable: false
+                            renderOption:       mm.actionRenderFunction,
+                            renderSelection:    mm.actionRenderFunction,
+                            selectedValue:      selectedActionObject,
+                            data:               selectRcodeActionList,
+                            customClass:       'my-custom-selectr',
+                            searchable:         false
                         });
 
                     document.getElementsByClassName("selectr-selected")[0].style.padding = "1px"
