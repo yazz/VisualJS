@@ -1715,20 +1715,23 @@ uses_javascript_librararies(["advanced_bundle"])
                  //   initialise vars
                  //
 
-                 var selectRcodeObjectList  = []
-                 var selectRcodeActionList  = []
+                 var objectListForSelector  = []
+                 var methodListForSelector  = []
                  var indexObjectSelector    = 0
                  var indexActionSelector    = 0
                  var selectedCodeObject     = null
                  var selectedCodeAction     = null
 
+
+
                  //
                  // if we selected the app or a form
                  //
+
                  if (mm.model.app_selected || (!isValidObject(mm.model.active_component_index))) {
 
                      if (mm.edited_app_component_id) {
-                         selectRcodeObjectList.push(
+                         objectListForSelector.push(
                              {
                                  value:      "" + indexObjectSelector,
                                  app:        mm.edited_app_component_id,
@@ -1745,7 +1748,7 @@ uses_javascript_librararies(["advanced_bundle"])
                      var forms = mm.getForms()
                      for (  var ere = 0; ere < forms.length; ere++  ) {
                          var form = forms[ ere ]
-                         selectRcodeObjectList.push(
+                         objectListForSelector.push(
                              {
                                  value:      "" + indexObjectSelector,
                                  app:        null,
@@ -1764,7 +1767,7 @@ uses_javascript_librararies(["advanced_bundle"])
                  //
                  } else if (isValidObject(mm.model.active_component_index)) {
 
-                     selectRcodeObjectList.push(
+                     objectListForSelector.push(
                          {
                              value:      "" + indexObjectSelector,
                              app:        null,
@@ -1777,14 +1780,13 @@ uses_javascript_librararies(["advanced_bundle"])
                      var components = mm.getActiveFormComponents()
                      for (  var ere = 0; ere < components.length; ere++  ) {
                          var component = components[ ere ]
-                         selectRcodeObjectList.push(
+                         objectListForSelector.push(
                              {
                                  value:              "" + indexObjectSelector,
                                  app:                null,
                                  form:               mm.model.active_form,
                                  component:          component.name,
                                  component_type:     component.base_component_id,
-
                                  component_index:    ere
                              }
                          )
@@ -1798,23 +1800,22 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
                  //
-                 //zzz
                  //   get the list of properties
                  //
-                 //alert(property_id)
 
-                 if (mm.model.active_component_index) {
-                     var ccc = mm.model.forms[mm.model.active_form].components[mm.model.active_component_index]
+                 if (  mm.model.active_component_index  ) {
+                     var ccc        = mm.model.forms[mm.model.active_form].components[mm.model.active_component_index]
                      var properties = mm.getComponentProperties(  ccc.base_component_id  )
+
                      for (  var ere = 0;  ere < properties.length;  ere++  ) {
                          var property = properties[ ere ]
                          if (property.type == "Event") {
-                             selectRcodeActionList.push(
+                             methodListForSelector.push(
                                  {
                                      value:              "" + indexActionSelector,
                                      app:                null,
                                      form:               mm.model.active_form,
-                                     component:          component.name,
+                                     component:          ccc.name,
                                      action_id:          property.id,
                                      action_name:        property.name,
                                      action_type:        property.type,
@@ -1828,12 +1829,12 @@ uses_javascript_librararies(["advanced_bundle"])
                          }
                      }
 
-                      selectRcodeActionList.push(
+                      methodListForSelector.push(
                           {
                               value:              "" + indexActionSelector,
                               app:                null,
                               form:               mm.model.active_form,
-                              component:          component.name,
+                              component:          ccc.name,
                               action_id:          "load",
                               action_name:        "Load event",
                               action_type:        "Event",
@@ -1856,7 +1857,7 @@ uses_javascript_librararies(["advanced_bundle"])
                          renderOption:       mm.myDataRenderFunction,
                          renderSelection:    mm.myDataRenderFunction,
                          selectedValue:      selectedCodeObject,
-                         data:               selectRcodeObjectList,
+                         data:               objectListForSelector,
                          customClass:       'my-custom-selectr',
                          searchable:         false
                      });
@@ -1867,7 +1868,7 @@ uses_javascript_librararies(["advanced_bundle"])
                          renderOption:       mm.actionRenderFunction,
                          renderSelection:    mm.actionRenderFunction,
                          selectedValue:      selectedCodeAction,
-                         data:               selectRcodeActionList,
+                         data:               methodListForSelector,
                          customClass:       'my-custom-selectr',
                          searchable:         false
                      });
@@ -1885,7 +1886,7 @@ uses_javascript_librararies(["advanced_bundle"])
                  document.getElementsByClassName("selectr-selected")[2].style["border-left"] = "2px solid gray"
 
                  selectCodeObject.on('selectr.select', function(option) {
-                     var dd = selectRcodeObjectList[option.idx]
+                     var dd = objectListForSelector[option.idx]
                      if (dd.component) {
                          mm.selectComponent(dd.component_index)
                          mm.editAsCode({
@@ -1901,7 +1902,7 @@ uses_javascript_librararies(["advanced_bundle"])
                  });
 
                  selectCodeAction.on('selectr.select', function(option) {
-                     var dd = selectRcodeActionList[option.idx]
+                     var dd = methodListForSelector[option.idx]
                      mm.editAsCode({
                          active_form:            mm.model.active_form,
                          active_component_index: mm.model.active_component_index,
