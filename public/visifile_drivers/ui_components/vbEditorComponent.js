@@ -1462,7 +1462,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
          editAsCode: async function(aa) {
-         debugger
+
             var mm = this
             if (this.ui_code_editor) {
                 if (mm.ui_code_editor.completer) {
@@ -1521,7 +1521,10 @@ uses_javascript_librararies(["advanced_bundle"])
 
                         mm.ui_code_editor.on("change", function(e) {
                             var newC = mm.ui_code_editor.getValue()
-                            if ((mm.model.active_component_index == null) && (mm.model.active_form != null)) {
+
+                            if (aa.app_selected) {
+                                mm.model[aa.property_id] = newC
+                            } else if ((mm.model.active_component_index == null) && (mm.model.active_form != null)) {
                                 mm.model.forms[mm.model.active_form][aa.property_id] = newC
 
                             } else if ((mm.model.active_component_index != null) && (mm.model.active_form != null)) {
@@ -1796,7 +1799,7 @@ uses_javascript_librararies(["advanced_bundle"])
                  //
                  //alert(property_id)
 
-                 
+
                  var ccc = mm.model.forms[mm.model.active_form].components[mm.model.active_component_index]
                  var properties = mm.getComponentProperties(  ccc.base_component_id  )
                  for (  var ere = 0;  ere < properties.length;  ere++  ) {
