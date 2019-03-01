@@ -1718,6 +1718,7 @@ uses_javascript_librararies(["advanced_bundle"])
                  var selectedCodeObject      = null
                  var selectedActionObject    = null
 
+debugger
                  //
                  // if we selected the app or a form
                  //
@@ -1799,47 +1800,50 @@ uses_javascript_librararies(["advanced_bundle"])
                  //
                  //alert(property_id)
 
-
-                 var ccc = mm.model.forms[mm.model.active_form].components[mm.model.active_component_index]
-                 var properties = mm.getComponentProperties(  ccc.base_component_id  )
-                 for (  var ere = 0;  ere < properties.length;  ere++  ) {
-                     var property = properties[ ere ]
-                     if (property.type == "Event") {
-                         selectRcodeActionList.push(
-                             {
-                                 value:              "" + indexActions,
-                                 app:                null,
-                                 form:               mm.model.active_form,
-                                 component:          component.name,
-                                 action_id:          property.id,
-                                 action_name:        property.name,
-                                 action_type:        property.type,
-                                 action_index:       ere
+                 if (mm.model.active_component_index) {
+                     var ccc = mm.model.forms[mm.model.active_form].components[mm.model.active_component_index]
+                     var properties = mm.getComponentProperties(  ccc.base_component_id  )
+                     for (  var ere = 0;  ere < properties.length;  ere++  ) {
+                         var property = properties[ ere ]
+                         if (property.type == "Event") {
+                             selectRcodeActionList.push(
+                                 {
+                                     value:              "" + indexActions,
+                                     app:                null,
+                                     form:               mm.model.active_form,
+                                     component:          component.name,
+                                     action_id:          property.id,
+                                     action_name:        property.name,
+                                     action_type:        property.type,
+                                     action_index:       ere
+                                 }
+                             )
+                             if (property.id == property_id) {
+                                 selectedActionObject = indexActions
                              }
-                         )
-                         if (property.id == property_id) {
-                             selectedActionObject = indexActions
+                             indexActions++
                          }
-                         indexActions++
                      }
+
+                      selectRcodeActionList.push(
+                          {
+                              value:              "" + indexActions,
+                              app:                null,
+                              form:               mm.model.active_form,
+                              component:          component.name,
+                              action_id:          "load",
+                              action_name:        "Load event",
+                              action_type:        "Event",
+                              action_index:       ere
+                          })
+                      if ( property_id == "load" ) {
+                          selectedActionObject = indexActions
+                      }
+                      indexActions++
                  }
 
 
-                 selectRcodeActionList.push(
-                     {
-                         value:              "" + indexActions,
-                         app:                null,
-                         form:               mm.model.active_form,
-                         component:          component.name,
-                         action_id:          "load",
-                         action_name:        "Load event",
-                         action_type:        "Event",
-                         action_index:       ere
-                     })
-                 if ( property_id == "load" ) {
-                     selectedActionObject = indexActions
-                 }
-                 indexActions++
+
 
 
 
