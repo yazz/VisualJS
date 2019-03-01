@@ -1695,15 +1695,19 @@ uses_javascript_librararies(["advanced_bundle"])
                 var sdataActions = []
                 var indexProp = 0
                 var selectedItem = null
+
+                //
+                // if we selected the app or a form
+                //
                 if (mm.model.app_selected || (!isValidObject(mm.model.active_component_index))) {
 
                     if (mm.edited_app_component_id) {
                         sdata.push(
                             {
-                                value: "" + indexProp,
-                                app: mm.edited_app_component_id,
-                                form: null,
-                                component: null
+                                value:      "" + indexProp,
+                                app:        mm.edited_app_component_id,
+                                form:       null,
+                                component:  null
                             })
                     }
 
@@ -1728,38 +1732,42 @@ uses_javascript_librararies(["advanced_bundle"])
                         }
                         indexProp++
                     }
-                    } else if (isValidObject(mm.model.active_component_index)) {
 
+                //
+                // if we selected a component
+                //
+                } else if (isValidObject(mm.model.active_component_index)) {
+
+                    sdata.push(
+                        {
+                            value:      "" + indexProp,
+                            app:        null,
+                            form:       mm.model.active_form,
+                            component:  null
+                        }
+                    )
+                    indexProp++
+
+                    var components = mm.getActiveFormComponents()
+                    for (  var ere = 0; ere < components.length; ere++  ) {
+                        var component = components[ ere ]
                         sdata.push(
                             {
-                                value:      "" + indexProp,
-                                app:        null,
-                                form:       mm.model.active_form,
-                                component:  null
+                                value:              "" + indexProp,
+                                app:                null,
+                                form:               mm.model.active_form,
+                                component:          component.name,
+                                component_type:     component.base_component_id,
+
+                                component_index:    ere
                             }
                         )
-                        indexProp++
-
-                        var components = mm.getActiveFormComponents()
-                        for (  var ere = 0; ere < components.length; ere++  ) {
-                            var component = components[ ere ]
-                            sdata.push(
-                                {
-                                    value:              "" + indexProp,
-                                    app:                null,
-                                    form:               mm.model.active_form,
-                                    component:          component.name,
-                                    component_type:     component.base_component_id,
-
-                                    component_index:    ere
-                                }
-                            )
-                            if (mm.model.active_component_index == ere) {
-                                selectedItem = indexProp
-                            }
-                            indexProp++
+                        if (mm.model.active_component_index == ere) {
+                            selectedItem = indexProp
                         }
+                        indexProp++
                     }
+                }
 
                     //
                     //zzz
