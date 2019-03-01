@@ -1462,7 +1462,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
          editAsCode: async function(aa) {
-
+debugger
             var mm = this
             if (this.ui_code_editor) {
                 if (mm.ui_code_editor.completer) {
@@ -1844,6 +1844,24 @@ uses_javascript_librararies(["advanced_bundle"])
                           selectedCodeAction = indexActionSelector
                       }
                       indexActionSelector++
+
+                 //
+                 // get the app methods
+                 //
+                 } else if (mm.model.app_selected) {
+                     objectListForSelector.push(
+                         {
+                             value:              "" + indexObjectSelector,
+                             app:                mm.edited_app_component_id,
+                             form:               mm.model.active_form,
+                             component:          null,
+                             action_id:          "app_started_event",
+                             action_name:        "Called when the app is started",
+                             action_type:        "Event"
+                         }
+                     )
+                     indexActionSelector++
+
                  }
 
 
