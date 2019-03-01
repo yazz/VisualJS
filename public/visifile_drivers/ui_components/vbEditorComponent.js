@@ -1675,210 +1675,219 @@ uses_javascript_librararies(["advanced_bundle"])
                 },100)
             },100)
 
-            setTimeout(function(){
-                if (!document.getElementById("select_code_object_parent")) {
-                    return
-                }
-                document.getElementById("select_code_object_parent").innerHTML=' <select id=select_code_object ></select>'
-
-
-                if (!document.getElementById("select_code_action_parent")) {
-                    return
-                }
-                document.getElementById("select_code_action_parent").innerHTML=' <select id=select_code_action ></select>'
-
-                //
-                //zzz
-                //   selector for code editor
-                //
-                var selectRcodeObjectList = []
-                var selectRcodeActionList = []
-                var indexProp = 0
-                var selectedCodeObject      = null
-                var selectedActionObject    = null
-
-                //
-                // if we selected the app or a form
-                //
-                if (mm.model.app_selected || (!isValidObject(mm.model.active_component_index))) {
-
-                    if (mm.edited_app_component_id) {
-                        selectRcodeObjectList.push(
-                            {
-                                value:      "" + indexProp,
-                                app:        mm.edited_app_component_id,
-                                form:       null,
-                                component:  null
-                            })
-                    }
-
-                    if (mm.model.app_selected) {
-                        selectedCodeObject = indexProp
-                    }
-                    indexProp++
-
-                    var forms = mm.getForms()
-                    for (  var ere = 0; ere < forms.length; ere++  ) {
-                        var form = forms[ ere ]
-                        selectRcodeObjectList.push(
-                            {
-                                value:      "" + indexProp,
-                                app:        null,
-                                form:       form.name,
-                                component:  null
-                            }
-                        )
-                        if ((!mm.model.app_selected) && (form.name == mm.model.active_form)) {
-                            selectedCodeObject = indexProp
-                        }
-                        indexProp++
-                    }
-
-                //
-                // if we selected a component
-                //
-                } else if (isValidObject(mm.model.active_component_index)) {
-
-                    selectRcodeObjectList.push(
-                        {
-                            value:      "" + indexProp,
-                            app:        null,
-                            form:       mm.model.active_form,
-                            component:  null
-                        }
-                    )
-                    indexProp++
-
-                    var components = mm.getActiveFormComponents()
-                    for (  var ere = 0; ere < components.length; ere++  ) {
-                        var component = components[ ere ]
-                        selectRcodeObjectList.push(
-                            {
-                                value:              "" + indexProp,
-                                app:                null,
-                                form:               mm.model.active_form,
-                                component:          component.name,
-                                component_type:     component.base_component_id,
-
-                                component_index:    ere
-                            }
-                        )
-                        if (mm.model.active_component_index == ere) {
-                            selectedCodeObject = indexProp
-                        }
-                        indexProp++
-                    }
-                }
-
-
-
-                //
-                //zzz
-                //   get the list of properties
-                //
-                //alert(aa.property_id)
-
-                var properties = mm.getComponentProperties(  component.base_component_id  )
-                for (  var ere = 0;  ere < properties.length;  ere++  ) {
-                    var property = properties[ ere ]
-                    if (property.type == "Event") {
-                        selectRcodeActionList.push(
-                            {
-                                value:              "" + indexProp,
-                                app:                null,
-                                form:               mm.model.active_form,
-                                component:          component.name,
-                                action_id:          property.id,
-                                action_name:        property.name,
-                                action_type:        property.type,
-                                action_index:       ere
-                            }
-                        )
-                        if (property.id == aa.property_id) {
-                            selectedActionObject = indexProp
-                        }
-                        indexProp++
-                    }
-                }
-
-
-                selectRcodeActionList.push(
-                    {
-                        value:              "" + indexProp,
-                        app:                null,
-                        form:               mm.model.active_form,
-                        component:          component.name,
-                        action_id:          "load",
-                        action_name:        "Load event",
-                        action_type:        "Event",
-                        action_index:       ere
-                    })
-                if ( aa.property_id == "load" ) {
-                    selectedActionObject = indexProp
-                }
-                indexProp++
-
-
-
-                selectCodeObject = new Selectr(
-                    document.getElementById('select_code_object'),
-                    {
-                        renderOption:       mm.myDataRenderFunction,
-                        renderSelection:    mm.myDataRenderFunction,
-                        selectedValue:      selectedCodeObject,
-                        data:               selectRcodeObjectList,
-                        customClass:       'my-custom-selectr',
-                        searchable:         false
-                    });
-
-                selectCodeAction = new Selectr(
-                    document.getElementById('select_code_action'),
-                    {
-                        renderOption:       mm.actionRenderFunction,
-                        renderSelection:    mm.actionRenderFunction,
-                        selectedValue:      selectedActionObject,
-                        data:               selectRcodeActionList,
-                        customClass:       'my-custom-selectr',
-                        searchable:         false
-                    });
-
-                document.getElementsByClassName("selectr-selected")[0].style.padding = "1px"
-                document.getElementsByClassName("selectr-selected")[0].style["border-top"] = "2px solid gray"
-                document.getElementsByClassName("selectr-selected")[0].style["border-left"] = "2px solid gray"
-
-                document.getElementsByClassName("selectr-selected")[1].style.padding = "1px"
-                document.getElementsByClassName("selectr-selected")[1].style["border-top"] = "2px solid gray"
-                document.getElementsByClassName("selectr-selected")[1].style["border-left"] = "2px solid gray"
-
-                document.getElementsByClassName("selectr-selected")[2].style.padding = "1px"
-                document.getElementsByClassName("selectr-selected")[2].style["border-top"] = "2px solid gray"
-                document.getElementsByClassName("selectr-selected")[2].style["border-left"] = "2px solid gray"
-
-                selectCodeObject.on('selectr.select', function(option) {
-                    var dd = selectRcodeObjectList[option.idx]
-                    if (dd.component) {
-                        mm.selectComponent(dd.component_index)
-                    } else if (dd.form) {
-                        mm.selectForm(dd.form)
-                    } else if (dd.app) {
-                        mm.select_app()
-                    }
-                });
-
-                selectCodeAction.on('selectr.select', function(option) {
-                    var dd = selectRcodeActionList[option.idx]
-                    mm.editAsCode({
-                        active_form:            mm.model.active_form,
-                        active_component_index: mm.model.active_component_index,
-                        property_id:            dd.action_id
-                    })
-                });
-
-
-            },100)
+            mm.setupCodeEditorSelectors(aa.property_id)
 
          }
          ,
+
+
+
+         setupCodeEditorSelectors: function(property_id) {
+            var mm = this
+             setTimeout(function(){
+                 if (!document.getElementById("select_code_object_parent")) {
+                     return
+                 }
+                 document.getElementById("select_code_object_parent").innerHTML=' <select id=select_code_object ></select>'
+
+
+                 if (!document.getElementById("select_code_action_parent")) {
+                     return
+                 }
+                 document.getElementById("select_code_action_parent").innerHTML=' <select id=select_code_action ></select>'
+
+                 //
+                 //zzz
+                 //   selector for code editor
+                 //
+                 var selectRcodeObjectList = []
+                 var selectRcodeActionList = []
+                 var indexProp = 0
+                 var selectedCodeObject      = null
+                 var selectedActionObject    = null
+
+                 //
+                 // if we selected the app or a form
+                 //
+                 if (mm.model.app_selected || (!isValidObject(mm.model.active_component_index))) {
+
+                     if (mm.edited_app_component_id) {
+                         selectRcodeObjectList.push(
+                             {
+                                 value:      "" + indexProp,
+                                 app:        mm.edited_app_component_id,
+                                 form:       null,
+                                 component:  null
+                             })
+                     }
+
+                     if (mm.model.app_selected) {
+                         selectedCodeObject = indexProp
+                     }
+                     indexProp++
+
+                     var forms = mm.getForms()
+                     for (  var ere = 0; ere < forms.length; ere++  ) {
+                         var form = forms[ ere ]
+                         selectRcodeObjectList.push(
+                             {
+                                 value:      "" + indexProp,
+                                 app:        null,
+                                 form:       form.name,
+                                 component:  null
+                             }
+                         )
+                         if ((!mm.model.app_selected) && (form.name == mm.model.active_form)) {
+                             selectedCodeObject = indexProp
+                         }
+                         indexProp++
+                     }
+
+                 //
+                 // if we selected a component
+                 //
+                 } else if (isValidObject(mm.model.active_component_index)) {
+
+                     selectRcodeObjectList.push(
+                         {
+                             value:      "" + indexProp,
+                             app:        null,
+                             form:       mm.model.active_form,
+                             component:  null
+                         }
+                     )
+                     indexProp++
+
+                     var components = mm.getActiveFormComponents()
+                     for (  var ere = 0; ere < components.length; ere++  ) {
+                         var component = components[ ere ]
+                         selectRcodeObjectList.push(
+                             {
+                                 value:              "" + indexProp,
+                                 app:                null,
+                                 form:               mm.model.active_form,
+                                 component:          component.name,
+                                 component_type:     component.base_component_id,
+
+                                 component_index:    ere
+                             }
+                         )
+                         if (mm.model.active_component_index == ere) {
+                             selectedCodeObject = indexProp
+                         }
+                         indexProp++
+                     }
+                 }
+
+
+
+                 //
+                 //zzz
+                 //   get the list of properties
+                 //
+                 //alert(property_id)
+
+                 var properties = mm.getComponentProperties(  component.base_component_id  )
+                 for (  var ere = 0;  ere < properties.length;  ere++  ) {
+                     var property = properties[ ere ]
+                     if (property.type == "Event") {
+                         selectRcodeActionList.push(
+                             {
+                                 value:              "" + indexProp,
+                                 app:                null,
+                                 form:               mm.model.active_form,
+                                 component:          component.name,
+                                 action_id:          property.id,
+                                 action_name:        property.name,
+                                 action_type:        property.type,
+                                 action_index:       ere
+                             }
+                         )
+                         if (property.id == property_id) {
+                             selectedActionObject = indexProp
+                         }
+                         indexProp++
+                     }
+                 }
+
+
+                 selectRcodeActionList.push(
+                     {
+                         value:              "" + indexProp,
+                         app:                null,
+                         form:               mm.model.active_form,
+                         component:          component.name,
+                         action_id:          "load",
+                         action_name:        "Load event",
+                         action_type:        "Event",
+                         action_index:       ere
+                     })
+                 if ( property_id == "load" ) {
+                     selectedActionObject = indexProp
+                 }
+                 indexProp++
+
+
+
+                 selectCodeObject = new Selectr(
+                     document.getElementById('select_code_object'),
+                     {
+                         renderOption:       mm.myDataRenderFunction,
+                         renderSelection:    mm.myDataRenderFunction,
+                         selectedValue:      selectedCodeObject,
+                         data:               selectRcodeObjectList,
+                         customClass:       'my-custom-selectr',
+                         searchable:         false
+                     });
+
+                 selectCodeAction = new Selectr(
+                     document.getElementById('select_code_action'),
+                     {
+                         renderOption:       mm.actionRenderFunction,
+                         renderSelection:    mm.actionRenderFunction,
+                         selectedValue:      selectedActionObject,
+                         data:               selectRcodeActionList,
+                         customClass:       'my-custom-selectr',
+                         searchable:         false
+                     });
+
+                 document.getElementsByClassName("selectr-selected")[0].style.padding = "1px"
+                 document.getElementsByClassName("selectr-selected")[0].style["border-top"] = "2px solid gray"
+                 document.getElementsByClassName("selectr-selected")[0].style["border-left"] = "2px solid gray"
+
+                 document.getElementsByClassName("selectr-selected")[1].style.padding = "1px"
+                 document.getElementsByClassName("selectr-selected")[1].style["border-top"] = "2px solid gray"
+                 document.getElementsByClassName("selectr-selected")[1].style["border-left"] = "2px solid gray"
+
+                 document.getElementsByClassName("selectr-selected")[2].style.padding = "1px"
+                 document.getElementsByClassName("selectr-selected")[2].style["border-top"] = "2px solid gray"
+                 document.getElementsByClassName("selectr-selected")[2].style["border-left"] = "2px solid gray"
+
+                 selectCodeObject.on('selectr.select', function(option) {
+                     var dd = selectRcodeObjectList[option.idx]
+                     if (dd.component) {
+                         mm.selectComponent(dd.component_index)
+                     } else if (dd.form) {
+                         mm.selectForm(dd.form)
+                     } else if (dd.app) {
+                         mm.select_app()
+                     }
+                 });
+
+                 selectCodeAction.on('selectr.select', function(option) {
+                     var dd = selectRcodeActionList[option.idx]
+                     mm.editAsCode({
+                         active_form:            mm.model.active_form,
+                         active_component_index: mm.model.active_component_index,
+                         property_id:            dd.action_id
+                     })
+                 });
+
+
+             },100)
+             }
+             ,
+
          getActiveFormComponents: function() {
              return this.model.forms[this.model.active_form].components
          },
