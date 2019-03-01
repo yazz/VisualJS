@@ -79,7 +79,7 @@ load_once_from_file(true)
                 <button  v-if='(mode != "profiler")' type=button class=' btn btn-info btn-sm'   v-on:click='copyAppMethod(base_component_id,null)' >Copy</button>
                 <button  v-if='(mode != "profiler")' type=button class=' btn btn-info btn-sm'        v-on:click='embedApp(base_component_id)' >Embed</button>
 
-                <button  v-if='(mode != "profiler")' type=button class=' btn btn-info btn-warning'        v-on:click='if (!read_only) {edit_name=true;show_name=false;}' >Rename</button>
+                <button  v-if='(mode != "profiler")' type=button class=' btn btn-sm btn-warning'        v-on:click='if (!read_only) {edit_name=true;show_name=false;}' >Rename</button>
 
 
                 <button  v-if='(editor_component != "editor_component") && (!read_only) && (mode != "profiler")' type=button class=' btn btn-info btn-sm'   v-on:click='editAsText()' >Edit as text</button>
