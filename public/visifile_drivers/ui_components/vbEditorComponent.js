@@ -1770,85 +1770,89 @@ uses_javascript_librararies(["advanced_bundle"])
                     }
                 }
 
-                    //
-                    //zzz
-                    //   get the list of properties
-                    //
-                    //alert(aa.property_id)
 
-                    var properties = mm.getComponentProperties(component.base_component_id)
-                    for (  var ere = 0; ere < properties.length; ere++  ) {
-                        var property = properties[ ere ]
-                        if (property.type == "Event") {
-                            selectRcodeActionList.push(
-                                {
-                                    value:              "" + indexProp,
-                                    app:                null,
-                                    form:               mm.model.active_form,
-                                    component:          component.name,
-                                    action_id:          property.id,
-                                    action_name:        property.name,
-                                    action_type:        property.type,
-                                    action_index:       ere
-                                }
-                            )
-                        }
+
+                //
+                //zzz
+                //   get the list of properties
+                //
+                //alert(aa.property_id)
+
+                var properties = mm.getComponentProperties(  component.base_component_id  )
+                for (  var ere = 0;  ere < properties.length;  ere++  ) {
+                    var property = properties[ ere ]
+                    if (property.type == "Event") {
+                        selectRcodeActionList.push(
+                            {
+                                value:              "" + indexProp,
+                                app:                null,
+                                form:               mm.model.active_form,
+                                component:          component.name,
+                                action_id:          property.id,
+                                action_name:        property.name,
+                                action_type:        property.type,
+                                action_index:       ere
+                            }
+                        )
                         if (property.id == aa.property_id) {
-                            selectedActionObject = aa.property_id
+                            selectedActionObject = indexProp
                         }
                         indexProp++
                     }
-                    selectRcodeActionList.push(
-                        {
-                            value:              "" + indexProp,
-                            app:                null,
-                            form:               mm.model.active_form,
-                            component:          component.name,
-                            action_id:          "load",
-                            action_name:        "Load event",
-                            action_type:        "Event",
-                            action_index:       ere
-                        })
-                    if ("load" == aa.property_id) {
-                        selectedActionObject = aa.property_id
-                    }
-                    indexProp++
+                }
+
+
+                selectRcodeActionList.push(
+                    {
+                        value:              "" + indexProp,
+                        app:                null,
+                        form:               mm.model.active_form,
+                        component:          component.name,
+                        action_id:          "load",
+                        action_name:        "Load event",
+                        action_type:        "Event",
+                        action_index:       ere
+                    })
+                if ( aa.property_id == "load" ) {
+                    selectedActionObject = indexProp
+                }
+                indexProp++
 
 
 
-                    selectCodeObject = new Selectr(
-                        document.getElementById('select_code_object'),
-                        {
-                            renderOption:       mm.myDataRenderFunction,
-                            renderSelection:    mm.myDataRenderFunction,
-                            selectedValue:      selectedCodeObject,
-                            data:               selectRcodeObjectList,
-                            customClass:       'my-custom-selectr',
-                            searchable:         false
-                        });
+                selectCodeObject = new Selectr(
+                    document.getElementById('select_code_object'),
+                    {
+                        renderOption:       mm.myDataRenderFunction,
+                        renderSelection:    mm.myDataRenderFunction,
+                        selectedValue:      selectedCodeObject,
+                        data:               selectRcodeObjectList,
+                        customClass:       'my-custom-selectr',
+                        searchable:         false
+                    });
 
-                    selectCodeAction = new Selectr(
-                        document.getElementById('select_code_action'),
-                        {
-                            renderOption:       mm.actionRenderFunction,
-                            renderSelection:    mm.actionRenderFunction,
-                            selectedValue:      selectedActionObject,
-                            data:               selectRcodeActionList,
-                            customClass:       'my-custom-selectr',
-                            searchable:         false
-                        });
+                selectCodeAction = new Selectr(
+                    document.getElementById('select_code_action'),
+                    {
+                        renderOption:       mm.actionRenderFunction,
+                        renderSelection:    mm.actionRenderFunction,
+                        selectedValue:      selectedActionObject,
+                        data:               selectRcodeActionList,
+                        customClass:       'my-custom-selectr',
+                        searchable:         false
+                    });
 
-                    document.getElementsByClassName("selectr-selected")[0].style.padding = "1px"
-                    document.getElementsByClassName("selectr-selected")[0].style["border-top"] = "2px solid gray"
-                    document.getElementsByClassName("selectr-selected")[0].style["border-left"] = "2px solid gray"
+                document.getElementsByClassName("selectr-selected")[0].style.padding = "1px"
+                document.getElementsByClassName("selectr-selected")[0].style["border-top"] = "2px solid gray"
+                document.getElementsByClassName("selectr-selected")[0].style["border-left"] = "2px solid gray"
 
-                    document.getElementsByClassName("selectr-selected")[1].style.padding = "1px"
-                    document.getElementsByClassName("selectr-selected")[1].style["border-top"] = "2px solid gray"
-                    document.getElementsByClassName("selectr-selected")[1].style["border-left"] = "2px solid gray"
+                document.getElementsByClassName("selectr-selected")[1].style.padding = "1px"
+                document.getElementsByClassName("selectr-selected")[1].style["border-top"] = "2px solid gray"
+                document.getElementsByClassName("selectr-selected")[1].style["border-left"] = "2px solid gray"
 
-                    document.getElementsByClassName("selectr-selected")[2].style.padding = "1px"
-                    document.getElementsByClassName("selectr-selected")[2].style["border-top"] = "2px solid gray"
-                    document.getElementsByClassName("selectr-selected")[2].style["border-left"] = "2px solid gray"
+                document.getElementsByClassName("selectr-selected")[2].style.padding = "1px"
+                document.getElementsByClassName("selectr-selected")[2].style["border-top"] = "2px solid gray"
+                document.getElementsByClassName("selectr-selected")[2].style["border-left"] = "2px solid gray"
 
                 selectCodeObject.on('selectr.select', function(option) {
                     var dd = selectRcodeObjectList[option.idx]
