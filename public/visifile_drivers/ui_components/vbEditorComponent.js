@@ -1691,8 +1691,8 @@ uses_javascript_librararies(["advanced_bundle"])
                 //zzz
                 //   selector for code editor
                 //
-                var sdata = []
-                var sdataActions = []
+                var selectRcodeObjectList = []
+                var selectRcodeActionList = []
                 var indexProp = 0
                 var selectedItem = null
 
@@ -1702,7 +1702,7 @@ uses_javascript_librararies(["advanced_bundle"])
                 if (mm.model.app_selected || (!isValidObject(mm.model.active_component_index))) {
 
                     if (mm.edited_app_component_id) {
-                        sdata.push(
+                        selectRcodeObjectList.push(
                             {
                                 value:      "" + indexProp,
                                 app:        mm.edited_app_component_id,
@@ -1719,7 +1719,7 @@ uses_javascript_librararies(["advanced_bundle"])
                     var forms = mm.getForms()
                     for (  var ere = 0; ere < forms.length; ere++  ) {
                         var form = forms[ ere ]
-                        sdata.push(
+                        selectRcodeObjectList.push(
                             {
                                 value:      "" + indexProp,
                                 app:        null,
@@ -1738,7 +1738,7 @@ uses_javascript_librararies(["advanced_bundle"])
                 //
                 } else if (isValidObject(mm.model.active_component_index)) {
 
-                    sdata.push(
+                    selectRcodeObjectList.push(
                         {
                             value:      "" + indexProp,
                             app:        null,
@@ -1751,7 +1751,7 @@ uses_javascript_librararies(["advanced_bundle"])
                     var components = mm.getActiveFormComponents()
                     for (  var ere = 0; ere < components.length; ere++  ) {
                         var component = components[ ere ]
-                        sdata.push(
+                        selectRcodeObjectList.push(
                             {
                                 value:              "" + indexProp,
                                 app:                null,
@@ -1779,7 +1779,7 @@ uses_javascript_librararies(["advanced_bundle"])
                     for (  var ere = 0; ere < properties.length; ere++  ) {
                         var property = properties[ ere ]
                         if (property.type == "Event") {
-                            sdataActions.push(
+                            selectRcodeActionList.push(
                                 {
                                     value:              "" + indexProp,
                                     app:                null,
@@ -1797,7 +1797,7 @@ uses_javascript_librararies(["advanced_bundle"])
                         }
                         indexProp++
                     }
-                    sdataActions.push(
+                    selectRcodeActionList.push(
                         {
                             value:              "" + indexProp,
                             app:                null,
@@ -1818,7 +1818,7 @@ uses_javascript_librararies(["advanced_bundle"])
                         	renderOption: mm.myDataRenderFunction,
                             renderSelection: mm.myDataRenderFunction,
                     		selectedValue: selectedItem,
-                            data: sdata,
+                            data: selectRcodeObjectList,
                             customClass: 'my-custom-selectr',
                             searchable: false
                         });
@@ -1829,7 +1829,7 @@ uses_javascript_librararies(["advanced_bundle"])
                         	renderOption: mm.actionRenderFunction,
                             renderSelection: mm.actionRenderFunction,
                     		selectedValue: selectedItem,
-                            data: sdataActions,
+                            data: selectRcodeActionList,
                             customClass: 'my-custom-selectr',
                             searchable: false
                         });
@@ -1847,7 +1847,7 @@ uses_javascript_librararies(["advanced_bundle"])
                     document.getElementsByClassName("selectr-selected")[2].style["border-left"] = "2px solid gray"
 
                 selectCodeObject.on('selectr.select', function(option) {
-                    var dd = sdata[option.idx]
+                    var dd = selectRcodeObjectList[option.idx]
                     if (dd.component) {
                         mm.selectComponent(dd.component_index)
                     } else if (dd.form) {
@@ -1858,7 +1858,7 @@ uses_javascript_librararies(["advanced_bundle"])
                 });
 
                 selectCodeAction.on('selectr.select', function(option) {
-                    var dd = sdataActions[option.idx]
+                    var dd = selectRcodeActionList[option.idx]
                     mm.editAsCode({
                         active_form:            mm.model.active_form,
                         active_component_index: mm.model.active_component_index,
