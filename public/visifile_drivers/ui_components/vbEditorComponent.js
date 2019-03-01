@@ -1715,12 +1715,12 @@ uses_javascript_librararies(["advanced_bundle"])
                  //   initialise vars
                  //
 
-                 var selectRcodeObjectList = []
-                 var selectRcodeActionList = []
-                 var indexObjectSelector = 0
-                 var indexActions = 0
-                 var selectedCodeObject      = null
-                 var selectedActionObject    = null
+                 var selectRcodeObjectList  = []
+                 var selectRcodeActionList  = []
+                 var indexObjectSelector    = 0
+                 var indexActionSelector    = 0
+                 var selectedCodeObject     = null
+                 var selectedCodeAction     = null
 
                  //
                  // if we selected the app or a form
@@ -1811,7 +1811,7 @@ uses_javascript_librararies(["advanced_bundle"])
                          if (property.type == "Event") {
                              selectRcodeActionList.push(
                                  {
-                                     value:              "" + indexActions,
+                                     value:              "" + indexActionSelector,
                                      app:                null,
                                      form:               mm.model.active_form,
                                      component:          component.name,
@@ -1822,15 +1822,15 @@ uses_javascript_librararies(["advanced_bundle"])
                                  }
                              )
                              if (property.id == property_id) {
-                                 selectedActionObject = indexActions
+                                 selectedCodeAction = indexActionSelector
                              }
-                             indexActions++
+                             indexActionSelector++
                          }
                      }
 
                       selectRcodeActionList.push(
                           {
-                              value:              "" + indexActions,
+                              value:              "" + indexActionSelector,
                               app:                null,
                               form:               mm.model.active_form,
                               component:          component.name,
@@ -1840,9 +1840,9 @@ uses_javascript_librararies(["advanced_bundle"])
                               action_index:       ere
                           })
                       if ( property_id == "load" ) {
-                          selectedActionObject = indexActions
+                          selectedCodeAction = indexActionSelector
                       }
-                      indexActions++
+                      indexActionSelector++
                  }
 
 
@@ -1866,7 +1866,7 @@ uses_javascript_librararies(["advanced_bundle"])
                      {
                          renderOption:       mm.actionRenderFunction,
                          renderSelection:    mm.actionRenderFunction,
-                         selectedValue:      selectedActionObject,
+                         selectedValue:      selectedCodeAction,
                          data:               selectRcodeActionList,
                          customClass:       'my-custom-selectr',
                          searchable:         false
