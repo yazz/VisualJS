@@ -1693,32 +1693,35 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
 
-         setupCodeEditorSelectors: function(property_id) {
+        setupCodeEditorSelectors: function(   property_id   ) {
             var mm = this
-             setTimeout(function(){
-                 if (!document.getElementById("select_code_object_parent")) {
-                     return
-                 }
-                 document.getElementById("select_code_object_parent").innerHTML=' <select id=select_code_object ></select>'
+
+            setTimeout( function() {
+
+                //
+                // Add the selectors using the SelectR library
+                //
+
+                if (!document.getElementById("select_code_object_parent")) {
+                    return; }
+                document.getElementById("select_code_object_parent").innerHTML=' <select id=select_code_object ></select>'
+                if (!document.getElementById("select_code_action_parent")) {
+                    return; }
+                document.getElementById("select_code_action_parent").innerHTML=' <select id=select_code_action ></select>'
 
 
-                 if (!document.getElementById("select_code_action_parent")) {
-                     return
-                 }
-                 document.getElementById("select_code_action_parent").innerHTML=' <select id=select_code_action ></select>'
 
                  //
-                 //zzz
-                 //   selector for code editor
+                 //   initialise vars
                  //
+
                  var selectRcodeObjectList = []
                  var selectRcodeActionList = []
-                 var indexProp = 0
+                 var indexObjectSelector = 0
                  var indexActions = 0
                  var selectedCodeObject      = null
                  var selectedActionObject    = null
 
-debugger
                  //
                  // if we selected the app or a form
                  //
@@ -1727,7 +1730,7 @@ debugger
                      if (mm.edited_app_component_id) {
                          selectRcodeObjectList.push(
                              {
-                                 value:      "" + indexProp,
+                                 value:      "" + indexObjectSelector,
                                  app:        mm.edited_app_component_id,
                                  form:       null,
                                  component:  null
@@ -1735,25 +1738,25 @@ debugger
                      }
 
                      if (mm.model.app_selected) {
-                         selectedCodeObject = indexProp
+                         selectedCodeObject = indexObjectSelector
                      }
-                     indexProp++
+                     indexObjectSelector++
 
                      var forms = mm.getForms()
                      for (  var ere = 0; ere < forms.length; ere++  ) {
                          var form = forms[ ere ]
                          selectRcodeObjectList.push(
                              {
-                                 value:      "" + indexProp,
+                                 value:      "" + indexObjectSelector,
                                  app:        null,
                                  form:       form.name,
                                  component:  null
                              }
                          )
                          if ((!mm.model.app_selected) && (form.name == mm.model.active_form)) {
-                             selectedCodeObject = indexProp
+                             selectedCodeObject = indexObjectSelector
                          }
-                         indexProp++
+                         indexObjectSelector++
                      }
 
                  //
@@ -1763,20 +1766,20 @@ debugger
 
                      selectRcodeObjectList.push(
                          {
-                             value:      "" + indexProp,
+                             value:      "" + indexObjectSelector,
                              app:        null,
                              form:       mm.model.active_form,
                              component:  null
                          }
                      )
-                     indexProp++
+                     indexObjectSelector++
 
                      var components = mm.getActiveFormComponents()
                      for (  var ere = 0; ere < components.length; ere++  ) {
                          var component = components[ ere ]
                          selectRcodeObjectList.push(
                              {
-                                 value:              "" + indexProp,
+                                 value:              "" + indexObjectSelector,
                                  app:                null,
                                  form:               mm.model.active_form,
                                  component:          component.name,
@@ -1786,9 +1789,9 @@ debugger
                              }
                          )
                          if (mm.model.active_component_index == ere) {
-                             selectedCodeObject = indexProp
+                             selectedCodeObject = indexObjectSelector
                          }
-                         indexProp++
+                         indexObjectSelector++
                      }
                  }
 
