@@ -36,7 +36,7 @@ logo_url("/driver_icons/button_control.png")
 */
 
     Vue.component("button_control",{
-      props: [ "form",  "name", "args" ]
+      props: [ "meta", "form",  "name", "args" ]
       ,
       template: `<button    type=button class='btn btn-info btn-lg'
                             v-bind:style='"height:100%;width:100%; border: 0px;" + "background-color: "+    args["background_color"]  +  ";"'
@@ -48,7 +48,7 @@ logo_url("/driver_icons/button_control.png")
     ,
     mounted: function() {
         registerComponent(this)
-        
+
     }
     ,
     data: function() {
@@ -64,8 +64,8 @@ logo_url("/driver_icons/button_control.png")
 
             this.$emit('send', {
                                             type:               "subcomponent_event",
-                                            form_name:           this.form,
-                                            control_name:        this.name,
+                                            form_name:           this.meta.form,
+                                            control_name:        this.meta.name,
                                             sub_type:           "click",
                                             code:                this.args.click_event
                                         })
