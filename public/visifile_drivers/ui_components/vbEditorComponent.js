@@ -1803,7 +1803,7 @@ uses_javascript_librararies(["advanced_bundle"])
                  //   get the list of properties
                  //
 
-                 if (  mm.model.active_component_index  ) {
+                 if (  isValidObject(mm.model.active_component_index)  ) {
                      var ccc        = mm.model.forms[mm.model.active_form].components[mm.model.active_component_index]
                      var properties = mm.getComponentProperties(  ccc.base_component_id  )
 
