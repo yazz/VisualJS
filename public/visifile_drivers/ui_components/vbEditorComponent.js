@@ -3264,7 +3264,7 @@ ${eventMessage.code}
            edited_app_component_id:     null,
            event_code:                  null,
            text:                        texti,
-           leftHandWidth:               120,
+           leftHandWidth:               130,
            right_mode:                  "project",
            add_property:                false,
            new_property_name: "",
