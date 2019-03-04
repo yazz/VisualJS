@@ -1536,7 +1536,7 @@ uses_javascript_librararies(["advanced_bundle"])
                         // The code is obtained from the VueJS model, depending on whether
                         // it is a control, a form, or application code
                         //
-debugger
+
                         var ccode = ""
 
                         // application code (THIS MUST BE FIST IN THE IF STATEMENT)
@@ -1767,7 +1767,7 @@ debugger
                  var selectedCodeAction     = null
 
 
-
+debugger
                  //
                  // if we selected the app or a form
                  //
@@ -1893,7 +1893,7 @@ debugger
                  // get the app methods
                  //
                  } else if (mm.model.app_selected) {
-                     objectListForSelector.push(
+                     methodListForSelector.push(
                          {
                              value:              "" + indexActionSelector,
                              app:                mm.edited_app_component_id,
