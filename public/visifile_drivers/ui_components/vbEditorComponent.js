@@ -1889,6 +1889,34 @@ debugger
                       }
                       indexActionSelector++
 
+
+
+                  // get the actions for the forms
+                  } else if (  isValidObject(mm.model.active_form)  ) {
+                      var ccc        = mm.model.forms[mm.model.active_form]
+                      //zzz
+                      var properties = mm.getComponentProperties(  ccc.base_component_id  )
+
+
+                       methodListForSelector.push(
+                           {
+                               value:              "" + indexActionSelector,
+                               app:                null,
+                               form:               mm.model.active_form,
+                               component:          ccc.name,
+                               action_id:          "form_activate",
+                               action_name:        "Activate Event",
+                               action_type:        "Event",
+                               action_index:       ere
+                           })
+                       if ( property_id == "form_activate" ) {
+                           selectedCodeAction = indexActionSelector
+                       }
+                       indexActionSelector++
+
+
+
+
                  //
                  // get the app methods
                  //
@@ -2936,7 +2964,6 @@ ${eventMessage.code}
             }
 
             //
-            //zzz
             //   selector for property inspector
             //
             selectProp = new Selectr(
