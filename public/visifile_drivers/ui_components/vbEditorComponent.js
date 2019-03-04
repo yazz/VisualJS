@@ -1536,22 +1536,24 @@ uses_javascript_librararies(["advanced_bundle"])
                         // The code is obtained from the VueJS model, depending on whether
                         // it is a control, a form, or application code
                         //
-
+debugger
                         var ccode = ""
 
+                        // application code (THIS MUST BE FIST IN THE IF STATEMENT)
+                        if (mm.model.app_selected) {
+                            ccode = mm.model[aa.property_id]
+
+
                         // form code
-                        if ((mm.model.active_component_index == null) && (mm.model.active_form != null)) {
+                        } else if ((mm.model.active_component_index == null) && (mm.model.active_form != null)) {
                             ccode = mm.model.forms[mm.model.active_form][aa.property_id]
 
                         // component code
                         } else if ((mm.model.active_component_index != null) && (mm.model.active_form != null)) {
                             ccode = mm.model.forms[mm.model.active_form].components[mm.model.active_component_index][aa.property_id]
-
-
-                        // application code
-                        } else if (mm.model.app_selected) {
-                            ccode = mm.model[aa.property_id]
                         }
+
+
 
                         if (!isValidObject(ccode)) {
                             ccode = ""
@@ -1893,7 +1895,7 @@ uses_javascript_librararies(["advanced_bundle"])
                  } else if (mm.model.app_selected) {
                      objectListForSelector.push(
                          {
-                             value:              "" + indexObjectSelector,
+                             value:              "" + indexActionSelector,
                              app:                mm.edited_app_component_id,
                              form:               mm.model.active_form,
                              component:          null,
@@ -1902,6 +1904,7 @@ uses_javascript_librararies(["advanced_bundle"])
                              action_type:        "Event"
                          }
                      )
+                     selectedCodeAction = indexActionSelector
                      indexActionSelector++
 
                  }
@@ -2811,6 +2814,10 @@ ${eventMessage.code}
          },
 
          myDataRenderFunction: function(data) {
+             if (!isValidObject(data)) {
+                 return "<div></div>"
+             }
+
              var center = ""
              if (data.app) {
                 center = "<b style='font-family:verdana;font-size: 13px;'>" + (data.app?data.app:data.form) + "</b> "
@@ -2830,7 +2837,12 @@ ${eventMessage.code}
 
 
          actionRenderFunction: function(data) {
+            if (!isValidObject(data)) {
+                return "<div></div>"
+            }
+
              var center = ""
+
              center = "<b style='font-family:verdana;font-size: 13px;'>" + data.action_id + "</b> " + data.action_name
 
              var template =
