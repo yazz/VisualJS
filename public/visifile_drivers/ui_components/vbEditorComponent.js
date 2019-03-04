@@ -126,8 +126,8 @@ uses_javascript_librararies(["advanced_bundle"])
                 <div    style='font-family:verdana;font-size: 13px;font-weight:bold;border-radius: 0px;background-color:lightgray; color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
 
                     <div    style='height: 50px;' >
-                        <div id='select_code_object_parent' style='display: inline-block;margin: 5px;width: 40%;'></div>
-                        <div id='select_code_action_parent' style='display: inline-block;margin: 5px;width: 40%;'></div>
+                        <div id='select_code_object_parent' style='display: inline-block;margin: 5px;width: 200px;'></div>
+                        <div id='select_code_action_parent' style='display: inline-block;margin: 5px;width: 200px;'></div>
 
 
                         <button  type=button class=' btn btn-danger btn-sm'
