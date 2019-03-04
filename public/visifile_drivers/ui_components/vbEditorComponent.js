@@ -1457,14 +1457,24 @@ uses_javascript_librararies(["advanced_bundle"])
         ,
 
 
+        // -----------------------------------------------------
+        //                      editAsCode
+        //
+        // This is called when the "..." button is pressed for
+        // a property in the property inspector
+        //
+        // This can show code for the app, a form, and for
+        // controls
+        //
+        // -----------------------------------------------------
+        editAsCode: async function(aa) {
 
+            //
+            // if the code editor is already open then close it
+            //
 
-
-
-         editAsCode: async function(aa) {
-debugger
             var mm = this
-            if (this.ui_code_editor) {
+            if (mm.ui_code_editor) {
                 if (mm.ui_code_editor.completer) {
                     mm.ui_code_editor.completer.detach()
                 }
@@ -1474,6 +1484,11 @@ debugger
 
 
 
+
+            //
+            // Set up the new code editor
+            //
+
             setTimeout(function(){
                 mm.design_mode_pane.type                   = "event_editor"
                 mm.design_mode_pane.active_form            = aa.active_form
@@ -1482,33 +1497,60 @@ debugger
 
                 setTimeout(function(){
                     if (document.getElementById('ui_code_editor') && (mm.ui_code_editor == null)) {
-                    //
-                    //set up the ace editor for the timeline view
-                    //
-                    ace.config.set('basePath', '/');
-                    mm.ui_code_editor = ace.edit( "ui_code_editor",
+
+                        //
+                        //set up the ace editor for the timeline view
+                        //
+
+                        ace.config.set('basePath', '/');
+                        mm.ui_code_editor = ace.edit( "ui_code_editor",
                                                         {
                                                                selectionStyle:  "text",
                                                                mode:            "ace/mode/javascript"
                                                         })
 
-                    //Bug fix: Need a delay when setting theme or view is corrupted
-                    setTimeout(function(){
-                           mm.ui_code_editor.setTheme("ace/theme/sqlserver");
-                        },100)
+                        //
+                        //Hack city! Need a delay when setting theme or view is corrupted
+                        //
+
+                        setTimeout(function(){
+                               mm.ui_code_editor.setTheme("ace/theme/sqlserver");
+                            },100)
 
 
-                        document.getElementById("ui_code_editor").style["font-size"] = "16px"
-                        document.getElementById("ui_code_editor").style.width = "100%"
-                        document.getElementById("ui_code_editor").style.border = "0px solid #2C2828"
 
-                        document.getElementById("ui_code_editor").style.height = "55vh"
+                        //
+                        // Stylize the code editor
+                        //
+
+                        document.getElementById("ui_code_editor").style["font-size"]    = "16px"
+                        document.getElementById("ui_code_editor").style.width           = "100%"
+                        document.getElementById("ui_code_editor").style.border          = "0px solid #2C2828"
+                        document.getElementById("ui_code_editor").style.height          = "55vh"
+
+
+
+                        //
+                        // Get the code and store it in "ccode"
+                        //
+                        // The code is obtained from the VueJS model, depending on whether
+                        // it is a control, a form, or application code
+                        //
+
                         var ccode = ""
+
+                        // form code
                         if ((mm.model.active_component_index == null) && (mm.model.active_form != null)) {
                             ccode = mm.model.forms[mm.model.active_form][aa.property_id]
 
+                        // component code
                         } else if ((mm.model.active_component_index != null) && (mm.model.active_form != null)) {
                             ccode = mm.model.forms[mm.model.active_form].components[mm.model.active_component_index][aa.property_id]
+
+
+                        // application code
+                        } else if (mm.model.app_selected) {
+                            ccode = mm.model[aa.property_id]
                         }
 
                         if (!isValidObject(ccode)) {
