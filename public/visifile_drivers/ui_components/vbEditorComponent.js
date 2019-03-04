@@ -1847,7 +1847,27 @@ debugger
                  //   get the list of properties
                  //
 
-                 if (  isValidObject(mm.model.active_component_index)  ) {
+
+                  //
+                  // get the app methods
+                  //
+                  if (mm.model.app_selected) {
+                      methodListForSelector.push(
+                          {
+                              value:              "" + indexActionSelector,
+                              app:                mm.edited_app_component_id,
+                              form:               mm.model.active_form,
+                              component:          null,
+                              action_id:          "app_started_event",
+                              action_name:        "Called when the app is started",
+                              action_type:        "Event"
+                          }
+                      )
+                      selectedCodeAction = indexActionSelector
+                      indexActionSelector++
+
+
+                  } else if (  isValidObject(mm.model.active_component_index)  ) {
                      var ccc        = mm.model.forms[mm.model.active_form].components[mm.model.active_component_index]
                      var properties = mm.getComponentProperties(  ccc.base_component_id  )
 
@@ -1913,30 +1933,7 @@ debugger
                            selectedCodeAction = indexActionSelector
                        }
                        indexActionSelector++
-
-
-
-
-                 //
-                 // get the app methods
-                 //
-                 } else if (mm.model.app_selected) {
-                     methodListForSelector.push(
-                         {
-                             value:              "" + indexActionSelector,
-                             app:                mm.edited_app_component_id,
-                             form:               mm.model.active_form,
-                             component:          null,
-                             action_id:          "app_started_event",
-                             action_name:        "Called when the app is started",
-                             action_type:        "Event"
-                         }
-                     )
-                     selectedCodeAction = indexActionSelector
-                     indexActionSelector++
-
-                 }
-
+                   }
 
 
 
