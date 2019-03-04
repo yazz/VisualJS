@@ -1981,20 +1981,35 @@ debugger
                      if (dd.component) {
                          mm.selectComponent(dd.component_index)
                          mm.editAsCode({
+                             app_selected:           false,
                              active_form:            mm.model.active_form,
                              active_component_index: mm.model.active_component_index,
                              property_id:            "load"
                          })
                      } else if (dd.form) {
                          mm.selectForm(dd.form)
+                         mm.editAsCode({
+                             app_selected:           false,
+                             active_form:            dd.form,
+                             active_component_index: null,
+                             property_id:            "form_activate"
+                         })
                      } else if (dd.app) {
                          mm.select_app()
+                         mm.editAsCode({
+                             app_selected:           true,
+                             active_form:            mm.model.active_form,
+                             active_component_index: null,
+                             property_id:            "app_started_event"
+
+                         })
                      }
                  });
 
                  selectCodeAction.on('selectr.select', function(option) {
                      var dd = methodListForSelector[option.idx]
                      mm.editAsCode({
+                         app_selected:           mm.app_selected,
                          active_form:            mm.model.active_form,
                          active_component_index: mm.model.active_component_index,
                          property_id:            dd.action_id
