@@ -1508,7 +1508,7 @@ ${code}
                                                   "latest")
 
                                               if ( jsLibs[tt] == "advanced_bundle" ) {
-                                                scriptCode += fs.readFileSync( path.join(__dirname, '../public/js_libs/aframe.min.js') )
+                                                scriptCode += fs.readFileSync( path.join(__dirname, '../public/js_libs/advanced_js_bundle.js') )
                                                 scriptCode += `
                                                 `
                                               }
