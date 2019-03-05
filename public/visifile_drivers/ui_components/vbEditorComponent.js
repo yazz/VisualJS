@@ -2267,6 +2267,7 @@ debugger
          //-------------------------------------------------------------------
          selectForm: function(formId, showProps) {
          //-------------------------------------------------------------------
+            debugger
              var mm = this
 
 
@@ -3098,6 +3099,7 @@ ${eventMessage.code}
             this.properties.push({   id:     "name",   name:   "Name",   type:   "String"    })
             this.properties.push({   id:     "width",   name:   "Width",   type:   "Number"    })
             this.properties.push({   id:     "height",   name:   "Height",   type:   "Number"    })
+            this.properties.push({   id:     "form_activate",   name:   "Activate Event",   type:   "Event"    })
 
             mm.model.max_form ++
             var newFormName = "form_" + mm.model.max_form
