@@ -1812,8 +1812,8 @@ debugger
 
                          if ((!mm.model.app_selected) && (form.name == mm.model.active_form)) {
                              var components = mm.getActiveFormComponents()
-                             for (  var ere = 0; ere < components.length; ere++  ) {
-                                 var component = components[ ere ]
+                             for (  var ere1 = 0; ere1 < components.length; ere1++  ) {
+                                 var component = components[ ere1 ]
                                  objectListForSelector.push(
                                      {
                                          value:              "" + indexObjectSelector,
@@ -1821,10 +1821,10 @@ debugger
                                          form:               mm.model.active_form,
                                          component:          "  -  " + component.name,
                                          component_type:     component.base_component_id,
-                                         component_index:    ere
+                                         component_index:    ere1
                                      }
                                  )
-                                 if (mm.model.active_component_index == ere) {
+                                 if (mm.model.active_component_index == ere1) {
                                      selectedCodeObject = indexObjectSelector
                                  }
                                  indexObjectSelector++
