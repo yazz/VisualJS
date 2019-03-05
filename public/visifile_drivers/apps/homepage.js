@@ -29,7 +29,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-    <div    style='vertical-align:top;padding:10px; margin:0;padding-top: 30px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;padding-left: 27px;'
+    <div    style='vertical-align:top;padding:10px; margin:0;padding-top: 15px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;padding-left: 27px;'
             v-bind:refresh='refresh'>
 
             <div    v-bind:refresh='refresh'
@@ -37,23 +37,23 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                  YAZZ
             </div>
 
-        <h1 style='vertical-align:top;display:inline-block;font-size:100px; text-align: center;margin: 0px;'>
+        <h1 style='vertical-align:top;display:inline-block;font-size:100px; text-align: center;margin: 0px;padding-left:70px;'>
 
-            <button style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:55px;font-weight: bold;'
+            <button style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold;'
                     class='btn btn-danger btn-lg'
                     v-on:click='copyAndEditApp($event,"vb_blank")'>
                     <img    src='/driver_icons/blocks.png'
-                            style='position:relative;max-width: 80px; left:0px; top: 0px;max-height: 80px;margin-left: auto;margin-right: auto;display: inline-block;'
+                            style='position:relative;max-width: 70px; left:0px; top: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
                             >
                     </img>
                 New GUI app
             </button>
 
-            <button style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:55px;font-weight: bold;'
+            <button style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold;'
             class='btn btn-light btn-lg'
                     v-on:click='copyAndEditApp($event,"new")'>
                     <img    src='/driver_icons/terminal.png'
-                            style='position:relative;max-width: 80px; left:0px; top: 0px;max-height: 80px;margin-left: auto;margin-right: auto;display: inline-block;'
+                            style='position:relative;max-width: 70px; left:0px; top: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
                             >
                     </img>
                 New JS app
