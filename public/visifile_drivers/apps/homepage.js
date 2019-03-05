@@ -24,25 +24,20 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
       template:
 `<div v-bind:refresh='refresh'>
-    <div    style="position: sticky; left:0px; top:0px; width: 100vw ;z-index: 2;background-color: black;padding:0;margin:0;"
+
+
+
+
+
+    <div    style='vertical-align:top;padding:10px; margin:0;padding-top: 30px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;padding-left: 27px;'
             v-bind:refresh='refresh'>
 
-        <div    v-bind:refresh='refresh'
-                style="border:0px; padding: 0px; margin: 0px;padding-left:15px;font-family: Helvetica;yellow: white;font-weight: bold;letter-spacing: -2px;background-color: black;font-size: 13px;line-height: 1;">
-             YAZZ
-        </div>
-        <div    v-bind:refresh='refresh'
-                style="display: inline-block;border:0px solid black; padding: 0px;margin: 0px;padding-left:15px;padding-right:15px;border-radius: 10px;  font-family: Helvetica;color: white;font-weight: normal;letter-spacing: -1.5px;background-color: black;font-size: 22px;margin-left: 15px;white-space: nowrap;">
-             <b>Yazz</b>
-        </div>
-    </div>
+            <div    v-bind:refresh='refresh'
+                    style="border:0px; padding: 0px; margin: 0px;padding-left:15px;font-family: Helvetica;color: white;font-weight: bold;letter-spacing: -2px;background-color: black;font-size: 23px;line-height: 1;display: inline-block;">
+                 YAZZ
+            </div>
 
-
-
-
-    <div    style='padding:10px; margin:0;padding-top: 30px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;'
-            v-bind:refresh='refresh'>
-        <h1 style='font-size:100px; text-align: center;margin: 0px;'>
+        <h1 style='vertical-align:top;display:inline-block;font-size:100px; text-align: center;margin: 0px;'>
 
             <button style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:55px;font-weight: bold;'
                     class='btn btn-danger btn-lg'
