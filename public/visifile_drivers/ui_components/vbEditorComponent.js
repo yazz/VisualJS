@@ -1589,22 +1589,59 @@ uses_javascript_librararies(["advanced_bundle"])
 
          }
         ,
+
+
+
+
+
+        // -----------------------------------------------------
+        //                  setupCodeAutocompletions
+        //
+        // This is called when editing event code to autocomplete
+        // form names, control names, and methods
+        //
+        //
+        //
+        // -----------------------------------------------------
         setupCodeAutocompletions: function() {
+        debugger
+
             var mm          = this
             var langTools   = ace.require("ace/ext/language_tools");
 
+            //
+            // Clear any default autocompleters that have been set
+            //
+
             langTools.setCompleters([]);
 
-            var controlAuto = {
+
+
+            //
+            // Create the autocompleter
+            //
+
+            var autocompleterFunction = {
                     identifierRegexps: [/[a-zA-Z_0-9.]/]
                     ,
                     getCompletions: function(editor, session, pos, prefix, callback) {
-                        console.log("Called controlAuto: " + pos + " : " + prefix)
+                        console.log("Called autocompleterFunction: " + pos + " : " + prefix)
+
+                        //
+                        // If no text entered then do nothing
+                        //
 
                         if (prefix.length === 0) {
                             callback(null, []);
                             return
                         }
+
+
+
+
+                        //
+                        // Get the first part of the text to autocomplete
+                        //
 
                         var firstObjectToAutocomplete = null
                         if (prefix.indexOf(".") != -1) {
@@ -1723,7 +1760,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
                  }
              }
-             langTools.addCompleter(controlAuto);
+             langTools.addCompleter(autocompleterFunction);
 
 
 
@@ -1777,7 +1814,7 @@ uses_javascript_librararies(["advanced_bundle"])
                  var selectedCodeAction     = null
 
 
-debugger
+
                  //
                  // if we selected the app or a form
                  //
@@ -2277,7 +2314,7 @@ debugger
          //-------------------------------------------------------------------
          selectForm: function(formId, showProps) {
          //-------------------------------------------------------------------
-            debugger
+
              var mm = this
 
 
