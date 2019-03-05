@@ -1576,163 +1576,173 @@ uses_javascript_librararies(["advanced_bundle"])
                             }
                         })
 
-                        var langTools = ace.require("ace/ext/language_tools");
-                        langTools.setCompleters([]);
-
-                        var controlAuto = {
-                            identifierRegexps: [/[a-zA-Z_0-9.]/]
-                            ,
-                            getCompletions: function(editor, session, pos, prefix, callback) {
-                                console.log("Called controlAuto: " + pos + " : " + prefix)
-
-                                if (prefix.length === 0) {
-                                    callback(null, []);
-                                    return
-                                }
-                                var firstObjectToAutocomplete = null
-                                if (prefix.indexOf(".") != -1) {
-                                    firstObjectToAutocomplete = prefix.substring(0,prefix.indexOf("."))
-                                    console.log("firstObjectToAutocomplete: " + firstObjectToAutocomplete)
-                                }
-
-
-                                var wordList = []
-
-                                //
-                                // Create the list of initial objects to complete:
-                                // app, forms, controls
-                                //
-                                if (firstObjectToAutocomplete == null) {
-                                    wordList.push(  {"word":    "app",
-                                                    "freq":     24,
-                                                    "score":    300,
-                                                    "flags":    "bc",
-                                                    "syllables":"1",
-                                                     meta:      "Main application"
-                                                    })
-
-                                    wordList.push(  {"word":    "forms",
-                                                    "freq":     24,
-                                                    "score":    300,
-                                                    "flags":    "bc",
-                                                    "syllables":"1",
-                                                     meta:      "List of forms"
-                                                    })
-
-                                    if (mm.design_mode_pane.active_form == null) {
-                                        wordList.push(  {"word":    "me",
-                                                        "freq":     24,
-                                                        "score":    300,
-                                                        "flags":    "bc",
-                                                        "syllables":"1",
-                                                         meta:      "The current app"
-                                                        })
-                                    } else if (mm.design_mode_pane.active_component_index == null) {
-                                        wordList.push(  {"word":    "me",
-                                                        "freq":     24,
-                                                        "score":    300,
-                                                        "flags":    "bc",
-                                                        "syllables":"1",
-                                                         meta:      "The current form"
-                                                        })
-                                    } else {
-                                        wordList.push(  {"word":    "me",
-                                                        "freq":     24,
-                                                        "score":    300,
-                                                        "flags":    "bc",
-                                                        "syllables":"1",
-                                                         meta:      "The current control"
-                                                        })
-                                    }
-
-                                    wordList.push(  {"word":    "parent",
-                                                    "freq":     24,
-                                                    "score":    300,
-                                                    "flags":    "bc",
-                                                    "syllables":"1",
-                                                     meta:      "The parent/container control of this"
-                                                    })
-
-                                    var ccc = mm.model.forms[mm.model.active_form].components
-                                    for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
-                                        var component = ccc[ytr]
-                                        wordList.push(  {"word":    component.name,
-                                                        "freq":     24,
-                                                        "score":    300,
-                                                        "flags":    "bc",
-                                                        "syllables":"1",
-                                                         meta:      "Control"
-                                                        })
-                                    }
-                                } else {
-                                    var componentId = null
-                                    var comps = mm.model.forms[mm.model.active_form].components
-                                    for (var rt=0; rt < comps.length; rt++) {
-                                        if (comps[rt].name == firstObjectToAutocomplete) {
-                                            componentId = comps[rt].base_component_id
-                                        }
-                                    }
-                                    var cachedComponentDefinition = component_cache[componentId]
-
-                                    if (isValidObject(cachedComponentDefinition)) {
-
-                                        for (var fg=0;fg < cachedComponentDefinition.properties.length;fg++){
-                                            var comm = cachedComponentDefinition.properties[fg]
-                                            var propName = firstObjectToAutocomplete + "." + comm.id
-                                            var meta = "Property"
-                                            if (isValidObject(comm.snippet)) {
-                                                propName = firstObjectToAutocomplete + "." + comm.snippet
-                                            }
-                                            if (comm.type == "Action") {
-                                                meta = "Method"
-                                            }
-
-                                            wordList.push({ "word":         propName ,
-                                                            "freq":         24,
-                                                            "score":        300,
-                                                            "flags":        "bc",
-                                                            "syllables":    "1",
-                                                            "meta":         meta
-                                                            })
-                                        }
-
-                                    }
-                                }
-
-                                callback(null, wordList.map(function(ea) {
-                                   return {name: ea.word, value: ea.word, score: ea.score, meta: ea.meta}
-                                }));
-
-
-                            }
-                        }
-                        langTools.addCompleter(controlAuto);
-
-
-
-                        mm.ui_code_editor.commands.addCommand({
-                            name: "showOtherCompletions",
-                            bindKey: ".",
-                            exec: function(editor) {
-                                 mm.ui_code_editor.session.insert(mm.ui_code_editor.getCursorPosition(), ".")
-                                 mm.ui_code_editor.completer.updateCompletions()
-                            }
-                        })
-
-                        mm.ui_code_editor.setOptions({
-                           enableBasicAutocompletion: false,
-                           enableSnippets: false,
-                           enableLiveAutocompletion: true
-                        });
+                        //zzz
+                        mm.setupCodeAutocompletions()
 
                         mm.ui_code_editor.focus();
                     }
                 },100)
             },100)
 
+
             mm.setupCodeEditorSelectors(aa.property_id)
 
          }
+        ,
+        setupCodeAutocompletions: function() {
+            var mm          = this
+            var langTools   = ace.require("ace/ext/language_tools");
+
+            langTools.setCompleters([]);
+
+            var controlAuto = {
+                    identifierRegexps: [/[a-zA-Z_0-9.]/]
+                    ,
+                    getCompletions: function(editor, session, pos, prefix, callback) {
+                        console.log("Called controlAuto: " + pos + " : " + prefix)
+
+                        if (prefix.length === 0) {
+                            callback(null, []);
+                            return
+                        }
+
+                        var firstObjectToAutocomplete = null
+                        if (prefix.indexOf(".") != -1) {
+                            firstObjectToAutocomplete = prefix.substring(0,prefix.indexOf("."))
+                            console.log("firstObjectToAutocomplete: " + firstObjectToAutocomplete)
+                        }
+
+
+                        var wordList = []
+
+                        //
+                        // Create the list of initial objects to complete:
+                        // app, forms, controls
+                        //
+                        if (firstObjectToAutocomplete == null) {
+                            wordList.push(  {"word":    "app",
+                                             "freq":     24,
+                                             "score":    300,
+                                             "flags":    "bc",
+                                             "syllables":"1",
+                                             meta:      "Main application"
+                                         })
+
+                         wordList.push(  {"word":    "forms",
+                                          "freq":     24,
+                                          "score":    300,
+                                          "flags":    "bc",
+                                          "syllables":"1",
+                                           meta:      "List of forms"
+                                         })
+
+                         if (mm.design_mode_pane.active_form == null) {
+                             wordList.push(  {"word":    "me",
+                                             "freq":     24,
+                                             "score":    300,
+                                             "flags":    "bc",
+                                             "syllables":"1",
+                                              meta:      "The current app"
+                                             })
+                         } else if (mm.design_mode_pane.active_component_index == null) {
+                             wordList.push(  {"word":    "me",
+                                             "freq":     24,
+                                             "score":    300,
+                                             "flags":    "bc",
+                                             "syllables":"1",
+                                              meta:      "The current form"
+                                             })
+                         } else {
+                             wordList.push(  {"word":    "me",
+                                             "freq":     24,
+                                             "score":    300,
+                                             "flags":    "bc",
+                                             "syllables":"1",
+                                              meta:      "The current control"
+                                             })
+                         }
+
+                         wordList.push(  {"word":    "parent",
+                                         "freq":     24,
+                                         "score":    300,
+                                         "flags":    "bc",
+                                         "syllables":"1",
+                                          meta:      "The parent/container control of this"
+                                         })
+
+                         var ccc = mm.model.forms[mm.model.active_form].components
+                         for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
+                             var component = ccc[ytr]
+                             wordList.push(  {"word":    component.name,
+                                             "freq":     24,
+                                             "score":    300,
+                                             "flags":    "bc",
+                                             "syllables":"1",
+                                              meta:      "Control"
+                                             })
+                         }
+                     } else {
+                         var componentId = null
+                         var comps = mm.model.forms[mm.model.active_form].components
+                         for (var rt=0; rt < comps.length; rt++) {
+                             if (comps[rt].name == firstObjectToAutocomplete) {
+                                 componentId = comps[rt].base_component_id
+                             }
+                         }
+                         var cachedComponentDefinition = component_cache[componentId]
+
+                         if (isValidObject(cachedComponentDefinition)) {
+
+                             for (var fg=0;fg < cachedComponentDefinition.properties.length;fg++){
+                                 var comm = cachedComponentDefinition.properties[fg]
+                                 var propName = firstObjectToAutocomplete + "." + comm.id
+                                 var meta = "Property"
+                                 if (isValidObject(comm.snippet)) {
+                                     propName = firstObjectToAutocomplete + "." + comm.snippet
+                                 }
+                                 if (comm.type == "Action") {
+                                     meta = "Method"
+                                 }
+
+                                 wordList.push({ "word":         propName ,
+                                                 "freq":         24,
+                                                 "score":        300,
+                                                 "flags":        "bc",
+                                                 "syllables":    "1",
+                                                 "meta":         meta
+                                                 })
+                             }
+
+                         }
+                     }
+
+                     callback(null, wordList.map(function(ea) {
+                        return {name: ea.word, value: ea.word, score: ea.score, meta: ea.meta}
+                     }));
+
+
+                 }
+             }
+             langTools.addCompleter(controlAuto);
+
+
+
+             mm.ui_code_editor.commands.addCommand({
+                 name: "showOtherCompletions",
+                 bindKey: ".",
+                 exec: function(editor) {
+                      mm.ui_code_editor.session.insert(mm.ui_code_editor.getCursorPosition(), ".")
+                      mm.ui_code_editor.completer.updateCompletions()
+                 }
+             })
+
+             mm.ui_code_editor.setOptions({
+                enableBasicAutocompletion: false,
+                enableSnippets: false,
+                enableLiveAutocompletion: true
+             });
+         }
+
          ,
 
 
