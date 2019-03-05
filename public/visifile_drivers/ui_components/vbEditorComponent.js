@@ -1804,6 +1804,32 @@ debugger
                              selectedCodeObject = indexObjectSelector
                          }
                          indexObjectSelector++
+
+
+                         //
+                         // show the sub controls of this form if it is the current form
+                         //
+
+                         if ((!mm.model.app_selected) && (form.name == mm.model.active_form)) {
+                             var components = mm.getActiveFormComponents()
+                             for (  var ere = 0; ere < components.length; ere++  ) {
+                                 var component = components[ ere ]
+                                 objectListForSelector.push(
+                                     {
+                                         value:              "" + indexObjectSelector,
+                                         app:                null,
+                                         form:               mm.model.active_form,
+                                         component:          "  -  " + component.name,
+                                         component_type:     component.base_component_id,
+                                         component_index:    ere
+                                     }
+                                 )
+                                 if (mm.model.active_component_index == ere) {
+                                     selectedCodeObject = indexObjectSelector
+                                 }
+                                 indexObjectSelector++
+                             }
+                         }
                      }
 
                  //
@@ -1829,7 +1855,7 @@ debugger
                                  value:              "" + indexObjectSelector,
                                  app:                null,
                                  form:               mm.model.active_form,
-                                 component:          component.name,
+                                 component:          "  -  " + component.name,
                                  component_type:     component.base_component_id,
                                  component_index:    ere
                              }
