@@ -40,8 +40,8 @@ formEditor({
           "name": "aaa",
           "base_component_id": "label_control",
           "width": 320,
-          "height": 56,
-          "text": "Drag controls from the left onto the grid",
+          "height": 156,
+          "text": "Drag controls from the left onto this grid and then press the 'Save changes' button above",
           "background_color": "",
           "parent": null
         }
@@ -2802,8 +2802,8 @@ ${eventMessage.code}
           "name": "aaa",
           "base_component_id": "label_control",
           "width": 320,
-          "height": 56,
-          "text": "Drag controls from the left onto the grid",
+          "height": 156,
+          "text": "Drag Drag controls from the left onto this grid and then press the 'Save changes' button above",
           "background_color": "",
           "parent": null
         }

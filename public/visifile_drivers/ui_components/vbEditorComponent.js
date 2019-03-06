@@ -1604,7 +1604,6 @@ uses_javascript_librararies(["advanced_bundle"])
         //
         // -----------------------------------------------------
         setupCodeAutocompletions: function() {
-        debugger
 
             var mm          = this
             var langTools   = ace.require("ace/ext/language_tools");
@@ -1626,6 +1625,7 @@ uses_javascript_librararies(["advanced_bundle"])
                     ,
                     getCompletions: function(editor, session, pos, prefix, callback) {
                         console.log("Called autocompleterFunction: " + pos + " : " + prefix)
+                        debugger
 
                         //
                         // If no text entered then do nothing
