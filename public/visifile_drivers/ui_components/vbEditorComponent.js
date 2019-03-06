@@ -1491,6 +1491,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
             setTimeout(function(){
                 mm.design_mode_pane.type                   = "event_editor"
+                mm.design_mode_pane.app_selected           = aa.app_selected
                 mm.design_mode_pane.active_form            = aa.active_form
                 mm.design_mode_pane.active_component_index = aa.active_component_index
                 mm.design_mode_pane.property_id            = aa.property_id
@@ -1671,8 +1672,8 @@ uses_javascript_librararies(["advanced_bundle"])
                                           "syllables":"1",
                                            meta:      "List of forms"
                                          })
-
-                         if (mm.design_mode_pane.active_form == null) {
+                                         
+                         if (mm.design_mode_pane.app_selected) {
                              wordList.push(  {"word":    "me",
                                              "freq":     24,
                                              "score":    300,
@@ -1736,16 +1737,24 @@ uses_javascript_librararies(["advanced_bundle"])
                         debugger
 
                         //
-                        // if a component was entered
+                        // Find out what the left hand side of the "." represents. Is
+                        // it a component, a form, or the app?
                         //
 
                         var componentId = null
-                        var comps = mm.model.forms[mm.model.active_form].components
-                         for (var rt=0; rt < comps.length; rt++) {
-                             if (comps[rt].name == firstObjectToAutocomplete) {
-                                 componentId = comps[rt].base_component_id
-                             }
-                         }
+                        var comps       = mm.model.forms[mm.model.active_form].components
+
+                        for (var rt=0; rt < comps.length; rt++) {
+                            if (comps[rt].name == firstObjectToAutocomplete) {
+                                componentId = comps[rt].base_component_id
+                            }
+                        }
+
+
+
+                         //
+                         // if a component was entered
+                         //
 
                          if (componentId) {
 
