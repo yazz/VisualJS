@@ -1625,7 +1625,6 @@ uses_javascript_librararies(["advanced_bundle"])
                     ,
                     getCompletions: function(editor, session, pos, prefix, callback) {
                         console.log("Called autocompleterFunction: " + pos + " : " + prefix)
-                        debugger
 
                         //
                         // If no text entered then do nothing
@@ -1658,21 +1657,22 @@ uses_javascript_librararies(["advanced_bundle"])
                         //
 
                         if (firstObjectToAutocomplete == null) {
+        debugger
                             wordList.push(  {"word":    "app",
                                              "freq":     24,
                                              "score":    300,
                                              "flags":    "bc",
                                              "syllables":"1",
-                                             meta:      "Main application"
+                                              meta:      "Main application"
                                          })
 
-                         wordList.push(  {"word":    "forms",
-                                          "freq":     24,
-                                          "score":    300,
-                                          "flags":    "bc",
-                                          "syllables":"1",
-                                           meta:      "List of forms"
-                                         })
+                            wordList.push(  {"word":    "forms",
+                                              "freq":     24,
+                                              "score":    300,
+                                              "flags":    "bc",
+                                              "syllables":"1",
+                                               meta:      "List of forms"
+                                             })
 
                          if (mm.design_mode_pane.app_selected) {
                              wordList.push(  {"word":    "me",
@@ -1682,6 +1682,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                              "syllables":"1",
                                               meta:      "The current app"
                                              })
+
                          } else if (mm.design_mode_pane.active_component_index == null) {
                              wordList.push(  {"word":    "me",
                                              "freq":     24,
@@ -1690,6 +1691,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                              "syllables":"1",
                                               meta:      "The current form"
                                              })
+
                          } else {
                              wordList.push(  {"word":    "me",
                                              "freq":     24,
@@ -1720,6 +1722,16 @@ uses_javascript_librararies(["advanced_bundle"])
                                              })
                          }
 
+                         ccc = Object.keys(mm.model.forms)
+                         for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
+                             wordList.push(  {"word":    ccc[ytr],
+                                             "freq":     24,
+                                             "score":    300,
+                                             "flags":    "bc",
+                                             "syllables":"1",
+                                              meta:      "Form"
+                                             })
+                         }
 
 
 
@@ -1776,11 +1788,12 @@ uses_javascript_librararies(["advanced_bundle"])
                             // see if the word is a form
                             //
 
-                            var forms       = mm.model.forms
+                            var formNames       = Object.keys(mm.model.forms)
 
-                            for (var rt=0; rt < forms.length; rt++) {
-                                if (forms[rt].name == firstObjectToAutocomplete) {
-                                    formName = forms[rt].name
+                            for (var rt=0; rt < formNames.length; rt++) {
+                                var formName1 = formNames[rt]
+                                if (formName1 == firstObjectToAutocomplete) {
+                                    formName = formName1
                                 }
                             }
                         }
