@@ -42,7 +42,7 @@ logo_url("/driver_icons/text_control.png")
     Vue.component("label_control",{
         props: ["meta","args", "name","refresh"]
         ,
-        template: `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
+        template: `<div v-bind:style='"white-space:normal;height:100%;width:100%; border: 0px;" +
                                     "background-color: "+    args["background_color"]  +  ";"'>
 
                                                 {{text}}
