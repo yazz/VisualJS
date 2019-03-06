@@ -1672,7 +1672,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                           "syllables":"1",
                                            meta:      "List of forms"
                                          })
-                                         
+
                          if (mm.design_mode_pane.app_selected) {
                              wordList.push(  {"word":    "me",
                                              "freq":     24,
@@ -1744,9 +1744,24 @@ uses_javascript_librararies(["advanced_bundle"])
                         var componentId = null
                         var comps       = mm.model.forms[mm.model.active_form].components
 
-                        for (var rt=0; rt < comps.length; rt++) {
-                            if (comps[rt].name == firstObjectToAutocomplete) {
-                                componentId = comps[rt].base_component_id
+
+
+                        if (firstObjectToAutocomplete == "me") {
+                        
+                            if (mm.design_mode_pane.app_selected) {
+
+                            } else if (isValidObject(mm.design_mode_pane.active_component_index)) {
+                                componentId = mm.model.forms[mm.model.active_form].components[ mm.design_mode_pane.active_component_index ].base_component_id
+
+                            } else if (isValidObject(mm.design_mode_pane.active_form)) {
+
+                            }
+
+                        } else {
+                            for (var rt=0; rt < comps.length; rt++) {
+                                if (comps[rt].name == firstObjectToAutocomplete) {
+                                    componentId = comps[rt].base_component_id
+                                }
                             }
                         }
 
