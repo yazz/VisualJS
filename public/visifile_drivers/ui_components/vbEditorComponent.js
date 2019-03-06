@@ -1576,7 +1576,6 @@ uses_javascript_librararies(["advanced_bundle"])
                             }
                         })
 
-                        //zzz
                         mm.setupCodeAutocompletions()
 
                         mm.ui_code_editor.focus();
@@ -1625,7 +1624,6 @@ uses_javascript_librararies(["advanced_bundle"])
                     ,
                     getCompletions: function(editor, session, pos, prefix, callback) {
                         console.log("Called autocompleterFunction: " + pos + " : " + prefix)
-                        debugger
 
                         //
                         // If no text entered then do nothing
@@ -1656,6 +1654,7 @@ uses_javascript_librararies(["advanced_bundle"])
                         // Create the list of initial objects to complete:
                         // app, forms, controls
                         //
+
                         if (firstObjectToAutocomplete == null) {
                             wordList.push(  {"word":    "app",
                                              "freq":     24,
@@ -1718,19 +1717,40 @@ uses_javascript_librararies(["advanced_bundle"])
                                               meta:      "Control"
                                              })
                          }
-                     } else {
-                         var componentId = null
-                         var comps = mm.model.forms[mm.model.active_form].components
+
+
+
+
+                     //
+                     // If we have ented an object and pressed "." (period)
+                     // then we need to add the method that comes after the
+                     // period, eg:
+                     //
+                     // my_label.set|
+                     //         .setText()
+                     //         .setWidth()    <- choose one
+                     //         .setHeight()
+                     //
+
+                    } else {
+                        debugger
+
+                        //
+                        // if a component was entered
+                        //
+
+                        var componentId = null
+                        var comps = mm.model.forms[mm.model.active_form].components
                          for (var rt=0; rt < comps.length; rt++) {
                              if (comps[rt].name == firstObjectToAutocomplete) {
                                  componentId = comps[rt].base_component_id
                              }
                          }
-                         var cachedComponentDefinition = component_cache[componentId]
 
-                         if (isValidObject(cachedComponentDefinition)) {
+                         if (componentId) {
 
-                             for (var fg=0;fg < cachedComponentDefinition.properties.length;fg++){
+                            var cachedComponentDefinition = component_cache[componentId]
+                            for (var fg=0;fg < cachedComponentDefinition.properties.length;fg++){
                                  var comm = cachedComponentDefinition.properties[fg]
                                  var propName = firstObjectToAutocomplete + "." + comm.id
                                  var meta = "Property"
@@ -1987,7 +2007,7 @@ uses_javascript_librararies(["advanced_bundle"])
                   // get the actions for the forms
                   } else if (  isValidObject(mm.model.active_form)  ) {
                       var ccc        = mm.model.forms[mm.model.active_form]
-                      //zzz
+
                       var properties = mm.getComponentProperties(  ccc.base_component_id  )
 
 
