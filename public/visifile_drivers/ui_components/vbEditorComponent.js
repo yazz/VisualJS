@@ -1625,6 +1625,7 @@ uses_javascript_librararies(["advanced_bundle"])
                     ,
                     getCompletions: function(editor, session, pos, prefix, callback) {
                         console.log("Called autocompleterFunction: " + pos + " : " + prefix)
+                        debugger
 
                         //
                         // If no text entered then do nothing
@@ -1734,7 +1735,6 @@ uses_javascript_librararies(["advanced_bundle"])
                      //
 
                     } else {
-                        debugger
 
                         //
                         // Find out what the left hand side of the "." represents. Is
@@ -1742,12 +1742,12 @@ uses_javascript_librararies(["advanced_bundle"])
                         //
 
                         var componentId = null
-                        var comps       = mm.model.forms[mm.model.active_form].components
+                        var formName = null
 
 
 
                         if (firstObjectToAutocomplete == "me") {
-                        
+
                             if (mm.design_mode_pane.app_selected) {
 
                             } else if (isValidObject(mm.design_mode_pane.active_component_index)) {
@@ -1758,9 +1758,29 @@ uses_javascript_librararies(["advanced_bundle"])
                             }
 
                         } else {
+
+                            //
+                            // see if the word is a component
+                            //
+
+                            var comps       = mm.model.forms[mm.model.active_form].components
+
                             for (var rt=0; rt < comps.length; rt++) {
                                 if (comps[rt].name == firstObjectToAutocomplete) {
                                     componentId = comps[rt].base_component_id
+                                }
+                            }
+
+
+                            //
+                            // see if the word is a form
+                            //
+
+                            var forms       = mm.model.forms
+
+                            for (var rt=0; rt < forms.length; rt++) {
+                                if (forms[rt].name == firstObjectToAutocomplete) {
+                                    formName = forms[rt].name
                                 }
                             }
                         }
@@ -1775,6 +1795,36 @@ uses_javascript_librararies(["advanced_bundle"])
 
                             var cachedComponentDefinition = component_cache[componentId]
                             for (var fg=0;fg < cachedComponentDefinition.properties.length;fg++){
+                                 var comm = cachedComponentDefinition.properties[fg]
+                                 var propName = firstObjectToAutocomplete + "." + comm.id
+                                 var meta = "Property"
+                                 if (isValidObject(comm.snippet)) {
+                                     propName = firstObjectToAutocomplete + "." + comm.snippet
+                                 }
+                                 if (comm.type == "Action") {
+                                     meta = "Method"
+                                 }
+
+                                 wordList.push({ "word":         propName ,
+                                                 "freq":         24,
+                                                 "score":        300,
+                                                 "flags":        "bc",
+                                                 "syllables":    "1",
+                                                 "meta":         meta
+                                                 })
+                             }
+
+
+
+
+                         //
+                         // if a form was entered
+                         //
+
+                         } else if (formName) {
+
+                            var cachedComponentDefinition = mm.model.forms
+                            for (var fg=0;fg < cachedComponentDefinition.length;fg++){
                                  var comm = cachedComponentDefinition.properties[fg]
                                  var propName = firstObjectToAutocomplete + "." + comm.id
                                  var meta = "Property"
