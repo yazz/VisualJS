@@ -1754,7 +1754,8 @@ uses_javascript_librararies(["advanced_bundle"])
                         //
 
                         var componentId = null
-                        var formName = null
+                        var formName    = null
+                        var isApp       = false
 
 
 
@@ -1796,6 +1797,12 @@ uses_javascript_librararies(["advanced_bundle"])
                                     formName = formName1
                                 }
                             }
+
+
+                            if (firstObjectToAutocomplete == "app") {
+                                isApp = true
+
+                            }
                         }
 
 
@@ -1835,6 +1842,39 @@ uses_javascript_librararies(["advanced_bundle"])
                          //
 
                          } else if (formName) {
+debugger
+                            var formProps = mm.properties
+                            for (var formPropIndex = 0 ; formPropIndex < formProps.length ; formPropIndex++ ) {
+
+                                var propDetails = formProps[formPropIndex]
+                                var propName    = firstObjectToAutocomplete + "." + propDetails.id
+                                var meta        = "Property"
+
+                                if (isValidObject(propDetails.snippet)) {
+                                     propName = firstObjectToAutocomplete + "." + propDetails.snippet
+                                 }
+                                 if (propDetails.type == "Action") {
+                                     meta = "Method"
+                                 }
+                                 if (propDetails.type == "Event") {
+                                     meta = "Event"
+                                 }
+
+                                 wordList.push({ "word":         propName ,
+                                                 "freq":         24,
+                                                 "score":        300,
+                                                 "flags":        "bc",
+                                                 "syllables":    "1",
+                                                 "meta":         meta
+                                                 })
+                              }
+
+
+                         //
+                         // if the main object is the VB app
+                         //
+
+                         } else if (isApp) {
 debugger
                             var formProps = mm.properties
                             for (var formPropIndex = 0 ; formPropIndex < formProps.length ; formPropIndex++ ) {
