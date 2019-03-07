@@ -1876,7 +1876,7 @@ debugger
 
                          } else if (isApp) {
 debugger
-                            var formProps = mm.properties
+                            var formProps = mm.get_propeties()
                             for (var formPropIndex = 0 ; formPropIndex < formProps.length ; formPropIndex++ ) {
 
                                 var propDetails = formProps[formPropIndex]
@@ -3130,19 +3130,49 @@ ${eventMessage.code}
 
 
 
-         updatePropertySelector: function() {
+
+
+        // -------------------------------------------------------------------
+        //                          updatePropertySelector
+        //
+        // This updates the property selector on the right of the editor,
+        // and it uses the currently selected object to figure out what
+        // to display
+        // -------------------------------------------------------------------
+
+        updatePropertySelector: function() {
+
+            var mm = this
+
+            //
+            // if we are not in edit mode then do nothing
+            //
+
             if (!designMode){
                 return
             }
-            var mm = this
+
+
+            //
+            // If the property selector is not available then do nothing
+            //
+
             if (!document.getElementById("property_selector_parent")) {
                 return
             }
+
+
+
+
+            //
+            // Set up the property selector
+            //
+
             document.getElementById("property_selector_parent").innerHTML=' <select id=property_selector ></select>'
 
-            var sdata = []
-            var indexProp = 0
-            var selectedItem = null
+            var sdata           = []
+            var indexProp       = 0
+            var selectedItem    = null
 
             if (mm.model.app_selected || (!isValidObject(mm.model.active_component_index))) {
 
