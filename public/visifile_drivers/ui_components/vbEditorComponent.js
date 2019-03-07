@@ -3050,6 +3050,25 @@ ${eventMessage.code}
 
          },
 
+         //-------------------------------------------------------------------
+         get_default_app_propeties: function() {
+            var mm = this
+            return [
+                {   id:     "id",   name:   "ID",   type:   "String" , readonly: true,
+                     get_fn: function() {
+                        return mm.edited_app_component_id }
+                 }
+                 ,
+
+                 {   id:     "default_form",       name:   "Load form on startup",   type:   "String"}
+                 ,
+
+                 {   id:     "app_started_event",  name:   "Called when the app is started",   type:   "Event"}
+
+            ]
+         }
+         ,
+         //-------------------------------------------------------------------
 
          //-------------------------------------------------------------------
          select_app: function() {
@@ -3060,18 +3079,9 @@ ${eventMessage.code}
             this.model.app_selected = true
             this.active_property_index = null
 
-            this.properties = []
-            this.properties.push({   id:     "id",   name:   "ID",   type:   "String" , readonly: true,
-                                     get_fn: function() {
-                                        return mm.edited_app_component_id
-                                     }
-                                     })
-
-             this.properties.push({   id:     "default_form",       name:   "Load form on startup",   type:   "String"})
-             this.properties.push({   id:     "app_started_event",  name:   "Called when the app is started",   type:   "Event"})
+            this.properties = mm.get_default_app_propeties()
 
             if (this.model.app_properties) {
-                //alert(JSON.stringify(this.model.app_properties,null,2))
                 this.properties = this.properties.concat(this.model.app_properties)
             }
             this.updatePropertySelector()
