@@ -63,6 +63,9 @@ only_run_on_server(true)
                                 code = code.toString()
                             }
                             var newBaseid = argsBaseComponentId + "_" + uuidv1().replace(/\-/g, '');
+                            if (argsNewAppId) {
+                                newBaseid = argsNewAppId
+                            }
                             
                             var oldDisplayName = results[0].display_name
                             var parentHashId = results[0].id
@@ -80,9 +83,6 @@ only_run_on_server(true)
                             code = saveHelper.insertCodeString(code, "display_name", newDisplayName)
                             code = saveHelper.insertCodeString(code, "visibility", "PUBLIC")
 
-                            if (argsNewAppId) {
-                                newBaseid = argsNewAppId
-                            }
 
                             //hack city - Vue and component strings are separated as otherwise they mark the
                             // code as UI code
