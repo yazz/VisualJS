@@ -3605,11 +3605,9 @@ ${eventMessage.code}
                            }
                        }
                    }
-
-                   var newListOfSubcomponents = Object.keys(  subComponentsMap  )
-                   this.text = saveHelper.insertCodeString(this.text, "sub_components", newListOfSubcomponents)
-
               }
+              var newListOfSubcomponents = Object.keys(  subComponentsMap  )
+              this.text = saveHelper.insertCodeString(this.text, "sub_components", newListOfSubcomponents)
 
 
               this.text = saveHelper.deleteCodeString(  this.text, "control_type")
