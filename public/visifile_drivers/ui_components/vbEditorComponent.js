@@ -1876,10 +1876,10 @@ debugger
 
                          } else if (isApp) {
 debugger
-                            var formProps = mm.get_propeties()
-                            for (var formPropIndex = 0 ; formPropIndex < formProps.length ; formPropIndex++ ) {
+                            var appProps = mm.get_default_app_propeties()
+                            for (var formPropIndex = 0 ; formPropIndex < appProps.length ; formPropIndex++ ) {
 
-                                var propDetails = formProps[formPropIndex]
+                                var propDetails = appProps[formPropIndex]
                                 var propName    = firstObjectToAutocomplete + "." + propDetails.id
                                 var meta        = "Property"
 
@@ -3068,18 +3068,24 @@ ${eventMessage.code}
             ]
          }
          ,
-         //-------------------------------------------------------------------
+
+
+
 
          //-------------------------------------------------------------------
-         select_app: function() {
+         //                             select_app
+         //
+         //
          //-------------------------------------------------------------------
+
+         select_app: function() {
             var mm = this
 
-            this.model.active_component_index = null
-            this.model.app_selected = true
-            this.active_property_index = null
+            this.model.active_component_index   = null
+            this.model.app_selected             = true
+            this.active_property_index          = null
 
-            this.properties = mm.get_default_app_propeties()
+            this.properties                     = mm.get_default_app_propeties()
 
             if (this.model.app_properties) {
                 this.properties = this.properties.concat(this.model.app_properties)
@@ -3087,7 +3093,18 @@ ${eventMessage.code}
             this.updatePropertySelector()
 
             this.refresh ++
-         },
+         }
+         ,
+
+
+
+
+
+         //-------------------------------------------------------------------
+         //                        myDataRenderFunction
+         //
+         //
+         //-------------------------------------------------------------------
 
          myDataRenderFunction: function(data) {
              if (!isValidObject(data)) {
