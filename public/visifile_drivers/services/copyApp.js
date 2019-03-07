@@ -66,7 +66,7 @@ only_run_on_server(true)
                             if (argsNewAppId) {
                                 newBaseid = argsNewAppId
                             }
-                            
+
                             var oldDisplayName = results[0].display_name
                             var parentHashId = results[0].id
                             var newDisplayName = "Copy of " + oldDisplayName
@@ -74,14 +74,17 @@ only_run_on_server(true)
                             code = saveHelper.deleteCodeString(code, "read_only")
                             code = saveHelper.deleteCodeString(code, "visibility")
 
-                            var formEditor = saveHelper.getValueOfCodeString(code, "formEditor",")//formEditor")
-                            formEditor.id = newBaseid
-                            code = saveHelper.deleteCodeString(code, "formEditor",")//formEditor")
-                            code = saveHelper.insertCodeString(code, "formEditor", formEditor,")//formEditor")
 
-                            code = saveHelper.deleteCodeString(code, "display_name")
-                            code = saveHelper.insertCodeString(code, "display_name", newDisplayName)
-                            code = saveHelper.insertCodeString(code, "visibility", "PUBLIC")
+                            var formEditor = saveHelper.getValueOfCodeString(code, "formEditor",")//formEditor")
+                            if (formEditor) {
+                                formEditor.id = newBaseid
+                                code = saveHelper.deleteCodeString(code, "formEditor",")//formEditor")
+                                code = saveHelper.insertCodeString(code, "formEditor", formEditor,")//formEditor")
+
+                                code = saveHelper.deleteCodeString(code, "display_name")
+                                code = saveHelper.insertCodeString(code, "display_name", newDisplayName)
+                                code = saveHelper.insertCodeString(code, "visibility", "PUBLIC")
+                            }
 
 
                             //hack city - Vue and component strings are separated as otherwise they mark the
