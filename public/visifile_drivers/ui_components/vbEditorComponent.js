@@ -1657,7 +1657,7 @@ uses_javascript_librararies(["advanced_bundle"])
                         //
 
                         if (firstObjectToAutocomplete == null) {
-        debugger
+
                             wordList.push(  {"word":    "app",
                                              "freq":     24,
                                              "score":    300,
@@ -1766,7 +1766,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                 componentId = mm.model.forms[mm.model.active_form].components[ mm.design_mode_pane.active_component_index ].base_component_id
 
                             } else if (isValidObject(mm.design_mode_pane.active_form)) {
-
+                                formName = mm.model.active_form
                             }
 
                         } else {
@@ -1835,17 +1835,22 @@ uses_javascript_librararies(["advanced_bundle"])
                          //
 
                          } else if (formName) {
+debugger
+                            var formProps = mm.properties
+                            for (var formPropIndex = 0 ; formPropIndex < formProps.length ; formPropIndex++ ) {
 
-                            var cachedComponentDefinition = mm.model.forms
-                            for (var fg=0;fg < cachedComponentDefinition.length;fg++){
-                                 var comm = cachedComponentDefinition.properties[fg]
-                                 var propName = firstObjectToAutocomplete + "." + comm.id
-                                 var meta = "Property"
-                                 if (isValidObject(comm.snippet)) {
-                                     propName = firstObjectToAutocomplete + "." + comm.snippet
+                                var propDetails = formProps[formPropIndex]
+                                var propName    = firstObjectToAutocomplete + "." + propDetails.id
+                                var meta        = "Property"
+
+                                if (isValidObject(propDetails.snippet)) {
+                                     propName = firstObjectToAutocomplete + "." + propDetails.snippet
                                  }
-                                 if (comm.type == "Action") {
+                                 if (propDetails.type == "Action") {
                                      meta = "Method"
+                                 }
+                                 if (propDetails.type == "Event") {
+                                     meta = "Event"
                                  }
 
                                  wordList.push({ "word":         propName ,
