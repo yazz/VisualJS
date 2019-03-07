@@ -153,6 +153,7 @@ load_once_from_file(true)
                                         xml:space="preserve"
                                         x="0px"
                                         y="0px"
+                                        height="35px"
                                         width="35px">
                                 	<path d="M25.462,19.105v6.848H4.515v-6.848H0.489v8.861c0,1.111,0.9,2.012,2.016,2.012h24.967c1.115,0,2.016-0.9,2.016-2.012   v-8.861H25.462z" fill="#006DF0"/>
                                 	<path d="M14.62,18.426l-5.764-6.965c0,0-0.877-0.828,0.074-0.828s3.248,0,3.248,0s0-0.557,0-1.416c0-2.449,0-6.906,0-8.723   c0,0-0.129-0.494,0.615-0.494c0.75,0,4.035,0,4.572,0c0.536,0,0.524,0.416,0.524,0.416c0,1.762,0,6.373,0,8.742   c0,0.768,0,1.266,0,1.266s1.842,0,2.998,0c1.154,0,0.285,0.867,0.285,0.867s-4.904,6.51-5.588,7.193   C15.092,18.979,14.62,18.426,14.62,18.426z" fill="#006DF0"/>
@@ -164,14 +165,13 @@ load_once_from_file(true)
                               v-on:click='setTimeout(function(){copyAppMethod(base_component_id, null)},100)'
                               v-on:mouseenter='setInfo("Make an editable copy of this app")'
                               v-on:mouseleave='setInfo(null)'
-                              type="button" class="btn btn-light">
+                              type="button" class="btn btn-light ">
 
 
                              <svg   xmlns="http://www.w3.org/2000/svg"
-                                    width="24"
-                                    height="24"
+                                    width="35px"
+                                    height="35px"
                                     viewBox="0 0 24 24">
-
                                     <path d="M22 18.055v2.458c0 1.925-4.655 3.487-10 3.487-5.344 0-10-1.562-10-3.487v-2.458c2.418 1.738 7.005 2.256 10 2.256 3.006 0 7.588-.523 10-2.256zm-10-3.409c-3.006 0-7.588-.523-10-2.256v2.434c0 1.926 4.656 3.487 10 3.487 5.345 0 10-1.562 10-3.487v-2.434c-2.418 1.738-7.005 2.256-10 2.256zm0-14.646c-5.344 0-10 1.562-10 3.488s4.656 3.487 10 3.487c5.345 0 10-1.562 10-3.487 0-1.926-4.655-3.488-10-3.488zm0 8.975c-3.006 0-7.588-.523-10-2.256v2.44c0 1.926 4.656 3.487 10 3.487 5.345 0 10-1.562 10-3.487v-2.44c-2.418 1.738-7.005 2.256-10 2.256z"/>
                               </svg>SQLite Schema
 
@@ -185,8 +185,10 @@ load_once_from_file(true)
 
                               <svg  version="1.1"
                                     xmlns="http://www.w3.org/2000/svg"
-                                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="35px"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                    width="35px"
                               	    viewBox="0 0 210.107 210.107"
+                                    height="35px"
                                     style="enable-background:new 0 0 210.107 210.107;margin-right:10px;"
                                     xml:space="preserve">
                               <g>
@@ -210,7 +212,10 @@ load_once_from_file(true)
 
                               <svg  version="1.1"
                                     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                    x="0px" y="0px" width="35px"
+                                    x="0px"
+                                    y="0px"
+                                    width="35px"
+                                    height="35px"
                               	    viewBox="0 0 24.758 24.758"
                                     style="enable-background:new 0 0 24.758 24.758;margin-right:10px;"
                                     xml:space="preserve">
