@@ -2509,97 +2509,113 @@ debugger
 
 
 
+        //-------------------------------------------------------------------
+        //                        processControlEvent
+        //
+        // This is used to run user written event code
+        //-------------------------------------------------------------------
 
-              processControlEvent: async function(  eventMessage  ) {
-                var mm = this
-                if ((!mm.design_mode) && (mm.model)) {
-                    this.updateAllFormCaches()
+        processControlEvent: async function(  eventMessage  ) {
+            var mm = this
+            if ((!mm.design_mode) && (mm.model)) {
+                this.updateAllFormCaches()
 
-                    //
-                    // set up property access for all forms
-                    //
-                    var formHandler = {
-                         get: function(target,name){
-                             var formName = target.name
-                             if (mm.model.forms[formName][name]) {
-                                 return mm.model.forms[formName][name]
-                             }
+                //
+                // set up property access for all forms
+                //
 
-                             if (mm.form_runtime_info[formName].component_lookup_by_name[name]) {
-                                 return mm.form_runtime_info[formName].component_lookup_by_name[name]
-                             }
-
-                             return "Not found"
+                var formHandler = {
+                     get: function(target,name){
+                         var formName = target.name
+                         if (mm.model.forms[formName][name]) {
+                             return mm.model.forms[formName][name]
                          }
-                    }
-                    var formEval = ""
-                    var allForms = this.getForms();
-                    for (var fi =0; fi < allForms.length ; fi ++) {
-                         var aForm = allForms[fi]
-                         formEval += ("var " + aForm.name +
-                             " = new Proxy({name: '" + aForm.name + "'}, formHandler);")
 
-                    }
-                    eval(formEval)
+                         if (mm.form_runtime_info[formName].component_lookup_by_name[name]) {
+                             return mm.form_runtime_info[formName].component_lookup_by_name[name]
+                         }
 
+                         return "Not found"
+                     }
+                }
+                var formEval = ""
+                var allForms = this.getForms();
+                for (var fi =0; fi < allForms.length ; fi ++) {
+                     var aForm = allForms[fi]
+                     formEval += ("var " + aForm.name +
+                         " = new Proxy({name: '" + aForm.name + "'}, formHandler);")
 
-
-
-                    //
-                    // set up property access for all controls on this form
-                    //
-                    var allC = this.model.forms[this.model.active_form].components
-                    var cacc =""
-                    for (var xi =0; xi< allC.length ; xi ++) {
-                         var comp = allC[xi]
-                         cacc += ( "var " + comp.name + " = mm.form_runtime_info['" + this.model.active_form + "'].component_lookup_by_name['" + comp.name + "'];")
-                    }
-                    eval(cacc)
+                }
+                eval(formEval)
 
 
 
 
-                    if (eventMessage.type == "subcomponent_event") {
-                            var fcc =
+                //
+                // set up property access for all controls on this form
+                //
+                var allC = this.model.forms[this.model.active_form].components
+                var cacc =""
+                for (var xi =0; xi< allC.length ; xi ++) {
+                     var comp = allC[xi]
+                     cacc += ( "var " + comp.name + " = mm.form_runtime_info['" + this.model.active_form + "'].component_lookup_by_name['" + comp.name + "'];")
+                }
+                eval(cacc)
+
+
+
+
+                if (eventMessage.type == "subcomponent_event") {
+                    var fcc =
 `(async function(){
 ${eventMessage.code}
 })`
 
 
-                           this.model.active_form
-                           var thisControl = this.form_runtime_info[this.model.active_form].component_lookup_by_name[eventMessage.control_name]
-                           if (isValidObject(thisControl)) {
+                    var thisControl = this.form_runtime_info[   this.model.active_form   ].component_lookup_by_name[   eventMessage.control_name   ]
+                    if (isValidObject(thisControl)) {
 
-                                if (isValidObject(thisControl.parent)) {
-                                    var cacc =""
-                                    cacc += ( "var parent = mm.form_runtime_info['" + this.model.active_form + "'].component_lookup_by_name['" + thisControl.parent + "'];")
-                                    eval(cacc)
-                                }
+                        if (isValidObject(thisControl.parent)) {
+                            var cacc =""
+                            cacc += ( "var parent = mm.form_runtime_info['" + this.model.active_form + "'].component_lookup_by_name['" + thisControl.parent + "'];")
+                            eval(cacc)
+                        }
 
-                                var meCode =""
-                                meCode += ( "var me = mm.form_runtime_info['" + this.model.active_form + "'].component_lookup_by_name['" + thisControl.name + "'];")
-                                eval(meCode)
+                        var meCode =""
+                        meCode += ( "var me = mm.form_runtime_info['" + this.model.active_form + "'].component_lookup_by_name['" + thisControl.name + "'];")
+                        eval(meCode)
+
+                        var appCode =""
+                        appCode += ( "var app = mm.model;")
+                        eval(appCode)
 
 
+                        var debugFcc = getDebugCode(mm.model.active_form +"_"+eventMessage.control_name+"_"+eventMessage.sub_type,fcc,{skipFirstAndLastLine: true})
+                        var efcc = eval(debugFcc)
+                        efcc()
 
-                                var debugFcc = getDebugCode(mm.model.active_form +"_"+eventMessage.control_name+"_"+eventMessage.sub_type,fcc,{skipFirstAndLastLine: true})
-                                var efcc = eval(debugFcc)
-                                efcc()
+                    }
 
-                           }
-
-                     //
-                     // form events
-                     //
-                     } else if (eventMessage.type == "form_event") {
+                    //
+                    // form events
+                    //
+                    } else if (eventMessage.type == "form_event") {
                         var fcc =
 `(async function(){
 ${eventMessage.code}
 })`
+                        var meCode =""
+                        meCode += ( "var me = mm.model.forms['" + this.model.active_form + "'];")
+                        eval(meCode)
+
+                        var appCode =""
+                        appCode += ( "var app = mm.model;")
+                        eval(appCode)
+
                         var debugFcc = getDebugCode(this.model.active_form ,fcc,{skipFirstAndLastLine: true})
                         var efcc = eval(debugFcc)
                         efcc()
-                     }
+                    }
 
 
 
