@@ -1,8 +1,7 @@
 async function(args) {
 /*
-created_timestamp(1549357400123)
+created_timestamp(1551965300424)
 base_component_id("vb_blank")
-read_only(true)
 editors([
   "vb_editor_component"
 ])
@@ -15,8 +14,8 @@ properties([
 ])//properties
 formEditor({
   "next_id": 7,
-  "max_form": 4,
-  "active_form": "Form_1",
+  "max_form": 5,
+  "active_form": "Module",
   "default_form": "Form_1",
   "app_selected": false,
   "id": "vb_blank",
@@ -46,6 +45,12 @@ formEditor({
           "parent": null
         }
       ]
+    },
+    "Module": {
+      "name": "Module",
+      "components": [],
+      "width": 300,
+      "height": 300
     }
   },
   "active_component_index": null,
@@ -64,7 +69,7 @@ sub_components([
   "group_control"
 ])
 visibility("PRIVATE")
-display_name("Copy of Copy of GUI App")
+display_name("GUI App")
 uses_javascript_librararies(["advanced_bundle"])
 
 
@@ -129,7 +134,7 @@ logo_url("/driver_icons/blocks.png")
             </div>
 
             <div class='' >
-                <div class='' style='display:flex;overflow-y:scroll;flex-flow: row wrap;'>
+                <div class='' style='display:flex;overflow-y:scroll;flex-flow: row wrap;height:65vh;'>
                     <div    class='flex'
                             v-on:click='highlighted_control = null;'
                             v-bind:style='"display:flex;cursor: grab;border-radius: 3px;width:50px;height:50px; margin: 0px;border: 0px;padding:4px;overflow-x:hidden;overflow-y:hidden;background-color: " + ((!highlighted_control)?"#E8E8E8;border-left: 2px solid gray;border-top: 2px solid gray;":"lightgray;")'>
@@ -182,14 +187,17 @@ logo_url("/driver_icons/blocks.png")
             -->
 
 
-            <div    v-if='(!design_mode && design_mode_pane) || (design_mode && (design_mode_pane.type=="event_editor"))'
+            <div    v-if='(design_mode && (design_mode_pane.type=="event_editor"))'
+                    v-bind:refresh='refresh'
                     v-bind:style='"margin: 2px; display: inline-block; vertical-align: top; width: 100%;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
 
-                <div    v-if='design_mode'
-                        style='font-family:verdana;font-size: 13px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
+                <div    style='font-family:verdana;font-size: 13px;font-weight:bold;border-radius: 0px;background-color:lightgray; color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
 
-                    <div    style='height: 30px;' >
-                        Code
+                    <div    style='height: 50px;' >
+                        <div id='select_code_object_parent' style='display: inline-block;margin: 5px;width: 200px;'></div>
+                        <div id='select_code_action_parent' style='display: inline-block;margin: 5px;width: 200px;'></div>
+
+
                         <button  type=button class=' btn btn-danger btn-sm'
                                  style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 4px;"
                                  v-on:click='gotoDragDropEditor()' >x</button>
@@ -198,6 +206,28 @@ logo_url("/driver_icons/blocks.png")
                     <div    id='ui_code_editor'>
                     </div>
 
+                </div>
+            </div>
+
+
+            <div    v-if='(design_mode && (design_mode_pane.type=="help"))'
+                    v-bind:refresh='refresh'
+                    v-bind:style='"margin: 2px; display: inline-block; vertical-align: top; width: 100%;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
+
+                <div    style='font-family:verdana;font-size: 13px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
+
+                    <div    style='height: 30px;' >
+                        Help
+                        <button  type=button class=' btn btn-danger btn-sm'
+                                 style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 4px;"
+                                 v-on:click='gotoDragDropEditor()' >x</button>
+                    </div>
+
+
+                    <div    id='show_help' style="background-color:white;color:black;">
+                        <div    style="font-weight:normal;"
+                                v-html="design_mode_pane.help"></div>
+                    </div>
                 </div>
             </div>
 
@@ -211,7 +241,7 @@ logo_url("/driver_icons/blocks.png")
             -->
 
 
-            <div    v-if='(!design_mode && design_mode_pane) || (design_mode && (design_mode_pane.type=="control_details_editor"))'
+            <div    v-if='(design_mode && (design_mode_pane.type=="control_details_editor"))'
                     v-bind:style='"box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin: 2px; display: inline-block; vertical-align: top; width: 100%;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
 
                 <div    v-if='design_mode'
@@ -232,6 +262,10 @@ logo_url("/driver_icons/blocks.png")
                     <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[model.active_component_detail_index].name + (design_mode?"_design":"")'
                                 v-bind:refresh='refresh'
                                 design_mode='detail_editor'
+
+                                v-bind:meta='{form: model.active_form,name: model.forms[model.active_form].components[model.active_component_detail_index].name + (design_mode?"_design":"")}'
+
+                                v-bind:form="model.active_form"
                                 v-bind:delete_component='childDeleteComponent'
                                 v-bind:select_component='childSelectComponent'
                                 v-bind:children='getChildren( model.forms[model.active_form].components[model.active_component_detail_index].name)'
@@ -246,6 +280,8 @@ logo_url("/driver_icons/blocks.png")
 
                                     <component  v-for='child_item  in  getChildren(model.forms[model.active_form].components[model.active_component_detail_index].name)'
                                                 v-bind:design_mode='design_mode'
+                                                v-bind:meta='{form: model.active_form,name: child_item.name + (design_mode?"_design":"")}'
+                                                v-bind:form="model.active_form"
                                                 v-bind:refresh='refresh'
                                                 v-bind:style='"z-index:100000;position: absolute; top: " + child_item.topY + "px; left: " + child_item.leftX + "px;height:" + child_item.height + "px;width:" + child_item.width + "px;overflow:auto;"'
                                                 v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[child_item.index_in_parent_array].name + (design_mode?"_design":"")'
@@ -321,7 +357,7 @@ logo_url("/driver_icons/blocks.png")
                             v-on:dragend='$event.stopPropagation();deleteCursor();'
                             v-bind:style='"cursor: nwse-resize;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (15 +model.forms[model.active_form].width) +  "px;top:" + (15 + (model.forms[model.active_form].height)) +  "px;"'
                             v-bind:draggable='true'
-                            v-on:dragstart='$event.stopPropagation();switchCursor($event,"nwse-resize","move");drag($event,{
+                            v-on:dragstart='$event.stopPropagation();switchCursor($event,"nwse-resize","crosshair");drag($event,{
                                type:        "resize_form_bottom_right",
                                form_name:    model.active_form
                             })'
@@ -374,7 +410,7 @@ logo_url("/driver_icons/blocks.png")
                                     v-on:dragend='$event.stopPropagation();deleteCursor();'
                                     v-bind:draggable='true'
 
-                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"nwse-resize","move");drag($event,{
+                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"nwse-resize","crosshair");drag($event,{
                                        type:   "resize_top_left",
                                        text:    model.forms[model.active_form].components[model.active_component_index].base_component_id,
                                        index:   model.active_component_index
@@ -401,7 +437,7 @@ logo_url("/driver_icons/blocks.png")
                                         ((getTop(model.active_form,model.active_component_index)) - 15) +  "px;"'
                                     v-on:dragend='$event.stopPropagation();deleteCursor();'
                                         v-bind:draggable='true'
-                                        v-on:dragstart='$event.stopPropagation();switchCursor($event,"nesw-resize","move");drag($event,{
+                                        v-on:dragstart='$event.stopPropagation();switchCursor($event,"nesw-resize","crosshair");drag($event,{
                                            type:   "resize_top_right",
                                            text:    model.forms[model.active_form].components[model.active_component_index].base_component_id,
                                            index:   model.active_component_index
@@ -441,7 +477,7 @@ logo_url("/driver_icons/blocks.png")
                                         ((getTop(model.active_form,model.active_component_index)) + ((model.forms[model.active_form].components[model.active_component_index].height)) + 2) +  "px;"'
                                     v-on:dragend='$event.stopPropagation();deleteCursor();'
                                         v-bind:draggable='true'
-                                        v-on:dragstart='$event.stopPropagation();switchCursor($event,"nesw-resize","move");drag($event,{
+                                        v-on:dragstart='$event.stopPropagation();switchCursor($event,"nesw-resize","crosshair");drag($event,{
                                                                     type:   "resize_bottom_left",
                                                                     text:    model.forms[model.active_form].components[model.active_component_index].base_component_id,
                                                                     index:   model.active_component_index
@@ -468,7 +504,7 @@ logo_url("/driver_icons/blocks.png")
                                         ((getTop(model.active_form,model.active_component_index)) + ((model.forms[model.active_form].components[model.active_component_index].height)) + 2) +  "px;"'
                                     v-on:dragend='$event.stopPropagation();deleteCursor();'
                                     v-bind:draggable='true'
-                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"nwse-resize","move");drag($event,{
+                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"nwse-resize","crosshair");drag($event,{
                                                                    type:   "resize_bottom_right",
                                                                    text:    model.forms[model.active_form].components[model.active_component_index].base_component_id,
                                                                    index:   model.active_component_index
@@ -523,6 +559,8 @@ logo_url("/driver_icons/blocks.png")
                                      v-bind:style='"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:auto;"'>
                                     <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[index].name + (design_mode?"_design":"")'
                                                 v-bind:refresh='refresh'
+                                                v-bind:meta='{form: model.active_form,name: item.name + (design_mode?"_design":"")}'
+                                                v-bind:form="model.active_form"
                                                 v-bind:design_mode='design_mode'
                                                 v-bind:children='getChildren(item.name)'
                                                 v-on:send="processControlEvent"
@@ -538,6 +576,8 @@ logo_url("/driver_icons/blocks.png")
                                             <component  v-for='child_item  in  getChildren(item.name)'
                                                         v-bind:design_mode='design_mode'
                                                         v-bind:refresh='refresh'
+                                                        v-bind:meta='{form: model.active_form,name: child_item.name + (design_mode?"_design":"")}'
+                                                        v-bind:form="model.active_form"
                                                         v-bind:style='"z-index:100000;position: absolute; top: " + child_item.topY + "px; left: " + child_item.leftX + "px;height:" + child_item.height + "px;width:" + child_item.width + "px;overflow:auto;"'
                                                         v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[child_item.index_in_parent_array].name + (design_mode?"_design":"")'
                                                         v-on:send="processControlEvent"
@@ -705,6 +745,13 @@ logo_url("/driver_icons/blocks.png")
                                 <div
                                         v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;" + (active_property_index == property.name?"background-color:#000099;color:white;":"")'
                                         v-on:click='selected_pane = "properties";active_property_index = property.name;'>{{property.name}}
+                                        <div v-if="isValidObject(property.help)"
+                                             style="width:100%;display:inline-block;">
+                                            <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: pink; padding:0px; padding-right:5px;padding-left:5px;height: 20px;border-radius: 3px;font-family:verdana;font-size: 13px;font-style:bold;color:black;width:20px;'
+                                                        v-on:click='$event.stopPropagation();showHelp({
+                                                            help:                   property.help
+                                                        })'  >?</div>
+                                        </div>
                                 </div>
 
                                 <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'
@@ -749,6 +796,7 @@ logo_url("/driver_icons/blocks.png")
                                         <div v-if="(property.type  == 'Event')  " style="width:100%">
                                             <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-family:verdana;font-size: 13px;font-style:bold;'
                                                         v-on:click='$event.stopPropagation();editAsCode({
+                                                            app_selected:           model.app_selected,
                                                             active_form:            model.active_form,
                                                             active_component_index: model.active_component_index,
                                                             property_id:            property.id
@@ -756,6 +804,7 @@ logo_url("/driver_icons/blocks.png")
                                                 ...
                                             </div>
                                         </div>
+
                                     </div>
 
                                     <div v-if='property.readonly'>
@@ -994,6 +1043,18 @@ logo_url("/driver_icons/blocks.png")
 
 
                 }
+
+
+                //call the load event on each component
+                for (var compenentInFormIndex = 0; compenentInFormIndex < mm.model.forms[formName].components.length ; compenentInFormIndex++ )
+                {
+                    var componentConfig = mm.model.forms[formName].components[compenentInFormIndex]
+                    if (isValidObject(componentConfig.load)) {
+                        //alert("Load event :" + formName + " : " + componentConfig.name)
+                    }
+                }
+
+
            }
 
            //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
@@ -1148,7 +1209,8 @@ logo_url("/driver_icons/blocks.png")
                                          parentId,
                                          parentName,
                                          parentOffsetX,
-                                         parentOffsetY)
+                                         parentOffsetY,
+                                         [])
 
                       this.highlighted_control = null
 
@@ -1182,14 +1244,14 @@ logo_url("/driver_icons/blocks.png")
          return null
      }
      ,
-        addComponent: async function(leftX,topY,data, parentId, parentName, parentOffsetX, parentOffsetY) {
+        addComponent: async function(leftX,topY,data, parentId, parentName, parentOffsetX, parentOffsetY,defProps) {
             var mm = this
             //alert(JSON.stringify(data,null,2))
 
             var newItem = new Object()
             var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
 
-       //alert(parentId +": = (" + parentOffsetX + "," + parentOffsetY + ")")
+            //alert(parentId +": = (" + parentOffsetX + "," + parentOffsetY + ")")
             newItem.leftX = Math.floor(leftX)
             newItem.topY = Math.floor(topY)
             if (newItem.leftX < 0) {
@@ -1208,17 +1270,7 @@ logo_url("/driver_icons/blocks.png")
 
             newItem.name = data.text + "_" + this.model.next_component_id++
             newItem.base_component_id = data.text
-            newItem.width = 100
-            newItem.height = 100
 
-            if ((newItem.leftX + newItem.width)
-                    > this.model.forms[this.model.active_form].width) {
-                newItem.leftX = Math.floor(this.model.forms[this.model.active_form].width - newItem.width)
-            }
-            if ((newItem.topY + newItem.height)
-                    > this.model.forms[this.model.active_form].height) {
-                newItem.topY = Math.floor(this.model.forms[this.model.active_form].height - newItem.height)
-            }
 
 
             this.refresh++
@@ -1247,7 +1299,31 @@ logo_url("/driver_icons/blocks.png")
 
 
 
+            if (!isValidObject(newItem.width)) {
+                newItem.width = 100
+            }
+            if (!isValidObject(newItem.height)) {
+                newItem.height = 100
+            }
 
+            if ((newItem.leftX + newItem.width)
+                    > this.model.forms[this.model.active_form].width) {
+                newItem.leftX = Math.floor(this.model.forms[this.model.active_form].width - newItem.width)
+            }
+            if ((newItem.topY + newItem.height)
+                    > this.model.forms[this.model.active_form].height) {
+                newItem.topY = Math.floor(this.model.forms[this.model.active_form].height - newItem.height)
+            }
+
+
+            if (isValidObject(   defProps   )) {
+                var oo = Object.keys(defProps)
+                for (  var ee = 0  ;  ee < oo.length ;  ee++  ) {
+                    var propName = oo[ee]
+                    var propValue = defProps[propName]
+                    newItem[propName] = propValue
+                }
+            }
 
             this.model.forms[this.model.active_form].components.push(newItem)
             this.model.active_component_index = this.model.forms[this.model.active_form].components.length - 1
@@ -1256,6 +1332,26 @@ logo_url("/driver_icons/blocks.png")
                 mm.selectComponent(mm.model.active_component_index, true)
                 mm.refresh ++
             },100)
+
+            var compCode = component_cache[newItem.base_component_id].code
+            var childrenCode  = saveHelper.getValueOfCodeString(compCode, "children",")//children")
+            if (isValidObject(childrenCode)) {
+                for (  var ee = 0  ;  ee < childrenCode.length ;  ee++  ) {
+                    //alert(JSON.stringify(childrenCode[ee],null,2))
+
+                    var childBaseId = childrenCode[ee].base_component_id
+                    var childDefProps = childrenCode[ee].properties
+                    await this.addComponent(    0 ,
+                                                0 ,
+                                                {text: childBaseId} ,
+                                                newItem.base_component_id ,
+                                                newItem.name ,
+                                                0 ,
+                                                0 ,
+                                                childDefProps )
+                }
+            }
+
         }
         ,
 
@@ -1400,50 +1496,136 @@ logo_url("/driver_icons/blocks.png")
             }
         }
         ,
-         editAsCode: async function(aa) {
+         showHelp: async function(aa) {
             var mm = this
+
+
             if (this.ui_code_editor) {
+                if (mm.ui_code_editor.completer) {
+                    mm.ui_code_editor.completer.detach()
+                }
+                mm.ui_code_editor.destroy()
+                mm.ui_code_editor = null
+
+                // ------------------ HACK CITY! -------------------------
+                // we need this line as otherwise the ace editor isnt always destroyed
+                // properly (related to deletion of the Ace editor parent nodes in Vue)
+                mm.design_mode_pane.type = null
+                // -------------------------------------------------------
+            }
+
+            setTimeout(function(){
+                mm.model.active_component_detail_name = null
+                mm.model.active_component_detail_index = null
+                mm.design_mode_pane.type = "help"
+                mm.design_mode_pane.help = aa.help
+                mm.refresh++
+            },200)
+        }
+        ,
+
+
+        // -----------------------------------------------------
+        //                      editAsCode
+        //
+        // This is called when the "..." button is pressed for
+        // a property in the property inspector
+        //
+        // This can show code for the app, a form, and for
+        // controls
+        //
+        // -----------------------------------------------------
+        editAsCode: async function(aa) {
+
+            //
+            // if the code editor is already open then close it
+            //
+
+            var mm = this
+            if (mm.ui_code_editor) {
+                if (mm.ui_code_editor.completer) {
+                    mm.ui_code_editor.completer.detach()
+                }
                 mm.ui_code_editor.destroy()
                 mm.ui_code_editor = null
             }
+
+
+
+
+            //
+            // Set up the new code editor
+            //
+
             setTimeout(function(){
-                mm.design_mode_pane =
-                {
-                    type: "event_editor",
-                    active_form:            aa.active_form,
-                    active_component_index: aa.active_component_index,
-                    property_id:            aa.property_id
-                }
+                mm.design_mode_pane.type                   = "event_editor"
+                mm.design_mode_pane.app_selected           = aa.app_selected
+                mm.design_mode_pane.active_form            = aa.active_form
+                mm.design_mode_pane.active_component_index = aa.active_component_index
+                mm.design_mode_pane.property_id            = aa.property_id
 
                 setTimeout(function(){
                     if (document.getElementById('ui_code_editor') && (mm.ui_code_editor == null)) {
-                    //
-                    //set up the ace editor for the timeline view
-                    //
-                    ace.config.set('basePath', '/');
-                    mm.ui_code_editor = ace.edit( "ui_code_editor",
+
+                        //
+                        //set up the ace editor for the timeline view
+                        //
+
+                        ace.config.set('basePath', '/');
+                        mm.ui_code_editor = ace.edit( "ui_code_editor",
                                                         {
                                                                selectionStyle:  "text",
                                                                mode:            "ace/mode/javascript"
                                                         })
 
-                    //Bug fix: Need a delay when setting theme or view is corrupted
-                    setTimeout(function(){
-                           mm.ui_code_editor.setTheme("ace/theme/sqlserver");
-                        },100)
+                        //
+                        //Hack city! Need a delay when setting theme or view is corrupted
+                        //
+
+                        setTimeout(function(){
+                               mm.ui_code_editor.setTheme("ace/theme/sqlserver");
+                            },100)
 
 
-                        document.getElementById("ui_code_editor").style["font-size"] = "16px"
-                        document.getElementById("ui_code_editor").style.width = "100%"
-                        document.getElementById("ui_code_editor").style.border = "0px solid #2C2828"
 
-                        document.getElementById("ui_code_editor").style.height = "55vh"
+                        //
+                        // Stylize the code editor
+                        //
+
+                        document.getElementById("ui_code_editor").style["font-size"]    = "16px"
+                        document.getElementById("ui_code_editor").style.width           = "100%"
+                        document.getElementById("ui_code_editor").style.border          = "0px solid #2C2828"
+                        document.getElementById("ui_code_editor").style.height          = "55vh"
+
+
+
+                        //
+                        // Get the code and store it in "ccode"
+                        //
+                        // The code is obtained from the VueJS model, depending on whether
+                        // it is a control, a form, or application code
+                        //
+
                         var ccode = ""
-                        if ((mm.model.active_component_index == null) && (mm.model.active_form != null)) {
+
+                        // application code (THIS MUST BE FIST IN THE IF STATEMENT)
+                        if (mm.model.app_selected) {
+                            ccode = mm.model[aa.property_id]
+
+
+                        // form code
+                        } else if ((mm.model.active_component_index == null) && (mm.model.active_form != null)) {
                             ccode = mm.model.forms[mm.model.active_form][aa.property_id]
 
+                        // component code
                         } else if ((mm.model.active_component_index != null) && (mm.model.active_form != null)) {
                             ccode = mm.model.forms[mm.model.active_form].components[mm.model.active_component_index][aa.property_id]
+                        }
+
+
+
+                        if (!isValidObject(ccode)) {
+                            ccode = ""
                         }
 
 
@@ -1452,19 +1634,683 @@ logo_url("/driver_icons/blocks.png")
 
                         mm.ui_code_editor.on("change", function(e) {
                             var newC = mm.ui_code_editor.getValue()
-                            if ((mm.model.active_component_index == null) && (mm.model.active_form != null)) {
+
+                            if (aa.app_selected) {
+                                mm.model[aa.property_id] = newC
+                            } else if ((mm.model.active_component_index == null) && (mm.model.active_form != null)) {
                                 mm.model.forms[mm.model.active_form][aa.property_id] = newC
 
                             } else if ((mm.model.active_component_index != null) && (mm.model.active_form != null)) {
                                 mm.model.forms[mm.model.active_form].components[mm.model.active_component_index][aa.property_id] = newC
                             }
                         })
+
+                        mm.setupCodeAutocompletions()
+
+                        mm.ui_code_editor.focus();
                     }
                 },100)
             },100)
 
+
+            mm.setupCodeEditorSelectors(aa.property_id)
+
          }
+        ,
+
+
+
+
+
+        // -----------------------------------------------------
+        //                  setupCodeAutocompletions
+        //
+        // This is called when editing event code to autocomplete
+        // form names, control names, and methods
+        //
+        //
+        //
+        // -----------------------------------------------------
+        setupCodeAutocompletions: function() {
+
+            var mm          = this
+            var langTools   = ace.require("ace/ext/language_tools");
+
+            //
+            // Clear any default autocompleters that have been set
+            //
+
+            langTools.setCompleters([]);
+
+
+
+            //
+            // Create the autocompleter
+            //
+
+            var autocompleterFunction = {
+                    identifierRegexps: [/[a-zA-Z_0-9.]/]
+                    ,
+                    getCompletions: function(editor, session, pos, prefix, callback) {
+                        console.log("Called autocompleterFunction: " + pos + " : " + prefix)
+
+                        //
+                        // If no text entered then do nothing
+                        //
+
+                        if (prefix.length === 0) {
+                            callback(null, []);
+                            return
+                        }
+
+
+
+
+                        //
+                        // Get the first part of the text to autocomplete
+                        //
+
+                        var firstObjectToAutocomplete = null
+                        if (prefix.indexOf(".") != -1) {
+                            firstObjectToAutocomplete = prefix.substring(0,prefix.indexOf("."))
+                            console.log("firstObjectToAutocomplete: " + firstObjectToAutocomplete)
+                        }
+
+
+                        var wordList = []
+
+                        //
+                        // Create the list of initial objects to complete:
+                        // app, forms, controls
+                        //
+
+                        if (firstObjectToAutocomplete == null) {
+
+                            wordList.push(  {"word":    "app",
+                                             "freq":     24,
+                                             "score":    300,
+                                             "flags":    "bc",
+                                             "syllables":"1",
+                                              meta:      "Main application"
+                                         })
+
+                            wordList.push(  {"word":    "forms",
+                                              "freq":     24,
+                                              "score":    300,
+                                              "flags":    "bc",
+                                              "syllables":"1",
+                                               meta:      "List of forms"
+                                             })
+
+                         if (mm.design_mode_pane.app_selected) {
+                             wordList.push(  {"word":    "me",
+                                             "freq":     24,
+                                             "score":    300,
+                                             "flags":    "bc",
+                                             "syllables":"1",
+                                              meta:      "The current app"
+                                             })
+
+                         } else if (mm.design_mode_pane.active_component_index == null) {
+                             wordList.push(  {"word":    "me",
+                                             "freq":     24,
+                                             "score":    300,
+                                             "flags":    "bc",
+                                             "syllables":"1",
+                                              meta:      "The current form"
+                                             })
+
+                         } else {
+                             wordList.push(  {"word":    "me",
+                                             "freq":     24,
+                                             "score":    300,
+                                             "flags":    "bc",
+                                             "syllables":"1",
+                                              meta:      "The current control"
+                                             })
+                         }
+
+                         wordList.push(  {"word":    "parent",
+                                         "freq":     24,
+                                         "score":    300,
+                                         "flags":    "bc",
+                                         "syllables":"1",
+                                          meta:      "The parent/container control of this"
+                                         })
+
+                         var ccc = mm.model.forms[mm.model.active_form].components
+                         for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
+                             var component = ccc[ytr]
+                             wordList.push(  {"word":    component.name,
+                                             "freq":     24,
+                                             "score":    300,
+                                             "flags":    "bc",
+                                             "syllables":"1",
+                                              meta:      "Control"
+                                             })
+                         }
+
+                         ccc = Object.keys(mm.model.forms)
+                         for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
+                             wordList.push(  {"word":    ccc[ytr],
+                                             "freq":     24,
+                                             "score":    300,
+                                             "flags":    "bc",
+                                             "syllables":"1",
+                                              meta:      "Form"
+                                             })
+                         }
+
+
+
+                     //
+                     // If we have ented an object and pressed "." (period)
+                     // then we need to add the method that comes after the
+                     // period, eg:
+                     //
+                     // my_label.set|
+                     //         .setText()
+                     //         .setWidth()    <- choose one
+                     //         .setHeight()
+                     //
+
+                    } else {
+
+                        //
+                        // Find out what the left hand side of the "." represents. Is
+                        // it a component, a form, or the app?
+                        //
+
+                        var componentId = null
+                        var formName    = null
+                        var isApp       = false
+
+
+
+                        if (firstObjectToAutocomplete == "me") {
+
+                            if (mm.design_mode_pane.app_selected) {
+
+                            } else if (isValidObject(mm.design_mode_pane.active_component_index)) {
+                                componentId = mm.model.forms[mm.model.active_form].components[ mm.design_mode_pane.active_component_index ].base_component_id
+
+                            } else if (isValidObject(mm.design_mode_pane.active_form)) {
+                                formName = mm.model.active_form
+                            }
+
+                        } else {
+
+                            //
+                            // see if the word is a component
+                            //
+
+                            var comps       = mm.model.forms[mm.model.active_form].components
+
+                            for (var rt=0; rt < comps.length; rt++) {
+                                if (comps[rt].name == firstObjectToAutocomplete) {
+                                    componentId = comps[rt].base_component_id
+                                }
+                            }
+
+
+                            //
+                            // see if the word is a form
+                            //
+
+                            var formNames       = Object.keys(mm.model.forms)
+
+                            for (var rt=0; rt < formNames.length; rt++) {
+                                var formName1 = formNames[rt]
+                                if (formName1 == firstObjectToAutocomplete) {
+                                    formName = formName1
+                                }
+                            }
+
+
+                            if (firstObjectToAutocomplete == "app") {
+                                isApp = true
+
+                            }
+                        }
+
+
+
+                         //
+                         // if a component was entered
+                         //
+
+                         if (componentId) {
+
+                            var cachedComponentDefinition = component_cache[componentId]
+                            for (var fg=0;fg < cachedComponentDefinition.properties.length;fg++){
+                                 var comm = cachedComponentDefinition.properties[fg]
+                                 var propName = firstObjectToAutocomplete + "." + comm.id
+                                 var meta = "Property"
+                                 if (isValidObject(comm.snippet)) {
+                                     propName = firstObjectToAutocomplete + "." + comm.snippet
+                                 }
+                                 if (comm.type == "Action") {
+                                     meta = "Method"
+                                 }
+
+                                 wordList.push({ "word":         propName ,
+                                                 "freq":         24,
+                                                 "score":        300,
+                                                 "flags":        "bc",
+                                                 "syllables":    "1",
+                                                 "meta":         meta
+                                                 })
+                             }
+
+
+
+
+                         //
+                         // if a form was entered
+                         //
+
+                         } else if (formName) {
+debugger
+                            var formProps = mm.properties
+                            for (var formPropIndex = 0 ; formPropIndex < formProps.length ; formPropIndex++ ) {
+
+                                var propDetails = formProps[formPropIndex]
+                                var propName    = firstObjectToAutocomplete + "." + propDetails.id
+                                var meta        = "Property"
+
+                                if (isValidObject(propDetails.snippet)) {
+                                     propName = firstObjectToAutocomplete + "." + propDetails.snippet
+                                 }
+                                 if (propDetails.type == "Action") {
+                                     meta = "Method"
+                                 }
+                                 if (propDetails.type == "Event") {
+                                     meta = "Event"
+                                 }
+
+                                 wordList.push({ "word":         propName ,
+                                                 "freq":         24,
+                                                 "score":        300,
+                                                 "flags":        "bc",
+                                                 "syllables":    "1",
+                                                 "meta":         meta
+                                                 })
+                              }
+
+
+                         //
+                         // if the main object is the VB app
+                         //
+
+                         } else if (isApp) {
+debugger
+                            var appProps = mm.get_default_app_propeties()
+                            for (var formPropIndex = 0 ; formPropIndex < appProps.length ; formPropIndex++ ) {
+
+                                var propDetails = appProps[formPropIndex]
+                                var propName    = firstObjectToAutocomplete + "." + propDetails.id
+                                var meta        = "Property"
+
+                                if (isValidObject(propDetails.snippet)) {
+                                     propName = firstObjectToAutocomplete + "." + propDetails.snippet
+                                 }
+                                 if (propDetails.type == "Action") {
+                                     meta = "Method"
+                                 }
+                                 if (propDetails.type == "Event") {
+                                     meta = "Event"
+                                 }
+
+                                 wordList.push({ "word":         propName ,
+                                                 "freq":         24,
+                                                 "score":        300,
+                                                 "flags":        "bc",
+                                                 "syllables":    "1",
+                                                 "meta":         meta
+                                                 })
+                             }
+
+                         }
+                     }
+
+                     callback(null, wordList.map(function(ea) {
+                        return {name: ea.word, value: ea.word, score: ea.score, meta: ea.meta}
+                     }));
+
+
+                 }
+             }
+             langTools.addCompleter(autocompleterFunction);
+
+
+
+             mm.ui_code_editor.commands.addCommand({
+                 name: "showOtherCompletions",
+                 bindKey: ".",
+                 exec: function(editor) {
+                      mm.ui_code_editor.session.insert(mm.ui_code_editor.getCursorPosition(), ".")
+                      mm.ui_code_editor.completer.updateCompletions()
+                 }
+             })
+
+             mm.ui_code_editor.setOptions({
+                enableBasicAutocompletion: false,
+                enableSnippets: false,
+                enableLiveAutocompletion: true
+             });
+         }
+
          ,
+
+
+
+        setupCodeEditorSelectors: function(   property_id   ) {
+            var mm = this
+
+            setTimeout( function() {
+
+                //
+                // Add the selectors using the SelectR library
+                //
+
+                if (!document.getElementById("select_code_object_parent")) {
+                    return; }
+                document.getElementById("select_code_object_parent").innerHTML=' <select id=select_code_object ></select>'
+                if (!document.getElementById("select_code_action_parent")) {
+                    return; }
+                document.getElementById("select_code_action_parent").innerHTML=' <select id=select_code_action ></select>'
+
+
+
+                 //
+                 //   initialise vars
+                 //
+
+                 var objectListForSelector  = []
+                 var methodListForSelector  = []
+                 var indexObjectSelector    = 0
+                 var indexActionSelector    = 0
+                 var selectedCodeObject     = null
+                 var selectedCodeAction     = null
+
+
+
+                 //
+                 // if we selected the app or a form
+                 //
+
+                 if (mm.model.app_selected || (!isValidObject(mm.model.active_component_index))) {
+
+                     if (mm.edited_app_component_id) {
+                         objectListForSelector.push(
+                             {
+                                 value:      "" + indexObjectSelector,
+                                 app:        mm.edited_app_component_id,
+                                 form:       null,
+                                 component:  null
+                             })
+                     }
+
+                     if (mm.model.app_selected) {
+                         selectedCodeObject = indexObjectSelector
+                     }
+                     indexObjectSelector++
+
+                     var forms = mm.getForms()
+                     for (  var ere = 0; ere < forms.length; ere++  ) {
+                         var form = forms[ ere ]
+                         objectListForSelector.push(
+                             {
+                                 value:      "" + indexObjectSelector,
+                                 app:        null,
+                                 form:       form.name,
+                                 component:  null
+                             }
+                         )
+                         if ((!mm.model.app_selected) && (form.name == mm.model.active_form)) {
+                             selectedCodeObject = indexObjectSelector
+                         }
+                         indexObjectSelector++
+
+
+                         //
+                         // show the sub controls of this form if it is the current form
+                         //
+
+                         if ((!mm.model.app_selected) && (form.name == mm.model.active_form)) {
+                             var components = mm.getActiveFormComponents()
+                             for (  var ere1 = 0; ere1 < components.length; ere1++  ) {
+                                 var component = components[ ere1 ]
+                                 objectListForSelector.push(
+                                     {
+                                         value:              "" + indexObjectSelector,
+                                         app:                null,
+                                         form:               mm.model.active_form,
+                                         component:          "  -  " + component.name,
+                                         component_type:     component.base_component_id,
+                                         component_index:    ere1
+                                     }
+                                 )
+                                 if (mm.model.active_component_index == ere1) {
+                                     selectedCodeObject = indexObjectSelector
+                                 }
+                                 indexObjectSelector++
+                             }
+                         }
+                     }
+
+                 //
+                 // if we selected a component
+                 //
+                 } else if (isValidObject(mm.model.active_component_index)) {
+
+                     objectListForSelector.push(
+                         {
+                             value:      "" + indexObjectSelector,
+                             app:        null,
+                             form:       mm.model.active_form,
+                             component:  null
+                         }
+                     )
+                     indexObjectSelector++
+
+                     var components = mm.getActiveFormComponents()
+                     for (  var ere = 0; ere < components.length; ere++  ) {
+                         var component = components[ ere ]
+                         objectListForSelector.push(
+                             {
+                                 value:              "" + indexObjectSelector,
+                                 app:                null,
+                                 form:               mm.model.active_form,
+                                 component:          "  -  " + component.name,
+                                 component_type:     component.base_component_id,
+                                 component_index:    ere
+                             }
+                         )
+                         if (mm.model.active_component_index == ere) {
+                             selectedCodeObject = indexObjectSelector
+                         }
+                         indexObjectSelector++
+                     }
+                 }
+
+
+
+                 //
+                 //   get the list of properties
+                 //
+
+
+                  //
+                  // get the app methods
+                  //
+                  if (mm.model.app_selected) {
+                      methodListForSelector.push(
+                          {
+                              value:              "" + indexActionSelector,
+                              app:                mm.edited_app_component_id,
+                              form:               mm.model.active_form,
+                              component:          null,
+                              action_id:          "app_started_event",
+                              action_name:        "Called when the app is started",
+                              action_type:        "Event"
+                          }
+                      )
+                      selectedCodeAction = indexActionSelector
+                      indexActionSelector++
+
+
+                  } else if (  isValidObject(mm.model.active_component_index)  ) {
+                     var ccc        = mm.model.forms[mm.model.active_form].components[mm.model.active_component_index]
+                     var properties = mm.getComponentProperties(  ccc.base_component_id  )
+
+                     for (  var ere = 0;  ere < properties.length;  ere++  ) {
+                         var property = properties[ ere ]
+                         if (property.type == "Event") {
+                             methodListForSelector.push(
+                                 {
+                                     value:              "" + indexActionSelector,
+                                     app:                null,
+                                     form:               mm.model.active_form,
+                                     component:          ccc.name,
+                                     action_id:          property.id,
+                                     action_name:        property.name,
+                                     action_type:        property.type,
+                                     action_index:       ere
+                                 }
+                             )
+                             if (property.id == property_id) {
+                                 selectedCodeAction = indexActionSelector
+                             }
+                             indexActionSelector++
+                         }
+                     }
+
+                      methodListForSelector.push(
+                          {
+                              value:              "" + indexActionSelector,
+                              app:                null,
+                              form:               mm.model.active_form,
+                              component:          ccc.name,
+                              action_id:          "load",
+                              action_name:        "Load event",
+                              action_type:        "Event",
+                              action_index:       ere
+                          })
+                      if ( property_id == "load" ) {
+                          selectedCodeAction = indexActionSelector
+                      }
+                      indexActionSelector++
+
+
+
+                  // get the actions for the forms
+                  } else if (  isValidObject(mm.model.active_form)  ) {
+                      var ccc        = mm.model.forms[mm.model.active_form]
+
+                      var properties = mm.getComponentProperties(  ccc.base_component_id  )
+
+
+                       methodListForSelector.push(
+                           {
+                               value:              "" + indexActionSelector,
+                               app:                null,
+                               form:               mm.model.active_form,
+                               component:          ccc.name,
+                               action_id:          "form_activate",
+                               action_name:        "Activate Event",
+                               action_type:        "Event",
+                               action_index:       ere
+                           })
+                       if ( property_id == "form_activate" ) {
+                           selectedCodeAction = indexActionSelector
+                       }
+                       indexActionSelector++
+                   }
+
+
+
+
+
+                 selectCodeObject = new Selectr(
+                     document.getElementById('select_code_object'),
+                     {
+                         renderOption:       mm.myDataRenderFunction,
+                         renderSelection:    mm.myDataRenderFunction,
+                         selectedValue:      selectedCodeObject,
+                         data:               objectListForSelector,
+                         customClass:       'my-custom-selectr',
+                         searchable:         false
+                     });
+
+                 selectCodeAction = new Selectr(
+                     document.getElementById('select_code_action'),
+                     {
+                         renderOption:       mm.actionRenderFunction,
+                         renderSelection:    mm.actionRenderFunction,
+                         selectedValue:      selectedCodeAction,
+                         data:               methodListForSelector,
+                         customClass:       'my-custom-selectr',
+                         searchable:         false
+                     });
+
+                 document.getElementsByClassName("selectr-selected")[0].style.padding = "1px"
+                 document.getElementsByClassName("selectr-selected")[0].style["border-top"] = "2px solid gray"
+                 document.getElementsByClassName("selectr-selected")[0].style["border-left"] = "2px solid gray"
+
+                 document.getElementsByClassName("selectr-selected")[1].style.padding = "1px"
+                 document.getElementsByClassName("selectr-selected")[1].style["border-top"] = "2px solid gray"
+                 document.getElementsByClassName("selectr-selected")[1].style["border-left"] = "2px solid gray"
+
+                 document.getElementsByClassName("selectr-selected")[2].style.padding = "1px"
+                 document.getElementsByClassName("selectr-selected")[2].style["border-top"] = "2px solid gray"
+                 document.getElementsByClassName("selectr-selected")[2].style["border-left"] = "2px solid gray"
+
+                 selectCodeObject.on('selectr.select', function(option) {
+                     var dd = objectListForSelector[option.idx]
+                     if (dd.component) {
+                         mm.selectComponent(dd.component_index)
+                         mm.editAsCode({
+                             app_selected:           false,
+                             active_form:            mm.model.active_form,
+                             active_component_index: mm.model.active_component_index,
+                             property_id:            "load"
+                         })
+                     } else if (dd.form) {
+                         mm.selectForm(dd.form)
+                         mm.editAsCode({
+                             app_selected:           false,
+                             active_form:            dd.form,
+                             active_component_index: null,
+                             property_id:            "form_activate"
+                         })
+                     } else if (dd.app) {
+                         mm.select_app()
+                         mm.editAsCode({
+                             app_selected:           true,
+                             active_form:            mm.model.active_form,
+                             active_component_index: null,
+                             property_id:            "app_started_event"
+
+                         })
+                     }
+                 });
+
+                 selectCodeAction.on('selectr.select', function(option) {
+                     var dd = methodListForSelector[option.idx]
+                     mm.editAsCode({
+                         app_selected:           mm.app_selected,
+                         active_form:            mm.model.active_form,
+                         active_component_index: mm.model.active_component_index,
+                         property_id:            dd.action_id
+                     })
+                 });
+
+
+             },100)
+             }
+             ,
+
          getActiveFormComponents: function() {
              return this.model.forms[this.model.active_form].components
          },
@@ -1481,6 +2327,9 @@ logo_url("/driver_icons/blocks.png")
         gotoDragDropEditor: function() {
             this.design_mode_pane.type = "drag_drop";
             if (this.ui_code_editor) {
+                if (this.ui_code_editor.completer) {
+                    this.ui_code_editor.completer.detach()
+                }
                 this.ui_code_editor.destroy()
                 this.ui_code_editor = null
             }
@@ -1685,6 +2534,7 @@ logo_url("/driver_icons/blocks.png")
          //-------------------------------------------------------------------
          selectForm: function(formId, showProps) {
          //-------------------------------------------------------------------
+
              var mm = this
 
 
@@ -1698,8 +2548,8 @@ logo_url("/driver_icons/blocks.png")
              mm.model.active_form = formId
              mm.refresh ++
 
-             if (mm.model.forms[formId].form_activate && (!mm.design_mode)) {
-                 //alert(JSON.stringify(mm.args,null,2))
+             if (  mm.model.forms[  formId  ].form_activate && (!mm.design_mode)) {
+
                  if (!isValidObject(this.args)) {
                       mm.args = mm.model
                  }
@@ -1707,11 +2557,6 @@ logo_url("/driver_icons/blocks.png")
                  var args = mm.args
                  var app = mm.model
                  var crt = mm.model.forms[formId].form_activate
-                 //alert(crt)
-                 //var ffff = eval("(" + crt + ")")
-                 //ffff()
-
-
 
                  var formEvent = {
                      type:               "form_event",
@@ -1732,108 +2577,113 @@ logo_url("/driver_icons/blocks.png")
 
 
 
+        //-------------------------------------------------------------------
+        //                        processControlEvent
+        //
+        // This is used to run user written event code
+        //-------------------------------------------------------------------
 
-              processControlEvent: async function(  eventMessage  ) {
-                var mm = this
-                if ((!mm.design_mode) && (mm.model)) {
-                    this.updateAllFormCaches()
+        processControlEvent: async function(  eventMessage  ) {
+            var mm = this
+            if ((!mm.design_mode) && (mm.model)) {
+                this.updateAllFormCaches()
 
-                    //
-                    // set up property access for all forms
-                    //
-                    var formHandler = {
-                         get: function(target,name){
-                             var formName = target.name
-                             if (mm.model.forms[formName][name]) {
-                                 return mm.model.forms[formName][name]
-                             }
+                //
+                // set up property access for all forms
+                //
 
-                             if (mm.form_runtime_info[formName].component_lookup_by_name[name]) {
-                                 return mm.form_runtime_info[formName].component_lookup_by_name[name]
-                             }
-
-                             return "Not found"
+                var formHandler = {
+                     get: function(target,name){
+                         var formName = target.name
+                         if (mm.model.forms[formName][name]) {
+                             return mm.model.forms[formName][name]
                          }
-                    }
-                    var formEval = ""
-                    var allForms = this.getForms();
-                    for (var fi =0; fi < allForms.length ; fi ++) {
-                         var aForm = allForms[fi]
-                         formEval += ("var " + aForm.name +
-                             " = new Proxy({name: '" + aForm.name + "'}, formHandler);")
 
-                    }
-                    eval(formEval)
+                         if (mm.form_runtime_info[formName].component_lookup_by_name[name]) {
+                             return mm.form_runtime_info[formName].component_lookup_by_name[name]
+                         }
 
+                         return "Not found"
+                     }
+                }
+                var formEval = ""
+                var allForms = this.getForms();
+                for (var fi =0; fi < allForms.length ; fi ++) {
+                     var aForm = allForms[fi]
+                     formEval += ("var " + aForm.name +
+                         " = new Proxy({name: '" + aForm.name + "'}, formHandler);")
 
-
-
-
-                    //
-                    // set up property access for all controls on this form
-                    //
-                    var allC = this.model.forms[this.model.active_form].components
-                    var cacc =""
-                    for (var xi =0; xi< allC.length ; xi ++) {
-                         var comp = allC[xi]
-                         cacc += ( "var " + comp.name + " = mm.form_runtime_info['" + this.model.active_form + "'].component_lookup_by_name['" + comp.name + "'];")
-                    }
-                    eval(cacc)
+                }
+                eval(formEval)
 
 
 
-                    if (eventMessage.type == "subcomponent_event") {
-                            var fcc =
+
+                //
+                // set up property access for all controls on this form
+                //
+                var allC = this.model.forms[this.model.active_form].components
+                var cacc =""
+                for (var xi =0; xi< allC.length ; xi ++) {
+                     var comp = allC[xi]
+                     cacc += ( "var " + comp.name + " = mm.form_runtime_info['" + this.model.active_form + "'].component_lookup_by_name['" + comp.name + "'];")
+                }
+                eval(cacc)
+
+
+
+
+                if (eventMessage.type == "subcomponent_event") {
+                    var fcc =
 `(async function(){
 ${eventMessage.code}
 })`
 
-                           this.model.active_form
-                           var thisControl = this.form_runtime_info[this.model.active_form].component_lookup_by_name[eventMessage.control_name]
-                           if (isValidObject(thisControl)) {
-                                var compEvaled = this.getComponentProperties(thisControl.base_component_id)
-                                var errr=""
 
-                                //
-                                // set up property access for this control
-                                //
-                                for (var rtt=0; rtt < compEvaled.length; rtt++) {
-                                    if (thisControl[compEvaled[rtt].id]) {
-                                        errr += ( compEvaled[rtt].id + " = `" + thisControl[compEvaled[rtt].id] + "`;")
-                                    }
-                                }
+                    var thisControl = this.form_runtime_info[   this.model.active_form   ].component_lookup_by_name[   eventMessage.control_name   ]
+                    if (isValidObject(thisControl)) {
 
-                                eval( errr  )
+                        if (isValidObject(thisControl.parent)) {
+                            var cacc =""
+                            cacc += ( "var parent = mm.form_runtime_info['" + this.model.active_form + "'].component_lookup_by_name['" + thisControl.parent + "'];")
+                            eval(cacc)
+                        }
 
-                                var debugFcc = getDebugCode(this.model.active_form +"_"+eventMessage.control_name+"_"+eventMessage.sub_type,fcc,{skipFirstAndLastLine: true})
-                                var efcc = eval(debugFcc)
-                                efcc()
+                        var meCode =""
+                        meCode += ( "var me = mm.form_runtime_info['" + this.model.active_form + "'].component_lookup_by_name['" + thisControl.name + "'];")
+                        eval(meCode)
 
-                                //
-                                // save any changed properties for this control
-                                //
-                                for (var rtt=0; rtt < compEvaled.length; rtt++) {
-                                    //alert(JSON.stringify(compEvaled[rtt],null,2))
-                                    if (thisControl[compEvaled[rtt].id]) {
-                                        if (eval(compEvaled[rtt].id ) != thisControl[compEvaled[rtt].id]) {
-                                            thisControl[compEvaled[rtt].id] = eval(compEvaled[rtt].id )
-                                        }
-                                    }
-                                }
-                           }
+                        var appCode =""
+                        appCode += ( "var app = mm.model;")
+                        eval(appCode)
 
-                     //
-                     // form events
-                     //
-                     } else if (eventMessage.type == "form_event") {
+
+                        var debugFcc = getDebugCode(mm.model.active_form +"_"+eventMessage.control_name+"_"+eventMessage.sub_type,fcc,{skipFirstAndLastLine: true})
+                        var efcc = eval(debugFcc)
+                        efcc()
+
+                    }
+
+                    //
+                    // form events
+                    //
+                    } else if (eventMessage.type == "form_event") {
                         var fcc =
 `(async function(){
 ${eventMessage.code}
 })`
+                        var meCode =""
+                        meCode += ( "var me = mm.model.forms['" + this.model.active_form + "'];")
+                        eval(meCode)
+
+                        var appCode =""
+                        appCode += ( "var app = mm.model;")
+                        eval(appCode)
+
                         var debugFcc = getDebugCode(this.model.active_form ,fcc,{skipFirstAndLastLine: true})
                         var efcc = eval(debugFcc)
                         efcc()
-                     }
+                    }
 
 
 
@@ -1939,10 +2789,8 @@ ${eventMessage.code}
 
         showComponentDetailedDesignUi: async function(index) {
            var mm = this
-           mm.design_mode_pane =
-           {
-               type:                           "control_details_editor"
-           }
+           mm.design_mode_pane.type = "control_details_editor"
+
            this.model.active_component_detail_index = index;
            this.model.active_component_detail_name = this.model.forms[this.model.active_form].components[index].name;
 
@@ -2033,7 +2881,7 @@ ${eventMessage.code}
                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
                  var xx = ((ev.clientX  - rrr.left)  - data.offsetX) - parentOffsetX  - 10;
                  var yy = ((ev.clientY  - rrr.top)   - data.offsetY) - parentOffsetY - 10;
-                 await mm.addComponent(xx,yy,data, parentId, parentName, parentOffsetX, parentOffsetY)
+                 await mm.addComponent(xx,yy,data, parentId, parentName, parentOffsetX, parentOffsetY,[])
                  this.highlighted_control = null
 
              } else if (data.type == "move_component") {
@@ -2286,35 +3134,67 @@ ${eventMessage.code}
 
          },
 
+         //-------------------------------------------------------------------
+         get_default_app_propeties: function() {
+            var mm = this
+            return [
+                {   id:     "id",   name:   "ID",   type:   "String" , readonly: true,
+                     get_fn: function() {
+                        return mm.edited_app_component_id }
+                 }
+                 ,
+
+                 {   id:     "default_form",       name:   "Load form on startup",   type:   "String"}
+                 ,
+
+                 {   id:     "app_started_event",  name:   "Called when the app is started",   type:   "Event"}
+
+            ]
+         }
+         ,
+
+
+
 
          //-------------------------------------------------------------------
-         select_app: function() {
+         //                             select_app
+         //
+         //
          //-------------------------------------------------------------------
+
+         select_app: function() {
             var mm = this
 
-            this.model.active_component_index = null
-            this.model.app_selected = true
-            this.active_property_index = null
+            this.model.active_component_index   = null
+            this.model.app_selected             = true
+            this.active_property_index          = null
 
-            this.properties = []
-            this.properties.push({   id:     "id",   name:   "ID",   type:   "String" , readonly: true,
-                                     get_fn: function() {
-                                        return mm.edited_app_component_id
-                                     }
-                                     })
-
-            this.properties.push({   id:     "default_form",   name:   "Load form on startup",   type:   "String"})
+            this.properties                     = mm.get_default_app_propeties()
 
             if (this.model.app_properties) {
-                //alert(JSON.stringify(this.model.app_properties,null,2))
                 this.properties = this.properties.concat(this.model.app_properties)
             }
             this.updatePropertySelector()
 
             this.refresh ++
-         },
+         }
+         ,
+
+
+
+
+
+         //-------------------------------------------------------------------
+         //                        myDataRenderFunction
+         //
+         //
+         //-------------------------------------------------------------------
 
          myDataRenderFunction: function(data) {
+             if (!isValidObject(data)) {
+                 return "<div></div>"
+             }
+
              var center = ""
              if (data.app) {
                 center = "<b style='font-family:verdana;font-size: 13px;'>" + (data.app?data.app:data.form) + "</b> "
@@ -2326,7 +3206,24 @@ ${eventMessage.code}
              }
 
              var template =
-               "<div  style='overflow:hidden ;text-overflow: ellipsis;border-radius: 1px;margin: 0px;padding:0px;border:0px;font-family:verdana;font-size: 13px;'>" +
+               "<div  style='font-weight:normal;color:black;overflow:hidden ;text-overflow: ellipsis;border-radius: 1px;margin: 0px;padding:0px;border:0px;font-family:verdana;font-size: 13px;'>" +
+                    center +
+               "</div>";
+             return template;
+         },
+
+
+         actionRenderFunction: function(data) {
+            if (!isValidObject(data)) {
+                return "<div></div>"
+            }
+
+             var center = ""
+
+             center = "<b style='font-family:verdana;font-size: 13px;'>" + data.action_id + "</b> " + data.action_name
+
+             var template =
+               "<div  style='font-weight:normal;color:black;overflow:hidden ;text-overflow: ellipsis;border-radius: 1px;margin: 0px;padding:0px;border:0px;font-family:verdana;font-size: 13px;'>" +
                     center +
                "</div>";
              return template;
@@ -2334,19 +3231,49 @@ ${eventMessage.code}
 
 
 
-         updatePropertySelector: function() {
+
+
+        // -------------------------------------------------------------------
+        //                          updatePropertySelector
+        //
+        // This updates the property selector on the right of the editor,
+        // and it uses the currently selected object to figure out what
+        // to display
+        // -------------------------------------------------------------------
+
+        updatePropertySelector: function() {
+
+            var mm = this
+
+            //
+            // if we are not in edit mode then do nothing
+            //
+
             if (!designMode){
                 return
             }
-            var mm = this
+
+
+            //
+            // If the property selector is not available then do nothing
+            //
+
             if (!document.getElementById("property_selector_parent")) {
                 return
             }
+
+
+
+
+            //
+            // Set up the property selector
+            //
+
             document.getElementById("property_selector_parent").innerHTML=' <select id=property_selector ></select>'
 
-            var sdata = []
-            var indexProp = 0
-            var selectedItem = null
+            var sdata           = []
+            var indexProp       = 0
+            var selectedItem    = null
 
             if (mm.model.app_selected || (!isValidObject(mm.model.active_component_index))) {
 
@@ -2415,8 +3342,9 @@ ${eventMessage.code}
                 }
             }
 
-
-
+            //
+            //   selector for property inspector
+            //
             selectProp = new Selectr(
                 document.getElementById('property_selector'),
                 {
@@ -2447,6 +3375,15 @@ ${eventMessage.code}
          },
 
 
+         existsProp: function(compEvaled,propName) {
+            for (var eee = 0 ;eee < compEvaled.length; eee++) {
+                if (compEvaled[eee].id == propName) {
+                    return true
+                }
+            }
+            return false
+         }
+         ,
          //-------------------------------------------------------------------
          selectComponent: async function(index, showProps) {
          //-------------------------------------------------------------------
@@ -2462,15 +3399,25 @@ ${eventMessage.code}
             this.model.app_selected = false
             this.model.active_component_index = index
             this.properties = []
+
+            var compEvaled = this.getComponentProperties(this.model.forms[this.model.active_form].components[index].base_component_id)
+
             this.properties.push({   id:     "name",   name:   "Name",   type:   "String"    })
             this.properties.push({   id:     "base_component_id",   name:   "Type",   type:   "String" , readonly: true   })
             this.properties.push({   id:     "leftX",   name:   "X",   type:   "Number"    })
             this.properties.push({   id:     "topY",   name:   "Y",   type:   "Number"    })
-            this.properties.push({   id:     "width",   name:   "Width",   type:   "Number"    })
-            this.properties.push({   id:     "height",   name:   "Height",   type:   "Number"    })
+            if (!this.existsProp(compEvaled,"width")) {
+                this.properties.push({   id:     "width",   name:   "Width",   type:   "Number"    })
+            }
+            if (!this.existsProp(compEvaled,"height")) {
+                this.properties.push({   id:     "height",   name:   "Height",   type:   "Number"    })
+            }
+            if (!this.existsProp(compEvaled,"load")) {
+                this.properties.push({   id:     "load",   name:   "Load Event",   type:   "Event"    })
+            }
 
 
-            var compEvaled = this.getComponentProperties(this.model.forms[this.model.active_form].components[index].base_component_id)
+
             this.properties = this.properties.concat(compEvaled)
             this.updatePropertySelector()
             if (isValidObject(showProps) && showProps) {
@@ -2492,6 +3439,7 @@ ${eventMessage.code}
             this.properties.push({   id:     "name",   name:   "Name",   type:   "String"    })
             this.properties.push({   id:     "width",   name:   "Width",   type:   "Number"    })
             this.properties.push({   id:     "height",   name:   "Height",   type:   "Number"    })
+            this.properties.push({   id:     "form_activate",   name:   "Activate Event",   type:   "Event"    })
 
             mm.model.max_form ++
             var newFormName = "form_" + mm.model.max_form
@@ -2666,7 +3614,7 @@ ${eventMessage.code}
                       vb_grid_element_id:          null,
                       vb_editor_element_id:        null,
                       design_mode: designMode,
-                      design_mode_pane:            null,
+                      design_mode_pane:            {},
                       local_app:                    false,
                       refresh: 0,
                       runtime_mode: runtimeMode,
@@ -2767,7 +3715,7 @@ ${eventMessage.code}
                       vb_grid_element_id:          null,
                       vb_editor_element_id:        null,
                       design_mode: designMode,
-                      design_mode_pane:            null,
+                      design_mode_pane:            {},
                       local_app:                    false,
                       refresh: 0,
                       runtime_mode: runtimeMode,
@@ -2777,8 +3725,8 @@ ${eventMessage.code}
                       text: texti,
                       model: {
   "next_id": 7,
-  "max_form": 4,
-  "active_form": "Form_1",
+  "max_form": 5,
+  "active_form": "Module",
   "default_form": "Form_1",
   "app_selected": false,
   "id": "vb_blank",
@@ -2808,6 +3756,12 @@ ${eventMessage.code}
           "parent": null
         }
       ]
+    },
+    "Module": {
+      "name": "Module",
+      "components": [],
+      "width": 300,
+      "height": 300
     }
   },
   "active_component_index": null,
