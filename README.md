@@ -1,5 +1,8 @@
+![Yazz Video](http://yazz.com/yazz.gif)
+
 # Yazz
 ### Build Internal apps Visually
+
 
 - An interactive editor to create GUI apps in the style of Visual Basic 6
 - Build business logic in Javascript
