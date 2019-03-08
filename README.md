@@ -1,4 +1,4 @@
-![Yazz Video](http://yazz.com/yazz.gif)
+![Yazz Video](/public/yazz.gif)
 
 # Yazz
 ### Build Internal apps Visually
