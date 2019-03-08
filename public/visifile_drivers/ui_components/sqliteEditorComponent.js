@@ -16,7 +16,7 @@ load_once_from_file(true)
             read_only:      false,
             editorDomId:    editorDomId,
             errors:         null,
-            sqlText:        "",
+            sqlText:        "[]",
         }
       },
       template: `<div style='background-color:white; ' >
@@ -136,8 +136,8 @@ load_once_from_file(true)
                editor.setReadOnly(true)
             }
 
-            var sqlText = saveHelper.getValueOfCodeString(textValue, "sqlite", ")//sqlite")
-            editor.getSession().setValue(JSON.stringify(sqlText,null,2));
+            var llsqlText = saveHelper.getValueOfCodeString(textValue, "sqlite", ")//sqlite")
+            editor.getSession().setValue(JSON.stringify(llsqlText,null,2));
         }
 
      }

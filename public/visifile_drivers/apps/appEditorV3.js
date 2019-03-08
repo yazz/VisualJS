@@ -581,15 +581,16 @@ load_once_from_file(true)
        methods: {
            editSqliteSchema: async function(componentId, edComp) {
                var mm = this
+               debugger
 
                this.editor_text = await this.$refs.editor_component_ref.getText()
 
                var eds = saveHelper.getValueOfCodeString(this.editor_text, "editors")
-               if (eds) {
+               if (isValidObject(eds)) {
                    this.editor_text = saveHelper.deleteCodeString(this.editor_text, "editors")
                    this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors_old",eds)
-                   this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors",["sqlite_editor_component"])
                }
+               this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors",["sqlite_editor_component"])
 
                await mm.save(   this.base_component_id,   this.code_id,   this.editor_text   )
 
