@@ -1,4 +1,4 @@
-<img src="https://yazz.com/yazz.gif"></img>
+<img src="http://yazz.com/yazz.gif"></img>
 
 # Yazz
 ### Build Internal apps Visually
