@@ -15,7 +15,8 @@ load_once_from_file(true)
             text:           args.text,
             read_only:      false,
             editorDomId:    editorDomId,
-            errors:         null
+            errors:         null,
+            sqlText:        "",
         }
       },
       template: `<div style='background-color:white; ' >
@@ -83,16 +84,16 @@ load_once_from_file(true)
 
 
          editor.getSession().on('change', function() {
-            thisVueInstance.text = editor.getSession().getValue();
+            thisVueInstance.sqlText = editor.getSession().getValue();
             thisVueInstance.errors = null
-            if (!isValidObject(thisVueInstance.text)) {
+            if (!isValidObject(thisVueInstance.sqlText)) {
                 return
             }
-            if (thisVueInstance.text.length == 0) {
+            if (thisVueInstance.sqlText.length == 0) {
                 return
             }
             try {
-               var newNode = esprima.parse("(" + thisVueInstance.text + ")", { tolerant: true })
+               var newNode = esprima.parse("(" + thisVueInstance.sqlText + ")", { tolerant: true })
                //alert(JSON.stringify(newNode.errors, null, 2))
                thisVueInstance.errors = newNode.errors
                if (thisVueInstance.errors) {
@@ -118,8 +119,15 @@ load_once_from_file(true)
         }
         ,
         getText: async function() {
+            this.text = saveHelper.deleteCodeString(this.text, "sqlite", ")//sqlite")
+            this.text = saveHelper.insertCodeString(this.text, "sqlite", JSON.parse(this.sqlText) ,")//sqlite")
+
             return this.text
-        },
+        }
+        ,
+
+
+
         setText: function(textValue) {
             var thisVueInstance = this
             this.text =  textValue
@@ -127,7 +135,9 @@ load_once_from_file(true)
             if (this.read_only) {
                editor.setReadOnly(true)
             }
-            editor.getSession().setValue(textValue);
+
+            var sqlText = saveHelper.getValueOfCodeString(textValue, "sqlite", ")//sqlite")
+            editor.getSession().setValue(JSON.stringify(sqlText,null,2));
         }
 
      }
