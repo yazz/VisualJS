@@ -1,4 +1,4 @@
-![Test Image 7](https://github.com/tograh/testrepository/master/3DTest.png)
+![Yazz video](https://yazz.com/yazz.gif)
 
 # Yazz
 ### Build Internal apps Visually
