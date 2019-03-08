@@ -1,7 +1,7 @@
-![Yazz Video](/public/yazz.gif)
-
 # Yazz
 ### Build Internal apps Visually
+
+![Yazz Video](/public/yazz.gif)
 
 
 - An interactive editor to create GUI apps in the style of Visual Basic 6
