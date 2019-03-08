@@ -72,8 +72,8 @@ load_once_from_file(true)
          document.getElementById(editorDomId).style["border"] = "0px"
 
          document.getElementById(editorDomId).style.height="65vh"
-         if (thisVueInstance.text) {
-             editor.getSession().setValue(thisVueInstance.text);
+         if (thisVueInstance.sqlText) {
+             editor.getSession().setValue(thisVueInstance.sqlText);
              this.read_only = saveHelper.getValueOfCodeString(thisVueInstance.text, "read_only")
          }
 
