@@ -162,7 +162,8 @@ load_once_from_file(true)
                     </a>
 
                     <button   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                              v-on:click='setTimeout(function(){editSqliteSchema(  base_component_id, editor_component)},100)'
+                              v-on:click='setTimeout(function(){editSqliteSchema()},100)'
+                              v-if="!previous_editor_component"
                               v-on:mouseenter='setInfo("Edit the SQlite schema for this app")'
                               v-on:mouseleave='setInfo(null)'
                               type="button" class="btn btn-light ">
@@ -175,6 +176,23 @@ load_once_from_file(true)
                                 <g>
                                     <path d="M22 18.055v2.458c0 1.925-4.655 3.487-10 3.487-5.344 0-10-1.562-10-3.487v-2.458c2.418 1.738 7.005 2.256 10 2.256 3.006 0 7.588-.523 10-2.256zm-10-3.409c-3.006 0-7.588-.523-10-2.256v2.434c0 1.926 4.656 3.487 10 3.487 5.345 0 10-1.562 10-3.487v-2.434c-2.418 1.738-7.005 2.256-10 2.256zm0-14.646c-5.344 0-10 1.562-10 3.488s4.656 3.487 10 3.487c5.345 0 10-1.562 10-3.487 0-1.926-4.655-3.488-10-3.488zm0 8.975c-3.006 0-7.588-.523-10-2.256v2.44c0 1.926 4.656 3.487 10 3.487 5.345 0 10-1.562 10-3.487v-2.44c-2.418 1.738-7.005 2.256-10 2.256z"/>
                               </svg>SQLite Schema
+
+                    </button>
+                    <button   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                              v-on:click='setTimeout(function(){closeSqliteSchema()},100)'
+                              v-if="previous_editor_component"
+                              v-on:mouseenter='setInfo("Edit the SQlite schema for this app")'
+                              v-on:mouseleave='setInfo(null)'
+                              type="button" class="btn btn-light ">
+
+                             <svg   xmlns="http://www.w3.org/2000/svg"
+                                    style="enable-background:new 0 0 210.107 210.107;margin-right:10px;"
+                                    width="35px"
+                                    height="35px"
+                                    viewBox="0 0 24 24">
+                                <g>
+                                    <path d="M22 18.055v2.458c0 1.925-4.655 3.487-10 3.487-5.344 0-10-1.562-10-3.487v-2.458c2.418 1.738 7.005 2.256 10 2.256 3.006 0 7.588-.523 10-2.256zm-10-3.409c-3.006 0-7.588-.523-10-2.256v2.434c0 1.926 4.656 3.487 10 3.487 5.345 0 10-1.562 10-3.487v-2.434c-2.418 1.738-7.005 2.256-10 2.256zm0-14.646c-5.344 0-10 1.562-10 3.488s4.656 3.487 10 3.487c5.345 0 10-1.562 10-3.487 0-1.926-4.655-3.488-10-3.488zm0 8.975c-3.006 0-7.588-.523-10-2.256v2.44c0 1.926 4.656 3.487 10 3.487 5.345 0 10-1.562 10-3.487v-2.44c-2.418 1.738-7.005 2.256-10 2.256z"/>
+                              </svg>Close SQLite Schema
 
                     </button>
 
@@ -536,6 +554,7 @@ load_once_from_file(true)
                console_output:      "",
                selected_app:        '',
                is_ui_app:           true,
+               previous_editor_component:    null,
                editor_component:    null,
                right_mode:          "scope",
                selected_pane:       "scope",
@@ -579,9 +598,32 @@ load_once_from_file(true)
        ,
 
        methods: {
-           editSqliteSchema: async function(componentId, edComp) {
+           closeSqliteSchema: async function() {
                var mm = this
-               debugger
+
+               this.editor_text = await this.$refs.editor_component_ref.getText()
+
+               var eds = saveHelper.getValueOfCodeString(this.editor_text, "editors")
+               if (isValidObject(eds)) {
+                   this.editor_text = saveHelper.deleteCodeString(this.editor_text, "editors")
+                   this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors_old",eds)
+               }
+               this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors",[this.previous_editor_component])
+               this.previous_editor_component = null
+
+               await mm.save(   this.base_component_id,   this.code_id,   this.editor_text   )
+
+               await mm.load_new_app( this.base_component_id )
+           }
+           ,
+
+
+
+
+           editSqliteSchema: async function() {
+               var mm = this
+
+               this.previous_editor_component = this.editor_component
 
                this.editor_text = await this.$refs.editor_component_ref.getText()
 
