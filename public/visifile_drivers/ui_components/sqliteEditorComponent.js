@@ -137,7 +137,9 @@ load_once_from_file(true)
             }
 
             var llsqlText = saveHelper.getValueOfCodeString(textValue, "sqlite", ")//sqlite")
-            editor.getSession().setValue(JSON.stringify(llsqlText,null,2));
+            if (llsqlText) {
+                editor.getSession().setValue(JSON.stringify(llsqlText,null,2));
+            }
         }
 
      }
