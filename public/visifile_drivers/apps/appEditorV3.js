@@ -588,13 +588,13 @@ load_once_from_file(true)
                if (eds) {
                    this.editor_text = saveHelper.deleteCodeString(this.editor_text, "editors")
                    this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors_old",eds)
-                   this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors",["sqlite_editor"])
+                   this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors",["sqlite_editor_component"])
                }
 
                await mm.save(   this.base_component_id,   this.code_id,   this.editor_text   )
 
                await mm.load_new_app( this.base_component_id )
-           }       
+           }
            ,
 
            setInfo: function(text) {
