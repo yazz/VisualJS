@@ -1,6 +1,8 @@
 # Yazz
 ### Build Internal apps Visually
 
+[![VIDEO OF YAZZ](https://yazz.com/yazz.gif)](https://yazz.com/yazz.gif)
+
 - An interactive editor to create GUI apps in the style of Visual Basic 6
 - Build business logic in Javascript
 - Each app has a built in full SQL database
