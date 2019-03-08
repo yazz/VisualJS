@@ -1,7 +1,7 @@
 # Yazz
 ### Build Internal apps Visually
 
-[VIDEO OF YAZZ](https://www.dreamstime.com/sunset-deer-thung-kraang-chaiyaphum-province-thailand-family-image141006809)
+![VIDEO OF YAZZ](https://www.dreamstime.com/sunset-deer-thung-kraang-chaiyaphum-province-thailand-family-image141006809)
 
 - An interactive editor to create GUI apps in the style of Visual Basic 6
 - Build business logic in Javascript
