@@ -1271,15 +1271,16 @@ load_once_from_file(true)
                                 mm.editor_loaded    = true
                                 mm.editor_component = editorName
 
-                                debugger
                                 if (mm.editor_component == "sqlite_editor_component") {
-                                    var er = saveHelper.getValueOfCodeString(code, "editors_old")
-                                    if (mm.previous_editor_component == null) {
-                                        if (isValidObject(er) )  {
-                                            mm.previous_editor_component = er[0]
-                                        }
-                                        else {
-                                            mm.previous_editor_component = "editor_component"
+                                    if (isValidObject(code)) {
+                                        var er = saveHelper.getValueOfCodeString(code, "editors_old")
+                                        if (mm.previous_editor_component == null) {
+                                            if (isValidObject(er) )  {
+                                                mm.previous_editor_component = er[0]
+                                            }
+                                            else {
+                                                mm.previous_editor_component = "editor_component"
+                                            }
                                         }
                                     }
                                 }
