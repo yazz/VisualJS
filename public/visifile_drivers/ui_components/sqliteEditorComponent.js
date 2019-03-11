@@ -45,7 +45,8 @@ load_once_from_file(true)
 
      mounted: function() {
          var thisVueInstance = this
-         args.text = null
+         args.text           = null
+
          ace.config.set('basePath', '/');
          editor = ace.edit(           editorDomId, {
                                                  selectionStyle: "text",
@@ -139,6 +140,8 @@ load_once_from_file(true)
             var llsqlText = saveHelper.getValueOfCodeString(textValue, "sqlite", ")//sqlite")
             if (llsqlText) {
                 editor.getSession().setValue(JSON.stringify(llsqlText,null,2));
+            } else {
+                editor.getSession().setValue(JSON.stringify([],null,2));
             }
         }
 
