@@ -603,12 +603,12 @@ load_once_from_file(true)
 
                this.editor_text = await this.$refs.editor_component_ref.getText()
 
-               var eds = saveHelper.getValueOfCodeString(this.editor_text, "editors")
+               var eds = saveHelper.getValueOfCodeString(this.editor_text, "editors_old")
                if (isValidObject(eds)) {
                    this.editor_text = saveHelper.deleteCodeString(this.editor_text, "editors")
-                   this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors_old",eds)
+                   this.editor_text = saveHelper.deleteCodeString(this.editor_text, "editors_old")
                }
-               this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors",[this.previous_editor_component])
+               this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors",eds)
                this.previous_editor_component = null
 
                await mm.save(   this.base_component_id,   this.code_id,   this.editor_text   )
