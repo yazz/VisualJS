@@ -163,7 +163,7 @@ load_once_from_file(true)
 
                     <button   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                               v-on:click='setTimeout(function(){editSqliteSchema()},100)'
-                              v-if="!previous_editor_component"
+                              v-if="!isValidObject(previous_editor_component)"
                               v-on:mouseenter='setInfo("Edit the SQlite schema for this app")'
                               v-on:mouseleave='setInfo(null)'
                               type="button" class="btn btn-light ">
@@ -180,7 +180,7 @@ load_once_from_file(true)
                     </button>
                     <button   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                               v-on:click='setTimeout(function(){closeSqliteSchema()},100)'
-                              v-if="previous_editor_component"
+                              v-if="isValidObject(previous_editor_component)"
                               v-on:mouseenter='setInfo("Edit the SQlite schema for this app")'
                               v-on:mouseleave='setInfo(null)'
                               type="button" class="btn btn-light ">
@@ -630,8 +630,14 @@ load_once_from_file(true)
                var eds = saveHelper.getValueOfCodeString(this.editor_text, "editors")
                if (isValidObject(eds)) {
                    this.editor_text = saveHelper.deleteCodeString(this.editor_text, "editors")
+                   this.editor_text = saveHelper.deleteCodeString(this.editor_text, "editors_old")
                    this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors_old",eds)
+               } else {
+                   this.editor_text = saveHelper.deleteCodeString(this.editor_text, "editors")
+                   this.editor_text = saveHelper.deleteCodeString(this.editor_text, "editors_old")
+                   this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors_old",["editor_component"])
                }
+
                this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors",["sqlite_editor_component"])
 
                await mm.save(   this.base_component_id,   this.code_id,   this.editor_text   )
@@ -1265,11 +1271,24 @@ load_once_from_file(true)
                                 mm.editor_component = editorName
                            }
 
+
                            //
                            // set readonly
                            //
                            this.read_only = saveHelper.getValueOfCodeString(code, "read_only")
                            this.visibility = saveHelper.getValueOfCodeString(code, "visibility")
+
+                           debugger
+                           if (mm.editor_component == "sqlite_editor_component") {
+                               var er = saveHelper.getValueOfCodeString(code, "editors_old")
+                               if (isValidObject(er))  {
+                                   mm.previous_editor_component = er[0]
+                               }
+                               else {
+                                   mm.previous_editor_component = "editor_component"
+                               }
+                           }
+
                        }
 
                        if ((isValidObject(runThisApp))   && (!runThisApp)) {
