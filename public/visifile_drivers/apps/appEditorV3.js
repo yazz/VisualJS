@@ -606,6 +606,7 @@ load_once_from_file(true)
                var eds = saveHelper.getValueOfCodeString(this.editor_text, "editors")
                if (isValidObject(eds)) {
                    this.editor_text = saveHelper.deleteCodeString(this.editor_text, "editors")
+                   this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors_old",eds)
                }
                this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors",[this.previous_editor_component])
                this.previous_editor_component = null
@@ -629,6 +630,7 @@ load_once_from_file(true)
                var eds = saveHelper.getValueOfCodeString(this.editor_text, "editors")
                if (isValidObject(eds)) {
                    this.editor_text = saveHelper.deleteCodeString(this.editor_text, "editors")
+                   this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors_old",eds)
                }
                this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors",["sqlite_editor_component"])
 
