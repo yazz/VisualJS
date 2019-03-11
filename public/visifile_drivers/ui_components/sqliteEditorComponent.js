@@ -119,6 +119,17 @@ load_once_from_file(true)
             editor.gotoLine(line , 10, true);
         }
         ,
+
+
+
+        // -----------------------------------------------------
+        //                      getText
+        //
+        // This is called to get the SQL definitions
+        //
+        //
+        //
+        // -----------------------------------------------------
         getText: async function() {
             this.text = saveHelper.deleteCodeString(this.text, "sqlite", ")//sqlite")
             this.text = saveHelper.insertCodeString(this.text, "sqlite", JSON.parse(this.sqlText) ,")//sqlite")
@@ -129,19 +140,40 @@ load_once_from_file(true)
 
 
 
+        // -----------------------------------------------------
+        //                      setText
+        //
+        // This is called to set the SQL
+        //
+        //
+        //
+        // -----------------------------------------------------
         setText: function(textValue) {
             var thisVueInstance = this
-            this.text =  textValue
+            this.text           =  textValue
+
+            //
+            // set the editor to read only if in read only mode
+            //
+
             this.read_only = saveHelper.getValueOfCodeString(thisVueInstance.text, "read_only")
             if (this.read_only) {
                editor.setReadOnly(true)
             }
 
+
+
+
+
+            //
+            // If a database definition has been given then read it
+            //
+
             var llsqlText = saveHelper.getValueOfCodeString(textValue, "sqlite", ")//sqlite")
-            if (llsqlText) {
-                editor.getSession().setValue(JSON.stringify(llsqlText,null,2));
+            if (isValidObject(llsqlText)) {
+                editor.getSession().setValue(  JSON.stringify(  llsqlText , null , 2  ));
             } else {
-                editor.getSession().setValue(JSON.stringify([],null,2));
+                editor.getSession().setValue(  JSON.stringify(  [] , null , 2  ));
             }
         }
 
