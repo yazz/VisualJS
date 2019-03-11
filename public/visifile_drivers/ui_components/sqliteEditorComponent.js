@@ -131,6 +131,10 @@ load_once_from_file(true)
         //
         // -----------------------------------------------------
         getText: async function() {
+            if (!isValidObject(this.text)) {
+                return null
+            }
+
             this.text = saveHelper.deleteCodeString(this.text, "sqlite", ")//sqlite")
             this.text = saveHelper.insertCodeString(this.text, "sqlite", JSON.parse(this.sqlText) ,")//sqlite")
 
@@ -152,9 +156,14 @@ load_once_from_file(true)
             var thisVueInstance = this
             this.text           =  textValue
 
+            if (!isValidObject(this.text)) {
+                return
+            }
+
             //
             // set the editor to read only if in read only mode
             //
+
 
             this.read_only = saveHelper.getValueOfCodeString(thisVueInstance.text, "read_only")
             if (this.read_only) {
