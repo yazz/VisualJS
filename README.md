@@ -3,6 +3,9 @@
 
 ![Yazz Video](/public/yazz.gif)
 
+Yazz is for those times that you don't want to spend days messing around with Java, Javascript, C#, Ruby on Rails, or other development tools just to show someone your basic idea. Make something in Yazz, save it as HTML and then just email it to whoever you want to show. Once, you know that you are building the right thing then go ahead and build it in your favorite language!
+
+Yazz includes:
 
 - An interactive editor to create GUI apps in the style of Visual Basic 6
 - Build business logic in Javascript
