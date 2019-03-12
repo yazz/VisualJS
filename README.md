@@ -1,5 +1,5 @@
 # Yazz
-### Build Internal apps Visually
+### Build Interactive Prototypes in Minutes
 
 ![Yazz Video](/public/yazz.gif)
 
