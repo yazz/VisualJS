@@ -2,5 +2,6 @@ FROM node:7
 WORKDIR /
 COPY package.json /
 RUN npm install
-CMD  electron . --runapp homepage --nogui true --deleteonexit true
+COPY . /
 EXPOSE 80
+CMD ["node",  "src/electron.js",   "--runapp",   "homepage",   "--nogui",   "true",   "--deleteonexit",   "true"]

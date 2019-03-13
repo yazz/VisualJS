@@ -1331,7 +1331,7 @@ function canAccess(req,res) {
         return true;
     };
     res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.end("Sorry but access to " + username + "'s data is not allowed. Please ask " + username + " to unlocked their VisiFile account");
+    res.end("Sorry but access to " + username + "'s data is not allowed. Please ask " + username + " to unlocked their Yazz account");
     return false;
 };
 
