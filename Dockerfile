@@ -1,7 +1,6 @@
 FROM node:7
-WORKDIR /app
-COPY package.json /app
+WORKDIR /
+COPY package.json /
 RUN npm install
-COPY . /app
-CMD node src/index.js
-EXPOSE 8081
+CMD  electron . --runapp homepage --nogui true --deleteonexit true
+EXPOSE 80
