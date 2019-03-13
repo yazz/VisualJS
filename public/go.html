@@ -8629,7 +8629,7 @@ function setupWebSocket(host, port)
 {
 
     //console.log('opening web socketio');
-    socket = io(useProtocol + '//' + host + ":" + port);
+    socket = io();
     //console.log('opening web socketio');
     socket.on('socket_connected',function(data){
         online = true
