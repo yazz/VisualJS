@@ -32,6 +32,20 @@ properties(
         }
         ,
         {
+            id:         "port",
+            name:       "Port",
+            default:    1234,
+            type:       "Number"
+        }
+        ,
+        {
+            id:      "host",
+            name:    "Host",
+            default: "host.docker.internal",
+            type:    "String"
+        }
+        ,
+        {
             id:     "background_color",
             name:   "Background color",
             type:   "String"
@@ -99,9 +113,12 @@ logo_url("/driver_icons/ducker.png")
                                 {
                                     driver_name: "serverDockerStuff",
                                     method_name: "serverDockerStuff"  }
-                                    ,{ })
+                                    ,{
+                                        host: this.args.host ,
+                                        port: this.args.port
+                                     })
 
-           alert(JSON.stringify(result.value,null,2))
+           //alert(JSON.stringify(result.value,null,2))
            if (result.value) {
                 this.args.container_list = result.value
 

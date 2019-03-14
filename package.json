@@ -25,7 +25,6 @@
     "deep-diff": "^0.3.8",
     "detect-rpi": "^1.2.0",
     "diskspace": "^2.0.0",
-    "docker-cli-js": "^2.5.1",
     "dockerode": "^2.5.8",
     "electron": "1.8.4",
     "electron-compile": "^6.4.2",
