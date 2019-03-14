@@ -9,6 +9,7 @@
 !/LICENSE
 !/README.md
 !/Dockerfile
+!/DockerfileNewApp
 !/.README.md
 
 !/.babelrc
