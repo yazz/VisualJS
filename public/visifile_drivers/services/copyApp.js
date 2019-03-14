@@ -83,8 +83,8 @@ only_run_on_server(true)
 
                                 code = saveHelper.deleteCodeString(code, "display_name")
                                 code = saveHelper.insertCodeString(code, "display_name", newDisplayName)
-                                code = saveHelper.insertCodeString(code, "visibility", "PUBLIC")
                             }
+                            code = saveHelper.insertCodeString(code, "visibility", "PRIVATE")
 
 
                             //hack city - Vue and component strings are separated as otherwise they mark the
