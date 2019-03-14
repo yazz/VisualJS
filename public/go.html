@@ -8870,7 +8870,7 @@ async function checkLibs(data){
                     var oldConsole = console.log
                     console.log = function(){}
                     await scriptTag(
-                        `${useProtocol}//${useHostname}:${usePort}/js_libs/advanced_js_bundle.js`
+                        `/js_libs/advanced_js_bundle.js`
                         ,
                         async function() {
                             console.log = oldConsole
@@ -8999,7 +8999,7 @@ async function checkLibsV2(componentRecord,args){
                     var oldConsole = console.log
                     console.log = function(){}
                     await scriptTag(
-                        `${useProtocol}//${useHostname}:${usePort}/js_libs/advanced_js_bundle.js`
+                        `/js_libs/advanced_js_bundle.js`
                         ,
                         async function() {
                             console.log = oldConsole
