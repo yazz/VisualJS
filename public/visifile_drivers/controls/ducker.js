@@ -101,8 +101,9 @@ logo_url("/driver_icons/ducker.png")
                                     method_name: "serverDockerStuff"  }
                                     ,{ })
 
+           alert(JSON.stringify(result.value,null,2))
            if (result.value) {
-                this.args.container_list = result.value.containerList
+                this.args.container_list = result.value
 
            }
 
