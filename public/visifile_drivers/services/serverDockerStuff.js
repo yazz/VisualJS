@@ -19,7 +19,7 @@ console.log("//var docker = require('dockerode')")
     var promise = new Promise(async function(returnfn) {
 
     var docker5 = new Docker({
-                host: '127.0.0.1',
+                host: 'host.docker.internal',
                 port: process.env.DOCKER_PORT || 1234,
                 version: 'v1.25'
                 });
