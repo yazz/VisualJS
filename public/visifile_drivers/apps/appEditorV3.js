@@ -139,6 +139,7 @@ load_once_from_file(true)
 
                     <button     v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                                 v-on:click='setTimeout(function(){editExportOptions()},100)'
+                                v-if="!isValidObject(previous_editor_component)"
                                 v-bind:style="'float: left;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); '"
                                 v-on:mouseenter='setInfo("Export as a Docker Image or a runnable HTML file")'
                                 v-on:mouseleave='setInfo(null)'
@@ -186,19 +187,35 @@ load_once_from_file(true)
                               v-on:mouseleave='setInfo(null)'
                               type="button" class="btn btn-light ">
 
-                             <svg   xmlns="http://www.w3.org/2000/svg"
-                                    style="enable-background:new 0 0 210.107 210.107;margin-right:10px;"
+
+                              <svg  version="1.1"
+                                    id="Layer_1"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    x="0px"
                                     width="35px"
+                                    viewBox="0 0 210.107 210.107"
                                     height="35px"
-                                    viewBox="0 0 24 24">
-                                <g>
-                                    <path d="M22 18.055v2.458c0 1.925-4.655 3.487-10 3.487-5.344 0-10-1.562-10-3.487v-2.458c2.418 1.738 7.005 2.256 10 2.256 3.006 0 7.588-.523 10-2.256zm-10-3.409c-3.006 0-7.588-.523-10-2.256v2.434c0 1.926 4.656 3.487 10 3.487 5.345 0 10-1.562 10-3.487v-2.434c-2.418 1.738-7.005 2.256-10 2.256zm0-14.646c-5.344 0-10 1.562-10 3.488s4.656 3.487 10 3.487c5.345 0 10-1.562 10-3.487 0-1.926-4.655-3.488-10-3.488zm0 8.975c-3.006 0-7.588-.523-10-2.256v2.44c0 1.926 4.656 3.487 10 3.487 5.345 0 10-1.562 10-3.487v-2.44c-2.418 1.738-7.005 2.256-10 2.256z"/>
-                              </svg>Close SQLite Schema
+                                    y="0px"
+                                  	viewBox="0 0 492 492"
+                                    style="enable-background:new 0 0 492 492;margin-right:10px;"
+                                    xml:space="preserve">
+                              	<g>
+                              		<path d="M464.344,207.418l0.768,0.168H135.888l103.496-103.724c5.068-5.064,7.848-11.924,7.848-19.124
+                              			c0-7.2-2.78-14.012-7.848-19.088L223.28,49.538c-5.064-5.064-11.812-7.864-19.008-7.864c-7.2,0-13.952,2.78-19.016,7.844
+                              			L7.844,226.914C2.76,231.998-0.02,238.77,0,245.974c-0.02,7.244,2.76,14.02,7.844,19.096l177.412,177.412
+                              			c5.064,5.06,11.812,7.844,19.016,7.844c7.196,0,13.944-2.788,19.008-7.844l16.104-16.112c5.068-5.056,7.848-11.808,7.848-19.008
+                              			c0-7.196-2.78-13.592-7.848-18.652L134.72,284.406h329.992c14.828,0,27.288-12.78,27.288-27.6v-22.788
+                              			C492,219.198,479.172,207.418,464.344,207.418z"/>
+                              	</g>
+
+                              </svg>Back to editor
 
                     </button>
 
                     <button   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                               v-on:click='setTimeout(function(){copyAppMethod(base_component_id, null)},100)'
+                              v-if="!isValidObject(previous_editor_component)"
                               v-on:mouseenter='setInfo("Make an editable copy of this app")'
                               v-on:mouseleave='setInfo(null)'
                               type="button" class="btn btn-light">
@@ -226,6 +243,7 @@ load_once_from_file(true)
                     <button   v-bind:disabled='read_only?"":false'
                               v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
                               v-on:mouseenter='setInfo("Save the changes made in the UI and reload the app")'
+                              v-if="!isValidObject(previous_editor_component)"
                               v-on:mouseleave='setInfo(null)'
                               v-on:click='setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null)},100)'
                               type="button" class="btn btn-light">
