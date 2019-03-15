@@ -139,6 +139,7 @@ load_once_from_file(true)
 
                     <a          v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + base_component_id + ".html"'
                                 download
+                                v-on:click='setTimeout(function(){editExportOptions()},100)'
                                 v-bind:style="'float: left;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); '"
                                 v-on:mouseenter='setInfo("Export as a Docker Image or a runnable HTML file")'
                                 v-on:mouseleave='setInfo(null)'
@@ -619,6 +620,32 @@ load_once_from_file(true)
 
 
 
+
+              editExportOptions: async function() {
+                  var mm = this
+
+                  this.previous_editor_component = this.editor_component
+
+                  this.editor_text = await this.$refs.editor_component_ref.getText()
+
+                  var eds = saveHelper.getValueOfCodeString(this.editor_text, "editors")
+                  if (isValidObject(eds)) {
+                      this.editor_text = saveHelper.deleteCodeString(this.editor_text, "editors")
+                      this.editor_text = saveHelper.deleteCodeString(this.editor_text, "editors_old")
+                      this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors_old",eds)
+                  } else {
+                      this.editor_text = saveHelper.deleteCodeString(this.editor_text, "editors")
+                      this.editor_text = saveHelper.deleteCodeString(this.editor_text, "editors_old")
+                      this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors_old",["editor_component"])
+                  }
+
+                  this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors",["export_editor_component"])
+
+                  await mm.save(   this.base_component_id,   this.code_id,   this.editor_text   )
+
+                  await mm.load_new_app( this.base_component_id )
+              }
+              ,
 
            editSqliteSchema: async function() {
                var mm = this
