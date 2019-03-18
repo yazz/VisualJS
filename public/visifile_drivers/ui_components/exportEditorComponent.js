@@ -114,9 +114,6 @@ load_once_from_file(true)
                 return null
             }
 
-            this.text = saveHelper.deleteCodeString(this.text, "sqlite", ")//sqlite")
-            this.text = saveHelper.insertCodeString(this.text, "sqlite", JSON.parse(this.sqlText) ,")//sqlite")
-
             return this.text
         }
         ,
@@ -148,15 +145,6 @@ load_once_from_file(true)
             if (this.read_only) {
             }
 
-
-
-
-
-            //
-            // If a database definition has been given then read it
-            //
-
-            var llsqlText = saveHelper.getValueOfCodeString(textValue, "sqlite", ")//sqlite")
         }
 
      }
