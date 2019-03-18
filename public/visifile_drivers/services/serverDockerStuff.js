@@ -8,7 +8,7 @@ only_run_on_server(true)
 
     var promise = new Promise(async function(returnfn) {
         if (args.create) {
-
+            returnfn([{ok: "doc"}])
         } else {
                 //
                 // On Mac Docker doesn't seem to expose itself via a port by default, so we did

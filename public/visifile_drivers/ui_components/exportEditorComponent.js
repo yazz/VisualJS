@@ -181,7 +181,8 @@ load_once_from_file(true)
                                     driver_name: "serverDockerStuff",
                                     method_name: "serverDockerStuff"  }
                                     ,{
-                                        create: false,
+                                        create: true,
+                                        image_name:   this.dockerImageName,
                                         host:   this.dockerHost,
                                         port:   this.dockerPort
                                      })
