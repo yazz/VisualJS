@@ -26,7 +26,7 @@ load_once_from_file(true)
                                Export Options
                           </div>
 
-                          <div style="padding:10px;">
+                          <div style="padding:10px; overflow:auto;height:65vh;">
                             <div style="height:109px">
                                 <h3>Option A</h3>
                                 <a          v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + base_component_id + ".html"'
@@ -55,6 +55,22 @@ load_once_from_file(true)
 
                             <div>
                                 <h3>Option B</h3>
+                                <form>
+                                    <div class="form-group">
+                                      <label for="docker_image_name">Docker Image Name</label>
+                                      <input type="" class="form-control" id="docker_image_name" aria-describedby="emailHelp" placeholder="your_docker_id/image_name:version_tag">
+                                    </div>
+                                  <div class="form-group">
+                                    <label for="docker_server">Docker Server IP</label>
+                                    <input type="" class="form-control" id="docker_server" aria-describedby="emailHelp" placeholder="host.docker.internal">
+                                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="docker_port">Docker Port</label>
+                                    <input type="password" class="form-control" id="docker_port" placeholder="1234">
+                                  </div>
+                                  <button type="submit" class="btn btn-primary">Create Docker Image</button>
+                                </form>
                             </div>
                         </div>
 
