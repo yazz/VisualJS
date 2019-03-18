@@ -8,10 +8,12 @@ load_once_from_file(true)
     Vue.component("export_editor_component", {
       data: function () {
         return {
-            text:           args.text,
-            read_only:      false,
-            errors:         null,
-            sqlText:        "[]",
+            text:                args.text,
+            read_only:           false,
+            errors:              null,
+            dockerHost:         "",
+            dockerPort:         "",
+            dockerImageName:    ""
         }
       },
       template: `<div style='background-color:white; ' >
@@ -58,17 +60,29 @@ load_once_from_file(true)
                                 <form onsubmit="return false;">
                                     <div class="form-group">
                                       <label for="docker_image_name">Docker Image Name</label>
-                                      <input type="" class="form-control" id="docker_image_name" aria-describedby="emailHelp" placeholder="your_docker_id/image_name:version_tag">
+                                      <input type="" class="form-control"
+                                             v-model="dockerImageName"
+                                             id="docker_image_name"
+                                             placeholder="your_docker_id/image_name:version_tag" />
                                     </div>
-                                  <div class="form-group">
-                                    <label for="docker_server">Docker Server IP</label>
-                                    <input type="" class="form-control" id="docker_server" aria-describedby="emailHelp" placeholder="host.docker.internal">
-                                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                  <div class="form-row">
+                                      <div class="form-group col-md-6">
+                                        <label for="docker_server">Docker Server Host</label>
+                                        <input type=""
+                                               v-model="dockerHost"
+                                               class="form-control" id="docker_server"
+                                               placeholder="host.docker.internal" />
+                                     </div>
+
+
+                                   <div class="form-group col-md-6">
+                                       <label for="docker_port">Docker Port
+                                       </label>
+                                        <input  v-model="dockerPort"
+                                                class="form-control" id="docker_port" placeholder="1234" />
                                   </div>
-                                  <div class="form-group">
-                                    <label for="docker_port">Docker Port</label>
-                                    <input type="password" class="form-control" id="docker_port" placeholder="1234">
-                                  </div>
+                                 </div>
+                                    </div>
                                   <button
                                         v-on:click="createDockerImage()"
                                         class="btn btn-primary">Create Docker Image</button>
@@ -161,7 +175,7 @@ load_once_from_file(true)
         //
         // -----------------------------------------------------
         createDockerImage: async function() {
-            alert("Creating Docker image")
+            alert("Creating Docker image "  + this.dockerImageName + " at "+ this.dockerHost + ":" + this.dockerPort)
         }
 
 
