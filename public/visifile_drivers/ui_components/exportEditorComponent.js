@@ -11,9 +11,9 @@ load_once_from_file(true)
             text:                args.text,
             read_only:           false,
             errors:              null,
-            dockerHost:         "",
-            dockerPort:         "",
-            dockerImageName:    ""
+            dockerHost:         "host.docker.internal",
+            dockerPort:         "1234",
+            dockerImageName:    "name/image"
         }
       },
       template: `<div style='background-color:white; ' >
@@ -176,7 +176,22 @@ load_once_from_file(true)
         // -----------------------------------------------------
         createDockerImage: async function() {
             alert("Creating Docker image "  + this.dockerImageName + " at "+ this.dockerHost + ":" + this.dockerPort)
-        }
+            var result = await callFunction(
+                                {
+                                    driver_name: "serverDockerStuff",
+                                    method_name: "serverDockerStuff"  }
+                                    ,{
+                                        create: false,
+                                        host:   this.dockerHost,
+                                        port:   this.dockerPort
+                                     })
+
+           //alert(JSON.stringify(result.value,null,2))
+           if (result.value) {
+                alert(JSON.stringify(   result.value  ,  null  ,  2   ))
+
+           }
+       }
 
 
      }
