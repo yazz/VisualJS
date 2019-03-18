@@ -55,7 +55,7 @@ load_once_from_file(true)
 
                             <div>
                                 <h3>Option B</h3>
-                                <form>
+                                <form onsubmit="return false;">
                                     <div class="form-group">
                                       <label for="docker_image_name">Docker Image Name</label>
                                       <input type="" class="form-control" id="docker_image_name" aria-describedby="emailHelp" placeholder="your_docker_id/image_name:version_tag">
@@ -69,7 +69,9 @@ load_once_from_file(true)
                                     <label for="docker_port">Docker Port</label>
                                     <input type="password" class="form-control" id="docker_port" placeholder="1234">
                                   </div>
-                                  <button type="submit" class="btn btn-primary">Create Docker Image</button>
+                                  <button
+                                        v-on:click="createDockerImage()"
+                                        class="btn btn-primary">Create Docker Image</button>
                                 </form>
                             </div>
                         </div>
@@ -146,6 +148,22 @@ load_once_from_file(true)
             }
 
         }
+        ,
+
+
+
+        // -----------------------------------------------------
+        //                      createDockerImage
+        //
+        // This is called to create the app as a Docker image
+        //
+        //
+        //
+        // -----------------------------------------------------
+        createDockerImage: async function() {
+            alert("Creating Docker image")
+        }
+
 
      }
 
