@@ -39,13 +39,17 @@ only_run_on_server(true)
         //return [{ok: "created"}]
         var containers = await docker5.listContainers()
         var mmf=null
+        var olds=null
         for (var ewr=0;ewr < containers.length;ewr ++) {
             if (containers[ewr].Image == "zubairq/yazz") {
                 mmf = containers[ewr]
             }
             if (containers[ewr].Image == args.image_name) {
-                await containers[ewr].stop()
+                olds = containers[ewr]
             }
+        }
+        if (olds) {
+            await docker5.getContainer(olds.Id).stop()
         }
 
         var imageId = mmf.Id
@@ -60,7 +64,24 @@ only_run_on_server(true)
             repo: args.image_name
         })
 
-        await docker5.run(    args.image_name     ) 
+        try {
+            await docker5.run(     args.image_name,
+                                   [],
+                                   undefined,
+                                   {
+                                        "HostConfig": {
+                                            "PortBindings": {
+                                                "80/tcp": [
+                                                    {
+                                                        "HostPort": "81"   //Map container to a random unused port.
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    })
+        } catch ( err ) {
+            console.log(  err  )
+        }
 
         return details
 
