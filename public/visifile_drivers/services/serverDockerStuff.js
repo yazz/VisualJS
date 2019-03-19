@@ -33,7 +33,21 @@ only_run_on_server(true)
                 });
 
     if (args.create) {
-        return [{ok: "doc"}]
+        //await docker5.commit({
+                          //      change: 'CMD ["node",  "src/electron.js",   "--runapp",   "demo_timer",   "--nogui",   "true",   "--deleteonexit",   "true",   "--locked",    "false"]'
+                          //   }) --= e3b1bd7239df zubairq/yazz2
+        //return [{ok: "created"}]
+        var containers = await docker5.listContainers()
+        var mmf=null
+        for (var ewr=0;ewr < containers.length;ewr ++) {
+            if (containers[ewr].Image == "zubairq/yazz") {
+                mmf = containers[ewr]
+            }
+        }
+
+        var imageId = mmf.Id
+        return imageId
+
     } else {
 
         var containers = await docker5.listContainers()
