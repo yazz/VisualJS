@@ -20,14 +20,14 @@ properties(
         {
             id:         "width",
             name:       "Width",
-            default:    200,
+            default:    300,
             type:       "Number"
         }
         ,
         {
             id:         "height",
             name:       "Height",
-            default:    200,
+            default:    300,
             type:       "Number"
         }
         ,
@@ -71,6 +71,8 @@ children([
         base_component_id: "table_control"
         ,
         properties: {
+                        width: 300,
+                        height: 300,
                         load:
 `me.setData(
     parent.container_list
