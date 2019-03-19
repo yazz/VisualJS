@@ -32,25 +32,12 @@ only_run_on_server(true)
                 version: 'v1.25'
                 });
 
-    var promise = new Promise(async function(returnfn) {
-        if (args.create) {
-            returnfn([{ok: "doc"}])
-        } else {
+    if (args.create) {
+        return [{ok: "doc"}]
+    } else {
 
-            var containers = await docker5.listContainers()
-            returnfn(containers)
+        var containers = await docker5.listContainers()
+        return containers
     }
 
-
-
-
-
-
-
-
-    })
-    var ret = await promise
-
-
-    return ret
 }
