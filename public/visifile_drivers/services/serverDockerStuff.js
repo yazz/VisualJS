@@ -46,7 +46,20 @@ only_run_on_server(true)
         }
 
         var imageId = mmf.Id
-        return imageId
+
+        var container = docker5.getContainer(imageId);
+        var details = await container.inspect()
+
+
+        await container.commit({
+            changes: 'CMD ["node",  "src/electron.js",   "--runapp",   "demo_timer",   "--nogui",   "true",   "--deleteonexit",   "true",   "--locked",    "false"]'
+            ,
+            Image: imageId
+            ,
+            repo: "zubairq/yazz123"
+        })
+
+        return details
 
     } else {
 
