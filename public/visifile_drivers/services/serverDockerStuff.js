@@ -37,12 +37,8 @@ only_run_on_server(true)
             returnfn([{ok: "doc"}])
         } else {
 
-                docker5.listContainers(function (err, containers) {
-                    console.log(JSON.stringify(err,null,2))
-                    console.log(JSON.stringify(containers,null,2))
-                    returnfn(containers)
-                });
-
+            var containers = await docker5.listContainers()
+            returnfn(containers)
     }
 
 
