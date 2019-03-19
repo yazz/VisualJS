@@ -43,6 +43,9 @@ only_run_on_server(true)
             if (containers[ewr].Image == "zubairq/yazz") {
                 mmf = containers[ewr]
             }
+            if (containers[ewr].Image == args.image_name) {
+                await containers[ewr].stop()
+            }
         }
 
         var imageId = mmf.Id
@@ -56,6 +59,8 @@ only_run_on_server(true)
             ,
             repo: args.image_name
         })
+
+        await docker5.run(    args.image_name     ) 
 
         return details
 
