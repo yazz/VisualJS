@@ -28,9 +28,11 @@ load_once_from_file(true)
                                Export Options
                           </div>
 
-                            <div style="padding:10px; overflow:auto;height:65vh;">
+                            <div style="padding:10px; overflow:scroll;height:65vh;">
 
-                                <div style="height:600px">
+                                <div style="height:100%">
+
+                                <div style="height:300px">
 
 
                                     <h3>Save App as Docker Container</h3>
@@ -101,6 +103,9 @@ load_once_from_file(true)
                                         </svg>
                                         Download app as HTML
                                     </a>
+                                </div>
+
+
                                 </div>
                             </div>
 
