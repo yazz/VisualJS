@@ -13,6 +13,7 @@ load_once_from_file(true)
             errors:              null,
             dockerHost:         "host.docker.internal",
             dockerPort:         "1234",
+            dockerLocalPort:     "80",
             dockerImageName:    "name/image"
         }
       },
@@ -65,7 +66,18 @@ load_once_from_file(true)
                                                         class="form-control" id="docker_port" placeholder="1234" />
                                             </div>
                                         </div>
+
+                                        <div class="form-group">
+                                            <label for="docker_local_port">Docker Local App Port</label>
+                                            <input  type=""
+                                                    class="form-control"
+                                                    v-model="dockerLocalPort"
+                                                    id="docker_local_port"
+                                                    placeholder="80" />
                                         </div>
+
+                                        </div>
+
 
                                         <button
                                                 v-on:click="createDockerImage()"
@@ -208,10 +220,11 @@ load_once_from_file(true)
                                     driver_name: "serverDockerStuff",
                                     method_name: "serverDockerStuff"  }
                                     ,{
-                                        create: true,
-                                        image_name:   this.dockerImageName,
-                                        host:   this.dockerHost,
-                                        port:   this.dockerPort
+                                        create:             true,
+                                        image_name:         this.dockerImageName,
+                                        host:               this.dockerHost,
+                                        port:               this.dockerPort,
+                                        docker_local_port:  this.dockerLocalPort
                                      })
 
            //alert(JSON.stringify(result.value,null,2))

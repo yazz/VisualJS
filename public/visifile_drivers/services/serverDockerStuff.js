@@ -48,7 +48,8 @@ only_run_on_server(true)
                 olds = containers[ewr]
             }
         }
-        if (olds) {
+        if (olds != null) {
+            console.log("Stopping container: " + olds.Id)
             await docker5.getContainer(olds.Id).stop()
         }
 
@@ -64,6 +65,7 @@ only_run_on_server(true)
             repo: args.image_name
         })
 
+        console.log("args.docker_local_port: " + args.docker_local_port)
         try {
             await docker5.run(     args.image_name,
                                    [],
@@ -73,7 +75,7 @@ only_run_on_server(true)
                                             "PortBindings": {
                                                 "80/tcp": [
                                                     {
-                                                        "HostPort": "81"   //Map container to a random unused port.
+                                                        "HostPort": args.docker_local_port   //Map container to a random unused port.
                                                     }
                                                 ]
                                             }
