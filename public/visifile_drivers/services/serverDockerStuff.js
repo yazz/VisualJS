@@ -54,9 +54,7 @@ only_run_on_server(true)
         await container.commit({
             changes: 'CMD ["node",  "src/electron.js",   "--runapp",   "demo_timer",   "--nogui",   "true",   "--deleteonexit",   "true",   "--locked",    "false"]'
             ,
-            Image: imageId
-            ,
-            repo: "zubairq/yazz123"
+            repo: args.image_name
         })
 
         return details
