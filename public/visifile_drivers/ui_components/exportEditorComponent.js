@@ -249,7 +249,6 @@ load_once_from_file(true)
             this.outputText = ""
             this.outputText += "Creating Docker image "  + this.dockerImageName + " at "+ this.dockerHost + ":" + this.dockerPort + "\n"
             this.outputText += "..." + "\n"
-
             var result = await callFunction(
                                 {
                                     driver_name: "serverDockerStuff",
@@ -259,7 +258,8 @@ load_once_from_file(true)
                                         image_name:         this.dockerImageName,
                                         host:               this.dockerHost,
                                         port:               this.dockerPort,
-                                        docker_local_port:  this.dockerLocalPort
+                                        docker_local_port:  this.dockerLocalPort,
+                                        app_id:             editingAppId
                                      })
 
            //alert(JSON.stringify(result.value,null,2))

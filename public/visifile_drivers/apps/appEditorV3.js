@@ -1402,6 +1402,7 @@ load_once_from_file(true)
                 // make sure we load the component for this app
                 //
                 if (mm.app_id) {
+                    editingAppId = this.app_id
                     component_loaded[this.app_id]           = false
                     dev_app_component_loaded[this.app_id]   = false
                     component_cache[this.app_id]            = null
