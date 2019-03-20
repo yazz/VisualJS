@@ -26,7 +26,7 @@ only_run_on_server(true)
     var Docker = require('dockerode')
     console.log("//var docker = require('dockerode')")
 
-    var docker5 = new Docker({
+    var dockerEngine = new Docker({
                 host: host,
                 port: port,
                 version: 'v1.25'
@@ -34,77 +34,84 @@ only_run_on_server(true)
 
     if (args.create) {
         var message = ""
-        //await docker5.commit({
+        //await dockerEngine.commit({
                           //      change: 'CMD ["node",  "src/electron.js",   "--runapp",   "demo_timer",   "--nogui",   "true",   "--deleteonexit",   "true",   "--locked",    "false"]'
                           //   }) --= e3b1bd7239df zubairq/yazz2
-        //return [{ok: "created"}]
+
         try {
-        var containers = await docker5.listContainers()
-        var mmf=null
-        var olds=null
-        for (var ewr=0;ewr < containers.length;ewr ++) {
-            if (containers[ewr].Image == "zubairq/yazz") {
-                mmf = containers[ewr]
+            var runningContainers               = await dockerEngine.listContainers()
+            var yazzRunningContainerDetails     = null
+            var oldRunningAppContainerDetails   = null
+            var yazzRunningContainerId          = null
+            var yazzRunningContainer               = null
+
+            message += "Checking running containers\n"
+            for (var ewr=0;ewr < runningContainers.length;ewr ++) {
+                if (runningContainers[ewr].Image == "zubairq/yazz") {
+                    yazzRunningContainerDetails = runningContainers[ewr]
+                }
+                if (runningContainers[ewr].Image == args.image_name) {
+                    oldRunningAppContainerDetails = runningContainers[ewr]
+                }
             }
-            if (containers[ewr].Image == args.image_name) {
-                olds = containers[ewr]
+
+            message += "Checking running app container...\n"
+            if (oldRunningAppContainerDetails != null) {
+                message += "    Found and stopping app container: " + oldRunningAppContainerDetails.Id + " for image " + args.image_name + "\n"
+                await dockerEngine.getContainer(oldRunningAppContainerDetails.Id).stop()
             }
-        }
-        if (olds != null) {
-            message += "Found and stopping container: " + olds.Id + " for image " + args.image_name + "\n"
-            await docker5.getContainer(olds.Id).stop()
-        }
-
-        var imageId = null
-
-        if (mmf != null) {
-            imageId = mmf.Id
-            message += "Yazz container found with ID: " + imageId + "\n"
-        } else {
-            message += "Yazz container NOT found.\n"
-            message += "Creating ...\n"
-            var cc = await docker5.run(     "zubairq/yazz")
-            imageId = cc.Id
-            message += "Created with ID " + imageId + " ...\n"
-        }
+            message += "...Checked.\n"
 
 
-        var container = docker5.getContainer(imageId);
-        var details = await container.inspect()
+            message += "Checking running yazz container...\n"
+            if (yazzRunningContainerDetails != null) {
+                yazzRunningContainerId = yazzRunningContainerDetails.Id
+                message += "Yazz container found with ID: " + yazzRunningContainerId + "\n"
+            } else {
+                message += "Yazz container NOT found.\n"
+                message += "Creating ...\n"
+                var cc = await dockerEngine.run(     "zubairq/yazz")
+                yazzRunningContainerId = cc.Id
+                message += "Created with ID " + yazzRunningContainerId + " ...\n"
+            }
+            message += "...Checked.\n"
 
 
-        await container.commit({
-            changes: 'CMD ["node",  "src/electron.js",   "--runapp",   "demo_timer",   "--nogui",   "true",   "--deleteonexit",   "true",   "--locked",    "false"]'
-            ,
-            repo: args.image_name
-        })
+            yazzRunningContainer = dockerEngine.getContainer( yazzRunningContainerId );
 
-        console.log("args.docker_local_port: " + args.docker_local_port)
-        await docker5.run(     args.image_name,
-                               [],
-                               undefined,
-                               {
-                                    "HostConfig": {
-                                        "PortBindings": {
-                                            "80/tcp": [
-                                                {
-                                                    "HostPort": args.docker_local_port   //Map container to a random unused port.
-                                                }
-                                            ]
+
+            await yazzRunningContainer.commit({
+                changes: 'CMD ["node",  "src/electron.js",   "--runapp",   "demo_timer",   "--nogui",   "true",   "--deleteonexit",   "true",   "--locked",    "false"]'
+                ,
+                repo: args.image_name
+            })
+
+            console.log("args.docker_local_port: " + args.docker_local_port)
+            await dockerEngine.run(     args.image_name,
+                                   [],
+                                   undefined,
+                                   {
+                                        "HostConfig": {
+                                            "PortBindings": {
+                                                "80/tcp": [
+                                                    {
+                                                        "HostPort": args.docker_local_port   //Map container to a random unused port.
+                                                    }
+                                                ]
+                                            }
                                         }
-                                    }
-                                })
+                                    })
         } catch ( err ) {
             console.log(  err  )
-            return {err: err}
+            message += err
         }
 
         return {message: message}
 
     } else {
 
-        var containers = await docker5.listContainers()
-        return containers
+        var runningContainers = await dockerEngine.listContainers()
+        return runningContainers
     }
 
 }
