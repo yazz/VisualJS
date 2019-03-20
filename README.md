@@ -1,27 +1,16 @@
 # Yazz
-### Create Docker WebApps fast with an Open Source IDE which works in the cloud and offline on your desktop (Beta)
+### Cloud & Desktop IDE (Beta)
 
 ![Yazz Video](/public/yazz.gif)
 
 - Build apps in minutes with drag and drop interface and code business logic in Javascript
 - One click deploy to Docker
+- Open source MIT license
+- Runs in Docker on the cloud or locally
+- Can be run as a Desktop app in Electron
 
 http://yazz.com
 
-: Key workflow :
-
-1) Download Yazz for Windows or OS X from yazz.com
-2) Create an app with drag and drop editor
-3) Share the URL with a colleage
-
-: Made with :
-
-- Docker
-- Electron
-- VueJS
-- Sqlite
-- Javascript
-- NodeJS
 
 Command line options :
 
