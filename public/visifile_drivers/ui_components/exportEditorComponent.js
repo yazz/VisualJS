@@ -14,7 +14,7 @@ load_once_from_file(true)
             dockerHost:         "host.docker.internal",
             dockerPort:         "1234",
             dockerLocalPort:     "80",
-            dockerLocalHost:    "127.0.0.1",
+            dockerLocalHost:     location.hostname,
             dockerImageName:    "name/image"
         }
       },
@@ -112,6 +112,12 @@ load_once_from_file(true)
                                         v-model="dockerLocalPort"
                                         id="docker_local_port"
                                         placeholder="80" />
+                            </div>
+                            <div    v-on:click='var win = window.open(location.protocol + "//" + location.hostname + ":" + dockerLocalPort, "_blank"); win.focus();'
+                                    v-bind:style="'display:flex;text-decoration: underline;color:blue;padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;'">
+                                Shareable link:<input   readonly
+                                                        style='flex:1;font-family:verdana;font-size: 13px;margin-left:10px;'
+                                                        v-bind:value='location.protocol + "//" + location.hostname + ":" + dockerLocalPort '>
                             </div>
                         </div>
                     </div>
