@@ -6,6 +6,12 @@ load_once_from_file(true)
 only_run_on_server(true)
 */
 
+
+    var message = ""
+    var msg = function(m) {
+        console.log(m)
+        message += (m + "\n")
+    }
     //
     // On Mac Docker doesn't seem to expose itself via a port by default, so we did
     // this:
@@ -33,7 +39,6 @@ only_run_on_server(true)
                 });
 
     if (args.create) {
-        var message = ""
         //await dockerEngine.commit({
                           //      change: 'CMD ["node",  "src/electron.js",   "--runapp",   "demo_timer",   "--nogui",   "true",   "--deleteonexit",   "true",   "--locked",    "false"]'
                           //   }) --= e3b1bd7239df zubairq/yazz2
@@ -45,7 +50,7 @@ only_run_on_server(true)
             var yazzRunningContainerId          = null
             var yazzRunningContainer               = null
 
-            message += "Checking running containers\n"
+            msg("Checking running containers")
             for (var ewr=0;ewr < runningContainers.length;ewr ++) {
                 if (runningContainers[ewr].Image == "zubairq/yazz") {
                     yazzRunningContainerDetails = runningContainers[ewr]
@@ -55,26 +60,26 @@ only_run_on_server(true)
                 }
             }
 
-            message += "Checking running app container...\n"
+            msg("Checking running app container...")
             if (oldRunningAppContainerDetails != null) {
-                message += "    Found and stopping app container: " + oldRunningAppContainerDetails.Id + " for image " + args.image_name + "\n"
+                msg("    Found and stopping app container: " + oldRunningAppContainerDetails.Id + " for image " + args.image_name)
                 await dockerEngine.getContainer(oldRunningAppContainerDetails.Id).stop()
             }
-            message += "...Checked.\n"
+            msg("...Checked.")
 
 
-            message += "Checking running yazz container...\n"
+            msg("Checking running yazz container...")
             if (yazzRunningContainerDetails != null) {
                 yazzRunningContainerId = yazzRunningContainerDetails.Id
-                message += "Yazz container found with ID: " + yazzRunningContainerId + "\n"
+                msg("Yazz container found with ID: " + yazzRunningContainerId)
             } else {
-                message += "Yazz container NOT found.\n"
-                message += "Creating ...\n"
+                msg("Yazz container NOT found.")
+                msg("Creating ...")
                 var cc = await dockerEngine.run(     "zubairq/yazz")
                 yazzRunningContainerId = cc.Id
-                message += "Created with ID " + yazzRunningContainerId + " ...\n"
+                msg("Created with ID " + yazzRunningContainerId + " ...")
             }
-            message += "...Checked.\n"
+            msg("...Checked.")
 
 
             yazzRunningContainer = dockerEngine.getContainer( yazzRunningContainerId );
@@ -102,10 +107,11 @@ only_run_on_server(true)
                                         }
                                     })
         } catch ( err ) {
-            console.log(  err  )
-            message += err
+
+            msg(err)
         }
 
+        console.log(  message  )
         return {message: message}
 
     } else {
