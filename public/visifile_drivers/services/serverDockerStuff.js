@@ -33,6 +33,7 @@ only_run_on_server(true)
                 });
 
     if (args.create) {
+        var message = ""
         //await docker5.commit({
                           //      change: 'CMD ["node",  "src/electron.js",   "--runapp",   "demo_timer",   "--nogui",   "true",   "--deleteonexit",   "true",   "--locked",    "false"]'
                           //   }) --= e3b1bd7239df zubairq/yazz2
@@ -50,7 +51,7 @@ only_run_on_server(true)
             }
         }
         if (olds != null) {
-            console.log("Stopping container: " + olds.Id)
+            message += "Found and stopping container: " + olds.Id + " for image " + args.image_name + "\n"
             await docker5.getContainer(olds.Id).stop()
         }
 
@@ -58,9 +59,13 @@ only_run_on_server(true)
 
         if (mmf != null) {
             imageId = mmf.Id
+            message += "Yazz container found with ID: " + imageId + "\n"
         } else {
+            message += "Yazz container NOT found.\n"
+            message += "Creating ...\n"
             var cc = await docker5.run(     "zubairq/yazz")
             imageId = cc.Id
+            message += "Created with ID " + imageId + " ...\n"
         }
 
 
@@ -94,7 +99,7 @@ only_run_on_server(true)
             return {err: err}
         }
 
-        return details
+        return {message: message}
 
     } else {
 
