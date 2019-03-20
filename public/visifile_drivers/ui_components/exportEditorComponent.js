@@ -14,6 +14,7 @@ load_once_from_file(true)
             dockerHost:         "host.docker.internal",
             dockerPort:         "1234",
             dockerLocalPort:     "80",
+            dockerLocalHost:    "127.0.0.1",
             dockerImageName:    "name/image"
         }
       },
@@ -67,13 +68,23 @@ load_once_from_file(true)
                                             </div>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label for="docker_local_port">Docker Local App Port</label>
-                                            <input  type=""
-                                                    class="form-control"
-                                                    v-model="dockerLocalPort"
-                                                    id="docker_local_port"
-                                                    placeholder="80" />
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="docker_local_host">App Local Host</label>
+                                                <input  type=""
+                                                        class="form-control"
+                                                        v-model="dockerLocalHost"
+                                                        id="docker_local_host"
+                                                        placeholder="80" />
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="docker_local_port">Docker Local App Port</label>
+                                                <input  type=""
+                                                        class="form-control"
+                                                        v-model="dockerLocalPort"
+                                                        id="docker_local_port"
+                                                        placeholder="80" />
+                                            </div>
                                         </div>
 
                                         </div>
