@@ -1,5 +1,5 @@
 # Yazz
-### Build Interactive Prototypes in Minutes
+### Next-generation Visual Javascript IDE. Open source desktop, cloud, and Self Hosted IDE
 
 ![Yazz Video](/public/yazz.gif)
 
