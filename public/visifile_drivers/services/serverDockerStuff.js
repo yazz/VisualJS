@@ -91,8 +91,9 @@ only_run_on_server(true)
                 repo: args.image_name
             })
 
-            console.log("args.docker_local_port: " + args.docker_local_port)
-            await dockerEngine.run(     args.image_name,
+            msg("args.docker_local_port: " + args.docker_local_port)
+            msg("Running app: " + args.image_name)
+             dockerEngine.run(     args.image_name,
                                    [],
                                    undefined,
                                    {
@@ -106,12 +107,12 @@ only_run_on_server(true)
                                             }
                                         }
                                     })
+            msg("Done app: " + args.image_name)
         } catch ( err ) {
 
             msg(err)
         }
 
-        console.log(  message  )
         return {message: message}
 
     } else {
