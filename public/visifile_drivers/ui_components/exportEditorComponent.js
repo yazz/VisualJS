@@ -37,10 +37,10 @@ load_once_from_file(true)
 
         <div style="height:100%">
 
-            <div style="height:500px">
+            <div style="height:700px">
 
 
-                <h3>Save App as Docker Container</h3>
+                <h4 style="font-weight:bold;">A) Export App as Docker Container</h4>
 
                 <div class="card">
                     <div class="card-body">
@@ -132,9 +132,9 @@ load_once_from_file(true)
 
             <div style="height:109px">
 
-                <h3>
-                    Download App as HTML file
-                </h3>
+                <h4 style="font-weight:bold;">
+                    b) Download app as HTML file
+                </h4>
 
                     <a          v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + base_component_id + ".html"'
                                 download
