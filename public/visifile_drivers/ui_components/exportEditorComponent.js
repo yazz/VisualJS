@@ -44,50 +44,47 @@ load_once_from_file(true)
 
                 <div class="card">
                     <div class="card-body">
-                        <form onsubmit="return false;">
-                            <div class="form-group">
-                                <label for="docker_image_name">
-                                    Docker Image Name
+                        <h3>Docker engine details</h3>
+                        <div class="form-row">
+                            <div class="form-group col-md-9">
+                                <label for="docker_server">
+                                    Docker Server Host
                                 </label>
 
-                                <input  type="" class="form-control"
-                                        v-model="dockerImageName"
-                                        id="docker_image_name"
-                                        placeholder="your_docker_id/image_name:version_tag" />
+                                <input  type=""
+                                        v-model="dockerHost"
+                                        class="form-control" id="docker_server"
+                                        placeholder="host.docker.internal" />
                             </div>
 
-                            <div class="form-row">
-                                <div class="form-group col-md-9">
-                                    <label for="docker_server">
-                                        Docker Server Host
-                                    </label>
 
-                                    <input  type=""
-                                            v-model="dockerHost"
-                                            class="form-control" id="docker_server"
-                                            placeholder="host.docker.internal" />
-                                </div>
+                            <div class="form-group col-md-3">
+                                <label for="docker_port">
+                                    Docker Port
+                                </label>
 
-
-                                <div class="form-group col-md-3">
-                                    <label for="docker_port">
-                                        Docker Port
-                                    </label>
-
-                                    <input  v-model="dockerPort"
-                                            class="form-control" id="docker_port" placeholder="1234" />
-                                </div>
+                                <input  v-model="dockerPort"
+                                        class="form-control" id="docker_port" placeholder="1234" />
                             </div>
+                        </div>
 
-                            <button v-on:click="createDockerImage()"
-                                    class="btn btn-primary">Create Docker Image
-                            </button>
-                        </form>
                     </div>
                 </div>
 
                 <div class="card" style="margin-top: 20px;">
                     <div class="card-body">
+                        <h3>Exported Docker container details</h3>
+                        <div class="form-group">
+                            <label for="docker_image_name">
+                                Docker Image Name
+                            </label>
+
+                            <input  type="" class="form-control"
+                                    v-model="dockerImageName"
+                                    id="docker_image_name"
+                                    placeholder="your_docker_id/image_name:version_tag" />
+                        </div>
+
                         <div class="form-row">
                             <div class="form-group col-md-9">
                                 <label for="docker_local_host">
@@ -114,12 +111,15 @@ load_once_from_file(true)
                                         placeholder="80" />
                             </div>
                             <div    v-on:click='var win = window.open(location.protocol + "//" + location.hostname + ":" + dockerLocalPort, "_blank"); win.focus();'
-                                    v-bind:style="'display:flex;text-decoration: underline;color:blue;padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;'">
+                                    v-bind:style="'display:flex;text-decoration: underline;color:blue;padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;margin-bottom:10px;'">
                                 Shareable link:<input   readonly
                                                         style='flex:1;font-family:verdana;font-size: 13px;margin-left:10px;'
                                                         v-bind:value='location.protocol + "//" + location.hostname + ":" + dockerLocalPort '>
                             </div>
                         </div>
+                        <button v-on:click="createDockerImage()"
+                                class="btn btn-primary">Create Docker Image
+                        </button>
                     </div>
 
                 </div>
