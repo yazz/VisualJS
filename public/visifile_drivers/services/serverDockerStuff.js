@@ -37,6 +37,7 @@ only_run_on_server(true)
                           //      change: 'CMD ["node",  "src/electron.js",   "--runapp",   "demo_timer",   "--nogui",   "true",   "--deleteonexit",   "true",   "--locked",    "false"]'
                           //   }) --= e3b1bd7239df zubairq/yazz2
         //return [{ok: "created"}]
+        try {
         var containers = await docker5.listContainers()
         var mmf=null
         var olds=null
@@ -66,7 +67,6 @@ only_run_on_server(true)
         })
 
         console.log("args.docker_local_port: " + args.docker_local_port)
-        try {
             await docker5.run(     args.image_name,
                                    [],
                                    undefined,
@@ -83,6 +83,7 @@ only_run_on_server(true)
                                     })
         } catch ( err ) {
             console.log(  err  )
+            return {err: err}
         }
 
         return details

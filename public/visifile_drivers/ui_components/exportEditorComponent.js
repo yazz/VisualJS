@@ -15,7 +15,8 @@ load_once_from_file(true)
             dockerPort:         "1234",
             dockerLocalPort:     "80",
             dockerLocalHost:     location.hostname,
-            dockerImageName:    "name/image"
+            dockerImageName:    "name/image",
+            outputText:         ""
         }
       },
       template:
@@ -37,7 +38,7 @@ load_once_from_file(true)
 
         <div style="height:100%">
 
-            <div style="height:700px">
+            <div style="height:950px">
 
 
                 <h4 style="font-weight:bold;">A) Export App as Docker Container</h4>
@@ -120,6 +121,7 @@ load_once_from_file(true)
                         <button v-on:click="createDockerImage()"
                                 class="btn btn-primary">Create Docker Image
                         </button>
+<pre style="height:200px;overflow:auto;margin-top:20px;background-color:lightgray;padding:15px;border-radius:7px;">{{outputText}}</pre>
                     </div>
 
                 </div>
@@ -244,7 +246,10 @@ load_once_from_file(true)
         //
         // -----------------------------------------------------
         createDockerImage: async function() {
-            alert("Creating Docker image "  + this.dockerImageName + " at "+ this.dockerHost + ":" + this.dockerPort)
+            this.outputText = ""
+            this.outputText += "Creating Docker image "  + this.dockerImageName + " at "+ this.dockerHost + ":" + this.dockerPort + "\n"
+            this.outputText += "..." + "\n"
+
             var result = await callFunction(
                                 {
                                     driver_name: "serverDockerStuff",
@@ -259,9 +264,11 @@ load_once_from_file(true)
 
            //alert(JSON.stringify(result.value,null,2))
            if (result.value) {
-                alert(JSON.stringify(   result.value  ,  null  ,  2   ))
+                this.outputText += JSON.stringify(   result.value  ,  null  ,  2   )
 
            }
+
+           this.outputText += "\n" + ".. done!" + "\n"
        }
 
 
