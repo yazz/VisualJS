@@ -54,7 +54,15 @@ only_run_on_server(true)
             await docker5.getContainer(olds.Id).stop()
         }
 
-        var imageId = mmf.Id
+        var imageId = null
+
+        if (mmf != null) {
+            imageId = mmf.Id
+        } else {
+            var cc = await docker5.run(     "zubairq/yazz")
+            imageId = cc.Id
+        }
+
 
         var container = docker5.getContainer(imageId);
         var details = await container.inspect()
@@ -67,20 +75,20 @@ only_run_on_server(true)
         })
 
         console.log("args.docker_local_port: " + args.docker_local_port)
-            await docker5.run(     args.image_name,
-                                   [],
-                                   undefined,
-                                   {
-                                        "HostConfig": {
-                                            "PortBindings": {
-                                                "80/tcp": [
-                                                    {
-                                                        "HostPort": args.docker_local_port   //Map container to a random unused port.
-                                                    }
-                                                ]
-                                            }
+        await docker5.run(     args.image_name,
+                               [],
+                               undefined,
+                               {
+                                    "HostConfig": {
+                                        "PortBindings": {
+                                            "80/tcp": [
+                                                {
+                                                    "HostPort": args.docker_local_port   //Map container to a random unused port.
+                                                }
+                                            ]
                                         }
-                                    })
+                                    }
+                                })
         } catch ( err ) {
             console.log(  err  )
             return {err: err}
