@@ -1,5 +1,5 @@
 # Yazz
-### Next-generation Visual Javascript IDE. Open source desktop, cloud, and Self Hosted IDE
+### Create Docker WebApps fast with an Open Source IDE which works in the cloud and offline on your desktop (Beta)
 
 ![Yazz Video](/public/yazz.gif)
 
