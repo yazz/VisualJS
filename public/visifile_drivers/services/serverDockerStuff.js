@@ -40,7 +40,7 @@ only_run_on_server(true)
 
     if (args.create) {
         //await dockerEngine.commit({
-                          //      change: 'CMD ["node",  "src/electron.js",   "--runapp",   "demo_timer",   "--nogui",   "true",   "--deleteonexit",   "true",   "--locked",    "false"]'
+                          //      change: 'CMD ["node",  "src/electron.js",   "--runapp",   "homapage",   "--nogui",   "true",   "--deleteonexit",   "true",   "--locked",    "false"]'
                           //   }) --= e3b1bd7239df zubairq/yazz2
 
         try {
