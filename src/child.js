@@ -928,7 +928,10 @@ async function setUpComponentsLocally() {
     await evalLocalSystemDriver('newAppFromTemplate',   path.join(__dirname, '../public/visifile_drivers/apps/newAppFromTemplate.js'))
 
 //zzz
-    var extraFns = fs.readFileSync( path.join(__dirname, '../src/extraFns.js') )
+    var extraFns = fs.readFileSync( path.join(__dirname, '../src/extraFns.js') ).toString()
+    console.log("Extra functions code:" )
+    console.log( extraFns )
+    console.log("." )
     await eval("(" + extraFns + "())")
 
     //
