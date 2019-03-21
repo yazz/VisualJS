@@ -85,6 +85,23 @@ only_run_on_server(true)
             yazzRunningContainer = dockerEngine.getContainer( yazzRunningContainerId );
 
 
+var extraFns = ""
+extraFns += "async function() {"
+extraFns += "}"
+
+
+            //zzz
+            var tar = require('tar-stream')
+            var pack = tar.pack() // pack is a streams2 stream
+
+            // add a file called my-test.txt with the content "Hello World!"
+            pack.entry({ name: 'extraFns.js' }, extraFns)
+            pack.finalize();
+
+
+            await yazzRunningContainer.putArchive(pack, { path: "/src"} )
+
+
             await yazzRunningContainer.commit({
                 changes: 'CMD ["node",  "src/electron.js",   "--runapp",   "' + args.app_id + '",   "--nogui",   "true",   "--deleteonexit",   "true",   "--locked",    "false"]'
                 ,
