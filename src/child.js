@@ -926,7 +926,10 @@ async function setUpComponentsLocally() {
     await evalLocalSystemDriver('todo_app_reader',   path.join(__dirname, '../public/visifile_drivers/apps/todo_app_reader.js'))
     await evalLocalSystemDriver('newSql',   path.join(__dirname, '../public/visifile_drivers/apps/newSqlApp.js'))
     await evalLocalSystemDriver('newAppFromTemplate',   path.join(__dirname, '../public/visifile_drivers/apps/newAppFromTemplate.js'))
-    await evalLocalSystemDriver('demo_timer',   path.join(__dirname, '../public/visifile_drivers/apps/demo_timer.js'),{save_html: true})
+
+//zzz
+    var extraFns = fs.readFileSync( path.join(__dirname, '../src/extraFns.js') )
+    await eval("(" + extraFns + "())")
 
     //
     // non GUI front end apps
@@ -939,7 +942,7 @@ async function setUpComponentsLocally() {
 
 
 
-    //zzz
+
     process.send({  message_type:       "drivers_loaded_by_child"                 });
 
 }
