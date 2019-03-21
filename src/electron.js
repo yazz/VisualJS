@@ -894,7 +894,7 @@ if (electronApp) {
 
         if (deleteOnStartup) {
             console.log("deleting dir :" + userData)
-            if (userData.length > 14) {
+            if (userData.length > 6) {
                     deleteYazzDataV2(userData)
             }
         }
@@ -1009,7 +1009,7 @@ else {
 
             if (deleteOnStartup) {
                 console.log("deleting dir :" + userData)
-                if (userData.length > 14) {
+                if (userData.length > 6) {
                         deleteYazzDataV2(userData)
                 }
             }
@@ -1107,7 +1107,7 @@ function shutDown() {
         if (deleteOnExit) {
 
             console.log("deleting dir :" + userData)
-            if (userData.length > 14) {
+            if (userData.length > 6) {
                 if (isWin) {
                     forkedProcessPath = path.join(__dirname, '..\\src\\' + fileName)
                 } else {
