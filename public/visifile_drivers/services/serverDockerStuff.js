@@ -103,7 +103,7 @@ extraFns += "}"
 
 
             await yazzRunningContainer.commit({
-                changes: 'CMD ["node",  "src/electron.js",   "--runapp",   "' + args.app_id + '",   "--nogui",   "true",   "--deleteonexit",   "true",   "--locked",    "false"]'
+                changes: 'CMD ["node",  "src/electron.js",   "--runapp",   "' + args.app_id + '",   "--nogui",   "true",   "--deleteonstartup",   "true",   "--locked",    "false"]'
                 ,
                 repo: args.image_name
             })
