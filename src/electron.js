@@ -21,6 +21,8 @@ var mainNodeProcessStarted = false;
 var isRaspberryPi = isPiModule();
 console.log('...');
 
+var ls = require('ls-sync');
+var rimraf = require("rimraf");
 
 var fs              = require('fs');
 var mkdirp          = require('mkdirp')
@@ -1123,17 +1125,21 @@ function shutDown() {
 
 
 //zzz
-var ls = require('ls-sync');
-var rimraf = require("rimraf");
 function deleteYazzDataV2(dddd) {
+    console.log("----------------------------------")
     console.log("Before delete :" + ls(dddd))
+    console.log("----------------------------------")
+
     rimraf.sync(path.join(dddd,  'uploads/'));
     rimraf.sync(path.join(dddd,  'files/'));
     rimraf.sync(path.join(dddd,  'apps/'));
     rimraf.sync(path.join(dddd,  'app_dbs/'));
     rimraf.sync(path.join(dddd,  '*.visi'));
     rimraf.sync(path.join(dddd,  '*.visi*'));
+
+    console.log("----------------------------------")
     console.log("After delete :" + ls(dddd))
+    console.log("----------------------------------")
 }
 
 function deleteYazzData(dddd) {
