@@ -994,6 +994,8 @@ else {
         	}
         	dbPath = path.join(userData, username + '.visi')
 
+            //zzz
+
             upload          = multer( { dest: path.join(userData,  'uploads/')});
 
 
@@ -1091,18 +1093,24 @@ function shutDown() {
                 if (isWin) {
                     forkedProcessPath = path.join(__dirname, '..\\src\\' + fileName)
                 } else {
-                    fork.exec('sleep 3 && cd "' + userData + '" && rm -rf *', function(err, stdout, stderr) {
-                    if (err) {
-                        // node couldn't execute the command
-                        return;
-                        }
-                    })
+                    deleteYazzData(userData)
+
                 }
             }
         }
     }
+
+
 }
 
+function deleteYazzData(dddd) {
+    fork.exec('sleep 3 && cd "' + dddd + '" && rm -rf *', function(err, stdout, stderr) {
+        if (err) {
+            // node couldn't execute the command
+            return;
+            }
+        })
+}
 
 
 
@@ -2065,7 +2073,7 @@ function startServices() {
         app2.get('*', function(req, res) {
              if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
                 console.log("path: " + req.path)
-                //zzz
+
                 var rty = req.path
                 if (req.path == "/canlabs") {
                     rty = "/canlabs/index.html"
