@@ -1000,6 +1000,12 @@ else {
         	dbPath = path.join(userData, username + '.visi')
 
             //zzz
+            if (deleteOnStartup) {
+                console.log("deleting dir :" + userData)
+                if (userData.length > 14) {
+                        deleteYazzData(userData)
+                }
+            }
 
             upload          = multer( { dest: path.join(userData,  'uploads/')});
 
