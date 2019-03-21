@@ -141,6 +141,7 @@ if (process.argv.length > 1) {
       .option('-d, --debug [debug]', 'Allow to run in debug mode (default false) [debug]', 'false')
       .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
       .option('-x, --deleteonexit [deleteonexit]', 'Delete database files on exit (default false) [deleteonexit]', 'false')
+      .option('-y, --deleteonstartup [deleteonstartup]', 'Delete database files on startup (default false) [deleteonstartup]', 'false')
       .option('-a, --runapp [runapp]', 'Run the app with ID as the homepage (default not set) [runapp]', null)
       .option('-b, --runhtml [runhtml]', 'Run using a local HTML page as the homepage (default not set) [runhtml]', null)
       .option('-q, --https [https]', 'Run using a HTTPS (default is http) [https]', 'false')
@@ -155,6 +156,7 @@ if (process.argv.length > 1) {
     program.nogui = 'false'
     program.debug = 'false'
     program.deleteonexit = 'false'
+    program.deleteonstartup = 'false'
     program.runapp = null
     program.runhtml = null
     program.https = 'false'
@@ -176,6 +178,9 @@ if (program.debug == 'true') {
 
 var deleteOnExit = (program.deleteonexit == 'true');
 console.log("deleteOnExit: " + deleteOnExit)
+
+var deleteOnStartup = (program.deleteonstartup == 'true');
+console.log("deleteOnStartup: " + deleteOnStartup)
 
 locked = (program.locked == 'true');
 
@@ -1104,7 +1109,7 @@ function shutDown() {
 }
 
 function deleteYazzData(dddd) {
-    fork.exec('sleep 3 && cd "' + dddd + '" && rm -rf *', function(err, stdout, stderr) {
+    fork.exec('sleep 3 && cd "' + dddd + '" && rm -rf app_dbs apps uploads files *.visi*', function(err, stdout, stderr) {
         if (err) {
             // node couldn't execute the command
             return;
