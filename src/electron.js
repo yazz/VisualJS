@@ -891,11 +891,11 @@ if (electronApp) {
     		userData = electronApp.getPath('userData')
     	}
     	dbPath = path.join(userData, username + '.visi')
-        //zzz
+
         if (deleteOnStartup) {
             console.log("deleting dir :" + userData)
             if (userData.length > 14) {
-                    deleteYazzData(userData)
+                    deleteYazzDataV2(userData)
             }
         }
 
@@ -1006,11 +1006,11 @@ else {
         	}
         	dbPath = path.join(userData, username + '.visi')
 
-            //zzz
+
             if (deleteOnStartup) {
                 console.log("deleting dir :" + userData)
                 if (userData.length > 14) {
-                        deleteYazzData(userData)
+                        deleteYazzDataV2(userData)
                 }
             }
 
@@ -1119,6 +1119,18 @@ function shutDown() {
     }
 
 
+}
+
+
+//zzz
+var rimraf = require("rimraf");
+function deleteYazzDataV2(dddd) {
+    rimraf.sync(path.join(dddd,  'uploads/'));
+    rimraf.sync(path.join(dddd,  'files/'));
+    rimraf.sync(path.join(dddd,  'apps/'));
+    rimraf.sync(path.join(dddd,  'app_dbs/'));
+    rimraf.sync(path.join(dddd,  '*.visi'));
+    rimraf.sync(path.join(dddd,  '*.visi*'));
 }
 
 function deleteYazzData(dddd) {
