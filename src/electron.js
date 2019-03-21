@@ -1123,14 +1123,17 @@ function shutDown() {
 
 
 //zzz
+var ls = require('ls-sync');
 var rimraf = require("rimraf");
 function deleteYazzDataV2(dddd) {
+    console.log("Before delete :" + ls(dddd))
     rimraf.sync(path.join(dddd,  'uploads/'));
     rimraf.sync(path.join(dddd,  'files/'));
     rimraf.sync(path.join(dddd,  'apps/'));
     rimraf.sync(path.join(dddd,  'app_dbs/'));
     rimraf.sync(path.join(dddd,  '*.visi'));
     rimraf.sync(path.join(dddd,  '*.visi*'));
+    console.log("After delete :" + ls(dddd))
 }
 
 function deleteYazzData(dddd) {
