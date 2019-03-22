@@ -96,6 +96,33 @@ extraFns += "}"
 
             // add a file called my-test.txt with the content "Hello World!"
             pack.entry({ name: 'extraFns.js' }, extraFns)
+
+            var extraComp = await (new Promise(async function(returnfn) {
+
+                dbsearch.serialize(
+                    function() {
+                        dbsearch.all(
+                            " select  " +
+                            "     base_component_id, code, id " +
+                            " from " +
+                            "     system_code " +
+                            " where " +
+                            "     base_component_id = ? and code_tag = 'LATEST';"
+                            ,
+                            args.app_id
+                            ,
+                            async function(err, rows) {
+                                if (rows.length > 0) {
+                                    returnfn(rows[0].code.toString())
+                                } else {
+                                    returnfn("")
+                                }
+                          }
+                  );
+              }, sqlite3.OPEN_READONLY)
+            }))
+
+            pack.entry({ name: 'extraComp.js' }, extraComp)
             pack.finalize();
 
 
