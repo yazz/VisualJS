@@ -13,7 +13,7 @@ load_once_from_file(true)
             errors:              null,
             dockerHost:         "host.docker.internal",
             dockerPort:         "1234",
-            dockerLocalPort:     "80",
+            dockerLocalPort:     "81",
             dockerLocalHost:     location.hostname,
             dockerImageName:    "name/image",
             outputText:         ""
@@ -96,8 +96,7 @@ load_once_from_file(true)
                                         readonly
                                         class="form-control"
                                         v-model="dockerLocalHost"
-                                        id="docker_local_host"
-                                        placeholder="80" />
+                                        id="docker_local_host"/>
                             </div>
 
                             <div class="form-group col-md-3">
@@ -109,7 +108,7 @@ load_once_from_file(true)
                                         class="form-control"
                                         v-model="dockerLocalPort"
                                         id="docker_local_port"
-                                        placeholder="80" />
+                                        />
                             </div>
                             <div    v-on:click='var win = window.open(location.protocol + "//" + location.hostname + ":" + dockerLocalPort, "_blank"); win.focus();'
                                     v-bind:style="'display:flex;text-decoration: underline;color:blue;padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;margin-bottom:10px;'">
