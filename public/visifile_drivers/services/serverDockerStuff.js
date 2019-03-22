@@ -87,6 +87,7 @@ only_run_on_server(true)
 
 var extraFns = ""
 extraFns += "async function() {"
+extraFns += "await evalLocalSystemDriver('" + args.app_id + "',   path.join(__dirname, '../src/extraComp.js'),{save_html: true})"
 extraFns += "}"
 
 
