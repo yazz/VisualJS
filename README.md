@@ -27,17 +27,6 @@ http://yazz.com
 
 
 
-Command line options :
-
-    -h, --help                 output usage information
-    -V, --version              output the version number
-    -t, --type [type]          Add the specified type of app [type]
-    -p, --port [port]          Which port should I listen on? [port]
-    -h, --host [host]          Server address of the central host [host]
-    -s, --hostport [hostport]  Server port of the central host [hostport]
-
-
-
 ### Building Yazz from source
 
 
@@ -66,6 +55,19 @@ Command line options :
     Sudo electron-forge make
 
 
+
+#### Command line options :
+
+    -h, --help                 output usage information
+    -V, --version              output the version number
+    -t, --type [type]          Add the specified type of app [type]
+    -p, --port [port]          Which port should I listen on? [port]
+    -h, --host [host]          Server address of the central host [host]
+    -s, --hostport [hostport]  Server port of the central host [hostport]
+
+
+
+#### FAQ 
 
 ### What is Yazz's killer feature?
 
