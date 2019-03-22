@@ -215,7 +215,7 @@ load_once_from_file(true)
 
                     <button   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                               v-on:click='setTimeout(function(){copyAppMethod(base_component_id, null)},100)'
-                              v-if="!isValidObject(previous_editor_component)"
+                              v-if="!editor_overloaded"
                               v-on:mouseenter='setInfo("Make an editable copy of this app")'
                               v-on:mouseleave='setInfo(null)'
                               type="button" class="btn btn-light">
@@ -243,7 +243,7 @@ load_once_from_file(true)
                     <button   v-bind:disabled='read_only?"":false'
                               v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
                               v-on:mouseenter='setInfo("Save the changes made in the UI and reload the app")'
-                              v-if="!isValidObject(previous_editor_component)"
+                              v-if="!editor_overloaded"
                               v-on:mouseleave='setInfo(null)'
                               v-on:click='setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null)},100)'
                               type="button" class="btn btn-light">
@@ -573,7 +573,6 @@ load_once_from_file(true)
                console_output:      "",
                selected_app:        '',
                is_ui_app:           true,
-               previous_editor_component:    null,
                editor_overloaded:       false,
                editor_component:    null,
                right_mode:          "scope",
@@ -622,7 +621,6 @@ load_once_from_file(true)
                var mm                           = this
                this.editor_overloaded           = false
                override_app_editor              = null
-               this.previous_editor_component   = null
                this.editor_text                 = await this.$refs.editor_component_ref.getText()
 
                await mm.load_new_app( this.base_component_id )
@@ -638,8 +636,6 @@ load_once_from_file(true)
                   this.editor_overloaded = true
                   override_app_editor = "export_editor_component"
 
-                  this.previous_editor_component = this.editor_component
-
 
                   await mm.load_new_app( this.base_component_id )
               }
@@ -650,8 +646,6 @@ load_once_from_file(true)
 
                this.editor_overloaded = true
                override_app_editor = "sqlite_editor_component"
-
-               this.previous_editor_component = this.editor_component
 
 
                await mm.load_new_app( this.base_component_id )
