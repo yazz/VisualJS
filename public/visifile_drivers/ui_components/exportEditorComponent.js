@@ -137,7 +137,7 @@ load_once_from_file(true)
                     b) Download app as HTML file
                 </h4>
 
-                    <a          v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + base_component_id + ".html"'
+                    <a          v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppId + ".html"'
                                 download
                                 v-bind:style="'float: left;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); '"
                                 type="button"
