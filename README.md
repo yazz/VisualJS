@@ -1,5 +1,5 @@
 # Yazz
-### Cloud & Desktop IDE (Beta)
+### Build Docker Webapps in Minutes (Beta)
 
 ![Yazz Video](/public/yazz.gif)
 
