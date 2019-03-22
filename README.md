@@ -18,7 +18,7 @@ Quick start:
 - Install and run the Yazz IDE with:
     `docker run -p 80:80 zubairq/yazz`
     
-- Go to a browser and view Yazz
+- Go to a browser and view Yazz:
     http://localhost
     
 
