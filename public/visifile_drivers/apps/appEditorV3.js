@@ -139,7 +139,7 @@ load_once_from_file(true)
 
                     <button     v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                                 v-on:click='setTimeout(function(){editExportOptions()},100)'
-                                v-if="!isValidObject(previous_editor_component)"
+                                v-if="!editor_overloaded"
                                 v-bind:style="'float: left;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); '"
                                 v-on:mouseenter='setInfo("Export as a Docker Image or a runnable HTML file")'
                                 v-on:mouseleave='setInfo(null)'
@@ -165,7 +165,7 @@ load_once_from_file(true)
 
                     <button   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                               v-on:click='setTimeout(function(){editSqliteSchema()},100)'
-                              v-if="!isValidObject(previous_editor_component)"
+                              v-if="!editor_overloaded"
                               v-on:mouseenter='setInfo("Edit the SQlite schema for this app")'
                               v-on:mouseleave='setInfo(null)'
                               type="button" class="btn btn-light ">
@@ -182,7 +182,7 @@ load_once_from_file(true)
                     </button>
                     <button   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                               v-on:click='setTimeout(function(){closeSqliteSchema()},100)'
-                              v-if="isValidObject(previous_editor_component)"
+                              v-if="editor_overloaded"
                               v-on:mouseenter='setInfo("Edit the SQlite schema for this app")'
                               v-on:mouseleave='setInfo(null)'
                               type="button" class="btn btn-light ">
@@ -574,6 +574,7 @@ load_once_from_file(true)
                selected_app:        '',
                is_ui_app:           true,
                previous_editor_component:    null,
+               editor_overloaded:       false,
                editor_component:    null,
                right_mode:          "scope",
                selected_pane:       "scope",
@@ -620,6 +621,8 @@ load_once_from_file(true)
            closeSqliteSchema: async function() {
                var mm = this
 
+               this.editor_overloaded = false
+
                this.editor_text = await this.$refs.editor_component_ref.getText()
 
                var eds = saveHelper.getValueOfCodeString(this.editor_text, "editors_old")
@@ -641,6 +644,8 @@ load_once_from_file(true)
 
               editExportOptions: async function() {
                   var mm = this
+
+                  this.editor_overloaded = true
 
                   this.previous_editor_component = this.editor_component
 
@@ -667,6 +672,8 @@ load_once_from_file(true)
 
            editSqliteSchema: async function() {
                var mm = this
+
+               this.editor_overloaded = true
 
                this.previous_editor_component = this.editor_component
 
