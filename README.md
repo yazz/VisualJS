@@ -9,16 +9,19 @@
 
 http://yazz.com
 
-Quick start:
-- Download and run Docker
+### Quick start:
+##### 1) Download and run Docker
 
-- Expose the Docker REST api with:
+##### 2) Expose the Docker REST api with:
+
     `docker run -d -v /var/run/docker.sock:/var/run/docker.sock -p 127.0.0.1:1234:1234 bobrik/socat TCP-LISTEN:1234,fork UNIX-CONNECT:/var/run/docker.sock`
     
-- Install and run the Yazz IDE with:
+##### 3) Install and run the Yazz IDE with:
+
     `docker run -p 80:80 zubairq/yazz`
     
-- Go to a browser and view Yazz:
+##### 4) Go to a browser and view Yazz:
+
     http://localhost
     
 
@@ -36,7 +39,7 @@ Command line options :
 
 
 
-### Developer quick start
+### Building Yazz from source
 
 
 ##### 1) Install GIT from https://git-scm.com/downloads
