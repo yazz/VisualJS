@@ -622,6 +622,7 @@ load_once_from_file(true)
                var mm = this
 
                this.editor_overloaded = false
+               this.previous_editor_component = null
 
                this.editor_text = await this.$refs.editor_component_ref.getText()
 
@@ -646,25 +647,10 @@ load_once_from_file(true)
                   var mm = this
 
                   this.editor_overloaded = true
+                  override_app_editor = "export_editor_component"
 
                   this.previous_editor_component = this.editor_component
 
-                  this.editor_text = await this.$refs.editor_component_ref.getText()
-
-                  var eds = saveHelper.getValueOfCodeString(this.editor_text, "editors")
-                  if (isValidObject(eds)) {
-                      this.editor_text = saveHelper.deleteCodeString(this.editor_text, "editors")
-                      this.editor_text = saveHelper.deleteCodeString(this.editor_text, "editors_old")
-                      this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors_old",eds)
-                  } else {
-                      this.editor_text = saveHelper.deleteCodeString(this.editor_text, "editors")
-                      this.editor_text = saveHelper.deleteCodeString(this.editor_text, "editors_old")
-                      this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors_old",["editor_component"])
-                  }
-
-                  this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors",["export_editor_component"])
-
-                  await mm.save(   this.base_component_id,   this.code_id,   this.editor_text   )
 
                   await mm.load_new_app( this.base_component_id )
               }
@@ -674,25 +660,10 @@ load_once_from_file(true)
                var mm = this
 
                this.editor_overloaded = true
+               override_app_editor = "sqlite_editor_component"
 
                this.previous_editor_component = this.editor_component
 
-               this.editor_text = await this.$refs.editor_component_ref.getText()
-
-               var eds = saveHelper.getValueOfCodeString(this.editor_text, "editors")
-               if (isValidObject(eds)) {
-                   this.editor_text = saveHelper.deleteCodeString(this.editor_text, "editors")
-                   this.editor_text = saveHelper.deleteCodeString(this.editor_text, "editors_old")
-                   this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors_old",eds)
-               } else {
-                   this.editor_text = saveHelper.deleteCodeString(this.editor_text, "editors")
-                   this.editor_text = saveHelper.deleteCodeString(this.editor_text, "editors_old")
-                   this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors_old",["editor_component"])
-               }
-
-               this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors",["sqlite_editor_component"])
-
-               await mm.save(   this.base_component_id,   this.code_id,   this.editor_text   )
 
                await mm.load_new_app( this.base_component_id )
            }
@@ -1283,7 +1254,7 @@ load_once_from_file(true)
                             //
                             var editors2 = results[0].editors
                             var newEditor = null
-                            if (editors2) {
+                            if (isValidObject(editors2) && (override_app_editor == null)) {
                                 var edd = eval("(" + editors2 + ")")
                                 newEditor = edd[0]
                             }
@@ -1314,6 +1285,9 @@ load_once_from_file(true)
                             //
                             if ( !mm.editor_loaded ) {
                                 var editorName = "editor_component"
+                                if (override_app_editor != null) {
+                                    editorName = override_app_editor
+                                }
                                 if (newEditor) {
                                      editorName = newEditor
                                 }
@@ -1323,19 +1297,6 @@ load_once_from_file(true)
                                 mm.editor_loaded    = true
                                 mm.editor_component = editorName
 
-                                if (mm.editor_component == "sqlite_editor_component") {
-                                    if (isValidObject(code)) {
-                                        var er = saveHelper.getValueOfCodeString(code, "editors_old")
-                                        if (mm.previous_editor_component == null) {
-                                            if (isValidObject(er) )  {
-                                                mm.previous_editor_component = er[0]
-                                            }
-                                            else {
-                                                mm.previous_editor_component = "editor_component"
-                                            }
-                                        }
-                                    }
-                                }
                            }
 
 
@@ -1401,8 +1362,10 @@ load_once_from_file(true)
             mounted: async function () {
                 var mm = this
 
-                this.execution_timeline = executionTimeline
-                this.execution_code     = executionCode
+                override_app_editor = null
+
+                this.execution_timeline   = executionTimeline
+                this.execution_code       = executionCode
                 this.execution_block_list = Object.keys(this.execution_code)
 
                 //
