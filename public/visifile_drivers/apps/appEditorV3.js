@@ -619,22 +619,11 @@ load_once_from_file(true)
 
        methods: {
            closeSqliteSchema: async function() {
-               var mm = this
-
-               this.editor_overloaded = false
-               this.previous_editor_component = null
-
-               this.editor_text = await this.$refs.editor_component_ref.getText()
-
-               var eds = saveHelper.getValueOfCodeString(this.editor_text, "editors_old")
-               if (isValidObject(eds)) {
-                   this.editor_text = saveHelper.deleteCodeString(this.editor_text, "editors")
-                   this.editor_text = saveHelper.deleteCodeString(this.editor_text, "editors_old")
-               }
-               this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors",eds)
-               this.previous_editor_component = null
-
-               await mm.save(   this.base_component_id,   this.code_id,   this.editor_text   )
+               var mm                           = this
+               this.editor_overloaded           = false
+               override_app_editor              = null
+               this.previous_editor_component   = null
+               this.editor_text                 = await this.$refs.editor_component_ref.getText()
 
                await mm.load_new_app( this.base_component_id )
            }
