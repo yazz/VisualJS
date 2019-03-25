@@ -73,6 +73,7 @@ logo_url("/driver_icons/postgres.jpg")
                                         driver_name: "postgres_server",
                                         method_name: "postgres_sql"  }
                                         ,{
+                                            sql: "SELECT * FROM pg_catalog.pg_tables;"
                                          })
 
                //alert(JSON.stringify(result.value,null,2))

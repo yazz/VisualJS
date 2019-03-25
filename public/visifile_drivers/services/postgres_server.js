@@ -5,7 +5,6 @@ base_component_id("postgres_server")
 load_once_from_file(true)
 only_run_on_server(true)
 */
-    var sql = "SELECT * FROM pg_catalog.pg_tables;"
     var config = {
       user:              "postgres",
       database:          "postgres",
@@ -23,7 +22,7 @@ only_run_on_server(true)
               //console.log({error: '' + err});
               returnFn({err: err})
           } else {
-              dbconnection.query(sql, [], function (err, result) {
+              dbconnection.query(args.sql, [], function (err, result) {
                 if (err) {
                     //console.log({error: '' + err});
                 } else {
