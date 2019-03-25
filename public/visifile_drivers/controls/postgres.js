@@ -33,12 +33,13 @@ properties(
         }
         ,
         {
-            id:         "setText",
-            snippet:    `setText("")`,
-            name:       "setText",
+            id:         "executeSql",
+            snippet:    `executeSql()`,
+            name:       "executeSql",
             type:       "Action",
             help:       `<div>Help text for
-                            <b>setText</b> function
+                            <b>executeSql</b> function
+                            <div>The SQL is store in the "sql" property</div>
                          </div>`
         }
     ]
@@ -64,10 +65,12 @@ logo_url("/driver_icons/postgres.jpg")
         watch: {
           // This would be called anytime the value of the input changes
           refresh(newValue, oldValue) {
+            if (!this.design_mode) {
               //console.log("refresh: " + this.args.text)
               if (isValidObject(this.args)) {
-                  //this.text = this.args.text
+                  this.text = this.args.text
               }
+          }
           }
         },
         mounted: async function() {
@@ -93,8 +96,24 @@ logo_url("/driver_icons/postgres.jpg")
         }
         ,
         methods: {
-            setText: function(newtext) {
-                this.text = newtext
+            executeSql: async function() {
+                if (!this.design_mode) {
+                    var result = await callFunction(
+                                        {
+                                            driver_name: "postgres_server",
+                                            method_name: "postgres_sql"  }
+                                            ,{
+                                                sql: this.args.sql
+                                             })
+
+                   //alert(JSON.stringify(result.value,null,2))
+                   if (result.value) {
+                        this.args.text = JSON.stringify(result.value)
+
+                   }
+
+
+               }
                 this.changedFn()
             }
             ,
