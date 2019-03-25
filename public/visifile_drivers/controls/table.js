@@ -24,8 +24,15 @@ properties(
         ,
         {
             id:         "setData",
-            snippet:    `setData([{field_1: 1, field_2: "Hello"},{field_1: 2, field_2: "Goodbye"}])`,
+            snippet:    `setData([{a: 1, b: "c"},{a: 2, b: "d"}])`,
             name:       "setData",
+            type:       "Action"
+        }
+        ,
+        {
+            id:         "resetColumns",
+            snippet:    `resetColumns()`,
+            name:       "resetColumns",
             type:       "Action"
         }
         ,
@@ -254,6 +261,10 @@ logo_url("/driver_icons/table.png")
             ,
             setText: async function(newtext) {
 
+            }
+            ,
+            resetColumns: async function(data) {
+                this.table.setColumns([])
             }
             ,
             setData: async function(data) {
