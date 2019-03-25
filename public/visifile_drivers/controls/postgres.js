@@ -27,6 +27,13 @@ properties(
         }
         ,
         {
+            id:     "result",
+            name:   "result",
+            type:   "Array",
+            default:    []
+        }
+        ,
+        {
             id:     "background_color",
             name:   "Background color",
             type:   "String"
@@ -48,7 +55,7 @@ logo_url("/driver_icons/postgres.jpg")
 */
 
     Vue.component("postgres_client_component",{
-        props: ["meta","args", "name","refresh"]
+        props: ["meta","args", "name","refresh", "design_mode"]
         ,
         template: `<div v-bind:style='"white-space:normal;height:100%;width:100%; border: 0px;" +
                                     "background-color: "+    args["background_color"]  +  ";"'>
@@ -76,22 +83,7 @@ logo_url("/driver_icons/postgres.jpg")
         mounted: async function() {
             registerComponent(this)
 
-            if (!this.design_mode) {
-                var result = await callFunction(
-                                    {
-                                        driver_name: "postgres_server",
-                                        method_name: "postgres_sql"  }
-                                        ,{
-                                            sql: this.args.sql
-                                         })
-
-               //alert(JSON.stringify(result.value,null,2))
-               if (result.value) {
-                    this.args.text = JSON.stringify(result.value)
-
-               }
-
-
+            if (this.design_mode != true) {
            }
         }
         ,
@@ -107,6 +99,7 @@ logo_url("/driver_icons/postgres.jpg")
                                              })
 
                    //alert(JSON.stringify(result.value,null,2))
+                   console.log(JSON.stringify(result,null,2))
                    if (result.value) {
                         this.args.text = JSON.stringify(result.value)
 
