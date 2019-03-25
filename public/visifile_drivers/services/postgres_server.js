@@ -13,20 +13,21 @@ only_run_on_server(true)
       port:               5432
     };
 
+    console.log("postgres_server: " + JSON.stringify(args,null,2));
 
     var promise = new Promise(async function(returnFn) {
 
         var dbconnection = new postgresdb.Client(config);
         dbconnection.connect(function (err) {
           if (err) {
-              //console.log({error: '' + err});
+              console.log({error: '' + err});
               returnFn({err: err})
           } else {
               dbconnection.query(args.sql, [], function (err, result) {
                 if (err) {
-                    //console.log({error: '' + err});
+                    console.log({error: '' + err});
                 } else {
-                    //console.log(result.rows); // outputs: { name: 'brianc' }
+                    console.log("row count: " + result.rows.length); // outputs: { name: 'brianc' }
                     returnFn({result: result.rows})
                 };
               })
