@@ -44,7 +44,7 @@ logo_url("/driver_icons/postgres.jpg")
         ,
         template: `<div v-bind:style='"white-space:normal;height:100%;width:100%; border: 0px;" +
                                     "background-color: "+    args["background_color"]  +  ";"'>
-
+                                    Postgres:
                                                 {{text}}
                  </div>`
         ,
