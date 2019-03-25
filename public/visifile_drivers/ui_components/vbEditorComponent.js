@@ -1059,11 +1059,11 @@ uses_javascript_librararies(["advanced_bundle"])
 
      methods: {
          getControlMethod: function(base_id,componentDetails,ompEvaled1, methodId) {
-            return function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+            return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
                 //alert(JSON.stringify(componentDetails.name,null,2))
                 var controlDetails = globalControl[componentDetails.name]
                 var fnDetails = controlDetails[methodId]
-                fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
+                await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
 
             }
 
@@ -2592,7 +2592,7 @@ ${eventMessage.code}
 
                         var debugFcc = getDebugCode(mm.model.active_form +"_"+eventMessage.control_name+"_"+eventMessage.sub_type,fcc,{skipFirstAndLastLine: true})
                         var efcc = eval(debugFcc)
-                        efcc()
+                        await efcc()
 
                     }
 
@@ -2614,7 +2614,7 @@ ${eventMessage.code}
 
                         var debugFcc = getDebugCode(this.model.active_form ,fcc,{skipFirstAndLastLine: true})
                         var efcc = eval(debugFcc)
-                        efcc()
+                        await efcc()
                     }
 
 
