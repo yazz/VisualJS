@@ -98,16 +98,17 @@ logo_url("/driver_icons/postgres.jpg")
                                                 sql: this.args.sql
                                              })
 
-                   //alert(JSON.stringify(result.value,null,2))
+                   debugger
+                   //alert("executeSql: " + JSON.stringify(result,null,2))
                    console.log(JSON.stringify(result,null,2))
                    if (result.value) {
-                        this.args.text = JSON.stringify(result.value)
-
+                        return result.value
                    }
 
 
                }
                 this.changedFn()
+                return {}
             }
             ,
             changedFn: function() {
