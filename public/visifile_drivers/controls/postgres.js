@@ -2,7 +2,7 @@ function(args) {
 /*
 is_app(true)
 control_type("VB")
-display_name("postgres_client_component control")
+display_name("postgres client control")
 description("This will return the postgres control")
 base_component_id("postgres_client_component")
 load_once_from_file(true)
@@ -64,16 +64,25 @@ logo_url("/driver_icons/postgres.jpg")
               }          // you can do anything here with the new value or old/previous value
           }
         },
-        mounted: function() {
+        mounted: async function() {
             registerComponent(this)
 
-            if (isValidObject(this.args.text)) {
-                this.text = this.args.text
-            }
+            if (!this.design_mode) {
+                var result = await callFunction(
+                                    {
+                                        driver_name: "postgres_server",
+                                        method_name: "postgres_sql"  }
+                                        ,{
+                                         })
 
-            if (isValidObject(this.args.name)) {
-                globalControl[this.args.name] =  this
-            }
+               //alert(JSON.stringify(result.value,null,2))
+               if (result.value) {
+                    this.args.text = JSON.stringify(result.value)
+
+               }
+
+
+           }
         }
         ,
         methods: {
