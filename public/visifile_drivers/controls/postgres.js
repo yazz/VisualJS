@@ -11,6 +11,13 @@ read_only(true)
 properties(
     [
         {
+            id:     "sql",
+            name:   "SQL",
+            type:   "String",
+            default: "SELECT * FROM pg_catalog.pg_tables;"
+        }
+        ,
+        {
             id:     "text",
             name:   "Text",
             type:   "String",
@@ -59,9 +66,8 @@ logo_url("/driver_icons/postgres.jpg")
           refresh(newValue, oldValue) {
               //console.log("refresh: " + this.args.text)
               if (isValidObject(this.args)) {
-                  this.text = this.args.text
-                  this.background_color = this.args.background_color
-              }          // you can do anything here with the new value or old/previous value
+                  //this.text = this.args.text
+              }
           }
         },
         mounted: async function() {
@@ -73,7 +79,7 @@ logo_url("/driver_icons/postgres.jpg")
                                         driver_name: "postgres_server",
                                         method_name: "postgres_sql"  }
                                         ,{
-                                            sql: "SELECT * FROM pg_catalog.pg_tables;"
+                                            sql: this.args.sql
                                          })
 
                //alert(JSON.stringify(result.value,null,2))
