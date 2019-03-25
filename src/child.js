@@ -775,7 +775,6 @@ async function setUpComponentsLocally() {
     //await evalLocalSystemDriver('excel',                  path.join(__dirname, '../public/visifile_drivers/excel.js'))
     //await evalLocalSystemDriver('word',                   path.join(__dirname, '../public/visifile_drivers/word.js'))
     //await evalLocalSystemDriver('pdf',                    path.join(__dirname, '../public/visifile_drivers/pdf.js'))
-    //await evalLocalSystemDriver('postgres',               path.join(__dirname, '../public/visifile_drivers/postgres.js'))
 
     //await evalLocalSystemDriver('outlook2012',            path.join(__dirname, '../public/visifile_drivers/outlook2012.js'))
     //await evalLocalSystemDriver('outlook2010')
@@ -927,6 +926,13 @@ async function setUpComponentsLocally() {
     await evalLocalSystemDriver('newSql',   path.join(__dirname, '../public/visifile_drivers/apps/newSqlApp.js'))
     await evalLocalSystemDriver('newAppFromTemplate',   path.join(__dirname, '../public/visifile_drivers/apps/newAppFromTemplate.js'))
     await evalLocalSystemDriver('yazzcraft',   path.join(__dirname, '../public/visifile_drivers/apps/yazzcraft.js'),{save_html: true})
+
+
+//database drivers
+    await evalLocalSystemDriver('postgres_client_component',               path.join(__dirname, '../public/visifile_drivers/controls/postgres.js'))
+
+
+
 
 //zzz
     var extraFns = fs.readFileSync( path.join(__dirname, '../src/extraFns.js') ).toString()
