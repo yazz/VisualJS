@@ -14,19 +14,30 @@ only_run_on_server(true)
       port:               5432
     };
 
-    var dbconnection = new postgresdb.Client(config);
-    dbconnection.connect(function (err) {
-      if (err) {
-          console.log({error: '' + err});
-      }
-    });
-    dbconnection.query(sql, [], function (err, result) {
-      if (err) {
-        console.log({error: '' + err});
-      } else {
-          console.log(result.rows); // outputs: { name: 'brianc' }
-      };
-      })
 
-    return {data: "postres returned"}
+    var promise = new Promise(async function(returnFn) {
+
+        var dbconnection = new postgresdb.Client(config);
+        dbconnection.connect(function (err) {
+          if (err) {
+              //console.log({error: '' + err});
+              returnFn({err: err})
+          } else {
+              dbconnection.query(sql, [], function (err, result) {
+                if (err) {
+                    //console.log({error: '' + err});
+                } else {
+                    //console.log(result.rows); // outputs: { name: 'brianc' }
+                    returnFn({result: result.rows})
+                };
+              })
+
+          }
+        });
+
+    })
+    var ret = await promise
+
+
+    return ret
 }
