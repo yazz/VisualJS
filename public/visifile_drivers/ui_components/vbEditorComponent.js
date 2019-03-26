@@ -1821,6 +1821,9 @@ uses_javascript_librararies(["advanced_bundle"])
                                  if (isValidObject(comm.snippet)) {
                                      propName = firstObjectToAutocomplete + "." + comm.snippet
                                  }
+                                 if (isValidObject(comm.pre_snippet)) {
+                                     propName = comm.pre_snippet + propName
+                                 }
                                  if (comm.type == "Action") {
                                      meta = "Method"
                                  }
@@ -1842,7 +1845,7 @@ uses_javascript_librararies(["advanced_bundle"])
                          //
 
                          } else if (formName) {
-debugger
+
                             var formProps = mm.properties
                             for (var formPropIndex = 0 ; formPropIndex < formProps.length ; formPropIndex++ ) {
 
@@ -1853,6 +1856,9 @@ debugger
                                 if (isValidObject(propDetails.snippet)) {
                                      propName = firstObjectToAutocomplete + "." + propDetails.snippet
                                  }
+                                 if (isValidObject(propDetails.pre_snippet)) {
+                                      propName = propDetails.pre_snippet + propName
+                                  }
                                  if (propDetails.type == "Action") {
                                      meta = "Method"
                                  }
@@ -1886,6 +1892,9 @@ debugger
                                 if (isValidObject(propDetails.snippet)) {
                                      propName = firstObjectToAutocomplete + "." + propDetails.snippet
                                  }
+                                 if (isValidObject(propDetails.snippet)) {
+                                      propName = propDetails.snippet + propName
+                                  }
                                  if (propDetails.type == "Action") {
                                      meta = "Method"
                                  }
