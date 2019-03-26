@@ -96,8 +96,10 @@ logo_url("/driver_icons/postgres.jpg")
         ,
         template: `<div v-bind:style='"white-space:normal;height:100%;width:100%; border: 0px;" +
                                     "background-color: "+    args["background_color"]  +  ";"'>
+                                    <div v-if="design_mode">
                                     Postgres:
                                                 {{design_time_text}}
+                                    </div>
                  </div>`
         ,
         data: function() {
@@ -109,19 +111,15 @@ logo_url("/driver_icons/postgres.jpg")
         watch: {
           // This would be called anytime the value of the input changes
           refresh(newValue, oldValue) {
-            if (!this.design_mode) {
-              //console.log("refresh: " + this.args.text)
               if (isValidObject(this.args)) {
-                  //this.text = this.args.text
+                  this.design_time_text = this.args.design_time_text
               }
-          }
           }
         },
         mounted: async function() {
             registerComponent(this)
 
-            if (this.design_mode == true) {
-                this.design_time_text = args.design_time_text
+            if (this.design_mode) {
             } else {
 
             }
