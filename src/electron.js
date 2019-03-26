@@ -1625,9 +1625,6 @@ function getRoot(req, res) {
     console.log("Serving: " + homepage)
 
 
-	if (typeOfSystem == 'server') {
-		res.end(fs.readFileSync(path.join(__dirname, '../public/index_server.html')));
-	}
 }
 
 
