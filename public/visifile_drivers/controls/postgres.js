@@ -147,11 +147,14 @@ logo_url("/driver_icons/postgres.jpg")
                    //alert("executeSql: " + JSON.stringify(result,null,2))
                    console.log(JSON.stringify(result,null,2))
                    if (result.value) {
+                        this.args.result = result.value.result
+
                         return result.value
                    }
 
 
                }
+                this.args.result = []
                 this.changedFn()
                 return {}
             }
