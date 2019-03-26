@@ -6,11 +6,11 @@ load_once_from_file(true)
 only_run_on_server(true)
 */
     var config = {
-      user:              "postgres",
-      database:          "postgres",
-      password:          "mysecretpassword",  // this password is only used for testing so no security problem here
-      host:              "localhost",
-      port:               5432
+      user:              args.user,
+      database:          args.database,
+      password:          args.password,
+      host:              args.host,
+      port:              args.port
     };
 
     console.log("postgres_server: " + JSON.stringify(args,null,2));

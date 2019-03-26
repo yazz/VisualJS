@@ -28,7 +28,7 @@ properties(
             id:     "password",
             name:   "Password",
             type:   "String",
-            default: "mysecretpassword"
+            default: "mysecretpassword"  // this password is only used for testing so no security problem here
         }
         ,
         {
@@ -77,6 +77,7 @@ properties(
         ,
         {
             id:         "executeSql",
+            pre_snippet: `await `,
             snippet:    `executeSql()`,
             name:       "executeSql",
             type:       "Action",
@@ -134,7 +135,12 @@ logo_url("/driver_icons/postgres.jpg")
                                             driver_name: "postgres_server",
                                             method_name: "postgres_sql"  }
                                             ,{
-                                                sql: this.args.sql
+                                                sql:             this.args.sql,
+                                                user:            this.args.user,
+                                                password:        this.args.password,
+                                                database:        this.args.database,
+                                                host:            this.args.host,
+                                                port:            this.args.port
                                              })
 
                    debugger
