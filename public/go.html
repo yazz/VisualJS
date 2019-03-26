@@ -8359,21 +8359,6 @@ function loadAppIntoElement(tagName, rootElement) {
     })
 }
 
-function copyApp(  baseComponentId ) {
-    callDriverMethod( {driver_name: "copyApp",
-                       method_name: "copyAppshareApp"}
-                      ,{
-                          base_component_id:    baseComponentId
-                       }
-                ,
-                function(result) {
-
-                    var copLoc = useProtocol + "//" +  useHostname + ":" + usePort + "/?goto=" + result.value.new_display_name .replaceAll(" ","%20")
-                    window.location.href = copLoc
-
-                })
-}
-
 
 
 function loadContent(  data_id,  data_name  ) {
