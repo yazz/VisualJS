@@ -18,13 +18,49 @@ properties(
         }
         ,
         {
-            id:     "text",
-            name:   "Text",
+            id:      "user",
+            name:    "USER",
+            type:    "String",
+            default: "postgres"
+        }
+        ,
+        {
+            id:     "password",
+            name:   "Password",
+            type:   "String",
+            default: "mysecretpassword"
+        }
+        ,
+        {
+            id:     "database",
+            name:   "Database",
+            type:   "String",
+            default: "postgres"
+        }
+        ,
+        {
+            id:     "port",
+            name:   "Port",
+            type:   "Number",
+            default: 5432
+        }
+        ,
+        {
+            id:     "host",
+            name:   "Host",
+            type:   "String",
+            default: "localhost"
+        }
+        ,
+        {
+            id:     "design_time_text",
+            name:   "Design Time Text",
             type:   "String",
             help:       `<div>Help text for
                             <b>text</b> property
                          </div>`
         }
+
         ,
         {
             id:     "result",
@@ -60,12 +96,12 @@ logo_url("/driver_icons/postgres.jpg")
         template: `<div v-bind:style='"white-space:normal;height:100%;width:100%; border: 0px;" +
                                     "background-color: "+    args["background_color"]  +  ";"'>
                                     Postgres:
-                                                {{text}}
+                                                {{design_time_text}}
                  </div>`
         ,
         data: function() {
             return {
-                text: ""
+                design_time_text: ""
             }
         }
         ,
@@ -75,7 +111,7 @@ logo_url("/driver_icons/postgres.jpg")
             if (!this.design_mode) {
               //console.log("refresh: " + this.args.text)
               if (isValidObject(this.args)) {
-                  this.text = this.args.text
+                  //this.text = this.args.text
               }
           }
           }
@@ -83,8 +119,11 @@ logo_url("/driver_icons/postgres.jpg")
         mounted: async function() {
             registerComponent(this)
 
-            if (this.design_mode != true) {
-           }
+            if (this.design_mode == true) {
+                this.design_time_text = args.design_time_text
+            } else {
+
+            }
         }
         ,
         methods: {
@@ -113,7 +152,7 @@ logo_url("/driver_icons/postgres.jpg")
             ,
             changedFn: function() {
                 if (isValidObject(this.args)) {
-                    this.args.text = this.text
+                    //this.args.text = this.text
                 }
             }
         }
