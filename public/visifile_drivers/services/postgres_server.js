@@ -21,11 +21,11 @@ only_run_on_server(true)
         dbconnection.connect(function (err) {
           if (err) {
               console.log({error: '' + err});
-              returnFn({err: err})
+              returnFn({failed: err})
           } else {
               dbconnection.query(args.sql, [], function (err, result) {
                 if (err) {
-                    console.log({error: '' + err});
+                    console.log({failed: '' + err});
                 } else {
                     console.log("row count: " + result.rows.length); // outputs: { name: 'brianc' }
                     returnFn({result: result.rows})

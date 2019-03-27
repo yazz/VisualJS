@@ -1064,7 +1064,10 @@ uses_javascript_librararies(["advanced_bundle"])
                 var controlDetails = globalControl[componentDetails.name]
                 var fnDetails = controlDetails[methodId]
                 var retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
-                return retv
+                if (isValidObject(retv.failed)) {
+                    throw retv.failed
+                }
+                return retv.value
             }
 
          }
@@ -2604,7 +2607,7 @@ ${eventMessage.code}
                         try {
                             await efcc()
                         } catch(  err  ) {
-                            alert(err)
+                            alert(JSON.stringify(err,null,2))
                         }
 
                     }
@@ -2630,7 +2633,7 @@ ${eventMessage.code}
                         try {
                             await efcc()
                         } catch(  err  ) {
-                            alert(err)
+                            alert(JSON.stringify(err,null,2))
                         }
                     }
 
