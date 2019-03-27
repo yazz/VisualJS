@@ -12,7 +12,7 @@ http://yazz.com
 ### Quick start:
 ##### 1) Download and run Docker
 
-##### 2) Expose the Docker REST api with:
+##### 2) Expose the Docker REST api on port 1234 with:
     docker run -d -v /var/run/docker.sock:/var/run/docker.sock -p 127.0.0.1:1234:1234 bobrik/socat TCP-LISTEN:1234,fork UNIX-CONNECT:/var/run/docker.sock
     
 ##### 3) Install and run the Yazz IDE with:
@@ -23,6 +23,15 @@ http://yazz.com
 
     http://localhost
     
+##### 5) OPTIONAL - Run Postgres on docker on port 5432
+
+    docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d -p 5432:5432 postgres
+    
+    Remember, that if you want to talk to Postgres from a Docker app then you need to connect to the host:
+    
+    host.docker.internal
+
+
 
 
 
