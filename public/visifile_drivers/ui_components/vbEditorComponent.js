@@ -2601,7 +2601,11 @@ ${eventMessage.code}
 
                         var debugFcc = getDebugCode(mm.model.active_form +"_"+eventMessage.control_name+"_"+eventMessage.sub_type,fcc,{skipFirstAndLastLine: true})
                         var efcc = eval(debugFcc)
-                        await efcc()
+                        try {
+                            await efcc()
+                        } catch(  err  ) {
+                            alert(err)
+                        }
 
                     }
 
@@ -2623,7 +2627,11 @@ ${eventMessage.code}
 
                         var debugFcc = getDebugCode(this.model.active_form ,fcc,{skipFirstAndLastLine: true})
                         var efcc = eval(debugFcc)
-                        await efcc()
+                        try {
+                            await efcc()
+                        } catch(  err  ) {
+                            alert(err)
+                        }
                     }
 
 
