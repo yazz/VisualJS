@@ -28,7 +28,7 @@ only_run_on_server(true)
                     console.log({failed: '' + err});
                 } else {
                     console.log("row count: " + result.rows.length); // outputs: { name: 'brianc' }
-                    returnFn({result: result.rows})
+                    returnFn({value: result.rows})
                 };
               })
 
