@@ -19,9 +19,10 @@ read_only(true)
 
 
             <a-scene physics-world="" physics="debug: true" style='width: 80%; height: 80%;' embedded>
-                <a-entity   id="laser" 
+                <a-entity   id="laser"
                             laser-controls="hand: right"
-                            raycaster="showLine:true;" line="opacity:1.0;">
+                            raycaster="hand: right;model: true;"
+                            line="opacity:1.0;">
                 </a-entity>
                 <a-box    id="interact_box_three"
                           position="-1 3.5 -3"
