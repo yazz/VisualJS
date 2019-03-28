@@ -32,7 +32,10 @@ read_only(true)
                 </a-box>
 
                 <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
-                <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
+                <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D">
+                    <a-entity position="2 2 1"  v-bind:text='"width:10;value: " + msg + ";color:black;"'>
+                    </a-entity>
+                </a-cylinder>
 
                 <a-plane  static-body
                           position="0 0 -4"
@@ -50,13 +53,38 @@ read_only(true)
       }
       ,
       mounted: function() {
-
+          var mm = this
           var scene = document.querySelector('a-scene');
           scene.addEventListener('click', function () {
               var box = document.getElementById('interact_box_three');
               var impulse = { x: 0, y: 10, z: 0 };
               var point = { x: 0.5, y: 0, z: 0 };
               box['body'].applyImpulse(impulse, point);
+          });
+
+
+          
+          var laser = document.querySelector('#laser');
+          laser.addEventListener('trackpaddown', function (ee) {
+                mm.msg = "trackpaddown"
+          });
+          laser.addEventListener('trackpadup', function (ee) {
+                mm.msg = "trackpadup"
+          });
+          laser.addEventListener('trackpadtouchstart', function (ee) {
+                mm.msg = "trackpadtouchstart"
+          });
+          laser.addEventListener('trackpadtouchend', function (ee) {
+                mm.msg = "trackpadtouchend"
+          });
+          laser.addEventListener('triggerchanged', function (ee) {
+                mm.msg = "triggerchanged"
+          });
+          laser.addEventListener('triggerdown', function (ee) {
+                mm.msg = "triggerdown"
+          });
+          laser.addEventListener('triggerup', function (ee) {
+                mm.msg = "triggerup"
           });
       }
 
