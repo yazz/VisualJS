@@ -46,6 +46,20 @@ properties(
             default:    true,
             hidden:     true
         }
+        ,
+        {
+            id:         "width",
+            name:       "Width",
+            default:    300,
+            type:       "Number"
+        }
+        ,
+        {
+            id:         "height",
+            name:       "Height",
+            default:    300,
+            type:       "Number"
+        }
     ]
 )//properties
 logo_url("/driver_icons/threedee_control.png")
@@ -105,7 +119,7 @@ logo_url("/driver_icons/threedee_control.png")
                     embedded
                     allowvr="yes"
                     v-bind:refresh='refresh'>
-                    
+
             <a-entity   id="laser"
                         laser-controls="hand: right"
                         raycaster="hand: right;model: true;"
