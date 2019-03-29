@@ -11,16 +11,17 @@ read_only(true)
 properties(
     [
         {
-            id:     "text",
-            name:   "Text",
-            type:   "String"
+            id:         "text",
+            name:       "Text",
+            default:    "Some text",
+            type:       "String"
         }
         ,
         {
             id:         "position",
             name:       "Position",
             type:       "String",
-            default:    "-2.1 4 -10"
+            default:    "2 2 -5"
         }
     ]
 )//properties
@@ -31,14 +32,18 @@ logo_url("/driver_icons/threedee_text_control.png")
         props: ["args","design_mode", "refresh"]
         ,
       template: `<a-entity v-bind:refresh='refresh'>
-                    <a-entity v-if='args'
-                              geometry="primitive: box"
-                              material="color: #166678; side: double"
-                              physics-body="mass: 5; boundingBox: 2 2 2; shape: auto;"
-                              dynamic-body
-                              v-bind:refresh='refresh'
-                              v-bind:position='args.position'>
-                  </a-entity>
+                      <a-plane    v-if='args'
+                                  v-bind:refresh='refresh'
+                                  v-bind:position='args.position'
+                                  rotation="0 0 0" width="4" height="4" color="blue">
+
+                          <a-entity position="3 0 .1"
+                                    v-bind:text='"width:10;value: " + args.text + ";color:black;"'>
+
+                          </a-entity>
+
+                      </a-plane>
+
               </a-entity>`
     })
 }
