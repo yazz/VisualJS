@@ -54,6 +54,10 @@ http://yazz.com
         node_modules/sqlite3/lib/binding/node-v57-darwin-x64/node_sqlite3.node
 ##### 7) Run the Yazz Electron application
     electron .
+    
+##### OR run as Node.js application with browser based access
+
+     node .\src\electron.js --runapp homepage --nogui true
 
 
 
