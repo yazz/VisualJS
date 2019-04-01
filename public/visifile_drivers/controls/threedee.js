@@ -77,7 +77,7 @@ logo_url("/driver_icons/threedee_control.png")
             v-bind:refresh='refresh'
             v-if='design_mode == "detail_editor"'>
 
-        Detail editor
+            3D Scene Detail editor
 
         <div    v-bind:style='"border:1px solid gray; padding: 10px;display:flex;" + ((selected_index==index)?"background-color: lightgray;":"")'
                 v-bind:refresh='refresh'
@@ -107,7 +107,26 @@ logo_url("/driver_icons/threedee_control.png")
 
 
 
-    <div    v-bind:style='"width:" + args.width + "; height: " + args.height + ";"'
+
+
+
+    <div    v-bind:style='"width:100%;height:40vh;overflow-y:auto;"'
+            v-bind:refresh='refresh'
+            v-if='design_mode == true'>
+
+        3D Scene - {{children.length}} items
+        
+    </div>
+
+
+
+
+
+
+    <div    id='3d_scene'
+            ref='3d_scene'
+            v-bind:style='"width:" + args.width + "; height: " + args.height + ";"'
+            v-if='design_mode == false'
             v-bind:refresh='refresh'>
 
 
