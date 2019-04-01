@@ -30,13 +30,22 @@ properties(
             type:       "String",
             default:    "0 45 0"
         }
+        ,
+        {
+            id:     "click_event",
+            name:   "Clicked event",
+            type:   "Event",
+            help:       `<div>Help text for
+                            <b>click_event</b> event
+                         </div>`
+        }
     ]
 )//properties
 logo_url("/driver_icons/threedee_text_control.png")
 */
 
     Vue.component("threedee_text_control",{
-        props: [  "args"  ,  "design_mode"  ,  "refresh"  ,  "name"  ]
+        props: [  "meta", "args"  ,  "design_mode"  ,  "refresh"  ,  "name"  ]
 
         ,
 
@@ -49,7 +58,7 @@ logo_url("/driver_icons/threedee_text_control.png")
                                       width="4"
                                       height="4"
                                       v-bind:id='name'
-                                                                    
+
                                       color="blue">
 
                               <a-entity position="0 0 .1"
@@ -63,15 +72,32 @@ logo_url("/driver_icons/threedee_text_control.png")
             ,
 
             mounted: function() {
+            var mm = this
+              registerComponent(this)
               //alert(this.name)
               debugger
               var dd = document.getElementById(this.name)
               dd.addEventListener('click', function() {
                 debugger
-                  alert("clicked")
+                  mm.event_callback()
                 });
             }
-        }
+            ,
+            methods: {
+                event_callback: function() {
+                    console.log("----- 3d text, event_callback: function() = " + this.name)
+                    //eval("(function(){" + this.args.click_event + "})")()
+
+                    this.$emit('send', {
+                                                    type:               "subcomponent_event",
+                                                    form_name:           this.meta.form,
+                                                    control_name:        this.meta.name,
+                                                    sub_type:           "click",
+                                                    code:                this.args.click_event
+                                                })
+                    }
+                }
+            }
 
     )
 }
