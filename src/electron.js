@@ -882,6 +882,23 @@ function setupVisifileParams() {
 
 
 
+
+          console.log("process.platform = " + process.platform)
+          if (process.platform === "win32") {
+            var rl = require("readline").createInterface({
+              input: process.stdin,
+              output: process.stdout
+            });
+
+            rl.on("SIGINT", function () {
+                shutDown();
+                process.exit();
+            });
+          }
+
+
+
+
 if (electronApp) {
 
     electronApp.on('ready', function() {
@@ -916,6 +933,10 @@ if (electronApp) {
 
 
 
+
+
+
+
         if (!nogui ) {
             visifile = new BrowserWindow({
                                         width: 800,
@@ -934,6 +955,8 @@ if (electronApp) {
             visifile.on('closed', function () {
                 shutDown();
             })
+
+
 
             visifile.loadURL(url.format({
                 pathname: path.join(__dirname, 'loading.html'),
@@ -958,6 +981,8 @@ if (electronApp) {
               });
 
         }
+
+
 
 
     	  outputToBrowser('process.env.LOCALAPPDATA: ' + JSON.stringify(localappdata ,null,2))
@@ -1070,6 +1095,7 @@ process.on('quit', function() {
 
 
 function shutDown() {
+    console.log(" shutDown() called")
     if (!shuttingDown) {
         shuttingDown = true;
 
@@ -1106,12 +1132,13 @@ function shutDown() {
             }
         }
 
+        console.log("deleteOnExit =" + deleteOnExit)
         if (deleteOnExit) {
 
             console.log("deleting dir :" + userData)
             if (userData.length > 6) {
                 if (isWin) {
-                    forkedProcessPath = path.join(__dirname, '..\\src\\' + fileName)
+                    deleteYazzDataWindows(userData)
                 } else {
                     deleteYazzData(userData)
 
@@ -1125,6 +1152,23 @@ function shutDown() {
 
 
 //zzz
+function deleteYazzDataWindows(dddd) {
+  console.log("deleteYazzDataWindows")
+  if (dddd.length > 6) {
+    var ff = 'timeout 8 && rd /s /q "' + dddd + '"'
+    console.log(ff)
+    fork.exec(ff
+              ,
+              function(err, stdout, stderr) {
+                if (err) {
+                    // node couldn't execute the command
+                    return;
+                    }
+                })
+    }
+  }
+
+
 function deleteYazzDataV2(dddd) {
     console.log("----------------------------------")
     console.log("Before delete :" + ls(dddd))
