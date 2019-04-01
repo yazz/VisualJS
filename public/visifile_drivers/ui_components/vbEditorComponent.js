@@ -203,7 +203,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                 v-bind:children='getChildren( model.forms[model.active_form].components[model.active_component_detail_index].name)'
                                 v-on:send="processControlEvent"
                                 v-bind:is='model.forms[model.active_form].components[model.active_component_detail_index].base_component_id'
-                                v-bind:name='model.forms[model.active_form].components[model.active_component_detail_index].name + (design_mode?"_design":"")'
+                                v-bind:name='model.forms[model.active_form].components[model.active_component_detail_index].name + "_design_mode_" + design_mode'
                                 v-bind:args='model.forms[model.active_form].components[model.active_component_detail_index]'>
 
                                 <template       slot-scope="child_components"
@@ -219,7 +219,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                                 v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[child_item.index_in_parent_array].name + (design_mode?"_design":"")'
                                                 v-on:send="processControlEvent"
                                                 v-bind:is='child_item.base_component_id'
-                                                v-bind:name='child_item.name + (design_mode?"_design":"")'
+                                                v-bind:name='child_item.name + "_design_mode_" + design_mode'
                                                 v-bind:args='model.forms[model.active_form].components[child_item.index_in_parent_array]'>
                                     </component>
 
@@ -498,7 +498,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                                 v-on:send="processControlEvent"
                                                 v-bind:is='item.base_component_id'
                                                 v-if='!item.parent'
-                                                v-bind:name='item.name + (design_mode?"_design":"")'
+                                                v-bind:name='item.name + "_design_mode_" + design_mode'
                                                 v-bind:args='model.forms[model.active_form].components[index]'>
 
                                         <template       slot-scope="child_components"
@@ -514,7 +514,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                                         v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[child_item.index_in_parent_array].name + (design_mode?"_design":"")'
                                                         v-on:send="processControlEvent"
                                                         v-bind:is='child_item.base_component_id'
-                                                        v-bind:name='child_item.name + (design_mode?"_design":"")'
+                                                        v-bind:name='child_item.name + "_design_mode_" + design_mode'
                                                         v-bind:args='model.forms[model.active_form].components[child_item.index_in_parent_array]'>
                                             </component>
 
