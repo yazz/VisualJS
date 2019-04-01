@@ -21,7 +21,14 @@ properties(
             id:         "position",
             name:       "Position",
             type:       "String",
-            default:    "2 2 -5"
+            default:    "-2 6 -5"
+        }
+        ,
+        {
+            id:         "rotation",
+            name:       "Rotation",
+            type:       "String",
+            default:    "0 45 0"
         }
     ]
 )//properties
@@ -35,10 +42,11 @@ logo_url("/driver_icons/threedee_text_control.png")
                       <a-plane    v-if='args'
                                   v-bind:refresh='refresh'
                                   v-bind:position='args.position'
-                                  rotation="0 0 0" width="4" height="4" color="blue">
+                                  v-bind:rotation='args.rotation'
+                                  width="4" height="4" color="blue">
 
-                          <a-entity position="3 0 .1"
-                                    v-bind:text='"width:10;value: " + args.text + ";color:black;"'>
+                          <a-entity position="0 0 .01"
+                                    v-bind:text='"width:4;value: " + args.text + ";color:white;"'>
 
                           </a-entity>
 
