@@ -48,10 +48,11 @@ logo_url("/driver_icons/threedee_text_control.png")
                                       v-bind:rotation='args.rotation'
                                       width="4"
                                       height="4"
+                                      v-bind:id='name'
+                                                                    
                                       color="blue">
 
-                              <a-entity v-bind:id='name'
-                                        position="0 0 .01"
+                              <a-entity position="0 0 .1"
                                         v-bind:text='"width:4;value: " + args.text + ";color:white;"'>
 
                               </a-entity>

@@ -115,6 +115,7 @@ logo_url("/driver_icons/threedee_control.png")
                     v-bind:ref='(design_mode?"design_scene":"scene")'
                     physics-world=""
                     physics="debug: false"
+                    cursor="rayOrigin: mouse"
                     style='width: 80%; height: 80%;'
                     embedded
                     allowvr="yes"
