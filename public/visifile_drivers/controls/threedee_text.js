@@ -42,8 +42,7 @@ logo_url("/driver_icons/threedee_text_control.png")
 
         template: `<a-entity          v-bind:refresh='refresh'>
 
-                          <a-plane    v-bind:id='name'
-                                      v-if='args'
+                          <a-plane    v-if='args'
                                       v-bind:refresh='refresh'
                                       v-bind:position='args.position'
                                       v-bind:rotation='args.rotation'
@@ -51,7 +50,8 @@ logo_url("/driver_icons/threedee_text_control.png")
                                       height="4"
                                       color="blue">
 
-                              <a-entity position="0 0 .01"
+                              <a-entity v-bind:id='name'
+                                        position="0 0 .01"
                                         v-bind:text='"width:4;value: " + args.text + ";color:white;"'>
 
                               </a-entity>
@@ -62,7 +62,13 @@ logo_url("/driver_icons/threedee_text_control.png")
             ,
 
             mounted: function() {
-              alert(this.args.name)
+              //alert(this.name)
+              debugger
+              var dd = document.getElementById(this.name)
+              dd.addEventListener('click', function() {
+                debugger
+                  alert("clicked")
+                });
             }
         }
 

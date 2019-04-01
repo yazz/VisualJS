@@ -142,6 +142,7 @@ logo_url("/driver_icons/threedee_control.png")
 
 
             <a-entity   camera look-controls wasd-physics-controls
+                        wasd-controls
                         v-bind:refresh='refresh'
                         physics-body="mass: 0; boundingBox: 1 1.8 1"
                         position="0 5 0">
