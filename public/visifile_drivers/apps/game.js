@@ -18,7 +18,11 @@ read_only(true)
             <input type="text" v-model="msg"/>
 
 
-            <a-scene physics-world="" physics="debug: true" style='width: 80%; height: 80%;' embedded>
+            <a-scene  physics-world=""
+                      physics="debug: false"
+                      cursor="rayOrigin: mouse"
+                      style='width: 80%; height: 80%;'
+                      embedded>
                 <a-entity   id="laser"
                             laser-controls="hand: right"
                             raycaster="hand: right;model: true;"
@@ -36,7 +40,7 @@ read_only(true)
                 </a-sphere>
 
 
-                <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D">
+                <a-cylinder position="1 0.75 -3" radius="0.5" height="10.5" color="blue">
                     <a-entity position="2 2 1"  v-bind:text='"width:10;value: " + msg + ";color:black;"'>
                     </a-entity>
                 </a-cylinder>
