@@ -18,10 +18,24 @@ properties(
         }
         ,
         {
+            id:         "backgroundColor",
+            name:       "Background Color",
+            default:    "lightgray",
+            type:       "String"
+        }
+        ,
+        {
+            id:         "color",
+            name:       "Color",
+            default:    "black",
+            type:       "String"
+        }
+        ,
+        {
             id:         "position",
             name:       "Position",
             type:       "String",
-            default:    "-2 6 -5"
+            default:    "-2 4 -5"
         }
         ,
         {
@@ -59,10 +73,10 @@ logo_url("/driver_icons/threedee_text_control.png")
                                       height="4"
                                       v-bind:id='name'
 
-                                      color="blue">
+                                      v-bind:color='args.backgroundColor'>
 
                               <a-entity position="0 0 .1"
-                                        v-bind:text='"width:4;value: " + args.text + ";color:white;"'>
+                                        v-bind:text='"width:4;value: " + args.text + ";color:" + args.color + ";"'>
 
                               </a-entity>
 
