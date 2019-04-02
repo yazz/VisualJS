@@ -149,7 +149,7 @@ http://yazz.com
 
 
 
-#### Command line options:
+### Command line options:
 
     -h, --help                 output usage information
     -V, --version              output the version number
