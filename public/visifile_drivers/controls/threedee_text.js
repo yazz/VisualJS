@@ -35,7 +35,7 @@ properties(
             id:         "position",
             name:       "Position",
             type:       "String",
-            default:    "-2 4 -5"
+            default:    "-2 2 -5"
         }
         ,
         {
@@ -43,6 +43,20 @@ properties(
             name:       "Rotation",
             type:       "String",
             default:    "0 45 0"
+        }
+        ,
+        {
+            id:         "boxWidth",
+            name:       "Box Width",
+            type:       "Number",
+            default:    4
+        }
+        ,
+        {
+            id:         "boxHeight",
+            name:       "Box Height",
+            type:       "Number",
+            default:    2
         }
         ,
         {
@@ -65,17 +79,17 @@ logo_url("/driver_icons/threedee_text_control.png")
 
         template: `<a-entity          v-bind:refresh='refresh'>
 
-                          <a-plane    v-if='args'
+                          <a-plane    v-if='(design_mode == false)'
                                       v-bind:refresh='refresh'
                                       v-bind:position='args.position'
                                       v-bind:rotation='args.rotation'
-                                      width="4"
-                                      height="4"
+                                      v-bind:width='args.boxWidth'
+                                      v-bind:height='args.boxHeight'
                                       v-bind:id='name'
 
                                       v-bind:color='args.backgroundColor'>
 
-                              <a-entity position="0 0 .1"
+                              <a-entity position=".2 0 .1"
                                         v-bind:text='"width:4;value: " + args.text + ";color:" + args.color + ";"'>
 
                               </a-entity>
@@ -86,14 +100,11 @@ logo_url("/driver_icons/threedee_text_control.png")
             ,
 
             mounted: function() {
-            var mm = this
-              registerComponent(this)
-              //alert(this.name)
-              debugger
-              var dd = document.getElementById(this.name)
-              dd.addEventListener('click', function() {
-                debugger
-                  mm.event_callback()
+                var mm = this
+                registerComponent(this)
+                var dd = document.getElementById(this.name)
+                dd.addEventListener('click', function() {
+                    mm.event_callback()
                 });
             }
             ,
