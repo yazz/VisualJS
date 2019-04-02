@@ -1090,6 +1090,10 @@ process.on('exit', function() {
 process.on('quit', function() {
   shutDown();
 });
+process.on("SIGINT", function () {
+    shutDown();
+    process.exit()
+});
 
 
 
