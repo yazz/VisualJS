@@ -122,16 +122,20 @@ http://yazz.com
 ##### 2) Install Python 27
 
     https://www.python.org/download/releases/2.7/
+    
+##### 3) Set the Path variable in Powershell to find Python
 
-##### 3) Install Microsoft Build Tools 2015
+    $env:Path += ';d:\Python27\'
+
+##### 4) Install Microsoft Build Tools 2015
 
     https://www.microsoft.com/en-us/download/details.aspx?id=48159
     
-##### 4) Install electron-forge
+##### 5) Install electron-forge
 
     npm install -g electron-forge
 
-##### 5) Build the Windows Electron app with Electron Forge
+##### 6) Build the Windows Electron app with Electron Forge
 
     electron-forge make
 
