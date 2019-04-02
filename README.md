@@ -61,12 +61,32 @@ http://yazz.com
 
 
 
-### To build the Mac .app you also need to
+### To build the Mac Electron app you also need to
 ##### 1) Install SQlite3 for Electron
     sudo npm install sqlite3 --build-from-source --runtime=electron --target=1.8.4 --dist-url=https://atom.io/download/electron (this step may not be needed on some platforms)
 ##### 2) Run electron packager
     Sudo electron-forge make
 
+
+
+### To build the Windows 10 Electron app you also need to
+##### 1) Open Powershell in administator mode
+    
+##### 2) Install Python 27
+
+    https://www.python.org/download/releases/2.7/
+
+##### 3) Install Microsoft Build Tools 2015
+
+    https://www.microsoft.com/en-us/download/details.aspx?id=48159
+    
+##### 4) Install electron-forge
+
+    npm install -g electron-forge
+
+##### 5) Build the Windows Electron app with Electron Forge
+
+    electron-forge make
 
 
 #### Command line options :
