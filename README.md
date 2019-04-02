@@ -8,12 +8,16 @@
 - Can be run as a Desktop app in Electron
 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 
 ### Website
 
 http://yazz.com
+
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 
 
@@ -42,6 +46,7 @@ http://yazz.com
     host.docker.internal
 
 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 
 
@@ -69,9 +74,10 @@ http://yazz.com
 
      node .\src\electron.js --runapp homepage --nogui true
 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 
-### To build the Mac Electron app you also need to
+### To build the Mac Electron app you also need to:
 ##### 1) Install SQlite3 for Electron
     sudo npm install sqlite3 --build-from-source --runtime=electron --target=1.8.4 --dist-url=https://atom.io/download/electron (this step may not be needed on some platforms)
 ##### 2) Run electron packager
@@ -79,7 +85,18 @@ http://yazz.com
 
 
 
-### To build the Windows 10 Electron app you also need to
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+### To build the Windows 10 Electron app you also need to:
 ##### 1) Open Powershell in administator mode
     
 ##### 2) Install Python 27
@@ -99,7 +116,16 @@ http://yazz.com
     electron-forge make
 
 
-#### Command line options :
+
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+#### Command line options:
 
     -h, --help                 output usage information
     -V, --version              output the version number
@@ -107,6 +133,13 @@ http://yazz.com
     -p, --port [port]          Which port should I listen on? [port]
     -h, --host [host]          Server address of the central host [host]
     -s, --hostport [hostport]  Server port of the central host [hostport]
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
 
 
 
