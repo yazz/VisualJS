@@ -89,7 +89,7 @@ http://yazz.com
     
 ##### OR run as Node.js application with browser based access
 
-     node .\src\electron.js --runapp homepage --nogui true
+     node .\src\electron.js --runapp homepage --nogui true --locked false
 
 
 
@@ -130,9 +130,10 @@ http://yazz.com
     npm config set strict-ssl false
     
     
+    npm install --unsafe-perm
     
     
-    
+    node .\src\electron.js --runapp homepage --nogui true --locked false
     
     
     
