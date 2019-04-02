@@ -123,6 +123,14 @@ http://yazz.com
 
 
 
+### To build on Linux you may also need to note:
+
+#### 1) Sometimes when running "npm install" you get messages about invalid SSH certificates, especially realted to the Babel NPM packages. To ignore this add:
+
+    npm config set strict-ssl false
+    
+    
+
 
 
 ### To build the Windows 10 Electron app you also need to:
