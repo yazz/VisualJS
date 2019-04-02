@@ -8,7 +8,8 @@
 - Can be run as a Desktop app in Electron
 
 
-<br /><br /><br /><br />
+<br /><br /><br /><br /><br />
+
 
 
 
@@ -18,7 +19,7 @@ http://yazz.com
 
 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br /><br /><br /><br /><br />
 
 
 
@@ -47,7 +48,13 @@ http://yazz.com
     host.docker.internal
 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+<br /><br /><br /><br /><br />
+
+
 
 
 
@@ -75,7 +82,16 @@ http://yazz.com
 
      node .\src\electron.js --runapp homepage --nogui true
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+<br /><br /><br /><br /><br />
+
+
+
+
+
 
 
 ### To build the Mac Electron app you also need to:
@@ -88,7 +104,10 @@ http://yazz.com
 
 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+<br /><br /><br /><br /><br />
 
 
 
@@ -120,7 +139,7 @@ http://yazz.com
 
 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br /><br /><br /><br /><br />
 
 
 
@@ -135,7 +154,14 @@ http://yazz.com
     -h, --host [host]          Server address of the central host [host]
     -s, --hostport [hostport]  Server port of the central host [hostport]
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+<br /><br /><br /><br /><br />
 
 
 
