@@ -170,11 +170,11 @@ http://yazz.com
 
 
 
-#### FAQ 
+### FAQ 
 
-### What is Yazz's killer feature?
+#### What is Yazz's killer feature?
 
 Yazz's killer feature is being able to build simple internal business apps fast. It enables this by allowing all apps to be made with our drag and drop editor and the Javascript and SQL scripting language
 
-### Is there commercial support for Yazz?
+#### Is there commercial support for Yazz?
 If you require commercial support then please go to http://yazz.com
