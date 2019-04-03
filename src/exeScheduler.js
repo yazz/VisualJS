@@ -4,7 +4,6 @@ var fs                          = require('fs');
 var path                        = require('path');
 var mkdirp                      = require('mkdirp')
 const uuidv1                    = require('uuid/v1');
-var crypto                      = require('crypto');
 var sqlite3                     = require('sqlite3');
 var os                          = require('os')
 var perf                        = require('./perf')

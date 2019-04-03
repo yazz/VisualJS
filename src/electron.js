@@ -40,7 +40,6 @@ var db_helper       = require("./db_helper")
 var perf            = require('./perf')
 //var Excel           = require('exceljs');
 var compression     = require('compression')
-var crypto          = require('crypto');
 var dns             = require('dns');
 var postgresdb      = require('pg');
 

@@ -8,7 +8,6 @@ var mammoth                     = require("mammoth");
 var postgresdb                  = require('pg');
 var mysql                       = require('mysql');
 const uuidv1                    = require('uuid/v1');
-var crypto                      = require('crypto');
 var diff                        = require('deep-diff').diff
 var sqlite3                     = require('sqlite3');
 var os                          = require('os')
