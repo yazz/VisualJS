@@ -5,15 +5,12 @@
   "author": "Zubair Quraishi",
   "private": true,
   "scripts": {
-    "postinstall": "install-app-deps"
   },
   "main": "src/electron.js",
   "dependencies": {
-    "electron": "1.8.4",
     "electron-compile": "^6.4.2",
     "electron-prebuilt": "^1.4.13",
     "electron-rebuild": "^1.8.2",
-    "sqlite3": "^4.0.2",
     "@rgrove/parse-xml": "^1.1.1",
     "async": "^2.6.0",
     "babel-preset-electron": "^1.4.15",
@@ -63,14 +60,15 @@
     "sqldown": "^2.1.0",
     "tar-stream": "^2.0.1",
     "uuid": "^3.1.0",
-    "vue": "^2.5.2"
+    "vue": "^2.5.2",
+    "sqlite3": "^4.0.2"
   },
   "devDependencies": {
-    "electron": "1.8.4",
+    "electron": "^1.8.4",
     "electron-builder": "^20.8.1",
-    "electron-prebuilt-compile": "1.8.4",
     "electron-compile": "^6.4.2",
-    "electron-packager": "^12.0.0"
+    "electron-packager": "^12.0.0",
+    "electron-prebuilt-compile": "1.8.4"
   },
   "config": {
     "forge": "./forge.config.js"

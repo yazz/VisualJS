@@ -14,5 +14,6 @@ apps:
 parts:
   yazz:
     plugin: nodejs
-    node-engine: 10.15.3
+    node-packages: []
+    node-engine: 7.7.3
     source: .
