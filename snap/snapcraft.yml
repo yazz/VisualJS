@@ -1,0 +1,33 @@
+name: yazz
+
+  version: git
+
+  summary: Cloud and Desktop IDE
+
+  description: |
+
+    This is Yazz.
+
+  grade: devel
+
+  confinement: devmode
+
+
+
+  apps:
+
+    visifile:
+
+      command: yazz
+
+      plugs: [network, network-bind]
+
+
+
+  parts:
+
+    visifile:
+
+      plugin: nodejs
+
+      source: .
