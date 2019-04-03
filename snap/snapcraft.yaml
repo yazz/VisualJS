@@ -30,4 +30,4 @@ name: yazz
 
       plugin: nodejs
 
-      source: .
+      source: src
