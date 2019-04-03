@@ -14,8 +14,6 @@
     "async": "^2.6.0",
     "babel-preset-electron": "^1.4.15",
     "body-parser": "^1.17.2",
-    "bplist-parser": "^0.1.1",
-    "child_process": "^1.0.2",
     "commander": "^2.9.0",
     "compression": "^1.7.0",
     "console": "^0.7.0",
