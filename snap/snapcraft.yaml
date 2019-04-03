@@ -1,33 +1,15 @@
 name: yazz
-
-  version: git
-
-  summary: Cloud and Desktop IDE
-
-  description: |
-
-    This is Yazz.
-
-  grade: devel
-
-  confinement: devmode
-
-
-
-  apps:
-
-    yazz:
-
-      command: yazz
-
-      plugs: [network, network-bind]
-
-
-
-  parts:
-
-    yazz:
-
-      plugin: nodejs
-
-      source: src
+summary: Cloud and Desktop IDE
+version: '2.10'
+description: |
+  This is Yazz.
+grade: devel
+confinement: devmode
+apps:
+  yazz:
+    command: yazz
+    plugs: [network, network-bind]
+parts:
+  yazz:
+    plugin: nodejs
+    source: .
