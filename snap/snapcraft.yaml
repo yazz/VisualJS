@@ -1,6 +1,6 @@
 name: yazz
 summary: Cloud and Desktop IDE
-version: '2.10'
+version: '3.0.10'
 description: |
   This is Yazz.
 grade: devel
