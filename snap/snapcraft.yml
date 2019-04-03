@@ -16,7 +16,7 @@ name: yazz
 
   apps:
 
-    visifile:
+    yazz:
 
       command: yazz
 
@@ -26,7 +26,7 @@ name: yazz
 
   parts:
 
-    visifile:
+    yazz:
 
       plugin: nodejs
 
