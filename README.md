@@ -135,8 +135,7 @@ http://yazz.com
     sudo npm config set strict-ssl false    
  
     sudo npm install --unsafe-perm
-    
-    sudo npm install
+
     
 ##### 6) Run the Yazz NodeJS application
 
