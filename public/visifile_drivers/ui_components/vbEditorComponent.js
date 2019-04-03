@@ -583,7 +583,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
             <div    id='right_project_pane'
-                    v-bind:class='(right_mode == "project"?"right_project_pane_expanded":"right_project_pane_collapsed")''
+                    v-bind:class='(right_mode == "project"?"right_project_pane_expanded":"right_project_pane_collapsed")'
                     v-bind:refresh='refresh'
                     v-bind:style='"padding:0px; border: 4px solid lightgray;white-space:nowrap"'>
 
