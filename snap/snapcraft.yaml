@@ -1,8 +1,7 @@
 name: yazz
 summary: Cloud and Desktop IDE
-version: '3.0.10'
-description: |
-  This is Yazz.
+version: git
+description: This is Yazz.
 grade: devel
 confinement: devmode
 
