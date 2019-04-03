@@ -68,7 +68,7 @@ http://yazz.com
 
 
 
-### Building Yazz from source
+### Building Yazz from source on Windows
 
 
 ##### 1) Install GIT from https://git-scm.com/downloads
@@ -123,16 +123,23 @@ http://yazz.com
 
 
 
-### To build on Linux you may also need to note:
+### Building Yazz from source on Linux:
 
-#### 1) Sometimes when running "npm install" you get messages about invalid SSH certificates, especially realted to the Babel NPM packages. To ignore this add:
+##### 1) Install GIT from https://git-scm.com/downloads
+##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
+##### 3) From the command line get the Git repository
+    git clone https://github.com/zubairq/yazz.git
+##### 4) Go to the yazz directory
+    cd yazz
+##### 5) Install the NodeJS modules
+    sudo npm config set strict-ssl false    
+ 
+    sudo npm install --unsafe-perm
+    
+    sudo npm install
+    
+##### 6) Run the Yazz NodeJS application
 
-    npm config set strict-ssl false
-    
-    
-    npm install --unsafe-perm
-    
-    
     node .\src\electron.js --runapp homepage --nogui true --locked false
     
     
