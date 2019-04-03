@@ -11,13 +11,11 @@ var sqlite3                     = require('sqlite3');
 var os                          = require('os')
 var perf                        = require('./perf')
 var db_helper                   = require("./db_helper")
-var isBinaryFile                = require("isbinaryfile");
 var saveHelper                  = require('./save_helpers')
 var esprima                     = require('esprima');
 
 var pgeval
 var sqliteeval
-var open            = require('opn');
 var tdeval
 var toeval;
 var userData

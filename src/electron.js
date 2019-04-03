@@ -33,7 +33,6 @@ var https           = require('https');
 var app             = express()
 var expressWs       = require('express-ws')(app);
 var request         = require("request");
-var open            = require('opn');
 var db_helper       = require("./db_helper")
 var perf            = require('./perf')
 var compression     = require('compression')
@@ -45,7 +44,6 @@ var bodyParser      = require('body-parser');
 var multer          = require('multer');
 var mysql           = require('mysql');
 var cors            = require('cors')
-var isBinaryFile    = require("isbinaryfile");
 var saveHelper      = require('./save_helpers')
 
 var sqlite3                     = require('sqlite3');
