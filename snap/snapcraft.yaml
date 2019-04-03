@@ -3,7 +3,7 @@ summary: Cloud and Desktop IDE
 version: git
 description: This is Yazz.
 grade: devel
-confinement: devmode
+confinement: strict
 
 
 
