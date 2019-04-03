@@ -5,6 +5,9 @@ description: |
   This is Yazz.
 grade: devel
 confinement: devmode
+
+
+
 apps:
   yazz:
     command: yazz
@@ -12,4 +15,5 @@ apps:
 parts:
   yazz:
     plugin: nodejs
+    node-engine: 8.10.0
     source: .
