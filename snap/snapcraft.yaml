@@ -15,6 +15,6 @@ apps:
 parts:
   yazz:
     plugin: nodejs
-    node-packages: [sqlite3]
-    node-engine: 8.10.0
+    node-packages: [sqlite3@4.0.2]
+    node-engine: 10.15.3
     source: .
