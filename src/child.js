@@ -3,8 +3,6 @@
 var fs                          = require('fs');
 var path                        = require('path');
 var mkdirp                      = require('mkdirp')
-var csv                         = require('fast-csv');
-var mammoth                     = require("mammoth");
 var postgresdb                  = require('pg');
 var mysql                       = require('mysql');
 const uuidv1                    = require('uuid/v1');
@@ -155,198 +153,12 @@ function setUpSql() {
 
 
 
-function getContentType(fullFileNamePath) {
-    var contentType = 'text/plain'
-    var extension = fullFileNamePath.substr(fullFileNamePath.lastIndexOf('.') + 1).toLowerCase()
-    if (extension == 'pdf') {contentType = 'application/pdf'}
-    else if (extension == 'glb') {contentType = 'model/gltf-binary'}
-    else if (extension == 'docx') {contentType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'}
-    else if (extension == 'xls') {contentType = 'application/vnd.ms-excel'}
-    else if (extension == 'xlsx') {contentType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}
-    else if (extension == 'csv') {contentType = 'text/csv'}
-    return contentType;
-}
 
 
-
-
-function createContent(     fullFileNamePath,
-                            sha1ofFileContents) {
-
-
-        //
-        // create the content if it doesn't exist
-        //
-        dbsearch.serialize(
-            function() {
-                var stmt = dbsearch.all(
-                    "select  *  from  contents  where  id = ? ", [  sha1ofFileContents  ],
-
-                    function(err, results)
-                    {
-                        if (!err)
-                        {
-                            if (results.length == 0) {
-                                try {
-                                    var contentType = getContentType(fullFileNamePath)
-                                    var fileContent = fs.readFileSync(fullFileNamePath)
-
-                                    dbsearch.serialize(function() {
-
-                                        dbsearch.run("begin exclusive transaction");
-                                        stmtInsertIntoContents.run(
-
-                                            sha1ofFileContents,
-                                            fileContent,
-                                            contentType)
-                                        dbsearch.run("commit");
-                                            })
-
-                                   } catch (err) {
-                                       console.log(err);
-                                       var stack = new Error().stack
-                                       console.log( stack )
-                                   }
-                           }
-                       }
-                   })
-               }, sqlite3.OPEN_READONLY)
-}
-
-
-
-
-
-
-
-function foundFile(     fullFileNamePath,
-                        sha1ofFileContents,
-                        fileContentsSize,
-                        fileScreenName,
-                        existingConnectionId,
-                        driverName,
-                        documentType) {
-
-        var newFileId   = uuidv1();
-
-        dbsearch.serialize(
-            function() {
-                dbsearch.run("begin exclusive transaction");
-                stmtInsertIntoFiles.run(
-                    newFileId,
-                    sha1ofFileContents,
-                    fileContentsSize,
-                    path.dirname(fullFileNamePath),
-                    path.basename(fullFileNamePath),
-                    existingConnectionId)
-
-                dbsearch.run("commit");
-            })
-}
-
-
-
-
-function getSha256(fileName) {
-    try {
-        var contents = fs.readFileSync(fileName, "utf8");
-        var hash = crypto.createHash('sha256');
-        hash.setEncoding('hex');
-        hash.write(contents);
-        hash.end();
-        var sha1sum = hash.read();
-        createContent(fileName, sha1sum);
-        return sha1sum;
-    } catch (err) {
-        console.log(err);
-        var stack = new Error().stack
-        console.log( stack )
-        return null;
-    }
-}
 
 function timestampInSeconds() {
     return Math.floor(Date.now() / 1000)
 }
-
-
-//-----------------------------------------------------------------------------------------//
-//                                                                                         //
-//                                   markFileForProcessing                                 //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//-----------------------------------------------------------------------------------------//
-function markFileForProcessing(  fullFilePath ) {
-    if (!fullFilePath) {
-        return;
-    };
-    if (fullFilePath.indexOf("$") != -1) {
-        return;
-    };
-    if (fullFilePath.indexOf("gsd_") != -1) {
-        return;
-    };
-    try {
-        dbsearch.serialize(function() {
-            var stmt = dbsearch.all(
-                "select id from files where   path = ?   and   orig_name = ?",
-                [path.dirname(fullFilePath), path.basename(fullFilePath)],
-                function(err, results)
-                {
-                    if (!err)
-                    {
-                        if (results.length == 0) {
-                            try {
-                                var newFileId   = uuidv1();
-                                dbsearch.serialize(
-                                    function() {
-                                        dbsearch.run("begin exclusive transaction");
-                                        stmtInsertIntoFiles2.run(
-                                            newFileId,
-                                            path.dirname(fullFilePath),
-                                            path.basename(fullFilePath))
-                                        dbsearch.run("commit");
-                                      })
-
-                            } catch (err) {
-                                console.log("Error " + err + " with file: " + fullFilePath);
-                                var stack = new Error().stack
-                                console.log( stack )
-                            }
-                        };
-                    };
-                }
-            )
-        }, sqlite3.OPEN_READONLY)
-
-
-        dbsearch.serialize(
-            function() {
-                dbsearch.run("begin exclusive transaction");
-                var newFileId   = uuidv1();
-                stmtAddFileForUpload.run(
-                    newFileId,
-                    '||  path='+fullFilePath+'  ||')
-                dbsearch.run("commit");
-              })
-
-
-    } catch(err) {
-        console.log("Error " + err + " with file: " + fullFilePath);
-        var stack = new Error().stack
-        console.log( stack )
-        return err;
-    } finally {
-
-    }
-}
-
 
 
 
@@ -506,10 +318,8 @@ function processMessagesFromMainProcess() {
     process.on('message', (msg) => {
       //console.log('Message from parent:', msg);
 
-      if (msg.message_type == 'saveConnectionAndQueryForFile') {
-          markFileForProcessing(msg.fileId);
 
-      } else if (msg.message_type == 'parent_test') {
+      if (msg.message_type == 'parent_test') {
           //console.log('Message from parent:', msg);
           process.send({send_from_child: "***** Received message from parent"})
 

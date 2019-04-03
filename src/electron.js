@@ -12,13 +12,11 @@ var fork            = require('child_process');
 var fs = require('fs');
 var ip = require('ip');
 var isWin         = /^win/.test(process.platform);
-var isPiModule = require('detect-rpi');
 var mainNodeProcessStarted = false;
 
 
 
 
-var isRaspberryPi = isPiModule();
 console.log('...');
 
 var ls = require('ls-sync');
@@ -38,7 +36,6 @@ var request         = require("request");
 var open            = require('opn');
 var db_helper       = require("./db_helper")
 var perf            = require('./perf')
-//var Excel           = require('exceljs');
 var compression     = require('compression')
 var dns             = require('dns');
 var postgresdb      = require('pg');
@@ -46,10 +43,8 @@ var postgresdb      = require('pg');
 var program         = require('commander');
 var bodyParser      = require('body-parser');
 var multer          = require('multer');
-var csv             = require('fast-csv');
 var mysql           = require('mysql');
 var cors            = require('cors')
-var mammoth         = require("mammoth");
 var isBinaryFile    = require("isbinaryfile");
 var saveHelper      = require('./save_helpers')
 
