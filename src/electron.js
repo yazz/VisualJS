@@ -46,13 +46,11 @@ var postgresdb      = require('pg');
 var program         = require('commander');
 var bodyParser      = require('body-parser');
 var multer          = require('multer');
-var diff            = require('deep-diff').diff
 var csv             = require('fast-csv');
 var mysql           = require('mysql');
 var cors            = require('cors')
 var mammoth         = require("mammoth");
 var isBinaryFile    = require("isbinaryfile");
-var csvToJson       = require('csvtojson')
 var saveHelper      = require('./save_helpers')
 
 var sqlite3                     = require('sqlite3');

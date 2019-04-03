@@ -9,7 +9,6 @@ var postgresdb                  = require('pg');
 var mysql                       = require('mysql');
 const uuidv1                    = require('uuid/v1');
 var crypto                      = require('crypto');
-var diff                        = require('deep-diff').diff
 var sqlite3                     = require('sqlite3');
 var os                          = require('os')
 var perf                        = require('./perf')
@@ -33,7 +32,6 @@ var stmt3                               = null;
 var finishedFindingFolders              = false;
 var username                            = "Unknown user";
 var dbsearch;
-var xdiff;
 var lhs;
 var rhs;
 
