@@ -79,12 +79,7 @@ http://yazz.com
     cd yazz
 ##### 5) Install the NodeJS modules
     npm install
-##### 6) Install SQlite3 for Electron
-    Copy
-        node_macos64/node_sqlite3.noderename
-    to
-        node_modules/sqlite3/lib/binding/node-v57-darwin-x64/node_sqlite3.node
-##### 7) Run the Yazz Electron application
+##### 6) Run the Yazz Electron application
     electron .
     
 ##### OR run as Node.js application with browser based access
@@ -103,7 +98,42 @@ http://yazz.com
 
 
 
-### To build the Mac Electron app you also need to:
+### Building Yazz from source on Mac:
+
+##### 1) Install GIT from https://git-scm.com/downloads
+##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
+##### 3) From the command line get the Git repository
+    git clone https://github.com/zubairq/yazz.git
+##### 4) Go to the yazz directory
+    cd yazz
+##### 5) Install the NodeJS modules
+    npm install
+##### 6) Install SQlite3 for Electron
+    Copy
+        node_macos64/node_sqlite3.noderename
+    to
+        node_modules/sqlite3/lib/binding/node-v57-darwin-x64/node_sqlite3.node
+##### 7) Run the Yazz Electron application
+    electron .
+    
+##### OR run as Node.js application with browser based access
+
+     node .\src\electron.js --runapp homepage --nogui true --locked false
+
+
+
+
+
+
+<br /><br /><br /><br /><br />
+
+
+
+
+
+
+### To build the Electron app
+:
 ##### 1) Install SQlite3 for Electron
     sudo npm install sqlite3 --build-from-source --runtime=electron --target=1.8.4 --dist-url=https://atom.io/download/electron (this step may not be needed on some platforms)
 ##### 2) Run electron packager
