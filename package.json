@@ -9,6 +9,10 @@
   },
   "main": "src/electron.js",
   "dependencies": {
+    "electron": "1.8.4",
+    "electron-compile": "^6.4.2",
+    "electron-prebuilt": "^1.4.13",
+    "electron-rebuild": "^1.8.2",
     "sqlite3": "^4.0.2",
     "@rgrove/parse-xml": "^1.1.1",
     "async": "^2.6.0",
@@ -27,10 +31,6 @@
     "detect-rpi": "^1.2.0",
     "diskspace": "^2.0.0",
     "dockerode": "^2.5.8",
-    "electron": "1.8.4",
-    "electron-compile": "^6.4.2",
-    "electron-prebuilt": "^1.4.13",
-    "electron-rebuild": "^1.8.2",
     "escodegen": "^1.11.0",
     "esprima": "^4.0.0",
     "estraverse": "^4.2.0",
@@ -66,6 +66,7 @@
     "vue": "^2.5.2"
   },
   "devDependencies": {
+    "electron": "1.8.4",
     "electron-builder": "^20.8.1",
     "electron-prebuilt-compile": "1.8.4",
     "electron-compile": "^6.4.2",
