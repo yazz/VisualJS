@@ -4,8 +4,7 @@
   "version": "3.0.10",
   "author": "Zubair Quraishi",
   "private": true,
-  "scripts": {
-  },
+  "scripts": {},
   "main": "src/electron.js",
   "dependencies": {
     "electron-compile": "^6.4.2",
