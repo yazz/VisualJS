@@ -638,6 +638,20 @@ uses_javascript_librararies(["advanced_bundle"])
                                             >
 
                                               {{av.name}}
+                                              <div    v-if='form.name == model.active_form'
+                                                      v-for='(av2,index2) in getActiveFormComponents()'
+                                                      v-on:click='$event.stopPropagation();selected_pane = "project";selectComponent(index2)'
+                                                      >
+
+                                                  <div  v-bind:style='(((index2 == model.active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:20px; padding:2px;border-radius: 3px;"'
+                                                        v-if='(av2.parent == av.name)'>
+                                                    <div  style='width:100%;display:inline-block;overflow: hidden;'
+                                                          >
+
+                                                            {{av2.name}}
+                                                    </div>
+                                                  </div>
+                                              </div>
                                       </div>
                                     </div>
                                 </div>
