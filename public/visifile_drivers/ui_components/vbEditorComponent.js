@@ -1313,18 +1313,8 @@ uses_javascript_librararies(["advanced_bundle"])
         addControl: function(controlDetails) {
             var mm = this
             mm.model.forms.Form_1.components.push(
-              {
-                  "leftX": 300,
-                  "topY": 0,
-                  "name": "aaa1",
-                  "base_component_id": "label_control",
-                  "width": 100,
-                  "height": 100,
-                  "text": "Drag controls from the left onto this grid and then press the 'Save changes' button above",
-                  "background_color": "",
-                  "parent": null,
-                  "use_pre": "true"
-              })
+                  controlDetails
+              )
         }
         ,
 
