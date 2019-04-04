@@ -153,8 +153,8 @@ http://yazz.com
 
 
 
-## To build the Electron app
-:
+## To build the Electron app:
+
 ##### 1) Install SQlite3 for Electron
     sudo npm install sqlite3 --build-from-source --runtime=electron --target=1.8.4 --dist-url=https://atom.io/download/electron (this step may not be needed on some platforms)
 ##### 2) Run electron packager
