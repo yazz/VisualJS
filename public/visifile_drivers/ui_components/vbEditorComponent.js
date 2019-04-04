@@ -632,7 +632,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                         v-on:click='$event.stopPropagation();selected_pane = "project";selectComponent(index)'
                                         >
 
-                                    <div  v-bind:style='(((index == model.active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:80px; padding:2px;border-radius: 3px;"'
+                                    <div  v-bind:style='(((index == model.active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:80px; padding:2px;border-radius: 3px;width:90%;"'
                                           v-if='(av.parent == null)'>
                                       <div  style='width:100%;display:inline-block;overflow: hidden;'
                                             >
@@ -643,7 +643,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                                       v-on:click='$event.stopPropagation();selected_pane = "project";selectComponent(index2)'
                                                       >
 
-                                                  <div  v-bind:style='(((index2 == model.active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:20px; padding:2px;border-radius: 3px;"'
+                                                  <div  v-bind:style='(((index2 == model.active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:20px; padding:2px;border-radius: 3px;width:90%;"'
                                                         v-if='(av2.parent == av.name)'>
                                                     <div  style='width:100%;display:inline-block;overflow: hidden;'
                                                           >
