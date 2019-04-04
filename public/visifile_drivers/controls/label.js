@@ -25,6 +25,19 @@ properties(
             type:   "String"
         }
         ,
+
+
+        {
+            id:         "use_pre",
+            name:       "Use <pre>",
+            type:       "Select",
+            default:     false,
+            values:     [
+                            {display: "False",   value: false},
+                            {display: "True",  value: true}
+                        ]
+        }
+        ,
         {
             id:         "setText",
             snippet:    `setText("")`,
@@ -45,7 +58,11 @@ logo_url("/driver_icons/text_control.png")
         template: `<div v-bind:style='"white-space:normal;height:100%;width:100%; border: 0px;" +
                                     "background-color: "+    args["background_color"]  +  ";"'>
 
-                                                {{text}}
+<pre v-if="args.use_pre">{{text}}</pre>
+
+<div v-else>
+     {{text}}
+</div>
                  </div>`
         ,
         data: function() {
