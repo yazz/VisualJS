@@ -1310,6 +1310,23 @@ uses_javascript_librararies(["advanced_bundle"])
 
         }
         ,
+        copyControl: function(controlDetails , props , genNewName) {
+            var mm = this
+            debugger
+            var xx = JSON.parse(JSON.stringify(controlDetails))
+
+
+
+
+            var yy = Object.assign(xx , props)
+            if ( isValidObject(genNewName) ) {
+              yy.name = "random_name"
+            }
+
+            return yy
+        }
+        ,
+
         addControl: function(controlDetails) {
             var mm = this
             mm.model.forms.Form_1.components.push(
