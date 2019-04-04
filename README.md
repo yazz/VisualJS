@@ -1,5 +1,5 @@
 
-# YAZZ - Build Docker Webapps in Minutes (Beta)
+# YAZZ - Build Docker Webapps in Minutes
 
 - Build apps in minutes with drag and drop interface and code business logic in Javascript
 - One click deploy to Docker
@@ -13,7 +13,7 @@
 
 
 
-### Website
+## Website
 
 http://yazz.com
 
@@ -25,7 +25,7 @@ http://yazz.com
 
 
 
-### Quick start:
+## Docker Quick start
 ##### 1) Download and run Docker
 
 ##### 2) Expose the Docker REST api on port 1234 with:
@@ -61,7 +61,7 @@ http://yazz.com
 
 
 
-### Building Yazz from source on Linux:
+## Building Yazz from source on Linux:
 
 ##### 1) Install GIT from https://git-scm.com/downloads
 ##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
@@ -89,7 +89,7 @@ http://yazz.com
 
 
 
-### Building Yazz from source on Windows
+## Building Yazz from source on Windows
 
 
 ##### 1) Install GIT from https://git-scm.com/downloads
@@ -119,7 +119,7 @@ http://yazz.com
 
 
 
-### Building Yazz from source on Mac:
+## Building Yazz from source on Mac:
 
 ##### 1) Install GIT from https://git-scm.com/downloads
 ##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
@@ -153,7 +153,7 @@ http://yazz.com
 
 
 
-### To build the Electron app
+## To build the Electron app
 :
 ##### 1) Install SQlite3 for Electron
     sudo npm install sqlite3 --build-from-source --runtime=electron --target=1.8.4 --dist-url=https://atom.io/download/electron (this step may not be needed on some platforms)
@@ -161,23 +161,6 @@ http://yazz.com
     Sudo electron-forge make
 
 
-
-
-
-
-
-
-<br /><br /><br /><br /><br />
-
-
-
-
-
-
-
-
-
-    
 
 
 
@@ -214,16 +197,20 @@ http://yazz.com
 
 
 
-### Command line options:
+## Command line options:
 
-    -h, --help                 output usage information
-    -V, --version              output the version number
-    -t, --type [type]          Add the specified type of app [type]
-    -p, --port [port]          Which port should I listen on? [port]
-    -h, --host [host]          Server address of the central host [host]
-    -s, --hostport [hostport]  Server port of the central host [hostport]
-
-
+    --help                 output usage information
+    --version              output the version number
+    --port                 Which port should I listen on? Default 80 or 3000 (if not run as sudo)
+    --host                 Server address of the central host (default is local machine IP address)
+    --locked               Allow server to be locked/unlocked on start up to other machines in intranet (default true)
+    --nogui                Allow server to be run in headless mode (default false)
+    --deleteonexit         Delete database files on exit (default false)
+    --deleteonstartup      Delete database files on startup (default false) 
+    --runapp               Run using a local app on startup (default not set). "homepage" often used
+    --https                Run using a HTTPS (default is false)
+    --private              Private HTTPS key location
+    --public               Public HTTPS certificate location
 
 
 
