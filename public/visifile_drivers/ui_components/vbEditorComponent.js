@@ -630,9 +630,16 @@ uses_javascript_librararies(["advanced_bundle"])
                                 <div    v-if='form.name == model.active_form'
                                         v-for='(av,index) in getActiveFormComponents()'
                                         v-on:click='$event.stopPropagation();selected_pane = "project";selectComponent(index)'
-                                        v-bind:style='(((index == model.active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:80px; padding:2px;border-radius: 3px;"'>
+                                        >
 
-                                    <div style='width:100%;display:inline-block;overflow: hidden;'>{{av.name}}</div>
+                                    <div  v-bind:style='(((index == model.active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:80px; padding:2px;border-radius: 3px;"'
+                                          v-if='(av.parent == null)'>
+                                      <div  style='width:100%;display:inline-block;overflow: hidden;'
+                                            >
+
+                                              {{av.name}}
+                                      </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
