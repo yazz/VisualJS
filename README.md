@@ -1,14 +1,9 @@
 <pre>
 
-██╗   ██╗ █████╗ ███████╗███████╗
-╚██╗ ██╔╝██╔══██╗╚══███╔╝╚══███╔╝
- ╚████╔╝ ███████║  ███╔╝   ███╔╝ 
-  ╚██╔╝  ██╔══██║ ███╔╝   ███╔╝  
-   ██║   ██║  ██║███████╗███████╗
-   ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝
+
                                  
 </pre>
-# Build Docker Webapps in Minutes (Beta)
+# YAZZ - Build Docker Webapps in Minutes (Beta)
 
 - Build apps in minutes with drag and drop interface and code business logic in Javascript
 - One click deploy to Docker
@@ -68,6 +63,36 @@ http://yazz.com
 
 
 
+
+
+### Building Yazz from source on Linux:
+
+##### 1) Install GIT from https://git-scm.com/downloads
+##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
+##### 3) From the command line get the Git repository
+    git clone https://github.com/zubairq/yazz.git
+##### 4) Go to the yazz directory
+    cd yazz
+##### 5) Install the NodeJS modules
+    sudo npm config set strict-ssl false    
+ 
+    sudo npm install --unsafe-perm
+
+    
+##### 6) Run the Yazz NodeJS application
+
+    node /src/electron.js --runapp homepage --nogui true --locked false
+    
+    
+    
+    
+<br /><br /><br /><br /><br />
+
+
+
+
+
+
 ### Building Yazz from source on Windows
 
 
@@ -118,7 +143,7 @@ http://yazz.com
     
 ##### OR run as Node.js application with browser based access
 
-     node .\src\electron.js --runapp homepage --nogui true --locked false
+     node src/electron.js --runapp homepage --nogui true --locked false
 
 
 
@@ -150,31 +175,6 @@ http://yazz.com
 
 
 
-
-
-
-### Building Yazz from source on Linux:
-
-##### 1) Install GIT from https://git-scm.com/downloads
-##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
-##### 3) From the command line get the Git repository
-    git clone https://github.com/zubairq/yazz.git
-##### 4) Go to the yazz directory
-    cd yazz
-##### 5) Install the NodeJS modules
-    sudo npm config set strict-ssl false    
- 
-    sudo npm install --unsafe-perm
-
-    
-##### 6) Run the Yazz NodeJS application
-
-    node .\src\electron.js --runapp homepage --nogui true --locked false
-    
-    
-    
-    
-<br /><br /><br /><br /><br />
 
 
 
