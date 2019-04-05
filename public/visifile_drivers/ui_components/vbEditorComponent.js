@@ -964,6 +964,24 @@ uses_javascript_librararies(["advanced_bundle"])
                     }
 
 
+
+//zzz
+  //                  for (var cpp = 0 ; cpp < mm.getFormProperties().length; cpp ++) {
+    //                    var formDef = this.model.forms[formName]
+      //                  if (formDef[cpp].type == "Action") {
+        //                    formDef[prop] =
+          //                      mm.getControlMethod(mm.model.forms[formName].components[compenentInFormIndex],
+                 //                                   cachedComponentPropertiesDefinition[cpp].id )
+
+            //            } else if (!isValidObject(formDef[prop])){
+              //              formDef[prop] = ""
+                //        }
+                //    }
+
+
+
+
+
                     // ---------------------------------------------------------
                     // ...
                     //
@@ -982,9 +1000,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
                                 if (cachedComponentPropertiesDefinition[cpp].type == "Action") {
                                     this.model.forms[formName].components[compenentInFormIndex][prop] =
-                                        mm.getControlMethod(mm.model.forms[formName].components[compenentInFormIndex].base_component_id,
-                                                            mm.model.forms[formName].components[compenentInFormIndex],
-                                                            cachedComponentDefinition,
+                                        mm.getControlMethod(mm.model.forms[formName].components[compenentInFormIndex],
                                                             cachedComponentPropertiesDefinition[cpp].id )
 
                                 } else if (!isValidObject(this.model.forms[formName].components[compenentInFormIndex][prop])){
@@ -1079,7 +1095,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
      methods: {
-         getControlMethod: function(base_id,componentDetails,ompEvaled1, methodId) {
+         getControlMethod: function(componentDetails, methodId) {
             return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
                 //alert(JSON.stringify(componentDetails.name,null,2))
                 var controlDetails = globalControl[componentDetails.name]
@@ -1904,7 +1920,7 @@ debugger
                          //
 
                          } else if (formName) {
-//zzz
+
                             var formProps = mm.getFormProperties(formName)
                             for (var formPropIndex = 0 ; formPropIndex < formProps.length ; formPropIndex++ ) {
 
@@ -2394,7 +2410,7 @@ debugger
              return props
          }
          ,
-//zzz
+
 
 
          //-------------------------------------------------------------------
@@ -3476,7 +3492,7 @@ ${eventMessage.code}
                 height: 300,
                 add_block: "alert('Add block called')"
             }
-            //zzz
+
             mm.model.active_form = newFormName
             mm.refresh ++
          }
