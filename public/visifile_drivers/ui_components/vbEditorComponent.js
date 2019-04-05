@@ -2646,6 +2646,12 @@ ${eventMessage.code}
                         appCode += ( "var app = mm.model;")
                         eval(appCode)
 
+                        var meCode =""
+                        meCode += ( "var myForm = mm.form_runtime_info['" + this.model.active_form + "']")
+                        eval(meCode)
+
+
+
 
                         var debugFcc = getDebugCode(mm.model.active_form +"_"+eventMessage.control_name+"_"+eventMessage.sub_type,fcc,{skipFirstAndLastLine: true})
                         var efcc = eval(debugFcc)
