@@ -1825,6 +1825,10 @@ uses_javascript_librararies(["advanced_bundle"])
                                 formName = mm.model.active_form
                             }
 
+                        } else if (firstObjectToAutocomplete == "myForm") {
+debugger
+                              formName = mm.model.active_form
+
                         } else {
 
                             //
@@ -1900,7 +1904,7 @@ uses_javascript_librararies(["advanced_bundle"])
                          //
 
                          } else if (formName) {
-
+//zzz
                             var formProps = mm.properties
                             for (var formPropIndex = 0 ; formPropIndex < formProps.length ; formPropIndex++ ) {
 
