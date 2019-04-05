@@ -2440,7 +2440,8 @@ ${formprop.fn}
 //alert(JSON.stringify(arg1,null,2))
 mm.addControl(  arg1  )
 
-//var abc = JSON.stringify(aaa)
+//var abc = JSON.parse(JSON.stringify(aaa))
+//abc.name = "hjkhjk"
 //abc.topY = 300
 //me.add_block(abc)
 `
