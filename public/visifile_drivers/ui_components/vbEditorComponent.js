@@ -1748,6 +1748,13 @@ uses_javascript_librararies(["advanced_bundle"])
                                              "syllables":"1",
                                               meta:      "The current control"
                                              })
+                             wordList.push(  {"word":    "myForm",
+                                             "freq":     24,
+                                             "score":    300,
+                                             "flags":    "bc",
+                                             "syllables":"1",
+                                              meta:      "The current form"
+                                             })
                          }
 
                          wordList.push(  {"word":    "parent",
