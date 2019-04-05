@@ -965,7 +965,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
 
-//zzz
+
                     debugger
                     var formProps = mm.getFormProperties()
                     for (var cpp = 0 ; cpp < formProps.length; cpp ++) {
@@ -1104,7 +1104,7 @@ uses_javascript_librararies(["advanced_bundle"])
                 var controlDetails = globalControl[componentDetails.name]
                 var fnDetails = controlDetails[methodId]
                 var retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
-                if (isValidObject(retv.failed)) {
+                if (isValidObject(retv) && isValidObject(retv.failed)) {
                     throw retv.failed
                 }
                 return retv.value
@@ -1112,15 +1112,16 @@ uses_javascript_librararies(["advanced_bundle"])
 
          }
 
+//zzz
          ,
          getFormMethod: function(formName, methodId) {
             var mm = this
             return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
                 var formDetails = mm.model.forms[formName]
                 var fnDetails = formDetails[methodId]
-                fnDetails = function() {alert("form d")}
+                fnDetails = function() {alert(formDetails[methodId])}
                 var retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
-                if (isValidObject(retv.failed)) {
+                if (isValidObject(retv) && isValidObject(retv.failed)) {
                     throw retv.failed
                 }
                 return retv.value
@@ -2425,10 +2426,12 @@ debugger
              props.push({   id:     "width",   name:   "Width",   type:   "Number"    })
              props.push({   id:     "height",   name:   "Height",   type:   "Number"    })
              props.push({   id:     "form_activate",   name:   "Activate Event",   type:   "Event"    })
-             props.push({   id:     "add_block",   name:   "Add Block",   type:   "Action"    })
+             props.push({   id:     "add_block",   name:   "Add Block",   type:   "Action"  ,
+                            snippet:    `add_block("")`
+                              })
              return props
          }
-         ,
+         ,//zzz
 
 
 
