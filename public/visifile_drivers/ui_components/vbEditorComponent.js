@@ -1905,7 +1905,7 @@ debugger
 
                          } else if (formName) {
 //zzz
-                            var formProps = mm.properties
+                            var formProps = mm.getFormProperties(formName)
                             for (var formPropIndex = 0 ; formPropIndex < formProps.length ; formPropIndex++ ) {
 
                                 var propDetails = formProps[formPropIndex]
@@ -2378,6 +2378,24 @@ debugger
 
 
 
+
+         //-------------------------------------------------------------------
+         //                        setVBEditorProperty
+         //
+         //                          event, property
+         //-------------------------------------------------------------------
+         getFormProperties: function(    formName    ) {
+             var props = []
+             props.push({   id:     "name",   name:   "Name",   type:   "String"    })
+             props.push({   id:     "width",   name:   "Width",   type:   "Number"    })
+             props.push({   id:     "height",   name:   "Height",   type:   "Number"    })
+             props.push({   id:     "form_activate",   name:   "Activate Event",   type:   "Event"    })
+             return props
+         }
+         ,
+//zzz
+
+
          //-------------------------------------------------------------------
          setVBEditorProperty: function(event, property) {
          //-------------------------------------------------------------------
@@ -2540,6 +2558,7 @@ debugger
 
              mm.model.active_component_index = null
              mm.model.app_selected = false
+             //zzz
              mm.properties = []
              mm.properties.push({   id:     "name",   name:   "Name",   type:   "String"    })
              mm.properties.push({   id:     "width",   name:   "Width",   type:   "Number"    })
