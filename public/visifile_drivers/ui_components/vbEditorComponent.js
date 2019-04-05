@@ -877,6 +877,7 @@ uses_javascript_librararies(["advanced_bundle"])
             mm.vb_grid_element_id   = "vb_grid_"+ uuidv4()
             mm.vb_editor_element_id = "vb_editor_"+ uuidv4()
             mm.local_app            = localAppshareApp
+            form_cache              = new Object()
 
 
 
