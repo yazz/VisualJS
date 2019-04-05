@@ -2437,7 +2437,12 @@ ${formprop.fn}
                             snippet:    `add_block("")`,
                             fn:
 `
-alert(99)
+//alert(JSON.stringify(arg1,null,2))
+mm.addControl(  arg1  )
+
+//var abc = JSON.stringify(aaa)
+//abc.topY = 300
+//me.add_block(abc)
 `
                               })
              return props
