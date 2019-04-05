@@ -32,6 +32,7 @@ formEditor({
       "name": "Form_1",
       "width": 372,
       "height": 355,
+      "add_block": "alert('Add block called')",
       "components": [
         {
           "leftX": 24,

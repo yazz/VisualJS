@@ -2390,6 +2390,7 @@ debugger
              props.push({   id:     "width",   name:   "Width",   type:   "Number"    })
              props.push({   id:     "height",   name:   "Height",   type:   "Number"    })
              props.push({   id:     "form_activate",   name:   "Activate Event",   type:   "Event"    })
+             props.push({   id:     "add_block",   name:   "Add Block",   type:   "Action"    })
              return props
          }
          ,
@@ -2558,12 +2559,8 @@ debugger
 
              mm.model.active_component_index = null
              mm.model.app_selected = false
-             //zzz
-             mm.properties = []
-             mm.properties.push({   id:     "name",   name:   "Name",   type:   "String"    })
-             mm.properties.push({   id:     "width",   name:   "Width",   type:   "Number"    })
-             mm.properties.push({   id:     "height",   name:   "Height",   type:   "Number"    })
-             mm.properties.push({   id:     "form_activate",   name:   "Activate Event",   type:   "Event"    })
+             mm.properties = mm.getFormProperties(formId)
+
              mm.model.active_form = formId
              mm.refresh ++
 
@@ -3468,11 +3465,7 @@ ${eventMessage.code}
          //-------------------------------------------------------------------
             var mm = this
             mm.model.active_component_index = null
-            mm.properties = []
-            this.properties.push({   id:     "name",   name:   "Name",   type:   "String"    })
-            this.properties.push({   id:     "width",   name:   "Width",   type:   "Number"    })
-            this.properties.push({   id:     "height",   name:   "Height",   type:   "Number"    })
-            this.properties.push({   id:     "form_activate",   name:   "Activate Event",   type:   "Event"    })
+            mm.properties = mm.getFormProperties()
 
             mm.model.max_form ++
             var newFormName = "form_" + mm.model.max_form
@@ -3480,8 +3473,10 @@ ${eventMessage.code}
                 name: newFormName,
                 components: [],
                 width: 300,
-                height: 300
+                height: 300,
+                add_block: "alert('Add block called')"
             }
+            //zzz
             mm.model.active_form = newFormName
             mm.refresh ++
          }
