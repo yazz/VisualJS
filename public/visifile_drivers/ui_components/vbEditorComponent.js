@@ -938,7 +938,7 @@ uses_javascript_librararies(["advanced_bundle"])
                     if (formprop.type == "Action") {
                         formDef[formprop.id] =
                             mm.getFormMethod(   formName,
-                                                formprop.id )
+                                                formprop)
 
                     } else if (!isValidObject(formprop)){
                         formDef[formprop.id] = ""
@@ -1115,11 +1115,11 @@ uses_javascript_librararies(["advanced_bundle"])
 
 //zzz
          ,
-         getFormMethod: function(formName, methodId) {
+         getFormMethod: function(formName, formprop) {
             var mm = this
             return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
                 var formDetails = mm.model.forms[formName]
-                var thecode = formDetails[methodId]
+                var thecode = formprop.fn
                 debugger
 
                 fnDetails = eval(
@@ -2434,7 +2434,8 @@ ${thecode}
              props.push({   id:     "height",   name:   "Height",   type:   "Number"    })
              props.push({   id:     "form_activate",   name:   "Activate Event",   type:   "Event"    })
              props.push({   id:     "add_block",   name:   "Add Block",   type:   "Action"  ,
-                            snippet:    `add_block("")`
+                            snippet:    `add_block("")`,
+                            fn:         `alert(99)`
                               })
              return props
          }
