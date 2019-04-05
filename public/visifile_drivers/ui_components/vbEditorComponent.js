@@ -2729,7 +2729,7 @@ ${eventMessage.code}
                         eval(appCode)
 
                         var meCode =""
-                        meCode += ( "var myForm = mm.form_runtime_info['" + this.model.active_form + "']")
+                        meCode += ( "var myForm = mm.model.forms['" + this.model.active_form + "'];")
                         eval(meCode)
 
 
