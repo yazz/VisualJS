@@ -928,6 +928,26 @@ uses_javascript_librararies(["advanced_bundle"])
             for (var formIndex = 0; formIndex < forms.length; formIndex ++) {
                 var formName = forms[formIndex].name
 
+
+
+                var formProps = mm.getFormProperties()
+                for (var cpp = 0 ; cpp < formProps.length; cpp ++) {
+                    var formprop = formProps[cpp]
+                    var propname = formprop.name
+                    var formDef = this.model.forms[formName]
+                    if (formprop.type == "Action") {
+                        formDef[formprop.id] =
+                            mm.getFormMethod(   formName,
+                                                formprop.id )
+
+                    } else if (!isValidObject(formprop)){
+                        formDef[formprop.id] = ""
+                    }
+                }
+
+
+
+
                 // ---------------------------------------------------------
                 // ... load the component definitions for all components in
                 //     the form
@@ -961,25 +981,6 @@ uses_javascript_librararies(["advanced_bundle"])
                     var componentConfig = mm.model.forms[formName].components[compenentInFormIndex]
                     if (mm.edited_app_component_id) {
                         mm.component_usage[  componentConfig.base_component_id  ] = true
-                    }
-
-
-
-
-                    debugger
-                    var formProps = mm.getFormProperties()
-                    for (var cpp = 0 ; cpp < formProps.length; cpp ++) {
-                        var formprop = formProps[cpp]
-                        var propname = formprop.name
-                        var formDef = this.model.forms[formName]
-                        if (formprop.type == "Action") {
-                            formDef[formprop.id] =
-                                mm.getFormMethod(   formName,
-                                                    formprop.id )
-
-                        } else if (!isValidObject(formprop)){
-                            formDef[formprop.id] = ""
-                        }
                     }
 
 
@@ -1118,8 +1119,14 @@ uses_javascript_librararies(["advanced_bundle"])
             var mm = this
             return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
                 var formDetails = mm.model.forms[formName]
-                var fnDetails = formDetails[methodId]
-                fnDetails = function() {alert(formDetails[methodId])}
+                var thecode = formDetails[methodId]
+                debugger
+
+                fnDetails = eval(
+`(async function() {
+${thecode}
+})`
+)
                 var retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
                 if (isValidObject(retv) && isValidObject(retv.failed)) {
                     throw retv.failed
@@ -1348,7 +1355,7 @@ uses_javascript_librararies(["advanced_bundle"])
         ,
         copyControl: function(controlDetails , props , genNewName) {
             var mm = this
-            debugger
+
             var xx = JSON.parse(JSON.stringify(controlDetails))
 
 
@@ -1862,7 +1869,7 @@ uses_javascript_librararies(["advanced_bundle"])
                             }
 
                         } else if (firstObjectToAutocomplete == "myForm") {
-debugger
+
                               formName = mm.model.active_form
 
                         } else {
@@ -1976,7 +1983,7 @@ debugger
                          //
 
                          } else if (isApp) {
-debugger
+
                             var appProps = mm.get_default_app_propeties()
                             for (var formPropIndex = 0 ; formPropIndex < appProps.length ; formPropIndex++ ) {
 
