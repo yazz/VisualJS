@@ -966,17 +966,21 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
 //zzz
-  //                  for (var cpp = 0 ; cpp < mm.getFormProperties().length; cpp ++) {
-    //                    var formDef = this.model.forms[formName]
-      //                  if (formDef[cpp].type == "Action") {
-        //                    formDef[prop] =
-          //                      mm.getControlMethod(mm.model.forms[formName].components[compenentInFormIndex],
-                 //                                   cachedComponentPropertiesDefinition[cpp].id )
+                    debugger
+                    var formProps = mm.getFormProperties()
+                    for (var cpp = 0 ; cpp < formProps.length; cpp ++) {
+                        var formprop = formProps[cpp]
+                        var propname = formprop.name
+                        var formDef = this.model.forms[formName]
+                        if (formprop.type == "Action") {
+                            formDef[formprop.id] =
+                                mm.getFormMethod(   formName,
+                                                    formprop.id )
 
-            //            } else if (!isValidObject(formDef[prop])){
-              //              formDef[prop] = ""
-                //        }
-                //    }
+                        } else if (!isValidObject(formprop)){
+                            formDef[formprop.id] = ""
+                        }
+                    }
 
 
 
@@ -1097,9 +1101,24 @@ uses_javascript_librararies(["advanced_bundle"])
      methods: {
          getControlMethod: function(componentDetails, methodId) {
             return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
-                //alert(JSON.stringify(componentDetails.name,null,2))
                 var controlDetails = globalControl[componentDetails.name]
                 var fnDetails = controlDetails[methodId]
+                var retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
+                if (isValidObject(retv.failed)) {
+                    throw retv.failed
+                }
+                return retv.value
+            }
+
+         }
+
+         ,
+         getFormMethod: function(formName, methodId) {
+            var mm = this
+            return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+                var formDetails = mm.model.forms[formName]
+                var fnDetails = formDetails[methodId]
+                fnDetails = function() {alert("form d")}
                 var retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
                 if (isValidObject(retv.failed)) {
                     throw retv.failed
