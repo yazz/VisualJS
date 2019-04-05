@@ -1119,14 +1119,14 @@ uses_javascript_librararies(["advanced_bundle"])
             var mm = this
             return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
                 var formDetails = mm.model.forms[formName]
-                var thecode = formprop.fn
+                var thecode =
+`(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+${formprop.fn}
+})`
+
                 debugger
 
-                fnDetails = eval(
-`(async function() {
-${thecode}
-})`
-)
+                fnDetails = eval(thecode)
                 var retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
                 if (isValidObject(retv) && isValidObject(retv.failed)) {
                     throw retv.failed
@@ -2435,7 +2435,10 @@ ${thecode}
              props.push({   id:     "form_activate",   name:   "Activate Event",   type:   "Event"    })
              props.push({   id:     "add_block",   name:   "Add Block",   type:   "Action"  ,
                             snippet:    `add_block("")`,
-                            fn:         `alert(99)`
+                            fn:
+`
+alert(99)
+`
                               })
              return props
          }
