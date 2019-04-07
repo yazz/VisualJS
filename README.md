@@ -1,6 +1,8 @@
 
 # YAZZ - Build Docker Webapps in Minutes
 
+Demo - https://yazz.com/app/homepage.html
+
 - Build apps in minutes with drag and drop interface and code business logic in Javascript
 - One click deploy to Docker
 - Open source MIT license
@@ -8,14 +10,7 @@
 - Can be run as a Desktop app in Electron
 
 
-<br /><br /><br /><br /><br />
 
-
-
-
-## See a demo
-
-https://yazz.com/app/homepage.html
 
 
 
