@@ -13,9 +13,9 @@
 
 
 
-## Website
+## See a demo
 
-http://yazz.com
+https://yazz.com/app/homepage.html
 
 
 
