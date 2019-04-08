@@ -997,7 +997,7 @@ uses_javascript_librararies(["advanced_bundle"])
                     var cachedComponentDefinition = component_cache[componentId]
 
                     if (isValidObject(cachedComponentDefinition)) {
-                        var cachedComponentPropertiesDefinition = cachedComponentDefinition.properties
+                        var cachedComponentPropertiesDefinition = this.getControlProperties(this.model.forms[formName].components[compenentInFormIndex])
                         if (isValidObject(cachedComponentPropertiesDefinition)) {
                             for (var cpp = 0 ; cpp< cachedComponentPropertiesDefinition.length; cpp ++) {
                                 var prop = cachedComponentPropertiesDefinition[cpp].id
@@ -3510,7 +3510,7 @@ ${eventMessage.code}
                             snippet:    `alert("Hello ducks!")`,
                             fn:
 `
-alert("fdsfafdas")
+alert("Alert called")
 `
                               })
 

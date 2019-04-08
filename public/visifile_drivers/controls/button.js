@@ -41,7 +41,7 @@ properties(
 
                          fn:
 `
-alert("fdsfafdas")
+alert("Alert 2 called")
 `
         }
     ]
