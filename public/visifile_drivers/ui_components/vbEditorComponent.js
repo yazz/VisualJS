@@ -1102,10 +1102,23 @@ uses_javascript_librararies(["advanced_bundle"])
      methods: {
          getControlMethod: function(componentDetails, methodId) {
             return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
-                var controlDetails = globalControl[componentDetails.name]
-                var fnDetails = controlDetails[methodId]
+
+                var fnDetails       = null
+debugger
+                if (isValidObject(componentDetails) && isValidObject(componentDetails.fn)) {
+                    var thecode =
+`(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+${componentDetails.fn}
+})`
+
+                    fnDetails = eval(thecode)
+
+                } else {
+                     var controlDetails = globalControl[componentDetails.name]
+                     fnDetails = controlDetails[methodId]
+                }
                 var retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
-                debugger
+
                 if (isValidObject(retv) && isValidObject(retv.failed)) {
                     throw retv.failed
                 }
@@ -3470,10 +3483,11 @@ ${eventMessage.code}
             }
             return false
          }
+
          ,
-         ,
+         //zzz
          //-------------------------------------------------------------------
-         getControlProperties: async function(component) {
+         getControlProperties: function(component) {
              var properties = []
              var compEvaled = this.getComponentProperties(component.base_component_id)
 
@@ -3490,8 +3504,15 @@ ${eventMessage.code}
              if (!this.existsProp(compEvaled,"load")) {
                  properties.push({   id:     "load",   name:   "Load Event",   type:   "Event"    })
              }
+             properties.push({   id:     "alert",   name:   "Alert",   type:   "Action"  ,
+                            snippet:    `alert("Hello ducks!")`,
+                            fn:
+`
+alert("fdsfafdas")
+`
+                              })
 
-             properties = this.properties.concat(compEvaled)
+             properties = properties.concat(compEvaled)
              return properties
          }
          //-------------------------------------------------------------------
@@ -3511,7 +3532,7 @@ ${eventMessage.code}
             this.active_property_index = null
             this.model.app_selected = false
             this.model.active_component_index = index
-            this.properties = getControlProperties(this.model.forms[this.model.active_form].components[index])
+            this.properties = this.getControlProperties(this.model.forms[this.model.active_form].components[index])
 
             this.updatePropertySelector()
             if (isValidObject(showProps) && showProps) {
