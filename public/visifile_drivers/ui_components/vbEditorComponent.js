@@ -3511,8 +3511,17 @@ ${eventMessage.code}
                             fn:
 `
 alert("Alert called")
+`})
+
+properties.push({   id:     "clone",   name:   "Clone",   type:   "Action"  ,
+                    pre_snippet: `await `,
+                    snippet:     `clone("new_name")`,
+                    fn:
 `
-                              })
+var newObject = JSON.parse(JSON.stringify(me))
+newObject.name = arg1
+return newObject
+`})
 
              properties = properties.concat(compEvaled)
              return properties

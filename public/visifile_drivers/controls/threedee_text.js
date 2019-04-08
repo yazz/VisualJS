@@ -74,14 +74,6 @@ properties(
             name:       "Move Right",
             type:       "Action"
         }
-        ,
-        {
-            id:         "clone",
-            pre_snippet: `await `,
-            snippet:     `clone("new_name")`,
-            name:       "Clone",
-            type:       "Action"
-        }
     ]
 )//properties
 logo_url("/driver_icons/threedee_text_control.png")
@@ -140,13 +132,6 @@ logo_url("/driver_icons/threedee_text_control.png")
                 moveRight: async function(amount) {
                     this.args.position = "2 2 -5"
 
-                }
-                ,
-                clone: function(newName) {
-                    debugger
-                    var newObject = JSON.parse(JSON.stringify(this.args))
-                    newObject.name = newName
-                    return newObject
                 }
 
 
