@@ -67,6 +67,13 @@ properties(
                             <b>click_event</b> event
                          </div>`
         }
+        ,
+        {
+            id:         "moveRight",
+            snippet:    `moveRight(1)`,
+            name:       "Move Right",
+            type:       "Action"
+        }
     ]
 )//properties
 logo_url("/driver_icons/threedee_text_control.png")
@@ -120,9 +127,20 @@ logo_url("/driver_icons/threedee_text_control.png")
                                                     sub_type:           "click",
                                                     code:                this.args.click_event
                                                 })
-                    }
                 }
+                ,
+                moveRight: async function(amount) {
+                    this.args.position = "2 2 -5"
+
+                }
+
+
+
+
+
+
             }
+        }
 
     )
 }
