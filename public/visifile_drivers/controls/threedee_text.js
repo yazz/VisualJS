@@ -77,7 +77,8 @@ properties(
         ,
         {
             id:         "clone",
-            snippet:    `clone("new_name")`,
+            pre_snippet: `await `,
+            snippet:     `clone("new_name")`,
             name:       "Clone",
             type:       "Action"
         }
