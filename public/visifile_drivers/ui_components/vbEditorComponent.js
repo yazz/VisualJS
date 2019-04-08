@@ -1104,9 +1104,9 @@ uses_javascript_librararies(["advanced_bundle"])
             var methodId = componentDefn.id
             var methodFn = componentDefn.fn
             return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+                var me = componentDetails
 
                 var fnDetails       = null
-debugger
                 if (isValidObject(methodFn)) {
                     var thecode =
 `(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
