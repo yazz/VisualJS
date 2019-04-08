@@ -3435,9 +3435,9 @@ ${eventMessage.code}
             selectProp = new Selectr(
                 document.getElementById('property_selector'),
                 {
-                	renderOption: mm.myDataRenderFunction,
+                  renderOption: mm.myDataRenderFunction,
                     renderSelection: mm.myDataRenderFunction,
-            		selectedValue: selectedItem,
+                selectedValue: selectedItem,
                     data: sdata,
                     customClass: 'my-custom-selectr',
                     searchable: false
@@ -3471,6 +3471,32 @@ ${eventMessage.code}
             return false
          }
          ,
+         ,
+         //-------------------------------------------------------------------
+         getControlProperties: async function(component) {
+             var properties = []
+             var compEvaled = this.getComponentProperties(component.base_component_id)
+
+             properties.push({   id:     "name",   name:   "Name",   type:   "String"    })
+             properties.push({   id:     "base_component_id",   name:   "Type",   type:   "String" , readonly: true   })
+             properties.push({   id:     "leftX",   name:   "X",   type:   "Number"    })
+             properties.push({   id:     "topY",   name:   "Y",   type:   "Number"    })
+             if (!this.existsProp(compEvaled,"width")) {
+                 properties.push({   id:     "width",   name:   "Width",   type:   "Number"    })
+             }
+             if (!this.existsProp(compEvaled,"height")) {
+                 properties.push({   id:     "height",   name:   "Height",   type:   "Number"    })
+             }
+             if (!this.existsProp(compEvaled,"load")) {
+                 properties.push({   id:     "load",   name:   "Load Event",   type:   "Event"    })
+             }
+
+             properties = this.properties.concat(compEvaled)
+             return properties
+         }
+         //-------------------------------------------------------------------
+
+         ,
          //-------------------------------------------------------------------
          selectComponent: async function(index, showProps) {
          //-------------------------------------------------------------------
@@ -3485,27 +3511,8 @@ ${eventMessage.code}
             this.active_property_index = null
             this.model.app_selected = false
             this.model.active_component_index = index
-            this.properties = []
+            this.properties = getControlProperties(this.model.forms[this.model.active_form].components[index])
 
-            var compEvaled = this.getComponentProperties(this.model.forms[this.model.active_form].components[index].base_component_id)
-
-            this.properties.push({   id:     "name",   name:   "Name",   type:   "String"    })
-            this.properties.push({   id:     "base_component_id",   name:   "Type",   type:   "String" , readonly: true   })
-            this.properties.push({   id:     "leftX",   name:   "X",   type:   "Number"    })
-            this.properties.push({   id:     "topY",   name:   "Y",   type:   "Number"    })
-            if (!this.existsProp(compEvaled,"width")) {
-                this.properties.push({   id:     "width",   name:   "Width",   type:   "Number"    })
-            }
-            if (!this.existsProp(compEvaled,"height")) {
-                this.properties.push({   id:     "height",   name:   "Height",   type:   "Number"    })
-            }
-            if (!this.existsProp(compEvaled,"load")) {
-                this.properties.push({   id:     "load",   name:   "Load Event",   type:   "Event"    })
-            }
-
-
-
-            this.properties = this.properties.concat(compEvaled)
             this.updatePropertySelector()
             if (isValidObject(showProps) && showProps) {
                 this.selected_pane = "properties";
