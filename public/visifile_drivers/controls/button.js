@@ -30,6 +30,20 @@ properties(
                             <b>click_event</b> event
                          </div>`
         }
+        ,
+        {
+            id:     "alert2",
+            name:   "Alert2",
+            type:   "Action",
+            help:       `<div>Help text for
+                            <b>click_event</b> event
+                         </div>`,
+
+                         fn:
+`
+alert("fdsfafdas")
+`
+        }
     ]
 )//properties
 logo_url("/driver_icons/button_control.png")

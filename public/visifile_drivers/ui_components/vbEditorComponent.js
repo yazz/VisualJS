@@ -1005,8 +1005,8 @@ uses_javascript_librararies(["advanced_bundle"])
 
                                 if (cachedComponentPropertiesDefinition[cpp].type == "Action") {
                                     this.model.forms[formName].components[compenentInFormIndex][prop] =
-                                        mm.getControlMethod(mm.model.forms[formName].components[compenentInFormIndex],
-                                                            cachedComponentPropertiesDefinition[cpp].id )
+                                        mm.getControlMethod(cachedComponentPropertiesDefinition[cpp],
+                                                            mm.model.forms[formName].components[compenentInFormIndex])
 
                                 } else if (!isValidObject(this.model.forms[formName].components[compenentInFormIndex][prop])){
                                     this.model.forms[formName].components[compenentInFormIndex][prop] = ""
@@ -1100,15 +1100,17 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
      methods: {
-         getControlMethod: function(componentDetails, methodId) {
+         getControlMethod: function(componentDefn,componentDetails) {
+            var methodId = componentDefn.id
+            var methodFn = componentDefn.fn
             return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
 
                 var fnDetails       = null
 debugger
-                if (isValidObject(componentDetails) && isValidObject(componentDetails.fn)) {
+                if (isValidObject(methodFn)) {
                     var thecode =
 `(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
-${componentDetails.fn}
+${methodFn}
 })`
 
                     fnDetails = eval(thecode)
