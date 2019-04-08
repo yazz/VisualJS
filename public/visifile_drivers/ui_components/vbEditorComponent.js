@@ -1105,6 +1105,7 @@ uses_javascript_librararies(["advanced_bundle"])
                 var controlDetails = globalControl[componentDetails.name]
                 var fnDetails = controlDetails[methodId]
                 var retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
+                debugger
                 if (isValidObject(retv) && isValidObject(retv.failed)) {
                     throw retv.failed
                 }
@@ -2434,8 +2435,8 @@ ${formprop.fn}
              props.push({   id:     "width",   name:   "Width",   type:   "Number"    })
              props.push({   id:     "height",   name:   "Height",   type:   "Number"    })
              props.push({   id:     "form_activate",   name:   "Activate Event",   type:   "Event"    })
-             props.push({   id:     "add_block",   name:   "Add Block",   type:   "Action"  ,
-                            snippet:    `add_block("")`,
+             props.push({   id:     "add_control",   name:   "Add Control",   type:   "Action"  ,
+                            snippet:    `add_control({name: "name_of_new_control"})`,
                             fn:
 `
 //alert(JSON.stringify(arg1,null,2))
@@ -2444,7 +2445,7 @@ mm.addControl(  arg1  )
 //var abc = JSON.parse(JSON.stringify(aaa))
 //abc.name = "hjkhjk"
 //abc.topY = 300
-//me.add_block(abc)
+//me.add_control(abc)
 `
                               })
              return props
@@ -3530,7 +3531,7 @@ ${eventMessage.code}
                 components: [],
                 width: 300,
                 height: 300,
-                add_block: "alert('Add block called')"
+                add_control: "alert('Add control called')"
             }
 
             mm.model.active_form = newFormName
