@@ -1108,7 +1108,10 @@ uses_javascript_librararies(["advanced_bundle"])
                 if (isValidObject(retv) && isValidObject(retv.failed)) {
                     throw retv.failed
                 }
-                return retv.value
+                if (isValidObject(retv) && isValidObject(retv.value)) {
+                    return retv.value
+                }
+                return retv
             }
 
          }
@@ -1123,8 +1126,6 @@ uses_javascript_librararies(["advanced_bundle"])
 `(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
 ${formprop.fn}
 })`
-
-                debugger
 
                 fnDetails = eval(thecode)
                 var retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
