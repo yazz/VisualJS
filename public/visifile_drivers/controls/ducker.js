@@ -20,7 +20,7 @@ properties(
         {
             id:         "width",
             name:       "Width",
-            default:    300,
+            default:    350,
             type:       "Number"
         }
         ,
@@ -79,12 +79,12 @@ children([
         base_component_id: "table_control"
         ,
         properties: {
-                        width: 300,
-                        height: 300,
+                        width: 350,
+                        height: 180,
                         load:
-`me.setData(
-    parent.container_list
-)`
+`var dockerData = await parent.getFilteredContainerList()
+me.setData(dockerData)
+`
                     }
     }
 ])//children
