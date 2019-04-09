@@ -1685,6 +1685,7 @@ ${formprop.fn}
                             }
                         })
 
+                        mm.updateAllFormCaches()
                         mm.setupCodeAutocompletions()
 
                         mm.ui_code_editor.focus();
@@ -1887,7 +1888,26 @@ ${formprop.fn}
 
                         } else if (firstObjectToAutocomplete == "myForm") {
 
-                              formName = mm.model.active_form
+                            formName = mm.model.active_form
+
+                        } else if (firstObjectToAutocomplete == "parent") {
+
+                            if (mm.design_mode_pane.app_selected) {
+
+                            } else if (isValidObject(mm.design_mode_pane.active_component_index)) {
+                                //zzz
+                                debugger
+                                var parentId = mm.model.forms[mm.model.active_form].components[ mm.design_mode_pane.active_component_index ].parent
+                                if (isValidObject(parentId)) {
+                                    componentId = mm.form_runtime_info[mm.model.active_form].component_lookup_by_name[parentId].base_component_id
+                                }
+
+                            } else if (isValidObject(mm.design_mode_pane.active_form)) {
+                            }
+
+                        } else if (firstObjectToAutocomplete == "app") {
+
+                            isApp = true
 
                         } else {
 
@@ -1918,10 +1938,6 @@ ${formprop.fn}
                             }
 
 
-                            if (firstObjectToAutocomplete == "app") {
-                                isApp = true
-
-                            }
                         }
 
 
@@ -1931,8 +1947,6 @@ ${formprop.fn}
                          //
 
                          if (componentId) {
-//zzz
-debugger
                             var controlProperties = mm.getControlProperties(componentId)
                             for (var fg=0;fg < controlProperties.length;fg++){
                                  var comm = controlProperties[fg]
