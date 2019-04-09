@@ -997,7 +997,7 @@ uses_javascript_librararies(["advanced_bundle"])
                     var cachedComponentDefinition = component_cache[componentId]
 
                     if (isValidObject(cachedComponentDefinition)) {
-                        var cachedComponentPropertiesDefinition = this.getControlProperties(this.model.forms[formName].components[compenentInFormIndex])
+                        var cachedComponentPropertiesDefinition = this.getControlProperties(this.model.forms[formName].components[compenentInFormIndex].base_component_id)
                         if (isValidObject(cachedComponentPropertiesDefinition)) {
                             for (var cpp = 0 ; cpp< cachedComponentPropertiesDefinition.length; cpp ++) {
                                 var prop = cachedComponentPropertiesDefinition[cpp].id
@@ -1132,7 +1132,7 @@ ${methodFn}
 
          }
 
-//zzz
+
          ,
          getFormMethod: function(formName, formprop) {
             var mm = this
@@ -1931,10 +1931,11 @@ ${formprop.fn}
                          //
 
                          if (componentId) {
-
-                            var cachedComponentDefinition = component_cache[componentId]
-                            for (var fg=0;fg < cachedComponentDefinition.properties.length;fg++){
-                                 var comm = cachedComponentDefinition.properties[fg]
+//zzz
+debugger
+                            var controlProperties = mm.getControlProperties(componentId)
+                            for (var fg=0;fg < controlProperties.length;fg++){
+                                 var comm = controlProperties[fg]
                                  var propName = firstObjectToAutocomplete + "." + comm.id
                                  var meta = "Property"
                                  if (isValidObject(comm.snippet)) {
@@ -2465,7 +2466,7 @@ mm.addControl(  arg1  )
                               })
              return props
          }
-         ,//zzz
+         ,
 
 
 
@@ -3487,11 +3488,11 @@ ${eventMessage.code}
          }
 
          ,
-         //zzz
+
          //-------------------------------------------------------------------
-         getControlProperties: function(component) {
+         getControlProperties: function(base_component_id) {
              var properties = []
-             var compEvaled = this.getComponentProperties(component.base_component_id)
+             var compEvaled = this.getComponentProperties(base_component_id)
 
              properties.push({   id:     "name",   name:   "Name",   type:   "String"    })
              properties.push({   id:     "base_component_id",   name:   "Type",   type:   "String" , readonly: true   })
@@ -3543,7 +3544,7 @@ return newObject
             this.active_property_index = null
             this.model.app_selected = false
             this.model.active_component_index = index
-            this.properties = this.getControlProperties(this.model.forms[this.model.active_form].components[index])
+            this.properties = this.getControlProperties(this.model.forms[this.model.active_form].components[index].base_component_id)
 
             this.updatePropertySelector()
             if (isValidObject(showProps) && showProps) {
