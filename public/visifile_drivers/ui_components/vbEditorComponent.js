@@ -2466,14 +2466,7 @@ ${formprop.fn}
              props.push({   id:     "add_control",   name:   "Add Control",   type:   "Action"  ,
                             snippet:    `add_control({name: "name_of_new_control"})`,
                             fn:
-`
-//alert(JSON.stringify(arg1,null,2))
-mm.addControl(  arg1  )
-
-//var abc = JSON.parse(JSON.stringify(aaa))
-//abc.name = "hjkhjk"
-//abc.topY = 300
-//me.add_control(abc)
+`mm.addControl(  arg1  )
 `
                               })
              return props
@@ -3536,7 +3529,7 @@ return newObject
                                     pre_snippet: `await `,
                                     snippet:     `addChild({})`,
                                     fn:
-`alert(arg1)
+`mm.addControl(  arg1  )
 `
                 })
             }
