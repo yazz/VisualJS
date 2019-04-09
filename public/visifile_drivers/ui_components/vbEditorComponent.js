@@ -1101,6 +1101,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
      methods: {
          getControlMethod: function(componentDefn,componentDetails) {
+            var mm = this
             var methodId = componentDefn.id
             var methodFn = componentDefn.fn
             return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
@@ -2466,7 +2467,9 @@ ${formprop.fn}
              props.push({   id:     "add_control",   name:   "Add Control",   type:   "Action"  ,
                             snippet:    `add_control({name: "name_of_new_control"})`,
                             fn:
-`mm.addControl(  arg1  )
+`debugger
+mm.addControl(  arg1  )
+return {}
 `
                               })
              return props
@@ -3529,7 +3532,9 @@ return newObject
                                     pre_snippet: `await `,
                                     snippet:     `addChild({})`,
                                     fn:
-`mm.addControl(  arg1  )
+`debugger
+mm.addControl(  arg1  )
+return {}
 `
                 })
             }
