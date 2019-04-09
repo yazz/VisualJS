@@ -2,8 +2,8 @@ function(args) {
 /*
 is_app(true)
 control_type("VB")
-display_name("3d item")
-description("This will return the 3d item control")
+display_name("3d text")
+description("This will return the 3d text item control")
 base_component_id("threedee_text_control")
 load_once_from_file(true)
 visibility("PRIVATE")
@@ -46,15 +46,15 @@ properties(
         }
         ,
         {
-            id:         "boxWidth",
-            name:       "Box Width",
+            id:         "textWidth",
+            name:       "Text Width",
             type:       "Number",
             default:    4
         }
         ,
         {
-            id:         "boxHeight",
-            name:       "Box Height",
+            id:         "textHeight",
+            name:       "Text Height",
             type:       "Number",
             default:    2
         }
@@ -90,14 +90,14 @@ logo_url("/driver_icons/threedee_text_control.png")
                                       v-bind:refresh='refresh'
                                       v-bind:position='args.position'
                                       v-bind:rotation='args.rotation'
-                                      v-bind:width='args.boxWidth'
-                                      v-bind:height='args.boxHeight'
+                                      v-bind:width='args.textWidth'
+                                      v-bind:height='args.textHeight'
                                       v-bind:id='name'
 
                                       v-bind:color='args.backgroundColor'>
 
                               <a-entity position=".2 0 .1"
-                                        v-bind:text='"width:4;value: " + args.text + ";color:" + args.color + ";"'>
+                                        v-bind:text='"width:" + args.textWidth + ";value: " + args.text + ";color:" + args.color + ";"'>
 
                               </a-entity>
 
