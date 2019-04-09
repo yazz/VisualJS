@@ -1895,8 +1895,6 @@ ${formprop.fn}
                             if (mm.design_mode_pane.app_selected) {
 
                             } else if (isValidObject(mm.design_mode_pane.active_component_index)) {
-                                //zzz
-                                debugger
                                 var parentId = mm.model.forms[mm.model.active_form].components[ mm.design_mode_pane.active_component_index ].parent
                                 if (isValidObject(parentId)) {
                                     componentId = mm.form_runtime_info[mm.model.active_form].component_lookup_by_name[parentId].base_component_id
@@ -3521,22 +3519,33 @@ ${eventMessage.code}
              if (!this.existsProp(compEvaled,"load")) {
                  properties.push({   id:     "load",   name:   "Load Event",   type:   "Event"    })
              }
-             properties.push({   id:     "alert",   name:   "Alert",   type:   "Action"  ,
-                            snippet:    `alert("Hello ducks!")`,
-                            fn:
-`
-alert("Alert called")
-`})
 
-properties.push({   id:     "clone",   name:   "Clone",   type:   "Action"  ,
-                    pre_snippet: `await `,
-                    snippet:     `clone("new_name")`,
-                    fn:
+            properties.push({   id:     "clone",   name:   "Clone",   type:   "Action"  ,
+                                pre_snippet: `await `,
+                                snippet:     `clone("new_name")`,
+                                fn:
 `
 var newObject = JSON.parse(JSON.stringify(me))
 newObject.name = arg1
 return newObject
-`})
+`
+            })
+//zzz
+            if (this.existsProp(compEvaled,"is_container")) {
+                properties.push({   id:     "addChild",   name:   "Add Child",   type:   "Action"  ,
+                                    pre_snippet: `await `,
+                                    snippet:     `addChild({})`,
+                                    fn:
+`alert(arg1)
+`
+                })
+            }
+            //parent.
+
+
+
+
+
 
              properties = properties.concat(compEvaled)
              return properties
