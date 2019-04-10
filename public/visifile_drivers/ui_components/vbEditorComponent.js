@@ -3570,7 +3570,19 @@ return {}
 `
                 })
             }
-            //parent.
+
+
+
+
+            properties.push({   id:     "delete",   name:   "Delete",   type:   "Action"  ,
+                                pre_snippet: `await `,
+                                snippet:     `delete()`,
+                                fn:
+`debugger
+mm.deleteComponentByName(  me.name  )
+return {}
+`
+            })
 
 
 
