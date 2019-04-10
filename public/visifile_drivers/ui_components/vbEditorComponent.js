@@ -2930,6 +2930,34 @@ ${eventMessage.code}
                 mm.$forceUpdate();
             },400)
          },
+         deleteComponentByName: async function(thisComponentName) {
+            debugger
+            var mm = this
+            var ccc2 = mm.model.forms[mm.model.active_form].components
+            for (   var ytr = ccc2.length - 1;    ytr >= 0;    ytr--   ) {
+                var component = ccc2[ytr]
+                if (component.name == thisComponentName) {
+                    this.model.forms[this.model.active_form].components.splice(ytr, 1);
+                    break;
+                }
+            }
+            this.model.forms[this.model.active_form].components.splice(index, 1);
+            var ccc = mm.model.forms[mm.model.active_form].components
+            for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
+                var component = ccc[ytr]
+                if (component.parent == thisComponentName) {
+                    this.model.forms[this.model.active_form].components.splice(ytr, 1);
+                }
+            }
+
+            this.refreshControlIndexes()
+            this.selectForm(this.model.active_form)
+            setTimeout(function() {
+                mm.refresh ++
+                mm.$forceUpdate();
+            },400)
+            return {}
+         },
 
 
          childDeleteComponent: function(index) {
