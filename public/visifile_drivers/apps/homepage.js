@@ -23,7 +23,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     Vue.component('homepage', {
 
       template:
-`<div v-bind:refresh='refresh'>
+`<div   v-bind:refresh='refresh'
+        style="overflow-y:auto;overflow-x: auto;width:100%;height:100%;">
 
 
 
@@ -56,7 +57,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                             style='position:relative;max-width: 70px; left:0px; top: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
                             >
                     </img>
-                Advanced mode (JS) 
+                Advanced mode (JS)
             </button>
         </h1>
     </div>
