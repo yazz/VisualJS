@@ -28,7 +28,7 @@ Demo - https://yazz.com/app/homepage.html
     
 ##### 3) Install and run the Yazz IDE with:
 
-    docker run -p 80:80 zubairq/yazz
+    docker run -p 80:80 -d zubairq/yazz
     
 ##### 4) Go to a browser and view Yazz:
 
