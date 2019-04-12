@@ -29,6 +29,15 @@ properties(
             type:       "Number",
             default:    5
         }
+        ,
+        {
+            id:         "color",
+            name:       "Color",
+            type:       "String",
+            default:    "#166678"
+        }
+
+
     ]
 )//properties
 logo_url("/driver_icons/threedee_item.png")
@@ -40,7 +49,7 @@ logo_url("/driver_icons/threedee_item.png")
       template: `<a-entity v-bind:refresh='refresh'>
                     <a-entity v-if='args'
                               geometry="primitive: box"
-                              material="color: #166678; side: double"
+                              v-bind:material='"color: " + args.color + "; side: double"'
                               v-bind:physics-body='"mass: " + args.mass + "; boundingBox: 2 2 2; shape: auto;"'
                               dynamic-body
                               v-bind:refresh='refresh'
@@ -50,7 +59,7 @@ logo_url("/driver_icons/threedee_item.png")
 
 
 
-        
+
 
 
 
