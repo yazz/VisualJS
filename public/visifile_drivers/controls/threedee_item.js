@@ -36,6 +36,16 @@ properties(
             type:       "String",
             default:    "#166678"
         }
+        ,
+        {
+            id:     "click_event",
+            name:   "Clicked event",
+            type:   "Event",
+            help:       `<div>Help text for
+                            <b>click_event</b> event
+                         </div>`
+        }
+
 
 
     ]
@@ -48,6 +58,7 @@ logo_url("/driver_icons/threedee_item.png")
         ,
       template: `<a-entity v-bind:refresh='refresh'>
                     <a-entity v-if='args'
+                              v-bind:id='name'
                               geometry="primitive: box"
                               v-bind:material='"color: " + args.color + "; side: double"'
                               v-bind:physics-body='"mass: " + args.mass + "; boundingBox: 2 2 2; shape: auto;"'
@@ -69,7 +80,36 @@ logo_url("/driver_icons/threedee_item.png")
         mounted: function() {
             var mm = this
             registerComponent(this)
+            var dd = document.getElementById(this.name)
+            dd.addEventListener('click', function() {
+                mm.event_callback()
+            });
         }
+        ,
+        methods: {
+            event_callback: function() {
+                console.log("----- 3d text, event_callback: function() = " + this.name)
+                //eval("(function(){" + this.args.click_event + "})")()
 
+                this.$emit('send', {
+                                                type:               "subcomponent_event",
+                                                form_name:           this.meta.form,
+                                                control_name:        this.meta.name,
+                                                sub_type:           "click",
+                                                code:                this.args.click_event
+                                            })
+            }
+            ,
+            moveRight: async function(amount) {
+                this.args.position = "2 2 -5"
+
+            }
+
+
+
+
+
+
+        }
     })
 }
