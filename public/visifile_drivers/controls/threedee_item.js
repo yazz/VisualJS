@@ -22,23 +22,45 @@ properties(
             type:       "String",
             default:    "-2.1 4 -10"
         }
+        ,
+        {
+            id:         "mass",
+            name:       "Mass",
+            type:       "Number",
+            default:    5
+        }
     ]
 )//properties
 logo_url("/driver_icons/threedee_item.png")
 */
 
     Vue.component("threedee_item_control",{
-        props: ["args","design_mode", "refresh"]
+        props: [  "meta", "args"  ,  "design_mode"  ,  "refresh"  ,  "name" ]
         ,
       template: `<a-entity v-bind:refresh='refresh'>
                     <a-entity v-if='args'
                               geometry="primitive: box"
                               material="color: #166678; side: double"
-                              physics-body="mass: 5; boundingBox: 2 2 2; shape: auto;"
+                              v-bind:physics-body='"mass: " + args.mass + "; boundingBox: 2 2 2; shape: auto;"'
                               dynamic-body
                               v-bind:refresh='refresh'
                               v-bind:position='args.position'>
                   </a-entity>
               </a-entity>`
+
+
+
+        
+
+
+
+
+        ,
+
+        mounted: function() {
+            var mm = this
+            registerComponent(this)
+        }
+
     })
 }
