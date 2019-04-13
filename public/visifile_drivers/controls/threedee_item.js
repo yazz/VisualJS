@@ -24,6 +24,20 @@ properties(
         }
         ,
         {
+            id:         "textWidth",
+            name:       "Text Width",
+            type:       "Number",
+            default:    4
+        }
+        ,
+        {
+            id:         "textColor",
+            name:       "Text Color",
+            type:       "String",
+            default:    "yellow"
+        }
+        ,
+        {
             id:         "boundingBox",
             name:       "Bounding Box",
             type:       "String",
@@ -97,10 +111,18 @@ logo_url("/driver_icons/threedee_item.png")
                               v-bind:rotation='args.rotation'
                               v-bind:geometry='"primitive: box; depth: " + args.boxDepth + "; height: " + args.boxHeight + "; width: " + args.boxWidth + ";"'
                               v-bind:material='"color: " + args.color + "; side: double; "'
-                              v-bind:physics-body='"mass: " + args.mass + "; boundingBox: " + args.boundingBox + "; shape: auto;"'
+                              v-bind:physics-body='"mass: " + args.mass + "; boundingBox: " + args.boundingBox + "; shape: box;"'
                               dynamic-body
                               v-bind:refresh='refresh'
                               v-bind:position='args.position'>
+
+                              <a-entity v-bind:position='".2 0 .1"'
+                                        v-bind:constraint='"target: #" + args.name + ";"'
+                                        dynamic-body
+                                        v-bind:text='"width:" + args.textWidth + ";value: " + args.text + ";color:" + args.textColor + ";"'>
+
+                              </a-entity>
+
                   </a-entity>
               </a-entity>`
 

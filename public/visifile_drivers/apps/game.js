@@ -40,7 +40,7 @@ read_only(true)
                 </a-sphere>
 
 
-                <a-cylinder position="1 0.75 -3" radius="0.5" height="10.5" color="blue">
+                <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="blue">
                     <a-entity position="2 2 1"  v-bind:text='"width:10;value: " + msg + ";color:black;"'>
                     </a-entity>
                 </a-cylinder>
