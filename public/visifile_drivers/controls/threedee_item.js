@@ -24,6 +24,13 @@ properties(
         }
         ,
         {
+            id:         "boundingBox",
+            name:       "Bounding Box",
+            type:       "String",
+            default:    "2 2 2"
+        }
+        ,
+        {
             id:         "mass",
             name:       "Mass",
             type:       "Number",
@@ -31,10 +38,38 @@ properties(
         }
         ,
         {
+            id:         "boxDepth",
+            name:       "Box Depth",
+            type:       "Number",
+            default:    2
+        }
+        ,
+        {
+            id:         "boxHeight",
+            name:       "Box Height",
+            type:       "Number",
+            default:    2
+        }
+        ,
+        {
+            id:         "boxWidth",
+            name:       "Box Width",
+            type:       "Number",
+            default:    2
+        }
+        ,
+        {
             id:         "color",
             name:       "Color",
             type:       "String",
             default:    "#166678"
+        }
+        ,
+        {
+            id:         "rotation",
+            name:       "Rotation",
+            type:       "String",
+            default:    "0 0 0"
         }
         ,
         {
@@ -59,9 +94,10 @@ logo_url("/driver_icons/threedee_item.png")
       template: `<a-entity v-bind:refresh='refresh'>
                     <a-entity v-if='args'
                               v-bind:id='name'
-                              geometry="primitive: box"
-                              v-bind:material='"color: " + args.color + "; side: double"'
-                              v-bind:physics-body='"mass: " + args.mass + "; boundingBox: 2 2 2; shape: auto;"'
+                              v-bind:rotation='args.rotation'
+                              v-bind:geometry='"primitive: box; depth: " + args.boxDepth + "; height: " + args.boxHeight + "; width: " + args.boxWidth + ";"'
+                              v-bind:material='"color: " + args.color + "; side: double; "'
+                              v-bind:physics-body='"mass: " + args.mass + "; boundingBox: " + args.boundingBox + "; shape: auto;"'
                               dynamic-body
                               v-bind:refresh='refresh'
                               v-bind:position='args.position'>
