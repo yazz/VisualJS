@@ -731,7 +731,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                         <div    v-if="(property.type  == 'Select')  ">
                                             <select  @change='setVBEditorProperty($event, property)'>
                                                   <option   v-for="propVal in property.values"
-                                                            v-bind:value="propVal.value"
+                                                            v-bind:value="JSON.stringify(propVal.value)"
                                                             v-bind:selected="propVal.value == model.forms[model.active_form].components[model.active_component_index][property.id]">
 
                                                         {{propVal.display}}
@@ -2481,16 +2481,21 @@ return {}
          //-------------------------------------------------------------------
          setVBEditorProperty: function(event, property) {
          //-------------------------------------------------------------------
-            var mm = this
-         var val = event.target.value
-         var type = null
-         if (this.model.active_component_index != null) {
-            type = "component"
-         } else if ((this.model.active_component_index == null) && (this.model.active_form != null) && (!this.model.app_selected)) {
-            type = "form"
-         } else if (this.model.app_selected) {
-            type = "app"
-         }
+            var mm      = this
+            var val     = JSON.parse(event.target.value)
+            var type    = null
+            debugger
+
+            //
+            // determine if this is a control, form or app
+            //
+            if (this.model.active_component_index != null) {
+                type = "component"
+            } else if ((this.model.active_component_index == null) && (this.model.active_form != null) && (!this.model.app_selected)) {
+                type = "form"
+            } else if (this.model.app_selected) {
+                type = "app"
+            }
 
 
             if (type == 'component') {

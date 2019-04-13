@@ -67,6 +67,17 @@ properties(
         }
         ,
         {
+            id:         "usePhysics",
+            name:       "Physics?",
+            type:       "Select",
+            default:    false,
+            values:     [
+                            {display: "False",   value: false},
+                            {display: "True",  value: true}
+                        ]
+        }
+        ,
+        {
             id:     "click_event",
             name:   "Clicked event",
             type:   "Event",
@@ -86,13 +97,13 @@ logo_url("/driver_icons/threedee_item.png")
         props: [  "meta", "args"  ,  "design_mode"  ,  "refresh"  ,  "name" ]
         ,
       template: `<a-entity v-bind:refresh='refresh'>
-                    <a-entity v-if='args'
-                              v-bind:id='name'
+                    <a-entity v-bind:id='name'
+                              v-bind:ref='name'
                               v-bind:rotation='args.rotation'
                               v-bind:geometry='"primitive: box; depth: " + args.boxDepth + "; height: " + args.boxHeight + "; width: " + args.boxWidth + ";"'
                               v-bind:material='"color: " + args.color + "; side: double; "'
                               v-bind:physics-body='"mass: " + args.mass + "; boundingBox: " + args.boundingBox + "; shape: box;"'
-                              dynamic-body
+                              v-bind:dynamic-body='args.usePhysics?true:false'
                               v-bind:refresh='refresh'
                               v-bind:position='args.position'>
 
