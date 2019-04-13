@@ -69,6 +69,27 @@ properties(
         }
         ,
         {
+            id:         "boxDepth",
+            name:       "Box Depth",
+            type:       "Number",
+            default:    .1
+        }
+        ,
+        {
+            id:         "boxHeight",
+            name:       "Box Height",
+            type:       "Number",
+            default:    2
+        }
+        ,
+        {
+            id:         "boxWidth",
+            name:       "Box Width",
+            type:       "Number",
+            default:    2
+        }
+        ,
+        {
             id:         "moveRight",
             snippet:    `moveRight(1)`,
             name:       "Move Right",
@@ -90,14 +111,13 @@ logo_url("/driver_icons/threedee_text_control.png")
                                   v-bind:id='name'
                                   v-bind:rotation='args.rotation'
                                   v-bind:geometry='"primitive: box; depth: " + args.boxDepth + "; height: " + args.boxHeight + "; width: " + args.boxWidth + ";"'
-                                  v-bind:material='"color: " + args.color + "; side: double; "'
+                                  v-bind:material='"color: " + args.backgroundColor + "; side: double; "'
                                   v-bind:refresh='refresh'
-                                  v-bind:color='args.backgroundColor'
                                   v-bind:position='args.position'>
 
 
 
-                              <a-entity position=".2 0 .1"
+                              <a-entity v-bind:position='"" + (0.2 + (( args.textWidth - args.boxWidth )/2)) + " 0 .1"'
                                         v-bind:text='"width:" + args.textWidth + ";value: " + args.text + ";color:" + args.color + ";"'>
 
                               </a-entity>
