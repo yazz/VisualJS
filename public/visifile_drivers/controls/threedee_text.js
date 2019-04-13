@@ -86,15 +86,16 @@ logo_url("/driver_icons/threedee_text_control.png")
 
         template: `<a-entity          v-bind:refresh='refresh'>
 
-                          <a-plane    v-if='(design_mode == false)'
-                                      v-bind:refresh='refresh'
-                                      v-bind:position='args.position'
-                                      v-bind:rotation='args.rotation'
-                                      v-bind:width='args.textWidth'
-                                      v-bind:height='args.textHeight'
-                                      v-bind:id='name'
+                        <a-entity v-if='args'
+                                  v-bind:id='name'
+                                  v-bind:rotation='args.rotation'
+                                  v-bind:geometry='"primitive: box; depth: " + args.boxDepth + "; height: " + args.boxHeight + "; width: " + args.boxWidth + ";"'
+                                  v-bind:material='"color: " + args.color + "; side: double; "'
+                                  v-bind:refresh='refresh'
+                                  v-bind:color='args.backgroundColor'
+                                  v-bind:position='args.position'>
 
-                                      v-bind:color='args.backgroundColor'>
+
 
                               <a-entity position=".2 0 .1"
                                         v-bind:text='"width:" + args.textWidth + ";value: " + args.text + ";color:" + args.color + ";"'>
