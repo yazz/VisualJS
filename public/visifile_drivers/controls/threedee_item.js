@@ -11,30 +11,10 @@ read_only(true)
 properties(
     [
         {
-            id:     "text",
-            name:   "Text",
-            type:   "String"
-        }
-        ,
-        {
             id:         "position",
             name:       "Position",
             type:       "String",
             default:    "-2.1 4 -10"
-        }
-        ,
-        {
-            id:         "textWidth",
-            name:       "Text Width",
-            type:       "Number",
-            default:    4
-        }
-        ,
-        {
-            id:         "textColor",
-            name:       "Text Color",
-            type:       "String",
-            default:    "yellow"
         }
         ,
         {
@@ -116,12 +96,6 @@ logo_url("/driver_icons/threedee_item.png")
                               v-bind:refresh='refresh'
                               v-bind:position='args.position'>
 
-                              <a-entity v-bind:position='".2 0 .1"'
-                                        v-bind:constraint='"target: #" + args.name + ";"'
-                                        dynamic-body
-                                        v-bind:text='"width:" + args.textWidth + ";value: " + args.text + ";color:" + args.textColor + ";"'>
-
-                              </a-entity>
 
                   </a-entity>
               </a-entity>`
