@@ -94,7 +94,6 @@ load_once_from_file(true)
 
 
             <div v-if='extra_menu' class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: 20px;'>
-                <button  v-if='(mode != "profiler")' type=button class=' btn btn-info btn-sm'   v-on:click='copyAppMethod(base_component_id,null)' >Copy</button>
                 <button  v-if='(mode != "profiler")' type=button class=' btn btn-info btn-sm'        v-on:click='embedApp(base_component_id)' >Embed</button>
 
                 <button  v-if='(mode != "profiler")' type=button class=' btn btn-sm btn-warning'        v-on:click='if (!read_only) {edit_name=true;show_name=false;}' >Rename</button>
