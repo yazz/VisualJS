@@ -731,7 +731,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                         <div    v-if="(property.type  == 'Select')  ">
                                             <select  @change='setVBEditorProperty($event, property)'>
                                                   <option   v-for="propVal in property.values"
-                                                            v-bind:value="JSON.stringify(propVal.value)"
+                                                            v-bind:value="propVal.value"
                                                             v-bind:selected="propVal.value == model.forms[model.active_form].components[model.active_component_index][property.id]">
 
                                                         {{propVal.display}}
@@ -2489,7 +2489,8 @@ return {}
          setVBEditorProperty: function(event, property) {
          //-------------------------------------------------------------------
             var mm      = this
-            var val     = JSON.parse(event.target.value)
+            //var val     = JSON.parse(event.target.value)
+            var val     = event.target.value
             var type    = null
             debugger
 
