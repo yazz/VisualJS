@@ -1961,13 +1961,20 @@ ${formprop.fn}
                                      meta = "Method"
                                  }
 
-                                 wordList.push({ "word":         propName ,
-                                                 "freq":         24,
-                                                 "score":        300,
-                                                 "flags":        "bc",
-                                                 "syllables":    "1",
-                                                 "meta":         meta
-                                                 })
+                                 var addProp = true
+                                 if (comm.type == "Event") {
+                                    addProp = false
+                                 }
+
+                                 if (addProp) {
+                                     wordList.push({ "word":         propName ,
+                                                     "freq":         24,
+                                                     "score":        300,
+                                                     "flags":        "bc",
+                                                     "syllables":    "1",
+                                                     "meta":         meta
+                                                     })
+                                 }
                              }
 
 
