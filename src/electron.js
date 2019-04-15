@@ -2157,7 +2157,7 @@ function startServices() {
                 res.end(fs.readFileSync(fileNameRead));
 
 
-             } else if (  req.headers.host.indexOf(".well-known") != -1  ) {
+             } else if (  req.path.indexOf(".well-known") != -1  ) {
                 var fileNameRead = path.join(__dirname, '../public' + req.path)
                 res.end(fs.readFileSync(fileNameRead));
 
