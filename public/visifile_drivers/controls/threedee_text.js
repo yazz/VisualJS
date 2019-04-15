@@ -164,14 +164,21 @@ logo_url("/driver_icons/threedee_text_control.png")
 
                 ,
                 move: async function(amount) {
-                    var dd = document.querySelector("#" + this.name)
+                    var animationId = "animation_" + name
+                    var dd          =  document.querySelector("#" + this.name)
+                    var anim        =  document.querySelector("#" + animationId)
+                    if (anim) {
+                        anim.parentElement.removeChild(anim);
+                    }
+
                     dd.addEventListener('click', function() {
                         var para = document.createElement("a-animation");
-                        para.setAttribute("attribute", "position");
-                        para.setAttribute("dur", "10000");
-                        para.setAttribute("fill", "forwards");
-                        para.setAttribute("to", "1 1.6 -4" );
-                        para.setAttribute("repeat", "infinite");
+                        para.setAttribute("id",          animationId);
+                        para.setAttribute("attribute",  "position");
+                        para.setAttribute("dur",        "2000");
+                        para.setAttribute("fill",       "forwards");
+                        para.setAttribute("to",         "1 1.6 -4" );
+                        para.setAttribute("repeat",     "infinite");
                         dd.appendChild(para)
                     });
 
