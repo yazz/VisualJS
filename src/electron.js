@@ -2155,6 +2155,13 @@ function startServices() {
 
                 var fileNameRead = path.join(__dirname, '../public' + rty)
                 res.end(fs.readFileSync(fileNameRead));
+
+
+             } else if (  req.headers.host.indexOf(".well-known") != -1  ) {
+                var fileNameRead = path.join(__dirname, '../public' + req.path)
+                res.end(fs.readFileSync(fileNameRead));
+
+
              } else {
                  console.log("Redirect HTTP to HTTPS")
                  res.redirect('https://' + req.headers.host + req.url);
