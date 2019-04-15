@@ -97,9 +97,9 @@ properties(
         }
         ,
         {
-            id:         "move",
-            snippet:    `move()`,
-            name:       "Move",
+            id:         "moveTo",
+            snippet:    `moveTo()`,
+            name:       "Move To",
             type:       "Action"
         }
     ]
@@ -163,7 +163,8 @@ logo_url("/driver_icons/threedee_text_control.png")
                 }
 
                 ,
-                move: async function(amount) {
+                moveTo: async function(position) {
+                    var mm          = this
                     var animationId = "animation_" + name
                     var dd          =  document.querySelector("#" + this.name)
                     var anim        =  document.querySelector("#" + animationId)
@@ -171,16 +172,19 @@ logo_url("/driver_icons/threedee_text_control.png")
                         anim.parentElement.removeChild(anim);
                     }
 
-                    dd.addEventListener('click', function() {
-                        var para = document.createElement("a-animation");
-                        para.setAttribute("id",          animationId);
-                        para.setAttribute("attribute",  "position");
-                        para.setAttribute("dur",        "2000");
-                        para.setAttribute("fill",       "forwards");
-                        para.setAttribute("to",         "1 1.6 -4" );
-                        para.setAttribute("repeat",     "0");
-                        dd.appendChild(para)
-                    });
+                    var para = document.createElement("a-animation");
+                    para.setAttribute("id",          animationId);
+                    para.setAttribute("attribute",  "position");
+                    para.setAttribute("dur",        "2000");
+                    para.setAttribute("fill",       "forwards");
+                    para.setAttribute("to",         position );
+                    para.setAttribute("repeat",     "0");
+                    dd.appendChild(para)
+
+                    setTimeout(function() {
+                        mm.position = position
+                    },2000)
+
 
                 }
 
