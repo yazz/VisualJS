@@ -95,6 +95,13 @@ properties(
             name:       "Move Right",
             type:       "Action"
         }
+        ,
+        {
+            id:         "move",
+            snippet:    `move()`,
+            name:       "Move",
+            type:       "Action"
+        }
     ]
 )//properties
 logo_url("/driver_icons/threedee_text_control.png")
@@ -155,6 +162,20 @@ logo_url("/driver_icons/threedee_text_control.png")
 
                 }
 
+                ,
+                move: async function(amount) {
+                    var dd = document.querySelector("#" + this.name)
+                    dd.addEventListener('click', function() {
+                        var para = document.createElement("a-animation");
+                        para.setAttribute("attribute", "position");
+                        para.setAttribute("dur", "10000");
+                        para.setAttribute("fill", "forwards");
+                        para.setAttribute("to", "1 1.6 -4" );
+                        para.setAttribute("repeat", "infinite");
+                        dd.appendChild(para)
+                    });
+
+                }
 
 
 
