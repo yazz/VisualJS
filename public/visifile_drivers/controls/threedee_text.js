@@ -178,7 +178,7 @@ logo_url("/driver_icons/threedee_text_control.png")
                         para.setAttribute("dur",        "2000");
                         para.setAttribute("fill",       "forwards");
                         para.setAttribute("to",         "1 1.6 -4" );
-                        para.setAttribute("repeat",     "infinite");
+                        para.setAttribute("repeat",     "0");
                         dd.appendChild(para)
                     });
 
