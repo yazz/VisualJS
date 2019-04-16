@@ -2461,7 +2461,7 @@ ${formprop.fn}
 
 
          //-------------------------------------------------------------------
-         //                        setVBEditorProperty
+         //                        getFormProperties
          //
          //                          event, property
          //-------------------------------------------------------------------
@@ -2507,7 +2507,22 @@ return {}
 
 
             if (type == 'component') {
-                this.model.forms[this.model.active_form].components[this.model.active_component_index][property.id] = val
+                var componentTochange           = this.model.forms[this.model.active_form].components[this.model.active_component_index]
+                var oldContainerName = componentTochange.name
+
+                componentTochange[property.id]  = val
+
+                if ((property.id == "name") && (componentTochange.is_container == true)) {
+                    //alert("renaming container")
+                    //zzz
+                    var allC = this.model.forms[this.model.active_form].components
+                    for (var xi =0; xi< allC.length ; xi ++) {
+                         var comp = allC[xi]
+                         if (comp.parent == oldContainerName) {
+                            comp.parent = componentTochange.name
+                         }
+                    }
+                }
                 //this.generateCodeFromModel(   )
                 this.refresh ++
 
@@ -2945,7 +2960,7 @@ ${eventMessage.code}
          },
          deleteComponentByName: async function(thisComponentName) {
             var mm = this
-            //zzz
+
             var promise = new Promise(async function(returnfn) {
             debugger
                 var ccc2 = mm.model.forms[mm.model.active_form].components
