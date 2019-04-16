@@ -723,13 +723,13 @@ uses_javascript_librararies(["advanced_bundle"])
 
                                         <div    v-if="(property.type  == 'String')  || (property.type  == 'Number')">
                                             <input
-                                                    @change='setVBEditorProperty($event, JSON.stringify(property))'
+                                                    @change='setVBEditorProperty($event, property)'
                                                     v-bind:value='getVBEditorProperty(property)'
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'>
                                             </input>
                                         </div>
                                         <div    v-if="(property.type  == 'Select')  ">
-                                            <select  @change='setVBEditorProperty($event, JSON.stringify(property))'>
+                                            <select  @change='setVBEditorProperty($event, property)'>
                                                   <option   v-for="propVal in property.values"
                                                             v-bind:value="propVal.value"
                                                             v-bind:selected="propVal.value == model.forms[model.active_form].components[model.active_component_index][property.id]">
@@ -2461,9 +2461,9 @@ ${formprop.fn}
 
 
          //-------------------------------------------------------------------
-         //                        getFormProperties
+         //                        setVBEditorProperty
          //
-         //                          formName
+         //                          event, property
          //-------------------------------------------------------------------
          getFormProperties: function(    formName    ) {
              var props = []
@@ -2489,8 +2489,8 @@ return {}
          setVBEditorProperty: function(event, property) {
          //-------------------------------------------------------------------
             var mm      = this
-            var val     = JSON.parse(event.target.value)
-            //var val     = event.target.value
+            //var val     = JSON.parse(event.target.value)
+            var val     = event.target.value
             var type    = null
             debugger
 
