@@ -172,12 +172,15 @@ logo_url("/driver_icons/threedee_text_control.png")
                 }
                 ,
                 moveRight: async function(amount) {
-                    this.args.x += 2
+                    await this.moveTo({
+                        x:     this.args.x + amount
+                    })
 
                 }
 
                 ,
-                moveTo: async function(position) {
+                moveTo: async function(opts) {
+                debugger
                     var mm          = this
                     var animationId = "animation_" + name
                     var dd          =  document.querySelector("#" + this.name)
@@ -185,18 +188,34 @@ logo_url("/driver_icons/threedee_text_control.png")
                     if (anim) {
                         anim.parentElement.removeChild(anim);
                     }
+                    var newX = this.args.x
+                    var newY = this.args.y
+                    var newZ = this.args.z
+                    if (isValidObject(opts.x)) {
+                        newX = opts.x
+                    }
+                    if (isValidObject(opts.y)) {
+                        newY = opts.y
+                    }
+                    if (isValidObject(opts.z)) {
+                        newZ = opts.z
+                    }
+                    var newPosition = newX + " " + newY + " " + newZ
+
 
                     var para = document.createElement("a-animation");
                     para.setAttribute("id",          animationId);
                     para.setAttribute("attribute",  "position");
                     para.setAttribute("dur",        "2000");
                     para.setAttribute("fill",       "forwards");
-                    para.setAttribute("to",         position );
+                    para.setAttribute("to",         newPosition );
                     para.setAttribute("repeat",     "0");
                     dd.appendChild(para)
 
                     setTimeout(function() {
-                        mm.position = position
+                        mm.args.x = newX
+                        mm.args.y = newY
+                        mm.args.z = newZ
                     },2000)
 
 
