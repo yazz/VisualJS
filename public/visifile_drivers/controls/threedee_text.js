@@ -32,10 +32,24 @@ properties(
         }
         ,
         {
-            id:         "position",
-            name:       "Position",
-            type:       "String",
-            default:    "-2 2 -5"
+            id:         "x",
+            name:       "X",
+            type:       "Number",
+            default:    -2
+        }
+        ,
+        {
+            id:         "y",
+            name:       "Y",
+            type:       "Number",
+            default:    2
+        }
+        ,
+        {
+            id:         "z",
+            name:       "Z",
+            type:       "Number",
+            default:    -5
         }
         ,
         {
@@ -120,7 +134,7 @@ logo_url("/driver_icons/threedee_text_control.png")
                                   v-bind:geometry='"primitive: box; depth: " + args.boxDepth + "; height: " + args.boxHeight + "; width: " + args.boxWidth + ";"'
                                   v-bind:material='"color: " + args.backgroundColor + "; side: double; "'
                                   v-bind:refresh='refresh'
-                                  v-bind:position='args.position'>
+                                  v-bind:position='args.x + " " + args.y + " " + args.z'>
 
 
 
@@ -158,7 +172,7 @@ logo_url("/driver_icons/threedee_text_control.png")
                 }
                 ,
                 moveRight: async function(amount) {
-                    this.args.position = "2 2 -5"
+                    this.args.x += 2
 
                 }
 
