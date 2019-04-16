@@ -70,10 +70,10 @@ properties(
             id:         "usePhysics",
             name:       "Physics?",
             type:       "Select",
-            default:    false,
+            default:    "false",
             values:     [
-                            {display: "False",   value: false},
-                            {display: "True",  value: true}
+                            {display: "False",   value: "false"},
+                            {display: "True",  value: "true"}
                         ]
         }
         ,
@@ -103,7 +103,7 @@ logo_url("/driver_icons/threedee_item.png")
                               v-bind:geometry='"primitive: box; depth: " + args.boxDepth + "; height: " + args.boxHeight + "; width: " + args.boxWidth + ";"'
                               v-bind:material='"color: " + args.color + "; side: double; "'
                               v-bind:physics-body='"mass: " + args.mass + "; boundingBox: " + args.boundingBox + "; shape: box;"'
-                              v-bind:dynamic-body='args.usePhysics?true:false'
+                              v-bind:dynamic-body="(args.usePhysics == 'true')?true:false"
                               v-bind:refresh='refresh'
                               v-bind:position='args.position'>
 
