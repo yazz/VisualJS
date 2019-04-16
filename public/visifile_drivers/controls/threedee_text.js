@@ -98,7 +98,7 @@ properties(
         ,
         {
             id:         "moveTo",
-            snippet:    `moveTo()`,
+            snippet:    `moveTo("0 0 0")`,
             name:       "Move To",
             type:       "Action"
         }
