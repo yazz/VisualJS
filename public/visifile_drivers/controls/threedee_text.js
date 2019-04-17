@@ -237,7 +237,7 @@ logo_url("/driver_icons/threedee_text_control.png")
                     await this.moveTo({
                         duration:   isValidObject(duration)?duration:2000,
                         bounce:     isValidObject(bounce)?bounce:false,
-                        y:     this.args.y - amount
+                        y:          this.args.y - amount
                     })
 
                 }
@@ -263,7 +263,7 @@ logo_url("/driver_icons/threedee_text_control.png")
                 moveTo: async function(opts) {
                 debugger
                     var mm          = this
-                    var animationId = "animation_" + name
+                    var animationId = "animation_" + this.name
                     var dd          =  document.querySelector("#" + this.name)
                     var anim        =  document.querySelector("#" + animationId)
                     var loop        = "0"
@@ -306,7 +306,7 @@ logo_url("/driver_icons/threedee_text_control.png")
                     var para = document.createElement("a-animation");
                     para.setAttribute("id",          animationId);
                     para.setAttribute("attribute",  "position");
-                    para.setAttribute("dur",        duration);
+                    para.setAttribute("dur",         duration);
                     para.setAttribute("fill",       "forwards");
                     para.setAttribute("to",          newPosition );
                     para.setAttribute("direction",  direction);
