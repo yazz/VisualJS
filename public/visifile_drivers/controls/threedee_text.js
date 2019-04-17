@@ -254,7 +254,9 @@ logo_url("/driver_icons/threedee_text_control.png")
                     var animationId = "animation_" + name
                     var dd          =  document.querySelector("#" + this.name)
                     var anim        =  document.querySelector("#" + animationId)
-                    var loop       = "1"
+                    var loop        = "0"
+                    var direction   = "normal"
+                    var duration    = 2000
 
                     if (anim) {
                         anim.parentElement.removeChild(anim);
@@ -277,14 +279,25 @@ logo_url("/driver_icons/threedee_text_control.png")
                         loop = opts.loop
                     }
 
+                    if (isValidObject(opts.bounce) && (opts.bounce == true)) {
+                        direction = "alternate"
+                        loop = "1"
+                    }
+
+                    if (isValidObject(opts.duration)) {
+                        duration = opts.duration
+                    }
+
+
+
 
                     var para = document.createElement("a-animation");
                     para.setAttribute("id",          animationId);
                     para.setAttribute("attribute",  "position");
-                    para.setAttribute("dur",        "2000");
+                    para.setAttribute("dur",        duration);
                     para.setAttribute("fill",       "forwards");
                     para.setAttribute("to",          newPosition );
-                    para.setAttribute("direction",  "alternate");
+                    para.setAttribute("direction",  direction);
                     para.setAttribute("repeat",      loop);
                     dd.appendChild(para)
 
