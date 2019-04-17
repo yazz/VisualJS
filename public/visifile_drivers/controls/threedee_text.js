@@ -111,6 +111,41 @@ properties(
         }
         ,
         {
+            id:         "moveUp",
+            snippet:    `moveUp(1)`,
+            name:       "Move Up",
+            type:       "Action"
+        }
+        ,
+        {
+            id:         "moveLeft",
+            snippet:    `moveLeft(1)`,
+            name:       "Move Left",
+            type:       "Action"
+        }
+        ,
+        {
+            id:         "moveDown",
+            snippet:    `moveDown(1)`,
+            name:       "Move Down",
+            type:       "Action"
+        }
+        ,
+        {
+            id:         "moveBack",
+            snippet:    `moveBack(1)`,
+            name:       "Move Back",
+            type:       "Action"
+        }
+        ,
+        {
+            id:         "moveForward",
+            snippet:    `moveForward(1)`,
+            name:       "Move Forward",
+            type:       "Action"
+        }
+        ,
+        {
             id:         "moveTo",
             snippet:    `moveTo("0 0 0")`,
             name:       "Move To",
@@ -174,6 +209,40 @@ logo_url("/driver_icons/threedee_text_control.png")
                 moveRight: async function(amount) {
                     await this.moveTo({
                         x:     this.args.x + amount
+                    })
+
+                }
+                ,
+                moveLeft: async function(amount) {
+                    await this.moveTo({
+                        x:     this.args.x - amount
+                    })
+
+                }
+                ,
+                moveUp: async function(amount) {
+                    await this.moveTo({
+                        y:     this.args.y + amount
+                    })
+
+                }
+                ,
+                moveDown: async function(amount) {
+                    await this.moveTo({
+                        y:     this.args.y - amount
+                    })
+
+                }
+                ,
+                moveBack: async function(amount) {
+                    await this.moveTo({
+                        z:     this.args.z - amount
+                    })
+                }
+                ,
+                moveForward: async function(amount) {
+                    await this.moveTo({
+                        z:     this.args.z + amount
                     })
 
                 }
