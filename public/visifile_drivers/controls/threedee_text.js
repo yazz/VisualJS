@@ -206,42 +206,54 @@ logo_url("/driver_icons/threedee_text_control.png")
                                                 })
                 }
                 ,
-                moveRight: async function(amount) {
+                moveRight: async function(amount, duration, bounce) {
                     await this.moveTo({
-                        x:     this.args.x + amount
+                        duration:   isValidObject(duration)?duration:2000,
+                        bounce:     isValidObject(bounce)?bounce:false,
+                        x:          this.args.x + amount
                     })
 
                 }
                 ,
-                moveLeft: async function(amount) {
+                moveLeft: async function(amount, duration, bounce) {
                     await this.moveTo({
-                        x:     this.args.x - amount
+                        duration:   isValidObject(duration)?duration:2000,
+                        bounce:     isValidObject(bounce)?bounce:false,
+                        x:          this.args.x - amount
                     })
 
                 }
                 ,
-                moveUp: async function(amount) {
+                moveUp: async function(amount, duration, bounce) {
                     await this.moveTo({
-                        y:     this.args.y + amount
+                        duration:   isValidObject(duration)?duration:2000,
+                        bounce:     isValidObject(bounce)?bounce:false,
+                        y:          this.args.y + amount
                     })
 
                 }
                 ,
-                moveDown: async function(amount) {
+                moveDown: async function(amount, duration, bounce) {
                     await this.moveTo({
+                        duration:   isValidObject(duration)?duration:2000,
+                        bounce:     isValidObject(bounce)?bounce:false,
                         y:     this.args.y - amount
                     })
 
                 }
                 ,
-                moveBack: async function(amount) {
+                moveBack: async function(amount, duration, bounce) {
                     await this.moveTo({
+                        duration:   isValidObject(duration)?duration:2000,
+                        bounce:     isValidObject(bounce)?bounce:false,
                         z:     this.args.z - amount
                     })
                 }
                 ,
-                moveForward: async function(amount) {
+                moveForward: async function(amount, duration, bounce) {
                     await this.moveTo({
+                        duration:   isValidObject(duration)?duration:2000,
+                        bounce:     isValidObject(bounce)?bounce:false,
                         z:     this.args.z + amount
                     })
 
