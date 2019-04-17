@@ -2489,10 +2489,16 @@ return {}
          setVBEditorProperty: function(event, property) {
          //-------------------------------------------------------------------
             var mm      = this
-            //var val     = JSON.parse(event.target.value)
-            var val     = event.target.value
+            var val     = null
             var type    = null
             debugger
+
+            if (property.type == "Number") {
+                val     = JSON.parse(event.target.value)
+            } else {
+                val     = event.target.value
+            }
+
 
             //
             // determine if this is a control, form or app
