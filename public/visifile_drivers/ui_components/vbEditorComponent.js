@@ -80,11 +80,13 @@ uses_javascript_librararies(["advanced_bundle"])
                             draggable="true"
                             class=''
                             v-on:dragend='$event.stopPropagation();deleteCursor();'
-                            v-on:dragstart='$event.stopPropagation();switchCursor($event,"grab","grabbing");highlighted_control = av.base_component_id;drag($event,{
+                            v-on:dragstart='$event.stopPropagation();if (design_mode_pane.type == "drag_drop") {switchCursor($event,"grab","grabbing");highlighted_control = av.base_component_id;drag($event,{
                                                    type:   "add_component",
                                                    text:    av.base_component_id
-                                                })'
-                            v-on:click='highlighted_control = av.base_component_id;'
+                                                })} else {
+                                                    gotoDragDropEditor();
+                                                }'
+                            v-on:click='highlighted_control = av.base_component_id;gotoDragDropEditor();'
                             v-bind:style='"display:flex;cursor: grab;margin: 2px;border-radius: 3px;width:50px;;height: 50px; margin: 0px;border: 0px;padding:10px;overflow-x:auto;overflow-y:hidden;background-color: " + ((highlighted_control == av.base_component_id)?"#E8E8E8;border-left: 2px solid gray;border-top: 2px solid gray;":"lightgray;")'>
 
                         <img    v-if='isValidObject(av)'
@@ -1076,6 +1078,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
            mm.$root.$on('message', async function(text) {
                if (text.type == "delete_component") {
+                debugger
                    //alert("Found: " + text.component_index)
                    //alert(JSON.stringify(mm.model.forms[mm.model.active_form].components[text.component_index],null,2))
                    mm.model.forms[mm.model.active_form].components.splice(text.component_index, 1);
