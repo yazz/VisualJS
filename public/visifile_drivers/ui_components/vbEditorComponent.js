@@ -1079,7 +1079,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
            mm.$root.$on('message', async function(text) {
                if (text.type == "delete_component") {
-                debugger
+
                    //alert("Found: " + text.component_index)
                    //alert(JSON.stringify(mm.model.forms[mm.model.active_form].components[text.component_index],null,2))
                    mm.model.forms[mm.model.active_form].components.splice(text.component_index, 1);
@@ -1371,7 +1371,32 @@ ${formprop.fn}
 
 
             setTimeout(function() {
-                mm.selectComponent(mm.model.active_component_index, true)
+            debugger
+            mm.updateAllFormCaches()
+                var selectParent = false
+                var parentItemIndex = null
+                if (isValidObject(newItem.parent)) {
+                    var parentItem = mm.form_runtime_info[mm.model.active_form].component_lookup_by_name[newItem.parent]
+                    //zzz
+                    if (isValidObject(parentItem.select_parent_when_child_added) &&
+                            (parentItem.select_parent_when_child_added == true)) {
+
+                        selectParent = true
+                        var ccc = mm.model.forms[mm.model.active_form].components
+                        for (var ytr = 0;ytr < ccc.length;ytr++) {
+                           if (parentItem.name == ccc[ytr].name) {
+                               parentItemIndex = ytr
+                               break
+                           }
+                        }
+                    }
+                }
+
+                if (selectParent) {
+                    mm.selectComponent(parentItemIndex, true)
+                } else {
+                    mm.selectComponent(mm.model.active_component_index, true)
+                }
                 mm.refresh ++
             },100)
 
@@ -2480,8 +2505,7 @@ ${formprop.fn}
              props.push({   id:     "add_control",   name:   "Add Control",   type:   "Action"  ,
                             snippet:    `add_control({name: "name_of_new_control"})`,
                             fn:
-`debugger
-mm.addControl(  arg1  )
+`mm.addControl(  arg1  )
 return {}
 `
                               })
@@ -2497,7 +2521,7 @@ return {}
             var mm      = this
             var val     = null
             var type    = null
-            debugger
+
 
             if (property.type == "Number") {
                 val     = JSON.parse(event.target.value)
@@ -2526,7 +2550,7 @@ return {}
 
                 if ((property.id == "name") && (componentTochange.is_container == true)) {
                     //alert("renaming container")
-                    //zzz
+
                     var allC = this.model.forms[this.model.active_form].components
                     for (var xi =0; xi< allC.length ; xi ++) {
                          var comp = allC[xi]
@@ -2974,7 +2998,7 @@ ${eventMessage.code}
             var mm = this
 
             var promise = new Promise(async function(returnfn) {
-            debugger
+
                 var ccc2 = mm.model.forms[mm.model.active_form].components
                 for (   var ytr = ccc2.length - 1;    ytr >= 0;    ytr--   ) {
                     var component = ccc2[ytr]
@@ -3604,8 +3628,7 @@ return newObject
                                     pre_snippet: `await `,
                                     snippet:     `addChild({})`,
                                     fn:
-`debugger
-mm.addControl(  arg1  )
+`mm.addControl(  arg1  )
 return {}
 `
                 })
@@ -3618,8 +3641,7 @@ return {}
                                 pre_snippet: `await `,
                                 snippet:     `delete()`,
                                 fn:
-`debugger
-mm.deleteComponentByName(  me.name  )
+`mm.deleteComponentByName(  me.name  )
 return {}
 `
             })
