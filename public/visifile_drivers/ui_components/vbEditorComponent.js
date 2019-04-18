@@ -84,7 +84,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                                    type:   "add_component",
                                                    text:    av.base_component_id
                                                 })} else {
-                                                    event.preventDefault() 
+                                                    event.preventDefault()
                                                     gotoDragDropEditor();
                                                 }'
                             v-on:click='highlighted_control = av.base_component_id;gotoDragDropEditor();'
@@ -1349,10 +1349,6 @@ ${formprop.fn}
             this.model.forms[this.model.active_form].components.push(newItem)
             this.model.active_component_index = this.model.forms[this.model.active_form].components.length - 1
 
-            setTimeout(function() {
-                mm.selectComponent(mm.model.active_component_index, true)
-                mm.refresh ++
-            },100)
 
             var compCode = component_cache[newItem.base_component_id].code
             var childrenCode  = saveHelper.getValueOfCodeString(compCode, "children",")//children")
@@ -1372,6 +1368,12 @@ ${formprop.fn}
                                                 childDefProps )
                 }
             }
+
+
+            setTimeout(function() {
+                mm.selectComponent(mm.model.active_component_index, true)
+                mm.refresh ++
+            },100)
 
         }
         ,

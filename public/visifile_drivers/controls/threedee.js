@@ -38,6 +38,14 @@ properties(
             hidden:     true
         }
         ,
+        {
+            id:         "select_parent_when_child_added",
+            name:       "Select Parent Only?",
+            type:       "Boolean",
+            default:    true,
+            hidden:     true
+        }
+        ,
 
         {
             id:         "has_details_ui",
@@ -115,7 +123,7 @@ logo_url("/driver_icons/threedee_control.png")
             v-if='design_mode == true'>
 
         3D Scene - {{children.length}} items
-        
+
     </div>
 
 
