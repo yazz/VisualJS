@@ -38,6 +38,20 @@ properties(
             default:    true,
             hidden:     true
         }
+        ,
+        {
+            id:         "width",
+            name:       "Width",
+            default:    200,
+            type:       "Number"
+        }
+        ,
+        {
+            id:         "height",
+            name:       "Height",
+            default:    200,
+            type:       "Number"
+        }
     ]
 )//properties
 logo_url("/driver_icons/group_control.png")
