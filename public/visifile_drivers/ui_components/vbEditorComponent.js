@@ -84,6 +84,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                                    type:   "add_component",
                                                    text:    av.base_component_id
                                                 })} else {
+                                                    event.preventDefault() 
                                                     gotoDragDropEditor();
                                                 }'
                             v-on:click='highlighted_control = av.base_component_id;gotoDragDropEditor();'
