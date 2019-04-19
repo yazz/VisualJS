@@ -1079,17 +1079,13 @@ uses_javascript_librararies(["advanced_bundle"])
 
            mm.$root.$on('message', async function(text) {
                if (text.type == "delete_design_time_component") {
-
-                   //alert("delete_design_time_component: " + text.component_index)
-                   //alert(JSON.stringify(mm.model.forms[mm.model.active_form].components[text.component_index],null,2))
-                   mm.model.forms[mm.model.active_form].components.splice(text.component_index, 1);
-
-                   //mm.design_mode_pane.type = "drag_drop";
-
-
-
+                    if (mm.design_mode != false) {
+                        mm.model.forms[mm.model.active_form].components.splice(text.component_index, 1);
+                    }
                } else if (text.type == "select_design_time_component") {
-                  mm.selectComponent(text.component_index, true);
+                   if (mm.design_mode != false) {
+                        mm.selectComponent(text.component_index, true);
+                   }
               }
 
            })
