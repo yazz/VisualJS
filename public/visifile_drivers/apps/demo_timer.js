@@ -238,8 +238,8 @@ logo_url("https://counter.onlineclock.net/tally-counter.jpg")
                     <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[model.active_component_detail_index].name + (design_mode?"_design":"")'
                                 v-bind:refresh='refresh'
                                 design_mode='detail_editor'
-                                v-bind:delete_component='childDeleteComponent'
-                                v-bind:select_component='childSelectComponent'
+                                v-bind:delete_design_time_component='childDeleteComponent'
+                                v-bind:select_design_time_component='childSelectComponent'
                                 v-bind:children='getChildren( model.forms[model.active_form].components[model.active_component_detail_index].name)'
                                 v-on:send="processControlEvent"
                                 v-bind:is='model.forms[model.active_form].components[model.active_component_detail_index].base_component_id'
@@ -1003,7 +1003,7 @@ logo_url("https://counter.onlineclock.net/tally-counter.jpg")
 
 
            mm.$root.$on('message', async function(text) {
-               if (text.type == "delete_component") {
+               if (text.type == "delete_design_time_component") {
                    //alert("Found: " + text.component_index)
                    //alert(JSON.stringify(mm.model.forms[mm.model.active_form].components[text.component_index],null,2))
                    mm.model.forms[mm.model.active_form].components.splice(text.component_index, 1);
@@ -1012,7 +1012,7 @@ logo_url("https://counter.onlineclock.net/tally-counter.jpg")
 
 
 
-               } else if (text.type == "select_component") {
+               } else if (text.type == "select_design_time_component") {
                   mm.selectComponent(text.component_index, true);
               }
 
@@ -1883,7 +1883,7 @@ ${eventMessage.code}
 
          childDeleteComponent: function(index) {
              this.$root.$emit('message', {
-                                             type:             "delete_component",
+                                             type:             "delete_design_time_component",
                                              component_index:   index
                                          })
 
@@ -1891,7 +1891,7 @@ ${eventMessage.code}
              ,
          childSelectComponent: function(index) {
              this.$root.$emit('message', {
-                                             type:             "select_component",
+                                             type:             "select_design_time_component",
                                              component_index:   index
                                          })
 

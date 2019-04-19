@@ -58,7 +58,7 @@ logo_url("/driver_icons/group_control.png")
 */
 
     Vue.component("group_control",{
-      props: ["args", "design_mode","refresh", "children","delete_component"]
+      props: ["args", "design_mode","refresh", "children","delete_design_time_component"]
       ,
       template:
 `<div v-bind:style='"width:100%;overflow-y:auto;height:100%"'>
@@ -77,7 +77,7 @@ logo_url("/driver_icons/group_control.png")
                          v-if='child_item'
                          v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
                                        "width: 20px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;margin-left: 20px;"'
-                         v-on:click='$event.stopPropagation();delete_component(child_item.index_in_parent_array)'>
+                         v-on:click='$event.stopPropagation();delete_design_time_component(child_item.index_in_parent_array)'>
 
                       X
 

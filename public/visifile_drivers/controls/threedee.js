@@ -74,7 +74,7 @@ logo_url("/driver_icons/threedee_control.png")
 */
 
     Vue.component("threedee_control",{
-      props: ["args","design_mode", "refresh", "children","delete_component","select_component"]
+      props: ["args","design_mode", "refresh", "children","delete_design_time_component","select_design_time_component"]
       ,
       template:
 
@@ -89,7 +89,7 @@ logo_url("/driver_icons/threedee_control.png")
 
         <div    v-bind:style='"border:1px solid gray; padding: 10px;display:flex;" + ((selected_index==index)?"background-color: lightgray;":"")'
                 v-bind:refresh='refresh'
-                v-on:click='$event.stopPropagation();selected_index=index;select_component(child_item.index_in_parent_array)'
+                v-on:click='$event.stopPropagation();selected_index=index;select_design_time_component(child_item.index_in_parent_array)'
                 v-for='(child_item,index)  in  children'>
 
             <div    v-if='child_item'
@@ -104,7 +104,7 @@ logo_url("/driver_icons/threedee_control.png")
                         v-if='child_item'
                         v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
                         "width: 20px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;margin-left: 20px;"'
-                        v-on:click='$event.stopPropagation();delete_component(child_item.index_in_parent_array)'>
+                        v-on:click='$event.stopPropagation();delete_design_time_component(child_item.index_in_parent_array)'>
 
                         X
 
@@ -141,6 +141,7 @@ logo_url("/driver_icons/threedee_control.png")
         <a-scene    v-bind:id='(design_mode?"design_scene":"scene")'
                     v-bind:ref='(design_mode?"design_scene":"scene")'
                     physics-world=""
+                    v-if='design_mode == false'
                     physics="debug: false"
                     cursor="rayOrigin: mouse"
                     style='width: 80%; height: 80%;'
