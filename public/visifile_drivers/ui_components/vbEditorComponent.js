@@ -1304,7 +1304,7 @@ ${formprop.fn}
                            var prop = compEvaled[cpp].id
 
                            if (!isValidObject(newItem[prop])){
-                               if (compEvaled[cpp].default) {
+                               if (isValidObject(compEvaled[cpp].default)) {
                                    newItem[prop] = JSON.parse(JSON.stringify(compEvaled[cpp].default))
                                } else {
                                    newItem[prop] = ""
