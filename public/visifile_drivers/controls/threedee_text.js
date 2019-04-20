@@ -53,10 +53,24 @@ properties(
         }
         ,
         {
-            id:         "rotation",
-            name:       "Rotation",
-            type:       "String",
-            default:    "0 45 0"
+            id:         "x_rotation",
+            name:       "X Rotation",
+            type:       "Number",
+            default:    0
+        }
+        ,
+        {
+            id:         "y_rotation",
+            name:       "Y Rotation",
+            type:       "Number",
+            default:    45
+        }
+        ,
+        {
+            id:         "z_rotation",
+            name:       "Z Rotation",
+            type:       "Number",
+            default:    0
         }
         ,
         {
@@ -165,7 +179,7 @@ logo_url("/driver_icons/threedee_text_control.png")
 
                         <a-entity v-if='args'
                                   v-bind:id='name'
-                                  v-bind:rotation='args.rotation'
+                                  v-bind:rotation='args.x_rotation + " " + args.y_rotation + " " + args.z_rotation'
                                   v-bind:geometry='"primitive: box; depth: " + args.boxDepth + "; height: " + args.boxHeight + "; width: " + args.boxWidth + ";"'
                                   v-bind:material='"color: " + args.backgroundColor + "; side: double; "'
                                   v-bind:refresh='refresh'
