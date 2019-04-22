@@ -840,11 +840,15 @@ uses_javascript_librararies(["advanced_bundle"])
                                 Type
                             </div>
 
-                            <input  class='col-md-7 small'
-                                    placeholder='String'
-                                    style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
-                                    v-model='new_property_type'>
-                            </input>
+                            <select  class='col-md-7 small'
+                                     style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
+                                     zzz
+                                     v-model='new_property_type'>
+
+                                    <option  v-bind:selected='new_property_type=="String"' value="String">String</option>
+                                    <option  v-bind:selected='new_property_type=="Number"' value="Number">Number</option>
+                                    <option  v-bind:selected='new_property_type=="Action"' value="Action">Action</option>
+                            </select>
                         </div>
 
 
@@ -2659,7 +2663,7 @@ return {}
             mm.add_property = true
             mm.new_property_id = ""
             mm.new_property_name = ""
-            mm.new_property_type = ""
+            mm.new_property_type = "String"
 
 
             setTimeout(function(){
