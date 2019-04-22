@@ -2069,7 +2069,7 @@ ${formprop.fn}
 
                          } else if (isApp) {
 
-                            var appProps = mm.get_default_app_propeties()
+                            var appProps = mm.getAllAppPropeties()
                             for (var formPropIndex = 0 ; formPropIndex < appProps.length ; formPropIndex++ ) {
 
                                 var propDetails = appProps[formPropIndex]
