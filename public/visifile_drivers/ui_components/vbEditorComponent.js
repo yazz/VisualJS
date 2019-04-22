@@ -750,7 +750,10 @@ uses_javascript_librararies(["advanced_bundle"])
                                             </input>
                                         </div>
 
-                                        <div v-if="(property.type  == 'Event')  " style="width:100%">
+                                        <div    v-if="(property.type  == 'Event') || ((property.type  == 'Action') && isValidObject(property.fn)) "
+                                                zzz
+                                                style="width:100%">
+
                                             <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;'
                                                         v-on:click='$event.stopPropagation();editAsCode({
                                                             app_selected:           model.app_selected,
@@ -1393,7 +1396,7 @@ ${formprop.fn}
                 var parentItemIndex = null
                 if (isValidObject(newItem.parent)) {
                     var parentItem = mm.form_runtime_info[mm.model.active_form].component_lookup_by_name[newItem.parent]
-                    //zzz
+
                     if (isValidObject(parentItem.select_parent_when_child_added) &&
                             (parentItem.select_parent_when_child_added == true)) {
 
@@ -2657,6 +2660,8 @@ return {}
             mm.new_property_id = ""
             mm.new_property_name = ""
             mm.new_property_type = ""
+
+
             setTimeout(function(){
                 var objDiv = document.getElementById("property_scroll_region");
                 objDiv.scrollTop = objDiv.scrollHeight;
@@ -2673,11 +2678,16 @@ return {}
                 return;
             }
             mm.add_property = false
+            var fnText = null
+            if (mm.new_property_type == "Action") {
+                fnText = ""
+            }
 
             mm.model.app_properties.push({
                                             id:     mm.new_property_id,
                                             name:   mm.new_property_name,
-                                            type:   mm.new_property_type
+                                            type:   mm.new_property_type,
+                                            fn:     fnText
                                             })
 
             mm.generateCodeFromModel( )
