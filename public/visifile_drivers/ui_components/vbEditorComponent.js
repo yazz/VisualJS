@@ -831,6 +831,22 @@ uses_javascript_librararies(["advanced_bundle"])
                         </div>
 
                         <div v-if='(model.app_selected) && (add_property)' class='row'>
+                            <div    style='font-family:verdana,helvetica;font-size: 13px;'
+                                    class='col-md-4'>
+                                Type
+                            </div>
+
+                            <input  class='col-md-7 small'
+                                    placeholder='String'
+                                    style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
+                                    v-model='new_property_type'>
+                            </input>
+                        </div>
+
+
+
+
+                        <div v-if='(model.app_selected) && (add_property)' class='row'>
                             <div class='col-md-12'>
                                 <button style='font-family:verdana,helvetica;font-size: 13px;'
                                         type=button class='btn btn-sm btn-info'
@@ -2652,7 +2668,7 @@ return {}
             mm.model.app_properties.push({
                                             id:     mm.new_property_id,
                                             name:   mm.new_property_name,
-                                            type:   "String"
+                                            type:   mm.new_property_type
                                             })
 
             mm.generateCodeFromModel( )
@@ -3977,8 +3993,9 @@ return {}
            leftHandWidth:               130,
            right_mode:                  "project",
            add_property:                false,
-           new_property_name: "",
-           new_property_id: "",
+           new_property_name:           "",
+           new_property_id:             "",
+           new_property_type:           "",
            local_app:                    false,
            refresh:                     0,
            properties:                  [],
