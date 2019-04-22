@@ -846,7 +846,9 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
 
-                        <div v-if='(model.app_selected) && (add_property)' class='row'>
+                        <div    v-if='(model.app_selected) && (add_property)'
+                                style='margin-bottom:30px;'
+                                class='row'>
                             <div class='col-md-12'>
                                 <button style='font-family:verdana,helvetica;font-size: 13px;'
                                         type=button class='btn btn-sm btn-info'
@@ -861,6 +863,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                 </button>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -2652,6 +2655,7 @@ return {}
             mm.add_property = true
             mm.new_property_id = ""
             mm.new_property_name = ""
+            mm.new_property_type = ""
          }
          ,
 
@@ -3375,6 +3379,17 @@ ${eventMessage.code}
          }
          ,
 
+         //-------------------------------------------------------------------
+         getAllAppPropeties: function() {
+            var mm = this
+            var properties                     = mm.get_default_app_propeties()
+
+            if (this.model.app_properties) {
+                properties = properties.concat(this.model.app_properties)
+            }
+            return properties
+         }
+         ,
 
 
 
@@ -3391,11 +3406,8 @@ ${eventMessage.code}
             this.model.app_selected             = true
             this.active_property_index          = null
 
-            this.properties                     = mm.get_default_app_propeties()
+            this.properties                     = mm.getAllAppPropeties()
 
-            if (this.model.app_properties) {
-                this.properties = this.properties.concat(this.model.app_properties)
-            }
             this.updatePropertySelector()
 
             this.refresh ++
