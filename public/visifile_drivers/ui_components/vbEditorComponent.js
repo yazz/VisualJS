@@ -1700,11 +1700,14 @@ ${formprop.fn}
                         // The code is obtained from the VueJS model, depending on whether
                         // it is a control, a form, or application code
                         //
+debugger
 
                         var ccode = ""
 
                         // application code (THIS MUST BE FIST IN THE IF STATEMENT)
-                        if (mm.model.app_selected) {
+                        if (aa.property_id && mm.model[aa.property_id] && isValidObject(mm.model[aa.property_id].fn)) {
+                            ccode = mm.model[aa.property_id].fn
+                        } else if (mm.model.app_selected) {
                             ccode = mm.model[aa.property_id]
 
 
@@ -1730,7 +1733,9 @@ ${formprop.fn}
                         mm.ui_code_editor.on("change", function(e) {
                             var newC = mm.ui_code_editor.getValue()
 
-                            if (aa.app_selected) {
+                            if (aa.property_id && mm.model[aa.property_id] && isValidObject(mm.model[aa.property_id].fn)) {
+                                mm.model[aa.property_id].fn = newC
+                            } else if (aa.app_selected) {
                                 mm.model[aa.property_id] = newC
                             } else if ((mm.model.active_component_index == null) && (mm.model.active_form != null)) {
                                 mm.model.forms[mm.model.active_form][aa.property_id] = newC
