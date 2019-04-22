@@ -2300,7 +2300,7 @@ debugger
                                       action_type:        prop.type
                                   }
                               )
-                              if (prop.id == "app_started_event") {
+                              if (prop.id == property_id) {
                                   selectedCodeAction = indexActionSelector
                               }
                               indexActionSelector++
