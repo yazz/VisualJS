@@ -2500,6 +2500,9 @@ ${formprop.fn}
              props.push({   id:     "form_activate",   name:   "Activate Event",   type:   "Event"    })
              props.push({   id:     "add_control",   name:   "Add Control",   type:   "Action"  ,
                             snippet:    `add_control({name: "name_of_new_control"})`,
+                            help:       `<div>Help text for
+                                            <b>addControl</b> method
+                                         </div>`,
                             fn:
 `mm.addControl(  arg1  )
 return {}

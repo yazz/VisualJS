@@ -33,21 +33,21 @@ properties(
         ,
         {
             id:         "x",
-            name:       "X",
+            name:       "3D X",
             type:       "Number",
             default:    -2
         }
         ,
         {
             id:         "y",
-            name:       "Y",
+            name:       "3D Y",
             type:       "Number",
             default:    2
         }
         ,
         {
             id:         "z",
-            name:       "Z",
+            name:       "3D Z",
             type:       "Number",
             default:    -5
         }
