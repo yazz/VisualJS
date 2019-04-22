@@ -689,7 +689,8 @@ uses_javascript_librararies(["advanced_bundle"])
                 </div>
 
                 <div  style="border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:65%;">
-                    <div    style="border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
+                    <div    id="property_scroll_region"
+                            style="border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
 
 
                         <div    v-for='property in properties'
@@ -798,7 +799,7 @@ uses_javascript_librararies(["advanced_bundle"])
                         </div>
 
                         <div v-if='(model.app_selected) && (add_property)' class='row'>
-                            <div    style='font-family:verdana,helvetica;font-size: 13px;'
+                            <div    style='font-family:verdana,helvetica;font-size: 13px;font-weight:bold;padding-left:20px;'
                                     class='col-md-12 small'>
                                 Add a property
                             </div>
@@ -847,7 +848,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
                         <div    v-if='(model.app_selected) && (add_property)'
-                                style='margin-bottom:30px;'
+                                style='padding-bottom:60px;'
                                 class='row'>
                             <div class='col-md-12'>
                                 <button style='font-family:verdana,helvetica;font-size: 13px;'
@@ -2656,6 +2657,10 @@ return {}
             mm.new_property_id = ""
             mm.new_property_name = ""
             mm.new_property_type = ""
+            setTimeout(function(){
+                var objDiv = document.getElementById("property_scroll_region");
+                objDiv.scrollTop = objDiv.scrollHeight;
+            },200)
          }
          ,
 
