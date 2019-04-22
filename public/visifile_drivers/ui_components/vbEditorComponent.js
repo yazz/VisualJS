@@ -2285,19 +2285,27 @@ debugger
                   // get the app methods
                   //
                   if (mm.model.app_selected) {
-                      methodListForSelector.push(
-                          {
-                              value:              "" + indexActionSelector,
-                              app:                mm.edited_app_component_id,
-                              form:               mm.model.active_form,
-                              component:          null,
-                              action_id:          "app_started_event",
-                              action_name:        "Called when the app is started",
-                              action_type:        "Event"
+                      var allProperties = mm.getAllAppPropeties()
+                      for (var ui=0;ui < allProperties.length; ui ++) {
+                          var prop = allProperties[ui]
+                          if ((prop.type == "Event") || (prop.type == "Action")) {
+                              methodListForSelector.push(
+                                  {
+                                      value:              "" + indexActionSelector,
+                                      app:                mm.edited_app_component_id,
+                                      form:               mm.model.active_form,
+                                      component:          null,
+                                      action_id:          prop.id,
+                                      action_name:        prop.name,
+                                      action_type:        prop.type
+                                  }
+                              )
+                              if (prop.id == "app_started_event") {
+                                  selectedCodeAction = indexActionSelector
+                              }
+                              indexActionSelector++
                           }
-                      )
-                      selectedCodeAction = indexActionSelector
-                      indexActionSelector++
+                      }
 
 
                   } else if (  isValidObject(mm.model.active_component_index)  ) {
