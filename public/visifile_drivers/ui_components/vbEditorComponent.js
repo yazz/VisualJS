@@ -845,9 +845,9 @@ uses_javascript_librararies(["advanced_bundle"])
 
                                     <option  v-bind:selected='new_property_type=="String"' value="String">String</option>
                                     <option  v-bind:selected='new_property_type=="Number"' value="Number">Number</option>
-                                    <option  v-bind:selected='new_property_type=="Action"' value="Action">Action</option>
                                     <option  v-bind:selected='new_property_type=="Array"' value="Array">Array</option>
                                     <option  v-bind:selected='new_property_type=="Object"' value="Object">Object</option>
+                                    <option  v-bind:selected='new_property_type=="Action"' value="Action">Action</option>
                             </select>
                         </div>
 
@@ -999,7 +999,7 @@ uses_javascript_librararies(["advanced_bundle"])
                 // For each app property
                 // ---------------------------------------------------------
                 //zzz
-debugger
+
                 var appProps = mm.getAllAppPropeties()
                 for (var appPropIndex = 0 ; appPropIndex < appProps.length ; appPropIndex ++ ) {
                     var propDetails = appProps[appPropIndex]
@@ -1203,9 +1203,10 @@ ${formprop.fn}
             var mm = this
             return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
             debugger
+                var origCode = mm.model[propDetailsId]
                 var thecode =
 `(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
-mm.model["${propDetailsId}"]
+${origCode}
 })`
 
                 fnDetails = eval(thecode)
