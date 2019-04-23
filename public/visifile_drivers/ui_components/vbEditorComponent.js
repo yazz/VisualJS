@@ -3711,6 +3711,7 @@ ${eventMessage.code}
 
             properties.push({   id:     "clone",   name:   "Clone",   type:   "Action"  ,
                                 pre_snippet: `await `,
+                                hidden:       true,
                                 snippet:     `clone("new_name")`,
                                 fn:
 `
@@ -3723,6 +3724,7 @@ return newObject
             if (this.existsProp(compEvaled,"is_container")) {
                 properties.push({   id:     "addChild",   name:   "Add Child",   type:   "Action"  ,
                                     pre_snippet: `await `,
+                                    hidden:       true,
                                     snippet:     `addChild({})`,
                                     fn:
 `mm.addControl(  arg1  )
@@ -3736,6 +3738,7 @@ return {}
 
             properties.push({   id:     "delete",   name:   "Delete",   type:   "Action"  ,
                                 pre_snippet: `await `,
+                                hidden:       true,
                                 snippet:     `delete()`,
                                 fn:
 `mm.deleteComponentByName(  me.name  )
