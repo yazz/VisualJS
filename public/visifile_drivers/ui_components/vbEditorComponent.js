@@ -751,7 +751,6 @@ uses_javascript_librararies(["advanced_bundle"])
                                         </div>
 
                                         <div    v-if="(property.type  == 'Event') || ((property.type  == 'Action') && isValidObject(property.fn)) "
-                                                zzz
                                                 style="width:100%">
 
                                             <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;'
@@ -842,7 +841,6 @@ uses_javascript_librararies(["advanced_bundle"])
 
                             <select  class='col-md-7 small'
                                      style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
-                                     zzz
                                      v-model='new_property_type'>
 
                                     <option  v-bind:selected='new_property_type=="String"' value="String">String</option>
@@ -994,6 +992,20 @@ uses_javascript_librararies(["advanced_bundle"])
                 await loadV2(compsToLoad)
 
 
+
+                // ---------------------------------------------------------
+                // For each app property
+                // ---------------------------------------------------------
+                //zzz
+debugger
+                var appProps = mm.getAllAppPropeties()
+                for (var appPropIndex = 0 ; appPropIndex < appProps.length ; appPropIndex ++ ) {
+                    var propDetails = appProps[appPropIndex]
+                    if (propDetails.type == "Action") {
+                        mm.model[propDetails.id] = mm.getAppMethod(appPropIndex)
+                    }
+
+                }
 
                 // ---------------------------------------------------------
                 // For each component in the form ...
@@ -1182,6 +1194,28 @@ ${formprop.fn}
          }
 
          ,
+         getAppMethod: function(appPropIndex) {
+            var mm = this
+            return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+            debugger
+                var appProps = mm.getAllAppPropeties()
+                var appPropDetails = appProps[appPropIndex]
+                var thecode =
+`(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+${appPropDetails.fn}
+})`
+
+                fnDetails = eval(thecode)
+                var retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
+                if (isValidObject(retv) && isValidObject(retv.failed)) {
+                    throw retv.failed
+                }
+                return retv.value
+            }
+
+         }
+
+     ,
      deleteCursor: function() {
          document.getElementById(this.vb_grid_element_id).style.cursor = "crosshair"
          document.getElementById("grid_container").style.cursor = "default"
@@ -1394,7 +1428,7 @@ ${formprop.fn}
 
 
             setTimeout(function() {
-            debugger
+
             mm.updateAllFormCaches()
                 var selectParent = false
                 var parentItemIndex = null
@@ -1700,7 +1734,7 @@ ${formprop.fn}
                         // The code is obtained from the VueJS model, depending on whether
                         // it is a control, a form, or application code
                         //
-debugger
+
 
                         var ccode = ""
 
