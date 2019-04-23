@@ -999,12 +999,16 @@ uses_javascript_librararies(["advanced_bundle"])
                 // For each app property
                 // ---------------------------------------------------------
                 //zzz
-
+debugger
                 var appProps = mm.getAllAppPropeties()
                 for (var appPropIndex = 0 ; appPropIndex < appProps.length ; appPropIndex ++ ) {
                     var propDetails = appProps[appPropIndex]
                     if (propDetails.type == "Action") {
                         mm.model[propDetails.id] = mm.getAppMethod(propDetails.id)
+                    } else if (!isValidObject(mm.model[propDetails.id])){
+                        if (isValidObject(propDetails.default)){
+                            mm.model[propDetails.id] = propDetails.default
+                        }
                     }
 
                 }
@@ -2736,16 +2740,27 @@ return {}
                 return;
             }
             mm.add_property = false
+
             var fnText = null
             if (mm.new_property_type == "Action") {
                 fnText = ""
             }
 
+            var defaultVal = null
+            if (mm.new_property_type == "Object") {
+                defaultVal = new Object()
+            }
+
+            if (mm.new_property_type == "Array") {
+                defaultVal = []
+            }
+
             mm.model.app_properties.push({
-                                            id:     mm.new_property_id,
-                                            name:   mm.new_property_name,
-                                            type:   mm.new_property_type,
-                                            fn:     fnText
+                                            id:         mm.new_property_id,
+                                            name:       mm.new_property_name,
+                                            type:       mm.new_property_type,
+                                            fn:         fnText,
+                                            default:    defaultVal
                                             })
 
             mm.generateCodeFromModel( )
