@@ -1002,7 +1002,7 @@ debugger
                 for (var appPropIndex = 0 ; appPropIndex < appProps.length ; appPropIndex ++ ) {
                     var propDetails = appProps[appPropIndex]
                     if (propDetails.type == "Action") {
-                        mm.model[propDetails.id] = mm.getAppMethod(appPropIndex)
+                        mm.model[propDetails.id] = mm.getAppMethod(propDetails.id)
                     }
 
                 }
@@ -1188,21 +1188,22 @@ ${formprop.fn}
                 if (isValidObject(retv) && isValidObject(retv.failed)) {
                     throw retv.failed
                 }
-                return retv.value
+                if (isValidObject(retv) && isValidObject(retv.value)) {
+                    throw retv.value
+                }
+                return retv
             }
 
          }
 
          ,
-         getAppMethod: function(appPropIndex) {
+         getAppMethod: function(propDetailsId) {
             var mm = this
             return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
             debugger
-                var appProps = mm.getAllAppPropeties()
-                var appPropDetails = appProps[appPropIndex]
                 var thecode =
 `(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
-${appPropDetails.fn}
+mm.model["${propDetailsId}"]
 })`
 
                 fnDetails = eval(thecode)
@@ -1210,7 +1211,10 @@ ${appPropDetails.fn}
                 if (isValidObject(retv) && isValidObject(retv.failed)) {
                     throw retv.failed
                 }
-                return retv.value
+                if (isValidObject(retv) && isValidObject(retv.value)) {
+                    throw retv.value
+                }
+                return retv
             }
 
          }
