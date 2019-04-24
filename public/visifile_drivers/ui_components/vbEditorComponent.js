@@ -847,7 +847,6 @@ uses_javascript_librararies(["advanced_bundle"])
                                     <option  v-bind:selected='new_property_type=="Number"' value="Number">Number</option>
                                     <option  v-bind:selected='new_property_type=="Array"' value="Array">Array</option>
                                     <option  v-bind:selected='new_property_type=="Object"' value="Object">Object</option>
-                                    <option  v-bind:selected='new_property_type=="Action"' value="Action">Action</option>
                             </select>
                         </div>
 
