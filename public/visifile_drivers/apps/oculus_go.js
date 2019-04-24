@@ -1,7 +1,8 @@
 async function(args) {
 /*
-created_timestamp(1554192877017)
+created_timestamp(1556133474325)
 base_component_id("oculus_go")
+read_only(true)
 editors([
   "vb_editor_component"
 ])
@@ -19,7 +20,7 @@ formEditor({
   "default_form": "Form_1",
   "app_selected": false,
   "id": "oculus_go",
-  "next_component_id": 116,
+  "next_component_id": 121,
   "app_properties": [
     {
       "id": "test",
@@ -47,55 +48,97 @@ formEditor({
           "height": 300
         },
         {
-          "leftX": 70,
-          "topY": 50,
+          "leftX": 110,
+          "topY": 112,
           "parent": "threedee_control_112",
-          "name": "left_3d",
+          "name": "left",
           "base_component_id": "threedee_text_control",
           "text": "Some text",
           "backgroundColor": "lightgray",
           "color": "black",
-          "position": "-2 2 -5",
-          "rotation": "0 45 0",
+          "x": -2,
+          "y": 2,
+          "z": -5,
+          "x_rotation": 0,
+          "y_rotation": 45,
+          "z_rotation": 0,
           "textWidth": 4,
           "textHeight": 2,
-          "click_event": "me.text=\"*****\" + Math.random()",
+          "click_event": "me.text = \"\" + Math.random()",
+          "boxDepth": 0.1,
+          "boxHeight": 2,
+          "boxWidth": 2,
+          "moveRight": "",
+          "moveUp": "",
+          "moveLeft": "",
+          "moveDown": "",
+          "moveBack": "",
+          "moveForward": "",
+          "moveTo": "",
           "width": 100,
           "height": 100,
           "index_in_parent_array": 1
         },
         {
-          "leftX": 112,
-          "topY": 72,
+          "leftX": 8,
+          "topY": 124,
           "parent": "threedee_control_112",
-          "name": "right_3d",
+          "name": "right",
           "base_component_id": "threedee_text_control",
           "text": "Some text",
-          "backgroundColor": "black",
-          "color": "white",
-          "position": "2 2 -5",
-          "rotation": "0 -45 0",
+          "backgroundColor": "lightgray",
+          "color": "black",
+          "x": 2,
+          "y": 2,
+          "z": -5,
+          "x_rotation": 0,
+          "y_rotation": -45,
+          "z_rotation": 0,
           "textWidth": 4,
           "textHeight": 2,
-          "click_event": "me.text = \"...\" + Math.random()",
+          "click_event": "me.text = \"\" + Math.random()",
+          "boxDepth": 0.1,
+          "boxHeight": 2,
+          "boxWidth": 2,
+          "moveRight": "",
+          "moveUp": "",
+          "moveLeft": "",
+          "moveDown": "",
+          "moveBack": "",
+          "moveForward": "",
+          "moveTo": "",
           "width": 100,
           "height": 100,
           "index_in_parent_array": 2
         },
         {
-          "leftX": 0,
-          "topY": 150,
+          "leftX": 147,
+          "topY": 128,
           "parent": "threedee_control_112",
-          "name": "top_3d",
+          "name": "top",
           "base_component_id": "threedee_text_control",
           "text": "Some text",
-          "backgroundColor": "lightblue",
+          "backgroundColor": "lightgray",
           "color": "black",
-          "position": "0 4 -5",
-          "rotation": "0 0 0",
+          "x": 0,
+          "y": 6,
+          "z": -5,
+          "x_rotation": 0,
+          "y_rotation": 0,
+          "z_rotation": 0,
           "textWidth": 4,
           "textHeight": 2,
-          "click_event": "me.text = \"...\" + Math.random()",
+          "click_event": "me.text = \"\" + Math.random()",
+          "boxDepth": 0.1,
+          "boxHeight": 2,
+          "boxWidth": 2,
+          "moveRight": "",
+          "moveUp": "",
+          "moveLeft": "",
+          "moveDown": "",
+          "moveBack": "",
+          "moveForward": "",
+          "moveTo": "",
           "width": 100,
           "height": 100,
           "index_in_parent_array": 3
@@ -109,9 +152,9 @@ formEditor({
       "height": 300
     }
   },
-  "active_component_index": null,
-  "active_component_detail_name": "threedee_control_112",
-  "active_component_detail_index": 0
+  "active_component_index": 1,
+  "active_component_detail_name": null,
+  "active_component_detail_index": null
 })//formEditor
 control_type("SYSTEM")
 sub_components([
@@ -124,7 +167,8 @@ sub_components([
   "table_control",
   "group_control",
   "threedee_control",
-  "threedee_text_control"
+  "threedee_text_control",
+  "threedee_item_control"
 ])
 visibility("PUBLIC")
 display_name("Oculus GO Demo App")
@@ -136,7 +180,6 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
 
-read_only(true)
 is_app(true)
 description('Oculus GO demo app')
 logo_url("/driver_icons/blocks.png")
@@ -205,11 +248,14 @@ logo_url("/driver_icons/blocks.png")
                             draggable="true"
                             class=''
                             v-on:dragend='$event.stopPropagation();deleteCursor();'
-                            v-on:dragstart='$event.stopPropagation();switchCursor($event,"grab","grabbing");highlighted_control = av.base_component_id;drag($event,{
+                            v-on:dragstart='$event.stopPropagation();if (design_mode_pane.type == "drag_drop") {switchCursor($event,"grab","grabbing");highlighted_control = av.base_component_id;drag($event,{
                                                    type:   "add_component",
                                                    text:    av.base_component_id
-                                                })'
-                            v-on:click='highlighted_control = av.base_component_id;'
+                                                })} else {
+                                                    event.preventDefault()
+                                                    gotoDragDropEditor();
+                                                }'
+                            v-on:click='highlighted_control = av.base_component_id;gotoDragDropEditor();'
                             v-bind:style='"display:flex;cursor: grab;margin: 2px;border-radius: 3px;width:50px;;height: 50px; margin: 0px;border: 0px;padding:10px;overflow-x:auto;overflow-y:hidden;background-color: " + ((highlighted_control == av.base_component_id)?"#E8E8E8;border-left: 2px solid gray;border-top: 2px solid gray;":"lightgray;")'>
 
                         <img    v-if='isValidObject(av)'
@@ -314,7 +360,7 @@ logo_url("/driver_icons/blocks.png")
 
                 </div>
 
-                <div  v-bind:style='"border: 5px solid lightgray;background: white;;overflow:none;height:100%; overflow: auto;"'>
+                <div  v-bind:style='"border: 5px solid lightgray;background: white;;overflow:none;height:100%; overflow: auto; width:100%; "'>
 
                     <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[model.active_component_detail_index].name + (design_mode?"_design":"")'
                                 v-bind:refresh='refresh'
@@ -708,7 +754,7 @@ logo_url("/driver_icons/blocks.png")
 
 
             <div    id='right_project_pane'
-                    v-bind:class='(right_mode == "project"?"right_project_pane_expanded":"right_project_pane_collapsed")''
+                    v-bind:class='(right_mode == "project"?"right_project_pane_expanded":"right_project_pane_collapsed")'
                     v-bind:refresh='refresh'
                     v-bind:style='"padding:0px; border: 4px solid lightgray;white-space:nowrap"'>
 
@@ -755,9 +801,30 @@ logo_url("/driver_icons/blocks.png")
                                 <div    v-if='form.name == model.active_form'
                                         v-for='(av,index) in getActiveFormComponents()'
                                         v-on:click='$event.stopPropagation();selected_pane = "project";selectComponent(index)'
-                                        v-bind:style='(((index == model.active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:80px; padding:2px;border-radius: 3px;"'>
+                                        >
 
-                                    <div style='width:100%;display:inline-block;overflow: hidden;'>{{av.name}}</div>
+                                    <div  v-bind:style='(((index == model.active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:80px; padding:2px;border-radius: 3px;width:90%;"'
+                                          v-if='(av.parent == null)'>
+                                      <div  style='width:100%;display:inline-block;overflow: hidden;'
+                                            >
+
+                                              {{av.name}}
+                                              <div    v-if='form.name == model.active_form'
+                                                      v-for='(av2,index2) in getActiveFormComponents()'
+                                                      v-on:click='$event.stopPropagation();selected_pane = "project";selectComponent(index2)'
+                                                      >
+
+                                                  <div  v-bind:style='(((index2 == model.active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:20px; padding:2px;border-radius: 3px;width:90%;"'
+                                                        v-if='(av2.parent == av.name)'>
+                                                    <div  style='width:100%;display:inline-block;overflow: hidden;'
+                                                          >
+
+                                                            {{av2.name}}
+                                                    </div>
+                                                  </div>
+                                              </div>
+                                      </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -790,7 +857,8 @@ logo_url("/driver_icons/blocks.png")
                 </div>
 
                 <div  style="border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:65%;">
-                    <div    style="border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
+                    <div    id="property_scroll_region"
+                            style="border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
 
 
                         <div    v-for='property in properties'
@@ -850,7 +918,9 @@ logo_url("/driver_icons/blocks.png")
                                             </input>
                                         </div>
 
-                                        <div v-if="(property.type  == 'Event')  " style="width:100%">
+                                        <div    v-if="(property.type  == 'Event') || ((property.type  == 'Action') && isValidObject(property.fn)) "
+                                                style="width:100%">
+
                                             <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;'
                                                         v-on:click='$event.stopPropagation();editAsCode({
                                                             app_selected:           model.app_selected,
@@ -899,7 +969,7 @@ logo_url("/driver_icons/blocks.png")
                         </div>
 
                         <div v-if='(model.app_selected) && (add_property)' class='row'>
-                            <div    style='font-family:verdana,helvetica;font-size: 13px;'
+                            <div    style='font-family:verdana,helvetica;font-size: 13px;font-weight:bold;padding-left:20px;'
                                     class='col-md-12 small'>
                                 Add a property
                             </div>
@@ -932,6 +1002,28 @@ logo_url("/driver_icons/blocks.png")
                         </div>
 
                         <div v-if='(model.app_selected) && (add_property)' class='row'>
+                            <div    style='font-family:verdana,helvetica;font-size: 13px;'
+                                    class='col-md-4'>
+                                Type
+                            </div>
+
+                            <select  class='col-md-7 small'
+                                     style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
+                                     v-model='new_property_type'>
+
+                                    <option  v-bind:selected='new_property_type=="String"' value="String">String</option>
+                                    <option  v-bind:selected='new_property_type=="Number"' value="Number">Number</option>
+                                    <option  v-bind:selected='new_property_type=="Array"' value="Array">Array</option>
+                                    <option  v-bind:selected='new_property_type=="Object"' value="Object">Object</option>
+                            </select>
+                        </div>
+
+
+
+
+                        <div    v-if='(model.app_selected) && (add_property)'
+                                style='padding-bottom:60px;'
+                                class='row'>
                             <div class='col-md-12'>
                                 <button style='font-family:verdana,helvetica;font-size: 13px;'
                                         type=button class='btn btn-sm btn-info'
@@ -946,6 +1038,7 @@ logo_url("/driver_icons/blocks.png")
                                 </button>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -1032,6 +1125,26 @@ logo_url("/driver_icons/blocks.png")
             for (var formIndex = 0; formIndex < forms.length; formIndex ++) {
                 var formName = forms[formIndex].name
 
+
+
+                var formProps = mm.getFormProperties()
+                for (var cpp = 0 ; cpp < formProps.length; cpp ++) {
+                    var formprop = formProps[cpp]
+                    var propname = formprop.name
+                    var formDef = this.model.forms[formName]
+                    if (formprop.type == "Action") {
+                        formDef[formprop.id] =
+                            mm.getFormMethod(   formName,
+                                                formprop)
+
+                    } else if (!isValidObject(formprop)){
+                        formDef[formprop.id] = ""
+                    }
+                }
+
+
+
+
                 // ---------------------------------------------------------
                 // ... load the component definitions for all components in
                 //     the form
@@ -1048,6 +1161,24 @@ logo_url("/driver_icons/blocks.png")
                 await loadV2(compsToLoad)
 
 
+
+                // ---------------------------------------------------------
+                // For each app property
+                // ---------------------------------------------------------
+                //zzz
+debugger
+                var appProps = mm.getAllAppPropeties()
+                for (var appPropIndex = 0 ; appPropIndex < appProps.length ; appPropIndex ++ ) {
+                    var propDetails = appProps[appPropIndex]
+                    if (propDetails.type == "Action") {
+                        mm.model[propDetails.id] = mm.getAppMethod(propDetails.id)
+                    } else if (!isValidObject(mm.model[propDetails.id])){
+                        if (isValidObject(propDetails.default)){
+                            mm.model[propDetails.id] = propDetails.default
+                        }
+                    }
+
+                }
 
                 // ---------------------------------------------------------
                 // For each component in the form ...
@@ -1068,6 +1199,9 @@ logo_url("/driver_icons/blocks.png")
                     }
 
 
+
+
+
                     // ---------------------------------------------------------
                     // ...
                     //
@@ -1078,7 +1212,7 @@ logo_url("/driver_icons/blocks.png")
                     var cachedComponentDefinition = component_cache[componentId]
 
                     if (isValidObject(cachedComponentDefinition)) {
-                        var cachedComponentPropertiesDefinition = cachedComponentDefinition.properties
+                        var cachedComponentPropertiesDefinition = this.getControlProperties(this.model.forms[formName].components[compenentInFormIndex].base_component_id)
                         if (isValidObject(cachedComponentPropertiesDefinition)) {
                             for (var cpp = 0 ; cpp< cachedComponentPropertiesDefinition.length; cpp ++) {
                                 var prop = cachedComponentPropertiesDefinition[cpp].id
@@ -1086,10 +1220,8 @@ logo_url("/driver_icons/blocks.png")
 
                                 if (cachedComponentPropertiesDefinition[cpp].type == "Action") {
                                     this.model.forms[formName].components[compenentInFormIndex][prop] =
-                                        mm.getControlMethod(mm.model.forms[formName].components[compenentInFormIndex].base_component_id,
-                                                            mm.model.forms[formName].components[compenentInFormIndex],
-                                                            cachedComponentDefinition,
-                                                            cachedComponentPropertiesDefinition[cpp].id )
+                                        mm.getControlMethod(cachedComponentPropertiesDefinition[cpp],
+                                                            mm.model.forms[formName].components[compenentInFormIndex])
 
                                 } else if (!isValidObject(this.model.forms[formName].components[compenentInFormIndex][prop])){
                                     this.model.forms[formName].components[compenentInFormIndex][prop] = ""
@@ -1159,16 +1291,13 @@ logo_url("/driver_icons/blocks.png")
 
            mm.$root.$on('message', async function(text) {
                if (text.type == "delete_design_time_component") {
-                   //alert("Found: " + text.component_index)
-                   //alert(JSON.stringify(mm.model.forms[mm.model.active_form].components[text.component_index],null,2))
-                   mm.model.forms[mm.model.active_form].components.splice(text.component_index, 1);
-
-                   //mm.design_mode_pane.type = "drag_drop";
-
-
-
+                    if (mm.design_mode != false) {
+                        mm.model.forms[mm.model.active_form].components.splice(text.component_index, 1);
+                    }
                } else if (text.type == "select_design_time_component") {
-                  mm.selectComponent(text.component_index, true);
+                   if (mm.design_mode != false) {
+                        mm.selectComponent(text.component_index, true);
+                   }
               }
 
            })
@@ -1183,21 +1312,88 @@ logo_url("/driver_icons/blocks.png")
 
 
      methods: {
-         getControlMethod: function(base_id,componentDetails,ompEvaled1, methodId) {
+         getControlMethod: function(componentDefn,componentDetails) {
+            var mm = this
+            var methodId = componentDefn.id
+            var methodFn = componentDefn.fn
             return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
-                //alert(JSON.stringify(componentDetails.name,null,2))
-                var controlDetails = globalControl[componentDetails.name]
-                var fnDetails = controlDetails[methodId]
+                var me = componentDetails
+
+                var fnDetails       = null
+                if (isValidObject(methodFn)) {
+                    var thecode =
+`(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+${methodFn}
+})`
+
+                    fnDetails = eval(thecode)
+
+                } else {
+                     var controlDetails = globalControl[componentDetails.name]
+                     fnDetails = controlDetails[methodId]
+                }
                 var retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
-                if (isValidObject(retv.failed)) {
+
+                if (isValidObject(retv) && isValidObject(retv.failed)) {
                     throw retv.failed
                 }
-                return retv.value
+                if (isValidObject(retv) && isValidObject(retv.value)) {
+                    return retv.value
+                }
+                return retv
+            }
+
+         }
+
+
+         ,
+         getFormMethod: function(formName, formprop) {
+            var mm = this
+            return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+                var formDetails = mm.model.forms[formName]
+                var thecode =
+`(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+${formprop.fn}
+})`
+
+                fnDetails = eval(thecode)
+                var retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
+                if (isValidObject(retv) && isValidObject(retv.failed)) {
+                    throw retv.failed
+                }
+                if (isValidObject(retv) && isValidObject(retv.value)) {
+                    throw retv.value
+                }
+                return retv
             }
 
          }
 
          ,
+         getAppMethod: function(propDetailsId) {
+            var mm = this
+            return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+            debugger
+                var origCode = mm.model[propDetailsId]
+                var thecode =
+`(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+${origCode}
+})`
+
+                fnDetails = eval(thecode)
+                var retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
+                if (isValidObject(retv) && isValidObject(retv.failed)) {
+                    throw retv.failed
+                }
+                if (isValidObject(retv) && isValidObject(retv.value)) {
+                    throw retv.value
+                }
+                return retv
+            }
+
+         }
+
+     ,
      deleteCursor: function() {
          document.getElementById(this.vb_grid_element_id).style.cursor = "crosshair"
          document.getElementById("grid_container").style.cursor = "default"
@@ -1347,7 +1543,7 @@ logo_url("/driver_icons/blocks.png")
                            var prop = compEvaled[cpp].id
 
                            if (!isValidObject(newItem[prop])){
-                               if (compEvaled[cpp].default) {
+                               if (isValidObject(compEvaled[cpp].default)) {
                                    newItem[prop] = JSON.parse(JSON.stringify(compEvaled[cpp].default))
                                } else {
                                    newItem[prop] = ""
@@ -1388,10 +1584,6 @@ logo_url("/driver_icons/blocks.png")
             this.model.forms[this.model.active_form].components.push(newItem)
             this.model.active_component_index = this.model.forms[this.model.active_form].components.length - 1
 
-            setTimeout(function() {
-                mm.selectComponent(mm.model.active_component_index, true)
-                mm.refresh ++
-            },100)
 
             var compCode = component_cache[newItem.base_component_id].code
             var childrenCode  = saveHelper.getValueOfCodeString(compCode, "children",")//children")
@@ -1412,6 +1604,61 @@ logo_url("/driver_icons/blocks.png")
                 }
             }
 
+
+            setTimeout(function() {
+
+            mm.updateAllFormCaches()
+                var selectParent = false
+                var parentItemIndex = null
+                if (isValidObject(newItem.parent)) {
+                    var parentItem = mm.form_runtime_info[mm.model.active_form].component_lookup_by_name[newItem.parent]
+
+                    if (isValidObject(parentItem.select_parent_when_child_added) &&
+                            (parentItem.select_parent_when_child_added == true)) {
+
+                        selectParent = true
+                        var ccc = mm.model.forms[mm.model.active_form].components
+                        for (var ytr = 0;ytr < ccc.length;ytr++) {
+                           if (parentItem.name == ccc[ytr].name) {
+                               parentItemIndex = ytr
+                               break
+                           }
+                        }
+                    }
+                }
+
+                if (selectParent) {
+                    mm.selectComponent(parentItemIndex, true)
+                } else {
+                    mm.selectComponent(mm.model.active_component_index, true)
+                }
+                mm.refresh ++
+            },100)
+
+        }
+        ,
+        copyControl: function(controlDetails , props , genNewName) {
+            var mm = this
+
+            var xx = JSON.parse(JSON.stringify(controlDetails))
+
+
+
+
+            var yy = Object.assign(xx , props)
+            if ( isValidObject(genNewName) ) {
+              yy.name = "random_name"
+            }
+
+            return yy
+        }
+        ,
+
+        addControl: function(controlDetails) {
+            var mm = this
+            mm.model.forms.Form_1.components.push(
+                  controlDetails
+              )
         }
         ,
 
@@ -1666,10 +1913,13 @@ logo_url("/driver_icons/blocks.png")
                         // it is a control, a form, or application code
                         //
 
+
                         var ccode = ""
 
                         // application code (THIS MUST BE FIST IN THE IF STATEMENT)
-                        if (mm.model.app_selected) {
+                        if (aa.property_id && mm.model[aa.property_id] && isValidObject(mm.model[aa.property_id].fn)) {
+                            ccode = mm.model[aa.property_id].fn
+                        } else if (mm.model.app_selected) {
                             ccode = mm.model[aa.property_id]
 
 
@@ -1695,7 +1945,9 @@ logo_url("/driver_icons/blocks.png")
                         mm.ui_code_editor.on("change", function(e) {
                             var newC = mm.ui_code_editor.getValue()
 
-                            if (aa.app_selected) {
+                            if (aa.property_id && mm.model[aa.property_id] && isValidObject(mm.model[aa.property_id].fn)) {
+                                mm.model[aa.property_id].fn = newC
+                            } else if (aa.app_selected) {
                                 mm.model[aa.property_id] = newC
                             } else if ((mm.model.active_component_index == null) && (mm.model.active_form != null)) {
                                 mm.model.forms[mm.model.active_form][aa.property_id] = newC
@@ -1705,6 +1957,7 @@ logo_url("/driver_icons/blocks.png")
                             }
                         })
 
+                        mm.updateAllFormCaches()
                         mm.setupCodeAutocompletions()
 
                         mm.ui_code_editor.focus();
@@ -1828,6 +2081,13 @@ logo_url("/driver_icons/blocks.png")
                                              "syllables":"1",
                                               meta:      "The current control"
                                              })
+                             wordList.push(  {"word":    "myForm",
+                                             "freq":     24,
+                                             "score":    300,
+                                             "flags":    "bc",
+                                             "syllables":"1",
+                                              meta:      "The current form"
+                                             })
                          }
 
                          wordList.push(  {"word":    "parent",
@@ -1898,6 +2158,27 @@ logo_url("/driver_icons/blocks.png")
                                 formName = mm.model.active_form
                             }
 
+                        } else if (firstObjectToAutocomplete == "myForm") {
+
+                            formName = mm.model.active_form
+
+                        } else if (firstObjectToAutocomplete == "parent") {
+
+                            if (mm.design_mode_pane.app_selected) {
+
+                            } else if (isValidObject(mm.design_mode_pane.active_component_index)) {
+                                var parentId = mm.model.forms[mm.model.active_form].components[ mm.design_mode_pane.active_component_index ].parent
+                                if (isValidObject(parentId)) {
+                                    componentId = mm.form_runtime_info[mm.model.active_form].component_lookup_by_name[parentId].base_component_id
+                                }
+
+                            } else if (isValidObject(mm.design_mode_pane.active_form)) {
+                            }
+
+                        } else if (firstObjectToAutocomplete == "app") {
+
+                            isApp = true
+
                         } else {
 
                             //
@@ -1927,10 +2208,6 @@ logo_url("/driver_icons/blocks.png")
                             }
 
 
-                            if (firstObjectToAutocomplete == "app") {
-                                isApp = true
-
-                            }
                         }
 
 
@@ -1940,10 +2217,9 @@ logo_url("/driver_icons/blocks.png")
                          //
 
                          if (componentId) {
-
-                            var cachedComponentDefinition = component_cache[componentId]
-                            for (var fg=0;fg < cachedComponentDefinition.properties.length;fg++){
-                                 var comm = cachedComponentDefinition.properties[fg]
+                            var controlProperties = mm.getControlProperties(componentId)
+                            for (var fg=0;fg < controlProperties.length;fg++){
+                                 var comm = controlProperties[fg]
                                  var propName = firstObjectToAutocomplete + "." + comm.id
                                  var meta = "Property"
                                  if (isValidObject(comm.snippet)) {
@@ -1956,13 +2232,20 @@ logo_url("/driver_icons/blocks.png")
                                      meta = "Method"
                                  }
 
-                                 wordList.push({ "word":         propName ,
-                                                 "freq":         24,
-                                                 "score":        300,
-                                                 "flags":        "bc",
-                                                 "syllables":    "1",
-                                                 "meta":         meta
-                                                 })
+                                 var addProp = true
+                                 if (comm.type == "Event") {
+                                    addProp = false
+                                 }
+
+                                 if (addProp) {
+                                     wordList.push({ "word":         propName ,
+                                                     "freq":         24,
+                                                     "score":        300,
+                                                     "flags":        "bc",
+                                                     "syllables":    "1",
+                                                     "meta":         meta
+                                                     })
+                                 }
                              }
 
 
@@ -1974,7 +2257,7 @@ logo_url("/driver_icons/blocks.png")
 
                          } else if (formName) {
 
-                            var formProps = mm.properties
+                            var formProps = mm.getFormProperties(formName)
                             for (var formPropIndex = 0 ; formPropIndex < formProps.length ; formPropIndex++ ) {
 
                                 var propDetails = formProps[formPropIndex]
@@ -2009,8 +2292,8 @@ logo_url("/driver_icons/blocks.png")
                          //
 
                          } else if (isApp) {
-debugger
-                            var appProps = mm.get_default_app_propeties()
+
+                            var appProps = mm.getAllAppPropeties()
                             for (var formPropIndex = 0 ; formPropIndex < appProps.length ; formPropIndex++ ) {
 
                                 var propDetails = appProps[formPropIndex]
@@ -2214,19 +2497,27 @@ debugger
                   // get the app methods
                   //
                   if (mm.model.app_selected) {
-                      methodListForSelector.push(
-                          {
-                              value:              "" + indexActionSelector,
-                              app:                mm.edited_app_component_id,
-                              form:               mm.model.active_form,
-                              component:          null,
-                              action_id:          "app_started_event",
-                              action_name:        "Called when the app is started",
-                              action_type:        "Event"
+                      var allProperties = mm.getAllAppPropeties()
+                      for (var ui=0;ui < allProperties.length; ui ++) {
+                          var prop = allProperties[ui]
+                          if ((prop.type == "Event") || (prop.type == "Action")) {
+                              methodListForSelector.push(
+                                  {
+                                      value:              "" + indexActionSelector,
+                                      app:                mm.edited_app_component_id,
+                                      form:               mm.model.active_form,
+                                      component:          null,
+                                      action_id:          prop.id,
+                                      action_name:        prop.name,
+                                      action_type:        prop.type
+                                  }
+                              )
+                              if (prop.id == property_id) {
+                                  selectedCodeAction = indexActionSelector
+                              }
+                              indexActionSelector++
                           }
-                      )
-                      selectedCodeAction = indexActionSelector
-                      indexActionSelector++
+                      }
 
 
                   } else if (  isValidObject(mm.model.active_component_index)  ) {
@@ -2447,23 +2738,78 @@ debugger
 
 
 
+
+         //-------------------------------------------------------------------
+         //                        getFormProperties
+         //
+         //                          event, property
+         //-------------------------------------------------------------------
+         getFormProperties: function(    formName    ) {
+             var props = []
+             props.push({   id:     "name",   name:   "Name",   type:   "String"    })
+             props.push({   id:     "width",   name:   "Width",   type:   "Number"    })
+             props.push({   id:     "height",   name:   "Height",   type:   "Number"    })
+             props.push({   id:     "form_activate",   name:   "Activate Event",   type:   "Event"    })
+             props.push({   id:     "add_control",   name:   "Add Control",   type:   "Action"  ,
+                            snippet:    `add_control({name: "name_of_new_control"})`,
+                            help:       `<div>Help text for
+                                            <b>addControl</b> method
+                                         </div>`,
+                            fn:
+`mm.addControl(  arg1  )
+return {}
+`
+                              })
+             return props
+         }
+         ,
+
+
+
          //-------------------------------------------------------------------
          setVBEditorProperty: function(event, property) {
          //-------------------------------------------------------------------
-            var mm = this
-         var val = event.target.value
-         var type = null
-         if (this.model.active_component_index != null) {
-            type = "component"
-         } else if ((this.model.active_component_index == null) && (this.model.active_form != null) && (!this.model.app_selected)) {
-            type = "form"
-         } else if (this.model.app_selected) {
-            type = "app"
-         }
+            var mm      = this
+            var val     = null
+            var type    = null
+
+
+            if (property.type == "Number") {
+                val     = JSON.parse(event.target.value)
+            } else {
+                val     = event.target.value
+            }
+
+
+            //
+            // determine if this is a control, form or app
+            //
+            if (this.model.active_component_index != null) {
+                type = "component"
+            } else if ((this.model.active_component_index == null) && (this.model.active_form != null) && (!this.model.app_selected)) {
+                type = "form"
+            } else if (this.model.app_selected) {
+                type = "app"
+            }
 
 
             if (type == 'component') {
-                this.model.forms[this.model.active_form].components[this.model.active_component_index][property.id] = val
+                var componentTochange           = this.model.forms[this.model.active_form].components[this.model.active_component_index]
+                var oldContainerName = componentTochange.name
+
+                componentTochange[property.id]  = val
+
+                if ((property.id == "name") && (componentTochange.is_container == true)) {
+                    //alert("renaming container")
+
+                    var allC = this.model.forms[this.model.active_form].components
+                    for (var xi =0; xi< allC.length ; xi ++) {
+                         var comp = allC[xi]
+                         if (comp.parent == oldContainerName) {
+                            comp.parent = componentTochange.name
+                         }
+                    }
+                }
                 //this.generateCodeFromModel(   )
                 this.refresh ++
 
@@ -2542,6 +2888,13 @@ debugger
             mm.add_property = true
             mm.new_property_id = ""
             mm.new_property_name = ""
+            mm.new_property_type = "String"
+
+
+            setTimeout(function(){
+                var objDiv = document.getElementById("property_scroll_region");
+                objDiv.scrollTop = objDiv.scrollHeight;
+            },200)
          }
          ,
 
@@ -2555,10 +2908,26 @@ debugger
             }
             mm.add_property = false
 
+            var fnText = null
+            if (mm.new_property_type == "Action") {
+                fnText = ""
+            }
+
+            var defaultVal = null
+            if (mm.new_property_type == "Object") {
+                defaultVal = new Object()
+            }
+
+            if (mm.new_property_type == "Array") {
+                defaultVal = []
+            }
+
             mm.model.app_properties.push({
-                                            id:     mm.new_property_id,
-                                            name:   mm.new_property_name,
-                                            type:   "String"
+                                            id:         mm.new_property_id,
+                                            name:       mm.new_property_name,
+                                            type:       mm.new_property_type,
+                                            fn:         fnText,
+                                            default:    defaultVal
                                             })
 
             mm.generateCodeFromModel( )
@@ -2609,11 +2978,8 @@ debugger
 
              mm.model.active_component_index = null
              mm.model.app_selected = false
-             mm.properties = []
-             mm.properties.push({   id:     "name",   name:   "Name",   type:   "String"    })
-             mm.properties.push({   id:     "width",   name:   "Width",   type:   "Number"    })
-             mm.properties.push({   id:     "height",   name:   "Height",   type:   "Number"    })
-             mm.properties.push({   id:     "form_activate",   name:   "Activate Event",   type:   "Event"    })
+             mm.properties = mm.getFormProperties(formId)
+
              mm.model.active_form = formId
              mm.refresh ++
 
@@ -2725,6 +3091,12 @@ ${eventMessage.code}
                         var appCode =""
                         appCode += ( "var app = mm.model;")
                         eval(appCode)
+
+                        var meCode =""
+                        meCode += ( "var myForm = mm.model.forms['" + this.model.active_form + "'];")
+                        eval(meCode)
+
+
 
 
                         var debugFcc = getDebugCode(mm.model.active_form +"_"+eventMessage.control_name+"_"+eventMessage.sub_type,fcc,{skipFirstAndLastLine: true})
@@ -2895,6 +3267,38 @@ ${eventMessage.code}
                 mm.refresh ++
                 mm.$forceUpdate();
             },400)
+         },
+         deleteComponentByName: async function(thisComponentName) {
+            var mm = this
+
+            var promise = new Promise(async function(returnfn) {
+
+                var ccc2 = mm.model.forms[mm.model.active_form].components
+                for (   var ytr = ccc2.length - 1;    ytr >= 0;    ytr--   ) {
+                    var component = ccc2[ytr]
+                    if (component.name == thisComponentName) {
+                        mm.model.forms[mm.model.active_form].components.splice(ytr, 1);
+                        break;
+                    }
+                }
+                var ccc = mm.model.forms[mm.model.active_form].components
+                for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
+                    var component = ccc[ytr]
+                    if (component.parent == thisComponentName) {
+                        mm.model.forms[mm.model.active_form].components.splice(ytr, 1);
+                    }
+                }
+
+                mm.refreshControlIndexes()
+                mm.selectForm(mm.model.active_form)
+                setTimeout(function() {
+                    mm.refresh ++
+                    mm.$forceUpdate();
+                    returnfn({})
+                },400)
+            })
+            var ret = await promise
+            return ret
          },
 
 
@@ -3230,6 +3634,17 @@ ${eventMessage.code}
          }
          ,
 
+         //-------------------------------------------------------------------
+         getAllAppPropeties: function() {
+            var mm = this
+            var properties                     = mm.get_default_app_propeties()
+
+            if (this.model.app_properties) {
+                properties = properties.concat(this.model.app_properties)
+            }
+            return properties
+         }
+         ,
 
 
 
@@ -3246,11 +3661,8 @@ ${eventMessage.code}
             this.model.app_selected             = true
             this.active_property_index          = null
 
-            this.properties                     = mm.get_default_app_propeties()
+            this.properties                     = mm.getAllAppPropeties()
 
-            if (this.model.app_properties) {
-                this.properties = this.properties.concat(this.model.app_properties)
-            }
             this.updatePropertySelector()
 
             this.refresh ++
@@ -3425,9 +3837,9 @@ ${eventMessage.code}
             selectProp = new Selectr(
                 document.getElementById('property_selector'),
                 {
-                	renderOption: mm.myDataRenderFunction,
+                  renderOption: mm.myDataRenderFunction,
                     renderSelection: mm.myDataRenderFunction,
-            		selectedValue: selectedItem,
+                selectedValue: selectedItem,
                     data: sdata,
                     customClass: 'my-custom-selectr',
                     searchable: false
@@ -3460,6 +3872,75 @@ ${eventMessage.code}
             }
             return false
          }
+
+         ,
+
+         //-------------------------------------------------------------------
+         getControlProperties: function(base_component_id) {
+             var properties = []
+             var compEvaled = this.getComponentProperties(base_component_id)
+
+             properties.push({   id:     "name",   name:   "Name",   type:   "String"    })
+             properties.push({   id:     "base_component_id",   name:   "Type",   type:   "String" , readonly: true   })
+             properties.push({   id:     "leftX",   name:   "X",   type:   "Number"    })
+             properties.push({   id:     "topY",   name:   "Y",   type:   "Number"    })
+             if (!this.existsProp(compEvaled,"width")) {
+                 properties.push({   id:     "width",   name:   "Width",   type:   "Number"    })
+             }
+             if (!this.existsProp(compEvaled,"height")) {
+                 properties.push({   id:     "height",   name:   "Height",   type:   "Number"    })
+             }
+             if (!this.existsProp(compEvaled,"load")) {
+                 properties.push({   id:     "load",   name:   "Load Event",   type:   "Event"    })
+             }
+
+            properties.push({   id:     "clone",   name:   "Clone",   type:   "Action"  ,
+                                pre_snippet: `await `,
+                                hidden:       true,
+                                snippet:     `clone("new_name")`,
+                                fn:
+`
+var newObject = JSON.parse(JSON.stringify(me))
+newObject.name = arg1
+return newObject
+`
+            })
+
+            if (this.existsProp(compEvaled,"is_container")) {
+                properties.push({   id:     "addChild",   name:   "Add Child",   type:   "Action"  ,
+                                    pre_snippet: `await `,
+                                    hidden:       true,
+                                    snippet:     `addChild({})`,
+                                    fn:
+`mm.addControl(  arg1  )
+return {}
+`
+                })
+            }
+
+
+
+
+            properties.push({   id:     "delete",   name:   "Delete",   type:   "Action"  ,
+                                pre_snippet: `await `,
+                                hidden:       true,
+                                snippet:     `delete()`,
+                                fn:
+`mm.deleteComponentByName(  me.name  )
+return {}
+`
+            })
+
+
+
+
+
+
+             properties = properties.concat(compEvaled)
+             return properties
+         }
+         //-------------------------------------------------------------------
+
          ,
          //-------------------------------------------------------------------
          selectComponent: async function(index, showProps) {
@@ -3475,27 +3956,8 @@ ${eventMessage.code}
             this.active_property_index = null
             this.model.app_selected = false
             this.model.active_component_index = index
-            this.properties = []
+            this.properties = this.getControlProperties(this.model.forms[this.model.active_form].components[index].base_component_id)
 
-            var compEvaled = this.getComponentProperties(this.model.forms[this.model.active_form].components[index].base_component_id)
-
-            this.properties.push({   id:     "name",   name:   "Name",   type:   "String"    })
-            this.properties.push({   id:     "base_component_id",   name:   "Type",   type:   "String" , readonly: true   })
-            this.properties.push({   id:     "leftX",   name:   "X",   type:   "Number"    })
-            this.properties.push({   id:     "topY",   name:   "Y",   type:   "Number"    })
-            if (!this.existsProp(compEvaled,"width")) {
-                this.properties.push({   id:     "width",   name:   "Width",   type:   "Number"    })
-            }
-            if (!this.existsProp(compEvaled,"height")) {
-                this.properties.push({   id:     "height",   name:   "Height",   type:   "Number"    })
-            }
-            if (!this.existsProp(compEvaled,"load")) {
-                this.properties.push({   id:     "load",   name:   "Load Event",   type:   "Event"    })
-            }
-
-
-
-            this.properties = this.properties.concat(compEvaled)
             this.updatePropertySelector()
             if (isValidObject(showProps) && showProps) {
                 this.selected_pane = "properties";
@@ -3512,11 +3974,7 @@ ${eventMessage.code}
          //-------------------------------------------------------------------
             var mm = this
             mm.model.active_component_index = null
-            mm.properties = []
-            this.properties.push({   id:     "name",   name:   "Name",   type:   "String"    })
-            this.properties.push({   id:     "width",   name:   "Width",   type:   "Number"    })
-            this.properties.push({   id:     "height",   name:   "Height",   type:   "Number"    })
-            this.properties.push({   id:     "form_activate",   name:   "Activate Event",   type:   "Event"    })
+            mm.properties = mm.getFormProperties()
 
             mm.model.max_form ++
             var newFormName = "form_" + mm.model.max_form
@@ -3524,8 +3982,10 @@ ${eventMessage.code}
                 name: newFormName,
                 components: [],
                 width: 300,
-                height: 300
+                height: 300,
+                add_control: "alert('Add control called')"
             }
+
             mm.model.active_form = newFormName
             mm.refresh ++
          }
@@ -3804,8 +4264,8 @@ ${eventMessage.code}
   "active_form": "Form_1",
   "default_form": "Form_1",
   "app_selected": false,
-  "id": "vb_blank_a93e19f0551e11e98e04d5dfeb06b6af",
-  "next_component_id": 116,
+  "id": "oculus_go",
+  "next_component_id": 121,
   "app_properties": [
     {
       "id": "test",
@@ -3833,55 +4293,97 @@ ${eventMessage.code}
           "height": 300
         },
         {
-          "leftX": 70,
-          "topY": 50,
+          "leftX": 110,
+          "topY": 112,
           "parent": "threedee_control_112",
-          "name": "left_3d",
+          "name": "left",
           "base_component_id": "threedee_text_control",
           "text": "Some text",
           "backgroundColor": "lightgray",
           "color": "black",
-          "position": "-2 2 -5",
-          "rotation": "0 45 0",
+          "x": -2,
+          "y": 2,
+          "z": -5,
+          "x_rotation": 0,
+          "y_rotation": 45,
+          "z_rotation": 0,
           "textWidth": 4,
           "textHeight": 2,
-          "click_event": "me.text=\"*****\" + Math.random()",
+          "click_event": "me.text = \"\" + Math.random()",
+          "boxDepth": 0.1,
+          "boxHeight": 2,
+          "boxWidth": 2,
+          "moveRight": "",
+          "moveUp": "",
+          "moveLeft": "",
+          "moveDown": "",
+          "moveBack": "",
+          "moveForward": "",
+          "moveTo": "",
           "width": 100,
           "height": 100,
           "index_in_parent_array": 1
         },
         {
-          "leftX": 112,
-          "topY": 72,
+          "leftX": 8,
+          "topY": 124,
           "parent": "threedee_control_112",
-          "name": "right_3d",
+          "name": "right",
           "base_component_id": "threedee_text_control",
           "text": "Some text",
-          "backgroundColor": "black",
-          "color": "white",
-          "position": "2 2 -5",
-          "rotation": "0 -45 0",
+          "backgroundColor": "lightgray",
+          "color": "black",
+          "x": 2,
+          "y": 2,
+          "z": -5,
+          "x_rotation": 0,
+          "y_rotation": -45,
+          "z_rotation": 0,
           "textWidth": 4,
           "textHeight": 2,
-          "click_event": "me.text = \"...\" + Math.random()",
+          "click_event": "me.text = \"\" + Math.random()",
+          "boxDepth": 0.1,
+          "boxHeight": 2,
+          "boxWidth": 2,
+          "moveRight": "",
+          "moveUp": "",
+          "moveLeft": "",
+          "moveDown": "",
+          "moveBack": "",
+          "moveForward": "",
+          "moveTo": "",
           "width": 100,
           "height": 100,
           "index_in_parent_array": 2
         },
         {
-          "leftX": 0,
-          "topY": 150,
+          "leftX": 147,
+          "topY": 128,
           "parent": "threedee_control_112",
-          "name": "top_3d",
+          "name": "top",
           "base_component_id": "threedee_text_control",
           "text": "Some text",
-          "backgroundColor": "lightblue",
+          "backgroundColor": "lightgray",
           "color": "black",
-          "position": "0 4 -5",
-          "rotation": "0 0 0",
+          "x": 0,
+          "y": 6,
+          "z": -5,
+          "x_rotation": 0,
+          "y_rotation": 0,
+          "z_rotation": 0,
           "textWidth": 4,
           "textHeight": 2,
-          "click_event": "me.text = \"...\" + Math.random()",
+          "click_event": "me.text = \"\" + Math.random()",
+          "boxDepth": 0.1,
+          "boxHeight": 2,
+          "boxWidth": 2,
+          "moveRight": "",
+          "moveUp": "",
+          "moveLeft": "",
+          "moveDown": "",
+          "moveBack": "",
+          "moveForward": "",
+          "moveTo": "",
           "width": 100,
           "height": 100,
           "index_in_parent_array": 3
@@ -3895,9 +4397,9 @@ ${eventMessage.code}
       "height": 300
     }
   },
-  "active_component_index": null,
-  "active_component_detail_name": "threedee_control_112",
-  "active_component_detail_index": 0
+  "active_component_index": 1,
+  "active_component_detail_name": null,
+  "active_component_detail_index": null
 }}
                 }
               })//** gen_end **//
