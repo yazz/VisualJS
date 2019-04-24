@@ -36,7 +36,7 @@ Demo - https://yazz.com/app/homepage.html
     
 ##### 5) OPTIONAL - Run Postgres on docker on port 5432
 
-    docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d -p 5432:5432 postgres
+    docker run -e POSTGRES_PASSWORD=mysecretpassword -d -p 5432:5432 postgres
     
     Remember, that if you want to talk to Postgres from a Docker app then you need to connect to the host:
     
