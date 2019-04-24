@@ -1465,7 +1465,12 @@ ${code}
                                                         newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/","'"+hostaddress+"'")
                                                         newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*static_port_start*/","/*static_port_end*/",port)
 
-                                                        newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_SCRIPT", scriptCode)
+                                                        //
+                                                        // we use "slice" here as string replace doesn't work with large strings (over 1MB) and most of the aframe and js
+                                                        // code we insert is LARGE!!
+                                                        //
+                                                        var pos = newStaticFileContent.indexOf("//***ADD_SCRIPT")
+                                                        newStaticFileContent = newStaticFileContent.slice(0, pos)  + scriptCode + newStaticFileContent.slice( pos)
 
 
                                                         //fs.writeFileSync( path.join(__dirname, '../public/sql2.js'),  sqliteCode )
