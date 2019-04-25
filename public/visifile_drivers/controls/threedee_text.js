@@ -313,9 +313,12 @@ logo_url("/driver_icons/threedee_text_control.png")
                     }
 
 
-
+                    //
+                    // we need Math.random here as otherwise the animation will not get triggered for
+                    // repeated invocations
+                    //
                     dd.setAttribute("animation",
-                            `property: position; to: ${newPosition}; loop: ${loop}; dur: ${duration}; dir: ${direction} `
+                            `property: position; to: ${newPosition}; loop: ${loop}; dur: ${duration}; dir: ${direction}; rand: ${Math.random()} `
                         );
 
 
