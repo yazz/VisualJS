@@ -220,11 +220,6 @@ logo_url("/driver_icons/threedee_item.png")
                     allowvr="yes"
                     v-bind:refresh='refresh'>
 
-            <a-entity   id="laser"
-                        laser-controls="hand: right"
-                        raycaster="hand: right;model: true;"
-                        line="opacity:1.0;">
-            </a-entity>
 
             <a-entity   geometry="primitive: sphere; radius: 100"
                         material="color: #74DEED; shader: flat"
@@ -245,6 +240,12 @@ logo_url("/driver_icons/threedee_item.png")
                         v-bind:position='args.x + " " + args.y + " " + args.z'>
 
                 <a-entity id="camera" camera look-controls wasd-controls>
+                </a-entity>
+                
+                <a-entity   id="laser"
+                            laser-controls="hand: right"
+                            raycaster="hand: right;model: true;"
+                            line="opacity:1.0;">
                 </a-entity>
 
             </a-entity>
