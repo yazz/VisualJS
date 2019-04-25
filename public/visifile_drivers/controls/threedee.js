@@ -241,8 +241,9 @@ logo_url("/driver_icons/threedee_item.png")
 
                 <a-entity id="camera" camera look-controls wasd-controls>
                 </a-entity>
-                
+
                 <a-entity   id="laser"
+                            v-if="fullscreen"
                             laser-controls="hand: right"
                             raycaster="hand: right;model: true;"
                             line="opacity:1.0;">
@@ -282,13 +283,24 @@ logo_url("/driver_icons/threedee_item.png")
                     //});
                 //}
 
+
+                setInterval(function(){
+                    if (document.fullscreen) {
+                        mm.fullscreen = true
+                    } else {
+                        mm.fullscreen = false
+                    }
+                },1000)
             }
+
+
         }
       ,
       data: function() {
           return {
-              msg: "Hello Yazz!",
-              selected_index: null
+              msg:              "Hello Yazz!",
+              selected_index:   null,
+              fullscreen:       false
           }
       }
       ,
@@ -348,7 +360,7 @@ logo_url("/driver_icons/threedee_item.png")
 
           ,
           cameraTo: async function(opts) {
-          debugger
+
               var mm          = this
               var dd          =  document.querySelector("#camera_rig_3d" )
               var loop        = "0"
