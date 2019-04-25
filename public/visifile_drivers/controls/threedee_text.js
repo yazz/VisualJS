@@ -279,14 +279,10 @@ logo_url("/driver_icons/threedee_text_control.png")
                     var mm          = this
                     var animationId = "animation_" + this.name
                     var dd          =  document.querySelector("#" + this.name)
-                    var anim        =  document.querySelector("#" + animationId)
                     var loop        = "0"
                     var direction   = "normal"
                     var duration    = 2000
 
-                    if (anim) {
-                        anim.parentElement.removeChild(anim);
-                    }
                     var newX = this.args.x
                     var newY = this.args.y
                     var newZ = this.args.z
@@ -316,16 +312,9 @@ logo_url("/driver_icons/threedee_text_control.png")
 
 
 
-
-                    var para = document.createElement("a-animation");
-                    para.setAttribute("id",          animationId);
-                    para.setAttribute("attribute",  "position");
-                    para.setAttribute("dur",         duration);
-                    para.setAttribute("fill",       "forwards");
-                    para.setAttribute("to",          newPosition );
-                    para.setAttribute("direction",  direction);
-                    para.setAttribute("repeat",      loop);
-                    dd.appendChild(para)
+                    dd.setAttribute("animation",
+                            `property: position; to: ${newPosition}; loop: false; dur: ${duration}`
+                        );
 
                     setTimeout(function() {
                         mm.args.x = newX
