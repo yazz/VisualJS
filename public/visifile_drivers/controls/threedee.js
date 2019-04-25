@@ -401,6 +401,8 @@ logo_url("/driver_icons/threedee_item.png")
                   },(duration + 100))
               }
 
+              return {}
+
 
           }
 

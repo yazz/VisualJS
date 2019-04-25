@@ -161,10 +161,21 @@ properties(
         ,
         {
             id:         "moveTo",
-            snippet:    `moveTo("0 0 0")`,
+            snippet:    `moveTo({})`,
             name:       "Move To",
             type:       "Action"
         }
+        ,
+        {
+            id:         "panTo",
+            snippet:    `panTo()`,
+            name:       "Pan To",
+            type:       "Action",
+            fn:
+`parent.cameraTo({x: me.x,y: me.y,z: me.z + 2,duration: 1000, bounce: false})
+`
+        }
+
     ]
 )//properties
 logo_url("/driver_icons/threedee_text_control.png")
