@@ -89,6 +89,55 @@ properties(
             type:       "Number",
             default:    1
         }
+        ,
+        {
+            id:         "moveRight",
+            snippet:    `moveRight(1)`,
+            name:       "Move Right",
+            type:       "Action"
+        }
+        ,
+        {
+            id:         "moveUp",
+            snippet:    `moveUp(1)`,
+            name:       "Move Up",
+            type:       "Action"
+        }
+        ,
+        {
+            id:         "moveLeft",
+            snippet:    `moveLeft(1)`,
+            name:       "Move Left",
+            type:       "Action"
+        }
+        ,
+        {
+            id:         "moveDown",
+            snippet:    `moveDown(1)`,
+            name:       "Move Down",
+            type:       "Action"
+        }
+        ,
+        {
+            id:         "moveBack",
+            snippet:    `moveBack(1)`,
+            name:       "Move Back",
+            type:       "Action"
+        }
+        ,
+        {
+            id:         "moveForward",
+            snippet:    `moveForward(1)`,
+            name:       "Move Forward",
+            type:       "Action"
+        }
+        ,
+        {
+            id:         "moveTo",
+            snippet:    `moveTo("0 0 0")`,
+            name:       "Move To",
+            type:       "Action"
+        }
 
     ]
 )//properties
@@ -192,7 +241,7 @@ logo_url("/driver_icons/threedee_item.png")
             </a-entity>
 
 
-            <a-entity   v-bind:id='name'
+            <a-entity   v-bind:id='"camera_rig_3d"'
                         v-bind:position='args.x + " " + args.y + " " + args.z'>
 
                 <a-entity id="camera" camera look-controls wasd-controls>
@@ -214,6 +263,9 @@ logo_url("/driver_icons/threedee_item.png")
 
 
         mounted: function() {
+            var mm = this
+            registerComponent(this)
+
             if (!this.design_mode) {
                 //var scene = document.querySelector('a-scene');
                 //if (isValidObject(scene)) {
@@ -237,6 +289,113 @@ logo_url("/driver_icons/threedee_item.png")
               msg: "Hello Yazz!",
               selected_index: null
           }
+      }
+      ,
+      methods: {
+          moveLeft: async function(amount, duration, bounce) {
+              await this.moveTo({
+                  duration:   isValidObject(duration)?duration:2000,
+                  bounce:     isValidObject(bounce)?bounce:false,
+                  x:          this.args.x - amount
+              })
+
+          }
+          ,
+          moveUp: async function(amount, duration, bounce) {
+              await this.moveTo({
+                  duration:   isValidObject(duration)?duration:2000,
+                  bounce:     isValidObject(bounce)?bounce:false,
+                  y:          this.args.y + amount
+              })
+
+          }
+          ,
+          moveDown: async function(amount, duration, bounce) {
+              await this.moveTo({
+                  duration:   isValidObject(duration)?duration:2000,
+                  bounce:     isValidObject(bounce)?bounce:false,
+                  y:          this.args.y - amount
+              })
+
+          }
+          ,
+          moveBack: async function(amount, duration, bounce) {
+              await this.moveTo({
+                  duration:   isValidObject(duration)?duration:2000,
+                  bounce:     isValidObject(bounce)?bounce:false,
+                  z:     this.args.z - amount
+              })
+          }
+          ,
+          moveForward: async function(amount, duration, bounce) {
+              await this.moveTo({
+                  duration:   isValidObject(duration)?duration:2000,
+                  bounce:     isValidObject(bounce)?bounce:false,
+                  z:     this.args.z + amount
+              })
+
+          }
+
+          ,
+          moveTo: async function(opts) {
+          debugger
+              var mm          = this
+              var animationId = "animation_" + this.name
+              var dd          =  document.querySelector("#camera_rig_3d" )
+              var loop        = "0"
+              var direction   = "normal"
+              var duration    = 2000
+              var bounce      = false
+
+              var newX = this.args.x
+              var newY = this.args.y
+              var newZ = this.args.z
+              if (isValidObject(opts.x)) {
+                  newX = opts.x
+              }
+              if (isValidObject(opts.y)) {
+                  newY = opts.y
+              }
+              if (isValidObject(opts.z)) {
+                  newZ = opts.z
+              }
+              var newPosition = newX + " " + newY + " " + newZ
+
+              if (isValidObject(opts.loop)) {
+                  loop = opts.loop
+              }
+
+              if (isValidObject(opts.bounce) && (opts.bounce == true)) {
+                  bounce    = true
+                  direction = "alternate"
+                  loop      = "1"
+              }
+
+              if (isValidObject(opts.duration)) {
+                  duration = opts.duration
+              }
+
+
+              //
+              // we need Math.random here as otherwise the animation will not get triggered for
+              // repeated invocations
+              //
+              dd.setAttribute("animation",
+                      `property: position; to: ${newPosition}; loop: ${loop}; dur: ${duration}; dir: ${direction}; rand: ${Math.random()} `
+                  );
+
+
+              if (!bounce) {
+                  setTimeout(function() {
+                      mm.args.x = newX
+                      mm.args.y = newY
+                      mm.args.z = newZ
+                  },(duration + 100))
+              }
+
+
+          }
+
       }
     })
 }
