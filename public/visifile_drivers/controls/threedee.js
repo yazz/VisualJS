@@ -68,9 +68,31 @@ properties(
             default:    300,
             type:       "Number"
         }
+        ,
+        {
+            id:         "x",
+            name:       "Camera X",
+            type:       "Number",
+            default:    0
+        }
+        ,
+        {
+            id:         "y",
+            name:       "Camera Y",
+            type:       "Number",
+            default:    1.6
+        }
+        ,
+        {
+            id:         "z",
+            name:       "Camera Z",
+            type:       "Number",
+            default:    1
+        }
+
     ]
 )//properties
-logo_url("/driver_icons/threedee_control.png")
+logo_url("/driver_icons/threedee_item.png")
 */
 
     Vue.component("threedee_control",{
@@ -170,6 +192,13 @@ logo_url("/driver_icons/threedee_control.png")
             </a-entity>
 
 
+            <a-entity   v-bind:id='name'
+                        v-bind:position='args.x + " " + args.y + " " + args.z'>
+
+                <a-entity id="camera" camera look-controls wasd-controls>
+                </a-entity>
+
+            </a-entity>
 
 
             <slot v-bind:refresh='refresh'>

@@ -90,7 +90,7 @@ properties(
 
     ]
 )//properties
-logo_url("/driver_icons/threedee_item.png")
+logo_url("/driver_icons/threedee_control.png")
 */
 
     Vue.component("threedee_item_control",{
