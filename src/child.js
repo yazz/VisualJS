@@ -662,6 +662,7 @@ async function setUpComponentsLocally() {
     await evalLocalSystemDriver('threedee_control',        path.join(__dirname, '../public/visifile_drivers/controls/threedee.js'))
     await evalLocalSystemDriver('threedee_item_control',   path.join(__dirname, '../public/visifile_drivers/controls/threedee_item.js'))
     await evalLocalSystemDriver('threedee_text_control',   path.join(__dirname, '../public/visifile_drivers/controls/threedee_text.js'))
+    await evalLocalSystemDriver('threedee_camera_control',   path.join(__dirname, '../public/visifile_drivers/controls/threedee_camera.js'))
 
 
     await evalLocalSystemDriver('docker_control',   path.join(__dirname, '../public/visifile_drivers/controls/ducker.js'))
