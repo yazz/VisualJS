@@ -997,7 +997,7 @@ uses_javascript_librararies(["advanced_bundle"])
                 // ---------------------------------------------------------
                 // For each app property
                 // ---------------------------------------------------------
-                //zzz
+
 debugger
                 var appProps = mm.getAllAppPropeties()
                 for (var appPropIndex = 0 ; appPropIndex < appProps.length ; appPropIndex ++ ) {
@@ -1150,6 +1150,10 @@ debugger
             var methodFn = componentDefn.fn
             return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
                 var me = componentDetails
+                var parent = null
+                if (me.parent) {
+                    parent = mm.form_runtime_info[mm.model.active_form].component_lookup_by_name[me.parent]
+                }
 
                 var fnDetails       = null
                 if (isValidObject(methodFn)) {
