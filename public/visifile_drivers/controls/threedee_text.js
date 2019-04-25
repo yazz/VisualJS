@@ -282,6 +282,7 @@ logo_url("/driver_icons/threedee_text_control.png")
                     var loop        = "0"
                     var direction   = "normal"
                     var duration    = 2000
+                    var bounce      = false
 
                     var newX = this.args.x
                     var newY = this.args.y
@@ -302,8 +303,9 @@ logo_url("/driver_icons/threedee_text_control.png")
                     }
 
                     if (isValidObject(opts.bounce) && (opts.bounce == true)) {
+                        bounce    = true
                         direction = "alternate"
-                        loop = "1"
+                        loop      = "1"
                     }
 
                     if (isValidObject(opts.duration)) {
@@ -313,14 +315,17 @@ logo_url("/driver_icons/threedee_text_control.png")
 
 
                     dd.setAttribute("animation",
-                            `property: position; to: ${newPosition}; loop: false; dur: ${duration}`
+                            `property: position; to: ${newPosition}; loop: ${loop}; dur: ${duration}; dir: ${direction} `
                         );
 
-                    setTimeout(function() {
-                        mm.args.x = newX
-                        mm.args.y = newY
-                        mm.args.z = newZ
-                    },2000)
+
+                    if (!bounce) {
+                        setTimeout(function() {
+                            mm.args.x = newX
+                            mm.args.y = newY
+                            mm.args.z = newZ
+                        },(duration + 100))
+                    }
 
 
                 }
