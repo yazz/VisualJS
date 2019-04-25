@@ -35,21 +35,21 @@ properties(
             id:         "x",
             name:       "3D X",
             type:       "Number",
-            default:    -2
+            default:    0
         }
         ,
         {
             id:         "y",
             name:       "3D Y",
             type:       "Number",
-            default:    2
+            default:    1.6
         }
         ,
         {
             id:         "z",
             name:       "3D Z",
             type:       "Number",
-            default:    -5
+            default:    1
         }
         ,
         {
@@ -177,22 +177,13 @@ logo_url("/driver_icons/threedee_camera_control.png")
 
         template: `<a-entity          v-bind:refresh='refresh'>
 
-                        <a-entity v-if='args'
-                                  v-bind:id='name'
-                                  v-bind:rotation='args.x_rotation + " " + args.y_rotation + " " + args.z_rotation'
-                                  v-bind:geometry='"primitive: box; depth: " + args.boxDepth + "; height: " + args.boxHeight + "; width: " + args.boxWidth + ";"'
-                                  v-bind:material='"color: " + args.backgroundColor + "; side: double; "'
-                                  v-bind:refresh='refresh'
-                                  v-bind:position='args.x + " " + args.y + " " + args.z'>
+                        <a-entity   v-bind:id='name'
+                                    v-bind:position='args.x + " " + args.y + " " + args.z'>
 
+                            <a-entity id="camera" camera look-controls wasd-controls>
+                            </a-entity>
 
-
-                              <a-entity v-bind:position='"" + (0.2 + (( args.textWidth - args.boxWidth )/2)) + " 0 .1"'
-                                        v-bind:text='"width:" + args.textWidth + ";value: " + args.text + ";color:" + args.color + ";"'>
-
-                              </a-entity>
-
-                          </a-plane>
+                        </a-entity>
 
                   </a-entity>`
             ,
