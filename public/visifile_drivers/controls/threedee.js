@@ -91,51 +91,51 @@ properties(
         }
         ,
         {
-            id:         "moveRight",
-            snippet:    `moveRight(1)`,
-            name:       "Move Right",
+            id:         "cameraRight",
+            snippet:    `cameraRight(1,[[duration in ms]],[[bounce: true/false]])`,
+            name:       "Camera Right()",
             type:       "Action"
         }
         ,
         {
-            id:         "moveUp",
-            snippet:    `moveUp(1)`,
-            name:       "Move Up",
+            id:         "cameraUp",
+            snippet:    `cameraUp(1,[[duration in ms]],[[bounce: true/false]])`,
+            name:       "Camera Up()",
             type:       "Action"
         }
         ,
         {
-            id:         "moveLeft",
-            snippet:    `moveLeft(1)`,
-            name:       "Move Left",
+            id:         "cameraLeft",
+            snippet:    `cameraLeft(1,[[duration in ms]],[[bounce: true/false]])`,
+            name:       "Camera Left()",
             type:       "Action"
         }
         ,
         {
-            id:         "moveDown",
-            snippet:    `moveDown(1)`,
-            name:       "Move Down",
+            id:         "cameraDown",
+            snippet:    `cameraDown(1,[[duration in ms]],[[bounce: true/false]])`,
+            name:       "Camera Down()",
             type:       "Action"
         }
         ,
         {
-            id:         "moveBack",
-            snippet:    `moveBack(1)`,
-            name:       "Move Back",
+            id:         "cameraBack",
+            snippet:    `cameraBack(1,[[duration in ms]],[[bounce: true/false]])`,
+            name:       "Camera Back()",
             type:       "Action"
         }
         ,
         {
-            id:         "moveForward",
-            snippet:    `moveForward(1)`,
-            name:       "Move Forward",
+            id:         "cameraForward",
+            snippet:    `cameraForward(1,[[duration in ms]],[[bounce: true/false]])`,
+            name:       "Camera Forward()",
             type:       "Action"
         }
         ,
         {
-            id:         "moveTo",
-            snippet:    `moveTo("0 0 0")`,
-            name:       "Move To",
+            id:         "cameraTo",
+            snippet:    `cameraTo({x: , y:, z:})`,
+            name:       "Camera To()",
             type:       "Action"
         }
 
@@ -292,8 +292,17 @@ logo_url("/driver_icons/threedee_item.png")
       }
       ,
       methods: {
-          moveLeft: async function(amount, duration, bounce) {
-              await this.moveTo({
+          cameraRight: async function(amount, duration, bounce) {
+              await this.cameraTo({
+                  duration:   isValidObject(duration)?duration:2000,
+                  bounce:     isValidObject(bounce)?bounce:false,
+                  x:          this.args.x + amount
+              })
+
+          }
+          ,
+          cameraLeft: async function(amount, duration, bounce) {
+              await this.cameraTo({
                   duration:   isValidObject(duration)?duration:2000,
                   bounce:     isValidObject(bounce)?bounce:false,
                   x:          this.args.x - amount
@@ -301,8 +310,8 @@ logo_url("/driver_icons/threedee_item.png")
 
           }
           ,
-          moveUp: async function(amount, duration, bounce) {
-              await this.moveTo({
+          cameraUp: async function(amount, duration, bounce) {
+              await this.cameraTo({
                   duration:   isValidObject(duration)?duration:2000,
                   bounce:     isValidObject(bounce)?bounce:false,
                   y:          this.args.y + amount
@@ -310,8 +319,8 @@ logo_url("/driver_icons/threedee_item.png")
 
           }
           ,
-          moveDown: async function(amount, duration, bounce) {
-              await this.moveTo({
+          cameraDown: async function(amount, duration, bounce) {
+              await this.cameraTo({
                   duration:   isValidObject(duration)?duration:2000,
                   bounce:     isValidObject(bounce)?bounce:false,
                   y:          this.args.y - amount
@@ -319,28 +328,27 @@ logo_url("/driver_icons/threedee_item.png")
 
           }
           ,
-          moveBack: async function(amount, duration, bounce) {
-              await this.moveTo({
-                  duration:   isValidObject(duration)?duration:2000,
-                  bounce:     isValidObject(bounce)?bounce:false,
-                  z:     this.args.z - amount
-              })
-          }
-          ,
-          moveForward: async function(amount, duration, bounce) {
-              await this.moveTo({
+          cameraBack: async function(amount, duration, bounce) {
+              await this.cameraTo({
                   duration:   isValidObject(duration)?duration:2000,
                   bounce:     isValidObject(bounce)?bounce:false,
                   z:     this.args.z + amount
               })
+          }
+          ,
+          cameraForward: async function(amount, duration, bounce) {
+              await this.cameraTo({
+                  duration:   isValidObject(duration)?duration:2000,
+                  bounce:     isValidObject(bounce)?bounce:false,
+                  z:     this.args.z - amount
+              })
 
           }
 
           ,
-          moveTo: async function(opts) {
+          cameraTo: async function(opts) {
           debugger
               var mm          = this
-              var animationId = "animation_" + this.name
               var dd          =  document.querySelector("#camera_rig_3d" )
               var loop        = "0"
               var direction   = "normal"
