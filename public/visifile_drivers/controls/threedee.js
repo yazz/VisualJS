@@ -138,6 +138,20 @@ properties(
             name:       "Camera To()",
             type:       "Action"
         }
+        ,
+        {
+            id:         "enterVR",
+            snippet:    `enterVR()`,
+            name:       "Enter VR()",
+            type:       "Action"
+        }
+        ,
+        {
+            id:         "exitVR",
+            snippet:    `exitVR()`,
+            name:       "Exit VR()",
+            type:       "Action"
+        }
 
     ]
 )//properties
@@ -417,6 +431,16 @@ logo_url("/driver_icons/threedee_item.png")
               return {}
 
 
+          }
+          ,
+          enterVR: async function() {
+            var scene = document.querySelector('#scene');
+            scene.enterVR()
+          }
+          ,
+          exitVR: async function() {
+              var scene = document.querySelector('#scene');
+              scene.exitVR()
           }
 
       }
