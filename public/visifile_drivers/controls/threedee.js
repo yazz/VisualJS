@@ -239,7 +239,7 @@ logo_url("/driver_icons/threedee_item.png")
             <a-entity   v-bind:id='"camera_rig_3d"'
                         v-bind:position='args.x + " " + args.y + " " + args.z'>
 
-                <a-entity id="camera" camera look-controls wasd-controls>
+                <a-entity id="camera" camera look-controls>
                 </a-entity>
 
                 <a-entity   id="laser"
