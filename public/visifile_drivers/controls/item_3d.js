@@ -192,6 +192,13 @@ properties(
         }
         ,
         {
+            id:         "applyImpulse",
+            snippet:    `applyImpulse()`,
+            name:       "Apply Impulse",
+            type:       "Action"
+        }
+        ,
+        {
             id:         "panTo",
             snippet:    `panTo()`,
             name:       "Pan To",
@@ -318,7 +325,7 @@ logo_url("/driver_icons/threedee_control.png")
                     var dd          =  document.querySelector("#" + this.name)
                     var loop        = "0"
                     var direction   = "normal"
-                    var duration    = 2000
+                    var duration    = 500
                     var bounce      = false
 
                     var newX = this.args.x
@@ -369,6 +376,14 @@ logo_url("/driver_icons/threedee_control.png")
 
 
                 }
+                ,
+                applyImpulse: async function(opts) {
+                    var object3d = document.querySelector("#" + this.name)
+                    var impulse = { x: 0, y: 50, z: 0 };
+                    var point = { x: 0.5, y: 0, z: 0 };
+                    object3d['body'].applyImpulse(impulse, point);
+                }
+
 
 
 
