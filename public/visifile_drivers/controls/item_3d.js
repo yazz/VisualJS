@@ -13,7 +13,7 @@ properties(
         {
             id:         "text",
             name:       "Text",
-            default:    "Some text",
+            default:    "",
             type:       "String"
         }
         ,
