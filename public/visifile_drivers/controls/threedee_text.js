@@ -172,7 +172,7 @@ properties(
             name:       "Pan To",
             type:       "Action",
             fn:
-`parent.cameraTo({x: me.x,y: me.y,z: me.z + 2,duration: 1000, bounce: false})
+`parent.cameraTo({x: me.x,y: me.y,z: me.z + 4,duration: 1000, bounce: false})
 `
         }
 
