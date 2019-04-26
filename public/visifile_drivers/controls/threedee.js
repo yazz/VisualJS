@@ -257,7 +257,7 @@ logo_url("/driver_icons/threedee_item.png")
                 </a-entity>
 
                 <a-entity   id="laser"
-                            v-if="fullscreen"
+                            v-if="headsetConnected"
                             laser-controls="hand: right"
                             raycaster="hand: right;model: true;"
                             line="opacity:1.0;">
@@ -299,12 +299,12 @@ logo_url("/driver_icons/threedee_item.png")
 
 
                 setInterval(function(){
-                    if (document.fullscreen) {
-                        mm.fullscreen = true
+                    if (AFRAME.utils.checkHeadsetConnected()) {
+                        mm.headsetConnected = true
                     } else {
-                        mm.fullscreen = false
+                        mm.headsetConnected = false
                     }
-                },1000)
+                },2000)
             }
 
 
@@ -314,7 +314,7 @@ logo_url("/driver_icons/threedee_item.png")
           return {
               msg:              "Hello Yazz!",
               selected_index:   null,
-              fullscreen:       false
+              headsetConnected:       false
           }
       }
       ,
