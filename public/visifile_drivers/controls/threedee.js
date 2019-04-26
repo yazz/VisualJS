@@ -235,11 +235,6 @@ logo_url("/driver_icons/threedee_item.png")
                     v-bind:refresh='refresh'>
 
 
-            <a-entity   geometry="primitive: sphere; radius: 100"
-                        material="color: #74DEED; shader: flat"
-                        v-bind:refresh='refresh'
-                        scale="1 1 -1">
-            </a-entity>
 
 
             <a-entity   geometry="primitive: box; depth: 50; height: 0.1; width: 50"
@@ -250,24 +245,25 @@ logo_url("/driver_icons/threedee_item.png")
             </a-entity>
 
 
+
             <a-entity   v-bind:id='"camera_rig_3d"'
                         v-bind:position='args.x + " " + args.y + " " + args.z'>
-
                 <a-entity id="camera" camera look-controls>
                 </a-entity>
-
                 <a-entity   id="laser"
                             v-if="headsetConnected"
                             laser-controls="hand: right"
                             raycaster="hand: right;model: true;"
                             line="opacity:1.0;">
                 </a-entity>
-
             </a-entity>
+
 
 
             <slot v-bind:refresh='refresh'>
             </slot>
+
+
 
         </a-scene>
     </div>
