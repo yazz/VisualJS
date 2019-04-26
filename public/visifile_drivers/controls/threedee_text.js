@@ -160,6 +160,31 @@ properties(
         }
         ,
         {
+            id:         "boundingBox",
+            name:       "Bounding Box",
+            type:       "String",
+            default:    "2 2 2"
+        }
+        ,
+        {
+            id:         "mass",
+            name:       "Mass",
+            type:       "Number",
+            default:    5
+        }
+        ,
+        {
+            id:         "usePhysics",
+            name:       "Physics?",
+            type:       "Select",
+            default:    "false",
+            values:     [
+                            {display: "False",   value: "false"},
+                            {display: "True",  value: "true"}
+                        ]
+        }
+        ,
+        {
             id:         "moveTo",
             snippet:    `moveTo({})`,
             name:       "Move To",
@@ -194,6 +219,7 @@ logo_url("/driver_icons/threedee_text_control.png")
                                   v-bind:geometry='"primitive: box; depth: " + args.boxDepth + "; height: " + args.boxHeight + "; width: " + args.boxWidth + ";"'
                                   v-bind:material='"color: " + args.backgroundColor + "; side: double; "'
                                   v-bind:refresh='refresh'
+                                  v-bind:body='(args.usePhysics == "true")?("mass: " + args.mass + "; boundingBox: " + args.boundingBox + "; shape: box;"):false'
                                   v-bind:position='args.x + " " + args.y + " " + args.z'>
 
 
