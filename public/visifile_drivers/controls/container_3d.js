@@ -4,7 +4,7 @@ is_app(true)
 control_type("VB")
 display_name("3d control")
 description("This will return the 3d container control")
-base_component_id("threedee_control")
+base_component_id("container_3d")
 load_once_from_file(true)
 visibility("PRIVATE")
 read_only(true)
@@ -158,7 +158,7 @@ properties(
 logo_url("/driver_icons/threedee_item.png")
 */
 
-    Vue.component("threedee_control",{
+    Vue.component("container_3d",{
       props: ["args","design_mode", "refresh", "children","delete_design_time_component","select_design_time_component"]
       ,
       template:

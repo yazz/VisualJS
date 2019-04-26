@@ -4,7 +4,7 @@ is_app(true)
 control_type("VB")
 display_name("3d text")
 description("This will return the 3d text item control")
-base_component_id("threedee_text_control")
+base_component_id("item_3d")
 load_once_from_file(true)
 visibility("PRIVATE")
 read_only(true)
@@ -203,10 +203,10 @@ properties(
 
     ]
 )//properties
-logo_url("/driver_icons/threedee_text_control.png")
+logo_url("/driver_icons/threedee_control.png")
 */
 
-    Vue.component("threedee_text_control",{
+    Vue.component("item_3d",{
         props: [  "meta", "args"  ,  "design_mode"  ,  "refresh"  ,  "name"  ]
 
         ,
