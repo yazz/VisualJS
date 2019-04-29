@@ -2932,13 +2932,23 @@ ${eventMessage.code}
                         meCode += ( "var myForm = mm.model.forms['" + this.model.active_form + "'];")
                         eval(meCode)
 
+                        debugger
+                        var argsCode =""
+                        var listOfArgs = []
+                        if (isValidObject(eventMessage.args)) {
+                            listOfArgs = Object.keys(eventMessage.args)
+                            for (var rtt=0;rtt<listOfArgs.length;rtt++) {
+                                argsCode += "var " + listOfArgs[rtt] + " = " + JSON.stringify(eventMessage.args[listOfArgs[rtt]]) +";"
+                            }
+                        }
+                        eval(argsCode)
 
 
 
                         var debugFcc = getDebugCode(mm.model.active_form +"_"+eventMessage.control_name+"_"+eventMessage.sub_type,fcc,{skipFirstAndLastLine: true})
                         var efcc = eval(debugFcc)
                         try {
-                            await efcc(eventMessage)
+                            await efcc()
                         } catch(  err  ) {
                             alert(JSON.stringify(err,null,2))
                         }

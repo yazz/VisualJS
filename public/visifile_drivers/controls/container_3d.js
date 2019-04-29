@@ -487,8 +487,10 @@ logo_url("/driver_icons/threedee_item.png")
                                               type:               "subcomponent_event",
                                               control_name:        this.args.name,
                                               sub_type:           "keypressed",
-                                              key_pressed:         String.fromCharCode(keyCode),
-                                              key_code:            keyCode,
+                                              args: {
+                                                  key_pressed:         String.fromCharCode(keyCode),
+                                                  key_code:            keyCode
+                                              },
                                               code:                this.args.keypressed_event
                                           })
           }
