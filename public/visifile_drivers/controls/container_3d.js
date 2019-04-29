@@ -332,7 +332,7 @@ logo_url("/driver_icons/threedee_item.png")
                              } else if(kevent.which){ // Netscape/Firefox/Opera
                                keynum = kevent.which;
                              }
-                             mm.runEventHandler()
+                             mm.runEventHandler(keynum)
                              //alert(String.fromCharCode(keynum))
                         }
                     });
@@ -482,11 +482,13 @@ logo_url("/driver_icons/threedee_item.png")
           }
 
           ,
-          runEventHandler: function() {
+          runEventHandler: function(keyCode) {
               this.$emit('send', {
                                               type:               "subcomponent_event",
                                               control_name:        this.args.name,
                                               sub_type:           "keypressed",
+                                              key_pressed:         String.fromCharCode(keyCode),
+                                              key_code:            keyCode,
                                               code:                this.args.keypressed_event
                                           })
           }

@@ -2906,7 +2906,7 @@ return {}
 
                 if (eventMessage.type == "subcomponent_event") {
                     var fcc =
-`(async function(){
+`(async function(args){
 ${eventMessage.code}
 })`
 
@@ -2938,7 +2938,7 @@ ${eventMessage.code}
                         var debugFcc = getDebugCode(mm.model.active_form +"_"+eventMessage.control_name+"_"+eventMessage.sub_type,fcc,{skipFirstAndLastLine: true})
                         var efcc = eval(debugFcc)
                         try {
-                            await efcc()
+                            await efcc(eventMessage)
                         } catch(  err  ) {
                             alert(JSON.stringify(err,null,2))
                         }
