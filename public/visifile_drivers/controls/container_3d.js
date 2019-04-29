@@ -294,7 +294,7 @@ logo_url("/driver_icons/threedee_item.png")
                 //}
 
 
-                setInterval(function(){
+                appSetInterval(function(){
                     if (AFRAME.utils.device.checkHeadsetConnected()) {
                         mm.headsetConnected = true
                     } else {
