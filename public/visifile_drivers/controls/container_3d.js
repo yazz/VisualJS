@@ -98,6 +98,13 @@ properties(
         }
         ,
         {
+            id:         "getVRMode",
+            snippet:    `getVRMode()`,
+            name:       "Get VR Mode()",
+            type:       "Action"
+        }
+        ,
+        {
             id:         "cameraUp",
             snippet:    `cameraUp(1,[[duration in ms]],[[bounce: true/false]])`,
             name:       "Camera Up()",
@@ -301,6 +308,13 @@ logo_url("/driver_icons/threedee_item.png")
                         mm.headsetConnected = false
                     }
                 },2000)
+                appSetInterval(function(){
+                    if (document.fullscreen) {
+                        mm.inVRMode = true
+                    } else {
+                        mm.inVRMode = false
+                    }
+                },2000)
             }
 
 
@@ -308,9 +322,9 @@ logo_url("/driver_icons/threedee_item.png")
       ,
       data: function() {
           return {
-              msg:              "Hello Yazz!",
-              selected_index:   null,
-              headsetConnected:       false
+              selected_index:           null,
+              headsetConnected:         false,
+              inVRMode:                 false
           }
       }
       ,
@@ -437,6 +451,10 @@ logo_url("/driver_icons/threedee_item.png")
           exitVR: async function() {
               var scene = document.querySelector('#scene');
               scene.exitVR()
+          }
+          ,
+          getVRMode: async function() {
+              return this.inVRMode
           }
 
       }
