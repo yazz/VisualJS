@@ -159,6 +159,12 @@ properties(
             name:       "Exit VR()",
             type:       "Action"
         }
+        ,
+        {
+            id:     "keypressed_event",
+            name:   "Key Pressed Event",
+            type:   "Event"
+        }
 
     ]
 )//properties
@@ -320,7 +326,14 @@ logo_url("/driver_icons/threedee_item.png")
                 if (!isValidObject(window.vrKeydownEventLisener)) {
                     window.vrKeydownEventLisener = document.addEventListener('keypress', function(kevent) {
                         if(mm.keyboardEnabled) {
-                            //alert(JSON.stringify(kevent.code,null,2))
+                            var keynum
+                            if(window.event) { // IE
+                               keynum = kevent.keyCode;
+                             } else if(kevent.which){ // Netscape/Firefox/Opera
+                               keynum = kevent.which;
+                             }
+                             mm.runEventHandler()
+                             //alert(String.fromCharCode(keynum))
                         }
                     });
                 }
@@ -468,6 +481,15 @@ logo_url("/driver_icons/threedee_item.png")
               return this.inVRMode
           }
 
+          ,
+          runEventHandler: function() {
+              this.$emit('send', {
+                                              type:               "subcomponent_event",
+                                              control_name:        this.args.name,
+                                              sub_type:           "keypressed",
+                                              code:                this.args.keypressed_event
+                                          })
+          }
       }
     })
 }
