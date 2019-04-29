@@ -307,14 +307,24 @@ logo_url("/driver_icons/threedee_item.png")
                     } else {
                         mm.headsetConnected = false
                     }
-                },2000)
-                appSetInterval(function(){
+
                     if (document.fullscreen) {
                         mm.inVRMode = true
+                        mm.keyboardEnabled = true
                     } else {
                         mm.inVRMode = false
+                        mm.keyboardEnabled = false
                     }
                 },2000)
+
+                if (!isValidObject(window.vrKeydownEventLisener)) {
+                    window.vrKeydownEventLisener = document.addEventListener('keypress', function(kevent) {
+                        if(mm.keyboardEnabled) {
+                            //alert(JSON.stringify(kevent.code,null,2))
+                        }
+                    });
+                }
+
             }
 
 
@@ -324,6 +334,7 @@ logo_url("/driver_icons/threedee_item.png")
           return {
               selected_index:           null,
               headsetConnected:         false,
+              keyboardEnabled:          false,
               inVRMode:                 false
           }
       }
