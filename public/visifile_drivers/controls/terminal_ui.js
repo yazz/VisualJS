@@ -20,41 +20,15 @@ properties(
         {
             id:         "width",
             name:       "Width",
-            default:    350,
+            default:    100,
             type:       "Number"
         }
         ,
         {
             id:         "height",
             name:       "Height",
-            default:    300,
+            default:    50,
             type:       "Number"
-        }
-        ,
-        {
-            id:         "port",
-            name:       "Port",
-            default:    1234,
-            type:       "Number"
-        }
-        ,
-        {
-            id:      "host",
-            name:    "Host",
-            default: "host.terminal.internal",
-            type:    "String"
-        }
-        ,
-        {
-            id:     "background_color",
-            name:   "Background color",
-            type:   "String"
-        }
-        ,
-        {
-            id:     "container_list",
-            name:   "Container list",
-            type:   "List"
         }
         ,
         {
@@ -74,20 +48,6 @@ properties(
         }
     ]
 )//properties
-children([
-    {
-        base_component_id: "table_control"
-        ,
-        properties: {
-                        width: 350,
-                        height: 180,
-                        load:
-`var terminalData = await parent.getFilteredContainerList()
-me.setData(terminalData)
-`
-                    }
-    }
-])//children
 logo_url("/driver_icons/terminal.png")
 */
 
@@ -120,7 +80,6 @@ logo_url("/driver_icons/terminal.png")
 
         data: function() {
             return {
-                msg: "..."
             }
         }
 
