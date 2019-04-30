@@ -66,10 +66,10 @@ properties(
         }
         ,
         {
-            id:         "getFilteredContainerList",
+            id:         "execCmd",
             pre_snippet:    `await `,
-            snippet:    `getFilteredContainerList()`,
-            name:       "Get Container List",
+            snippet:    `execCmd('ls')`,
+            name:       "Execute Command",
             type:       "Action"
         }
     ]
@@ -146,11 +146,8 @@ logo_url("/driver_icons/terminal.png")
                 }
                 ,
                 {
-                    host: this.args.host ,
-                    port: this.args.port
                 })
 
-                //alert(JSON.stringify(result.value,null,2))
                 if (result.value) {
                     return result.value
                 }
@@ -159,22 +156,9 @@ logo_url("/driver_icons/terminal.png")
             ,
 
 
-            getFilteredContainerList: async function() {
-                var qwe = await this.readFromTerminal()
-                var newList = []
-
-                for (var aa = 0; aa < qwe.length; aa ++) {
-
-                    var newObject = {
-                                        image:          qwe[aa].Image,
-                                        privatePort:    qwe[aa].Ports[0].PrivatePort,
-                                        publicPort:     qwe[aa].Ports[0].PublicPort,
-                                        state:          qwe[aa].State,
-                                        status:         qwe[aa].Status
-                                    }
-                    newList.push(newObject)
-                }
-                return newList
+            execCmd: async function() {
+                //var qwe = await this.readFromTerminal()
+                return "newList"
             }
 
         }
