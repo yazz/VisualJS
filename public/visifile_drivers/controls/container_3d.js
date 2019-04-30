@@ -17,8 +17,15 @@ properties(
         }
         ,
         {
-            id:         "keyPressed",
-            name:       "Key pressed",
+            id:         "lastKeyPressed",
+            name:       "Last key pressed",
+            default:    "",
+            type:       "String"
+        }
+        ,
+        {
+            id:         "lastKeyDown",
+            name:       "Last key down",
             default:    "",
             type:       "String"
         }
@@ -168,8 +175,14 @@ properties(
         }
         ,
         {
-            id:     "keypressed_event",
-            name:   "Key Pressed Event",
+            id:     "keypress_event",
+            name:   "Key Press Event",
+            type:   "Event"
+        }
+        ,
+        {
+            id:     "keydown_event",
+            name:   "Key Down Event",
             type:   "Event"
         }
 
@@ -330,8 +343,8 @@ logo_url("/driver_icons/threedee_item.png")
                     }
                 },2000)
 
-                if (!isValidObject(window.vrKeydownEventLisener)) {
-                    window.vrKeydownEventLisener = document.addEventListener('keypress', function(kevent) {
+                if (!isValidObject(window.vrKeyPressEventLisener)) {
+                    window.vrKeyPressEventLisener = document.addEventListener('keypress', function(kevent) {
                         if(mm.keyboardEnabled) {
                             var keynum
                             if(window.event) { // IE
@@ -339,11 +352,30 @@ logo_url("/driver_icons/threedee_item.png")
                              } else if(kevent.which){ // Netscape/Firefox/Opera
                                keynum = kevent.which;
                              }
-                             mm.runEventHandler(keynum)
-                             //alert(String.fromCharCode(keynum))
+                             mm.keyPressEventHandler(keynum)
                         }
                     });
                 }
+
+
+
+                if (!isValidObject(window.vrKeyDownEventLisener)) {
+                    window.vrKeyDownEventLisener = document.addEventListener('keydown', function(kevent) {
+                        if(mm.keyboardEnabled) {
+                            var keynum
+                            if(window.event) { // IE
+                               keynum = kevent.keyCode;
+                             } else if(kevent.which){ // Netscape/Firefox/Opera
+                               keynum = kevent.which;
+                             }
+                             mm.keyDownEventHandler(keynum)
+                        }
+                    });
+                }
+
+
+
+
 
             }
 
@@ -489,8 +521,8 @@ logo_url("/driver_icons/threedee_item.png")
           }
 
           ,
-          runEventHandler: function(keyCode) {
-              this.args.keyPressed = String.fromCharCode(keyCode)
+          keyPressEventHandler: function(keyCode) {
+              this.args.lastKeyPressed = String.fromCharCode(keyCode)
               this.$emit('send', {
                                               type:               "subcomponent_event",
                                               control_name:        this.args.name,
@@ -499,9 +531,24 @@ logo_url("/driver_icons/threedee_item.png")
                                                   key_pressed:         String.fromCharCode(keyCode),
                                                   key_code:            keyCode
                                               },
-                                              code:                this.args.keypressed_event
+                                              code:                this.args.keypress_event
                                           })
           }
+
+            ,
+            keyDownEventHandler: function(keyCode) {
+                this.args.lastKeyDown = String.fromCharCode(keyCode)
+                this.$emit('send', {
+                                                type:               "subcomponent_event",
+                                                control_name:        this.args.name,
+                                                sub_type:           "keydown",
+                                                args: {
+                                                    key_down:         String.fromCharCode(keyCode),
+                                                    key_code:         keyCode
+                                                },
+                                                code:                this.args.keydown_event
+                                            })
+            }
       }
     })
 }

@@ -1841,7 +1841,7 @@ ${origCode}
                     identifierRegexps: [/[a-zA-Z_0-9.]/]
                     ,
                     getCompletions: function(editor, session, pos, prefix, callback) {
-                        console.log("Called autocompleterFunction: " + pos + " : " + prefix)
+                        //console.log("Called autocompleterFunction: " + pos + " : " + prefix)
 
                         //
                         // If no text entered then do nothing
@@ -1862,7 +1862,7 @@ ${origCode}
                         var firstObjectToAutocomplete = null
                         if (prefix.indexOf(".") != -1) {
                             firstObjectToAutocomplete = prefix.substring(0,prefix.indexOf("."))
-                            console.log("firstObjectToAutocomplete: " + firstObjectToAutocomplete)
+                            //console.log("firstObjectToAutocomplete: " + firstObjectToAutocomplete)
                         }
 
 
@@ -2932,7 +2932,7 @@ ${eventMessage.code}
                         meCode += ( "var myForm = mm.model.forms['" + this.model.active_form + "'];")
                         eval(meCode)
 
-                        
+
                         var argsCode =""
                         var listOfArgs = []
                         if (isValidObject(eventMessage.args)) {
