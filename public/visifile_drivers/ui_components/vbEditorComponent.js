@@ -2932,7 +2932,7 @@ ${eventMessage.code}
                         meCode += ( "var myForm = mm.model.forms['" + this.model.active_form + "'];")
                         eval(meCode)
 
-                        debugger
+                        
                         var argsCode =""
                         var listOfArgs = []
                         if (isValidObject(eventMessage.args)) {

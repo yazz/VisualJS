@@ -490,6 +490,7 @@ logo_url("/driver_icons/threedee_item.png")
 
           ,
           runEventHandler: function(keyCode) {
+              this.args.keyPressed = String.fromCharCode(keyCode)
               this.$emit('send', {
                                               type:               "subcomponent_event",
                                               control_name:        this.args.name,
@@ -500,7 +501,6 @@ logo_url("/driver_icons/threedee_item.png")
                                               },
                                               code:                this.args.keypressed_event
                                           })
-              this.args.keyPressed = String.fromCharCode(keyCode)
           }
       }
     })
