@@ -5,5 +5,5 @@ base_component_id("server_terminal_stuff")
 load_once_from_file(true)
 only_run_on_server(true)
 */
-    return "server returned"
+    return {value: "server returned temrinal results"}
 }

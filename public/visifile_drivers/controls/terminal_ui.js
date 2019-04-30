@@ -157,8 +157,8 @@ logo_url("/driver_icons/terminal.png")
 
 
             execCmd: async function() {
-                //var qwe = await this.readFromTerminal()
-                return "newList"
+                var qwe = await this.readFromTerminal()
+                return qwe
             }
 
         }
