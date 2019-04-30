@@ -185,6 +185,24 @@ properties(
             name:   "Key Down Event",
             type:   "Event"
         }
+        ,
+        {
+            id:     "backspace_event",
+            name:   "BackspaceEvent",
+            type:   "Event"
+        }
+        ,
+        {
+            id:     "delete_event",
+            name:   "Delete Event",
+            type:   "Event"
+        }
+        ,
+        {
+            id:     "enter_event",
+            name:   "Enter Event",
+            type:   "Event"
+        }
 
     ]
 )//properties
@@ -548,6 +566,37 @@ logo_url("/driver_icons/threedee_item.png")
                                                 },
                                                 code:                this.args.keydown_event
                                             })
+
+                if (keyCode == 8) {
+                    this.$emit('send', {
+                                                    type:               "subcomponent_event",
+                                                    control_name:        this.args.name,
+                                                    sub_type:           "backspace",
+                                                    code:                this.args.backspace_event
+                                                })
+                }
+                if (keyCode == 46) {
+                    this.$emit('send', {
+                                                    type:               "subcomponent_event",
+                                                    control_name:        this.args.name,
+                                                    sub_type:           "delete",
+                                                    code:                this.args.delete_event
+                                                })
+                }
+                if (keyCode == 13) {
+                    this.$emit('send', {
+                                                    type:               "subcomponent_event",
+                                                    control_name:        this.args.name,
+                                                    sub_type:           "enter",
+                                                    code:                this.args.enter_event
+                                                })
+                }
+
+
+
+
+
+
             }
       }
     })
