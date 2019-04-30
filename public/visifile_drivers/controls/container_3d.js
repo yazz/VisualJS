@@ -17,6 +17,13 @@ properties(
         }
         ,
         {
+            id:         "keyPressed",
+            name:       "Key pressed",
+            default:    "",
+            type:       "String"
+        }
+        ,
+        {
             id:     "background_color",
             name:   "Background color",
             type:   "String"
@@ -493,6 +500,7 @@ logo_url("/driver_icons/threedee_item.png")
                                               },
                                               code:                this.args.keypressed_event
                                           })
+              this.args.keyPressed = String.fromCharCode(keyCode)
           }
       }
     })
