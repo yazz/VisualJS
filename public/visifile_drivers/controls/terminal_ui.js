@@ -13,14 +13,14 @@ properties(
         {
             id:         "text",
             name:       "Dev text",
-            default:    "Terminal connecter",
+            default:    "Terminal",
             type:       "String"
         }
         ,
         {
             id:         "width",
             name:       "Width",
-            default:    130,
+            default:    100,
             type:       "Number"
         }
         ,
