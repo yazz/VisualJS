@@ -9,13 +9,15 @@ only_run_on_server(true)
 
     var execPromise = new Promise(
                         done => {
-                                    exec('ls', function(error, stdout, stderr)
-                                    {
-                                        done(stdout)
-                                    })
+                                    exec(   args.cmd_string
+                                            ,
+                                            function(error, stdout, stderr)
+                                            {
+                                                done(stdout)
+                                            })
                                 })
 
     var val = await execPromise
-    
+
     return {value: val}
 }

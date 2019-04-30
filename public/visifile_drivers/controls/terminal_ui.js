@@ -138,7 +138,7 @@ logo_url("/driver_icons/terminal.png")
 
 
         methods: {
-            readFromTerminal: async function() {
+            readFromTerminal: async function(cmdString) {
                 var result = await callFunction(
                 {
                     driver_name: "serverTerminalStuff",
@@ -146,6 +146,7 @@ logo_url("/driver_icons/terminal.png")
                 }
                 ,
                 {
+                    cmd_string:    cmdString
                 })
 
                 if (result.value) {
@@ -156,8 +157,8 @@ logo_url("/driver_icons/terminal.png")
             ,
 
 
-            execCmd: async function() {
-                var qwe = await this.readFromTerminal()
+            execCmd: async function(cmdString) {
+                var qwe = await this.readFromTerminal(cmdString)
                 return qwe
             }
 
