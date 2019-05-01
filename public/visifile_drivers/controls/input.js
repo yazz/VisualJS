@@ -33,19 +33,29 @@ properties(
             name:   "Text",
             type:   "String"
         }
+        ,
+        {
+            id:     "click_event",
+            name:   "Clicked event",
+            type:   "Event",
+            help:       `<div>Help text for
+                            <b>click_event</b> event
+                         </div>`
+        }
     ]
 )//properties
 logo_url("/driver_icons/input_box.png")
 */
 
     Vue.component("input_control",{
-      props: ["args","refresh"]
+      props: [ "meta", "form",  "name", "args","refresh"]
       ,
       template: `<div>
                     <label v-if='label'>{{label}}</label>
 
                     <input  class="form-control2"
                             v-on:change='changedFn'
+                            v-on:click='event_callback()'
                             v-bind:style=   '"width:100%; " +
                                              "background-color: "+  background_color  +  ";"'
 
@@ -65,6 +75,8 @@ logo_url("/driver_icons/input_box.png")
         }
       },
       mounted: function() {
+        registerComponent(this)
+
         if (isValidObject(this.args)) {
             this.label = this.args.label
             this.text = this.args.text
@@ -87,6 +99,20 @@ logo_url("/driver_icons/input_box.png")
                     this.args.background_color = this.background_color
                 }
             }
-      }
+            ,
+            event_callback: function() {
+                console.log("----- button_control, event_callback: function() = " + this.name)
+                //eval("(function(){" + this.args.click_event + "})")()
+
+                this.$emit('send', {
+                                                type:               "subcomponent_event",
+                                                form_name:           this.meta.form,
+                                                control_name:        this.meta.name,
+                                                sub_type:           "click",
+                                                code:                this.args.click_event
+                                            })
+
+            }
+       }
     })
 }
