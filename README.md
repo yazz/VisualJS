@@ -138,7 +138,11 @@ Demo - https://yazz.com/app/homepage.html
 ##### OR run as Node.js application with browser based access
 
      node src/electron.js --runapp homepage --nogui true --locked false
+     
+### If saqlite3 gives an error as it says it was compiled with a different version of NodeJS then recompile it
 
+    npm rebuild sqlite3  --update-binary
+    
 
 
 
