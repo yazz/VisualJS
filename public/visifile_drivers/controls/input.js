@@ -42,6 +42,15 @@ properties(
                             <b>click_event</b> event
                          </div>`
         }
+        ,
+        {
+            id:     "focus_event",
+            name:   "Focus event",
+            type:   "Event",
+            help:       `<div>Help text for
+                            <b>focus_event</b> event
+                         </div>`
+        }
     ]
 )//properties
 logo_url("/driver_icons/input_box.png")
@@ -55,7 +64,8 @@ logo_url("/driver_icons/input_box.png")
 
                     <input  class="form-control2"
                             v-on:change='changedFn'
-                            v-on:click='event_callback()'
+                            v-on:click='click_event_callback()'
+                            v-on:focus='focus_event_callback()'
                             v-bind:style=   '"width:100%; " +
                                              "background-color: "+  background_color  +  ";"'
 
@@ -100,8 +110,8 @@ logo_url("/driver_icons/input_box.png")
                 }
             }
             ,
-            event_callback: function() {
-                console.log("----- button_control, event_callback: function() = " + this.name)
+            click_event_callback: function() {
+                console.log("----- button_control, click_event_callback: function() = " + this.name)
                 //eval("(function(){" + this.args.click_event + "})")()
 
                 this.$emit('send', {
@@ -110,6 +120,19 @@ logo_url("/driver_icons/input_box.png")
                                                 control_name:        this.meta.name,
                                                 sub_type:           "click",
                                                 code:                this.args.click_event
+                                            })
+
+            }
+            ,
+            focus_event_callback: function() {
+                console.log("----- button_control, focus_event_callback: function() = " + this.name)
+
+                this.$emit('send', {
+                                                type:               "subcomponent_event",
+                                                form_name:           this.meta.form,
+                                                control_name:        this.meta.name,
+                                                sub_type:           "focus",
+                                                code:                this.args.focus_event
                                             })
 
             }
