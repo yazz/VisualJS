@@ -2905,6 +2905,9 @@ return {}
 
 
                 if (eventMessage.type == "subcomponent_event") {
+                    if ((eventMessage.code == null) || (eventMessage.code == "")) {
+                        return
+                    }
                     var fcc =
 `(async function(args){
 ${eventMessage.code}

@@ -111,7 +111,7 @@ logo_url("/driver_icons/input_box.png")
             }
             ,
             click_event_callback: function() {
-                console.log("----- button_control, click_event_callback: function() = " + this.name)
+                //console.log("----- button_control, click_event_callback: function() = " + this.name)
                 //eval("(function(){" + this.args.click_event + "})")()
 
                 this.$emit('send', {
@@ -125,7 +125,7 @@ logo_url("/driver_icons/input_box.png")
             }
             ,
             focus_event_callback: function() {
-                console.log("----- button_control, focus_event_callback: function() = " + this.name)
+                //console.log("----- button_control, focus_event_callback: function() = " + this.name)
 
                 this.$emit('send', {
                                                 type:               "subcomponent_event",
