@@ -88,10 +88,6 @@ logo_url("/driver_icons/terminal.png")
         mounted: async function() {
             registerComponent(this)
 
-            if (!this.design_mode) {
-                var x = await this.readFromTerminal()
-                this.args.container_list = x
-            }
         }
         ,
 
