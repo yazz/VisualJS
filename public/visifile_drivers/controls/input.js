@@ -51,6 +51,21 @@ properties(
                             <b>focus_event</b> event
                          </div>`
         }
+        ,
+        {
+            id:         "width",
+            name:       "Width",
+            default:    130,
+            type:       "Number"
+        }
+        ,
+        {
+            id:         "height",
+            name:       "Height",
+            default:    40,
+            type:       "Number"
+        }
+
     ]
 )//properties
 logo_url("/driver_icons/input_box.png")

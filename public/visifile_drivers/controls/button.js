@@ -11,9 +11,24 @@ read_only(true)
 properties(
     [
         {
-            id:     "text",
-            name:   "Text",
-            type:   "String"
+            id:       "text",
+            name:     "Text",
+            default:  "Click me",
+            type:     "String"
+        }
+        ,
+        {
+            id:         "width",
+            name:       "Width",
+            default:    100,
+            type:       "Number"
+        }
+        ,
+        {
+            id:         "height",
+            name:       "Height",
+            default:    50,
+            type:       "Number"
         }
         ,
         {

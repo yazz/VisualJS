@@ -47,6 +47,20 @@ properties(
                             <b>setText</b> function
                          </div>`
         }
+        ,
+        {
+            id:         "width",
+            name:       "Width",
+            default:    150,
+            type:       "Number"
+        }
+        ,
+        {
+            id:         "height",
+            name:       "Height",
+            default:    100,
+            type:       "Number"
+        }
     ]
 )//properties
 logo_url("/driver_icons/text_control.png")
