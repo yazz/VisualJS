@@ -20,7 +20,7 @@ properties(
         {
             id:         "width",
             name:       "Width",
-            default:    100,
+            default:    110,
             type:       "Number"
         }
         ,
