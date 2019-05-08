@@ -425,6 +425,23 @@ function saveCodeV2(baseComponentId, parentHash, code,options) {
 }
 process.on('unhandledRejection', (reason) => {
 	console.log('REJECTION:::::: ', reason)
+    dbsearch.serialize(function() {
+
+        dbsearch.run("begin exclusive transaction");
+        var newId = uuidv1()
+        stmtInsertProcessError.run(
+              newId,
+              new Date().getTime(),
+              childProcessName,
+              "ERROR",
+              currentDriver,
+              currentEvent,
+              currentCodeID,
+              JSON.stringify(currentArgs,null,2),
+              reason.toString() )
+              //zzz
+        dbsearch.run("commit");
+    })
     throw reason
 })
 process.on('exit', function(err) {
