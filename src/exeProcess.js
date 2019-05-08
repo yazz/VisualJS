@@ -423,7 +423,10 @@ function saveCodeV2(baseComponentId, parentHash, code,options) {
                     options:             options
                     });
 }
-
+process.on('unhandledRejection', (reason) => {
+	console.log('REJECTION:::::: ', reason)
+    throw reason
+})
 process.on('exit', function(err) {
     shutdownExeProcess(err);
   });
