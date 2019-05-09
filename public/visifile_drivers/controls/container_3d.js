@@ -11,12 +11,6 @@ read_only(true)
 properties(
     [
         {
-            id:     "text",
-            name:   "Text",
-            type:   "String"
-        }
-        ,
-        {
             id:         "lastKeyPressed",
             name:       "Last key pressed",
             default:    "",
