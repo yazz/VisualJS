@@ -1,8 +1,9 @@
 FROM node:10
-WORKDIR /
-COPY package.json /
+WORKDIR /home/node/
+COPY package.json .
 RUN npm install
-COPY . /
-EXPOSE 80
+COPY . .
+RUN chown node --recursive .
+EXPOSE 3000
 USER node
 CMD ["node",  "src/electron.js",   "--runapp",   "homepage",   "--nogui",   "true",   "--deleteonexit",   "true",   "--locked",    "false"]
