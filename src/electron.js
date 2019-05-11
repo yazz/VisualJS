@@ -51,7 +51,11 @@ var sqlite3                     = require('sqlite3');
 
 var os              = require('os')
 var username                            = "Unknown user";
-username = os.userInfo().username.toLowerCase();
+if (process.env.OPENSHIFT_NODEJS_IP) {
+    username = "node"
+} else {
+    username = os.userInfo().username.toLowerCase();
+}
 var upload
 
 var dbPath = null
