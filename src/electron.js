@@ -51,6 +51,7 @@ var sqlite3                     = require('sqlite3');
 
 var os              = require('os')
 var username                            = "Unknown user";
+console.log("process.env.OPENSHIFT_NODEJS_IP:= " + process.env.OPENSHIFT_NODEJS_IP)
 if (process.env.OPENSHIFT_NODEJS_IP) {
     username = "node"
 } else {
