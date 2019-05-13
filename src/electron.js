@@ -51,11 +51,22 @@ var sqlite3                     = require('sqlite3');
 
 var os              = require('os')
 var username                            = "Unknown user";
+
+
+function isValidObject(variable){
+    if ((typeof variable !== 'undefined') && (variable != null)) {
+        return true
+    }
+    return false
+}
 console.log("process.env.OPENSHIFT_NODEJS_IP:= " + process.env.OPENSHIFT_NODEJS_IP)
 if (process.env.OPENSHIFT_NODEJS_IP) {
     username = "node"
 } else {
-    username = os.userInfo().username.toLowerCase();
+    username = "node"
+    if (isValidObject(os) && isValidObject(os.userInfo()) && isValidObject(os.userInfo().username)) {
+        username = os.userInfo().username.toLowerCase();
+    }
 }
 var upload
 
