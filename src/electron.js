@@ -64,9 +64,9 @@ if (process.env.OPENSHIFT_NODEJS_IP) {
     username = "node"
 } else {
     username = "node"
-    //if (isValidObject(os) && isValidObject(os.userInfo()) && isValidObject(os.userInfo().username)) {
-    //    username = os.userInfo().username.toLowerCase();
-    //}
+    if (isValidObject(os) && isValidObject(os.userInfo()) && isValidObject(os.userInfo().username)) {
+        username = os.userInfo().username.toLowerCase();
+    }
 }
 var upload
 

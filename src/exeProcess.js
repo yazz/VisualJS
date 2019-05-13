@@ -59,8 +59,7 @@ var stmtUpdateRelatedDocumentCount;
 var stmtUpdateRelationships;
 var inUse = false
 
-//username = os.userInfo().username.toLowerCase();
-username = "node"
+username = os.userInfo().username.toLowerCase();
 //console.log(username);
 
 //dbsearch.run("PRAGMA synchronous=OFF;")

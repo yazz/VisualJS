@@ -29,8 +29,7 @@ var setProcessToIdle;
 
 
 
-//username = os.userInfo().username.toLowerCase();
-username = "node"
+username = os.userInfo().username.toLowerCase();
 //console.log(username);
 
 //dbsearch.run("PRAGMA synchronous=OFF;")
