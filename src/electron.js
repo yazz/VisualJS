@@ -911,7 +911,7 @@ if (electronApp) {
 
     	if (isWin) {
     		var localappdata  = process.env.LOCALAPPDATA
-    		userData = path.join(localappdata, '/Yazz/')
+    		userData = path.join(localappdata, '/node/Yazz/')
     	} else {
     		userData = electronApp.getPath('userData')
     	}
@@ -1033,9 +1033,9 @@ else {
 
         	if (isWin) {
         		var localappdata  = process.env.LOCALAPPDATA
-        		userData = path.join(localappdata, '/Yazz/')
+        		userData = path.join(localappdata, '/node/Yazz/')
         	} else {
-        		userData =  path.join(process.env.HOME, '/Yazz/')
+        		userData =  path.join(process.env.HOME, '/node/Yazz/')
         	}
         	dbPath = path.join(userData, username + '.visi')
 
