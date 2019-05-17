@@ -598,7 +598,7 @@ uses_javascript_librararies(["advanced_bundle"])
                      Project explorer
 
                     <button type=button class='btn btn-sm btn-warning'
-                            v-bind:style='"float: right;" + (right_mode == "project"?"":"display:;font-family:verdana,helvetica;font-size: 13px;")'
+                            v-bind:style='"position: absolute; right: 13px;" + (right_mode == "project"?"":"display:;font-family:verdana,helvetica;font-size: 13px;")'
                             v-on:click='$event.stopPropagation();selected_pane = "project"; chooseRight("project");addForm()'  >
 
                          Add form
