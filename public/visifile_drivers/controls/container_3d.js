@@ -339,6 +339,16 @@ logo_url("/driver_icons/threedee_item.png")
                 //}
 
 
+                var scene = document.querySelector('a-scene');
+                scene.addEventListener('enter-vr', function() {
+                    mm.inVRMode = true
+                    mm.keyboardEnabled = true
+                    })
+                scene.addEventListener('exit-vr', function() {
+                    mm.inVRMode = false
+                    mm.keyboardEnabled = false
+                   })
+
                 appSetInterval(function(){
                     if (AFRAME.utils.device.checkHeadsetConnected()) {
                         mm.headsetConnected = true
@@ -346,13 +356,6 @@ logo_url("/driver_icons/threedee_item.png")
                         mm.headsetConnected = false
                     }
 
-                    if (document.fullscreen) {
-                        mm.inVRMode = true
-                        mm.keyboardEnabled = true
-                    } else {
-                        mm.inVRMode = false
-                        mm.keyboardEnabled = false
-                    }
                 },2000)
 
                 if (!isValidObject(window.vrKeyPressEventLisener)) {
