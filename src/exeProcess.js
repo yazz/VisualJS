@@ -11,6 +11,8 @@ var os                          = require('os')
 var perf                        = require('./perf')
 var db_helper                   = require("./db_helper")
 var isBinaryFile                = require("isbinaryfile");
+var https                       = require('https');
+var http                        = require('http');
 var userData
 var childProcessName
 

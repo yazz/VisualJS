@@ -17,17 +17,19 @@ only_run_on_server(true)
 
     var promise = new Promise(async function(returnFn) {
 
-        const url = "https://jsonplaceholder.typicode.com/posts/1";
-        https.get(url, res => {
+        //const url = "https://jsonplaceholder.typicode.com/posts/1";
+        const url = "http://127.0.0.1:3000/test/a";
+
+        http.get(url, res => {
           res.setEncoding("utf8");
           let body = "";
           res.on("data", data => {
             body += data;
           });
           res.on("end", () => {
-            body = JSON.parse(body);
+            //body = JSON.parse(body);
             console.log(body);
-            returnFn(body)
+            returnFn({value: body})
           });
         });
 

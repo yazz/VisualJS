@@ -1161,7 +1161,7 @@ function shutDown() {
 }
 
 
-//zzz
+
 function deleteYazzDataWindows(dddd) {
   console.log("deleteYazzDataWindows")
   if (dddd.length > 6) {
@@ -2237,6 +2237,11 @@ function startServices() {
 
 
 
+    app.get('/test/*', function (req, res) {
+        res.writeHead(200, {'Content-Type': 'text/plain'});
+        res.end("hey partner!");
+        //zzz
+    })
 
 
 
