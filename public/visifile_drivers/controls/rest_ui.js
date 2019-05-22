@@ -32,9 +32,9 @@ properties(
         }
         ,
         {
-            id:         "execCmd",
+            id:         "callRestApi",
             pre_snippet:    `await `,
-            snippet:    `execCmd('ls')`,
+            snippet:    `callRestApi()`,
             name:       "Execute Command",
             type:       "Action"
         }
@@ -114,7 +114,7 @@ logo_url("/driver_icons/rest.png")
             ,
 
 
-            execCmd: async function(cmdString) {
+            callRestApi: async function(cmdString) {
                 var qwe = await this.callRestApi(cmdString)
                 return qwe
             }
