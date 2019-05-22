@@ -18,7 +18,7 @@ only_run_on_server(true)
     var promise = new Promise(async function(returnFn) {
 
         //const url = "https://jsonplaceholder.typicode.com/posts/1";
-        const url = "http://127.0.0.1:3000/test/a";
+        const url = "http://192.168.0.82:3000/test/a";
 
         http.get(url, res => {
           res.setEncoding("utf8");
@@ -29,7 +29,7 @@ only_run_on_server(true)
           res.on("end", () => {
             //body = JSON.parse(body);
             console.log(body);
-            returnFn({value: body})
+            returnFn({value: {a: 1, b:2}})
           });
         });
 

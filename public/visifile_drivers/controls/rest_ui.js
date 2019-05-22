@@ -48,7 +48,7 @@ properties(
         }
     ]
 )//properties
-logo_url("/driver_icons/terminal.png")
+logo_url("/driver_icons/rest.png")
 */
 
     Vue.component("rest_control",{
