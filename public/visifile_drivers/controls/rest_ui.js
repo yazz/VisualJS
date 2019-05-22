@@ -2,8 +2,8 @@ function(args) {
 /*
 is_app(true)
 control_type("VB")
-display_name("Terminal control")
-description("This will return the terminal control")
+display_name("REST API call control")
+description("This will return the REST APIn call control")
 base_component_id("rest_control")
 load_once_from_file(true)
 visibility("PRIVATE")
@@ -13,7 +13,7 @@ properties(
         {
             id:         "text",
             name:       "Dev text",
-            default:    "Terminal",
+            default:    "REST API Call",
             type:       "String"
         }
         ,
@@ -32,20 +32,21 @@ properties(
         }
         ,
         {
-            id:         "is_container",
-            name:       "Is Container?",
-            type:       "Boolean",
-            default:    true,
-            hidden:     true
-        }
-        ,
-        {
             id:         "execCmd",
             pre_snippet:    `await `,
             snippet:    `execCmd('ls')`,
             name:       "Execute Command",
             type:       "Action"
         }
+        ,
+        {
+            id:         "URL",
+            name:       "URL",
+            default:    "https://raw.githubusercontent.com/typicode/demo/master/db.json",
+            type:       "String"
+        }
+
+
     ]
 )//properties
 logo_url("/driver_icons/rest.png")
@@ -53,7 +54,7 @@ logo_url("/driver_icons/rest.png")
 
     Vue.component("rest_control",{
 
-        props: ["meta", "args","design_mode","refresh", "children"]
+        props: ["meta", "args","design_mode","refresh"]
 
         ,
 
@@ -93,7 +94,8 @@ logo_url("/driver_icons/rest.png")
 
 
         methods: {
-            readFromTerminal: async function(cmdString) {
+            callRestApi: async function(cmdString) {
+                var mm = this
                 var result = await callFunction(
                 {
                     driver_name: "rest_call_service",
@@ -101,7 +103,7 @@ logo_url("/driver_icons/rest.png")
                 }
                 ,
                 {
-                    cmd_string:    cmdString
+                    URL:    mm.args.URL
                 })
 
                 if (result.value) {
@@ -113,7 +115,7 @@ logo_url("/driver_icons/rest.png")
 
 
             execCmd: async function(cmdString) {
-                var qwe = await this.readFromTerminal(cmdString)
+                var qwe = await this.callRestApi(cmdString)
                 return qwe
             }
 

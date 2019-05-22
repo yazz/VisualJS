@@ -1,26 +1,19 @@
 async function rest_call_service(args) {
 /*
-description("Postgres function")
-base_component_id("postgres_server")
+description("REST API Ccall function")
+base_component_id("rest_call_service")
 load_once_from_file(true)
 only_run_on_server(true)
 */
-    var config = {
-      user:              args.user,
-      database:          args.database,
-      password:          args.password,
-      host:              args.host,
-      port:              args.port
-    };
 
-    console.log("postgres_server: " + JSON.stringify(args,null,2));
+    console.log("REST Call args: " + JSON.stringify(args,null,2));
 
     var promise = new Promise(async function(returnFn) {
 
         //const url = "https://jsonplaceholder.typicode.com/posts/1";
-        const url = "http://192.168.0.82:3000/test/a";
+        const url = args.URL;
 
-        http.get(url, res => {
+        https.get(url, res => {
           res.setEncoding("utf8");
           let body = "";
           res.on("data", data => {
@@ -29,7 +22,7 @@ only_run_on_server(true)
           res.on("end", () => {
             //body = JSON.parse(body);
             console.log(body);
-            returnFn({value: {a: 1, b:2}})
+            returnFn({value: body})
           });
         });
 
