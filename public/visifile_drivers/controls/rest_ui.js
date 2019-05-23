@@ -20,7 +20,7 @@ properties(
         {
             id:         "width",
             name:       "Width",
-            default:    100,
+            default:    140,
             type:       "Number"
         }
         ,
@@ -65,7 +65,7 @@ logo_url("/driver_icons/rest.png")
 `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
     "background-color: "+    args["background_color"]  +  ";"'>
 
-    <div v-if="design_mode && (children.length == 0)">
+    <div v-if="design_mode">
         {{args.text}}
     </div>
 
