@@ -27,10 +27,30 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         style="overflow-y:auto;overflow-x: auto;width:100%;height:100%;">
 
 
+    <div    v-for="(item, index) in intro_apps"
+            v-bind:refresh='refresh'
+            v-if="(edit_app == item.data.id)"
+            v-on:mouseenter="preview_app_loaded = false; preview_app_id = item.data.id;previewApp(item.data.id)"
+            v-on:mouseleave="preview_app_loaded = false; preview_app_id = null;"
+            style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
+            class='app_card'>
 
+
+        <div    v-if="(edit_app == item.data.id)"
+                v-bind:refresh='refresh'
+                style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:none; padding: 0px;">
+
+                <component  id="editor_component2"
+                            v-if='' :is='"app_editor_3"' v-bind:app_id='item.data.id' v-bind:card_index='index'>
+                </component>
+        </div>
+
+
+    </div>
 
 
     <div    style='vertical-align:top;padding:10px; margin:0;padding-top: 15px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;padding-left: 27px;'
+            v-if="(!edit_app)"
             v-bind:refresh='refresh'>
 
             <div    v-bind:refresh='refresh'
@@ -130,15 +150,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                             </div>
                         </div>
 
-
-                        <div    v-if="(edit_app == item.data.id)"
-                                v-bind:refresh='refresh'
-                                style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:none; padding: 0px;">
-
-                                <component  id="editor_component2"
-                                            v-if='' :is='"app_editor_3"' v-bind:app_id='item.data.id' v-bind:card_index='index'>
-                                </component>
-                        </div>
 
 
 
