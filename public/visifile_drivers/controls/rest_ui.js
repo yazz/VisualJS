@@ -94,7 +94,7 @@ logo_url("/driver_icons/rest.png")
 
 
         methods: {
-            callRestApi: async function(cmdString) {
+            callRestApiInternal: async function() {
                 var mm = this
                 var result = await callFunction(
                 {
@@ -114,8 +114,8 @@ logo_url("/driver_icons/rest.png")
             ,
 
 
-            callRestApi: async function(cmdString) {
-                var qwe = await this.callRestApi(cmdString)
+            callRestApi: async function() {
+                var qwe = await this.callRestApiInternal()
                 return qwe
             }
 

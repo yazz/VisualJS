@@ -22,7 +22,7 @@ only_run_on_server(true)
           res.on("end", () => {
             //body = JSON.parse(body);
             console.log(body);
-            returnFn({value: body})
+            returnFn({value: JSON.parse(body)})
           });
         });
 
