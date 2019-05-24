@@ -1317,6 +1317,12 @@ ${code}
                                         )
 
 
+                                    var restApi = saveHelper.getValueOfCodeString(code, "rest_api")
+                                    if (restApi) {
+                                        process.send({  message_type:       "add_rest_api"  });
+                                    }
+
+
                                     stmtDeleteDependencies.run(sha1sum)
 
                                     var scriptCode = ""

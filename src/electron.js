@@ -300,9 +300,14 @@ function setUpChildListeners(processName, fileName, debugPort) {
                                            });
 
 
-
-
-
+       } else if (msg.message_type == "add_rest_api") {
+console.log("add_rest_api called")
+           //zzz
+               app.get('/test/*', function (req, res) {
+                   res.writeHead(200, {'Content-Type': 'text/plain'});
+                   res.end("hey partner!");
+                   //zzz
+               })
 
 
 
@@ -2237,11 +2242,6 @@ function startServices() {
 
 
 
-    app.get('/test/*', function (req, res) {
-        res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.end("hey partner!");
-        //zzz
-    })
 
 
 
