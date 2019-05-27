@@ -326,11 +326,11 @@ load_once_from_file(true)
 
 
 
-            <div  v-if='app_loaded && (!is_ui_app) && (!is_server_app)'
+            <div  v-if='app_loaded && (!is_ui_app) && (is_server_app)'
                   style='padding: 10px;background-color: white; height: 100%;'>
 
-                <pre>Server app</pre>
-                
+                  Server App
+
             </div>
 
 
@@ -1167,7 +1167,15 @@ load_once_from_file(true)
                                                  }
                     })
 
-                await mm.load_app( mm.base_component_id )
+                //debugger
+                if (saveHelper.getValueOfCodeString(this.editor_text,"only_run_on_server")) {
+                    this.is_server_app = true
+                } else {
+                    this.is_server_app = false                    
+                }
+                if (!mm.is_server_app) {
+                    await mm.load_app( mm.base_component_id )
+                }
                 hideProgressBar()
             } catch (e) {
                 hideProgressBar()
@@ -1276,10 +1284,6 @@ load_once_from_file(true)
                             } else {
                                 this.is_ui_app = false
                             }
-                            //zzz
-                            if (saveHelper.getValueOfCodeString(code,"only_run_on_server")) {
-                                this.is_server_app = true
-                            }
 
 
 
@@ -1323,7 +1327,7 @@ load_once_from_file(true)
                        } else {
                             this.resetDebugger()
                             var prevConsole = console.log
-                            if (!mm.is_ui_app) {
+                            if ((!mm.is_ui_app) && (!mm.is_server_app)) {
                                 mm.console_output = ""
                                 console.log = function() {
                                     if (isValidObject(mm.console_output)) {
@@ -1335,6 +1339,9 @@ load_once_from_file(true)
 `
                                     }
                                 }
+
+                            } else if ((!mm.is_ui_app) && (mm.is_server_app)) {
+
 
                             }
                             var results = await callApp( {code_id:    codeId }, {} )
