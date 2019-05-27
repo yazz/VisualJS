@@ -304,7 +304,7 @@ load_once_from_file(true)
 
             <component  id="app_preview_component"
                         ref="app_preview_component"
-                        v-if='app_loaded && is_ui_app'
+                        v-if='app_loaded && is_ui_app && (!is_server_app)'
                         style='background-color: white;'
                         v-bind:is="app_component_name">
                APP HERE
@@ -312,7 +312,7 @@ load_once_from_file(true)
 
 
 
-            <div  v-if='app_loaded && (!is_ui_app)'
+            <div  v-if='app_loaded && (!is_ui_app) && (!is_server_app)'
                   style='padding: 10px;background-color: white; height: 100%;'>
 
                 <pre>{{console_output}}</pre>
@@ -322,6 +322,18 @@ load_once_from_file(true)
                              v-on:click='chooseProfiler()' >Visualize this!</button>
                 </div>
             </div>
+
+
+
+
+            <div  v-if='app_loaded && (!is_ui_app) && (!is_server_app)'
+                  style='padding: 10px;background-color: white; height: 100%;'>
+
+                <pre>Server app</pre>
+                
+            </div>
+
+
         </div>
     </div>
 
@@ -582,6 +594,7 @@ load_once_from_file(true)
                console_output:      "",
                selected_app:        '',
                is_ui_app:           true,
+               is_server_app:       false,
                editor_overloaded:       false,
                editor_component:    null,
                right_mode:          "scope",
@@ -1262,6 +1275,10 @@ load_once_from_file(true)
                                 this.is_ui_app = true
                             } else {
                                 this.is_ui_app = false
+                            }
+                            //zzz
+                            if (saveHelper.getValueOfCodeString(code,"only_run_on_server")) {
+                                this.is_server_app = true
                             }
 
 
