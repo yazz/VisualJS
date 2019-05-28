@@ -758,6 +758,7 @@ async function setUpComponentsLocally() {
     await evalLocalSystemDriver('quicksort',  path.join(__dirname, '../public/visifile_drivers/apps/quicksort.js'),{save_html: true})
     await evalLocalSystemDriver('bubblesort', path.join(__dirname, '../public/visifile_drivers/apps/bubblesort.js'),{save_html: true})
     await evalLocalSystemDriver('new', path.join(__dirname, '../public/visifile_drivers/apps/blank_app.js'),{save_html: true})
+    await evalLocalSystemDriver('new_microservice', path.join(__dirname, '../public/visifile_drivers/apps/blank_microservice.js'),{save_html: true})
     await evalLocalSystemDriver('tensorflow', path.join(__dirname, '../public/visifile_drivers/apps/tensorflow.js'),{save_html: true})
     console.log("Loaded all apps (may use already loaded drivers)")
 
