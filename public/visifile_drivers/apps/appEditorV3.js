@@ -1171,7 +1171,7 @@ load_once_from_file(true)
                 if (saveHelper.getValueOfCodeString(this.editor_text,"only_run_on_server")) {
                     this.is_server_app = true
                 } else {
-                    this.is_server_app = false                    
+                    this.is_server_app = false
                 }
                 if (!mm.is_server_app) {
                     await mm.load_app( mm.base_component_id )
@@ -1284,7 +1284,11 @@ load_once_from_file(true)
                             } else {
                                 this.is_ui_app = false
                             }
-
+                            if (saveHelper.getValueOfCodeString(code.toString(),"only_run_on_server")) {
+                                mm.is_server_app = true
+                            } else {
+                                mm.is_server_app = false
+                            }
 
 
                             if (mm.editor_loaded && (mm.editor_text != code)) {
