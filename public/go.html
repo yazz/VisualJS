@@ -9211,11 +9211,12 @@ function getDebugCode(blockName,  trcode2 , args) {
 async function callCodeV2(componentRecord,args, seq_no) {
     //console.log("Code to run !: ")
     //debugger;
-
     var callbackFn = null
     if (isValidObject(seq_no)) {
         callbackFn = queuedResponses[seq_no]
     }
+
+
 
     try {
         var useDb = componentRecord.base_component_id
@@ -9274,8 +9275,18 @@ async function callCodeV2(componentRecord,args, seq_no) {
         trcode2 = trcode2.toString().replaceAll("sqlFirstCol1[(]","await rxsqlFirstCol1(" + addP)
 
 
+        //Don't run any server code
+        if ( (componentRecord.base_component_id == base_component_id) && (trcode2.toString().includes("only_run_on_server(true)"))) {
 
-        if ( (componentRecord.base_component_id == base_component_id) && (!trcode2.toString().includes("Vue."))) {
+            mainMoonApp.console_output  = ""
+            mainMoonApp.is_gui_app      = false
+            if (callbackFn) {
+                callbackFn({})
+                queuedResponses[seq_no] = null
+            }
+            queuedResponses[seq_no]     = null
+
+        } else if ( (componentRecord.base_component_id == base_component_id) && (!trcode2.toString().includes("Vue."))) {
             mainMoonApp.console_output = ""
             mainMoonApp.is_gui_app = false
 
