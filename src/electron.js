@@ -81,7 +81,7 @@ console.log('LOCAL_HOME:' + LOCAL_HOME);
 //
 if (isDocker()) {
     console.log('Running inside a Docker container');
-    if (!isValidObject(LOCAL_HOME)) {
+    if (!isValidObject(LOCAL_HOME) || (LOCAL_HOME == "/")) {
         LOCAL_HOME = "/home/node"
     }
 }
