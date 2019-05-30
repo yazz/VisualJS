@@ -45,12 +45,21 @@ var multer          = require('multer');
 var mysql           = require('mysql');
 var cors            = require('cors')
 var saveHelper      = require('./save_helpers')
+var isDocker        = require('is-docker');
 
 var sqlite3                     = require('sqlite3');
 
 
 var os              = require('os')
 var username                            = "Unknown user";
+
+
+//zzz
+var LOCAL_HOME = process.env.HOME
+if (isDocker()) {
+    console.log('Running inside a Docker container');
+    LOCAL_HOME = "/home/node"
+}
 
 
 function isValidObject(variable){
@@ -302,7 +311,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
        } else if (msg.message_type == "add_rest_api") {
 console.log("add_rest_api called")
-           //zzz
+
                app.get('/test/*', function (req, res) {
                    res.writeHead(200, {'Content-Type': 'text/plain'});
                    res.end("hey partner!");
@@ -916,7 +925,7 @@ if (electronApp) {
 
     	if (isWin) {
     		var localappdata  = process.env.LOCALAPPDATA
-    		userData = path.join(localappdata, '/node/Yazz/')
+    		userData = path.join(localappdata, '/Yazz/')
     	} else {
     		userData = electronApp.getPath('userData')
     	}
@@ -1038,9 +1047,9 @@ else {
 
         	if (isWin) {
         		var localappdata  = process.env.LOCALAPPDATA
-        		userData = path.join(localappdata, '/node/Yazz/')
+        		userData = path.join(localappdata, '/Yazz/')
         	} else {
-        		userData =  path.join(process.env.HOME, '/node/Yazz/')
+        		userData =  path.join(LOCAL_HOME, '/Yazz/')
         	}
         	dbPath = path.join(userData, username + '.visi')
 
@@ -1063,7 +1072,7 @@ else {
 
 
         	  outputToBrowser('process.env.LOCALAPPDATA: ' + JSON.stringify(localappdata ,null,2))
-              outputToBrowser("Local home data path: " + process.env.HOME)
+              outputToBrowser("Local home data path: " + LOCAL_HOME)
         	  outputToBrowser("userData: " + JSON.stringify(userData ,null,2))
               outputToBrowser("process.env keys: " + Object.keys(process.env))
 
