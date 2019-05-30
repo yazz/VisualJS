@@ -54,12 +54,7 @@ var os              = require('os')
 var username                            = "Unknown user";
 
 
-//zzz
-var LOCAL_HOME = process.env.HOME
-if (isDocker()) {
-    console.log('Running inside a Docker container');
-    LOCAL_HOME = "/home/node"
-}
+
 
 
 function isValidObject(variable){
@@ -77,6 +72,23 @@ if (process.env.OPENSHIFT_NODEJS_IP) {
     //    username = os.userInfo().username.toLowerCase();
     //}
 }
+
+var LOCAL_HOME = process.env.HOME
+
+//
+// We set the HOME environment variable if we are running in OpenShift
+//
+if (isDocker()) {
+    console.log('Running inside a Docker container');
+    if (!isValidObject(LOCAL_HOME)) {
+        LOCAL_HOME = "/home/node"
+    }
+}
+
+
+
+
+
 var upload
 
 var dbPath = null
