@@ -1167,8 +1167,9 @@ load_once_from_file(true)
                                                  }
                     })
 
-                //debugger
-                if (saveHelper.getValueOfCodeString(this.editor_text,"only_run_on_server")) {
+                debugger
+                if (saveHelper.getValueOfCodeString(this.editor_text,"only_run_on_server") == true) {
+                    this.is_ui_app = false
                     this.is_server_app = true
                 } else {
                     this.is_server_app = false
@@ -1284,7 +1285,9 @@ load_once_from_file(true)
                             } else {
                                 this.is_ui_app = false
                             }
-                            if (saveHelper.getValueOfCodeString(code.toString(),"only_run_on_server")) {
+                            debugger
+                            if (saveHelper.getValueOfCodeString(code.toString(),"only_run_on_server") == true) {
+                                mm.is_ui_app = false
                                 mm.is_server_app = true
                             } else {
                                 mm.is_server_app = false
@@ -1343,13 +1346,13 @@ load_once_from_file(true)
 `
                                     }
                                 }
+                                var results = await callApp( {code_id:    codeId }, {} )
+                                console.log = prevConsole
 
-                            } else if ((!mm.is_ui_app) && (mm.is_server_app)) {
+                            } else if (mm.is_server_app) {
 
 
                             }
-                            var results = await callApp( {code_id:    codeId }, {} )
-                            console.log = prevConsole
                        }
 
 
