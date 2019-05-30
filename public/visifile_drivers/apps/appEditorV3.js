@@ -1172,6 +1172,7 @@ load_once_from_file(true)
                     this.is_ui_app = false
                     this.is_server_app = true
                 } else {
+                    this.is_ui_app = false
                     this.is_server_app = false
                 }
                 if (!mm.is_server_app) {
@@ -1282,8 +1283,10 @@ load_once_from_file(true)
 
                             if (code.toString().includes("Vue.")) {
                                 this.is_ui_app = true
+                                this.is_server_app = false
                             } else {
                                 this.is_ui_app = false
+                                this.is_server_app = false
                             }
                             debugger
                             if (saveHelper.getValueOfCodeString(code.toString(),"only_run_on_server") == true) {
@@ -1354,7 +1357,7 @@ load_once_from_file(true)
 
                             } else {
                                 var results = await callApp( {code_id:    codeId }, {} )
-                                console.log = prevConsole                                
+                                console.log = prevConsole
                             }
                        }
 
