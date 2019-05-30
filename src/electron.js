@@ -1064,9 +1064,11 @@ if (electronApp) {
 else {
 
         	if (isWin) {
+                console.log("Running as Windows")
         		var localappdata  = process.env.LOCALAPPDATA
         		userData = path.join(localappdata, '/Yazz/')
         	} else {
+                console.log("Running as Linux/Mac")
         		userData =  path.join(LOCAL_HOME, 'Yazz')
         	}
         	dbPath = path.join(userData, username + '.visi')
