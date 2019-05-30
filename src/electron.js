@@ -944,7 +944,7 @@ if (electronApp) {
             if (!isValidObject(userData)) {
                 userData = LOCAL_HOME
             }
-            userData =  path.join(userData, '/Yazz/')
+            userData =  path.join(userData, 'Yazz')
     	}
         //zzz
     	dbPath = path.join(userData, username + '.visi')
