@@ -937,10 +937,16 @@ if (electronApp) {
 
     	if (isWin) {
     		var localappdata  = process.env.LOCALAPPDATA
-    		userData = path.join(localappdata, '/Yazz/')
+    		userData = localappdata
     	} else {
     		userData = electronApp.getPath('userData')
+            console.log("userData: " + userData)
+            if (!isValidObject(userData)) {
+                userData = LOCAL_HOME
+            }
+            userData =  path.join(userData, '/Yazz/')
     	}
+        //zzz
     	dbPath = path.join(userData, username + '.visi')
 
         if (deleteOnStartup) {
