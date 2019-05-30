@@ -74,6 +74,7 @@ if (process.env.OPENSHIFT_NODEJS_IP) {
 }
 
 var LOCAL_HOME = process.env.HOME
+console.log('LOCAL_HOME:' + LOCAL_HOME);
 
 //
 // We set the HOME environment variable if we are running in OpenShift
@@ -1081,6 +1082,7 @@ else {
                 }
             }
             var uploadPath = path.join(userData,  'uploads/')
+            console.log("LOCAL_HOME: " + LOCAL_HOME)
             console.log("userData: " + userData)
             console.log("uploadPath: " + uploadPath)
             upload          = multer( { dest: uploadPath});
