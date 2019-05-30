@@ -1061,7 +1061,7 @@ else {
         		var localappdata  = process.env.LOCALAPPDATA
         		userData = path.join(localappdata, '/Yazz/')
         	} else {
-        		userData =  path.join(LOCAL_HOME, '/Yazz/')
+        		userData =  path.join(LOCAL_HOME, 'Yazz')
         	}
         	dbPath = path.join(userData, username + '.visi')
 
