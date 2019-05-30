@@ -1352,6 +1352,9 @@ load_once_from_file(true)
                             } else if (mm.is_server_app) {
 
 
+                            } else {
+                                var results = await callApp( {code_id:    codeId }, {} )
+                                console.log = prevConsole                                
                             }
                        }
 
