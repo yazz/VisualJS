@@ -1080,8 +1080,10 @@ else {
                         deleteYazzDataV2(userData)
                 }
             }
-
-            upload          = multer( { dest: path.join(userData,  'uploads/')});
+            var uploadPath = path.join(userData,  'uploads/')
+            console.log("userData: " + userData)
+            console.log("uploadPath: " + uploadPath)
+            upload          = multer( { dest: uploadPath});
 
 
             rmdir("uploads");
