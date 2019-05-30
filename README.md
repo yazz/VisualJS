@@ -1,5 +1,5 @@
 
-# YAZZ - Build Docker Webapps in Minutes
+# YAZZ - Build tools fast for Kubernetes and OpenShift
 
 Demo - https://yazz.com/app/homepage.html
 
