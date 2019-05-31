@@ -326,8 +326,13 @@ function setUpChildListeners(processName, fileName, debugPort) {
 console.log("add_rest_api called")
 
                app.get('/test/*', function (req, res) {
-                   res.writeHead(200, {'Content-Type': 'text/plain'});
-                   res.end("hey partner!");
+                   res.writeHead(200, {'Content-Type': 'application/json'});
+                   res.end(JSON.stringify(
+                        {
+                            value: "hey partner!"   
+                        }
+
+                   ));
                    //zzz
                })
 
@@ -947,7 +952,7 @@ if (electronApp) {
             }
             userData =  path.join(userData, 'Yazz')
     	}
-        //zzz
+
     	dbPath = path.join(userData, username + '.visi')
 
         if (deleteOnStartup) {
