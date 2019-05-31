@@ -325,11 +325,11 @@ function setUpChildListeners(processName, fileName, debugPort) {
        } else if (msg.message_type == "add_rest_api") {
 console.log("add_rest_api called")
 
-               app.get('/test/*', function (req, res) {
+               app.get('/' + msg.route + '/*', function (req, res) {
                    res.writeHead(200, {'Content-Type': 'application/json'});
                    res.end(JSON.stringify(
                         {
-                            value: "hey partner!"   
+                            value: "hey partner!"
                         }
 
                    ));

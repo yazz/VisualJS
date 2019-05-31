@@ -1320,7 +1320,10 @@ ${code}
 
                                     var restApi = saveHelper.getValueOfCodeString(code, "rest_api")
                                     if (restApi) {
-                                        process.send({  message_type:       "add_rest_api"  });
+                                        process.send({
+                                                        message_type:       "add_rest_api",
+                                                        route:              restApi
+                                                    });
                                     }
 
 
