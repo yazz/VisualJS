@@ -326,6 +326,31 @@ function setUpChildListeners(processName, fileName, debugPort) {
 console.log("add_rest_api called")
 
                app.get('/' + msg.route + '/*', function (req, res) {
+
+
+                   var seqNum = queuedResponseSeqNum;
+                   queuedResponseSeqNum ++;
+                   queuedResponses[ seqNum ] = function() {
+                       console.log("HEY WE CALLED A LOCAL FUNCTION")
+                   }
+
+
+                   //console.log(" .......1 Electron callDriverMethod: " + JSON.stringify(receivedMessage,null,2));
+                   forkedProcesses["forked"].send({
+                                   message_type:          "callDriverMethod",
+                                   find_component:         {
+                                                               method_name: "rest_call_service",
+                                                               driver_name: "rest_call_service"
+                                                           },
+                                   args:                   {
+                                                                URL: "https://raw.githubusercontent.com/typicode/demo/master/db.json"
+                                                            },
+                                   seq_num_parent:         null,
+                                   seq_num_browser:        null,
+                                   seq_num_local:          seqNum,
+                               });
+
+
                    res.writeHead(200, {'Content-Type': 'application/json'});
                    res.end(JSON.stringify(
                         {
@@ -333,6 +358,10 @@ console.log("add_rest_api called")
                         }
 
                    ));
+
+
+
+
                    //zzz
                })
 
@@ -471,7 +500,7 @@ console.log("add_rest_api called")
 
 
 
-
+//zzz
         } else if (msg.message_type == "return_add_local_driver_results_msg") {
             //console.log("6 - return_get_search_results: " + msg.returned);
             var rett = eval("(" + msg.success + ")");
@@ -1977,13 +2006,26 @@ function websocketFn(ws) {
 
 
 
+//zzz
+        // --------------------------------------------------------------------
+        //
+        //                         callDriverMethod
+        //
+        // "callDriverMethod" is used to call server side apps/code.
+        //
+        //
+        //
+        // --------------------------------------------------------------------
+        } else if (receivedMessage.message_type == "callDriverMethod") {
 
-
-       } else if (receivedMessage.message_type == "callDriverMethod") {
-
+            // Use an integer counter to identify whoever was
+            // calling the server function (in this case a web browser with
+            // a web socket). We need to do this as there may be several
+            // web browsers connected to this one server
             var seqNum = queuedResponseSeqNum;
             queuedResponseSeqNum ++;
-            queuedResponses[seqNum] = ws;
+            queuedResponses[ seqNum ] = ws;
+
 
             //console.log(" .......1 Electron callDriverMethod: " + JSON.stringify(receivedMessage,null,2));
             forkedProcesses["forked"].send({
