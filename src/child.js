@@ -1331,7 +1331,8 @@ ${code}
                                     if (restApi) {
                                         process.send({
                                                         message_type:       "add_rest_api",
-                                                        route:              restApi
+                                                        route:               restApi,
+                                                        base_component_id:   baseComponentId
                                                     });
                                     }
 

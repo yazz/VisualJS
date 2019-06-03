@@ -335,12 +335,12 @@ console.log("add_rest_api called")
                        }
 
 
-                       //console.log(" .......1 Electron callDriverMethod: " + JSON.stringify(receivedMessage,null,2));
+                       console.log(" msg.base_component_id: " + msg.base_component_id);
                        forkedProcesses["forked"].send({
                                        message_type:          "callDriverMethod",
                                        find_component:         {
-                                                                   method_name: "rest_call_service",
-                                                                   driver_name: "rest_call_service"
+                                                                   method_name: msg.base_component_id,
+                                                                   driver_name: msg.base_component_id
                                                                },
                                        args:                   {
                                                                     URL: "https://raw.githubusercontent.com/typicode/demo/master/db.json"
