@@ -325,37 +325,39 @@ function setUpChildListeners(processName, fileName, debugPort) {
        } else if (msg.message_type == "add_rest_api") {
 console.log("add_rest_api called")
 
-               app.get('/' + msg.route + '/*', function (req, res) {
+               app.get('/' + msg.route + '/*', async function (req, res) {
+
+                   var promise = new Promise(async function(returnFn) {
+                       var seqNum = queuedResponseSeqNum;
+                       queuedResponseSeqNum ++;
+                       queuedResponses[ seqNum ] = function(value) {
+                           returnFn(value)
+                       }
 
 
-                   var seqNum = queuedResponseSeqNum;
-                   queuedResponseSeqNum ++;
-                   queuedResponses[ seqNum ] = function() {
-                       console.log("HEY WE CALLED A LOCAL FUNCTION")
-                   }
+                       //console.log(" .......1 Electron callDriverMethod: " + JSON.stringify(receivedMessage,null,2));
+                       forkedProcesses["forked"].send({
+                                       message_type:          "callDriverMethod",
+                                       find_component:         {
+                                                                   method_name: "rest_call_service",
+                                                                   driver_name: "rest_call_service"
+                                                               },
+                                       args:                   {
+                                                                    URL: "https://raw.githubusercontent.com/typicode/demo/master/db.json"
+                                                                },
+                                       seq_num_parent:         null,
+                                       seq_num_browser:        null,
+                                       seq_num_local:          seqNum,
+                                   });
 
 
-                   //console.log(" .......1 Electron callDriverMethod: " + JSON.stringify(receivedMessage,null,2));
-                   forkedProcesses["forked"].send({
-                                   message_type:          "callDriverMethod",
-                                   find_component:         {
-                                                               method_name: "rest_call_service",
-                                                               driver_name: "rest_call_service"
-                                                           },
-                                   args:                   {
-                                                                URL: "https://raw.githubusercontent.com/typicode/demo/master/db.json"
-                                                            },
-                                   seq_num_parent:         null,
-                                   seq_num_browser:        null,
-                                   seq_num_local:          seqNum,
-                               });
+                   })
+           var ret = await promise
 
 
-                   res.writeHead(200, {'Content-Type': 'application/json'});
+                  res.writeHead(200, {'Content-Type': 'application/json'});
                    res.end(JSON.stringify(
-                        {
-                            value: "hey partner!"
-                        }
+                        ret
 
                    ));
 
@@ -506,10 +508,12 @@ console.log("add_rest_api called")
             var rett = eval("(" + msg.success + ")");
             var newCallbackFn = queuedResponses[ msg.seq_num_local ]
 
-            if (msg.success) {
-                newCallbackFn("base_component_id added")
+            if (msg.result && msg.result.value) {
+                newCallbackFn(msg.result.value)
             } else {
-                newCallbackFn("base_component_id not added: " + msg.error_message)
+                newCallbackFn({
+                                    error: msg.error
+                                })
             }
 
 
