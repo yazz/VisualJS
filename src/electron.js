@@ -504,7 +504,7 @@ console.log("add_rest_api called")
         } else if (msg.message_type == "return_add_local_driver_results_msg") {
             //console.log("6 - return_get_search_results: " + msg.returned);
             var rett = eval("(" + msg.success + ")");
-            var newCallbackFn = queuedResponses[ msg.seq_num ]
+            var newCallbackFn = queuedResponses[ msg.seq_num_local ]
 
             if (msg.success) {
                 newCallbackFn("base_component_id added")

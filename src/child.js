@@ -326,13 +326,22 @@ function processMessagesFromMainProcess() {
       } else if (msg.message_type == 'callDriverMethod') {
 
           callDriverMethod( msg.find_component, msg.args, function(result) {
-              process.send(
-                  {
-                      message_type: 'ipc_child_returning_callDriverMethod_response',
-                      seq_num_browser: msg.seq_num_browser,
-                      seq_num_parent: msg.seq_num_parent,
-                      result: result
-                  })
+              if (msg.seq_num_local) {
+                  process.send(
+                      {
+                          message_type: 'return_add_local_driver_results_msg',
+                          seq_num_local: msg.seq_num_local,
+                          result: result
+                      })
+              } else {
+                  process.send(
+                      {
+                          message_type: 'ipc_child_returning_callDriverMethod_response',
+                          seq_num_browser: msg.seq_num_browser,
+                          seq_num_parent: msg.seq_num_parent,
+                          result: result
+                      })
+              }
           })
 
 
