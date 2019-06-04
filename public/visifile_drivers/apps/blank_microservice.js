@@ -10,6 +10,5 @@ logo_url("/driver_icons/microservice.png")
     console.log("Hello World")
     return {
         ok: "we return this",
-        value: {ok2: "we return this"}
     }
 }

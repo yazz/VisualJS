@@ -510,8 +510,8 @@ function setUpChildListeners(processName, fileName, debugPort) {
             var rett = eval("(" + msg.success + ")");
             var newCallbackFn = queuedResponses[ msg.seq_num_local ]
 
-            if (msg.result && msg.result.value) {
-                newCallbackFn(msg.result.value)
+            if (msg.result ) {
+                newCallbackFn(msg.result)
             } else {
                 newCallbackFn({
                                     error: msg.error
