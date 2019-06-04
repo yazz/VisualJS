@@ -144,8 +144,8 @@ function processMessagesFromMainProcess() {
             dbsearch.serialize(
                 function() {
                     var stmt = dbsearch.all(
-                      "SELECT * FROM system_code where base_component_id = ? and on_condition like '%" +
-                        msg.find_component.method_name + "%' and code_tag = 'LATEST'; ",
+                      "SELECT * FROM system_code where base_component_id = ? " +
+                        " and code_tag = 'LATEST'; ",
 
                        msg.find_component.driver_name,
 
