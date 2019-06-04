@@ -104,8 +104,8 @@ logo_url("/driver_icons/terminal.png")
                     cmd_string:    cmdString
                 })
 
-                if (result.value) {
-                    return result.value
+                if (result) {
+                    return result
                 }
                 return null
             }

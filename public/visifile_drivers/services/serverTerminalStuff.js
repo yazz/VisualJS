@@ -19,5 +19,5 @@ only_run_on_server(true)
 
     var val = await execPromise
 
-    return {value: val}
+    return val
 }
