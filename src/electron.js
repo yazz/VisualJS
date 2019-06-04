@@ -342,9 +342,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
                                                                         method_name: msg.base_component_id,
                                                                         driver_name: msg.base_component_id
                                                                     },
-                                            args:                   {
-                                                                         URL: "https://raw.githubusercontent.com/typicode/demo/master/db.json"
-                                                                     },
+                                            args:                   {},
                                             seq_num_parent:         null,
                                             seq_num_browser:        null,
                                             seq_num_local:          seqNum,
