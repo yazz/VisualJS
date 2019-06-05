@@ -365,6 +365,9 @@ function setUpChildListeners(processName, fileName, debugPort) {
                 app.get(  '/' + msg.route + '/*'  , async function(req, res){
                     await ((restRoutes[msg.route])(req,res))
                 })
+                app.get(  '/' + msg.route  , async function(req, res){
+                    await ((restRoutes[msg.route])(req,res))
+                })
             }
             restRoutes[msg.route] = newFunction
 
