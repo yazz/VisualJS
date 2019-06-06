@@ -326,7 +326,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
             console.log("add_rest_api called")
 
             var newFunction = async function (req, res) {
-
+                var params = req.query;
                 var promise = new Promise(async function(returnFn) {
                     var seqNum = queuedResponseSeqNum;
                     queuedResponseSeqNum ++;
@@ -342,7 +342,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
                                                                         method_name: msg.base_component_id,
                                                                         driver_name: msg.base_component_id
                                                                     },
-                                            args:                   {},
+                                            args:                   params,
                                             seq_num_parent:         null,
                                             seq_num_browser:        null,
                                             seq_num_local:          seqNum,
