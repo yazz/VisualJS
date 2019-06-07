@@ -330,6 +330,10 @@ load_once_from_file(true)
                   style='padding: 10px;background-color: white; height: 100%;'>
 
                   Server App
+                  <div  v-if='app_loaded && (!is_ui_app) && (is_server_app) && (is_rest_app)'
+                      style='padding: 10px;background-color: white; height: 100%;'>
+                         Rest App
+                  </div>
 
             </div>
 
@@ -595,6 +599,7 @@ load_once_from_file(true)
                selected_app:        '',
                is_ui_app:           true,
                is_server_app:       false,
+               is_rest_app:         false,
                editor_overloaded:       false,
                editor_component:    null,
                right_mode:          "scope",
@@ -1171,6 +1176,11 @@ load_once_from_file(true)
                 if (saveHelper.getValueOfCodeString(this.editor_text,"only_run_on_server") == true) {
                     this.is_ui_app = false
                     this.is_server_app = true
+                    if (saveHelper.getValueOfCodeString(this.editor_text,"rest_api")) {
+                        this.is_rest_app = true
+                    } else {
+                        this.is_rest_app = false
+                    }
                 } else {
                     this.is_ui_app = false
                     this.is_server_app = false
@@ -1292,6 +1302,11 @@ load_once_from_file(true)
                             if (saveHelper.getValueOfCodeString(code.toString(),"only_run_on_server") == true) {
                                 mm.is_ui_app = false
                                 mm.is_server_app = true
+                                if (saveHelper.getValueOfCodeString(code.toString(),"rest_api")) {
+                                    mm.is_rest_app = true
+                                } else {
+                                    mm.is_rest_app = false
+                                }
                             } else {
                                 mm.is_server_app = false
                             }
