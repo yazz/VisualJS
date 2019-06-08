@@ -351,6 +351,13 @@ load_once_from_file(true)
                          <pre style="height:40px">{{location.protocol + "//" + location.hostname + ":" + location.port + "/" + rest_api_base_url + ""}}</pre>
 
                          <zzz></zzz>
+                         <span class='col-md-3'>
+                            /
+                             <input  style=''
+                                     v-model="rest_api_url_2">
+                             </input>
+                         </span>
+                         <button  type=button class=' btn btn-info btn-lg'        v-on:click='callRestApi()' >Call rest API</button>
                   </div>
 
             </div>
@@ -618,6 +625,7 @@ load_once_from_file(true)
                is_ui_app:           true,
                is_server_app:       false,
                is_rest_app:         false,
+               rest_api_url_2:       "",
                rest_api_base_url:    "",
                editor_overloaded:       false,
                editor_component:    null,
@@ -663,6 +671,19 @@ load_once_from_file(true)
        ,
 
        methods: {
+           callRestApi:  async function() {
+               var mm                           = this
+               var newrestUrl = location.protocol + "//" + location.hostname + ":" + location.port + "/" + mm.rest_api_base_url + "/" +
+                                mm.rest_api_url_2
+               alert(newrestUrl)
+           }
+           ,
+
+
+
+
+
+
            closeSqliteSchema: async function() {
                var mm                           = this
                this.editor_overloaded           = false
