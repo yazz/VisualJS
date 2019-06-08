@@ -347,10 +347,9 @@ load_once_from_file(true)
                   Server App
                   <div  v-if='app_loaded && (!is_ui_app) && (is_server_app) && (is_rest_app)'
                       style='padding: 10px;background-color: white; height: 100%;'>
-                         Yazz Rest API Tester
-                         <pre style="height:40px">{{location.protocol + "//" + location.hostname + ":" + location.port + "/" + rest_api_base_url + ""}}</pre>
+                         Yazz Rest API Tester:<div></div>
+                         <span style="height:40px">{{location.protocol + "//" + location.hostname + ":" + location.port + "/" + rest_api_base_url + ""}}</span>
 
-                         <zzz></zzz>
                          <span class='col-md-3'>
                             /
                              <input  style=''
@@ -358,7 +357,10 @@ load_once_from_file(true)
                              </input>
                          </span>
                          <button  type=button class=' btn btn-info btn-lg'        v-on:click='callRestApi()' >Call rest API</button>
+
+                         <pre style="margin-top: 30px;">{{rest_api_return_value}}</pre>
                   </div>
+
 
             </div>
 
@@ -627,6 +629,7 @@ load_once_from_file(true)
                is_rest_app:         false,
                rest_api_url_2:       "",
                rest_api_base_url:    "",
+               rest_api_return_value: "",
                editor_overloaded:       false,
                editor_component:    null,
                right_mode:          "scope",
@@ -675,7 +678,16 @@ load_once_from_file(true)
                var mm                           = this
                var newrestUrl = location.protocol + "//" + location.hostname + ":" + location.port + "/" + mm.rest_api_base_url + "/" +
                                 mm.rest_api_url_2
-               alert(newrestUrl)
+                mm.rest_api_return_value = ""
+                //zzz
+                callAjax(newrestUrl,
+        				function(response) {
+                            mm.rest_api_return_value = response
+                        })
+                    mm.rest_api_return_value = newrestUrl
+
+
+
            }
            ,
 
