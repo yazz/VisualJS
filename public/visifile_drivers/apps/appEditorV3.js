@@ -333,7 +333,7 @@ load_once_from_file(true)
                   <div  v-if='app_loaded && (!is_ui_app) && (is_server_app) && (is_rest_app)'
                       style='padding: 10px;background-color: white; height: 100%;'>
                          Yazz Rest API Tester
-                         <pre style="height:40px">{{location.protocol + "//" + location.hostname + ":" + location.port + "/" + rest_api_base_url + "/..."}}</pre>
+                         <pre style="height:40px">{{location.protocol + "//" + location.hostname + ":" + location.port + "/" + rest_api_base_url + ""}}</pre>
 
                          <zzz></zzz>
                   </div>
