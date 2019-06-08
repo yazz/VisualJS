@@ -332,7 +332,10 @@ load_once_from_file(true)
                   Server App
                   <div  v-if='app_loaded && (!is_ui_app) && (is_server_app) && (is_rest_app)'
                       style='padding: 10px;background-color: white; height: 100%;'>
-                         Rest App
+                         Yazz Rest API Tester
+                         <pre style="height:40px">{{location.protocol + "//" + location.hostname + ":" + location.port + "/" + rest_api_base_url + "/..."}}</pre>
+
+                         <zzz></zzz>
                   </div>
 
             </div>
@@ -600,6 +603,7 @@ load_once_from_file(true)
                is_ui_app:           true,
                is_server_app:       false,
                is_rest_app:         false,
+               rest_api_base_url:    "",
                editor_overloaded:       false,
                editor_component:    null,
                right_mode:          "scope",
@@ -1176,8 +1180,10 @@ load_once_from_file(true)
                 if (saveHelper.getValueOfCodeString(this.editor_text,"only_run_on_server") == true) {
                     this.is_ui_app = false
                     this.is_server_app = true
-                    if (saveHelper.getValueOfCodeString(this.editor_text,"rest_api")) {
+                    var restApi = saveHelper.getValueOfCodeString(this.editor_text,"rest_api")
+                    if (restApi) {
                         this.is_rest_app = true
+                        this.rest_api_base_url = restApi
                     } else {
                         this.is_rest_app = false
                     }
@@ -1302,8 +1308,10 @@ load_once_from_file(true)
                             if (saveHelper.getValueOfCodeString(code.toString(),"only_run_on_server") == true) {
                                 mm.is_ui_app = false
                                 mm.is_server_app = true
-                                if (saveHelper.getValueOfCodeString(code.toString(),"rest_api")) {
+                                var restApi = saveHelper.getValueOfCodeString(code.toString(),"rest_api")
+                                if (restApi) {
                                     mm.is_rest_app = true
+                                    mm.rest_api_base_url = restApi
                                 } else {
                                     mm.is_rest_app = false
                                 }
