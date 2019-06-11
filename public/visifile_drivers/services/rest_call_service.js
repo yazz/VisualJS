@@ -13,7 +13,12 @@ only_run_on_server(true)
         //const url = "https://jsonplaceholder.typicode.com/posts/1";
         const url = args.URL;
 
-        https.get(url, res => {
+        var useHttpOrHttps = https
+        if (url.startsWith("http:")) {
+            useHttpOrHttps = http
+        }
+
+        useHttpOrHttps.get(url, res => {
           res.setEncoding("utf8");
           let body = "";
           res.on("data", data => {
