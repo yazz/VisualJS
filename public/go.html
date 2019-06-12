@@ -8660,6 +8660,10 @@ function setupWebSocket(host, port)
         //console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
     });
 
+    socket.on('env_vars',function(data) {
+        //console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
+        console.log(JSON.stringify(data,null,2))
+    });
 
     socket.on('vf_update_card_app',function(data) {
         //alert("Browser received apps from server socket: " + JSON.stringify(data,null,2));

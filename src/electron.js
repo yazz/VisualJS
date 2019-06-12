@@ -378,6 +378,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
         } else if (msg.message_type == "createdTablesInChild") {
             forkedProcesses["forked"].send({         message_type: "setUpSql" });
             forkedProcesses["forked"].send({         message_type: "greeting" , hello: 'world' });
+
             if (!mainNodeProcessStarted) {
                 mainNodeProcessStarted = true
                 getPort()
@@ -489,7 +490,6 @@ function setUpChildListeners(processName, fileName, debugPort) {
                                                                 started:          new Date()
                                                   });
                                               }
-
 
 
 
@@ -1368,6 +1368,8 @@ function getPort () {
             startServices()
             setupChildProcesses();
 
+
+
     })
 }
 
@@ -1831,7 +1833,10 @@ function testFirewall(req, res) {
 function websocketFn(ws) {
     serverwebsockets.push(ws);
     sendToBrowserViaWebSocket(ws, {type: "socket_connected"});
-
+    sendOverWebSockets({
+                          type:   "env_vars",
+                          value:   envVars
+                          });
     //console.log('Socket connected : ' + serverwebsockets.length);
 
     ws.on('message', function(msg) {
