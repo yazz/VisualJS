@@ -14,6 +14,7 @@ var ip = require('ip');
 var isWin         = /^win/.test(process.platform);
 var mainNodeProcessStarted = false;
 var restRoutes = new Object()
+var envVars = new Object()
 
 
 
@@ -2537,6 +2538,7 @@ function startServices() {
     var envNames = Object.keys(listOfEnvs)
     for (var i=0 ;i< envNames.length; i++){
         console.log("Env var  " + envNames[i] + ": " + listOfEnvs[envNames[i]])
+        envVars[envNames[i]] = listOfEnvs[envNames[i]]
     }
 
 
