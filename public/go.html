@@ -8660,10 +8660,57 @@ function setupWebSocket(host, port)
         //console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
     });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // ----------------------------------------------------------------------------------------------
+    //
+    //                  Share the container environent variables with the front end
+    //
+    // ----------------------------------------------------------------------------------------------
     socket.on('env_vars',function(data) {
         //console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
-        console.log(JSON.stringify(data,null,2))
+        //zzz
+        var allEnvVarNames = Object.keys(data.value)
+        for (var i=0; i< allEnvVarNames.length;i++) {
+                var valueEnvVar = data.value[allEnvVarNames[i]]
+                var cmddd = "($" + allEnvVarNames[i] + " = '" + valueEnvVar + "')"
+                console.log(cmddd)
+                eval(cmddd)
+        }
     });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     socket.on('vf_update_card_app',function(data) {
         //alert("Browser received apps from server socket: " + JSON.stringify(data,null,2));
@@ -9481,8 +9528,6 @@ async function loadV2( baseComponentIds, args ) {
                 //alert("Reading app from cache: " + findComponentArgs.base_component_id)
                 var newDataCodeId = finderToCachedCodeMapping[ componentId ]
                 var newData       = cachedCode[ newDataCodeId ]
-                //zzz
-                //debugger
                 var properties = saveHelper.getValueOfCodeString(newData.value.code, "properties",")//properties")
                 if (properties) {
                     if (isValidObject(newData.value)) {
