@@ -256,8 +256,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                          FROM
                      system_code
                          where
-                             component_type = 'app'
-                                 and
                              code_tag = 'LATEST'
                                  and
                              visibility = 'PUBLIC'
