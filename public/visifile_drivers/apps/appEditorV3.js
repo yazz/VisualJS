@@ -356,18 +356,20 @@ load_once_from_file(true)
                                      v-model="rest_api_url_2">
                              </input>
                          </span>
-                         <div v-for='(param,index) in rest_params'>
-                             <input  style=''
-                                     placeholder="Param Name"
-                                     v-model="param.name">
-                             </input>
-                             <input  style=''
-                                     placeholder="Param Value"
-                                     v-model="param.value">
-                             </input>
+                         <div style="margin-left: 100px;">
+                             <div v-for='(param,index) in rest_params' >
+                                 <input  style=''
+                                         placeholder="Param Name"
+                                         v-model="param.name">
+                                 </input>
+                                 <input  style=''
+                                         placeholder="Param Value"
+                                         v-model="param.value">
+                                 </input>
+                             </div>
+                             <button  type=button class=' btn btn-info btn'        v-on:click='addparam()' >Add param</button>
                          </div>
-                         <button  type=button class=' btn btn-info btn-lg'        v-on:click='addparam()' >Add param</button>
-                         <div style="height:auto; border: 3px solid black; padding: 8px;">{{location.protocol + "//" + location.hostname + ":" + location.port + "/" + rest_api_base_url + "/" + rest_api_url_2 + "?"  + "="  + "&"}}
+                         <div style="height:auto; border: 3px solid black; padding: 8px;">{{location.protocol + "//" + location.hostname + ":" + location.port + "/" + rest_api_base_url + "/" + rest_api_url_2 + "?"  + getRestParams() }}
                          </div>
                          <button  type=button class=' btn btn-info btn-lg'        v-on:click='callRestApi()' >Call rest API</button>
 
@@ -688,13 +690,20 @@ load_once_from_file(true)
        ,
 
        methods: {
+           getRestParams: function() {
+               var str = ""
+               for (var i=0; i < this.rest_params.length; i++) {
+                   str +=  this.rest_params[i].name + "=" +  this.rest_params[i].value + "&"
+               }
+               return str
+           },
            addparam: function() {
-             this.rest_params.push({name: "", value: ""})  
+             this.rest_params.push({name: "", value: ""})
            },
            callRestApi:  async function() {
                var mm                           = this
                var newrestUrl = location.protocol + "//" + location.hostname + ":" + location.port + "/" + mm.rest_api_base_url + "/" +
-                                mm.rest_api_url_2
+                                mm.rest_api_url_2 + "?"  + mm.getRestParams()
                 mm.rest_api_return_value = ""
                 //zzz
                 callAjax(newrestUrl,
