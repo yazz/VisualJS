@@ -350,12 +350,24 @@ load_once_from_file(true)
                          Yazz Rest API Tester:<div></div>
                          <span style="height:40px">{{location.protocol + "//" + location.hostname + ":" + location.port + "/" + rest_api_base_url + ""}}</span>
 
-                         <span class='col-md-3'>
+                         <span>
                             /
                              <input  style=''
                                      v-model="rest_api_url_2">
                              </input>
                          </span>
+                         <div v-for='(param,index) in rest_params'>
+                             <input  style=''
+                                     placeholder="Param Name"
+                                     v-model="param.name">
+                             </input>
+                             <input  style=''
+                                     placeholder="Param Value"
+                                     v-model="param.value">
+                             </input>
+                         </div>
+                         <div style="height:auto; border: 3px solid black; padding: 8px;">{{location.protocol + "//" + location.hostname + ":" + location.port + "/" + rest_api_base_url + "/" + rest_api_url_2 + "?"  + "="  + "&"}}
+                         </div>
                          <button  type=button class=' btn btn-info btn-lg'        v-on:click='callRestApi()' >Call rest API</button>
 
                          <pre style="margin-top: 30px;">{{rest_api_return_value}}</pre>
@@ -628,6 +640,7 @@ load_once_from_file(true)
                is_server_app:       false,
                is_rest_app:         false,
                rest_api_url_2:       "",
+               rest_params:         [],
                rest_api_base_url:    "",
                rest_api_return_value: "",
                editor_overloaded:       false,
