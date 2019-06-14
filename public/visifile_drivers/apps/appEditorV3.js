@@ -366,6 +366,7 @@ load_once_from_file(true)
                                      v-model="param.value">
                              </input>
                          </div>
+                         <button  type=button class=' btn btn-info btn-lg'        v-on:click='addparam()' >Add param</button>
                          <div style="height:auto; border: 3px solid black; padding: 8px;">{{location.protocol + "//" + location.hostname + ":" + location.port + "/" + rest_api_base_url + "/" + rest_api_url_2 + "?"  + "="  + "&"}}
                          </div>
                          <button  type=button class=' btn btn-info btn-lg'        v-on:click='callRestApi()' >Call rest API</button>
@@ -687,6 +688,9 @@ load_once_from_file(true)
        ,
 
        methods: {
+           addparam: function() {
+             this.rest_params.push({name: "", value: ""})  
+           },
            callRestApi:  async function() {
                var mm                           = this
                var newrestUrl = location.protocol + "//" + location.hostname + ":" + location.port + "/" + mm.rest_api_base_url + "/" +
