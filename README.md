@@ -1,10 +1,11 @@
 
-# YAZZ - Build tools fast for Kubernetes and OpenShift
+# YAZZ - A lightweight app builder for OPENSHIFT
+
 
 Demo - https://yazz.com/app/homepage.html
 
 - Build apps in minutes with drag and drop interface and code business logic in Javascript
-- One click deploy to Docker
+- One click deploy to Docker or OpenShift
 - Open source MIT license
 - Runs in Docker on the cloud or locally
 - Can be run as a Desktop app in Electron
@@ -232,7 +233,7 @@ Demo - https://yazz.com/app/homepage.html
 
 #### What is Yazz's killer feature?
 
-Yazz's killer feature is being able to build simple internal business apps fast. It enables this by allowing all apps to be made with our drag and drop editor and the Javascript and SQL scripting language
+Yazz's killer feature is being able to build OpenShift applications in minutes, without having to setup Jenkins pipelines, Git, or anything else. It is ideal for demos or small throwaway apps.
 
 #### Is there commercial support for Yazz?
 If you require commercial support then please go to http://yazz.com
