@@ -348,17 +348,22 @@ load_once_from_file(true)
                   <div  v-if='app_loaded && (!is_ui_app) && (is_server_app) && (is_rest_app)'
                       style='padding: 10px;background-color: white; height: 100%;'>
                          Yazz Rest API Tester:<div></div>
-                         <span style="height:40px">{{location.protocol + "//" + location.hostname + ":" + location.port + "/" + rest_api_base_url + ""}}</span>
+                         <span style="height:40px;margin-bottom:10px;">{{location.protocol + "//" + location.hostname + ":" + location.port + "/" + rest_api_base_url + ""}}</span>
 
                          <span>
                             /
                              <input  style=''
                                      v-model="rest_api_url_2">
                              </input>
+                             ?
+                             <span><button type=button
+                                     class='btn-sm'
+                                     v-on:click='addparam()' >Add param</button></span>
                          </span>
+
                          <div style="margin-left: 100px;">
                              <div v-for='(param,index) in rest_params' >
-                                 <input  style=''
+                                 <input  style='margin-top:5px;'
                                          placeholder="Param Name"
                                          v-model="param.name">
                                  </input>
@@ -367,11 +372,12 @@ load_once_from_file(true)
                                          v-model="param.value">
                                  </input>
                              </div>
-                             <button  type=button class=' btn btn-info btn'        v-on:click='addparam()' >Add param</button>
+
                          </div>
-                         <div style="height:auto; border: 3px solid black; padding: 8px;">{{location.protocol + "//" + location.hostname + ":" + location.port + "/" + rest_api_base_url + "/" + rest_api_url_2 + "?"  + getRestParams() }}
+                         <div style="margin-top:10px;height:auto; border: 3px solid black; padding: 8px;">{{location.protocol + "//" + location.hostname + ":" + location.port + "/" + rest_api_base_url + "/" + rest_api_url_2 + "?"  + getRestParams() }}
                          </div>
-                         <button  type=button class=' btn btn-info btn-lg'        v-on:click='callRestApi()' >Call rest API</button>
+                         <button    style="margin-top:6px;"
+                                    type=button class=' btn btn-info btn-lg'        v-on:click='callRestApi()' >Call rest API</button>
 
                          <pre style="margin-top: 30px;">{{rest_api_return_value}}</pre>
                   </div>
