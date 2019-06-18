@@ -36,9 +36,22 @@ load_once_from_file(true)
 
         <div style="padding:10px; overflow:scroll;height:65vh;">
 
-        <div style="height:100%">
+        <div style="height:100%;">
 
-            <div style="height:950px">
+            <div style="height:100px;margin-top:40px;">
+                <a href="#export_as_docker">A) Export App as Docker Container</a>
+            </div>
+
+            <div style="height:100px;">
+                <a href="#export_as_html">B) Download app as HTML file</a>
+            </div>
+
+            <div style="height:800px;">
+            </div>
+
+
+
+            <div id="export_as_docker"  style="height:950px;padding-top:50px;">
 
 
                 <h4 style="font-weight:bold;">A) Export App as Docker Container</h4>
@@ -131,10 +144,10 @@ load_once_from_file(true)
 
 
 
-            <div style="height:109px">
+            <div id="export_as_html" style="height:950px;padding-top:50px;">
 
                 <h4 style="font-weight:bold;">
-                    b) Download app as HTML file
+                    B) Download app as HTML file
                 </h4>
 
                     <a          v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppId + ".html"'
