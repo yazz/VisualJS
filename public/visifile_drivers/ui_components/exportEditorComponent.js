@@ -38,12 +38,20 @@ load_once_from_file(true)
 
         <div style="height:100%;">
 
-            <div style="height:100px;margin-top:40px;">
+            <div style="height:200px;margin-top:40px;">
+                <img src="/driver_icons/ducker.png"  style="width:100px;"></img>
                 <a href="#export_as_docker">A) Export App as Docker Container</a>
             </div>
 
-            <div style="height:100px;">
+            <div style="height:200px;">
+                <img src="/driver_icons/html.png"  style="width:100px;"></img>
                 <a href="#export_as_html">B) Download app as HTML file</a>
+            </div>
+
+
+            <div style="height:200px;">
+            <img src="/driver_icons/js.png"  style="width:100px;"></img>
+                <a href="#export_as_js">C) Download app as Javascript file</a>
             </div>
 
             <div style="height:800px;">
@@ -52,6 +60,7 @@ load_once_from_file(true)
 
 
             <div id="export_as_docker"  style="height:950px;padding-top:50px;">
+                <img src="/driver_icons/ducker.png"  style="width:100px;"></img>
 
 
                 <h4 style="font-weight:bold;">A) Export App as Docker Container</h4>
@@ -145,6 +154,7 @@ load_once_from_file(true)
 
 
             <div id="export_as_html" style="height:950px;padding-top:50px;">
+                <img src="/driver_icons/html.png"  style="width:100px;"></img>
 
                 <h4 style="font-weight:bold;">
                     B) Download app as HTML file
@@ -175,6 +185,40 @@ load_once_from_file(true)
                 </div>
 
 
+
+
+
+
+                <div id="export_as_js" style="height:950px; padding-top:50px;">
+                    <img src="/driver_icons/js.png"  style="width:100px;"></img>
+
+                    <h4 style="font-weight:bold;">
+                        C) Download app as Javascript file
+                    </h4>
+
+                        <a          v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppId + ".html"'
+                                    download
+                                    v-bind:style="'float: left;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); '"
+                                    type="button"
+                                    class="btn btn-light">
+
+                            <svg    xmlns="http://www.w3.org/2000/svg"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    version="1.1" id="Capa_1"
+                                    viewBox="0 0 29.978 29.978"
+                                    style="enable-background:new 0 0 29.978 29.978;"
+                                    xml:space="preserve"
+                                    x="0px"
+                                    y="0px"
+                                    height="35px"
+                                    width="35px">
+
+                                <path d="M25.462,19.105v6.848H4.515v-6.848H0.489v8.861c0,1.111,0.9,2.012,2.016,2.012h24.967c1.115,0,2.016-0.9,2.016-2.012   v-8.861H25.462z" fill="#006DF0" />
+                                <path d="M14.62,18.426l-5.764-6.965c0,0-0.877-0.828,0.074-0.828s3.248,0,3.248,0s0-0.557,0-1.416c0-2.449,0-6.906,0-8.723   c0,0-0.129-0.494,0.615-0.494c0.75,0,4.035,0,4.572,0c0.536,0,0.524,0.416,0.524,0.416c0,1.762,0,6.373,0,8.742   c0,0.768,0,1.266,0,1.266s1.842,0,2.998,0c1.154,0,0.285,0.867,0.285,0.867s-4.904,6.51-5.588,7.193   C15.092,18.979,14.62,18.426,14.62,18.426z" fill="#006DF0" />
+                            </svg>
+                            Download app as HTML
+                        </a>
+                    </div>
             </div>
         </div>
 
