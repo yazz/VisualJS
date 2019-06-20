@@ -1200,6 +1200,11 @@ ${code}
         var row = code.toString();
         var visibility = null
         visibility = saveHelper.getValueOfCodeString(code,"visibility")
+        if (!isValidObject(visibility)) {
+            visibility = "PRIVATE"
+        }
+        code = saveHelper.deleteCodeString(code, "visibility")
+        code = saveHelper.insertCodeString(code, "visibility", visibility)
 
         var interfaces = ""
         var interfaces2 = saveHelper.getValueOfCodeString(code,"interfaces")
