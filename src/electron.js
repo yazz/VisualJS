@@ -2100,7 +2100,7 @@ function file_uploadFn(req, res, next) {
       //console.log('......................................................................................');
       //console.log('......................................................................................');
       res.status( 200 ).send( req.files );
-
+debugger
 
       var ll = req.files.length;
       for (var i = 0; i < ll ; i ++) {
@@ -2154,6 +2154,25 @@ function file_uploadFn(req, res, next) {
                                                     sqlite_data:            sqlitedatafromupload
                                                });
               }
+          } else if (ext == "js")  {
+                  var localp2;
+                  localp2 =  path.join(userData,  'uploads/' + ifile.filename);
+                  var localp = localp2 + '.' + ext;
+                  fs.renameSync(localp2, localp);
+                  var readIn = fs.readFileSync(localp).toString()
+
+
+
+                    forkedProcesses["forked"].send({
+                                                        message_type:           "save_code_from_upload",
+                                                        base_component_id:      bci,
+                                                        parent_hash:            null,
+                                                        code:                   readIn,
+                                                        client_file_upload_id:  client_file_upload_id,
+                                                        options:                {save_html: true, fast_forward_database_to_latest_revision: false},
+                                                        sqlite_data:            ""
+                                                   });
+
           } else {
             console.log('Ignoring file ');
 
