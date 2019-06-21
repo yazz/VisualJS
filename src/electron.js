@@ -369,7 +369,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
                     ret
                 ));
             }
-            //zzz
+
             // end of function def for newFunction
 
 
@@ -519,7 +519,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
-//zzz
+
         } else if (msg.message_type == "return_add_local_driver_results_msg") {
             //console.log("6 - return_get_search_results: " + msg.returned);
             var rett = eval("(" + msg.success + ")");
@@ -1762,6 +1762,28 @@ function getRoot(req, res) {
 		};
 	};
 
+
+    if (isValidObject(loadjsurl)) {
+        //zzz
+        console.log("*********** Trying to load loadjsurl code *************")
+        forkedProcesses["forked"].send({
+                                            message_type:       "save_code",
+                                            base_component_id:   "zzz",
+                                            parent_hash:         null,
+                                            code: `function() {
+/*
+visibility("PUBLIC")
+created_timestamp(1561110475638)
+base_component_id("zzz")
+display_name("New app")
+logo_url("/driver_icons/terminal.png")
+*/
+    console.log("Hello World")
+}`
+,
+                                            options:             {}
+                                       });
+    }
     if (runhtml && (!req.query.goto) && (!req.query.embed)) {
         homepage = runhtml
         runOnPageExists(req,res,homepage)
@@ -2032,7 +2054,7 @@ function websocketFn(ws) {
 
 
 
-//zzz
+
         // --------------------------------------------------------------------
         //
         //                         callDriverMethod
