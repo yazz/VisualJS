@@ -1219,7 +1219,8 @@ ${code}
 
         var logoUrl = saveHelper.getValueOfCodeString(code,"logo_url")
         if (!isValidObject(logoUrl)) {
-            code = saveHelper.insertCodeString(code, "logo_url", "/driver_icons/js.png")
+            logoUrl = "/driver_icons/js.png"
+            code = saveHelper.insertCodeString(code, "logo_url", logoUrl)
         }
 
 
