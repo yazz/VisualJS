@@ -174,6 +174,7 @@ if (process.argv.length > 1) {
       .option('-x, --deleteonexit [deleteonexit]', 'Delete database files on exit (default false) [deleteonexit]', 'false')
       .option('-y, --deleteonstartup [deleteonstartup]', 'Delete database files on startup (default false) [deleteonstartup]', 'false')
       .option('-a, --runapp [runapp]', 'Run the app with ID as the homepage (default not set) [runapp]', null)
+      .option('-u, --loadjsurl [loadjsurl]', 'Load the following JS from a URL (default not set) [loadjsurl]', null)
       .option('-b, --runhtml [runhtml]', 'Run using a local HTML page as the homepage (default not set) [runhtml]', null)
       .option('-q, --https [https]', 'Run using a HTTPS (default is http) [https]', 'false')
       .option('-v, --private [private]', 'Private HTTPS key [private]', null)
@@ -189,6 +190,7 @@ if (process.argv.length > 1) {
     program.deleteonexit = 'false'
     program.deleteonstartup = 'false'
     program.runapp = null
+    program.loadjsurl = null
     program.runhtml = null
     program.https = 'false'
     program.usehost = null
@@ -235,6 +237,7 @@ if ( electronApp ) {
     runapp = "homepage"
 }
 var runhtml = program.runhtml;
+var loadjsurl = program.loadjsurl;
 
 if (!isNumber(port)) {
     port = 80;
