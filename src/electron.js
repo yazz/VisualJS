@@ -404,6 +404,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
     	//--------------------------------------------------------
     	// open the app in a web browser
     	//--------------------------------------------------------
+        checkForJSLoaded();
 
 
     	if (typeOfSystem == 'client') {
@@ -1381,12 +1382,48 @@ function getPort () {
 
 
 
+
+
     })
 }
 
 
 
+function checkForJSLoaded() {
+    if (isValidObject(loadjsurl)) {
+        //zzz
+        var jsUrl = "https://raw.githubusercontent.com/chriskwan/console-log-hello-world/master/hello-world.js"
+        https.get(jsUrl, (resp) => {
+          let data = '';
 
+          // A chunk of data has been recieved.
+          resp.on('data', (chunk) => {
+            data += chunk;
+          });
+
+          // The whole response has been received. Print out the result.
+          resp.on('end', () => {
+            console.log("code:" + data);
+            var jsCode = data
+            console.log("*********** Trying to load loadjsurl code *************")
+            forkedProcesses["forked"].send({
+                                                message_type:        "save_code",
+                                                base_component_id:   "zzz",
+                                                parent_hash:          null,
+                                                code:                 data,
+                                                options:             {
+                                                                        make_public: true
+                                                                     }
+                                           });
+          });
+
+        }).on("error", (err) => {
+          console.log("Error: " + err.message);
+        });
+
+    }
+
+}
 
 
 
@@ -1763,27 +1800,6 @@ function getRoot(req, res) {
 	};
 
 
-    if (isValidObject(loadjsurl)) {
-        //zzz
-        console.log("*********** Trying to load loadjsurl code *************")
-        forkedProcesses["forked"].send({
-                                            message_type:       "save_code",
-                                            base_component_id:   "zzz",
-                                            parent_hash:         null,
-                                            code: `function() {
-/*
-visibility("PUBLIC")
-created_timestamp(1561110475638)
-base_component_id("zzz")
-display_name("New app")
-logo_url("/driver_icons/terminal.png")
-*/
-    console.log("Hello World")
-}`
-,
-                                            options:             {}
-                                       });
-    }
     if (runhtml && (!req.query.goto) && (!req.query.embed)) {
         homepage = runhtml
         runOnPageExists(req,res,homepage)

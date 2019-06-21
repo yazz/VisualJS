@@ -1198,13 +1198,32 @@ ${code}
         var maxProcesses = 1
         var rowhash = crypto.createHash('sha256');
         var row = code.toString();
+
+
+
+
         var visibility = null
         visibility = saveHelper.getValueOfCodeString(code,"visibility")
         if (!isValidObject(visibility)) {
-            visibility = "PRIVATE"
+            if (isValidObject(options) && options.make_public) {
+                visibility = "PUBLIC"
+            } else {
+                visibility = "PRIVATE"
+            }
         }
         code = saveHelper.deleteCodeString(code, "visibility")
         code = saveHelper.insertCodeString(code, "visibility", visibility)
+
+
+
+
+        var logoUrl = saveHelper.getValueOfCodeString(code,"logo_url")
+        if (!isValidObject(logoUrl)) {
+            code = saveHelper.insertCodeString(code, "logo_url", "/driver_icons/js.png")
+        }
+
+
+
 
         var interfaces = ""
         var interfaces2 = saveHelper.getValueOfCodeString(code,"interfaces")
@@ -1247,7 +1266,6 @@ ${code}
 
                                 var displayName = saveHelper.getValueOfCodeString(code,"display_name")
 
-                                var logoUrl = saveHelper.getValueOfCodeString(code,"logo_url")
                                 var useDb = saveHelper.getValueOfCodeString(code,"use_db")
                                 var editors2 = saveHelper.getValueOfCodeString(code,"editors")
                                 var controlType = saveHelper.getValueOfCodeString(code,"control_type")
