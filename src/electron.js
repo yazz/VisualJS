@@ -1392,7 +1392,8 @@ function getPort () {
 function checkForJSLoaded() {
     if (isValidObject(loadjsurl)) {
         //zzz
-        var jsUrl = "https://raw.githubusercontent.com/chriskwan/console-log-hello-world/master/hello-world.js"
+        var jsUrl = loadjsurl
+        
         https.get(jsUrl, (resp) => {
           let data = '';
 
