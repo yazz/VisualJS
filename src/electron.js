@@ -175,6 +175,7 @@ if (process.argv.length > 1) {
       .option('-y, --deleteonstartup [deleteonstartup]', 'Delete database files on startup (default false) [deleteonstartup]', 'false')
       .option('-a, --runapp [runapp]', 'Run the app with ID as the homepage (default not set) [runapp]', null)
       .option('-u, --loadjsurl [loadjsurl]', 'Load the following JS from a URL (default not set) [loadjsurl]', null)
+      .option('-f, --loadjsfile [loadjsfile]', 'Load the following JS from a file (default not set) [loadjsfile]', null)
       .option('-b, --runhtml [runhtml]', 'Run using a local HTML page as the homepage (default not set) [runhtml]', null)
       .option('-q, --https [https]', 'Run using a HTTPS (default is http) [https]', 'false')
       .option('-v, --private [private]', 'Private HTTPS key [private]', null)
@@ -191,6 +192,7 @@ if (process.argv.length > 1) {
     program.deleteonstartup = 'false'
     program.runapp = null
     program.loadjsurl = null
+    program.loadjsfile = null
     program.runhtml = null
     program.https = 'false'
     program.usehost = null
@@ -238,6 +240,7 @@ if ( electronApp ) {
 }
 var runhtml = program.runhtml;
 var loadjsurl = program.loadjsurl;
+var loadjsfile = program.loadjsfile;
 
 if (!isNumber(port)) {
     port = 80;
@@ -1391,11 +1394,11 @@ function getPort () {
 
 function checkForJSLoaded() {
     if (isValidObject(loadjsurl)) {
-        //zzz
+
         var jsUrl = loadjsurl
-        
+
         https.get(jsUrl, (resp) => {
-          let data = '';
+          var data = '';
 
           // A chunk of data has been recieved.
           resp.on('data', (chunk) => {
@@ -1421,6 +1424,25 @@ function checkForJSLoaded() {
         }).on("error", (err) => {
           console.log("Error: " + err.message);
         });
+
+    } else if (isValidObject(loadjsfile)) {
+        //zzz
+        var jsFile = loadjsfile
+
+        var data = fs.readFileSync(jsFile)
+
+        console.log("code from file:" + data);
+        console.log("*********** Trying to load loadjsfile code *************")
+        forkedProcesses["forked"].send({
+                                            message_type:        "save_code",
+                                            base_component_id:   "zzz",
+                                            parent_hash:          null,
+                                            code:                 data,
+                                            options:             {
+                                                                    make_public: true
+                                                                 }
+                                           });
+
 
     }
 
