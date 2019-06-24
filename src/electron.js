@@ -1429,15 +1429,15 @@ function checkForJSLoaded() {
         //zzz
         var jsFile = loadjsfile
 
-        var data = fs.readFileSync(jsFile)
+        var data2 = fs.readFileSync(jsFile)
 
-        console.log("code from file:" + data);
+        console.log("code from file:" + data2);
         console.log("*********** Trying to load loadjsfile code *************")
         forkedProcesses["forked"].send({
                                             message_type:        "save_code",
                                             base_component_id:   "zzz",
                                             parent_hash:          null,
-                                            code:                 data,
+                                            code:                 data2.toString(),
                                             options:             {
                                                                     make_public: true
                                                                  }
