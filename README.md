@@ -1,8 +1,9 @@
 
-# YAZZ - A lightweight app builder for OPENSHIFT
+# YAZZ - Automation at the speed of thought
 
 
-Demo - https://yazz.com/app/homepage.html
+
+Demo - A lightweight app builder for Kubernetes - https://yazz.com/app/homepage.html
 
 - Build apps in minutes with drag and drop interface and code business logic in Javascript
 - One click deploy to Docker or OpenShift
