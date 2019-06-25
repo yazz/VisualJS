@@ -101,6 +101,11 @@ load_once_from_file(true)
                 <button  v-if='(editor_component != "editor_component") && (!read_only) && (mode != "profiler")' type=button class=' btn btn-info btn-sm'   v-on:click='editAsText()' >Edit as text</button>
 
                 <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-warning'        v-on:click='setTimeout(function(){copyAppMethod(base_component_id, null)},100)' >Copy app</button>
+
+                <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-info'        v-on:click='setTimeout(function(){editSqliteSchema()},100)' >Database</button>
+
+                <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-warning'        v-on:click='setTimeout(function(){editExportOptions()},100)' >Export</button>
+
             </div>
 
 
@@ -147,49 +152,27 @@ load_once_from_file(true)
                 <div      slot-scope="editor_component" style='display: inline-block;width:100%;'>
 
 
-                    <button     v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                                v-on:click='setTimeout(function(){editExportOptions()},100)'
-                                v-if="!editor_overloaded"
-                                v-bind:style="'float: left;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); '"
-                                v-on:mouseenter='setInfo("Export as a Docker Image or a runnable HTML file")'
-                                v-on:mouseleave='setInfo(null)'
-                                type="button"
-                                class="btn btn-light">
-
-
-                                <svg    xmlns="http://www.w3.org/2000/svg"
-                                        xmlns:xlink="http://www.w3.org/1999/xlink"
-                                        version="1.1" id="Capa_1"
-                                        viewBox="0 0 29.978 29.978"
-                                        style="enable-background:new 0 0 29.978 29.978;"
-                                        xml:space="preserve"
-                                        x="0px"
-                                        y="0px"
-                                        height="35px"
-                                        width="35px">
-                                	<path d="M25.462,19.105v6.848H4.515v-6.848H0.489v8.861c0,1.111,0.9,2.012,2.016,2.012h24.967c1.115,0,2.016-0.9,2.016-2.012   v-8.861H25.462z" fill="#006DF0"/>
-                                	<path d="M14.62,18.426l-5.764-6.965c0,0-0.877-0.828,0.074-0.828s3.248,0,3.248,0s0-0.557,0-1.416c0-2.449,0-6.906,0-8.723   c0,0-0.129-0.494,0.615-0.494c0.75,0,4.035,0,4.572,0c0.536,0,0.524,0.416,0.524,0.416c0,1.762,0,6.373,0,8.742   c0,0.768,0,1.266,0,1.266s1.842,0,2.998,0c1.154,0,0.285,0.867,0.285,0.867s-4.904,6.51-5.588,7.193   C15.092,18.979,14.62,18.426,14.62,18.426z" fill="#006DF0"/>
-                                </svg>
-                                 Advanced
-                    </button>
-
-                    <button   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                              v-on:click='setTimeout(function(){editSqliteSchema()},100)'
-                              v-if="!editor_overloaded"
+                    <a   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                              v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppId + ".js"'
+                              download
+                            v-if="!editor_overloaded"
                               v-on:mouseenter='setInfo("Edit the SQlite schema for this app")'
                               v-on:mouseleave='setInfo(null)'
                               type="button" class="btn btn-light ">
 
-                             <svg   xmlns="http://www.w3.org/2000/svg"
-                                    style="enable-background:new 0 0 210.107 210.107;margin-right:10px;"
-                                    width="35px"
-                                    height="35px"
-                                    viewBox="0 0 24 24">
-                                <g>
-                                    <path d="M22 18.055v2.458c0 1.925-4.655 3.487-10 3.487-5.344 0-10-1.562-10-3.487v-2.458c2.418 1.738 7.005 2.256 10 2.256 3.006 0 7.588-.523 10-2.256zm-10-3.409c-3.006 0-7.588-.523-10-2.256v2.434c0 1.926 4.656 3.487 10 3.487 5.345 0 10-1.562 10-3.487v-2.434c-2.418 1.738-7.005 2.256-10 2.256zm0-14.646c-5.344 0-10 1.562-10 3.488s4.656 3.487 10 3.487c5.345 0 10-1.562 10-3.487 0-1.926-4.655-3.488-10-3.488zm0 8.975c-3.006 0-7.588-.523-10-2.256v2.44c0 1.926 4.656 3.487 10 3.487 5.345 0 10-1.562 10-3.487v-2.44c-2.418 1.738-7.005 2.256-10 2.256z"/>
-                              </svg>SQLite Schema
+                              <img
+                                  src='/driver_icons/js.png'
+                                  style='height:35px; margin-right: 10px;'
+                                  class='img-fluid'>
+                              </img>
+                             Save app as .js
 
-                    </button>
+                    </a>
+
+
+
+
+
                     <button   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                               v-on:click='setTimeout(function(){closeSqliteSchema()},100)'
                               v-if="editor_overloaded"
