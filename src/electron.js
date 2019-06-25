@@ -1429,15 +1429,20 @@ function checkForJSLoaded() {
         //zzz
         var jsFile = loadjsfile
 
-        var data2 = fs.readFileSync(jsFile)
+        var data2 = fs.readFileSync(jsFile).toString()
+        var baseComponentIdForFile = saveHelper.getValueOfCodeString(data2, "base_component_id")
+        console.log("baseComponentIdForFile:" + baseComponentIdForFile);
+        if (!isValidObject(baseComponentIdForFile)) {
+            baseComponentIdForFile = loadjsfile.replace(/[^A-Z0-9]/ig, "_");
+        }
 
         console.log("code from file:" + data2);
         console.log("*********** Trying to load loadjsfile code *************")
         forkedProcesses["forked"].send({
                                             message_type:        "save_code",
-                                            base_component_id:   "zzz",
+                                            base_component_id:    baseComponentIdForFile,
                                             parent_hash:          null,
-                                            code:                 data2.toString(),
+                                            code:                 data2,
                                             options:             {
                                                                     make_public: true
                                                                  }
