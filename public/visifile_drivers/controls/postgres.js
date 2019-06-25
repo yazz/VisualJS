@@ -141,7 +141,7 @@ logo_url("/driver_icons/postgres.jpg")
                                                 port:            this.args.port
                                              })
 
-                   debugger
+                   
                    //alert("executeSql: " + JSON.stringify(result,null,2))
                    console.log(JSON.stringify(result,null,2))
                    if (result.value) {

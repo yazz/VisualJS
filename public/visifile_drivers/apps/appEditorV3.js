@@ -1256,7 +1256,6 @@ load_once_from_file(true)
                                                  }
                     })
 
-                debugger
                 if (saveHelper.getValueOfCodeString(this.editor_text,"only_run_on_server") == true) {
                     this.is_ui_app = false
                     this.is_server_app = true
@@ -1384,7 +1383,7 @@ load_once_from_file(true)
                                 this.is_ui_app = false
                                 this.is_server_app = false
                             }
-                            debugger
+
                             if (saveHelper.getValueOfCodeString(code.toString(),"only_run_on_server") == true) {
                                 mm.is_ui_app = false
                                 mm.is_server_app = true

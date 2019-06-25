@@ -2725,7 +2725,6 @@ return {}
             var mm      = this
             var val     = JSON.parse(event.target.value)
             var type    = null
-            debugger
 
             //
             // determine if this is a control, form or app
@@ -3180,7 +3179,7 @@ ${eventMessage.code}
             var mm = this
             //zzz
             var promise = new Promise(async function(returnfn) {
-            debugger
+            
                 var ccc2 = mm.model.forms[mm.model.active_form].components
                 for (   var ytr = ccc2.length - 1;    ytr >= 0;    ytr--   ) {
                     var component = ccc2[ytr]

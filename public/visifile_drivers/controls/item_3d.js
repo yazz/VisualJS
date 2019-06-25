@@ -319,7 +319,7 @@ logo_url("/driver_icons/threedee_control.png")
 
                 ,
                 moveTo: async function(opts) {
-                debugger
+                
                     var mm          = this
                     var animationId = "animation_" + this.name
                     var dd          =  document.querySelector("#" + this.name)
