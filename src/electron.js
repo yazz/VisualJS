@@ -1396,7 +1396,6 @@ function checkForJSLoaded() {
     if (isValidObject(loadjsurl)) {
 
         var jsUrl = loadjsurl
-
         https.get(jsUrl, (resp) => {
           var data = '';
 
@@ -1408,11 +1407,16 @@ function checkForJSLoaded() {
           // The whole response has been received. Print out the result.
           resp.on('end', () => {
             console.log("code:" + data);
+            var baseComponentIdForUrl = saveHelper.getValueOfCodeString(data, "base_component_id")
+            console.log("baseComponentIdForUrl:" + baseComponentIdForUrl);
+            if (!isValidObject(baseComponentIdForUrl)) {
+                baseComponentIdForUrl = loadjsurl.replace(/[^A-Z0-9]/ig, "_");
+            }
             var jsCode = data
             console.log("*********** Trying to load loadjsurl code *************")
             forkedProcesses["forked"].send({
                                                 message_type:        "save_code",
-                                                base_component_id:   "zzz",
+                                                base_component_id:    baseComponentIdForUrl,
                                                 parent_hash:          null,
                                                 code:                 data,
                                                 options:             {
