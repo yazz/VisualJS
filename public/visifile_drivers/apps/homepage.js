@@ -308,7 +308,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 await mm.addApp(data)
                 setTimeout(function() {
                       mm.editApp(null, data)
-                },50)
+                },250)
          });
 
       },
