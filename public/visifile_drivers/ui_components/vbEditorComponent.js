@@ -902,11 +902,9 @@ uses_javascript_librararies(["advanced_bundle"])
 
         mounted: async function() {
             var mm                  = this
-            if (!isValidObject(mm.uid2)) {
-                mm.uid2                 = uuidv4()
-                mm.vb_grid_element_id   = "vb_grid_"+ uuidv4()
-                mm.vb_editor_element_id = "vb_editor_"+ uuidv4()
-            }
+            mm.uid2                 = uuidv4()
+            mm.vb_grid_element_id   = "vb_grid_"+ uuidv4()
+            mm.vb_editor_element_id = "vb_editor_"+ uuidv4()
             mm.local_app            = localAppshareApp
 
 
