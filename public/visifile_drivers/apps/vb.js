@@ -1,11 +1,11 @@
 async function(args) {
 /*
-created_timestamp(1555224340900)
+visibility("PUBLIC")
+created_timestamp(1561668905631)
 base_component_id("vb")
 editors([
   "vb_editor_component"
 ])
-read_only(true)
 properties([
   {
     "id": "test",
@@ -15,12 +15,12 @@ properties([
 ])//properties
 formEditor({
   "next_id": 7,
-  "max_form": 4,
+  "max_form": 5,
   "active_form": "Form_1",
   "default_form": "Form_1",
   "app_selected": false,
   "id": "vb",
-  "next_component_id": 116,
+  "next_component_id": 112,
   "app_properties": [
     {
       "id": "test",
@@ -31,212 +31,33 @@ formEditor({
   "forms": {
     "Form_1": {
       "name": "Form_1",
-      "width": 372.875,
+      "width": 372,
       "height": 355,
+      "add_block": "alert('Add block called')",
       "components": [
         {
-          "name": "todoInputBox",
-          "base_component_id": "input_control",
-          "leftX": 8,
-          "topY": 49,
-          "width": 238,
-          "height": 40,
-          "text": "",
-          "label": "",
-          "placeholder": "",
-          "background_color": ""
-        },
-        {
-          "name": "add_todo_button",
-          "base_component_id": "button_control",
-          "leftX": 280,
-          "topY": 49,
-          "width": 85,
-          "height": 41,
-          "text": "Add",
-          "click_event": "var ins = todoInputBox.text\n\ntodoInputBox.text = \"\"\nsql(\"insert into items (id,name) values (?,?)\",\n          [new Date().getTime(),\n           ins])\ndisplay_out.text = sqlFirstCol(\"select name from items\")\n",
-          "background_color": ""
-        },
-        {
-          "name": "button_control_2",
-          "base_component_id": "button_control",
-          "leftX": 4,
-          "topY": 299,
-          "width": 143,
-          "height": 54,
-          "text": "Go to  form 2",
-          "click_event": "mm.selectForm(\"Form_2\")",
-          "background_color": "blue"
-        },
-        {
-          "leftX": -0.4375,
-          "topY": 105,
-          "name": "display_out",
+          "leftX": 24,
+          "topY": 25,
+          "name": "aaa",
           "base_component_id": "label_control",
-          "width": 365,
-          "height": 178,
-          "text": "",
-          "background_color": ""
-        },
-        {
-          "leftX": 33.5625,
-          "topY": 9,
-          "name": "title_label",
-          "base_component_id": "label_control",
-          "width": 112,
-          "height": 34,
-          "text": "Todo App",
-          "background_color": ""
-        },
-        {
-          "leftX": 190.4375,
-          "topY": 300,
-          "name": "button_control_104",
-          "base_component_id": "button_control",
-          "width": 146,
-          "height": 55,
-          "text": "Go to 3D",
+          "width": 320,
+          "height": 156,
+          "text": "Drag controls from the left onto this grid and then press the 'Save changes' button above",
           "background_color": "",
-          "click_event": "mm.selectForm(\"form_3d\")"
-        }
-      ],
-      "form_activate": "display_out.text = sqlFirstCol(\"select name from items\")"
-    },
-    "Form_2": {
-      "name": "Form_2",
-      "width": 400,
-      "height": 400,
-      "components": [
-        {
-          "name": "button_control_2",
-          "base_component_id": "button_control",
-          "leftX": 200,
-          "topY": 300,
-          "width": 200,
-          "background_color": "blue",
-          "height": 50,
-          "text": "Go to Form 1",
-          "click_event": "mm.selectForm(\"Form_1\")"
+          "parent": null
         }
       ]
     },
-    "form_3d": {
-      "name": "form_3d",
-      "components": [
-        {
-          "leftX": 10.4375,
-          "topY": 343.28125,
-          "name": "button_control_107",
-          "base_component_id": "button_control",
-          "width": 182,
-          "height": 58,
-          "text": "Go to form 1",
-          "background_color": "",
-          "click_event": "mm.selectForm(\"Form_1\")"
-        },
-        {
-          "leftX": 0,
-          "topY": 0,
-          "name": "threedee_control_108",
-          "base_component_id": "threedee_control",
-          "width": 274.9791564941406,
-          "height": 206.8645782470703,
-          "text": "",
-          "background_color": "",
-          "is_container": true,
-          "hide_children": true,
-          "has_details_ui": true
-        },
-        {
-          "leftX": 48.48957824707031,
-          "topY": 49.00349426269531,
-          "parent": "threedee_control_108",
-          "name": "threedee_item_control_109",
-          "base_component_id": "threedee_item_control",
-          "width": 100,
-          "height": 100,
-          "text": "",
-          "position": "-2.1 4 -10",
-          "index_in_parent_array": 2
-        },
-        {
-          "leftX": 52.486106872558594,
-          "topY": 110.00001525878906,
-          "parent": "threedee_control_108",
-          "name": "threedee_item_control_110",
-          "base_component_id": "threedee_item_control",
-          "width": 100,
-          "height": 100,
-          "text": "",
-          "position": "-2.1 4 -10",
-          "index_in_parent_array": 3
-        },
-        {
-          "leftX": 65.48957443237305,
-          "topY": 50.00349426269531,
-          "parent": "threedee_control_108",
-          "name": "threedee_item_control_111",
-          "base_component_id": "threedee_item_control",
-          "width": 100,
-          "height": 100,
-          "text": "",
-          "position": "-2.1 4 -10",
-          "index_in_parent_array": 4
-        },
-        {
-          "leftX": 32.486106872558594,
-          "topY": 95.00001525878906,
-          "parent": "threedee_control_108",
-          "name": "threedee_item_control_112",
-          "base_component_id": "threedee_item_control",
-          "width": 100,
-          "height": 100,
-          "text": "",
-          "position": "-2.1 4 -10",
-          "index_in_parent_array": 5
-        },
-        {
-          "leftX": 86.4861068725586,
-          "topY": 71.00001525878906,
-          "parent": "threedee_control_108",
-          "name": "threedee_item_control_113",
-          "base_component_id": "threedee_item_control",
-          "width": 100,
-          "height": 100,
-          "text": "",
-          "position": "-2.1 4 -10",
-          "index_in_parent_array": 6
-        },
-        {
-          "leftX": 67.4861068725586,
-          "topY": 89.00001525878906,
-          "parent": "threedee_control_108",
-          "name": "threedee_item_control_114",
-          "base_component_id": "threedee_item_control",
-          "width": 100,
-          "height": 100,
-          "text": "",
-          "position": "-2.1 4 -10",
-          "index_in_parent_array": 7
-        },
-        {
-          "leftX": 70.4861068725586,
-          "topY": 86.00001525878906,
-          "parent": "threedee_control_108",
-          "name": "threedee_item_control_115",
-          "base_component_id": "threedee_item_control",
-          "width": 100,
-          "height": 100,
-          "text": "",
-          "position": "-2.1 4 -10",
-          "index_in_parent_array": 8
-        }
-      ],
-      "width": 298.125,
-      "height": 401.28125
+    "Module": {
+      "name": "Module",
+      "components": [],
+      "width": 300,
+      "height": 300
     }
   },
-  "active_component_index": null
+  "active_component_index": null,
+  "active_component_detail_name": null,
+  "active_component_detail_index": null
 })//formEditor
 control_type("SYSTEM")
 sub_components([
@@ -246,15 +67,23 @@ sub_components([
   "input_control",
   "button_control",
   "label_control",
-  "threedee_item_control",
-  "threedee_control",
-  "table_control"
+  "table_control",
+  "group_control"
 ])
-visibility("PUBLIC")
-display_name("VB")
+display_name("GUI App")
+read_only(true)
 uses_javascript_librararies(["advanced_bundle"])
+
+
+
+
+
+
+
+
+
 is_app(true)
-description('VB App')
+description('VB Blank App')
 logo_url("/driver_icons/blocks.png")
 */
 
@@ -321,11 +150,14 @@ logo_url("/driver_icons/blocks.png")
                             draggable="true"
                             class=''
                             v-on:dragend='$event.stopPropagation();deleteCursor();'
-                            v-on:dragstart='$event.stopPropagation();switchCursor($event,"grab","grabbing");highlighted_control = av.base_component_id;drag($event,{
+                            v-on:dragstart='$event.stopPropagation();if (design_mode_pane.type == "drag_drop") {switchCursor($event,"grab","grabbing");highlighted_control = av.base_component_id;drag($event,{
                                                    type:   "add_component",
                                                    text:    av.base_component_id
-                                                })'
-                            v-on:click='highlighted_control = av.base_component_id;'
+                                                })} else {
+                                                    event.preventDefault()
+                                                    gotoDragDropEditor();
+                                                }'
+                            v-on:click='highlighted_control = av.base_component_id;gotoDragDropEditor();'
                             v-bind:style='"display:flex;cursor: grab;margin: 2px;border-radius: 3px;width:50px;;height: 50px; margin: 0px;border: 0px;padding:10px;overflow-x:auto;overflow-y:hidden;background-color: " + ((highlighted_control == av.base_component_id)?"#E8E8E8;border-left: 2px solid gray;border-top: 2px solid gray;":"lightgray;")'>
 
                         <img    v-if='isValidObject(av)'
@@ -430,7 +262,7 @@ logo_url("/driver_icons/blocks.png")
 
                 </div>
 
-                <div  v-bind:style='"border: 5px solid lightgray;background: white;;overflow:none;height:100%; overflow: auto;"'>
+                <div  v-bind:style='"border: 5px solid lightgray;background: white;;overflow:none;height:100%; overflow: auto; width:100%; "'>
 
                     <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[model.active_component_detail_index].name + (design_mode?"_design":"")'
                                 v-bind:refresh='refresh'
@@ -836,7 +668,7 @@ logo_url("/driver_icons/blocks.png")
                      Project explorer
 
                     <button type=button class='btn btn-sm btn-warning'
-                            v-bind:style='"float: right;" + (right_mode == "project"?"":"display:;font-family:verdana,helvetica;font-size: 13px;")'
+                            v-bind:style='"position: absolute; right: 13px;" + (right_mode == "project"?"":"display:;font-family:verdana,helvetica;font-size: 13px;")'
                             v-on:click='$event.stopPropagation();selected_pane = "project"; chooseRight("project");addForm()'  >
 
                          Add form
@@ -927,7 +759,8 @@ logo_url("/driver_icons/blocks.png")
                 </div>
 
                 <div  style="border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:65%;">
-                    <div    style="border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
+                    <div    id="property_scroll_region"
+                            style="border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
 
 
                         <div    v-for='property in properties'
@@ -972,7 +805,7 @@ logo_url("/driver_icons/blocks.png")
                                         <div    v-if="(property.type  == 'Select')  ">
                                             <select  @change='setVBEditorProperty($event, property)'>
                                                   <option   v-for="propVal in property.values"
-                                                            v-bind:value="JSON.stringify(propVal.value)"
+                                                            v-bind:value="propVal.value"
                                                             v-bind:selected="propVal.value == model.forms[model.active_form].components[model.active_component_index][property.id]">
 
                                                         {{propVal.display}}
@@ -987,7 +820,9 @@ logo_url("/driver_icons/blocks.png")
                                             </input>
                                         </div>
 
-                                        <div v-if="(property.type  == 'Event')  " style="width:100%">
+                                        <div    v-if="(property.type  == 'Event') || ((property.type  == 'Action') && isValidObject(property.fn)) "
+                                                style="width:100%">
+
                                             <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;'
                                                         v-on:click='$event.stopPropagation();editAsCode({
                                                             app_selected:           model.app_selected,
@@ -1036,7 +871,7 @@ logo_url("/driver_icons/blocks.png")
                         </div>
 
                         <div v-if='(model.app_selected) && (add_property)' class='row'>
-                            <div    style='font-family:verdana,helvetica;font-size: 13px;'
+                            <div    style='font-family:verdana,helvetica;font-size: 13px;font-weight:bold;padding-left:20px;'
                                     class='col-md-12 small'>
                                 Add a property
                             </div>
@@ -1069,6 +904,28 @@ logo_url("/driver_icons/blocks.png")
                         </div>
 
                         <div v-if='(model.app_selected) && (add_property)' class='row'>
+                            <div    style='font-family:verdana,helvetica;font-size: 13px;'
+                                    class='col-md-4'>
+                                Type
+                            </div>
+
+                            <select  class='col-md-7 small'
+                                     style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
+                                     v-model='new_property_type'>
+
+                                    <option  v-bind:selected='new_property_type=="String"' value="String">String</option>
+                                    <option  v-bind:selected='new_property_type=="Number"' value="Number">Number</option>
+                                    <option  v-bind:selected='new_property_type=="Array"' value="Array">Array</option>
+                                    <option  v-bind:selected='new_property_type=="Object"' value="Object">Object</option>
+                            </select>
+                        </div>
+
+
+
+
+                        <div    v-if='(model.app_selected) && (add_property)'
+                                style='padding-bottom:60px;'
+                                class='row'>
                             <div class='col-md-12'>
                                 <button style='font-family:verdana,helvetica;font-size: 13px;'
                                         type=button class='btn btn-sm btn-info'
@@ -1083,6 +940,7 @@ logo_url("/driver_icons/blocks.png")
                                 </button>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -1207,6 +1065,24 @@ logo_url("/driver_icons/blocks.png")
 
 
                 // ---------------------------------------------------------
+                // For each app property
+                // ---------------------------------------------------------
+
+
+                var appProps = mm.getAllAppPropeties()
+                for (var appPropIndex = 0 ; appPropIndex < appProps.length ; appPropIndex ++ ) {
+                    var propDetails = appProps[appPropIndex]
+                    if (propDetails.type == "Action") {
+                        mm.model[propDetails.id] = mm.getAppMethod(propDetails.id)
+                    } else if (!isValidObject(mm.model[propDetails.id])){
+                        if (isValidObject(propDetails.default)){
+                            mm.model[propDetails.id] = propDetails.default
+                        }
+                    }
+
+                }
+
+                // ---------------------------------------------------------
                 // For each component in the form ...
                 // ---------------------------------------------------------
 
@@ -1317,16 +1193,13 @@ logo_url("/driver_icons/blocks.png")
 
            mm.$root.$on('message', async function(text) {
                if (text.type == "delete_design_time_component") {
-                   //alert("Found: " + text.component_index)
-                   //alert(JSON.stringify(mm.model.forms[mm.model.active_form].components[text.component_index],null,2))
-                   mm.model.forms[mm.model.active_form].components.splice(text.component_index, 1);
-
-                   //mm.design_mode_pane.type = "drag_drop";
-
-
-
+                    if (mm.design_mode != false) {
+                        mm.model.forms[mm.model.active_form].components.splice(text.component_index, 1);
+                    }
                } else if (text.type == "select_design_time_component") {
-                  mm.selectComponent(text.component_index, true);
+                   if (mm.design_mode != false) {
+                        mm.selectComponent(text.component_index, true);
+                   }
               }
 
            })
@@ -1347,6 +1220,10 @@ logo_url("/driver_icons/blocks.png")
             var methodFn = componentDefn.fn
             return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
                 var me = componentDetails
+                var parent = null
+                if (me.parent) {
+                    parent = mm.form_runtime_info[mm.model.active_form].component_lookup_by_name[me.parent]
+                }
 
                 var fnDetails       = null
                 if (isValidObject(methodFn)) {
@@ -1390,12 +1267,39 @@ ${formprop.fn}
                 if (isValidObject(retv) && isValidObject(retv.failed)) {
                     throw retv.failed
                 }
-                return retv.value
+                if (isValidObject(retv) && isValidObject(retv.value)) {
+                    throw retv.value
+                }
+                return retv
             }
 
          }
 
          ,
+         getAppMethod: function(propDetailsId) {
+            var mm = this
+            return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+
+                var origCode = mm.model[propDetailsId]
+                var thecode =
+`(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+${origCode}
+})`
+
+                fnDetails = eval(thecode)
+                var retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
+                if (isValidObject(retv) && isValidObject(retv.failed)) {
+                    throw retv.failed
+                }
+                if (isValidObject(retv) && isValidObject(retv.value)) {
+                    throw retv.value
+                }
+                return retv
+            }
+
+         }
+
+     ,
      deleteCursor: function() {
          document.getElementById(this.vb_grid_element_id).style.cursor = "crosshair"
          document.getElementById("grid_container").style.cursor = "default"
@@ -1545,7 +1449,7 @@ ${formprop.fn}
                            var prop = compEvaled[cpp].id
 
                            if (!isValidObject(newItem[prop])){
-                               if (compEvaled[cpp].default) {
+                               if (isValidObject(compEvaled[cpp].default)) {
                                    newItem[prop] = JSON.parse(JSON.stringify(compEvaled[cpp].default))
                                } else {
                                    newItem[prop] = ""
@@ -1586,10 +1490,6 @@ ${formprop.fn}
             this.model.forms[this.model.active_form].components.push(newItem)
             this.model.active_component_index = this.model.forms[this.model.active_form].components.length - 1
 
-            setTimeout(function() {
-                mm.selectComponent(mm.model.active_component_index, true)
-                mm.refresh ++
-            },100)
 
             var compCode = component_cache[newItem.base_component_id].code
             var childrenCode  = saveHelper.getValueOfCodeString(compCode, "children",")//children")
@@ -1609,6 +1509,37 @@ ${formprop.fn}
                                                 childDefProps )
                 }
             }
+
+
+            setTimeout(function() {
+
+            mm.updateAllFormCaches()
+                var selectParent = false
+                var parentItemIndex = null
+                if (isValidObject(newItem.parent)) {
+                    var parentItem = mm.form_runtime_info[mm.model.active_form].component_lookup_by_name[newItem.parent]
+
+                    if (isValidObject(parentItem.select_parent_when_child_added) &&
+                            (parentItem.select_parent_when_child_added == true)) {
+
+                        selectParent = true
+                        var ccc = mm.model.forms[mm.model.active_form].components
+                        for (var ytr = 0;ytr < ccc.length;ytr++) {
+                           if (parentItem.name == ccc[ytr].name) {
+                               parentItemIndex = ytr
+                               break
+                           }
+                        }
+                    }
+                }
+
+                if (selectParent) {
+                    mm.selectComponent(parentItemIndex, true)
+                } else {
+                    mm.selectComponent(mm.model.active_component_index, true)
+                }
+                mm.refresh ++
+            },100)
 
         }
         ,
@@ -1888,10 +1819,13 @@ ${formprop.fn}
                         // it is a control, a form, or application code
                         //
 
+
                         var ccode = ""
 
                         // application code (THIS MUST BE FIST IN THE IF STATEMENT)
-                        if (mm.model.app_selected) {
+                        if (aa.property_id && mm.model[aa.property_id] && isValidObject(mm.model[aa.property_id].fn)) {
+                            ccode = mm.model[aa.property_id].fn
+                        } else if (mm.model.app_selected) {
                             ccode = mm.model[aa.property_id]
 
 
@@ -1917,7 +1851,9 @@ ${formprop.fn}
                         mm.ui_code_editor.on("change", function(e) {
                             var newC = mm.ui_code_editor.getValue()
 
-                            if (aa.app_selected) {
+                            if (aa.property_id && mm.model[aa.property_id] && isValidObject(mm.model[aa.property_id].fn)) {
+                                mm.model[aa.property_id].fn = newC
+                            } else if (aa.app_selected) {
                                 mm.model[aa.property_id] = newC
                             } else if ((mm.model.active_component_index == null) && (mm.model.active_form != null)) {
                                 mm.model.forms[mm.model.active_form][aa.property_id] = newC
@@ -1975,7 +1911,7 @@ ${formprop.fn}
                     identifierRegexps: [/[a-zA-Z_0-9.]/]
                     ,
                     getCompletions: function(editor, session, pos, prefix, callback) {
-                        console.log("Called autocompleterFunction: " + pos + " : " + prefix)
+                        //console.log("Called autocompleterFunction: " + pos + " : " + prefix)
 
                         //
                         // If no text entered then do nothing
@@ -1996,7 +1932,7 @@ ${formprop.fn}
                         var firstObjectToAutocomplete = null
                         if (prefix.indexOf(".") != -1) {
                             firstObjectToAutocomplete = prefix.substring(0,prefix.indexOf("."))
-                            console.log("firstObjectToAutocomplete: " + firstObjectToAutocomplete)
+                            //console.log("firstObjectToAutocomplete: " + firstObjectToAutocomplete)
                         }
 
 
@@ -2202,13 +2138,20 @@ ${formprop.fn}
                                      meta = "Method"
                                  }
 
-                                 wordList.push({ "word":         propName ,
-                                                 "freq":         24,
-                                                 "score":        300,
-                                                 "flags":        "bc",
-                                                 "syllables":    "1",
-                                                 "meta":         meta
-                                                 })
+                                 var addProp = true
+                                 if (comm.type == "Event") {
+                                    addProp = false
+                                 }
+
+                                 if (addProp) {
+                                     wordList.push({ "word":         propName ,
+                                                     "freq":         24,
+                                                     "score":        300,
+                                                     "flags":        "bc",
+                                                     "syllables":    "1",
+                                                     "meta":         meta
+                                                     })
+                                 }
                              }
 
 
@@ -2256,7 +2199,7 @@ ${formprop.fn}
 
                          } else if (isApp) {
 
-                            var appProps = mm.get_default_app_propeties()
+                            var appProps = mm.getAllAppPropeties()
                             for (var formPropIndex = 0 ; formPropIndex < appProps.length ; formPropIndex++ ) {
 
                                 var propDetails = appProps[formPropIndex]
@@ -2460,19 +2403,27 @@ ${formprop.fn}
                   // get the app methods
                   //
                   if (mm.model.app_selected) {
-                      methodListForSelector.push(
-                          {
-                              value:              "" + indexActionSelector,
-                              app:                mm.edited_app_component_id,
-                              form:               mm.model.active_form,
-                              component:          null,
-                              action_id:          "app_started_event",
-                              action_name:        "Called when the app is started",
-                              action_type:        "Event"
+                      var allProperties = mm.getAllAppPropeties()
+                      for (var ui=0;ui < allProperties.length; ui ++) {
+                          var prop = allProperties[ui]
+                          if ((prop.type == "Event") || (prop.type == "Action")) {
+                              methodListForSelector.push(
+                                  {
+                                      value:              "" + indexActionSelector,
+                                      app:                mm.edited_app_component_id,
+                                      form:               mm.model.active_form,
+                                      component:          null,
+                                      action_id:          prop.id,
+                                      action_name:        prop.name,
+                                      action_type:        prop.type
+                                  }
+                              )
+                              if (prop.id == property_id) {
+                                  selectedCodeAction = indexActionSelector
+                              }
+                              indexActionSelector++
                           }
-                      )
-                      selectedCodeAction = indexActionSelector
-                      indexActionSelector++
+                      }
 
 
                   } else if (  isValidObject(mm.model.active_component_index)  ) {
@@ -2695,7 +2646,7 @@ ${formprop.fn}
 
 
          //-------------------------------------------------------------------
-         //                        setVBEditorProperty
+         //                        getFormProperties
          //
          //                          event, property
          //-------------------------------------------------------------------
@@ -2707,9 +2658,11 @@ ${formprop.fn}
              props.push({   id:     "form_activate",   name:   "Activate Event",   type:   "Event"    })
              props.push({   id:     "add_control",   name:   "Add Control",   type:   "Action"  ,
                             snippet:    `add_control({name: "name_of_new_control"})`,
+                            help:       `<div>Help text for
+                                            <b>addControl</b> method
+                                         </div>`,
                             fn:
-`debugger
-mm.addControl(  arg1  )
+`mm.addControl(  arg1  )
 return {}
 `
                               })
@@ -2723,8 +2676,16 @@ return {}
          setVBEditorProperty: function(event, property) {
          //-------------------------------------------------------------------
             var mm      = this
-            var val     = JSON.parse(event.target.value)
+            var val     = null
             var type    = null
+
+
+            if (property.type == "Number") {
+                val     = JSON.parse(event.target.value)
+            } else {
+                val     = event.target.value
+            }
+
 
             //
             // determine if this is a control, form or app
@@ -2739,7 +2700,22 @@ return {}
 
 
             if (type == 'component') {
-                this.model.forms[this.model.active_form].components[this.model.active_component_index][property.id] = val
+                var componentTochange           = this.model.forms[this.model.active_form].components[this.model.active_component_index]
+                var oldContainerName = componentTochange.name
+
+                componentTochange[property.id]  = val
+
+                if ((property.id == "name") && (componentTochange.is_container == true)) {
+                    //alert("renaming container")
+
+                    var allC = this.model.forms[this.model.active_form].components
+                    for (var xi =0; xi< allC.length ; xi ++) {
+                         var comp = allC[xi]
+                         if (comp.parent == oldContainerName) {
+                            comp.parent = componentTochange.name
+                         }
+                    }
+                }
                 //this.generateCodeFromModel(   )
                 this.refresh ++
 
@@ -2818,6 +2794,13 @@ return {}
             mm.add_property = true
             mm.new_property_id = ""
             mm.new_property_name = ""
+            mm.new_property_type = "String"
+
+
+            setTimeout(function(){
+                var objDiv = document.getElementById("property_scroll_region");
+                objDiv.scrollTop = objDiv.scrollHeight;
+            },200)
          }
          ,
 
@@ -2831,10 +2814,26 @@ return {}
             }
             mm.add_property = false
 
+            var fnText = null
+            if (mm.new_property_type == "Action") {
+                fnText = ""
+            }
+
+            var defaultVal = null
+            if (mm.new_property_type == "Object") {
+                defaultVal = new Object()
+            }
+
+            if (mm.new_property_type == "Array") {
+                defaultVal = []
+            }
+
             mm.model.app_properties.push({
-                                            id:     mm.new_property_id,
-                                            name:   mm.new_property_name,
-                                            type:   "String"
+                                            id:         mm.new_property_id,
+                                            name:       mm.new_property_name,
+                                            type:       mm.new_property_type,
+                                            fn:         fnText,
+                                            default:    defaultVal
                                             })
 
             mm.generateCodeFromModel( )
@@ -2976,8 +2975,11 @@ return {}
 
 
                 if (eventMessage.type == "subcomponent_event") {
+                    if ((eventMessage.code == null) || (eventMessage.code == "")) {
+                        return
+                    }
                     var fcc =
-`(async function(){
+`(async function(args){
 ${eventMessage.code}
 })`
 
@@ -3003,6 +3005,16 @@ ${eventMessage.code}
                         meCode += ( "var myForm = mm.model.forms['" + this.model.active_form + "'];")
                         eval(meCode)
 
+
+                        var argsCode =""
+                        var listOfArgs = []
+                        if (isValidObject(eventMessage.args)) {
+                            listOfArgs = Object.keys(eventMessage.args)
+                            for (var rtt=0;rtt<listOfArgs.length;rtt++) {
+                                argsCode += "var " + listOfArgs[rtt] + " = " + JSON.stringify(eventMessage.args[listOfArgs[rtt]]) +";"
+                            }
+                        }
+                        eval(argsCode)
 
 
 
@@ -3177,9 +3189,9 @@ ${eventMessage.code}
          },
          deleteComponentByName: async function(thisComponentName) {
             var mm = this
-            //zzz
+
             var promise = new Promise(async function(returnfn) {
-            
+
                 var ccc2 = mm.model.forms[mm.model.active_form].components
                 for (   var ytr = ccc2.length - 1;    ytr >= 0;    ytr--   ) {
                     var component = ccc2[ytr]
@@ -3541,6 +3553,17 @@ ${eventMessage.code}
          }
          ,
 
+         //-------------------------------------------------------------------
+         getAllAppPropeties: function() {
+            var mm = this
+            var properties                     = mm.get_default_app_propeties()
+
+            if (this.model.app_properties) {
+                properties = properties.concat(this.model.app_properties)
+            }
+            return properties
+         }
+         ,
 
 
 
@@ -3557,11 +3580,8 @@ ${eventMessage.code}
             this.model.app_selected             = true
             this.active_property_index          = null
 
-            this.properties                     = mm.get_default_app_propeties()
+            this.properties                     = mm.getAllAppPropeties()
 
-            if (this.model.app_properties) {
-                this.properties = this.properties.concat(this.model.app_properties)
-            }
             this.updatePropertySelector()
 
             this.refresh ++
@@ -3795,6 +3815,7 @@ ${eventMessage.code}
 
             properties.push({   id:     "clone",   name:   "Clone",   type:   "Action"  ,
                                 pre_snippet: `await `,
+                                hidden:       true,
                                 snippet:     `clone("new_name")`,
                                 fn:
 `
@@ -3807,10 +3828,10 @@ return newObject
             if (this.existsProp(compEvaled,"is_container")) {
                 properties.push({   id:     "addChild",   name:   "Add Child",   type:   "Action"  ,
                                     pre_snippet: `await `,
+                                    hidden:       true,
                                     snippet:     `addChild({})`,
                                     fn:
-`debugger
-mm.addControl(  arg1  )
+`mm.addControl(  arg1  )
 return {}
 `
                 })
@@ -3821,10 +3842,10 @@ return {}
 
             properties.push({   id:     "delete",   name:   "Delete",   type:   "Action"  ,
                                 pre_snippet: `await `,
+                                hidden:       true,
                                 snippet:     `delete()`,
                                 fn:
-`debugger
-mm.deleteComponentByName(  me.name  )
+`mm.deleteComponentByName(  me.name  )
 return {}
 `
             })
@@ -4158,12 +4179,12 @@ return {}
                       text: texti,
                       model: {
   "next_id": 7,
-  "max_form": 4,
+  "max_form": 5,
   "active_form": "Form_1",
   "default_form": "Form_1",
   "app_selected": false,
   "id": "vb",
-  "next_component_id": 116,
+  "next_component_id": 112,
   "app_properties": [
     {
       "id": "test",
@@ -4174,212 +4195,33 @@ return {}
   "forms": {
     "Form_1": {
       "name": "Form_1",
-      "width": 372.875,
+      "width": 372,
       "height": 355,
+      "add_block": "alert('Add block called')",
       "components": [
         {
-          "name": "todoInputBox",
-          "base_component_id": "input_control",
-          "leftX": 8,
-          "topY": 49,
-          "width": 238,
-          "height": 40,
-          "text": "",
-          "label": "",
-          "placeholder": "",
-          "background_color": ""
-        },
-        {
-          "name": "add_todo_button",
-          "base_component_id": "button_control",
-          "leftX": 280,
-          "topY": 49,
-          "width": 85,
-          "height": 41,
-          "text": "Add",
-          "click_event": "var ins = todoInputBox.text\n\ntodoInputBox.text = \"\"\nsql(\"insert into items (id,name) values (?,?)\",\n          [new Date().getTime(),\n           ins])\ndisplay_out.text = sqlFirstCol(\"select name from items\")\n",
-          "background_color": ""
-        },
-        {
-          "name": "button_control_2",
-          "base_component_id": "button_control",
-          "leftX": 4,
-          "topY": 299,
-          "width": 143,
-          "height": 54,
-          "text": "Go to  form 2",
-          "click_event": "mm.selectForm(\"Form_2\")",
-          "background_color": "blue"
-        },
-        {
-          "leftX": -0.4375,
-          "topY": 105,
-          "name": "display_out",
+          "leftX": 24,
+          "topY": 25,
+          "name": "aaa",
           "base_component_id": "label_control",
-          "width": 365,
-          "height": 178,
-          "text": "",
-          "background_color": ""
-        },
-        {
-          "leftX": 33.5625,
-          "topY": 9,
-          "name": "title_label",
-          "base_component_id": "label_control",
-          "width": 112,
-          "height": 34,
-          "text": "Todo App",
-          "background_color": ""
-        },
-        {
-          "leftX": 190.4375,
-          "topY": 300,
-          "name": "button_control_104",
-          "base_component_id": "button_control",
-          "width": 146,
-          "height": 55,
-          "text": "Go to 3D",
+          "width": 320,
+          "height": 156,
+          "text": "Drag controls from the left onto this grid and then press the 'Save changes' button above",
           "background_color": "",
-          "click_event": "mm.selectForm(\"form_3d\")"
-        }
-      ],
-      "form_activate": "display_out.text = sqlFirstCol(\"select name from items\")"
-    },
-    "Form_2": {
-      "name": "Form_2",
-      "width": 400,
-      "height": 400,
-      "components": [
-        {
-          "name": "button_control_2",
-          "base_component_id": "button_control",
-          "leftX": 200,
-          "topY": 300,
-          "width": 200,
-          "background_color": "blue",
-          "height": 50,
-          "text": "Go to Form 1",
-          "click_event": "mm.selectForm(\"Form_1\")"
+          "parent": null
         }
       ]
     },
-    "form_3d": {
-      "name": "form_3d",
-      "components": [
-        {
-          "leftX": 10.4375,
-          "topY": 343.28125,
-          "name": "button_control_107",
-          "base_component_id": "button_control",
-          "width": 182,
-          "height": 58,
-          "text": "Go to form 1",
-          "background_color": "",
-          "click_event": "mm.selectForm(\"Form_1\")"
-        },
-        {
-          "leftX": 0,
-          "topY": 0,
-          "name": "threedee_control_108",
-          "base_component_id": "threedee_control",
-          "width": 274.9791564941406,
-          "height": 206.8645782470703,
-          "text": "",
-          "background_color": "",
-          "is_container": true,
-          "hide_children": true,
-          "has_details_ui": true
-        },
-        {
-          "leftX": 48.48957824707031,
-          "topY": 49.00349426269531,
-          "parent": "threedee_control_108",
-          "name": "threedee_item_control_109",
-          "base_component_id": "threedee_item_control",
-          "width": 100,
-          "height": 100,
-          "text": "",
-          "position": "-2.1 4 -10",
-          "index_in_parent_array": 2
-        },
-        {
-          "leftX": 52.486106872558594,
-          "topY": 110.00001525878906,
-          "parent": "threedee_control_108",
-          "name": "threedee_item_control_110",
-          "base_component_id": "threedee_item_control",
-          "width": 100,
-          "height": 100,
-          "text": "",
-          "position": "-2.1 4 -10",
-          "index_in_parent_array": 3
-        },
-        {
-          "leftX": 65.48957443237305,
-          "topY": 50.00349426269531,
-          "parent": "threedee_control_108",
-          "name": "threedee_item_control_111",
-          "base_component_id": "threedee_item_control",
-          "width": 100,
-          "height": 100,
-          "text": "",
-          "position": "-2.1 4 -10",
-          "index_in_parent_array": 4
-        },
-        {
-          "leftX": 32.486106872558594,
-          "topY": 95.00001525878906,
-          "parent": "threedee_control_108",
-          "name": "threedee_item_control_112",
-          "base_component_id": "threedee_item_control",
-          "width": 100,
-          "height": 100,
-          "text": "",
-          "position": "-2.1 4 -10",
-          "index_in_parent_array": 5
-        },
-        {
-          "leftX": 86.4861068725586,
-          "topY": 71.00001525878906,
-          "parent": "threedee_control_108",
-          "name": "threedee_item_control_113",
-          "base_component_id": "threedee_item_control",
-          "width": 100,
-          "height": 100,
-          "text": "",
-          "position": "-2.1 4 -10",
-          "index_in_parent_array": 6
-        },
-        {
-          "leftX": 67.4861068725586,
-          "topY": 89.00001525878906,
-          "parent": "threedee_control_108",
-          "name": "threedee_item_control_114",
-          "base_component_id": "threedee_item_control",
-          "width": 100,
-          "height": 100,
-          "text": "",
-          "position": "-2.1 4 -10",
-          "index_in_parent_array": 7
-        },
-        {
-          "leftX": 70.4861068725586,
-          "topY": 86.00001525878906,
-          "parent": "threedee_control_108",
-          "name": "threedee_item_control_115",
-          "base_component_id": "threedee_item_control",
-          "width": 100,
-          "height": 100,
-          "text": "",
-          "position": "-2.1 4 -10",
-          "index_in_parent_array": 8
-        }
-      ],
-      "width": 298.125,
-      "height": 401.28125
+    "Module": {
+      "name": "Module",
+      "components": [],
+      "width": 300,
+      "height": 300
     }
   },
-  "active_component_index": null
+  "active_component_index": null,
+  "active_component_detail_name": null,
+  "active_component_detail_index": null
 }}
                 }
               })//** gen_end **//
