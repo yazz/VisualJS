@@ -305,6 +305,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
         })
 
+//zzz
          globalEventBus.$on('new-appshare-app-uploaded',
             async function(data) {
                 await mm.addLogoForApp(data)
@@ -419,6 +420,11 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               if (event) {
                   event.stopPropagation()
               }
+              //zzz
+              if (!component_loaded[item]) {
+                 await loadV2([item])
+              }
+
               this.edit_app = item;
               mm.preview_app_id = null
               mm.preview_app_loaded = false
