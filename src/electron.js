@@ -2216,7 +2216,6 @@ debugger
                                                                         indexOfSqliteDataEnd)
                 }
 
-
                 forkedProcesses["forked"].send({
                                                     message_type:           "save_code_from_upload",
                                                     base_component_id:      bci,
@@ -2233,6 +2232,7 @@ debugger
                   var localp = localp2 + '.' + ext;
                   fs.renameSync(localp2, localp);
                   var readIn = fs.readFileSync(localp).toString()
+                  var bci = saveHelper.getValueOfCodeString(readIn, "base_component_id")
 
 
 
