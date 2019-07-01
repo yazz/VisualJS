@@ -40,9 +40,9 @@ properties(
         }
         ,
         {
-            id:         "execCmd",
+            id:         "osQuery",
             pre_snippet:    `await `,
-            snippet:    `execCmd('ls')`,
+            snippet:    `osQuery('SELECT COUNT(*) from processes;')`,
             name:       "Execute Command",
             type:       "Action"
         }
@@ -94,6 +94,8 @@ logo_url("/driver_icons/osquery.png")
 
         methods: {
             readFromTerminal: async function(cmdString) {
+                var osQueryString = `osqueryi --json "${cmdString}"`
+
                 var result = await callFunction(
                 {
                     driver_name: "serverTerminalStuff",
@@ -101,7 +103,7 @@ logo_url("/driver_icons/osquery.png")
                 }
                 ,
                 {
-                    cmd_string:    cmdString
+                    cmd_string:    osQueryString
                 })
 
                 if (result) {
@@ -112,7 +114,7 @@ logo_url("/driver_icons/osquery.png")
             ,
 
 
-            execCmd: async function(cmdString) {
+            osQuery: async function(cmdString) {
                 var qwe = await this.readFromTerminal(cmdString)
                 return qwe
             }
