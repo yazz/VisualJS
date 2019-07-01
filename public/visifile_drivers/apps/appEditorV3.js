@@ -165,7 +165,7 @@ load_once_from_file(true)
                                   style='height:35px; margin-right: 10px;'
                                   class='img-fluid'>
                               </img>
-                             Save app as .js
+                             Download app as .js
 
                     </a>
 
@@ -209,7 +209,7 @@ load_once_from_file(true)
 
 
                     <button   v-bind:disabled='read_only?"":false'
-                              v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
+                              v-bind:style="'margin-left:200px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
                               v-on:mouseenter='setInfo("Save the changes made in the UI and reload the app")'
                               v-on:mouseleave='setInfo(null)'
                               v-on:click='setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null)},100)'
@@ -233,7 +233,7 @@ load_once_from_file(true)
                               			c0.034,4.328,3.58,7.849,7.979,7.849l-0.009,4.468h-0.06C5.844,24.756,0.29,19.24,0.247,12.378
                               			C0.247,5.609,5.75,0.062,12.527,0.003z"/>
                               	</g>
-                              </svg>Refresh app
+                              </svg>Save changes
 
                     </button>
 
