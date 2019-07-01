@@ -276,10 +276,6 @@ load_once_from_file(true)
 
                 <pre>{{console_output}}</pre>
 
-                <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
-                    <button  type=button class=' btn btn-success btn-lg'
-                             v-on:click='chooseProfiler()' >Visualize this!</button>
-                </div>
             </div>
 
 
