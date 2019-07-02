@@ -13,6 +13,7 @@ var db_helper                   = require("./db_helper")
 var isBinaryFile                = require("isbinaryfile");
 var https                       = require('https');
 var http                        = require('http');
+var request                     = require('request');
 var userData
 var childProcessName
 

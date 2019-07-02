@@ -18,19 +18,26 @@ only_run_on_server(true)
             useHttpOrHttps = http
         }
 
-        useHttpOrHttps.get(
+
+        request(
             url
             ,
-
             {
-                rejectUnauthorized: false,
-                requestCert: true,
-                agent: false
+                rejectUnauthorized : false,
+                
+                auth: {
+                    user: 'adminuser',
+                    pass: 'admin1!'
+                }
+
             }
             ,
 
-            function(res) {
-                res.setEncoding("utf8");
+            function(error, res, body) {
+                console.log("Error: " + JSON.stringify(error,null,2));
+                console.log("Response: " + JSON.stringify(res,null,2));
+                console.log("Body: " + JSON.stringify(body,null,2));
+
                 var body = "";
 
                 res.on(
@@ -45,7 +52,8 @@ only_run_on_server(true)
                     function() {
                         //body = JSON.parse(body);
                         console.log(body);
-                        returnFn({value: JSON.parse(body)})
+                        returnFn({value: ""})
+                        //returnFn({value: JSON.parse(body)})
                     }
                 );
             }
