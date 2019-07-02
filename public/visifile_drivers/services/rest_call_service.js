@@ -18,24 +18,38 @@ only_run_on_server(true)
             useHttpOrHttps = http
         }
 
-        useHttpOrHttps.get(url,
+        useHttpOrHttps.get(
+            url
+            ,
+
             {
                 rejectUnauthorized: false,
                 requestCert: true,
                 agent: false
-            },
-            res => {
-          res.setEncoding("utf8");
-          let body = "";
-          res.on("data", data => {
-            body += data;
-          });
-          res.on("end", () => {
-            //body = JSON.parse(body);
-            console.log(body);
-            returnFn({value: JSON.parse(body)})
-          });
-        });
+            }
+            ,
+
+            function(res) {
+                res.setEncoding("utf8");
+                var body = "";
+
+                res.on(
+                    "data",
+                    function(data) {
+                        body += data;
+                    }
+                );
+
+                res.on(
+                    "end",
+                    function() {
+                        //body = JSON.parse(body);
+                        console.log(body);
+                        returnFn({value: JSON.parse(body)})
+                    }
+                );
+            }
+        );
 
     })
     var ret = await promise
