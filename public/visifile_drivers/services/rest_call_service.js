@@ -18,7 +18,13 @@ only_run_on_server(true)
             useHttpOrHttps = http
         }
 
-        useHttpOrHttps.get(url, res => {
+        useHttpOrHttps.get(url,
+            {
+                rejectUnauthorized: false,
+                requestCert: true,
+                agent: false
+            },
+            res => {
           res.setEncoding("utf8");
           let body = "";
           res.on("data", data => {
