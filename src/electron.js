@@ -2226,7 +2226,7 @@ debugger
                                                     sqlite_data:            sqlitedatafromupload
                                                });
               }
-          } else if (ext == "js")  {
+          } else if ((ext == "js") || (ext == "yazz"))  {
                   var localp2;
                   localp2 =  path.join(userData,  'uploads/' + ifile.filename);
                   var localp = localp2 + '.' + ext;

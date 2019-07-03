@@ -1425,6 +1425,7 @@ ${code}
                                         var newStaticFilePath = path.join( userData, 'apps/' + baseComponentId + '.html' )
                                         var newLocalStaticFilePath = path.join( userData, 'apps/yazz_' + baseComponentId + '.html' )
                                         var newLocalJSPath = path.join( userData, 'apps/yazz_' + baseComponentId + '.js' )
+                                        var newLocalYazzPath = path.join( userData, 'apps/yazz_' + baseComponentId + '.yazz' )
 
                                         var newStaticFileContent = fs.readFileSync( origFilePath )
 
@@ -1556,6 +1557,7 @@ ${code}
 
                                                         fs.writeFileSync( newLocalStaticFilePath,  newStaticFileContent )
                                                         fs.writeFileSync( newLocalJSPath,  code )
+                                                        fs.writeFileSync( newLocalYazzPath,  code )
 
                                                         })
                                            }
