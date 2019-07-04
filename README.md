@@ -1,5 +1,5 @@
 
-# YAZZ - Automation at the speed of thought
+# YAZZ - The world's fastest way to build container apps
 
 
 
