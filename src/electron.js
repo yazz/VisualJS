@@ -242,6 +242,7 @@ var runhtml = program.runhtml;
 var loadjsurl = program.loadjsurl;
 var loadjsfile = program.loadjsfile;
 
+
 if (!isNumber(port)) {
     port = 80;
     if (useHttps) {
@@ -1393,6 +1394,10 @@ function getPort () {
 
 
 function checkForJSLoaded() {
+    if (isValidObject(envVars.YAZZ_LOAD_FILE)) {
+        loadjsfile = envVars.YAZZ_LOAD_FILE
+    }
+    //zzz
     if (isValidObject(loadjsurl)) {
 
         var jsUrl = loadjsurl
@@ -1430,7 +1435,7 @@ function checkForJSLoaded() {
         });
 
     } else if (isValidObject(loadjsfile)) {
-        //zzz
+
         var jsFile = loadjsfile
 
         var data2 = fs.readFileSync(jsFile).toString()
