@@ -1,6 +1,6 @@
 
 # VisualJS
-## Visually build web apps and microservice container images
+## Open Source Kubernetes Native IDE
 
 
 
