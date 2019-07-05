@@ -63,7 +63,7 @@ Demo - A lightweight app builder for Kubernetes - https://yazz.com/app/homepage.
 ##### 1) Install GIT from https://git-scm.com/downloads
 ##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
 ##### 3) From the command line get the Git repository
-    git clone https://github.com/zubairq/yazz.git
+    git clone https://github.com/zubairq/visualjs.git
 ##### 4) Go to the VisualJS directory
     cd visualjs
 ##### 5) Install the NodeJS modules
@@ -92,7 +92,7 @@ Demo - A lightweight app builder for Kubernetes - https://yazz.com/app/homepage.
 ##### 1) Install GIT from https://git-scm.com/downloads
 ##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
 ##### 3) From the command line get the Git repository
-    git clone https://github.com/zubairq/yazz.git
+    git clone https://github.com/zubairq/visualjs.git
 ##### 4) Go to the VisualJS directory
     cd visualjs
 ##### 5) Install the NodeJS modules
@@ -121,7 +121,7 @@ Demo - A lightweight app builder for Kubernetes - https://yazz.com/app/homepage.
 ##### 1) Install GIT from https://git-scm.com/downloads
 ##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
 ##### 3) From the command line get the Git repository
-    git clone https://github.com/zubairq/yazz.git
+    git clone https://github.com/zubairq/visualjs.git
 ##### 4) Go to the VisualJS directory
     cd visualjs
 ##### 5) Install the NodeJS modules
