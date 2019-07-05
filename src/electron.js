@@ -1836,6 +1836,9 @@ function getRoot(req, res) {
 		};
 	};
 
+    if (isValidObject(envVars.YAZZ_RUN_APP)) {
+        runapp = envVars.YAZZ_RUN_APP
+    }
 
     if (runhtml && (!req.query.goto) && (!req.query.embed)) {
         homepage = runhtml
