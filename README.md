@@ -236,5 +236,5 @@ Demo - A lightweight app builder for Kubernetes - https://yazz.com/app/homepage.
 
 VisualJS's killer feature is being able to build Kubernetes applications in minutes, without having to setup Jenkins pipelines, Git, or anything else. It is ideal for demos or small throwaway apps.
 
-#### Is there commercial support for Yazz?
+#### Is there commercial support for VisualJS?
 If you require commercial support then please go to http://yazz.com
