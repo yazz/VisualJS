@@ -1,5 +1,5 @@
 
-# YAZZ - The world's fastest way to build container apps
+# Visual Javascript - Visually build web apps and microservice container images
 
 
 
@@ -58,7 +58,7 @@ Demo - A lightweight app builder for Kubernetes - https://yazz.com/app/homepage.
 
 
 
-## Building Yazz from source on Linux:
+## Building Visual Javascript from source on Linux:
 
 ##### 1) Install GIT from https://git-scm.com/downloads
 ##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
@@ -72,7 +72,7 @@ Demo - A lightweight app builder for Kubernetes - https://yazz.com/app/homepage.
     sudo npm install --unsafe-perm
 
     
-##### 6) Run the Yazz NodeJS application
+##### 6) Run the Visual Javascript NodeJS application
 
     node /src/electron.js --runapp homepage --nogui true --locked false
     
@@ -86,7 +86,7 @@ Demo - A lightweight app builder for Kubernetes - https://yazz.com/app/homepage.
 
 
 
-## Building Yazz from source on Windows
+## Building Visual Javascript from source on Windows
 
 
 ##### 1) Install GIT from https://git-scm.com/downloads
@@ -116,7 +116,7 @@ Demo - A lightweight app builder for Kubernetes - https://yazz.com/app/homepage.
 
 
 
-## Building Yazz from source on Mac:
+## Building Visual Javascript from source on Mac:
 
 ##### 1) Install GIT from https://git-scm.com/downloads
 ##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
@@ -232,9 +232,9 @@ Demo - A lightweight app builder for Kubernetes - https://yazz.com/app/homepage.
 
 ### FAQ 
 
-#### What is Yazz's killer feature?
+#### What is Visual Javascript's killer feature?
 
-Yazz's killer feature is being able to build OpenShift applications in minutes, without having to setup Jenkins pipelines, Git, or anything else. It is ideal for demos or small throwaway apps.
+Yazz's killer feature is being able to build Kubernetes applications in minutes, without having to setup Jenkins pipelines, Git, or anything else. It is ideal for demos or small throwaway apps.
 
 #### Is there commercial support for Yazz?
 If you require commercial support then please go to http://yazz.com
