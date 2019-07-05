@@ -1397,7 +1397,7 @@ function checkForJSLoaded() {
     if (isValidObject(envVars.YAZZ_LOAD_FILE)) {
         loadjsfile = envVars.YAZZ_LOAD_FILE
     }
-    //zzz
+
     if (isValidObject(loadjsurl)) {
 
         var jsUrl = loadjsurl
@@ -1444,7 +1444,7 @@ function checkForJSLoaded() {
         if (!isValidObject(baseComponentIdForFile)) {
             baseComponentIdForFile = loadjsfile.replace(/[^A-Z0-9]/ig, "_");
         }
-
+//zzz
         console.log("code from file:" + data2);
         console.log("*********** Trying to load loadjsfile code *************")
         forkedProcesses["forked"].send({
@@ -1453,7 +1453,8 @@ function checkForJSLoaded() {
                                             parent_hash:          null,
                                             code:                 data2,
                                             options:             {
-                                                                    make_public: true
+                                                                    make_public: true,
+                                                                    save_html:   true
                                                                  }
                                            });
 
