@@ -1,5 +1,5 @@
 
-# Visual Javascript - Visually build web apps and microservice container images
+# VisualJS - Visually build web apps and microservice container images
 
 
 
@@ -28,11 +28,11 @@ Demo - A lightweight app builder for Kubernetes - https://yazz.com/app/homepage.
 ##### 2) Expose the Docker REST api on port 1234 with:
     docker run -d -v /var/run/docker.sock:/var/run/docker.sock -p 127.0.0.1:1234:1234 bobrik/socat TCP-LISTEN:1234,fork UNIX-CONNECT:/var/run/docker.sock
     
-##### 3) Install and run the Yazz IDE with:
+##### 3) Install and run the VisualJS IDE with:
 
-    docker run -p 80:80 -d zubairq/yazz
+    docker run -p 80:80 -d zubairq/VisualJS
     
-##### 4) Go to a browser and view Yazz:
+##### 4) Go to a browser and view VisualJS:
 
     http://localhost
     
@@ -58,21 +58,21 @@ Demo - A lightweight app builder for Kubernetes - https://yazz.com/app/homepage.
 
 
 
-## Building Visual Javascript from source on Linux:
+## Building VisualJS from source on Linux:
 
 ##### 1) Install GIT from https://git-scm.com/downloads
 ##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
 ##### 3) From the command line get the Git repository
     git clone https://github.com/zubairq/yazz.git
-##### 4) Go to the yazz directory
-    cd yazz
+##### 4) Go to the VisualJS directory
+    cd visualjs
 ##### 5) Install the NodeJS modules
     sudo npm config set strict-ssl false    
  
     sudo npm install --unsafe-perm
 
     
-##### 6) Run the Visual Javascript NodeJS application
+##### 6) Run the VisualJS NodeJS application
 
     node /src/electron.js --runapp homepage --nogui true --locked false
     
@@ -86,18 +86,18 @@ Demo - A lightweight app builder for Kubernetes - https://yazz.com/app/homepage.
 
 
 
-## Building Visual Javascript from source on Windows
+## Building VisualJS from source on Windows
 
 
 ##### 1) Install GIT from https://git-scm.com/downloads
 ##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
 ##### 3) From the command line get the Git repository
     git clone https://github.com/zubairq/yazz.git
-##### 4) Go to the yazz directory
-    cd yazz
+##### 4) Go to the VisualJS directory
+    cd visualjs
 ##### 5) Install the NodeJS modules
     npm install
-##### 6) Run the Yazz Electron application
+##### 6) Run the VisualJS Electron application
     electron .
     
 ##### OR run as Node.js application with browser based access
@@ -122,8 +122,8 @@ Demo - A lightweight app builder for Kubernetes - https://yazz.com/app/homepage.
 ##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
 ##### 3) From the command line get the Git repository
     git clone https://github.com/zubairq/yazz.git
-##### 4) Go to the yazz directory
-    cd yazz
+##### 4) Go to the VisualJS directory
+    cd visualjs
 ##### 5) Install the NodeJS modules
     npm install
 ##### 6) Install SQlite3 for Electron
@@ -134,14 +134,14 @@ Demo - A lightweight app builder for Kubernetes - https://yazz.com/app/homepage.
 ##### 7) Install Electron 
     npm install electron
 
-##### 8) Run the Yazz Electron application
+##### 8) Run the VisualJS Electron application
     electron .
     
 ##### OR run as Node.js application with browser based access
 
      node src/electron.js --runapp homepage --nogui true --locked false
      
-### If saqlite3 gives an error as it says it was compiled with a different version of NodeJS then recompile it
+### If Sqlite3 gives an error as it says it was compiled with a different version of NodeJS then recompile it
 
     npm rebuild sqlite3  --update-binary
     
@@ -232,9 +232,9 @@ Demo - A lightweight app builder for Kubernetes - https://yazz.com/app/homepage.
 
 ### FAQ 
 
-#### What is Visual Javascript's killer feature?
+#### What is VisualJS's killer feature?
 
-Yazz's killer feature is being able to build Kubernetes applications in minutes, without having to setup Jenkins pipelines, Git, or anything else. It is ideal for demos or small throwaway apps.
+VisualJS's killer feature is being able to build Kubernetes applications in minutes, without having to setup Jenkins pipelines, Git, or anything else. It is ideal for demos or small throwaway apps.
 
 #### Is there commercial support for Yazz?
 If you require commercial support then please go to http://yazz.com
