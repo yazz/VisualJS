@@ -1,5 +1,5 @@
 
-# VisualJS
+# Visual Javascript
 ## Open Source Kubernetes Native IDE
 
 
@@ -28,21 +28,21 @@ Demo - A lightweight app builder for Kubernetes - https://yazz.com/app/homepage.
 
 ##### 2) Expose the Docker REST api on port 1234 with:
     docker run -d -v /var/run/docker.sock:/var/run/docker.sock -p 127.0.0.1:1234:1234 bobrik/socat TCP-LISTEN:1234,fork UNIX-CONNECT:/var/run/docker.sock
-    
-##### 3) Install and run the VisualJS IDE with:
 
-    docker run -p 80:80 -d zubairq/VisualJS
-    
-##### 4) Go to a browser and view VisualJS:
+##### 3) Install and run the Visual Javascript IDE with:
+
+    docker run -p 80:80 -d zubairq/visualjs
+
+##### 4) Go to a browser and view Visual Javascript:
 
     http://localhost
-    
+
 ##### 5) OPTIONAL - Run Postgres on docker on port 5432
 
     docker run -e POSTGRES_PASSWORD=mysecretpassword -d -p 5432:5432 postgres
-    
+
     Remember, that if you want to talk to Postgres from a Docker app then you need to connect to the host:
-    
+
     host.docker.internal
 
 
@@ -59,27 +59,27 @@ Demo - A lightweight app builder for Kubernetes - https://yazz.com/app/homepage.
 
 
 
-## Building VisualJS from source on Linux:
+## Building Visual Javascript from source on Linux:
 
 ##### 1) Install GIT from https://git-scm.com/downloads
 ##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
 ##### 3) From the command line get the Git repository
     git clone https://github.com/zubairq/visualjs.git
-##### 4) Go to the VisualJS directory
+##### 4) Go to the Visual Javascript directory
     cd visualjs
 ##### 5) Install the NodeJS modules
     sudo npm config set strict-ssl false    
- 
+
     sudo npm install --unsafe-perm
 
-    
-##### 6) Run the VisualJS NodeJS application
+
+##### 6) Run the Visual Javascript NodeJS application
 
     node /src/electron.js --runapp homepage --nogui true --locked false
-    
-    
-    
-    
+
+
+
+
 <br /><br /><br /><br /><br />
 
 
@@ -87,20 +87,20 @@ Demo - A lightweight app builder for Kubernetes - https://yazz.com/app/homepage.
 
 
 
-## Building VisualJS from source on Windows
+## Building Visual Javascript from source on Windows
 
 
 ##### 1) Install GIT from https://git-scm.com/downloads
 ##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
 ##### 3) From the command line get the Git repository
     git clone https://github.com/zubairq/visualjs.git
-##### 4) Go to the VisualJS directory
+##### 4) Go to the Visual Javascript directory
     cd visualjs
 ##### 5) Install the NodeJS modules
     npm install
-##### 6) Run the VisualJS Electron application
+##### 6) Run the Visual Javascript Electron application
     electron .
-    
+
 ##### OR run as Node.js application with browser based access
 
      node .\src\electron.js --runapp homepage --nogui true --locked false
@@ -123,7 +123,7 @@ Demo - A lightweight app builder for Kubernetes - https://yazz.com/app/homepage.
 ##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
 ##### 3) From the command line get the Git repository
     git clone https://github.com/zubairq/visualjs.git
-##### 4) Go to the VisualJS directory
+##### 4) Go to the Visual Javascript directory
     cd visualjs
 ##### 5) Install the NodeJS modules
     npm install
@@ -132,20 +132,20 @@ Demo - A lightweight app builder for Kubernetes - https://yazz.com/app/homepage.
         node_macos64/node_sqlite3.noderename
     to
         node_modules/sqlite3/lib/binding/node-v57-darwin-x64/node_sqlite3.node
-##### 7) Install Electron 
+##### 7) Install Electron
     npm install electron
 
-##### 8) Run the VisualJS Electron application
+##### 8) Run the Visual Javascript Electron application
     electron .
-    
+
 ##### OR run as Node.js application with browser based access
 
      node src/electron.js --runapp homepage --nogui true --locked false
-     
+
 ### If Sqlite3 gives an error as it says it was compiled with a different version of NodeJS then recompile it
 
     npm rebuild sqlite3  --update-binary
-    
+
 
 
 
@@ -171,11 +171,11 @@ Demo - A lightweight app builder for Kubernetes - https://yazz.com/app/homepage.
 
 ### To build the Windows 10 Electron app you also need to:
 ##### 1) Open Powershell in administator mode
-    
+
 ##### 2) Install Python 27
 
     https://www.python.org/download/releases/2.7/
-    
+
 ##### 3) Set the Path variable in Powershell to find Python
 
     $env:Path += ';d:\Python27\'
@@ -183,7 +183,7 @@ Demo - A lightweight app builder for Kubernetes - https://yazz.com/app/homepage.
 ##### 4) Install Microsoft Build Tools 2015
 
     https://www.microsoft.com/en-us/download/details.aspx?id=48159
-    
+
 ##### 5) Install electron-forge
 
     npm install -g electron-forge
@@ -211,7 +211,7 @@ Demo - A lightweight app builder for Kubernetes - https://yazz.com/app/homepage.
     --locked               Allow server to be locked/unlocked on start up to other machines in intranet (default true)
     --nogui                Allow server to be run in headless mode (default false)
     --deleteonexit         Delete database files on exit (default false)
-    --deleteonstartup      Delete database files on startup (default false) 
+    --deleteonstartup      Delete database files on startup (default false)
     --runapp               Run using a local app on startup (default not set). "homepage" often used
     --https                Run using a HTTPS (default is false)
     --private              Private HTTPS key location
@@ -231,11 +231,11 @@ Demo - A lightweight app builder for Kubernetes - https://yazz.com/app/homepage.
 
 
 
-### FAQ 
+### FAQ
 
-#### What is VisualJS's killer feature?
+#### What is Visual Javascript's killer feature?
 
-VisualJS's killer feature is being able to build Kubernetes applications in minutes, without having to setup Jenkins pipelines, Git, or anything else. It is ideal for demos or small throwaway apps.
+Visual Javascript's killer feature is being able to build Kubernetes applications in minutes, without having to setup Jenkins pipelines, Git, or anything else. It is ideal for demos or small throwaway apps.
 
-#### Is there commercial support for VisualJS?
+#### Is there commercial support for Visual Javascript?
 If you require commercial support then please go to http://yazz.com
