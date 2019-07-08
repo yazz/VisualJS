@@ -57,8 +57,20 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             v-bind:refresh='refresh'>
 
             <div    v-bind:refresh='refresh'
-                    style="border:0px; padding: 0px; margin: 0px;padding-left:15px;font-family: Helvetica;color: white;font-weight: bold;letter-spacing: -2px;background-color: black;font-size: 23px;line-height: 1;display: inline-block;">
-                 YAZZ
+                    style="display: inline-block;border:0px; padding: 0px; margin: 0px;padding-left:15px;width:30px;height:30px;;position:relative;">
+
+                    <div    style="display: inline-block;border:0px; padding: 0px; margin: 0px;background-color: black;position:absolute;width:8px;height:8px;left:0px;top:0px;background-color:darkgray;"></div>
+
+                    <div    style="display: inline-block;border:0px; padding: 0px; margin: 0px;background-color: black;position:absolute;width:8px;height:8px;left:16px;top:0px;background-color:darkgray;"></div>
+
+                    <div    style="display: inline-block;border:0px; padding: 0px; margin: 0px;background-color: black;position:absolute;width:8px;height:8px;left:8px;top:8px;background-color:darkgray;"></div>
+
+                    <div    style="display: inline-block;border:0px; padding: 0px; margin: 0px;background-color: black;position:absolute;width:8px;height:8px;left:0px;top:16px;background-color:darkgray;"></div>
+
+                    <div    v-bind:refresh='refresh'
+                            style="border:0px; padding: 0px; margin: 0px;padding-left:15px;font-family: Helvetica;color: darkgray;font-weight: bold;letter-spacing: -2px;font-size: 28px;line-height: 1;display: inline-block;top:0px;position:absolute;left:20px;">
+                         YAZZ
+                    </div>
             </div>
 
         <h1 style='vertical-align:top;display:inline-block;font-size:100px; text-align: center;margin: 0px;padding-left:70px;'>
