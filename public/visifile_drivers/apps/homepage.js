@@ -332,22 +332,16 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
       methods: {
           previewApp: function(appId) {
-              var mm = this
+                var mm = this
 
-              setTimeout(async function() {
                 if (mm.preview_app_id) {
-                    if (!component_loaded[appId]) {
-                       await loadV2([appId])
-                    }
 
-                    setTimeout(async function() {
-                        mm.preview_app_loaded = true
-                        mm.refresh ++
-                        mm.$forceUpdate();
-                    },250)
+                    mm.preview_app_loaded = true
+                    mm.refresh ++
+                    mm.$forceUpdate();
                 }
-              },1000)
-          },
+          }
+          ,
           addLogoForApp: async function(appId) {
               mm = this
 
