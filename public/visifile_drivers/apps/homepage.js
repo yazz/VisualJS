@@ -147,14 +147,13 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                     v-on:mouseup="$event.stopPropagation();$event.preventDefault();"
                                     style="opacity:.7;z-index:2147483647;position:absolute;left:0px;top;0px;color:black;background-color:lightblue;width:100%;height:100%;">
 
-                                    <component  id="preview_component2"
-                                                ref="preview_component2"
-                                                v-bind:refresh='refresh'
-                                                v-if='(preview_app_id == item.data.id) && preview_app_loaded'
-                                                :is='preview_app_id'
-                                                style="z-index:0;">
-                                    </component>
-
+                                    <img    v-if='(preview_app_id == item.data.id) && preview_app_loaded'
+                                            v-bind:src='app_logos[item.data.id]'
+                                            style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;z-index:0;'
+                                            v-bind:alt='app_logos[item.data.id]'
+                                            v-on:click='editApp($event,item.data.id)'
+                                            >
+                                    </img>
 
                                     <button style='position:absolute;top:250px;left:20px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
                                             class='btn btn-dark btn-sm'
