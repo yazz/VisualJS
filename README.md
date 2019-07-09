@@ -77,7 +77,9 @@ Demo - A lightweight app builder for Kubernetes - https://yazz.com/app/homepage.
 
     node /src/electron.js --runapp homepage --nogui true --locked false
 
+##### 7) Create the "yazz" shell command to replace "node src/electron.js"
 
+    sudo npm link
 
 
 <br /><br /><br /><br /><br />
