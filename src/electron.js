@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const electron = require('electron')
 
 
