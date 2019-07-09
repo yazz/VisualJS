@@ -6,6 +6,9 @@
   "private": true,
   "scripts": {},
   "main": "src/electron.js",
+  "bin": {
+    "yazz": "./src/electron.js"
+  },
   "dependencies": {
     "@rgrove/parse-xml": "^1.1.1",
     "async": "^2.6.0",
