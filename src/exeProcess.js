@@ -389,8 +389,12 @@ function callDriverMethod( driverName, methodName, args, callbackFn ) {
                     method_name:         methodName,
                     args:                args,
                     callback_index:      useCallbackIndex,
-                    caller_call_id:      currentCallId
-                    });
+                    caller_call_id:      currentCallId,
+                    find_component: {
+                        driver_name:         driverName,
+                        method_name:         methodName
+                    }
+                });
     callbackList[ useCallbackIndex ] = callbackFn
 }
 
