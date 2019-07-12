@@ -135,6 +135,9 @@ var useHttps;
 var serverProtocol                       = "http";
 var privateKey;
 var publicCertificate;
+var caCertificate1;
+var caCertificate2;
+var caCertificate3;
 var requestClientPublicIp;
 var hostcount  							= 0;
 var queuedResponses                     = new Object();
@@ -181,6 +184,9 @@ if (process.argv.length > 1) {
       .option('-q, --https [https]', 'Run using a HTTPS (default is http) [https]', 'false')
       .option('-v, --private [private]', 'Private HTTPS key [private]', null)
       .option('-c, --public [public]', 'Public HTTPS certificate [public]', null)
+      .option('-e, --public [caCert1]', 'Public HTTPS CA certificate 1 [caCert1]', null)
+      .option('-f, --public [caCert2]', 'Public HTTPS CA certificate 2 [caCert2]', null)
+      .option('-g, --public [caCert3]', 'Public HTTPS CA certificate 3 [caCert3]', null)
       .option('-u, --usehost [usehost]', 'Use host name [usehost]', null)
       .parse(process.argv);
 } else {
@@ -226,6 +232,9 @@ if (useHttps) {
 }
 privateKey = program.private;
 publicCertificate = program.public;
+caCertificate1 = program.caCert1;
+caCertificate2 = program.caCert2;
+caCertificate3 = program.caCert3;
 var useHost = program.usehost;
 if (useHost) {
     hostaddress = useHost
@@ -1341,9 +1350,20 @@ function getPort () {
 
 
     if (useHttps) {
+        var caCerts = []
+        if (caCertificate1) {
+            caCerts.push(fs.readFileSync(caCertificate1, 'utf8'))
+        }
+        if (caCertificate2) {
+            caCerts.push(fs.readFileSync(caCertificate2, 'utf8'))
+        }
+        if (caCertificate3) {
+            caCerts.push(fs.readFileSync(caCertificate3, 'utf8'))
+        }
         var certOptions = {
           key: fs.readFileSync(privateKey, 'utf8'),
-          cert: fs.readFileSync(publicCertificate, 'utf8')
+          cert: fs.readFileSync(publicCertificate, 'utf8'),
+          ca: caCerts
         }
         httpServer = https.createServer(certOptions,app)
 
