@@ -1379,11 +1379,9 @@ function getPort () {
           cert: fs.readFileSync(publicCertificate, 'utf8'),
           ca: caCerts
         }
-        if (caCertificate1 || caCertificate2 || caCertificate3)
-        {
-            certOptions.requestCert = true
-            certOptions.rejectUnauthorized = true
-        }
+        certOptions.requestCert = true
+        certOptions.rejectUnauthorized = true
+
         httpServer = https.createServer(certOptions,app)
 
     } else {
