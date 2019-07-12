@@ -232,9 +232,9 @@ if (useHttps) {
 }
 privateKey = program.private;
 publicCertificate = program.public;
-caCertificate1 = program.caCert1;
-caCertificate2 = program.caCert2;
-caCertificate3 = program.caCert3;
+caCertificate1 = program.cacert1;
+caCertificate2 = program.cacert2;
+caCertificate3 = program.cacert3;
 var useHost = program.usehost;
 if (useHost) {
     hostaddress = useHost
@@ -1354,7 +1354,7 @@ function getPort () {
         console.log("CA Cert 1 = " + caCertificate1)
         console.log("CA Cert 2 = " + caCertificate2)
         console.log("CA Cert 3 = " + caCertificate3)
-        
+
         var caCerts = []
         if (caCertificate1) {
             caCerts.push(fs.readFileSync(caCertificate1, 'utf8'))
