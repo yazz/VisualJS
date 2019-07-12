@@ -1357,13 +1357,22 @@ function getPort () {
 
         var caCerts = []
         if (caCertificate1) {
-            caCerts.push(fs.readFileSync(caCertificate1, 'utf8'))
+            console.log("CA Cert 1 = " + caCertificate1)
+            var fff = fs.readFileSync(caCertificate1, 'utf8')
+            console.log("  = " + fff)
+            caCerts.push(fff)
         }
         if (caCertificate2) {
-            caCerts.push(fs.readFileSync(caCertificate2, 'utf8'))
+            console.log("CA Cert 2 = " + caCertificate2)
+            var fff = fs.readFileSync(caCertificate2, 'utf8')
+            console.log("  = " + fff)
+            caCerts.push(fff)
         }
         if (caCertificate3) {
-            caCerts.push(fs.readFileSync(caCertificate3, 'utf8'))
+            console.log("CA Cert 3 = " + caCertificate3)
+            var fff = fs.readFileSync(caCertificate3, 'utf8')
+            console.log("  = " + fff)
+            caCerts.push(fff)
         }
         var certOptions = {
           key: fs.readFileSync(privateKey, 'utf8'),
