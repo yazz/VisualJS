@@ -184,9 +184,9 @@ if (process.argv.length > 1) {
       .option('-q, --https [https]', 'Run using a HTTPS (default is http) [https]', 'false')
       .option('-v, --private [private]', 'Private HTTPS key [private]', null)
       .option('-c, --public [public]', 'Public HTTPS certificate [public]', null)
-      .option('-e, --public [caCert1]', 'Public HTTPS CA certificate 1 [caCert1]', null)
-      .option('-f, --public [caCert2]', 'Public HTTPS CA certificate 2 [caCert2]', null)
-      .option('-g, --public [caCert3]', 'Public HTTPS CA certificate 3 [caCert3]', null)
+      .option('-e, --cacert1 [cacert1]', 'Public HTTPS CA certificate 1 [cacert1]', null)
+      .option('-f, --cacert2 [cacert2]', 'Public HTTPS CA certificate 2 [cacert2]', null)
+      .option('-g, --cacert3 [cacert3]', 'Public HTTPS CA certificate 3 [cacert3]', null)
       .option('-u, --usehost [usehost]', 'Use host name [usehost]', null)
       .parse(process.argv);
 } else {
