@@ -1352,12 +1352,15 @@ function getPort () {
     if (useHttps) {
         var caCerts = []
         if (caCertificate1) {
+            console.log("CA Cert 1 = " + caCertificate1)
             caCerts.push(fs.readFileSync(caCertificate1, 'utf8'))
         }
         if (caCertificate2) {
+            console.log("CA Cert 2 = " + caCertificate2)
             caCerts.push(fs.readFileSync(caCertificate2, 'utf8'))
         }
         if (caCertificate3) {
+            console.log("CA Cert 3 = " + caCertificate3)
             caCerts.push(fs.readFileSync(caCertificate3, 'utf8'))
         }
         var certOptions = {
