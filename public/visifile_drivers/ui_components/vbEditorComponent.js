@@ -1007,6 +1007,8 @@ uses_javascript_librararies(["advanced_bundle"])
                     } else if (!isValidObject(mm.model[propDetails.id])){
                         if (isValidObject(propDetails.default)){
                             mm.model[propDetails.id] = propDetails.default
+                        } else if (isValidObject(propDetails.default_expression)){
+                            mm.model[propDetails.id] = eval("(" + propDetails.default_expression + ")")
                         }
                     }
 
@@ -1381,6 +1383,8 @@ ${origCode}
                            if (!isValidObject(newItem[prop])){
                                if (isValidObject(compEvaled[cpp].default)) {
                                    newItem[prop] = JSON.parse(JSON.stringify(compEvaled[cpp].default))
+                               } else if (isValidObject(compEvaled[cpp].default_expression)){
+                                   newItem[prop]  = eval("(" + compEvaled[cpp].default_expression + ")")
                                } else {
                                    newItem[prop] = ""
                                }
