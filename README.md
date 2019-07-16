@@ -1,6 +1,6 @@
 
 # Visual Javascript
-## Open Source Kubernetes Native IDE
+## Open Source Kubernetes IDE
 
 
 
