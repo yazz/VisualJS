@@ -2,7 +2,7 @@ function(args) {
 /*
 is_app(true)
 control_type("VB")
-display_name("Table control")
+display_name("Data Window control")
 description("This will return the data window control")
 base_component_id("data_window_control")
 load_once_from_file(true)
