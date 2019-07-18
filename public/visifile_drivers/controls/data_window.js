@@ -100,7 +100,7 @@ logo_url("/driver_icons/data_window.png")
 */
 
     Vue.component("data_window_control",{
-      props: ["args","refresh","design_mode"]
+      props: ["meta","name","args","refresh","design_mode"]
       ,
       template:
 `<div   v-bind:style='"width:100%;overflow-y:auto;height:100%"
@@ -188,22 +188,30 @@ logo_url("/driver_icons/data_window.png")
 
 </div>`
       ,
+
+
       data: function() {
        return {
-         value:             null,
-         selected_index:    null,
-         items:             [],
-         new_value:         "",
-         new_text:          ""
+         value:              null
+         ,
+         selected_index:     null
+         ,
+         items:             []
+         ,
+         new_value:          ""
+         ,
+         new_text:           ""
          ,
          columnDefinitions: [ ]
          ,
          data:              [ ]
          ,
-         table:   null
+         table:              null
        }
      }
      ,
+
+
      watch: {
        // This would be called anytime the value of the input changes
        refresh: function(newValue, oldValue) {
@@ -215,6 +223,8 @@ logo_url("/driver_icons/data_window.png")
        }
      }
      ,
+
+
      mounted: function() {
          registerComponent(this)
 
@@ -231,7 +241,7 @@ logo_url("/driver_icons/data_window.png")
                  ,
                  height:                    this.args.height
                  ,
-             	data:                       this.data
+                 data:                      this.data
                  ,
              	layout:                    "fitColumns"
                  ,
@@ -262,13 +272,18 @@ logo_url("/driver_icons/data_window.png")
 
       }
       ,
+
+
       methods: {
+
             changedFn: function() {
                 if (isValidObject(this.args)) {
                     this.args.value = this.value
                     this.args.items = this.items
                 }
             }
+
+
             ,
             resetColumns: async function(data) {
                 this.table.setColumns([])
