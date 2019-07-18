@@ -17,6 +17,20 @@ properties(
         }
         ,
         {
+            id:         "width",
+            name:       "Width",
+            default:    350,
+            type:       "Number"
+        }
+        ,
+        {
+            id:         "height",
+            name:       "Height",
+            default:    300,
+            type:       "Number"
+        }
+        ,
+        {
             id:     "background_color",
             name:   "Background color",
             type:   "String"
@@ -60,7 +74,26 @@ properties(
             default:    false,
             hidden:     true
         }
-
+        ,
+        {
+            id:         "setData",
+            snippet:    `setData([{a: 1, b: "c"},{a: 2, b: "d"}])`,
+            name:       "setData",
+            type:       "Action"
+        }
+        ,
+        {
+            id:         "resetColumns",
+            snippet:    `resetColumns()`,
+            name:       "resetColumns",
+            type:       "Action"
+        }
+        ,
+        {
+            id:     "addColumn",
+            name:   "addColumn",
+            type:   "Action"
+        }
     ]
 )//properties
 logo_url("/driver_icons/data_window.png")
@@ -162,6 +195,12 @@ logo_url("/driver_icons/data_window.png")
          items:             [],
          new_value:         "",
          new_text:          ""
+         ,
+         columnDefinitions: [ ]
+         ,
+         data:              [ ]
+         ,
+         table:   null
        }
      }
      ,
@@ -177,6 +216,8 @@ logo_url("/driver_icons/data_window.png")
      }
      ,
      mounted: function() {
+         registerComponent(this)
+
          if (isValidObject(this.args)) {
              this.items = this.args.items
              if (isValidObject(this.args.value)) {
@@ -184,30 +225,39 @@ logo_url("/driver_icons/data_window.png")
              }
          }
 
-         var table = new Tabulator(this.$refs.exampletable, {
-            	data: [],           //load row data from array
-            	layout:"fitColumns",      //fit columns to width of $
-            	responsiveLayout:"hide",  //hide columns that dont fit on the table
-            	tooltips:true,            //show tool tips on cells
-            	addRowPos:"top",          //when adding a new row, add it to the top of the table
-            	history:true,             //allow undo and redo actions on the table
-            	pagination:"local",       //paginate the data
-            	paginationSize:7,         //allow 7 rows per page of data
-            	movableColumns:true,      //allow column order to be changed
-            	resizableRows:true,       //allow row order to be changed
-            	initialSort:[             //set the initial sort order of the data
-            		{column:"name", dir:"asc"},
-            	],
-            	columns:[                 //define the table columns
-            		{title:"Name", field:"name", editor:"input"},
-            		{title:"Task Progress", field:"progress", align:"left", formatter:"progress", editor:true},
-            		{title:"Gender", field:"gender", width:95, editor:"select", editorParams:{"Male":"male", "Female":"female"}},
-            		{title:"Rating", field:"rating", formatter:"star", align:"center", width:100, editor:true},
-            		{title:"Color", field:"col", width:130, editor:"input"},
-            		{title:"Date Of Birth", field:"dob", width:130, sorter:"date", align:"center"},
-            		{title:"Driver", field:"car", width:90,  align:"center", formatter:"tickCross", sorter:"boolean", editor:true},
-            	],
-            });
+
+          this.table = new Tabulator(this.$refs.exampletable, {
+                 width:                    this.args.width
+                 ,
+                 height:                    this.args.height
+                 ,
+             	data:                       this.data
+                 ,
+             	layout:                    "fitColumns"
+                 ,
+             	responsiveLayout:          "hide"
+                 ,
+             	tooltips:                   true
+                 ,
+             	addRowPos:                 "top"
+                 ,
+             	history:                    true
+                 ,
+             	pagination:                "local"
+                 ,
+             	paginationSize:             7
+                 ,
+             	movableColumns:             true
+                 ,
+             	resizableRows:              true
+                 ,
+
+             	initialSort:                [
+                                         	]
+                 ,
+
+             	columns:                    this.columnDefinitions
+             });
 
 
       }
@@ -220,6 +270,14 @@ logo_url("/driver_icons/data_window.png")
                 }
             }
             ,
+            resetColumns: async function(data) {
+                this.table.setColumns([])
+            }
+            ,
+            addColumn: async function(colData) {
+                this.table.addColumn(colData, true, "name");
+            }
+            ,
 
             runEventHandler: function() {
                 this.$emit('send', {
@@ -229,7 +287,28 @@ logo_url("/driver_icons/data_window.png")
                                                 code:                this.args.changed_event
                                             })
             }
-      }
+            ,
+            setData: async function(data) {
+                this.data = data
+                this.table.setData(data)
+
+                var keysOfData = new Object()
+                if ((this.columnDefinitions == null)  || (this.columnDefinitions.length == 0)) {
+                    for (var rr = 0 ; rr < data.length; rr ++) {
+                        var dfg = Object.keys(data[rr])
+                        for (var qq = 0 ; qq < dfg.length; qq ++) {
+                            keysOfData[dfg[qq]] = true
+                        }
+                    }
+                }
+
+                var dfg2 = Object.keys(keysOfData)
+                for (var qq2 = 0 ; qq2 < dfg2.length; qq2 ++) {
+                    this.addColumn({title:dfg2[qq2], field:dfg2[qq2]})
+                }
+
+            }
+        }
 
     })
 }
