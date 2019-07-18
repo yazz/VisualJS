@@ -33,6 +33,7 @@ logo_url("/driver_icons/database.png")
                                     "background-color: "+    args["background_color"]  +  ";"'>
 
                                                 {{args.text}}
+                                                Under construction
                  </div>`
       ,
       data: function() {
@@ -50,7 +51,7 @@ logo_url("/driver_icons/database.png")
                                     ,{ })
 
            if (result.value) {
-                alert(result.value)
+                //alert(result.value)
 
            }
 
