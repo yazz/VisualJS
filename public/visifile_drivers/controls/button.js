@@ -47,16 +47,16 @@ properties(
         }
         ,
         {
-            id:     "alert2",
-            name:   "Alert2",
+            id:     "test_method",
+            name:   "test_method",
             type:   "Action",
             help:       `<div>Help text for
-                            <b>click_event</b> event
+                            <b>test_method</b> event
                          </div>`,
 
                          fn:
 `
-alert("Alert 2 called")
+alert("test_method called")
 `
         }
     ]
