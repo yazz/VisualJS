@@ -94,7 +94,69 @@ properties(
             name:   "addColumn",
             type:   "Action"
         }
-    ]
+        ,
+        {
+            id:     "sql",
+            name:   "SQL",
+            type:   "String",
+            default: "SELECT * FROM pg_catalog.pg_tables;"
+        }
+        ,
+        {
+            id:      "user",
+            name:    "USER",
+            type:    "String",
+            default_expression: "(typeof $POSTGRES_USER !== 'undefined')?eval('$POSTGRES_USER'):'postgres'"
+        }
+        ,
+        {
+            id:     "password",
+            name:   "Password",
+            type:   "String",
+            default_expression: "(typeof $POSTGRES_PASSWORD !== 'undefined')?eval('$POSTGRES_PASSWORD'):'password'",
+        }
+        ,
+        {
+            id:     "database",
+            name:   "Database",
+            type:   "String",
+            default_expression: "(typeof $POSTGRES_DATABASE !== 'undefined')?eval('$POSTGRES_DATABASE'):'postgres'",
+        }
+        ,
+        {
+            id:     "port",
+            name:   "Port",
+            type:   "Number",
+            default_expression: "(typeof $POSTGRES_PORT !== 'undefined')?eval('$POSTGRES_PORT'):5432",
+        }
+        ,
+        {
+            id:     "host",
+            name:   "Host",
+            type:   "String",
+            default_expression: "(typeof $POSTGRES_HOST !== 'undefined')?$POSTGRES_HOST:'localhost'",
+        }
+
+        ,
+        {
+            id:     "result",
+            name:   "result",
+            type:   "Array",
+            default:    []
+        }
+        ,
+        {
+            id:         "executeSql",
+            pre_snippet: `await `,
+            snippet:    `executeSql()`,
+            name:       "executeSql",
+            type:       "Action",
+            help:       `<div>Help text for
+                            <b>executeSql</b> function
+                            <div>The SQL is store in the "sql" property</div>
+                         </div>`
+        }
+        ]
 )//properties
 logo_url("/driver_icons/data_window.png")
 */
@@ -323,6 +385,53 @@ logo_url("/driver_icons/data_window.png")
                 }
 
             }
+            ,
+
+
+
+
+
+            executeSql: async function() {
+                if (!this.design_mode) {
+                    var result = await callFunction(
+                                        {
+                                            driver_name: "postgres_server",
+                                            method_name: "postgres_sql"  }
+                                            ,{
+                                                sql:             this.args.sql,
+                                                user:            this.args.user,
+                                                password:        this.args.password,
+                                                database:        this.args.database,
+                                                host:            this.args.host,
+                                                port:            this.args.port
+                                             })
+
+
+                   //alert("executeSql: " + JSON.stringify(result,null,2))
+                   console.log(JSON.stringify(result,null,2))
+                   if (result.value) {
+                        this.args.result = result.value.result
+
+                        return result.value
+                   }
+
+
+               }
+                this.args.result = []
+                this.changedFn()
+                return {}
+            }
+
+
+
+
+
+
+
+
+
+
+
         }
 
     })
