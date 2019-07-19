@@ -287,7 +287,7 @@ logo_url("/driver_icons/data_window.png")
      ,
 
 
-     mounted: function() {
+     mounted: async function() {
          registerComponent(this)
 
          if (isValidObject(this.args)) {
@@ -331,6 +331,12 @@ logo_url("/driver_icons/data_window.png")
              	columns:                    this.columnDefinitions
              });
 
+         if (!this.design_mode) {
+
+             var results = await this.executeSql()
+             //alert(JSON.stringify(results,null,2))
+             await this.setData(results.value)
+         }
 
       }
       ,
