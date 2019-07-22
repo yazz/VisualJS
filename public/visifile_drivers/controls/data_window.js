@@ -165,10 +165,9 @@ logo_url("/driver_icons/data_window.png")
       props: ["meta","name","args","refresh","design_mode"]
       ,
       template:
-`<div   v-bind:style='"width:100%;overflow-y:auto;height:100%"
+`<div   v-bind:style='"width:100%;overflow-y:auto;height:100%;color:black;"
         v-bind:refresh='refresh'>
 
-        <div ref="exampletable"></div>
 
     <div v-bind:style='"height:100%;width:100%; border: 0px;color:black;"'
          v-if='design_mode == "detail_editor"'>
@@ -229,21 +228,43 @@ logo_url("/driver_icons/data_window.png")
 
      </div>
 
-    <div v-bind:style='"height:100%;width:100%; border: 0px;" +
-                       "background-color: "+    args["background_color"]  +  ";"'
-         v-else>
 
-        <select
-            v-on:change='changedFn();runEventHandler()'
-            size="5"
-            v-model='value'>
+     <div v-else>
 
-            <option v-for='opt in args.items'
-                    v-bind:value='opt.value'>
-                {{opt.text}}
-            </option>
-        </select>
-    </div>
+
+        <div v-bind:style='"height:100%;width:100%; border: 0px;" +
+                           "background-color: "+    args["background_color"]  +  ";"'
+             v-if='design_mode == false'>
+
+             <div    ref="exampletable"></div>
+
+            <select
+                v-if='design_mode == false'
+                v-on:change='changedFn();runEventHandler()'
+                size="5"
+                v-model='value'>
+
+                <option v-for='opt in args.items'
+                        v-bind:value='opt.value'>
+                    {{opt.text}}
+                </option>
+            </select>
+        </div>
+
+
+
+
+         <div v-bind:style='"height:100%;width:100%; border: 0px;" +
+                            "background-color:white;color:black;"'
+              v-else>
+
+
+                     <b>SQL:</b>
+                        {{args.sql}}
+         </div>
+
+     </div>
+
 
 
 
@@ -297,39 +318,41 @@ logo_url("/driver_icons/data_window.png")
              }
          }
 
+         if (this.design_mode == false) {
+             this.table = new Tabulator(this.$refs.exampletable, {
+                    width:                    this.args.width
+                    ,
+                    height:                    this.args.height
+                    ,
+                    data:                      this.data
+                    ,
+                	layout:                    "fitColumns"
+                    ,
+                	responsiveLayout:          "hide"
+                    ,
+                	tooltips:                   true
+                    ,
+                	addRowPos:                 "top"
+                    ,
+                	history:                    true
+                    ,
+                	pagination:                "local"
+                    ,
+                	paginationSize:             7
+                    ,
+                	movableColumns:             true
+                    ,
+                	resizableRows:              true
+                    ,
 
-          this.table = new Tabulator(this.$refs.exampletable, {
-                 width:                    this.args.width
-                 ,
-                 height:                    this.args.height
-                 ,
-                 data:                      this.data
-                 ,
-             	layout:                    "fitColumns"
-                 ,
-             	responsiveLayout:          "hide"
-                 ,
-             	tooltips:                   true
-                 ,
-             	addRowPos:                 "top"
-                 ,
-             	history:                    true
-                 ,
-             	pagination:                "local"
-                 ,
-             	paginationSize:             7
-                 ,
-             	movableColumns:             true
-                 ,
-             	resizableRows:              true
-                 ,
+                	initialSort:                [
+                                            	]
+                    ,
 
-             	initialSort:                [
-                                         	]
-                 ,
+                	columns:                    this.columnDefinitions
+                });
+         }
 
-             	columns:                    this.columnDefinitions
-             });
 
          if (!this.design_mode) {
 
