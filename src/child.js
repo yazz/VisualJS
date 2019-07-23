@@ -721,13 +721,8 @@ async function setUpComponentsLocally() {
     //
     await evalLocalSystemDriver('homepage',     path.join(__dirname, '../public/visifile_drivers/apps/homepage.js'),{save_html: true})
     await evalLocalSystemDriver('appstore',     path.join(__dirname, '../public/visifile_drivers/apps/appstore.js'),{save_html: true})
-    await evalLocalSystemDriver('homepage_1',   path.join(__dirname, '../public/visifile_drivers/apps/homepage_1.js'),{save_html: true})
-    await evalLocalSystemDriver('homepage_2',   path.join(__dirname, '../public/visifile_drivers/apps/homepage_2.js'),{save_html: true})
-    await evalLocalSystemDriver('homepage_3',   path.join(__dirname, '../public/visifile_drivers/apps/homepage_3.js'),{save_html: true})
-    await evalLocalSystemDriver('homepage_4',   path.join(__dirname, '../public/visifile_drivers/apps/homepage_4.js'),{save_html: true})
     await evalLocalSystemDriver('vb',   path.join(__dirname, '../public/visifile_drivers/apps/vb.js'),{save_html: true})
     await evalLocalSystemDriver('vb_blank',   path.join(__dirname, '../public/visifile_drivers/apps/vb_blank.js'))
-    //await evalLocalSystemDriver('homepage_6',   path.join(__dirname, '../public/visifile_drivers/apps/homepage_6.js'),{save_html: true})
 
 
 
