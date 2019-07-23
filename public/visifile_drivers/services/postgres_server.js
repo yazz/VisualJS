@@ -28,6 +28,9 @@ only_run_on_server(true)
                     console.log({failed: '' + err});
                 } else {
                     console.log("row count: " + result.rows.length); // outputs: { name: 'brianc' }
+                    if (args.limit) {
+                        result.rows = result.rows.slice(0, args.limit);
+                    }
                     returnFn({value: result.rows})
                 };
               })

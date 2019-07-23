@@ -24,6 +24,13 @@ properties(
         }
         ,
         {
+            id:     "limit",
+            name:   "Limit",
+            type:   "Number",
+            default_expression: "(typeof $RETURNED_ROWS_LIMIT !== 'undefined')?eval('$RETURNED_ROWS_LIMIT'):100",
+        }
+        ,
+        {
             id:         "height",
             name:       "Height",
             default:    300,
@@ -432,7 +439,8 @@ logo_url("/driver_icons/data_window.png")
                                                 password:        this.args.password,
                                                 database:        this.args.database,
                                                 host:            this.args.host,
-                                                port:            this.args.port
+                                                port:            this.args.port,
+                                                limit:           this.args.limit
                                              })
 
 
