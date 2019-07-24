@@ -250,6 +250,8 @@ logo_url("/driver_icons/data_window.png")
                     ,
                     height:                    this.args.height
                     ,
+                    tables:                    []
+                    ,
                     data:                      this.data
                     ,
                 	layout:                    "fitColumns"
