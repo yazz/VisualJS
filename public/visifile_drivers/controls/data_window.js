@@ -173,16 +173,24 @@ logo_url("/driver_icons/data_window.png")
             SQL Builder
             <ul class="nav nav-pills">
               <li class="nav-item" style="width:20%;">
-                <a class="nav-link active" href="#">Data source connection</a>
+                <a  v-bind:class='"nav-link " + ((designDetailTab == "connection")?"active":"")'
+                    v-on:click="designDetailTab = 'connection';"
+                    href="#">Data source connection</a>
               </li>
               <li class="nav-item" style="width:20%;">
-                <a class="nav-link" href="#">Schema and tables</a>
+                  <a    v-bind:class='"nav-link " + ((designDetailTab == "schema")?"active":"")'
+                        v-on:click="designDetailTab = 'schema';"
+                        href="#">Schema and tables</a>
               </li>
               <li class="nav-item" style="width:20%;">
-                <a class="nav-link" href="#">Columns</a>
+                  <a    v-bind:class='"nav-link " + ((designDetailTab == "columns")?"active":"")'
+                        v-on:click="designDetailTab = 'columns';"
+                        href="#">Columns</a>
               </li>
               <li class="nav-item" style="width:20%;">
-                <a class="nav-link disabled" href="#">Where</a>
+                  <a    v-bind:class='"nav-link " + ((designDetailTab == "where")?"active":"")'
+                        v-on:click="designDetailTab = 'where';"
+                        href="#">Where</a>
               </li>
             </ul>
 
@@ -235,6 +243,8 @@ logo_url("/driver_icons/data_window.png")
          data:              [ ]
          ,
          table:              null
+         ,
+         designDetailTab: "connection"
        }
      }
      ,
