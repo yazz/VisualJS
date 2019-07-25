@@ -171,7 +171,20 @@ logo_url("/driver_icons/data_window.png")
     <div v-bind:style='"height:100%;width:100%; border: 0px;color:black;"'
          v-if='design_mode == "detail_editor"'>
             SQL Builder
-
+            <ul class="nav nav-pills">
+              <li class="nav-item" style="width:20%;">
+                <a class="nav-link active" href="#">Data source connection</a>
+              </li>
+              <li class="nav-item" style="width:20%;">
+                <a class="nav-link" href="#">Schema and tables</a>
+              </li>
+              <li class="nav-item" style="width:20%;">
+                <a class="nav-link" href="#">Columns</a>
+              </li>
+              <li class="nav-item" style="width:20%;">
+                <a class="nav-link disabled" href="#">Where</a>
+              </li>
+            </ul>
 
 
          </div>
