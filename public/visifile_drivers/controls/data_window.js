@@ -95,6 +95,13 @@ properties(
         }
         ,
         {
+            id:     "source_type",
+            name:   "Data Source Type",
+            type:   "String",
+            default: "postgres"
+        }
+        ,
+        {
             id:     "sql",
             name:   "SQL",
             type:   "String",
@@ -171,36 +178,75 @@ logo_url("/driver_icons/data_window.png")
     <div v-bind:style='"height:100%;width:100%; border: 0px;color:black;"'
          v-if='design_mode == "detail_editor"'>
             SQL Builder
-            <ul class="nav nav-pills">
-              <li class="nav-item" style="width:20%;">
+
+        <ul class="nav nav-pills">
+            <li class="nav-item" style="width:20%;">
                 <a  v-bind:class='"nav-link " + ((designDetailTab == "connection")?"active":"")'
                     v-on:click="designDetailTab = 'connection';"
-                    href="#">Data source connection</a>
-              </li>
-              <li class="nav-item" style="width:20%;">
-                  <a    v-bind:class='"nav-link " + ((designDetailTab == "schema")?"active":"")'
-                        v-on:click="designDetailTab = 'schema';"
-                        href="#">Schema and tables</a>
-              </li>
-              <li class="nav-item" style="width:20%;">
-                  <a    v-bind:class='"nav-link " + ((designDetailTab == "columns")?"active":"")'
-                        v-on:click="designDetailTab = 'columns';"
-                        href="#">Columns</a>
-              </li>
-              <li class="nav-item" style="width:20%;">
-                  <a    v-bind:class='"nav-link " + ((designDetailTab == "where")?"active":"")'
-                        v-on:click="designDetailTab = 'where';"
-                        href="#">Where</a>
-              </li>
-            </ul>
+                    href="#">
+                    Data source connection
+                </a>
+            </li>
+
+            <li class="nav-item" style="width:20%;">
+                <a    v-bind:class='"nav-link " + ((designDetailTab == "schema")?"active":"")'
+                      v-on:click="designDetailTab = 'schema';"
+                      href="#">Schema and tables</a>
+            </li>
+
+            <li class="nav-item" style="width:20%;">
+                <a    v-bind:class='"nav-link " + ((designDetailTab == "columns")?"active":"")'
+                      v-on:click="designDetailTab = 'columns';"
+                      href="#">Columns</a>
+            </li>
+
+            <li class="nav-item" style="width:20%;">
+                <a    v-bind:class='"nav-link " + ((designDetailTab == "where")?"active":"")'
+                      v-on:click="designDetailTab = 'where';"
+                      href="#">Where</a>
+            </li>
+        </ul>
 
 
-         </div>
+        <div v-if='designDetailTab == "connection"'  >
+            connection tab
+        </div>
 
-     </div>
 
 
-     <div v-else>
+
+        <div v-if='designDetailTab == "schema"'  >
+           schema tab
+        </div>
+
+
+
+
+        <div v-if='designDetailTab == "columns"'  >
+            columns tab
+        </div>
+
+
+
+
+
+        <div v-if='designDetailTab == "where"'  >
+            where tab
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    <div v-else>
 
 
         <div v-bind:style='"height:100%;width:100%; border: 0px;" +
