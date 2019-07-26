@@ -210,6 +210,18 @@ logo_url("/driver_icons/data_window.png")
 
         <div v-if='designDetailTab == "connection"'  >
             connection tab
+
+            <select  @change='alert($event)'>
+                  <option   v-for='propVal in ["postgres","csv"]'
+                            v-bind:value="propVal"
+                            v-bind:selected='(propVal == "postgres")'>
+
+                        {{propVal}}
+
+                  </option>
+            </select>
+
+
         </div>
 
 
