@@ -300,7 +300,7 @@ logo_url("/driver_icons/data_window.png")
          ,
          data:              [ ]
          ,
-         table:              null
+         tables:            [ ]
          ,
          designDetailTab: "connection"
        }
@@ -353,6 +353,8 @@ logo_url("/driver_icons/data_window.png")
                     ,
                 	resizableRows:              true
                     ,
+                    tableNames:              []
+                    ,
 
                 	initialSort:                [
                                             	]
@@ -360,8 +362,12 @@ logo_url("/driver_icons/data_window.png")
 
                 	columns:                    this.columnDefinitions
                 });
-         }
 
+         }
+         if (this.design_mode) {
+             await this.getTables()
+             alert(JSON.stringify(this.tables,null,2))
+         }
 
          if (!this.design_mode) {
 
@@ -420,6 +426,44 @@ logo_url("/driver_icons/data_window.png")
                     this.addColumn({title:dfg2[qq2], field:dfg2[qq2]})
                 }
 
+            }
+            ,
+
+
+
+
+
+
+            getTables: async function() {
+                console.log("In getTables")
+
+                if (this.design_mode) {
+                    var result = await callFunction(
+                                        {
+                                            driver_name: "postgres_server",
+                                            method_name: "postgres_sql"  }
+                                            ,{
+                                                user:            this.args.user,
+                                                password:        this.args.password,
+                                                database:        this.args.database,
+                                                host:            this.args.host,
+                                                port:            this.args.port,
+                                                get_tables:      true
+                                             })
+
+
+                   //alert("executeSql: " + JSON.stringify(result,null,2))
+                   console.log(JSON.stringify(result,null,2))
+                   if (result.value) {
+                       //alert(JSON.stringify(result.value.value,null,2))
+                       for (var i=0;i<result.value.value.length;i++) {
+                           this.tables = result.value.value[i].name
+
+                       }
+                   }
+
+
+                }
             }
             ,
 
