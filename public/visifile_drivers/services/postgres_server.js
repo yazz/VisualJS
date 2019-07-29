@@ -23,7 +23,11 @@ only_run_on_server(true)
               console.log({error: '' + err});
               returnFn({failed: err})
           } else {
-              dbconnection.query(args.sql, [], function (err, result) {
+              var useSql = args.sql
+              if (args.get_tables) {
+                  useSql = "SELECT tablename as name FROM pg_catalog.pg_tables where schemaname = 'public';"
+              }
+              dbconnection.query(useSql, [], function (err, result) {
                 if (err) {
                     console.log({failed: '' + err});
                 } else {
