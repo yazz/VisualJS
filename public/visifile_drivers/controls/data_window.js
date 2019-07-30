@@ -229,6 +229,12 @@ logo_url("/driver_icons/data_window.png")
 
         <div v-if='designDetailTab == "schema"'  >
            schema tab
+           <option   v-for='table in tables'
+                     v-bind:value="table">
+
+                 {{table}}
+
+           </option>
         </div>
 
 
@@ -313,6 +319,8 @@ logo_url("/driver_icons/data_window.png")
        refresh: function(newValue, oldValue) {
            //console.log("refresh: " + this.args.text)
            if (isValidObject(this.args)) {
+               this.getTables()
+               //alert(JSON.stringify(this.tables,null,2))
            }
        }
      }
@@ -366,7 +374,7 @@ logo_url("/driver_icons/data_window.png")
          }
          if (this.design_mode) {
              await this.getTables()
-             alert(JSON.stringify(this.tables,null,2))
+
          }
 
          if (!this.design_mode) {
@@ -455,9 +463,10 @@ logo_url("/driver_icons/data_window.png")
                    //alert("executeSql: " + JSON.stringify(result,null,2))
                    console.log(JSON.stringify(result,null,2))
                    if (result.value) {
+                       this.tables = []
                        //alert(JSON.stringify(result.value.value,null,2))
                        for (var i=0;i<result.value.value.length;i++) {
-                           this.tables = result.value.value[i].name
+                           this.tables.push(result.value.value[i].name)
 
                        }
                    }
