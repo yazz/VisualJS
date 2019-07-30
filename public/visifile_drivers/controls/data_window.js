@@ -229,12 +229,13 @@ logo_url("/driver_icons/data_window.png")
 
         <div v-if='designDetailTab == "schema"'  >
            schema tab
-           <option   v-for='table in tables'
-                     v-bind:value="table">
+           <div   v-for='table in tables'
+                  v-on:click="args.sql = 'select * from ' + table"
+           >
 
                  {{table}}
 
-           </option>
+           </div>
         </div>
 
 
