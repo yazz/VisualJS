@@ -67,6 +67,14 @@ properties(
         }
         ,
         {
+            id:         "design_mode_table",
+            name:       "Design Table",
+            type:       "String",
+            default:    "",
+            hidden:     true
+        }
+        ,
+        {
             id:         "hide_children",
             name:       "Hide Children?",
             type:       "Boolean",
@@ -230,7 +238,8 @@ logo_url("/driver_icons/data_window.png")
         <div v-if='designDetailTab == "schema"'  >
            schema tab
            <div   v-for='table in tables'
-                  v-on:click="args.sql = 'select * from ' + table"
+                  v-on:click="args.sql = 'select * from ' + table; args.design_mode_table = table;"
+                  v-bind:style='"padding: 5px; " + ((args.design_mode_table == table)?"background-color:gray;color:white;":"background-color:white;color:gray;") '
            >
 
                  {{table}}
