@@ -26,6 +26,8 @@ only_run_on_server(true)
               var useSql = args.sql
               if (args.get_tables) {
                   useSql = "SELECT tablename as name FROM pg_catalog.pg_tables where schemaname = 'public';"
+              } else if (args.get_columns) {
+                  useSql = "select  column_name as name  FROM information_schema.columns WHERE table_name   = '" + args.table +"'"
               }
               dbconnection.query(useSql, [], function (err, result) {
                 if (err) {

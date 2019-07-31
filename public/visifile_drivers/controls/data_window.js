@@ -238,7 +238,7 @@ logo_url("/driver_icons/data_window.png")
         <div v-if='designDetailTab == "schema"'  >
            schema tab
            <div   v-for='table in tables'
-                  v-on:click="args.sql = 'select * from ' + table; args.design_mode_table = table;"
+                  v-on:click="args.sql = 'select * from ' + table; args.design_mode_table = table;getColumns()"
                   v-bind:style='"padding: 5px; " + ((args.design_mode_table == table)?"background-color:gray;color:white;":"background-color:white;color:gray;") '
            >
 
@@ -252,6 +252,13 @@ logo_url("/driver_icons/data_window.png")
 
         <div v-if='designDetailTab == "columns"'  >
             columns tab
+            <div   v-for='column in columns'
+                   v-bind:style='"padding: 5px; background-color:white;color:gray;" '
+            >
+
+                  {{column}}
+
+            </div>
         </div>
 
 
@@ -317,6 +324,8 @@ logo_url("/driver_icons/data_window.png")
          data:              [ ]
          ,
          tables:            [ ]
+         ,
+         columns:            [ ]
          ,
          designDetailTab: "connection"
        }
@@ -485,6 +494,58 @@ logo_url("/driver_icons/data_window.png")
                 }
             }
             ,
+
+
+
+
+
+
+
+
+
+
+
+            getColumns: async function() {
+                console.log("In getColumns")
+
+                if (this.design_mode) {
+                    var result = await callFunction(
+                                        {
+                                            driver_name: "postgres_server",
+                                            method_name: "postgres_sql"  }
+                                            ,{
+                                                user:            this.args.user,
+                                                password:        this.args.password,
+                                                database:        this.args.database,
+                                                host:            this.args.host,
+                                                port:            this.args.port,
+                                                get_columns:      true,
+                                                table:           this.args.design_mode_table
+                                             })
+
+
+                   //alert("executeSql: " + JSON.stringify(result,null,2))
+                   console.log(JSON.stringify(result,null,2))
+                   if (result.value) {
+                       this.columns = []
+                       //alert(JSON.stringify(result.value.value,null,2))
+                       for (var i=0;i<result.value.value.length;i++) {
+                           this.columns.push(result.value.value[i].name)
+
+                       }
+                   }
+
+
+                }
+            }
+            ,
+
+
+
+
+
+
+
 
 
 
