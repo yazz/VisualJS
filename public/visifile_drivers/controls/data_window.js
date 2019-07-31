@@ -175,7 +175,7 @@ logo_url("/driver_icons/data_window.png")
         v-bind:refresh='refresh'>
 
 
-    <div v-bind:style='"height:100%;width:100%; border: 0px;color:black;"'
+    <div v-bind:style='"height:100%;width:100%; border: 0px;color:black;padding: 10px;"'
          v-if='design_mode == "detail_editor"'>
             SQL Builder
 
