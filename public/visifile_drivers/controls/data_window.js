@@ -217,7 +217,7 @@ logo_url("/driver_icons/data_window.png")
 
 
         <div v-if='designDetailTab == "connection"'  >
-            connection tab
+            Connection
 
             <select  @change='alert($event)'>
                   <option   v-for='propVal in ["postgres","csv"]'
@@ -236,7 +236,7 @@ logo_url("/driver_icons/data_window.png")
 
 
         <div v-if='designDetailTab == "schema"'  >
-           schema tab
+           Database tables for schema &#34;{{args.database}}&#34;
            <div   v-for='table in tables'
                   v-on:click="args.sql = 'select * from ' + table; args.design_mode_table = table;getColumns()"
                   v-bind:style='"padding: 5px; " + ((args.design_mode_table == table)?"background-color:gray;color:white;":"background-color:white;color:gray;") '
@@ -251,7 +251,7 @@ logo_url("/driver_icons/data_window.png")
 
 
         <div v-if='designDetailTab == "columns"'  >
-            columns tab
+            Columns for table &#34;{{args.design_mode_table}}&#34;
             <div   v-for='column in columns'
                    v-bind:style='"padding: 5px; background-color:white;color:gray;" '
             >
