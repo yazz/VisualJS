@@ -1,6 +1,6 @@
 
 # Visual Javascript
-## Open Source Kubernetes IDE
+## Create Kubernetes apps in minutes
 
 
 
