@@ -185,88 +185,94 @@ logo_url("/driver_icons/data_window.png")
 
     <div v-bind:style='"height:100%;width:100%; border: 0px;color:black;padding: 10px;"'
          v-if='design_mode == "detail_editor"'>
-            SQL Builder
 
-        <ul class="nav nav-pills">
-            <li class="nav-item" style="width:20%;">
-                <a  v-bind:class='"nav-link " + ((designDetailTab == "connection")?"active":"")'
-                    v-on:click="designDetailTab = 'connection';"
-                    href="#">
-                    Data source connection
-                </a>
-            </li>
+        <div v-bind:style='"height:100%;width:100%; overflow: none;"'>
 
-            <li class="nav-item" style="width:20%;">
-                <a    v-bind:class='"nav-link " + ((designDetailTab == "schema")?"active":"")'
-                      v-on:click="designDetailTab = 'schema';"
-                      href="#">Schema and tables</a>
-            </li>
+            <ul class="nav nav-pills" v-bind:style='"height:20%;width:100%; overflow: none;"'>
+                <li class="nav-item" style="width:20%;">
+                    <a  v-bind:class='"nav-link " + ((designDetailTab == "connection")?"active":"")'
+                        v-on:click="designDetailTab = 'connection';"
+                        href="#">
+                        Data source connection
+                    </a>
+                </li>
 
-            <li class="nav-item" style="width:20%;">
-                <a    v-bind:class='"nav-link " + ((designDetailTab == "columns")?"active":"")'
-                      v-on:click="designDetailTab = 'columns';"
-                      href="#">Columns</a>
-            </li>
+                <li class="nav-item" style="width:20%;">
+                    <a    v-bind:class='"nav-link " + ((designDetailTab == "schema")?"active":"")'
+                          v-on:click="designDetailTab = 'schema';"
+                          href="#">Schema and tables</a>
+                </li>
 
-            <li class="nav-item" style="width:20%;">
-                <a    v-bind:class='"nav-link " + ((designDetailTab == "where")?"active":"")'
-                      v-on:click="designDetailTab = 'where';"
-                      href="#">Where</a>
-            </li>
-        </ul>
+                <li class="nav-item" style="width:20%;">
+                    <a    v-bind:class='"nav-link " + ((designDetailTab == "columns")?"active":"")'
+                          v-on:click="designDetailTab = 'columns';"
+                          href="#">Columns</a>
+                </li>
 
+                <li class="nav-item" style="width:20%;">
+                    <a    v-bind:class='"nav-link " + ((designDetailTab == "where")?"active":"")'
+                          v-on:click="designDetailTab = 'where';"
+                          href="#">Where</a>
+                </li>
+            </ul>
 
-        <div v-if='designDetailTab == "connection"'  >
-            Connection
+            <div v-if='designDetailTab == "connection"'  >
+                Connection
 
-            <select  @change='alert($event)'>
-                  <option   v-for='propVal in ["postgres","csv"]'
-                            v-bind:value="propVal"
-                            v-bind:selected='(propVal == "postgres")'>
+                <select  @change='alert($event)'>
+                      <option   v-for='propVal in ["postgres","csv"]'
+                                v-bind:value="propVal"
+                                v-bind:selected='(propVal == "postgres")'>
 
-                        {{propVal}}
+                            {{propVal}}
 
-                  </option>
-            </select>
+                      </option>
+                </select>
 
-
-        </div>
-
-
-
-
-        <div v-if='designDetailTab == "schema"'  >
-           Database tables for schema &#34;{{args.database}}&#34;
-           <div   v-for='table in tables'
-                  v-on:click="args.sql = 'select * from ' + table; args.design_mode_table = table;getColumns()"
-                  v-bind:style='"padding: 5px; " + ((args.design_mode_table == table)?"background-color:gray;color:white;":"background-color:white;color:gray;") '
-           >
-
-                 {{table}}
-
-           </div>
-        </div>
-
-
-
-
-        <div v-if='designDetailTab == "columns"'  >
-            Columns for table &#34;{{args.design_mode_table}}&#34;
-            <div   v-for='column in columns'
-                   v-bind:style='"padding: 5px; background-color:white;color:gray;" '
-            >
-
-                  {{column}}
 
             </div>
-        </div>
+
+
+
+
+            <div v-if='designDetailTab == "schema"'  >
+               Database tables for schema &#34;{{args.database}}&#34;
+               <div style="height:70%;width:100%; overflow-y: scroll;">
+
+                   <div   v-for='table in tables'
+                          v-on:click="args.sql = 'select * from ' + table; args.design_mode_table = table;getColumns()"
+                          v-bind:style='"padding: 5px; " + ((args.design_mode_table == table)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
+
+                         {{table}}
+
+                   </div>
+               </div>
+            </div>
+
+
+
+
+            <div v-if='designDetailTab == "columns"'  >
+                Columns for table &#34;{{args.design_mode_table}}&#34;
+                <div style="height:70%;width:100%; overflow-y: scroll;">
+
+                    <div   v-for='column in columns'
+                           v-bind:style='"padding: 5px; background-color:white;color:gray;" '>
+
+                          {{column}}
+
+                    </div>
+                </div>
+            </div>
 
 
 
 
 
-        <div v-if='designDetailTab == "where"'  >
-            where tab
+            <div v-if='designDetailTab == "where"'  >
+                where tab
+            </div>
+
         </div>
 
     </div>
