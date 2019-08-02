@@ -254,14 +254,33 @@ logo_url("/driver_icons/data_window.png")
 
             <div v-if='designDetailTab == "columns"'  >
                 Columns for table &#34;{{args.design_mode_table}}&#34;
-                <div style="height:70%;width:100%; overflow-y: scroll;">
+                <div>
 
-                    <div   v-for='column in columns'
-                           v-bind:style='"padding: 5px; background-color:white;color:gray;" '>
+                
+                    <div style="height:70%;width:45%; overflow-y: scroll;display:inline-block;">
 
-                          {{column}}
 
+                        <div   v-for='column in columns'
+                               v-bind:style='"padding: 5px; background-color:white;color:gray;" '>
+
+                              {{column}}
+
+                        </div>
                     </div>
+
+
+                    <div style="height:70%;width:45%; overflow-y: scroll;display:inline-block;">
+
+
+                        <div   v-for='column in columns'
+                               v-bind:style='"padding: 5px; background-color:white;color:gray;" '>
+
+                              {{column}}
+
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
 
