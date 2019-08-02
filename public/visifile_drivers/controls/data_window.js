@@ -261,7 +261,8 @@ logo_url("/driver_icons/data_window.png")
 
 
                         <div   v-for='column in columns'
-                               v-bind:style='"padding: 5px; background-color:white;color:gray;" '>
+                               v-on:click="selected_column = column;"
+                               v-bind:style='"padding: 5px; " + ((selected_column == column)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
 
                               {{column}}
 
@@ -275,7 +276,7 @@ logo_url("/driver_icons/data_window.png")
                         <div   v-for='dwcolumn in dataWindowColumns'
                                v-bind:style='"padding: 5px; background-color:white;color:gray;" '>
 
-                              {{dwcolumn}}
+                              {{dwcolumn.id}}
 
                         </div>
                     </div>
@@ -352,7 +353,11 @@ logo_url("/driver_icons/data_window.png")
          ,
          columns:            [ ]
          ,
-         dataWindowColumns:  [ "abc", "def" ]
+         selected_column:    ""
+         ,
+         dataWindowColumns:  [ {id: "abc"}, {id: "def"}, {id: "ghi"} ]
+         ,
+         selected_data_window_column:    ""
          ,
          designDetailTab:     "connection"
        }
