@@ -256,7 +256,7 @@ logo_url("/driver_icons/data_window.png")
                 Columns for table &#34;{{args.design_mode_table}}&#34;
                 <div>
 
-                
+
                     <div style="height:70%;width:45%; overflow-y: scroll;display:inline-block;">
 
 
@@ -272,10 +272,10 @@ logo_url("/driver_icons/data_window.png")
                     <div style="height:70%;width:45%; overflow-y: scroll;display:inline-block;">
 
 
-                        <div   v-for='column in columns'
+                        <div   v-for='dwcolumn in dataWindowColumns'
                                v-bind:style='"padding: 5px; background-color:white;color:gray;" '>
 
-                              {{column}}
+                              {{dwcolumn}}
 
                         </div>
                     </div>
@@ -342,17 +342,19 @@ logo_url("/driver_icons/data_window.png")
 
       data: function() {
        return {
-         selected_index:     null
+         selected_index:      null
          ,
-         columnDefinitions: [ ]
+         columnDefinitions:  [ ]
          ,
-         data:              [ ]
+         data:               [ ]
          ,
-         tables:            [ ]
+         tables:             [ ]
          ,
          columns:            [ ]
          ,
-         designDetailTab: "connection"
+         dataWindowColumns:  [ "abc", "def" ]
+         ,
+         designDetailTab:     "connection"
        }
      }
      ,
