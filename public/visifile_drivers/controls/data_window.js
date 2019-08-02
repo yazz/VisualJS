@@ -251,7 +251,6 @@ logo_url("/driver_icons/data_window.png")
 
 
 
-
             <div v-if='designDetailTab == "columns"'  >
                 Columns for table &#34;{{args.design_mode_table}}&#34;
                 <div>
@@ -272,7 +271,7 @@ logo_url("/driver_icons/data_window.png")
                     <div style="height:70%;width:15%; overflow-y: none;display:inline-block;vertical-align:top;">
                         <div    class="btn btn-info"
                                 type=button
-                                v-on:click="dataWindowColumns.push({id: selected_column});">
+                                v-on:click="dataWindowColumns.push({id: selected_column});setSql()">
 
                               Add >>
 
@@ -280,7 +279,7 @@ logo_url("/driver_icons/data_window.png")
                         <div    class="btn btn-danger"
                                 type=button
                                 style="margin-top:20px;"
-                                v-on:click="dataWindowColumns.splice(selected_data_window_column_index,1);">
+                                v-on:click="dataWindowColumns.splice(selected_data_window_column_index,1);setSql()">
 
                               << Delete
 
@@ -465,7 +464,22 @@ logo_url("/driver_icons/data_window.png")
 
 
       methods: {
+            setSql: function() {
+                var colSql = "*"
+                if (this.dataWindowColumns.length > 0) {
+                    colSql = ""
+                    for (var coli=0; coli < this.dataWindowColumns.length; coli ++) {
+                        colSql += this.dataWindowColumns[coli].id
+                        if (coli< (this.dataWindowColumns.length - 1)) {
+                            colSql += ","
+                        }
+                    }
+                }
+                this.args.sql = "select " + colSql + " from " + this.args.design_mode_table
 
+
+            }
+            ,
             changedFn: function() {
                 if (isValidObject(this.args)) {
                 }
