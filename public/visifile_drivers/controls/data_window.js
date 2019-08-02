@@ -257,7 +257,7 @@ logo_url("/driver_icons/data_window.png")
                 <div>
 
 
-                    <div style="height:70%;width:45%; overflow-y: scroll;display:inline-block;">
+                    <div style="height:70%;width:30%; overflow-y: scroll;display:inline-block;vertical-align:top;">
 
 
                         <div   v-for='column in columns'
@@ -269,12 +269,35 @@ logo_url("/driver_icons/data_window.png")
                         </div>
                     </div>
 
+                    <div style="height:70%;width:15%; overflow-y: none;display:inline-block;vertical-align:top;">
+                        <div    class="btn btn-info"
+                                type=button
+                                v-on:click="dataWindowColumns.push({id: selected_column});">
 
-                    <div style="height:70%;width:45%; overflow-y: scroll;display:inline-block;">
+                              Add >>
+
+                        </div>
+                        <div    class="btn btn-danger"
+                                type=button
+                                style="margin-top:20px;"
+                                v-on:click="dataWindowColumns.splice(selected_data_window_column_index,1);">
+
+                              << Delete
+
+                        </div>
+                    </div>
 
 
-                        <div   v-for='dwcolumn in dataWindowColumns'
-                               v-bind:style='"padding: 5px; background-color:white;color:gray;" '>
+
+
+
+
+                    <div style="height:70%;width:30%; overflow-y: scroll;display:inline-block;vertical-align:top;">
+
+
+                        <div    v-for='(dwcolumn,index) in dataWindowColumns'
+                                v-on:click="selected_data_window_column = dwcolumn;selected_data_window_column_index = index"
+                                v-bind:style='"padding: 5px; " + ((selected_data_window_column == dwcolumn)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
 
                               {{dwcolumn.id}}
 
@@ -355,9 +378,11 @@ logo_url("/driver_icons/data_window.png")
          ,
          selected_column:    ""
          ,
-         dataWindowColumns:  [ {id: "abc"}, {id: "def"}, {id: "ghi"} ]
+         dataWindowColumns:  [  ]
          ,
          selected_data_window_column:    ""
+         ,
+         selected_data_window_column_index:    -1
          ,
          designDetailTab:     "connection"
        }
