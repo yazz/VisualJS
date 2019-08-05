@@ -316,7 +316,7 @@ logo_url("/driver_icons/data_window.png")
                                 <div    class="btn"
                                         type=button
                                         style="margin-top:20px;"
-                                        v-on:click="dataWindowColumns.splice(selected_data_window_column_index,1);setSql()">
+                                        v-on:click="array_move(dataWindowColumns,selected_data_window_column_index,selected_data_window_column_index + 1);selected_data_window_column_index ++;">
 
                                       Down
 
