@@ -308,7 +308,7 @@ logo_url("/driver_icons/data_window.png")
                             <div    class="btn-group">
                                 <div    class="btn"
                                         type=button
-                                        v-on:click="dataWindowColumns.push({id: selected_column});setSql()">
+                                        v-on:click="array_move(dataWindowColumns,selected_data_window_column_index,selected_data_window_column_index-1);selected_data_window_column_index --;">
 
                                       Up
 
@@ -552,6 +552,17 @@ logo_url("/driver_icons/data_window.png")
 
 
 
+            array_move: function (arr, old_index, new_index) {
+                if (new_index >= arr.length) {
+                    var k = new_index - arr.length + 1;
+                    while (k--) {
+                        arr.push(undefined);
+                    }
+                }
+                arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+                return arr; // for testing
+            }
+            ,
 
 
 
