@@ -150,6 +150,13 @@ properties(
             type:   "String",
             default_expression: "(typeof $POSTGRES_HOST !== 'undefined')?$POSTGRES_HOST:'localhost'",
         }
+        ,
+        {
+            id:     "dataWindowColumns",
+            name:   "dataWindowColumns",
+            type:   "Array",
+            default:    []
+        }
 
         ,
         {
@@ -271,7 +278,7 @@ logo_url("/driver_icons/data_window.png")
                     <div style="height:70%;width:15%; overflow-y: none;display:inline-block;vertical-align:top;">
                         <div    class="btn"
                                 type=button
-                                v-on:click="dataWindowColumns.push({id: selected_column});setSql()">
+                                v-on:click="args.dataWindowColumns.push({id: selected_column});setSql()">
 
                               Add >>
 
@@ -279,7 +286,7 @@ logo_url("/driver_icons/data_window.png")
                         <div    class="btn"
                                 type=button
                                 style="margin-top:20px;"
-                                v-on:click="dataWindowColumns.splice(selected_data_window_column_index,1);setSql()">
+                                v-on:click="args.dataWindowColumns.splice(selected_data_window_column_index,1);setSql()">
 
                               << Delete
 
@@ -295,7 +302,7 @@ logo_url("/driver_icons/data_window.png")
                         <div style="height:100%;width:100%; overflow-y: scroll;vertical-align:top;">
 
 
-                            <div    v-for='(dwcolumn,index) in dataWindowColumns'
+                            <div    v-for='(dwcolumn,index) in args.dataWindowColumns'
                                     v-on:click="selected_data_window_column = dwcolumn;selected_data_window_column_index = index"
                                     v-bind:style='"padding: 5px; " + ((selected_data_window_column == dwcolumn)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
 
@@ -308,7 +315,7 @@ logo_url("/driver_icons/data_window.png")
                             <div    class="btn-group">
                                 <div    class="btn"
                                         type=button
-                                        v-on:click="array_move(dataWindowColumns,selected_data_window_column_index,selected_data_window_column_index-1);selected_data_window_column_index --;">
+                                        v-on:click="array_move(args.dataWindowColumns,selected_data_window_column_index,selected_data_window_column_index-1);selected_data_window_column_index --;">
 
                                       Up
 
@@ -316,7 +323,7 @@ logo_url("/driver_icons/data_window.png")
                                 <div    class="btn"
                                         type=button
                                         style="margin-top:20px;"
-                                        v-on:click="array_move(dataWindowColumns,selected_data_window_column_index,selected_data_window_column_index + 1);selected_data_window_column_index ++;">
+                                        v-on:click="array_move(args.dataWindowColumns,selected_data_window_column_index,selected_data_window_column_index + 1);selected_data_window_column_index ++;">
 
                                       Down
 
@@ -399,8 +406,6 @@ logo_url("/driver_icons/data_window.png")
          columns:            [ ]
          ,
          selected_column:    ""
-         ,
-         dataWindowColumns:  [  ]
          ,
          selected_data_window_column:    ""
          ,
@@ -489,11 +494,11 @@ logo_url("/driver_icons/data_window.png")
       methods: {
             setSql: function() {
                 var colSql = "*"
-                if (this.dataWindowColumns.length > 0) {
+                if (this.args.dataWindowColumns.length > 0) {
                     colSql = ""
-                    for (var coli=0; coli < this.dataWindowColumns.length; coli ++) {
-                        colSql += this.dataWindowColumns[coli].id
-                        if (coli< (this.dataWindowColumns.length - 1)) {
+                    for (var coli=0; coli < this.args.dataWindowColumns.length; coli ++) {
+                        colSql += this.args.dataWindowColumns[coli].id
+                        if (coli< (this.args.dataWindowColumns.length - 1)) {
                             colSql += ","
                         }
                     }
@@ -542,9 +547,16 @@ logo_url("/driver_icons/data_window.png")
                     }
                 }
 
-                var dfg2 = Object.keys(keysOfData)
-                for (var qq2 = 0 ; qq2 < dfg2.length; qq2 ++) {
-                    this.addColumn({title:dfg2[qq2], field:dfg2[qq2]})
+                if (this.args.dataWindowColumns.length == 0) {
+                    var dfg2 = Object.keys(keysOfData)
+                    for (var qq2 = 0 ; qq2 < dfg2.length; qq2 ++) {
+                        this.addColumn({title:dfg2[qq2], field:dfg2[qq2]})
+                    }
+
+                } else {
+                    for (var coli = this.args.dataWindowColumns.length - 1; coli >= 0; coli --) {
+                        this.addColumn({title:this.args.dataWindowColumns[coli].id, field:this.args.dataWindowColumns[coli].id})
+                    }
                 }
 
             }
