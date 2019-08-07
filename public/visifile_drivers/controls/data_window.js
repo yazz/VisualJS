@@ -258,12 +258,12 @@ logo_url("/driver_icons/data_window.png")
 
 
 
-            <div v-if='designDetailTab == "columns"'  >
+            <div v-if='designDetailTab == "columns"' >
                 Columns for table &#34;{{args.design_mode_table}}&#34;
                 <div>
 
 
-                    <div style="height:70%;width:30%; overflow-y: scroll;display:inline-block;vertical-align:top;">
+                    <div style="height:70%;width:30%; overflow-y: scroll;display:inline-block;vertical-align:top; border: 2px solid gray;">
 
 
                         <div   v-for='column in columns'
@@ -288,7 +288,7 @@ logo_url("/driver_icons/data_window.png")
                                 style="margin-top:20px;"
                                 v-on:click="args.dataWindowColumns.splice(selected_data_window_column_index,1);setSql()">
 
-                              << Delete
+                              << Remove
 
                         </div>
                     </div>
@@ -298,7 +298,7 @@ logo_url("/driver_icons/data_window.png")
 
 
 
-                    <div style="height:60%;width:30%; overflow-y: none;display:inline-block;vertical-align:top;">
+                    <div style="height:60%;width:30%; overflow-y: none;display:inline-block;vertical-align:top; margin-left: 20px; border: 2px solid gray;">
                         <div style="height:100%;width:100%; overflow-y: scroll;vertical-align:top;">
 
 
@@ -314,18 +314,19 @@ logo_url("/driver_icons/data_window.png")
                         <div style="height:10%;width:50%; overflow-y: none;display:inline-block;vertical-align:top;">
                             <div    class="btn-group">
                                 <div    class="btn"
+                                        style="margin-top:20px; margin-left: 20px;"
                                         type=button
                                         v-on:click="array_move(args.dataWindowColumns,selected_data_window_column_index,selected_data_window_column_index-1);selected_data_window_column_index --;">
 
-                                      Up
+                                      Move Up
 
                                 </div>
                                 <div    class="btn"
                                         type=button
-                                        style="margin-top:20px;"
+                                        style="margin-top:20px; margin-left: 20px;"
                                         v-on:click="array_move(args.dataWindowColumns,selected_data_window_column_index,selected_data_window_column_index + 1);selected_data_window_column_index ++;">
 
-                                      Down
+                                      Move Down
 
                                       </div>
                                   </div>
