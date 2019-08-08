@@ -155,8 +155,19 @@ properties(
             id:     "dataWindowColumns",
             name:   "dataWindowColumns",
             type:   "Array",
+            hidden: true,
             default:    []
         }
+
+        ,
+        {
+            id:     "selected_data_window_column_index",
+            name:   "selected_data_window_column_index",
+            type:   "Number",
+            hidden: true,
+            default:    -1
+        }
+
 
         ,
         {
@@ -286,7 +297,7 @@ logo_url("/driver_icons/data_window.png")
                         <div    class="btn"
                                 type=button
                                 style="margin-top:20px;"
-                                v-on:click="args.dataWindowColumns.splice(selected_data_window_column_index,1);setSql()">
+                                v-on:click="args.dataWindowColumns.splice(args.selected_data_window_column_index,1);setSql()">
 
                               << Remove
 
@@ -303,7 +314,7 @@ logo_url("/driver_icons/data_window.png")
 
 
                             <div    v-for='(dwcolumn,index) in args.dataWindowColumns'
-                                    v-on:click="selected_data_window_column = dwcolumn;selected_data_window_column_index = index"
+                                    v-on:click="selected_data_window_column = dwcolumn;args.selected_data_window_column_index = index"
                                     v-bind:style='"padding: 5px; " + ((selected_data_window_column == dwcolumn)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
 
                                   {{dwcolumn.id}}
@@ -316,7 +327,7 @@ logo_url("/driver_icons/data_window.png")
                                 <div    class="btn"
                                         style="margin-top:20px; margin-left: 20px;"
                                         type=button
-                                        v-on:click="array_move(args.dataWindowColumns,selected_data_window_column_index,selected_data_window_column_index-1);selected_data_window_column_index --;">
+                                        v-on:click="array_move(args.dataWindowColumns,args.selected_data_window_column_index,args.selected_data_window_column_index-1);args.selected_data_window_column_index --;">
 
                                       Move Up
 
@@ -324,7 +335,7 @@ logo_url("/driver_icons/data_window.png")
                                 <div    class="btn"
                                         type=button
                                         style="margin-top:20px; margin-left: 20px;"
-                                        v-on:click="array_move(args.dataWindowColumns,selected_data_window_column_index,selected_data_window_column_index + 1);selected_data_window_column_index ++;">
+                                        v-on:click="array_move(args.dataWindowColumns,args.selected_data_window_column_index,args.selected_data_window_column_index + 1);args.selected_data_window_column_index ++;">
 
                                       Move Down
 
@@ -409,8 +420,7 @@ logo_url("/driver_icons/data_window.png")
          selected_column:    ""
          ,
          selected_data_window_column:    ""
-         ,
-         selected_data_window_column_index:    -1
+
          ,
          designDetailTab:     "connection"
        }
