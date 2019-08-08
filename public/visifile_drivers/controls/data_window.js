@@ -167,9 +167,19 @@ properties(
             hidden: true,
             default:    -1
         }
-
-
         ,
+        {
+            id:     "selected_data_window_column",
+            name:   "selected_data_window_column",
+            type:   "String",
+            hidden: true,
+            default:    ""
+        }
+        ,
+
+
+
+
         {
             id:     "result",
             name:   "result",
@@ -314,8 +324,8 @@ logo_url("/driver_icons/data_window.png")
 
 
                             <div    v-for='(dwcolumn,index) in args.dataWindowColumns'
-                                    v-on:click="selected_data_window_column = dwcolumn;args.selected_data_window_column_index = index"
-                                    v-bind:style='"padding: 5px; " + ((selected_data_window_column == dwcolumn)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
+                                    v-on:click="args.selected_data_window_column = dwcolumn;args.selected_data_window_column_index = index"
+                                    v-bind:style='"padding: 5px; " + ((args.selected_data_window_column == dwcolumn)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
 
                                   {{dwcolumn.id}}
 
@@ -418,8 +428,7 @@ logo_url("/driver_icons/data_window.png")
          columns:            [ ]
          ,
          selected_column:    ""
-         ,
-         selected_data_window_column:    ""
+
 
          ,
          designDetailTab:     "connection"
