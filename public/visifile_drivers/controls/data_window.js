@@ -175,9 +175,32 @@ properties(
             hidden: true,
             default:    ""
         }
+        
+
+
+
+
         ,
+        {
+            id:     "columns",
+            name:   "columns",
+            type:   "Array",
+            hidden: true,
+            default:    []
+        }
 
 
+
+        ,
+        {
+            id:     "selected_column",
+            name:   "selected_column",
+            type:   "String",
+            hidden: true,
+            default:    ""
+        }
+
+        ,
 
 
         {
@@ -287,9 +310,9 @@ logo_url("/driver_icons/data_window.png")
                     <div style="height:70%;width:30%; overflow-y: scroll;display:inline-block;vertical-align:top; border: 2px solid gray;">
 
 
-                        <div   v-for='column in columns'
-                               v-on:click="selected_column = column;"
-                               v-bind:style='"padding: 5px; " + ((selected_column == column)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
+                        <div   v-for='column in args.columns'
+                               v-on:click="args.selected_column = column;"
+                               v-bind:style='"padding: 5px; " + ((args.selected_column == column)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
 
                               {{column}}
 
@@ -299,7 +322,7 @@ logo_url("/driver_icons/data_window.png")
                     <div style="height:70%;width:15%; overflow-y: none;display:inline-block;vertical-align:top;">
                         <div    class="btn"
                                 type=button
-                                v-on:click="args.dataWindowColumns.push({id: selected_column});setSql()">
+                                v-on:click="args.dataWindowColumns.push({id: args.selected_column});setSql()">
 
                               Add >>
 
@@ -424,10 +447,6 @@ logo_url("/driver_icons/data_window.png")
          data:               [ ]
          ,
          tables:             [ ]
-         ,
-         columns:            [ ]
-         ,
-         selected_column:    ""
 
 
          ,
@@ -664,10 +683,10 @@ logo_url("/driver_icons/data_window.png")
                    //alert("executeSql: " + JSON.stringify(result,null,2))
                    console.log(JSON.stringify(result,null,2))
                    if (result.value) {
-                       this.columns = []
+                       this.args.columns = []
                        //alert(JSON.stringify(result.value.value,null,2))
                        for (var i=0;i<result.value.value.length;i++) {
-                           this.columns.push(result.value.value[i].name)
+                           this.args.columns.push(result.value.value[i].name)
 
                        }
                    }
