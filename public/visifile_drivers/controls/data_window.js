@@ -325,7 +325,7 @@ logo_url("/driver_icons/data_window.png")
 
                             <div    v-for='(dwcolumn,index) in args.dataWindowColumns'
                                     v-on:click="args.selected_data_window_column = dwcolumn;args.selected_data_window_column_index = index"
-                                    v-bind:style='"padding: 5px; " + ((args.selected_data_window_column == dwcolumn)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
+                                    v-bind:style='"padding: 5px; " + ((args.selected_data_window_column.id == dwcolumn.id)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
 
                                   {{dwcolumn.id}}
 
