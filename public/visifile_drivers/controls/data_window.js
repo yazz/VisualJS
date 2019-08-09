@@ -158,7 +158,14 @@ properties(
             hidden: true,
             default:    []
         }
-
+        ,
+        {
+            id:     "dataWindowColumnsMax",
+            name:   "dataWindowColumnsMax",
+            type:   "Number",
+            hidden: true,
+            default:    0
+        }
         ,
         {
             id:     "selected_data_window_column_index",
@@ -175,7 +182,7 @@ properties(
             hidden: true,
             default:    ""
         }
-        
+
 
 
 
@@ -322,7 +329,7 @@ logo_url("/driver_icons/data_window.png")
                     <div style="height:70%;width:15%; overflow-y: none;display:inline-block;vertical-align:top;">
                         <div    class="btn"
                                 type=button
-                                v-on:click="args.dataWindowColumns.push({id: args.selected_column});setSql()">
+                                v-on:click="args.dataWindowColumns.push({id:    args.dataWindowColumnsMax++, value: args.selected_column});setSql()">
 
                               Add >>
 
@@ -350,7 +357,7 @@ logo_url("/driver_icons/data_window.png")
                                     v-on:click="args.selected_data_window_column = dwcolumn;args.selected_data_window_column_index = index"
                                     v-bind:style='"padding: 5px; " + ((args.selected_data_window_column.id == dwcolumn.id)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
 
-                                  {{dwcolumn.id}}
+                                  {{dwcolumn.value}}
 
                             </div>
                         </div>
@@ -536,7 +543,7 @@ logo_url("/driver_icons/data_window.png")
                 if (this.args.dataWindowColumns.length > 0) {
                     colSql = ""
                     for (var coli=0; coli < this.args.dataWindowColumns.length; coli ++) {
-                        colSql += this.args.dataWindowColumns[coli].id
+                        colSql += this.args.dataWindowColumns[coli].value
                         if (coli< (this.args.dataWindowColumns.length - 1)) {
                             colSql += ","
                         }
@@ -594,7 +601,7 @@ logo_url("/driver_icons/data_window.png")
 
                 } else {
                     for (var coli = this.args.dataWindowColumns.length - 1; coli >= 0; coli --) {
-                        this.addColumn({title:this.args.dataWindowColumns[coli].id, field:this.args.dataWindowColumns[coli].id})
+                        this.addColumn({title:this.args.dataWindowColumns[coli].value, field:this.args.dataWindowColumns[coli].value})
                     }
                 }
 
