@@ -349,7 +349,7 @@ logo_url("/driver_icons/data_window.png")
 
 
 
-                    <div style="height:60%;width:30%; overflow-y: none;display:inline-block;vertical-align:top; margin-left: 20px; border: 2px solid gray;">
+                    <div style="height:30%;width:30%; overflow-y: none;display:inline-block;vertical-align:top; margin-left: 20px; border: 2px solid gray;">
                         <div style="height:100%;width:100%; overflow-y: scroll;vertical-align:top;">
 
 
@@ -362,27 +362,43 @@ logo_url("/driver_icons/data_window.png")
                             </div>
                         </div>
 
-                        <div style="height:10%;width:50%; overflow-y: none;display:inline-block;vertical-align:top;">
-                            <div    class="btn-group">
-                                <div    class="btn"
-                                        style="margin-top:20px; margin-left: 20px;"
-                                        type=button
-                                        v-on:click="array_move(args.dataWindowColumns,args.selected_data_window_column_index,args.selected_data_window_column_index-1);args.selected_data_window_column_index --;">
+                        <div    class="btn-group">
+                            <div    class="btn"
+                                    style="margin-top:20px; margin-left: 0px;"
+                                    type=button
+                                    v-on:click="array_move(args.dataWindowColumns,args.selected_data_window_column_index,args.selected_data_window_column_index-1);args.selected_data_window_column_index --;">
 
-                                      Move Up
+                                  Move Up
 
-                                </div>
-                                <div    class="btn"
-                                        type=button
-                                        style="margin-top:20px; margin-left: 20px;"
-                                        v-on:click="array_move(args.dataWindowColumns,args.selected_data_window_column_index,args.selected_data_window_column_index + 1);args.selected_data_window_column_index ++;">
+                            </div>
+                            <div    class="btn"
+                                    type=button
+                                    style="margin-top:20px; margin-left: 20px;"
+                                    v-on:click="array_move(args.dataWindowColumns,args.selected_data_window_column_index,args.selected_data_window_column_index + 1);args.selected_data_window_column_index ++;">
 
-                                      Move Down
+                                  Move Down
 
-                                      </div>
-                                  </div>
+                            </div>
                         </div>
+
+
+
+                        <div style="height:100%;width:100%; overflow-y: none;display:inline-block;margin-top:20px;">
+                            <div v-if="args.selected_data_window_column"  style="height:80%;width:100%; overflow-y: none;">
+                                DIV selected
+                            </div>
+
+
+                            <div v-if="!args.selected_data_window_column"  style="height:80%;width:100%; overflow-y: none;margin-top:20px;background-color: lightblue;">
+
+                            </div>
+                        </div>
+
+
                     </div>
+
+
+
 
 
 
