@@ -386,11 +386,22 @@ logo_url("/driver_icons/data_window.png")
                         <div style="height:100%;width:100%; overflow-y: none;display:inline-block;margin-top:20px;">
                             <div v-if="args.selected_data_window_column"  style="height:80%;width:100%; overflow-y: none; border: 1px solid lightblue;">
                                 <div>{{args.selected_data_window_column.id}}</div>
+
+                                Field
                                 <input  type=text
                                         id=col_input_value
                                         v-bind:value='args.selected_data_window_column.value'
-                                        v-on:change="args.selected_data_window_column.value = document.getElementById('col_input_value').value"
+                                        v-on:change="args.selected_data_window_column.value = document.getElementById('col_input_value').value;"
                                         ></input>
+
+                                Width
+                                <input  type=text
+                                        id=col_input_width
+                                        v-bind:value='args.selected_data_window_column.width?args.selected_data_window_column.width:""'
+                                        v-on:change="args.selected_data_window_column.width = document.getElementById('col_input_width').value;"
+                                        ></input>
+
+
                             </div>
 
 
@@ -622,7 +633,14 @@ logo_url("/driver_icons/data_window.png")
 
                 } else {
                     for (var coli = this.args.dataWindowColumns.length - 1; coli >= 0; coli --) {
-                        this.addColumn({title:this.args.dataWindowColumns[coli].value, field:this.args.dataWindowColumns[coli].value})
+                        var colDefn = {title:this.args.dataWindowColumns[coli].value,
+                                        field:this.args.dataWindowColumns[coli].value
+                                    }
+                        if (this.args.dataWindowColumns[coli].width) {
+                            colDefn.width = parseInt(this.args.dataWindowColumns[coli].width)
+                        }
+
+                        this.addColumn(colDefn)
                     }
                 }
 
