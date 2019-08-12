@@ -384,8 +384,13 @@ logo_url("/driver_icons/data_window.png")
 
 
                         <div style="height:100%;width:100%; overflow-y: none;display:inline-block;margin-top:20px;">
-                            <div v-if="args.selected_data_window_column"  style="height:80%;width:100%; overflow-y: none;">
-                                DIV selected
+                            <div v-if="args.selected_data_window_column"  style="height:80%;width:100%; overflow-y: none; border: 1px solid lightblue;">
+                                <div>{{args.selected_data_window_column.id}}</div>
+                                <input  type=text
+                                        id=col_input_value
+                                        v-bind:value='args.selected_data_window_column.value'
+                                        v-on:change="args.selected_data_window_column.value = document.getElementById('col_input_value').value"
+                                        ></input>
                             </div>
 
 
