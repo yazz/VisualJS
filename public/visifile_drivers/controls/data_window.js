@@ -327,21 +327,20 @@ logo_url("/driver_icons/data_window.png")
                     </div>
 
                     <div style="height:70%;width:15%; overflow-y: none;display:inline-block;vertical-align:top;">
-                        <div    class="btn"
-                                type=button
+                        <button    class="btn btn-primary"
+                                :disabled="(args.selected_column && args.selected_column.length > 0)?false:true"
                                 v-on:click="args.dataWindowColumns.push({id:    args.dataWindowColumnsMax++, value: args.selected_column});setSql()">
 
                               Add >>
 
-                        </div>
-                        <div    class="btn"
-                                type=button
+                        </button>
+                        <button    class="btn btn-primary"
                                 style="margin-top:20px;"
                                 v-on:click="args.dataWindowColumns.splice(args.selected_data_window_column_index,1);setSql()">
 
                               << Remove
 
-                        </div>
+                        </button>
                     </div>
 
 
@@ -405,7 +404,7 @@ logo_url("/driver_icons/data_window.png")
                             </div>
 
 
-                            <div v-if="!args.selected_data_window_column"  style="height:80%;width:100%; overflow-y: none;margin-top:20px;background-color: lightblue;">
+                            <div v-if="!args.selected_data_window_column"  style="height:80%;width:100%; overflow-y: none;margin-top:20px;border: 1px solid lightblue;">
 
                             </div>
                         </div>
