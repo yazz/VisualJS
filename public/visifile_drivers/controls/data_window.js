@@ -295,7 +295,7 @@ logo_url("/driver_icons/data_window.png")
 
             <div v-if='designDetailTab == "schema"'  >
                Database tables for schema &#34;{{args.database}}&#34;
-               <div style="height:70%;width:100%; overflow-y: scroll;">
+               <div style="height:70%;width:100%; overflow-y: scroll;border: 1px solid lightgray;">
 
                    <div   v-for='table in tables'
                           v-on:click="args.sql = 'select * from ' + table; args.design_mode_table = table;getColumns()"
@@ -363,22 +363,24 @@ logo_url("/driver_icons/data_window.png")
                         </div>
 
                         <div    class="btn-group">
-                            <div    class="btn"
-                                    style="margin-top:20px; margin-left: 0px;"
-                                    type=button
-                                    v-on:click="array_move(args.dataWindowColumns,args.selected_data_window_column_index,args.selected_data_window_column_index-1);args.selected_data_window_column_index --;">
+
+                            <button     class="btn btn-primary"
+                                        :disabled="(args.selected_data_window_column_index > -1)?false:true"
+                                        style="margin-top:20px; margin-left: 0px;"
+                                        v-on:click="array_move(args.dataWindowColumns,args.selected_data_window_column_index,args.selected_data_window_column_index-1);args.selected_data_window_column_index --;">
 
                                   Move Up
 
-                            </div>
-                            <div    class="btn"
-                                    type=button
+                            </button>
+
+                            <button class="btn btn-primary"
+                                    :disabled="(args.selected_data_window_column_index > -1)?false:true"
                                     style="margin-top:20px; margin-left: 20px;"
                                     v-on:click="array_move(args.dataWindowColumns,args.selected_data_window_column_index,args.selected_data_window_column_index + 1);args.selected_data_window_column_index ++;">
 
                                   Move Down
 
-                            </div>
+                            </button>
                         </div>
 
 
