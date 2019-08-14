@@ -365,7 +365,7 @@ logo_url("/driver_icons/data_window.png")
                         <div    class="btn-group">
 
                             <button     class="btn btn-primary"
-                                        :disabled="(args.selected_data_window_column_index > -1)?false:true"
+                                        :disabled="(args.selected_data_window_column_index > 0)?false:true"
                                         style="margin-top:20px; margin-left: 0px;"
                                         v-on:click="array_move(args.dataWindowColumns,args.selected_data_window_column_index,args.selected_data_window_column_index-1);args.selected_data_window_column_index --;">
 
@@ -374,7 +374,7 @@ logo_url("/driver_icons/data_window.png")
                             </button>
 
                             <button class="btn btn-primary"
-                                    :disabled="(args.selected_data_window_column_index > -1)?false:true"
+                                    :disabled="((args.selected_data_window_column_index > -1) && (args.selected_data_window_column_index < (args.dataWindowColumns.length - 1)))?false:true"
                                     style="margin-top:20px; margin-left: 20px;"
                                     v-on:click="array_move(args.dataWindowColumns,args.selected_data_window_column_index,args.selected_data_window_column_index + 1);args.selected_data_window_column_index ++;">
 
