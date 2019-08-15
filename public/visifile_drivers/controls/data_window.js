@@ -337,7 +337,7 @@ logo_url("/driver_icons/data_window.png")
                         <button    class="btn btn-primary"
                                 style="margin-top:20px;"
                                 :disabled="(args.selected_data_window_column_index > -1)?false:true"
-                                v-on:click="args.dataWindowColumns.splice(args.selected_data_window_column_index,1);setSql(); args.selected_data_window_column_index = -1;">
+                                v-on:click="args.dataWindowColumns.splice(args.selected_data_window_column_index,1);setSql(); args.selected_data_window_column_index = -1;args.selected_data_window_column=null;">
 
                               << Remove
 
@@ -385,29 +385,45 @@ logo_url("/driver_icons/data_window.png")
 
 
 
-                        <div style="height:100%;width:100%; overflow-y: none;display:inline-block;margin-top:20px;">
-                            <div v-if="args.selected_data_window_column"  style="height:80%;width:100%; overflow-y: none; border: 1px solid lightblue;">
-                                <div>{{args.selected_data_window_column.id}}</div>
+                        <div   style=" border: 1px solid lightgray;height:90%;width:100%; display:inline-block;margin-top:20px;overflow-y:scroll;">
 
-                                Field
-                                <input  type=text
-                                        id=col_input_value
-                                        v-bind:value='args.selected_data_window_column.value'
-                                        v-on:change="args.selected_data_window_column.value = document.getElementById('col_input_value').value;"
-                                        ></input>
+                            <div    v-if="args.selected_data_window_column"
+                                    style="height:100%;width:100%; overflow-y: none;">
 
-                                Width
-                                <input  type=text
-                                        id=col_input_width
-                                        v-bind:value='args.selected_data_window_column.width?args.selected_data_window_column.width:""'
-                                        v-on:change="args.selected_data_window_column.width = document.getElementById('col_input_width').value;"
-                                        ></input>
+                                <div class="form-group">
+                                  <label for="col_input_value">Field</label>
+                                  <input  type=text
+                                          class="form-control"
+                                          id=col_input_value
+                                          name="col_input_value"
+                                          required
+                                          v-bind:value='args.selected_data_window_column.value'
+                                          v-on:change="args.selected_data_window_column.value = document.getElementById('col_input_value').value;"
+                                          >
+                                  </input>
+
+                                  <div class="valid-feedback">Valid.</div>
+                                  <div class="invalid-feedback">Please fill out this field.</div>
+
+
+                                    <label for="col_input_width">Width</label>
+                                    <input  type=text
+                                            class="form-control"
+                                            id=col_input_width
+                                            name="col_input_width"
+                                            v-bind:value='args.selected_data_window_column.width?args.selected_data_window_column.width:""'
+                                            v-on:change="args.selected_data_window_column.width = document.getElementById('col_input_width').value;"
+                                            >
+                                    </input>
+                              </div>
+
+
 
 
                             </div>
 
 
-                            <div v-if="!args.selected_data_window_column"  style="height:80%;width:100%; overflow-y: none;margin-top:20px;border: 1px solid lightblue;">
+                            <div   v-if="!args.selected_data_window_column"  style="height:100%;width:100%; overflow-y: none;margin-top:0px;border: 1px solid lightgray;">
 
                             </div>
                         </div>
