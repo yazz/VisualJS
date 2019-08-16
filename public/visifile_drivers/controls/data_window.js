@@ -272,6 +272,12 @@ logo_url("/driver_icons/data_window.png")
                           v-on:click="designDetailTab = 'where';"
                           href="#">Where</a>
                 </li>
+
+                <li class="nav-item" style="width:20%;">
+                    <a    v-bind:class='"nav-link " + ((designDetailTab == "options")?"active":"")'
+                          v-on:click="designDetailTab = 'options';"
+                          href="#">Options</a>
+                </li>
             </ul>
 
             <div v-if='designDetailTab == "connection"'  >
@@ -446,6 +452,14 @@ logo_url("/driver_icons/data_window.png")
             <div v-if='designDetailTab == "where"'  >
                 where tab
             </div>
+
+
+            <div v-if='designDetailTab == "options"'  >
+                Options tab
+            </div>
+
+
+
 
         </div>
 
