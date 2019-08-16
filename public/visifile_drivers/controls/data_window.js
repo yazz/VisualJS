@@ -337,7 +337,7 @@ logo_url("/driver_icons/data_window.png")
                         <button    class="btn btn-primary"
                                 style="margin-top:20px;"
                                 :disabled="(args.selected_data_window_column_index > -1)?false:true"
-                                v-on:click="args.dataWindowColumns.splice(args.selected_data_window_column_index,1);setSql(); args.selected_data_window_column_index = -1;args.selected_data_window_column=null;">
+                                v-on:click="args.dataWindowColumns.splice(args.selected_data_window_column_index,1);setSql(); args.selected_data_window_column_index = -1;args.selected_data_window_column='';">
 
                               << Remove
 
