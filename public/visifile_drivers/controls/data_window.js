@@ -182,6 +182,14 @@ properties(
             hidden: true,
             default:    ""
         }
+        ,
+        {
+            id:     "allow_col_resize",
+            name:   "allow_col_resize",
+            type:   "Boolean",
+            hidden: true,
+            default:    false
+        }
 
 
 
@@ -456,6 +464,15 @@ logo_url("/driver_icons/data_window.png")
 
             <div v-if='designDetailTab == "options"'  >
                 Options tab
+
+                <form>
+                  <div class="form-group">
+                  <div class="form-check">
+                    <input  type="checkbox" class="form-check-input" id="allow_col_resize"
+                            :checked='args.allow_col_resize' v-model='args.allow_col_resize'>
+                    <label class="form-check-label" for="allow_col_resize">Allow col resize</label>
+                  </div>
+                </form>
             </div>
 
 
