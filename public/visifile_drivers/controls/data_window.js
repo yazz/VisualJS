@@ -589,6 +589,8 @@ logo_url("/driver_icons/data_window.png")
                     ,
                 	movableColumns:             true
                     ,
+                    resizableColumns:           this.args.allow_col_resize
+                    ,
                 	resizableRows:              true
                     ,
                     tableNames:              []
