@@ -190,6 +190,22 @@ properties(
             hidden: true,
             default:    false
         }
+        ,
+        {
+            id:     "allow_col_move",
+            name:   "allow_col_move",
+            type:   "Boolean",
+            hidden: true,
+            default:    false
+        }
+        ,
+        {
+            id:     "allow_row_resize",
+            name:   "allow_row_resize",
+            type:   "Boolean",
+            hidden: true,
+            default:    false
+        }
 
 
 
@@ -467,11 +483,30 @@ logo_url("/driver_icons/data_window.png")
 
                 <form>
                   <div class="form-group">
-                  <div class="form-check">
-                    <input  type="checkbox" class="form-check-input" id="allow_col_resize"
-                            :checked='args.allow_col_resize' v-model='args.allow_col_resize'>
-                    <label class="form-check-label" for="allow_col_resize">Allow col resize</label>
-                  </div>
+
+
+                      <div class="form-check">
+                        <input  type="checkbox" class="form-check-input" id="allow_col_resize"
+                                :checked='args.allow_col_resize' v-model='args.allow_col_resize'>
+                        <label class="form-check-label" for="allow_col_resize">Allow col resize</label>
+                      </div>
+
+
+                      <div class="form-check">
+                        <input  type="checkbox" class="form-check-input" id="allow_col_move"
+                                :checked='args.allow_col_move' v-model='args.allow_col_move'>
+                        <label class="form-check-label" for="allow_col_move">Allow col move</label>
+                      </div>
+
+
+                      <div class="form-check">
+                        <input  type="checkbox" class="form-check-input" id="allow_row_resize"
+                                :checked='args.allow_row_resize' v-model='args.allow_row_resize'>
+                        <label class="form-check-label" for="allow_row_resize">Allow row resize</label>
+                      </div>
+
+
+
                 </form>
             </div>
 
@@ -591,7 +626,9 @@ logo_url("/driver_icons/data_window.png")
                     ,
                     resizableColumns:           this.args.allow_col_resize
                     ,
-                	resizableRows:              true
+                	resizableRows:              this.args.allow_row_resize
+                    ,
+                    movableColumns:            this.args.allow_col_move
                     ,
                     tableNames:              []
                     ,
