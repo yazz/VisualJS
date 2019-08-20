@@ -683,6 +683,12 @@ async function setUpComponentsLocally() {
     await evalLocalSystemDriver('table_control',   path.join(__dirname, '../public/visifile_drivers/controls/table.js'))
 
 
+
+    await evalLocalSystemDriver('rh3scale_control',   path.join(__dirname, '../public/visifile_drivers/controls/rh3scale.js'))
+
+
+
+
     //
     // forms
     //
