@@ -192,10 +192,13 @@ properties(
             default:    "fitColumns",
             values:     [
                             {display: "Fit Columns",   value: "fitColumns"},
-                            {display: "Fit Data",  value: "fitData"}
+                            {display: "Fit Data",  value: "fitData"},
+                            {display: "Fit Data Fill",  value: "fitDataFill"}
+
+
                         ]
         }
-        
+
         ,
         {
             id:     "allow_col_resize",
