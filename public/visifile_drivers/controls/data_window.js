@@ -184,6 +184,20 @@ properties(
         }
         ,
         {
+            id:     "layout",
+            name:   "Layout",
+            type:   "",
+            hidden: false,
+            type:       "Select",
+            default:    "fitColumns",
+            values:     [
+                            {display: "Fit Columns",   value: "fitColumns"},
+                            {display: "Fit Data",  value: "fitData"}
+                        ]
+        }
+        
+        ,
+        {
             id:     "allow_col_resize",
             name:   "allow_col_resize",
             type:   "Boolean",
@@ -629,6 +643,8 @@ logo_url("/driver_icons/data_window.png")
                 	resizableRows:              this.args.allow_row_resize
                     ,
                     movableColumns:            this.args.allow_col_move
+                    ,
+                    layout:                    this.args.layout
                     ,
                     tableNames:              []
                     ,
