@@ -345,7 +345,7 @@ logo_url("/driver_icons/data_window.png")
                <div style="height:70%;width:100%; overflow-y: scroll;border: 1px solid lightgray;">
 
                    <div   v-for='table in tables'
-                          v-on:click="args.sql = 'select * from ' + table; args.design_mode_table = table;getColumns()"
+                          v-on:click="args.sql = 'select * from ' + table; args.design_mode_table = table;getColumns();args.dataWindowColumns=[];"
                           v-bind:style='"padding: 5px; " + ((args.design_mode_table == table)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
 
                          {{table}}
