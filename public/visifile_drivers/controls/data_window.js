@@ -376,7 +376,7 @@ logo_url("/driver_icons/data_window.png")
                     <div style="height:70%;width:15%; overflow-y: none;display:inline-block;vertical-align:top;">
                         <button    class="btn btn-primary"
                                 :disabled="(args.selected_column && args.selected_column.length > 0)?false:true"
-                                v-on:click="args.dataWindowColumns.push({id:    args.dataWindowColumnsMax++, value: args.selected_column});setSql()">
+                                v-on:click="args.dataWindowColumns.push({id:    args.dataWindowColumnsMax++, value: args.selected_column, name: args.selected_column});setSql()">
 
                               Add >>
 
@@ -448,6 +448,18 @@ logo_url("/driver_icons/data_window.png")
                                           v-on:change="args.selected_data_window_column.value = document.getElementById('col_input_value').value;"
                                           >
                                   </input>
+
+                                  <label for="col_input_name">Field Name</label>
+                                  <input  type=text
+                                          class="form-control"
+                                          id=col_input_name
+                                          name="col_input_name"
+                                          required
+                                          v-bind:value='args.selected_data_window_column.name'
+                                          v-on:change="args.selected_data_window_column.name = document.getElementById('col_input_name').value;"
+                                          >
+                                  </input>
+
 
                                   <div class="valid-feedback">Valid.</div>
                                   <div class="invalid-feedback">Please fill out this field.</div>
@@ -740,7 +752,7 @@ logo_url("/driver_icons/data_window.png")
 
                 } else {
                     for (var coli = this.args.dataWindowColumns.length - 1; coli >= 0; coli --) {
-                        var colDefn = {title:this.args.dataWindowColumns[coli].value,
+                        var colDefn = {title:this.args.dataWindowColumns[coli].name,
                                         field:this.args.dataWindowColumns[coli].value
                                     }
                         if (this.args.dataWindowColumns[coli].width) {
