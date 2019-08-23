@@ -435,23 +435,15 @@ logo_url("/driver_icons/data_window.png")
                         <div   style=" border: 1px solid lightgray;height:90%;width:100%; display:inline-block;margin-top:20px;overflow-y:scroll;">
 
                             <div    v-if="args.selected_data_window_column"
-                                    style="height:100%;width:100%; overflow-y: none;">
+                                    style="height:100%;width:100%; overflow-y: none; padding: 10px;">
 
                                 <div class="form-group">
-                                  <label for="col_input_value">Field</label>
-                                  <input  type=text
-                                          class="form-control"
-                                          id=col_input_value
-                                          name="col_input_value"
-                                          required
-                                          v-bind:value='args.selected_data_window_column.value'
-                                          v-on:change="args.selected_data_window_column.value = document.getElementById('col_input_value').value;"
-                                          >
-                                  </input>
 
-                                  <label for="col_input_name">Field Name</label>
+
+                                  <label for="col_input_name">Title</label>
                                   <input  type=text
                                           class="form-control"
+                                          style="margin-bottom: 30px;"
                                           id=col_input_name
                                           name="col_input_name"
                                           required
@@ -461,12 +453,29 @@ logo_url("/driver_icons/data_window.png")
                                   </input>
 
 
+
+
+                                  <label for="col_input_value">DB Col ID</label>
+                                  <input  type=text
+                                          class="form-control"
+                                          id=col_input_value
+                                          style="margin-bottom: 30px;"
+                                          name="col_input_value"
+                                          required
+                                          v-bind:value='args.selected_data_window_column.value'
+                                          v-on:change="args.selected_data_window_column.value = document.getElementById('col_input_value').value;"
+                                          >
+                                  </input>
+
+
+
                                   <div class="valid-feedback">Valid.</div>
                                   <div class="invalid-feedback">Please fill out this field.</div>
 
 
-                                    <label for="col_input_width">Width</label>
+                                    <label for="col_input_width">Col Width px</label>
                                     <input  type=text
+                                            style="margin-bottom: 30px;"
                                             class="form-control"
                                             id=col_input_width
                                             name="col_input_width"
