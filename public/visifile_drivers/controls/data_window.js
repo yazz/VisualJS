@@ -376,7 +376,7 @@ logo_url("/driver_icons/data_window.png")
                     <div style="height:70%;width:15%; overflow-y: none;display:inline-block;vertical-align:top;">
                         <button    class="btn btn-primary"
                                 :disabled="(args.selected_column && args.selected_column.length > 0)?false:true"
-                                v-on:click="args.dataWindowColumns.push({id:    args.dataWindowColumnsMax++, value: args.selected_column, name: args.selected_column});setSql()">
+                                v-on:click="var newId = args.dataWindowColumnsMax++;args.dataWindowColumns.push({id:    newId, value: args.selected_column, name: args.selected_column});setSql();args.selected_data_window_column_index = newId;args.selected_data_window_column = args.dataWindowColumns[args.dataWindowColumns.length - 1];">
 
                               Add >>
 
