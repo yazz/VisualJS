@@ -401,7 +401,7 @@ logo_url("/driver_icons/data_window.png")
 
 
                             <div    v-for='(dwcolumn,index) in args.dataWindowColumns'
-                                    v-on:click="args.selected_data_window_column = dwcolumn;args.selected_data_window_column_index = index"
+                                    v-on:click="args.selected_data_window_column = dwcolumn;args.selected_data_window_column_index = index;"
                                     v-bind:style='"padding: 5px; " + ((args.selected_data_window_column.id == dwcolumn.id)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
 
                                   {{dwcolumn.value}}
@@ -448,7 +448,7 @@ logo_url("/driver_icons/data_window.png")
                                           name="col_input_name"
                                           required
                                           v-bind:value='args.selected_data_window_column.name'
-                                          v-on:change="args.selected_data_window_column.name = document.getElementById('col_input_name').value;"
+                                          v-on:change="var qwe = document.getElementById('col_input_name').value;args.dataWindowColumns[args.selected_data_window_column_index].name=qwe;args.selected_data_window_column.name = qwe;"
                                           >
                                   </input>
 
@@ -463,7 +463,8 @@ logo_url("/driver_icons/data_window.png")
                                           name="col_input_value"
                                           required
                                           v-bind:value='args.selected_data_window_column.value'
-                                          v-on:change="args.selected_data_window_column.value = document.getElementById('col_input_value').value;"
+
+                                          v-on:change="var qwe = document.getElementById('col_input_value').value;args.dataWindowColumns[args.selected_data_window_column_index].value=qwe;args.selected_data_window_column.value = qwe;"
                                           >
                                   </input>
 
@@ -480,7 +481,8 @@ logo_url("/driver_icons/data_window.png")
                                             id=col_input_width
                                             name="col_input_width"
                                             v-bind:value='args.selected_data_window_column.width?args.selected_data_window_column.width:""'
-                                            v-on:change="args.selected_data_window_column.width = document.getElementById('col_input_width').value;"
+
+                                            v-on:change="var qwe = document.getElementById('col_input_width').value;args.selected_data_window_column.width = qwe;args.dataWindowColumns[args.selected_data_window_column_index].width=qwe;"
                                             >
                                     </input>
                               </div>
