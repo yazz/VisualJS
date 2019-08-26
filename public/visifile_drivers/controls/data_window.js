@@ -241,6 +241,15 @@ properties(
 
         ,
         {
+            id:     "where_clause",
+            name:   "where_clause",
+            type:   "String",
+            hidden: true,
+            default:    ""
+        }
+
+        ,
+        {
             id:     "selected_column",
             name:   "selected_column",
             type:   "String",
@@ -515,6 +524,17 @@ logo_url("/driver_icons/data_window.png")
 
             <div v-if='designDetailTab == "where"'  >
                 where tab
+                <label for="col_input_width">Col Width px</label>
+                <input  type=text
+                        style="margin-bottom: 30px;"
+                        class="form-control"
+                        id=where_clause
+                        name="where_clause"
+                        v-bind:value='(args.where_clause && (args.where_clause.length > 0))?args.where_clause:""'
+
+                        v-on:change="args.where_clause = document.getElementById('where_clause').value;"
+                        >
+                </input>
             </div>
 
 
