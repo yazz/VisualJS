@@ -523,8 +523,8 @@ logo_url("/driver_icons/data_window.png")
 
 
             <div v-if='designDetailTab == "where"'  >
-                where tab
-                <label for="col_input_width">Col Width px</label>
+
+                <label for="col_input_width">Where Clause</label>
                 <input  type=text
                         style="margin-bottom: 30px;"
                         class="form-control"
@@ -532,7 +532,7 @@ logo_url("/driver_icons/data_window.png")
                         name="where_clause"
                         v-bind:value='(args.where_clause && (args.where_clause.length > 0))?args.where_clause:""'
 
-                        v-on:change="args.where_clause = document.getElementById('where_clause').value;"
+                        v-on:change="args.where_clause = document.getElementById('where_clause').value;setSql()"
                         >
                 </input>
             </div>
@@ -732,6 +732,10 @@ logo_url("/driver_icons/data_window.png")
                     }
                 }
                 this.args.sql = "select " + colSql + " from " + this.args.design_mode_table
+
+                if (this.args.where_clause && (this.args.where_clause.length > 0)) {
+                    this.args.sql += " where " + this.args.where_clause
+                }
 
 
             }
