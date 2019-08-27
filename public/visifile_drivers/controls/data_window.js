@@ -127,6 +127,7 @@ properties(
             id:     "password",
             name:   "Password",
             type:   "String",
+            password: true,
             default_expression: "(typeof $POSTGRES_PASSWORD !== 'undefined')?eval('$POSTGRES_PASSWORD'):'password'",
         }
         ,

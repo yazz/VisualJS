@@ -729,6 +729,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                             <input
                                                     @change='setVBEditorProperty($event, property)'
                                                     v-bind:value='getVBEditorProperty(property)'
+                                                    v-bind:type='property.password?"password":""'
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'>
                                             </input>
                                         </div>
