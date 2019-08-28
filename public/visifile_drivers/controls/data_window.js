@@ -335,7 +335,7 @@ logo_url("/driver_icons/data_window.png")
                 Connection
 
                 <select  @change='alert($event)'>
-                      <option   v-for='propVal in ["postgres","csv"]'
+                      <option   v-for='propVal in ["postgres","mysql"]'
                                 v-bind:value="propVal"
                                 v-bind:selected='(propVal == "postgres")'>
 
