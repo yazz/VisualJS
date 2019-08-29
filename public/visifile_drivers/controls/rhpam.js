@@ -13,7 +13,7 @@ properties(
         {
             id:         "text",
             name:       "Dev text",
-            default:    "Red Hat Process Automation manager connecter",
+            default:    "Red Hat Process Automation manager connector",
             type:       "String"
         }
         ,
@@ -75,7 +75,7 @@ properties(
     ]
 )//properties
 
-logo_url("/driver_icons/rhpam.jpeg")
+logo_url("/driver_icons/rhpam.png")
 */
 
     Vue.component("rhpam_control",{

@@ -13,7 +13,7 @@ properties(
         {
             id:         "text",
             name:       "Dev text",
-            default:    "3Scale connecter",
+            default:    "3Scale connector",
             type:       "String"
         }
         ,

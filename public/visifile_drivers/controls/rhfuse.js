@@ -13,7 +13,7 @@ properties(
         {
             id:         "text",
             name:       "Dev text",
-            default:    "Fuse connecter",
+            default:    "Fuse connector",
             type:       "String"
         }
         ,

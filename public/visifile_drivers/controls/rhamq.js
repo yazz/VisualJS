@@ -13,7 +13,7 @@ properties(
         {
             id:         "text",
             name:       "Dev text",
-            default:    "Red Hat AMQ connecter",
+            default:    "Red Hat AMQ connector",
             type:       "String"
         }
         ,
