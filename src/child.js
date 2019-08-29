@@ -755,7 +755,8 @@ async function setUpComponentsLocally() {
 
 
 //database drivers
-    await evalLocalSystemDriver('postgres_client_component',               path.join(__dirname, '../public/visifile_drivers/controls/postgres.js'))
+await evalLocalSystemDriver('postgres_client_component', path.join(__dirname, '../public/visifile_drivers/controls/postgres.js'))
+await evalLocalSystemDriver('mysql_client_component', path.join(__dirname, '../public/visifile_drivers/controls/mysql.js'))
 
 
 
