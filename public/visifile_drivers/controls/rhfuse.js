@@ -11,13 +11,6 @@ read_only(true)
 properties(
     [
         {
-            id:         "text",
-            name:       "Dev text",
-            default:    "Fuse connector",
-            type:       "String"
-        }
-        ,
-        {
             id:         "width",
             name:       "Width",
             default:    350,
@@ -91,8 +84,10 @@ logo_url("/driver_icons/rhfuse.png")
 `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
     "background-color: "+    args["background_color"]  +  ";"'>
 
-    <div v-if="design_mode && (children.length == 0)">
-        {{args.text}}
+    <div v-if="design_mode && (children.length == 0)" style="margin: 10px;">
+        <h3 class="text-center" >Red Hat FUSE connector</h3>
+        The Red Hat Fuse Connector can be used to query FUSE, or invoke
+        FUSE commands
     </div>
 
     <div v-bind:style='"position:relative;width:100%;height:100%;border: 0px solid gray;background-color: "+    args["background_color"]  +  ";"'>

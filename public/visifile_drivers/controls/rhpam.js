@@ -11,13 +11,6 @@ read_only(true)
 properties(
     [
         {
-            id:         "text",
-            name:       "Dev text",
-            default:    "Red Hat Process Automation manager connector",
-            type:       "String"
-        }
-        ,
-        {
             id:         "width",
             name:       "Width",
             default:    350,
@@ -91,8 +84,10 @@ logo_url("/driver_icons/rhpam.png")
 `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
     "background-color: "+    args["background_color"]  +  ";"'>
 
-    <div v-if="design_mode && (children.length == 0)">
-        {{args.text}}
+    <div v-if="design_mode && (children.length == 0)" style="margin: 10px;">
+        <h3 class="text-center" >Red Hat PAM connector</h3>
+        The Red Hat PAM Connector can be used to query Process Automation Manager,
+        or query DM or the KIE servers. It can also invoke PAM processes
     </div>
 
     <div v-bind:style='"position:relative;width:100%;height:100%;border: 0px solid gray;background-color: "+    args["background_color"]  +  ";"'>
