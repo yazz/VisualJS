@@ -2,9 +2,9 @@ function(args) {
 /*
 is_app(true)
 control_type("VB")
-display_name("Red Hat AMQ control")
-description("This will return the AMQ control")
-base_component_id("rhamq_control")
+display_name("Data Grid control")
+description("This will return the Red Hat Data grid control")
+base_component_id("rhdata_grid_control")
 load_once_from_file(true)
 visibility("PRIVATE")
 read_only(true)
@@ -68,10 +68,10 @@ properties(
     ]
 )//properties
 
-logo_url("/driver_icons/rhamq.png")
+logo_url("/driver_icons/rhdata_grid.png")
 */
 
-    Vue.component("rhamq_control",{
+    Vue.component("rhdata_grid_control",{
 
         props: ["meta", "args","design_mode","refresh", "children"]
 
@@ -85,9 +85,9 @@ logo_url("/driver_icons/rhamq.png")
     "background-color: "+    args["background_color"]  +  ";"'>
 
     <div v-if="design_mode && (children.length == 0)" style="margin: 10px;">
-        <h3 class="text-center" >Red Hat AMQ connector</h3>
-        The Red Hat AMQ Connector can be used to send or recieve messages from
-        an AMQ queue
+        <h3 class="text-center" >Red Hat Data Grid connector</h3>
+        The Red Hat Data Grid Connector can be used to query the Data Grid or
+        send data to Red Hat Data Grid
     </div>
 
     <div v-bind:style='"position:relative;width:100%;height:100%;border: 0px solid gray;background-color: "+    args["background_color"]  +  ";"'>
