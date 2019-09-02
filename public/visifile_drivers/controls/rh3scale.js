@@ -3,7 +3,7 @@ function(args) {
 is_app(true)
 control_type("VB")
 display_name("3Scale control")
-description("This will return the docker control")
+description("This will return the 3Scale control")
 base_component_id("rh3scale_control")
 load_once_from_file(true)
 visibility("PRIVATE")
@@ -85,6 +85,7 @@ logo_url("/driver_icons/rh3scale.png")
     "background-color: "+    args["background_color"]  +  ";"'>
 
     <div v-if="design_mode && (children.length == 0)" style="margin: 10px;">
+        <img src="/driver_icons/rh3scale.png" width=100px></src>
         <h3 class="text-center" >Red Hat 3Scale connector</h3>
         The Red Hat 3Scale Connector can be used to query 3Scale, or send
         API requests through the 3Scale gateway

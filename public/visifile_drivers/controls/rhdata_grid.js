@@ -85,6 +85,7 @@ logo_url("/driver_icons/rhdata_grid.png")
     "background-color: "+    args["background_color"]  +  ";"'>
 
     <div v-if="design_mode && (children.length == 0)" style="margin: 10px;">
+        <img src="/driver_icons/rhdata_grid.png" width=100px></src>
         <h3 class="text-center" >Red Hat Data Grid connector</h3>
         The Red Hat Data Grid Connector can be used to query the Data Grid or
         send data to Red Hat Data Grid

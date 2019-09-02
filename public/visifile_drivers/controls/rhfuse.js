@@ -3,7 +3,7 @@ function(args) {
 is_app(true)
 control_type("VB")
 display_name("Fuse control")
-description("This will return the docker control")
+description("This will return the FUSE control")
 base_component_id("rhfuse_control")
 load_once_from_file(true)
 visibility("PRIVATE")
@@ -85,6 +85,7 @@ logo_url("/driver_icons/rhfuse.png")
     "background-color: "+    args["background_color"]  +  ";"'>
 
     <div v-if="design_mode && (children.length == 0)" style="margin: 10px;">
+        <img src="/driver_icons/rhfuse.png" width=100px></src>
         <h3 class="text-center" >Red Hat FUSE connector</h3>
         The Red Hat Fuse Connector can be used to query FUSE, or invoke
         FUSE commands

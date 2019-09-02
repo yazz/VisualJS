@@ -85,6 +85,7 @@ logo_url("/driver_icons/rhamq.png")
     "background-color: "+    args["background_color"]  +  ";"'>
 
     <div v-if="design_mode && (children.length == 0)" style="margin: 10px;">
+        <img src="/driver_icons/rhamq.png" width=100px></src>
         <h3 class="text-center" >Red Hat AMQ connector</h3>
         The Red Hat AMQ Connector can be used to send or recieve messages from
         an AMQ queue
