@@ -3483,6 +3483,9 @@ ${eventMessage.code}
                  ,
 
                  {   id:     "app_started_event",  name:   "Called when the app is started",   type:   "Event"}
+                 ,
+
+                 {   id:     "keycloak_auth_server",  name:   "Keycloak Auth Server",   type:   "String"}
 
             ]
          }
