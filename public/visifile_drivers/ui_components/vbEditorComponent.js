@@ -3488,6 +3488,13 @@ ${eventMessage.code}
                  {   id:     "keycloak_auth_server",  name:   "Keycloak Auth Server",   type:   "String"}
                  ,
 
+                 {   id:     "keycloak_user",  name:   "Keycloak User",   type:   "String"}
+                 ,
+                 {   id:     "keycloak_password",  name:   "Keycloak Password",   type:   "String", password: true}
+                 ,
+                 {   id:     "keycloak_token",  name:   "Keycloak Token",   type:   "String", textarea: true}
+                 ,
+
                  {   id:     "keycloak_realm",  name:   "Keycloak Realm",   type:   "String"}
                  ,
 
