@@ -727,11 +727,20 @@ uses_javascript_librararies(["advanced_bundle"])
 
                                         <div    v-if="(property.type  == 'String')  || (property.type  == 'Number')">
                                             <input
+                                                    v-if="(property.textarea == null) || (property.textarea == '')"
                                                     @change='setVBEditorProperty($event, property)'
                                                     v-bind:value='getVBEditorProperty(property)'
                                                     v-bind:type='property.password?"password":""'
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'>
                                             </input>
+                                            <textarea
+                                                    v-if="(property.textarea != null) && (property.textarea != '')"
+                                                    rows=10
+                                                    @change='setVBEditorProperty($event, property)'
+                                                    v-bind:value='getVBEditorProperty(property)'
+                                                    v-bind:type='property.password?"password":""'
+                                                    style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'>
+                                            </textarea>
                                         </div>
                                         <div    v-if="(property.type  == 'Select')  ">
                                             <select  @change='setVBEditorProperty($event, property)'>
