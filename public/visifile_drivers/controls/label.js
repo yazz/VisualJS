@@ -14,6 +14,7 @@ properties(
             id:     "text",
             name:   "Text",
             type:   "String",
+            textarea: true,
             help:       `<div>Help text for
                             <b>text</b> property
                          </div>`
