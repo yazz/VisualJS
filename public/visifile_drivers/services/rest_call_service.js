@@ -13,22 +13,16 @@ only_run_on_server(true)
         //const url = "https://jsonplaceholder.typicode.com/posts/1";
         const url = args.URL;
 
-        var useHttpOrHttps = https
-        if (url.startsWith("http:")) {
-            useHttpOrHttps = http
-        }
-
-
         request(
             url
             ,
             {
-                rejectUnauthorized : false,
-                
-                auth: {
-                    user: 'adminuser',
-                    pass: 'admin1!'
-                }
+                rejectUnauthorized : false
+
+                //auth: {
+                //    user: 'adminuser',
+                //    pass: 'admin1!'
+                //}
 
             }
             ,
@@ -52,8 +46,8 @@ only_run_on_server(true)
                     function() {
                         //body = JSON.parse(body);
                         console.log(body);
-                        returnFn({value: ""})
-                        //returnFn({value: JSON.parse(body)})
+                        //returnFn({value: ""})
+                        returnFn({value: JSON.parse(body)})
                     }
                 );
             }
