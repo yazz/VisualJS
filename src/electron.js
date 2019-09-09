@@ -55,6 +55,30 @@ var sqlite3                     = require('sqlite3');
 var os              = require('os')
 var username                            = "Unknown user";
 
+var Keycloak =      require('keycloak-connect');
+var session =       require('express-session');
+var memoryStore = new session.MemoryStore();
+
+var kk = {
+  "realm":              "yazz",
+  "auth-server-url":    "http://127.0.0.1:8080/auth",
+  "ssl-required":       "external",
+  "resource":           "yazz",
+  "public-client":       true,
+  "confidential-port":   0
+}
+
+var sessObj     = session({
+                      secret:               'some secret',
+                      resave:                false,
+                      saveUninitialized:     true,
+                      store:                 memoryStore
+                    })
+
+
+var keycloak    = new Keycloak({
+                        store: memoryStore
+                    },kk);
 
 
 
@@ -161,7 +185,13 @@ var executionProcessCount                       = 6;
 console.log('Starting services');
 
 app.use(compression())
+app.use(sessObj);
 
+
+app.use(keycloak.middleware({
+          logout: '/c',
+          admin: '/ad'
+}));
 
 
 if (process.argv.length > 1) {
