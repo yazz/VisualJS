@@ -2489,7 +2489,7 @@ function startServices() {
     //------------------------------------------------------------------------------
     // Show the default page for the different domains
     //------------------------------------------------------------------------------
-    app.get('/', function (req, res) {
+    app.get('/', keycloak.protect(), function (req, res) {
     	return getRoot(req, res);
     })
 
