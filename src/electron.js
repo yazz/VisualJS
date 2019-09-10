@@ -2486,12 +2486,20 @@ function startServices() {
         next();
     });
 
-    //------------------------------------------------------------------------------
+    var useKeycloak = false
+
+//------------------------------------------------------------------------------
     // Show the default page for the different domains
     //------------------------------------------------------------------------------
-    app.get('/', keycloak.protect(), function (req, res) {
-    	return getRoot(req, res);
-    })
+    if (useKeycloak) {
+        app.get('/', keycloak.protect(), function (req, res) {
+        	return getRoot(req, res);
+        })
+    } else {
+        app.get('/', function (req, res) {
+        	return getRoot(req, res);
+        })
+    }
 
 
 
