@@ -2542,7 +2542,17 @@ function startServices() {
 
 
     app.use("/files",   express.static(path.join(userData, '/files/')));
-    app.use("/app", express.static(path.join(userData, '/apps/')));
+    app.get('/app/*', function (req, res) {
+        var parts = req.path.split('/');
+        var appHtmlFile = parts.pop() || parts.pop();
+
+        console.log("appHtemlFile: " + appHtmlFile);
+        var appFilePath = path.join(__dirname, '../apps/' + appHtmlFile)
+        var fileC = fs.readFileSync(appFilePath, 'utf8')
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        res.end(fileC);
+    })
+        //zzz
     //app.use("/app_dbs", express.static(path.join(userData, '/app_dbs/')));
 
     app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
