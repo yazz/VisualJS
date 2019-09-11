@@ -16,7 +16,8 @@ var isWin         = /^win/.test(process.platform);
 var mainNodeProcessStarted = false;
 var restRoutes = new Object()
 var envVars = new Object()
-
+var useApp = null
+var useKeycloak = false
 
 
 console.log('...');
@@ -81,7 +82,28 @@ var keycloak    = new Keycloak({
                     },kk);
 
 
+function listenToServerPath(appObj,keyCloak) {
+    var routes = appObj._router.stack;
+    routes.forEach(removeMiddlewares);
+    function removeMiddlewares(route, i, routes) {
+        switch (route.handle.name) {
+            case 'myKeyCloakLogin':
+                routes.splice(i, 1);
+        }
+        if (route.route)
+            route.route.stack.forEach(removeMiddlewares);
+    }
 
+    if (keyCloak) {
+        appObj.get('/', keycloak.protect(), function myKeyCloakLogin(req, res) {
+        	return getRoot(req, res);
+        })
+    } else {
+        appObj.get('/', function myKeyCloakLogin(req, res) {
+        	return getRoot(req, res);
+        })
+    }
+}
 
 function isValidObject(variable){
     if ((typeof variable !== 'undefined') && (variable != null)) {
@@ -1512,7 +1534,7 @@ function checkForJSLoaded() {
         if (!isValidObject(baseComponentIdForFile)) {
             baseComponentIdForFile = loadjsfile.replace(/[^A-Z0-9]/ig, "_");
         }
-//zzz
+
         console.log("code from file:" + data2);
         console.log("*********** Trying to load loadjsfile code *************")
         forkedProcesses["forked"].send({
@@ -1816,10 +1838,13 @@ function aliveCheckFn() {
 
 
 
-
+function containsKeycloak() {
+    return true
+}
 
 
 function runOnPageExists(req, res, homepage) {
+
     if (fs.existsSync(homepage)) {
         if (typeOfSystem == 'client') {
             if (!canAccess(req,res)) {
@@ -2434,6 +2459,7 @@ function startServices() {
 
         var newhttp = http.createServer(app2);
         app2.use(compression())
+        useApp = app2
         listenToServerPath(app2,useKeycloak)
 
         app2.get('*', function(req, res) {
@@ -2485,36 +2511,14 @@ function startServices() {
         next();
     });
 
-    var useKeycloak = false
 
     //------------------------------------------------------------------------------
     // Show the default page for the different domains
     //------------------------------------------------------------------------------
 
-    function listenToServerPath(appObj,keyCloak) {
-        var routes = appObj._router.stack;
-        routes.forEach(removeMiddlewares);
-        function removeMiddlewares(route, i, routes) {
-            switch (route.handle.name) {
-                case 'myKeyCloakLogin':
-                    routes.splice(i, 1);
-            }
-            if (route.route)
-                route.route.stack.forEach(removeMiddlewares);
-        }
-
-        if (keyCloak) {
-            appObj.get('/', keycloak.protect(), function myKeyCloakLogin(req, res) {
-            	return getRoot(req, res);
-            })
-        } else {
-            appObj.get('/', function myKeyCloakLogin(req, res) {
-            	return getRoot(req, res);
-            })
-        }
-    }
 
 
+    useApp = app
     listenToServerPath(app,useKeycloak)
 
 
