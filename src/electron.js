@@ -82,6 +82,15 @@ var keycloak    = new Keycloak({
                     },kk);
 
 
+var listOfEnvs = process.env
+var envNames = Object.keys(listOfEnvs)
+for (var i=0 ;i< envNames.length; i++){
+    console.log("Env var  " + envNames[i] + ": " + listOfEnvs[envNames[i]])
+    envVars[envNames[i]] = listOfEnvs[envNames[i]]
+}
+
+
+
 function listenToServerPath(appObj,keyCloak) {
     var routes = appObj._router.stack;
     routes.forEach(removeMiddlewares);
@@ -2745,12 +2754,6 @@ function startServices() {
 
     })
 
-    var listOfEnvs = process.env
-    var envNames = Object.keys(listOfEnvs)
-    for (var i=0 ;i< envNames.length; i++){
-        console.log("Env var  " + envNames[i] + ": " + listOfEnvs[envNames[i]])
-        envVars[envNames[i]] = listOfEnvs[envNames[i]]
-    }
 
 
       //console.log('addr: '+ hostaddress + ":" + port);
