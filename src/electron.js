@@ -2434,9 +2434,8 @@ function startServices() {
 
         var newhttp = http.createServer(app2);
         app2.use(compression())
-        app2.get('/', function (req, res) {
-        	return getRoot(req, res);
-        })
+        listenToServerPath(app2,useKeycloak)
+
         app2.get('*', function(req, res) {
              if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
                 console.log("path: " + req.path)
@@ -2488,18 +2487,36 @@ function startServices() {
 
     var useKeycloak = false
 
-//------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------
     // Show the default page for the different domains
     //------------------------------------------------------------------------------
-    if (useKeycloak) {
-        app.get('/', keycloak.protect(), function (req, res) {
-        	return getRoot(req, res);
-        })
-    } else {
-        app.get('/', function (req, res) {
-        	return getRoot(req, res);
-        })
+
+    function listenToServerPath(appObj,keyCloak) {
+        var routes = appObj._router.stack;
+        routes.forEach(removeMiddlewares);
+        function removeMiddlewares(route, i, routes) {
+            switch (route.handle.name) {
+                case 'myKeyCloakLogin':
+                    routes.splice(i, 1);
+            }
+            if (route.route)
+                route.route.stack.forEach(removeMiddlewares);
+        }
+
+        if (keyCloak) {
+            appObj.get('/', keycloak.protect(), function myKeyCloakLogin(req, res) {
+            	return getRoot(req, res);
+            })
+        } else {
+            appObj.get('/', function myKeyCloakLogin(req, res) {
+            	return getRoot(req, res);
+            })
+        }
     }
+
+
+    listenToServerPath(app,useKeycloak)
+
 
 
 
