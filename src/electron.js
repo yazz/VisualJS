@@ -2547,6 +2547,12 @@ function startServices() {
         var appHtmlFile = parts.pop() || parts.pop();
 
         console.log("appHtemlFile: " + appHtmlFile);
+
+        var appName = appHtmlFile.split('.').slice(0, -1).join('.')
+        console.log("appName: " + appName);
+
+
+
         var appFilePath = path.join(__dirname, '../apps/' + appHtmlFile)
         var fileC = fs.readFileSync(appFilePath, 'utf8').toString()
         var ssstart = fileC.indexOf("formEditor")
