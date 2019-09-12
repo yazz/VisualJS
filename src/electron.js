@@ -2567,13 +2567,18 @@ function startServices() {
                                 console.log("Could not find component : " + appName2)
                             } else {
                                 console.log("Found code for : " + appName2)
-                                var fileC = results[0].code
-                                console.log("Code : " + fileC)
+                                var fileC = results[0].code.toString()
+                                //console.log("Code : " + fileC)
 
                                 var appFilePath = path.join(__dirname, '../apps/' + appHtmlFile2)
+                                console.log("appFilePath:" + appFilePath)
 
-                                var sscode = saveHelper.getValueOfCodeString(fileC,"formEditor",")//formEditor")
+                                var sscode = saveHelper.getValueOfCodeString(fileC,"keycloak",")//keycloak")
                                 console.log("sscode:" + sscode)
+                                if (sscode) {
+                                    //var ssval = eval( "(" + sscode + ")")
+                                    console.log("keycloak: " + JSON.stringify(sscode,null,2))
+                                }
 
                                 /*if ((ssstart != -1) && (ssend != -1)) {
                                     var sscode = fileC.substring(ssstart,  ssend - 1)
