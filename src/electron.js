@@ -2551,26 +2551,47 @@ function startServices() {
         var appName = appHtmlFile.split('.').slice(0, -1).join('.')
         console.log("appName: " + appName);
 
+         console.log("path: " + path);
 
+        (function(appName2, appHtmlFile2) {
+            dbsearch.serialize(
+                function() {
+                    var stmt = dbsearch.all(
+                        "SELECT code FROM system_code where base_component_id = ? and code_tag = ?; ",
+                        appName2,
+                        "LATEST",
 
-        var appFilePath = path.join(__dirname, '../apps/' + appHtmlFile)
-        var fileC = fs.readFileSync(appFilePath, 'utf8').toString()
-        var ssstart = fileC.indexOf("formEditor")
-        var ssend = fileC.indexOf("formEditor")
-        console.log("formEditor:" + fileC.indexOf("formEditor"))
-        console.log("//formEditor:" + fileC.indexOf("//formEditor"))
-        /*if ((ssstart != -1) && (ssend != -1)) {
-            var sscode = fileC.substring(ssstart,  ssend - 1)
-            console.log("sscode:" + sscode)
-            var ssval = eval( "(" + sscode.toString() + ")")
-            console.log("formEditor: " + JSON.stringify(ssval,null,2))
-            var kkk = null
-            kkk = kcstr.keycloak_json
-            console.log("Keycloak JSON:" + kkk)
-        }*/
+                        function(err, results)
+                        {
+                            if (results.length == 0) {
+                                console.log("Could not find component : " + appName2)
+                            } else {
+                                console.log("Found code for : " + appName2)
+                                var fileC = results[0].code
+                                console.log("Code : " + fileC)
 
-        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-        res.end(fileC);
+                                var appFilePath = path.join(__dirname, '../apps/' + appHtmlFile2)
+
+                                var sscode = saveHelper.getValueOfCodeString(fileC,"formEditor",")//formEditor")
+                                console.log("sscode:" + sscode)
+
+                                /*if ((ssstart != -1) && (ssend != -1)) {
+                                    var sscode = fileC.substring(ssstart,  ssend - 1)
+                                    console.log("sscode:" + sscode)
+                                    var ssval = eval( "(" + sscode.toString() + ")")
+                                    console.log("formEditor: " + JSON.stringify(ssval,null,2))
+                                    var kkk = null
+                                    kkk = kcstr.keycloak_json
+                                    console.log("Keycloak JSON:" + kkk)
+                                }*/
+                                       var fileC2 = fs.readFileSync(appFilePath, 'utf8').toString()
+                                res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+                                res.end(fileC2);
+                            }
+
+                        })
+            }, sqlite3.OPEN_READONLY)
+        })(appName  ,  appHtmlFile  )
     })
         //zzz
     //app.use("/app_dbs", express.static(path.join(userData, '/app_dbs/')));
