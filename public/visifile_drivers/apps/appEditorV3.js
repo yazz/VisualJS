@@ -711,7 +711,7 @@ load_once_from_file(true)
                var mm = this
 
                this.editor_overloaded = true
-               override_app_editor = "sqlite_keycloak_component"
+               override_app_editor = "keycloak_editor_component"
 
 
                await mm.load_new_app( this.base_component_id )
