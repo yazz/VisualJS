@@ -102,9 +102,11 @@ load_once_from_file(true)
 
                 <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-warning'        v-on:click='setTimeout(function(){copyAppMethod(base_component_id, null)},100)' >Copy app</button>
 
-                <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-info'        v-on:click='setTimeout(function(){editSqliteSchema()},100)' >Database</button>
+                <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-info'        v-on:click='setTimeout(function(){editKeycloak()},100)' >Keycloak</button>
 
-                <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-warning'        v-on:click='setTimeout(function(){editExportOptions()},100)' >Export</button>
+                <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-warning'        v-on:click='setTimeout(function(){editSqliteSchema()},100)' >Database</button>
+
+                <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-info'        v-on:click='setTimeout(function(){editExportOptions()},100)' >Export</button>
 
             </div>
 
@@ -702,6 +704,20 @@ load_once_from_file(true)
                await mm.load_new_app( this.base_component_id )
            }
            ,
+
+
+
+           editKeycloak: async function() {
+               var mm = this
+
+               this.editor_overloaded = true
+               override_app_editor = "sqlite_keycloak_component"
+
+
+               await mm.load_new_app( this.base_component_id )
+           }
+           ,
+
 
            setInfo: function(text) {
                this.$root.$emit('message', {
