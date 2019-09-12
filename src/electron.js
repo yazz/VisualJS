@@ -2549,14 +2549,19 @@ function startServices() {
         console.log("appHtemlFile: " + appHtmlFile);
         var appFilePath = path.join(__dirname, '../apps/' + appHtmlFile)
         var fileC = fs.readFileSync(appFilePath, 'utf8').toString()
-        var kcstr = saveHelper.getValueOfCodeString(fileC, "formEditor",")//formEditor")
-        console.log("kcstr:" + kcstr)
-        if (kcstr) {
-            console.log("formEditor:" + fileC.indexOf("formEditor"))
+        var ssstart = fileC.indexOf("formEditor")
+        var ssend = fileC.indexOf("formEditor")
+        console.log("formEditor:" + fileC.indexOf("formEditor"))
+        console.log("//formEditor:" + fileC.indexOf("//formEditor"))
+        /*if ((ssstart != -1) && (ssend != -1)) {
+            var sscode = fileC.substring(ssstart,  ssend - 1)
+            console.log("sscode:" + sscode)
+            var ssval = eval( "(" + sscode.toString() + ")")
+            console.log("formEditor: " + JSON.stringify(ssval,null,2))
             var kkk = null
             kkk = kcstr.keycloak_json
             console.log("Keycloak JSON:" + kkk)
-        }
+        }*/
 
         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
         res.end(fileC);
