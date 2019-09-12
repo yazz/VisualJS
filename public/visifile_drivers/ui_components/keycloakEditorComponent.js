@@ -16,7 +16,7 @@ load_once_from_file(true)
             read_only:      false,
             editorDomId:    editorDomId,
             errors:         null,
-            sqlText:        "[]",
+            sqlText:        "{}",
         }
       },
       template: `<div style='background-color:white; ' >
@@ -182,7 +182,7 @@ load_once_from_file(true)
             if (isValidObject(llsqlText)) {
                 editor.getSession().setValue(  JSON.stringify(  llsqlText , null , 2  ));
             } else {
-                editor.getSession().setValue(  JSON.stringify(  [] , null , 2  ));
+                editor.getSession().setValue(  JSON.stringify(  {} , null , 2  ));
             }
         }
 
