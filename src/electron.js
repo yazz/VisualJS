@@ -92,11 +92,13 @@ for (var i=0 ;i< envNames.length; i++){
 
 
 function listenToServerPath(appObj,keyCloak) {
+    console.log("Server switching Keycloak to: " + keyCloak)
     var routes = appObj._router.stack;
     routes.forEach(removeMiddlewares);
     function removeMiddlewares(route, i, routes) {
         switch (route.handle.name) {
             case 'myKeyCloakLogin':
+            case 'myNonKeyCloakLogin':
                 routes.splice(i, 1);
         }
         if (route.route)
@@ -104,7 +106,7 @@ function listenToServerPath(appObj,keyCloak) {
     }
 
     if (keyCloak) {
-        appObj.get('/', keycloak.protect(), function myKeyCloakLogin(req, res) {
+        appObj.get('/', keycloak.protect(), function myNonKeyCloakLogin(req, res) {
         	return getRoot(req, res);
         })
     } else {
@@ -2575,10 +2577,7 @@ function startServices() {
 
                                 var sscode = saveHelper.getValueOfCodeString(fileC,"keycloak",")//keycloak")
                                 console.log("sscode:" + sscode)
-                                if (sscode) {
-                                    //var ssval = eval( "(" + sscode + ")")
-                                    console.log("keycloak: " + JSON.stringify(sscode,null,2))
-                                }
+
 
                                 /*if ((ssstart != -1) && (ssend != -1)) {
                                     var sscode = fileC.substring(ssstart,  ssend - 1)
@@ -2589,16 +2588,23 @@ function startServices() {
                                     kkk = kcstr.keycloak_json
                                     console.log("Keycloak JSON:" + kkk)
                                 }*/
-                                       var fileC2 = fs.readFileSync(appFilePath, 'utf8').toString()
+                                var fileC2 = fs.readFileSync(appFilePath, 'utf8').toString()
                                 res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
                                 res.end(fileC2);
+
+                                if (sscode) {
+                                    //var ssval = eval( "(" + sscode + ")")
+                                    console.log("keycloak: " + JSON.stringify(sscode,null,2))
+                                    //zzz
+                                    listenToServerPath(app,true)
+                                }
                             }
 
                         })
             }, sqlite3.OPEN_READONLY)
         })(appName  ,  appHtmlFile  )
     })
-        //zzz
+
     //app.use("/app_dbs", express.static(path.join(userData, '/app_dbs/')));
 
     app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
