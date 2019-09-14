@@ -2432,8 +2432,12 @@ function add_new_queryFn(req, res) {
 
 
 //zzz
-function keycloakProtector(req,res,next){
-    (function(appName2, appHtmlFile2) {
+function keycloakProtector(params) {
+    return function(req,res,next) {
+        var appName2=null
+        if (params.compIdFromReqFn) {
+            appName2 = params.compIdFromReqFn(req)
+        }
         dbsearch.serialize(
             function() {
                 var stmt = dbsearch.all(
@@ -2449,8 +2453,6 @@ function keycloakProtector(req,res,next){
                             console.log("Found code for : " + appName2)
                             var fileC = results[0].code.toString()
                             //console.log("Code : " + fileC)
-
-                            console.log("appFilePath:" + appFilePath)
 
                             var sscode = saveHelper.getValueOfCodeString(fileC,"keycloak",")//keycloak")
                             console.log("sscode:" + sscode)
@@ -2472,14 +2474,14 @@ function keycloakProtector(req,res,next){
                                 (keycloak.protect())(req, res, next)
 
                             } else {
-
+                                next()
                             }
 
                         }
 
                     })
         }, sqlite3.OPEN_READONLY)
-    })(appName  ,  appHtmlFile  )
+    }
 }
 
 
@@ -2574,7 +2576,20 @@ function startServices() {
     app.use("/files",   express.static(path.join(userData, '/files/')));
 
 
-    app.get('/app/*', function (req, res, next) {
+    function getAppNameFromHtml() {
+
+    }
+
+    function getBaseComponentIdFromRequest(req){
+        var parts = req.path.split('/');
+        var appHtmlFile = parts.pop() || parts.pop();
+
+        console.log("appHtemlFile: " + appHtmlFile);
+
+        var appName = appHtmlFile.split('.').slice(0, -1).join('.')
+        return appName
+    }
+    app.get('/app/*', keycloakProtector({compIdFromReqFn: getBaseComponentIdFromRequest}), function (req, res, next) {
         var parts = req.path.split('/');
         var appHtmlFile = parts.pop() || parts.pop();
 
