@@ -2471,7 +2471,7 @@ function keycloakProtector(params) {
                                 //var ssval = eval( "(" + sscode + ")")
                                 console.log("keycloak: " + JSON.stringify(sscode,null,2))
                                 //zzz
-                                (keycloak.protect())(req, res, next)
+                                keycloak.protect()(req, res, next)
 
                             } else {
                                 next()
