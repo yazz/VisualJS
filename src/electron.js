@@ -90,31 +90,11 @@ for (var i=0 ;i< envNames.length; i++){
 }
 
 
-
-function listenToServerPath(appObj,keyCloak) {
-    console.log("Server switching Keycloak to: " + keyCloak)
-    var routes = appObj._router.stack;
-    routes.forEach(removeMiddlewares);
-    function removeMiddlewares(route, i, routes) {
-        switch (route.handle.name) {
-            case 'myKeyCloakLogin':
-            case 'myNonKeyCloakLogin':
-                routes.splice(i, 1);
-        }
-        if (route.route)
-            route.route.stack.forEach(removeMiddlewares);
-    }
-
-    if (keyCloak) {
-        appObj.get('/', keycloak.protect(), function myNonKeyCloakLogin(req, res) {
-        	return getRoot(req, res);
-        })
-    } else {
-        appObj.get('/', function myKeyCloakLogin(req, res) {
-        	return getRoot(req, res);
-        })
-    }
+function yazzFilter(req, res, next) {
+    (keycloak.protect())(req, res, next)
+    //next()
 }
+
 
 function isValidObject(variable){
     if ((typeof variable !== 'undefined') && (variable != null)) {
@@ -1872,7 +1852,7 @@ function runOnPageExists(req, res, homepage) {
 
 }
 
-function getRoot(req, res) {
+function getRoot(req, res, next) {
 	hostcount++;
 	//console.log("Host: " + req.headers.host + ", " + hostcount);
 	//console.log("Full URL: " + req.protocol + '://' + req.get('host') + req.originalUrl);
@@ -2471,7 +2451,10 @@ function startServices() {
         var newhttp = http.createServer(app2);
         app2.use(compression())
         useApp = app2
-        listenToServerPath(app2,useKeycloak)
+        app2.get('/', yazzFilter, function (req, res, next) {
+            return getRoot(req, res, next);
+        })
+
 
         app2.get('*', function(req, res) {
              if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
@@ -2530,8 +2513,9 @@ function startServices() {
 
 
     useApp = app
-    listenToServerPath(app,useKeycloak)
-
+    app.get('/', yazzFilter, function (req, res, next) {
+        return getRoot(req, res, next);
+    })
 
 
 
@@ -2596,7 +2580,6 @@ function startServices() {
                                     //var ssval = eval( "(" + sscode + ")")
                                     console.log("keycloak: " + JSON.stringify(sscode,null,2))
                                     //zzz
-                                    listenToServerPath(app,true)
                                 }
                             }
 
