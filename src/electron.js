@@ -16,8 +16,6 @@ var isWin         = /^win/.test(process.platform);
 var mainNodeProcessStarted = false;
 var restRoutes = new Object()
 var envVars = new Object()
-var useApp = null
-var useKeycloak = false
 
 
 console.log('...');
@@ -2458,15 +2456,6 @@ function keycloakProtector(params) {
                             console.log("sscode:" + sscode)
 
 
-                            /*if ((ssstart != -1) && (ssend != -1)) {
-                                var sscode = fileC.substring(ssstart,  ssend - 1)
-                                console.log("sscode:" + sscode)
-                                var ssval = eval( "(" + sscode.toString() + ")")
-                                console.log("formEditor: " + JSON.stringify(ssval,null,2))
-                                var kkk = null
-                                kkk = kcstr.keycloak_json
-                                console.log("Keycloak JSON:" + kkk)
-                            }*/
                             if (sscode) {
                                 //var ssval = eval( "(" + sscode + ")")
                                 console.log("keycloak: " + JSON.stringify(sscode,null,2))
@@ -2496,7 +2485,6 @@ function startServices() {
 
         var newhttp = http.createServer(app2);
         app2.use(compression())
-        useApp = app2
         app2.get('/', function (req, res, next) {
             return getRoot(req, res, next);
         })
@@ -2558,7 +2546,6 @@ function startServices() {
 
 
 
-    useApp = app
     app.get('/', function (req, res, next) {
         return getRoot(req, res, next);
     })
