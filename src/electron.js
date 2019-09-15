@@ -1819,15 +1819,6 @@ function aliveCheckFn() {
 
 
 
-
-
-
-
-function containsKeycloak() {
-    return true
-}
-
-
 function runOnPageExists(req, res, homepage) {
 
     if (fs.existsSync(homepage)) {
@@ -2577,6 +2568,10 @@ function startServices() {
         return appName
     }
     app.get('/app/*', keycloakProtector({compIdFromReqFn: getBaseComponentIdFromRequest}), function (req, res, next) {
+        if (req.kauth) {
+            console.log('Keycloak details from server:')
+            console.log(req.kauth.grant)
+        }
         var parts = req.path.split('/');
         var appHtmlFile = parts.pop() || parts.pop();
 
