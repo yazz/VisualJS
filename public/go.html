@@ -8683,7 +8683,7 @@ function setupWebSocket(host, port)
     // ----------------------------------------------------------------------------------------------
     socket.on('env_vars',function(data) {
         //console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
-        //zzz
+
         var allEnvVarNames = Object.keys(data.value)
         for (var i=0; i< allEnvVarNames.length;i++) {
                 var valueEnvVar = data.value[allEnvVarNames[i]]
@@ -9326,6 +9326,17 @@ async function callCodeV2(componentRecord,args, seq_no) {
         trcode2 = trcode2.toString().replaceAll("sqlFirstCol1[(]","await rxsqlFirstCol1(" + addP)
 
 
+
+        //zzz
+        var kkk = saveHelper.getValueOfCodeString(trcode2.toString(), "keycloak",")//keycloak")
+        if (kkk) {
+                //alert(JSON.stringify(kkk,null,2))
+                loadKeycloak(
+                    kkk
+                )
+        }
+
+
         //Don't run any server code
         if ( (componentRecord.base_component_id == base_component_id) && (trcode2.toString().includes("only_run_on_server(true)"))) {
 
@@ -9835,14 +9846,14 @@ function loadKeycloak(keycloakJson) {
                     }
                 ).success(function(authenticated) {
                //alert(authenticated ? 'authenticated' : 'not authenticated');
-               debugger
+
                if (authenticated) {
-                    alert(keycloak.subject)
+                    console.log("keycloak.subject:" + keycloak.subject)
                }
 
-           }).error(function() {
-               debugger
-               alert('failed to initialize');
+           }).error(function(err) {
+
+               console.log('Failed to initialize keycloak: ' + err);
            });
     };
     script.src = keycloakJson["auth-server-url"] + "/js/keycloak.js";
