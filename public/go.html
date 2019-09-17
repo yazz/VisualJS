@@ -9823,38 +9823,46 @@ function callAjax(url, callback){
 </script>
 <script>
 
-   var script = document.createElement('script');
-script.onload = function () {
-    alert("Loading keyclock2" + Keycloak)
-        var keycloak = Keycloak({
-          "realm": "yazz",
-          "auth-server-url": "http://127.0.0.1:8080/auth",
-          "ssl-required": "external",
-          "resource": "yazz",
-          "clientId": "yazz",
-          "public-client": true,
-          "confidential-port": 0,
-          "enable-cors": true
-        });
-        keycloak.init(
-                {
-                    onLoad: 'login-required' ,
-                    checkLoginIframe: false
-                }
-            ).success(function(authenticated) {
-           //alert(authenticated ? 'authenticated' : 'not authenticated');
-           debugger
-           if (authenticated) {
-                alert(keycloak.subject)
-           }
 
-       }).error(function() {
-           debugger
-           alert('failed to initialize');
-       });
-};
-script.src = "http://127.0.0.1:8080/auth/js/keycloak.js";
-document.head.appendChild(script);
+function loadKeycloak(keycloakJson) {
+    var script = document.createElement('script');
+    script.onload = function () {
+            var keycloak = Keycloak(keycloakJson);
+            keycloak.init(
+                    {
+                        onLoad: 'login-required' ,
+                        checkLoginIframe: false
+                    }
+                ).success(function(authenticated) {
+               //alert(authenticated ? 'authenticated' : 'not authenticated');
+               debugger
+               if (authenticated) {
+                    alert(keycloak.subject)
+               }
+
+           }).error(function() {
+               debugger
+               alert('failed to initialize');
+           });
+    };
+    script.src = keycloakJson["auth-server-url"] + "/js/keycloak.js";
+    document.head.appendChild(script);
+}
+
+/*
+loadKeycloak(
+    {
+      "realm": "yazz",
+      "auth-server-url": "http://127.0.0.1:8080/auth",
+      "ssl-required": "external",
+      "resource": "yazz",
+      "clientId": "yazz",
+      "public-client": true,
+      "confidential-port": 0,
+      "enable-cors": true
+    }
+)
+*/
 
 </script>
 </body>
