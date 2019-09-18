@@ -2423,6 +2423,8 @@ function add_new_queryFn(req, res) {
 //zzz
 function keycloakProtector(params) {
     return function(req,res,next) {
+        next()
+        return
         var appName2=null
         if (params.compIdFromReqFn) {
             appName2 = params.compIdFromReqFn(req)
@@ -2561,8 +2563,6 @@ function startServices() {
     function getBaseComponentIdFromRequest(req){
         var parts = req.path.split('/');
         var appHtmlFile = parts.pop() || parts.pop();
-
-        console.log("appHtemlFile: " + appHtmlFile);
 
         var appName = appHtmlFile.split('.').slice(0, -1).join('.')
         return appName
