@@ -9331,6 +9331,9 @@ async function callCodeV2(componentRecord,args, seq_no) {
         var kkk = saveHelper.getValueOfCodeString(trcode2.toString(), "keycloak",")//keycloak")
         if (kkk) {
                 //alert(JSON.stringify(kkk,null,2))
+                if (!kkk.clientId) {
+                    kkk.clientId = kkk.resource
+                }
                 loadKeycloak(
                     kkk
                 )
