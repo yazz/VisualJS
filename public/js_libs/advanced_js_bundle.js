@@ -443,7 +443,6 @@ function AndroidWakeLock(){var A=document.createElement("video");A.addEventListe
 });
 
 
-//# sourceMappingURL=aframe-v0.9.1.min.js.map
 
 
 
