@@ -9837,11 +9837,16 @@ function callAjax(url, callback){
 </script>
 <script>
 
-
+var keycloak = null
+function logoutKeycloak() {
+    if (keycloak) {
+        keycloak.logout()
+    }
+}
 function loadKeycloak(keycloakJson) {
     var script = document.createElement('script');
     script.onload = function () {
-            var keycloak = Keycloak(keycloakJson);
+            keycloak = Keycloak(keycloakJson);
             keycloak.init(
                     {
                         onLoad: 'login-required' ,

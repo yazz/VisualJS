@@ -2567,7 +2567,8 @@ function startServices() {
         var appName = appHtmlFile.split('.').slice(0, -1).join('.')
         return appName
     }
-    app.get('/app/*', keycloakProtector({compIdFromReqFn: getBaseComponentIdFromRequest}), function (req, res, next) {
+    //app.get('/app/*', keycloakProtector({compIdFromReqFn: getBaseComponentIdFromRequest}), function (req, res, next) {
+    app.get('/app/*', function (req, res, next) {
         if (req.kauth) {
             console.log('Keycloak details from server:')
             console.log(req.kauth.grant)
