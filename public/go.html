@@ -9835,16 +9835,57 @@ function callAjax(url, callback){
 <script>
 
 var keycloak = null
+var keycloakJsonInUse = null
 function logoutKeycloak() {
     if (keycloak) {
+        keycloakJsonInUse = null
         keycloak.logout()
     }
 }
 var username="";
+function compareValues(a, b) {
+
+    //if a and b aren't the same type, they can't be equal
+    if (typeof a !== typeof b) {
+        return false;
+    }
+
+    if (typeof a === 'object') {
+        var keysA = Object.keys(a).sort(),
+            keysB = Object.keys(b).sort();
+
+        //if a and b are objects with different no of keys, unequal
+        if (keysA.length !== keysB.length) {
+            return false;
+        }
+
+        //if keys aren't all the same, unequal
+        if (!keysA.every(function(k, i) { return k === keysB[i];})) {
+            return false;
+        }
+
+        //recurse on the values for each key
+        return keysA.every(function(key) {
+            //if we made it here, they have identical keys
+            return compareValues(a[key], b[key]);
+        });
+
+    //for primitives just use a straight up check
+    } else {
+        return a === b;
+    }
+}
 function loadKeycloak(keycloakJson) {
+    if (keycloakJsonInUse) {
+        //debugger
+        if (compareValues(keycloakJsonInUse, keycloakJson)) {
+            return
+        }
+    }
     var script = document.createElement('script');
     script.onload = function () {
             keycloak = Keycloak(keycloakJson);
+            keycloakJsonInUse = JSON.parse(JSON.stringify(keycloakJson))
             keycloak.init(
                     {
                         onLoad: 'login-required' ,
