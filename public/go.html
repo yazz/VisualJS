@@ -9324,16 +9324,22 @@ async function callCodeV2(componentRecord,args, seq_no) {
 
 
 
-        //zzz
+
         var kkk = saveHelper.getValueOfCodeString(trcode2.toString(), "keycloak",")//keycloak")
         if (kkk) {
                 //alert(JSON.stringify(kkk,null,2))
                 if (!kkk.clientId) {
                     kkk.clientId = kkk.resource
                 }
-                loadKeycloak(
-                    kkk
-                )
+                //zzz
+                //alert(editingAppId)
+                if (editingAppId && window.location.href && (window.location.href.indexOf("/edit/") == -1)) {
+                    window.location.href = "/edit/" + editingAppId;
+                } else {
+                    loadKeycloak(
+                        kkk
+                    )
+                }
         }
 
 
