@@ -2583,7 +2583,7 @@ function startServices() {
 
          console.log("path: " + path);
 
-         var appFilePath = path.join(__dirname, '../apps/' + appHtmlFile)
+         var appFilePath = path.join(userData, 'apps/' + appHtmlFile)
          var fileC2 = fs.readFileSync(appFilePath, 'utf8').toString()
          res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
          res.end(fileC2);
