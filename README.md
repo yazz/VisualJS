@@ -1,10 +1,10 @@
 
 # Visual Javascript
-## Create Kubernetes apps in minutes
+## The OpenShift AppStore
 
 
 
-Demo - A lightweight app builder for Kubernetes - https://yazz.com/app/homepage.html
+Build an internal AppStore for your enterprise in minutes, using OpenShift - https://yazz.com/app/homepage.html
 
 - Build apps in minutes with drag and drop interface and code business logic in Javascript
 - One click deploy to Docker or OpenShift
