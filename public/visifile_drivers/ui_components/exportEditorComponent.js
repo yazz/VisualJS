@@ -45,7 +45,7 @@ load_once_from_file(true)
 
             <div style="height:200px;">
                 <img src="/driver_icons/openshift.png"  style="width:100px;"></img>
-                <a href="#export_as_openshift">B) Export App as OpenShift Container</a>
+                <a href="#export_as_openshift">B) Export App for OpenShift</a>
             </div>
 
             <div style="height:200px;">
@@ -169,7 +169,7 @@ load_once_from_file(true)
                 <img src="/driver_icons/openshift.png"  style="width:100px;"></img>
 
 
-                <h4 style="font-weight:bold;">B) Export App as OpenShift Container</h4>
+                <h4 style="font-weight:bold;">B) Export App for OpenShift</h4>
 
                 <div class="card">
                     <div class="card-body">
