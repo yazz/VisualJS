@@ -44,14 +44,19 @@ load_once_from_file(true)
             </div>
 
             <div style="height:200px;">
+                <img src="/driver_icons/openshift.png"  style="width:100px;"></img>
+                <a href="#export_as_openshift">B) Export App as OpenShift Container</a>
+            </div>
+
+            <div style="height:200px;">
                 <img src="/driver_icons/html.png"  style="width:100px;"></img>
-                <a href="#export_as_html">B) Download app as HTML file</a>
+                <a href="#export_as_html">C) Download app as HTML file</a>
             </div>
 
 
             <div style="height:200px;">
             <img src="/driver_icons/js.png"  style="width:100px;"></img>
-                <a href="#export_as_js">C) Download app as Javascript file</a>
+                <a href="#export_as_js">D) Download app as Javascript file</a>
             </div>
 
             <div style="height:800px;">
@@ -153,11 +158,111 @@ load_once_from_file(true)
 
 
 
+
+
+
+
+
+
+
+            <div id="export_as_openshift"  style="height:950px;padding-top:50px;">
+                <img src="/driver_icons/openshift.png"  style="width:100px;"></img>
+
+
+                <h4 style="font-weight:bold;">B) Export App as OpenShift Container</h4>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Docker engine details</h3>
+                        <div class="form-row">
+                            <div class="form-group col-md-9">
+                                <label for="docker_server">
+                                    OpenShift Server Host
+                                </label>
+
+                                <input  type=""
+                                        v-model="dockerHost"
+                                        class="form-control" id="docker_server"
+                                        placeholder="host.docker.internal" />
+                            </div>
+
+
+                            <div class="form-group col-md-3">
+                                <label for="docker_port">
+                                    Docker Port
+                                </label>
+
+                                <input  v-model="dockerPort"
+                                        class="form-control" id="docker_port" placeholder="1234" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 20px;">
+                    <div class="card-body">
+                        <h3>Exported OpenShift container details</h3>
+                        <div class="form-group">
+                            <label for="docker_image_name">
+                                Quay Image Name
+                            </label>
+
+                            <input  type="" class="form-control"
+                                    v-model="dockerImageName"
+                                    id="docker_image_name"
+                                    placeholder="your_docker_id/image_name:version_tag" />
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-9">
+                                <label for="docker_local_host">
+                                    App Local Host
+                                </label>
+
+                                <input  type=""
+                                        readonly
+                                        class="form-control"
+                                        v-model="dockerLocalHost"
+                                        id="docker_local_host"/>
+                            </div>
+
+                            <div class="form-group col-md-3">
+                                <label for="docker_local_port">
+                                    OpenShift Route App Port
+                                </label>
+
+                                <input  type=""
+                                        class="form-control"
+                                        v-model="dockerLocalPort"
+                                        id="docker_local_port"
+                                        />
+                            </div>
+                            <div    v-on:click='var win = window.open(location.protocol + "//" + location.hostname + ":" + dockerLocalPort, "_blank"); win.focus();'
+                                    v-bind:style="'display:flex;text-decoration: underline;color:blue;padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;margin-bottom:10px;'">
+                                Shareable link:<input   readonly
+                                                        style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
+                                                        v-bind:value='location.protocol + "//" + location.hostname + ":" + dockerLocalPort '>
+                            </div>
+                        </div>
+                        <button v-on:click="createDockerImage()"
+                                class="btn btn-primary">Create OpenShift Quay Image
+                        </button>
+<pre style="height:200px;overflow:auto;margin-top:20px;background-color:lightgray;padding:15px;border-radius:7px;">{{outputText}}</pre>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
             <div id="export_as_html" style="height:950px;padding-top:50px;">
                 <img src="/driver_icons/html.png"  style="width:100px;"></img>
 
                 <h4 style="font-weight:bold;">
-                    B) Download app as HTML file
+                    C) Download app as HTML file
                 </h4>
 
                     <a          v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppId + ".html"'
@@ -193,7 +298,7 @@ load_once_from_file(true)
                     <img src="/driver_icons/js.png"  style="width:100px;"></img>
 
                     <h4 style="font-weight:bold;">
-                        C) Download app as Javascript file
+                        D) Download app as Javascript file
                     </h4>
 
                         <a          v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppId + ".js"'
