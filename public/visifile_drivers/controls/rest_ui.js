@@ -34,7 +34,7 @@ properties(
         {
             id:         "callRestApi",
             pre_snippet:    `await `,
-            snippet:    `callRestApi()`,
+            snippet:    `callRestApi("http://INSERT_URL_HERE")`,
             name:       "Execute Command",
             type:       "Action"
         }
@@ -114,7 +114,11 @@ logo_url("/driver_icons/rest.png")
             ,
 
 
-            callRestApi: async function() {
+            callRestApi: async function(urlToCall) {
+                var mm = this
+                if (urlToCall) {
+                    mm.args.URL = urlToCall
+                }
                 var qwe = await this.callRestApiInternal()
                 return qwe
             }
