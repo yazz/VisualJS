@@ -319,10 +319,19 @@ load_once_from_file(true)
                          <div style="margin-top:10px;height:auto; border: 3px solid black; padding: 8px;">{{location.protocol + "//" + location.hostname + ":" + location.port + "/" + rest_api_base_url + "/" + rest_api_url_2 + "?"  + getRestParams() }}
                          </div>
                          <button    style="margin-top:6px;"
-                                    type=button class=' btn btn-info btn-lg'        v-on:click='callRestApi()' >Call rest API</button>
+                                    type=button class=' btn btn-info btn-lg'
+                                    v-on:click='callRestApi()' >
 
-                         <pre style="margin-top: 30px;">{{rest_api_return_value}}</pre>
-                  </div>
+                                        Call rest API
+
+                                    </button>
+
+
+                         <div style="margin-top:50px;height:auto; border: 3px solid black; padding: 8px;">
+                             <h2>Rest call return value</h2>
+                             <pre style="margin-top: 30px;">{{rest_api_return_value}}</pre>
+                         </div>
+                     </div>
 
 
             </div>
