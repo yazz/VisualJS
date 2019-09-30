@@ -10,7 +10,6 @@ var sqlite3                     = require('sqlite3');
 var os                          = require('os')
 var perf                        = require('./perf')
 var db_helper                   = require("./db_helper")
-var isBinaryFile                = require("isbinaryfile");
 var https                       = require('https');
 var http                        = require('http');
 var request                     = require('request');

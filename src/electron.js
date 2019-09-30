@@ -1,11 +1,8 @@
 #!/usr/bin/env node
-const electron = require('electron')
 
 
 // Module to control application life.
-const electronApp = electron.app
 // Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow
 var startNodeServer = false
 const path = require("path");
 const url = require('url');
@@ -209,7 +206,6 @@ if (process.argv.length > 1) {
       .option('-p, --port [port]', 'Which port should I listen on? (default 80) [port]', parseInt)
       .option('-h, --host [host]', 'Server address of the central host (default yazz.com) [host]', 'yazz.com')
       .option('-l, --locked [locked]', 'Allow server to be locked/unlocked on start up (default true) [locked]', 'true')
-      .option('-n, --nogui [nogui]', 'Allow server to be run in headless mode (default false) [nogui]', 'false')
       .option('-d, --debug [debug]', 'Allow to run in debug mode (default false) [debug]', 'false')
       .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
       .option('-x, --deleteonexit [deleteonexit]', 'Delete database files on exit (default false) [deleteonexit]', 'false')
@@ -230,7 +226,6 @@ if (process.argv.length > 1) {
     program.type = 'client'
     program.host = 'yazz.com'
     program.locked = 'true'
-    program.nogui = 'false'
     program.debug = 'false'
     program.deleteonexit = 'false'
     program.deleteonstartup = 'false'
@@ -279,12 +274,8 @@ if (useHost) {
 }
 
 
-var nogui = (program.nogui == 'true');
 port = program.port;
 var runapp = program.runapp;
-if ( electronApp ) {
-    runapp = "homepage"
-}
 var runhtml = program.runhtml;
 var loadjsurl = program.loadjsurl;
 var loadjsfile = program.loadjsfile;
@@ -461,18 +452,6 @@ function setUpChildListeners(processName, fileName, debugPort) {
     	if (typeOfSystem == 'client') {
             var localClientUrl = serverProtocol + '://' + hostaddress  + ":" + port;
             var remoteServerUrl = 'http://' + centralHostAddress  + ":" + centralHostPort + "/visifile/list_intranet_servers.html?time=" + new Date().getTime();
-            if(!nogui) {
-                setTimeout(function(){
-                    //open(localClientUrl);
-                    alreadyOpen = true
-                    visifile.loadURL(localClientUrl)
-                    if (visifile.webContents) {
-                        //visifile.webContents.executeJavaScript("document.addEventListener('dragover', event => event.preventDefault())");
-                        //visifile.webContents.executeJavaScript("document.addEventListener('drop', event => event.preventDefault())");
-                    }
-
-                },2000)
-            }
 
 
 
@@ -502,9 +481,6 @@ function setUpChildListeners(processName, fileName, debugPort) {
             if (!alreadyOpen) {
                 alreadyOpen = true;
                 //open('http://' + hostaddress  + ":" + port + "/visifile/list_intranet_servers.html?time=" + new Date().getTime());
-                if (!nogui) {
-                    visifile.loadURL(  serverProtocol + '://' + hostaddress  + ":" + port + "/visifile/list_intranet_servers.html?time=" + new Date().getTime())
-                }
 
 
             }
@@ -1039,137 +1015,6 @@ function setupVisifileParams() {
 
 
 
-if (electronApp) {
-
-    electronApp.on('ready', function() {
-
-    	if (isWin) {
-    		var localappdata  = process.env.LOCALAPPDATA
-    		userData = localappdata
-    	} else {
-    		userData = electronApp.getPath('userData')
-            console.log("userData: " + userData)
-            if (!isValidObject(userData)) {
-                userData = LOCAL_HOME
-            }
-            userData =  path.join(userData, 'Yazz')
-    	}
-
-    	dbPath = path.join(userData, username + '.visi')
-
-        if (deleteOnStartup) {
-            console.log("deleting dir :" + userData)
-            if (userData.length > 6) {
-                    deleteYazzDataV2(userData)
-            }
-        }
-
-        upload          = multer( { dest: path.join(userData,  'uploads/')});
-
-
-        rmdir("uploads");
-        mkdirp.sync(path.join(userData,  'uploads'));
-        mkdirp.sync(path.join(userData,  'files'));
-        mkdirp.sync(path.join(userData,  'apps'));
-        mkdirp.sync(path.join(userData,  'app_dbs'));
-
-
-
-
-
-
-
-
-
-
-
-        if (!nogui ) {
-            visifile = new BrowserWindow({
-                                        width: 800,
-                                        height: 600,
-                                        webPreferences: {
-                                            nodeIntegration: false
-
-                                        },
-                                        icon:'public/VisiFileColor.png'
-                                    })
-
-
-
-
-
-            visifile.on('closed', function () {
-                shutDown();
-            })
-
-
-
-            visifile.loadURL(url.format({
-                pathname: path.join(__dirname, 'loading.html'),
-                protocol: 'file:',
-                slashes: true
-              }))
-
-          electronApp.on('will-quit', () => {
-              shutDown();
-              });
-
-          electronApp.on('before-quit', () => {
-              shutDown();
-
-          });
-
-
-
-              electronApp.on('window-all-closed', electronApp.quit);
-              electronApp.on('before-quit', () => {
-                  shutDown();
-              });
-
-        }
-
-
-
-
-    	  outputToBrowser('process.env.LOCALAPPDATA: ' + JSON.stringify(localappdata ,null,2))
-          outputToBrowser("appPath: " + electronApp.getAppPath())
-    	  outputToBrowser("userData: " + JSON.stringify(userData ,null,2))
-          outputToBrowser("getPath(userData): " + electronApp.getPath('userData'))
-          outputToBrowser("process.env keys: " + Object.keys(process.env))
-
-          //outputToBrowser("dbPath: " + JSON.stringify(dbPath ,null,2))
-          //outputToBrowser("LOCAL: " + path.join(__dirname, '/'))
-
-          if (debug) {
-              visifile.webContents.toggleDevTools();
-          }
-
-        dbsearch = new sqlite3.Database(dbPath);
-        dbsearch.run("PRAGMA journal_mode=WAL;")
-
-
-
-
-
-    	var nodeConsole = require('console');
-    	var myConsole = new nodeConsole.Console(process.stdout, process.stderr);
-    	myConsole.log('Hello World!');
-
-        console.log("New electron app")
-
-        //var index = require(path.resolve('src/index.js'))
-
-
-        setupMainChildProcess();
-
-    })
-}
-
-
-//
-// otherwise we are running as NodeJS
-//
-else {
 
         	if (isWin) {
                 console.log("Running as Windows")
@@ -1227,7 +1072,7 @@ else {
 
 
             setupMainChildProcess();
-}
+
 
 
 

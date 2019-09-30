@@ -8,7 +8,6 @@ var sqlite3                     = require('sqlite3');
 var os                          = require('os')
 var perf                        = require('./perf')
 var db_helper                   = require("./db_helper")
-var isBinaryFile                = require("isbinaryfile");
 var userData
 var childProcessName
 var nextCallId = 0
