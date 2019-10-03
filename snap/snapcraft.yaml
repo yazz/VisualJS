@@ -8,11 +8,11 @@ confinement: strict
 
 
 apps:
-  yazz:
+  visualjs:
     command: node ./src/electron.js --runapp homepage --nogui true --locked false
     plugs: [network, network-bind]
 parts:
-  yazz:
+  visualjs:
     plugin: nodejs
     node-packages: []
     node-engine: 7.7.3
