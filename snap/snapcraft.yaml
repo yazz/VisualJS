@@ -1,7 +1,7 @@
-name: yazz
-summary: Cloud and Desktop IDE
+name: visualjs
+summary: Kubernetes Enterprise App Store
 version: git
-description: This is Yazz.
+description: Kubernetes Enterprise App Store
 grade: devel
 confinement: strict
 
