@@ -1,4 +1,5 @@
 name: visualjs
+base: core18
 summary: Kubernetes Enterprise App Store
 version: git
 description: Kubernetes Enterprise App Store
@@ -10,11 +11,14 @@ confinement: strict
 apps:
   visualjs:
     command: node ./src/electron.js --runapp homepage --nogui true --locked false
-    plugs: [network, network-bind]
+    plugs:
+      - network
+      - network-bind
+
+
 parts:
   visualjs:
-    plugin: nodejs
-      nodejs-package-manager: npm
     node-packages: []
     node-engine: 7.7.3
     source: .
+    plugin: nodejs
