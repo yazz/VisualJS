@@ -1,13 +1,13 @@
 {
-  "name": "Yazz",
-  "description": "Yazz",
+  "name": "visualjs",
+  "description": "VisualJS",
   "version": "3.0.10",
   "author": "Zubair Quraishi",
   "private": true,
   "scripts": {},
   "main": "src/electron.js",
   "bin": {
-    "yazz": "./src/electron.js"
+    "visualjs": "./src/electron.js"
   },
   "dependencies": {
     "@rgrove/parse-xml": "^1.1.1",
@@ -50,9 +50,5 @@
     "tar-stream": "^2.0.1",
     "uuid": "^3.1.0",
     "vue": "^2.5.2"
-  },
-  "devDependencies": {},
-  "config": {
-    "forge": "./forge.config.js"
   }
 }
