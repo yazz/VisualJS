@@ -1541,7 +1541,7 @@ ${code}
                                                         //
                                                         // save the standalone app
                                                         //
-                                                        sqliteCode = fs.readFileSync( path.join(__dirname, '../node_modules/sqlite/sql.js') )
+                                                        sqliteCode = fs.readFileSync( path.join(__dirname, '../public/sql.js') )
                                                         var indexOfSqlite = newStaticFileContent.indexOf("//SQLITE")
                                                         newStaticFileContent = newStaticFileContent.substring(0,indexOfSqlite) +
                                                                                     sqliteCode +
