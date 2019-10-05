@@ -13,6 +13,8 @@ Run as a Snap package on Linux:
     
     visualjs
     
+    [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/visualjs)
+    
     
 
 Public Demo- https://yazz.com/app/homepage.html
