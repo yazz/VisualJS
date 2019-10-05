@@ -3,11 +3,14 @@
 ## Build internal web apps fast on Kubernetes/Docker/Linux
 
 Run from docker:
+
     docker run -p 80:80 -d zubairq/visualjs
     
 
 Run as a Snap package on Linux:
+
     snap install --devmode --edge visualjs
+    
     visualjs
     
     
