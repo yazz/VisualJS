@@ -1,20 +1,29 @@
 
 # Visual Javascript
-## The OpenShift AppStore
+## Build internal web apps fast on Kubernetes/Docker/Linux
 
+Run from docker:
 
+    docker run -p 80:80 -d zubairq/visualjs
+    
 
-Build an internal AppStore for your enterprise in minutes, using OpenShift 
+Run as a Snap package on Linux:
+
+    snap install --devmode --edge visualjs
+    
+    visualjs
+    
+[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/visualjs)
+    
+    
 
 Public Demo- https://yazz.com/app/homepage.html
 
 - Build apps in minutes with drag and drop interface and code business logic in Javascript
-- One click deploy to Docker or OpenShift
+- One click deploy to Docker or Kubernetes
 - Open source MIT license
 - Runs in Docker on the cloud or locally
-- Can be run as a Desktop app in Electron
-
-
+- Can be run as a Snap Package on Linux
 
 
 
@@ -102,10 +111,7 @@ Public Demo- https://yazz.com/app/homepage.html
     cd visualjs
 ##### 5) Install the NodeJS modules
     npm install
-##### 6) Run the Visual Javascript Electron application
-    electron .
-
-##### OR run as Node.js application with browser based access
+##### 6) Run as Node.js application with browser based access
 
      node .\src\electron.js --runapp homepage --nogui true --locked false
 
@@ -131,24 +137,10 @@ Public Demo- https://yazz.com/app/homepage.html
     cd visualjs
 ##### 5) Install the NodeJS modules
     npm install
-##### 6) Install SQlite3 for Electron
-    Copy
-        node_macos64/node_sqlite3.noderename
-    to
-        node_modules/sqlite3/lib/binding/node-v57-darwin-x64/node_sqlite3.node
-##### 7) Install Electron
-    npm install electron
-
-##### 8) Run the Visual Javascript Electron application
-    electron .
-
-##### OR run as Node.js application with browser based access
+##### 6) Run as Node.js application with browser based access
 
      node src/electron.js --runapp homepage --nogui true --locked false
 
-### If Sqlite3 gives an error as it says it was compiled with a different version of NodeJS then recompile it
-
-    npm rebuild sqlite3  --update-binary
 
 
 
@@ -173,33 +165,6 @@ Public Demo- https://yazz.com/app/homepage.html
 
 
 
-### To build the Windows 10 Electron app you also need to:
-##### 1) Open Powershell in administator mode
-
-##### 2) Install Python 27
-
-    https://www.python.org/download/releases/2.7/
-
-##### 3) Set the Path variable in Powershell to find Python
-
-    $env:Path += ';d:\Python27\'
-
-##### 4) Install Microsoft Build Tools 2015
-
-    https://www.microsoft.com/en-us/download/details.aspx?id=48159
-
-##### 5) Install electron-forge
-
-    npm install -g electron-forge
-
-##### 6) Build the Windows Electron app with Electron Forge
-
-    electron-forge make
-
-
-
-
-
 <br /><br /><br /><br /><br />
 
 
@@ -213,7 +178,6 @@ Public Demo- https://yazz.com/app/homepage.html
     --port                 Which port should I listen on? Default 80 or 3000 (if not run as sudo)
     --host                 Server address of the central host (default is local machine IP address)
     --locked               Allow server to be locked/unlocked on start up to other machines in intranet (default true)
-    --nogui                Allow server to be run in headless mode (default false)
     --deleteonexit         Delete database files on exit (default false)
     --deleteonstartup      Delete database files on startup (default false)
     --runapp               Run using a local app on startup (default not set). "homepage" often used
