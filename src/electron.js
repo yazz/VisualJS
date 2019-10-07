@@ -487,7 +487,10 @@ function setUpChildListeners(processName, fileName, debugPort) {
     	}
 
 
-
+        //zzz
+        console.log(""+ "\n");
+        console.log("Started on:");
+        console.log(serverProtocol + "://" + hostaddress + ':' + port);
 
 
 
@@ -529,7 +532,6 @@ function setUpChildListeners(processName, fileName, debugPort) {
                                                                 started:          new Date()
                                                   });
                                               }
-
 
 
         } else if (msg.message_type == "getResultReturned") {
@@ -2265,7 +2267,7 @@ function add_new_queryFn(req, res) {
     res.end(JSON.stringify({done: "ok"}))};
 
 
-//zzz
+
 function keycloakProtector(params) {
     return function(req,res,next) {
         next()
@@ -2297,7 +2299,7 @@ function keycloakProtector(params) {
                             if (sscode) {
                                 //var ssval = eval( "(" + sscode + ")")
                                 console.log("keycloak: " + JSON.stringify(sscode,null,2))
-                                //zzz
+
                                 keycloak.protect()(req, res, next)
 
                             } else {
@@ -2625,9 +2627,7 @@ function startServices() {
     	console.log(typeOfSystem + ' started on port ' + port + ' with local folder at ' + process.cwd() + ' and __dirname = ' + __dirname+ "\n");
         console.log("****HOST=" + hostaddress + "HOST****\n");
         console.log("****PORT=" + port+ "PORT****\n");
-        console.log(""+ "\n");
-        console.log("Started on:");
-        console.log(serverProtocol + "://" + hostaddress + ':' + port);
+
 
         //
         // We dont listen on websockets here with socket.io as often they stop working!!!
