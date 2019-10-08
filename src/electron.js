@@ -197,6 +197,8 @@ app.use(keycloak.middleware({
           admin: '/ad'
 }));
 
+const apiMetrics = require('prometheus-api-metrics');
+app.use(apiMetrics())
 
 if (process.argv.length > 1) {
 
