@@ -20,6 +20,7 @@ var tdeval
 var toeval;
 var userData
 var childProcessName
+var showDebug
 
 var isWin                               = /^win/.test(process.platform);
 var inScan                              = false;
@@ -405,6 +406,7 @@ function processMessagesFromMainProcess() {
 
         userData            = msg.user_data_path
         childProcessName    = msg.child_process_name
+        showDebug           = msg.show_debug
 
 
         ////console.log("Child recieved user data path: " + userData)
@@ -577,7 +579,9 @@ function processMessagesFromMainProcess() {
 
 
 async function evalLocalSystemDriver(driverName, location, options) {
-    console.log("*** Loading driver: *** : " + driverName)
+    if (showDebug) {
+        console.log("*** Loading driver: *** : " + driverName)        
+    }
 	var evalDriver = fs.readFileSync(location);
 	await addOrUpdateDriver(driverName, evalDriver,options)
 }

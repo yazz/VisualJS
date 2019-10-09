@@ -209,6 +209,7 @@ if (process.argv.length > 1) {
       .option('-h, --host [host]', 'Server address of the central host (default yazz.com) [host]', 'yazz.com')
       .option('-l, --locked [locked]', 'Allow server to be locked/unlocked on start up (default true) [locked]', 'true')
       .option('-d, --debug [debug]', 'Allow to run in debug mode (default false) [debug]', 'false')
+      .option('-a, --show_debug [show_debug]', 'Allow to show debug info (default false) [show_debug]', 'false')
       .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
       .option('-x, --deleteonexit [deleteonexit]', 'Delete database files on exit (default false) [deleteonexit]', 'false')
       .option('-y, --deleteonstartup [deleteonstartup]', 'Delete database files on startup (default false) [deleteonstartup]', 'false')
@@ -251,6 +252,17 @@ if (program.debug == 'true') {
 } else {
     console.log("       debug: false" );
 };
+
+
+var showDebug = false
+if (program.show_debug == 'true') {
+    showDebug = true;
+    console.log("       showDebug: true" );
+} else {
+    console.log("       showDebug: false" );
+};
+
+
 
 var deleteOnExit = (program.deleteonexit == 'true');
 console.log("deleteOnExit: " + deleteOnExit)
@@ -885,7 +897,8 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
         //outputToBrowser("- sending user_data_path to child 'forked':  " + userData)
         forkedProcesses["forked"].send({         message_type: "init" ,
                                                  user_data_path: userData,
-                                                 child_process_name: "forked"
+                                                 child_process_name: "forked",
+                                                 show_debug: showDebug
                                               });
 
         forkedProcesses["forked"].send({         message_type: "createTables" });
@@ -899,7 +912,8 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
         //outputToBrowser("- sending user_data_path to child 'forkedExeScheduler':  " + userData)
         forkedProcesses["forkedExeScheduler"].send({  message_type: "init" ,
                                                       user_data_path: userData,
-                                                      child_process_name: "forkedExeScheduler"
+                                                      child_process_name: "forkedExeScheduler",
+                                                      show_debug: showDebug
                                               });
     }
 
@@ -909,7 +923,8 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
             //outputToBrowser("- sending user_data_path to child '" + exeProcName + "':  " + userData)
             forkedProcesses[exeProcName].send({  message_type: "init" ,
                                                  user_data_path: userData,
-                                                 child_process_name: exeProcName
+                                                 child_process_name: exeProcName,
+                                                 show_debug: showDebug
                                               });
 
       }
