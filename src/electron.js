@@ -303,8 +303,12 @@ if (!isNumber(port)) {
 };
 
 
+if (showDebug) {
+     console.log('Yazz node local hostname: ' + ip.address() + ' ')
+} else {
+    process.stdout.write(".");
+}
 
-console.log('Yazz node local hostname: ' + ip.address() + ' ')
 
 setupVisifileParams();
 
@@ -383,7 +387,12 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
         } else if (msg.message_type == "add_rest_api") {
-            console.log("add_rest_api called")
+
+            if (showDebug) {
+                 console.log("add_rest_api called")
+             } else {
+                 process.stdout.write(".");
+             }
 
             var newFunction = async function (req, res) {
 
@@ -1113,7 +1122,7 @@ function setupVisifileParams() {
 
         	var nodeConsole = require('console');
         	var myConsole = new nodeConsole.Console(process.stdout, process.stderr);
-        	myConsole.log('Hello World!');
+        	
 
 
 
@@ -2696,9 +2705,14 @@ function startServices() {
     }
     socket = require('socket.io')
     httpServer.listen(port, hostaddress, function () {
-    	console.log(typeOfSystem + ' started on port ' + port + ' with local folder at ' + process.cwd() + ' and __dirname = ' + __dirname+ "\n");
-        console.log("****HOST=" + hostaddress + "HOST****\n");
-        console.log("****PORT=" + port+ "PORT****\n");
+        if (showDebug) {
+            console.log("****HOST=" + hostaddress + "HOST****\n");
+            console.log("****PORT=" + port+ "PORT****\n");
+            console.log(typeOfSystem + ' started on port ' + port + ' with local folder at ' + process.cwd() + ' and __dirname = ' + __dirname+ "\n");
+        } else {
+            process.stdout.write(".");
+        }
+
 
 
         //

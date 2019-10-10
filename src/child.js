@@ -393,7 +393,12 @@ function processMessagesFromMainProcess() {
 
 
     } else if (msg.message_type == 'greeting') {
-        console.log("**** greeting");
+
+        if (showDebug) {
+             console.log("**** greeting");
+        } else {
+            process.stdout.write(".");
+        }
 
     } else if (msg.message_type == 'host_and_port') {
 

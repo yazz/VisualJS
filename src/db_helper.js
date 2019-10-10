@@ -4,7 +4,7 @@ var sqlite3         = require('sqlite3');
 
 module.exports = {
     createTables: function(dbsearch, callbackFn) {
-    console.log("--------------- createTables: function(dbsearch, callbackFn) {");
+    //console.log("--------------- createTables: function(dbsearch, callbackFn) {");
     async.map([
 
             "CREATE TABLE IF NOT EXISTS intranet_client_connects (id TEXT, internal_host TEXT, internal_port INTEGER, public_ip TEXT, via TEXT, public_host TEXT, user_name TEXT, client_user_name TEXT, when_connected INTEGER);",
