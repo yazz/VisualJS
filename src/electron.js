@@ -933,7 +933,10 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
 
 
 
-    console.log("Started subprocess '" + processName + "' ")
+    if (showDebug) {
+         console.log("Started subprocess '" + processName + "' ")
+      }
+
 
 
 }
@@ -1002,13 +1005,16 @@ function setupVisifileParams() {
         console.log('-------* Invalid system type: ' + typeOfSystem);
         process.exit();
     };
-    console.log('-------* System type: ' + typeOfSystem);
-    console.log('-------* Port: ' + port);
-    console.log('-------* Central host: ' + centralHostAddress);
-    console.log('-------* Central host port: ' + centralHostPort);
+    if (showDebug) {
+        console.log('-------* System type: ' + typeOfSystem);
+        console.log('-------* Port: ' + port);
+        console.log('-------* Central host: ' + centralHostAddress);
+        console.log('-------* Central host port: ' + centralHostPort);
 
 
-	console.dir ( ip.address() );
+       console.dir ( ip.address() );
+      }
+
 
 	//console.log('addr: '+ ip.address());
 	//hostaddress = ip.address();
@@ -1017,8 +1023,10 @@ function setupVisifileParams() {
 
 
 
+    if (showDebug) {
+        console.log("process.platform = " + process.platform)
+      }
 
-          console.log("process.platform = " + process.platform)
           if (process.platform === "win32") {
             var rl = require("readline").createInterface({
               input: process.stdin,
@@ -1040,7 +1048,10 @@ function setupVisifileParams() {
         		var localappdata  = process.env.LOCALAPPDATA
         		userData = path.join(localappdata, '/Yazz/')
         	} else {
-                console.log("Running as Linux/Mac")
+
+                if (showDebug) {
+                    console.log("Running as Linux/Mac")
+                  }
         		userData =  path.join(LOCAL_HOME, 'Yazz')
         	}
         	dbPath = path.join(userData, username + '.visi')
@@ -1053,9 +1064,12 @@ function setupVisifileParams() {
                 }
             }
             var uploadPath = path.join(userData,  'uploads/')
-            console.log("LOCAL_HOME: " + LOCAL_HOME)
-            console.log("userData: " + userData)
-            console.log("uploadPath: " + uploadPath)
+            if (showDebug) {
+                console.log("LOCAL_HOME: " + LOCAL_HOME)
+                console.log("userData: " + userData)
+                console.log("uploadPath: " + uploadPath)
+              }
+
             upload          = multer( { dest: uploadPath});
 
 
@@ -1066,10 +1080,15 @@ function setupVisifileParams() {
             mkdirp.sync(path.join(userData,  'app_dbs'));
 
 
-        	  outputToBrowser('process.env.LOCALAPPDATA: ' + JSON.stringify(localappdata ,null,2))
-              outputToBrowser("Local home data path: " + LOCAL_HOME)
-        	  outputToBrowser("userData: " + JSON.stringify(userData ,null,2))
-              outputToBrowser("process.env keys: " + Object.keys(process.env))
+            if (showDebug) {
+                outputToBrowser('process.env.LOCALAPPDATA: ' + JSON.stringify(localappdata ,null,2))
+                outputToBrowser("Local home data path: " + LOCAL_HOME)
+
+              outputToBrowser("userData: " + JSON.stringify(userData ,null,2))
+                outputToBrowser("process.env keys: " + Object.keys(process.env))
+              }
+
+
 
 
             dbsearch = new sqlite3.Database(dbPath);
@@ -1084,8 +1103,6 @@ function setupVisifileParams() {
         	myConsole.log('Hello World!');
 
 
-
-            console.log("New NodeJS app")
 
             //var index = require(path.resolve('src/index.js'))
 
@@ -1246,7 +1263,9 @@ function outputToBrowser(txt) {
 
 var httpServer = null;
 function getPort () {
-    outputToBrowser('** called getPort v2')
+    if (showDebug) {
+        outputToBrowser('** called getPort v2')
+      }
 
 
 
@@ -1294,8 +1313,10 @@ function getPort () {
 
 
     httpServer.listen(port, ip.address(), function (err) {
-        outputToBrowser('trying port: ' + port + ' ')
 
+        if (showDebug) {
+             outputToBrowser('trying port: ' + port + ' ')
+          }
         httpServer.once('close', function () {
         })
         httpServer.close()
@@ -1305,16 +1326,27 @@ function getPort () {
 
 
     httpServer.on('error', function (err) {
-        outputToBrowser('Couldnt connect on port ' + port + '...')
+        if (showDebug) {
+             outputToBrowser('Couldnt connect on port ' + port + '...')
+          }
+
         if (port < portrange) {
             port = portrange
             };
-        outputToBrowser('... trying port ' + port)
+            if (showDebug) {
+                 outputToBrowser('... trying port ' + port)
+              }
+
         portrange += 1
         getPort()
     })
     httpServer.on('listening', function (err) {
-            outputToBrowser('Can connect on ' + ip.address() +  ':' + port + ' :) ')
+        if (showDebug) {
+
+            if (showDebug) {
+                 outputToBrowser('Can connect on ' + ip.address() +  ':' + port + ' :) ')
+              }
+        }
             forkedProcesses["forked"].send({         message_type: "host_and_port" ,
                                                      child_process_name: "forked",
                                                      ip: hostaddress,

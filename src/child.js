@@ -432,14 +432,20 @@ function processMessagesFromMainProcess() {
         //setUpSql();
 
     } else if (msg.message_type == 'createTables') {
-        console.log("**** createTables");
+
+        if (showDebug) {
+            console.log("**** createTables");
+        }
         db_helper.createTables(dbsearch,
             function() {
-                console.log("");
-                console.log("***********************************");
-                console.log("**** createTables returned");
-                console.log("***********************************");
-                console.log("");
+                if (showDebug) {
+                    console.log("");
+                    console.log("***********************************");
+                    console.log("**** createTables returned");
+                    console.log("***********************************");
+                    console.log("");
+                }
+
                 process.send({  message_type:       "createdTablesInChild"  });
 
             });
@@ -580,7 +586,7 @@ function processMessagesFromMainProcess() {
 
 async function evalLocalSystemDriver(driverName, location, options) {
     if (showDebug) {
-        console.log("*** Loading driver: *** : " + driverName)        
+        console.log("*** Loading driver: *** : " + driverName)
     }
 	var evalDriver = fs.readFileSync(location);
 	await addOrUpdateDriver(driverName, evalDriver,options)
@@ -725,7 +731,10 @@ async function setUpComponentsLocally() {
     await evalLocalSystemDriver('form_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/formEditorComponent.js'))
     await evalLocalSystemDriver('simple_display_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/simpleDisplayEditorComponent.js'))
     await evalLocalSystemDriver('vb_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/vbEditorComponent.js'))
-    console.log("Loaded all drivers")
+
+    if (showDebug) {
+        console.log("Loaded all drivers")
+    }
 
 
 
@@ -770,9 +779,12 @@ await evalLocalSystemDriver('mysql_client_component', path.join(__dirname, '../p
 
 //zzz
     var extraFns = fs.readFileSync( path.join(__dirname, '../src/extraFns.js') ).toString()
-    console.log("Extra functions code:" )
-    console.log( extraFns )
-    console.log("." )
+    if (showDebug) {
+        console.log("Extra functions code:" )
+        console.log( extraFns )
+        console.log("." )
+    }
+
     await eval("(" + extraFns + "())")
 
     //
@@ -783,7 +795,10 @@ await evalLocalSystemDriver('mysql_client_component', path.join(__dirname, '../p
     await evalLocalSystemDriver('new', path.join(__dirname, '../public/visifile_drivers/apps/blank_app.js'),{save_html: true})
     await evalLocalSystemDriver('new_microservice', path.join(__dirname, '../public/visifile_drivers/apps/blank_microservice.js'),{save_html: true})
     await evalLocalSystemDriver('tensorflow', path.join(__dirname, '../public/visifile_drivers/apps/tensorflow.js'),{save_html: true})
-    console.log("Loaded all apps (may use already loaded drivers)")
+    if (showDebug) {
+        console.log("Loaded all apps (may use already loaded drivers)")
+    }
+
 
 
 
@@ -912,7 +927,11 @@ function clientConnectFn(
         ) {
 	try
 	{
-        console.log('clientConnectFn');
+
+        if (showDebug) {
+            console.log('clientConnectFn');
+        }
+
 
 		//console.log('Client attempting to connect from:');
 		//console.log('client internal host address:    ' + requestClientInternalHostAddress)
