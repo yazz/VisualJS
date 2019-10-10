@@ -935,7 +935,10 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
 
     if (showDebug) {
          console.log("Started subprocess '" + processName + "' ")
-      }
+     } else {
+         process.stdout.write(".");
+     }
+
 
 
 
@@ -1013,7 +1016,9 @@ function setupVisifileParams() {
 
 
        console.dir ( ip.address() );
-      }
+   } else {
+       process.stdout.write(".");
+   }
 
 
 	//console.log('addr: '+ ip.address());
@@ -1025,7 +1030,9 @@ function setupVisifileParams() {
 
     if (showDebug) {
         console.log("process.platform = " + process.platform)
-      }
+    } else {
+        process.stdout.write(".");
+    }
 
           if (process.platform === "win32") {
             var rl = require("readline").createInterface({
@@ -1051,7 +1058,9 @@ function setupVisifileParams() {
 
                 if (showDebug) {
                     console.log("Running as Linux/Mac")
-                  }
+                } else {
+                    process.stdout.write(".");
+                }
         		userData =  path.join(LOCAL_HOME, 'Yazz')
         	}
         	dbPath = path.join(userData, username + '.visi')
@@ -1068,7 +1077,9 @@ function setupVisifileParams() {
                 console.log("LOCAL_HOME: " + LOCAL_HOME)
                 console.log("userData: " + userData)
                 console.log("uploadPath: " + uploadPath)
-              }
+            } else {
+                process.stdout.write(".");
+            }
 
             upload          = multer( { dest: uploadPath});
 
@@ -1086,7 +1097,9 @@ function setupVisifileParams() {
 
               outputToBrowser("userData: " + JSON.stringify(userData ,null,2))
                 outputToBrowser("process.env keys: " + Object.keys(process.env))
-              }
+            } else {
+                process.stdout.write(".");
+            }
 
 
 
@@ -1265,7 +1278,9 @@ var httpServer = null;
 function getPort () {
     if (showDebug) {
         outputToBrowser('** called getPort v2')
-      }
+    } else {
+        process.stdout.write(".");
+    }
 
 
 
@@ -1328,14 +1343,18 @@ function getPort () {
     httpServer.on('error', function (err) {
         if (showDebug) {
              outputToBrowser('Couldnt connect on port ' + port + '...')
-          }
+         } else {
+             process.stdout.write(".");
+         }
 
         if (port < portrange) {
             port = portrange
             };
             if (showDebug) {
                  outputToBrowser('... trying port ' + port)
-              }
+             } else {
+                 process.stdout.write(".");
+             }
 
         portrange += 1
         getPort()
@@ -1345,8 +1364,12 @@ function getPort () {
 
             if (showDebug) {
                  outputToBrowser('Can connect on ' + ip.address() +  ':' + port + ' :) ')
-              }
-        }
+             } else {
+                 process.stdout.write(".");
+             }
+          } else {
+              process.stdout.write(".");
+          }
             forkedProcesses["forked"].send({         message_type: "host_and_port" ,
                                                      child_process_name: "forked",
                                                      ip: hostaddress,

@@ -435,6 +435,8 @@ function processMessagesFromMainProcess() {
 
         if (showDebug) {
             console.log("**** createTables");
+        } else {
+            process.stdout.write(".");
         }
         db_helper.createTables(dbsearch,
             function() {
@@ -444,6 +446,8 @@ function processMessagesFromMainProcess() {
                     console.log("**** createTables returned");
                     console.log("***********************************");
                     console.log("");
+                } else {
+                    process.stdout.write(".");
                 }
 
                 process.send({  message_type:       "createdTablesInChild"  });
@@ -587,6 +591,8 @@ function processMessagesFromMainProcess() {
 async function evalLocalSystemDriver(driverName, location, options) {
     if (showDebug) {
         console.log("*** Loading driver: *** : " + driverName)
+    } else {
+        process.stdout.write(".");
     }
 	var evalDriver = fs.readFileSync(location);
 	await addOrUpdateDriver(driverName, evalDriver,options)
@@ -734,6 +740,8 @@ async function setUpComponentsLocally() {
 
     if (showDebug) {
         console.log("Loaded all drivers")
+    } else {
+        process.stdout.write(".");
     }
 
 
@@ -783,6 +791,8 @@ await evalLocalSystemDriver('mysql_client_component', path.join(__dirname, '../p
         console.log("Extra functions code:" )
         console.log( extraFns )
         console.log("." )
+    } else {
+        process.stdout.write(".");
     }
 
     await eval("(" + extraFns + "())")
@@ -797,6 +807,8 @@ await evalLocalSystemDriver('mysql_client_component', path.join(__dirname, '../p
     await evalLocalSystemDriver('tensorflow', path.join(__dirname, '../public/visifile_drivers/apps/tensorflow.js'),{save_html: true})
     if (showDebug) {
         console.log("Loaded all apps (may use already loaded drivers)")
+    } else {
+        process.stdout.write(".");
     }
 
 
@@ -930,6 +942,8 @@ function clientConnectFn(
 
         if (showDebug) {
             console.log('clientConnectFn');
+        } else {
+            process.stdout.write(".");
         }
 
 
