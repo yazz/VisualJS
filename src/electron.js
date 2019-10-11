@@ -80,7 +80,12 @@ var keycloak    = new Keycloak({
 var listOfEnvs = process.env
 var envNames = Object.keys(listOfEnvs)
 for (var i=0 ;i< envNames.length; i++){
-    console.log("Env var  " + envNames[i] + ": " + listOfEnvs[envNames[i]])
+    if (showDebug) {
+         console.log("Env var  " + envNames[i] + ": " + listOfEnvs[envNames[i]])
+    } else {
+        process.stdout.write(".");
+    }
+
     envVars[envNames[i]] = listOfEnvs[envNames[i]]
 }
 
@@ -93,7 +98,12 @@ function isValidObject(variable){
     }
     return false
 }
-console.log("process.env.OPENSHIFT_NODEJS_IP:= " + process.env.OPENSHIFT_NODEJS_IP)
+if (showDebug) {
+     console.log("process.env.OPENSHIFT_NODEJS_IP:= " + process.env.OPENSHIFT_NODEJS_IP)
+} else {
+    process.stdout.write(".");
+}
+
 if (process.env.OPENSHIFT_NODEJS_IP) {
     username = "node"
 } else {
@@ -104,13 +114,22 @@ if (process.env.OPENSHIFT_NODEJS_IP) {
 }
 
 var LOCAL_HOME = process.env.HOME
-console.log('LOCAL_HOME:' + LOCAL_HOME);
 
+if (showDebug) {
+     console.log('LOCAL_HOME:' + LOCAL_HOME);
+} else {
+    process.stdout.write(".");
+}
 //
 // We set the HOME environment variable if we are running in OpenShift
 //
 if (isDocker()) {
-    console.log('Running inside a Docker container');
+
+    if (showDebug) {
+         console.log('Running inside a Docker container');
+    } else {
+        process.stdout.write(".");
+    }
     if (!isValidObject(LOCAL_HOME) || (LOCAL_HOME == "/")) {
         LOCAL_HOME = "/home/node"
     }
@@ -185,8 +204,12 @@ var executionProcessCount                       = 6;
 
 
 
+if (showDebug) {
+     console.log('Starting services');
+} else {
+    process.stdout.write(".");
+}
 
-console.log('Starting services');
 
 app.use(compression())
 app.use(sessObj);
@@ -242,33 +265,73 @@ if (process.argv.length > 1) {
 var semver = require('semver')
 
 var debug = false;
-console.log("NodeJS version: " + process.versions.node);
+if (showDebug) {
+     console.log("NodeJS version: " + process.versions.node);
+} else {
+    process.stdout.write(".");
+}
+
 if (semver.gt(process.versions.node, '6.9.0')) {
-    console.log("NodeJS version > 6.9 " );
+    if (showDebug) {
+         console.log("NodeJS version > 6.9 " );
+    } else {
+        process.stdout.write(".");
+    }
+
 }
 if (program.debug == 'true') {
     debug = true;
-    console.log("       debug: true" );
+
+    if (showDebug) {
+         console.log("       debug: true" );
+    } else {
+        process.stdout.write(".");
+    }
 } else {
-    console.log("       debug: false" );
+    if (showDebug) {
+         console.log("       debug: false" );
+    } else {
+        process.stdout.write(".");
+    }
+
 };
 
 
 var showDebug = false
 if (program.show_debug == 'true') {
     showDebug = true;
-    console.log("       showDebug: true" );
+    if (showDebug) {
+         console.log("       showDebug: true" );
+    } else {
+        process.stdout.write(".");
+    }
+
 } else {
-    console.log("       showDebug: false" );
+    if (showDebug) {
+         console.log("       showDebug: false" );
+    } else {
+        process.stdout.write(".");
+    }
+
 };
 
 
 
 var deleteOnExit = (program.deleteonexit == 'true');
-console.log("deleteOnExit: " + deleteOnExit)
+if (showDebug) {
+     console.log("deleteOnExit: " + deleteOnExit)
+} else {
+    process.stdout.write(".");
+}
+
 
 var deleteOnStartup = (program.deleteonstartup == 'true');
-console.log("deleteOnStartup: " + deleteOnStartup)
+if (showDebug) {
+     console.log("deleteOnStartup: " + deleteOnStartup)
+} else {
+    process.stdout.write(".");
+}
+
 
 locked = (program.locked == 'true');
 
@@ -511,8 +574,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
         //zzz
-        console.log(""+ "\n");
-        console.log("Started on:");
+        console.log("\nStarted on:");
         console.log(serverProtocol + "://" + hostaddress + ':' + port);
 
 
@@ -1122,7 +1184,7 @@ function setupVisifileParams() {
 
         	var nodeConsole = require('console');
         	var myConsole = new nodeConsole.Console(process.stdout, process.stderr);
-        	
+
 
 
 
