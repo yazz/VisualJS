@@ -274,9 +274,7 @@ if (isDocker()) {
     } else {
         process.stdout.write(".");
     }
-    if (!isValidObject(LOCAL_HOME) || (LOCAL_HOME == "/")) {
-        LOCAL_HOME = "/home/node"
-    }
+
 } else {
     if (showDebug) {
          console.log('NOT running inside a Linux container');
@@ -285,7 +283,9 @@ if (isDocker()) {
     }
 }
 
-
+if (!isValidObject(LOCAL_HOME) || (LOCAL_HOME == "/")) {
+    LOCAL_HOME = "/home/node"
+}
 
 
 
