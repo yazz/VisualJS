@@ -77,64 +77,6 @@ var keycloak    = new Keycloak({
                     },kk);
 
 
-var listOfEnvs = process.env
-var envNames = Object.keys(listOfEnvs)
-for (var i=0 ;i< envNames.length; i++){
-    if (showDebug) {
-         console.log("Env var  " + envNames[i] + ": " + listOfEnvs[envNames[i]])
-    } else {
-        process.stdout.write(".");
-    }
-
-    envVars[envNames[i]] = listOfEnvs[envNames[i]]
-}
-
-
-
-
-function isValidObject(variable){
-    if ((typeof variable !== 'undefined') && (variable != null)) {
-        return true
-    }
-    return false
-}
-if (showDebug) {
-     console.log("process.env.OPENSHIFT_NODEJS_IP:= " + process.env.OPENSHIFT_NODEJS_IP)
-} else {
-    process.stdout.write(".");
-}
-
-if (process.env.OPENSHIFT_NODEJS_IP) {
-    username = "node"
-} else {
-    username = "node"
-    //if (isValidObject(os) && isValidObject(os.userInfo()) && isValidObject(os.userInfo().username)) {
-    //    username = os.userInfo().username.toLowerCase();
-    //}
-}
-
-var LOCAL_HOME = process.env.HOME
-
-if (showDebug) {
-     console.log('LOCAL_HOME:' + LOCAL_HOME);
-} else {
-    process.stdout.write(".");
-}
-//
-// We set the HOME environment variable if we are running in OpenShift
-//
-if (isDocker()) {
-
-    if (showDebug) {
-         console.log('Running inside a Docker container');
-    } else {
-        process.stdout.write(".");
-    }
-    if (!isValidObject(LOCAL_HOME) || (LOCAL_HOME == "/")) {
-        LOCAL_HOME = "/home/node"
-    }
-}
-
 
 
 
@@ -202,15 +144,6 @@ var executionProcessCount                       = 6;
 
 
 
-
-
-if (showDebug) {
-     console.log('Starting services');
-} else {
-    process.stdout.write(".");
-}
-
-
 app.use(compression())
 app.use(sessObj);
 
@@ -232,7 +165,7 @@ if (process.argv.length > 1) {
       .option('-h, --host [host]', 'Server address of the central host (default yazz.com) [host]', 'yazz.com')
       .option('-l, --locked [locked]', 'Allow server to be locked/unlocked on start up (default true) [locked]', 'true')
       .option('-d, --debug [debug]', 'Allow to run in debug mode (default false) [debug]', 'false')
-      .option('-a, --show_debug [show_debug]', 'Allow to show debug info (default false) [show_debug]', 'false')
+      .option('-z, --showdebug [showdebug]', 'Allow to show debug info (default false) [showdebug]', 'false')
       .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
       .option('-x, --deleteonexit [deleteonexit]', 'Delete database files on exit (default false) [deleteonexit]', 'false')
       .option('-y, --deleteonstartup [deleteonstartup]', 'Delete database files on startup (default false) [deleteonstartup]', 'false')
@@ -264,6 +197,103 @@ if (process.argv.length > 1) {
 }
 var semver = require('semver')
 
+var showDebug = false
+if (program.showdebug == 'true') {
+    showDebug = true;
+    if (showDebug) {
+         console.log("       showDebug: true" );
+    } else {
+        process.stdout.write(".");
+    }
+
+} else {
+    if (showDebug) {
+         console.log("       showDebug: false" );
+    } else {
+        process.stdout.write(".");
+    }
+
+};
+
+
+var listOfEnvs = process.env
+var envNames = Object.keys(listOfEnvs)
+for (var i=0 ;i< envNames.length; i++){
+    if (showDebug) {
+         console.log("Env var  " + envNames[i] + ": " + listOfEnvs[envNames[i]])
+    } else {
+        process.stdout.write(".");
+    }
+
+    envVars[envNames[i]] = listOfEnvs[envNames[i]]
+}
+
+
+
+
+function isValidObject(variable){
+    if ((typeof variable !== 'undefined') && (variable != null)) {
+        return true
+    }
+    return false
+}
+if (showDebug) {
+     console.log("process.env.OPENSHIFT_NODEJS_IP:= " + process.env.OPENSHIFT_NODEJS_IP)
+} else {
+    process.stdout.write(".");
+}
+
+if (process.env.OPENSHIFT_NODEJS_IP) {
+    username = "node"
+} else {
+    username = "node"
+    //if (isValidObject(os) && isValidObject(os.userInfo()) && isValidObject(os.userInfo().username)) {
+    //    username = os.userInfo().username.toLowerCase();
+    //}
+}
+
+var LOCAL_HOME = process.env.HOME
+
+if (showDebug) {
+     console.log('LOCAL_HOME:' + LOCAL_HOME);
+} else {
+    process.stdout.write(".");
+}
+//
+// We set the HOME environment variable if we are running in OpenShift
+//
+if (showDebug) {
+     console.log('DOCKER CHECK...');
+} else {
+    process.stdout.write(".");
+}
+if (isDocker()) {
+
+    if (showDebug) {
+         console.log('Running inside a Linux container');
+    } else {
+        process.stdout.write(".");
+    }
+    if (!isValidObject(LOCAL_HOME) || (LOCAL_HOME == "/")) {
+        LOCAL_HOME = "/home/node"
+    }
+} else {
+    if (showDebug) {
+         console.log('NOT running inside a Linux container');
+    } else {
+        process.stdout.write(".");
+    }
+}
+
+
+
+
+
+if (showDebug) {
+     console.log('Starting services');
+} else {
+    process.stdout.write(".");
+}
 var debug = false;
 if (showDebug) {
      console.log("NodeJS version: " + process.versions.node);
@@ -296,24 +326,6 @@ if (program.debug == 'true') {
 
 };
 
-
-var showDebug = false
-if (program.show_debug == 'true') {
-    showDebug = true;
-    if (showDebug) {
-         console.log("       showDebug: true" );
-    } else {
-        process.stdout.write(".");
-    }
-
-} else {
-    if (showDebug) {
-         console.log("       showDebug: false" );
-    } else {
-        process.stdout.write(".");
-    }
-
-};
 
 
 

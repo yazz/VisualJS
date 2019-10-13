@@ -10,4 +10,4 @@ RUN chown -R node:root /home/node
 
 EXPOSE 3000
 USER node
-CMD ["node",  "src/electron.js",   "--runapp",   "homepage",   "--deleteonexit",   "true",   "--locked",    "false" ,"--show_debug",    "true" ]
+CMD ["node",  "src/electron.js",   "--runapp",   "homepage",   "--deleteonexit",   "true",   "--locked",    "false" ,"--showdebug",    "true" ]
