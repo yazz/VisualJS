@@ -13,7 +13,7 @@ var isWin         = /^win/.test(process.platform);
 var mainNodeProcessStarted = false;
 var restRoutes = new Object()
 var envVars = new Object()
-
+var systemReady = false;
 
 console.log('...');
 
@@ -588,7 +588,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
         //zzz
         console.log("\nStarted on:");
         console.log(serverProtocol + "://" + hostaddress + ':' + port);
-
+        systemReady = true
 
 
 
@@ -2546,6 +2546,16 @@ function startServices() {
     })
 
 
+    app.get('/health-check',(req,res)=> {
+       res.send ("Health check passed");
+    });
+    app.get('/readiness-check',(req,res)=> {
+        if (systemReady) {
+            res.send ("Health check passed");
+        } else {
+            res.status(500).send('Health check did not pass');
+        }
+    });
 
     //------------------------------------------------------------------------------
     // Allow an app to be edited
