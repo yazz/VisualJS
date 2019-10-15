@@ -1,0 +1,110 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftWebConsole
+  creationTimestamp: '2019-10-15T04:57:46Z'
+  generation: 3
+  labels:
+    app: visualjs20
+  name: visualjs20
+  namespace: qqqw
+  resourceVersion: '452338'
+  selfLink: /apis/apps.openshift.io/v1/namespaces/qqqw/deploymentconfigs/visualjs20
+  uid: 544bb55d-ef08-11e9-9134-2a4846ed5780
+spec:
+  replicas: 1
+  selector:
+    app: visualjs20
+    deploymentconfig: visualjs20
+  strategy:
+    activeDeadlineSeconds: 21600
+    resources: {}
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling
+  template:
+    metadata:
+      annotations:
+        openshift.io/generated-by: OpenShiftWebConsole
+      creationTimestamp: null
+      labels:
+        app: visualjs20
+        deploymentconfig: visualjs20
+    spec:
+      containers:
+        - image: >-
+            zubairq/visualjs@sha256:8bc2dd3f8a9f751c7d64e6401a843a695aa0a6f58f74ca09d7fd69c4f93453ac
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /live-check
+              port: 3000
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: visualjs20
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /readiness-check
+              port: 3000
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+  test: false
+  triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - visualjs20
+        from:
+          kind: ImageStreamTag
+          name: 'visualjs20:latest'
+          namespace: qqqw
+        lastTriggeredImage: >-
+          zubairq/visualjs@sha256:8bc2dd3f8a9f751c7d64e6401a843a695aa0a6f58f74ca09d7fd69c4f93453ac
+      type: ImageChange
+status:
+  availableReplicas: 1
+  conditions:
+    - lastTransitionTime: '2019-10-15T05:00:17Z'
+      lastUpdateTime: '2019-10-15T05:00:17Z'
+      message: Deployment config has minimum availability.
+      status: 'True'
+      type: Available
+    - lastTransitionTime: '2019-10-15T04:59:27Z'
+      lastUpdateTime: '2019-10-15T05:00:18Z'
+      message: replication controller "visualjs20-2" successfully rolled out
+      reason: NewReplicationControllerAvailable
+      status: 'True'
+      type: Progressing
+  details:
+    causes:
+      - type: ConfigChange
+    message: config change
+  latestVersion: 2
+  observedGeneration: 3
+  readyReplicas: 1
+  replicas: 1
+  unavailableReplicas: 0
+  updatedReplicas: 1
