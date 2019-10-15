@@ -2546,14 +2546,14 @@ function startServices() {
     })
 
 
-    app.get('/health-check',(req,res)=> {
-       res.send ("Health check passed");
+    app.get('/live-check',(req,res)=> {
+       res.send ("Live check passed");
     });
     app.get('/readiness-check',(req,res)=> {
         if (systemReady) {
-            res.send ("Health check passed");
+            res.send ("Readiness check passed");
         } else {
-            res.status(500).send('Health check did not pass');
+            res.status(500).send('Readiness check did not pass');
         }
     });
 
