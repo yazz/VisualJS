@@ -2547,12 +2547,15 @@ function startServices() {
 
 
     app.get('/live-check',(req,res)=> {
+       console.log("Live check passed")
        res.send ("Live check passed");
     });
     app.get('/readiness-check',(req,res)=> {
         if (systemReady) {
+            console.log("Readiness check passed")
             res.send ("Readiness check passed");
         } else {
+            console.log("Readiness check failed")
             res.status(500).send('Readiness check did not pass');
         }
     });
