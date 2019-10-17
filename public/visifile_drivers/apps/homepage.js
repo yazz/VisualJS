@@ -238,9 +238,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             Hello World app
         </button>
 
-        <button style='margin-bottom:10px;' class='btn btn-primary btn-sm' v-on:click='copyAndEditApp($event,"tensorflow")'>
-            TensorFlow AI app
-        </button>
 
         <button style='margin-bottom:10px;' class='btn btn-primary btn-sm' v-on:click='copyAndEditApp($event,"bubblesort")'>
             Bubble Sort
