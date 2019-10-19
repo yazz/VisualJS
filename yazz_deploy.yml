@@ -3,47 +3,34 @@ kind: Template
 message: Installing yazz
 metadata:
   annotations:
-    description: yazz6
+    description: yazz12
     iconClass: icon-3scale
-    openshift.io/display-name: yazz6
-    openshift.io/provider-display-name: Yazz, Inc.
+    openshift.io/display-name: yazz12
+    openshift.io/provider-display-name: Yazz
     tags: integration, api management
   creationTimestamp: null
-  name: yazz6
+  name: yazz12
+
+
+
+
 objects:
-- apiVersion: image.openshift.io/v1
-  kind: ImageStream
+- apiVersion: "v1"
+  kind: "DeploymentConfig"
   metadata:
-    annotations:
-      openshift.io/display-name: Yazz
-    creationTimestamp: null
-    labels:
-      threescale_component: backend
-    name: yazz
+    name: "yazz12"
   spec:
-    lookupPolicy:
-      local: false
-    tags:
-    - annotations:
-        openshift.io/display-name: yazz
-      from:
-        kind: ImageStreamTag
-        name: zubairq/yazz
-      generation: null
-      importPolicy: {}
-      name: latest
-      referencePolicy:
-        type: ""
-    - annotations:
-        openshift.io/display-name: yaazz
-      from:
-        kind: DockerImage
-        name: yazz
-      generation: null
-      importPolicy:
-        insecure: ${{IMAGESTREAM_TAG_IMPORT_INSECURE}}
-      name: yazz
-      referencePolicy:
-        type: ""
-  status:
-    dockerImageRepository: ""
+    template:
+      metadata:
+        labels:
+          name: "yazz"
+      spec:
+        containers:
+        - name: "yazz"
+          image: "zubairq/visualjs:latest"
+          ports:
+          - containerPort: 3000
+            protocol: "TCP"
+    replicas: 1
+    selector:
+      name: "yazz"
