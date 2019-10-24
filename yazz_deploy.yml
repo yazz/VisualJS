@@ -1,15 +1,15 @@
 apiVersion: template.openshift.io/v1
 kind: Template
-message: Installing yazz
+message: Installing Yazz
 metadata:
   annotations:
-    description: yazz installer] 1
+    description: yazz installer 2
     iconClass: icon-3scale
-    openshift.io/display-name: yazz installer 1
+    openshift.io/display-name: yazz installer 2
     openshift.io/provider-display-name: Yazz
     tags: integration, api management
   creationTimestamp: null
-  name: yazz-installer-1
+  name: yazz-installer-2
 
 
 
@@ -18,7 +18,7 @@ objects:
   - apiVersion: "v1"
     kind: "DeploymentConfig"
     metadata:
-      name: "yazz19"
+      name: "yazz"
     spec:
       template:
         metadata:
@@ -26,7 +26,7 @@ objects:
             name: "yazz"
         spec:
           containers:
-          - name: "yazz19"
+          - name: "yazz"
             image: "zubairq/visualjs:latest"
             ports:
             - containerPort: 3000
@@ -47,7 +47,7 @@ objects:
           protocol: TCP
           targetPort: 3000
       selector:
-        deploymentconfig: yazz19
+        deploymentconfig: yazz
 
 
 
@@ -60,4 +60,4 @@ objects:
         kind: Service
         name: visualjs2
     labels:
-      app: yazz19
+      app: yazz
