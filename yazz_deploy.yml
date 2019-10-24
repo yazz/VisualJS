@@ -3,13 +3,13 @@ kind: Template
 message: Installing Yazz
 metadata:
   annotations:
-    description: yazz installer 2
+    description: Yazz Installer 3
     iconClass: icon-3scale
-    openshift.io/display-name: yazz installer 2
+    openshift.io/display-name: Yazz Installer 3
     openshift.io/provider-display-name: Yazz
-    tags: integration, api management
+    tags: integration, api management, javascript
   creationTimestamp: null
-  name: yazz-installer-2
+  name: yazz-installer-3
 
 
 
@@ -40,7 +40,7 @@ objects:
   - apiVersion: v1
     kind: Service
     metadata:
-      name: visualjs2
+      name: yazz-service
     spec:
       ports:
         - port: 3000
@@ -58,6 +58,6 @@ objects:
     spec:
       to:
         kind: Service
-        name: visualjs2
+        name: yazz-service
     labels:
       app: yazz
