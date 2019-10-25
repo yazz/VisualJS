@@ -1,19 +1,19 @@
 
-# Visual Javascript
+# Pilot
 ## Build internal web apps fast on Kubernetes/Docker/Linux
 
 Run from docker:
 
-    docker run -p 80:80 -d zubairq/visualjs
+    docker run -p 80:80 -d zubairq/pilot
     
 
 Run as a Snap package on Linux:
 
-    snap install --devmode --edge visualjs
+    snap install --devmode --edge pilot
     
-    visualjs
+    pilot
     
-[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/visualjs)
+[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/pilot)
     
     
 
@@ -42,7 +42,7 @@ Public Demo- https://yazz.com/app/homepage.html
 
 ##### 3) Install and run the Visual Javascript IDE with:
 
-    docker run -p 80:80 -d zubairq/visualjs
+    docker run -p 80:80 -d zubairq/pilot
 
 ##### 4) Go to a browser and view Visual Javascript:
 
@@ -76,15 +76,15 @@ Public Demo- https://yazz.com/app/homepage.html
 ##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
 ##### 3) From the command line get the Git repository
     git clone https://github.com/zubairq/visualjs.git
-##### 4) Go to the Visual Javascript directory
-    cd visualjs
+##### 4) Go to the "pilot" directory
+    cd pilot
 ##### 5) Install the NodeJS modules
     sudo npm config set strict-ssl false    
 
     sudo npm install --unsafe-perm
 
 
-##### 6) Run the Visual Javascript NodeJS application
+##### 6) Run the Pilot NodeJS application
 
     node /src/electron.js --runapp homepage --nogui true --locked false
 
@@ -100,15 +100,15 @@ Public Demo- https://yazz.com/app/homepage.html
 
 
 
-## Building Visual Javascript from source on Windows
+## Building Pilot from source on Windows
 
 
 ##### 1) Install GIT from https://git-scm.com/downloads
 ##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
 ##### 3) From the command line get the Git repository
-    git clone https://github.com/zubairq/visualjs.git
-##### 4) Go to the Visual Javascript directory
-    cd visualjs
+    git clone https://github.com/zubairq/pilot.git
+##### 4) Go to the Pilot directory
+    cd pilot
 ##### 5) Install the NodeJS modules
     npm install
 ##### 6) Run as Node.js application with browser based access
@@ -127,14 +127,14 @@ Public Demo- https://yazz.com/app/homepage.html
 
 
 
-## Building Visual Javascript from source on Mac:
+## Building Pilot from source on Mac:
 
 ##### 1) Install GIT from https://git-scm.com/downloads
 ##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
 ##### 3) From the command line get the Git repository
     git clone https://github.com/zubairq/visualjs.git
-##### 4) Go to the Visual Javascript directory
-    cd visualjs
+##### 4) Go to the Pilot directory
+    cd pilot
 ##### 5) Install the NodeJS modules
     npm install
 ##### 6) Run as Node.js application with browser based access
@@ -153,13 +153,6 @@ Public Demo- https://yazz.com/app/homepage.html
 
 
 
-
-## To build the Electron app:
-
-##### 1) Install SQlite3 for Electron
-    sudo npm install sqlite3 --build-from-source --runtime=electron --target=1.8.4 --dist-url=https://atom.io/download/electron (this step may not be needed on some platforms)
-##### 2) Run electron packager
-    Sudo electron-forge make
 
 
 
