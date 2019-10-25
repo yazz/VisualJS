@@ -1,15 +1,15 @@
-name: visualjs
+name: pilot
 base: core18
-summary: Kubernetes Enterprise App Store
+summary: The self service app builder for Kubernetes
 version: git
-description: Kubernetes Enterprise App Store
+description: The self service app builder for Kubernetes
 grade: devel
 confinement: devmode
 
 
 
 apps:
-  visualjs:
+  pilot:
     command: node $SNAP/src/electron.js --runapp homepage --locked false
     plugs:
       - network
@@ -17,6 +17,6 @@ apps:
 
 
 parts:
-  visualjs:
+  pilot:
     source: .
     plugin: nodejs
