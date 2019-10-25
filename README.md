@@ -194,9 +194,9 @@ Public Demo- https://yazz.com/app/homepage.html
 
 ### FAQ
 
-#### What is Visual Javascript's killer feature?
+#### What is Pilot's killer feature?
 
-Visual Javascript's killer feature is being able to build Kubernetes applications in minutes, without having to setup Jenkins pipelines, Git, or anything else. It is ideal for demos or small throwaway apps.
+Pilot's killer feature is being able to build Kubernetes applications in minutes, without having to setup Jenkins pipelines, Git, or anything else. It is ideal for demos or small throwaway apps.
 
-#### Is there commercial support for Visual Javascript?
+#### Is there commercial support for Pilot?
 If you require commercial support then please go to http://yazz.com
