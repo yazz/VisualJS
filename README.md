@@ -1,6 +1,6 @@
 
 # Pilot
-## Build internal web apps fast on Kubernetes/Docker/Linux
+## The self service app builder for Kubernetes
 
 Run from docker:
 
@@ -40,11 +40,11 @@ Public Demo- https://yazz.com/app/homepage.html
 ##### 2) Expose the Docker REST api on port 1234 with:
     docker run -d -v /var/run/docker.sock:/var/run/docker.sock -p 127.0.0.1:1234:1234 bobrik/socat TCP-LISTEN:1234,fork UNIX-CONNECT:/var/run/docker.sock
 
-##### 3) Install and run the Visual Javascript IDE with:
+##### 3) Install and run the Pilot IDE with:
 
     docker run -p 80:80 -d zubairq/pilot
 
-##### 4) Go to a browser and view Visual Javascript:
+##### 4) Go to a browser and view Pilot:
 
     http://localhost
 
@@ -70,12 +70,12 @@ Public Demo- https://yazz.com/app/homepage.html
 
 
 
-## Building Visual Javascript from source on Linux:
+## Building Pilot from source on Linux:
 
 ##### 1) Install GIT from https://git-scm.com/downloads
 ##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
 ##### 3) From the command line get the Git repository
-    git clone https://github.com/zubairq/visualjs.git
+    git clone https://github.com/zubairq/pilot.git
 ##### 4) Go to the "pilot" directory
     cd pilot
 ##### 5) Install the NodeJS modules
@@ -132,7 +132,7 @@ Public Demo- https://yazz.com/app/homepage.html
 ##### 1) Install GIT from https://git-scm.com/downloads
 ##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
 ##### 3) From the command line get the Git repository
-    git clone https://github.com/zubairq/visualjs.git
+    git clone https://github.com/zubairq/pilot.git
 ##### 4) Go to the Pilot directory
     cd pilot
 ##### 5) Install the NodeJS modules
