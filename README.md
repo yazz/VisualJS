@@ -5,17 +5,17 @@
 Run from docker:
 
     docker run -p 80:80 -d zubairq/pilot
-    
+
 
 Run as a Snap package on Linux:
 
-    snap install --devmode --edge pilot
-    
-    pilot
-    
-[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/pilot)
-    
-    
+    snap install --devmode --edge plt
+
+    plt
+
+[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/plt)
+
+
 
 Public Demo- https://yazz.com/app/homepage.html
 
