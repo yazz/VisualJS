@@ -1,4 +1,4 @@
-name: pilot
+name: plt
 base: core18
 summary: The self service app builder for Kubernetes
 version: git
