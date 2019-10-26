@@ -27,7 +27,7 @@ objects:
         spec:
           containers:
           - name: "yazz"
-            image: "zubairq/visualjs:latest"
+            image: "zubairq/pilot:latest"
             ports:
             - containerPort: 3000
               protocol: "TCP"

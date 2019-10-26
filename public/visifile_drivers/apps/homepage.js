@@ -72,7 +72,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                          YAZZ
                          <div    v-bind:refresh='refresh'
                                  style="border:0px; padding: 0px; margin: 0px;padding-left:15px;font-family: Helvetica;color: darkgray;font-weight: bold;letter-spacing: 0px;font-size: 18px;line-height: 1;display: inline-block;top:3px;left:-20px;">
-                              VisualJS
+                              Pilot
                          </div>
                     </div>
             </div>

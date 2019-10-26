@@ -1,13 +1,13 @@
 {
-  "name": "visualjs",
-  "description": "VisualJS",
+  "name": "pilot",
+  "description": "Yazz Pilot",
   "version": "3.0.10",
   "author": "Zubair Quraishi",
   "private": true,
   "scripts": {},
   "main": "src/electron.js",
   "bin": {
-    "visualjs": "./src/electron.js"
+    "pilot": "./src/electron.js"
   },
   "dependencies": {
     "@rgrove/parse-xml": "^1.1.1",
