@@ -31,6 +31,24 @@ objects:
             ports:
             - containerPort: 3000
               protocol: "TCP"
+            readinessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /readiness-check
+                  port: 3000
+                  scheme: HTTP
+                periodSeconds: 10
+                successThreshold: 1
+                timeoutSeconds: 1
+            livenessProbe:
+                        failureThreshold: 3
+                        httpGet:
+                          path: /live-check
+                          port: 3000
+                          scheme: HTTP
+                        periodSeconds: 10
+                        successThreshold: 1
+                        timeoutSeconds: 1
       replicas: 1
       selector:
         name: "yazz"
