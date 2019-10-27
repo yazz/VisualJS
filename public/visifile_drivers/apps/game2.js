@@ -1,7 +1,7 @@
 function game_app(args) {
 /*
 display_name("3d Game app")
-base_component_id('game')
+base_component_id('game2')
 is_app(true)
 description('Game app, this will return the game app')
 load_once_from_file(true)
@@ -12,7 +12,7 @@ read_only(true)
 
 */
 
-    Vue.component('game',{
+    Vue.component('game2',{
       template: `<div id="app2" style='padding: 20px;'>
             <h1>{{msg}}</h1>
             <input type="text" v-model="msg"/>
