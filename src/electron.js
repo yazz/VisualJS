@@ -1920,6 +1920,10 @@ function getRoot(req, res, next) {
         homepage = path.join( userData, 'apps/' + runapp + '.html' )
         runOnPageExists(req,res,homepage)
         return
+    } else {
+        homepage = path.join( userData, 'apps/homepage.html' )
+        runOnPageExists(req,res,homepage)
+        return
     }
     console.log("Serving: " + homepage)
 
