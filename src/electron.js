@@ -167,7 +167,7 @@ if (process.argv.length > 1) {
       .option('-d, --debug [debug]', 'Allow to run in debug mode (default false) [debug]', 'false')
       .option('-z, --showdebug [showdebug]', 'Allow to show debug info (default false) [showdebug]', 'false')
       .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
-      .option('-x, --deleteonexit [deleteonexit]', 'Delete database files on exit (default false) [deleteonexit]', 'false')
+      .option('-x, --deleteonexit [deleteonexit]', 'Delete database files on exit (default true) [deleteonexit]', 'true')
       .option('-y, --deleteonstartup [deleteonstartup]', 'Delete database files on startup (default false) [deleteonstartup]', 'false')
       .option('-a, --runapp [runapp]', 'Run the app with ID as the homepage (default not set) [runapp]', null)
       .option('-u, --loadjsurl [loadjsurl]', 'Load the following JS from a URL (default not set) [loadjsurl]', null)
@@ -186,7 +186,7 @@ if (process.argv.length > 1) {
     program.host = 'yazz.com'
     program.locked = 'true'
     program.debug = 'false'
-    program.deleteonexit = 'false'
+    program.deleteonexit = 'true'
     program.deleteonstartup = 'false'
     program.runapp = null
     program.loadjsurl = null
@@ -1488,7 +1488,7 @@ function checkForJSLoaded() {
 
           // The whole response has been received. Print out the result.
           resp.on('end', () => {
-            console.log("code:" + data);
+            //console.log("code:" + data);
             var baseComponentIdForUrl = saveHelper.getValueOfCodeString(data, "base_component_id")
             console.log("baseComponentIdForUrl:" + baseComponentIdForUrl);
             if (!isValidObject(baseComponentIdForUrl)) {
