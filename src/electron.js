@@ -585,7 +585,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
     	}
 
 
-        //zzz
+
         console.log("\nStarted on:");
         console.log(serverProtocol + "://" + hostaddress + ':' + port);
         systemReady = true
@@ -1505,6 +1505,7 @@ function checkForJSLoaded() {
                                                                         make_public: true
                                                                      }
                                            });
+            runapp = baseComponentIdForUrl
           });
 
         }).on("error", (err) => {
@@ -1534,6 +1535,7 @@ function checkForJSLoaded() {
                                                                     save_html:   true
                                                                  }
                                            });
+         runapp = baseComponentIdForFile
 
 
     }
@@ -1920,6 +1922,24 @@ function getRoot(req, res, next) {
         homepage = path.join( userData, 'apps/' + runapp + '.html' )
         runOnPageExists(req,res,homepage)
         return
+
+
+
+
+    //zzz
+    } else if (loadjsurl && (!req.query.goto) && (!req.query.embed)) {
+        homepage = path.join( userData, 'apps/' + runapp + '.html' )
+        runOnPageExists(req,res,homepage)
+        return
+
+
+    } else if (loadjsfile && (!req.query.goto) && (!req.query.embed)) {
+        homepage = path.join( userData, 'apps/' + runapp + '.html' )
+        runOnPageExists(req,res,homepage)
+        return
+
+
+
     } else {
         homepage = path.join( userData, 'apps/homepage.html' )
         runOnPageExists(req,res,homepage)
