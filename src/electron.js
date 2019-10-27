@@ -1471,8 +1471,11 @@ function getPort () {
 
 
 function checkForJSLoaded() {
-    if (isValidObject(envVars.YAZZ_LOAD_FILE)) {
-        loadjsfile = envVars.YAZZ_LOAD_FILE
+    if (isValidObject(envVars.loadjsurl)) {
+        loadjsurl = envVars.loadjsurl
+    }
+    if (isValidObject(envVars.loadjsfile)) {
+        loadjsfile = envVars.loadjsfile
     }
 
     if (isValidObject(loadjsurl)) {
