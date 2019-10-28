@@ -1505,7 +1505,8 @@ function checkForJSLoaded() {
                                                 parent_hash:          null,
                                                 code:                 data,
                                                 options:             {
-                                                                        make_public: true
+                                                                        make_public: true,
+                                                                        save_html:   true
                                                                      }
                                            });
             runapp = baseComponentIdForUrl
