@@ -172,6 +172,7 @@ if (process.argv.length > 1) {
       .option('-a, --runapp [runapp]', 'Run the app with ID as the homepage (default not set) [runapp]', null)
       .option('-u, --loadjsurl [loadjsurl]', 'Load the following JS from a URL (default not set) [loadjsurl]', null)
       .option('-f, --loadjsfile [loadjsfile]', 'Load the following JS from a file (default not set) [loadjsfile]', null)
+      .option('-z, --loadjscode [loadjscode]', 'Load the following JS from the command line (default not set) [loadjscode]', null)
       .option('-b, --runhtml [runhtml]', 'Run using a local HTML page as the homepage (default not set) [runhtml]', null)
       .option('-q, --https [https]', 'Run using a HTTPS (default is http) [https]', 'false')
       .option('-v, --private [private]', 'Private HTTPS key [private]', null)
@@ -368,6 +369,7 @@ var runapp = program.runapp;
 var runhtml = program.runhtml;
 var loadjsurl = program.loadjsurl;
 var loadjsfile = program.loadjsfile;
+var loadjscode = program.loadjscode;
 
 
 if (!isNumber(port)) {
@@ -1477,6 +1479,9 @@ function checkForJSLoaded() {
     if (isValidObject(envVars.loadjsfile)) {
         loadjsfile = envVars.loadjsfile
     }
+    if (isValidObject(envVars.loadjscode)) {
+        loadjscode = envVars.loadjscode
+    }
 
     if (isValidObject(loadjsurl)) {
 
@@ -1527,8 +1532,8 @@ function checkForJSLoaded() {
             baseComponentIdForFile = loadjsfile.replace(/[^A-Z0-9]/ig, "_");
         }
 
-        console.log("code from file:" + data2);
-        console.log("*********** Trying to load loadjsfile code *************")
+        //console.log("code from file:" + data2);
+        //console.log("*********** Trying to load loadjsfile code *************")
         forkedProcesses["forked"].send({
                                             message_type:        "save_code",
                                             base_component_id:    baseComponentIdForFile,
@@ -1542,8 +1547,31 @@ function checkForJSLoaded() {
          runapp = baseComponentIdForFile
 
 
-    }
+     } else if (isValidObject(loadjscode)) {
 
+         var data2 = loadjscode
+         var baseComponentIdForCode = saveHelper.getValueOfCodeString(data2, "base_component_id")
+         console.log("baseComponentIdForCode:" + baseComponentIdForCode);
+         if (!isValidObject(baseComponentIdForCode)) {
+             baseComponentIdForFile = loadjscode.replace(/[^A-Z0-9]/ig, "_");
+         }
+
+         console.log("code:" + data2);
+         console.log("*********** Trying to load loadjscode code *************")
+         forkedProcesses["forked"].send({
+                                             message_type:        "save_code",
+                                             base_component_id:    baseComponentIdForCode,
+                                             parent_hash:          null,
+                                             code:                 data2,
+                                             options:             {
+                                                                     make_public: true,
+                                                                     save_html:   true
+                                                                  }
+                                            });
+          runapp = baseComponentIdForCode
+
+
+     }
 }
 
 
@@ -1942,6 +1970,10 @@ function getRoot(req, res, next) {
         runOnPageExists(req,res,homepage)
         return
 
+    } else if (loadjscode && (!req.query.goto) && (!req.query.embed)) {
+        homepage = path.join( userData, 'apps/' + runapp + '.html' )
+        runOnPageExists(req,res,homepage)
+        return
 
 
     } else {
