@@ -1527,7 +1527,6 @@ function checkForJSLoaded() {
 
         var data2 = fs.readFileSync(jsFile).toString()
         var baseComponentIdForFile = saveHelper.getValueOfCodeString(data2, "base_component_id")
-        console.log("baseComponentIdForFile:" + baseComponentIdForFile);
         if (!isValidObject(baseComponentIdForFile)) {
             baseComponentIdForFile = loadjsfile.replace(/[^A-Z0-9]/ig, "_");
         }
@@ -1548,12 +1547,13 @@ function checkForJSLoaded() {
 
 
      } else if (isValidObject(loadjscode)) {
-
+console.log("loadjscode ...")
          var data2 = loadjscode
          var baseComponentIdForCode = saveHelper.getValueOfCodeString(data2, "base_component_id")
          console.log("baseComponentIdForCode:" + baseComponentIdForCode);
          if (!isValidObject(baseComponentIdForCode)) {
-             baseComponentIdForFile = loadjscode.replace(/[^A-Z0-9]/ig, "_");
+             baseComponentIdForCode = "code_" + (("" + Math.random()).replace(/[^A-Z0-9]/ig, "_"));
+             console.log("baseComponentIdForFile:" + baseComponentIdForCode);
          }
 
          console.log("code:" + data2);
