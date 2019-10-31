@@ -1,10 +1,1 @@
-function(args) {
-/*
-rest_api("test2")
-*/
-    console.log("Hello Worldss")
-    return {
-                a: 16
-           }
-
-}
+function(args) {  /* rest_api('test2') */ return {a: 163}}
