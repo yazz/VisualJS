@@ -130,7 +130,7 @@ var caCertificate3;
 var requestClientPublicIp;
 var hostcount  							= 0;
 var queuedResponses                     = new Object();
-var queuedResponseSeqNum                = 0;
+var queuedResponseSeqNum                = 1;
 var alreadyOpen                         = false;
 var executionProcessCount                       = 6;
 
@@ -484,7 +484,8 @@ function setUpChildListeners(processName, fileName, debugPort) {
                     }
 
 
-                            console.log(" msg.base_component_id: " + msg.base_component_id);
+                    console.log(" msg.base_component_id: " + msg.base_component_id);
+                    console.log(" seqNum: " + seqNum);
                             forkedProcesses["forked"].send({
                                             message_type:          "callDriverMethod",
                                             find_component:         {
