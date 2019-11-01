@@ -20,8 +20,7 @@
 !/*.ps1
 !/start32.bat
 !/webpack.config.js
-!/yazz_deploy.yml
-!/yazz_deploy2.yml
+!/deploy_pilot.yml
 
 
 
