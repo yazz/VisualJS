@@ -1,15 +1,15 @@
 apiVersion: template.openshift.io/v1
 kind: Template
-message: Installing Yazz
+message: Installing Kubernetes Pilot
 metadata:
   annotations:
-    description: Yazz Installer 3
+    description: Pilot Installer 4
     iconClass: icon-3scale
-    openshift.io/display-name: Yazz Installer 3
-    openshift.io/provider-display-name: Yazz
+    openshift.io/display-name: Pilot Installer 4
+    openshift.io/provider-display-name: Pilot
     tags: integration, api management, javascript
   creationTimestamp: null
-  name: yazz-installer-3
+  name: pilot-installer-4
 
 
 
@@ -18,15 +18,15 @@ objects:
   - apiVersion: "v1"
     kind: "DeploymentConfig"
     metadata:
-      name: "yazz"
+      name: "pilot"
     spec:
       template:
         metadata:
           labels:
-            name: "yazz"
+            name: "pilot"
         spec:
           containers:
-          - name: "yazz"
+          - name: "pilot"
             image: "zubairq/pilot:latest"
             ports:
             - containerPort: 3000
@@ -51,31 +51,31 @@ objects:
                         timeoutSeconds: 1
       replicas: 1
       selector:
-        name: "yazz"
+        name: "pilot"
 
 
 
   - apiVersion: v1
     kind: Service
     metadata:
-      name: yazz-service
+      name: pilot-service
     spec:
       ports:
         - port: 3000
           protocol: TCP
           targetPort: 3000
       selector:
-        deploymentconfig: yazz
+        deploymentconfig: pilot
 
 
 
   - apiVersion: v1
     kind: Route
     metadata:
-        name: yazz-route
+        name: pilot-route
     spec:
       to:
         kind: Service
-        name: yazz-service
+        name: pilot-service
     labels:
-      app: yazz
+      app: pilot
