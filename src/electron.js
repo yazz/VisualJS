@@ -36,12 +36,10 @@ var db_helper       = require("./db_helper")
 var perf            = require('./perf')
 var compression     = require('compression')
 var dns             = require('dns');
-var postgresdb      = require('pg');
 
 var program         = require('commander');
 var bodyParser      = require('body-parser');
 var multer          = require('multer');
-var mysql           = require('mysql');
 var cors            = require('cors')
 var saveHelper      = require('./save_helpers')
 var isDocker        = require('is-docker');
