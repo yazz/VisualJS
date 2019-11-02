@@ -39,6 +39,7 @@
     "os": "^0.1.1",
     "path": "^0.12.7",
     "pg": "^7.4.0",
+    "pidusage": "^2.0.17",
     "prom-client": "^11.5.3",
     "prometheus-api-metrics": "^2.2.3",
     "request": "^2.88.0",
