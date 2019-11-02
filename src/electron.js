@@ -2989,41 +2989,51 @@ function findDriversWithMethodLike(methodName, callbackFn) {
 }
 
 
-function getChildMem(childProcessName,stats,totalmem) {
+
+
+
+var inmemcalc = false
+var totalmem = 0
+var returnedmemCount = 0
+var allForked=[]
+function getChildMem(childProcessName,stats) {
     var memoryused = 0
     if (stats) {
         memoryused = stats.memory / 1024 / 1024;
         totalmem += memoryused
     }
     console.log(`${childProcessName}: ${Math.round(memoryused * 100) / 100} MB`);
-    return totalmem
 }
 
-var inmemcalc = false
+
+function usePid(childProcessName,childprocess) {
+    pidusage(childprocess.pid, function (err, stats) {
+        getChildMem(childProcessName,stats)
+        returnedmemCount ++
+        if (returnedmemCount == allForked.length) {
+            console.log("------------------------------------")
+            console.log(" TOTAL MEM = " + totalmem + "MB")
+            console.log("------------------------------------")
+            inmemcalc = false
+        }
+    });
+
+}
 setInterval(function(){
     if (showDebug) {
         if (!inmemcalc) {
             inmemcalc = true
-            var totalmem = 0
+            totalmem = 0
             const used = process.memoryUsage().heapUsed / 1024 / 1024;
             totalmem += used
             console.log(`Main: ${Math.round(used * 100) / 100} MB`);
-            var allForked = Object.keys(forkedProcesses)
-            var returnedmemCount = 0
+            allForked = Object.keys(forkedProcesses)
+            returnedmemCount = 0
             for (var ttt=0; ttt< allForked.length; ttt++) {
                 var childProcessName = allForked[ttt]
                 const childprocess = forkedProcesses[childProcessName]
 
-                pidusage(childprocess.pid, function (err, stats) {
-                    totalmem = getChildMem(childProcessName,stats,totalmem)
-                    returnedmemCount ++
-                    if (returnedmemCount == allForked.length) {
-                        console.log("------------------------------------")
-                        console.log(" TOTAL MEM = " + totalmem + "MB")
-                        console.log("------------------------------------")
-                        inmemcalc = false
-                    }
-                });
+                usePid(childProcessName,childprocess)
             }
         }
     } else {
