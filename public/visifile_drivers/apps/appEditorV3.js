@@ -1221,7 +1221,10 @@ load_once_from_file(true)
                                                  }
                     })
 
-                if (saveHelper.getValueOfCodeString(this.editor_text,"only_run_on_server") == true) {
+                if ((saveHelper.getValueOfCodeString(this.editor_text,"only_run_on_server") == true)
+                ||
+                    (saveHelper.getValueOfCodeString(this.editor_text,"rest_api"))
+                    ) {
                     this.is_ui_app = false
                     this.is_server_app = true
                     var restApi = saveHelper.getValueOfCodeString(this.editor_text,"rest_api")
@@ -1349,7 +1352,11 @@ load_once_from_file(true)
                                 this.is_server_app = false
                             }
 
-                            if (saveHelper.getValueOfCodeString(code.toString(),"only_run_on_server") == true) {
+                            if ((saveHelper.getValueOfCodeString(code.toString(),"only_run_on_server") == true)
+                            ||
+                                (saveHelper.getValueOfCodeString(code.toString(),"rest_api"))
+                            )
+                             {
                                 mm.is_ui_app = false
                                 mm.is_server_app = true
                                 var restApi = saveHelper.getValueOfCodeString(code.toString(),"rest_api")
