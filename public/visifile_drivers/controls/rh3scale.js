@@ -34,7 +34,7 @@ properties(
         {
             id:      "host",
             name:    "Host",
-            default: "host.docker.internal",
+            default: "3scale.API",
             type:    "String"
         }
         ,
@@ -64,6 +64,15 @@ properties(
             snippet:    `getFilteredContainerList()`,
             name:       "Get Container List",
             type:       "Action"
+        }
+        ,
+
+        {
+            id:         "has_details_ui",
+            name:       "Has details UI?",
+            type:       "Boolean",
+            default:    true,
+            hidden:     true
         }
     ]
 )//properties
