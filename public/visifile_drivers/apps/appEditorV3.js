@@ -33,7 +33,7 @@ load_once_from_file(true)
         </img>
 
         <h5  class='caption' style='display: inline-block;' v-on:click='if (!read_only) {edit_name=true;show_name=false;}' v-if='show_name'>
-            {{app_component_name?"" + app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 50))?"...":"")}} - Yazz (
+            {{app_component_name?"" + app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 50))?"...":"")}} (
             <span v-bind:style='"color: " + ((visibility == "PUBLIC")?"lightgreen":"pink") + ";"'>{{((visibility == "PUBLIC")?"Public":"Private")}}</span>
 
             <span v-bind:style='"color: " + (read_only?"pink":"") + ";"'>{{(read_only?" - Read only":"")}}</span>
