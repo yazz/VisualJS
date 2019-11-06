@@ -74,6 +74,14 @@ properties(
             default:    true,
             hidden:     true
         }
+        ,
+        {
+            id:      "serviceToken",
+            name:    "Service Token",
+            default: "78643278346874236846873248",
+            type:    "String"
+        }
+
     ]
 )//properties
 
