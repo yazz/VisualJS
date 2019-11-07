@@ -2372,7 +2372,7 @@ debugger
                                                     sqlite_data:            sqlitedatafromupload
                                                });
               }
-          } else if ((ext == "js") || (ext == "yazz"))  {
+          } else if ((ext == "js") || (ext == "yazz") || (ext == "pilot"))  {
                   var localp2;
                   localp2 =  path.join(userData,  'uploads/' + ifile.filename);
                   var localp = localp2 + '.' + ext;
