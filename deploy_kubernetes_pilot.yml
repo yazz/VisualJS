@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: pilot
-        image: zubairq:pilot
+        image: zubairq/pilot:latest
         ports:
         - containerPort: 3000
