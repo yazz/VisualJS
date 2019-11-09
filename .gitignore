@@ -20,7 +20,7 @@
 !/*.ps1
 !/start32.bat
 !/webpack.config.js
-!/deploy_pilot.yml
+!/*.yml
 
 
 

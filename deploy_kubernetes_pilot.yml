@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pilot-deployment
+  labels:
+    app: pilot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pilot
+  template:
+    metadata:
+      labels:
+        app: pilot
+    spec:
+      containers:
+      - name: pilot
+        image: zubairq:pilot
+        ports:
+        - containerPort: 3000

@@ -1,0 +1,84 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+message: Installing Kubernetes Pilot
+metadata:
+  annotations:
+    description: Pilot Installer 4
+    iconClass: icon-3scale
+    openshift.io/display-name: Pilot Installer 4
+    openshift.io/provider-display-name: Pilot
+    tags: integration, api management, javascript
+  creationTimestamp: null
+  name: pilot-installer-4
+
+
+
+
+objects:
+  - apiVersion: "v1"
+    kind: "DeploymentConfig"
+    metadata:
+      name: "pilot"
+    spec:
+      template:
+        metadata:
+          labels:
+            name: "pilot"
+        spec:
+          containers:
+          - name: "pilot"
+            image: "zubairq/pilot:latest"
+            ports:
+            - containerPort: 3000
+              protocol: "TCP"
+            readinessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /readiness-check
+                  port: 3000
+                  scheme: HTTP
+                periodSeconds: 10
+                successThreshold: 1
+                timeoutSeconds: 1
+            livenessProbe:
+                        failureThreshold: 3
+                        httpGet:
+                          path: /live-check
+                          port: 3000
+                          scheme: HTTP
+                        periodSeconds: 10
+                        successThreshold: 1
+                        timeoutSeconds: 1
+            resources:
+              limits:
+                memory: 512Mi                        
+      replicas: 1
+      selector:
+        name: "pilot"
+
+
+
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      name: pilot-service
+    spec:
+      ports:
+        - port: 3000
+          protocol: TCP
+          targetPort: 3000
+      selector:
+        deploymentconfig: pilot
+
+
+
+  - apiVersion: v1
+    kind: Route
+    metadata:
+        name: pilot-route
+    spec:
+      to:
+        kind: Service
+        name: pilot-service
+    labels:
+      app: pilot
