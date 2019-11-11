@@ -1,6 +1,6 @@
 
 # Pilot
-## The self service app builder for Kubernetes
+## Kubernetes microservices made easy
 
 Run from docker:
 
@@ -9,11 +9,11 @@ Run from docker:
 
 Run as a Snap package on Linux:
 
-    snap install --devmode --edge plt
+    snap install --devmode --edge pilot
 
     plt
 
-[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/plt)
+[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/pilot)
 
 
 
@@ -48,13 +48,6 @@ Public Demo- https://yazz.com/app/homepage.html
 
     http://localhost
 
-##### 5) OPTIONAL - Run Postgres on docker on port 5432
-
-    docker run -e POSTGRES_PASSWORD=mysecretpassword -d -p 5432:5432 postgres
-
-    Remember, that if you want to talk to Postgres from a Docker app then you need to connect to the host:
-
-    host.docker.internal
 
 
 
@@ -86,7 +79,7 @@ Public Demo- https://yazz.com/app/homepage.html
 
 ##### 6) Run the Pilot NodeJS application
 
-    node /src/electron.js --runapp homepage --nogui true --locked false
+    node /src/electron.js --runapp homepage --locked false
 
 ##### 7) Create the "yazz" shell command to replace "node src/electron.js"
 
@@ -113,7 +106,7 @@ Public Demo- https://yazz.com/app/homepage.html
     npm install
 ##### 6) Run as Node.js application with browser based access
 
-     node .\src\electron.js --runapp homepage --nogui true --locked false
+     node .\src\electron.js --runapp homepage --locked false
 
 
 
@@ -139,7 +132,7 @@ Public Demo- https://yazz.com/app/homepage.html
     npm install
 ##### 6) Run as Node.js application with browser based access
 
-     node src/electron.js --runapp homepage --nogui true --locked false
+     node src/electron.js --runapp homepage --locked false
 
 
 
