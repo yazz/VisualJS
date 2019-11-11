@@ -28,7 +28,12 @@
 !/node_modules/sqlite/
 !/node_modules/sqlite/*
 
-
+!/operator/
+!/operator/*
+!/operator/*/*
+!/operator/*/*/*
+!/operator/*/*/*/*
+/operator/operator
 
 !/src/
 !/src/*
