@@ -2,7 +2,7 @@
 # Pilot
 ## Kubernetes microservices made easy
 
-Pilot is a Kubernetes tool which lets you run build and run small web based tools or micro services.
+Pilot is a Kubernetes tool which lets you quickly run build and run small web based tools or micro services. To build web based tools there is a drag and drop builder, and to build micro services there is a simple Javascript based syntax.
 
 Run from docker:
 
