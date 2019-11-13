@@ -2,6 +2,8 @@
 # Pilot
 ## Kubernetes microservices made easy
 
+Pilot is a Kubernetes tool which lets you run build and run small web based tools or micro services.
+
 Run from docker:
 
     docker run -p 80:80 -d zubairq/pilot
