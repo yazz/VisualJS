@@ -28,12 +28,11 @@
 !/node_modules/sqlite/
 !/node_modules/sqlite/*
 
-!/operator/
-!/operator/*
-!/operator/*/*
-!/operator/*/*/*
-!/operator/*/*/*/*
-/operator/operator
+!/go/
+!/go/*
+!/go/*/*
+!/go/*/*/*
+!/go/*/*/*/*
 
 !/src/
 !/src/*
