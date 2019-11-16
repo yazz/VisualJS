@@ -3,7 +3,6 @@
 !/.gitignore
 
 
-
 !/a.js
 !/LICENSE
 !/LICENSE
@@ -33,6 +32,8 @@
 !/go/*/*
 !/go/*/*/*
 !/go/*/*/*/*
+go/src/operator/*.asc
+
 
 !/src/
 !/src/*
