@@ -3037,4 +3037,4 @@ setInterval(function(){
     } else {
         process.stdout.write(".");
     }
-},3000)
+},30000)
