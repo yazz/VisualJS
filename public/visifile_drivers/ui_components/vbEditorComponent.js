@@ -2614,6 +2614,7 @@ return {}
 
 
 
+//alert(formName)
 
 props.push({   id:     "show",   name:   "Show form",   type:   "Action"  ,
                snippet:    `show()`,
@@ -2621,7 +2622,7 @@ props.push({   id:     "show",   name:   "Show form",   type:   "Action"  ,
                                <b>show</b> method
                             </div>`,
                fn:
-`mm.selectForm("Form_2")
+`mm.selectForm(formName)
 return {}
 `})
 
