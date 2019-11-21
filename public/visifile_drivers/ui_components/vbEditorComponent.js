@@ -2600,6 +2600,8 @@ ${origCode}
              props.push({   id:     "width",   name:   "Width",   type:   "Number"    })
              props.push({   id:     "height",   name:   "Height",   type:   "Number"    })
              props.push({   id:     "form_activate",   name:   "Activate Event",   type:   "Event"    })
+
+
              props.push({   id:     "add_control",   name:   "Add Control",   type:   "Action"  ,
                             snippet:    `add_control({name: "name_of_new_control"})`,
                             help:       `<div>Help text for
@@ -2608,8 +2610,24 @@ ${origCode}
                             fn:
 `mm.addControl(  arg1  )
 return {}
-`
-                              })
+`})
+
+
+
+
+props.push({   id:     "show",   name:   "Show form",   type:   "Action"  ,
+               snippet:    `show()`,
+               help:       `<div>Help text for
+                               <b>show</b> method
+                            </div>`,
+               fn:
+`mm.selectForm("Form_2")
+return {}
+`})
+
+//zzz
+
+
              return props
          }
          ,
