@@ -15,7 +15,7 @@ properties([
 formEditor({
   "next_id": 7,
   "max_form": 5,
-  "active_form": "Module",
+  "active_form": "Form_1",
   "default_form": "Form_1",
   "app_selected": false,
   "id": "vb_blank",
@@ -47,8 +47,8 @@ formEditor({
         }
       ]
     },
-    "Module": {
-      "name": "Module",
+    "Form_2": {
+      "name": "Form_2",
       "components": [],
       "width": 300,
       "height": 300
@@ -3727,7 +3727,7 @@ ${eventMessage.code}
                       model: {
   "next_id": 7,
   "max_form": 5,
-  "active_form": "Module",
+  "active_form": "Form_1",
   "default_form": "Form_1",
   "app_selected": false,
   "id": "vb_blank",
@@ -3758,8 +3758,8 @@ ${eventMessage.code}
         }
       ]
     },
-    "Module": {
-      "name": "Module",
+    "Form_2": {
+      "name": "Form_2",
       "components": [],
       "width": 300,
       "height": 300
