@@ -215,35 +215,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         </div>
     </div>
 
-    <div style='margin-top:1000px; text-align: center;'>
-        Surprises :)
 
-        <button style='margin-bottom:10px;' class='btn btn-primary btn-sm' v-on:click='copyAndEditApp($event,"vb")'>
-            Kitchen Sink
-        </button>
-
-        <button style='margin-bottom:10px;' class='btn btn-primary btn-sm' v-on:click='copyAndEditApp($event,"kinetic")'>
-            Kinetic app
-        </button>
-
-        <button style='margin-bottom:10px;' class='btn btn-primary btn-sm' v-on:click='copyAndEditApp($event,"game")'>
-            Make 3d app
-        </button>
-
-        <button style='margin-bottom:10px;' class='btn btn-primary btn-sm' v-on:click='copyAndEditApp($event,"todo")'>
-            To Do app
-        </button>
-
-        <button style='margin-bottom:10px;' class='btn btn-primary btn-sm' v-on:click='copyAndEditApp($event,"new")'>
-            Hello World app
-        </button>
-
-
-        <button style='margin-bottom:10px;' class='btn btn-primary btn-sm' v-on:click='copyAndEditApp($event,"bubblesort")'>
-            Bubble Sort
-        </button>
-
-    </div>
 </div>`
       ,
 
