@@ -152,14 +152,20 @@ app.use(keycloak.middleware({
           admin: '/ad'
 }));
 
+
+var yazzMemoryUsage = 0
+var inmemcalc = false
+var totalMem = 0
+var returnedmemCount = 0
+var allForked=[]
 const apiMetrics = require('prometheus-api-metrics');
 app.use(apiMetrics())
 const Prometheus = require('prom-client');
 
-const checkoutsTotal = new Prometheus.Counter({
-  name: 'checkouts_total',
-  help: 'Total number of checkouts',
-  labelNames: ['payment_method']
+const yazzMemoryUsageMetric = new Prometheus.Counter({
+  name: 'yazz_total_memory',
+  help: 'Total Yazz Memory Usage',
+  labelNames: ['yazz_total_memory']
 });
 
 if (process.argv.length > 1) {
@@ -2997,32 +3003,28 @@ function findDriversWithMethodLike(methodName, callbackFn) {
 
 
 
-var inmemcalc = false
-var totalmem = 0
-var returnedmemCount = 0
-var allForked=[]
 function getChildMem(childProcessName,stats) {
     var memoryused = 0
     if (stats) {
         memoryused = stats.memory / 1024 / 1024;
-        totalmem += memoryused
+        totalMem += memoryused
     }
     console.log(`${childProcessName}: ${Math.round(memoryused * 100) / 100} MB`);
 }
 
-
 function usePid(childProcessName,childprocess) {
-    checkoutsTotal.inc({
-      payment_method: "VISA"
+    yazzMemoryUsageMetric.inc({
+      yazz_total_memory: yazzMemoryUsage
     })
     pidusage(childprocess.pid, function (err, stats) {
         getChildMem(childProcessName,stats)
         returnedmemCount ++
         if (returnedmemCount == allForked.length) {
             console.log("------------------------------------")
-            console.log(" TOTAL MEM = " + totalmem + "MB")
+            console.log(" TOTAL MEM = " + totalMem + "MB")
             console.log("------------------------------------")
             inmemcalc = false
+            yazzMemoryUsage = totalMem
         }
     });
 
@@ -3031,9 +3033,9 @@ setInterval(function(){
     if (showDebug) {
         if (!inmemcalc) {
             inmemcalc = true
-            totalmem = 0
+            totalMem = 0
             const used = process.memoryUsage().heapUsed / 1024 / 1024;
-            totalmem += used
+            totalMem += used
             console.log(`Main: ${Math.round(used * 100) / 100} MB`);
             allForked = Object.keys(forkedProcesses)
             returnedmemCount = 0
