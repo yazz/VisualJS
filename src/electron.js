@@ -154,6 +154,13 @@ app.use(keycloak.middleware({
 
 const apiMetrics = require('prometheus-api-metrics');
 app.use(apiMetrics())
+const Prometheus = require('prom-client');
+
+const checkoutsTotal = new Prometheus.Counter({
+  name: 'checkouts_total',
+  help: 'Total number of checkouts',
+  labelNames: ['payment_method']
+});
 
 if (process.argv.length > 1) {
 
@@ -3005,6 +3012,9 @@ function getChildMem(childProcessName,stats) {
 
 
 function usePid(childProcessName,childprocess) {
+    checkoutsTotal.inc({
+      payment_method: "VISA"
+    })
     pidusage(childprocess.pid, function (err, stats) {
         getChildMem(childProcessName,stats)
         returnedmemCount ++
