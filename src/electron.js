@@ -162,10 +162,10 @@ const apiMetrics = require('prometheus-api-metrics');
 app.use(apiMetrics())
 const Prometheus = require('prom-client');
 
-const yazzMemoryUsageMetric = new Prometheus.Counter({
+const yazzMemoryUsageMetric = new Prometheus.Gauge({
   name: 'yazz_total_memory',
-  help: 'Total Yazz Memory Usage',
-  labelNames: ['yazz_total_memory']
+  help: 'Total Memory Usage',
+  labelNames: ['total_memory']
 });
 
 if (process.argv.length > 1) {
@@ -3014,7 +3014,7 @@ function getChildMem(childProcessName,stats) {
 
 function usePid(childProcessName,childprocess) {
     yazzMemoryUsageMetric.inc({
-      yazz_total_memory: yazzMemoryUsage
+      total_memory: yazzMemoryUsage
     })
     pidusage(childprocess.pid, function (err, stats) {
         getChildMem(childProcessName,stats)
@@ -3049,4 +3049,4 @@ setInterval(function(){
     } else {
         process.stdout.write(".");
     }
-},30000)
+},5000)
