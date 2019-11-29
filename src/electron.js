@@ -177,6 +177,7 @@ if (process.argv.length > 1) {
       .option('-l, --locked [locked]', 'Allow server to be locked/unlocked on start up (default true) [locked]', 'true')
       .option('-d, --debug [debug]', 'Allow to run in debug mode (default false) [debug]', 'false')
       .option('-z, --showdebug [showdebug]', 'Allow to show debug info (default false) [showdebug]', 'false')
+      .option('-z, --statsinterval [statsinterval]', 'Allow to show debug info every x seconds (default -1 to not show any stats) [statsinterval]', -1)
       .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
       .option('-x, --deleteonexit [deleteonexit]', 'Delete database files on exit (default true) [deleteonexit]', 'true')
       .option('-y, --deleteonstartup [deleteonstartup]', 'Delete database files on startup (default false) [deleteonstartup]', 'false')
@@ -226,6 +227,29 @@ if (program.showdebug == 'true') {
     }
 
 };
+
+
+
+
+
+var statsInterval = -1
+if (program.statsinterval > 0) {
+    statsInterval = program.statsinterval;
+    if (showDebug) {
+         console.log("       statsInterval: " + statsInterval );
+    } else {
+        process.stdout.write(".");
+    }
+
+} else {
+    if (showDebug) {
+        console.log("       statsInterval: " + statsInterval );
+    } else {
+        process.stdout.write(".");
+    }
+
+};
+
 
 
 var listOfEnvs = process.env
@@ -3026,24 +3050,26 @@ function usePid(childProcessName,childprocess) {
     });
 
 }
-setInterval(function(){
-    if (showDebug) {
-        if (!inmemcalc) {
-            inmemcalc = true
-            totalMem = 0
-            const used = process.memoryUsage().heapUsed / 1024 / 1024;
-            totalMem += used
-            console.log(`Main: ${Math.round(used * 100) / 100} MB`);
-            allForked = Object.keys(forkedProcesses)
-            returnedmemCount = 0
-            for (var ttt=0; ttt< allForked.length; ttt++) {
-                var childProcessName = allForked[ttt]
-                const childprocess = forkedProcesses[childProcessName]
+if (statsInterval > 0) {
+    setInterval(function(){
+        if (showDebug) {
+            if (!inmemcalc) {
+                inmemcalc = true
+                totalMem = 0
+                const used = process.memoryUsage().heapUsed / 1024 / 1024;
+                totalMem += used
+                console.log(`Main: ${Math.round(used * 100) / 100} MB`);
+                allForked = Object.keys(forkedProcesses)
+                returnedmemCount = 0
+                for (var ttt=0; ttt< allForked.length; ttt++) {
+                    var childProcessName = allForked[ttt]
+                    const childprocess = forkedProcesses[childProcessName]
 
-                usePid(childProcessName,childprocess)
+                    usePid(childProcessName,childprocess)
+                }
             }
+        } else {
+            process.stdout.write(".");
         }
-    } else {
-        process.stdout.write(".");
-    }
-},5000)
+    },(statsInterval * 1000))    
+}
