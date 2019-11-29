@@ -177,7 +177,8 @@ if (process.argv.length > 1) {
       .option('-l, --locked [locked]', 'Allow server to be locked/unlocked on start up (default true) [locked]', 'true')
       .option('-d, --debug [debug]', 'Allow to run in debug mode (default false) [debug]', 'false')
       .option('-z, --showdebug [showdebug]', 'Allow to show debug info (default false) [showdebug]', 'false')
-      .option('-z, --statsinterval [statsinterval]', 'Allow to show debug info every x seconds (default -1 to not show any stats) [statsinterval]', -1)
+      .option('-j, --showstats [showstats]', 'Allow to show stats debug info (default false) [showstats]', 'false')
+      .option('-i, --statsinterval [statsinterval]', 'Allow to show debug info every x seconds (default 10 seconds) [statsinterval]', 10)
       .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
       .option('-x, --deleteonexit [deleteonexit]', 'Delete database files on exit (default true) [deleteonexit]', 'true')
       .option('-y, --deleteonstartup [deleteonstartup]', 'Delete database files on startup (default false) [deleteonstartup]', 'false')
@@ -228,6 +229,25 @@ if (program.showdebug == 'true') {
 
 };
 
+
+
+var showStats = false
+if (program.showstats == 'true') {
+    showStats = true;
+    if (showDebug) {
+         console.log("       showStats: true" );
+    } else {
+        process.stdout.write(".");
+    }
+
+} else {
+    if (showDebug) {
+         console.log("       showStats: false" );
+    } else {
+        process.stdout.write(".");
+    }
+
+};
 
 
 
@@ -3032,7 +3052,9 @@ function getChildMem(childProcessName,stats) {
         memoryused = stats.memory / 1024 / 1024;
         totalMem += memoryused
     }
-    console.log(`${childProcessName}: ${Math.round(memoryused * 100) / 100} MB`);
+    if (showStats) {
+        console.log(`${childProcessName}: ${Math.round(memoryused * 100) / 100} MB`);
+    }
 }
 
 function usePid(childProcessName,childprocess) {
@@ -3041,9 +3063,11 @@ function usePid(childProcessName,childprocess) {
         getChildMem(childProcessName,stats)
         returnedmemCount ++
         if (returnedmemCount == allForked.length) {
-            console.log("------------------------------------")
-            console.log(" TOTAL MEM = " + totalMem + "MB")
-            console.log("------------------------------------")
+            if (showStats) {
+                console.log("------------------------------------")
+                console.log(" TOTAL MEM = " + totalMem + "MB")
+                console.log("------------------------------------")
+            }
             inmemcalc = false
             yazzMemoryUsage = totalMem
         }
@@ -3052,24 +3076,22 @@ function usePid(childProcessName,childprocess) {
 }
 if (statsInterval > 0) {
     setInterval(function(){
-        if (showDebug) {
-            if (!inmemcalc) {
-                inmemcalc = true
-                totalMem = 0
-                const used = process.memoryUsage().heapUsed / 1024 / 1024;
-                totalMem += used
+        if (!inmemcalc) {
+            inmemcalc = true
+            totalMem = 0
+            const used = process.memoryUsage().heapUsed / 1024 / 1024;
+            totalMem += used
+            if (showStats) {
                 console.log(`Main: ${Math.round(used * 100) / 100} MB`);
-                allForked = Object.keys(forkedProcesses)
-                returnedmemCount = 0
-                for (var ttt=0; ttt< allForked.length; ttt++) {
-                    var childProcessName = allForked[ttt]
-                    const childprocess = forkedProcesses[childProcessName]
-
-                    usePid(childProcessName,childprocess)
-                }
             }
-        } else {
-            process.stdout.write(".");
+            allForked = Object.keys(forkedProcesses)
+            returnedmemCount = 0
+            for (var ttt=0; ttt< allForked.length; ttt++) {
+                var childProcessName = allForked[ttt]
+                const childprocess = forkedProcesses[childProcessName]
+
+                usePid(childProcessName,childprocess)
+            }
         }
-    },(statsInterval * 1000))    
+    },(statsInterval * 1000))
 }
