@@ -153,7 +153,6 @@ app.use(keycloak.middleware({
 }));
 
 
-var yazzMemoryUsage = 0
 var inmemcalc = false
 var totalMem = 0
 var returnedmemCount = 0
@@ -165,6 +164,10 @@ const Prometheus = require('prom-client');
 const yazzMemoryUsageMetric = new Prometheus.Gauge({
   name: 'yazz_total_memory',
   help: 'Total Memory Usage'
+});
+const yazzProcessMainMemoryUsageMetric = new Prometheus.Gauge({
+  name: 'yazz_process_main_memory',
+  help: 'Memory Usage for Yazz NodeJS process "main"'
 });
 
 if (process.argv.length > 1) {
@@ -3058,7 +3061,6 @@ function getChildMem(childProcessName,stats) {
 }
 
 function usePid(childProcessName,childprocess) {
-    yazzMemoryUsageMetric.set(yazzMemoryUsage)
     pidusage(childprocess.pid, function (err, stats) {
         getChildMem(childProcessName,stats)
         returnedmemCount ++
@@ -3069,7 +3071,8 @@ function usePid(childProcessName,childprocess) {
                 console.log("------------------------------------")
             }
             inmemcalc = false
-            yazzMemoryUsage = totalMem
+            yazzMemoryUsageMetric.set(totalMem)
+
         }
     });
 
@@ -3081,6 +3084,7 @@ if (statsInterval > 0) {
             totalMem = 0
             const used = process.memoryUsage().heapUsed / 1024 / 1024;
             totalMem += used
+            yazzProcessMainMemoryUsageMetric.set(used)
             if (showStats) {
                 console.log(`Main: ${Math.round(used * 100) / 100} MB`);
             }
