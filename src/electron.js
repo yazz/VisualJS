@@ -162,11 +162,11 @@ app.use(apiMetrics())
 const Prometheus = require('prom-client');
 
 const yazzMemoryUsageMetric = new Prometheus.Gauge({
-  name: 'yazz_total_memory',
+  name: 'yazz_total_memory_bytes',
   help: 'Total Memory Usage'
 });
 const yazzProcessMainMemoryUsageMetric = new Prometheus.Gauge({
-  name: 'yazz_process_main_memory',
+  name: 'yazz_node_process_main_memory_bytes',
   help: 'Memory Usage for Yazz NodeJS process "main"'
 });
 
@@ -3047,16 +3047,18 @@ function findDriversWithMethodLike(methodName, callbackFn) {
 
 
 
-
+function bytesToMb(bytes) {
+    return (bytes / 1024 ) / 1024
+}
 
 function getChildMem(childProcessName,stats) {
     var memoryused = 0
     if (stats) {
-        memoryused = stats.memory / 1024 / 1024;
+        memoryused = stats.memory ;
         totalMem += memoryused
     }
     if (showStats) {
-        console.log(`${childProcessName}: ${Math.round(memoryused * 100) / 100} MB`);
+        console.log(`${childProcessName}: ${Math.round(bytesToMb(memoryused) * 100) / 100} MB`);
     }
 }
 
@@ -3067,7 +3069,7 @@ function usePid(childProcessName,childprocess) {
         if (returnedmemCount == allForked.length) {
             if (showStats) {
                 console.log("------------------------------------")
-                console.log(" TOTAL MEM = " + totalMem + "MB")
+                console.log(" TOTAL MEM = " + bytesToMb(totalMem) + " MB")
                 console.log("------------------------------------")
             }
             inmemcalc = false
@@ -3082,11 +3084,11 @@ if (statsInterval > 0) {
         if (!inmemcalc) {
             inmemcalc = true
             totalMem = 0
-            const used = process.memoryUsage().heapUsed / 1024 / 1024;
+            const used = process.memoryUsage().heapUsed ;
             totalMem += used
             yazzProcessMainMemoryUsageMetric.set(used)
             if (showStats) {
-                console.log(`Main: ${Math.round(used * 100) / 100} MB`);
+                console.log(`Main: ${Math.round( bytesToMb(used) * 100) / 100} MB`);
             }
             allForked = Object.keys(forkedProcesses)
             returnedmemCount = 0
