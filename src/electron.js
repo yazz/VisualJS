@@ -2743,10 +2743,22 @@ function startServices() {
 
 
 
+    //------------------------------------------------------------------------------
+    // deploy file
+    //------------------------------------------------------------------------------
+    app.post('/deployfile', function (req, res) {
+        var color = req.body.color;
+        console.log("color: " + color)
+        res.writeHead(200, {'Content-Type': 'application/json; charset=utf-8'});
+        res.end(JSON.stringify({val: "deployed file"},null,2));
+    });
+    //zzz
+
+
 
 
     //------------------------------------------------------------------------------
-    // test_firewall
+    // deploy
     //------------------------------------------------------------------------------
     app.get('/deploy', function (req, res) {
         res.writeHead(200, {'Content-Type': 'application/json; charset=utf-8'});
