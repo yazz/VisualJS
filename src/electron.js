@@ -2750,7 +2750,7 @@ function startServices() {
     //------------------------------------------------------------------------------
     app.get('/deploy', function (req, res) {
         res.writeHead(200, {'Content-Type': 'application/json; charset=utf-8'});
-        res.end('{val: "deployed"}');
+        res.end(JSON.stringify({val: "deployed"},null,2));
     });
     //zzz
 
