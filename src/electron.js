@@ -2379,7 +2379,7 @@ function file_uploadFn(req, res, next) {
       //console.log('......................................................................................');
       res.status( 200 ).send( req.files );
 debugger
-
+//zzz
       var ll = req.files.length;
       for (var i = 0; i < ll ; i ++) {
           //console.log('Loading saved Creator app' );
@@ -2747,8 +2747,11 @@ function startServices() {
     // deploy file
     //------------------------------------------------------------------------------
     app.post('/deployfile', function (req, res) {
-        var color = req.body.color;
-        console.log("color: " + color)
+        var code = req.body.data;
+        var ll = req.files;
+
+        console.log("Code: " + code)
+        console.log("ll: " + ll)
         res.writeHead(200, {'Content-Type': 'application/json; charset=utf-8'});
         res.end(JSON.stringify({val: "deployed file"},null,2));
     });

@@ -22,7 +22,7 @@
     "escodegen": "^1.11.0",
     "esprima": "^4.0.0",
     "estraverse": "^4.2.0",
-    "express": "^4.14.0",
+    "express": "^4.17.1",
     "express-session": "^1.16.2",
     "express-ws": "^3.0.0",
     "fd-diskspace": "^1.0.0",
