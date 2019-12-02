@@ -2743,34 +2743,6 @@ function startServices() {
 
 
 
-    //------------------------------------------------------------------------------
-    // deploy file
-    //------------------------------------------------------------------------------
-    app.post('/deployfile', function (req, res) {
-        var code = req.body.data;
-        var ll = req.files;
-
-        console.log("Code: " + code)
-        console.log("ll: " + ll)
-        res.writeHead(200, {'Content-Type': 'application/json; charset=utf-8'});
-        res.end(JSON.stringify({val: "deployed file"},null,2));
-    });
-    //zzz
-
-
-
-
-    //------------------------------------------------------------------------------
-    // deploy
-    //------------------------------------------------------------------------------
-    app.get('/deploy', function (req, res) {
-        res.writeHead(200, {'Content-Type': 'application/json; charset=utf-8'});
-        res.end(JSON.stringify({val: "deployed"},null,2));
-    });
-    //zzz
-
-
-
 
     //------------------------------------------------------------------------------
     // test_firewall
