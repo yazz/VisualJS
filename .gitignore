@@ -3,7 +3,7 @@
 !/.gitignore
 
 
-!/a.js
+!/*.js
 !/LICENSE
 !/LICENSE
 !/README.md
