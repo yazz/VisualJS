@@ -2,9 +2,8 @@
 # Yazz Pilot
 ## Serverless Javascript Framework
 
-Pilot is a Kubernetes tool which lets you quickly run build and run small web based tools or micro services. To build web based tools there is a drag and drop builder, and to build micro services there is a simple Javascript based syntax.
-
-Public Demo- https://yazz.com/app/homepage.html
+Pilot is a tool which lets you run serverless web based tools or micro services using a Javascripot syntax. There is a demo at:
+https://yazz.com/app/homepage.html
 
 - Build apps in minutes with drag and drop interface and code business logic in Javascript
 - One click deploy to Docker or Kubernetes
