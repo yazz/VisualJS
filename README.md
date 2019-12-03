@@ -15,7 +15,7 @@ https://yazz.com/app/homepage.html
 
 
 <br/><br/><br/>
-## Quick examples (once yazz Pilot server started)
+## Quick examples 
 ### Upload a Microservice from a Javascript file
 
 Assuming Yazz Pilot running on localhost:3000
@@ -42,7 +42,7 @@ Browse to:
 
 
 <br/><br/><br/>
-## Installing Yazz Pilot
+## Starting the Yazz Pilot server
 
 ### Run from docker:
 
