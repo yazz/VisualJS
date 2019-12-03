@@ -15,6 +15,10 @@ https://yazz.com/app/homepage.html
 
 
 
+## Quick examples
+
+
+
 
 <br/><br/><br/>
 ## Installing Yazz Pilot
