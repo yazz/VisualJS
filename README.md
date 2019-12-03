@@ -2,7 +2,7 @@
 # Yazz Pilot
 ## Serverless Javascript Framework
 
-Pilot is a tool which lets you run serverless web based tools or micro services using a Javascripot syntax. There is a demo at:
+Pilot is a tool to create and run serverless web based tools or micro services using a Javascripot syntax. There is a demo at:
 https://yazz.com/app/homepage.html
 
 - Build apps in minutes with drag and drop interface and code business logic in Javascript
