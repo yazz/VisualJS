@@ -18,7 +18,15 @@ https://yazz.com/app/homepage.html
 ## Quick examples 
 ### Upload a Microservice from a Javascript file
 
-Assuming Yazz Pilot running on localhost:3000
+Start Yazz Pilot server:
+
+    > cd yazz
+    > npm install
+    ...
+    > node src/electron.js 
+    ......................................................................................................
+    Started on:
+    http://localhost:3000
 
     > cat a.js
     
