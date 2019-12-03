@@ -4,7 +4,19 @@
 
 Pilot is a Kubernetes tool which lets you quickly run build and run small web based tools or micro services. To build web based tools there is a drag and drop builder, and to build micro services there is a simple Javascript based syntax.
 
+Public Demo- https://yazz.com/app/homepage.html
 
+- Build apps in minutes with drag and drop interface and code business logic in Javascript
+- One click deploy to Docker or Kubernetes
+- Open source MIT license
+- Runs in Docker on the cloud
+- Runs locally on NodeJS
+- Can be run as a Snap Package on Linux
+
+
+
+
+<br /><br /><br />
 
 
 ## Installing Yazz Pilot
@@ -24,19 +36,7 @@ Run as a Snap package on Linux:
 
 
 
-Public Demo- https://yazz.com/app/homepage.html
 
-- Build apps in minutes with drag and drop interface and code business logic in Javascript
-- One click deploy to Docker or Kubernetes
-- Open source MIT license
-- Runs in Docker on the cloud
-- Runs locally on NodeJS
-- Can be run as a Snap Package on Linux
-
-
-
-
-<br /><br /><br /><br /><br />
 
 
 
