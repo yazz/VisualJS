@@ -18,11 +18,21 @@ https://yazz.com/app/homepage.html
 ## Quick examples (once server started)
 ### Upload a Microservice
 
-    cat a.js
+    > cat a.js
     
+    function(args) {  
+        /* 
+        rest_api('test3') 
+        */ 
+        
+        return {ab: 163}
+    }
     
 
-    docker run -p 80:3000 -d zubairq/pilot
+    > curl -F 'file=@a.js' http://localhost:3000/file_upload
+Browse to:
+    http://192.168.200.14:3000/test3
+: to see Microservice deployed
 
 
 
