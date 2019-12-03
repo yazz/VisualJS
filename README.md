@@ -15,8 +15,14 @@ https://yazz.com/app/homepage.html
 
 
 
-## Quick examples
+## Quick examples (once server started)
+### Upload a Microservice
 
+    cat a.js
+    
+    
+
+    docker run -p 80:3000 -d zubairq/pilot
 
 
 
