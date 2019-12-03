@@ -24,7 +24,7 @@ https://yazz.com/app/homepage.html
     ...
     > node src/electron.js 
     ......................................................................................................
-    Started on:
+    Yazz Pilot started on:
     http://localhost:3000
 
     > cat a.js
