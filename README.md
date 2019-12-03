@@ -18,6 +18,7 @@ https://yazz.com/app/homepage.html
 ## Quick examples (once server started)
 ### Upload a Microservice
 
+Assuming Yazz Pilot running on localhost:3000
     > cat a.js
     
     function(args) {  
@@ -31,7 +32,7 @@ https://yazz.com/app/homepage.html
 
     > curl -F 'file=@a.js' http://localhost:3000/file_upload
 Browse to:
-    http://192.168.200.14:3000/test3
+    http://localhost:3000/test3
 : to see Microservice deployed
 
 
