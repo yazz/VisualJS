@@ -101,7 +101,7 @@ Public Demo- https://yazz.com/app/homepage.html
 
 
 
-## Building Pilot from source on Windows
+## Building Yazz Pilot from source on Windows
 
 
 ##### 1) Install GIT from https://git-scm.com/downloads
@@ -128,7 +128,7 @@ Public Demo- https://yazz.com/app/homepage.html
 
 
 
-## Building Pilot from source on Mac:
+## Building Yazz Pilot from source on Mac:
 
 ##### 1) Install GIT from https://git-scm.com/downloads
 ##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
