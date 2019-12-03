@@ -653,7 +653,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
-        console.log("\nStarted on:");
+        console.log("\nYazz Pilot started on:");
         console.log(serverProtocol + "://" + hostaddress + ':' + port);
         systemReady = true
 
