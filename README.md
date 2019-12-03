@@ -20,7 +20,7 @@ https://yazz.com/app/homepage.html
 
 Start Yazz Pilot server:
 
-    > cd yazz
+    > cd pilot
     > npm install
     ...
     > node src/electron.js 
