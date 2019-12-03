@@ -1,6 +1,6 @@
 
 # Yazz Pilot
-## Serverless made easy
+## Serverless Javascript Framework
 
 Pilot is a Kubernetes tool which lets you quickly run build and run small web based tools or micro services. To build web based tools there is a drag and drop builder, and to build micro services there is a simple Javascript based syntax.
 
@@ -13,7 +13,7 @@ Run as a Snap package on Linux:
 
     snap install --devmode --edge pilot
 
-    plt
+    pilot
 
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/pilot)
 
@@ -24,7 +24,8 @@ Public Demo- https://yazz.com/app/homepage.html
 - Build apps in minutes with drag and drop interface and code business logic in Javascript
 - One click deploy to Docker or Kubernetes
 - Open source MIT license
-- Runs in Docker on the cloud or locally
+- Runs in Docker on the cloud
+- Runs locally on NodeJS
 - Can be run as a Snap Package on Linux
 
 
