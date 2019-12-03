@@ -21,12 +21,12 @@ Public Demo- https://yazz.com/app/homepage.html
 
 ## Installing Yazz Pilot
 
-Run from docker:
+# Run from docker:
 
     docker run -p 80:80 -d zubairq/pilot
 
 
-Run as a Snap package on Linux:
+# Run as a Snap package on Linux:
 
     snap install --devmode --edge pilot
 
@@ -36,13 +36,7 @@ Run as a Snap package on Linux:
 
 
 
-
-
-
-
-
-
-## Docker Quick start
+# Docker Quick start (with Docker deploy enabled)
 ##### 1) Download and run Docker
 
 ##### 2) Expose the Docker REST api on port 1234 with:
