@@ -21,8 +21,7 @@ https://yazz.com/app/homepage.html
 
 ### Run from docker:
 
-    docker run -p 80:80 -d zubairq/pilot
-
+    docker run -p 80:3000 -d zubairq/pilot
 
 
 
@@ -45,7 +44,7 @@ https://yazz.com/app/homepage.html
 ##### 2) Expose the Docker REST api on port 1234 with:
     docker run -d -v /var/run/docker.sock:/var/run/docker.sock -p 127.0.0.1:1234:1234 bobrik/socat TCP-LISTEN:1234,fork UNIX-CONNECT:/var/run/docker.sock
 ##### 3) Install and run the Pilot IDE with:
-    docker run -p 80:80 -d zubairq/pilot
+    docker run -p 80:3000 -d zubairq/pilot
 
 ##### 4) Go to a browser and view Pilot:
     http://localhost
