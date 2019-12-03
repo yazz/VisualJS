@@ -35,7 +35,8 @@ Assuming Yazz Pilot running on localhost:3000
     
 Browse to:
     http://localhost:3000/test3
-: to see Microservice deployed
+    
+:to see Microservice deployed
 
 
 
