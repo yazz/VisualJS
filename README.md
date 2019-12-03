@@ -8,8 +8,8 @@ https://yazz.com/app/homepage.html
 - Build apps in minutes with drag and drop interface and code business logic in Javascript
 - One click deploy to Docker or Kubernetes
 - Open source MIT license
-- Runs in Docker on the cloud
-- Runs locally on NodeJS
+- Can run in Docker, Kubernetes, or OpenShift
+- Runs locally on Mac, Windows, Linux, Raspberry PI using NodeJS
 - Can be run as a Snap Package on Linux
 
 
