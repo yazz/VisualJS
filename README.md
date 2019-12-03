@@ -16,27 +16,32 @@ Public Demo- https://yazz.com/app/homepage.html
 
 
 
-<br /><br /><br />
 
-
+<br/><br/><br/>
 ## Installing Yazz Pilot
 
-# Run from docker:
+### Run from docker:
 
     docker run -p 80:80 -d zubairq/pilot
 
 
-# Run as a Snap package on Linux:
+
+
+<br/><br/><br/>
+### Run as a Snap package on Linux:
 
     snap install --devmode --edge pilot
 
     pilot
 
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/pilot)
+<br/><br/><br/>
 
 
 
-# Docker Quick start (with Docker deploy enabled)
+
+<br/><br/><br/>
+### Docker Quick start (with Docker deploy enabled)
 ##### 1) Download and run Docker
 
 ##### 2) Expose the Docker REST api on port 1234 with:
@@ -56,16 +61,8 @@ Public Demo- https://yazz.com/app/homepage.html
 
 
 
-<br /><br /><br /><br /><br />
-
-
-
-
-
-
-
-
-## Building Pilot from source on Linux:
+<br/><br/><br/>
+### Building Pilot from source on Linux:
 
 ##### 1) Install GIT from https://git-scm.com/downloads
 ##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
@@ -83,19 +80,13 @@ Public Demo- https://yazz.com/app/homepage.html
 
     node /src/electron.js --runapp homepage --locked false
 
-##### 7) Create the "yazz" shell command to replace "node src/electron.js"
-
-    sudo npm link
-
-
-<br /><br /><br /><br /><br />
 
 
 
 
 
-
-## Building Yazz Pilot from source on Windows
+<br/><br/><br/>
+### Building Yazz Pilot from source on Windows
 
 
 ##### 1) Install GIT from https://git-scm.com/downloads
