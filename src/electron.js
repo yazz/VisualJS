@@ -2023,7 +2023,7 @@ function getRoot(req, res, next) {
 
 
 
-    //zzz
+
     } else if (loadjsurl && (!req.query.goto) && (!req.query.embed)) {
         homepage = path.join( userData, 'apps/' + runapp + '.html' )
         runOnPageExists(req,res,homepage)
@@ -2378,8 +2378,7 @@ function file_uploadFn(req, res, next) {
       //console.log('......................................................................................');
       //console.log('......................................................................................');
       res.status( 200 ).send( req.files );
-debugger
-//zzz
+
       var ll = req.files.length;
       for (var i = 0; i < ll ; i ++) {
           //console.log('Loading saved Creator app' );
@@ -2465,6 +2464,23 @@ debugger
 
 
 
+
+
+
+
+function code_uploadFn(req, res) {
+
+        forkedProcesses["forked"].send({
+                                            message_type:           "save_code_from_upload",
+                                            parent_hash:            null,
+                                            code:                   "function(args) {  /* rest_api('test3') */ return {ab: 163}}",
+                                            options:                {save_html: true},
+                                            sqlite_data:            ""
+                                       });
+
+
+
+};
 
 
 
@@ -2782,6 +2798,12 @@ function startServices() {
         return file_uploadFn(req, res, next);
     });
 
+    app.get('/code_upload', function (req, res, next) {
+        code_uploadFn(req, res);
+        //zzz
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        res.end("Done");
+    });
 
 
 
