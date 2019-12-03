@@ -16,7 +16,7 @@ https://yazz.com/app/homepage.html
 
 
 ## Quick examples (once server started)
-### Upload a Microservice
+### Upload a Microservice from a Javascript file
 
 Assuming Yazz Pilot running on localhost:3000
 
@@ -37,7 +37,7 @@ Browse to:
 
     http://localhost:3000/test3
     
-:to see Microservice deployed
+:to see the microservice deployed
 
 
 
