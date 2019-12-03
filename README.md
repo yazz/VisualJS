@@ -18,7 +18,6 @@ https://yazz.com/app/homepage.html
 ## Quick examples 
 ### Upload a Microservice from a Javascript file
 
-Start Yazz Pilot server:
 
     > cd pilot
     > npm install
