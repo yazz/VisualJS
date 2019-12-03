@@ -66,7 +66,7 @@ https://yazz.com/app/homepage.html
 ##### 5) Install the NodeJS modules
     sudo npm install
 ##### 6) Run the Pilot NodeJS application
-    node /src/electron.js
+    node src/electron.js
 
 
 
@@ -85,7 +85,7 @@ https://yazz.com/app/homepage.html
 ##### 5) Install the NodeJS modules
     npm install
 ##### 6) Run as Node.js application with browser based access
-     node src/electron.js 
+     node src\electron.js 
 
 
 
