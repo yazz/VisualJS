@@ -18,13 +18,14 @@ https://yazz.com/app/homepage.html
 ## Quick examples 
 ### Upload a Microservice from a Javascript file
 
-
-    > cd pilot
-    > npm install
+> cd pilot
+> npm install
     
+```
 ... some NodeJS stuff runs here to install Pilot ...
-    
-    > node src/electron.js 
+``` 
+
+> node src/electron.js 
 
 ```
 ......................................................................................................
@@ -32,7 +33,7 @@ Yazz Pilot started on:
 http://localhost:3000
 ```
 
-    > cat a.js
+> cat a.js
     
 ```
 function(args) {  
@@ -45,7 +46,7 @@ function(args) {
     ```
     
 
-    > curl -F 'file=@a.js' http://localhost:3000/file_upload
+> curl -F 'file=@a.js' http://localhost:3000/file_upload
     
 Browse to:
 
