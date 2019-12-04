@@ -32,14 +32,14 @@ https://yazz.com/app/homepage.html
 
     > cat a.js
     
-    ```
-    function(args) {  
-        /* 
-        rest_api('test3') 
-        */ 
-        
-        return {ab: 163}
-    }
+```
+function(args) {  
+    /* 
+    rest_api('test3') 
+    */ 
+
+    return {ab: 163}
+}
     ```
     
 
