@@ -18,6 +18,8 @@ https://yazz.com/app/homepage.html
 ## Quick examples 
 ### Upload a Microservice from a Javascript file
 
+First you need to install Yazz Pilot, assuming you have NodeJS installed and have downloaded the GIT repo.
+
 > &gt; cd pilot
 
 > &gt; npm install
@@ -26,6 +28,8 @@ https://yazz.com/app/homepage.html
 ... some NodeJS stuff runs here to install Pilot ...
 ``` 
 
+Then you run the Pilot server.
+
 > &gt; node src/electron.js 
 
 ```
@@ -33,6 +37,8 @@ https://yazz.com/app/homepage.html
 Yazz Pilot started on:
 http://localhost:3000
 ```
+
+Upload a sample Pilot microservice that we will upload.
 
 > &gt; cat a.js
     
@@ -48,11 +54,11 @@ function(args) {
     
 > &gt; curl -F 'file=@a.js' http://localhost:3000/file_upload
     
-Browse to:
+Finall browse to the following URL in your browser to see the microservice running:
 
     http://localhost:3000/test3
     
-:to see the microservice deployed
+
 
 
 
