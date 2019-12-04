@@ -43,10 +43,9 @@ function(args) {
 
     return {ab: 163}
 }
-    ```
+```
     
-
-> curl -F 'file=@a.js' http://localhost:3000/file_upload
+> > curl -F 'file=@a.js' http://localhost:3000/file_upload
     
 Browse to:
 
