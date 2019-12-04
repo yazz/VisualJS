@@ -21,11 +21,14 @@ https://yazz.com/app/homepage.html
 
     > cd pilot
     > npm install
-    ...
+    
+... some NodeJS stuff runs here to install Pilot ...
+    
     > node src/electron.js 
-    ......................................................................................................
-    Yazz Pilot started on:
-    http://localhost:3000
+    
+......................................................................................................
+Yazz Pilot started on:
+http://localhost:3000
 
     > cat a.js
     
