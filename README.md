@@ -19,7 +19,7 @@ https://yazz.com/app/homepage.html
 ### Upload a Microservice from a Javascript file
 
 > &gt; cd pilot
-> &gt; npm install
+&gt; npm install
     
 ```
 ... some NodeJS stuff runs here to install Pilot ...
