@@ -45,7 +45,7 @@ function(args) {
 }
 ```
     
-> > curl -F 'file=@a.js' http://localhost:3000/file_upload
+> &gt; curl -F 'file=@a.js' http://localhost:3000/file_upload
     
 Browse to:
 
