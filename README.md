@@ -26,12 +26,13 @@ https://yazz.com/app/homepage.html
     
     > node src/electron.js 
     
-......................................................................................................
-Yazz Pilot started on:
-http://localhost:3000
+    ......................................................................................................
+    Yazz Pilot started on:
+    http://localhost:3000
 
     > cat a.js
     
+    ```
     function(args) {  
         /* 
         rest_api('test3') 
@@ -39,6 +40,7 @@ http://localhost:3000
         
         return {ab: 163}
     }
+    ```
     
 
     > curl -F 'file=@a.js' http://localhost:3000/file_upload
