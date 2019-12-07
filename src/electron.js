@@ -2365,94 +2365,85 @@ function file_uploadSingleFn(req, res) {
       //console.log(JSON.stringify(req.files.length));
       //console.log("client_file_upload_id: " + JSON.stringify(req.body.client_file_upload_id,null,2))
       var client_file_upload_id = req.body.client_file_upload_id
-      //console.log("**FILES** " + JSON.stringify(req.files));
+      console.log("**client_file_upload_id** " + JSON.stringify(client_file_upload_id));
       //console.log(    "    next: " + JSON.stringify(next));
 
 
-      //console.log('......................................................................................');
-      //console.log('......................................................................................');
-      //console.log('......................................................................................');
-      //console.log('......................................................................................');
-      //console.log('......................................................................................');
-      res.status( 200 ).send( req.files );
 
-      var ll = req.files.length;
-      for (var i = 0; i < ll ; i ++) {
-          //console.log('Loading saved Creator app' );
-          var ifile = req.files[i];
-          //console.log("        " + JSON.stringify(ifile));
-          var ext = ifile.originalname.split('.').pop();
-          ext = ext.toLowerCase();
-          //console.log('Ext: ' + ext);
-          if ((ext == "html") || (ext == "html")) {
-          var localp2;
-          localp2 =  path.join(userData,  'uploads/' + ifile.filename);
+      //console.log('Loading saved Creator app' );
+      var ifile = req.file
+      //console.log("        " + JSON.stringify(ifile));
+      var ext = ifile.originalname.split('.').pop();
+      ext = ext.toLowerCase();
+      //console.log('Ext: ' + ext);
+      if ((ext == "html") || (ext == "html")) {
+      var localp2;
+      localp2 =  path.join(userData,  'uploads/' + ifile.filename);
+          var localp = localp2 + '.' + ext;
+          fs.renameSync(localp2, localp);
+          var readIn = fs.readFileSync(localp).toString()
+          //console.log('');
+          //console.log('Local saved path: ' + localp);
+          var indexStart = readIn.indexOf("/*APP_START*/")
+          var indexEnd = readIn.indexOf("/*APP_END*/")
+          //console.log(`indexStart: ${indexStart}`)
+          //console.log(`indexEnd: ${indexEnd}`)
+          if ((indexStart > 0) && (indexEnd > 0)) {
+            indexStart += 13 + 10
+            indexEnd -= 2
+            var tts = readIn.substring(indexStart,indexEnd)
+            console.log(tts)
+            var ytr = unescape(tts)
+            console.log("SENDINF FROM UPLAOD___=+++****")
+            var bci = saveHelper.getValueOfCodeString(ytr, "base_component_id")
+
+            var indexStart = readIn.indexOf("/*APP_START*/")
+            var indexEnd = readIn.indexOf("/*APP_END*/")
+
+            var indexOfSqliteData = readIn.indexOf("var sqlitedata = '")
+            var indexOfSqliteDataEnd = readIn.indexOf("'//sqlitedata")
+
+            var sqlitedatafromupload = null
+            if ((indexOfSqliteData != -1) && (indexOfSqliteDataEnd != -1)) {
+                sqlitedatafromupload = readIn.substring( indexOfSqliteData + 18,
+                                                                    indexOfSqliteDataEnd)
+            }
+
+            forkedProcesses["forked"].send({
+                                                message_type:           "save_code_from_upload",
+                                                base_component_id:      bci,
+                                                parent_hash:            null,
+                                                code:                   ytr,
+                                                client_file_upload_id:  client_file_upload_id,
+                                                options:                {save_html: true, fast_forward_database_to_latest_revision: true},
+                                                sqlite_data:            sqlitedatafromupload
+                                           });
+          }
+      } else if ((ext == "js") || (ext == "yazz") || (ext == "pilot"))  {
+              var localp2;
+              localp2 =  path.join(userData,  'uploads/' + ifile.filename);
               var localp = localp2 + '.' + ext;
               fs.renameSync(localp2, localp);
               var readIn = fs.readFileSync(localp).toString()
-              //console.log('');
-              //console.log('Local saved path: ' + localp);
-              var indexStart = readIn.indexOf("/*APP_START*/")
-              var indexEnd = readIn.indexOf("/*APP_END*/")
-              //console.log(`indexStart: ${indexStart}`)
-              //console.log(`indexEnd: ${indexEnd}`)
-              if ((indexStart > 0) && (indexEnd > 0)) {
-                indexStart += 13 + 10
-                indexEnd -= 2
-                var tts = readIn.substring(indexStart,indexEnd)
-                console.log(tts)
-                var ytr = unescape(tts)
-                console.log("SENDINF FROM UPLAOD___=+++****")
-                var bci = saveHelper.getValueOfCodeString(ytr, "base_component_id")
+              var bci = saveHelper.getValueOfCodeString(readIn, "base_component_id")
 
-                var indexStart = readIn.indexOf("/*APP_START*/")
-                var indexEnd = readIn.indexOf("/*APP_END*/")
 
-                var indexOfSqliteData = readIn.indexOf("var sqlitedata = '")
-                var indexOfSqliteDataEnd = readIn.indexOf("'//sqlitedata")
-
-                var sqlitedatafromupload = null
-                if ((indexOfSqliteData != -1) && (indexOfSqliteDataEnd != -1)) {
-                    sqlitedatafromupload = readIn.substring( indexOfSqliteData + 18,
-                                                                        indexOfSqliteDataEnd)
-                }
 
                 forkedProcesses["forked"].send({
                                                     message_type:           "save_code_from_upload",
                                                     base_component_id:      bci,
                                                     parent_hash:            null,
-                                                    code:                   ytr,
+                                                    code:                   readIn,
                                                     client_file_upload_id:  client_file_upload_id,
-                                                    options:                {save_html: true, fast_forward_database_to_latest_revision: true},
-                                                    sqlite_data:            sqlitedatafromupload
+                                                    options:                {save_html: true, fast_forward_database_to_latest_revision: false},
+                                                    sqlite_data:            ""
                                                });
-              }
-          } else if ((ext == "js") || (ext == "yazz") || (ext == "pilot"))  {
-                  var localp2;
-                  localp2 =  path.join(userData,  'uploads/' + ifile.filename);
-                  var localp = localp2 + '.' + ext;
-                  fs.renameSync(localp2, localp);
-                  var readIn = fs.readFileSync(localp).toString()
-                  var bci = saveHelper.getValueOfCodeString(readIn, "base_component_id")
 
+      } else {
+        console.log('Ignoring file ');
 
+      }
 
-                    forkedProcesses["forked"].send({
-                                                        message_type:           "save_code_from_upload",
-                                                        base_component_id:      bci,
-                                                        parent_hash:            null,
-                                                        code:                   readIn,
-                                                        client_file_upload_id:  client_file_upload_id,
-                                                        options:                {save_html: true, fast_forward_database_to_latest_revision: false},
-                                                        sqlite_data:            ""
-                                                   });
-
-          } else {
-            console.log('Ignoring file ');
-
-          }
-
-    }
 
 };
 
