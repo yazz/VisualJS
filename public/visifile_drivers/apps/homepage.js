@@ -123,10 +123,11 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             <form       id="uploadfilefromhomepageform"
                         method="POST"
                         enctype="multipart/form-data"
-                        action="/file_upload"  >
+                        action="/file_upload_single"  >
 
                 <input  type="file"
                         id="uploadfilefromhomepage"
+                        name="uploadfilefromhomepage"
                         multiple
                         style="display:none;"
                         v-on:change=" document.getElementById('uploadfilefromhomepageform').submit();"
