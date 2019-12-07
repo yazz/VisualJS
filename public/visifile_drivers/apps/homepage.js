@@ -182,6 +182,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                 v-bind:refresh='refresh'
                                 style="position:relative;left:0px;top;0px;color:black;background-color:white;background:white;width:100%;height:100%;overflow: auto;">
 
+
+
                             <div    v-if='(preview_app_id == item.data.id) '
                                     v-bind:refresh='refresh'
                                     v-on:mouseover="$event.stopPropagation();$event.preventDefault();"
@@ -189,6 +191,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                     v-on:mousedown="$event.stopPropagation();$event.preventDefault();"
                                     v-on:mouseup="$event.stopPropagation();$event.preventDefault();"
                                     style="opacity:.7;z-index:2147483647;position:absolute;left:0px;top;0px;color:black;background-color:lightblue;width:100%;height:100%;">
+
+                                    <div style="padding: 10px;">
+                                        {{item.data.id}}
+                                    </div>
 
                                     <img    v-if='(preview_app_id == item.data.id) && preview_app_loaded'
                                             v-bind:src='app_logos[item.data.id]'
