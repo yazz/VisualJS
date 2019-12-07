@@ -122,6 +122,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
             <form       id="uploadfilefromhomepageform"
                         method="POST"
+                        style="display:none;"
                         enctype="multipart/form-data"
                         action="/file_upload_single"  >
 
