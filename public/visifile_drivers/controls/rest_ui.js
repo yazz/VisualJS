@@ -96,6 +96,7 @@ logo_url("/driver_icons/rest.png")
         methods: {
             callRestApiInternal: async function() {
                 var mm = this
+
                 var result = await callFunction(
                 {
                     driver_name: "rest_call_service",
@@ -106,11 +107,9 @@ logo_url("/driver_icons/rest.png")
                     URL:    mm.args.URL
                 })
 
-                debugger
-                if (result.value) {
-                    return result.value
-                } else if (result.error) {
-                    throw result.error
+
+                if (result) {
+                    return result
                 }
                 return null
             }

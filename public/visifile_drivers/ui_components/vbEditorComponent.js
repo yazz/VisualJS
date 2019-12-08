@@ -1182,8 +1182,8 @@ ${methodFn}
                 }
                 var retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
 
-                if (isValidObject(retv) && isValidObject(retv.failed)) {
-                    throw retv.failed
+                if (isValidObject(retv) && isValidObject(retv.error)) {
+                    throw retv.error
                 }
                 if (isValidObject(retv) && isValidObject(retv.value)) {
                     return retv.value
@@ -1206,8 +1206,8 @@ ${formprop.fn}
 
                 fnDetails = eval(thecode)
                 var retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
-                if (isValidObject(retv) && isValidObject(retv.failed)) {
-                    throw retv.failed
+                if (isValidObject(retv) && isValidObject(retv.error)) {
+                    throw retv.error
                 }
                 if (isValidObject(retv) && isValidObject(retv.value)) {
                     throw retv.value
@@ -1230,8 +1230,9 @@ ${origCode}
 
                 fnDetails = eval(thecode)
                 var retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
-                if (isValidObject(retv) && isValidObject(retv.failed)) {
-                    throw retv.failed
+
+                if (isValidObject(retv) && isValidObject(retv.error)) {
+                    throw retv.error
                 }
                 if (isValidObject(retv) && isValidObject(retv.value)) {
                     throw retv.value
@@ -3024,7 +3025,7 @@ ${eventMessage.code}
                         try {
                             await efcc()
                         } catch(  err  ) {
-                            
+
                             var errValue = ""
                             if (err.message) {
                                 errValue = err.message
