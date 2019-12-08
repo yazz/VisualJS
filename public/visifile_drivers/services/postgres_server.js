@@ -31,13 +31,13 @@ only_run_on_server(true)
               }
               dbconnection.query(useSql, [], function (err, result) {
                 if (err) {
-                    console.log({failed: '' + err});
+                    throw({failed: '' + err});
                 } else {
                     console.log("row count: " + result.rows.length); // outputs: { name: 'brianc' }
                     if (args.limit) {
                         result.rows = result.rows.slice(0, args.limit);
                     }
-                    returnFn({value: result.rows})
+                    returnFn(result.rows)
                 };
               })
 

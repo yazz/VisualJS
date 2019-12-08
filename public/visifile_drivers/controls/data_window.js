@@ -713,7 +713,7 @@ logo_url("/driver_icons/data_window.png")
 
              var results = await this.executeSql()
              //alert(JSON.stringify(results,null,2))
-             await this.setData(results.value)
+             await this.setData(results)
          }
 
       }
@@ -822,6 +822,7 @@ logo_url("/driver_icons/data_window.png")
                 console.log("In getTables")
 
                 if (this.design_mode) {
+
                     var result = await callFunction(
                                         {
                                             driver_name: "postgres_server",
@@ -925,10 +926,11 @@ logo_url("/driver_icons/data_window.png")
                                              })
 
 
+                   debugger
                    //alert("executeSql: " + JSON.stringify(result,null,2))
                    console.log(JSON.stringify(result,null,2))
                    if (result) {
-                        this.args.result = result.result
+                        this.args.result = result
 
                         return result
                    }
