@@ -2983,10 +2983,13 @@ ${eventMessage.code}
 
                         var debugFcc = getDebugCode(mm.model.active_form +"_"+eventMessage.control_name+"_"+eventMessage.sub_type,fcc,{skipFirstAndLastLine: true})
                         var efcc = eval(debugFcc)
+
                         try {
                             await efcc()
                         } catch(  err  ) {
-                            alert(JSON.stringify(err,null,2))
+                            //debugger
+                            alert(  "Error in " + eventMessage.form_name + ":" + eventMessage.control_name + ":" + eventMessage.sub_type + ":" + "\n" +
+                                    "    " + JSON.stringify(err.message,null,2))
                         }
 
                     }
@@ -3009,10 +3012,14 @@ ${eventMessage.code}
 
                         var debugFcc = getDebugCode(this.model.active_form ,fcc,{skipFirstAndLastLine: true})
                         var efcc = eval(debugFcc)
+
                         try {
                             await efcc()
                         } catch(  err  ) {
-                            alert(JSON.stringify(err,null,2))
+                            debugger
+                            alert(  "Error in " + this.model.active_form + "\n" +
+                                    "    Code: " + JSON.stringify(eventMessage.code,null,2) + "\n" +
+                                    "    Error: " + JSON.stringify(err.message,null,2))
                         }
                     }
 
