@@ -106,8 +106,11 @@ logo_url("/driver_icons/rest.png")
                     URL:    mm.args.URL
                 })
 
+                debugger
                 if (result.value) {
                     return result.value
+                } else if (result.error) {
+                    throw result.error
                 }
                 return null
             }
@@ -115,6 +118,7 @@ logo_url("/driver_icons/rest.png")
 
 
             callRestApi: async function(urlToCall) {
+
                 var mm = this
                 if (urlToCall) {
                     mm.args.URL = urlToCall
