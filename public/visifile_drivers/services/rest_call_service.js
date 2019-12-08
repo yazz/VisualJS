@@ -1,6 +1,6 @@
 async function rest_call_service(args) {
 /*
-description("REST API Ccall function")
+description("REST API Call server side function")
 base_component_id("rest_call_service")
 load_once_from_file(true)
 only_run_on_server(true)
@@ -32,7 +32,11 @@ only_run_on_server(true)
                 console.log("Error: " + JSON.stringify(error,null,2));
                 console.log("Response: " + JSON.stringify(res,null,2));
                 console.log("Body: " + JSON.stringify(body,null,2));
-                returnFn({value: JSON.parse(body)})
+                try {
+                    returnFn({value: JSON.parse(body)})
+                } catch(err2) {
+                    returnFn({value: body})
+                }
             }
         );
 
