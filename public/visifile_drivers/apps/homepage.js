@@ -131,7 +131,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         name="uploadfilefromhomepage"
                         multiple
                         style="display:none;"
-                        v-on:change=" document.getElementById('uploadfilefromhomepageform').submit();"
+                        v-on:change="submitFormAjax();"
                         />
             </form>
 
@@ -458,6 +458,19 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               mm.preview_app_loaded = false
               mm.refresh ++
           }
+          ,
+          submitFormAjax: function() {
+            let xmlhttp= window.XMLHttpRequest ?
+                new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+
+
+
+            var form = document.getElementById('uploadfilefromhomepageform');
+            var formData = new FormData(form);
+
+            xmlhttp.open("POST","/file_upload_single",true);
+            xmlhttp.send(formData);
+        }
 
 
       }

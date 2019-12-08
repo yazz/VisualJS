@@ -2368,7 +2368,7 @@ function file_uploadSingleFn(req, res) {
       console.log("**client_file_upload_id** " + JSON.stringify(client_file_upload_id));
       //console.log(    "    next: " + JSON.stringify(next));
 
-
+      res.status( 200 ).send( req.file );
 
       //console.log('Loading saved Creator app' );
       var ifile = req.file
