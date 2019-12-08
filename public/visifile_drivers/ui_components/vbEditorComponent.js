@@ -2865,7 +2865,8 @@ return {}
                  var formEvent = {
                      type:               "form_event",
                      form_name:           formId,
-                     code:                crt
+                     code:                crt,
+                     sub_type:           "activate"
                  }
                  mm.processControlEvent(formEvent)
              }
@@ -2987,7 +2988,7 @@ ${eventMessage.code}
                         try {
                             await efcc()
                         } catch(  err  ) {
-                            //debugger
+                            debugger
                             alert(  "Error in " + eventMessage.form_name + ":" + eventMessage.control_name + ":" + eventMessage.sub_type + ":" + "\n" +
                                     "    " + JSON.stringify(err.message,null,2))
                         }
@@ -3017,8 +3018,7 @@ ${eventMessage.code}
                             await efcc()
                         } catch(  err  ) {
                             debugger
-                            alert(  "Error in " + this.model.active_form + "\n" +
-                                    "    Code: " + JSON.stringify(eventMessage.code,null,2) + "\n" +
+                            alert(  "Error in " +eventMessage.form_name + ":" + eventMessage.sub_type + "\n" +
                                     "    Error: " + JSON.stringify(err.message,null,2))
                         }
                     }
