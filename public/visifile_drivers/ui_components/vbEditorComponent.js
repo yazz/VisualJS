@@ -2989,8 +2989,14 @@ ${eventMessage.code}
                             await efcc()
                         } catch(  err  ) {
                             debugger
+                            var errValue = ""
+                            if (err.message) {
+                                errValue = err.message
+                            } else {
+                                errValue = err
+                            }
                             alert(  "Error in " + eventMessage.form_name + ":" + eventMessage.control_name + ":" + eventMessage.sub_type + ":" + "\n" +
-                                    "    " + JSON.stringify(err.message,null,2))
+                                    "    " + JSON.stringify(errValue,null,2))
                         }
 
                     }
@@ -3018,8 +3024,14 @@ ${eventMessage.code}
                             await efcc()
                         } catch(  err  ) {
                             debugger
+                            var errValue = ""
+                            if (err.message) {
+                                errValue = err.message
+                            } else {
+                                errValue = err
+                            }
                             alert(  "Error in " +eventMessage.form_name + ":" + eventMessage.sub_type + "\n" +
-                                    "    Error: " + JSON.stringify(err.message,null,2))
+                                    "    Error: " + JSON.stringify(errValue,null,2))
                         }
                     }
 
