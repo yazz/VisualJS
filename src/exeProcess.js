@@ -362,6 +362,21 @@ console.log(code)
     }, sqlite3.OPEN_READONLY)
 }
 
+process.on('uncaughtException', function (err) {
+  console.log("uncaughtException");
+  console.log(err);
+  process.send({  message_type:       "function_call_response" ,
+                  child_process_name:  childProcessName,
+                  driver_name:         currentDriver,
+                  method_name:         currentEvent,
+                  callback_index:      currentCallbackIndex,
+                  result:              {error: err},
+                  called_call_id:      currentCallId
+                  });
+})
+
+
+
 function isFrontEndOnlyCode(code) {
     if (code.indexOf("Vue.") != -1) { return true }
     if (code.indexOf("only_run_on_server(") != -1) { return false }
@@ -450,6 +465,10 @@ function saveCodeV2(baseComponentId, parentHash, code,options) {
                     options:             options
                     });
 }
+
+
+
+
 process.on('unhandledRejection', (reason) => {
 	console.log('REJECTION:::::: ', reason)
     dbsearch.serialize(function() {
@@ -471,6 +490,9 @@ process.on('unhandledRejection', (reason) => {
     })
     throw reason
 })
+
+
+
 process.on('exit', function(err) {
     shutdownExeProcess(err);
   });
