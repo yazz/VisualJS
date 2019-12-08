@@ -1,8 +1,8 @@
 
 # Yazz Pilot
-## Serverless Framework
+## Self Service apps without the IT department
 
-Pilot is a tool to create and run serverless web based tools or micro services using a Javascript based syntax. There is a demo at:
+Pilot is a tool to create and run internal web based tools or micro services. There is a demo at:
 https://yazz.com/app/homepage.html
 
 - Build apps in minutes with drag and drop interface and code business logic in Javascript
