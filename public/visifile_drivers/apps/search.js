@@ -25,7 +25,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxAQEBAREBI
                         ,
                         function(result) {
                           //  console.log("3) returned result: " + JSON.stringify(result,null,2))
-                            mm.msg =result.value
+                            mm.msg =result
                         })
 
         }

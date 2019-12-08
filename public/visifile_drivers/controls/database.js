@@ -50,8 +50,8 @@ logo_url("/driver_icons/database.png")
                                     method_name: "serverDatabaseStuff"  }
                                     ,{ })
 
-           if (result.value) {
-                //alert(result.value)
+           if (result) {
+                //alert(result)
 
            }
 

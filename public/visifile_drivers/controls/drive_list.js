@@ -66,8 +66,8 @@ logo_url("/driver_icons/drive_list.png")
                                     method_name: "serverDriveList"  }
                                     ,{ })
 
-           if (result.value) {
-                this.drives = result.value
+           if (result) {
+                this.drives = result
 
            }
            if (isValidObject(this.args)) {

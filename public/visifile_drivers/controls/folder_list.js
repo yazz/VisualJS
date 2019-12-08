@@ -120,8 +120,8 @@ logo_url("/driver_icons/folder_list.png")
                                              ,{ path: mm.args.path })
                      //alert(JSON.stringify(result,null,2))
 
-                    if (result.value) {
-                         this.drives = result.value
+                    if (result) {
+                         this.drives = result
 
                     }
                     if (isValidObject(this.args)) {

@@ -410,9 +410,9 @@ load_once_from_file(true)
                                         app_id:             editingAppId
                                      })
 
-           //alert(JSON.stringify(result.value,null,2))
-           if (result.value) {
-                this.outputText += JSON.stringify(   result.value  ,  null  ,  2   )
+           //alert(JSON.stringify(result,null,2))
+           if (result) {
+                this.outputText += JSON.stringify(   result  ,  null  ,  2   )
 
            }
 

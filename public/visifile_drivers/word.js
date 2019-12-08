@@ -238,7 +238,7 @@
             try {
                 mammoth.extractRawText({path: connection.fileName})
                     .then(function(result){
-                        var text = result.value; // The raw text
+                        var text = result; // The raw text
                         var messages = result.messages;
                         var many = text.split("\n")
 
@@ -286,7 +286,7 @@
                             try {
                                 mammoth.extractRawText({path: fileName})
                                     .then(function(result){
-                                        var text = result.value; // The raw text
+                                        var text = result; // The raw text
                                         var messages = result.messages;
                                         var many = text.split("\n")
 
@@ -345,7 +345,7 @@
 
                                         mammoth.convertToHtml({buffer: buffer})
                                         .then(function(result){
-                                            var html = result.value; // The generated HTML
+                                            var html = result; // The generated HTML
                                             var messages = result.messages; // Any messages, such as warnings during conversion
 
                                             returnFn({

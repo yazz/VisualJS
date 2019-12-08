@@ -838,11 +838,11 @@ logo_url("/driver_icons/data_window.png")
 
                    //alert("executeSql: " + JSON.stringify(result,null,2))
                    console.log(JSON.stringify(result,null,2))
-                   if (result.value) {
+                   if (result) {
                        this.tables = []
-                       //alert(JSON.stringify(result.value.value,null,2))
-                       for (var i=0;i<result.value.value.length;i++) {
-                           this.tables.push(result.value.value[i].name)
+                       //alert(JSON.stringify(result,null,2))
+                       for (var i=0;i<result.length;i++) {
+                           this.tables.push(result[i].name)
 
                        }
                    }
@@ -883,11 +883,11 @@ logo_url("/driver_icons/data_window.png")
 
                    //alert("executeSql: " + JSON.stringify(result,null,2))
                    console.log(JSON.stringify(result,null,2))
-                   if (result.value) {
+                   if (result) {
                        this.args.columns = []
-                       //alert(JSON.stringify(result.value.value,null,2))
-                       for (var i=0;i<result.value.value.length;i++) {
-                           this.args.columns.push(result.value.value[i].name)
+                       //alert(JSON.stringify(result,null,2))
+                       for (var i=0;i<result.length;i++) {
+                           this.args.columns.push(result[i].name)
 
                        }
                    }
@@ -927,10 +927,10 @@ logo_url("/driver_icons/data_window.png")
 
                    //alert("executeSql: " + JSON.stringify(result,null,2))
                    console.log(JSON.stringify(result,null,2))
-                   if (result.value) {
-                        this.args.result = result.value.result
+                   if (result) {
+                        this.args.result = result.result
 
-                        return result.value
+                        return result
                    }
 
 

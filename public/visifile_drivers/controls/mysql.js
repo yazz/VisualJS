@@ -145,10 +145,10 @@ logo_url("/driver_icons/mysql.png")
 
                    //alert("executeSql: " + JSON.stringify(result,null,2))
                    console.log(JSON.stringify(result,null,2))
-                   if (result.value) {
-                        this.args.result = result.value.result
+                   if (result) {
+                        this.args.result = result.result
 
-                        return result.value
+                        return result
                    }
 
 

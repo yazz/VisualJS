@@ -133,9 +133,9 @@ logo_url("/driver_icons/rhdata_grid.png")
                     port: this.args.port
                 })
 
-                //alert(JSON.stringify(result.value,null,2))
-                if (result.value) {
-                    return result.value
+                //alert(JSON.stringify(result,null,2))
+                if (result) {
+                    return result
                 }
                 return null
             }
