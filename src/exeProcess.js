@@ -363,16 +363,17 @@ console.log(code)
 }
 
 process.on('uncaughtException', function (err) {
-  console.log("uncaughtException");
-  console.log(err);
+  console.log("\n\n *****uncaughtException:");
+  console.log("    Err: " + err);
   process.send({  message_type:       "function_call_response" ,
                   child_process_name:  childProcessName,
                   driver_name:         currentDriver,
                   method_name:         currentEvent,
                   callback_index:      currentCallbackIndex,
-                  result:              {error: err},
+                  result:              {error: "" + err},
                   called_call_id:      currentCallId
                   });
+  inUseIndex --
 })
 
 
