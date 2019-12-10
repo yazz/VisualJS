@@ -1182,12 +1182,7 @@ ${methodFn}
                 }
                 var retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
 
-                if (isValidObject(retv) && isValidObject(retv.error)) {
-                    throw retv.error
-                }
-                if (isValidObject(retv) && isValidObject(retv.value)) {
-                    return retv.value
-                }
+
                 return retv
             }
 
@@ -1206,12 +1201,7 @@ ${formprop.fn}
 
                 fnDetails = eval(thecode)
                 var retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
-                if (isValidObject(retv) && isValidObject(retv.error)) {
-                    throw retv.error
-                }
-                if (isValidObject(retv) && isValidObject(retv.value)) {
-                    throw retv.value
-                }
+
                 return retv
             }
 
@@ -1231,12 +1221,7 @@ ${origCode}
                 fnDetails = eval(thecode)
                 var retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
 
-                if (isValidObject(retv) && isValidObject(retv.error)) {
-                    throw retv.error
-                }
-                if (isValidObject(retv) && isValidObject(retv.value)) {
-                    throw retv.value
-                }
+
                 return retv
             }
 
