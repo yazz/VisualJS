@@ -428,19 +428,24 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           },
           copyAndEditApp: async function(event,  baseComponentId ) {
               var mm = this
-              callDriverMethod( {driver_name: "copyApp",
-                                 method_name: "copyAppshareApp"}
-                                ,{base_component_id:    baseComponentId}
-                          ,
-                          async function(result) {
-                              await mm.addLogoForApp(result.base_component_id)
+              var result = await callApp(
+                                {
+                                    driver_name: "copyApp",
+                                    method_name: "copyAppshareApp"
+                                }
+                                ,
+                                {
+                                    base_component_id:    baseComponentId
+                                })
+                                
+              await mm.addLogoForApp(result.base_component_id)
 
-                              await mm.addApp(result.base_component_id)
-                              setTimeout(function() {
-                                    mm.editApp(event, result.base_component_id)
-                              },50)
+              await mm.addApp(result.base_component_id)
+              setTimeout(function() {
+                    mm.editApp(event, result.base_component_id)
+              },50)
 
-                          })
+
           },
 
 
