@@ -33,9 +33,9 @@ only_run_on_server(true)
                 console.log("Response: " + JSON.stringify(res,null,2));
                 console.log("Body: " + JSON.stringify(body,null,2));
                 try {
-                    returnFn({value: JSON.parse(body)})
+                    returnFn(JSON.parse(body))
                 } catch(err2) {
-                    returnFn({value: body})
+                    returnFn(body)
                 }
             }
         );
