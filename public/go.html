@@ -8860,7 +8860,7 @@ var dataIds = new Object()
 
 
             } else {
-                
+
                 var callbackFn = queuedResponses[data.seq_num]
                 callbackFn(data.value)
                 queuedResponses[data.seq_num] = null
@@ -9649,7 +9649,14 @@ async function callApp(findComponentArgs, args) {
         })
 
         var ret = await promise
+        if (ret.value) {
+            return ret.value
+        } else if (ret.error) {
+            throw ret.error 
+        }
+
         return ret
+
 }
 
 

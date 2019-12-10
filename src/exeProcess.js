@@ -301,7 +301,7 @@ console.log(code)
                                                         driver_name:         currentDriver,
                                                         method_name:         currentEvent,
                                                         callback_index:      currentCallbackIndex,
-                                                        result:              result,
+                                                        result:              {value: result},
                                                         called_call_id:      callId
                                                         });
                                         //console.log("*) Result process call ID: " + callId);
@@ -319,7 +319,7 @@ console.log(code)
                                                     driver_name:         currentDriver,
                                                     method_name:         currentEvent,
                                                     callback_index:      currentCallbackIndex,
-                                                    result:              result,
+                                                    result:              {value: result},
                                                     called_call_id:      callId
                                                     });
                                     //console.log("*) Result process call ID: " + callId);
