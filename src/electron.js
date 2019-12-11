@@ -565,10 +565,22 @@ function setUpChildListeners(processName, fileName, debugPort) {
                 })
                 var ret = await promise
 
-                res.writeHead(200, {'Content-Type': 'application/json'});
-                res.end(JSON.stringify(
-                    ret
-                ));
+                if (ret.value) {
+                    res.writeHead(200, {'Content-Type': 'application/json'});
+                    res.end(JSON.stringify(
+                        ret.value
+                    ));
+                } else if (ret.error) {
+                    res.writeHead(200, {'Content-Type': 'application/json'});
+                    res.end(JSON.stringify(
+                        {error: ret.error}
+                    ));
+                } else {
+                    res.writeHead(200, {'Content-Type': 'application/json'});
+                    res.end(JSON.stringify(
+                        {error: "Unknown problem occurred"}
+                    ));
+                }
             }
 
             // end of function def for newFunction
