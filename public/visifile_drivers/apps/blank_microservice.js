@@ -8,6 +8,7 @@ rest_api("change_this_url")
 logo_url("/driver_icons/rest.png")
 */
     console.log("Hello World")
-    return args
+    //return args
+    return {a: 1, b: 2, c: "Hello Pilot!"}
 
 }
