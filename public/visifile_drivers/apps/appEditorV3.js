@@ -665,7 +665,7 @@ load_once_from_file(true)
                 //zzz
                 callAjax(newrestUrl,
         				function(response) {
-                            mm.rest_api_return_value = response
+                            mm.rest_api_return_value = JSON.stringify(JSON.parse(response),null,2)
                         })
                     mm.rest_api_return_value = newrestUrl
 
