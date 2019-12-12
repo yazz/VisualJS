@@ -75,7 +75,19 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                               Pilot
                          </div>
                     </div>
+
+
+
+
+
             </div>
+            <a      href="https://yazz.com"
+                    target=new
+                    v-bind:refresh='refresh'
+                    style="border:0px; padding: 0px; margin: 0px;padding-left:15px;font-family: Helvetica;color: darkgray;font-weight: bold;letter-spacing: 0px;font-size: 15px;line-height: 1;display: inline-block;top:5px;position:absolute;right:0px;">
+                 Supported by Yazz.com
+            </a>
+
 
         <h1 style='vertical-align:top;display:inline-block;font-size:100px; text-align: center;margin: 0px;padding-left:70px;'>
 
@@ -437,7 +449,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                 {
                                     base_component_id:    baseComponentId
                                 })
-                                
+
               await mm.addLogoForApp(result.base_component_id)
 
               await mm.addApp(result.base_component_id)
