@@ -12,7 +12,9 @@ https://yazz.com/app/homepage.html
 - Runs locally on Mac, Windows, Linux, Raspberry PI using NodeJS
 - Can be run as a Snap Package on Linux
 
-
+<br/><br/><br/>
+## Join our Slack group
+https://yazz-workspace.slack.com
 
 <br/><br/><br/>
 ## Quick examples 
