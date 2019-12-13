@@ -7,7 +7,7 @@ visibility("PRIVATE")
 rest_api("change_this_url")
 logo_url("/driver_icons/rest.png")
 */
-    console.log("Hello World")
+    console.log("This is console.log output for a Microservice")
     //return args
     return {a: 1, b: 2, c: "Hello Pilot!"}
 
