@@ -89,7 +89,7 @@ var userData = null
 
 var port;
 var hostaddress;
-hostaddress = ip.address();
+hostaddress = "0.0.0.0"//ip.address();
 port = 80
 var f = 0
 var started = false
@@ -1768,7 +1768,7 @@ function sendToBrowserViaWebSocket(aws, msg) {
 
 
 function isLocalMachine(req) {
-    if ((req.ip == '127.0.0.1') || (hostaddress == req.ip)) {  // this is the correct line to use
+    if ((req.ip == '127.0.0.1') || (hostaddress == req.ip) || (hostaddress == "0.0.0.0")) {  // this is the correct line to use
     //if (req.ip == '127.0.0.1')  {      // this is used for debugging only so that we can deny access from the local machine
         return true;
     };
