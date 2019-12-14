@@ -434,8 +434,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               if (results2.length > 0) {
                 var code  = results2[0].code
                 //alert(code)
-                var restApi = saveHelper.getValueOfCodeString(code, "rest_api")
-                if (restApi) {
+                var rest_api_base_url = saveHelper.getValueOfCodeString(code, "rest_api")
+                if (rest_api_base_url) {
+                    window.open(location.protocol + "//" + location.hostname + ":" + location.port + "/" + rest_api_base_url, appId)
                 } else {
                     window.open(location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + appId + ".html", appId)
                 }
