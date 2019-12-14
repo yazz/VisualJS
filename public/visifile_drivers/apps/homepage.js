@@ -388,6 +388,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                FROM
                            system_code
                                where
+                                   code_tag = 'LATEST'
+                                       and
                                    base_component_id = '${appId}'; `
 
              var results2 = await callApp(
@@ -419,6 +421,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                FROM
                            system_code
                                where
+                                   code_tag = 'LATEST'
+                                       and
                                    base_component_id = '${appId}'; `
 
              var results2 = await callApp(
