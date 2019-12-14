@@ -218,7 +218,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                                     <button style='position:absolute;top:250px;left:20px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
                                             class='btn btn-dark btn-sm'
-                                            v-on:click='window.location.href=location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + item.data.id + ".html"'>
+                                            v-on:click='window.open(location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + item.data.id + ".html", item.data.id)'>
                                             <img    src='/driver_icons/play.png'
                                                     style='position:relative;max-width: 40px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
                                                     >
