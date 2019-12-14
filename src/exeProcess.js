@@ -288,7 +288,7 @@ function executeCode(callId, codeId, args, on_condition,  base_component_id) {
 
 
                             } else { // front and backend code
-console.log(code)
+//console.log(code)
                                 var fnfn = eval("(" + code + ")")
                                 if (code.indexOf("async ") != -1) {
                                     //console.log(    "    async code:" + code)

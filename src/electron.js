@@ -1633,7 +1633,7 @@ console.log("loadjscode ...")
              console.log("baseComponentIdForFile:" + baseComponentIdForCode);
          }
 
-         console.log("code:" + data2);
+         //console.log("code:" + data2);
          console.log("*********** Trying to load loadjscode code *************")
          forkedProcesses["forked"].send({
                                              message_type:        "save_code",
@@ -2404,9 +2404,9 @@ function file_uploadSingleFn(req, res) {
             indexStart += 13 + 10
             indexEnd -= 2
             var tts = readIn.substring(indexStart,indexEnd)
-            console.log(tts)
+            //console.log(tts)
             var ytr = unescape(tts)
-            console.log("SENDINF FROM UPLAOD___=+++****")
+            console.log("SENDING FROM UPLOAD___=+++****")
             var bci = saveHelper.getValueOfCodeString(ytr, "base_component_id")
 
             var indexStart = readIn.indexOf("/*APP_START*/")
@@ -2508,7 +2508,7 @@ function file_uploadFn(req, res, next) {
                 indexStart += 13 + 10
                 indexEnd -= 2
                 var tts = readIn.substring(indexStart,indexEnd)
-                console.log(tts)
+                //console.log(tts)
                 var ytr = unescape(tts)
                 console.log("SENDINF FROM UPLAOD___=+++****")
                 var bci = saveHelper.getValueOfCodeString(ytr, "base_component_id")
@@ -2694,12 +2694,12 @@ function keycloakProtector(params) {
                             //console.log("Code : " + fileC)
 
                             var sscode = saveHelper.getValueOfCodeString(fileC,"keycloak",")//keycloak")
-                            console.log("sscode:" + sscode)
+                            //console.log("sscode:" + sscode)
 
 
                             if (sscode) {
                                 //var ssval = eval( "(" + sscode + ")")
-                                console.log("keycloak: " + JSON.stringify(sscode,null,2))
+                                //console.log("keycloak: " + JSON.stringify(sscode,null,2))
 
                                 keycloak.protect()(req, res, next)
 
@@ -2837,12 +2837,12 @@ function startServices() {
         var parts = req.path.split('/');
         var appHtmlFile = parts.pop() || parts.pop();
 
-        console.log("appHtemlFile: " + appHtmlFile);
+        //console.log("appHtemlFile: " + appHtmlFile);
 
         var appName = appHtmlFile.split('.').slice(0, -1).join('.')
-        console.log("appName: " + appName);
+        //console.log("appName: " + appName);
 
-         console.log("path: " + path);
+         //console.log("path: " + path);
 
          var appFilePath = path.join(userData, 'apps/' + appHtmlFile)
          var fileC2 = fs.readFileSync(appFilePath, 'utf8').toString()

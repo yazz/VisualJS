@@ -793,8 +793,8 @@ await evalLocalSystemDriver('mysql_client_component', path.join(__dirname, '../p
     var extraFns = fs.readFileSync( path.join(__dirname, '../src/extraFns.js') ).toString()
     if (showDebug) {
         console.log("Extra functions code:" )
-        console.log( extraFns )
-        console.log("." )
+        //console.log( extraFns )
+        //console.log("." )
     } else {
         process.stdout.write(".");
     }
