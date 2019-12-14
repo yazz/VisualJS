@@ -8685,7 +8685,9 @@ function setupWebSocket(host, port)
         for (var i=0; i< allEnvVarNames.length;i++) {
                 var valueEnvVar = data.value[allEnvVarNames[i]]
                 var cmddd = "($" + allEnvVarNames[i] + " = '" + valueEnvVar + "')"
-                console.log(cmddd)
+                if (mainMoonApp.is_gui_app) {
+                    console.log(cmddd)
+                }
                 eval(cmddd)
         }
     });
