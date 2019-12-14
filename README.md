@@ -1,8 +1,9 @@
 
 # Yazz Pilot
-As seen on the front page of Hacker News for 2 days!<br/>
+As seen on Hacker News!<br/>
 https://news.ycombinator.com/item?id=21734845
 
+<br/><br/><br/>
 ## Self Service apps without the IT department
 
 
