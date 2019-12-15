@@ -13,6 +13,7 @@ var db_helper                   = require("./db_helper")
 var https                       = require('https');
 var http                        = require('http');
 var request                     = require('request');
+var xml2js                      = require('xml2js')
 var userData
 var childProcessName
 

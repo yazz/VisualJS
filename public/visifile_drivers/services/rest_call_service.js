@@ -35,7 +35,18 @@ only_run_on_server(true)
                 try {
                     returnFn(JSON.parse(body))
                 } catch(err2) {
-                    returnFn(body)
+                    console.log("Started timer")
+                    var startTime = new Date().getMilliseconds()
+                    xml2js.parseString(
+                                body,
+                                {trim: true},
+                                function (err, result) {
+                                    var endTime = new Date().getMilliseconds()
+                                    var totalTime = endTime - startTime
+                                    console.log("Took: " + totalTime + " ms")
+                                    returnFn(result)
+                                });
+
                 }
             }
         );
