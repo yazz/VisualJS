@@ -1,6 +1,23 @@
 
 # Yazz Pilot
+We had a fun few days this week when Yazz Pilot got to the front page of Hacker News and stayed there for a couple of days:
+
+https://news.ycombinator.com/item?id=21734845
+
+I have been working on Pilot on and off for many years now. The tool is supposed to be a Visual basic style drag and drop GUI builder for enterprise apps. the interesting part of the backstory is that this is my 7th attempt to build this!
+
+I first thought about building a web based development tool since I was at University where I built a Hypercard style development tool called OpenPage (using C++ on Solaris) as my Computer Science project which scored as one of the highest projects of the year at Manchester University, UK (1994). My beginners confidence didn't carry on into anything concrete though, until 2000, when I wrote the second version in Java, but this didn't go anywhere. For a third version I tried to develop this in Javascript, Ruby and Sintra in 2007, but I didn't realise how difficult a problem this was. Also, in 2008 a fourth attempt was made where I tried again in Erlang, but it didn't go anywhere. So I hung up my boots and then in 2013 after building a startup NemCV with Franco Soldera I tried a fifth time and built a Clojure/Clojurescript based tool called Clojure on Coils, which was pretty cool, but most people thought it was a joke (There is a video somewhere online with people joking about it). Eventually after a couple of years I realised that I didn't understand the problem well enough, so for attempt six decided to outsource the problem by investing in a project by Chris Granger and Rob Attori, called LightTable/Eve. They tried to solve the problem of building a usable development system, but by 2018, they too realised that this was a huge task, and very hard to monetise (Chris Granger then moved to Looker which was Acquired by Google).
+
+So, I took a step back and realised that I now had a lot of knowledge about the subject, but needed to find a way to build something that can be commercially viable as an entry point, as this is a problem that 10,000s of companies have tackled and failed at (since the 1980s - just pick up a 1980s edition of Personal Computer to see many companies attempting the same thing). So I am now taking baby steps with a seventh attempt, by building a tool for enterprise users to build small webapps which can integrate with other systems, based on the look and feel of one of my favorite products of all time, Visual Basic 6. The product is called Pilot, and has a simple VB style editor, and allows you to build GUI apps, and microservices. It uses a simple component model based on 1 Javascript function per component, for both server side and front end components. It uses NodeJS, SQLite, and VueJS. It used to run as an Electron dekstop app but the I decided to dump Electron once I made Pilot container native so that it can run on Docker, Kubernetes, OpenShift, and Ubuntu Snap, as Electron would make the container runtimes too large. So the big focus now is to make alot of integrations so that people who work in large enterprises can build a GUI really fast on top of 3Scale, Mulesoft, Kong, Rest APIs, Postgres or other enterprise stuff.
+
+There have been many people involved in this project and I give my thanks to them, since they have written alot of the code. Unfortunately I am the only person who is happy to put my name to the commits as I have a very forward thinking employer, Red Hat, although there have been major contributors from Google and Microsoft as well. Also, I must stress that this project and the views of myself and other team members in no way represents the views of our employers at Red Hat, Google, or Microsoft.
+
+The project is still very rough around the edges, but please feel free to reach out to me on the Slack channel (link at the botto of the readme) for any questions that you may have.
+
+
+<br/><br/><br/>
 ## Self Service apps without the IT department
+
 
 Pilot is a tool to create and run internal web based tools or micro services. There is a demo at:
 https://yazz.com/app/homepage.html
@@ -191,4 +208,7 @@ Finall browse to the following URL in your browser to see the microservice runni
 Pilot's killer feature is being able to Simple applications in minutes, without having to setup Jenkins pipelines, Git, or anything else. It is ideal for demos or small throwaway apps.
 
 #### Is there commercial support for Pilot?
-If you require commercial support then please go to http://yazz.com
+If you require commercial support then please go to https://yazz.com
+
+#### Is there community for Pilot?
+You can be the first to join us here http://yazz-workspace.slack.com
