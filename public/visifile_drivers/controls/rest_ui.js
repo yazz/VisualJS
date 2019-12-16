@@ -17,6 +17,15 @@ properties(
             type:       "String"
         }
         ,
+
+        {
+            id:         "has_details_ui",
+            name:       "Has details UI?",
+            type:       "Boolean",
+            default:    true,
+            hidden:     true
+        }
+        ,
         {
             id:         "width",
             name:       "Width",
