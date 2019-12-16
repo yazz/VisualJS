@@ -85,6 +85,17 @@ logo_url("/driver_icons/rest.png")
     <div v-bind:style='"height:100%;width:100%; border: 0px;color:black;padding: 10px;"'
          v-if='design_mode == "detail_editor"'>
         {{args.text}}
+        <div/>
+        <button    class="btn btn-primary"
+                   v-on:click="testDefaultRestApi()">
+
+              Call API
+
+        </button>
+
+        <div/>
+        {{args.URL}}
+        {{tempResult}}
     </div>
 
     <div    v-else
@@ -93,7 +104,7 @@ logo_url("/driver_icons/rest.png")
     <div    v-if='design_mode'>
            {{args.text}}
            <div/>
-           {{args.URL}}
+           <pre>{{args.URL}}</pre>
     </div>
 
         <div style="position:absolute;top:0px">
@@ -107,6 +118,7 @@ logo_url("/driver_icons/rest.png")
 
         data: function() {
             return {
+                    tempResult: "temp"
             }
         }
 
@@ -158,6 +170,10 @@ logo_url("/driver_icons/rest.png")
                 }
                 var qwe = await this.callRestApiInternal()
                 return qwe
+            }
+            ,
+            testDefaultRestApi: async function(urlToCall) {
+                alert(88)
             }
 
         }
