@@ -32,6 +32,14 @@ properties(
         }
         ,
         {
+            id:             "callDefaultRestApi",
+            pre_snippet:    `await `,
+            snippet:        `callDefaultRestApi()`,
+            name:           "Execute Command",
+            type:           "Action"
+        }
+        ,
+        {
             id:         "callRestApi",
             pre_snippet:    `await `,
             snippet:    `callRestApi("http://INSERT_URL_HERE")`,
@@ -112,6 +120,14 @@ logo_url("/driver_icons/rest.png")
                     return result
                 }
                 return null
+            }
+            ,
+
+
+            callDefaultRestApi: async function() {
+
+                var qwe = await this.callRestApiInternal()
+                return qwe
             }
             ,
 
