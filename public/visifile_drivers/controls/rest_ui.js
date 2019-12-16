@@ -29,14 +29,14 @@ properties(
         {
             id:         "width",
             name:       "Width",
-            default:    140,
+            default:    180,
             type:       "Number"
         }
         ,
         {
             id:         "height",
             name:       "Height",
-            default:    40,
+            default:    70,
             type:       "Number"
         }
         ,
@@ -82,11 +82,20 @@ logo_url("/driver_icons/rest.png")
 `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
     "background-color: "+    args["background_color"]  +  ";"'>
 
-    <div v-if="design_mode">
+    <div v-bind:style='"height:100%;width:100%; border: 0px;color:black;padding: 10px;"'
+         v-if='design_mode == "detail_editor"'>
         {{args.text}}
     </div>
 
-    <div v-bind:style='"position:relative;width:100%;height:100%;border: 0px solid gray;background-color: "+    args["background_color"]  +  ";"'>
+    <div    v-else
+            v-bind:style='"position:relative;width:100%;height:100%;border: 0px solid gray;background-color: "+    args["background_color"]  +  ";"'>
+
+    <div    v-if='design_mode'>
+           {{args.text}}
+           <div/>
+           {{args.URL}}
+    </div>
+
         <div style="position:absolute;top:0px">
             <slot v-bind:refresh='refresh'>
             </slot>
