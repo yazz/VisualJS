@@ -94,8 +94,9 @@ logo_url("/driver_icons/rest.png")
         </button>
 
         <div/>
-        {{args.URL}}
-        {{tempResult}}
+        <pre>{{args.URL}}</pre>
+        <div/>
+        <pre>{{tempResult}}</pre>
     </div>
 
     <div    v-else
@@ -118,7 +119,7 @@ logo_url("/driver_icons/rest.png")
 
         data: function() {
             return {
-                    tempResult: "temp"
+                    tempResult: ""
             }
         }
 
@@ -173,7 +174,8 @@ logo_url("/driver_icons/rest.png")
             }
             ,
             testDefaultRestApi: async function(urlToCall) {
-                alert(88)
+                var rrr = await this.callDefaultRestApi()
+                this.tempResult = rrr
             }
 
         }
