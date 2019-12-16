@@ -94,9 +94,11 @@ logo_url("/driver_icons/rest.png")
         </button>
 
         <div/>
-        <pre>{{args.URL}}</pre>
-        <div/>
-        <pre>{{tempResult}}</pre>
+        <div style="height:100%;width:500px; border: 0px;color:black;padding: 10px;scroll:auto;">
+            <pre>{{args.URL}}</pre>
+            <div/>
+            <pre>{{tempResult}}</pre>
+        </div>
     </div>
 
     <div    v-else
