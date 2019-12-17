@@ -191,7 +191,7 @@ function main() {
 
     findJsonPaths(  [], a)
     debugger
-    console.log(JSON.stringify(allPaths,null,2))
+    console.log(JSON.stringify(Object.keys(allPaths),null,2))
 }
 
 main()
