@@ -264,6 +264,7 @@ function findJsonPaths(currentPath,jsonNode) {
             }
             ,
             testDefaultRestApi: async function(urlToCall) {
+                allPaths = new Object()
                 var rrr = await this.callDefaultRestApi()
                 this.tempResult = rrr
                 findJsonPaths(  [], rrr)
