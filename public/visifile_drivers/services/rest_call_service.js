@@ -39,7 +39,10 @@ only_run_on_server(true)
                     var startTime = new Date().getMilliseconds()
                     xml2js.parseString(
                                 body,
-                                {trim: true},
+                                {
+                                    trim:           true,
+                                    explicitArray:  false
+                                },
                                 function (err, result) {
                                     var endTime = new Date().getMilliseconds()
                                     var totalTime = endTime - startTime
