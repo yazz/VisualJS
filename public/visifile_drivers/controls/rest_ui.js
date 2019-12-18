@@ -133,14 +133,16 @@ function isMap(o) {
         </button>
 
         <div/>
-        <div style="height:100%;width:500px; border: 0px;color:black;padding: 10px;scroll:auto;">
+        <div style="height:100%;width:500px; border: 0px;color:black;padding: 10px;overflow:scroll;">
             <pre>{{args.URL}}</pre>
             <div/>
 
-            <pre v-for="jsonPath in jsonPaths" >
-                <div/>{{jsonPath}}
-            </pre>
-            
+            <div  style="height:200px;width:100%; border: 0px;color:black;padding: 10px;overflow:scroll;">
+                <div v-for="jsonPath in jsonPaths" >
+                   {{jsonPath}}
+                </div>
+            </div>
+
             <div/>
             <pre>{{tempResult}}</pre>
         </div>
