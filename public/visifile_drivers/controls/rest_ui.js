@@ -109,6 +109,18 @@ function isMap(o) {
 `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
     "background-color: "+    args["background_color"]  +  ";"'>
 
+
+
+
+
+
+<!-- ------------------------------------------------------------------------------------------
+
+                                      Details screen
+
+
+
+-------------------------------------------------------------------------------------------->
     <div v-bind:style='"height:100%;width:100%; border: 0px;color:black;padding: 10px;"'
          v-if='design_mode == "detail_editor"'>
         {{args.text}}
@@ -124,9 +136,23 @@ function isMap(o) {
         <div style="height:100%;width:500px; border: 0px;color:black;padding: 10px;scroll:auto;">
             <pre>{{args.URL}}</pre>
             <div/>
+
+            <pre v-for="jsonPath in jsonPaths" >
+                <div/>{{jsonPath}}
+            </pre>
+            
+            <div/>
             <pre>{{tempResult}}</pre>
         </div>
     </div>
+
+
+
+
+
+
+
+
 
     <div    v-else
             v-bind:style='"position:relative;width:100%;height:100%;border: 0px solid gray;background-color: "+    args["background_color"]  +  ";"'>
@@ -149,7 +175,8 @@ function isMap(o) {
         data: function() {
             return {
                     tempResult: "",
-                    allPaths:    new Object()
+                    allPaths:    new Object(),
+                    jsonPaths:   []
             }
         }
 
@@ -208,7 +235,8 @@ function isMap(o) {
                 var rrr = await this.callDefaultRestApi()
                 this.tempResult = rrr
                 this.findJsonPaths(  [], rrr)
-                alert(JSON.stringify(Object.keys(this.allPaths),null,2))
+                //alert(JSON.stringify(Object.keys(this.allPaths),null,2))
+                this.jsonPaths = Object.keys(this.allPaths)
             }
             ,
 
