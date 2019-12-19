@@ -281,6 +281,8 @@ function isMap(o) {
             }
             ,
             filterJsonPaths: function (currentPath,jsonNode) {
+                this.filteredJson = jsonNode
+
                 if (Array.isArray(jsonNode)) {
                     //console.log("Found node: " )
                     for (var k = 0 ; k < jsonNode.length ; k++) {
