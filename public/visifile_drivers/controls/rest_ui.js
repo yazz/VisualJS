@@ -238,16 +238,33 @@ function isMap(o) {
                 return qwe
             }
             ,
+
+
+
+
+
+
             testDefaultRestApi: async function(urlToCall) {
-                this.allPaths = new Object()
-                var rrr = await this.callDefaultRestApi()
-                this.tempResult = rrr
+
+                this.allPaths     = new Object()
+                this.filteredJson = new Object()
+                var rrr           = await this.callDefaultRestApi()
+                this.tempResult   = rrr
+
                 this.findJsonPaths(  [], rrr)
-                this.filterJsonPaths(  [], rrr)
                 //alert(JSON.stringify(Object.keys(this.allPaths),null,2))
                 this.jsonPaths = Object.keys(this.allPaths)
+
+                this.filterJsonPaths(  [], rrr)
+
             }
             ,
+
+
+
+
+
+
 
             addToPaths: function(path) {
 
@@ -264,6 +281,35 @@ function isMap(o) {
             }
             ,
             filterJsonPaths: function (currentPath,jsonNode) {
+                if (Array.isArray(jsonNode)) {
+                    //console.log("Found node: " )
+                    for (var k = 0 ; k < jsonNode.length ; k++) {
+
+                        //console.log("Key: " + k)
+                        var newPath = currentPath.concat(["[]"])
+                        this.filterJsonPaths( newPath, jsonNode[k])
+                    }
+
+                }  else if (isMap(jsonNode)) {
+                    var keys = Object.keys(jsonNode)
+                    //console.log("Found map:.. " + keys.length)
+                    for (var k = 0 ; k < keys.length ; k++) {
+
+                        //console.log("Key: " + keys[k])
+                        var newPath = currentPath.concat([keys[k]])
+
+                        this.filterJsonPaths( newPath, jsonNode[keys[k]])
+                    }
+
+
+                }  else if (typeof jsonNode === 'object') {
+                    //console.log("Found object: " )
+
+
+
+                } else {
+                    //console.log("Found other: " + JSON.stringify(jsonNode,null,2))
+                }
             }
             ,
             findJsonPaths: function (currentPath,jsonNode) {
