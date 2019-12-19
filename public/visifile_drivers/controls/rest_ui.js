@@ -143,7 +143,12 @@ function isMap(o) {
                 </div>
             </div>
 
-            <div/>
+
+            <div>Filtered Result</div>
+            <pre>{{filteredJson}}</pre>
+
+
+            <div>Result</div>
             <pre>{{tempResult}}</pre>
         </div>
     </div>
@@ -178,7 +183,8 @@ function isMap(o) {
             return {
                     tempResult: "",
                     allPaths:    new Object(),
-                    jsonPaths:   []
+                    jsonPaths:   [],
+                    filteredJson: new Object()
             }
         }
 
