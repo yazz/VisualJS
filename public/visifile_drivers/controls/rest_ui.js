@@ -237,6 +237,7 @@ function isMap(o) {
                 var rrr = await this.callDefaultRestApi()
                 this.tempResult = rrr
                 this.findJsonPaths(  [], rrr)
+                this.filterJsonPaths(  [], rrr)
                 //alert(JSON.stringify(Object.keys(this.allPaths),null,2))
                 this.jsonPaths = Object.keys(this.allPaths)
             }
@@ -254,6 +255,9 @@ function isMap(o) {
                 }
 
                 this.allPaths[cpath].count ++
+            }
+            ,
+            filterJsonPaths: function (currentPath,jsonNode) {
             }
             ,
             findJsonPaths: function (currentPath,jsonNode) {
