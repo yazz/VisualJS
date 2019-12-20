@@ -261,7 +261,9 @@ function isMap(o) {
                 //alert(JSON.stringify(Object.keys(this.allPaths),null,2))
                 this.jsonPaths = Object.keys(this.allPaths)
 
+                debugger
                 this.filterJsonPaths(  this.filteredJson, [], rrr)
+                debugger
 
             }
             ,
@@ -287,28 +289,33 @@ function isMap(o) {
             }
             ,
             filterJsonPaths: function (jsonCurrentNode, currentPath,jsonNode) {
-                debugger
+
+                console.log("currentPath: " + JSON.stringify(currentPath,null,2))
 
                 if (Array.isArray(jsonNode)) {
+                    //debugger
                     //console.log("Found node: " )
                     jsonCurrentNode = []
                     for (var k = 0 ; k < jsonNode.length ; k++) {
 
-                        //console.log("Key: " + k)
+                        console.log("filteredJson: " + JSON.stringify(this.filteredJson,null,2))
                         var newPath = currentPath.concat(["[]"])
                         this.filterJsonPaths( jsonCurrentNode, newPath, jsonNode[k])
                     }
 
                 }  else if (isMap(jsonNode)) {
+                    //debugger
                     jsonCurrentNode = new Object()
                     var keys = Object.keys(jsonNode)
                     //console.log("Found map:.. " + keys.length)
                     for (var k = 0 ; k < keys.length ; k++) {
+                        jsonCurrentNode[k] = new Object()
 
                         //console.log("Key: " + keys[k])
                         var newPath = currentPath.concat([keys[k]])
+                        console.log("filteredJson: " + JSON.stringify(this.filteredJson,null,2))
 
-                        this.filterJsonPaths( jsonCurrentNode,newPath, jsonNode[keys[k]])
+                        this.filterJsonPaths( jsonCurrentNode[k],newPath, jsonNode[keys[k]])
                     }
 
 
