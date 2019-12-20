@@ -261,9 +261,9 @@ function isMap(o) {
                 //alert(JSON.stringify(Object.keys(this.allPaths),null,2))
                 this.jsonPaths = Object.keys(this.allPaths)
 
-                debugger
+                //debugger
                 this.filterJsonPaths( [], rrr)
-                debugger
+                //debugger
 
             }
             ,
@@ -289,9 +289,23 @@ function isMap(o) {
             }
             ,
             writeToFilteredJson(  currentPath  ,  value  ) {
-                //this.filteredJson
+                //
+                var currentPos = this.filteredJson
+                for (  var rr = 0  ;  rr < currentPath.length  ;  rr++  ) {
+
+                }
+                currentPos[value] = null 
             }
             ,
+
+
+
+
+
+
+
+
+
             filterJsonPaths: function (currentPath,jsonNode) {
 
                 console.log("currentPath: " + JSON.stringify(currentPath,null,2))
@@ -319,6 +333,7 @@ function isMap(o) {
                         var newPath = currentPath.concat([keys[k]])
                         console.log("filteredJson: " + JSON.stringify(this.filteredJson,null,2))
 
+                        this.filterJsonPaths( newPath, jsonNode[keys[k]])
                         this.writeToFilteredJson(newPath, jsonNode[keys[k]])
                     }
 
@@ -333,6 +348,15 @@ function isMap(o) {
                 }
             }
             ,
+
+
+
+
+
+
+
+
+
             findJsonPaths: function (currentPath,jsonNode) {
                 this.addToPaths(currentPath)
 
