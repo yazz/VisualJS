@@ -133,22 +133,28 @@ function isMap(o) {
         </button>
 
         <div/>
+
+
+
+
         <div style="height:100%;width:500px; border: 0px;color:black;padding: 10px;overflow:scroll;">
             <pre>{{args.URL}}</pre>
             <div/>
 
+            <div style="font-weight: bold;">List of Paths</div>
             <div  style="height:200px;width:100%; border: 0px;color:black;padding: 10px;overflow:scroll;">
                 <div v-for="jsonPath in jsonPaths" >
                    {{jsonPath}}
                 </div>
             </div>
+            <div style="height: 25px;"></div>
 
 
-            <div>Filtered Result</div>
+            <div style="font-weight: bold;">Filtered Result</div>
             <pre>{{filteredJson}}</pre>
 
 
-            <div>Result</div>
+            <div style="font-weight: bold;">Result</div>
             <pre>{{tempResult}}</pre>
         </div>
     </div>
@@ -255,7 +261,7 @@ function isMap(o) {
                 //alert(JSON.stringify(Object.keys(this.allPaths),null,2))
                 this.jsonPaths = Object.keys(this.allPaths)
 
-                this.filterJsonPaths(  [], rrr)
+                this.filterJsonPaths(  this.filteredJson, [], rrr)
 
             }
             ,
@@ -280,19 +286,21 @@ function isMap(o) {
                 this.allPaths[cpath].count ++
             }
             ,
-            filterJsonPaths: function (currentPath,jsonNode) {
-                this.filteredJson = jsonNode
+            filterJsonPaths: function (jsonCurrentNode, currentPath,jsonNode) {
+                debugger
 
                 if (Array.isArray(jsonNode)) {
                     //console.log("Found node: " )
+                    jsonCurrentNode = []
                     for (var k = 0 ; k < jsonNode.length ; k++) {
 
                         //console.log("Key: " + k)
                         var newPath = currentPath.concat(["[]"])
-                        this.filterJsonPaths( newPath, jsonNode[k])
+                        this.filterJsonPaths( jsonCurrentNode, newPath, jsonNode[k])
                     }
 
                 }  else if (isMap(jsonNode)) {
+                    jsonCurrentNode = new Object()
                     var keys = Object.keys(jsonNode)
                     //console.log("Found map:.. " + keys.length)
                     for (var k = 0 ; k < keys.length ; k++) {
@@ -300,7 +308,7 @@ function isMap(o) {
                         //console.log("Key: " + keys[k])
                         var newPath = currentPath.concat([keys[k]])
 
-                        this.filterJsonPaths( newPath, jsonNode[keys[k]])
+                        this.filterJsonPaths( jsonCurrentNode,newPath, jsonNode[keys[k]])
                     }
 
 
