@@ -261,6 +261,8 @@ function isMap(o) {
                 //alert(JSON.stringify(Object.keys(this.allPaths),null,2))
                 this.jsonPaths = Object.keys(this.allPaths)
 
+                this.filteredJson.value = new Object()
+
                 //debugger
                 this.filterJsonPaths( [], rrr)
                 //debugger
@@ -290,11 +292,13 @@ function isMap(o) {
             ,
             writeToFilteredJson(  currentPath  ,  value  ) {
                 //
-                var currentPos = this.filteredJson
+                console.log("writeToFilteredJson: " + JSON.stringify(currentPath,null,2) + " , " +  JSON.stringify(value,null,2) )
+                var currentPos = this.filteredJson.value
                 for (  var rr = 0  ;  rr < currentPath.length  ;  rr++  ) {
 
                 }
-                currentPos[value] = null 
+                currentPos[value] = null
+                console.log("filteredJson: " + JSON.stringify(this.filteredJson,null,2))
             }
             ,
 
@@ -308,7 +312,6 @@ function isMap(o) {
 
             filterJsonPaths: function (currentPath,jsonNode) {
 
-                console.log("currentPath: " + JSON.stringify(currentPath,null,2))
 
                 if (Array.isArray(jsonNode)) {
                     //debugger
@@ -316,7 +319,6 @@ function isMap(o) {
                     this.writeToFilteredJson(currentPath, [])
                     for (var k = 0 ; k < jsonNode.length ; k++) {
 
-                        console.log("filteredJson: " + JSON.stringify(this.filteredJson,null,2))
                         var newPath = currentPath.concat(["[]"])
                         this.filterJsonPaths( newPath, jsonNode[k])
                         this.writeToFilteredJson(newPath, jsonNode[k])
@@ -324,14 +326,13 @@ function isMap(o) {
 
                 }  else if (isMap(jsonNode)) {
                     //debugger
-                    this.writeToFilteredJson(currentPath, jsonNode[k])
+                    this.writeToFilteredJson(currentPath, {})
                     var keys = Object.keys(jsonNode)
                     //console.log("Found map:.. " + keys.length)
                     for (var k = 0 ; k < keys.length ; k++) {
 
                         //console.log("Key: " + keys[k])
                         var newPath = currentPath.concat([keys[k]])
-                        console.log("filteredJson: " + JSON.stringify(this.filteredJson,null,2))
 
                         this.filterJsonPaths( newPath, jsonNode[keys[k]])
                         this.writeToFilteredJson(newPath, jsonNode[keys[k]])
