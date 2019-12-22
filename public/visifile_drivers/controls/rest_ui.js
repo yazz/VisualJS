@@ -292,12 +292,22 @@ function isMap(o) {
             ,
             writeToFilteredJson(  currentPath  ,  type, value  ) {
                 //
-                console.log("writeToFilteredJson: " + JSON.stringify(currentPath,null,2) + " , " +  JSON.stringify(value,null,2) )
+                console.log("writeToFilteredJson: "  )
+                console.log("            currentPath:  " + JSON.stringify(currentPath,null,2) )
+                console.log("            type:        " + JSON.stringify(type,null,2) )
+                console.log("            value:       " + JSON.stringify(value,null,2) )
+
                 var currentPos = this.filteredJson.value
                 for (  var rr = 0  ;  rr < currentPath.length  ;  rr++  ) {
 
                 }
-                currentPos[value] = null
+                if (type == "Map") {
+                    currentPos[value] = new Object()
+                } else if (type == "Array") {
+                    currentPos[value] = []
+                } else {
+                    currentPos[value] = value
+                }
                 console.log("filteredJson: " + JSON.stringify(this.filteredJson,null,2))
             }
             ,
