@@ -290,25 +290,28 @@ function isMap(o) {
                 this.allPaths[cpath].count ++
             }
             ,
-            writeToFilteredJson(  currentPath  ,  type, value  ) {
+            writeToFilteredJson(  currentPath  ,  type,  value  ) {
                 //
-                console.log("writeToFilteredJson: "  )
-                console.log("            currentPath:  " + JSON.stringify(currentPath,null,2) )
-                console.log("            type:        " + JSON.stringify(type,null,2) )
-                console.log("            value:       " + JSON.stringify(value,null,2) )
+                console.log("-------------------------------------")
+                console.log("----- writeToFilteredJson ------ "  )
+                console.log("currentPath: " + JSON.stringify(currentPath,null,2) )
+                console.log("type:         " + JSON.stringify(type,null,2) )
+                console.log("value:       " + JSON.stringify(value,null,2) )
+                console.log("-------------------------------------")
 
                 var currentPos = this.filteredJson.value
                 for (  var rr = 0  ;  rr < currentPath.length  ;  rr++  ) {
 
                 }
                 if (type == "Map") {
-                    currentPos[value] = new Object()
+                    currentPos = new Object()
                 } else if (type == "Array") {
-                    currentPos[value] = []
+                    currentPos = []
                 } else {
-                    currentPos[value] = value
+                    currentPos = value
                 }
-                console.log("filteredJson: " + JSON.stringify(this.filteredJson,null,2))
+                console.log("filteredJson: " + JSON.stringify(this.filteredJson.value,null,2))
+                console.log(" ")
             }
             ,
 
