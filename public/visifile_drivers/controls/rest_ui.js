@@ -264,7 +264,7 @@ function isMap(o) {
                 this.filteredJson.value = new Object()
 
                 //debugger
-                this.filterJsonPaths( [], rrr)
+                this.filterJsonPaths( [], this.filteredJson.value, rrr)
                 //debugger
 
             }
@@ -290,18 +290,20 @@ function isMap(o) {
                 this.allPaths[cpath].count ++
             }
             ,
-            writeToFilteredJson(  currentPath  ,  type,  value  ) {
+            writeToFilteredJson(  currentPath  ,  type,  parent, value  ) {
                 //
                 console.log("-------------------------------------")
                 console.log("----- writeToFilteredJson ------ "  )
                 console.log("currentPath: " + JSON.stringify(currentPath,null,2) )
-                console.log("type:         " + JSON.stringify(type,null,2) )
-                console.log("value:       " + JSON.stringify(value,null,2) )
+                console.log("type:        " + JSON.stringify(type,null,2) )
+                console.log("parent:        " + JSON.stringify(parent,null,2) )
+                console.log("value:        " + JSON.stringify(value,null,2) )
                 console.log("-------------------------------------")
 
                 var currentPos = this.filteredJson.value
                 for (  var rr = 0  ;  rr < currentPath.length  ;  rr++  ) {
-
+                    var currentPathItem = currentPath[rr]
+                    currentPos = currentPos[currentPathItem]
                 }
                 if (type == "Map") {
                     currentPos = new Object()
@@ -323,23 +325,23 @@ function isMap(o) {
 
 
 
-            filterJsonPaths: function (currentPath,jsonNode) {
+            filterJsonPaths: function (  currentPath  ,  parentJsonNode, jsonNode  ) {
 
 
                 if (Array.isArray(jsonNode)) {
                     //debugger
                     //console.log("Found node: " )
-                    this.writeToFilteredJson(currentPath, "Array",[])
+                    this.writeToFilteredJson(currentPath, "Array", parentJsonNode, null)
                     for (var k = 0 ; k < jsonNode.length ; k++) {
 
                         var newPath = currentPath.concat(["[]"])
-                        this.filterJsonPaths( newPath, jsonNode[k])
-                        this.writeToFilteredJson(newPath, jsonNode[k])
+                        this.filterJsonPaths( newPath, jsonNode, jsonNode[k])
+                        this.writeToFilteredJson(newPath, jsonNode,jsonNode[k])
                     }
 
                 }  else if (isMap(jsonNode)) {
                     //debugger
-                    this.writeToFilteredJson(currentPath, "Map",{})
+                    this.writeToFilteredJson(currentPath, "Map",jsonNode,null)
                     var keys = Object.keys(jsonNode)
                     //console.log("Found map:.. " + keys.length)
                     for (var k = 0 ; k < keys.length ; k++) {
@@ -347,13 +349,13 @@ function isMap(o) {
                         //console.log("Key: " + keys[k])
                         var newPath = currentPath.concat([keys[k]])
 
-                        this.filterJsonPaths( newPath, jsonNode[keys[k]])
+                        this.filterJsonPaths( newPath, jsonNode,  jsonNode[keys[k]])
                     }
 
 
                 }  else if (typeof jsonNode === 'object') {
                     //console.log("Found object: " )
-                    this.writeToFilteredJson(newPath, "Value", jsonNode[keys[k]])
+                    this.writeToFilteredJson(newPath, "Value", jsonNode,jsonNode[keys[k]])
 
 
 
