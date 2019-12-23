@@ -29,8 +29,11 @@ only_run_on_server(true)
         if (this.circular) this.remove()
         var rt = pathToString(this.path)
         paths[rt]=true
+        if (!args.filter[rt]) {
+            this.remove()
+        }
     });
 
     console.log("** json_filter_service **")
-    return paths
+    return scrubbed
 }
