@@ -7,7 +7,8 @@ only_run_on_server(true)
 */
 
 
-
-
-    return {val: "JSON traverse service"}
+    console.log("** json_traverse_service **")
+    //console.log(JSON.stringify(args,null,2))
+    console.log("** json_traverse_service **")
+    return args.input
 }

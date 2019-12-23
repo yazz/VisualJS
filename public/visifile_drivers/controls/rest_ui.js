@@ -225,7 +225,7 @@ function isMap(o) {
             }
             ,
 
-            callJsonTraverse: async function() {
+            callJsonTraverse: async function(input) {
                 var mm = this
 
                 var result = await callFunction(
@@ -235,6 +235,7 @@ function isMap(o) {
                 }
                 ,
                 {
+                    input: input
                 })
 
 
@@ -285,7 +286,7 @@ function isMap(o) {
                 debugger
                 this.copyJsonTree( jsonResponse,  this.filteredJson.value, [])
                 debugger
-                var aa = await this.callJsonTraverse()
+                var aa = await this.callJsonTraverse(jsonResponse)
                 //alert(JSON.stringify(aa,null,2))
                 this.filteredJson = aa
 
