@@ -111,6 +111,13 @@ logo_url("/driver_icons/rest.png")
 
         </button>
 
+        <button    class="btn btn-primary"
+                   v-on:click="filterRestApi()">
+
+              Filter
+
+        </button>
+
         <div/>
 
 
@@ -123,7 +130,8 @@ logo_url("/driver_icons/rest.png")
             <div style="font-weight: bold;">List of Paths</div>
             <div  style="height:200px;width:100%; border: 0px;color:black;padding: 10px;overflow:scroll;">
                 <div v-for="jsonPath in jsonPaths" >
-                   {{jsonPath}}
+                   <input type="checkbox" id="{{jsonPath}}" value="{{jsonPath}}" v-model="filter[jsonPath]">
+                   <label for="{{jsonPath}}">{{jsonPath}}</label>
                 </div>
             </div>
             <div style="height: 25px;"></div>
@@ -284,7 +292,10 @@ logo_url("/driver_icons/rest.png")
 
                 var aa = await this.callJsonTraverse(jsonResponse)
                 this.jsonPaths = Object.keys(aa)
-                
+
+                for (var ert=0;ert<this.jsonPaths.length;ert++) {
+                    this.filter[this.jsonPaths[ert]] = "true"
+                }
                 //alert(JSON.stringify(aa,null,2))
                 //this.filteredJson = aa
 
@@ -294,7 +305,12 @@ logo_url("/driver_icons/rest.png")
 
 
 
+            filterRestApi: async function(urlToCall) {
 
+                var aa = await this.getJsonFiltered(this.tempResult)
+
+            }
+            ,
 
 
 
