@@ -294,7 +294,7 @@ logo_url("/driver_icons/rest.png")
                 this.jsonPaths = Object.keys(aa)
 
                 for (var ert=0;ert<this.jsonPaths.length;ert++) {
-                    this.filter[this.jsonPaths[ert]] = "true"
+                    this.filter[this.jsonPaths[ert]] = true
                 }
                 //alert(JSON.stringify(aa,null,2))
                 //this.filteredJson = aa
@@ -307,7 +307,9 @@ logo_url("/driver_icons/rest.png")
 
             filterRestApi: async function(urlToCall) {
 
+                //alert(JSON.stringify(this.filter,null,2))
                 var aa = await this.getJsonFiltered(this.tempResult)
+                this.filteredJson  = aa
 
             }
             ,
