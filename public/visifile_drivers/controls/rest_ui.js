@@ -127,6 +127,16 @@ logo_url("/driver_icons/rest.png")
             <pre>{{args.URL}}</pre>
             <div/>
 
+
+
+            <div style="font-weight: bold;">Root</div>
+            <select v-model="selected">
+              <option disabled value="">Please select one</option>
+              <option  v-for="jsonPath in jsonPaths" >{{jsonPath}}</option>
+            </select>
+            <span>Selected: {{ selected }}</span>
+
+
             <div style="font-weight: bold;">List of Paths</div>
             <div  style="height:200px;width:100%; border: 0px;color:black;padding: 10px;overflow:scroll;">
                 <div v-for="jsonPath in jsonPaths" >
@@ -177,7 +187,8 @@ logo_url("/driver_icons/rest.png")
                     tempResult: "",
                     jsonPaths:   [],
                     filteredJson: new Object(),
-                    filter: new Object()
+                    filter: new Object(),
+                    selected: ""
             }
         }
 
