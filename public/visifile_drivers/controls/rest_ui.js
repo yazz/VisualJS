@@ -280,13 +280,14 @@ function isMap(o) {
                 //alert(JSON.stringify(Object.keys(this.allPaths),null,2))
                 this.jsonPaths = Object.keys(this.allPaths)
 
-                this.filteredJson.value = new Object()
+                //this.filteredJson.value = new Object()
 
-                //debugger
+                debugger
                 this.copyJsonTree( jsonResponse,  this.filteredJson.value, [])
-                //debugger
-                //var aa = await this.callJsonTraverse()
+                debugger
+                var aa = await this.callJsonTraverse()
                 //alert(JSON.stringify(aa,null,2))
+                this.filteredJson = aa
 
             }
             ,
