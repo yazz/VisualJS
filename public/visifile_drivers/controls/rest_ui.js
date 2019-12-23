@@ -225,6 +225,25 @@ function isMap(o) {
             }
             ,
 
+            callJsonTraverse: async function() {
+                var mm = this
+
+                var result = await callFunction(
+                {
+                    driver_name: "json_traverse_service",
+                    method_name: "json_traverse_service"
+                }
+                ,
+                {
+                })
+
+
+                if (result) {
+                    return result
+                }
+                return null
+            }
+            ,
 
             callDefaultRestApi: async function() {
 
@@ -266,6 +285,8 @@ function isMap(o) {
                 //debugger
                 this.copyJsonTree( jsonResponse,  this.filteredJson.value, [])
                 //debugger
+                //var aa = await this.callJsonTraverse()
+                //alert(JSON.stringify(aa,null,2))
 
             }
             ,
