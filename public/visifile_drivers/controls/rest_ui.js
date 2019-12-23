@@ -75,27 +75,6 @@ logo_url("/driver_icons/rest.png")
 
 
 
-
-
-
-function isMap(o) {
-    try {
-        Map.prototype.has.call(o); // throws if o is not an object or has no [[MapData]]
-        return true;
-    } catch(e) {
-        if (typeof o === 'object') {
-            return true
-        }
-        return false;
-    }
-}
-
-
-
-
-
-
-
     Vue.component("rest_control",{
 
         props: ["meta", "args","design_mode","refresh"]
@@ -277,18 +256,14 @@ function isMap(o) {
                 var jsonResponse           = await this.callDefaultRestApi()
                 this.tempResult   = jsonResponse
 
-                this.findJsonPaths(  [], jsonResponse)
                 //alert(JSON.stringify(Object.keys(this.allPaths),null,2))
-                this.jsonPaths = Object.keys(this.allPaths)
 
                 //this.filteredJson.value = new Object()
 
-                debugger
-                this.copyJsonTree( jsonResponse,  this.filteredJson.value, [])
-                debugger
                 var aa = await this.callJsonTraverse(jsonResponse)
+                this.jsonPaths = Object.keys(aa)
                 //alert(JSON.stringify(aa,null,2))
-                this.filteredJson = aa
+                //this.filteredJson = aa
 
             }
             ,
@@ -299,20 +274,6 @@ function isMap(o) {
 
 
 
-            addToPaths: function(path) {
-
-                var cpath = this.pathToString(path)
-                if (!this.allPaths[cpath]) {
-
-                    this.allPaths[cpath] = {
-                        count: 0,
-                        path: path
-                    }
-                }
-
-                this.allPaths[cpath].count ++
-            }
-            ,
 
 
 
@@ -322,86 +283,10 @@ function isMap(o) {
 
 
 
-            // ------------------------------------------------------------------
-            //
-            // ------------------------------------------------------------------
-            copyJsonTree: function (  fromNode, toNode, currentPath ) {
-
-
-                if (Array.isArray(fromNode)) {
-                    toNode = []
-                    //debugger
-                    //console.log("Found node: " )
-                    for (var k = 0 ; k < fromNode.length ; k++) {
-                        toNode.push(fromNode[k])
-                    }
-
-                }  else if (isMap(fromNode)) {
-                    toNode = new Object()
-                    var keys = Object.keys(fromNode)
-                    //console.log("Found map:.. " + keys.length)
-                    for (var k = 0 ; k < keys.length ; k++) {
-
-                        toNode[k] = fromNode[k]
-                    }
-
-
-                }  else if (typeof jsonNode === 'object') {
-                    //console.log("Found object: " )
-                    toNode = fromNode
-
-
-
-                } else {
-                    //console.log("Found other: " + JSON.stringify(jsonNode,null,2))
-                }
-            }
-            ,
 
 
 
 
-
-
-
-
-            // ------------------------------------------------------------------
-            //
-            // ------------------------------------------------------------------
-            findJsonPaths: function (currentPath,jsonNode) {
-                this.addToPaths(currentPath)
-
-                if (Array.isArray(jsonNode)) {
-                    //console.log("Found node: " )
-                    for (var k = 0 ; k < jsonNode.length ; k++) {
-
-                        //console.log("Key: " + k)
-                        var newPath = currentPath.concat(["[]"])
-                        this.findJsonPaths( newPath, jsonNode[k])
-                    }
-
-                }  else if (isMap(jsonNode)) {
-                    var keys = Object.keys(jsonNode)
-                    //console.log("Found map:.. " + keys.length)
-                    for (var k = 0 ; k < keys.length ; k++) {
-
-                        //console.log("Key: " + keys[k])
-                        var newPath = currentPath.concat([keys[k]])
-
-                        this.findJsonPaths( newPath, jsonNode[keys[k]])
-                    }
-
-
-                }  else if (typeof jsonNode === 'object') {
-                    //console.log("Found object: " )
-
-
-
-                } else {
-                    //console.log("Found other: " + JSON.stringify(jsonNode,null,2))
-                }
-            }
-            ,
 
 
             pathToString: function (pp) {
