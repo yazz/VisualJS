@@ -167,9 +167,9 @@ logo_url("/driver_icons/rest.png")
         data: function() {
             return {
                     tempResult: "",
-                    allPaths:    new Object(),
                     jsonPaths:   [],
-                    filteredJson: new Object()
+                    filteredJson: new Object(),
+                    filter: new Object()
             }
         }
 
@@ -225,6 +225,29 @@ logo_url("/driver_icons/rest.png")
             }
             ,
 
+            getJsonFiltered: async function(input) {
+                var mm = this
+
+                var result = await callFunction(
+                {
+                    driver_name: "json_filter_service",
+                    method_name: "json_filter_service"
+                }
+                ,
+                {
+                    input: input,
+                    filter: this.filter
+
+                })
+
+
+                if (result) {
+                    return result
+                }
+                return null
+            }
+            ,
+
             callDefaultRestApi: async function() {
 
                 var qwe = await this.callRestApiInternal()
@@ -251,7 +274,6 @@ logo_url("/driver_icons/rest.png")
 
             testDefaultRestApi: async function(urlToCall) {
 
-                this.allPaths     = new Object()
                 this.filteredJson = new Object()
                 var jsonResponse           = await this.callDefaultRestApi()
                 this.tempResult   = jsonResponse
@@ -262,6 +284,7 @@ logo_url("/driver_icons/rest.png")
 
                 var aa = await this.callJsonTraverse(jsonResponse)
                 this.jsonPaths = Object.keys(aa)
+                
                 //alert(JSON.stringify(aa,null,2))
                 //this.filteredJson = aa
 
