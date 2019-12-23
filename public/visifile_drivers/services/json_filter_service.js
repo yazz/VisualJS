@@ -25,6 +25,7 @@ only_run_on_server(true)
     //console.log(JSON.stringify(args,null,2))
     //var tt = traverse(args.input).paths()
     var paths=new Object()
+    var selectedPath = null
     var scrubbed = traverse(args.input).map(function (x) {
         if (this.circular) this.remove()
         var rt = pathToString(this.path)
@@ -32,7 +33,13 @@ only_run_on_server(true)
         if (!args.filter[rt]) {
             this.remove()
         }
+        if (args.root == rt) {
+            selectedPath = this.node
+        }
     });
+    if (selectedPath) {
+        scrubbed = selectedPath
+    }
 
     console.log("** json_filter_service **")
     return scrubbed

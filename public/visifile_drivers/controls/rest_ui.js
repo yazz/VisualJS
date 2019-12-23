@@ -134,7 +134,7 @@ logo_url("/driver_icons/rest.png")
               <option disabled value="">Please select one</option>
               <option  v-for="jsonPath in jsonPaths" >{{jsonPath}}</option>
             </select>
-            <span>Selected: {{ selected }}</span>
+            <div>Selected: {{ selected }}</div>
 
 
             <div style="font-weight: bold;">List of Paths</div>
@@ -255,7 +255,8 @@ logo_url("/driver_icons/rest.png")
                 ,
                 {
                     input: input,
-                    filter: this.filter
+                    filter: this.filter,
+                    root:  this.selected
 
                 })
 
