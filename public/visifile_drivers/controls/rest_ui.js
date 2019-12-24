@@ -71,6 +71,22 @@ properties(
         }
         ,
         {
+            id:         "stagingFilter",
+            name:       "Staging filter",
+            default:    new Object(),
+            hidden:     true,
+            type:       "Object"
+        }
+        ,
+        {
+            id:         "productionFilter",
+            name:       "Production filter",
+            default:    new Object(),
+            hidden:     true,
+            type:       "Object"
+        }
+        ,
+        {
             id:         "URL",
             name:       "URL",
             default:    "https://raw.githubusercontent.com/typicode/demo/master/db.json",
