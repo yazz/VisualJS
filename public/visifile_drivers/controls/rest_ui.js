@@ -57,6 +57,20 @@ properties(
         }
         ,
         {
+            id:         "stagingRoot",
+            name:       "Staging root path",
+            default:    "",
+            type:       "String"
+        }
+        ,
+        {
+            id:         "productionRoot",
+            name:       "Production root path",
+            default:    "",
+            type:       "String"
+        }
+        ,
+        {
             id:         "URL",
             name:       "URL",
             default:    "https://raw.githubusercontent.com/typicode/demo/master/db.json",
@@ -130,11 +144,11 @@ logo_url("/driver_icons/rest.png")
 
 
             <div style="font-weight: bold;">Root</div>
-            <select v-model="selected">
+            <select v-model="args.stagingRoot">
               <option disabled value="">Please select one</option>
               <option  v-for="jsonPath in jsonPaths" >{{jsonPath}}</option>
             </select>
-            <div>Selected: {{ selected }}</div>
+            <div>Selected: {{ args.stagingRoot }}</div>
 
 
             <div style="font-weight: bold;">List of Paths</div>
@@ -187,8 +201,7 @@ logo_url("/driver_icons/rest.png")
                     tempResult: "",
                     jsonPaths:   [],
                     filteredJson: new Object(),
-                    filter: new Object(),
-                    selected: ""
+                    filter: new Object()
             }
         }
 
@@ -256,7 +269,7 @@ logo_url("/driver_icons/rest.png")
                 {
                     input: input,
                     filter: this.filter,
-                    root:  this.selected
+                    root:  this.args.stagingRoot
 
                 })
 
