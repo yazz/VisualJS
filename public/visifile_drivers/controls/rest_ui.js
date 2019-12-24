@@ -58,14 +58,14 @@ properties(
         ,
         {
             id:         "stagingRoot",
-            name:       "Staging root path",
+            name:       "Staging response path",
             default:    "",
             type:       "String"
         }
         ,
         {
             id:         "productionRoot",
-            name:       "Production root path",
+            name:       "Production response path",
             default:    "",
             type:       "String"
         }
@@ -84,6 +84,13 @@ properties(
             default:    new Object(),
             hidden:     true,
             type:       "Object"
+        }
+        ,
+        {
+            id:         "stagingURL",
+            name:       "Staging URL",
+            default:    "https://raw.githubusercontent.com/typicode/demo/master/db.json",
+            type:       "String"
         }
         ,
         {
@@ -154,7 +161,7 @@ logo_url("/driver_icons/rest.png")
 
 
         <div style="height:100%;width:500px; border: 0px;color:black;padding: 10px;overflow:scroll;">
-            <pre>{{args.URL}}</pre>
+            <pre>{{args.stagingURL}}</pre>
             <div/>
 
 
@@ -323,7 +330,7 @@ logo_url("/driver_icons/rest.png")
             testDefaultRestApi: async function(urlToCall) {
 
                 this.filteredJson = new Object()
-                var jsonResponse           = await this.callDefaultRestApi()
+                var jsonResponse  = await this.callRestApi(this.args.stagingURL)
                 this.tempResult   = jsonResponse
 
                 //alert(JSON.stringify(Object.keys(this.allPaths),null,2))
