@@ -170,7 +170,7 @@ logo_url("/driver_icons/rest.png")
             <div style="font-weight: bold;">List of Paths</div>
             <div  style="height:200px;width:100%; border: 0px;color:black;padding: 10px;overflow:scroll;">
                 <div v-for="jsonPath in jsonPaths" >
-                   <input type="checkbox" id="{{jsonPath}}" value="{{jsonPath}}" v-model="filter[jsonPath]">
+                   <input type="checkbox" id="{{jsonPath}}" value="{{jsonPath}}" v-model="args.stagingFilter[jsonPath]">
                    <label for="{{jsonPath}}">{{jsonPath}}</label>
                 </div>
             </div>
@@ -214,10 +214,9 @@ logo_url("/driver_icons/rest.png")
 
         data: function() {
             return {
-                    tempResult: "",
-                    jsonPaths:   [],
-                    filteredJson: new Object(),
-                    filter: new Object()
+                    tempResult:    "",
+                    jsonPaths:    [],
+                    filteredJson:  new Object()
             }
         }
 
@@ -284,7 +283,7 @@ logo_url("/driver_icons/rest.png")
                 ,
                 {
                     input: input,
-                    filter: this.filter,
+                    filter: this.args.stagingFilter,
                     root:  this.args.stagingRoot
 
                 })
@@ -335,7 +334,7 @@ logo_url("/driver_icons/rest.png")
                 this.jsonPaths = Object.keys(aa)
 
                 for (var ert=0;ert<this.jsonPaths.length;ert++) {
-                    this.filter[this.jsonPaths[ert]] = true
+                    this.args.stagingFilter[this.jsonPaths[ert]] = true
                 }
                 //alert(JSON.stringify(aa,null,2))
                 //this.filteredJson = aa
