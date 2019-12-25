@@ -99,6 +99,15 @@ properties(
             default:    "https://raw.githubusercontent.com/typicode/demo/master/db.json",
             type:       "String"
         }
+        ,
+        {
+            id:         "jsonPaths",
+            name:       "JSON Paths",
+            default:    [],
+            hidden:     true,
+            type:       "Array"
+        }
+
 
 
     ]
@@ -155,13 +164,20 @@ logo_url("/driver_icons/rest.png")
 
         </button>
 
+        <button    class="btn btn-primary"
+                   v-on:click="promoteStagingToLive()">
+
+              Promote Staging To Live
+
+        </button>
+
         <div/>
 
 
 
 
         <div style="height:100%;width:500px; border: 0px;color:black;padding: 10px;overflow:scroll;">
-            <pre>{{args.stagingURL}}</pre>
+            zzz<pre>{{args.stagingURL}}</pre>
             <div/>
 
 
@@ -169,14 +185,14 @@ logo_url("/driver_icons/rest.png")
             <div style="font-weight: bold;">Root</div>
             <select v-model="args.stagingRoot">
               <option disabled value="">Please select one</option>
-              <option  v-for="jsonPath in jsonPaths" >{{jsonPath}}</option>
+              <option  v-for="jsonPath in args.jsonPaths" >{{jsonPath}}</option>
             </select>
             <div>Selected: {{ args.stagingRoot }}</div>
 
 
             <div style="font-weight: bold;">List of Paths</div>
             <div  style="height:200px;width:100%; border: 0px;color:black;padding: 10px;overflow:scroll;">
-                <div v-for="jsonPath in jsonPaths" >
+                <div v-for="jsonPath in args.jsonPaths" >
                    <input type="checkbox" id="{{jsonPath}}" value="{{jsonPath}}" v-model="args.stagingFilter[jsonPath]">
                    <label for="{{jsonPath}}">{{jsonPath}}</label>
                 </div>
@@ -222,7 +238,6 @@ logo_url("/driver_icons/rest.png")
         data: function() {
             return {
                     tempResult:    "",
-                    jsonPaths:    [],
                     filteredJson:  new Object()
             }
         }
@@ -338,10 +353,10 @@ logo_url("/driver_icons/rest.png")
                 //this.filteredJson.value = new Object()
 
                 var aa = await this.callJsonTraverse(jsonResponse)
-                this.jsonPaths = Object.keys(aa)
+                this.args.jsonPaths = Object.keys(aa)
 
-                for (var ert=0;ert<this.jsonPaths.length;ert++) {
-                    this.args.stagingFilter[this.jsonPaths[ert]] = true
+                for (var ert=0;ert<this.args.jsonPaths.length;ert++) {
+                    this.args.stagingFilter[this.args.jsonPaths[ert]] = true
                 }
                 //alert(JSON.stringify(aa,null,2))
                 //this.filteredJson = aa
@@ -349,7 +364,27 @@ logo_url("/driver_icons/rest.png")
             }
             ,
 
+            promoteStagingToLive: async function(urlToCall) {
 
+                this.filteredJson = new Object()
+                var jsonResponse  = await this.callRestApi(this.args.stagingURL)
+                this.tempResult   = jsonResponse
+
+                //alert(JSON.stringify(Object.keys(this.allPaths),null,2))
+
+                //this.filteredJson.value = new Object()
+
+                var aa = await this.callJsonTraverse(jsonResponse)
+                this.args.jsonPaths = Object.keys(aa)
+
+                for (var ert=0;ert<this.args.jsonPaths.length;ert++) {
+                    this.args.stagingFilter[this.args.jsonPaths[ert]] = true
+                }
+                //alert(JSON.stringify(aa,null,2))
+                //this.filteredJson = aa
+
+            }
+            ,
 
 
             filterRestApi: async function(urlToCall) {
