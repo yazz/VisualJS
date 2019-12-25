@@ -173,12 +173,6 @@ logo_url("/driver_icons/rest.png")
 
         </button>
 
-        <button    class="btn btn-primary"
-                   v-on:click="filterRestApi()">
-
-              Filter
-
-        </button>
 
         <button    class="btn btn-primary"
                    v-on:click="promoteStagingToLive()">
@@ -199,7 +193,7 @@ logo_url("/driver_icons/rest.png")
 
 
             <div style="font-weight: bold;">Root</div>
-            <select v-model="args.stagingRoot">
+            <select v-model="args.stagingRoot" @change="filterRestApi()">
               <option disabled value="">Please select one</option>
               <option  v-for="jsonPath in args.jsonPaths"
                     v-bind:selected="jsonPath == args.stagingRoot"
