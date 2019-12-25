@@ -219,7 +219,7 @@ logo_url("/driver_icons/rest.png")
             <div style="font-weight: bold;">Result</div>
             <pre>{{args.filteredStagingResponse}}</pre>
 
-
+        </div>
     </div>
 
 
