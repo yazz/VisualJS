@@ -107,6 +107,14 @@ properties(
             hidden:     true,
             type:       "Array"
         }
+        ,
+        {
+            id:         "stagingResponse",
+            name:       "Staging Response",
+            default:    null,
+            hidden:     true,
+            type:       "Object"
+        }
 
 
 
@@ -151,7 +159,7 @@ logo_url("/driver_icons/rest.png")
         {{args.text}}
         <div/>
         <button    class="btn btn-primary"
-                   v-on:click="testDefaultRestApi()">
+                   v-on:click="callStagingRestApi()">
 
               Call API
 
@@ -177,7 +185,7 @@ logo_url("/driver_icons/rest.png")
 
 
         <div style="height:100%;width:500px; border: 0px;color:black;padding: 10px;overflow:scroll;">
-            zzz<pre>{{args.stagingURL}}</pre>
+            <pre>{{args.stagingURL}}</pre>
             <div/>
 
 
@@ -205,7 +213,7 @@ logo_url("/driver_icons/rest.png")
 
 
             <div style="font-weight: bold;">Result</div>
-            <pre>{{tempResult}}</pre>
+            <pre>{{args.stagingResponse}}</pre>
         </div>
     </div>
 
@@ -237,8 +245,7 @@ logo_url("/driver_icons/rest.png")
 
         data: function() {
             return {
-                    tempResult:    "",
-                    filteredJson:  new Object()
+                    filteredJson:       new Object()
             }
         }
 
@@ -342,15 +349,13 @@ logo_url("/driver_icons/rest.png")
 
 
 
-            testDefaultRestApi: async function(urlToCall) {
+            callStagingRestApi: async function( urlToCall ) {
 
                 this.filteredJson = new Object()
                 var jsonResponse  = await this.callRestApi(this.args.stagingURL)
-                this.tempResult   = jsonResponse
+                this.args.stagingResponse   = jsonResponse
 
-                //alert(JSON.stringify(Object.keys(this.allPaths),null,2))
 
-                //this.filteredJson.value = new Object()
 
                 var aa = await this.callJsonTraverse(jsonResponse)
                 this.args.jsonPaths = Object.keys(aa)
@@ -358,9 +363,6 @@ logo_url("/driver_icons/rest.png")
                 for (var ert=0;ert<this.args.jsonPaths.length;ert++) {
                     this.args.stagingFilter[this.args.jsonPaths[ert]] = true
                 }
-                //alert(JSON.stringify(aa,null,2))
-                //this.filteredJson = aa
-
             }
             ,
 
@@ -368,7 +370,7 @@ logo_url("/driver_icons/rest.png")
 
                 this.filteredJson = new Object()
                 var jsonResponse  = await this.callRestApi(this.args.stagingURL)
-                this.tempResult   = jsonResponse
+                this.args.stagingResponse   = jsonResponse
 
                 //alert(JSON.stringify(Object.keys(this.allPaths),null,2))
 
@@ -390,7 +392,7 @@ logo_url("/driver_icons/rest.png")
             filterRestApi: async function(urlToCall) {
 
                 //alert(JSON.stringify(this.filter,null,2))
-                var aa = await this.getJsonFiltered(this.tempResult)
+                var aa = await this.getJsonFiltered(this.args.stagingResponse)
                 this.filteredJson  = aa
 
             }
