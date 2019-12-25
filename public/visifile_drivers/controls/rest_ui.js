@@ -201,12 +201,13 @@ logo_url("/driver_icons/rest.png")
             <div style="font-weight: bold;">Root</div>
             <select v-model="args.stagingRoot">
               <option disabled value="">Please select one</option>
-              <option  v-for="jsonPath in args.jsonPaths" >{{jsonPath}}</option>
+              <option  v-for="jsonPath in args.jsonPaths"
+                    v-bind:selected="jsonPath == args.stagingRoot"
+                        >{{jsonPath}}</option>
             </select>
-            <div>Selected: {{ args.stagingRoot }}</div>
 
 
-            <div style="font-weight: bold;">List of Paths</div>
+            <div style="padding-top:20px;font-weight: bold;">List of Paths</div>
             <div  style="height:200px;width:100%; border: 0px;color:black;padding: 10px;overflow:scroll;">
                 <div v-for="jsonPath in args.jsonPaths" >
                    <input type="checkbox" id="{{jsonPath}}" value="{{jsonPath}}" v-model="args.stagingFilter[jsonPath]">
