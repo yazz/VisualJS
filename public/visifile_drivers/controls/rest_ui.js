@@ -109,6 +109,13 @@ properties(
         }
         ,
         {
+            id:         "jsonRoots",
+            name:       "JSON Roots",
+            default:    [],
+            hidden:     true,
+            type:       "Array"
+        }
+        ,        {
             id:         "stagingResponse",
             name:       "Staging Response",
             default:    null,
@@ -195,9 +202,9 @@ logo_url("/driver_icons/rest.png")
             <div style="font-weight: bold;">Root</div>
             <select v-model="args.stagingRoot" @change="filterRestApi()">
               <option disabled value="">Please select one</option>
-              <option  v-for="jsonPath in args.jsonPaths"
-                    v-bind:selected="jsonPath == args.stagingRoot"
-                        >{{jsonPath}}</option>
+              <option  v-for="jsonRoot in args.jsonRoots"
+                    v-bind:selected="jsonRoot == args.stagingRoot"
+                        >{{jsonRoot}}</option>
             </select>
 
 
@@ -357,7 +364,9 @@ logo_url("/driver_icons/rest.png")
 
 
                 var aa = await this.callJsonTraverse(jsonResponse)
-                this.args.jsonPaths = Object.keys(aa)
+                this.args.jsonPaths = Object.keys(aa.paths)
+
+                this.args.jsonRoots = Object.keys(aa.roots)
 
                 for (var ert=0;ert<this.args.jsonPaths.length;ert++) {
                     this.args.stagingFilter[this.args.jsonPaths[ert]] = true
