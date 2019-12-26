@@ -211,8 +211,8 @@ logo_url("/driver_icons/rest.png")
             <div style="padding-top:20px;font-weight: bold;">List of Paths</div>
             <div  style="height:200px;width:100%; border: 0px;color:black;padding: 10px;overflow:scroll;">
                 <div v-for="jsonPath in args.jsonPaths" >
-                   <input type="checkbox" id="{{jsonPath}}" value="{{jsonPath}}" v-model="args.stagingFilter[jsonPath]">
-                   <label for="{{jsonPath}}">{{jsonPath}}</label>
+                   <input v-if="jsonPath.startsWith(args.stagingRoot)" type="checkbox" id="{{jsonPath}}" value="{{jsonPath}}" v-model="args.stagingFilter[jsonPath]">
+                   <label v-if="jsonPath.startsWith(args.stagingRoot)"  for="{{jsonPath}}">{{jsonPath}}</label>
                 </div>
             </div>
             <div style="height: 25px;"></div>
@@ -285,6 +285,11 @@ logo_url("/driver_icons/rest.png")
                 return null
             }
             ,
+
+
+
+
+
 
             callJsonTraverse: async function(input) {
                 var mm = this
