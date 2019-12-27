@@ -213,7 +213,7 @@ logo_url("/driver_icons/rest.png")
             <button    class="btn-sm btn-secondary"  v-on:click="selectNone()">Select None</button>
             <div  style="height:200px;width:100%; border: 0px;color:black;padding: 10px;overflow:scroll;">
                 <div v-for="jsonPath in args.jsonPaths" >
-                   <input v-if="jsonPath.startsWith(args.stagingRoot)" type="checkbox" id="{{jsonPath}}" value="{{jsonPath}}" v-model="args.stagingFilter[jsonPath]">
+                   <input v-if="jsonPath.startsWith(args.stagingRoot)" type="checkbox" id="{{jsonPath}}" value="{{jsonPath}}" v-model="args.stagingFilter[jsonPath]"    @change="filterRestApi()">
                    <label v-if="jsonPath.startsWith(args.stagingRoot)"  for="{{jsonPath}}">{{jsonPath}}</label>
                 </div>
             </div>
