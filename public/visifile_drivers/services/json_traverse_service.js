@@ -27,12 +27,19 @@ only_run_on_server(true)
     var paths=new Object()
     var roots=new Object()
     var scrubbed = traverse(args.input).map(function (x) {
-        if (this.circular) this.remove()
-        var rt = pathToString(this.path)
-        paths[rt]=true
+        if (this.circular) {
+            this.remove()
+        } else  {
+            var rt = pathToString(this.path)
 
-        if (this.notLeaf) {
-            roots[rt]=true
+            console.log("'" + rt + "'")
+            if (paths[rt] != "") {
+                paths[rt] = true
+            }
+
+            if (this.notLeaf) {
+                roots[rt] = true
+            }
         }
     });
 
