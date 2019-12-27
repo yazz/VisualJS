@@ -33,7 +33,7 @@ only_run_on_server(true)
             var rt = pathToString(this.path)
 
             console.log("'" + rt + "'")
-            if (paths[rt] != "") {
+            if (rt != "") {
                 paths[rt] = true
             }
 
