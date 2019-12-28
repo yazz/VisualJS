@@ -213,7 +213,14 @@ logo_url("/driver_icons/rest.png")
             <button    class="btn-sm btn-secondary"  v-on:click="selectNone()">Select None</button>
             <div  style="height:200px;width:100%; border: 0px;color:black;padding: 10px;overflow:scroll;">
                 <div v-for="jsonPath in args.jsonPaths" >
-                   <input v-if="jsonPath.startsWith(args.stagingRoot)" type="checkbox" id="{{jsonPath}}" value="{{jsonPath}}" v-model="args.stagingFilter[jsonPath]"    @change="filterRestApi()">
+
+                   <input   v-if="jsonPath.startsWith(args.stagingRoot)"
+                            type="checkbox"
+                            id="{{jsonPath}}"
+                            value="{{jsonPath}}"
+                            v-model="args.stagingFilter[jsonPath]"
+                            @change="if (args.stagingFilter[jsonPath]) {checkParents(jsonPath)} else {uncheckChildren(jsonPath)};filterRestApi()">
+
                    <label v-if="jsonPath.startsWith(args.stagingRoot)"  for="{{jsonPath}}">{{jsonPath}}</label>
                 </div>
             </div>
@@ -368,6 +375,39 @@ logo_url("/driver_icons/rest.png")
             }
             ,
 
+
+            checkParents: async function( jsonPath ) {
+                var lastDotPos = jsonPath.lastIndexOf(".")
+                if (lastDotPos != -1) {
+                    jsonPath = jsonPath.substring(jsonPath,lastDotPos)
+                    //alert(jsonPath)
+                    this.args.stagingFilter[jsonPath] = true
+                    this.checkParents(jsonPath)
+                }
+
+                //for ( var ert = 0  ;  ert < this.args.jsonPaths.length  ;  ert++  ) {
+                //    if (this.args.stagingFilter[this.args.jsonPaths[ert]] == false) {
+                //        this.args.stagingFilter[this.args.jsonPaths[ert]] = true
+                //    }
+                //}
+                //this.filterRestApi()
+            }
+            ,
+
+            uncheckChildren: async function( jsonPath ) {
+                return
+                var checked = this.args.stagingFilter[jsonPath]
+                "services.service.[].system_name".lastIndexOf(".")
+                alert(checked)
+
+                //for ( var ert = 0  ;  ert < this.args.jsonPaths.length  ;  ert++  ) {
+                //    if (this.args.stagingFilter[this.args.jsonPaths[ert]] == false) {
+                //        this.args.stagingFilter[this.args.jsonPaths[ert]] = true
+                //    }
+                //}
+                //this.filterRestApi()
+            }
+            ,
 
             selectNone: async function( ) {
                 for ( var ert = 0  ;  ert < this.args.jsonPaths.length  ;  ert++  ) {
