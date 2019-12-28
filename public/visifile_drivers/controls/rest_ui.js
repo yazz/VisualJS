@@ -395,17 +395,11 @@ logo_url("/driver_icons/rest.png")
             ,
 
             uncheckChildren: async function( jsonPath ) {
-                return
-                var checked = this.args.stagingFilter[jsonPath]
-                "services.service.[].system_name".lastIndexOf(".")
-                alert(checked)
-
-                //for ( var ert = 0  ;  ert < this.args.jsonPaths.length  ;  ert++  ) {
-                //    if (this.args.stagingFilter[this.args.jsonPaths[ert]] == false) {
-                //        this.args.stagingFilter[this.args.jsonPaths[ert]] = true
-                //    }
-                //}
-                //this.filterRestApi()
+                for ( var ert = 0  ;  ert < this.args.jsonPaths.length  ;  ert++  ) {
+                    if (this.args.jsonPaths[ert].startsWith(jsonPath)) {
+                        this.args.stagingFilter[this.args.jsonPaths[ert]] = false
+                    }
+                }
             }
             ,
 
