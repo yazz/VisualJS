@@ -331,14 +331,14 @@ logo_url("/driver_icons/rest.png")
 
             // ----------------------------------------------------------------
             //
-            //                        callJsonTraverse
+            //                        getListOfResponsePathsForJson
             //
             //
             //
             //
             // ----------------------------------------------------------------
 
-            callJsonTraverse: async function(input) {
+            getListOfResponsePathsForJson: async function(input) {
                 var mm = this
 
                 var result = await callFunction(
@@ -570,21 +570,31 @@ logo_url("/driver_icons/rest.png")
 
             callStagingRestApi: async function( urlToCall ) {
 
+                //
+                // get the JSON response
+                //
                 this.args.filteredStagingResponse = new Object()
                 var jsonResponse  = await this.callRestApi(this.args.stagingURL)
                 this.args.stagingResponse   = jsonResponse
+                this.args.filteredStagingResponse = JSON.parse(JSON.stringify(this.args.stagingResponse))
 
 
-
-                var aa = await this.callJsonTraverse(jsonResponse)
+                //
+                // get the JSON paths and roots in the  response
+                //
+                var aa = await this.getListOfResponsePathsForJson(jsonResponse)
                 this.args.jsonPaths = Object.keys(aa.paths)
-
                 this.args.jsonRoots = Object.keys(aa.roots)
 
+
+                //
+                // show all the fields in the JSON response
+                //
                 for (var ert=0;ert<this.args.jsonPaths.length;ert++) {
                     this.args.stagingFilter[this.args.jsonPaths[ert]] = true
                 }
-                this.args.filteredStagingResponse = JSON.parse(JSON.stringify(this.args.stagingResponse))
+
+
             }
             ,
 
@@ -608,13 +618,28 @@ logo_url("/driver_icons/rest.png")
 //zzz
                 this.args.productionFilter  = JSON.parse(JSON.stringify(this.args.stagingFilter))
                 this.args.URL               = this.args.stagingURL
+                this.args.productionRoot    = this.args.stagingRoot
+                this.changed()
             }
             ,
 
 
 
 
-
+            // ----------------------------------------------------------------
+            //
+            //                     promoteStagingToLive
+            //
+            //
+            //
+            //
+            // ----------------------------------------------------------------
+            changed: function() {
+                this.$root.$emit('message', {
+                    type:   "pending"
+                })
+            }
+            ,
 
 
 
