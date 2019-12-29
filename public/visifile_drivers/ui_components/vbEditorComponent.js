@@ -2710,6 +2710,7 @@ return {}
             } else if (type == 'app') {
                 this.model[property.id] = val
             }
+            mm.changed()
 
          },
 
@@ -2750,6 +2751,7 @@ return {}
             mm.new_property_id = ""
             mm.new_property_name = ""
             mm.new_property_type = "String"
+            mm.changed()
 
 
             setTimeout(function(){
@@ -2792,6 +2794,8 @@ return {}
                                             })
 
             mm.generateCodeFromModel( )
+            mm.changed()
+
             setTimeout(function() {
                 mm.refresh ++
                 mm.select_app()
@@ -3126,6 +3130,7 @@ ${eventMessage.code}
              }
              ev.dataTransfer.setData("message",
                                      JSON.stringify(message,null,2));
+             mm.changed()
 
          },
 
@@ -3161,6 +3166,7 @@ ${eventMessage.code}
             setTimeout(function() {
                 mm.refresh ++
                 mm.$forceUpdate();
+                mm.changed()
             },400)
          },
          deleteComponentByName: async function(thisComponentName) {
@@ -3186,6 +3192,7 @@ ${eventMessage.code}
 
                 mm.refreshControlIndexes()
                 mm.selectForm(mm.model.active_form)
+                mm.changed()
                 setTimeout(function() {
                     mm.refresh ++
                     mm.$forceUpdate();
@@ -3202,6 +3209,7 @@ ${eventMessage.code}
                                              type:             "delete_design_time_component",
                                              component_index:   index
                                          })
+             this.changed()
 
              }
              ,
@@ -3210,6 +3218,7 @@ ${eventMessage.code}
                                              type:             "select_design_time_component",
                                              component_index:   index
                                          })
+
 
              }
              ,
@@ -3505,7 +3514,7 @@ ${eventMessage.code}
 
              this.selectComponent(this.model.active_component_index)
              this.refresh ++
-
+             this.changed()
 
 
          },
@@ -3883,6 +3892,7 @@ return {}
 
             mm.model.active_form = newFormName
             mm.refresh ++
+            mm.changed()
          }
          ,
 
@@ -3908,7 +3918,7 @@ return {}
                 }
 
             }
-
+            mm.changed()
         },
 
         //-------------------------------------------------------------------
@@ -3930,7 +3940,7 @@ return {}
                 }
 
             }
-
+            mm.changed()
         },
 
         //-------------------------------------------------------------------
@@ -3950,6 +3960,7 @@ return {}
                   mm.model.fields.splice(index, 1);
                 }
             }
+            mm.changed()
         },
 
 
@@ -4133,6 +4144,7 @@ return {}
 
             //console.log("end generateCodeFromModel.Done")
             this.in_generate_code_from_model = false
+            this.changed()
             return
             }
         }
