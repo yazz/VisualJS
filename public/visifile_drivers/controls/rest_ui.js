@@ -258,6 +258,14 @@ logo_url("/driver_icons/rest.png")
 </div>`
 
         ,
+        // ----------------------------------------------------------------
+        //
+        //                              data
+        //
+        //
+        //
+        //
+        // ----------------------------------------------------------------
 
         data: function() {
             return {
@@ -265,6 +273,19 @@ logo_url("/driver_icons/rest.png")
         }
 
         ,
+
+
+
+
+
+        // ----------------------------------------------------------------
+        //
+        //                              mounted
+        //
+        //
+        //
+        //
+        // ----------------------------------------------------------------
 
         mounted: async function() {
             registerComponent(this)
@@ -274,6 +295,15 @@ logo_url("/driver_icons/rest.png")
 
 
         methods: {
+            // ----------------------------------------------------------------
+            //
+            //                        callRestApiInternal
+            //
+            //
+            //
+            //
+            // ----------------------------------------------------------------
+
             callRestApiInternal: async function() {
                 var mm = this
 
@@ -299,6 +329,14 @@ logo_url("/driver_icons/rest.png")
 
 
 
+            // ----------------------------------------------------------------
+            //
+            //                        callJsonTraverse
+            //
+            //
+            //
+            //
+            // ----------------------------------------------------------------
 
             callJsonTraverse: async function(input) {
                 var mm = this
@@ -320,6 +358,20 @@ logo_url("/driver_icons/rest.png")
                 return null
             }
             ,
+
+
+
+
+
+
+            // ----------------------------------------------------------------
+            //
+            //                        getJsonFiltered
+            //
+            //
+            //
+            //
+            // ----------------------------------------------------------------
 
             getJsonFiltered: async function(input) {
                 var mm = this
@@ -345,6 +397,22 @@ logo_url("/driver_icons/rest.png")
             }
             ,
 
+
+
+
+
+
+
+
+            // ----------------------------------------------------------------
+            //
+            //                        callDefaultRestApi
+            //
+            //
+            //
+            //
+            // ----------------------------------------------------------------
+
             callDefaultRestApi: async function() {
 
                 var qwe = await this.callRestApiInternal()
@@ -352,6 +420,22 @@ logo_url("/driver_icons/rest.png")
             }
             ,
 
+
+
+
+
+
+
+
+
+            // ----------------------------------------------------------------
+            //
+            //                        callRestApi
+            //
+            //
+            //
+            //
+            // ----------------------------------------------------------------
 
             callRestApi: async function(urlToCall) {
 
@@ -365,6 +449,21 @@ logo_url("/driver_icons/rest.png")
             ,
 
 
+
+
+
+
+
+
+            // ----------------------------------------------------------------
+            //
+            //                        selectAll
+            //
+            //
+            //
+            //
+            // ----------------------------------------------------------------
+
             selectAll: async function( ) {
                 for ( var ert = 0  ;  ert < this.args.jsonPaths.length  ;  ert++  ) {
                     if (this.args.stagingFilter[this.args.jsonPaths[ert]] == false) {
@@ -376,6 +475,22 @@ logo_url("/driver_icons/rest.png")
             ,
 
 
+
+
+
+
+
+
+
+            // ----------------------------------------------------------------
+            //
+            //                        checkParents
+            //
+            //
+            //
+            //
+            // ----------------------------------------------------------------
+
             checkParents: async function( jsonPath ) {
                 var lastDotPos = jsonPath.lastIndexOf(".")
                 if (lastDotPos != -1) {
@@ -384,15 +499,21 @@ logo_url("/driver_icons/rest.png")
                     this.args.stagingFilter[jsonPath] = true
                     this.checkParents(jsonPath)
                 }
-
-                //for ( var ert = 0  ;  ert < this.args.jsonPaths.length  ;  ert++  ) {
-                //    if (this.args.stagingFilter[this.args.jsonPaths[ert]] == false) {
-                //        this.args.stagingFilter[this.args.jsonPaths[ert]] = true
-                //    }
-                //}
-                //this.filterRestApi()
             }
             ,
+
+
+
+
+
+            // ----------------------------------------------------------------
+            //
+            //                        uncheckChildren
+            //
+            //
+            //
+            //
+            // ----------------------------------------------------------------
 
             uncheckChildren: async function( jsonPath ) {
                 for ( var ert = 0  ;  ert < this.args.jsonPaths.length  ;  ert++  ) {
@@ -402,6 +523,23 @@ logo_url("/driver_icons/rest.png")
                 }
             }
             ,
+
+
+
+
+
+
+
+
+
+            // ----------------------------------------------------------------
+            //
+            //                             selectNone
+            //
+            //
+            //
+            //
+            // ----------------------------------------------------------------
 
             selectNone: async function( ) {
                 for ( var ert = 0  ;  ert < this.args.jsonPaths.length  ;  ert++  ) {
@@ -414,6 +552,20 @@ logo_url("/driver_icons/rest.png")
             ,
 
 
+
+
+
+
+
+
+            // ----------------------------------------------------------------
+            //
+            //                     callStagingRestApi
+            //
+            //
+            //
+            //
+            // ----------------------------------------------------------------
 
             callStagingRestApi: async function( urlToCall ) {
 
@@ -435,15 +587,27 @@ logo_url("/driver_icons/rest.png")
             }
             ,
 
+
+
+
+
+
+
+            // ----------------------------------------------------------------
+            //
+            //                     promoteStagingToLive
+            //
+            //
+            //
+            //
+            // ----------------------------------------------------------------
+
             promoteStagingToLive: async function(urlToCall) {
 
                 this.args.filteredStagingResponse = new Object()
                 var jsonResponse  = await this.callRestApi(this.args.stagingURL)
                 this.args.stagingResponse   = jsonResponse
 
-                //alert(JSON.stringify(Object.keys(this.allPaths),null,2))
-
-                //this.args.filteredStagingResponse.value = new Object()
 
                 var aa = await this.callJsonTraverse(jsonResponse)
                 this.args.jsonPaths = Object.keys(aa)
@@ -451,16 +615,29 @@ logo_url("/driver_icons/rest.png")
                 for (var ert=0;ert<this.args.jsonPaths.length;ert++) {
                     this.args.stagingFilter[this.args.jsonPaths[ert]] = true
                 }
-                //alert(JSON.stringify(aa,null,2))
-                //this.args.filteredStagingResponse = aa
 
             }
             ,
 
 
+
+
+
+
+
+
+
+
+            // ----------------------------------------------------------------
+            //
+            //                          filterRestApi
+            //
+            //
+            //
+            //
+            // ----------------------------------------------------------------
+
             filterRestApi: async function() {
-debugger
-                //alert(JSON.stringify(this.filter,null,2))
                 var aa = await this.getJsonFiltered(this.args.stagingResponse)
                 this.args.filteredStagingResponse  = aa
 
