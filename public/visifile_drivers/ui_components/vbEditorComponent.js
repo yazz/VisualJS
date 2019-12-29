@@ -1797,6 +1797,7 @@ ${origCode}
                             } else if ((mm.model.active_component_index != null) && (mm.model.active_form != null)) {
                                 mm.model.forms[mm.model.active_form].components[mm.model.active_component_index][aa.property_id] = newC
                             }
+                            mm.changed()
                         })
 
                         mm.updateAllFormCaches()
