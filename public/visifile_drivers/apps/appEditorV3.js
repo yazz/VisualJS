@@ -1250,8 +1250,10 @@ load_once_from_file(true)
                     await mm.load_app( mm.base_component_id )
                 }
                 hideProgressBar()
+                pending_changes = false
             } catch (e) {
                 hideProgressBar()
+                pending_changes = false
             }
 
            },
