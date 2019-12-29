@@ -13,6 +13,7 @@ load_once_from_file(true)
       data: function () {
         return {
             text:           args.text,
+            previousText:   "",
             read_only:      false,
             editorDomId:    editorDomId,
             errors:         null
@@ -81,38 +82,51 @@ load_once_from_file(true)
             editor.setReadOnly(true)
          }
 
-
-         editor.getSession().on('change', function() {
-            thisVueInstance.text = editor.getSession().getValue();
-            thisVueInstance.errors = null
-            if (!isValidObject(thisVueInstance.text)) {
-                return
-            }
-            if (thisVueInstance.text.length == 0) {
-                return
-            }
-            try {
-               var newNode = esprima.parse("(" + thisVueInstance.text + ")", { tolerant: true })
-               //alert(JSON.stringify(newNode.errors, null, 2))
-               thisVueInstance.errors = newNode.errors
-               if (thisVueInstance.errors) {
-                    if (thisVueInstance.errors.length == 0) {
-                        thisVueInstance.errors = null
-                    } else {
-                        thisVueInstance.errors = thisVueInstance.errors[0]
+         setTimeout(function() {
+             editor.getSession().on('change', function() {
+                thisVueInstance.text = editor.getSession().getValue();
+                if (thisVueInstance.text != thisVueInstance.previousText) {
+                    thisVueInstance.previousText = thisVueInstance.text
+                    thisVueInstance.errors = null
+                    if (!isValidObject(thisVueInstance.text)) {
+                        return
                     }
-               }
+                    if (thisVueInstance.text.length == 0) {
+                        return
+                    }
+                    try {
+                       var newNode = esprima.parse("(" + thisVueInstance.text + ")", { tolerant: true })
+                       //alert(JSON.stringify(newNode.errors, null, 2))
+                       thisVueInstance.errors = newNode.errors
+                       if (thisVueInstance.errors) {
+                            if (thisVueInstance.errors.length == 0) {
+                                thisVueInstance.errors = null
+                            } else {
+                                thisVueInstance.errors = thisVueInstance.errors[0]
+                            }
+                       }
+                       thisVueInstance.changed()
 
-            } catch(e) {
-               //alert(JSON.stringify(e, null, 2))
-               thisVueInstance.errors = e
-            }
-         });
+                    } catch(e) {
+                       //alert(JSON.stringify(e, null, 2))
+                       thisVueInstance.errors = e
+                    }
+                }
+
+             });
+         },1000)
+
 
         editor.resize(true);
         editor.focus();
      },
      methods: {
+         changed: function() {
+             this.$root.$emit('message', {
+                 type:   "pending"
+             })
+         }
+         ,
         gotoLine: function(line) {
             editor.gotoLine(line , 10, true);
         }
