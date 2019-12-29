@@ -130,7 +130,14 @@ properties(
             hidden:     true,
             type:       "Object"
         }
-
+        ,
+        {
+            id:         "filteredProductionResponse",
+            name:       "Filtered Production Response",
+            default:    null,
+            hidden:     true,
+            type:       "Object"
+        }
 
 
     ]
@@ -200,7 +207,7 @@ logo_url("/driver_icons/rest.png")
 
 
             <div style="font-weight: bold;">Root</div>
-            <select v-model="args.stagingRoot" @change="filterRestApi()">
+            <select v-model="args.stagingRoot" @change="filterStagingRestApi()">
               <option disabled value="">Please select one</option>
               <option  v-for="jsonRoot in args.jsonRoots"
                     v-bind:selected="jsonRoot == args.stagingRoot"
@@ -219,7 +226,7 @@ logo_url("/driver_icons/rest.png")
                             id="{{jsonPath}}"
                             value="{{jsonPath}}"
                             v-model="args.stagingFilter[jsonPath]"
-                            @change="if (args.stagingFilter[jsonPath]) {checkParents(jsonPath)} else {uncheckChildren(jsonPath)};filterRestApi()">
+                            @change="if (args.stagingFilter[jsonPath]) {checkParents(jsonPath)} else {uncheckChildren(jsonPath)};filterStagingRestApi()">
 
                    <label v-if="jsonPath.startsWith(args.stagingRoot)"  for="{{jsonPath}}">{{jsonPath}}</label>
                 </div>
@@ -319,7 +326,25 @@ logo_url("/driver_icons/rest.png")
 
 
                 if (result) {
-                    return result
+                    this.args.productionResponse = result
+                    var result2 = await callFunction(
+                    {
+                        driver_name: "json_filter_service",
+                        method_name: "json_filter_service"
+                    }
+                    ,
+                    {
+                        input: result,
+                        filter: this.args.productionFilter,
+                        root:  this.args.productionRoot
+
+                    })
+
+
+                    if (result2) {
+                        return result2
+                    }
+                    return null
                 }
                 return null
             }
@@ -471,7 +496,7 @@ logo_url("/driver_icons/rest.png")
                         this.args.stagingFilter[this.args.jsonPaths[ert]] = true
                     }
                 }
-                this.filterRestApi()
+                this.filterStagingRestApi()
             }
             ,
 
@@ -548,7 +573,7 @@ logo_url("/driver_icons/rest.png")
                         this.args.stagingFilter[this.args.jsonPaths[ert]] = false
                     }
                 }
-                this.filterRestApi()
+                this.filterStagingRestApi()
             }
             ,
 
@@ -615,7 +640,7 @@ logo_url("/driver_icons/rest.png")
 
             promoteStagingToLive: async function(urlToCall) {
 
-//zzz
+
                 this.args.productionFilter  = JSON.parse(JSON.stringify(this.args.stagingFilter))
                 this.args.URL               = this.args.stagingURL
                 this.args.productionRoot    = this.args.stagingRoot
@@ -647,14 +672,14 @@ logo_url("/driver_icons/rest.png")
 
             // ----------------------------------------------------------------
             //
-            //                          filterRestApi
+            //                          filterStagingRestApi
             //
             //
             //
             //
             // ----------------------------------------------------------------
 
-            filterRestApi: async function() {
+            filterStagingRestApi: async function() {
                 var aa = await this.getJsonFiltered(this.args.stagingResponse)
                 this.args.filteredStagingResponse  = aa
 
@@ -662,7 +687,20 @@ logo_url("/driver_icons/rest.png")
             ,
 
 
+            // ----------------------------------------------------------------
+            //
+            //                          filterLiveRestApi
+            //
+            //
+            //
+            //
+            // ----------------------------------------------------------------
 
+            filterProductionRestApi: async function() {
+                var aa = await this.getJsonFiltered(this.args.productionResponse)
+                this.args.filteredProductionResponse  = aa
+
+            }
 
 
 
