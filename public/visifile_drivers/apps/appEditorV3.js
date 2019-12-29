@@ -216,7 +216,7 @@ load_once_from_file(true)
                               v-on:mouseleave='setInfo(null)'
                               v-on:click='setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null)},100)'
                               type="button" class="btn btn-light"
-                              v-if="pending_changes">
+                              v-if="save_state == 'pending' || (!save_state)">
 
                               <img
                                   src='/driver_icons/save.png'
@@ -226,11 +226,18 @@ load_once_from_file(true)
 
                     </button>
 
-                    <div    v-if="!pending_changes"
+                    <div    v-if="save_state == 'saved'"
                             v-bind:disabled='read_only?"":false'
                             v-bind:style="'padding:10px;;display: inline-block;width: 200px;margin-left:200px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
                     >
                     All changes saved
+                    </div>
+
+                    <div    v-if="save_state == 'saving'"
+                            v-bind:disabled='read_only?"":false'
+                            v-bind:style="'padding:10px;;display: inline-block;width: 200px;margin-left:200px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
+                    >
+                    saving ...
                     </div>
 
                 </div>
@@ -649,7 +656,7 @@ load_once_from_file(true)
                edit_name:           false,
                new_name:            "",
                editor_text:         "",
-               pending_changes:    false
+               save_state:          "saved"
            }
        }
        ,
@@ -1250,10 +1257,10 @@ load_once_from_file(true)
                     await mm.load_app( mm.base_component_id )
                 }
                 hideProgressBar()
-                pending_changes = false
+                save_state = "saved"
             } catch (e) {
                 hideProgressBar()
-                pending_changes = false
+                save_state = "saved"
             }
 
            },
@@ -1497,7 +1504,15 @@ load_once_from_file(true)
                 this.$root.$on('message', async function(message) {
                     if (message.type == "set_info_text") {
                         mm.info_text = message.text
+                    } else if (message.type == "saving") {
+                        mm.save_state = "saving"
+                    } else if (message.type == "pending") {
+                        mm.save_state = "pending"
+                    } else if (message.type == "saved") {
+                        mm.save_state = "saved"
                     }
+
+
                 })
 
 
