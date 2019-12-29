@@ -3131,7 +3131,7 @@ ${eventMessage.code}
              }
              ev.dataTransfer.setData("message",
                                      JSON.stringify(message,null,2));
-             mm.changed()
+             //mm.changed()
 
          },
 
