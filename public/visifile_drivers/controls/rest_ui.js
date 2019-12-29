@@ -194,7 +194,7 @@ logo_url("/driver_icons/rest.png")
 
 
         <div style="height:100%;width:500px; border: 0px;color:black;padding: 10px;overflow:scroll;">
-            <pre>{{args.stagingURL}}</pre>
+            <input v-model="args.stagingURL" ></input>
             <div/>
 
 
