@@ -176,7 +176,7 @@ logo_url("/driver_icons/rest.png")
         <button    class="btn btn-primary"
                    v-on:click="callStagingRestApi()">
 
-              Call API
+              Test staging API
 
         </button>
 
@@ -304,7 +304,7 @@ logo_url("/driver_icons/rest.png")
             //
             // ----------------------------------------------------------------
 
-            callRestApiInternal: async function() {
+            callRestApiInternal: async function(url, filter) {
                 var mm = this
 
                 var result = await callFunction(
@@ -314,7 +314,7 @@ logo_url("/driver_icons/rest.png")
                 }
                 ,
                 {
-                    URL:    mm.args.URL
+                    URL:    url
                 })
 
 
@@ -415,7 +415,7 @@ logo_url("/driver_icons/rest.png")
 
             callDefaultRestApi: async function() {
 
-                var qwe = await this.callRestApiInternal()
+                var qwe = await this.callRestApiInternal(this.args.URL)
                 return qwe
             }
             ,
@@ -440,10 +440,11 @@ logo_url("/driver_icons/rest.png")
             callRestApi: async function(urlToCall) {
 
                 var mm = this
-                if (urlToCall) {
-                    mm.args.URL = urlToCall
+                if (!urlToCall) {
+                    urlToCall = mm.args.URL
                 }
-                var qwe = await this.callRestApiInternal()
+
+                var qwe = await this.callRestApiInternal(urlToCall)
                 return qwe
             }
             ,
@@ -604,18 +605,9 @@ logo_url("/driver_icons/rest.png")
 
             promoteStagingToLive: async function(urlToCall) {
 
-                this.args.filteredStagingResponse = new Object()
-                var jsonResponse  = await this.callRestApi(this.args.stagingURL)
-                this.args.stagingResponse   = jsonResponse
-
-
-                var aa = await this.callJsonTraverse(jsonResponse)
-                this.args.jsonPaths = Object.keys(aa)
-
-                for (var ert=0;ert<this.args.jsonPaths.length;ert++) {
-                    this.args.stagingFilter[this.args.jsonPaths[ert]] = true
-                }
-
+//zzz
+                this.args.productionFilter  = JSON.parse(JSON.stringify(this.args.stagingFilter))
+                this.args.URL               = this.args.stagingURL
             }
             ,
 
@@ -649,27 +641,6 @@ logo_url("/driver_icons/rest.png")
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-            pathToString: function (pp) {
-                var s = ""
-                for (  var aa = 0  ;  aa < pp.length  ;  aa ++  ) {
-                    s += pp[aa]
-                    if (aa < pp.length -1) {
-                        s += "."
-                    }
-                }
-                return s
-            }
 
 
 
