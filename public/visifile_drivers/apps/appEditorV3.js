@@ -215,7 +215,7 @@ load_once_from_file(true)
                               v-on:mouseenter='setInfo("Save the changes made in the UI and reload the app")'
                               v-on:mouseleave='setInfo(null)'
                               v-on:click='setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null)},100)'
-                              type="button" class="btn btn-light"
+                              type="button" class="btn  btn-warning"
                               v-if="save_state == 'pending' || (!save_state)">
 
                               <img
@@ -1257,10 +1257,10 @@ load_once_from_file(true)
                     await mm.load_app( mm.base_component_id )
                 }
                 hideProgressBar()
-                save_state = "saved"
+                this.save_state = "saved"
             } catch (e) {
                 hideProgressBar()
-                save_state = "saved"
+                this.save_state = "saved"
             }
 
            },

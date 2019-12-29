@@ -1156,6 +1156,12 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
      methods: {
+         changed: function() {
+             this.$root.$emit('message', {
+                 type:   "pending"
+             })
+         }
+         ,
          getControlMethod: function(componentDefn,componentDetails) {
             var mm = this
             var methodId = componentDefn.id
@@ -3087,6 +3093,7 @@ ${eventMessage.code}
                   this.model.active_component_index = null
                   mm.refresh ++
                 }
+                mm.changed()
           },
 
           setInfo: function(text) {
