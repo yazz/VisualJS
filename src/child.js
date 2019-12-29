@@ -1238,8 +1238,11 @@ ${code}
         if (saveHelper.getValueOfCodeString(code,"load_once_from_file")) {
             creationTimestamp = -1
         }
-        code = saveHelper.deleteCodeString(code, "created_timestamp")
-        code = saveHelper.insertCodeString(code, "created_timestamp", creationTimestamp)
+        var tvvv = saveHelper.getValueOfCodeString(code, "created_timestamp")
+        if (!tvvv) {
+            code = saveHelper.deleteCodeString(code, "created_timestamp")
+            code = saveHelper.insertCodeString(code, "created_timestamp", creationTimestamp)
+        }
 
 
 

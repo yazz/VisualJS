@@ -85,7 +85,8 @@ load_once_from_file(true)
          setTimeout(function() {
              editor.getSession().on('change', function() {
                 thisVueInstance.text = editor.getSession().getValue();
-                if (thisVueInstance.text != thisVueInstance.previousText) {
+                debugger
+                if ((thisVueInstance.text != thisVueInstance.previousText) && (thisVueInstance.text != "")){
                     thisVueInstance.previousText = thisVueInstance.text
                     thisVueInstance.errors = null
                     if (!isValidObject(thisVueInstance.text)) {
