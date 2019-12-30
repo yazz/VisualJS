@@ -216,7 +216,7 @@ load_once_from_file(true)
                               v-on:mouseleave='setInfo(null)'
                               v-on:click='setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null)},100)'
                               type="button" class="btn  btn-warning"
-                              v-if="save_state == 'pending' || (!save_state)">
+                              v-if="!read_only && (save_state == 'pending' || (!save_state))">
 
                               <img
                                   src='/driver_icons/save.png'
@@ -226,19 +226,34 @@ load_once_from_file(true)
 
                     </button>
 
-                    <div    v-if="save_state == 'saved'"
+                    <div    v-if="!read_only && (save_state == 'saved')"
                             v-bind:disabled='read_only?"":false'
                             v-bind:style="'padding:10px;;display: inline-block;width: 200px;margin-left:200px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
                     >
                     All changes saved
                     </div>
 
-                    <div    v-if="save_state == 'saving'"
+                    <div    v-if="!read_only && (save_state == 'saving')"
                             v-bind:disabled='read_only?"":false'
                             v-bind:style="'padding:10px;;display: inline-block;width: 200px;margin-left:200px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
                     >
                     saving ...
                     </div>
+
+                    <button   v-bind:style="'margin-left:200px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                              v-on:mouseenter='setInfo("Save the changes made in the UI and reload the app")'
+                              v-on:mouseleave='setInfo(null)'
+                              v-on:click='setTimeout(function(){copyAppMethod(base_component_id, null)},100)'
+                              type="button" class="btn  btn-primary"
+                              v-if='read_only && (mode != "profiler") && (!editor_overloaded)'>
+
+                              <img
+                                  src='/driver_icons/remix.png'
+                                  style='height:35px; margin-right: 10px;'
+                                  class='img-fluid'>
+                              </img>Remix
+
+                    </button>
 
                 </div>
 
