@@ -386,7 +386,7 @@ logo_url("/driver_icons/data_window.png")
                     <div style="height:70%;width:15%; overflow-y: none;display:inline-block;vertical-align:top;">
                         <button    class="btn btn-primary"
                                 :disabled="(args.selected_column && args.selected_column.length > 0)?false:true"
-                                v-on:click="var newId = args.dataWindowColumnsMax++;args.dataWindowColumns.push({id:    newId, value: args.selected_column, name: args.selected_column});setSql();args.selected_data_window_column_index = newId;args.selected_data_window_column = args.dataWindowColumns[args.dataWindowColumns.length - 1];">
+                                v-on:click="var newId = args.dataWindowColumnsMax++;args.dataWindowColumns.push({id:    newId, value: args.selected_column, name: args.selected_column});setSql();args.selected_data_window_column_index = newId;args.selected_data_window_column = args.dataWindowColumns[args.dataWindowColumns.length - 1];changed()">
 
                               Add >>
 
@@ -394,7 +394,7 @@ logo_url("/driver_icons/data_window.png")
                         <button    class="btn btn-primary"
                                 style="margin-top:20px;"
                                 :disabled="(args.selected_data_window_column_index > -1)?false:true"
-                                v-on:click="args.dataWindowColumns.splice(args.selected_data_window_column_index,1);setSql(); args.selected_data_window_column_index = -1;args.selected_data_window_column='';">
+                                v-on:click="args.dataWindowColumns.splice(args.selected_data_window_column_index,1);setSql(); args.selected_data_window_column_index = -1;args.selected_data_window_column='';changed()">
 
                               << Remove
 
@@ -424,7 +424,7 @@ logo_url("/driver_icons/data_window.png")
                             <button     class="btn btn-primary"
                                         :disabled="(args.selected_data_window_column_index > 0)?false:true"
                                         style="margin-top:20px; margin-left: 0px;"
-                                        v-on:click="array_move(args.dataWindowColumns,args.selected_data_window_column_index,args.selected_data_window_column_index-1);args.selected_data_window_column_index --;">
+                                        v-on:click="array_move(args.dataWindowColumns,args.selected_data_window_column_index,args.selected_data_window_column_index-1);args.selected_data_window_column_index --;changed()">
 
                                   Move Up
 
@@ -433,7 +433,7 @@ logo_url("/driver_icons/data_window.png")
                             <button class="btn btn-primary"
                                     :disabled="((args.selected_data_window_column_index > -1) && (args.selected_data_window_column_index < (args.dataWindowColumns.length - 1)))?false:true"
                                     style="margin-top:20px; margin-left: 20px;"
-                                    v-on:click="array_move(args.dataWindowColumns,args.selected_data_window_column_index,args.selected_data_window_column_index + 1);args.selected_data_window_column_index ++;">
+                                    v-on:click="array_move(args.dataWindowColumns,args.selected_data_window_column_index,args.selected_data_window_column_index + 1);args.selected_data_window_column_index ++;changed()">
 
                                   Move Down
 
@@ -458,7 +458,7 @@ logo_url("/driver_icons/data_window.png")
                                           name="col_input_name"
                                           required
                                           v-bind:value='args.selected_data_window_column.name'
-                                          v-on:change="var qwe = document.getElementById('col_input_name').value;args.dataWindowColumns[args.selected_data_window_column_index].name=qwe;args.selected_data_window_column.name = qwe;"
+                                          v-on:change="var qwe = document.getElementById('col_input_name').value;args.dataWindowColumns[args.selected_data_window_column_index].name=qwe;args.selected_data_window_column.name = qwe;changed()"
                                           >
                                   </input>
 
@@ -474,7 +474,7 @@ logo_url("/driver_icons/data_window.png")
                                           required
                                           v-bind:value='args.selected_data_window_column.value'
 
-                                          v-on:change="var qwe = document.getElementById('col_input_value').value;args.dataWindowColumns[args.selected_data_window_column_index].value=qwe;args.selected_data_window_column.value = qwe;"
+                                          v-on:change="var qwe = document.getElementById('col_input_value').value;args.dataWindowColumns[args.selected_data_window_column_index].value=qwe;args.selected_data_window_column.value = qwe;changed()"
                                           >
                                   </input>
 
@@ -492,7 +492,7 @@ logo_url("/driver_icons/data_window.png")
                                             name="col_input_width"
                                             v-bind:value='args.selected_data_window_column.width?args.selected_data_window_column.width:""'
 
-                                            v-on:change="var qwe = document.getElementById('col_input_width').value;args.selected_data_window_column.width = qwe;args.dataWindowColumns[args.selected_data_window_column_index].width=qwe;"
+                                            v-on:change="var qwe = document.getElementById('col_input_width').value;args.selected_data_window_column.width = qwe;args.dataWindowColumns[args.selected_data_window_column_index].width=qwe;changed()"
                                             >
                                     </input>
                               </div>
@@ -721,6 +721,26 @@ logo_url("/driver_icons/data_window.png")
 
 
       methods: {
+
+          // ----------------------------------------------------------------
+          //
+          //                     changed
+          //
+          //
+          //
+          //
+          // ----------------------------------------------------------------
+          changed: function() {
+              this.$root.$emit('message', {
+                  type:   "pending"
+              })
+          }
+          ,
+
+
+
+
+
             setSql: function() {
                 var colSql = "*"
                 if (this.args.dataWindowColumns.length > 0) {
@@ -750,10 +770,12 @@ logo_url("/driver_icons/data_window.png")
             ,
             resetColumns: async function(data) {
                 this.table.setColumns([])
+                this.changed()
             }
             ,
             addColumn: async function(colData) {
                 this.table.addColumn(colData, true, "name");
+                //this.changed()
             }
             ,
 
@@ -813,6 +835,7 @@ logo_url("/driver_icons/data_window.png")
                 }
                 arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
                 return arr; // for testing
+                this.changed()
             }
             ,
 
@@ -938,7 +961,7 @@ logo_url("/driver_icons/data_window.png")
 
                }
                 this.args.result = []
-                this.changedFn()
+                //this.changedFn()
                 return {}
             }
 
