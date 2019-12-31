@@ -48,7 +48,7 @@
     "semver": "^5.5.0",
     "socket.io": "^2.2.0",
     "sqldown": "^2.1.0",
-    "sqlite3": "^4.0.2",
+    "sqlite3": "^4.1.1",
     "tar-stream": "^2.0.1",
     "traverse": "^0.6.6",
     "uuid": "^3.1.0",
