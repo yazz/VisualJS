@@ -34,7 +34,7 @@ only_run_on_server(true)
 
 
     console.log("** json_filter_service **")
-    //console.log(JSON.stringify(args,null,2))
+    console.log(JSON.stringify(args,null,2))
 
     //var tt = traverse(args.input).paths()
     var paths           = new Object()
@@ -51,9 +51,9 @@ only_run_on_server(true)
         paths[rt]=true
         console.log("paths[rt]=true " )
 
-        if (!args.filter[rt]) {
+        if (args.filter[rt] == false) {
             console.log("this.remove()" )
-            if(this) {
+            if(rt != "") {
                 this.remove()
             }
             console.log("this.removed()" )
