@@ -28,6 +28,13 @@ properties(
             type:   "String"
         }
         ,
+        {
+            id:     "draw_color",
+            name:   "Draw color",
+            default:    "black",
+            type:   "String"
+        }
+        ,
 
         {
             id:         "has_details_ui",
@@ -88,6 +95,26 @@ logo_url("/driver_icons/draw.png")
       }
       ,
       methods: {
+          // ----------------------------------------------------------------
+          //
+          //                     changed
+          //
+          //
+          //
+          //
+          // ----------------------------------------------------------------
+          changed: function() {
+              this.$root.$emit('message', {
+                  type:   "pending"
+              })
+          }
+          ,
+
+
+
+
+
+
           drawNow: function(event) {
           var mm= this
           var el = document.getElementById(mm.args.name + "_canvas_" + (mm.design_mode?"_design_mode":""))
@@ -97,12 +124,20 @@ logo_url("/driver_icons/draw.png")
                var right = event.clientY - rect.top
 
                var ctx = el.getContext("2d");
+               ctx.strokeStyle = mm.args.draw_color;
+               ctx.fillStyle = mm.args.draw_color;
                ctx.fillRect(left,right,3,3)
 
                this.args.image_data = el.toDataURL()
+               this.changed()
             }
           }
           ,
+
+
+
+
+
           loadImageToCanvas: function() {
               var mm = this
               var base_image = new Image();
