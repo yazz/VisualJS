@@ -200,8 +200,8 @@ logo_url("/driver_icons/rest.png")
 
 
 
-        <div style="height:100%;width:500px; border: 0px;color:black;padding: 10px;overflow:scroll;">
-            <input v-model="args.stagingURL" ></input>
+        <div style="height:100%;width:600px; border: 0px;color:black;padding: 10px;overflow:scroll;">
+            <input v-model="args.stagingURL" size=60></input>
             <div/>
 
 
