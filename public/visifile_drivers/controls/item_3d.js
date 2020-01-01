@@ -120,42 +120,42 @@ properties(
         {
             id:         "moveRight",
             snippet:    `moveRight(1)`,
-            name:       "Move Right",
+            name:       "Move Right()",
             type:       "Action"
         }
         ,
         {
             id:         "moveUp",
             snippet:    `moveUp(1)`,
-            name:       "Move Up",
+            name:       "Move Up()",
             type:       "Action"
         }
         ,
         {
             id:         "moveLeft",
             snippet:    `moveLeft(1)`,
-            name:       "Move Left",
+            name:       "Move Left()",
             type:       "Action"
         }
         ,
         {
             id:         "moveDown",
             snippet:    `moveDown(1)`,
-            name:       "Move Down",
+            name:       "Move Down()",
             type:       "Action"
         }
         ,
         {
             id:         "moveBack",
             snippet:    `moveBack(1)`,
-            name:       "Move Back",
+            name:       "Move Back()",
             type:       "Action"
         }
         ,
         {
             id:         "moveForward",
             snippet:    `moveForward(1)`,
-            name:       "Move Forward",
+            name:       "Move Forward()",
             type:       "Action"
         }
         ,
@@ -187,21 +187,21 @@ properties(
         {
             id:         "moveTo",
             snippet:    `moveTo({})`,
-            name:       "Move To",
+            name:       "Move To()",
             type:       "Action"
         }
         ,
         {
             id:         "applyImpulse",
             snippet:    `applyImpulse()`,
-            name:       "Apply Impulse",
+            name:       "Apply Impulse()",
             type:       "Action"
         }
         ,
         {
             id:         "panTo",
             snippet:    `panTo()`,
-            name:       "Pan To",
+            name:       "Pan To()",
             type:       "Action",
             fn:
 `parent.cameraTo({x: me.x,y: me.y,z: me.z + 4,duration: 1000, bounce: false})
@@ -319,7 +319,7 @@ logo_url("/driver_icons/threedee_control.png")
 
                 ,
                 moveTo: async function(opts) {
-                
+
                     var mm          = this
                     var animationId = "animation_" + this.name
                     var dd          =  document.querySelector("#" + this.name)
