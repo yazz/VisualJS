@@ -48,6 +48,8 @@ properties(
 logo_url("/driver_icons/draw.png")
 */
 
+
+
     Vue.component("draw_control",{
       props: ["args","refresh", "design_mode"]
       ,
@@ -64,7 +66,16 @@ logo_url("/driver_icons/draw.png")
                                             style="height:100%:width:100%;">
                                     </canvas>
 
-                                    <img      v-else=""
+                                    <div        v-if='design_mode == "detail_editor"'>
+
+                                        <div    v-for="color in colors"
+                                                v-if='design_mode == "detail_editor"'
+                                                v-on:click='args.draw_color = color;'
+                                                v-bind:style="'display: inline-block;width:10px;height:10px;background-color: ' + color">
+                                        </div>
+                                    </div>
+
+                                    <img      v-if='design_mode != "detail_editor"'
                                               v-bind:width='args.width + "px"'
                                               v-bind:refresh='refresh'
                                               alt='No image set'
@@ -77,7 +88,8 @@ logo_url("/driver_icons/draw.png")
       data: function() {
        return {
          msg: "...",
-         mousedown: false
+         mousedown: false,
+          colors: ["blue","green","yellow","orange","black","white","purple","red","violet","blue","gray","pink"]
      }
       }
       ,
