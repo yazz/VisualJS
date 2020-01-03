@@ -35,6 +35,13 @@ properties(
             type:   "String"
         }
         ,
+        {
+            id:     "brush_width",
+            name:   "Brush Width",
+            default:    3,
+            type:   "Number"
+        }
+        ,
 
         {
             id:         "has_details_ui",
@@ -138,7 +145,7 @@ logo_url("/driver_icons/draw.png")
                var ctx = el.getContext("2d");
                ctx.strokeStyle = mm.args.draw_color;
                ctx.fillStyle = mm.args.draw_color;
-               ctx.fillRect(left,right,3,3)
+               ctx.fillRect(left,right,  mm.args.brush_width,  mm.args.brush_width)
 
                this.args.image_data = el.toDataURL()
                this.changed()
