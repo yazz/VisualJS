@@ -82,6 +82,17 @@ logo_url("/driver_icons/draw.png")
                                         </div>
                                     </div>
 
+                                    <div        v-if='design_mode == "detail_editor"'>
+
+                                        <div    v-for="brush_size in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]"
+                                                v-if='design_mode == "detail_editor"'
+                                                v-on:click='args.brush_width = brush_size;'
+                                                v-bind:style="'display: inline-block;width:' + brush_size + 'px;height:' + brush_size +
+                                                              'px;background-color: ' + args.draw_color + ';border: black solid 1px ;margin-right: 2px;'">
+                                        </div>
+                                    </div>
+
+
                                     <img      v-if='design_mode != "detail_editor"'
                                               v-bind:width='args.width + "px"'
                                               v-bind:refresh='refresh'
@@ -96,7 +107,9 @@ logo_url("/driver_icons/draw.png")
        return {
          msg: "...",
          mousedown: false,
-          colors: ["blue","green","yellow","orange","black","white","purple","red","violet","blue","gray","pink"]
+          colors: [ "blue","green","yellow","orange","black","white","purple","red","violet","blue","gray","pink","orange","lightgray","darkgray",
+                    "cyan","lightblue"
+                    ]
      }
       }
       ,
