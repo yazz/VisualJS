@@ -67,10 +67,13 @@ logo_url("/driver_icons/draw.png")
                                     <canvas v-if='design_mode == "detail_editor"'
                                             v-bind:id='args.name + "_canvas_" + (design_mode?"_design_mode":"")'
                                             v-bind:refresh='refresh'
+                                            style="border: solid black 5px;margin-bottom: 10px;"
                                             v-on:mousemove='if (mousedown) {drawNow($event)}'
                                             v-on:mousedown='mousedown=true'
                                             v-on:mouseup='mousedown=false'
-                                            style="height:100%:width:100%;">
+                                            v-bind:height='args.height + "px"'
+                                            v-bind:width='args.width + "px"'
+                                             >
                                     </canvas>
 
                                     <div        v-if='design_mode == "detail_editor"'>
@@ -84,7 +87,7 @@ logo_url("/driver_icons/draw.png")
 
                                     <div        v-if='design_mode == "detail_editor"'>
 
-                                        <div    v-for="brush_size in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]"
+                                        <div    v-for="brush_size in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28]"
                                                 v-if='design_mode == "detail_editor"'
                                                 v-on:click='args.brush_width = brush_size;'
                                                 v-bind:style="'display: inline-block;width:' + brush_size + 'px;height:' + brush_size +
