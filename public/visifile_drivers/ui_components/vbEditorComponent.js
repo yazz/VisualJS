@@ -1167,36 +1167,34 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
                      //zzz
+                     var timeDiff = -1
                      var currentTime = new Date().getTime();
-
-                     mm.model_changed_time = currentTime
-
-                     if (!mm.in_change_model) {
-                         mm.in_change_model = true
-                         setInterval(function() {
-                             var currentTime = new Date().getTime();
-                             var timeDiff = currentTime - mm.model_changed_time
-                             if (timeDiff < 500) {
-                                 mm.in_change_model = false
-                                 return
-                             }
-                             console.log("Changed ********")
-                             var ttt=null
-                             if (mm.old_model) {
-                                 ttt = jsondiffpatch2.diff(mm.old_model,mm.model)
-                                 console.log("Changes: "+ JSON.stringify(ttt,null,2))
-                             }
-                             if (ttt) {
-                                 mm.old_model = JSON.parse(JSON.stringify(mm.model));
-                                 mm.$root.$emit('message', {
-                                     type:   "pending"
-                                 })
-                             }
-                             mm.in_change_model = false
-
-                         },500)
+                     if (mm.model_changed_time != -1) {
+                         mm.model_changed_time = currentTime
                      }
 
+                     var timeDiff = currentTime - mm.model_changed_time
+                     if (timeDiff > 1000) {
+                         if (!mm.in_change_model) {
+                             mm.in_change_model = true
+                             setTimeout(function() {
+                                 console.log("Changed ********")
+                                 var ttt=null
+                                 if (mm.old_model) {
+                                     ttt = jsondiffpatch2.diff(mm.old_model,mm.model)
+                                     console.log("Changes: "+ JSON.stringify(ttt,null,2))
+                                 }
+                                 if (ttt) {
+                                     mm.old_model = JSON.parse(JSON.stringify(mm.model));
+                                     mm.$root.$emit('message', {
+                                         type:   "pending"
+                                     })
+                                 }
+                                 mm.in_change_model = false
+
+                             },500)
+                         }
+                     }
 
 
                  }
