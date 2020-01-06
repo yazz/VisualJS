@@ -1179,7 +1179,7 @@ uses_javascript_librararies(["advanced_bundle"])
                          console.log("Changed ********")
                          var ttt=null
                          if (mm.old_model) {
-                             ttt = jsondiffpatch.diff(mm.old_model,mm.model)
+                             ttt = jsondiffpatch2.diff(mm.old_model,mm.model)
                              console.log("Changes: "+ JSON.stringify(ttt,null,2))
                          }
                          if (ttt) {
