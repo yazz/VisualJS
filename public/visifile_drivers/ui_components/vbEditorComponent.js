@@ -194,36 +194,36 @@ uses_javascript_librararies(["advanced_bundle"])
 
                 <div  v-bind:style='"border: 5px solid lightgray;background: white;;overflow:none;height:100%; overflow: auto; width:100%; "'>
 
-                    <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[model.active_component_detail_index].name + (design_mode?"_design":"")'
+                    <component  v-bind:id='active_form + "_" + model.forms[active_form].components[model.active_component_detail_index].name + (design_mode?"_design":"")'
                                 v-bind:refresh='refresh'
                                 design_mode='detail_editor'
 
-                                v-bind:meta='{form: model.active_form,name: model.forms[model.active_form].components[model.active_component_detail_index].name + (design_mode?"_design":"")}'
+                                v-bind:meta='{form: active_form,name: model.forms[active_form].components[model.active_component_detail_index].name + (design_mode?"_design":"")}'
 
-                                v-bind:form="model.active_form"
+                                v-bind:form="active_form"
                                 v-bind:delete_design_time_component='childDeleteComponent'
                                 v-bind:select_design_time_component='childSelectComponent'
-                                v-bind:children='getChildren( model.forms[model.active_form].components[model.active_component_detail_index].name)'
+                                v-bind:children='getChildren( model.forms[active_form].components[model.active_component_detail_index].name)'
                                 v-on:send="processControlEvent"
-                                v-bind:is='model.forms[model.active_form].components[model.active_component_detail_index].base_component_id'
-                                v-bind:name='model.forms[model.active_form].components[model.active_component_detail_index].name + "_design_mode_" + design_mode'
-                                v-bind:args='model.forms[model.active_form].components[model.active_component_detail_index]'>
+                                v-bind:is='model.forms[active_form].components[model.active_component_detail_index].base_component_id'
+                                v-bind:name='model.forms[active_form].components[model.active_component_detail_index].name + "_design_mode_" + design_mode'
+                                v-bind:args='model.forms[active_form].components[model.active_component_detail_index]'>
 
                                 <template       slot-scope="child_components"
                                                 v-bind:refresh='refresh'
                                                 style='position:relative;'>
 
-                                    <component  v-for='child_item  in  getChildren(model.forms[model.active_form].components[model.active_component_detail_index].name)'
+                                    <component  v-for='child_item  in  getChildren(model.forms[active_form].components[model.active_component_detail_index].name)'
                                                 v-bind:design_mode='design_mode'
-                                                v-bind:meta='{form: model.active_form,name: child_item.name + (design_mode?"_design":"")}'
-                                                v-bind:form="model.active_form"
+                                                v-bind:meta='{form: active_form,name: child_item.name + (design_mode?"_design":"")}'
+                                                v-bind:form="active_form"
                                                 v-bind:refresh='refresh'
                                                 v-bind:style='"z-index:100000;position: absolute; top: " + child_item.topY + "px; left: " + child_item.leftX + "px;height:" + child_item.height + "px;width:" + child_item.width + "px;overflow:auto;"'
-                                                v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[child_item.index_in_parent_array].name + (design_mode?"_design":"")'
+                                                v-bind:id='active_form + "_" + model.forms[active_form].components[child_item.index_in_parent_array].name + (design_mode?"_design":"")'
                                                 v-on:send="processControlEvent"
                                                 v-bind:is='child_item.base_component_id'
                                                 v-bind:name='child_item.name + "_design_mode_" + design_mode'
-                                                v-bind:args='model.forms[model.active_form].components[child_item.index_in_parent_array]'>
+                                                v-bind:args='model.forms[active_form].components[child_item.index_in_parent_array]'>
                                     </component>
 
                                 </template>
@@ -259,7 +259,7 @@ uses_javascript_librararies(["advanced_bundle"])
                         style='width: 20px; margin-right: 10px;'
                         class='img-fluid'>
                      </img>
-                     {{model.active_form}} (Form)
+                     {{active_form}} (Form)
                 </div>
                 <div style=''></div>
 
@@ -274,49 +274,49 @@ uses_javascript_librararies(["advanced_bundle"])
                             v-bind:style='"display:inline-block;background-color: white; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:2px;top:2px;"'>
                     </div>
                     <div    v-if='design_mode && (!isValidObject(active_component_index))'
-                            v-bind:style='"display:inline-block;background-color: white; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (7 + (model.forms[model.active_form].width/2)) +  "px;top:2px;"'>
+                            v-bind:style='"display:inline-block;background-color: white; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (7 + (model.forms[active_form].width/2)) +  "px;top:2px;"'>
                     </div>
                     <div    v-if='design_mode && (!isValidObject(active_component_index))'
-                            v-bind:style='"display:inline-block;background-color: white; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (15 +model.forms[model.active_form].width) +  "px;top:2px;"'>
+                            v-bind:style='"display:inline-block;background-color: white; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (15 +model.forms[active_form].width) +  "px;top:2px;"'>
                     </div>
                     <div    v-if='design_mode && (!isValidObject(active_component_index))'
-                            v-bind:style='"display:inline-block;background-color: white; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:2px;top:" + (7 + (model.forms[model.active_form].height/2)) +  "px;"'>
+                            v-bind:style='"display:inline-block;background-color: white; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:2px;top:" + (7 + (model.forms[active_form].height/2)) +  "px;"'>
                     </div>
                     <div    v-if='design_mode && (!isValidObject(active_component_index))'
-                            v-bind:style='"display:inline-block;background-color: white; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:2px;top:" + (15 + model.forms[model.active_form].height) +  "px;"'>
+                            v-bind:style='"display:inline-block;background-color: white; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:2px;top:" + (15 + model.forms[active_form].height) +  "px;"'>
                     </div>
 
                     <!-- ACTIVE FORM RESIZERS -->
                     <!-- bottom right -->
                     <div    v-if='design_mode && (!isValidObject(active_component_index))'
                             v-on:dragend='$event.stopPropagation();deleteCursor();'
-                            v-bind:style='"cursor: nwse-resize;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (15 +model.forms[model.active_form].width) +  "px;top:" + (15 + (model.forms[model.active_form].height)) +  "px;"'
+                            v-bind:style='"cursor: nwse-resize;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (15 +model.forms[active_form].width) +  "px;top:" + (15 + (model.forms[active_form].height)) +  "px;"'
                             v-bind:draggable='true'
                             v-on:dragstart='$event.stopPropagation();switchCursor($event,"nwse-resize","crosshair");drag($event,{
                                type:        "resize_form_bottom_right",
-                               form_name:    model.active_form
+                               form_name:    active_form
                             })'
                             >
                     </div>
                     <!-- right -->
                     <div    v-if='design_mode && (!isValidObject(active_component_index))'
-                            v-bind:style='"cursor: ew-resize;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (15 +model.forms[model.active_form].width) +  "px;top:" + (7 + (model.forms[model.active_form].height/2)) +  "px;"'
+                            v-bind:style='"cursor: ew-resize;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (15 +model.forms[active_form].width) +  "px;top:" + (7 + (model.forms[active_form].height/2)) +  "px;"'
                             v-bind:draggable='true'
                             v-on:dragend='$event.stopPropagation();deleteCursor();'
                             v-on:dragstart='$event.stopPropagation();switchCursor($event,"ew-resize","col-resize");drag($event,{
                                type:        "resize_form_right",
-                               form_name:    model.active_form
+                               form_name:    active_form
                             })'
                             >
                     </div>
                     <!-- bottom -->
                     <div    v-if='design_mode && (!isValidObject(active_component_index))'
-                            v-bind:style='"cursor: ns-resize;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (7 +model.forms[model.active_form].width/2) +  "px;top:" + (15 + (model.forms[model.active_form].height)) +  "px;"'
+                            v-bind:style='"cursor: ns-resize;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (7 +model.forms[active_form].width/2) +  "px;top:" + (15 + (model.forms[active_form].height)) +  "px;"'
                             v-bind:draggable='true'
                             v-on:dragend='$event.stopPropagation();deleteCursor()'
                             v-on:dragstart='$event.stopPropagation();switchCursor($event,"ns-resize","row-resize");drag($event,{
                                type:        "resize_form_bottom",
-                               form_name:    model.active_form
+                               form_name:    active_form
                             })'
                             >
                     </div>
@@ -330,7 +330,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                     v-on:ondragover="$event.stopPropagation();maintainCursor();allowDrop($event)"
                                     v-bind:class='(design_mode?"dotted":"" )'
                                     v-on:click='clickOnMainGrid($event)'
-                                    v-bind:style='"position:absolute;display: inline-block; vertical-align: top; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"left:15px;top:15px;border: 4px solid lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);":"border: 0px;" ) '>
+                                    v-bind:style='"position:absolute;display: inline-block; vertical-align: top; width: " + model.forms[active_form].width +  ";height: " + model.forms[active_form].height +  " ;" + (design_mode?"left:15px;top:15px;border: 4px solid lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);":"border: 0px;" ) '>
 
 
                         <div    v-bind:refresh='refresh'
@@ -338,110 +338,110 @@ uses_javascript_librararies(["advanced_bundle"])
 
                             <!-- ACTIVE CONTROL RESIZERS -->
                             <!-- top left -->
-                            <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(model.active_form,active_component_index)'
+                            <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
                                     v-bind:style='"cursor: nwse-resize;z-index:10000000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
-                                        (getLeft(model.active_form,active_component_index) - 15) +  "px;top:" +
-                                        ((getTop(model.active_form,active_component_index)) - 15) +  "px;"'
+                                        (getLeft(active_form,active_component_index) - 15) +  "px;top:" +
+                                        ((getTop(active_form,active_component_index)) - 15) +  "px;"'
                                     v-on:dragend='$event.stopPropagation();deleteCursor();'
                                     v-bind:draggable='true'
 
                                     v-on:dragstart='$event.stopPropagation();switchCursor($event,"nwse-resize","crosshair");drag($event,{
                                        type:   "resize_top_left",
-                                       text:    model.forms[model.active_form].components[active_component_index].base_component_id,
+                                       text:    model.forms[active_form].components[active_component_index].base_component_id,
                                        index:   active_component_index
                                     })'>
                             </div>
 
                             <!-- top middle -->
-                            <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(model.active_form,active_component_index)'
+                            <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
                                     v-bind:style='"cursor: ns-resize;z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
-                                        ((getLeft(model.active_form,active_component_index)) + (model.forms[model.active_form].components[active_component_index].width/2) - 7) +  "px;top:" +
-                                        ((getTop(model.active_form,active_component_index)) - 15) +  "px;"'
+                                        ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width/2) - 7) +  "px;top:" +
+                                        ((getTop(active_form,active_component_index)) - 15) +  "px;"'
                                     v-on:dragend='$event.stopPropagation();deleteCursor();'
                                     v-bind:draggable='true'
                                     v-on:dragstart='$event.stopPropagation();switchCursor($event,"ns-resize","row-resize");drag($event,{
                                                                 type:   "resize_top",
-                                                                text:    model.forms[model.active_form].components[active_component_index].base_component_id,
+                                                                text:    model.forms[active_form].components[active_component_index].base_component_id,
                                                                 index:   active_component_index
                                                              })'>
                             </div>
                             <!-- top right -->
-                            <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(model.active_form,active_component_index)'
+                            <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
                                     v-bind:style='"cursor: nesw-resize;z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
-                                        ((getLeft(model.active_form,active_component_index)) + (model.forms[model.active_form].components[active_component_index].width) ) +  "px;top:" +
-                                        ((getTop(model.active_form,active_component_index)) - 15) +  "px;"'
+                                        ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width) ) +  "px;top:" +
+                                        ((getTop(active_form,active_component_index)) - 15) +  "px;"'
                                     v-on:dragend='$event.stopPropagation();deleteCursor();'
                                         v-bind:draggable='true'
                                         v-on:dragstart='$event.stopPropagation();switchCursor($event,"nesw-resize","crosshair");drag($event,{
                                            type:   "resize_top_right",
-                                           text:    model.forms[model.active_form].components[active_component_index].base_component_id,
+                                           text:    model.forms[active_form].components[active_component_index].base_component_id,
                                            index:   active_component_index
                                            })'>
                             </div>
 
                             <!-- middle left -->
-                            <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(model.active_form,active_component_index)'
+                            <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
                                     v-bind:style='"cursor: ew-resize;z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
-                                        ((getLeft(model.active_form,active_component_index)) - 15) +  "px;top:" +
-                                        ((getTop(model.active_form,active_component_index)) + ((model.forms[model.active_form].components[active_component_index].height / 2)) - 7) +  "px;"'
+                                        ((getLeft(active_form,active_component_index)) - 15) +  "px;top:" +
+                                        ((getTop(active_form,active_component_index)) + ((model.forms[active_form].components[active_component_index].height / 2)) - 7) +  "px;"'
                                     v-on:dragend='$event.stopPropagation();deleteCursor();'
                                     v-bind:draggable='true'
                                     v-on:dragstart='$event.stopPropagation();switchCursor($event,"ew-resize","col-resize");drag($event,{
                                                                 type:   "resize_left",
-                                                                text:    model.forms[model.active_form].components[active_component_index].base_component_id,
+                                                                text:    model.forms[active_form].components[active_component_index].base_component_id,
                                                                 index:   active_component_index
                                                              })'>
                             </div>
                             <!-- middle right -->
-                            <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(model.active_form,active_component_index)'
+                            <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
                                     v-bind:style='"cursor: ew-resize;z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
-                                        ((getLeft(model.active_form,active_component_index)) + (model.forms[model.active_form].components[active_component_index].width)) +  "px;top:" +
-                                        ((getTop(model.active_form,active_component_index)) + ((model.forms[model.active_form].components[active_component_index].height / 2)) - 7) +  "px;"'
+                                        ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width)) +  "px;top:" +
+                                        ((getTop(active_form,active_component_index)) + ((model.forms[active_form].components[active_component_index].height / 2)) - 7) +  "px;"'
                                 v-on:dragend='$event.stopPropagation();deleteCursor();'
                                     v-bind:draggable='true'
                                     v-on:dragstart='$event.stopPropagation();switchCursor($event,"ew-resize","col-resize");drag($event,{
                                                                 type:   "resize_right",
-                                                                text:    model.forms[model.active_form].components[active_component_index].base_component_id,
+                                                                text:    model.forms[active_form].components[active_component_index].base_component_id,
                                                                 index:   active_component_index
                                                              })'>
                             </div>
                             <!-- bottom left -->
-                            <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(model.active_form,active_component_index)'
+                            <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
                                     v-bind:style='"cursor: nesw-resize;z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
-                                        ((getLeft(model.active_form,active_component_index)) - 15) +  "px;top:" +
-                                        ((getTop(model.active_form,active_component_index)) + ((model.forms[model.active_form].components[active_component_index].height)) + 2) +  "px;"'
+                                        ((getLeft(active_form,active_component_index)) - 15) +  "px;top:" +
+                                        ((getTop(active_form,active_component_index)) + ((model.forms[active_form].components[active_component_index].height)) + 2) +  "px;"'
                                     v-on:dragend='$event.stopPropagation();deleteCursor();'
                                         v-bind:draggable='true'
                                         v-on:dragstart='$event.stopPropagation();switchCursor($event,"nesw-resize","crosshair");drag($event,{
                                                                     type:   "resize_bottom_left",
-                                                                    text:    model.forms[model.active_form].components[active_component_index].base_component_id,
+                                                                    text:    model.forms[active_form].components[active_component_index].base_component_id,
                                                                     index:   active_component_index
                                                                  })'>
                             </div>
                             <!-- bottom middle -->
-                            <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(model.active_form,active_component_index)'
+                            <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
                                     v-bind:style='"cursor: ns-resize;z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
-                                        ((getLeft(model.active_form,active_component_index)) + (model.forms[model.active_form].components[active_component_index].width/2) - 7) +  "px;top:" +
-                                        ((getTop(model.active_form,active_component_index)) + ((model.forms[model.active_form].components[active_component_index].height)) + 2) +  "px;"'
+                                        ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width/2) - 7) +  "px;top:" +
+                                        ((getTop(active_form,active_component_index)) + ((model.forms[active_form].components[active_component_index].height)) + 2) +  "px;"'
                                     v-on:dragend='$event.stopPropagation();deleteCursor();'
                                     v-bind:draggable='true'
                                     v-on:dragstart='$event.stopPropagation();switchCursor($event,"ns-resize","row-resize");drag($event,{
                                                                 type:   "resize_bottom",
-                                                                text:    model.forms[model.active_form].components[active_component_index].base_component_id,
+                                                                text:    model.forms[active_form].components[active_component_index].base_component_id,
                                                                 index:   active_component_index
                                                              })'>
                             </div>
 
                             <!-- bottom right -->
-                            <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(model.active_form,active_component_index)'
+                            <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
                                     v-bind:style='"cursor: nwse-resize;z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
-                                        ((getLeft(model.active_form,active_component_index)) + (model.forms[model.active_form].components[active_component_index].width) ) +  "px;top:" +
-                                        ((getTop(model.active_form,active_component_index)) + ((model.forms[model.active_form].components[active_component_index].height)) + 2) +  "px;"'
+                                        ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width) ) +  "px;top:" +
+                                        ((getTop(active_form,active_component_index)) + ((model.forms[active_form].components[active_component_index].height)) + 2) +  "px;"'
                                     v-on:dragend='$event.stopPropagation();deleteCursor();'
                                     v-bind:draggable='true'
                                     v-on:dragstart='$event.stopPropagation();switchCursor($event,"nwse-resize","crosshair");drag($event,{
                                                                    type:   "resize_bottom_right",
-                                                                   text:    model.forms[model.active_form].components[active_component_index].base_component_id,
+                                                                   text:    model.forms[active_form].components[active_component_index].base_component_id,
                                                                    index:   active_component_index
                                                                         })'>
                             </div>
@@ -451,12 +451,12 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
                             <!-- DELETE -->
-                            <div     v-if='design_mode && isValidObject(active_component_index) && isVisible(model.active_form,active_component_index)'
+                            <div     v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
                                      v-bind:refresh='refresh'
                                      class='btn btn-danger'
                                      v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;position: absolute; "  +
-                                        "left: " + ((getLeft(model.active_form,active_component_index)) + (model.forms[model.active_form].components[active_component_index].width) + 15) + "px;" +
-                                        "top:  " + ((getTop(model.active_form,active_component_index)) - 45) +  "px;" +
+                                        "left: " + ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width) + 15) + "px;" +
+                                        "top:  " + ((getTop(active_form,active_component_index)) - 45) +  "px;" +
                                         "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
                                      v-on:click='$event.stopPropagation();deleteComponent(active_component_index)'>
 
@@ -466,12 +466,12 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
                             <!-- More details ... button -->
-                            <div     v-if='design_mode && isValidObject(active_component_index) && isVisible(model.active_form,active_component_index) && hasMoreDetailsUi(model.active_form,active_component_index)'
+                            <div     v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index) && hasMoreDetailsUi(active_form,active_component_index)'
                                      v-bind:refresh='refresh'
                                      class='btn btn-info'
                                      v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;position: absolute; "  +
-                                        "left: " + ((getLeft(model.active_form,active_component_index)) + (model.forms[model.active_form].components[active_component_index].width) + 15) + "px;" +
-                                        "top:  " + ((getTop(model.active_form,active_component_index)) + (model.forms[model.active_form].components[active_component_index].height) + 15) +  "px;" +
+                                        "left: " + ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width) + 15) + "px;" +
+                                        "top:  " + ((getTop(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].height) + 15) +  "px;" +
                                         "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
                                      v-on:click='$event.stopPropagation();showComponentDetailedDesignUi(active_component_index)'>
 
@@ -486,23 +486,23 @@ uses_javascript_librararies(["advanced_bundle"])
                             <div    v-bind:refresh='refresh'
                                     v-for='(item,index) in getActiveFormComponents()'
                                     ondrop="return false;"
-                                    v-on:click='if ( isVisible(model.active_form,index)){ $event.stopPropagation();selectComponent(index,true); }'
-                                    v-bind:style='((design_mode && isVisible(model.active_form,index))?"border: 1px solid black;background: white;":"") +
-                                                    "position: absolute;top: " + getTop(model.active_form,index) + ";left:" + getLeft(model.active_form,index) + ";height:" + item.height + "px;width:" + item.width + "px;;overflow:none;"'>
+                                    v-on:click='if ( isVisible(active_form,index)){ $event.stopPropagation();selectComponent(index,true); }'
+                                    v-bind:style='((design_mode && isVisible(active_form,index))?"border: 1px solid black;background: white;":"") +
+                                                    "position: absolute;top: " + getTop(active_form,index) + ";left:" + getLeft(active_form,index) + ";height:" + item.height + "px;width:" + item.width + "px;;overflow:none;"'>
 
                                 <div ondrop="return false;"
                                      v-bind:style='"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:auto;"'>
-                                    <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[index].name + (design_mode?"_design":"")'
+                                    <component  v-bind:id='active_form + "_" + model.forms[active_form].components[index].name + (design_mode?"_design":"")'
                                                 v-bind:refresh='refresh'
-                                                v-bind:meta='{form: model.active_form,name: item.name + (design_mode?"_design":"")}'
-                                                v-bind:form="model.active_form"
+                                                v-bind:meta='{form: active_form,name: item.name + (design_mode?"_design":"")}'
+                                                v-bind:form="active_form"
                                                 v-bind:design_mode='design_mode'
                                                 v-bind:children='getChildren(item.name)'
                                                 v-on:send="processControlEvent"
                                                 v-bind:is='item.base_component_id'
                                                 v-if='!item.parent'
                                                 v-bind:name='item.name + "_design_mode_" + design_mode'
-                                                v-bind:args='model.forms[model.active_form].components[index]'>
+                                                v-bind:args='model.forms[active_form].components[index]'>
 
                                         <template       slot-scope="child_components"
                                                         v-bind:refresh='refresh'
@@ -511,14 +511,14 @@ uses_javascript_librararies(["advanced_bundle"])
                                             <component  v-for='child_item  in  getChildren(item.name)'
                                                         v-bind:design_mode='design_mode'
                                                         v-bind:refresh='refresh'
-                                                        v-bind:meta='{form: model.active_form,name: child_item.name + (design_mode?"_design":"")}'
-                                                        v-bind:form="model.active_form"
+                                                        v-bind:meta='{form: active_form,name: child_item.name + (design_mode?"_design":"")}'
+                                                        v-bind:form="active_form"
                                                         v-bind:style='"z-index:100000;position: absolute; top: " + child_item.topY + "px; left: " + child_item.leftX + "px;height:" + child_item.height + "px;width:" + child_item.width + "px;overflow:auto;"'
-                                                        v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[child_item.index_in_parent_array].name + (design_mode?"_design":"")'
+                                                        v-bind:id='active_form + "_" + model.forms[active_form].components[child_item.index_in_parent_array].name + (design_mode?"_design":"")'
                                                         v-on:send="processControlEvent"
                                                         v-bind:is='child_item.base_component_id'
                                                         v-bind:name='child_item.name + "_design_mode_" + design_mode'
-                                                        v-bind:args='model.forms[model.active_form].components[child_item.index_in_parent_array]'>
+                                                        v-bind:args='model.forms[active_form].components[child_item.index_in_parent_array]'>
                                             </component>
 
                                         </template>
@@ -528,7 +528,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
                                 <div    v-bind:style='"cursor: move;position: absolute; top: 0px; left: 0px;z-index: " + (item.is_container?"1":"10000000") + ";width: 100%;height: 100%;border: 1px solid black;"'
                                         v-bind:draggable='design_mode'
-                                        v-if='design_mode && isVisible(model.active_form,index)'
+                                        v-if='design_mode && isVisible(active_form,index)'
                                         ondrop="return false;"
                                         v-on:dragstart='$event.stopPropagation();drag($event,{
                                                                                        type:   "move_component",
@@ -536,7 +536,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                                                                        index:   index
                                                                                     })'>
 
-                                    <div    v-if='design_mode && isVisible(model.active_form,index)'
+                                    <div    v-if='design_mode && isVisible(active_form,index)'
                                             ondrop="return false;"
                                             v-bind:refresh='refresh'
                                             v-bind:style='"position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%; background-color: lightgray;" +
@@ -618,7 +618,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
                         <div v-for='form in getForms()' v-bind:refresh='refresh'>
                             <div>
-                                <div  v-bind:style='(((form.name == model.active_form) && (active_component_index == null) && (!model.app_selected)) ?"border: 0px solid red;background-color:gray;color:white;":"color:black;") + "padding:4px;margin:0px;margin-left:30px;border-radius: 3px;"'
+                                <div  v-bind:style='(((form.name == active_form) && (active_component_index == null) && (!model.app_selected)) ?"border: 0px solid red;background-color:gray;color:white;":"color:black;") + "padding:4px;margin:0px;margin-left:30px;border-radius: 3px;"'
                                       v-on:click='$event.stopPropagation();selected_pane = "project";selectForm(form.name)'>
 
                                      <img
@@ -630,7 +630,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                               {{form.name}} ({{form.components.length}})
                                 </div>
 
-                                <div    v-if='form.name == model.active_form'
+                                <div    v-if='form.name == active_form'
                                         v-for='(av,index) in getActiveFormComponents()'
                                         v-on:click='$event.stopPropagation();selected_pane = "project";selectComponent(index)'
                                         >
@@ -641,7 +641,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                             >
 
                                               {{av.name}}
-                                              <div    v-if='form.name == model.active_form'
+                                              <div    v-if='form.name == active_form'
                                                       v-for='(av2,index2) in getActiveFormComponents()'
                                                       v-on:click='$event.stopPropagation();selected_pane = "project";selectComponent(index2)'
                                                       >
@@ -680,7 +680,7 @@ uses_javascript_librararies(["advanced_bundle"])
                 <div    v-bind:style='"border-radius: 3px;padding: 4px;height: 40px;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;font-family:verdana,helvetica;font-size: 13px;"'
                         v-bind:class='(selected_pane == "properties"?"selected_pane_title_slower":"unselected_pane_title_slower") '
                         v-on:click='selected_pane = "properties";chooseRight("properties");'>
-                    Properties - {{isValidObject(active_component_index)?model.forms[model.active_form].components[active_component_index].name + " (Component)" : model.active_form + " (Form)"}}
+                    Properties - {{isValidObject(active_component_index)?model.forms[active_form].components[active_component_index].name + " (Component)" : active_form + " (Form)"}}
                 </div>
 
 
@@ -746,7 +746,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                             <select  @change='setVBEditorProperty($event, property)'>
                                                   <option   v-for="propVal in property.values"
                                                             v-bind:value="propVal.value"
-                                                            v-bind:selected="propVal.value == model.forms[model.active_form].components[active_component_index][property.id]">
+                                                            v-bind:selected="propVal.value == model.forms[active_form].components[active_component_index][property.id]">
 
                                                         {{propVal.display}}
 
@@ -766,7 +766,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                             <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;'
                                                         v-on:click='$event.stopPropagation();editAsCode({
                                                             app_selected:           model.app_selected,
-                                                            active_form:            model.active_form,
+                                                            active_form:            active_form,
                                                             active_component_index: active_component_index,
                                                             property_id:            property.id
                                                         })'  >
@@ -781,11 +781,11 @@ uses_javascript_librararies(["advanced_bundle"])
                                                 style='padding:0px;font-family:verdana,helvetica;font-size: 13px;'
                                                 class='col-md-12 small'>
 
-                                            {{model.forms[model.active_form].components[active_component_index][property.id]}}
+                                            {{model.forms[active_form].components[active_component_index][property.id]}}
 
                                         </div>
 
-                                        <div v-if='(active_component_index == null) && (model.active_form != null) && (model.app_selected == false)' class='col-md-12 small'   v-model='model.forms[model.active_form][property.id]'>
+                                        <div v-if='(active_component_index == null) && (active_form != null) && (model.app_selected == false)' class='col-md-12 small'   v-model='model.forms[active_form][property.id]'>
                                         </div>
 
                                         <div    v-if='model.app_selected'
@@ -932,7 +932,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
                 this.read_only = saveHelper.getValueOfCodeString(texti, "read_only")
             }
-            mm.model.active_form = mm.model.default_form
+            mm.active_form = mm.model.default_form
 
 
 
@@ -1136,7 +1136,7 @@ uses_javascript_librararies(["advanced_bundle"])
            mm.$root.$on('message', async function(text) {
                if (text.type == "delete_design_time_component") {
                     if (mm.design_mode != false) {
-                        mm.model.forms[mm.model.active_form].components.splice(text.component_index, 1);
+                        mm.model.forms[mm.active_form].components.splice(text.component_index, 1);
                     }
                } else if (text.type == "select_design_time_component") {
                    if (mm.design_mode != false) {
@@ -1195,7 +1195,7 @@ uses_javascript_librararies(["advanced_bundle"])
                 var me = componentDetails
                 var parent = null
                 if (me.parent) {
-                    parent = mm.form_runtime_info[mm.model.active_form].component_lookup_by_name[me.parent]
+                    parent = mm.form_runtime_info[mm.active_form].component_lookup_by_name[me.parent]
                 }
 
                 var fnDetails       = null
@@ -1336,7 +1336,7 @@ ${origCode}
                       this.highlighted_control = null
 
                  } else {
-                     this.selectForm(this.model.active_form, true);
+                     this.selectForm(this.active_form, true);
                  }
              }
 
@@ -1344,7 +1344,7 @@ ${origCode}
 
      getContainerForPoint: function(leftX,topY) {
 
-         var ccc = this.model.forms[this.model.active_form].components
+         var ccc = this.model.forms[this.active_form].components
          for (var ytr = 0;ytr < ccc.length;ytr++){
             var baseId =    ccc[ytr].base_component_id
             var controlNmae =    ccc[ytr].name
@@ -1430,12 +1430,12 @@ ${origCode}
             }
 
             if ((newItem.leftX + newItem.width)
-                    > this.model.forms[this.model.active_form].width) {
-                newItem.leftX = Math.floor(this.model.forms[this.model.active_form].width - newItem.width)
+                    > this.model.forms[this.active_form].width) {
+                newItem.leftX = Math.floor(this.model.forms[this.active_form].width - newItem.width)
             }
             if ((newItem.topY + newItem.height)
-                    > this.model.forms[this.model.active_form].height) {
-                newItem.topY = Math.floor(this.model.forms[this.model.active_form].height - newItem.height)
+                    > this.model.forms[this.active_form].height) {
+                newItem.topY = Math.floor(this.model.forms[this.active_form].height - newItem.height)
             }
 
 
@@ -1448,8 +1448,8 @@ ${origCode}
                 }
             }
 
-            this.model.forms[this.model.active_form].components.push(newItem)
-            this.active_component_index = this.model.forms[this.model.active_form].components.length - 1
+            this.model.forms[this.active_form].components.push(newItem)
+            this.active_component_index = this.model.forms[this.active_form].components.length - 1
 
 
             var compCode = component_cache[newItem.base_component_id].code
@@ -1478,13 +1478,13 @@ ${origCode}
                 var selectParent = false
                 var parentItemIndex = null
                 if (isValidObject(newItem.parent)) {
-                    var parentItem = mm.form_runtime_info[mm.model.active_form].component_lookup_by_name[newItem.parent]
+                    var parentItem = mm.form_runtime_info[mm.active_form].component_lookup_by_name[newItem.parent]
 
                     if (isValidObject(parentItem.select_parent_when_child_added) &&
                             (parentItem.select_parent_when_child_added == true)) {
 
                         selectParent = true
-                        var ccc = mm.model.forms[mm.model.active_form].components
+                        var ccc = mm.model.forms[mm.active_form].components
                         for (var ytr = 0;ytr < ccc.length;ytr++) {
                            if (parentItem.name == ccc[ytr].name) {
                                parentItemIndex = ytr
@@ -1533,7 +1533,7 @@ ${origCode}
          refreshControlIndexes: function() {
             if (this.model.active_component_detail_name) {
 
-                var ccc = mm.model.forms[this.model.active_form].components
+                var ccc = mm.model.forms[this.active_form].components
                 for (var ytr = 0;ytr < ccc.length;ytr++) {
                    if (this.model.active_component_detail_name == ccc[ytr].name) {
                        this.model.active_component_detail_name = ytr
@@ -1644,7 +1644,7 @@ ${origCode}
         getChildren: function( itemName ) {
 
             var mm = this
-            var ccc = mm.model.forms[mm.model.active_form].components
+            var ccc = mm.model.forms[mm.active_form].components
             var chh = []
             for (var ytr = 0;ytr < ccc.length;ytr++){
                 if (ccc[ytr].parent == itemName) {
@@ -1661,7 +1661,7 @@ ${origCode}
             var reader  = new FileReader();
 
             reader.addEventListener("load", function () {
-                mm.model.forms[mm.model.active_form].components[mm.active_component_index][property.id] = reader.result
+                mm.model.forms[mm.active_form].components[mm.active_component_index][property.id] = reader.result
                 mm.refresh ++
             }, false);
 
@@ -1791,12 +1791,12 @@ ${origCode}
 
 
                         // form code
-                        } else if ((mm.active_component_index == null) && (mm.model.active_form != null)) {
-                            ccode = mm.model.forms[mm.model.active_form][aa.property_id]
+                        } else if ((mm.active_component_index == null) && (mm.active_form != null)) {
+                            ccode = mm.model.forms[mm.active_form][aa.property_id]
 
                         // component code
-                        } else if ((mm.active_component_index != null) && (mm.model.active_form != null)) {
-                            ccode = mm.model.forms[mm.model.active_form].components[mm.active_component_index][aa.property_id]
+                        } else if ((mm.active_component_index != null) && (mm.active_form != null)) {
+                            ccode = mm.model.forms[mm.active_form].components[mm.active_component_index][aa.property_id]
                         }
 
 
@@ -1816,11 +1816,11 @@ ${origCode}
                                 mm.model[aa.property_id].fn = newC
                             } else if (aa.app_selected) {
                                 mm.model[aa.property_id] = newC
-                            } else if ((mm.active_component_index == null) && (mm.model.active_form != null)) {
-                                mm.model.forms[mm.model.active_form][aa.property_id] = newC
+                            } else if ((mm.active_component_index == null) && (mm.active_form != null)) {
+                                mm.model.forms[mm.active_form][aa.property_id] = newC
 
-                            } else if ((mm.active_component_index != null) && (mm.model.active_form != null)) {
-                                mm.model.forms[mm.model.active_form].components[mm.active_component_index][aa.property_id] = newC
+                            } else if ((mm.active_component_index != null) && (mm.active_form != null)) {
+                                mm.model.forms[mm.active_form].components[mm.active_component_index][aa.property_id] = newC
                             }
                         })
 
@@ -1965,7 +1965,7 @@ ${origCode}
                                           meta:      "The parent/container control of this"
                                          })
 
-                         var ccc = mm.model.forms[mm.model.active_form].components
+                         var ccc = mm.model.forms[mm.active_form].components
                          for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
                              var component = ccc[ytr]
                              wordList.push(  {"word":    component.name,
@@ -2019,24 +2019,24 @@ ${origCode}
                             if (mm.design_mode_pane.app_selected) {
 
                             } else if (isValidObject(mm.design_mode_pane.active_component_index)) {
-                                componentId = mm.model.forms[mm.model.active_form].components[ mm.design_mode_pane.active_component_index ].base_component_id
+                                componentId = mm.model.forms[mm.active_form].components[ mm.design_mode_pane.active_component_index ].base_component_id
 
                             } else if (isValidObject(mm.design_mode_pane.active_form)) {
-                                formName = mm.model.active_form
+                                formName = mm.active_form
                             }
 
                         } else if (firstObjectToAutocomplete == "myForm") {
 
-                            formName = mm.model.active_form
+                            formName = mm.active_form
 
                         } else if (firstObjectToAutocomplete == "parent") {
 
                             if (mm.design_mode_pane.app_selected) {
 
                             } else if (isValidObject(mm.design_mode_pane.active_component_index)) {
-                                var parentId = mm.model.forms[mm.model.active_form].components[ mm.design_mode_pane.active_component_index ].parent
+                                var parentId = mm.model.forms[mm.active_form].components[ mm.design_mode_pane.active_component_index ].parent
                                 if (isValidObject(parentId)) {
-                                    componentId = mm.form_runtime_info[mm.model.active_form].component_lookup_by_name[parentId].base_component_id
+                                    componentId = mm.form_runtime_info[mm.active_form].component_lookup_by_name[parentId].base_component_id
                                 }
 
                             } else if (isValidObject(mm.design_mode_pane.active_form)) {
@@ -2052,7 +2052,7 @@ ${origCode}
                             // see if the word is a component
                             //
 
-                            var comps       = mm.model.forms[mm.model.active_form].components
+                            var comps       = mm.model.forms[mm.active_form].components
 
                             for (var rt=0; rt < comps.length; rt++) {
                                 if (comps[rt].name == firstObjectToAutocomplete) {
@@ -2286,7 +2286,7 @@ ${origCode}
                                  component:  null
                              }
                          )
-                         if ((!mm.model.app_selected) && (form.name == mm.model.active_form)) {
+                         if ((!mm.model.app_selected) && (form.name == mm.active_form)) {
                              selectedCodeObject = indexObjectSelector
                          }
                          indexObjectSelector++
@@ -2296,7 +2296,7 @@ ${origCode}
                          // show the sub controls of this form if it is the current form
                          //
 
-                         if ((!mm.model.app_selected) && (form.name == mm.model.active_form)) {
+                         if ((!mm.model.app_selected) && (form.name == mm.active_form)) {
                              var components = mm.getActiveFormComponents()
                              for (  var ere1 = 0; ere1 < components.length; ere1++  ) {
                                  var component = components[ ere1 ]
@@ -2304,7 +2304,7 @@ ${origCode}
                                      {
                                          value:              "" + indexObjectSelector,
                                          app:                null,
-                                         form:               mm.model.active_form,
+                                         form:               mm.active_form,
                                          component:          "  -  " + component.name,
                                          component_type:     component.base_component_id,
                                          component_index:    ere1
@@ -2327,7 +2327,7 @@ ${origCode}
                          {
                              value:      "" + indexObjectSelector,
                              app:        null,
-                             form:       mm.model.active_form,
+                             form:       mm.active_form,
                              component:  null
                          }
                      )
@@ -2340,7 +2340,7 @@ ${origCode}
                              {
                                  value:              "" + indexObjectSelector,
                                  app:                null,
-                                 form:               mm.model.active_form,
+                                 form:               mm.active_form,
                                  component:          "  -  " + component.name,
                                  component_type:     component.base_component_id,
                                  component_index:    ere
@@ -2372,7 +2372,7 @@ ${origCode}
                                   {
                                       value:              "" + indexActionSelector,
                                       app:                mm.edited_app_component_id,
-                                      form:               mm.model.active_form,
+                                      form:               mm.active_form,
                                       component:          null,
                                       action_id:          prop.id,
                                       action_name:        prop.name,
@@ -2388,7 +2388,7 @@ ${origCode}
 
 
                   } else if (  isValidObject(mm.active_component_index)  ) {
-                     var ccc        = mm.model.forms[mm.model.active_form].components[mm.active_component_index]
+                     var ccc        = mm.model.forms[mm.active_form].components[mm.active_component_index]
                      var properties = mm.getComponentProperties(  ccc.base_component_id  )
 
                      for (  var ere = 0;  ere < properties.length;  ere++  ) {
@@ -2398,7 +2398,7 @@ ${origCode}
                                  {
                                      value:              "" + indexActionSelector,
                                      app:                null,
-                                     form:               mm.model.active_form,
+                                     form:               mm.active_form,
                                      component:          ccc.name,
                                      action_id:          property.id,
                                      action_name:        property.name,
@@ -2417,7 +2417,7 @@ ${origCode}
                           {
                               value:              "" + indexActionSelector,
                               app:                null,
-                              form:               mm.model.active_form,
+                              form:               mm.active_form,
                               component:          ccc.name,
                               action_id:          "load",
                               action_name:        "Load event",
@@ -2432,8 +2432,8 @@ ${origCode}
 
 
                   // get the actions for the forms
-                  } else if (  isValidObject(mm.model.active_form)  ) {
-                      var ccc        = mm.model.forms[mm.model.active_form]
+                  } else if (  isValidObject(mm.active_form)  ) {
+                      var ccc        = mm.model.forms[mm.active_form]
 
                       var properties = mm.getComponentProperties(  ccc.base_component_id  )
 
@@ -2442,7 +2442,7 @@ ${origCode}
                            {
                                value:              "" + indexActionSelector,
                                app:                null,
-                               form:               mm.model.active_form,
+                               form:               mm.active_form,
                                component:          ccc.name,
                                action_id:          "form_activate",
                                action_name:        "Activate Event",
@@ -2499,7 +2499,7 @@ ${origCode}
                          mm.selectComponent(dd.component_index)
                          mm.editAsCode({
                              app_selected:           false,
-                             active_form:            mm.model.active_form,
+                             active_form:            mm.active_form,
                              active_component_index: mm.active_component_index,
                              property_id:            "load"
                          })
@@ -2515,7 +2515,7 @@ ${origCode}
                          mm.select_app()
                          mm.editAsCode({
                              app_selected:           true,
-                             active_form:            mm.model.active_form,
+                             active_form:            mm.active_form,
                              active_component_index: null,
                              property_id:            "app_started_event"
 
@@ -2527,7 +2527,7 @@ ${origCode}
                      var dd = methodListForSelector[option.idx]
                      mm.editAsCode({
                          app_selected:           mm.app_selected,
-                         active_form:            mm.model.active_form,
+                         active_form:            mm.active_form,
                          active_component_index: mm.active_component_index,
                          property_id:            dd.action_id
                      })
@@ -2539,7 +2539,7 @@ ${origCode}
              ,
 
          getActiveFormComponents: function() {
-             return this.model.forms[this.model.active_form].components
+             return this.model.forms[this.active_form].components
          },
         updateAllFormCaches: function() {
             var llf = Object.keys(this.model.forms)
@@ -2672,7 +2672,7 @@ return {}
             //
             if (this.active_component_index != null) {
                 type = "component"
-            } else if ((this.active_component_index == null) && (this.model.active_form != null) && (!this.model.app_selected)) {
+            } else if ((this.active_component_index == null) && (this.active_form != null) && (!this.model.app_selected)) {
                 type = "form"
             } else if (this.model.app_selected) {
                 type = "app"
@@ -2680,7 +2680,7 @@ return {}
 
 
             if (type == 'component') {
-                var componentTochange           = this.model.forms[this.model.active_form].components[this.active_component_index]
+                var componentTochange           = this.model.forms[this.active_form].components[this.active_component_index]
                 var oldContainerName = componentTochange.name
 
                 componentTochange[property.id]  = val
@@ -2688,7 +2688,7 @@ return {}
                 if ((property.id == "name") && (componentTochange.is_container == true)) {
                     //alert("renaming container")
 
-                    var allC = this.model.forms[this.model.active_form].components
+                    var allC = this.model.forms[this.active_form].components
                     for (var xi =0; xi< allC.length ; xi ++) {
                          var comp = allC[xi]
                          if (comp.parent == oldContainerName) {
@@ -2704,7 +2704,7 @@ return {}
                 if (property.id == "name" ) {
                     this.properties = []
 
-                    var oldval = this.model.active_form
+                    var oldval = this.active_form
                     //alert("Rename form "  + oldval + " to " + val)
 
                     this.model.forms[val] = this.model.forms[oldval]
@@ -2716,12 +2716,12 @@ return {}
                     if (this.model.default_form == oldval) {
                         this.model.default_form = val
                     }
-                    //this.model.active_form = val
+                    //this.active_form = val
 
 
                     mm.form_runtime_info[oldval] = null
                     mm.model.forms[oldval] = null
-                    //alert(this.model.active_form)
+                    //alert(this.active_form)
 
                     //alj(this.form_runtime_info[val])
                     //mm.refresh ++
@@ -2729,7 +2729,7 @@ return {}
                     mm.selectForm(val)
 
                 } else {
-                    this.model.forms[this.model.active_form][property.id] = val
+                    this.model.forms[this.active_form][property.id] = val
                 }
 
             } else if (type == 'app') {
@@ -2745,18 +2745,18 @@ return {}
              var type
              if (this.active_component_index != null) {
                 type = "component"
-             } else if ((this.active_component_index == null) && (this.model.active_form != null) && (!this.model.app_selected)) {
+             } else if ((this.active_component_index == null) && (this.active_form != null) && (!this.model.app_selected)) {
                 type = "form"
              } else if (this.model.app_selected) {
                 type = "app"
              }
 
             if (type == 'component') {
-                val = this.model.forms[this.model.active_form].components[this.active_component_index][property.id]
+                val = this.model.forms[this.active_form].components[this.active_component_index][property.id]
 
 
             } else if (type == 'form') {
-                val = this.model.forms[this.model.active_form][property.id]
+                val = this.model.forms[this.active_form][property.id]
 
 
 
@@ -2867,7 +2867,7 @@ return {}
              mm.model.app_selected = false
              mm.properties = mm.getFormProperties(formId)
 
-             mm.model.active_form = formId
+             mm.active_form = formId
              mm.refresh ++
 
              if (  mm.model.forms[  formId  ].form_activate && (!mm.design_mode)) {
@@ -2945,11 +2945,11 @@ return {}
                 //
                 // set up property access for all controls on this form
                 //
-                var allC = this.model.forms[this.model.active_form].components
+                var allC = this.model.forms[this.active_form].components
                 var cacc =""
                 for (var xi =0; xi< allC.length ; xi ++) {
                      var comp = allC[xi]
-                     cacc += ( "var " + comp.name + " = mm.form_runtime_info['" + this.model.active_form + "'].component_lookup_by_name['" + comp.name + "'];")
+                     cacc += ( "var " + comp.name + " = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + comp.name + "'];")
                 }
                 eval(cacc)
 
@@ -2966,17 +2966,17 @@ ${eventMessage.code}
 })`
 
 
-                    var thisControl = this.form_runtime_info[   this.model.active_form   ].component_lookup_by_name[   eventMessage.control_name   ]
+                    var thisControl = this.form_runtime_info[   this.active_form   ].component_lookup_by_name[   eventMessage.control_name   ]
                     if (isValidObject(thisControl)) {
 
                         if (isValidObject(thisControl.parent)) {
                             var cacc =""
-                            cacc += ( "var parent = mm.form_runtime_info['" + this.model.active_form + "'].component_lookup_by_name['" + thisControl.parent + "'];")
+                            cacc += ( "var parent = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + thisControl.parent + "'];")
                             eval(cacc)
                         }
 
                         var meCode =""
-                        meCode += ( "var me = mm.form_runtime_info['" + this.model.active_form + "'].component_lookup_by_name['" + thisControl.name + "'];")
+                        meCode += ( "var me = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + thisControl.name + "'];")
                         eval(meCode)
 
                         var appCode =""
@@ -2984,7 +2984,7 @@ ${eventMessage.code}
                         eval(appCode)
 
                         var meCode =""
-                        meCode += ( "var myForm = mm.model.forms['" + this.model.active_form + "'];")
+                        meCode += ( "var myForm = mm.model.forms['" + this.active_form + "'];")
                         eval(meCode)
 
 
@@ -3000,7 +3000,7 @@ ${eventMessage.code}
 
 
 
-                        var debugFcc = getDebugCode(mm.model.active_form +"_"+eventMessage.control_name+"_"+eventMessage.sub_type,fcc,{skipFirstAndLastLine: true})
+                        var debugFcc = getDebugCode(mm.active_form +"_"+eventMessage.control_name+"_"+eventMessage.sub_type,fcc,{skipFirstAndLastLine: true})
                         var efcc = eval(debugFcc)
 
 
@@ -3029,14 +3029,14 @@ ${eventMessage.code}
 ${eventMessage.code}
 })`
                         var meCode =""
-                        meCode += ( "var me = mm.model.forms['" + this.model.active_form + "'];")
+                        meCode += ( "var me = mm.model.forms['" + this.active_form + "'];")
                         eval(meCode)
 
                         var appCode =""
                         appCode += ( "var app = mm.model;")
                         eval(appCode)
 
-                        var debugFcc = getDebugCode(this.model.active_form ,fcc,{skipFirstAndLastLine: true})
+                        var debugFcc = getDebugCode(this.active_form ,fcc,{skipFirstAndLastLine: true})
                         var efcc = eval(debugFcc)
 
                         try {
@@ -3093,8 +3093,8 @@ ${eventMessage.code}
                 var newWidth = (ev.clientX - 8)  - rrr.left ;
                 var newHeight = (ev.clientY - 8) - rrr.top ;
 
-                this.model.forms[this.model.active_form].width = Math.floor(newWidth)
-                this.model.forms[this.model.active_form].height = Math.floor(newHeight)
+                this.model.forms[this.active_form].width = Math.floor(newWidth)
+                this.model.forms[this.active_form].height = Math.floor(newHeight)
 
                 this.active_component_index = null
                 mm.refresh ++
@@ -3104,7 +3104,7 @@ ${eventMessage.code}
 
                 var newWidth = (ev.clientX - 8)  - rrr.left ;
 
-                this.model.forms[this.model.active_form].width = Math.floor(newWidth)
+                this.model.forms[this.active_form].width = Math.floor(newWidth)
 
                 this.active_component_index = null
                 mm.refresh ++
@@ -3114,7 +3114,7 @@ ${eventMessage.code}
 
                   var newHeight = (ev.clientY - 8) - rrr.top ;
 
-                  this.model.forms[this.model.active_form].height = Math.floor(newHeight)
+                  this.model.forms[this.active_form].height = Math.floor(newHeight)
 
                   this.active_component_index = null
                   mm.refresh ++
@@ -3161,7 +3161,7 @@ ${eventMessage.code}
            mm.design_mode_pane.type = "control_details_editor"
 
            this.model.active_component_detail_index = index;
-           this.model.active_component_detail_name = this.model.forms[this.model.active_form].components[index].name;
+           this.model.active_component_detail_name = this.model.forms[this.active_form].components[index].name;
 
            setTimeout(function() {
                mm.refresh ++
@@ -3171,18 +3171,18 @@ ${eventMessage.code}
 
          deleteComponent: async function(index) {
             var mm = this
-            var thisComponentName = this.model.forms[this.model.active_form].components[index].name
-            this.model.forms[this.model.active_form].components.splice(index, 1);
-            var ccc = mm.model.forms[mm.model.active_form].components
+            var thisComponentName = this.model.forms[this.active_form].components[index].name
+            this.model.forms[this.active_form].components.splice(index, 1);
+            var ccc = mm.model.forms[mm.active_form].components
             for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
                 var component = ccc[ytr]
                 if (component.parent == thisComponentName) {
-                    this.model.forms[this.model.active_form].components.splice(ytr, 1);
+                    this.model.forms[this.active_form].components.splice(ytr, 1);
                 }
             }
 
             this.refreshControlIndexes()
-            this.selectForm(this.model.active_form)
+            this.selectForm(this.active_form)
             setTimeout(function() {
                 mm.refresh ++
                 mm.$forceUpdate();
@@ -3193,24 +3193,24 @@ ${eventMessage.code}
 
             var promise = new Promise(async function(returnfn) {
 
-                var ccc2 = mm.model.forms[mm.model.active_form].components
+                var ccc2 = mm.model.forms[mm.active_form].components
                 for (   var ytr = ccc2.length - 1;    ytr >= 0;    ytr--   ) {
                     var component = ccc2[ytr]
                     if (component.name == thisComponentName) {
-                        mm.model.forms[mm.model.active_form].components.splice(ytr, 1);
+                        mm.model.forms[mm.active_form].components.splice(ytr, 1);
                         break;
                     }
                 }
-                var ccc = mm.model.forms[mm.model.active_form].components
+                var ccc = mm.model.forms[mm.active_form].components
                 for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
                     var component = ccc[ytr]
                     if (component.parent == thisComponentName) {
-                        mm.model.forms[mm.model.active_form].components.splice(ytr, 1);
+                        mm.model.forms[mm.active_form].components.splice(ytr, 1);
                     }
                 }
 
                 mm.refreshControlIndexes()
-                mm.selectForm(mm.model.active_form)
+                mm.selectForm(mm.active_form)
                 setTimeout(function() {
                     mm.refresh ++
                     mm.$forceUpdate();
@@ -3292,13 +3292,13 @@ ${eventMessage.code}
                 var newLeftX = (ev.clientX  - rrr.left) - data.offsetX;
                 var newTopY = (ev.clientY  - rrr.top) - data.offsetY;
 
-                if (!this.model.forms[this.model.active_form].components[data.index].is_container) {
+                if (!this.model.forms[this.active_form].components[data.index].is_container) {
                     if (parentId) {
-                       this.model.forms[this.model.active_form].components[data.index].parent = parentName
+                       this.model.forms[this.active_form].components[data.index].parent = parentName
                        newLeftX = newLeftX - parentOffsetX
                        newTopY = newTopY - parentOffsetY
                     } else {
-                       this.model.forms[this.model.active_form].components[data.index].parent = null
+                       this.model.forms[this.active_form].components[data.index].parent = null
                     }
                 }
 
@@ -3308,35 +3308,35 @@ ${eventMessage.code}
                 if (newTopY < 0) {
                     newTopY = 0
                 }
-                if ((newLeftX + this.model.forms[this.model.active_form].components[data.index].width)
-                        > this.model.forms[this.model.active_form].width) {
-                    newLeftX = this.model.forms[this.model.active_form].width - this.model.forms[this.model.active_form].components[data.index].width
+                if ((newLeftX + this.model.forms[this.active_form].components[data.index].width)
+                        > this.model.forms[this.active_form].width) {
+                    newLeftX = this.model.forms[this.active_form].width - this.model.forms[this.active_form].components[data.index].width
                 }
-                if ((newTopY + this.model.forms[this.model.active_form].components[data.index].height)
-                        > this.model.forms[this.model.active_form].height) {
-                    newTopY = this.model.forms[this.model.active_form].height - this.model.forms[this.model.active_form].components[data.index].height
+                if ((newTopY + this.model.forms[this.active_form].components[data.index].height)
+                        > this.model.forms[this.active_form].height) {
+                    newTopY = this.model.forms[this.active_form].height - this.model.forms[this.active_form].components[data.index].height
                 }
 
-                this.model.forms[this.model.active_form].components[data.index].leftX = Math.floor(newLeftX)
-                this.model.forms[this.model.active_form].components[data.index].topY = Math.floor(newTopY)
+                this.model.forms[this.active_form].components[data.index].leftX = Math.floor(newLeftX)
+                this.model.forms[this.active_form].components[data.index].topY = Math.floor(newTopY)
                 this.active_component_index = data.index
 
 
              } else if (data.type == "resize_top_left") {
                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
-                 var oldX = this.model.forms[this.model.active_form].components[data.index].leftX
-                 var oldY = this.model.forms[this.model.active_form].components[data.index].topY
+                 var oldX = this.model.forms[this.active_form].components[data.index].leftX
+                 var oldY = this.model.forms[this.active_form].components[data.index].topY
 
                  var newLeftX = ev.clientX  + 2 - rrr.left ;
                  var newTopY = ev.clientY  + 2 - rrr.top ;
 
-                 if (!this.model.forms[this.model.active_form].components[data.index].is_container) {
+                 if (!this.model.forms[this.active_form].components[data.index].is_container) {
                      if (parentId) {
-                        this.model.forms[this.model.active_form].components[data.index].parent = parentName
+                        this.model.forms[this.active_form].components[data.index].parent = parentName
                         newLeftX = newLeftX - parentOffsetX
                         newTopY = newTopY - parentOffsetY
                      } else {
-                        this.model.forms[this.model.active_form].components[data.index].parent = null
+                        this.model.forms[this.active_form].components[data.index].parent = null
                      }
                  }
 
@@ -3347,29 +3347,29 @@ ${eventMessage.code}
                      newTopY = 0
                  }
 
-                 this.model.forms[this.model.active_form].components[data.index].leftX = Math.floor(newLeftX)
-                 this.model.forms[this.model.active_form].components[data.index].topY = Math.floor(newTopY)
-                 var diffX = this.model.forms[this.model.active_form].components[data.index].leftX - oldX
-                 var diffY = this.model.forms[this.model.active_form].components[data.index].topY - oldY
-                 this.model.forms[this.model.active_form].components[data.index].width -= Math.floor(diffX)
-                 this.model.forms[this.model.active_form].components[data.index].height -= Math.floor(diffY)
+                 this.model.forms[this.active_form].components[data.index].leftX = Math.floor(newLeftX)
+                 this.model.forms[this.active_form].components[data.index].topY = Math.floor(newTopY)
+                 var diffX = this.model.forms[this.active_form].components[data.index].leftX - oldX
+                 var diffY = this.model.forms[this.active_form].components[data.index].topY - oldY
+                 this.model.forms[this.active_form].components[data.index].width -= Math.floor(diffX)
+                 this.model.forms[this.active_form].components[data.index].height -= Math.floor(diffY)
 
                  this.active_component_index = data.index
 
              } else if (data.type == "resize_left") {
                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
-                 var oldX = this.model.forms[this.model.active_form].components[data.index].leftX
+                 var oldX = this.model.forms[this.active_form].components[data.index].leftX
 
                  var newLeftX = ev.clientX  + 2 - rrr.left ;
 
 
-                 if (!this.model.forms[this.model.active_form].components[data.index].is_container) {
+                 if (!this.model.forms[this.active_form].components[data.index].is_container) {
                      if (parentId) {
-                        this.model.forms[this.model.active_form].components[data.index].parent = parentName
+                        this.model.forms[this.active_form].components[data.index].parent = parentName
                         newLeftX = newLeftX - parentOffsetX
                         newTopY = newTopY - parentOffsetY
                      } else {
-                        this.model.forms[this.model.active_form].components[data.index].parent = null
+                        this.model.forms[this.active_form].components[data.index].parent = null
                      }
                  }
 
@@ -3377,9 +3377,9 @@ ${eventMessage.code}
                      newLeftX = 0
                  }
 
-                 this.model.forms[this.model.active_form].components[data.index].leftX = Math.floor(newLeftX)
-                 var diffX = this.model.forms[this.model.active_form].components[data.index].leftX - oldX
-                 this.model.forms[this.model.active_form].components[data.index].width -= Math.floor(diffX)
+                 this.model.forms[this.active_form].components[data.index].leftX = Math.floor(newLeftX)
+                 var diffX = this.model.forms[this.active_form].components[data.index].leftX - oldX
+                 this.model.forms[this.active_form].components[data.index].width -= Math.floor(diffX)
 
                  this.active_component_index = data.index
 
@@ -3388,17 +3388,17 @@ ${eventMessage.code}
 
              } else if (data.type == "resize_top") {
                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
-                 var oldY = this.model.forms[this.model.active_form].components[data.index].topY
+                 var oldY = this.model.forms[this.active_form].components[data.index].topY
 
                  var newTopY = ev.clientY  + 2 - rrr.top ;
 
-                 if (!this.model.forms[this.model.active_form].components[data.index].is_container) {
+                 if (!this.model.forms[this.active_form].components[data.index].is_container) {
                      if (parentId) {
-                        this.model.forms[this.model.active_form].components[data.index].parent = parentName
+                        this.model.forms[this.active_form].components[data.index].parent = parentName
                         newLeftX = newLeftX - parentOffsetX
                         newTopY = newTopY - parentOffsetY
                      } else {
-                        this.model.forms[this.model.active_form].components[data.index].parent = null
+                        this.model.forms[this.active_form].components[data.index].parent = null
                      }
                  }
 
@@ -3406,9 +3406,9 @@ ${eventMessage.code}
                      newTopY = 0
                  }
 
-                 this.model.forms[this.model.active_form].components[data.index].topY = Math.floor(newTopY)
-                 var diffY = this.model.forms[this.model.active_form].components[data.index].topY - oldY
-                 this.model.forms[this.model.active_form].components[data.index].height -= Math.floor(diffY)
+                 this.model.forms[this.active_form].components[data.index].topY = Math.floor(newTopY)
+                 var diffY = this.model.forms[this.active_form].components[data.index].topY - oldY
+                 this.model.forms[this.active_form].components[data.index].height -= Math.floor(diffY)
 
                  this.active_component_index = data.index
 
@@ -3419,23 +3419,23 @@ ${eventMessage.code}
                  var newX = ev.clientX  - 10 - rrr.left ;
                  var newY = ev.clientY + 2 - rrr.top;
 
-                 if (!this.model.forms[this.model.active_form].components[data.index].is_container) {
+                 if (!this.model.forms[this.active_form].components[data.index].is_container) {
                      if (parentId) {
-                        this.model.forms[this.model.active_form].components[data.index].parent = parentName
+                        this.model.forms[this.active_form].components[data.index].parent = parentName
                         newX = newX - parentOffsetX
                         newY = newY - parentOffsetY
                      } else {
-                        this.model.forms[this.model.active_form].components[data.index].parent = null
+                        this.model.forms[this.active_form].components[data.index].parent = null
                      }
                  }
 
-                 this.model.forms[this.model.active_form].components[data.index].width =
-                    Math.floor(newX - this.model.forms[this.model.active_form].components[data.index].leftX)
+                 this.model.forms[this.active_form].components[data.index].width =
+                    Math.floor(newX - this.model.forms[this.active_form].components[data.index].leftX)
 
-                 var newHeight = (this.model.forms[this.model.active_form].components[data.index].topY +
-                                    this.model.forms[this.model.active_form].components[data.index].height) - newY
-                 this.model.forms[this.model.active_form].components[data.index].topY = Math.floor(newY)
-                 this.model.forms[this.model.active_form].components[data.index].height = Math.floor(newHeight)
+                 var newHeight = (this.model.forms[this.active_form].components[data.index].topY +
+                                    this.model.forms[this.active_form].components[data.index].height) - newY
+                 this.model.forms[this.active_form].components[data.index].topY = Math.floor(newY)
+                 this.model.forms[this.active_form].components[data.index].height = Math.floor(newHeight)
 
 
                  this.active_component_index = data.index
@@ -3445,21 +3445,21 @@ ${eventMessage.code}
                  var newX = ev.clientX + 8 - rrr.left ;
                  var newY = ev.clientY - 12 - rrr.top ;
 
-                 if (!this.model.forms[this.model.active_form].components[data.index].is_container) {
+                 if (!this.model.forms[this.active_form].components[data.index].is_container) {
                      if (parentId) {
-                        this.model.forms[this.model.active_form].components[data.index].parent = parentName
+                        this.model.forms[this.active_form].components[data.index].parent = parentName
                         newX = newX - parentOffsetX
                         newY = newY - parentOffsetY
                      } else {
-                        this.model.forms[this.model.active_form].components[data.index].parent = null
+                        this.model.forms[this.active_form].components[data.index].parent = null
                      }
                  }
-                 var newWidth = (this.model.forms[this.model.active_form].components[data.index].leftX + this.model.forms[this.model.active_form].components[data.index].width) - newX
-                 var newHeight = newY - this.model.forms[this.model.active_form].components[data.index].topY
+                 var newWidth = (this.model.forms[this.active_form].components[data.index].leftX + this.model.forms[this.active_form].components[data.index].width) - newX
+                 var newHeight = newY - this.model.forms[this.active_form].components[data.index].topY
 
-                 this.model.forms[this.model.active_form].components[data.index].leftX = Math.floor(newX)
-                 this.model.forms[this.model.active_form].components[data.index].width = Math.floor(newWidth)
-                 this.model.forms[this.model.active_form].components[data.index].height = Math.floor(newHeight)
+                 this.model.forms[this.active_form].components[data.index].leftX = Math.floor(newX)
+                 this.model.forms[this.active_form].components[data.index].width = Math.floor(newWidth)
+                 this.model.forms[this.active_form].components[data.index].height = Math.floor(newHeight)
 
                  this.active_component_index = data.index
 
@@ -3468,17 +3468,17 @@ ${eventMessage.code}
                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
                  var newX = ev.clientX  - rrr.left - 10;
 
-                 if (!this.model.forms[this.model.active_form].components[data.index].is_container) {
+                 if (!this.model.forms[this.active_form].components[data.index].is_container) {
                      if (parentId) {
-                        this.model.forms[this.model.active_form].components[data.index].parent = parentName
+                        this.model.forms[this.active_form].components[data.index].parent = parentName
                         newX = newX - parentOffsetX
                      } else {
-                        this.model.forms[this.model.active_form].components[data.index].parent = null
+                        this.model.forms[this.active_form].components[data.index].parent = null
                      }
                  }
 
-                 var newWidth = newX - this.model.forms[this.model.active_form].components[data.index].leftX
-                 this.model.forms[this.model.active_form].components[data.index].width = Math.floor(newWidth)
+                 var newWidth = newX - this.model.forms[this.active_form].components[data.index].leftX
+                 this.model.forms[this.active_form].components[data.index].width = Math.floor(newWidth)
 
                  this.active_component_index = data.index
 
@@ -3490,21 +3490,21 @@ ${eventMessage.code}
                  var newX = ev.clientX  - rrr.left - 10;
                  var newY = ev.clientY - rrr.top - 12;
 
-                 if (!this.model.forms[this.model.active_form].components[data.index].is_container) {
+                 if (!this.model.forms[this.active_form].components[data.index].is_container) {
                      if (parentId) {
-                        this.model.forms[this.model.active_form].components[data.index].parent = parentName
+                        this.model.forms[this.active_form].components[data.index].parent = parentName
                         newX = newX - parentOffsetX
                         newY = newY - parentOffsetY
                      } else {
-                        this.model.forms[this.model.active_form].components[data.index].parent = null
+                        this.model.forms[this.active_form].components[data.index].parent = null
                      }
                  }
 
-                 var newWidth = newX - this.model.forms[this.model.active_form].components[data.index].leftX
-                 this.model.forms[this.model.active_form].components[data.index].width = Math.floor(newWidth)
+                 var newWidth = newX - this.model.forms[this.active_form].components[data.index].leftX
+                 this.model.forms[this.active_form].components[data.index].width = Math.floor(newWidth)
 
-                 var newHeight = newY - this.model.forms[this.model.active_form].components[data.index].topY
-                 this.model.forms[this.model.active_form].components[data.index].height = Math.floor(newHeight)
+                 var newHeight = newY - this.model.forms[this.active_form].components[data.index].topY
+                 this.model.forms[this.active_form].components[data.index].height = Math.floor(newHeight)
 
                  this.active_component_index = data.index
 
@@ -3513,17 +3513,17 @@ ${eventMessage.code}
                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
                  var newY = ev.clientY - rrr.top - 12;
 
-                 if (!this.model.forms[this.model.active_form].components[data.index].is_container) {
+                 if (!this.model.forms[this.active_form].components[data.index].is_container) {
                      if (parentId) {
-                        this.model.forms[this.model.active_form].components[data.index].parent = parentName
+                        this.model.forms[this.active_form].components[data.index].parent = parentName
                         newY = newY - parentOffsetY
                      } else {
-                        this.model.forms[this.model.active_form].components[data.index].parent = null
+                        this.model.forms[this.active_form].components[data.index].parent = null
                      }
                  }
 
-                 var newHeight = newY - this.model.forms[this.model.active_form].components[data.index].topY
-                 this.model.forms[this.model.active_form].components[data.index].height = Math.floor(newHeight)
+                 var newHeight = newY - this.model.forms[this.active_form].components[data.index].topY
+                 this.model.forms[this.active_form].components[data.index].height = Math.floor(newHeight)
 
                  this.active_component_index = data.index
              }
@@ -3712,7 +3712,7 @@ ${eventMessage.code}
                             component:  null
                         }
                     )
-                    if ((!mm.model.app_selected) && (form.name == mm.model.active_form)) {
+                    if ((!mm.model.app_selected) && (form.name == mm.active_form)) {
                         selectedItem = indexProp
                     }
                     indexProp++
@@ -3724,7 +3724,7 @@ ${eventMessage.code}
                     {
                         value:      "" + indexProp,
                         app:        null,
-                        form:       mm.model.active_form,
+                        form:       mm.active_form,
                         component:  null
                     }
                 )
@@ -3737,7 +3737,7 @@ ${eventMessage.code}
                         {
                             value:              "" + indexProp,
                             app:                null,
-                            form:               mm.model.active_form,
+                            form:               mm.active_form,
                             component:          component.name,
                             component_type:     component.base_component_id,
 
@@ -3876,7 +3876,7 @@ return {}
             this.active_property_index = null
             this.model.app_selected = false
             this.active_component_index = index
-            this.properties = this.getControlProperties(this.model.forms[this.model.active_form].components[index].base_component_id)
+            this.properties = this.getControlProperties(this.model.forms[this.active_form].components[index].base_component_id)
 
             this.updatePropertySelector()
             if (isValidObject(showProps) && showProps) {
@@ -3906,7 +3906,7 @@ return {}
                 add_control: "alert('Add control called')"
             }
 
-            mm.model.active_form = newFormName
+            mm.active_form = newFormName
             mm.refresh ++
          }
          ,
@@ -3919,14 +3919,14 @@ return {}
         //-------------------------------------------------------------------
             var mm = this
             var itemD = null
-            for (var tt=0; tt < mm.model.forms[mm.model.active_form].fields.length ; tt++) {
-                var ciurr = mm.model.forms[mm.model.active_form].fields[tt]
+            for (var tt=0; tt < mm.model.forms[mm.active_form].fields.length ; tt++) {
+                var ciurr = mm.model.forms[mm.active_form].fields[tt]
                 if (ciurr.id == fieldId) {
                     itemD = ciurr
                 }
             }
             if (itemD) {
-                var index = mm.model.forms[mm.model.active_form].fields.indexOf(  itemD  );
+                var index = mm.model.forms[mm.active_form].fields.indexOf(  itemD  );
                 if (index > -1) {
                   mm.model.fields.splice(index, 1);
                   mm.model.fields.splice(index - 1, 0, itemD);
@@ -3940,14 +3940,14 @@ return {}
         //-------------------------------------------------------------------
             var mm = this
             var itemD = null
-            for (var tt=0; tt < mm.model.forms[mm.model.active_form].fields.length ; tt++) {
-                var ciurr = mm.model.forms[mm.model.active_form].fields[tt]
+            for (var tt=0; tt < mm.model.forms[mm.active_form].fields.length ; tt++) {
+                var ciurr = mm.model.forms[mm.active_form].fields[tt]
                 if (ciurr.id == fieldId) {
                     itemD = ciurr
                 }
             }
             if (itemD) {
-                var index = mm.model.forms[mm.model.active_form].fields.indexOf(  itemD  );
+                var index = mm.model.forms[mm.active_form].fields.indexOf(  itemD  );
                 if (index > -1) {
                   mm.model.fields.splice(index, 1);
                   mm.model.fields.splice(index + 1, 0, itemD);
@@ -3961,14 +3961,14 @@ return {}
         //-------------------------------------------------------------------
             var mm = this
             var itemD = null
-            for (var tt=0; tt < mm.model.forms[mm.model.active_form].fields.length ; tt++) {
-                var ciurr = mm.model.forms[mm.model.active_form].fields[tt]
+            for (var tt=0; tt < mm.model.forms[mm.active_form].fields.length ; tt++) {
+                var ciurr = mm.model.forms[mm.active_form].fields[tt]
                 if (ciurr.id == fieldId) {
                     itemD = ciurr
                 }
             }
             if (itemD) {
-                var index = mm.model.forms[mm.model.active_form].fields.indexOf(  itemD  );
+                var index = mm.model.forms[mm.active_form].fields.indexOf(  itemD  );
                 if (index > -1) {
                   mm.model.fields.splice(index, 1);
                 }
@@ -4195,12 +4195,12 @@ return {}
            component_usage:             new Object(),
            form_runtime_info:           {},
            active_component_index:      null,
+           active_form:                 "Form_1",
            old_model: {},
            model:                      {
                                             next_id: 1,
                                             next_component_id: 1,
                                             max_form: 1,
-                                            active_form: "Form_1",
                                             active_component_detail_index: null,
                                             active_component_detail_name: null,
                                             app_selected: false,
