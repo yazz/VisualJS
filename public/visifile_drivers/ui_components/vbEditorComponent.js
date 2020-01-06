@@ -1158,7 +1158,23 @@ uses_javascript_librararies(["advanced_bundle"])
          {
              handler:
                  async function() {
+                     var mm                  = this
+                     //debugger
+                     if (!mm) {
+                         return
+                     }
                      console.log("Changed ********")
+                     var ttt=null
+                     if (mm.old_model) {
+                         ttt = jsondiffpatch.diff(mm.old_model,mm.model)
+                         console.log("Changes: "+ JSON.stringify(ttt,null,2))
+                     }
+                     if (ttt) {
+                         mm.old_model = JSON.parse(JSON.stringify(mm.model));
+                         this.$root.$emit('message', {
+                             type:   "pending"
+                         })
+                     }
                  }
              ,
              deep: true
@@ -1170,12 +1186,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
      methods: {
-         changed: function() {
-             this.$root.$emit('message', {
-                 type:   "pending"
-             })
-         }
-         ,
+
          getControlMethod: function(componentDefn,componentDetails) {
             var mm = this
             var methodId = componentDefn.id
@@ -1811,7 +1822,6 @@ ${origCode}
                             } else if ((mm.model.active_component_index != null) && (mm.model.active_form != null)) {
                                 mm.model.forms[mm.model.active_form].components[mm.model.active_component_index][aa.property_id] = newC
                             }
-                            mm.changed()
                         })
 
                         mm.updateAllFormCaches()
@@ -2725,7 +2735,6 @@ return {}
             } else if (type == 'app') {
                 this.model[property.id] = val
             }
-            mm.changed()
 
          },
 
@@ -2766,7 +2775,6 @@ return {}
             mm.new_property_id = ""
             mm.new_property_name = ""
             mm.new_property_type = "String"
-            mm.changed()
 
 
             setTimeout(function(){
@@ -2809,7 +2817,6 @@ return {}
                                             })
 
             mm.generateCodeFromModel( )
-            mm.changed()
 
             setTimeout(function() {
                 mm.refresh ++
@@ -3112,7 +3119,6 @@ ${eventMessage.code}
                   this.model.active_component_index = null
                   mm.refresh ++
                 }
-                mm.changed()
           },
 
           setInfo: function(text) {
@@ -3145,7 +3151,6 @@ ${eventMessage.code}
              }
              ev.dataTransfer.setData("message",
                                      JSON.stringify(message,null,2));
-             //mm.changed()
 
          },
 
@@ -3181,7 +3186,6 @@ ${eventMessage.code}
             setTimeout(function() {
                 mm.refresh ++
                 mm.$forceUpdate();
-                mm.changed()
             },400)
          },
          deleteComponentByName: async function(thisComponentName) {
@@ -3207,7 +3211,6 @@ ${eventMessage.code}
 
                 mm.refreshControlIndexes()
                 mm.selectForm(mm.model.active_form)
-                mm.changed()
                 setTimeout(function() {
                     mm.refresh ++
                     mm.$forceUpdate();
@@ -3224,7 +3227,6 @@ ${eventMessage.code}
                                              type:             "delete_design_time_component",
                                              component_index:   index
                                          })
-             this.changed()
 
              }
              ,
@@ -3529,7 +3531,6 @@ ${eventMessage.code}
 
              this.selectComponent(this.model.active_component_index)
              this.refresh ++
-             this.changed()
 
 
          },
@@ -3907,7 +3908,6 @@ return {}
 
             mm.model.active_form = newFormName
             mm.refresh ++
-            mm.changed()
          }
          ,
 
@@ -3933,7 +3933,6 @@ return {}
                 }
 
             }
-            mm.changed()
         },
 
         //-------------------------------------------------------------------
@@ -3955,7 +3954,6 @@ return {}
                 }
 
             }
-            mm.changed()
         },
 
         //-------------------------------------------------------------------
@@ -3975,7 +3973,6 @@ return {}
                   mm.model.fields.splice(index, 1);
                 }
             }
-            mm.changed()
         },
 
 
@@ -4159,7 +4156,6 @@ return {}
 
             //console.log("end generateCodeFromModel.Done")
             this.in_generate_code_from_model = false
-            this.changed()
             return
             }
         }
@@ -4198,6 +4194,7 @@ return {}
            available_components:        [],
            component_usage:             new Object(),
            form_runtime_info:           {},
+           old_model: {},
            model:                      {
                                             next_id: 1,
                                             next_component_id: 1,
