@@ -1148,9 +1148,23 @@ uses_javascript_librararies(["advanced_bundle"])
 
            hideProgressBar()
 
-     },
+     }
+
+     ,
 
 
+     watch: {
+         model:
+         {
+             handler:
+                 async function() {
+                     console.log("Changed ********")
+                 }
+             ,
+             deep: true
+         }
+     }
+     ,
 
 
 
