@@ -645,29 +645,8 @@ logo_url("/driver_icons/rest.png")
                 this.args.productionFilter  = JSON.parse(JSON.stringify(this.args.stagingFilter))
                 this.args.URL               = this.args.stagingURL
                 this.args.productionRoot    = this.args.stagingRoot
-                this.changed()
             }
             ,
-
-
-
-
-            // ----------------------------------------------------------------
-            //
-            //                     changed
-            //
-            //
-            //
-            //
-            // ----------------------------------------------------------------
-            changed: function() {
-                this.$root.$emit('message', {
-                    type:   "pending"
-                })
-            }
-            ,
-
-
 
 
 
