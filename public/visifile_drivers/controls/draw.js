@@ -81,7 +81,7 @@ logo_url("/driver_icons/draw.png")
                                         <div    v-for="color in colors"
                                                 v-if='design_mode == "detail_editor"'
                                                 v-on:click='args.draw_color = color;'
-                                                v-bind:style="'display: inline-block;width:10px;height:10px;background-color: ' + color">
+                                                v-bind:style="'display: inline-block;width:15px;height:15px;background-color: ' + color">
                                         </div>
                                     </div>
 
