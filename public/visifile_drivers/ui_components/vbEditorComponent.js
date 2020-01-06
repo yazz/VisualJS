@@ -1157,24 +1157,40 @@ uses_javascript_librararies(["advanced_bundle"])
          model:
          {
              handler:
-                 async function() {
+                 function() {
                      var mm                  = this
                      //debugger
                      if (!mm) {
                          return
                      }
-                     console.log("Changed ********")
-                     var ttt=null
-                     if (mm.old_model) {
-                         ttt = jsondiffpatch.diff(mm.old_model,mm.model)
-                         console.log("Changes: "+ JSON.stringify(ttt,null,2))
-                     }
-                     if (ttt) {
-                         mm.old_model = JSON.parse(JSON.stringify(mm.model));
-                         this.$root.$emit('message', {
-                             type:   "pending"
-                         })
-                     }
+
+
+                     //zzz
+                     var currentTime = new Date().getTime();
+
+                     mm.model_changed_time = currentTime
+
+                     setInterval(function() {
+                         var currentTime = new Date().getTime();
+                         var timeDiff = currentTime - mm.model_changed_time
+                         if (timeDiff < 500) {
+                             return
+                         }
+                         console.log("Changed ********")
+                         var ttt=null
+                         if (mm.old_model) {
+                             ttt = jsondiffpatch.diff(mm.old_model,mm.model)
+                             console.log("Changes: "+ JSON.stringify(ttt,null,2))
+                         }
+                         if (ttt) {
+                             mm.old_model = JSON.parse(JSON.stringify(mm.model));
+                             mm.$root.$emit('message', {
+                                 type:   "pending"
+                             })
+                         }
+                     },500)
+
+
                  }
              ,
              deep: true
@@ -2643,7 +2659,7 @@ props.push({   id:     "show",   name:   "Show form",   type:   "Action"  ,
 return {}
 `})
 
-//zzz
+
 
 
              return props
@@ -4197,7 +4213,8 @@ return {}
            form_runtime_info:           {},
            active_component_index:      null,
            active_form:                 "Form_1",
-           old_model: {},
+           old_model:                   {},
+           model_changed_time:          -1,
            model:                      {
                                             next_id: 1,
                                             next_component_id: 1,
