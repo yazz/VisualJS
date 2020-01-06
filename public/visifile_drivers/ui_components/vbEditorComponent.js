@@ -1171,25 +1171,32 @@ uses_javascript_librararies(["advanced_bundle"])
 
                      mm.model_changed_time = currentTime
 
-                     setInterval(function() {
-                         var currentTime = new Date().getTime();
-                         var timeDiff = currentTime - mm.model_changed_time
-                         if (timeDiff < 500) {
-                             return
-                         }
-                         console.log("Changed ********")
-                         var ttt=null
-                         if (mm.old_model) {
-                             ttt = jsondiffpatch2.diff(mm.old_model,mm.model)
-                             console.log("Changes: "+ JSON.stringify(ttt,null,2))
-                         }
-                         if (ttt) {
-                             mm.old_model = JSON.parse(JSON.stringify(mm.model));
-                             mm.$root.$emit('message', {
-                                 type:   "pending"
-                             })
-                         }
-                     },500)
+                     if (!mm.in_change_model) {
+                         mm.in_change_model = true
+                         setInterval(function() {
+                             var currentTime = new Date().getTime();
+                             var timeDiff = currentTime - mm.model_changed_time
+                             if (timeDiff < 500) {
+                                 mm.in_change_model = false
+                                 return
+                             }
+                             console.log("Changed ********")
+                             var ttt=null
+                             if (mm.old_model) {
+                                 ttt = jsondiffpatch2.diff(mm.old_model,mm.model)
+                                 console.log("Changes: "+ JSON.stringify(ttt,null,2))
+                             }
+                             if (ttt) {
+                                 mm.old_model = JSON.parse(JSON.stringify(mm.model));
+                                 mm.$root.$emit('message', {
+                                     type:   "pending"
+                                 })
+                             }
+                             mm.in_change_model = false
+
+                         },500)
+                     }
+
 
 
                  }
@@ -4216,6 +4223,7 @@ return {}
            active_form:                 "Form_1",
            old_model:                   {},
            model_changed_time:          -1,
+           in_change_model:             false,
            model:                      {
                                             next_id: 1,
                                             next_component_id: 1,
