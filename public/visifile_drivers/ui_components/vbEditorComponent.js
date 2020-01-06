@@ -927,6 +927,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
             if (texti) {
                 var json2                   = this.getJsonModelFromCode(  texti  )
+                mm.old_model = JSON.parse(JSON.stringify(json2));
                 mm.model                    = json2
                 mm.edited_app_component_id  = saveHelper.getValueOfCodeString(texti, "base_component_id")
 
@@ -4016,8 +4017,8 @@ return {}
             //console.log("setText: mm.model = json2")
             mm.edited_app_component_id = saveHelper.getValueOfCodeString(textValue, "base_component_id")
 
+            mm.old_model = JSON.parse(JSON.stringify(json2));
             mm.model = json2
-            mm.old_model = JSON.parse(JSON.stringify(mm.model));
             mm.updatePropertySelector()
             mm.refresh ++
             //console.log("end setText")
