@@ -4001,6 +4001,7 @@ return {}
             mm.edited_app_component_id = saveHelper.getValueOfCodeString(textValue, "base_component_id")
 
             mm.model = json2
+            mm.old_model = JSON.parse(JSON.stringify(mm.model));
             mm.updatePropertySelector()
             mm.refresh ++
             //console.log("end setText")
