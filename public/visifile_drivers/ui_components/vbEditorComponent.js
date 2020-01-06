@@ -916,6 +916,7 @@ uses_javascript_librararies(["advanced_bundle"])
             mm.vb_grid_element_id   = "vb_grid_"+ uuidv4()
             mm.vb_editor_element_id = "vb_editor_"+ uuidv4()
             mm.local_app            = localAppshareApp
+            mm.in_change_model      = true
 
 
 
@@ -1148,6 +1149,7 @@ uses_javascript_librararies(["advanced_bundle"])
            })
 
            hideProgressBar()
+           mm.in_change_model = false
 
      }
 
