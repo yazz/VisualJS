@@ -130,20 +130,7 @@ logo_url("/driver_icons/draw.png")
       }
       ,
       methods: {
-          // ----------------------------------------------------------------
-          //
-          //                     changed
-          //
-          //
-          //
-          //
-          // ----------------------------------------------------------------
-          changed: function() {
-              this.$root.$emit('message', {
-                  type:   "pending"
-              })
-          }
-          ,
+
 
 
 
@@ -164,7 +151,6 @@ logo_url("/driver_icons/draw.png")
                ctx.fillRect(left,right,  mm.args.brush_width,  mm.args.brush_width)
 
                this.args.image_data = el.toDataURL()
-               this.changed()
             }
           }
           ,
