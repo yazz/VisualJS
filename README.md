@@ -196,7 +196,7 @@ Pilot's killer feature is being able to Simple applications in minutes, without 
 #### Is Yazz Production ready? Who should use Yazz today?
 Anyone wishing to build a web UI on top of a web service.
 
-#### How much will Dark cost?
+#### How much will Yazz cost?
 Yazz Pilot is free to download and use. We will be releasing a hosted version at some point.
 
 #### Is there commercial support for Pilot?
@@ -211,7 +211,7 @@ Yazz is basewd on VueJS, HTML, and Javascript so you can slowly migrate to simil
 ### I want to write libraries for Yazz - how can I take part in the Yazz community/ecosystem?
 We will be releasing our dev guidelines soon.
 
-### How does version control work in Dark?
+### How does version control work in Yazz?
 Yazz removes the complexity of separate version control systems like git. Changes to your code are structured using distributed diff algorithms.
 
 ### How does Yazz relate to Unison language
