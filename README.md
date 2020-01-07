@@ -1,25 +1,19 @@
 
 # Yazz Pilot
-Yazz Pilot is a Visual Basic 6 style drag and drop GUI builder for enterprise apps, but using JavaScript as the scripting language. The initial focus is to enable people who work in large enterprises to build a GUI really fast on top of 3Scale, Mulesoft, Kong, Rest APIs, Postgres or other enterprise stuff.
-
-There have been many people involved in this project and I give my thanks to them, since they have written alot of the code. Unfortunately I am the only person who is happy to put my name to the commits as I have a very forward thinking employer, Red Hat, although there have been major contributors from Google and Microsoft as well. Also, I must stress that this project and the views of myself and other team members in no way represents the views of our employers at Red Hat, Google, or Microsoft.
-
-The project is still very rough around the edges, but please feel free to reach out to me on the Slack channel (link at the bottom of the readme) for any questions that you may have.
-
+Yazz Pilot is a drag and drop GUI builder for enterprise apps, using JavaScript as the scripting language. The initial focus is to enable people who work in large enterprises to build a GUI really fast on top of 3Scale, Mulesoft, Kong, Rest APIs, Postgres or other enterprise stuff.
 
 <br/><br/><br/>
-## Self Service apps without the IT department
+## Build Self Service apps. Use Open Source
 
 
-Pilot is a tool to create and run internal web based tools or micro services. There is a demo at:
+Pilot is a tool to create and run internal web based tools. There is a demo here:
 https://yazz.com/app/homepage.html
 
 - Build apps in minutes with drag and drop interface and code business logic in Javascript
-- One click deploy to Docker or Kubernetes
 - Open source MIT license
 - Can run in Docker, Kubernetes, or OpenShift
-- Runs locally on Mac, Windows, Linux, Raspberry PI using NodeJS
-- Can be run as a Snap Package on Linux
+- Can run locally on Mac, Windows, Linux, Raspberry PI using NodeJS
+- Available as a Snap Package on Linux
 
 <br/><br/><br/>
 ## Join our Slack group
@@ -199,8 +193,29 @@ Finall browse to the following URL in your browser to see the microservice runni
 #### What is Yazz Pilot's killer feature?
 Pilot's killer feature is being able to Simple applications in minutes, without having to setup Jenkins pipelines, Git, or anything else. It is ideal for demos or small throwaway apps.
 
+#### Is Yazz Production ready? Who should use Yazz today?
+Anyone wishing to build a web UI on top of a web service.
+
+#### How much will Dark cost?
+Yazz Pilot is free to download and use. We will be releasing a hosted version at some point.
+
 #### Is there commercial support for Pilot?
 If you require commercial support then please go to https://yazz.com
+
+### I'm worried about vendor lock-in - what happens if Yazz goes out of business?
+Yazz Pilot is Open Source so you can download the opensource repo or fork the Github repo.
+
+### I'm worried about vendor lock-in - what happens if Yazz stays in business but I still need to move off?
+Yazz is basewd on VueJS, HTML, and Javascript so you can slowly migrate to similar technologies in the ecosystem. 
+
+### I want to write libraries for Yazz - how can I take part in the Yazz community/ecosystem?
+We will be releasing our dev guidelines soon.
+
+### How does version control work in Dark?
+Yazz removes the complexity of separate version control systems like git. Changes to your code are structured using distributed diff algorithms.
+
+### How does Yazz relate to Unison language
+There is no relation except that both Unison and Yazz are based on the principal of immutable code.
 
 #### Is there community for Pilot?
 You can be the first to join us here http://yazz-workspace.slack.com
