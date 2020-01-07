@@ -217,5 +217,8 @@ Yazz removes the complexity of separate version control systems like git. Change
 #### How does Yazz relate to Unison language
 There is no relation except that both Unison and Yazz are based on the principal of immutable code.
 
+#### I’m already invested in my editor, language, etc… Can I keep using them with Yazz?
+Yazz's basic file format is text, so you can use any editor.
+
 #### Is there community for Pilot?
 You can be the first to join us here http://yazz-workspace.slack.com
