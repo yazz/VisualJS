@@ -195,7 +195,7 @@ Pilot's killer feature is being able to Simple applications in minutes, without 
 
 
 #### Does programming really need a drag and drop UI framework?
-##### Michael Palin: Ahh.. Very passable, this, very passable.
+**Michael Palin:** Ahh.. Very passable, this, very passable.<br/>
 ##### Graham Chapman: Nothing like a good glass of Chateau de Chassilier wine, ay Gessiah?
 ##### Terry Jones: You're right there Obediah.
 ##### Eric Idle: Who'd a thought thirty years ago we'd all be sittin' here drinking Chateau de Chassilier wine?
