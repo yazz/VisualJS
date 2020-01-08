@@ -15,9 +15,6 @@ https://yazz.com/app/homepage.html
 - Can run locally on Mac, Windows, Linux, Raspberry PI using NodeJS
 - Available as a Snap Package on Linux
 
-<br/><br/><br/>
-## Join our Slack group
-https://yazz-workspace.slack.com
 
 <br/><br/><br/>
 ## Quick examples
@@ -188,7 +185,7 @@ Finall browse to the following URL in your browser to see the microservice runni
 
 
 <br/><br/><br/>
-### FAQ
+### A long FAQ
 
 #### What is Yazz Pilot's killer feature?
 Pilot's killer feature is being able to Simple applications in minutes, without having to setup Jenkins pipelines, Git, or anything else. It is ideal for demos or small throwaway apps.
@@ -240,5 +237,18 @@ As of January 2020 AnyType is still closed source. Anytype does use IPFS for sto
 As of January 2020 Retool is a great SAAS offering
 
 
+### Does Yazz work offline?
+Yes! One of the great things about Yazz is that it can be run offline in your own datacenter, or on your own PC, totally disconnected from the internet. We have even seen Yazz running on a standalone disconnected Raspberry PI.
+
+
+### How does Yazz compare to Bubble.io?
+As of January 2020 Bubble is a hosted web app builder, one of the first great online CRUD app builders.
+
 #### Is there community for Pilot?
-You can be the first to join us here http://yazz-workspace.slack.com
+You can join us here http://yazz-workspace.slack.com
+
+
+
+<br/><br/><br/>
+## Join our Slack group
+https://yazz-workspace.slack.com
