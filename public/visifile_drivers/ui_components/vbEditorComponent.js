@@ -2616,11 +2616,18 @@ ${origCode}
                 this.form_runtime_info[formName] = new Object()
             }
             this.form_runtime_info[formName].component_lookup_by_name = {}
+            this.form_runtime_info[formName].component_lookup_by_uuid = {}
 
             for (var gjh = 0; gjh < components.length; gjh ++) {
                 var cc = components[gjh]
                 if (isValidObject(cc)) {
                     this.form_runtime_info[formName].component_lookup_by_name[cc.name] = cc
+                }
+                if (cc.uuid) {
+                    this.form_runtime_info[formName].component_lookup_by_uuid[cc.uuid] = cc
+                } else {
+                    cc.uuid = uuidv4()
+                    this.refresh ++
                 }
             }
         },
