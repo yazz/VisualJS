@@ -23,6 +23,12 @@ properties(
         }
         ,
         {
+            id:     "value",
+            name:   "Value",
+            type:   "Number"
+        }
+        ,
+        {
             id:     "changed_event",
             name:   "Changed event",
             type:   "Event"
@@ -65,7 +71,7 @@ logo_url("/driver_icons/vert_scroll_bar.png")
         data: function() {
             return {
                 msg:               "...",
-                value:             null
+                value:              null
             }
         }
         ,
@@ -88,6 +94,7 @@ logo_url("/driver_icons/vert_scroll_bar.png")
         ,
         methods: {
               changedFn: function() {
+                  debugger
                   if (isValidObject(this.args)) {
                       this.args.value = this.value
                   }
