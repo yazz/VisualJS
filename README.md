@@ -40,7 +40,7 @@ Yazz Pilot started on:
 http://0.0.0.0:3000
 ```
 
-Upload a sample Pilot microservice that we will upload.
+Upload a sample Pilot micro-service that we will upload.
 
 > &gt; cat a.js
 
@@ -56,9 +56,9 @@ function(args) {
 
 > &gt; curl -F 'file=@a.js' http://localhost:3000/file_upload
 
-Finall browse to the following URL in your browser to see the microservice running:
+Finally browse to the following URL in your browser to see the microservice running:
 
-    http://localhost:3000/test3
+    http://0.0.0.0:3000/test3
 
 
 
@@ -74,7 +74,7 @@ Finall browse to the following URL in your browser to see the microservice runni
 ```
 ......................................................................................................
 Yazz Pilot started on:
-http://0.0.0.0:3000
+http://localhost:3000
 ```
 
 <br/><br/><br/>
