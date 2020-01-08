@@ -200,10 +200,10 @@ Pilot's killer feature is being able to Simple applications in minutes, without 
 
 ### Does programming really need a drag and drop UI framework?
 **Michael Palin:** Ahh.. Very passable, this, very passable.<br/>
-#### Graham Chapman: Nothing like a good glass of Chateau de Chassilier wine, ay Gessiah?<br/>
+**Graham Chapman** Nothing like a good drag and drop framework to develop apps, ay Gessiah?<br/>
 **Terry Jones** You're right there Obediah.<br/>
-**Eric Idle** Who'd a thought thirty years ago we'd all be sittin' here drinking Chateau de Chassilier wine?<br/>
-**MP** Aye. In them days, we'd a' been glad to have the price of a cup o' tea.<br/>
+**Eric Idle** Who'd a thought thirty years ago we'd all be sittin' here building apps with our mouse and a bit o' no code?<br/>
+**MP** Aye. In them days, we'd a' been glad to have a text editor.<br/>
 **GC** A cup ' COLD tea.<br/>
 **EI** Without milk or sugar.<br/>
 **TJ** OR tea!<br/>
