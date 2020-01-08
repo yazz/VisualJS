@@ -20,7 +20,7 @@ https://yazz.com/app/homepage.html
 https://yazz-workspace.slack.com
 
 <br/><br/><br/>
-## Quick examples 
+## Quick examples
 ### Upload a Microservice from a Javascript file
 
 First you need to install Yazz Pilot, assuming you have NodeJS installed and have downloaded the GIT repo.
@@ -28,14 +28,14 @@ First you need to install Yazz Pilot, assuming you have NodeJS installed and hav
 > &gt; cd pilot
 
 > &gt; npm install
-    
+
 ```
 ... some NodeJS stuff runs here to install Pilot ...
-``` 
+```
 
 Then you run the Pilot server.
 
-> &gt; node src/electron.js 
+> &gt; node src/electron.js
 
 ```
 ......................................................................................................
@@ -46,23 +46,23 @@ http://localhost:3000
 Upload a sample Pilot microservice that we will upload.
 
 > &gt; cat a.js
-    
+
 ```
 function(args) {  
-    /* 
-    rest_api('test3') 
-    */ 
+    /*
+    rest_api('test3')
+    */
 
     return {ab: 163}
 }
 ```
-    
+
 > &gt; curl -F 'file=@a.js' http://localhost:3000/file_upload
-    
+
 Finall browse to the following URL in your browser to see the microservice running:
 
     http://localhost:3000/test3
-    
+
 
 
 
@@ -135,7 +135,7 @@ Finall browse to the following URL in your browser to see the microservice runni
 ##### 5) Install the NodeJS modules
     npm install
 ##### 6) Run as Node.js application with browser based access
-     node src\electron.js 
+     node src\electron.js
 
 
 
@@ -176,7 +176,7 @@ Finall browse to the following URL in your browser to see the microservice runni
     --https                Run using a HTTPS (default is false)
     --private              Private HTTPS key location
     --public               Public HTTPS certificate location
-    
+
 
 
 
@@ -206,7 +206,7 @@ If you require commercial support then please go to https://yazz.com
 Yazz Pilot is Open Source so you can download the opensource repo or fork the Github repo.
 
 #### I'm worried about vendor lock-in - what happens if Yazz stays in business but I still need to move off?
-Yazz is basewd on VueJS, HTML, and Javascript so you can slowly migrate to similar technologies in the ecosystem. 
+Yazz is basewd on VueJS, HTML, and Javascript so you can slowly migrate to similar technologies in the ecosystem.
 
 #### I want to write libraries for Yazz - how can I take part in the Yazz community/ecosystem?
 We will be releasing our dev guidelines soon.
@@ -217,8 +217,28 @@ Yazz removes the complexity of separate version control systems like git. Change
 #### How does Yazz relate to Unison language
 There is no relation except that both Unison and Yazz are based on the principal of immutable code.
 
+
+#### How does Yazz relate to StoryScript language
+StoryScript is a Glue code for multiple languages, whereas Yazz is only one dialect of Javascript
+
+#### How does Yazz relate to Eve?
+Some concepts of universality are taken from Eve
+
+#### How does Yazz relate to Microsoft?
+One of the developers works at Microsoft full time
+
+#### How does Yazz relate to Google?
+One of the developers works at Goole full time, related to new Operating System concepts and Fuchsia
+
 #### I’m already invested in my editor, language, etc… Can I keep using them with Yazz?
 Yazz's basic file format is text, so you can use any editor.
+
+### How does Yazz compare to https://www.anytype.io/?
+As of January 2020 AnyType is still closed source. Anytype does use IPFS for storage which is a technology, along with QRI that Yazz is considering for data storage.
+
+### How does Yazz compare to Retool?
+As of January 2020 Retool is a great SAAS offering
+
 
 #### Is there community for Pilot?
 You can be the first to join us here http://yazz-workspace.slack.com
