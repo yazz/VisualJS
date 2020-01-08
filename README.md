@@ -197,16 +197,51 @@ Pilot's killer feature is being able to Simple applications in minutes, without 
 
 
 
+### What is Yazz Pilot's long term vision?
+Yazz Pilot's long term vision is to have an army of autonomous physical and virtual robots which can assist human kind. One example use case is small robots that can enter the bloodstream and cure diseases in realtime. Initial versions of Yazz may look like a simple app builder, but we actually believe in a world without apps. Building apps is just a necessary stepping stone to building fully autonomous robot helpers
+
+
+
+### Why doesn't Yazz let me edit mutliple files as a tree like a traditional IDE?
+Yazz breaks down all problems into components which are a single function. A component can call other components as well if needed
+
 
 
 ### Is Yazz Production ready? Who should use Yazz today?
 Anyone wishing to build a web UI on top of a web service.
 
+
+
+
+### How does Yazz relate to Visual Basic?
+The author is a huge fan opf Visual Basic 6 and earlier, and the VBX/OCX component ecosystems that existed in the 1990s, so the author of Yazz is trying to recreate the Visual Basic 6 ecosystem in Javascript.
+
+
+
+### What is the basic Unit of code in Yazz?
+A component is the basic unit of code in Yazz, represented as a function in a .pilot text file.
+
+
+
+### How does Yazz differ from Visual Basic?
+The Visual basic style development environment in Yazz is just a Yazz component itself. Other development paradigms can also be built in, with a VR/AR development environment planned for the future using Oculus Quest and WebXR.
+
+
+
 ### How much will Yazz cost?
 Yazz Pilot is free to download and use. We will be releasing a hosted version at some point.
 
+
+
+### Does Yazz use AI?
+Not yet, but AI is planned in the future for machine vision and learning algorithms. Also AI may be used to match component inputs and outputs and for intelligent code completion in the IDE.
+
+
+
 ### What does Yazz mean by Self Service?
 When we say Self Service we mean that Yazz can be used by people who are not Professional programmers.
+
+
 
 ### Is there commercial support for Pilot?
 If you require commercial support then please go to https://yazz.com
@@ -227,6 +262,9 @@ Yazz removes the complexity of separate version control systems like git. Change
 There is no relation except that both Unison and Yazz are based on the principal of immutable code.
 
 
+
+
+
 ### How does Yazz relate to StoryScript language
 StoryScript is a Glue code for multiple languages, whereas Yazz is only one dialect of Javascript
 
@@ -238,6 +276,11 @@ One of the developers works at Microsoft full time
 
 ### How does Yazz relate to Google?
 One of the developers works at Goole full time, related to new Operating System concepts and Fuchsia
+
+
+### Why don't Google or Microsoft developers commit to  the GitHub repo directly?
+They have their reasons. Plus, they HATE Javascript. They much prefer .NET, Dart, Go, Typescript, and other cool stuff!
+
 
 ### I’m already invested in my editor, language, etc… Can I keep using them with Yazz?
 Yazz's basic file format is text, so you can use any editor.
@@ -258,10 +301,6 @@ As of January 2020 Bubble is a hosted web app builder, one of the first great on
 
 ### Is there community for Pilot?
 You can join us here http://yazz-workspace.slack.com
-
-
-### What is Yazz Pilot's long term vision?
-Yazz Pilot's long term vision is to have an army of autonomous physical and virtual robots which can assist human kind. One example use case is small robots that can enter the bloodstream and cure diseases in realtime. Initial versions of Yazz may look like a simple app builder, but we actually believe in a world without apps. Building apps is just a necessary stepping stone to building fully autonomous robot helpers
 
 
 
