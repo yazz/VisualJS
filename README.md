@@ -192,7 +192,7 @@ http://localhost:3000
 ## A long FAQ
 
 ### What is Yazz Pilot's long term vision?
-Yazz Pilot's long term vision is to have an army of autonomous physical and virtual robots which can assist human kind. One example use case is small robots that can enter the bloodstream and cure diseases in realtime. Initial versions of Yazz may look like a simple app builder, but we actually believe in a world without apps. Building apps is a a necessary stepping stone to building fully autonomous robot helpers
+Yazz Pilot's long term vision is to have an army of autonomous physical and virtual robots which can assist human kind. One example use case is small robots that can enter the bloodstream and cure diseases in realtime. Initial versions of Yazz may look like a simple app builder, but we actually believe in a world without apps. Building apps is just a necessary stepping stone to building fully autonomous robot helpers
 
 ### What is Yazz Pilot's killer feature?
 Pilot's killer feature is being able to Simple applications in minutes, without having to setup Jenkins pipelines, Git, or anything else. It is ideal for demos or small throwaway apps.
@@ -202,26 +202,26 @@ Pilot's killer feature is being able to Simple applications in minutes, without 
 **Michael Palin:** Ahh.. Very passable, this, very passable.<br/>
 **Graham Chapman** Nothing like a good drag and drop framework to develop apps, ay Gessiah?<br/>
 **Terry Jones** You're right there Obediah.<br/>
-**Eric Idle** Who'd a thought thirty years ago we'd all be sittin' here building apps with our mouse and a bit o' no code?<br/>
+**Eric Idle** Who'd a thought thirty years ago we'd all be sittin' here building apps with our keyboard and mouse and a bit o' the ol' no code?<br/>
 **MP** Aye. In them days, we'd a' been glad to have a text editor.<br/>
-**GC** A cup ' COLD tea.<br/>
-**EI** Without milk or sugar.<br/>
-**TJ** OR tea!<br/>
-**MP** In a filthy, cracked cup.<br/>
-**EI** We never used to have a cup. We used to have to drink out of a rolled up newspaper.<br/>
-**GC** The best WE could manage was to suck on a piece of damp cloth.<br/>
-**TJ** But you know, we were happy in those days, though we were poor.<br/>
+**GC** Emacs.<br/>
+**EI** Without a terminal.<br/>
+**TJ** OR a screen!<br/>
+**MP** On an old beat up 486!<br/>
+**EI** We never used to have a PC. We used to have to edit on Commodore 64.<br/>
+**GC** The best WE could manage was to type on a ZX81.<br/>
+**TJ** But you know, we were happy in those days, though the tools were poor.<br/>
 **MP** Aye. BECAUSE we were poor. My old Dad used to say to me, 'Money doesn't buy you happiness.'<br/>
-**EI** 'E was right. I was happier then and I had NOTHIN'. We used to live in this tiiiny old house, with greaaaaat big holes in the roof.<br/>
-**GC** House? You were lucky to have a HOUSE! We used to live in one room, all hundred and twenty-six of us, no furniture. Half the floor was missing; we were all huddled together in one corner for fear of FALLING!<br/>
-**TJ** You were lucky to have a ROOM! *We* used to have to live in a corridor!<br/>
-**MP** Ohhhh we used to DREAM of livin' in a corridor! Woulda' been a palace to us. We used to live in an old water tank on a rubbish tip. We got woken up every morning by having a load of rotting fish dumped all over us! House!? Hmph.<br/>
-**EI** Well when I say 'house' it was only a hole in the ground covered by a piece of tarpolin, but it was a house to US.<br/>
-**GC** We were evicted from *our* hole in the ground; we had to go and live in a lake!<br/>
-**TJ** You were lucky to have a LAKE! There were a hundred and sixty of us living in a small shoebox in the middle of the road.<br/>
+**EI** 'E was right. I was happier coding in the old days when we had NOTHIN'. We used to code in on punch cards in this beat up factory.<br/>
+**GC** Factory? You were lucky to have a Factory! We used to code in one room, all five thousand of us, no desks or chairs. Half the floor was missing; we were all huddled together in one corner for fear of FALLING!<br/>
+**TJ** You were lucky to have a ROOM! *We* used to have to code in a corridor!<br/>
+**MP** Ohhhh we used to DREAM of codin' in a corridor! Woulda' been a palace to us. We used to code in an old water tank on a rubbish tip. We got into work and had to build the computers too! Corridor!? Hmph.<br/>
+**EI** Well when I say 'corridor' it was only a hole in the ground covered by a piece of tarpolin, but it was a corridor to US.<br/>
+**GC** We were evicted from **our** hole in the ground; we had to go and code in a lake!<br/>
+**TJ** You were lucky to have a LAKE! There were a hundred and sixty thousand of us coding in a small shoebox in the middle of the road.<br/>
 **MP** Cardboard box?<br/>
 **TJ** Aye.<br/>
-**MP** You were lucky. We lived for three months in a brown paper bag in a septic tank. We used to have to get up at six o'clock in the morning, clean the bag, eat a crust of stale bread, go to work down mill for fourteen hours a day week in-week out. When we got home, our Dad would thrash us to sleep with his belt!<br/>
+**MP** You were lucky. We coded for three months in a brown paper bag in a septic tank. We used to have to get up at six o'clock in the morning, build the computers, write the OS, code the business apps for fourteen hours a day week in-week out. When it wastime to go home, our boss would thrash us with his belt!<br/>
 **GC** Luxury. We used to have to get out of the lake at three o'clock in the morning, clean the lake, eat a handful of hot gravel, go to work at the mill every day for tuppence a month, come home, and Dad would beat us around the head and neck with a broken bottle, if we were LUCKY!<br/>
 **TJ** Well we had it tough. We used to have to get up out of the shoebox at twelve o'clock at night, and LICK the road clean with our tongues. We had half a handful of freezing cold gravel, worked twenty-four hours a day at the mill for fourpence every six years, and when we got home, our Dad would slice us in two with a bread knife.<br/>
 **EI** Right. I had to get up in the morning at ten o'clock at night, half an hour before I went to bed, (pause for laughter), drink a cup of sulphuric acid, work twenty-nine hours a day down mill, and pay mill owner for permission to come to work, and when we got home, our Dad and our mother would kill us, and dance about on our graves singing 'Hallelujah.'<br/>
