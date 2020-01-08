@@ -198,7 +198,7 @@ Yazz Pilot's long term vision is to have an army of autonomous physical and virt
 Pilot's killer feature is being able to Simple applications in minutes, without having to setup Jenkins pipelines, Git, or anything else. It is ideal for demos or small throwaway apps.
 
 
-### Does programming really need a drag and drop UI framework?
+### Does programming really need a drag and drop UI framework? (long version)
 **Michael Palin:** Ahh.. Very passable, this, very passable.<br/>
 **Graham Chapman** Nothing like a good drag and drop framework to develop apps, ay Gessiah?<br/>
 **Terry Jones** You're right there Obediah.<br/>
@@ -228,6 +228,9 @@ Pilot's killer feature is being able to Simple applications in minutes, without 
 **MP** But you try and tell the young people today that... and they won't believe ya'.<br/>
 **ALL** Nope, nope..<br/>
 
+
+### Does programming really need a drag and drop UI framework? (short version)
+Nope
 
 
 ### Is Yazz Production ready? Who should use Yazz today?
