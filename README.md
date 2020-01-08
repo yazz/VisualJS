@@ -208,11 +208,11 @@ Pilot's killer feature is being able to Simple applications in minutes, without 
 **EI** Without a terminal.<br/>
 **TJ** OR a screen!<br/>
 **MP** On an old beat up 486!<br/>
-**EI** We never used to have a PC. We used to have to edit on Commodore 64.<br/>
-**GC** The best WE could manage was to type on a ZX81.<br/>
+**EI** We never used to have a PC. We used to have to edit on a Commodore 64.<br/>
+**GC** The best WE could manage was to type on a broken ZX81.<br/>
 **TJ** But you know, we were happy in those days, though the tools were poor.<br/>
-**MP** Aye. BECAUSE we were poor. My old Dad used to say to me, 'Money doesn't buy you happiness.'<br/>
-**EI** 'E was right. I was happier coding in the old days when we had NOTHIN'. We used to code in on punch cards in this beat up factory.<br/>
+**MP** Aye. BECAUSE we were poor. My old boss used to say to me, 'Good development tools don't buy you happiness.'<br/>
+**EI** 'E was right. I was happier coding in the old days when we had NOTHIN'. We used to code on punch cards in this beat up factory.<br/>
 **GC** Factory? You were lucky to have a Factory! We used to code in one room, all five thousand of us, no desks or chairs. Half the floor was missing; we were all huddled together in one corner for fear of FALLING!<br/>
 **TJ** You were lucky to have a ROOM! *We* used to have to code in a corridor!<br/>
 **MP** Ohhhh we used to DREAM of codin' in a corridor! Woulda' been a palace to us. We used to code in an old water tank on a rubbish tip. We got into work and had to build the computers too! Corridor!? Hmph.<br/>
@@ -221,10 +221,10 @@ Pilot's killer feature is being able to Simple applications in minutes, without 
 **TJ** You were lucky to have a LAKE! There were a hundred and sixty thousand of us coding in a small shoebox in the middle of the road.<br/>
 **MP** Cardboard box?<br/>
 **TJ** Aye.<br/>
-**MP** You were lucky. We coded for three months in a brown paper bag in a septic tank. We used to have to get up at six o'clock in the morning, build the computers, write the OS, code the business apps for fourteen hours a day week in-week out. When it wastime to go home, our boss would thrash us with his belt!<br/>
-**GC** Luxury. We used to have to get out of the lake at three o'clock in the morning, clean the lake, eat a handful of hot gravel, go to work at the mill every day for tuppence a month, come home, and Dad would beat us around the head and neck with a broken bottle, if we were LUCKY!<br/>
-**TJ** Well we had it tough. We used to have to get up out of the shoebox at twelve o'clock at night, and LICK the road clean with our tongues. We had half a handful of freezing cold gravel, worked twenty-four hours a day at the factory for fourpence every six years, and when it was time to go home, our boss would electrocute us with a mainframe.<br/>
-**EI** Right. I had to get up in the morning at ten o'clock at night, half an hour before I went to bed, (pause for laughter), drink a cup of sulphuric acid, work twenty-nine hours a day down factory, and pay mill owner for permission to come to work, and when we got home, our Dad and our mother would kill us, and dance about on our graves singing 'Hallelujah.'<br/>
+**MP** You were lucky. We coded for three months in a brown paper bag in a septic tank. We used to have to get up at six o'clock in the morning, build the computers, write the OS, code the business apps for fourteen hours a day week in-week out. When it wa' time to go home, our boss would thrash us with his belt!<br/>
+**GC** Luxury. We used to have to get out of the lake at three o'clock in the morning, clean the lake, eat a handful of hot gravel, go to work at the factory every day for tuppence a month, and the boss would beat us around the head and neck with a broken bottle, if we were LUCKY!<br/>
+**TJ** Well we had it tough. We used to have to get up out of the shoebox at twelve o'clock at night, and LICK the factory floors clean with our tongues. We had half a handful of torn up punch cards, worked twenty-four hours a day at the factory for fourpence every six years, and when it was time to go home, our boss would electrocute us with a mainframe.<br/>
+**EI** Right. I had to get up in the morning at ten o'clock at night, half an hour before I went to bed, (pause for laughter), drink a cup of cool aid, work twenty-nine hours a day down factory, and pay the business owner for permission to come to work, and when it was time to go home, our boss would punch us in the face and electrocute us IF we did a good job!<br/>
 **MP** But you try and tell the young people today that... and they won't believe ya'.<br/>
 **ALL** Nope, nope..<br/>
 
