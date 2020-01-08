@@ -199,6 +199,9 @@ Anyone wishing to build a web UI on top of a web service.
 #### How much will Yazz cost?
 Yazz Pilot is free to download and use. We will be releasing a hosted version at some point.
 
+#### What does Yazz mean by Self Service?
+When we say Self Service we mean that Yazz can be used by people who are not Professional programmers.
+
 #### Is there commercial support for Pilot?
 If you require commercial support then please go to https://yazz.com
 
