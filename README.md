@@ -187,6 +187,9 @@ Finall browse to the following URL in your browser to see the microservice runni
 <br/><br/><br/>
 ### A long FAQ
 
+#### What is Yazz Pilot's long term vision?
+Yazz Pilot's long term vision is to have an army of autonomous physical and virtual robots which can assist human kind. One example use case is small robots that can enter the bloodstream and cure diseases in realtime. Initial versions of Yazz may look like a simple app builder, but we actually believe in a world without apps. Building apps is a a necessary stepping stone to building fully autonomous robot helpers
+
 #### What is Yazz Pilot's killer feature?
 Pilot's killer feature is being able to Simple applications in minutes, without having to setup Jenkins pipelines, Git, or anything else. It is ideal for demos or small throwaway apps.
 
@@ -230,18 +233,18 @@ One of the developers works at Goole full time, related to new Operating System 
 #### I’m already invested in my editor, language, etc… Can I keep using them with Yazz?
 Yazz's basic file format is text, so you can use any editor.
 
-### How does Yazz compare to https://www.anytype.io/?
+#### How does Yazz compare to https://www.anytype.io/?
 As of January 2020 AnyType is still closed source. Anytype does use IPFS for storage which is a technology, along with QRI that Yazz is considering for data storage.
 
-### How does Yazz compare to Retool?
+#### How does Yazz compare to Retool?
 As of January 2020 Retool is a great SAAS offering
 
 
-### Does Yazz work offline?
+#### Does Yazz work offline?
 Yes! One of the great things about Yazz is that it can be run offline in your own datacenter, or on your own PC, totally disconnected from the internet. We have even seen Yazz running on a standalone disconnected Raspberry PI.
 
 
-### How does Yazz compare to Bubble.io?
+#### How does Yazz compare to Bubble.io?
 As of January 2020 Bubble is a hosted web app builder, one of the first great online CRUD app builders.
 
 #### Is there community for Pilot?
