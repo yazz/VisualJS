@@ -1151,6 +1151,7 @@ uses_javascript_librararies(["advanced_bundle"])
            hideProgressBar()
            mm.in_change_model = false
 
+           mm.old_model = JSON.parse(JSON.stringify(mm.model));
      }
 
      ,
@@ -1162,41 +1163,59 @@ uses_javascript_librararies(["advanced_bundle"])
              handler:
                  function() {
                      var mm                  = this
-                     //debugger
+
                      if (!mm) {
                          return
                      }
 
+                     if (this.design_mode) {
+                         //zzz
+                         var timeDiff = -1
+                         var currentTime = new Date().getTime();
+                         if (mm.model_changed_time != -1) {
+                             mm.model_changed_time = currentTime
+                         }
 
-                     //zzz
-                     var timeDiff = -1
-                     var currentTime = new Date().getTime();
-                     if (mm.model_changed_time != -1) {
-                         mm.model_changed_time = currentTime
-                     }
+                         var timeDiff = currentTime - mm.model_changed_time
+                         if (timeDiff > 1000) {
+                             if (!mm.in_change_model) {
+                                 mm.in_change_model = true
+                                 setTimeout(function() {
+                                     console.log("Changed ********")
+                                     var ttt=null
+                                     if (mm.old_model) {
+                                         ttt = jsondiffpatch2.diff(mm.old_model,mm.model)
+                                         //console.log("Changes: "+ JSON.stringify(ttt,null,2))
+                                     }
+                                     if (ttt) {
+                                         mm.old_model = JSON.parse(JSON.stringify(mm.model));
+                                         mm.$root.$emit('message', {
+                                             type:   "pending"
+                                         })
+                                     }
+                                     mm.in_change_model = false
 
-                     var timeDiff = currentTime - mm.model_changed_time
-                     if (timeDiff > 1000) {
-                         if (!mm.in_change_model) {
-                             mm.in_change_model = true
-                             setTimeout(function() {
-                                 console.log("Changed ********")
-                                 var ttt=null
-                                 if (mm.old_model) {
-                                     ttt = jsondiffpatch2.diff(mm.old_model,mm.model)
-                                     console.log("Changes: "+ JSON.stringify(ttt,null,2))
-                                 }
-                                 if (ttt) {
-                                     mm.old_model = JSON.parse(JSON.stringify(mm.model));
-                                     mm.$root.$emit('message', {
-                                         type:   "pending"
-                                     })
-                                 }
-                                 mm.in_change_model = false
+                                 },500)
+                             }
+                         }
 
-                             },500)
+                     } else {
+                         console.log("Changed ********")
+                         var ttt=null
+                         if (mm.old_model) {
+                             ttt = jsondiffpatch2.diff(mm.old_model,mm.model)
+                             console.log("Changes: "+ JSON.stringify(ttt,null,2))
+                         }
+
+
+                         if (ttt) {
+                             mm.old_model = JSON.parse(JSON.stringify(mm.model));
+
+                             mm.model.forms[this.active_form].components[0].text = "" + mm.model.forms[this.active_form].components[1].value
+                             mm.refresh++
                          }
                      }
+
 
 
                  }
