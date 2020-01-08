@@ -185,105 +185,105 @@ Finall browse to the following URL in your browser to see the microservice runni
 
 
 <br/><br/><br/>
-### A long FAQ
+## A long FAQ
 
-#### What is Yazz Pilot's long term vision?
+### What is Yazz Pilot's long term vision?
 Yazz Pilot's long term vision is to have an army of autonomous physical and virtual robots which can assist human kind. One example use case is small robots that can enter the bloodstream and cure diseases in realtime. Initial versions of Yazz may look like a simple app builder, but we actually believe in a world without apps. Building apps is a a necessary stepping stone to building fully autonomous robot helpers
 
-#### What is Yazz Pilot's killer feature?
+### What is Yazz Pilot's killer feature?
 Pilot's killer feature is being able to Simple applications in minutes, without having to setup Jenkins pipelines, Git, or anything else. It is ideal for demos or small throwaway apps.
 
 
-#### Does programming really need a drag and drop UI framework?
+### Does programming really need a drag and drop UI framework?
 **Michael Palin:** Ahh.. Very passable, this, very passable.<br/>
-##### Graham Chapman: Nothing like a good glass of Chateau de Chassilier wine, ay Gessiah?
-##### Terry Jones: You're right there Obediah.
-##### Eric Idle: Who'd a thought thirty years ago we'd all be sittin' here drinking Chateau de Chassilier wine?
-##### MP: Aye. In them days, we'd a' been glad to have the price of a cup o' tea.
-##### GC: A cup ' COLD tea.
-##### EI: Without milk or sugar.
-##### TJ: OR tea!
-##### MP: In a filthy, cracked cup.
-##### EI: We never used to have a cup. We used to have to drink out of a rolled up newspaper.
-##### GC: The best WE could manage was to suck on a piece of damp cloth.
-##### TJ: But you know, we were happy in those days, though we were poor.
-##### MP: Aye. BECAUSE we were poor. My old Dad used to say to me, 'Money doesn't buy you happiness.'
-##### EI: 'E was right. I was happier then and I had NOTHIN'. We used to live in this tiiiny old house, with greaaaaat big holes in the roof.
-##### GC: House? You were lucky to have a HOUSE! We used to live in one room, all hundred and twenty-six of us, no furniture. Half the floor was missing; we were all huddled together in one corner for fear of FALLING!
-##### TJ: You were lucky to have a ROOM! *We* used to have to live in a corridor!
-##### MP: Ohhhh we used to DREAM of livin' in a corridor! Woulda' been a palace to us. We used to live in an old water tank on a rubbish tip. We got woken up every morning by having a load of rotting fish dumped all over us! House!? Hmph.
-##### EI: Well when I say 'house' it was only a hole in the ground covered by a piece of tarpolin, but it was a house to US.
-##### GC: We were evicted from *our* hole in the ground; we had to go and live in a lake!
-##### TJ: You were lucky to have a LAKE! There were a hundred and sixty of us living in a small shoebox in the middle of the road.
-##### MP: Cardboard box?
-##### TJ: Aye.
-##### MP: You were lucky. We lived for three months in a brown paper bag in a septic tank. We used to have to get up at six o'clock in the morning, clean the bag, eat a crust of stale bread, go to work down mill for fourteen hours a day week in-week out. When we got home, our Dad would thrash us to sleep with his belt!
-##### GC: Luxury. We used to have to get out of the lake at three o'clock in the morning, clean the lake, eat a handful of hot gravel, go to work at the mill every day for tuppence a month, come home, and Dad would beat us around the head and neck with a broken bottle, if we were LUCKY!
-##### TJ: Well we had it tough. We used to have to get up out of the shoebox at twelve o'clock at night, and LICK the road clean with our tongues. We had half a handful of freezing cold gravel, worked twenty-four hours a day at the mill for fourpence every six years, and when we got home, our Dad would slice us in two with a bread knife.
-##### EI: Right. I had to get up in the morning at ten o'clock at night, half an hour before I went to bed, (pause for laughter), drink a cup of sulphuric acid, work twenty-nine hours a day down mill, and pay mill owner for permission to come to work, and when we got home, our Dad and our mother would kill us, and dance about on our graves singing 'Hallelujah.'
-##### MP: But you try and tell the young people today that... and they won't believe ya'.
-##### ALL: Nope, nope..
+#### Graham Chapman: Nothing like a good glass of Chateau de Chassilier wine, ay Gessiah?
+#### Terry Jones: You're right there Obediah.
+#### Eric Idle: Who'd a thought thirty years ago we'd all be sittin' here drinking Chateau de Chassilier wine?
+#### MP: Aye. In them days, we'd a' been glad to have the price of a cup o' tea.
+#### GC: A cup ' COLD tea.
+#### EI: Without milk or sugar.
+#### TJ: OR tea!
+#### MP: In a filthy, cracked cup.
+#### EI: We never used to have a cup. We used to have to drink out of a rolled up newspaper.
+#### GC: The best WE could manage was to suck on a piece of damp cloth.
+#### TJ: But you know, we were happy in those days, though we were poor.
+#### MP: Aye. BECAUSE we were poor. My old Dad used to say to me, 'Money doesn't buy you happiness.'
+#### EI: 'E was right. I was happier then and I had NOTHIN'. We used to live in this tiiiny old house, with greaaaaat big holes in the roof.
+#### GC: House? You were lucky to have a HOUSE! We used to live in one room, all hundred and twenty-six of us, no furniture. Half the floor was missing; we were all huddled together in one corner for fear of FALLING!
+#### TJ: You were lucky to have a ROOM! *We* used to have to live in a corridor!
+#### MP: Ohhhh we used to DREAM of livin' in a corridor! Woulda' been a palace to us. We used to live in an old water tank on a rubbish tip. We got woken up every morning by having a load of rotting fish dumped all over us! House!? Hmph.
+#### EI: Well when I say 'house' it was only a hole in the ground covered by a piece of tarpolin, but it was a house to US.
+#### GC: We were evicted from *our* hole in the ground; we had to go and live in a lake!
+#### TJ: You were lucky to have a LAKE! There were a hundred and sixty of us living in a small shoebox in the middle of the road.
+#### MP: Cardboard box?
+#### TJ: Aye.
+#### MP: You were lucky. We lived for three months in a brown paper bag in a septic tank. We used to have to get up at six o'clock in the morning, clean the bag, eat a crust of stale bread, go to work down mill for fourteen hours a day week in-week out. When we got home, our Dad would thrash us to sleep with his belt!
+#### GC: Luxury. We used to have to get out of the lake at three o'clock in the morning, clean the lake, eat a handful of hot gravel, go to work at the mill every day for tuppence a month, come home, and Dad would beat us around the head and neck with a broken bottle, if we were LUCKY!
+#### TJ: Well we had it tough. We used to have to get up out of the shoebox at twelve o'clock at night, and LICK the road clean with our tongues. We had half a handful of freezing cold gravel, worked twenty-four hours a day at the mill for fourpence every six years, and when we got home, our Dad would slice us in two with a bread knife.
+#### EI: Right. I had to get up in the morning at ten o'clock at night, half an hour before I went to bed, (pause for laughter), drink a cup of sulphuric acid, work twenty-nine hours a day down mill, and pay mill owner for permission to come to work, and when we got home, our Dad and our mother would kill us, and dance about on our graves singing 'Hallelujah.'
+#### MP: But you try and tell the young people today that... and they won't believe ya'.
+#### ALL: Nope, nope..
 
 
 
-#### Is Yazz Production ready? Who should use Yazz today?
+### Is Yazz Production ready? Who should use Yazz today?
 Anyone wishing to build a web UI on top of a web service.
 
-#### How much will Yazz cost?
+### How much will Yazz cost?
 Yazz Pilot is free to download and use. We will be releasing a hosted version at some point.
 
-#### What does Yazz mean by Self Service?
+### What does Yazz mean by Self Service?
 When we say Self Service we mean that Yazz can be used by people who are not Professional programmers.
 
-#### Is there commercial support for Pilot?
+### Is there commercial support for Pilot?
 If you require commercial support then please go to https://yazz.com
 
-#### I'm worried about vendor lock-in - what happens if Yazz goes out of business?
+### I'm worried about vendor lock-in - what happens if Yazz goes out of business?
 Yazz Pilot is Open Source so you can download the opensource repo or fork the Github repo.
 
-#### I'm worried about vendor lock-in - what happens if Yazz stays in business but I still need to move off?
+### I'm worried about vendor lock-in - what happens if Yazz stays in business but I still need to move off?
 Yazz is basewd on VueJS, HTML, and Javascript so you can slowly migrate to similar technologies in the ecosystem.
 
-#### I want to write libraries for Yazz - how can I take part in the Yazz community/ecosystem?
+### I want to write libraries for Yazz - how can I take part in the Yazz community/ecosystem?
 We will be releasing our dev guidelines soon.
 
-#### How does version control work in Yazz?
+### How does version control work in Yazz?
 Yazz removes the complexity of separate version control systems like git. Changes to your code are structured using distributed diff algorithms.
 
-#### How does Yazz relate to Unison language
+### How does Yazz relate to Unison language
 There is no relation except that both Unison and Yazz are based on the principal of immutable code.
 
 
-#### How does Yazz relate to StoryScript language
+### How does Yazz relate to StoryScript language
 StoryScript is a Glue code for multiple languages, whereas Yazz is only one dialect of Javascript
 
-#### How does Yazz relate to Eve?
+### How does Yazz relate to Eve?
 Some concepts of universality are taken from Eve
 
-#### How does Yazz relate to Microsoft?
+### How does Yazz relate to Microsoft?
 One of the developers works at Microsoft full time
 
-#### How does Yazz relate to Google?
+### How does Yazz relate to Google?
 One of the developers works at Goole full time, related to new Operating System concepts and Fuchsia
 
-#### I’m already invested in my editor, language, etc… Can I keep using them with Yazz?
+### I’m already invested in my editor, language, etc… Can I keep using them with Yazz?
 Yazz's basic file format is text, so you can use any editor.
 
-#### How does Yazz compare to https://www.anytype.io/?
+### How does Yazz compare to https://www.anytype.io/?
 As of January 2020 AnyType is still closed source. Anytype does use IPFS for storage which is a technology, along with QRI that Yazz is considering for data storage.
 
-#### How does Yazz compare to Retool?
+### How does Yazz compare to Retool?
 As of January 2020 Retool is a great SAAS offering
 
 
-#### Does Yazz work offline?
+### Does Yazz work offline?
 Yes! One of the great things about Yazz is that it can be run offline in your own datacenter, or on your own PC, totally disconnected from the internet. We have even seen Yazz running on a standalone disconnected Raspberry PI.
 
 
-#### How does Yazz compare to Bubble.io?
+### How does Yazz compare to Bubble.io?
 As of January 2020 Bubble is a hosted web app builder, one of the first great online CRUD app builders.
 
-#### Is there community for Pilot?
+### Is there community for Pilot?
 You can join us here http://yazz-workspace.slack.com
 
 
