@@ -28,21 +28,21 @@ https://yazz.com/app/homepage.html
 - Can build Microservices
 - All apps can be saved as a single .pilot file
 - Apps can be saved as a single HTML file and sent by email (Even SQlite based apps) 
-- All code is stored as immuntable, and identified by SHA256 hash
-- Editor can work offline without internet connectivity
+- All code is stored as immuntable, and identified by a SHA256 hash
+- The Yazz editor and output programs can work offline without internet connectivity
 - Extra UI or server components can be build as plugins (as .pilot files)
-- Extensible IDE allows you to build new waya of editing code. Currently text editor and Visual Basic style editor included
+- The Yazz extensible IDE allows you to build new ways of editing code. Currently a text editor and a Visual Basic style editor are included
 <br/><br/><br/>
 
 
 ## Future Features:
 
-- App store so that Enterprise users and third party ISVs can discover, create, buy, and sell Yazz components and apps
-- VR/AR editor
+- An App Store so that Enterprise users and third party ISVs can discover, create, buy, and sell Yazz components and apps
+- A VR/AR editor
 - Paid for hosting options 
 - Support for Istio, Rancher, KNative, OpenWhisk, OpenFaas, AWS
 - Machine Learning and vision components
-- Red Hat, IBM, Salesforce, SAP, Oracle, Stripe, and other enterprise connectors
+- Enterprise connectivity via Red Hat, IBM, Salesforce, SAP, Oracle, Stripe, and other enterprise components
 <br/><br/><br/>
 
 
