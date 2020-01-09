@@ -53,19 +53,9 @@ https://yazz.com/app/homepage.html
 ## Quick examples
 ### Upload a Microservice from a Javascript file
 
-First you need to install Yazz Pilot, assuming you have NodeJS installed and have downloaded the GIT repo.
+First you need to run Yazz Pilot, assuming you have Docker installed:
 
-> &gt; cd pilot
-
-> &gt; npm install
-
-```
-... some NodeJS stuff runs here to install Pilot ...
-```
-
-Then you run the Pilot server.
-
-> &gt; node src/electron.js
+> &gt; docker run -p 80:3000 -d zubairq/pilot
 
 ```
 ......................................................................................................
