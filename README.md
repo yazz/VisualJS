@@ -11,8 +11,8 @@ https://yazz.com/app/homepage.html
 ## Benefits
 
 - Build simple enterprise apps in minutes 
-- Wire UI components together in a simple way, like Visual Basic, setting properties and reacting to events such as button clicks
-- Pre built components such as buttons, text boxes, and data access components to talk to Postgres, Mysql, or REST APIs
+- Easy to get started as you wire UI components together in a UI, like Visual Basic, setting properties and reacting to events such as button clicks
+- Reuse via pre built components such as buttons, text boxes, and data access components to talk to Postgres, Mysql, or REST APIs
 <br/><br/><br/>
 
 
