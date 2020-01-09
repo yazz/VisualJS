@@ -90,6 +90,8 @@ var userData = null
 var port;
 var hostaddress;
 hostaddress = "0.0.0.0"//ip.address();
+var hostaddressintranet;
+hostaddressintranet = ip.address();
 port = 80
 var f = 0
 var started = false
@@ -416,6 +418,7 @@ caCertificate1 = program.cacert1;
 caCertificate2 = program.cacert2;
 caCertificate3 = program.cacert3;
 var useHost = program.usehost;
+
 if (useHost) {
     hostaddress = useHost
     console.log("USE Host: " + useHost)
@@ -664,9 +667,9 @@ function setUpChildListeners(processName, fileName, debugPort) {
     	}
 
 
-
         console.log("\nYazz Pilot started on:");
-        console.log(serverProtocol + "://" + hostaddress + ':' + port);
+        console.log("Network Host Address: " + hostaddressintranet)
+        console.log("Local Machine Address: " + serverProtocol + "://" + hostaddress + ':' + port);
         systemReady = true
 
 
