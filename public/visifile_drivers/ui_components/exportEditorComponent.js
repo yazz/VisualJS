@@ -137,11 +137,11 @@ load_once_from_file(true)
                                         id="docker_local_port"
                                         />
                             </div>
-                            <div    v-on:click='var win = window.open(location.protocol + "//" + location.hostname + ":" + dockerLocalPort, "_blank"); win.focus();'
+                            <div    v-on:click='var win = window.open(location.protocol + "//" + networkIntranetIpAddress + ":" + dockerLocalPort, "_blank"); win.focus();'
                                     v-bind:style="'display:flex;text-decoration: underline;color:blue;padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;margin-bottom:10px;'">
                                 Shareable link:<input   readonly
                                                         style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
-                                                        v-bind:value='location.protocol + "//" + location.hostname + ":" + dockerLocalPort '>
+                                                        v-bind:value='location.protocol + "//" + networkIntranetIpAddress + ":" + dockerLocalPort '>
                             </div>
                         </div>
                         <button v-on:click="createDockerImage()"
@@ -238,11 +238,11 @@ load_once_from_file(true)
                                         id="docker_local_port"
                                         />
                             </div>
-                            <div    v-on:click='var win = window.open(location.protocol + "//" + location.hostname + ":" + dockerLocalPort, "_blank"); win.focus();'
+                            <div    v-on:click='var win = window.open(location.protocol + "//" + networkIntranetIpAddress + ":" + dockerLocalPort, "_blank"); win.focus();'
                                     v-bind:style="'display:flex;text-decoration: underline;color:blue;padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;margin-bottom:10px;'">
                                 Shareable link:<input   readonly
                                                         style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
-                                                        v-bind:value='location.protocol + "//" + location.hostname + ":" + dockerLocalPort '>
+                                                        v-bind:value='location.protocol + "//" + networkIntranetIpAddress + ":" + dockerLocalPort '>
                             </div>
                         </div>
                         <button v-on:click="createDockerImage()"
