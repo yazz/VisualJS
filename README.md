@@ -278,6 +278,10 @@ One of the developers works at Goole full time, related to new Operating System 
 They have their reasons. Plus, they HATE Javascript. They much prefer .NET, Dart, Go, Typescript, and other cool stuff!
 
 
+### Every time I restart Yazz I can't see my apps. How to I save them?
+You need to save the apps that you wish to keep by pessing the button "Save as .pilot file" fro the editor.
+
+
 ### I’m already invested in my editor, language, etc… Can I keep using them with Yazz?
 Yazz's basic file format is text, so you can use any editor.
 
