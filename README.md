@@ -1,7 +1,7 @@
 
 # Yazz Pilot
 ## Build internal web apps with a Visual Basic style IDE
-Yazz Pilot is a drag and drop UI builder for enterprise web apps, using JavaScript as the scripting language. The initial focus is to build web apps on top of 3Scale, Mulesoft, Kong, Rest APIs, Postgres or other enterprise stuff. There is a demo here (Only works on desktops and Chrome right now):
+Yazz Pilot is a drag and drop UI builder for internal web apps, using JavaScript as the scripting language. The initial focus is to build web apps on top of 3Scale, Mulesoft, Kong, Rest APIs, Postgres or other enterprise stuff. There is a demo here (Only works on desktops and Chrome right now):
 
 https://yazz.com/app/homepage.html
 <br/><br/><br/>
