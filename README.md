@@ -111,7 +111,7 @@ http://localhost:3000
 ```
 
 <br/><br/><br/>
-### Run as a Snap package on Linux:
+### Run as a Snap package on Linux
 
     snap install --devmode --edge pilot
 
