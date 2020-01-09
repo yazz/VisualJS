@@ -180,23 +180,29 @@ http://localhost:3000
 
 
 ### What is Yazz Pilot's killer feature?
-Pilot's killer feature is being able to Simple applications in minutes, without having to setup Jenkins pipelines, Git, or anything else. It is ideal for demos or small throwaway apps.
+Yazz Pilot's killer feature is being able to build simple applications in minutes. It is run as a container and has no dependencies. 
+
 
 
 
 ### What is Yazz Pilot's long term vision?
-Yazz Pilot's long term vision is to have an army of autonomous physical and virtual robots which can assist human kind. One example use case is small robots that can enter the bloodstream and cure diseases in realtime. Initial versions of Yazz may look like a simple app builder, but we actually believe in a world without apps. Building apps is just a necessary stepping stone to building fully autonomous robot helpers
+Yazz Pilot's long term vision is as a system for embedded computing, for personal automation and medical applications. It could be used for personal automated assistents, such as drones, or for small medical devices that can be inserted into body to detect and cure diseases in realtime. Initial versions of Yazz may look like a simple app builder, but we actually believe in a world without apps. Building apps is just a necessary stepping stone to building tiny autonomous personal helpers
 
 
 
 ### Why doesn't Yazz let me edit mutliple files as a tree like a traditional IDE?
-Yazz breaks down all problems into components which are a single function. A component can call other components as well if needed
+Yazz breaks down all problems into single function components. A component can call other components as well if needed
 
 
 
-### Is Yazz Production ready? Who should use Yazz today?
-Anyone wishing to build a web UI on top of a web service.
+### Is Yazz Production ready? 
+Yes, Yazz Pilot is production ready. Yazz.com itself runs on Yazz
 
+
+
+
+###  Who should use Yazz today?
+Anyone who wants to build small web apps for internal use on their intranet
 
 
 
