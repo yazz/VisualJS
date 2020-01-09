@@ -73,7 +73,7 @@ Yazz Pilot started on:
 http://0.0.0.0:3000
 ```
 
-Upload a sample Pilot micro-service that we will upload.
+Upload a micro-service:
 
 > &gt; cat a.js
 
