@@ -129,7 +129,7 @@ http://localhost:3000
 
 
 <br/><br/><br/>
-### Run Yazz Pilot on Linux
+### Run Yazz Pilot on Linux, Mac, or Windows with NodeJS
 
 ##### 1) Install GIT from https://git-scm.com/downloads
 ##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
@@ -141,42 +141,6 @@ http://localhost:3000
     sudo npm install
 ##### 6) Run the Pilot NodeJS application
     node src/electron.js
-
-
-
-
-
-
-<br/><br/><br/>
-### Run Yazz Pilot on Windows
-
-##### 1) Install GIT from https://git-scm.com/downloads
-##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
-##### 3) From the command line get the Git repository
-    git clone https://github.com/zubairq/pilot.git
-##### 4) Go to the Pilot directory
-    cd pilot
-##### 5) Install the NodeJS modules
-    npm install
-##### 6) Run as Node.js application with browser based access
-     node src\electron.js
-
-
-
-
-
-<br/><br/><br/>
-### Run Yazz Pilot on Mac
-##### 1) Install GIT from https://git-scm.com/downloads
-##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
-##### 3) From the command line get the Git repository
-    git clone https://github.com/zubairq/pilot.git
-##### 4) Go to the Pilot directory
-    cd pilot
-##### 5) Install the NodeJS modules
-    npm install
-##### 6) Run as Node.js application with browser based access
-     node src/electron.js
 
 
 
