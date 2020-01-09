@@ -167,7 +167,7 @@ load_once_from_file(true)
                                   style='height:35px; margin-right: 10px;'
                                   class='img-fluid'>
                               </img>
-                             Download app as .pilot file
+                             Save as .pilot file
 
                     </a>
 
