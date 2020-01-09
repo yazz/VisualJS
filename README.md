@@ -1,12 +1,8 @@
 
 # Yazz Pilot
-Yazz Pilot is a drag and drop GUI builder for enterprise apps, using JavaScript as the scripting language. The initial focus is to enable people who work in large enterprises to build a GUI really fast on top of 3Scale, Mulesoft, Kong, Rest APIs, Postgres or other enterprise stuff.
+## Build Self Service enterprise apps with an Open Source web based IDE
+Yazz Pilot is a drag and drop UI builder for enterprise web apps, using JavaScript as the scripting language. The initial focus is to build web apps on top of 3Scale, Mulesoft, Kong, Rest APIs, Postgres or other enterprise stuff. There is a demo here (Only works on desktops and Chrome right now):
 
-<br/><br/><br/>
-## Build Self Service apps. Use Open Source
-
-
-Pilot is a tool to create and run internal web based tools. There is a demo here:
 https://yazz.com/app/homepage.html
 
 - Build apps in minutes with drag and drop interface and code business logic in Javascript
