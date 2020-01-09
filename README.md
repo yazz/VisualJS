@@ -289,6 +289,12 @@ As of January 2020 AnyType is still closed source. Anytype does use IPFS for sto
 As of January 2020 Retool is a great SAAS offering
 
 
+### How does Yazz compare to Airtable?
+It doesn't. Well, Airtable is a database tool which can have apps built on top of as well, whereas Yazz Pilot really is to build apps on top of enterprise APIs and databases.
+
+
+
+
 ### Does Yazz work offline?
 Yes! One of the great things about Yazz is that it can be run offline in your own datacenter, or on your own PC, totally disconnected from the internet. We have even seen Yazz running on a standalone disconnected Raspberry PI.
 
