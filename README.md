@@ -25,7 +25,7 @@ https://yazz.com/app/homepage.html
 - Open source MIT license
 - Can run in Docker, Kubernetes, or OpenShift, as a Snap package, or locally on Mac, Windows, Linux, Raspberry PI using NodeJS
 - Can build Microservices
-- All apps can be saved as a single.pilot file
+- All apps can be saved as a single .pilot file
 - Apps can be saved as a single HTML file and emailed to others in the corp network
 - All code is stored as immuntable, and identified by SHA256 hash
 - Editor can work offline without internet connectivity
