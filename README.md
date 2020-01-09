@@ -8,7 +8,7 @@ https://yazz.com/app/homepage.html
 
 
 
-Benefits:
+## Benefits:
 
 - Build simple enterprise apps in minutes 
 - Wire UI components together in a simple way, like Visual Basic, setting properties and reacting to events such as button clicks
@@ -18,7 +18,7 @@ Benefits:
 
 
 
-Current Features:
+## Current Features:
 
 - Drag and drop UI interface
 - Code business logic in Javascript
@@ -34,7 +34,7 @@ Current Features:
 <br/><br/><br/>
 
 
-Future Features:
+## Future Features:
 
 - App store so that Enterprise users and third party ISVs can discover, create, buy, and sell Yazz components and apps
 - VR/AR editor
