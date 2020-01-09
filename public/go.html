@@ -14,6 +14,7 @@
     var override_app_editor = null
     var editingAppId = null
     var localSqliteDb    = null
+    var networkIntranetIpAddress    = null
     var libLoaded        = new Object()
     var component_loaded = new Object()
     var component_cache  = new Object()
@@ -8715,6 +8716,23 @@ function setupWebSocket(host, port)
 
 
 
+    // ----------------------------------------------------------------------------------------------
+    //
+    //                  Share the container environent variables with the front end
+    //
+    // ----------------------------------------------------------------------------------------------
+    socket.on('network_ip_address_intranet',function(data) {
+        //console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
+
+        debugger
+        //zzz
+        networkIntranetIpAddress = data.value
+    });
+
+
+
+
+
 
 
 
@@ -9351,7 +9369,7 @@ async function callCodeV2(componentRecord,args, seq_no) {
                 if (!kkk.clientId) {
                     kkk.clientId = kkk.resource
                 }
-                //zzz
+
                 //alert(editingAppId)
                 if (editingAppId && window.location.href && (window.location.href.indexOf("/edit/") == -1)) {
                     window.location.href = "/edit/" + editingAppId;

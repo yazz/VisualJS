@@ -2139,6 +2139,10 @@ function websocketFn(ws) {
                           value:   envVars
                           });
     //console.log('Socket connected : ' + serverwebsockets.length);
+    sendOverWebSockets({
+                          type:   "network_ip_address_intranet",
+                          value:   hostaddressintranet
+                          });
 
     ws.on('message', function(msg) {
         var receivedMessage = eval("(" + msg + ")");
