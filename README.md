@@ -1,22 +1,54 @@
 
 # Yazz Pilot
-Yazz Pilot is a drag and drop GUI builder for enterprise apps, using JavaScript as the scripting language. The initial focus is to enable people who work in large enterprises to build a GUI really fast on top of 3Scale, Mulesoft, Kong, Rest APIs, Postgres or other enterprise stuff.
+## Build Self Service enterprise apps with an Open Source web based IDE
+Yazz Pilot is a drag and drop UI builder for enterprise web apps, using JavaScript as the scripting language. The initial focus is to build web apps on top of 3Scale, Mulesoft, Kong, Rest APIs, Postgres or other enterprise stuff. There is a demo here (Only works on desktops and Chrome right now):
 
-<br/><br/><br/>
-## Build Self Service apps. Use Open Source
-
-
-Pilot is a tool to create and run internal web based tools. There is a demo here:
 https://yazz.com/app/homepage.html
-
-- Build apps in minutes with drag and drop interface and code business logic in Javascript
-- Open source MIT license
-- Can run in Docker, Kubernetes, or OpenShift
-- Can run locally on Mac, Windows, Linux, Raspberry PI using NodeJS
-- Available as a Snap Package on Linux
-
-
 <br/><br/><br/>
+
+
+
+## Benefits:
+
+- Build simple enterprise apps in minutes 
+- Wire UI components together in a simple way, like Visual Basic, setting properties and reacting to events such as button clicks
+- Pre built components such as buttons, text boxes, and data access components to talk to Postgres, Mysql, or REST APIs
+<br/><br/><br/>
+
+
+
+
+## Current Features:
+
+- Drag and drop UI interface
+- Code business logic in Javascript
+- Open source MIT license
+- Can run in Docker, Kubernetes, or OpenShift, as a Snap package, or locally on Mac, Windows, Linux, Raspberry PI using NodeJS
+- Can build Microservices
+- All apps can be saved as a single.pilot file
+- Apps can be saved as a single HTML file and emailed to others in the corp network
+- All code is stored as immuntable, and identified by SHA256 hash
+- Editor can work offline without internet connectivity
+- Extra UI or server components can be build as plugins (as .pilot files)
+- Extensible IDE allows you to build new waya of editing code. Currently text editor and Visual Basic style editor included
+<br/><br/><br/>
+
+
+## Future Features:
+
+- App store so that Enterprise users and third party ISVs can discover, create, buy, and sell Yazz components and apps
+- VR/AR editor
+- Paid for hosting options 
+- Support for Istio, Rancher, KNative, OpenWhisk, OpenFaas, AWS
+- Machine Learning and vision components
+- Red Hat, IBM, Salesforce, SAP, Oracle, Stripe, and other enterprise connectors
+<br/><br/><br/>
+
+
+
+
+
+
 ## Quick examples
 ### Upload a Microservice from a Javascript file
 
@@ -280,6 +312,10 @@ One of the developers works at Goole full time, related to new Operating System 
 
 ### Why don't Google or Microsoft developers commit to  the GitHub repo directly?
 They have their reasons. Plus, they HATE Javascript. They much prefer .NET, Dart, Go, Typescript, and other cool stuff!
+
+
+### Every time I restart Yazz I can't see my apps. How to I save them?
+You need to save the apps that you wish to keep by pessing the button "Save as .pilot file" fro the editor.
 
 
 ### I’m already invested in my editor, language, etc… Can I keep using them with Yazz?
