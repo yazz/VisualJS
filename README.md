@@ -22,11 +22,12 @@ https://yazz.com/app/homepage.html
 
 - Drag and drop UI interface
 - Code business logic in Javascript
+- Each app has a built in SQLite database
 - Open source MIT license
 - Can run in Docker, Kubernetes, or OpenShift, as a Snap package, or locally on Mac, Windows, Linux, Raspberry PI using NodeJS
 - Can build Microservices
 - All apps can be saved as a single .pilot file
-- Apps can be saved as a single HTML file and emailed to others in the corp network
+- Apps can be saved as a single HTML file and sent by email (Even SQlite based apps) 
 - All code is stored as immuntable, and identified by SHA256 hash
 - Editor can work offline without internet connectivity
 - Extra UI or server components can be build as plugins (as .pilot files)
