@@ -1311,6 +1311,7 @@ ${code}
                     ,
                     function(err, rows) {
                         if (!err) {
+                            //console.log("rows.length:   " + rows.length)
                             if (rows.length == 0) {
                                 try {
 
@@ -1698,6 +1699,11 @@ ${code}
     									}
     								}
                                 }
+                                returnFn( {
+                                                code:               code.toString(),
+                                                code_id:            sha1sum,
+                                                base_component_id:  baseComponentId
+                                                })
                             }
                         }
 
