@@ -333,7 +333,8 @@ It doesn't. Well, Airtable is a database tool which can have apps built on top o
 Anvil uses Python to build apps whereas Yazz Pilot uses Javascript. But Anvil is very good, try it!
 
 
-
+### How does Yazz compare to Mendix?
+Mendix is a commercial low code product owned by Siemens, and is a very different thing since it is closed source.
 
 
 ### Does Yazz work offline?
