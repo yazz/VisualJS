@@ -231,6 +231,7 @@ Not yet, but AI is planned in the future for machine vision and learning algorit
 
 
 
+
 ### What does Yazz mean by Self Service?
 When we say Self Service we mean that Yazz can be used by people who are not Professional programmers.
 
@@ -239,14 +240,31 @@ When we say Self Service we mean that Yazz can be used by people who are not Pro
 ### Is there commercial support for Pilot?
 If you require commercial support then please go to https://yazz.com
 
+
+
+
 ### I'm worried about vendor lock-in - what happens if Yazz goes out of business?
 Yazz Pilot is Open Source so you can download the opensource repo or fork the Github repo.
 
+
+
+
 ### I'm worried about vendor lock-in - what happens if Yazz stays in business but I still need to move off?
-Yazz is basewd on VueJS, HTML, and Javascript so you can slowly migrate to similar technologies in the ecosystem.
+Yazz is based on VueJS, HTML, and Javascript so you can slowly migrate to similar technologies in the ecosystem.
+
+
 
 ### I want to write libraries for Yazz - how can I take part in the Yazz community/ecosystem?
 We will be releasing our dev guidelines soon.
+
+
+
+### What happens if a server side component goes bad in Yazz Pilot?
+Yazz Pilot runs all server components in their own child NodeJS process, so if a component goes bad then Yazz Pilot will restart kill the NodeJS process, restart a new NodeJS process, and return an error code to the caller
+
+
+
+
 
 ### How does version control work in Yazz?
 Yazz removes the complexity of separate version control systems like git. Changes to your code are structured using distributed diff algorithms.
