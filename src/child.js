@@ -1219,12 +1219,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
         }
         if (!code.toString().substring(0,20).includes("function")) {
             code =
-`function() {
-
-
-${code}
-
-
+`function() {${code}
 }`
         }
         var oldBaseComp = saveHelper.getValueOfCodeString(code,"base_component_id")
