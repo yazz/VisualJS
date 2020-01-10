@@ -302,14 +302,26 @@ They have their reasons. Plus, they HATE Javascript. They much prefer .NET, Dart
 You need to save the apps that you wish to keep by pessing the button "Save as .pilot file" fro the editor.
 
 
-### I’m already invested in my editor, language, etc… Can I keep using them with Yazz?
+### I’m already invested in my favorite text editor. Can I keep using it with Yazz?
 Yazz's basic file format is text, so you can use any editor.
+
+
 
 ### How does Yazz compare to https://www.anytype.io/?
 As of January 2020 AnyType is still closed source. Anytype does use IPFS for storage which is a technology, along with QRI that Yazz is considering for data storage.
 
+
+
 ### How does Yazz compare to Retool?
 As of January 2020 Retool is a great SAAS offering
+
+
+
+### How does Yazz compare to Javascript frameworks like VueJS, React , and Angular?
+First off, yazz, uses VueJS under the hood to  build UI components. Yazz is very different to all those frameworks as Yazz does not require deep coding skills or knowledge of HTML. You do need to know some Javascript to use Yazz though.
+
+### Is it planned to support other languages than Javascript in Yazz?
+No
 
 
 ### How does Yazz compare to Airtable?
