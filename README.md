@@ -201,6 +201,13 @@ Yes, Yazz Pilot is production ready. Yazz.com itself runs on Yazz
 
 
 
+### Is Yazz looking for investment
+No
+
+
+
+
+
 ###  Who should use Yazz today?
 Anyone who wants to build small web apps for internal use on their intranet
 
