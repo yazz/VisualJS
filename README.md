@@ -317,6 +317,12 @@ It doesn't. Well, Airtable is a database tool which can have apps built on top o
 
 
 
+### How does Yazz compare to Anvil?
+Anvil uses Python to build apps whereas Yazz Pilot uses Javascript. But Anvil is very good, try it!
+
+
+
+
 
 ### Does Yazz work offline?
 Yes! One of the great things about Yazz is that it can be run offline in your own datacenter, or on your own PC, totally disconnected from the internet. We have even seen Yazz running on a standalone disconnected Raspberry PI.
