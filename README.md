@@ -211,6 +211,11 @@ The author is a huge fan opf Visual Basic 6 and earlier, and the VBX/OCX compone
 
 
 
+### What does the Yazz Scheduler do?
+The Scheduler is a NodeJS process which decides which worker processes to send server tasks to.
+
+
+
 ### What is the basic Unit of code in Yazz?
 A component is the basic unit of code in Yazz, represented as a function in a .pilot text file.
 
