@@ -1258,17 +1258,21 @@ ${code}
 
 
         var visibility = null
+        var newvisibility = null
         visibility = saveHelper.getValueOfCodeString(code,"visibility")
+        newvisibility = visibility
         if (!isValidObject(visibility)) {
             if (isValidObject(options) && options.make_public) {
-                visibility = "PUBLIC"
+                newvisibility = "PUBLIC"
             } else {
-                visibility = "PRIVATE"
+                newvisibility = "PRIVATE"
             }
         }
-        code = saveHelper.deleteCodeString(code, "visibility")
-        code = saveHelper.insertCodeString(code, "visibility", visibility)
 
+        if (newvisibility != visibility) {
+            code = saveHelper.deleteCodeString(code, "visibility")
+            code = saveHelper.insertCodeString(code, "visibility", newvisibility)
+        }
 
 
 
@@ -1392,7 +1396,7 @@ ${code}
                                           creationTimestamp,
                                           componentOptions,
                                           logoUrl,
-                                          visibility,
+                                          newvisibility,
                                           interfaces,
                                           useDb,
                                           editors,
