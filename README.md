@@ -10,7 +10,7 @@ https://yazz.com/app/homepage.html
 
 ## Benefits
 
-- Build simple enterprise apps in minutes 
+- Build simple enterprise apps in minutes
 - Easy to get started as you wire UI components together in a UI, like Visual Basic, setting properties and reacting to events such as button clicks
 - Reuse via pre built components such as buttons, text boxes, and data access components to talk to Postgres, Mysql, or REST APIs
 <br/><br/><br/>
@@ -27,7 +27,7 @@ https://yazz.com/app/homepage.html
 - Can run in Docker, Kubernetes, or OpenShift, as a Snap package, or locally on Mac, Windows, Linux, Raspberry PI using NodeJS
 - Can build Microservices
 - All apps can be saved as a single .pilot file
-- Apps can be saved as a single HTML file and sent by email (Even SQlite based apps) 
+- Apps can be saved as a single HTML file and sent by email (Even SQlite based apps)
 - All code is stored as immuntable, and identified by a SHA256 hash
 - The Yazz editor and output programs can work offline without internet connectivity
 - Extra UI or server components can be build as plugins (as .pilot files)
@@ -39,7 +39,7 @@ https://yazz.com/app/homepage.html
 
 - An App Store so that Enterprise users and third party ISVs can discover, create, buy, and sell Yazz components and apps
 - A VR/AR editor
-- Paid for hosting options 
+- Paid for hosting options
 - Support for Istio, Rancher, KNative, OpenWhisk, OpenFaas, AWS
 - Machine Learning and vision components
 - Enterprise connectivity via Red Hat, IBM, Salesforce, SAP, Oracle, Stripe, and other enterprise components
@@ -180,7 +180,7 @@ http://localhost:3000
 
 
 ### What is Yazz Pilot's killer feature?
-Yazz Pilot's killer feature is being able to build simple applications in minutes. It is run as a container and has no dependencies. 
+Yazz Pilot's killer feature is being able to build simple applications in minutes. It is run as a container and has no dependencies.
 
 
 
@@ -195,7 +195,7 @@ Yazz breaks down all problems into single function components. A component can c
 
 
 
-### Is Yazz Production ready? 
+### Is Yazz Production ready?
 Yes, Yazz Pilot is production ready. Yazz.com itself runs on Yazz
 
 
@@ -235,8 +235,17 @@ The Visual basic style development environment in Yazz is just a Yazz component 
 
 
 
+
 ### How much will Yazz cost?
 Yazz Pilot is free to download and use. We will be releasing a hosted version at some point.
+
+
+
+
+
+
+### If Yazz is privately funded then why are you not all working full time?
+We could work full time on Yazz but we madea conscious decision to work part time on it until we know we have product market fit. This is so that we make sure that we are solving real problems that people have in the real world. We are scared that if we went full time then we would lose touch with reality, as seems to happen with so many startups in this space. Of course, being part time is much harder, as things move much more slowly with regard to developing the product, but we expect that we will be more efficient since we won't be building stuff that isn't needed. 
 
 
 

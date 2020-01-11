@@ -1211,6 +1211,38 @@ uses_javascript_librararies(["advanced_bundle"])
                          if (ttt) {
                              mm.old_model = JSON.parse(JSON.stringify(mm.model));
 
+
+                             //debugger
+                             //
+                             // find  out what components have changed in the current form
+                             //
+                             if (ttt.forms[this.active_form]) {
+                                 var allComps = Object.keys(ttt.forms[this.active_form].components)
+                                 var numComp = allComps.length
+                                 for (var componentIndex = 0; componentIndex < numComp; componentIndex++){
+                                     var componentNN = allComps[componentIndex]
+                                     var thisComponent = ttt.forms[this.active_form].components[componentNN]
+                                     var nn = parseInt(componentNN)
+                                     if (nn != NaN) {
+                                         var compname = mm.model.forms[this.active_form].components[nn]
+                                         if (compname) {
+                                             console.log(this.active_form + ": " + compname.name + " = " + JSON.stringify(thisComponent))
+                                         }
+                                     }
+                                 }
+                             }
+
+
+
+
+
+                             //
+                             //
+                             //
+                             for (var componentIndex = 0; componentIndex < mm.model.forms[this.active_form].length; componentIndex++){
+                                 var thisComponent = mm.model.forms[this.active_form].components[componentIndex]
+                             }
+
                              mm.model.forms[this.active_form].components[0].text = "" + mm.model.forms[this.active_form].components[1].value
                              mm.refresh++
                          }

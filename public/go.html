@@ -8724,8 +8724,6 @@ function setupWebSocket(host, port)
     socket.on('network_ip_address_intranet',function(data) {
         //console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
 
-        debugger
-        //zzz
         networkIntranetIpAddress = data.value
     });
 
