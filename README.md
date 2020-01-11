@@ -206,6 +206,8 @@ No
 
 
 
+###  Does Yazz work with VMWare PKS or other versions of Kubernetes?
+Yazz Pilot has been tested with standard Kubernetes, Open Shift, and Docker. We will test with more versions, including Rancher astime goes on.
 
 
 ###  Who should use Yazz today?
