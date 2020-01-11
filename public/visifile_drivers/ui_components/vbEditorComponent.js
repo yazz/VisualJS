@@ -3580,6 +3580,7 @@ ${eventMessage.code}
 
 
              this.selectComponent(this.active_component_index)
+             this.updateAllFormCaches()
              this.refresh ++
 
 
