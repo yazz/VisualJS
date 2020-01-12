@@ -1,7 +1,7 @@
 
 # Yazz Pilot
 ## Self hosted, drag and drop UI builder for building internal web apps
-Yazz Pilot is a drag and drop UI builder for building internal web apps, using JavaScript as the scripting language. The initial focus is to build web apps on top of 3Scale, Mulesoft, Kong, Rest APIs, Postgres or other enterprise stuff. There is a demo here (Only works on desktops and Chrome right now):
+Yazz Pilot is a drag and drop UI builder for building internal web apps, using JavaScript as the scripting language. It . can connect to Rest APIs, Postgres or other enterprise stuff. There is a demo here (Only works on desktops and Chrome right now):
 
 https://yazz.com/app/homepage.html
 <br/><br/><br/>
@@ -186,7 +186,7 @@ Yazz Pilot's killer feature is being able to build simple applications in minute
 
 
 ### What is Yazz Pilot's long term vision?
-Yazz Pilot's long term vision is as a system for embedded computing, for personal automation and medical applications. It could be used for personal automated assistents, such as drones, or for small medical devices that can be inserted into body to detect and cure diseases in realtime. Initial versions of Yazz may look like a simple app builder, but we actually believe in a world without apps. Building apps is just a necessary stepping stone to building tiny autonomous personal helpers
+Yazz Pilot's long term vision is as a system for embedded computing, for personal automation and medical applications. It could be used for personal automated assistents, such as helping automated devices, or for small medical devices that can be inserted into body using TensorFlow and tiny cameras for detection and processing of issues with the body. We are developing an app store, and initial versions of Yazz are building UIs for internal enterprise apps, but we also believe that we should support systems which do not require apps, as some systems can use autodiscovery of components to each other to work. As an example, if a particular cell type is found by computer vision which is not recognised, Yazz could go out to the network to see if another compnent recognises this cell
 
 
 
