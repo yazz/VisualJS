@@ -33,6 +33,20 @@ properties(
             name:   "Changed event",
             type:   "Event"
         }
+        ,
+        {
+            id:         "width",
+            name:       "Width",
+            default:    30,
+            type:       "Number"
+        }
+        ,
+        {
+            id:         "height",
+            name:       "Height",
+            default:    250,
+            type:       "Number"
+        }
         ]
 )//properties
 logo_url("/driver_icons/vert_scroll_bar.png")

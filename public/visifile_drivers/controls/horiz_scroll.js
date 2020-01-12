@@ -33,6 +33,20 @@ properties(
             name:   "Value",
             type:   "String"
         }
+        ,
+        {
+            id:         "width",
+            name:       "Width",
+            default:    250,
+            type:       "Number"
+        }
+        ,
+        {
+            id:         "height",
+            name:       "Height",
+            default:    30,
+            type:       "Number"
+        }
         ]
 )//properties
 logo_url("/driver_icons/horiz_scroll.png")
