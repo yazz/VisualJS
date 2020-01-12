@@ -1200,11 +1200,11 @@ uses_javascript_librararies(["advanced_bundle"])
                          }
 
                      } else {
-                         console.log("Changed ********")
+                         //console.log("Changed ********")
                          var ttt=null
                          if (mm.old_model) {
                              ttt = jsondiffpatch2.diff(mm.old_model,mm.model)
-                             console.log("Changes: "+ JSON.stringify(ttt,null,2))
+                             //console.log("Changes: "+ JSON.stringify(ttt,null,2))
                          }
 
 
