@@ -1224,7 +1224,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
         }
         var oldBaseComp = saveHelper.getValueOfCodeString(code,"base_component_id")
 
-        if (oldBaseComp != baseComponentId) {
+        if (!oldBaseComp.localeCompare( baseComponentId )) {
             code = saveHelper.deleteCodeString(code, "base_component_id")
             code = saveHelper.insertCodeString(code, "base_component_id", baseComponentId)
         }
