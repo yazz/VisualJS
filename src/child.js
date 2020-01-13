@@ -1211,6 +1211,9 @@ function isValidObject(variable){
 }
 
 async function saveCodeV2( baseComponentId, parentHash, code , options) {
+    if (code) {
+        code = code.toString()
+    }
 
     var promise = new Promise(returnFn => {
         //console.log(`function saveCodeV2( ${baseComponentId}, ${parentHash} ) {`)
@@ -1222,12 +1225,13 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 `function() {${code}
 }`
         }
-        //var oldBaseComp = saveHelper.getValueOfCodeString(code,"base_component_id")
+        var oldBaseComp = saveHelper.getValueOfCodeString(code,"base_component_id")
 
-        //if (!oldBaseComp.localeCompare( baseComponentId )) {
+
+        if (oldBaseComp != baseComponentId ) {
             code = saveHelper.deleteCodeString(code, "base_component_id")
             code = saveHelper.insertCodeString(code, "base_component_id", baseComponentId)
-        //}
+        }
 
         //console.log("    baseComponentId := " + baseComponentId)
 
