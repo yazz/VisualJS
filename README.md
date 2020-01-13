@@ -225,6 +225,12 @@ The Scheduler is a NodeJS process which decides which worker processes to send s
 
 
 
+### How do Yazz processes communicate with each other?
+Using IPC (Inter Process Communication)
+
+
+
+
 ### What is the basic Unit of code in Yazz?
 A component is the basic unit of code in Yazz, represented as a function in a .pilot text file.
 
@@ -245,7 +251,7 @@ Yazz Pilot is free to download and use. We will be releasing a hosted version at
 
 
 ### If Yazz is privately funded then why are you not all working full time?
-We could work full time on Yazz but we madea conscious decision to work part time on it until we know we have product market fit. This is so that we make sure that we are solving real problems that people have in the real world. We are scared that if we went full time then we would lose touch with reality, as seems to happen with so many startups in this space. Of course, being part time is much harder, as things move much more slowly with regard to developing the product, but we expect that we will be more efficient since we won't be building stuff that isn't needed. 
+We could work full time on Yazz but we made a conscious decision to work part time on it until we know we have product market fit. This is so that we make sure that we are solving real problems that people have in the real world. We are scared that if we went full time then we would lose touch with reality, as seems to happen with so many startups in this space. Of course, being part time is much harder, as things move much more slowly with regard to developing the product, but we expect that we will be more efficient since we won't be building stuff that isn't needed.
 
 
 
