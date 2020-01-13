@@ -1210,7 +1210,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
                          if (ttt) {
                              mm.old_model = JSON.parse(JSON.stringify(mm.model));
-
+                             var watchList = {}
 
                              //debugger
                              //
@@ -1233,6 +1233,11 @@ uses_javascript_librararies(["advanced_bundle"])
                              }
 
 
+
+                             //
+                             // show a list of properties to watch
+                             //
+                             console.log("Watch list: " + JSON.stringify(watchList,null,2))
 
 
 
