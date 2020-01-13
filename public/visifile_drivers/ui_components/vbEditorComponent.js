@@ -1210,7 +1210,6 @@ uses_javascript_librararies(["advanced_bundle"])
 
                          if (ttt) {
                              mm.old_model = JSON.parse(JSON.stringify(mm.model));
-                             var watchList = {}
 
                              //debugger
                              //
@@ -1237,7 +1236,7 @@ uses_javascript_librararies(["advanced_bundle"])
                              //
                              // show a list of properties to watch
                              //
-                             console.log("Watch list: " + JSON.stringify(watchList,null,2))
+                             console.log("Watch list: " + JSON.stringify(this.watchList,null,2))
 
 
 
@@ -2622,6 +2621,7 @@ ${origCode}
              return this.model.forms[this.active_form].components
          },
         updateAllFormCaches: function() {
+
             var llf = Object.keys(this.model.forms)
             for (var ii = 0; ii < llf.length ; ii ++) {
                 var formqq = this.model.forms[llf[ii]]
@@ -2665,6 +2665,10 @@ ${origCode}
                 } else {
                     cc.uuid = uuidv4()
                     this.refresh ++
+                }
+                if (cc.watch) {
+                    //watchList
+                    console.log(JSON.stringify(cc.watch,null,2))
                 }
             }
         },
@@ -4255,6 +4259,7 @@ return {}
      data: function () {
        return {
            newCursor:                   null,
+           watchList:                   [],
            oldCursor:                   null,
            cursorSource:                null,
            uid2:                        null,
