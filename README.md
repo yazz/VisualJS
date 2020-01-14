@@ -415,6 +415,14 @@ No
 
 
 
+
+
+### Where can I find the app store for Yazz?
+It is under development 
+
+
+
+
 ### Does Yazz work offline?
 Yes! One of the great things about Yazz is that it can be run offline in your own datacenter, or on your own PC, totally disconnected from the internet. We have even seen Yazz running on a standalone disconnected Raspberry PI.
 
