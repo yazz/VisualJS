@@ -1201,7 +1201,6 @@ uses_javascript_librararies(["advanced_bundle"])
 
                      } else {
                          //console.log("Changed ********")
-debugger
                          var ttt=null
                          if (mm.old_model) {
                              ttt = jsondiffpatch2.diff(mm.old_model,mm.model)
@@ -2668,14 +2667,19 @@ ${origCode}
                     cc.uuid = uuidv4()
                     this.refresh ++
                 }
+                if (!this.watchList) {
+                    this.watchList = {}
+                }
                 if (this.watchList) {
+                    //debugger
                     if (cc.watch) {
                         //debugger
                         for (var ff=0;ff<cc.watch.length;ff++){
                             this.watchList[cc.watch[ff].uuid] = cc.watch[ff]
                         }
-                        //console.log(JSON.stringify(cc.watch,null,2))
                     }
+                    console.log("Watch list setup")
+                    console.log(JSON.stringify(this.watchList,null,2))
                 }
             }
         },
