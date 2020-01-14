@@ -1236,15 +1236,18 @@ uses_javascript_librararies(["advanced_bundle"])
                              //
                              // show a list of properties to watch
                              //
-                             console.log("Watch list: " + JSON.stringify(this.watchList,null,2))
-
+                             //console.log("Watch list: " + JSON.stringify(this.watchList,null,2))
+                             //console.log(JSON.stringify(this.watchList,null,2))
 
 
                              //
                              //
                              //
-                             for (var componentIndex = 0; componentIndex < mm.model.forms[this.active_form].length; componentIndex++){
+                             //debugger
+                             for (var componentIndex = 0; componentIndex < mm.model.forms[this.active_form].components.length; componentIndex++){
                                  var thisComponent = mm.model.forms[this.active_form].components[componentIndex]
+                                 var uuid = thisComponent.uuid
+                                 console.log("UUID: " + JSON.stringify(uuid,null,2))
                              }
 
                              mm.model.forms[this.active_form].components[0].text = "" + mm.model.forms[this.active_form].components[1].value
@@ -2691,8 +2694,8 @@ ${origCode}
                                 }
                         }
                     }
-                    console.log("Watch list setup")
-                    console.log(JSON.stringify(this.watchList,null,2))
+                    //console.log("Watch list setup")
+                    //console.log(JSON.stringify(this.watchList,null,2))
                 }
             }
         },
