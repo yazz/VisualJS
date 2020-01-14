@@ -1169,7 +1169,7 @@ uses_javascript_librararies(["advanced_bundle"])
                      }
 
                      if (this.design_mode) {
-                         //zzz
+
                          var timeDiff = -1
                          var currentTime = new Date().getTime();
                          if (mm.model_changed_time != -1) {
@@ -1248,9 +1248,18 @@ uses_javascript_librararies(["advanced_bundle"])
                                  var thisComponent = mm.model.forms[this.active_form].components[componentIndex]
                                  var uuid = thisComponent.uuid
                                  console.log("UUID: " + JSON.stringify(uuid,null,2))
+                                 console.log(this.watchList[uuid])
+                                 debugger
+                                 var ww = this.watchList[uuid]
+                                 if (ww) {
+                                     //mm.model.forms[this.active_form].components[0].text = "" + mm.model.forms[this.active_form].components[1].value
+                                     console.log(ww)
+                                     //zzz
+                                     var fromc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[uuid]
+                                     console.log("fromc: " + JSON.stringify(fromc,null,2))
+                                 }
                              }
 
-                             mm.model.forms[this.active_form].components[0].text = "" + mm.model.forms[this.active_form].components[1].value
                              mm.refresh++
                          }
                      }
