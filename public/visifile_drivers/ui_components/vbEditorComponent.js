@@ -2675,7 +2675,18 @@ ${origCode}
                     if (cc.watch) {
                         //debugger
                         for (var ff=0;ff<cc.watch.length;ff++){
-                            this.watchList[cc.watch[ff].uuid] = cc.watch[ff]
+                            this.watchList[cc.watch[ff].uuid] =
+                                {
+                                        form:  formName
+                                        ,
+                                        componentName: cc.name
+                                        ,
+                                        sendToComponentUUid: cc.uuid
+                                        ,
+                                        sendToComponentPropertyName: cc.watch[ff].send_to
+                                        ,
+                                        Value: cc.watch[ff]
+                                }
                         }
                     }
                     console.log("Watch list setup")
