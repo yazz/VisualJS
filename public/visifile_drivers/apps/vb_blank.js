@@ -1272,7 +1272,7 @@ logo_url("/driver_icons/blocks.png")
                              if (!mm.in_change_model) {
                                  mm.in_change_model = true
                                  setTimeout(function() {
-                                     console.log("Changed ********")
+                                     //console.log("Changed ********")
                                      var ttt=null
                                      if (mm.old_model) {
                                          ttt = jsondiffpatch2.diff(mm.old_model,mm.model)
@@ -1291,7 +1291,7 @@ logo_url("/driver_icons/blocks.png")
                          }
 
                      } else {
-                         console.log("Changed ********")
+                         //console.log("Changed ********")
                          var ttt=null
                          if (mm.old_model) {
                              ttt = jsondiffpatch2.diff(mm.old_model,mm.model)

@@ -1181,7 +1181,7 @@ uses_javascript_librararies(["advanced_bundle"])
                              if (!mm.in_change_model) {
                                  mm.in_change_model = true
                                  setTimeout(function() {
-                                     console.log("Changed ********")
+                                     //console.log("Changed ********")
                                      var ttt=null
                                      if (mm.old_model) {
                                          ttt = jsondiffpatch2.diff(mm.old_model,mm.model)
@@ -1201,6 +1201,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
                      } else {
                          //console.log("Changed ********")
+debugger
                          var ttt=null
                          if (mm.old_model) {
                              ttt = jsondiffpatch2.diff(mm.old_model,mm.model)
@@ -2647,6 +2648,7 @@ ${origCode}
         ,
 
         updateFormCache: function(formName) {
+            //debugger
             var form = this.model.forms[formName]
             var components = form.components
             if (!isValidObject(this.form_runtime_info[formName])) {
@@ -2666,9 +2668,14 @@ ${origCode}
                     cc.uuid = uuidv4()
                     this.refresh ++
                 }
-                if (cc.watch) {
-                    //watchList
-                    console.log(JSON.stringify(cc.watch,null,2))
+                if (this.watchList) {
+                    if (cc.watch) {
+                        //debugger
+                        for (var ff=0;ff<cc.watch.length;ff++){
+                            this.watchList[cc.watch[ff].uuid] = cc.watch[ff]
+                        }
+                        //console.log(JSON.stringify(cc.watch,null,2))
+                    }
                 }
             }
         },
@@ -4259,7 +4266,7 @@ return {}
      data: function () {
        return {
            newCursor:                   null,
-           watchList:                   [],
+           watchList:                   {},
            oldCursor:                   null,
            cursorSource:                null,
            uid2:                        null,
