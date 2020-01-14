@@ -388,10 +388,8 @@ IFTTT is a web only SAAS task automator
 
 
 
-### How does Yazz compare to Zapeir
+### How does Yazz compare to Zapier
 Zapier is a web only SAAS task automator
-
-
 
 
 
@@ -399,6 +397,21 @@ Zapier is a web only SAAS task automator
 ### How does Yazz compare to Stdlib
 Stdlib is great cross platform event handler
 
+
+
+### How does Yazz compare to Delphi
+Delphi was a desktop IDE from the 1990s using Pascal as the programming language, and had a great set of controls and was even VBX (Visual Basic Custom Controls) comptible. Not many people use Deplhi today a it is mostly used for desktop Windows apps
+
+
+
+### Do Visual Basic apps run on Yazz?
+No
+
+
+
+
+### Can I use my VBX/OLE controls in a Yazz app?
+No
 
 
 
