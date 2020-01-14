@@ -2677,15 +2677,17 @@ ${origCode}
                         for (var ff=0;ff<cc.watch.length;ff++){
                             this.watchList[cc.watch[ff].uuid] =
                                 {
-                                        form:  formName
+                                        form_name:                      formName
                                         ,
-                                        componentName: cc.name
+                                        to_component_name:              cc.name
                                         ,
-                                        sendToComponentUUid: cc.uuid
+                                        to_component_uuid:              cc.uuid
                                         ,
-                                        sendToComponentPropertyName: cc.watch[ff].send_to
+                                        to_component_property_name:     cc.watch[ff].send_to
                                         ,
-                                        Value: cc.watch[ff]
+                                        from_component_uuid:            cc.watch[ff].uuid
+                                        ,
+                                        from_component_property_name:   cc.watch[ff].property
                                 }
                         }
                     }
