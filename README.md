@@ -1,6 +1,6 @@
 
 # Yazz Pilot
-## Self hosted, drag and drop UI builder for building internal web apps
+## Self hosted GUI tool for building internal web apps
 Yazz Pilot is a GUI tool for building web apps, and uses JavaScript. It can connect to Rest APIs, Postgres or other enterprise stuff. There is a demo here (Only works on desktops and Chrome right now):
 
 https://yazz.com/app/homepage.html
