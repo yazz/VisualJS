@@ -1,7 +1,8 @@
 async function(args) {
 /*
-visibility("PRIVATE")
-base_component_id("vb_blank")
+editors([
+  "vb_editor_component"
+])
 properties([
   {
     "id": "test",
@@ -16,7 +17,7 @@ formEditor({
   "default_form": "Form_1",
   "app_selected": false,
   "id": "vb_blank",
-  "next_component_id": 113,
+  "next_component_id": 114,
   "app_properties": [
     {
       "id": "test",
@@ -27,8 +28,8 @@ formEditor({
   "forms": {
     "Form_1": {
       "name": "Form_1",
-      "width": 372,
-      "height": 355,
+      "width": 558,
+      "height": 536,
       "add_block": "alert('Add block called')",
       "components": [
         {
@@ -43,16 +44,16 @@ formEditor({
           "parent": null,
           "uuid": "d0bfeadc-20c0-4cd1-b405-36d5f8d601e8",
           "watch": [
-                {
-                    "uuid":         "3faa6849-bf7b-4ca9-9f5b-3ef14c7a85ad",
-                    "property":     "value",
-                    "send_to":      "text"
-                }
-            ]
+            {
+              "uuid": "3faa6849-bf7b-4ca9-9f5b-3ef14c7a85ad",
+              "property": "value",
+              "send_to": "text"
+            }
+          ]
         },
         {
-          "leftX": 29,
-          "topY": 135,
+          "leftX": 39,
+          "topY": 159,
           "name": "horiz_scroll_control_112",
           "base_component_id": "horiz_scroll_control",
           "text": "",
@@ -62,7 +63,27 @@ formEditor({
           "width": 311,
           "height": 37,
           "parent": null,
-          "uuid": "3faa6849-bf7b-4ca9-9f5b-3ef14c7a85ad"
+          "uuid": "3faa6849-bf7b-4ca9-9f5b-3ef14c7a85ad",
+          "watch": [
+            {
+              "uuid": "7c96894f-97be-46f0-9afe-b934c1c15988",
+              "property": "value",
+              "send_to": "value"
+            }
+          ]
+        },
+        {
+          "leftX": 389,
+          "topY": 220,
+          "name": "vert_scroll_control_113",
+          "base_component_id": "vert_scroll_control",
+          "text": "",
+          "background_color": "",
+          "value": "",
+          "changed_event": "",
+          "width": 30,
+          "height": 250,
+          "uuid": "7c96894f-97be-46f0-9afe-b934c1c15988"
         }
       ]
     },
@@ -87,13 +108,13 @@ sub_components([
   "label_control",
   "table_control",
   "group_control",
-  "horiz_scroll_control"
+  "horiz_scroll_control",
+  "vert_scroll_control"
 ])
-display_name("Copy of Copy of GUI App")
+base_component_id("vb_blank")
+visibility("PRIVATE")
+display_name("Copy of Copy of Copy of GUI App")
 created_timestamp(1551965300424)
-editors([
-  "vb_editor_component"
-])
 uses_javascript_librararies(["advanced_bundle"])
 
 
@@ -1261,7 +1282,7 @@ logo_url("/driver_icons/blocks.png")
                      }
 
                      if (this.design_mode) {
-                         //zzz
+
                          var timeDiff = -1
                          var currentTime = new Date().getTime();
                          if (mm.model_changed_time != -1) {
@@ -1296,14 +1317,75 @@ logo_url("/driver_icons/blocks.png")
                          var ttt=null
                          if (mm.old_model) {
                              ttt = jsondiffpatch2.diff(mm.old_model,mm.model)
-                             console.log("Changes: "+ JSON.stringify(ttt,null,2))
+                             //console.log("Changes: "+ JSON.stringify(ttt,null,2))
                          }
 
 
                          if (ttt) {
                              mm.old_model = JSON.parse(JSON.stringify(mm.model));
 
-                             mm.model.forms[this.active_form].components[0].text = "" + mm.model.forms[this.active_form].components[1].value
+                             //debugger
+                             //
+                             // find  out what components have changed in the current form
+                             //
+                             if (ttt.forms[this.active_form]) {
+                                 var allComps = Object.keys(ttt.forms[this.active_form].components)
+                                 var numComp = allComps.length
+                                 for (var componentIndex = 0; componentIndex < numComp; componentIndex++){
+                                     var componentNN = allComps[componentIndex]
+                                     var thisComponent = ttt.forms[this.active_form].components[componentNN]
+                                     var nn = parseInt(componentNN)
+                                     if (nn != NaN) {
+                                         var compname = mm.model.forms[this.active_form].components[nn]
+                                         if (compname) {
+                                             console.log(this.active_form + ": " + compname.name + " = " + JSON.stringify(thisComponent))
+                                         }
+                                     }
+                                 }
+                             }
+
+
+
+                             //
+                             // show a list of properties to watch
+                             //
+                             //console.log("Watch list: " + JSON.stringify(this.watchList,null,2))
+                             //console.log(JSON.stringify(this.watchList,null,2))
+
+
+                             //
+                             //
+                             //
+                             //debugger
+                             for (var componentIndex = 0; componentIndex < mm.model.forms[this.active_form].components.length; componentIndex++){
+                                 var thisComponent = mm.model.forms[this.active_form].components[componentIndex]
+                                 var uuid = thisComponent.uuid
+                                 console.log("UUID: " + JSON.stringify(uuid,null,2))
+                                 console.log(this.watchList[uuid])
+                                 var ww = this.watchList[uuid]
+                                 if (ww) {
+                                     if (ww.from_component_uuid == uuid) {
+                                         debugger
+                                         console.log(ww)
+
+                                         var fromc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[uuid]
+                                         console.log("fromc: " + JSON.stringify(fromc,null,2))
+
+
+                                         var touuid = ww.to_component_uuid
+                                         var toc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[touuid]
+                                         console.log("toc: " + JSON.stringify(toc,null,2))
+
+
+
+                                         //mm.model.forms[this.active_form].components[0].text = "" + mm.model.forms[this.active_form].components[1].value
+                                         var vvvvvv = fromc[ww.from_component_property_name]
+                                         toc[ww.to_component_property_name] = JSON.parse(JSON.stringify(vvvvvv))
+//zzz
+                                     }
+                                 }
+                             }
+
                              mm.refresh++
                          }
                      }
@@ -2677,6 +2759,7 @@ ${origCode}
              return this.model.forms[this.active_form].components
          },
         updateAllFormCaches: function() {
+
             var llf = Object.keys(this.model.forms)
             for (var ii = 0; ii < llf.length ; ii ++) {
                 var formqq = this.model.forms[llf[ii]]
@@ -2702,17 +2785,52 @@ ${origCode}
         ,
 
         updateFormCache: function(formName) {
+            //debugger
             var form = this.model.forms[formName]
             var components = form.components
             if (!isValidObject(this.form_runtime_info[formName])) {
                 this.form_runtime_info[formName] = new Object()
             }
             this.form_runtime_info[formName].component_lookup_by_name = {}
+            this.form_runtime_info[formName].component_lookup_by_uuid = {}
 
             for (var gjh = 0; gjh < components.length; gjh ++) {
                 var cc = components[gjh]
                 if (isValidObject(cc)) {
                     this.form_runtime_info[formName].component_lookup_by_name[cc.name] = cc
+                }
+                if (cc.uuid) {
+                    this.form_runtime_info[formName].component_lookup_by_uuid[cc.uuid] = cc
+                } else {
+                    cc.uuid = uuidv4()
+                    this.refresh ++
+                }
+                if (!this.watchList) {
+                    this.watchList = {}
+                }
+                if (this.watchList) {
+                    //debugger
+                    if (cc.watch) {
+                        //debugger
+                        for (var ff=0;ff<cc.watch.length;ff++){
+                            this.watchList[cc.watch[ff].uuid] =
+                                {
+                                        form_name:                      formName
+                                        ,
+                                        to_component_name:              cc.name
+                                        ,
+                                        to_component_uuid:              cc.uuid
+                                        ,
+                                        to_component_property_name:     cc.watch[ff].send_to
+                                        ,
+                                        from_component_uuid:            cc.watch[ff].uuid
+                                        ,
+                                        from_component_property_name:   cc.watch[ff].property
+                                }
+                        }
+                    }
+                    //console.log("Watch list setup")
+                    //console.log(JSON.stringify(this.watchList,null,2))
                 }
             }
         },
@@ -3665,6 +3783,7 @@ ${eventMessage.code}
 
 
              this.selectComponent(this.active_component_index)
+             this.updateAllFormCaches()
              this.refresh ++
 
 
@@ -4319,7 +4438,7 @@ return {}
   "default_form": "Form_1",
   "app_selected": false,
   "id": "vb_blank",
-  "next_component_id": 113,
+  "next_component_id": 114,
   "app_properties": [
     {
       "id": "test",
@@ -4330,8 +4449,8 @@ return {}
   "forms": {
     "Form_1": {
       "name": "Form_1",
-      "width": 372,
-      "height": 355,
+      "width": 558,
+      "height": 536,
       "add_block": "alert('Add block called')",
       "components": [
         {
@@ -4344,11 +4463,18 @@ return {}
           "text": "Drag controls from the left onto this grid and then press the 'Save changes' button above.\n\n\n(Or drag the scrollbar below)",
           "background_color": "",
           "parent": null,
-          "uuid": "d0bfeadc-20c0-4cd1-b405-36d5f8d601e8"
+          "uuid": "d0bfeadc-20c0-4cd1-b405-36d5f8d601e8",
+          "watch": [
+            {
+              "uuid": "3faa6849-bf7b-4ca9-9f5b-3ef14c7a85ad",
+              "property": "value",
+              "send_to": "text"
+            }
+          ]
         },
         {
-          "leftX": 29,
-          "topY": 135,
+          "leftX": 39,
+          "topY": 159,
           "name": "horiz_scroll_control_112",
           "base_component_id": "horiz_scroll_control",
           "text": "",
@@ -4359,6 +4485,19 @@ return {}
           "height": 37,
           "parent": null,
           "uuid": "3faa6849-bf7b-4ca9-9f5b-3ef14c7a85ad"
+        },
+        {
+          "leftX": 389,
+          "topY": 220,
+          "name": "vert_scroll_control_113",
+          "base_component_id": "vert_scroll_control",
+          "text": "",
+          "background_color": "",
+          "value": "",
+          "changed_event": "",
+          "width": 30,
+          "height": 250,
+          "uuid": "7c96894f-97be-46f0-9afe-b934c1c15988"
         }
       ]
     },
