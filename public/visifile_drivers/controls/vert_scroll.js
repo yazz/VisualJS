@@ -108,7 +108,7 @@ logo_url("/driver_icons/vert_scroll_bar.png")
         ,
         methods: {
               changedFn: function() {
-                  debugger
+                  //debugger
                   if (isValidObject(this.args)) {
                       this.args.value = this.value
                   }

@@ -1207,6 +1207,7 @@ uses_javascript_librararies(["advanced_bundle"])
                              //console.log("Changes: "+ JSON.stringify(ttt,null,2))
                          }
 
+                         var changedUuids = {}
 
                          if (ttt) {
                              mm.old_model = JSON.parse(JSON.stringify(mm.model));
@@ -1226,6 +1227,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                          var compname = mm.model.forms[this.active_form].components[nn]
                                          if (compname) {
                                              console.log(this.active_form + ": " + compname.name + " = " + JSON.stringify(thisComponent))
+                                             changedUuids[compname.uuid] = true
                                          }
                                      }
                                  }
@@ -1247,27 +1249,29 @@ uses_javascript_librararies(["advanced_bundle"])
                              for (var componentIndex = 0; componentIndex < mm.model.forms[this.active_form].components.length; componentIndex++){
                                  var thisComponent = mm.model.forms[this.active_form].components[componentIndex]
                                  var uuid = thisComponent.uuid
-                                 console.log("UUID: " + JSON.stringify(uuid,null,2))
-                                 console.log(this.watchList[uuid])
+                                 //console.log("UUID: " + JSON.stringify(uuid,null,2))
+                                 //console.log(this.watchList[uuid])
                                  var ww = this.watchList[uuid]
                                  if (ww) {
                                      if (ww.from_component_uuid == uuid) {
-                                         debugger
-                                         console.log(ww)
+                                         if (changedUuids[uuid]) {
+                                             //debugger
+                                             //console.log(ww)
 
-                                         var fromc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[uuid]
-                                         console.log("fromc: " + JSON.stringify(fromc,null,2))
-
-
-                                         var touuid = ww.to_component_uuid
-                                         var toc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[touuid]
-                                         console.log("toc: " + JSON.stringify(toc,null,2))
+                                             var fromc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[uuid]
+                                             //console.log("fromc: " + JSON.stringify(fromc,null,2))
 
 
+                                             var touuid = ww.to_component_uuid
+                                             var toc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[touuid]
+                                             //console.log("toc: " + JSON.stringify(toc,null,2))
 
-                                         //mm.model.forms[this.active_form].components[0].text = "" + mm.model.forms[this.active_form].components[1].value
-                                         var vvvvvv = fromc[ww.from_component_property_name]
-                                         toc[ww.to_component_property_name] = JSON.parse(JSON.stringify(vvvvvv))
+
+
+                                             //mm.model.forms[this.active_form].components[0].text = "" + mm.model.forms[this.active_form].components[1].value
+                                             var vvvvvv = fromc[ww.from_component_property_name]
+                                             toc[ww.to_component_property_name] = JSON.parse(JSON.stringify(vvvvvv))
+                                         }
 //zzz
                                      }
                                  }
