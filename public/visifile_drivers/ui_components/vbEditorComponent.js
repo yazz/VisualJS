@@ -1249,14 +1249,17 @@ uses_javascript_librararies(["advanced_bundle"])
                                  var uuid = thisComponent.uuid
                                  console.log("UUID: " + JSON.stringify(uuid,null,2))
                                  console.log(this.watchList[uuid])
-                                 debugger
                                  var ww = this.watchList[uuid]
                                  if (ww) {
-                                     //mm.model.forms[this.active_form].components[0].text = "" + mm.model.forms[this.active_form].components[1].value
+                                     debugger
                                      console.log(ww)
                                      //zzz
                                      var fromc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[uuid]
                                      console.log("fromc: " + JSON.stringify(fromc,null,2))
+                                     mm.model.forms[this.active_form].components[0].text = "" + mm.model.forms[this.active_form].components[1].value
+                                     var touuid = ww.to_component_uuid
+                                     var toc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[touuid]
+                                     console.log("toc: " + JSON.stringify(toc,null,2))
                                  }
                              }
 
