@@ -426,6 +426,13 @@ In the video Chris Schmidt talks about how the Meteor platform based on Javascri
 But how can we say that Javascript is not the right language for this? Well, Javascript is very much like the early 8088 assembly languages of 40 years ago, where it can run in many places, but over time more and more high level languages were built on top of it, like C, C++, Basic, Java, etc. Javascript is going through exactly the same thing now and more and more languages are appearing on top of it. Like any challenged technology Javascript is evolving rapidly with ES6, to fight off any newcomers.
 
 
+
+
+### Why did Yazz switch to Javascript from Clojure/Clojurescript?
+We were limiting ourselves to a very small subset of developers by being in Clojure/Clojurescript, whereas Javascript has a much larger developer reach
+
+
+
 ### Where can I find the app store for Yazz?
 It is under development 
 
