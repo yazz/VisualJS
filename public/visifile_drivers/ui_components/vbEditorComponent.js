@@ -1254,7 +1254,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                      if (ww.from_component_uuid == uuid) {
                                          debugger
                                          console.log(ww)
-                                         //zzz
+
                                          var fromc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[uuid]
                                          console.log("fromc: " + JSON.stringify(fromc,null,2))
 
@@ -1266,8 +1266,9 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
                                          //mm.model.forms[this.active_form].components[0].text = "" + mm.model.forms[this.active_form].components[1].value
-                                         toc[ww.to_component_property_name] = fromc[ww.from_component_property_name]
-
+                                         var vvvvvv = fromc[ww.from_component_property_name]
+                                         toc[ww.to_component_property_name] = JSON.parse(JSON.stringify(vvvvvv))
+//zzz
                                      }
                                  }
                              }
