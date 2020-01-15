@@ -1251,15 +1251,24 @@ uses_javascript_librararies(["advanced_bundle"])
                                  console.log(this.watchList[uuid])
                                  var ww = this.watchList[uuid]
                                  if (ww) {
-                                     debugger
-                                     console.log(ww)
-                                     //zzz
-                                     var fromc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[uuid]
-                                     console.log("fromc: " + JSON.stringify(fromc,null,2))
-                                     mm.model.forms[this.active_form].components[0].text = "" + mm.model.forms[this.active_form].components[1].value
-                                     var touuid = ww.to_component_uuid
-                                     var toc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[touuid]
-                                     console.log("toc: " + JSON.stringify(toc,null,2))
+                                     if (ww.from_component_uuid == uuid) {
+                                         debugger
+                                         console.log(ww)
+                                         //zzz
+                                         var fromc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[uuid]
+                                         console.log("fromc: " + JSON.stringify(fromc,null,2))
+
+
+                                         var touuid = ww.to_component_uuid
+                                         var toc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[touuid]
+                                         console.log("toc: " + JSON.stringify(toc,null,2))
+
+
+
+                                         //mm.model.forms[this.active_form].components[0].text = "" + mm.model.forms[this.active_form].components[1].value
+                                         toc[ww.to_component_property_name] = fromc[ww.from_component_property_name]
+
+                                     }
                                  }
                              }
 
