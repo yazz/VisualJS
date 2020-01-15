@@ -451,6 +451,8 @@ You can join us here http://yazz-workspace.slack.com
 
 
 
+### What is the extension for all yazz Pilot apps?
+The extension is ".pilot" but you can also use the ".js" extension for loading some simple Javascript apps
 
 
 
