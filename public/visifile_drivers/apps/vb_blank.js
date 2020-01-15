@@ -1,8 +1,5 @@
 async function(args) {
 /*
-editors([
-  "vb_editor_component"
-])
 properties([
   {
     "id": "test",
@@ -73,8 +70,8 @@ formEditor({
           ]
         },
         {
-          "leftX": 389,
-          "topY": 220,
+          "leftX": 402,
+          "topY": 20,
           "name": "vert_scroll_control_113",
           "base_component_id": "vert_scroll_control",
           "text": "",
@@ -82,8 +79,9 @@ formEditor({
           "value": "",
           "changed_event": "",
           "width": 30,
-          "height": 250,
-          "uuid": "7c96894f-97be-46f0-9afe-b934c1c15988"
+          "height": 98,
+          "uuid": "7c96894f-97be-46f0-9afe-b934c1c15988",
+          "parent": null
         }
       ]
     },
@@ -113,7 +111,10 @@ sub_components([
 ])
 base_component_id("vb_blank")
 visibility("PRIVATE")
-display_name("Copy of Copy of Copy of GUI App")
+display_name("Copy of Copy of Copy of Copy of Copy of GUI App")
+editors([
+  "vb_editor_component"
+])
 created_timestamp(1551965300424)
 uses_javascript_librararies(["advanced_bundle"])
 
@@ -1320,6 +1321,7 @@ logo_url("/driver_icons/blocks.png")
                              //console.log("Changes: "+ JSON.stringify(ttt,null,2))
                          }
 
+                         var changedUuids = {}
 
                          if (ttt) {
                              mm.old_model = JSON.parse(JSON.stringify(mm.model));
@@ -1339,6 +1341,7 @@ logo_url("/driver_icons/blocks.png")
                                          var compname = mm.model.forms[this.active_form].components[nn]
                                          if (compname) {
                                              console.log(this.active_form + ": " + compname.name + " = " + JSON.stringify(thisComponent))
+                                             changedUuids[compname.uuid] = true
                                          }
                                      }
                                  }
@@ -1360,27 +1363,29 @@ logo_url("/driver_icons/blocks.png")
                              for (var componentIndex = 0; componentIndex < mm.model.forms[this.active_form].components.length; componentIndex++){
                                  var thisComponent = mm.model.forms[this.active_form].components[componentIndex]
                                  var uuid = thisComponent.uuid
-                                 console.log("UUID: " + JSON.stringify(uuid,null,2))
-                                 console.log(this.watchList[uuid])
+                                 //console.log("UUID: " + JSON.stringify(uuid,null,2))
+                                 //console.log(this.watchList[uuid])
                                  var ww = this.watchList[uuid]
                                  if (ww) {
                                      if (ww.from_component_uuid == uuid) {
-                                         debugger
-                                         console.log(ww)
+                                         if (changedUuids[uuid]) {
+                                             //debugger
+                                             //console.log(ww)
 
-                                         var fromc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[uuid]
-                                         console.log("fromc: " + JSON.stringify(fromc,null,2))
-
-
-                                         var touuid = ww.to_component_uuid
-                                         var toc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[touuid]
-                                         console.log("toc: " + JSON.stringify(toc,null,2))
+                                             var fromc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[uuid]
+                                             //console.log("fromc: " + JSON.stringify(fromc,null,2))
 
 
+                                             var touuid = ww.to_component_uuid
+                                             var toc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[touuid]
+                                             //console.log("toc: " + JSON.stringify(toc,null,2))
 
-                                         //mm.model.forms[this.active_form].components[0].text = "" + mm.model.forms[this.active_form].components[1].value
-                                         var vvvvvv = fromc[ww.from_component_property_name]
-                                         toc[ww.to_component_property_name] = JSON.parse(JSON.stringify(vvvvvv))
+
+
+                                             //mm.model.forms[this.active_form].components[0].text = "" + mm.model.forms[this.active_form].components[1].value
+                                             var vvvvvv = fromc[ww.from_component_property_name]
+                                             toc[ww.to_component_property_name] = JSON.parse(JSON.stringify(vvvvvv))
+                                         }
 //zzz
                                      }
                                  }
@@ -4484,11 +4489,18 @@ return {}
           "width": 311,
           "height": 37,
           "parent": null,
-          "uuid": "3faa6849-bf7b-4ca9-9f5b-3ef14c7a85ad"
+          "uuid": "3faa6849-bf7b-4ca9-9f5b-3ef14c7a85ad",
+          "watch": [
+            {
+              "uuid": "7c96894f-97be-46f0-9afe-b934c1c15988",
+              "property": "value",
+              "send_to": "value"
+            }
+          ]
         },
         {
-          "leftX": 389,
-          "topY": 220,
+          "leftX": 402,
+          "topY": 20,
           "name": "vert_scroll_control_113",
           "base_component_id": "vert_scroll_control",
           "text": "",
@@ -4496,8 +4508,9 @@ return {}
           "value": "",
           "changed_event": "",
           "width": 30,
-          "height": 250,
-          "uuid": "7c96894f-97be-46f0-9afe-b934c1c15988"
+          "height": 98,
+          "uuid": "7c96894f-97be-46f0-9afe-b934c1c15988",
+          "parent": null
         }
       ]
     },
