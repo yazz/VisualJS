@@ -1,7 +1,7 @@
 
 # Yazz Pilot
 ## Browser based IDE to build internal web apps
-Yazz Pilot is a browser based tool for building internal web apps, using JavaScript for glue code. It can connect to Rest APIs, Postgres and other enterprise stuff. There is a demo here (Only works on desktops Chrome right now):
+Yazz Pilot is a browser based IDE for building internal web apps, using JavaScript for glue code. It can connect to Rest APIs, Postgres and other enterprise stuff. There is a demo here (Only works on desktops Chrome right now):
 
 https://yazz.com/app/homepage.html
 <br/><br/><br/>
