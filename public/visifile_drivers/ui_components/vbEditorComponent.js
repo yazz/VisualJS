@@ -169,6 +169,13 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
 
+
+
+
+
+
+
+
             <!--
 
                     The control details editor
@@ -231,6 +238,81 @@ uses_javascript_librararies(["advanced_bundle"])
                  </div>
              </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+             <!--
+
+                     The control links editor
+
+             -->
+
+
+             <div    v-if='(design_mode && (design_mode_pane.type=="control_links_editor"))'
+                     v-bind:style='"box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin: 2px; display: inline-block; vertical-align: top; width: 100%;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
+
+                 <div    v-if='design_mode'
+                         style='font-family:verdana,helvetica;font-size: 13px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
+
+                     <div    style='height: 30px;' >
+                         Control Links
+                         <button  type=button class=' btn btn-danger btn-sm'
+                                  style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 4px;"
+                                  v-on:click='gotoDragDropEditor()' >x</button>
+                     </div>
+
+
+                 </div>
+
+                 <div  v-bind:style='"border: 5px solid lightgray;background: white;;overflow:none;height:100%; overflow: auto; width:100%; "'>
+
+                     <component  v-bind:id='active_form + "_" + model.forms[active_form].components[model.active_component_links_index].name + (design_mode?"_design":"")'
+                                 v-bind:refresh='refresh'
+                                 design_mode='links_editor'
+
+                                 v-bind:meta='{form: active_form,name: model.forms[active_form].components[model.active_component_links_index].name + (design_mode?"_design":"")}'
+
+                                 v-bind:form="active_form"
+                                 v-bind:delete_design_time_component='childDeleteComponent'
+                                 v-bind:select_design_time_component='childSelectComponent'
+                                 v-bind:children='getChildren( model.forms[active_form].components[model.active_component_links_index].name)'
+                                 v-on:send="processControlEvent"
+                                 v-bind:is='model.forms[active_form].components[model.active_component_links_index].base_component_id'
+                                 v-bind:name='model.forms[active_form].components[model.active_component_links_index].name + "_design_mode_" + design_mode'
+                                 v-bind:args='model.forms[active_form].components[model.active_component_links_index]'>
+
+                                 <template       slot-scope="child_components"
+                                                 v-bind:refresh='refresh'
+                                                 style='position:relative;'>
+
+                                     <component  v-for='child_item  in  getChildren(model.forms[active_form].components[model.active_component_links_index].name)'
+                                                 v-bind:design_mode='design_mode'
+                                                 v-bind:meta='{form: active_form,name: child_item.name + (design_mode?"_design":"")}'
+                                                 v-bind:form="active_form"
+                                                 v-bind:refresh='refresh'
+                                                 v-bind:style='"z-index:100000;position: absolute; top: " + child_item.topY + "px; left: " + child_item.leftX + "px;height:" + child_item.height + "px;width:" + child_item.width + "px;overflow:auto;"'
+                                                 v-bind:id='active_form + "_" + model.forms[active_form].components[child_item.index_in_parent_array].name + (design_mode?"_design":"")'
+                                                 v-on:send="processControlEvent"
+                                                 v-bind:is='child_item.base_component_id'
+                                                 v-bind:name='child_item.name + "_design_mode_" + design_mode'
+                                                 v-bind:args='model.forms[active_form].components[child_item.index_in_parent_array]'>
+                                     </component>
+
+                                 </template>
+                      </component>
+                  </div>
+              </div>
 
 
 
@@ -479,7 +561,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                         "top:  " + ((getTop(active_form,active_component_index)) +
                                         (model.forms[active_form].components[active_component_index].height / 2) - 18) +  "px;" +
                                         "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
-                                     v-on:click='$event.stopPropagation();deleteComponent(active_component_index)'>
+                                     v-on:click='$event.stopPropagation();showComponentLinks(active_component_index)'>
 
                                     --
 
@@ -1822,6 +1904,8 @@ ${origCode}
             setTimeout(function(){
                 mm.model.active_component_detail_name = null
                 mm.model.active_component_detail_index = null
+                mm.model.active_component_links_name = null
+                mm.model.active_component_links_index = null
                 mm.design_mode_pane.type = "help"
                 mm.design_mode_pane.help = aa.help
                 mm.refresh++
@@ -2694,6 +2778,8 @@ ${origCode}
             }
             this.model.active_component_detail_name = null
             this.model.active_component_detail_index = null
+            this.model.active_component_links_name = null
+            this.model.active_component_links_index = null
 
         }
         ,
@@ -3335,6 +3421,23 @@ ${eventMessage.code}
                mm.$forceUpdate();
            },400)
         },
+
+
+
+
+        showComponentLinks: async function(index) {
+           var mm = this
+           mm.design_mode_pane.type = "control_links_editor"
+
+           this.model.active_component_links_index = index;
+           this.model.active_component_links_name = this.model.forms[this.active_form].components[index].name;
+
+           setTimeout(function() {
+               mm.refresh ++
+               mm.$forceUpdate();
+           },400)
+        },
+
 
          deleteComponent: async function(index) {
             var mm = this
@@ -4375,6 +4478,8 @@ return {}
                                             max_form: 1,
                                             active_component_detail_index: null,
                                             active_component_detail_name: null,
+                                            active_component_links_index: null,
+                                            active_component_links_name: null,
                                             app_selected: false,
                                             default_form: "Form_1",
                                             app_properties: [],
