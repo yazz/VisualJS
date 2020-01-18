@@ -596,7 +596,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                                     "position: absolute;top: " + getTop(active_form,index) + ";left:" + getLeft(active_form,index) + ";height:" + item.height + "px;width:" + item.width + "px;;overflow:none;"'>
 
                                 <div ondrop="return false;"
-                                     v-bind:style='"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:auto;"'>
+                                     v-bind:style='"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:hidden;"'>
                                     <component  v-bind:id='active_form + "_" + model.forms[active_form].components[index].name + (design_mode?"_design":"")'
                                                 v-bind:refresh='refresh'
                                                 v-bind:meta='{form: active_form,name: item.name + (design_mode?"_design":"")}'
