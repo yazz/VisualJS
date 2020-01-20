@@ -277,9 +277,23 @@ uses_javascript_librararies(["advanced_bundle"])
 
                  <div  v-bind:style='"border: 5px solid lightgray;background: white;;overflow:none;height:100%; overflow: auto; width:100%; "'>
 
-                     <pre>
-                     {{JSON.stringify(  watchList  ,  null  ,  2  )}}
-                     </pre>
+                     My UUID: {{model.forms[active_form].components[model.active_component_links_index].uuid}}
+<br/><br/>
+                     Incoming:
+<div v-for='currentWatch in Object.keys(watchList)'>
+<pre v-if="watchList[currentWatch].to_component_uuid == model.forms[active_form].components[model.active_component_links_index].uuid">
+{{JSON.stringify(  watchList[currentWatch]  ,  null  ,  2  )}}
+</pre>
+</div>
+
+<br/><br/>
+
+                     Outgoing:
+<div v-for='currentWatch in Object.keys(watchList)'>
+<pre v-if="watchList[currentWatch].from_component_uuid == model.forms[active_form].components[model.active_component_links_index].uuid">
+{{JSON.stringify(  watchList[currentWatch]  ,  null  ,  2  )}}
+</pre>
+</div>
                      zzz
                   </div>
               </div>
