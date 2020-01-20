@@ -287,10 +287,15 @@ uses_javascript_librararies(["advanced_bundle"])
 </div>
 
 <br/><br/>
-<table>
+<table style="width:100%;">
+<tr style="width:100%;">
+    <td    style="width:40%;">Name</td>
+    <td    style="width:30%;">From</td>
+    <td    style="width:30%;">to</td>
+</tr>
 <tr v-for='currentWatch in Object.keys(watchList)'
 v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].components[model.active_component_links_index].uuid)">
-    <td >{{JSON.stringify(  watchList[currentWatch].from_component_uuid  ,  null  ,  2  )}}</td>
+    <td >{{form_runtime_info[active_form].component_lookup_by_uuid[watchList[currentWatch].from_component_uuid].name}}</td>
     <td >{{JSON.stringify(  watchList[currentWatch].from_component_property_name  ,  null  ,  2  )}}</td>
     <td >{{JSON.stringify(  watchList[currentWatch].to_component_property_name  ,  null  ,  2  )}}</td>
 </tr>
