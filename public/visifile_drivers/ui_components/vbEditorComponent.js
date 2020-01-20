@@ -279,21 +279,16 @@ uses_javascript_librararies(["advanced_bundle"])
 
                      My UUID: {{model.forms[active_form].components[model.active_component_links_index].uuid}}
 <br/><br/>
-                     Incoming:
+                     Links:
 <div v-for='currentWatch in Object.keys(watchList)'>
-<pre v-if="watchList[currentWatch].to_component_uuid == model.forms[active_form].components[model.active_component_links_index].uuid">
+<pre v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].components[model.active_component_links_index].uuid) ||
+watchList[currentWatch].from_component_uuid == model.forms[active_form].components[model.active_component_links_index].uuid">
 {{JSON.stringify(  watchList[currentWatch]  ,  null  ,  2  )}}
 </pre>
 </div>
 
 <br/><br/>
 
-                     Outgoing:
-<div v-for='currentWatch in Object.keys(watchList)'>
-<pre v-if="watchList[currentWatch].from_component_uuid == model.forms[active_form].components[model.active_component_links_index].uuid">
-{{JSON.stringify(  watchList[currentWatch]  ,  null  ,  2  )}}
-</pre>
-</div>
                      zzz
                   </div>
               </div>
