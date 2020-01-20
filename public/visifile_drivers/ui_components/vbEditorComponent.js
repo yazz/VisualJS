@@ -277,17 +277,24 @@ uses_javascript_librararies(["advanced_bundle"])
 
                  <div  v-bind:style='"border: 5px solid lightgray;background: white;;overflow:none;height:100%; overflow: auto; width:100%; "'>
 
-                     My UUID: {{model.forms[active_form].components[model.active_component_links_index].uuid}}
+                     Component name: {{model.forms[active_form].components[model.active_component_links_index].name}}
 <br/><br/>
-                     Links:
+                     Incoming Links:
 <div v-for='currentWatch in Object.keys(watchList)'>
-<pre v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].components[model.active_component_links_index].uuid) ||
-watchList[currentWatch].from_component_uuid == model.forms[active_form].components[model.active_component_links_index].uuid">
+<pre v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].components[model.active_component_links_index].uuid)">
 {{JSON.stringify(  watchList[currentWatch]  ,  null  ,  2  )}}
 </pre>
 </div>
 
 <br/><br/>
+<table>
+<tr v-for='currentWatch in Object.keys(watchList)'
+v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].components[model.active_component_links_index].uuid)">
+    <td >{{JSON.stringify(  watchList[currentWatch].from_component_uuid  ,  null  ,  2  )}}</td>
+    <td >{{JSON.stringify(  watchList[currentWatch].from_component_property_name  ,  null  ,  2  )}}</td>
+    <td >{{JSON.stringify(  watchList[currentWatch].to_component_property_name  ,  null  ,  2  )}}</td>
+</tr>
+</table>
 
                      zzz
                   </div>
