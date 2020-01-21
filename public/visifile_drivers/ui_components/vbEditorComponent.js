@@ -316,10 +316,14 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
 
 
 <div style="border: 2px solid blue;padding:10px;margin:10px;">
-    <select  @change='setWatchComponent($event, property)'>
+    <select  @change='setWatchComponent($event)'>
+            <option   value=""
+                      selected="true">
+            </option>
+            
           <option   v-for="watchComp in model.forms[active_form].components"
-                    v-bind:value="watchComp.name"
-                    v-bind:selected="selectedWatchcomponent == watchComp.name">
+                    v-bind:value="watchComp.uuid"
+                    v-bind:selected="selectedWatchComponentUuid == watchComp.uuid">
 
                 {{watchComp.name}}
 
@@ -1449,9 +1453,12 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
          //zzz
           addWatch: function() {
               var mm = this
+              if ( mm.selectedWatchComponentUuid == null) {
+                  return
+              }
               mm.model.forms[mm.active_form].components[mm.active_component_index].watch.push(
                   {
-                    "uuid": "3faa6849-bf7b-4ca9-9f5b-3ef14c7a85ad",
+                    "uuid": mm.selectedWatchComponentUuid,
                     "property": "value",
                     "send_to": "text"
                   }
@@ -1461,7 +1468,18 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
           }
           ,
 
+          //-------------------------------------------------------------------
+          setWatchComponent: function(event) {
+          //-------------------------------------------------------------------
 
+             var mm      = this
+             var val     = null
+             var type    = null
+
+
+             this.selectedWatchComponentUuid = event.target.value
+         }
+         ,
 
 
 
@@ -4506,7 +4524,7 @@ return {}
        return {
            newCursor:                   null,
            watchList:                   {},
-           selectedWatchcomponent:      null,
+           selectedWatchComponentUuid:      null,
            oldCursor:                   null,
            cursorSource:                null,
            uid2:                        null,
