@@ -286,14 +286,31 @@ uses_javascript_librararies(["advanced_bundle"])
 <table style="width:100%;">
 <tr style="width:100%;">
     <td    style="width:40%;font-weight:bold;">Name</td>
-    <td    style="width:30%;font-weight:bold;">From</td>
-    <td    style="width:30%;font-weight:bold;">to</td>
+    <td    style="width:25%;font-weight:bold;">From</td>
+    <td    style="width:25%;font-weight:bold;">to</td>
+    <td    style="width:10%;font-weight:bold;"></td>
 </tr>
 <tr v-for='currentWatch in Object.keys(watchList)'
 v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].components[model.active_component_links_index].uuid)">
-    <td >{{form_runtime_info[active_form].component_lookup_by_uuid[watchList[currentWatch].from_component_uuid].name}}</td>
-    <td >{{JSON.stringify(  watchList[currentWatch].from_component_property_name  ,  null  ,  2  )}}</td>
-    <td >{{JSON.stringify(  watchList[currentWatch].to_component_property_name  ,  null  ,  2  )}}</td>
+    <td >
+        {{form_runtime_info[active_form].component_lookup_by_uuid[watchList[currentWatch].from_component_uuid].name}}
+    </td>
+    <td >
+        {{JSON.stringify(  watchList[currentWatch].from_component_property_name  ,  null  ,  2  )}}
+    </td>
+    <td >
+        {{JSON.stringify(  watchList[currentWatch].to_component_property_name  ,  null  ,  2  )}}
+    </td>
+    <td >
+        <div     class='btn btn-danger'
+                 v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
+                               "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
+                 v-on:click='$event.stopPropagation();deleteWatch(watchList[currentWatch] )'>
+
+                X
+
+        </div>
+    </td>
 </tr>
 </table>
 
@@ -325,6 +342,7 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
 <div v-for='currentWatch in Object.keys(watchList)'>
 <pre v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].components[model.active_component_links_index].uuid)">
 {{JSON.stringify(  watchList[currentWatch]  ,  null  ,  2  )}}
+
 </pre>
 </div>
                      zzz
