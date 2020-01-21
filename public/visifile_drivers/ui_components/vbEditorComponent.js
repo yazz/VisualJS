@@ -1412,7 +1412,7 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
                                              var vvvvvv = fromc[ww.from_component_property_name]
                                              toc[ww.to_component_property_name] = JSON.parse(JSON.stringify(vvvvvv))
                                          }
-//zzz
+
                                      }
                                  }
                              }
@@ -1436,14 +1436,6 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
 
 
 
-     addWatch: function() {
-
-     }
-     ,
-
-
-
-
 
 
 
@@ -1451,6 +1443,29 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
 
      methods: {
 
+
+
+
+         //zzz
+          addWatch: function() {
+              var mm = this
+              mm.model.forms[mm.active_form].components[mm.active_component_index].watch.push(
+                  {
+                    "uuid": "3faa6849-bf7b-4ca9-9f5b-3ef14c7a85ad",
+                    "property": "value",
+                    "send_to": "text"
+                  }
+              )
+              mm.refresh ++
+          }
+          ,
+
+
+
+
+
+
+          
          getControlMethod: function(componentDefn,componentDetails) {
             var mm = this
             var methodId = componentDefn.id

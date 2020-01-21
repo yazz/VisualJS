@@ -41,11 +41,7 @@ formEditor({
           "parent": null,
           "uuid": "d0bfeadc-20c0-4cd1-b405-36d5f8d601e8",
           "watch": [
-            {
-              "uuid": "3faa6849-bf7b-4ca9-9f5b-3ef14c7a85ad",
-              "property": "value",
-              "send_to": "text"
-            }
+
           ]
         },
         {
