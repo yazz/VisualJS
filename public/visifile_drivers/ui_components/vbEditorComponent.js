@@ -1457,6 +1457,7 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
                   }
               )
               mm.refresh ++
+              mm.updateAllFormCaches()
           }
           ,
 
@@ -1465,7 +1466,7 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
 
 
 
-          
+
          getControlMethod: function(componentDefn,componentDetails) {
             var mm = this
             var methodId = componentDefn.id
