@@ -279,19 +279,15 @@ uses_javascript_librararies(["advanced_bundle"])
 
                      Component name: {{model.forms[active_form].components[model.active_component_links_index].name}}
 <br/><br/>
-                     Incoming Links:
-<div v-for='currentWatch in Object.keys(watchList)'>
-<pre v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].components[model.active_component_links_index].uuid)">
-{{JSON.stringify(  watchList[currentWatch]  ,  null  ,  2  )}}
-</pre>
-</div>
+                  <div style="width:40%;font-weight:bold;">Incoming Links:</div>
+
 
 <br/><br/>
 <table style="width:100%;">
 <tr style="width:100%;">
-    <td    style="width:40%;">Name</td>
-    <td    style="width:30%;">From</td>
-    <td    style="width:30%;">to</td>
+    <td    style="width:40%;font-weight:bold;">Name</td>
+    <td    style="width:30%;font-weight:bold;">From</td>
+    <td    style="width:30%;font-weight:bold;">to</td>
 </tr>
 <tr v-for='currentWatch in Object.keys(watchList)'
 v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].components[model.active_component_links_index].uuid)">
@@ -301,6 +297,36 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
 </tr>
 </table>
 
+
+<div style="border: 2px solid blue;padding:10px;margin:10px;">
+    <select  @change='setWatchComponent($event, property)'>
+          <option   v-for="watchComp in model.forms[active_form].components"
+                    v-bind:value="watchComp.name"
+                    v-bind:selected="selectedWatchcomponent == watchComp.name">
+
+                {{watchComp.name}}
+
+          </option>
+    </select>
+
+    <br/>
+    <button type=button class='btn btn-sm btn-warning'
+            v-bind:style='""'
+            v-on:click='$event.stopPropagation(); addWatch();'  >
+
+         Add watch
+
+    </button>
+</div>
+
+
+
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+<div v-for='currentWatch in Object.keys(watchList)'>
+<pre v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].components[model.active_component_links_index].uuid)">
+{{JSON.stringify(  watchList[currentWatch]  ,  null  ,  2  )}}
+</pre>
+</div>
                      zzz
                   </div>
               </div>
@@ -1385,6 +1411,22 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
          }
      }
      ,
+
+
+
+
+
+
+
+     addWatch: function() {
+
+     }
+     ,
+
+
+
+
+
 
 
 
@@ -4430,6 +4472,7 @@ return {}
        return {
            newCursor:                   null,
            watchList:                   {},
+           selectedWatchcomponent:      null,
            oldCursor:                   null,
            cursorSource:                null,
            uid2:                        null,
