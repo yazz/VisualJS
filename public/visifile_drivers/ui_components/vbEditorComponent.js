@@ -201,26 +201,26 @@ uses_javascript_librararies(["advanced_bundle"])
 
                 <div  v-bind:style='"border: 5px solid lightgray;background: white;;overflow:none;height:100%; overflow: auto; width:100%; "'>
 
-                    <component  v-bind:id='active_form + "_" + model.forms[active_form].components[model.active_component_detail_index].name + (design_mode?"_design":"")'
+                    <component  v-bind:id='active_form + "_" + model.forms[active_form].components[active_component_detail_index].name + (design_mode?"_design":"")'
                                 v-bind:refresh='refresh'
                                 design_mode='detail_editor'
 
-                                v-bind:meta='{form: active_form,name: model.forms[active_form].components[model.active_component_detail_index].name + (design_mode?"_design":"")}'
+                                v-bind:meta='{form: active_form,name: model.forms[active_form].components[active_component_detail_index].name + (design_mode?"_design":"")}'
 
                                 v-bind:form="active_form"
                                 v-bind:delete_design_time_component='childDeleteComponent'
                                 v-bind:select_design_time_component='childSelectComponent'
-                                v-bind:children='getChildren( model.forms[active_form].components[model.active_component_detail_index].name)'
+                                v-bind:children='getChildren( model.forms[active_form].components[active_component_detail_index].name)'
                                 v-on:send="processControlEvent"
-                                v-bind:is='model.forms[active_form].components[model.active_component_detail_index].base_component_id'
-                                v-bind:name='model.forms[active_form].components[model.active_component_detail_index].name + "_design_mode_" + design_mode'
-                                v-bind:args='model.forms[active_form].components[model.active_component_detail_index]'>
+                                v-bind:is='model.forms[active_form].components[active_component_detail_index].base_component_id'
+                                v-bind:name='model.forms[active_form].components[active_component_detail_index].name + "_design_mode_" + design_mode'
+                                v-bind:args='model.forms[active_form].components[active_component_detail_index]'>
 
                                 <template       slot-scope="child_components"
                                                 v-bind:refresh='refresh'
                                                 style='position:relative;'>
 
-                                    <component  v-for='child_item  in  getChildren(model.forms[active_form].components[model.active_component_detail_index].name)'
+                                    <component  v-for='child_item  in  getChildren(model.forms[active_form].components[active_component_detail_index].name)'
                                                 v-bind:design_mode='design_mode'
                                                 v-bind:meta='{form: active_form,name: child_item.name + (design_mode?"_design":"")}'
                                                 v-bind:form="active_form"
@@ -277,7 +277,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
                  <div  v-bind:style='"border: 5px solid lightgray;background: white;;overflow:none;height:100%; overflow: auto; width:100%; "'>
 
-                     Component name: {{model.forms[active_form].components[model.active_component_links_index].name}}
+                     Component name: {{model.forms[active_form].components[active_component_links_index].name}}
 <br/><br/>
                   <div style="width:40%;font-weight:bold;">Incoming Links:</div>
 
@@ -291,7 +291,7 @@ uses_javascript_librararies(["advanced_bundle"])
     <td    style="width:10%;font-weight:bold;"></td>
 </tr>
 <tr v-for='currentWatch in Object.keys(watchList)'
-v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].components[model.active_component_links_index].uuid)">
+v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid)">
     <td >
         {{form_runtime_info[active_form].component_lookup_by_uuid[watchList[currentWatch].from_component_uuid].name}}
     </td>
@@ -344,7 +344,7 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
 
 <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 <div v-for='currentWatch in Object.keys(watchList)'>
-<pre v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].components[model.active_component_links_index].uuid)">
+<pre v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid)">
 {{JSON.stringify(  watchList[currentWatch]  ,  null  ,  2  )}}
 
 </pre>
@@ -1863,18 +1863,18 @@ ${origCode}
 
 
          refreshControlIndexes: function() {
-            if (this.model.active_component_detail_name) {
+            if (this.active_component_detail_name) {
 
                 var ccc = mm.model.forms[this.active_form].components
                 for (var ytr = 0;ytr < ccc.length;ytr++) {
-                   if (this.model.active_component_detail_name == ccc[ytr].name) {
-                       this.model.active_component_detail_name = ytr
+                   if (this.active_component_detail_name == ccc[ytr].name) {
+                       this.active_component_detail_name = ytr
                        break
                    }
                 }
 
             } else {
-                this.model.active_component_detail_name = null
+                this.active_component_detail_name = null
 
             }
 
@@ -2021,10 +2021,10 @@ ${origCode}
             }
 
             setTimeout(function(){
-                mm.model.active_component_detail_name = null
-                mm.model.active_component_detail_index = null
-                mm.model.active_component_links_name = null
-                mm.model.active_component_links_index = null
+                mm.active_component_detail_name = null
+                mm.active_component_detail_index = null
+                mm.active_component_links_name = null
+                mm.active_component_links_index = null
                 mm.design_mode_pane.type = "help"
                 mm.design_mode_pane.help = aa.help
                 mm.refresh++
@@ -2895,10 +2895,10 @@ ${origCode}
                 this.ui_code_editor.destroy()
                 this.ui_code_editor = null
             }
-            this.model.active_component_detail_name = null
-            this.model.active_component_detail_index = null
-            this.model.active_component_links_name = null
-            this.model.active_component_links_index = null
+            this.active_component_detail_name = null
+            this.active_component_detail_index = null
+            this.active_component_links_name = null
+            this.active_component_links_index = null
 
         }
         ,
@@ -3532,11 +3532,11 @@ ${eventMessage.code}
            var mm = this
            mm.design_mode_pane.type = "control_details_editor"
 
-           this.model.active_component_detail_index = index;
-           this.model.active_component_detail_name = this.model.forms[this.active_form].components[index].name;
+           this.active_component_detail_index = index;
+           this.active_component_detail_name = this.model.forms[this.active_form].components[index].name;
 
            setTimeout(function() {
-               mm.refresh ++
+               //mm.refresh ++
                mm.$forceUpdate();
            },400)
         },
@@ -3548,8 +3548,8 @@ ${eventMessage.code}
            var mm = this
            mm.design_mode_pane.type = "control_links_editor"
 
-           this.model.active_component_links_index = index;
-           this.model.active_component_links_name = this.model.forms[this.active_form].components[index].name;
+           this.active_component_links_index = index;
+           this.active_component_links_name = this.model.forms[this.active_form].components[index].name;
 
            setTimeout(function() {
                mm.refresh ++
@@ -4587,19 +4587,19 @@ return {}
            available_components:        [],
            component_usage:             new Object(),
            form_runtime_info:           {},
-           active_component_index:      null,
            active_form:                 "Form_1",
            old_model:                   {},
            model_changed_time:          -1,
            in_change_model:             false,
+           active_component_index:      null,
+           active_component_detail_index: null,
+           active_component_detail_name: null,
+           active_component_links_index: null,
+           active_component_links_name: null,
            model:                      {
                                             next_id: 1,
                                             next_component_id: 1,
                                             max_form: 1,
-                                            active_component_detail_index: null,
-                                            active_component_detail_name: null,
-                                            active_component_links_index: null,
-                                            active_component_links_name: null,
                                             app_selected: false,
                                             default_form: "Form_1",
                                             app_properties: [],

@@ -87,10 +87,7 @@ formEditor({
       "width": 300,
       "height": 300
     }
-  },
-  "active_component_index": null,
-  "active_component_detail_name": null,
-  "active_component_detail_index": null
+  }
 })//formEditor
 control_type("SYSTEM")
 sub_components([
