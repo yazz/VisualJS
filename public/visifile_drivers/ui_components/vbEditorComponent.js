@@ -320,7 +320,7 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
             <option   value=""
                       selected="true">
             </option>
-            
+
           <option   v-for="watchComp in model.forms[active_form].components"
                     v-bind:value="watchComp.uuid"
                     v-bind:selected="selectedWatchComponentUuid == watchComp.uuid">
@@ -1450,7 +1450,7 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
 
 
 
-         //zzz
+
           addWatch: function() {
               var mm = this
               if ( mm.selectedWatchComponentUuid == null) {
@@ -1481,6 +1481,40 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
          }
          ,
 
+
+
+
+
+         deleteWatch: function(watchListItem ) {
+             //debugger
+             //zzz
+         var mm  = this
+             var ccc = mm.model.forms[mm.active_form].components
+             for (var ytr = 0;ytr < ccc.length;ytr++) {
+                var dcomp =    ccc[ytr]
+                if (dcomp.uuid == watchListItem.to_component_uuid) {
+                     if (dcomp.watch){
+                         for (var qq = 0;qq < dcomp.watch.length;qq++) {
+                            var dwatch =    dcomp.watch[qq]
+                            if (dwatch.uuid == watchListItem.from_component_uuid) {
+                                if (dwatch.send_to == watchListItem.to_component_property_name) {
+                                    if (dwatch.property == watchListItem.from_component_property_name) {
+                                        debugger
+                                        //alert(JSON.stringify(dwatch,null,2))
+                                         mm.model.forms[mm.active_form].components[ytr].watch.splice(qq, 1);
+                                        mm.refresh ++
+                                        mm.updateAllFormCaches()
+                                        return
+                                    }
+                                }
+
+                            }
+                        }
+                     }
+                }
+            }
+         }
+         ,
 
 
 
@@ -2842,7 +2876,7 @@ ${origCode}
              return this.model.forms[this.active_form].components
          },
         updateAllFormCaches: function() {
-
+            this.watchList = {}
             var llf = Object.keys(this.model.forms)
             for (var ii = 0; ii < llf.length ; ii ++) {
                 var formqq = this.model.forms[llf[ii]]
