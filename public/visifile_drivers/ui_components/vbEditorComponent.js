@@ -332,7 +332,7 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
 
 
     <td >
-        <select>
+        <select @change='setWatchFromProperty($event)'>
             <option value=""
                     selected="true">
             </option>
@@ -1480,7 +1480,7 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
               mm.model.forms[mm.active_form].components[mm.active_component_index].watch.push(
                   {
                     "uuid": mm.selectedWatchComponentUuid,
-                    "property": "value",
+                    "property": mm.selectedWatchFromProperty,
                     "send_to": "text"
                   }
               )
@@ -1497,12 +1497,28 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
              var val     = null
              var type    = null
 
-
+//debugger
              this.selectedWatchComponentUuid = event.target.value
+             this.selectedWatchFromProperties = []
+             var ccomp =  this.form_runtime_info[mm.active_form].component_lookup_by_uuid[this.selectedWatchComponentUuid]
+             var ccomkeys = Object.keys(ccomp)
+             for (var aaa =0; aaa<ccomkeys.length;aaa++) {
+                 this.selectedWatchFromProperties.push(ccomkeys[aaa])
+             }
+             //zzz
          }
          ,
 
 
+
+
+
+           //-------------------------------------------------------------------
+           setWatchFromProperty: function(event) {
+           //-------------------------------------------------------------------
+              this.selectedWatchFromProperty = event.target.value
+          }
+          ,
 
 
 
