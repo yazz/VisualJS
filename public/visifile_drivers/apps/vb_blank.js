@@ -67,7 +67,7 @@ sub_components([
 ])
 base_component_id("vb_blank")
 visibility("PRIVATE")
-display_name("Copy of Copy of Copy of Copy of Copy of Copy of GUI App")
+display_name("GUI App")
 editors([
   "vb_editor_component"
 ])
