@@ -36,48 +36,11 @@ formEditor({
           "base_component_id": "label_control",
           "width": 320,
           "height": 99,
-          "text": "Drag controls from the left onto this grid and then press the 'Save changes' button above.\n\n\n(Or drag the scrollbar below)",
+          "text": "Drag controls from the left onto this grid and then press the 'Save changes' button above.",
           "background_color": "",
           "parent": null,
           "uuid": "d0bfeadc-20c0-4cd1-b405-36d5f8d601e8",
-          "watch": [
-
-          ]
-        },
-        {
-          "leftX": 39,
-          "topY": 159,
-          "name": "horiz_scroll_control_112",
-          "base_component_id": "horiz_scroll_control",
-          "text": "",
-          "background_color": "",
-          "changed_event": "",
-          "value": "",
-          "width": 311,
-          "height": 37,
-          "parent": null,
-          "uuid": "3faa6849-bf7b-4ca9-9f5b-3ef14c7a85ad",
-          "watch": [
-            {
-              "uuid": "7c96894f-97be-46f0-9afe-b934c1c15988",
-              "property": "value",
-              "send_to": "value"
-            }
-          ]
-        },
-        {
-          "leftX": 402,
-          "topY": 20,
-          "name": "vert_scroll_control_113",
-          "base_component_id": "vert_scroll_control",
-          "text": "",
-          "background_color": "",
-          "value": "",
-          "changed_event": "",
-          "width": 30,
-          "height": 98,
-          "uuid": "7c96894f-97be-46f0-9afe-b934c1c15988",
-          "parent": null
+          "watch": []
         }
       ]
     },
@@ -104,7 +67,7 @@ sub_components([
 ])
 base_component_id("vb_blank")
 visibility("PRIVATE")
-display_name("Copy of Copy of Copy of Copy of Copy of GUI App")
+display_name("Copy of Copy of Copy of Copy of Copy of Copy of GUI App")
 editors([
   "vb_editor_component"
 ])
@@ -276,6 +239,13 @@ logo_url("/driver_icons/blocks.png")
 
 
 
+
+
+
+
+
+
+
             <!--
 
                     The control details editor
@@ -301,26 +271,26 @@ logo_url("/driver_icons/blocks.png")
 
                 <div  v-bind:style='"border: 5px solid lightgray;background: white;;overflow:none;height:100%; overflow: auto; width:100%; "'>
 
-                    <component  v-bind:id='active_form + "_" + model.forms[active_form].components[model.active_component_detail_index].name + (design_mode?"_design":"")'
+                    <component  v-bind:id='active_form + "_" + model.forms[active_form].components[active_component_detail_index].name + (design_mode?"_design":"")'
                                 v-bind:refresh='refresh'
                                 design_mode='detail_editor'
 
-                                v-bind:meta='{form: active_form,name: model.forms[active_form].components[model.active_component_detail_index].name + (design_mode?"_design":"")}'
+                                v-bind:meta='{form: active_form,name: model.forms[active_form].components[active_component_detail_index].name + (design_mode?"_design":"")}'
 
                                 v-bind:form="active_form"
                                 v-bind:delete_design_time_component='childDeleteComponent'
                                 v-bind:select_design_time_component='childSelectComponent'
-                                v-bind:children='getChildren( model.forms[active_form].components[model.active_component_detail_index].name)'
+                                v-bind:children='getChildren( model.forms[active_form].components[active_component_detail_index].name)'
                                 v-on:send="processControlEvent"
-                                v-bind:is='model.forms[active_form].components[model.active_component_detail_index].base_component_id'
-                                v-bind:name='model.forms[active_form].components[model.active_component_detail_index].name + "_design_mode_" + design_mode'
-                                v-bind:args='model.forms[active_form].components[model.active_component_detail_index]'>
+                                v-bind:is='model.forms[active_form].components[active_component_detail_index].base_component_id'
+                                v-bind:name='model.forms[active_form].components[active_component_detail_index].name + "_design_mode_" + design_mode'
+                                v-bind:args='model.forms[active_form].components[active_component_detail_index]'>
 
                                 <template       slot-scope="child_components"
                                                 v-bind:refresh='refresh'
                                                 style='position:relative;'>
 
-                                    <component  v-for='child_item  in  getChildren(model.forms[active_form].components[model.active_component_detail_index].name)'
+                                    <component  v-for='child_item  in  getChildren(model.forms[active_form].components[active_component_detail_index].name)'
                                                 v-bind:design_mode='design_mode'
                                                 v-bind:meta='{form: active_form,name: child_item.name + (design_mode?"_design":"")}'
                                                 v-bind:form="active_form"
@@ -338,6 +308,120 @@ logo_url("/driver_icons/blocks.png")
                  </div>
              </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+             <!--
+
+                     The control links editor
+
+             -->
+
+
+             <div    v-if='(design_mode && (design_mode_pane.type=="control_links_editor"))'
+                     v-bind:style='"box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin: 2px; display: inline-block; vertical-align: top; width: 100%;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
+
+                 <div    v-if='design_mode'
+                         style='font-family:verdana,helvetica;font-size: 13px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
+
+                     <div    style='height: 30px;' >
+                         Control Links
+                         <button  type=button class=' btn btn-danger btn-sm'
+                                  style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 4px;"
+                                  v-on:click='gotoDragDropEditor()' >x</button>
+                     </div>
+
+
+                 </div>
+
+                 <div  v-bind:style='"border: 5px solid lightgray;background: white;;overflow:none;height:100%; overflow: auto; width:100%; "'>
+
+                     Component name: {{model.forms[active_form].components[active_component_links_index].name}}
+<br/><br/>
+                  <div style="width:40%;font-weight:bold;">Incoming Links:</div>
+
+
+<br/><br/>
+<table style="width:100%;">
+<tr style="width:100%;">
+    <td    style="width:40%;font-weight:bold;">Name</td>
+    <td    style="width:25%;font-weight:bold;">From</td>
+    <td    style="width:25%;font-weight:bold;">to</td>
+    <td    style="width:10%;font-weight:bold;"></td>
+</tr>
+<tr v-for='currentWatch in Object.keys(watchList)'
+v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid)">
+    <td >
+        {{form_runtime_info[active_form].component_lookup_by_uuid[watchList[currentWatch].from_component_uuid].name}}
+    </td>
+    <td >
+        {{JSON.stringify(  watchList[currentWatch].from_component_property_name  ,  null  ,  2  )}}
+    </td>
+    <td >
+        {{JSON.stringify(  watchList[currentWatch].to_component_property_name  ,  null  ,  2  )}}
+    </td>
+    <td >
+        <div     class='btn btn-danger'
+                 v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
+                               "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
+                 v-on:click='$event.stopPropagation();deleteWatch(watchList[currentWatch] )'>
+
+                X
+
+        </div>
+    </td>
+</tr>
+</table>
+
+
+<div style="border: 2px solid blue;padding:10px;margin:10px;">
+    <select  @change='setWatchComponent($event)'>
+            <option   value=""
+                      selected="true">
+            </option>
+
+          <option   v-for="watchComp in model.forms[active_form].components"
+                    v-bind:value="watchComp.uuid"
+                    v-bind:selected="selectedWatchComponentUuid == watchComp.uuid">
+
+                {{watchComp.name}}
+
+          </option>
+    </select>
+
+    <br/>
+    <button type=button class='btn btn-sm btn-warning'
+            v-bind:style='""'
+            v-on:click='$event.stopPropagation(); addWatch();'  >
+
+         Add watch
+
+    </button>
+</div>
+
+
+
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+<div v-for='currentWatch in Object.keys(watchList)'>
+<pre v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid)">
+{{JSON.stringify(  watchList[currentWatch]  ,  null  ,  2  )}}
+
+</pre>
+</div>
+                     zzz
+                  </div>
+              </div>
 
 
 
@@ -572,6 +656,29 @@ logo_url("/driver_icons/blocks.png")
                             </div>
 
 
+
+
+
+
+
+                            <!-- LINKS -->
+                            <div     v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
+                                     v-bind:refresh='refresh'
+                                     class='btn btn-light'
+                                     v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;position: absolute; "  +
+                                        "left: " + ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width) + 15) + "px;" +
+                                        "top:  " + ((getTop(active_form,active_component_index)) +
+                                        (model.forms[active_form].components[active_component_index].height / 2) - 18) +  "px;" +
+                                        "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
+                                     v-on:click='$event.stopPropagation();showComponentLinks(active_component_index)'>
+
+                                    -
+
+                            </div>
+
+
+
+
                             <!-- More details ... button -->
                             <div     v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index) && hasMoreDetailsUi(active_form,active_component_index)'
                                      v-bind:refresh='refresh'
@@ -598,7 +705,7 @@ logo_url("/driver_icons/blocks.png")
                                                     "position: absolute;top: " + getTop(active_form,index) + ";left:" + getLeft(active_form,index) + ";height:" + item.height + "px;width:" + item.width + "px;;overflow:none;"'>
 
                                 <div ondrop="return false;"
-                                     v-bind:style='"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:auto;"'>
+                                     v-bind:style='"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:hidden;"'>
                                     <component  v-bind:id='active_form + "_" + model.forms[active_form].components[index].name + (design_mode?"_design":"")'
                                                 v-bind:refresh='refresh'
                                                 v-bind:meta='{form: active_form,name: item.name + (design_mode?"_design":"")}'
@@ -1379,7 +1486,7 @@ logo_url("/driver_icons/blocks.png")
                                              var vvvvvv = fromc[ww.from_component_property_name]
                                              toc[ww.to_component_property_name] = JSON.parse(JSON.stringify(vvvvvv))
                                          }
-//zzz
+
                                      }
                                  }
                              }
@@ -1400,7 +1507,87 @@ logo_url("/driver_icons/blocks.png")
 
 
 
+
+
+
+
+
+
+
+
      methods: {
+
+
+
+
+
+          addWatch: function() {
+              var mm = this
+              if ( mm.selectedWatchComponentUuid == null) {
+                  return
+              }
+              mm.model.forms[mm.active_form].components[mm.active_component_index].watch.push(
+                  {
+                    "uuid": mm.selectedWatchComponentUuid,
+                    "property": "value",
+                    "send_to": "text"
+                  }
+              )
+              mm.refresh ++
+              mm.updateAllFormCaches()
+          }
+          ,
+
+          //-------------------------------------------------------------------
+          setWatchComponent: function(event) {
+          //-------------------------------------------------------------------
+
+             var mm      = this
+             var val     = null
+             var type    = null
+
+
+             this.selectedWatchComponentUuid = event.target.value
+         }
+         ,
+
+
+
+
+
+         deleteWatch: function(watchListItem ) {
+             //debugger
+             //zzz
+         var mm  = this
+             var ccc = mm.model.forms[mm.active_form].components
+             for (var ytr = 0;ytr < ccc.length;ytr++) {
+                var dcomp =    ccc[ytr]
+                if (dcomp.uuid == watchListItem.to_component_uuid) {
+                     if (dcomp.watch){
+                         for (var qq = 0;qq < dcomp.watch.length;qq++) {
+                            var dwatch =    dcomp.watch[qq]
+                            if (dwatch.uuid == watchListItem.from_component_uuid) {
+                                if (dwatch.send_to == watchListItem.to_component_property_name) {
+                                    if (dwatch.property == watchListItem.from_component_property_name) {
+                                        debugger
+                                        //alert(JSON.stringify(dwatch,null,2))
+                                         mm.model.forms[mm.active_form].components[ytr].watch.splice(qq, 1);
+                                        mm.refresh ++
+                                        mm.updateAllFormCaches()
+                                        return
+                                    }
+                                }
+
+                            }
+                        }
+                     }
+                }
+            }
+         }
+         ,
+
+
+
 
          getControlMethod: function(componentDefn,componentDetails) {
             var mm = this
@@ -1746,18 +1933,18 @@ ${origCode}
 
 
          refreshControlIndexes: function() {
-            if (this.model.active_component_detail_name) {
+            if (this.active_component_detail_name) {
 
                 var ccc = mm.model.forms[this.active_form].components
                 for (var ytr = 0;ytr < ccc.length;ytr++) {
-                   if (this.model.active_component_detail_name == ccc[ytr].name) {
-                       this.model.active_component_detail_name = ytr
+                   if (this.active_component_detail_name == ccc[ytr].name) {
+                       this.active_component_detail_name = ytr
                        break
                    }
                 }
 
             } else {
-                this.model.active_component_detail_name = null
+                this.active_component_detail_name = null
 
             }
 
@@ -1904,8 +2091,10 @@ ${origCode}
             }
 
             setTimeout(function(){
-                mm.model.active_component_detail_name = null
-                mm.model.active_component_detail_index = null
+                mm.active_component_detail_name = null
+                mm.active_component_detail_index = null
+                mm.active_component_links_name = null
+                mm.active_component_links_index = null
                 mm.design_mode_pane.type = "help"
                 mm.design_mode_pane.help = aa.help
                 mm.refresh++
@@ -2757,7 +2946,7 @@ ${origCode}
              return this.model.forms[this.active_form].components
          },
         updateAllFormCaches: function() {
-
+            this.watchList = {}
             var llf = Object.keys(this.model.forms)
             for (var ii = 0; ii < llf.length ; ii ++) {
                 var formqq = this.model.forms[llf[ii]]
@@ -2776,8 +2965,10 @@ ${origCode}
                 this.ui_code_editor.destroy()
                 this.ui_code_editor = null
             }
-            this.model.active_component_detail_name = null
-            this.model.active_component_detail_index = null
+            this.active_component_detail_name = null
+            this.active_component_detail_index = null
+            this.active_component_links_name = null
+            this.active_component_links_index = null
 
         }
         ,
@@ -3411,14 +3602,31 @@ ${eventMessage.code}
            var mm = this
            mm.design_mode_pane.type = "control_details_editor"
 
-           this.model.active_component_detail_index = index;
-           this.model.active_component_detail_name = this.model.forms[this.active_form].components[index].name;
+           this.active_component_detail_index = index;
+           this.active_component_detail_name = this.model.forms[this.active_form].components[index].name;
+
+           setTimeout(function() {
+               //mm.refresh ++
+               mm.$forceUpdate();
+           },400)
+        },
+
+
+
+
+        showComponentLinks: async function(index) {
+           var mm = this
+           mm.design_mode_pane.type = "control_links_editor"
+
+           this.active_component_links_index = index;
+           this.active_component_links_name = this.model.forms[this.active_form].components[index].name;
 
            setTimeout(function() {
                mm.refresh ++
                mm.$forceUpdate();
            },400)
         },
+
 
          deleteComponent: async function(index) {
             var mm = this
@@ -4458,52 +4666,11 @@ return {}
           "base_component_id": "label_control",
           "width": 320,
           "height": 99,
-          "text": "Drag controls from the left onto this grid and then press the 'Save changes' button above.\n\n\n(Or drag the scrollbar below)",
+          "text": "Drag controls from the left onto this grid and then press the 'Save changes' button above.",
           "background_color": "",
           "parent": null,
           "uuid": "d0bfeadc-20c0-4cd1-b405-36d5f8d601e8",
-          "watch": [
-            {
-              "uuid": "3faa6849-bf7b-4ca9-9f5b-3ef14c7a85ad",
-              "property": "value",
-              "send_to": "text"
-            }
-          ]
-        },
-        {
-          "leftX": 39,
-          "topY": 159,
-          "name": "horiz_scroll_control_112",
-          "base_component_id": "horiz_scroll_control",
-          "text": "",
-          "background_color": "",
-          "changed_event": "",
-          "value": "",
-          "width": 311,
-          "height": 37,
-          "parent": null,
-          "uuid": "3faa6849-bf7b-4ca9-9f5b-3ef14c7a85ad",
-          "watch": [
-            {
-              "uuid": "7c96894f-97be-46f0-9afe-b934c1c15988",
-              "property": "value",
-              "send_to": "value"
-            }
-          ]
-        },
-        {
-          "leftX": 402,
-          "topY": 20,
-          "name": "vert_scroll_control_113",
-          "base_component_id": "vert_scroll_control",
-          "text": "",
-          "background_color": "",
-          "value": "",
-          "changed_event": "",
-          "width": 30,
-          "height": 98,
-          "uuid": "7c96894f-97be-46f0-9afe-b934c1c15988",
-          "parent": null
+          "watch": []
         }
       ]
     },
@@ -4513,10 +4680,7 @@ return {}
       "width": 300,
       "height": 300
     }
-  },
-  "active_component_index": null,
-  "active_component_detail_name": null,
-  "active_component_detail_index": null
+  }
 }}
                 }
               })//** gen_end **//
