@@ -312,33 +312,54 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
         </div>
     </td>
 </tr>
+
+
+<tr>
+    <td >
+        <select  @change='setWatchComponent($event)'>
+            <option     value=""
+                        selected="true">
+            </option>
+            <option     v-for="watchComp in model.forms[active_form].components"
+                        v-bind:value="watchComp.uuid"
+                        v-bind:selected="selectedWatchComponentUuid == watchComp.uuid">
+                            {{watchComp.name}}
+            </option>
+        </select>
+    </td>
+
+
+
+
+    <td >
+        <select>
+            <option value=""
+                    selected="true">
+            </option>
+            <option     v-for="watchFromProp in selectedWatchFromProperties"
+                        v-bind:value="watchFromProp"
+                        v-bind:selected="selectedWatchFromProperty == watchFromProp">
+                            {{watchFromProp}}
+            </option>
+        </select>
+    </td>
+    <td >
+
+    </td>
+    <td >
+        <button type=button class='btn btn-sm btn-warning'
+                v-bind:style='""'
+                v-on:click='$event.stopPropagation(); addWatch();'  >
+
+             Add watch
+
+        </button>
+    </td>
+</tr>
 </table>
 
 
-<div style="border: 2px solid blue;padding:10px;margin:10px;">
-    <select  @change='setWatchComponent($event)'>
-            <option   value=""
-                      selected="true">
-            </option>
 
-          <option   v-for="watchComp in model.forms[active_form].components"
-                    v-bind:value="watchComp.uuid"
-                    v-bind:selected="selectedWatchComponentUuid == watchComp.uuid">
-
-                {{watchComp.name}}
-
-          </option>
-    </select>
-
-    <br/>
-    <button type=button class='btn btn-sm btn-warning'
-            v-bind:style='""'
-            v-on:click='$event.stopPropagation(); addWatch();'  >
-
-         Add watch
-
-    </button>
-</div>
 
 
 
@@ -4559,6 +4580,10 @@ return {}
            newCursor:                   null,
            watchList:                   {},
            selectedWatchComponentUuid:      null,
+           selectedWatchFromProperty:      null,
+           selectedWatchToProperty:      null,
+           selectedWatchFromProperties:      [],
+           selectedWatchToProperties:      [],
            oldCursor:                   null,
            cursorSource:                null,
            uid2:                        null,
