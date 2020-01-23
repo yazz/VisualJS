@@ -2193,6 +2193,9 @@ ${origCode}
                             } else if ((mm.active_component_index != null) && (mm.active_form != null)) {
                                 mm.model.forms[mm.active_form].components[mm.active_component_index][aa.property_id] = newC
                             }
+                            mm.$root.$emit('message', {
+                                type:   "pending"
+                            })
                         })
 
                         mm.updateAllFormCaches()
