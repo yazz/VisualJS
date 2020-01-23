@@ -1490,7 +1490,7 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
                   {
                     "uuid": mm.selectedWatchComponentUuid,
                     "property": mm.selectedWatchFromProperty,
-                    "send_to": "text"
+                    "send_to": mm.selectedWatchToProperty
                   }
               )
               mm.refresh ++
