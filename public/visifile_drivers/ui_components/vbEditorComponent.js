@@ -290,22 +290,22 @@ uses_javascript_librararies(["advanced_bundle"])
     <td    style="width:25%;font-weight:bold;">to</td>
     <td    style="width:10%;font-weight:bold;"></td>
 </tr>
-<tr v-for='currentWatch in Object.keys(watchList)'
-v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid)">
+<tr v-for='currentWatch in watchList'
+v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid)">
     <td >
-        {{form_runtime_info[active_form].component_lookup_by_uuid[watchList[currentWatch].from_component_uuid].name}}
+        {{form_runtime_info[active_form].component_lookup_by_uuid[currentWatch.from_component_uuid].name}}
     </td>
     <td >
-        {{JSON.stringify(  watchList[currentWatch].from_component_property_name  ,  null  ,  2  )}}
+        {{JSON.stringify(  currentWatch.from_component_property_name  ,  null  ,  2  )}}
     </td>
     <td >
-        {{JSON.stringify(  watchList[currentWatch].to_component_property_name  ,  null  ,  2  )}}
+        {{JSON.stringify(  currentWatch.to_component_property_name  ,  null  ,  2  )}}
     </td>
     <td >
         <div     class='btn btn-danger'
                  v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
                                "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
-                 v-on:click='$event.stopPropagation();deleteWatch(watchList[currentWatch] )'>
+                 v-on:click='$event.stopPropagation();deleteWatch(currentWatch )'>
 
                 X
 
@@ -373,9 +373,9 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
 
 
 <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-<div v-for='currentWatch in Object.keys(watchList)'>
-<pre v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid)">
-{{JSON.stringify(  watchList[currentWatch]  ,  null  ,  2  )}}
+<div v-for='currentWatch in watchList'>
+<pre v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid)">
+{{JSON.stringify(  currentWatch  ,  null  ,  2  )}}
 
 </pre>
 </div>
@@ -1425,7 +1425,9 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
                                  var uuid = thisComponent.uuid
                                  //console.log("UUID: " + JSON.stringify(uuid,null,2))
                                  //console.log(this.watchList[uuid])
-                                 var ww = this.watchList[uuid]
+                                 var ww2 = this.watchList
+                                 for (var aaq=0;aaq<ww2.length;aaq++) {
+                                     var ww = ww2[aaq]
                                  if (ww) {
                                      if (ww.from_component_uuid == uuid) {
                                          if (changedUuids[uuid]) {
@@ -1449,6 +1451,7 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
 
                                      }
                                  }
+                             }
                              }
 
                              mm.refresh++
@@ -2990,7 +2993,7 @@ ${origCode}
                     if (cc.watch) {
                         //debugger
                         for (var ff=0;ff<cc.watch.length;ff++){
-                            this.watchList[cc.watch[ff].uuid] =
+                            this.watchList.push(
                                 {
                                         form_name:                      formName
                                         ,
@@ -3003,7 +3006,7 @@ ${origCode}
                                         from_component_uuid:            cc.watch[ff].uuid
                                         ,
                                         from_component_property_name:   cc.watch[ff].property
-                                }
+                                })
                         }
                     }
                     //console.log("Watch list setup")
