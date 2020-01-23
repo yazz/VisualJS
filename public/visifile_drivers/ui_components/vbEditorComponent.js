@@ -2934,7 +2934,7 @@ ${origCode}
              return this.model.forms[this.active_form].components
          },
         updateAllFormCaches: function() {
-            this.watchList = {}
+            this.watchList = []
             var llf = Object.keys(this.model.forms)
             for (var ii = 0; ii < llf.length ; ii ++) {
                 var formqq = this.model.forms[llf[ii]]
@@ -2983,7 +2983,7 @@ ${origCode}
                     this.refresh ++
                 }
                 if (!this.watchList) {
-                    this.watchList = {}
+                    this.watchList = []
                 }
                 if (this.watchList) {
                     //debugger
@@ -4622,7 +4622,7 @@ return {}
      data: function () {
        return {
            newCursor:                   null,
-           watchList:                   {},
+           watchList:                   [],
            selectedWatchComponentUuid:      null,
            selectedWatchFromProperty:      null,
            selectedWatchToProperty:      null,
