@@ -344,7 +344,16 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
         </select>
     </td>
     <td >
-
+        <select @change='setWatchToProperty($event)'>
+            <option value=""
+                    selected="true">
+            </option>
+            <option     v-for="watchToProp in selectedWatchToProperties"
+                        v-bind:value="watchToProp"
+                        v-bind:selected="selectedWatchToProperty == watchToProp">
+                            {{watchToProp}}
+            </option>
+        </select>
     </td>
     <td >
         <button type=button class='btn btn-sm btn-warning'
@@ -1505,12 +1514,21 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
              for (var aaa =0; aaa<ccomkeys.length;aaa++) {
                  this.selectedWatchFromProperties.push(ccomkeys[aaa])
              }
+
+
+
              //zzz
          }
          ,
 
 
 
+            //-------------------------------------------------------------------
+            setWatchToProperty: function(event) {
+            //-------------------------------------------------------------------
+               this.selectedWatchToProperty = event.target.value
+           }
+           ,
 
 
            //-------------------------------------------------------------------
@@ -3590,6 +3608,13 @@ ${eventMessage.code}
 
            this.active_component_links_index = index;
            this.active_component_links_name = this.model.forms[this.active_form].components[index].name;
+
+           this.selectedWatchToProperties = []
+           var ccomp2 =  mm.model.forms[mm.active_form].components[mm.active_component_index]
+           var ccomkeys2 = Object.keys(ccomp2)
+           for (var aaa =0; aaa<ccomkeys2.length;aaa++) {
+               this.selectedWatchToProperties.push(ccomkeys2[aaa])
+           }
 
            setTimeout(function() {
                mm.refresh ++
