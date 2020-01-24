@@ -1486,8 +1486,12 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
 
           addWatch: function() {
               var mm = this
+              
               if ( mm.selectedWatchComponentUuid == null) {
                   return
+              }
+              if (! mm.model.forms[mm.active_form].components[mm.active_component_index].watch) {
+                   mm.model.forms[mm.active_form].components[mm.active_component_index].watch = []
               }
               mm.model.forms[mm.active_form].components[mm.active_component_index].watch.push(
                   {
