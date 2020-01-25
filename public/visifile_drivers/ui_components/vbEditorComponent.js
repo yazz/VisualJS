@@ -374,12 +374,13 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
 
 <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 <div v-for='currentWatch in watchList'>
-<pre v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid)">
+<pre    zzz=""
+        v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid)">
 {{JSON.stringify(  currentWatch  ,  null  ,  2  )}}
 
 </pre>
 </div>
-                     zzz
+
                   </div>
               </div>
 
@@ -1358,6 +1359,7 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
                                      //console.log("Changed ********")
                                      var ttt=null
                                      if (mm.old_model) {
+                                         debugger
                                          ttt = jsondiffpatch2.diff(mm.old_model,mm.model)
                                          //console.log("Changes: "+ JSON.stringify(ttt,null,2))
                                      }
@@ -1485,8 +1487,9 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
 
 
           addWatch: function() {
+              debugger
               var mm = this
-              
+
               if ( mm.selectedWatchComponentUuid == null) {
                   return
               }
@@ -1502,6 +1505,11 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
               )
               mm.refresh ++
               mm.updateAllFormCaches()
+              //zzz
+              mm.$root.$emit('message', {
+                  type:   "pending"
+              })
+
           }
           ,
 
@@ -1561,7 +1569,6 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
                             if (dwatch.uuid == watchListItem.from_component_uuid) {
                                 if (dwatch.send_to == watchListItem.to_component_property_name) {
                                     if (dwatch.property == watchListItem.from_component_property_name) {
-                                        debugger
                                         //alert(JSON.stringify(dwatch,null,2))
                                          mm.model.forms[mm.active_form].components[ytr].watch.splice(qq, 1);
                                         mm.refresh ++
