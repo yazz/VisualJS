@@ -1573,6 +1573,9 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
                                          mm.model.forms[mm.active_form].components[ytr].watch.splice(qq, 1);
                                         mm.refresh ++
                                         mm.updateAllFormCaches()
+                                        mm.$root.$emit('message', {
+                                            type:   "pending"
+                                        })
                                         return
                                     }
                                 }
