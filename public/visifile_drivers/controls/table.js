@@ -50,8 +50,8 @@ properties(
         ,
 
         {
-            id:         "items",
-            name:       "Items",
+            id:         "data",
+            name:       "Data",
             type:       "Array",
             default:    [],
             editor:     "detail_editor"
@@ -103,8 +103,6 @@ logo_url("/driver_icons/table.png")
          ,
          selected_index:    null
          ,
-         items:             []
-         ,
          new_value:         ""
          ,
          new_text:          ""
@@ -124,10 +122,10 @@ logo_url("/driver_icons/table.png")
            if (isValidObject(this.args)) {
                this.value = this.args.value
                debugger
-               var ttt = jsondiffpatch2.diff(this.items,this.args.items)
+               var ttt = jsondiffpatch2.diff(this.data,this.args.data)
                if (ttt) {
-                   this.items = this.args.items
-                   this.setData(this.items)
+                   this.data = this.args.data
+                   this.setData(this.data)
                }
            }
        }
@@ -137,7 +135,7 @@ logo_url("/driver_icons/table.png")
         registerComponent(this)
 
          if (isValidObject(this.args)) {
-             this.items = this.args.items
+             this.data = this.args.data
              if (isValidObject(this.args.value)) {
                 this.value = this.args.value
              }
@@ -185,7 +183,7 @@ logo_url("/driver_icons/table.png")
             changedFn: function() {
                 if (isValidObject(this.args)) {
                     this.args.value = this.value
-                    this.args.items = this.items
+                    this.args.data = this.data
                 }
             }
             ,
