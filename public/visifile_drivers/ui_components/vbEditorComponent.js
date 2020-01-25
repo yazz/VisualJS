@@ -17,8 +17,7 @@ uses_javascript_librararies(["advanced_bundle"])
     var selectProp = null
     var selectCodeObject = null
     var selectCodeAction = null
-    var inUpdateAllFormCaches = false
-    
+
     Vue.component("vb_editor_component",
     {
 
@@ -1360,7 +1359,7 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
                                      //console.log("Changed ********")
                                      var ttt=null
                                      if (mm.old_model) {
-                                         debugger
+
                                          ttt = jsondiffpatch2.diff(mm.old_model,mm.model)
                                          //console.log("Changes: "+ JSON.stringify(ttt,null,2))
                                      }
@@ -1494,6 +1493,7 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
               if ( mm.selectedWatchComponentUuid == null) {
                   return
               }
+              mm.old_model = JSON.parse(JSON.stringify( mm.model ));
               if (! mm.model.forms[mm.active_form].components[mm.active_component_index].watch) {
                    mm.model.forms[mm.active_form].components[mm.active_component_index].watch = []
               }
@@ -1507,9 +1507,6 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
               mm.refresh ++
               mm.updateAllFormCaches()
               //zzz
-              mm.$root.$emit('message', {
-                  type:   "pending"
-              })
 
           }
           ,
@@ -1576,12 +1573,10 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
                             if (currentComponentCurrentWatch.uuid == watchListItem.from_component_uuid) {
                                 if (currentComponentCurrentWatch.send_to == watchListItem.to_component_property_name) {
                                     if (currentComponentCurrentWatch.property == watchListItem.from_component_property_name) {
+                                        mm.old_model = JSON.parse(JSON.stringify( mm.model ));
                                         mm.model.forms[mm.active_form].components[  componentIndex  ].watch.splice(currentWatchIndex, 1);
                                         mm.refresh ++
                                         mm.updateAllFormCaches()
-                                        mm.$root.$emit('message', {
-                                            type:   "pending"
-                                        })
                                         break
                                     }
                                 }
@@ -2957,10 +2952,13 @@ ${origCode}
              return this.model.forms[this.active_form].components
          },
         updateAllFormCaches: function() {
-            if (inUpdateAllFormCaches) {
+            if (typeof this.inUpdateAllFormCaches !== 'undefined') {
+                this.inUpdateAllFormCaches = false
+            }
+            if (this.inUpdateAllFormCaches) {
                 return
             }
-            inUpdateAllFormCaches = true
+            this.inUpdateAllFormCaches = true
 
             this.watchList = []
             var llf = Object.keys(this.model.forms)
@@ -2970,7 +2968,7 @@ ${origCode}
                     this.updateFormCache(formqq.name)
                 }
             }
-            inUpdateAllFormCaches = false
+            this.inUpdateAllFormCaches = false
         },
 
         gotoDragDropEditor: function() {
@@ -4650,6 +4648,7 @@ return {}
      ,
      data: function () {
        return {
+           inUpdateAllFormCaches:       false,
            newCursor:                   null,
            watchList:                   [],
            selectedWatchComponentUuid:      null,
