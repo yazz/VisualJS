@@ -1558,19 +1558,23 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
          deleteWatch: function(watchListItem ) {
              //debugger
              //zzz
-         var mm  = this
-             var ccc = mm.model.forms[mm.active_form].components
-             for (var ytr = 0;ytr < ccc.length;ytr++) {
-                var dcomp =    ccc[ytr]
-                if (dcomp.uuid == watchListItem.to_component_uuid) {
-                     if (dcomp.watch){
-                         for (var qq = 0;qq < dcomp.watch.length;qq++) {
-                            var dwatch =    dcomp.watch[qq]
+             var mm                     = this
+             var componentIndex
+             var currentComponent                  = null
+             var allComponentsonForm    = mm.model.forms[mm.active_form].components
+
+             for (  componentIndex = 0 ;  componentIndex < allComponentsonForm.length  ;  componentIndex++  ) {
+
+                currentComponent = allComponentsonForm[  componentIndex  ]
+                if (currentComponent.uuid == watchListItem.to_component_uuid) {
+                     if (currentComponent.watch){
+                         for (var qq = 0;qq < currentComponent.watch.length;qq++) {
+                            var dwatch =    currentComponent.watch[qq]
                             if (dwatch.uuid == watchListItem.from_component_uuid) {
                                 if (dwatch.send_to == watchListItem.to_component_property_name) {
                                     if (dwatch.property == watchListItem.from_component_property_name) {
                                         //alert(JSON.stringify(dwatch,null,2))
-                                         mm.model.forms[mm.active_form].components[ytr].watch.splice(qq, 1);
+                                         mm.model.forms[mm.active_form].components[  componentIndex  ].watch.splice(qq, 1);
                                         mm.refresh ++
                                         mm.updateAllFormCaches()
                                         mm.$root.$emit('message', {
