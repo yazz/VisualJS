@@ -17,7 +17,8 @@ uses_javascript_librararies(["advanced_bundle"])
     var selectProp = null
     var selectCodeObject = null
     var selectCodeAction = null
-
+    var inUpdateAllFormCaches = false
+    
     Vue.component("vb_editor_component",
     {
 
@@ -2956,6 +2957,11 @@ ${origCode}
              return this.model.forms[this.active_form].components
          },
         updateAllFormCaches: function() {
+            if (inUpdateAllFormCaches) {
+                return
+            }
+            inUpdateAllFormCaches = true
+
             this.watchList = []
             var llf = Object.keys(this.model.forms)
             for (var ii = 0; ii < llf.length ; ii ++) {
@@ -2964,6 +2970,7 @@ ${origCode}
                     this.updateFormCache(formqq.name)
                 }
             }
+            inUpdateAllFormCaches = false
         },
 
         gotoDragDropEditor: function() {
