@@ -342,6 +342,7 @@ logo_url("/driver_icons/rest.png")
 
 
                     if (result2) {
+                        this.args.filteredProductionResponse = result2
                         return result2
                     }
                     return null
