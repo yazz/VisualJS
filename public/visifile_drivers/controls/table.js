@@ -121,7 +121,7 @@ logo_url("/driver_icons/table.png")
            //console.log("refresh: " + this.args.text)
            if (isValidObject(this.args)) {
                this.value = this.args.value
-               debugger
+
                var ttt = jsondiffpatch2.diff(this.data,this.args.data)
                if (ttt) {
                    this.data = this.args.data
@@ -208,6 +208,7 @@ logo_url("/driver_icons/table.png")
             setData: async function(data) {
                 this.data = data
                 this.table.setData(data)
+                debugger
 
                 var keysOfData = new Object()
                 if ((this.columnDefinitions == null)  || (this.columnDefinitions.length == 0)) {
@@ -227,7 +228,10 @@ logo_url("/driver_icons/table.png")
             }
             ,
             addColumn: async function(colData) {
-                this.table.addColumn(colData, true, "name");
+                var col = this.table.getColumn(colData.title)
+                if (!col) {
+                    this.table.addColumn(colData, true, "name");
+                }
             }
 
       }
