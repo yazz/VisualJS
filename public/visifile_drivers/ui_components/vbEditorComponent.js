@@ -2952,8 +2952,8 @@ ${origCode}
              return this.model.forms[this.active_form].components
          },
         updateAllFormCaches: function() {
-            if (typeof this.inUpdateAllFormCaches !== 'undefined') {
-                this.inUpdateAllFormCaches = false
+            if (typeof (this.inUpdateAllFormCaches) == 'undefined') {
+                this["inUpdateAllFormCaches"] = false
             }
             if (this.inUpdateAllFormCaches) {
                 return
