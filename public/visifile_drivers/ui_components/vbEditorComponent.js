@@ -1558,9 +1558,11 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
          deleteWatch: function(watchListItem ) {
              //debugger
              //zzz
+             var currentWatchIndex
              var mm                     = this
+             var currentComponentCurrentWatch
              var componentIndex
-             var currentComponent                  = null
+             var currentComponent       = null
              var allComponentsonForm    = mm.model.forms[mm.active_form].components
 
              for (  componentIndex = 0 ;  componentIndex < allComponentsonForm.length  ;  componentIndex++  ) {
@@ -1568,19 +1570,18 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
                 currentComponent = allComponentsonForm[  componentIndex  ]
                 if (currentComponent.uuid == watchListItem.to_component_uuid) {
                      if (currentComponent.watch){
-                         for (var qq = 0;qq < currentComponent.watch.length;qq++) {
-                            var dwatch =    currentComponent.watch[qq]
-                            if (dwatch.uuid == watchListItem.from_component_uuid) {
-                                if (dwatch.send_to == watchListItem.to_component_property_name) {
-                                    if (dwatch.property == watchListItem.from_component_property_name) {
-                                        //alert(JSON.stringify(dwatch,null,2))
-                                         mm.model.forms[mm.active_form].components[  componentIndex  ].watch.splice(qq, 1);
+                         for (var currentWatchIndex = 0;currentWatchIndex < currentComponent.watch.length;currentWatchIndex++) {
+                            currentComponentCurrentWatch = currentComponent.watch[currentWatchIndex]
+                            if (currentComponentCurrentWatch.uuid == watchListItem.from_component_uuid) {
+                                if (currentComponentCurrentWatch.send_to == watchListItem.to_component_property_name) {
+                                    if (currentComponentCurrentWatch.property == watchListItem.from_component_property_name) {
+                                        mm.model.forms[mm.active_form].components[  componentIndex  ].watch.splice(currentWatchIndex, 1);
                                         mm.refresh ++
                                         mm.updateAllFormCaches()
                                         mm.$root.$emit('message', {
                                             type:   "pending"
                                         })
-                                        return
+                                        break
                                     }
                                 }
 
