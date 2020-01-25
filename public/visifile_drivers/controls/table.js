@@ -123,7 +123,12 @@ logo_url("/driver_icons/table.png")
            //console.log("refresh: " + this.args.text)
            if (isValidObject(this.args)) {
                this.value = this.args.value
-               this.items = this.args.items
+               debugger
+               var ttt = jsondiffpatch2.diff(this.items,this.args.items)
+               if (ttt) {
+                   this.items = this.args.items
+                   this.setData(this.items)
+               }
            }
        }
      }
