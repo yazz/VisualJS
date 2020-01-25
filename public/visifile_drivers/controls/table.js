@@ -83,84 +83,16 @@ logo_url("/driver_icons/table.png")
 `<div   v-bind:style='"width:100%;overflow-y:auto;height:100%"
         v-bind:refresh='refresh'>
 
-        <div ref="exampletable"></div>
 
     <div v-bind:style='"height:100%;width:100%; border: 0px;color:black;"'
          v-if='design_mode == "detail_editor"'>
 
-
-         <input v-model="new_value"></input>
-         <input v-model="new_text"></input>
-         <div class="btn btn-sm btn-info"
-         v-on:click="items.push({value: new_value, text:new_text});new_value='';new_text='';"
-         >
-            Add
-        </div>
-
-         <div    v-bind:style='"border:1px solid gray; padding: 10px;display:flex;" + ((selected_index==index)?"background-color: lightgray;":"")'
-                 v-bind:refresh='refresh'
-                 v-for='(child_item,index)  in  items'>
-
-             <div    v-if='child_item'
-                     v-bind:refresh='refresh'>
-
-                 <div    v-bind:style='"display:inline-block;"'
-                         v-if='isValidObject(child_item)'
-                         v-bind:refresh='refresh'>
-
-                         {{child_item.value}}:{{child_item.text}}
-
-                         </div>
-
-                 <div    class='btn btn-info'
-                         v-bind:refresh='refresh'
-                         v-on:click='var x = items[index];items.splice(index, 1);items.splice(index - 1, 0, x);changedFn();'
-                         v-if='child_item'
-                         v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
-                         "width: 60px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;margin-left: 20px;"'>
-                         UP
-
-                 </div>
-                 <div    class='btn btn-info'
-                         v-bind:refresh='refresh'
-                         v-on:click='var x = items[index];items.splice(index, 1);items.splice(index + 1, 0, x);changedFn();'
-                         v-if='child_item'
-                         v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
-                         "width: 60px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;margin-left: 20px;"'>
-                         DOWN
-
-                 </div>
-                 <div    class='btn btn-danger'
-                         v-bind:refresh='refresh'
-                         v-if='child_item'
-                         v-on:click='items.splice(index, 1);changedFn();'
-                         v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
-                         "width: 20px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;margin-left: 20px;"'>
-                         X
-
-                 </div>
-             </div>
-         </div>
-
-     </div>
-
-    <div v-bind:style='"height:100%;width:100%; border: 0px;" +
-                       "background-color: "+    args["background_color"]  +  ";"'
-         v-else>
-
-        <select
-            v-on:change='changedFn();runEventHandler()'
-            size="5"
-            v-model='value'>
-
-            <option v-for='opt in args.items'
-                    v-bind:value='opt.value'>
-                {{opt.text}}
-            </option>
-        </select>
+         Details for table grid
     </div>
 
 
+     <div    v-else
+             ref="exampletable"></div>
 
 
 </div>`
@@ -206,38 +138,41 @@ logo_url("/driver_icons/table.png")
              }
          }
 
-         this.table = new Tabulator(this.$refs.exampletable, {
-                width:                    this.args.width
-                ,
-                height:                    this.args.height
-                ,
-            	data:                       this.data
-                ,
-            	layout:                    "fitColumns"
-                ,
-            	responsiveLayout:          "hide"
-                ,
-            	tooltips:                   true
-                ,
-            	addRowPos:                 "top"
-                ,
-            	history:                    true
-                ,
-            	pagination:                "local"
-                ,
-            	paginationSize:             7
-                ,
-            	movableColumns:             true
-                ,
-            	resizableRows:              true
-                ,
+         if (this.args.design_mode != "detail_editor") {
+             this.table = new Tabulator(this.$refs.exampletable, {
+                    width:                    this.args.width
+                    ,
+                    height:                    this.args.height
+                    ,
+                	data:                       this.data
+                    ,
+                	layout:                    "fitColumns"
+                    ,
+                	responsiveLayout:          "hide"
+                    ,
+                	tooltips:                   true
+                    ,
+                	addRowPos:                 "top"
+                    ,
+                	history:                    true
+                    ,
+                	pagination:                "local"
+                    ,
+                	paginationSize:             7
+                    ,
+                	movableColumns:             true
+                    ,
+                	resizableRows:              true
+                    ,
 
-            	initialSort:                [
-                                        	]
-                ,
+                	initialSort:                [
+                                            	]
+                    ,
 
-            	columns:                    this.columnDefinitions
-            });
+                	columns:                    this.columnDefinitions
+                });
+            }
+
 
       }
       ,
