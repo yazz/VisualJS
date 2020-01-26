@@ -1096,7 +1096,7 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
             mm.local_app            = localAppshareApp
             mm.in_change_model      = true
 
-            console.log("UI Component mounted: " + mm.uid2 )
+            //console.log("UI Component mounted: " + mm.uid2 )
 
 
 
@@ -2966,7 +2966,7 @@ ${origCode}
             this.inUpdateAllFormCaches = true
 
             this.watchList = []
-            console.log( "1: " + this.uid2  + ": " + JSON.stringify(this.watchList,null,2))
+            //console.log( "1: " + this.uid2  + ": " + JSON.stringify(this.watchList,null,2))
 
             var llf = Object.keys(this.model.forms)
             for (var ii = 0; ii < llf.length ; ii ++) {
@@ -3018,7 +3018,7 @@ ${origCode}
                 }
                 if (!this.watchList) {
                     this.watchList = []
-                    console.log( "2: " + this.uid2  + ": " + JSON.stringify(this.watchList,null,2))
+                    //console.log( "2: " + this.uid2  + ": " + JSON.stringify(this.watchList,null,2))
                 }
                 if (this.watchList) {
                     //debugger
@@ -3039,7 +3039,7 @@ ${origCode}
                                         ,
                                         from_component_property_name:   cc.watch[ff].property
                                 })
-                                console.log( "3: " + this.uid2  + ": " + JSON.stringify(this.watchList,null,2))
+                                //console.log( "3: " + this.uid2  + ": " + JSON.stringify(this.watchList,null,2))
                         }
                     }
                     //console.log("Watch list setup")
