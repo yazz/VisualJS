@@ -2963,6 +2963,8 @@ ${origCode}
             this.inUpdateAllFormCaches = true
 
             this.watchList = []
+            console.log( "1: " + this.uid2  + ": " + JSON.stringify(this.watchList,null,2))
+
             var llf = Object.keys(this.model.forms)
             for (var ii = 0; ii < llf.length ; ii ++) {
                 var formqq = this.model.forms[llf[ii]]
@@ -3013,6 +3015,7 @@ ${origCode}
                 }
                 if (!this.watchList) {
                     this.watchList = []
+                    console.log( "2: " + this.uid2  + ": " + JSON.stringify(this.watchList,null,2))
                 }
                 if (this.watchList) {
                     //debugger
@@ -3033,6 +3036,7 @@ ${origCode}
                                         ,
                                         from_component_property_name:   cc.watch[ff].property
                                 })
+                                console.log( "3: " + this.uid2  + ": " + JSON.stringify(this.watchList,null,2))
                         }
                     }
                     //console.log("Watch list setup")
