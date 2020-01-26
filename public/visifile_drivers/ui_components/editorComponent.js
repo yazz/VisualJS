@@ -85,8 +85,14 @@ load_once_from_file(true)
          setTimeout(function() {
              editor.getSession().on('change', function() {
                 thisVueInstance.text = editor.getSession().getValue();
-                debugger
-                if ((thisVueInstance.text != thisVueInstance.previousText) && (thisVueInstance.text != "")){
+
+                if (thisVueInstance.text == "") {
+                    return
+                }
+
+                var filteredOldText = saveHelper.deleteCodeString(thisVueInstance.text, "parent_hash")
+                var filteredNewText = saveHelper.deleteCodeString(thisVueInstance.previousText, "parent_hash")
+                if (filteredOldText != filteredNewText){
                     thisVueInstance.previousText = thisVueInstance.text
                     thisVueInstance.errors = null
                     if (!isValidObject(thisVueInstance.text)) {
