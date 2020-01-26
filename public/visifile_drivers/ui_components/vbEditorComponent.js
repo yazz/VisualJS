@@ -635,7 +635,9 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
 
                                     -
 
-                                    <span class="badge badge-primary">4</span>
+                                    <span   class="badge badge-primary"
+                                            v-html='(model.forms[active_form].components[active_component_index].watch)?(model.forms[active_form].components[active_component_index].watch.length):0'>
+                                    </span>
                             </div>
 
 
