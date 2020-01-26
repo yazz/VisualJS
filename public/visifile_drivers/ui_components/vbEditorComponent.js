@@ -4494,6 +4494,7 @@ return {}
             mm.old_model = JSON.parse(JSON.stringify(json2));
             mm.model = json2
             mm.updatePropertySelector()
+            mm.updateAllFormCaches()
             mm.refresh ++
             //console.log("end setText")
         }
