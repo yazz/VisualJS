@@ -31,7 +31,7 @@ formEditor({
       "components": [
         {
           "leftX": 24,
-          "topY": 25,
+          "topY": 47,
           "name": "aaa",
           "base_component_id": "label_control",
           "width": 320,
@@ -360,66 +360,97 @@ logo_url("/driver_icons/blocks.png")
     <td    style="width:25%;font-weight:bold;">to</td>
     <td    style="width:10%;font-weight:bold;"></td>
 </tr>
-<tr v-for='currentWatch in Object.keys(watchList)'
-v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid)">
+<tr v-for='currentWatch in watchList'
+v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid)">
     <td >
-        {{form_runtime_info[active_form].component_lookup_by_uuid[watchList[currentWatch].from_component_uuid].name}}
+        {{form_runtime_info[active_form].component_lookup_by_uuid[currentWatch.from_component_uuid].name}}
     </td>
     <td >
-        {{JSON.stringify(  watchList[currentWatch].from_component_property_name  ,  null  ,  2  )}}
+        {{JSON.stringify(  currentWatch.from_component_property_name  ,  null  ,  2  )}}
     </td>
     <td >
-        {{JSON.stringify(  watchList[currentWatch].to_component_property_name  ,  null  ,  2  )}}
+        {{JSON.stringify(  currentWatch.to_component_property_name  ,  null  ,  2  )}}
     </td>
     <td >
         <div     class='btn btn-danger'
                  v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
                                "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
-                 v-on:click='$event.stopPropagation();deleteWatch(watchList[currentWatch] )'>
+                 v-on:click='$event.stopPropagation();deleteWatch(currentWatch )'>
 
                 X
 
         </div>
     </td>
 </tr>
+
+
+<tr>
+    <td >
+        <select  @change='setWatchComponent($event)'>
+            <option     value=""
+                        selected="true">
+            </option>
+            <option     v-for="watchComp in model.forms[active_form].components"
+                        v-bind:value="watchComp.uuid"
+                        v-bind:selected="selectedWatchComponentUuid == watchComp.uuid">
+                            {{watchComp.name}}
+            </option>
+        </select>
+    </td>
+
+
+
+
+    <td >
+        <select @change='setWatchFromProperty($event)'>
+            <option value=""
+                    selected="true">
+            </option>
+            <option     v-for="watchFromProp in selectedWatchFromProperties"
+                        v-bind:value="watchFromProp"
+                        v-bind:selected="selectedWatchFromProperty == watchFromProp">
+                            {{watchFromProp}}
+            </option>
+        </select>
+    </td>
+    <td >
+        <select @change='setWatchToProperty($event)'>
+            <option value=""
+                    selected="true">
+            </option>
+            <option     v-for="watchToProp in selectedWatchToProperties"
+                        v-bind:value="watchToProp"
+                        v-bind:selected="selectedWatchToProperty == watchToProp">
+                            {{watchToProp}}
+            </option>
+        </select>
+    </td>
+    <td >
+        <button type=button class='btn btn-sm btn-warning'
+                v-bind:style='""'
+                v-on:click='$event.stopPropagation(); addWatch();'  >
+
+             Add watch
+
+        </button>
+    </td>
+</tr>
 </table>
 
 
-<div style="border: 2px solid blue;padding:10px;margin:10px;">
-    <select  @change='setWatchComponent($event)'>
-            <option   value=""
-                      selected="true">
-            </option>
 
-          <option   v-for="watchComp in model.forms[active_form].components"
-                    v-bind:value="watchComp.uuid"
-                    v-bind:selected="selectedWatchComponentUuid == watchComp.uuid">
-
-                {{watchComp.name}}
-
-          </option>
-    </select>
-
-    <br/>
-    <button type=button class='btn btn-sm btn-warning'
-            v-bind:style='""'
-            v-on:click='$event.stopPropagation(); addWatch();'  >
-
-         Add watch
-
-    </button>
-</div>
 
 
 
 <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-<div v-for='currentWatch in Object.keys(watchList)'>
-<pre v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid)">
-{{JSON.stringify(  watchList[currentWatch]  ,  null  ,  2  )}}
+<div v-for='currentWatch in watchList'>
+<pre    zzz=""
+        v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid)">
+{{JSON.stringify(  currentWatch  ,  null  ,  2  )}}
 
 </pre>
 </div>
-                     zzz
+
                   </div>
               </div>
 
@@ -1132,6 +1163,8 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
             mm.local_app            = localAppshareApp
             mm.in_change_model      = true
 
+            console.log("UI Component mounted: " + mm.uid2 )
+
 
 
             // ---------------------------------------------------------
@@ -1398,6 +1431,7 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
                                      //console.log("Changed ********")
                                      var ttt=null
                                      if (mm.old_model) {
+
                                          ttt = jsondiffpatch2.diff(mm.old_model,mm.model)
                                          //console.log("Changes: "+ JSON.stringify(ttt,null,2))
                                      }
@@ -1440,7 +1474,7 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
                                      if (nn != NaN) {
                                          var compname = mm.model.forms[this.active_form].components[nn]
                                          if (compname) {
-                                             console.log(this.active_form + ": " + compname.name + " = " + JSON.stringify(thisComponent))
+                                             //console.log(this.active_form + ": " + compname.name + " = " + JSON.stringify(thisComponent))
                                              changedUuids[compname.uuid] = true
                                          }
                                      }
@@ -1465,7 +1499,9 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
                                  var uuid = thisComponent.uuid
                                  //console.log("UUID: " + JSON.stringify(uuid,null,2))
                                  //console.log(this.watchList[uuid])
-                                 var ww = this.watchList[uuid]
+                                 var ww2 = this.watchList
+                                 for (var aaq=0;aaq<ww2.length;aaq++) {
+                                     var ww = ww2[aaq]
                                  if (ww) {
                                      if (ww.from_component_uuid == uuid) {
                                          if (changedUuids[uuid]) {
@@ -1489,6 +1525,7 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
 
                                      }
                                  }
+                             }
                              }
 
                              mm.refresh++
@@ -1522,19 +1559,27 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
 
 
           addWatch: function() {
+              //debugger
               var mm = this
+
               if ( mm.selectedWatchComponentUuid == null) {
                   return
+              }
+              mm.old_model = JSON.parse(JSON.stringify( mm.model ));
+              if (! mm.model.forms[mm.active_form].components[mm.active_component_index].watch) {
+                   mm.model.forms[mm.active_form].components[mm.active_component_index].watch = []
               }
               mm.model.forms[mm.active_form].components[mm.active_component_index].watch.push(
                   {
                     "uuid": mm.selectedWatchComponentUuid,
-                    "property": "value",
-                    "send_to": "text"
+                    "property": mm.selectedWatchFromProperty,
+                    "send_to": mm.selectedWatchToProperty
                   }
               )
               mm.refresh ++
               mm.updateAllFormCaches()
+              //zzz
+
           }
           ,
 
@@ -1546,35 +1591,65 @@ v-if="(watchList[currentWatch].to_component_uuid == model.forms[active_form].com
              var val     = null
              var type    = null
 
-
+//debugger
              this.selectedWatchComponentUuid = event.target.value
+             this.selectedWatchFromProperties = []
+             var ccomp =  this.form_runtime_info[mm.active_form].component_lookup_by_uuid[this.selectedWatchComponentUuid]
+             var ccomkeys = Object.keys(ccomp)
+             for (var aaa =0; aaa<ccomkeys.length;aaa++) {
+                 this.selectedWatchFromProperties.push(ccomkeys[aaa])
+             }
+
+
+
+             //zzz
          }
          ,
 
 
+
+            //-------------------------------------------------------------------
+            setWatchToProperty: function(event) {
+            //-------------------------------------------------------------------
+               this.selectedWatchToProperty = event.target.value
+           }
+           ,
+
+
+           //-------------------------------------------------------------------
+           setWatchFromProperty: function(event) {
+           //-------------------------------------------------------------------
+              this.selectedWatchFromProperty = event.target.value
+          }
+          ,
 
 
 
          deleteWatch: function(watchListItem ) {
              //debugger
              //zzz
-         var mm  = this
-             var ccc = mm.model.forms[mm.active_form].components
-             for (var ytr = 0;ytr < ccc.length;ytr++) {
-                var dcomp =    ccc[ytr]
-                if (dcomp.uuid == watchListItem.to_component_uuid) {
-                     if (dcomp.watch){
-                         for (var qq = 0;qq < dcomp.watch.length;qq++) {
-                            var dwatch =    dcomp.watch[qq]
-                            if (dwatch.uuid == watchListItem.from_component_uuid) {
-                                if (dwatch.send_to == watchListItem.to_component_property_name) {
-                                    if (dwatch.property == watchListItem.from_component_property_name) {
-                                        debugger
-                                        //alert(JSON.stringify(dwatch,null,2))
-                                         mm.model.forms[mm.active_form].components[ytr].watch.splice(qq, 1);
+             var currentWatchIndex
+             var mm                     = this
+             var currentComponentCurrentWatch
+             var componentIndex
+             var currentComponent       = null
+             var allComponentsonForm    = mm.model.forms[mm.active_form].components
+
+             for (  componentIndex = 0 ;  componentIndex < allComponentsonForm.length  ;  componentIndex++  ) {
+
+                currentComponent = allComponentsonForm[  componentIndex  ]
+                if (currentComponent.uuid == watchListItem.to_component_uuid) {
+                     if (currentComponent.watch){
+                         for (var currentWatchIndex = 0;currentWatchIndex < currentComponent.watch.length;currentWatchIndex++) {
+                            currentComponentCurrentWatch = currentComponent.watch[currentWatchIndex]
+                            if (currentComponentCurrentWatch.uuid == watchListItem.from_component_uuid) {
+                                if (currentComponentCurrentWatch.send_to == watchListItem.to_component_property_name) {
+                                    if (currentComponentCurrentWatch.property == watchListItem.from_component_property_name) {
+                                        mm.old_model = JSON.parse(JSON.stringify( mm.model ));
+                                        mm.model.forms[mm.active_form].components[  componentIndex  ].watch.splice(currentWatchIndex, 1);
                                         mm.refresh ++
                                         mm.updateAllFormCaches()
-                                        return
+                                        break
                                     }
                                 }
 
@@ -2226,6 +2301,9 @@ ${origCode}
                             } else if ((mm.active_component_index != null) && (mm.active_form != null)) {
                                 mm.model.forms[mm.active_form].components[mm.active_component_index][aa.property_id] = newC
                             }
+                            mm.$root.$emit('message', {
+                                type:   "pending"
+                            })
                         })
 
                         mm.updateAllFormCaches()
@@ -2946,7 +3024,15 @@ ${origCode}
              return this.model.forms[this.active_form].components
          },
         updateAllFormCaches: function() {
-            this.watchList = {}
+            if (typeof (this.inUpdateAllFormCaches) == 'undefined') {
+                this["inUpdateAllFormCaches"] = false
+            }
+            if (this.inUpdateAllFormCaches) {
+                return
+            }
+            this.inUpdateAllFormCaches = true
+
+            this.watchList = []
             var llf = Object.keys(this.model.forms)
             for (var ii = 0; ii < llf.length ; ii ++) {
                 var formqq = this.model.forms[llf[ii]]
@@ -2954,6 +3040,7 @@ ${origCode}
                     this.updateFormCache(formqq.name)
                 }
             }
+            this.inUpdateAllFormCaches = false
         },
 
         gotoDragDropEditor: function() {
@@ -2995,14 +3082,14 @@ ${origCode}
                     this.refresh ++
                 }
                 if (!this.watchList) {
-                    this.watchList = {}
+                    this.watchList = []
                 }
                 if (this.watchList) {
                     //debugger
                     if (cc.watch) {
                         //debugger
                         for (var ff=0;ff<cc.watch.length;ff++){
-                            this.watchList[cc.watch[ff].uuid] =
+                            this.watchList.push(
                                 {
                                         form_name:                      formName
                                         ,
@@ -3015,7 +3102,7 @@ ${origCode}
                                         from_component_uuid:            cc.watch[ff].uuid
                                         ,
                                         from_component_property_name:   cc.watch[ff].property
-                                }
+                                })
                         }
                     }
                     //console.log("Watch list setup")
@@ -3620,6 +3707,13 @@ ${eventMessage.code}
 
            this.active_component_links_index = index;
            this.active_component_links_name = this.model.forms[this.active_form].components[index].name;
+
+           this.selectedWatchToProperties = []
+           var ccomp2 =  mm.model.forms[mm.active_form].components[mm.active_component_index]
+           var ccomkeys2 = Object.keys(ccomp2)
+           for (var aaa =0; aaa<ccomkeys2.length;aaa++) {
+               this.selectedWatchToProperties.push(ccomkeys2[aaa])
+           }
 
            setTimeout(function() {
                mm.refresh ++
@@ -4661,7 +4755,7 @@ return {}
       "components": [
         {
           "leftX": 24,
-          "topY": 25,
+          "topY": 47,
           "name": "aaa",
           "base_component_id": "label_control",
           "width": 320,

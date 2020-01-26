@@ -1093,6 +1093,8 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
             mm.local_app            = localAppshareApp
             mm.in_change_model      = true
 
+            console.log("UI Component mounted: " + mm.uid2 )
+
 
 
             // ---------------------------------------------------------
