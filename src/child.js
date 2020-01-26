@@ -1225,6 +1225,26 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 `function() {${code}
 }`
         }
+
+        //
+        //  Add a link to the parent code
+        //
+        var lastParentHash = saveHelper.getValueOfCodeString(code,"parent_hash")
+        if (lastParentHash != parentHash) {
+            if (lastParentHash) {
+                code = saveHelper.deleteCodeString(code, "parent_hash")
+            }
+            if (parentHash) {
+                code = saveHelper.insertCodeString(code, "parent_hash", parentHash)
+            }
+        }
+
+
+
+
+
+
+
         var oldBaseComp = saveHelper.getValueOfCodeString(code,"base_component_id")
 
 
