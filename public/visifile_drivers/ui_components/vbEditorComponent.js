@@ -1402,7 +1402,7 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
                                      if (nn != NaN) {
                                          var compname = mm.model.forms[this.active_form].components[nn]
                                          if (compname) {
-                                             console.log(this.active_form + ": " + compname.name + " = " + JSON.stringify(thisComponent))
+                                             //console.log(this.active_form + ": " + compname.name + " = " + JSON.stringify(thisComponent))
                                              changedUuids[compname.uuid] = true
                                          }
                                      }
@@ -1487,7 +1487,7 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
 
 
           addWatch: function() {
-              debugger
+              //debugger
               var mm = this
 
               if ( mm.selectedWatchComponentUuid == null) {

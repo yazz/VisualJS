@@ -8337,7 +8337,7 @@ async function prepareApp(  id,  bbase_component_id,  args  ) {
     base_component_id = bbase_component_id
     //alert(base_component_id)
 
-    console.log(" prepareApp base_component_id: " + base_component_id)
+    //console.log(" prepareApp base_component_id: " + base_component_id)
     //alert(JSON.stringify(args,null,2))
     var rootElement = "app_" + id
     if ((mainMoonApp.cards[id - 1].card.base_component_id != base_component_id) ||
@@ -8704,7 +8704,7 @@ function setupWebSocket(host, port)
                 var valueEnvVar = data.value[allEnvVarNames[i]]
                 var cmddd = "($" + allEnvVarNames[i] + " = '" + valueEnvVar + "')"
                 if (mainMoonApp.is_gui_app) {
-                    console.log(cmddd)
+                    //console.log(cmddd)
                 }
                 eval(cmddd)
         }
@@ -9607,7 +9607,7 @@ async function loadV2( baseComponentIds, args ) {
 
                         returnfn({})
                     };
-                    console.log("loadV2: 4")
+                    //console.log("loadV2: 4")
                     //console.log("loadV2: 4:online: " + online)
                     if (!online) {
                         setTimeout(function(){
