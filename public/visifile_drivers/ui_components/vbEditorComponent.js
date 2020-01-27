@@ -1340,6 +1340,56 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
            mm.in_change_model = false
 
            mm.old_model = JSON.parse(JSON.stringify(mm.model));
+
+
+
+
+           //zzz
+           // start of update all watched vars when a form is activated
+           //
+           if (!this.design_mode) {
+               for (var componentIndex = 0; componentIndex < mm.model.forms[this.active_form].components.length; componentIndex++){
+                   var thisComponent = mm.model.forms[this.active_form].components[componentIndex]
+                   var uuid = thisComponent.uuid
+                   //console.log("UUID: " + JSON.stringify(uuid,null,2))
+                   //console.log(this.watchList[uuid])
+                   var ww2 = this.watchList
+                   for (var aaq=0;aaq<ww2.length;aaq++) {
+                       var ww = ww2[aaq]
+                   if (ww) {
+                       if (ww.from_component_uuid == uuid) {
+                               //debugger
+                               //console.log(ww)
+
+                               var fromc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[uuid]
+                               //console.log("fromc: " + JSON.stringify(fromc,null,2))
+
+
+                               var touuid = ww.to_component_uuid
+                               var toc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[touuid]
+                               //console.log("toc: " + JSON.stringify(toc,null,2))
+
+
+
+                               //mm.model.forms[this.active_form].components[0].text = "" + mm.model.forms[this.active_form].components[1].value
+                               var vvvvvv = fromc[ww.from_component_property_name]
+                               toc[ww.to_component_property_name] = JSON.parse(JSON.stringify(vvvvvv))
+
+
+                       }
+                   }
+               }
+               }
+            }
+           //
+           // end of update all watched vars when a form is activated
+           //
+
+
+
+
+
+
      }
 
      ,
@@ -3349,6 +3399,9 @@ return {}
              mm.refresh ++
 
              if (  mm.model.forms[  formId  ].form_activate && (!mm.design_mode)) {
+
+
+
 
                  if (!isValidObject(this.args)) {
                       mm.args = mm.model
