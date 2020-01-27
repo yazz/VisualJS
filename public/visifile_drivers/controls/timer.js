@@ -25,13 +25,28 @@ properties(
         {
             id:     "timer_interval",
             name:   "Interval in ms",
+            default: 1000,
             type:   "String"
+        }
+        ,
+        {
+            id:      "counter",
+            name:    "Counter",
+            default:  0,
+            type:    "Number"
         }
         ,
         {
             id:     "tick_event",
             name:   "Tick event",
             type:   "Event"
+        }
+        ,
+        {
+            id:         "reset",
+            snippet:    `reset()`,
+            name:       "Reset",
+            type:       "Action"
         }
     ]
 )//properties
@@ -60,6 +75,7 @@ logo_url("/driver_icons/timer.png")
         if (!mm.design_mode) {
             if (isValidObject(mm.args.tick_event) && (mm.args.tick_event.length > 0)) {
                 var interval = parseInt(mm.args.timer_interval)
+
                 if (isValidObject(mm.args.timer_interval) && ( interval > 0)) {
                     appSetInterval(function() {
                         mm.$emit('send', {
@@ -68,10 +84,18 @@ logo_url("/driver_icons/timer.png")
                                                         sub_type:           "tick",
                                                         code:                mm.args.tick_event
                                                     })
+                        mm.args.counter  ++
+
                     },interval)
                 }
             }
         }
+      }
+      ,
+      methods: {
+          reset: function() {
+              this.args.counter = 0
+          }
       }
     })
 }
