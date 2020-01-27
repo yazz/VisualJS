@@ -313,10 +313,15 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
     </td>
 </tr>
 
-
 <tr>
-    <td >
-        <div style='margin-top:50px;'></div>
+    <td> <div style='margin-top:50px;'></div></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+
+<tr style='border: 2px solid lightgray;'>
+    <td style='padding: 7px;'>
         <select  @change='setWatchComponent($event)'>
             <option     value=""
                         selected="true">
@@ -332,8 +337,7 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
 
 
 
-    <td >
-        <div style='margin-top:50px;'></div>
+    <td  style='padding: 7px;'>
         <select @change='setWatchFromProperty($event)'>
             <option value=""
                     selected="true">
@@ -345,9 +349,9 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
             </option>
         </select>
     </td>
-    <td >
+    <td  style='padding: 7px;'>
 
-        <div style='margin-top:50px;'></div>
+
         <select @change='setWatchToProperty($event)'>
             <option value=""
                     selected="true">
@@ -359,8 +363,7 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
             </option>
         </select>
     </td>
-    <td >
-        <div style='margin-top:50px;'></div>
+    <td  style='padding: 7px;'>
         <button type=button class='btn btn-sm btn-warning'
                 v-bind:style='""'
                 v-on:click='$event.stopPropagation(); addWatch();'  >
