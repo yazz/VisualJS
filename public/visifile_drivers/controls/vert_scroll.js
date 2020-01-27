@@ -98,6 +98,7 @@ logo_url("/driver_icons/vert_scroll_bar.png")
         }
         ,
         mounted: function() {
+            registerComponent(this)
             if (isValidObject(this.args)) {
                 this.items = this.args.items
                 if (isValidObject(this.args.value)) {

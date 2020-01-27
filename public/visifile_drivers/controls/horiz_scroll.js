@@ -96,6 +96,7 @@ logo_url("/driver_icons/horiz_scroll.png")
         }
         ,
         mounted: function() {
+            registerComponent(this)
             if (isValidObject(this.args)) {
                 this.items = this.args.items
                 if (isValidObject(this.args.value)) {
