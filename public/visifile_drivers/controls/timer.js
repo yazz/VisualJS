@@ -53,9 +53,13 @@ properties(
 logo_url("/driver_icons/timer.png")
 */
 
-    Vue.component("timer_control",{
-      props: ["args", "design_mode"]
+    Vue.component("timer_control",
+    {
+
+      props: ["meta", "args","design_mode","refresh"]
+
       ,
+
       template: `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
                                     "background-color: "+    args["background_color"]  +  ";"'>
 
@@ -78,13 +82,13 @@ logo_url("/driver_icons/timer.png")
 
                 if (isValidObject(mm.args.timer_interval) && ( interval > 0)) {
                     appSetInterval(function() {
+                        mm.args.counter ++
                         mm.$emit('send', {
                                                         type:               "subcomponent_event",
                                                         control_name:        mm.args.name,
                                                         sub_type:           "tick",
                                                         code:                mm.args.tick_event
                                                     })
-                        mm.args.counter  ++
 
                     },interval)
                 }
@@ -93,9 +97,10 @@ logo_url("/driver_icons/timer.png")
       }
       ,
       methods: {
-          reset: function() {
+          reset: async function() {
               this.args.counter = 0
           }
+
       }
     })
 }
