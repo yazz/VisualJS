@@ -31,7 +31,8 @@ properties(
         {
             id:     "value",
             name:   "Value",
-            type:   "String"
+            default: 50,
+            type:   "Number"
         }
         ,
         {

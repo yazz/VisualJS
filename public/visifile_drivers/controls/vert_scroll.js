@@ -25,6 +25,7 @@ properties(
         {
             id:     "value",
             name:   "Value",
+            default: 50,
             type:   "Number"
         }
         ,
