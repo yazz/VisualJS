@@ -275,7 +275,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
                  </div>
 
-                 <div  v-bind:style='"border: 5px solid lightgray;background: white;;overflow:none;height:100%; overflow: auto; width:100%; "'>
+                 <div  v-bind:style='"border: 5px solid lightgray;background: white;;overflow:none;height:100%; overflow: auto; width:100%; padding:10px;"'>
 
                      Component name: {{model.forms[active_form].components[active_component_links_index].name}}
 <br/><br/>
@@ -316,6 +316,7 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
 
 <tr>
     <td >
+        <div style='margin-top:50px;'></div>
         <select  @change='setWatchComponent($event)'>
             <option     value=""
                         selected="true">
@@ -332,6 +333,7 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
 
 
     <td >
+        <div style='margin-top:50px;'></div>
         <select @change='setWatchFromProperty($event)'>
             <option value=""
                     selected="true">
@@ -344,6 +346,8 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
         </select>
     </td>
     <td >
+
+        <div style='margin-top:50px;'></div>
         <select @change='setWatchToProperty($event)'>
             <option value=""
                     selected="true">
@@ -356,6 +360,7 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
         </select>
     </td>
     <td >
+        <div style='margin-top:50px;'></div>
         <button type=button class='btn btn-sm btn-warning'
                 v-bind:style='""'
                 v-on:click='$event.stopPropagation(); addWatch();'  >
@@ -1509,6 +1514,10 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
                     "send_to": mm.selectedWatchToProperty
                   }
               )
+              mm.selectedWatchComponentUuid     = null
+              mm.selectedWatchFromProperty      = null
+              mm.selectedWatchToProperty        = null
+
               mm.refresh ++
               mm.updateAllFormCaches()
               //zzz
