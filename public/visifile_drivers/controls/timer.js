@@ -74,28 +74,29 @@ logo_url("/driver_icons/timer.png")
          }
      }
      ,
-     mounted: function() {
-         registerComponent(this)
+    mounted: function() {
+        registerComponent(this)
         var mm = this
         if (!mm.design_mode) {
-            if (isValidObject(mm.args.tick_event) && (mm.args.tick_event.length > 0)) {
-                var interval = parseInt(mm.args.timer_interval)
+            var interval = parseInt(mm.args.timer_interval)
 
-                if (isValidObject(mm.args.timer_interval) && ( interval > 0)) {
-                    appSetInterval(function() {
-                        mm.args.counter ++
+            if (isValidObject(mm.args.timer_interval) && ( interval > 0)) {
+                appSetInterval(function() {
+                    mm.args.counter ++
+                    if (isValidObject(mm.args.tick_event)) {
                         mm.$emit('send', {
-                                                        type:               "subcomponent_event",
-                                                        control_name:        mm.args.name,
-                                                        sub_type:           "tick",
-                                                        code:                mm.args.tick_event
-                                                    })
+                                            type:               "subcomponent_event",
+                                            control_name:        mm.args.name,
+                                            sub_type:           "tick",
+                                            code:                mm.args.tick_event
+                                         })
+                     }
 
-                    },interval)
-                }
-            }
+                 },interval)
+             }
+
         }
-      }
+    }
       ,
       methods: {
           reset: async function() {
