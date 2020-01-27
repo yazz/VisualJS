@@ -75,6 +75,7 @@ logo_url("/driver_icons/timer.png")
      }
      ,
      mounted: function() {
+         registerComponent(this)
         var mm = this
         if (!mm.design_mode) {
             if (isValidObject(mm.args.tick_event) && (mm.args.tick_event.length > 0)) {
