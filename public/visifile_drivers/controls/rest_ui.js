@@ -138,8 +138,18 @@ properties(
             hidden:     true,
             type:       "Object"
         }
+        ,
 
-
+        {
+            id:         "callApiOnStartup",
+            name:       "Call API on Startup",
+            type:       "Select",
+            default:    "false",
+            values:     [
+                            {display: "True",   value: "True"},
+                            {display: "False",  value: ""}
+                        ]
+        }
     ]
 )//properties
 logo_url("/driver_icons/rest.png")
@@ -296,7 +306,9 @@ logo_url("/driver_icons/rest.png")
 
         mounted: async function() {
             registerComponent(this)
-
+            if (this.args.callApiOnStartup == 'true') {
+                this.callDefaultRestApi()
+            }
         }
         ,
 
@@ -646,6 +658,7 @@ logo_url("/driver_icons/rest.png")
                 this.args.productionFilter  = JSON.parse(JSON.stringify(this.args.stagingFilter))
                 this.args.URL               = this.args.stagingURL
                 this.args.productionRoot    = this.args.stagingRoot
+                this.args.callApiOnStartup  = 'true'
             }
             ,
 
