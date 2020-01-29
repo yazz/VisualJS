@@ -7,7 +7,7 @@ display_name("Todo App")
 visibility("PUBLIC")
 description("This will create a demo todo app")
 load_once_from_file(true)
-logo_url("https://i.imgur.com/OvMZBs9.jpg")
+logo_url("/driver_icons/todo.png")
 read_only(true)
 */
 Vue.component("todo", {
