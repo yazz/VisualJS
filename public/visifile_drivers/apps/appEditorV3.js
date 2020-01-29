@@ -656,7 +656,7 @@ load_once_from_file(true)
                app_loaded:          false,
                app_component_name:  null,
                base_component_id:   null,
-               code_id:            "...",
+               code_id:             null,
                version: 0,
                app_width:           "33%",
                code_width:          "63%",
@@ -1050,7 +1050,6 @@ load_once_from_file(true)
                     // the correct code_id which is supposed to be the parent code id, so we
                     // have to make sure that we save it every time we save code
                     //
-                    console.log("1: " + this.code_id)
                     await this.save( this.base_component_id, this.code_id, this.editor_text )
                     setTimeout(async function() {
                             await mm.load_app( mm.base_component_id , true)
@@ -1115,7 +1114,7 @@ load_once_from_file(true)
                 if (this.$refs.editor_component_ref && (this.mode=="edit") && (this.sub_mode=="code")) {
                     appClearIntervals()
                     this.editor_text = await this.$refs.editor_component_ref.getText()
-                    console.log("2: " + this.code_id)
+
                     await this.save( this.base_component_id, this.code_id, this.editor_text )
                     await mm.load_app( this.base_component_id  , true)
                 }
@@ -1154,7 +1153,6 @@ load_once_from_file(true)
                     this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors_old",eds)
                 }
 
-                console.log("3: " + this.code_id)
                 await mm.save(   this.base_component_id,   this.code_id,   this.editor_text   )
 
                 await mm.load_new_app( this.base_component_id )
@@ -1175,7 +1173,6 @@ load_once_from_file(true)
                     this.editor_text = saveHelper.insertCodeString(this.editor_text, "visibility",value)
                 }
 
-                console.log("4: " + this.code_id)
                 await mm.save(   this.base_component_id,   this.code_id,   this.editor_text   )
 
                 await mm.load_new_app( this.base_component_id )
