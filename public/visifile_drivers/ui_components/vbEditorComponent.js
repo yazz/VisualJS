@@ -628,9 +628,26 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
 
 
 
+                            <!-- LINKS IN -->
+                            <div     v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
+                                     v-bind:refresh='refresh'
+                                     class='btn btn-light'
+                                     v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;position: absolute; "  +
+                                        "left: " + ((getLeft(active_form,active_component_index)) - 70) + "px;" +
+                                        "top:  " + ((getTop(active_form,active_component_index)) +
+                                        (model.forms[active_form].components[active_component_index].height / 2) - 18) +  "px;" +
+                                        "width: 50px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
+                                     v-on:click='$event.stopPropagation();showComponentLinks(active_component_index)'>
+
+                                    -&gt;
+
+                                    <span   class="badge badge-primary"
+                                            v-html='(model.forms[active_form].components[active_component_index].watch)?(model.forms[active_form].components[active_component_index].watch.length):0'>
+                                    </span>
+                            </div>
 
 
-                            <!-- LINKS -->
+                            <!-- LINKS OUT -->
                             <div     v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
                                      v-bind:refresh='refresh'
                                      class='btn btn-light'
@@ -638,10 +655,10 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
                                         "left: " + ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width) + 15) + "px;" +
                                         "top:  " + ((getTop(active_form,active_component_index)) +
                                         (model.forms[active_form].components[active_component_index].height / 2) - 18) +  "px;" +
-                                        "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
+                                        "width: 50px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
                                      v-on:click='$event.stopPropagation();showComponentLinks(active_component_index)'>
 
-                                    -
+                                    -&gt;
 
                                     <span   class="badge badge-primary"
                                             v-html='(model.forms[active_form].components[active_component_index].watch)?(model.forms[active_form].components[active_component_index].watch.length):0'>
