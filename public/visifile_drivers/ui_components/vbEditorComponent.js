@@ -279,7 +279,10 @@ uses_javascript_librararies(["advanced_bundle"])
 
                      Component name: {{model.forms[active_form].components[active_component_links_index].name}}
 <br/><br/>
-                  <div style="width:40%;font-weight:bold;">Incoming Links:</div>
+                  <div style="width:40%;font-weight:bold;"
+                       v-if='(design_mode && (design_mode_pane.direction=="incoming"))'>Incoming Links:</div>
+                   <div style="width:40%;font-weight:bold;"
+                        v-if='(design_mode && (design_mode_pane.direction=="outgoing"))'>Outgoing Links:</div>
 
 
 <br/><br/>
@@ -637,7 +640,7 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
                                         "top:  " + ((getTop(active_form,active_component_index)) +
                                         (model.forms[active_form].components[active_component_index].height / 2) - 18) +  "px;" +
                                         "width: 50px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
-                                     v-on:click='$event.stopPropagation();showComponentLinks(active_component_index)'>
+                                     v-on:click='$event.stopPropagation();showComponentLinks(active_component_index,"incoming")'>
 
                                     -&gt;
 
@@ -656,7 +659,7 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
                                         "top:  " + ((getTop(active_form,active_component_index)) +
                                         (model.forms[active_form].components[active_component_index].height / 2) - 18) +  "px;" +
                                         "width: 50px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
-                                     v-on:click='$event.stopPropagation();showComponentLinks(active_component_index)'>
+                                     v-on:click='$event.stopPropagation();showComponentLinks(active_component_index,"outgoing")'>
 
                                     -&gt;
 
@@ -3720,9 +3723,10 @@ ${eventMessage.code}
 
 
 
-        showComponentLinks: async function(index) {
+        showComponentLinks: async function(index,diretionOfLinks) {
            var mm = this
            mm.design_mode_pane.type = "control_links_editor"
+           mm.design_mode_pane.direction = diretionOfLinks
 
            this.active_component_links_index = index;
            this.active_component_links_name = this.model.forms[this.active_form].components[index].name;
