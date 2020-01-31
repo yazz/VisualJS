@@ -286,20 +286,23 @@ uses_javascript_librararies(["advanced_bundle"])
 
                    <div style="width:40%;font-weight:bold;"
                         v-bind:class='((design_mode_pane.direction=="outgoing")?"badge badge-primary":"badge")'
-                        v-on:click='design_mode_pane.direction="outgoing";refresh++;' 
+                        v-on:click='design_mode_pane.direction="outgoing";refresh++;'
                         >Outgoing Links:</div>
 
 
 <br/><br/>
 <table style="width:100%;">
-<tr style="width:100%;">
+<tr style="width:100%;"
+    v-if='design_mode_pane.direction=="incoming"'>
+
     <td    style="width:40%;font-weight:bold;">Name</td>
     <td    style="width:25%;font-weight:bold;">From</td>
     <td    style="width:25%;font-weight:bold;">to</td>
     <td    style="width:10%;font-weight:bold;"></td>
 </tr>
 <tr v-for='currentWatch in watchList'
-v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid)">
+v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid) &&
+      (design_mode_pane.direction == 'incoming')">
     <td >
         {{form_runtime_info[active_form].component_lookup_by_uuid[currentWatch.from_component_uuid].name}}
     </td>
@@ -328,7 +331,8 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
     <td></td>
 </tr>
 
-<tr style='border: 2px solid lightgray;'>
+<tr style='border: 2px solid lightgray;'
+    v-if="(design_mode_pane.direction == 'incoming')">
     <td style='padding: 7px;'>
         <select  @change='setWatchComponent($event)'>
             <option     value=""
