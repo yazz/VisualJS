@@ -279,10 +279,15 @@ uses_javascript_librararies(["advanced_bundle"])
 
                      Component name: {{model.forms[active_form].components[active_component_links_index].name}}
 <br/><br/>
-                  <div style="width:40%;font-weight:bold;"
-                       v-if='(design_mode && (design_mode_pane.direction=="incoming"))'>Incoming Links:</div>
+                  <div  style="width:40%;font-weight:bold;"
+                        v-bind:class='((design_mode_pane.direction=="incoming")?"badge badge-primary":"badge")'
+                        v-on:click='design_mode_pane.direction="incoming";refresh++;'
+                        >Incoming Links:</div>
+
                    <div style="width:40%;font-weight:bold;"
-                        v-if='(design_mode && (design_mode_pane.direction=="outgoing"))'>Outgoing Links:</div>
+                        v-bind:class='((design_mode_pane.direction=="outgoing")?"badge badge-primary":"badge")'
+                        v-on:click='design_mode_pane.direction="outgoing";refresh++;' 
+                        >Outgoing Links:</div>
 
 
 <br/><br/>
