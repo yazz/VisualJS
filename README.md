@@ -8,6 +8,13 @@ https://yazz.com/app/homepage.html
 
 
 
+
+## Documentation
+Link to PDF docs
+
+https://yazz.com/visifile/docs/yazz_jan_2020.pdf
+
+
 ## Benefits
 
 - Build simple enterprise apps in minutes
