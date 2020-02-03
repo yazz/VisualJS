@@ -300,6 +300,14 @@ uses_javascript_librararies(["advanced_bundle"])
     <td    style="width:25%;font-weight:bold;">to</td>
     <td    style="width:10%;font-weight:bold;"></td>
 </tr>
+<tr style="width:100%;"
+    v-if='design_mode_pane.direction=="outgoing"'>
+
+    <td    style="width:25%;font-weight:bold;">From Property</td>
+    <td    style="width:40%;font-weight:bold;">To Name</td>
+    <td    style="width:25%;font-weight:bold;">To property</td>
+    <td    style="width:10%;font-weight:bold;"></td>
+</tr>
 <tr v-for='currentWatch in watchList'
 v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid) &&
       (design_mode_pane.direction == 'incoming')">
@@ -4756,6 +4764,7 @@ return {}
            inUpdateAllFormCaches:       false,
            newCursor:                   null,
            watchList:                   [],
+           pushList:                    [],
            selectedWatchComponentUuid:      null,
            selectedWatchFromProperty:      null,
            selectedWatchToProperty:      null,
