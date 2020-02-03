@@ -332,6 +332,32 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
     </td>
 </tr>
 
+
+<tr v-for='currentPush in pushList'
+v-if="(currentPush.to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid) &&
+      (design_mode_pane.direction == 'incoming')">
+    <td >
+        {{form_runtime_info[active_form].component_lookup_by_uuid[currentPush.from_component_uuid].name}}
+    </td>
+    <td >
+        {{JSON.stringify(  currentPush.from_component_property_name  ,  null  ,  2  )}}
+    </td>
+    <td >
+        {{JSON.stringify(  currentPush.to_component_property_name  ,  null  ,  2  )}}
+    </td>
+    <td >
+        <div     class='btn btn-danger'
+                 v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
+                               "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
+                 v-on:click='$event.stopPropagation();deleteWatch(currentPush )'>
+
+                X
+
+        </div>
+    </td>
+</tr>
+
+
 <tr>
     <td> <div style='margin-top:50px;'></div></td>
     <td></td>
