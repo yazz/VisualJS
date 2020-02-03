@@ -335,7 +335,7 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
 
 <tr v-for='currentPush in pushList'
 v-if="(currentPush.to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid) &&
-      (design_mode_pane.direction == 'incoming')">
+      (design_mode_pane.direction == 'outgoing')">
     <td >
         {{form_runtime_info[active_form].component_lookup_by_uuid[currentPush.from_component_uuid].name}}
     </td>
@@ -3091,6 +3091,7 @@ ${origCode}
             this.inUpdateAllFormCaches = true
 
             this.watchList = []
+            this.pushList = []
             //console.log( "1: " + this.uid2  + ": " + JSON.stringify(this.watchList,null,2))
 
             var llf = Object.keys(this.model.forms)
@@ -3169,6 +3170,34 @@ ${origCode}
                     }
                     //console.log("Watch list setup")
                     //console.log(JSON.stringify(this.watchList,null,2))
+
+                    if (!this.pushList) {
+                        this.pushList = []
+                        //console.log( "2: " + this.uid2  + ": " + JSON.stringify(this.watchList,null,2))
+                    }
+                    if (this.pushList) {
+                        //debugger
+                        if (cc.push) {
+                            //debugger
+                            for (var ff=0;ff<cc.push.length;ff++){
+                                this.pushList.push(
+                                    {
+                                            form_name:                      formName
+                                            ,
+                                            to_component_name:              cc.name
+                                            ,
+                                            to_component_uuid:              cc.uuid
+                                            ,
+                                            to_component_property_name:     cc.push[ff].send_to
+                                            ,
+                                            from_component_uuid:            cc.push[ff].uuid
+                                            ,
+                                            from_component_property_name:   cc.push[ff].property
+                                    })
+                                    //console.log( "3: " + this.uid2  + ": " + JSON.stringify(this.watchList,null,2))
+                            }
+                        }
+                    }
                 }
             }
         },
