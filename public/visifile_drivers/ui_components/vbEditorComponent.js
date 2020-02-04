@@ -349,7 +349,7 @@ v-if="(currentPush.to_component_uuid == model.forms[active_form].components[acti
         <div     class='btn btn-danger'
                  v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
                                "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
-                 v-on:click='$event.stopPropagation();deleteWatch(currentPush )'>
+                 v-on:click='$event.stopPropagation();deletePush(currentPush )'>
 
                 X
 
@@ -1719,6 +1719,45 @@ v-if="(currentPush.to_component_uuid == model.forms[active_form].components[acti
          }
          ,
 
+
+
+
+
+          deletePush: function(pushListItem ) {
+              //debugger
+              //zzz
+              var currentPushIndex
+              var mm                     = this
+              var currentComponentCurrentWatch
+              var componentIndex
+              var currentComponent       = null
+              var allComponentsonForm    = mm.model.forms[mm.active_form].components
+
+              for (  componentIndex = 0 ;  componentIndex < allComponentsonForm.length  ;  componentIndex++  ) {
+
+                 currentComponent = allComponentsonForm[  componentIndex  ]
+                 if (currentComponent.uuid == pushListItem.to_component_uuid) {
+                      if (currentComponent.push){
+                          for (var currentPushIndex = 0;currentPushIndex < currentComponent.push.length;currentPushIndex++) {
+                             currentComponentCurrentWatch = currentComponent.push[currentPushIndex]
+                             if (currentComponentCurrentWatch.uuid == pushListItem.from_component_uuid) {
+                                 if (currentComponentCurrentWatch.send_to == pushListItem.to_component_property_name) {
+                                     if (currentComponentCurrentWatch.property == pushListItem.from_component_property_name) {
+                                         mm.old_model = JSON.parse(JSON.stringify( mm.model ));
+                                         mm.model.forms[mm.active_form].components[  componentIndex  ].push.splice(currentPushIndex, 1);
+                                         mm.refresh ++
+                                         mm.updateAllFormCaches()
+                                         break
+                                     }
+                                 }
+
+                             }
+                         }
+                      }
+                 }
+             }
+          }
+          ,
 
 
 
