@@ -337,10 +337,10 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
 v-if="(currentPush.to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid) &&
       (design_mode_pane.direction == 'outgoing')">
     <td >
-        {{form_runtime_info[active_form].component_lookup_by_uuid[currentPush.from_component_uuid].name}}
+        {{JSON.stringify(  currentPush.from_component_property_name  ,  null  ,  2  )}}
     </td>
     <td >
-        {{JSON.stringify(  currentPush.from_component_property_name  ,  null  ,  2  )}}
+        {{form_runtime_info[active_form].component_lookup_by_uuid[currentPush.from_component_uuid].name}}
     </td>
     <td >
         {{JSON.stringify(  currentPush.to_component_property_name  ,  null  ,  2  )}}
