@@ -449,7 +449,7 @@ v-if="(currentPush.to_component_uuid == model.forms[active_form].components[acti
 
 
     <td style='padding: 7px;'>
-        <select  @change='setpushComponent($event)'>
+        <select  @change='setPushComponent($event)'>
             <option     value=""
                         selected="true">
             </option>
@@ -1798,11 +1798,11 @@ v-if="(currentPush.to_component_uuid == model.forms[active_form].components[acti
 
 //debugger
              this.selectedPushComponentUuid = event.target.value
-             this.selectedPushFromProperties = []
+             this.selectedPushToProperties = []
              var ccomp =  this.form_runtime_info[mm.active_form].component_lookup_by_uuid[this.selectedPushComponentUuid]
              var ccomkeys = Object.keys(ccomp)
              for (var aaa =0; aaa<ccomkeys.length;aaa++) {
-                 this.selectedPushFromProperties.push(ccomkeys[aaa])
+                 this.selectedPushToProperties.push(ccomkeys[aaa])
              }
 
 
@@ -3993,6 +3993,13 @@ ${eventMessage.code}
            var ccomkeys2 = Object.keys(ccomp2)
            for (var aaa =0; aaa<ccomkeys2.length;aaa++) {
                this.selectedWatchToProperties.push(ccomkeys2[aaa])
+           }
+
+           this.selectedPushFromProperties = []
+           var ccomp2 =  mm.model.forms[mm.active_form].components[mm.active_component_index]
+           var ccomkeys2 = Object.keys(ccomp2)
+           for (var aaa =0; aaa<ccomkeys2.length;aaa++) {
+               this.selectedPushFromProperties.push(ccomkeys2[aaa])
            }
 
            setTimeout(function() {
