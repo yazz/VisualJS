@@ -365,6 +365,10 @@ v-if="(currentPush.to_component_uuid == model.forms[active_form].components[acti
     <td></td>
 </tr>
 
+
+
+
+
 <tr style='border: 2px solid lightgray;'
     v-if="(design_mode_pane.direction == 'incoming')">
     <td style='padding: 7px;'>
@@ -419,6 +423,76 @@ v-if="(currentPush.to_component_uuid == model.forms[active_form].components[acti
         </button>
     </td>
 </tr>
+
+
+
+
+
+<tr style='border: 2px solid lightgray;'
+    v-if="(design_mode_pane.direction == 'outgoing')">
+
+
+
+    <td  style='padding: 7px;'>
+        <select @change='setPushFromProperty($event)'>
+            <option value=""
+                    selected="true">
+            </option>
+            <option     v-for="pushFromProp in selectedPushFromProperties"
+                        v-bind:value="pushFromProp"
+                        v-bind:selected="selectedPushFromProperty == pushFromProp">
+                            {{pushFromProp}}
+            </option>
+        </select>
+    </td>
+
+
+
+    <td style='padding: 7px;'>
+        <select  @change='setpushComponent($event)'>
+            <option     value=""
+                        selected="true">
+            </option>
+            <option     v-for="pushComp in model.forms[active_form].components"
+                        v-bind:value="pushComp.uuid"
+                        v-bind:selected="selectedPushComponentUuid == pushComp.uuid">
+                            {{pushComp.name}}
+            </option>
+        </select>
+    </td>
+
+
+
+
+
+    <td  style='padding: 7px;'>
+
+
+        <select @change='setPushToProperty($event)'>
+            <option value=""
+                    selected="true">
+            </option>
+            <option     v-for="pushToProp in selectedPushToProperties"
+                        v-bind:value="pushToProp"
+                        v-bind:selected="selectedPushToProperty == pushToProp">
+                            {{pushToProp}}
+            </option>
+        </select>
+    </td>
+    <td  style='padding: 7px;'>
+        <button type=button class='btn btn-sm btn-warning'
+                v-bind:style='""'
+                v-on:click='$event.stopPropagation(); addPush();'  >
+
+             Add push
+
+        </button>
+    </td>
+</tr>
+
+
+
+
 </table>
 
 
@@ -1612,6 +1686,35 @@ v-if="(currentPush.to_component_uuid == model.forms[active_form].components[acti
 
 
 
+           addPush: function() {
+               //debugger
+               var mm = this
+
+               if ( mm.selectedPushComponentUuid == null) {
+                   return
+               }
+               mm.old_model = JSON.parse(JSON.stringify( mm.model ));
+               if (! mm.model.forms[mm.active_form].components[mm.active_component_index].push) {
+                    mm.model.forms[mm.active_form].components[mm.active_component_index].push = []
+               }
+               mm.model.forms[mm.active_form].components[mm.active_component_index].push.push(
+                   {
+                     "uuid": mm.selectedPushComponentUuid,
+                     "property": mm.selectedPushFromProperty,
+                     "send_to": mm.selectedPushToProperty
+                   }
+               )
+               mm.selectedPushComponentUuid     = null
+               mm.selectedPushFromProperty      = null
+               mm.selectedPushToProperty        = null
+
+               mm.refresh ++
+               mm.updateAllFormCaches()
+               //zzz
+
+           }
+           ,
+
           addWatch: function() {
               //debugger
               var mm = this
@@ -1681,6 +1784,49 @@ v-if="(currentPush.to_component_uuid == model.forms[active_form].components[acti
           }
           ,
 
+
+
+
+
+          //-------------------------------------------------------------------
+          setPushComponent: function(event) {
+          //-------------------------------------------------------------------
+
+             var mm      = this
+             var val     = null
+             var type    = null
+
+//debugger
+             this.selectedPushComponentUuid = event.target.value
+             this.selectedPushFromProperties = []
+             var ccomp =  this.form_runtime_info[mm.active_form].component_lookup_by_uuid[this.selectedPushComponentUuid]
+             var ccomkeys = Object.keys(ccomp)
+             for (var aaa =0; aaa<ccomkeys.length;aaa++) {
+                 this.selectedPushFromProperties.push(ccomkeys[aaa])
+             }
+
+
+
+             //zzz
+         }
+         ,
+
+
+
+            //-------------------------------------------------------------------
+            setPushToProperty: function(event) {
+            //-------------------------------------------------------------------
+               this.selectedPushToProperty = event.target.value
+           }
+           ,
+
+
+           //-------------------------------------------------------------------
+           setPushFromProperty: function(event) {
+           //-------------------------------------------------------------------
+              this.selectedPushFromProperty = event.target.value
+          }
+          ,
 
 
          deleteWatch: function(watchListItem ) {
@@ -4859,11 +5005,19 @@ return {}
            newCursor:                   null,
            watchList:                   [],
            pushList:                    [],
+
            selectedWatchComponentUuid:      null,
            selectedWatchFromProperty:      null,
            selectedWatchToProperty:      null,
            selectedWatchFromProperties:      [],
            selectedWatchToProperties:      [],
+
+           selectedPushComponentUuid:      null,
+           selectedPushFromProperty:      null,
+           selectedPushToProperty:      null,
+           selectedPushFromProperties:      [],
+           selectedPushToProperties:      [],
+
            oldCursor:                   null,
            cursorSource:                null,
            uid2:                        null,
