@@ -290,13 +290,12 @@ uses_javascript_librararies(["advanced_bundle"])
 
 <br/><br/>
 <table style="width:100%;">
-<tr style="width:100%;"
-    v-if='design_mode_pane.direction=="incoming"'>
+<tr style="width:100%;">
 
     <td    style="width:20%;font-weight:bold;">From</td>
-    <td    style="width:20%;font-weight:bold;">From:Property</td>
+    <td    style="width:20%;font-weight:bold;"></td>
     <td    style="width:20%;font-weight:bold;">To</td>
-    <td    style="width:20%;font-weight:bold;">To:Property</td>
+    <td    style="width:20%;font-weight:bold;"></td>
     <td    style="width:20%;font-weight:bold;"></td>
 </tr>
 
