@@ -328,7 +328,7 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
 
 
 <tr v-for='currentPush in pushList'
-v-if="(currentPush.to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid) &&
+v-if="(currentPush.from_component_uuid == model.forms[active_form].components[active_component_links_index].uuid) &&
       (design_mode_pane.direction == 'outgoing')">
     <td >
         {{JSON.stringify(  currentPush.from_component_property_name  ,  null  ,  2  )}}
@@ -505,6 +505,7 @@ v-if="(currentPush.to_component_uuid == model.forms[active_form].components[acti
 
 
 <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+Watchlist
 <div v-for='currentWatch in watchList'>
 <pre    zzz=""
         v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid)">
@@ -513,8 +514,23 @@ v-if="(currentPush.to_component_uuid == model.forms[active_form].components[acti
 </pre>
 </div>
 
+
+<br/><br/><br/><br/><br/>
+Pushlist
+<div v-for='currentPush in pushList'>
+<pre    zzz=""
+      v-if="(currentPush.from_component_uuid == model.forms[active_form].components[active_component_links_index].uuid)">
+{{JSON.stringify(  currentPush  ,  null  ,  2  )}}
+
+</pre>
+</div>
+
+
+
+
                   </div>
               </div>
+
 
 
 
@@ -3373,15 +3389,15 @@ ${origCode}
                                     {
                                             form_name:                      formName
                                             ,
-                                            to_component_name:              cc.name
+                                            from_component_name:              cc.name
                                             ,
-                                            to_component_uuid:              cc.uuid
-                                            ,
-                                            to_component_property_name:     cc.push[ff].send_to
-                                            ,
-                                            from_component_uuid:            cc.push[ff].uuid
+                                            from_component_uuid:            cc.uuid
                                             ,
                                             from_component_property_name:   cc.push[ff].property
+                                            ,
+                                            to_component_uuid:              cc.push[ff].uuid
+                                            ,
+                                            to_component_property_name:     cc.push[ff].send_to
                                     })
                                     //console.log( "3: " + this.uid2  + ": " + JSON.stringify(this.watchList,null,2))
                             }
