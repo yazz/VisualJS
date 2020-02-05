@@ -25,8 +25,8 @@ formEditor({
   "forms": {
     "Form_1": {
       "name": "Form_1",
-      "width": 558,
-      "height": 536,
+      "width": 400,
+      "height": 400,
       "add_block": "alert('Add block called')",
       "components": [
         {
