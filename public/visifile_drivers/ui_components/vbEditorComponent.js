@@ -277,8 +277,6 @@ uses_javascript_librararies(["advanced_bundle"])
 
                  <div  v-bind:style='"border: 5px solid lightgray;background: white;;overflow:none;height:100%; overflow: auto; width:100%; padding:10px;"'>
 
-                     Component name: {{model.forms[active_form].components[active_component_links_index].name}}
-<br/><br/>
                   <div  style="width:40%;font-weight:bold;"
                         v-bind:class='((design_mode_pane.direction=="incoming")?"badge badge-primary":"badge")'
                         v-on:click='design_mode_pane.direction="incoming";refresh++;'
@@ -295,19 +293,13 @@ uses_javascript_librararies(["advanced_bundle"])
 <tr style="width:100%;"
     v-if='design_mode_pane.direction=="incoming"'>
 
-    <td    style="width:40%;font-weight:bold;">Name</td>
-    <td    style="width:25%;font-weight:bold;">From</td>
-    <td    style="width:25%;font-weight:bold;">to</td>
-    <td    style="width:10%;font-weight:bold;"></td>
+    <td    style="width:20%;font-weight:bold;">From</td>
+    <td    style="width:20%;font-weight:bold;">From:Property</td>
+    <td    style="width:20%;font-weight:bold;">To</td>
+    <td    style="width:20%;font-weight:bold;">To:Property</td>
+    <td    style="width:20%;font-weight:bold;"></td>
 </tr>
-<tr style="width:100%;"
-    v-if='design_mode_pane.direction=="outgoing"'>
 
-    <td    style="width:25%;font-weight:bold;">From Property</td>
-    <td    style="width:40%;font-weight:bold;">To Name</td>
-    <td    style="width:25%;font-weight:bold;">To property</td>
-    <td    style="width:10%;font-weight:bold;"></td>
-</tr>
 <tr v-for='currentWatch in watchList'
 v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid) &&
       (design_mode_pane.direction == 'incoming')">
@@ -316,6 +308,9 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
     </td>
     <td >
         {{JSON.stringify(  currentWatch.from_component_property_name  ,  null  ,  2  )}}
+    </td>
+    <td >
+        {{model.forms[active_form].components[active_component_links_index].name}}
     </td>
     <td >
         {{JSON.stringify(  currentWatch.to_component_property_name  ,  null  ,  2  )}}
@@ -399,6 +394,13 @@ v-if="(currentPush.to_component_uuid == model.forms[active_form].components[acti
             </option>
         </select>
     </td>
+
+
+    <td style='padding: 7px;'>
+        {{model.forms[active_form].components[active_component_links_index].name}}
+    </td>
+
+
     <td  style='padding: 7px;'>
 
 
@@ -432,6 +434,9 @@ v-if="(currentPush.to_component_uuid == model.forms[active_form].components[acti
     v-if="(design_mode_pane.direction == 'outgoing')">
 
 
+        <td style='padding: 7px;'>
+            {{model.forms[active_form].components[active_component_links_index].name}}
+        </td>
 
     <td  style='padding: 7px;'>
         <select @change='setPushFromProperty($event)'>
