@@ -327,7 +327,7 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
 </tr>
 
 
-<tr v-for='currentPush in pushList'
+<tr v-for='currentPush in watchList'
 v-if="(currentPush.from_component_uuid == model.forms[active_form].components[active_component_links_index].uuid) &&
       (design_mode_pane.direction == 'outgoing')">
     <td >
@@ -517,7 +517,7 @@ Watchlist
 
 <br/><br/><br/><br/><br/>
 Pushlist
-<div v-for='currentPush in pushList'>
+<div v-for='currentPush in watchList'>
 <pre    zzz=""
       v-if="(currentPush.from_component_uuid == model.forms[active_form].components[active_component_links_index].uuid)">
 {{JSON.stringify(  currentPush  ,  null  ,  2  )}}
@@ -3296,7 +3296,6 @@ ${origCode}
             this.inUpdateAllFormCaches = true
 
             this.watchList = []
-            this.pushList = []
             //console.log( "1: " + this.uid2  + ": " + JSON.stringify(this.watchList,null,2))
 
             var llf = Object.keys(this.model.forms)
@@ -3369,40 +3368,37 @@ ${origCode}
                                         from_component_uuid:            cc.watch[ff].uuid
                                         ,
                                         from_component_property_name:   cc.watch[ff].property
+                                        ,
+                                        type:                           "watch"
                                 })
                                 //console.log( "3: " + this.uid2  + ": " + JSON.stringify(this.watchList,null,2))
                         }
                     }
                     //console.log("Watch list setup")
                     //console.log(JSON.stringify(this.watchList,null,2))
-
-                    if (!this.pushList) {
-                        this.pushList = []
-                        //console.log( "2: " + this.uid2  + ": " + JSON.stringify(this.watchList,null,2))
-                    }
-                    if (this.pushList) {
+                    if (cc.push) {
                         //debugger
-                        if (cc.push) {
-                            //debugger
-                            for (var ff=0;ff<cc.push.length;ff++){
-                                this.pushList.push(
-                                    {
-                                            form_name:                      formName
-                                            ,
-                                            from_component_name:              cc.name
-                                            ,
-                                            from_component_uuid:            cc.uuid
-                                            ,
-                                            from_component_property_name:   cc.push[ff].property
-                                            ,
-                                            to_component_uuid:              cc.push[ff].uuid
-                                            ,
-                                            to_component_property_name:     cc.push[ff].send_to
-                                    })
-                                    //console.log( "3: " + this.uid2  + ": " + JSON.stringify(this.watchList,null,2))
-                            }
+                        for (var ff=0;ff<cc.push.length;ff++){
+                            this.watchList.push(
+                                {
+                                        form_name:                      formName
+                                        ,
+                                        from_component_name:              cc.name
+                                        ,
+                                        from_component_uuid:            cc.uuid
+                                        ,
+                                        from_component_property_name:   cc.push[ff].property
+                                        ,
+                                        to_component_uuid:              cc.push[ff].uuid
+                                        ,
+                                        to_component_property_name:     cc.push[ff].send_to
+                                        ,
+                                        type:                           "push"
+                                })
+                                //console.log( "3: " + this.uid2  + ": " + JSON.stringify(this.watchList,null,2))
                         }
                     }
+
                 }
             }
         },
@@ -5031,7 +5027,6 @@ return {}
            inUpdateAllFormCaches:       false,
            newCursor:                   null,
            watchList:                   [],
-           pushList:                    [],
 
            selectedWatchComponentUuid:      null,
            selectedWatchFromProperty:      null,
