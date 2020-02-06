@@ -342,7 +342,7 @@ v-if="(currentPush.from_component_uuid == model.forms[active_form].components[ac
 
 
     <td >
-        {{JSON.stringify(  currentPush.to_component_property_name  ,  null  ,  2  )}}
+    {{form_runtime_info[active_form].component_lookup_by_uuid[currentPush.to_component_uuid].name}}
     </td>
     <td >
         {{JSON.stringify(  currentPush.to_component_property_name  ,  null  ,  2  )}}
