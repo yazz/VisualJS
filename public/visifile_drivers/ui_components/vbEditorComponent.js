@@ -292,28 +292,25 @@ uses_javascript_librararies(["advanced_bundle"])
 <table style="width:100%;">
 <tr style="width:100%;">
 
-    <td    style="width:20%;font-weight:bold;">From</td>
-    <td    style="width:20%;font-weight:bold;"></td>
-    <td    style="width:20%;font-weight:bold;">To</td>
-    <td    style="width:20%;font-weight:bold;"></td>
+    <td    style="width:40%;font-weight:bold;">From</td>
+    <td    style="width:40%;font-weight:bold;">To</td>
     <td    style="width:20%;font-weight:bold;"></td>
 </tr>
 
 <tr v-for='currentWatch in watchList'
 v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid) &&
       (design_mode_pane.direction == 'incoming')">
+
     <td >
         {{form_runtime_info[active_form].component_lookup_by_uuid[currentWatch.from_component_uuid].name}}
-    </td>
-    <td >
         {{JSON.stringify(  currentWatch.from_component_property_name  ,  null  ,  2  )}}
     </td>
+
     <td >
         {{model.forms[active_form].components[active_component_links_index].name}}
-    </td>
-    <td >
         {{JSON.stringify(  currentWatch.to_component_property_name  ,  null  ,  2  )}}
     </td>
+
     <td >
         <div     class='btn btn-danger'
                  v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
@@ -334,8 +331,6 @@ v-if="(currentPush.from_component_uuid == model.forms[active_form].components[ac
 
     <td >
         {{form_runtime_info[active_form].component_lookup_by_uuid[currentPush.from_component_uuid].name}}
-    </td>
-    <td >
         {{JSON.stringify(  currentPush.from_component_property_name  ,  null  ,  2  )}}
     </td>
 
@@ -343,8 +338,6 @@ v-if="(currentPush.from_component_uuid == model.forms[active_form].components[ac
 
     <td >
     {{form_runtime_info[active_form].component_lookup_by_uuid[currentPush.to_component_uuid].name}}
-    </td>
-    <td >
         {{JSON.stringify(  currentPush.to_component_property_name  ,  null  ,  2  )}}
     </td>
 
@@ -368,7 +361,6 @@ v-if="(currentPush.from_component_uuid == model.forms[active_form].components[ac
     <td> <div style='margin-top:50px;'></div></td>
     <td></td>
     <td></td>
-    <td></td>
 </tr>
 
 
@@ -388,12 +380,7 @@ v-if="(currentPush.from_component_uuid == model.forms[active_form].components[ac
                             {{watchComp.name}}
             </option>
         </select>
-    </td>
 
-
-
-
-    <td  style='padding: 7px;'>
         <select @change='setWatchFromProperty($event)'>
             <option value=""
                     selected="true">
@@ -409,10 +396,6 @@ v-if="(currentPush.from_component_uuid == model.forms[active_form].components[ac
 
     <td style='padding: 7px;'>
         {{model.forms[active_form].components[active_component_links_index].name}}
-    </td>
-
-
-    <td  style='padding: 7px;'>
 
 
         <select @change='setWatchToProperty($event)'>
@@ -447,9 +430,7 @@ v-if="(currentPush.from_component_uuid == model.forms[active_form].components[ac
 
         <td style='padding: 7px;'>
             {{model.forms[active_form].components[active_component_links_index].name}}
-        </td>
 
-    <td  style='padding: 7px;'>
         <select @change='setPushFromProperty($event)'>
             <option value=""
                     selected="true">
@@ -475,13 +456,7 @@ v-if="(currentPush.from_component_uuid == model.forms[active_form].components[ac
                             {{pushComp.name}}
             </option>
         </select>
-    </td>
 
-
-
-
-
-    <td  style='padding: 7px;'>
 
 
         <select @change='setPushToProperty($event)'>
