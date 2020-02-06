@@ -292,8 +292,8 @@ uses_javascript_librararies(["advanced_bundle"])
 <table style="width:100%;">
 <tr style="width:100%;">
 
-    <td    style="width:40%;font-weight:bold;">From</td>
-    <td    style="width:40%;font-weight:bold;">To</td>
+    <td    style="width:40%;font-weight:bold;padding:10px;">From</td>
+    <td    style="width:40%;font-weight:bold;padding:10px;">To</td>
     <td    style="width:20%;font-weight:bold;"></td>
 </tr>
 
@@ -301,17 +301,17 @@ uses_javascript_librararies(["advanced_bundle"])
 v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid) &&
       (design_mode_pane.direction == 'incoming')">
 
-    <td >
+    <td style='padding:10px;'>
         {{form_runtime_info[active_form].component_lookup_by_uuid[currentWatch.from_component_uuid].name}}
         {{JSON.stringify(  currentWatch.from_component_property_name  ,  null  ,  2  )}}
     </td>
 
-    <td >
+    <td style='padding:10px;' >
         {{model.forms[active_form].components[active_component_links_index].name}}
         {{JSON.stringify(  currentWatch.to_component_property_name  ,  null  ,  2  )}}
     </td>
 
-    <td >
+    <td style='padding:10px;' >
         <div     class='btn btn-danger'
                  v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
                                "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
@@ -329,20 +329,20 @@ v-if="(currentPush.from_component_uuid == model.forms[active_form].components[ac
       (design_mode_pane.direction == 'outgoing')">
 
 
-    <td >
+    <td style='padding:10px;' >
         {{form_runtime_info[active_form].component_lookup_by_uuid[currentPush.from_component_uuid].name}}
         {{JSON.stringify(  currentPush.from_component_property_name  ,  null  ,  2  )}}
     </td>
 
 
 
-    <td >
+    <td style='padding:10px;' >
     {{form_runtime_info[active_form].component_lookup_by_uuid[currentPush.to_component_uuid].name}}
         {{JSON.stringify(  currentPush.to_component_property_name  ,  null  ,  2  )}}
     </td>
 
 
-    <td >
+    <td style='padding:10px;' >
         <div     class='btn btn-danger'
                  v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
                                "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
