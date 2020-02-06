@@ -372,58 +372,65 @@ v-if="(currentPush.from_component_uuid == model.forms[active_form].components[ac
 
 
 
-    <td style='padding: 7px;vertical-align: top;'>
-        <div    style="width:40%;font-weight:bold;">From</div>
-        <select  @change='setWatchComponent($event)'>
-            <option     value=""
+    <td style='vertical-align: top; '>
+        <div    style="border: 1px solid lightgray;margin:5px;height:150px;">
+            <div    style="width:40%;font-weight:bold;margin:7px;">From</div>
+            <select  @change='setWatchComponent($event)'  style='margin:10px;'>
+                <option     value=""
+                            selected="true">
+                </option>
+                <option     v-for="watchComp in model.forms[active_form].components"
+                            v-bind:value="watchComp.uuid"
+                            v-bind:selected="selectedWatchComponentUuid == watchComp.uuid">
+                                {{watchComp.name}}
+                </option>
+            </select>
+
+            <select @change='setWatchFromProperty($event)'  style='margin:7px;'>
+                <option value=""
                         selected="true">
-            </option>
-            <option     v-for="watchComp in model.forms[active_form].components"
-                        v-bind:value="watchComp.uuid"
-                        v-bind:selected="selectedWatchComponentUuid == watchComp.uuid">
-                            {{watchComp.name}}
-            </option>
-        </select>
-
-        <select @change='setWatchFromProperty($event)'>
-            <option value=""
-                    selected="true">
-            </option>
-            <option     v-for="watchFromProp in selectedWatchFromProperties"
-                        v-bind:value="watchFromProp"
-                        v-bind:selected="selectedWatchFromProperty == watchFromProp">
-                            {{watchFromProp}}
-            </option>
-        </select>
+                </option>
+                <option     v-for="watchFromProp in selectedWatchFromProperties"
+                            v-bind:value="watchFromProp"
+                            v-bind:selected="selectedWatchFromProperty == watchFromProp">
+                                {{watchFromProp}}
+                </option>
+            </select>
+        </div>
     </td>
 
 
-    <td style='padding: 7px;vertical-align: top;'>
-        <div    style="width:40%;font-weight:bold;">To</div>
-        {{model.forms[active_form].components[active_component_links_index].name}}
+    <td style='vertical-align: top;'>
+        <div    style="border: 1px solid lightgray;margin:5px;height:150px;">
+            <div    style="margin:7px;width:40%;font-weight:bold;">To</div>
+            <div style='margin:7px;'>
+            {{model.forms[active_form].components[active_component_links_index].name}}
+            </div>
 
-
-        <select @change='setWatchToProperty($event)'>
-            <option value=""
-                    selected="true">
-            </option>
-            <option     v-for="watchToProp in selectedWatchToProperties"
-                        v-bind:value="watchToProp"
-                        v-bind:selected="selectedWatchToProperty == watchToProp">
-                            {{watchToProp}}
-            </option>
-        </select>
+            <select @change='setWatchToProperty($event)'  style='margin:7px;'>
+                <option value=""
+                        selected="true">
+                </option>
+                <option     v-for="watchToProp in selectedWatchToProperties"
+                            v-bind:value="watchToProp"
+                            v-bind:selected="selectedWatchToProperty == watchToProp">
+                                {{watchToProp}}
+                </option>
+            </select>
+        </div>
     </td>
 
 
-    <td  style='padding: 7px;vertical-align: top;'>
-        <button type=button class='btn btn-sm btn-warning'
-                v-bind:style='""'
-                v-on:click='$event.stopPropagation(); addWatch();'  >
+    <td  style='margin: 7px;vertical-align: bottom;'>
+        <div    style="border: 0px solid lightgray;margin:5px;height:150px;" class="text-center">
+            <button type=button class='btn btn-sm btn-warning'
+                    v-bind:style='""'
+                    v-on:click='$event.stopPropagation(); addWatch();'  >
 
-             Add watch
+                 Add watch
 
-        </button>
+            </button>
+        </div>
     </td>
 </tr>
 
