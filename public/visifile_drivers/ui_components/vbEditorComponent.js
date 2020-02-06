@@ -369,7 +369,10 @@ v-if="(currentPush.from_component_uuid == model.forms[active_form].components[ac
 
 <tr style='border: 2px solid lightgray;'
     v-if="(design_mode_pane.direction == 'incoming')">
-    <td style='padding: 7px;'>
+
+
+
+    <td style='padding: 7px;vertical-align: top;'>
         <div    style="width:40%;font-weight:bold;">From</div>
         <select  @change='setWatchComponent($event)'>
             <option     value=""
@@ -395,7 +398,7 @@ v-if="(currentPush.from_component_uuid == model.forms[active_form].components[ac
     </td>
 
 
-    <td style='padding: 7px;'>
+    <td style='padding: 7px;vertical-align: top;'>
         <div    style="width:40%;font-weight:bold;">To</div>
         {{model.forms[active_form].components[active_component_links_index].name}}
 
@@ -411,7 +414,9 @@ v-if="(currentPush.from_component_uuid == model.forms[active_form].components[ac
             </option>
         </select>
     </td>
-    <td  style='padding: 7px;'>
+
+
+    <td  style='padding: 7px;vertical-align: top;'>
         <button type=button class='btn btn-sm btn-warning'
                 v-bind:style='""'
                 v-on:click='$event.stopPropagation(); addWatch();'  >
@@ -430,7 +435,7 @@ v-if="(currentPush.from_component_uuid == model.forms[active_form].components[ac
     v-if="(design_mode_pane.direction == 'outgoing')">
 
 
-        <td style='padding: 7px;'>
+        <td style='padding: 7px;vertical-align: top;'>
             <div    style="width:40%;font-weight:bold;">From</div>
             {{model.forms[active_form].components[active_component_links_index].name}}
 
@@ -448,7 +453,7 @@ v-if="(currentPush.from_component_uuid == model.forms[active_form].components[ac
 
 
 
-    <td style='padding: 7px;'>
+    <td style='padding: 7px;vertical-align: top;'>
         <div    style="width:40%;font-weight:bold;">To</div>
         <select  @change='setPushComponent($event)'>
             <option     value=""
@@ -474,7 +479,7 @@ v-if="(currentPush.from_component_uuid == model.forms[active_form].components[ac
             </option>
         </select>
     </td>
-    <td  style='padding: 7px;'>
+    <td  style='padding: 7px;vertical-align: top;'>
         <button type=button class='btn btn-sm btn-warning'
                 v-bind:style='""'
                 v-on:click='$event.stopPropagation(); addPush();'  >
