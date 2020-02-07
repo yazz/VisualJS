@@ -421,8 +421,8 @@ v-if="(currentPush.from_component_uuid == model.forms[active_form].components[ac
 
     <td  style='margin: 7px;vertical-align: bottom;'>
         <div    style="border: 0px solid lightgray;margin:5px;height:150px;" class="text-center">
-            <button type=button class='btn btn-sm btn-warning'
-                    v-bind:style='""'
+            <button type=button class='btn btn-sm btn-info'
+                    v-bind:style='"margin-top:50%;"'
                     v-on:click='$event.stopPropagation(); addWatch();'  >
 
                  Add watch
