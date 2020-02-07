@@ -289,7 +289,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
 <br/><br/>
-<table style="width:100%;">
+<table style="width:100%;" class="table">
 <tr style="width:100%;">
 
     <td    style="width:40%;font-weight:bold;padding:10px;">From</td>
