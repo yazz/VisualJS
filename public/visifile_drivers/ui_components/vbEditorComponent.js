@@ -373,7 +373,7 @@ v-if="(currentPush.from_component_uuid == model.forms[active_form].components[ac
     <td style='vertical-align: top; '>
         <div    style="border: 1px solid lightgray;margin:5px;height:150px;">
             <div    style="width:40%;font-weight:bold;margin:7px;">From</div>
-            <select  @change='setWatchComponent($event)'  style='margin:10px;'>
+            <select  @change='setWatchComponent($event)'  style='margin:7px;'>
                 <option     value=""
                             selected="true">
                 </option>
