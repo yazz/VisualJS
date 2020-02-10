@@ -440,40 +440,58 @@ v-if="(currentPush.from_component_uuid == model.forms[active_form].components[ac
     v-if="(design_mode_pane.direction == 'outgoing')">
 
 
-        <td style='padding: 7px;vertical-align: top;'>
-            <div    style="width:40%;font-weight:bold;">From</div>
-            {{model.forms[active_form].components[active_component_links_index].name}}
 
-        <select @change='setPushFromProperty($event)'>
-            <option value=""
-                    selected="true">
-            </option>
-            <option     v-for="pushFromProp in selectedPushFromProperties"
-                        v-bind:value="pushFromProp"
-                        v-bind:selected="selectedPushFromProperty == pushFromProp">
-                            {{pushFromProp}}
-            </option>
-        </select>
+    <td style='vertical-align: top; '>
+        <div    style="border: 1px solid lightgray;margin:5px;height:150px;">
+
+
+            <div    style="width:40%;font-weight:bold;margin:7px;">From</div>
+
+
+            <div    style="width:40%;margin:7px;">
+                {{model.forms[active_form].components[active_component_links_index].name}}
+            </div>
+
+
+
+            <select @change='setPushFromProperty($event)' style='margin:7px;'>
+                <option value=""
+                        selected="true">
+                </option>
+                <option     v-for="pushFromProp in selectedPushFromProperties"
+                            v-bind:value="pushFromProp"
+                            v-bind:selected="selectedPushFromProperty == pushFromProp">
+                                {{pushFromProp}}
+                </option>
+            </select>
+
+
+        </div>
     </td>
 
 
 
-    <td style='padding: 7px;vertical-align: top;'>
-        <div    style="width:40%;font-weight:bold;">To</div>
-        <select  @change='setPushComponent($event)'>
-            <option     value=""
-                        selected="true">
-            </option>
-            <option     v-for="pushComp in model.forms[active_form].components"
-                        v-bind:value="pushComp.uuid"
-                        v-bind:selected="selectedPushComponentUuid == pushComp.uuid">
-                            {{pushComp.name}}
-            </option>
-        </select>
 
 
 
-        <select @change='setPushToProperty($event)'>
+    <td style='vertical-align: top;'>
+        <div    style="border: 1px solid lightgray;margin:5px;height:150px;">
+            <div    style="margin:7px;width:40%;font-weight:bold;">To</div>
+
+            <select  @change='setPushComponent($event)'    style='margin:7px;'>
+                <option     value=""
+                            selected="true">
+                </option>
+                <option     v-for="pushComp in model.forms[active_form].components"
+                            v-bind:value="pushComp.uuid"
+                            v-bind:selected="selectedPushComponentUuid == pushComp.uuid">
+                                {{pushComp.name}}
+                </option>
+            </select>
+
+
+
+        <select @change='setPushToProperty($event)'     style='margin:7px;'>
             <option value=""
                     selected="true">
             </option>
@@ -483,7 +501,13 @@ v-if="(currentPush.from_component_uuid == model.forms[active_form].components[ac
                             {{pushToProp}}
             </option>
         </select>
+
+
+        </div>
     </td>
+
+
+
     <td  style='padding: 7px;vertical-align: top;'>
         <button type=button class='btn btn-sm btn-warning'
                 v-bind:style='""'
@@ -492,6 +516,7 @@ v-if="(currentPush.from_component_uuid == model.forms[active_form].components[ac
              Add push
 
         </button>
+
     </td>
 </tr>
 
