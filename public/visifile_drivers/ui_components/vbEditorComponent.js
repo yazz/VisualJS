@@ -328,15 +328,13 @@ v-if="(currentPush.from_component_uuid == model.forms[active_form].components[ac
 
 
     <td style='padding:10px;' >
-        {{form_runtime_info[active_form].component_lookup_by_uuid[currentPush.from_component_uuid].name}}
-        {{JSON.stringify(  currentPush.from_component_property_name  ,  null  ,  2  )}}
+        {{form_runtime_info[active_form].component_lookup_by_uuid[currentPush.from_component_uuid].name}}.{{currentPush.from_component_property_name}}
     </td>
 
 
 
     <td style='padding:10px;' >
-    {{form_runtime_info[active_form].component_lookup_by_uuid[currentPush.to_component_uuid].name}}
-        {{JSON.stringify(  currentPush.to_component_property_name  ,  null  ,  2  )}}
+        {{form_runtime_info[active_form].component_lookup_by_uuid[currentPush.to_component_uuid].name}}.{{currentPush.to_component_property_name}}
     </td>
 
 
