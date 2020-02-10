@@ -1754,7 +1754,9 @@ Pushlist
 
                mm.refresh ++
                mm.updateAllFormCaches()
-               //zzz
+               mm.showSaveButton()
+
+
 
            }
            ,
@@ -1783,10 +1785,26 @@ Pushlist
 
               mm.refresh ++
               mm.updateAllFormCaches()
+              mm.showSaveButton()
+
               //zzz
 
           }
           ,
+
+
+          
+
+          //-------------------------------------------------------------------
+          showSaveButton: function(event) {
+          //-------------------------------------------------------------------
+              this.$root.$emit('message', {
+                  type:   "pending"
+              })
+          }
+          ,
+
+
 
           //-------------------------------------------------------------------
           setWatchComponent: function(event) {
@@ -1906,6 +1924,8 @@ Pushlist
                      }
                 }
             }
+            mm.showSaveButton()
+
          }
          ,
 
@@ -1946,6 +1966,8 @@ Pushlist
                       }
                  }
              }
+             mm.showSaveButton()
+
           }
           ,
 
