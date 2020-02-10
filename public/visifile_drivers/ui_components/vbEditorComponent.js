@@ -507,8 +507,8 @@ v-if="(currentPush.from_component_uuid == model.forms[active_form].components[ac
 
 
     <td  style='padding: 7px;vertical-align: top;'>
-        <button type=button class='btn btn-sm btn-warning'
-                v-bind:style='""'
+        <button type=button class='btn btn-sm btn-info'
+                v-bind:style='"margin-top:50%;"'
                 v-on:click='$event.stopPropagation(); addPush();'  >
 
              Add push
