@@ -423,7 +423,7 @@ v-if="(currentPush.from_component_uuid == model.forms[active_form].components[ac
                     v-bind:style='"margin-top:50%;"'
                     v-on:click='$event.stopPropagation(); addWatch();'  >
 
-                 Add watch
+                 Add
 
             </button>
         </div>
@@ -511,7 +511,7 @@ v-if="(currentPush.from_component_uuid == model.forms[active_form].components[ac
                 v-bind:style='"margin-top:50%;"'
                 v-on:click='$event.stopPropagation(); addPush();'  >
 
-             Add push
+             Add
 
         </button>
 
