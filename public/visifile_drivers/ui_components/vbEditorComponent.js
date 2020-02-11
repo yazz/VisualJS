@@ -313,7 +313,7 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
         <div     class='btn btn-danger'
                  v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
                                "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
-                 v-on:click='$event.stopPropagation();deleteWatch(currentWatch )'>
+                 v-on:click='$event.stopPropagation();deleteLinkedProperty(currentWatch )'>
 
                 X
 
@@ -342,7 +342,7 @@ v-if="(currentPush.from_component_uuid == model.forms[active_form].components[ac
         <div     class='btn btn-danger'
                  v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
                                "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
-                 v-on:click='$event.stopPropagation();deletePush(currentPush)'>
+                 v-on:click='$event.stopPropagation();deleteLinkedProperty(currentPush)'>
 
                 X
 
@@ -1891,7 +1891,7 @@ Pushlist
           ,
 
 
-         deleteWatch: function(watchListItem ) {
+         deleteLinkedProperty: function(watchListItem ) {
              //debugger
              //zzz
              var currentWatchIndex
@@ -1924,16 +1924,8 @@ Pushlist
                      }
                 }
             }
-            mm.showSaveButton()
 
-         }
-         ,
-
-
-
-
-
-          deletePush: function(pushListItem ) {
+          var pushListItem = watchListItem
               //debugger
               //zzz
               var currentPushIndex
