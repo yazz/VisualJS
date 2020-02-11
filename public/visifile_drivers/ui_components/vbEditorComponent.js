@@ -825,7 +825,7 @@ Pushlist
                                     -&gt;
 
                                     <span   class="badge badge-primary"
-                                            v-html='(model.forms[active_form].components[active_component_index].push)?(model.forms[active_form].components[active_component_index].push.length):0'>
+                                            v-html='(form_runtime_info[active_form].component_outgoing_count_by_uuid[model.forms[active_form].components[active_component_index].uuid])?(form_runtime_info[active_form].component_outgoing_count_by_uuid[model.forms[active_form].components[active_component_index].uuid]):0'>
                                     </span>
                             </div>
 
@@ -3394,8 +3394,6 @@ ${origCode}
                 }
                 this.form_runtime_info[formName].component_lookup_by_uuid[cc.uuid] = cc
 
-                this.form_runtime_info[formName].component_incoming_count_by_uuid[cc.uuid] = 0
-                this.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.uuid] = 0
 
                 if (!this.watchList) {
                     this.watchList = []
@@ -3422,8 +3420,20 @@ ${origCode}
                                         ,
                                         type:                           "watch"
                                 })
-                                this.form_runtime_info[formName].component_incoming_count_by_uuid[cc.uuid] ++
-                                this.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.watch[ff].uuid] ++
+
+
+                                if (this.form_runtime_info[formName].component_incoming_count_by_uuid[cc.uuid]) {
+                                    this.form_runtime_info[formName].component_incoming_count_by_uuid[cc.uuid] ++
+                                } else {
+                                    this.form_runtime_info[formName].component_incoming_count_by_uuid[cc.uuid] = 1
+                                }
+
+                                if (this.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.watch[ff].uuid]) {
+                                    this.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.watch[ff].uuid] ++
+                                } else {
+                                    this.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.watch[ff].uuid] = 1
+                                }
+
                                 //console.log( "3: " + this.uid2  + ": " + JSON.stringify(this.watchList,null,2))
                         }
                     }
@@ -3448,8 +3458,18 @@ ${origCode}
                                         ,
                                         type:                           "push"
                                 })
-                                this.form_runtime_info[formName].component_incoming_count_by_uuid[cc.push[ff].uuid] ++
-                                this.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.uuid] ++
+                                if (this.form_runtime_info[formName].component_incoming_count_by_uuid[cc.push[ff].uuid]) {
+                                    this.form_runtime_info[formName].component_incoming_count_by_uuid[cc.push[ff].uuid] ++
+                                } else {
+                                    this.form_runtime_info[formName].component_incoming_count_by_uuid[cc.push[ff].uuid] = 1
+                                }
+
+                                if (this.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.uuid]) {
+                                    this.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.uuid] ++
+                                } else {
+                                    this.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.uuid] = 1
+                                }
+
                                 //console.log( "3: " + this.uid2  + ": " + JSON.stringify(this.watchList,null,2))
                         }
                     }
