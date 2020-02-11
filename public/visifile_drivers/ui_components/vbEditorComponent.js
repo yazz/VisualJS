@@ -3422,6 +3422,8 @@ ${origCode}
                                         ,
                                         type:                           "watch"
                                 })
+                                this.form_runtime_info[formName].component_incoming_count_by_uuid[cc.uuid] ++
+                                this.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.watch[ff].uuid] ++
                                 //console.log( "3: " + this.uid2  + ": " + JSON.stringify(this.watchList,null,2))
                         }
                     }
@@ -3446,6 +3448,8 @@ ${origCode}
                                         ,
                                         type:                           "push"
                                 })
+                                this.form_runtime_info[formName].component_incoming_count_by_uuid[cc.uuid] ++
+                                this.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.push[ff].uuid] ++
                                 //console.log( "3: " + this.uid2  + ": " + JSON.stringify(this.watchList,null,2))
                         }
                     }
