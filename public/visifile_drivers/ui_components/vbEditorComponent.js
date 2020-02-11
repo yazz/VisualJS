@@ -3380,18 +3380,23 @@ ${origCode}
             }
             this.form_runtime_info[formName].component_lookup_by_name = {}
             this.form_runtime_info[formName].component_lookup_by_uuid = {}
+            this.form_runtime_info[formName].component_incoming_count_by_uuid = {}
+            this.form_runtime_info[formName].component_outgoing_count_by_uuid = {}
 
             for (var gjh = 0; gjh < components.length; gjh ++) {
                 var cc = components[gjh]
                 if (isValidObject(cc)) {
                     this.form_runtime_info[formName].component_lookup_by_name[cc.name] = cc
                 }
-                if (cc.uuid) {
-                    this.form_runtime_info[formName].component_lookup_by_uuid[cc.uuid] = cc
-                } else {
+                if (!cc.uuid) {
                     cc.uuid = uuidv4()
                     this.refresh ++
                 }
+                this.form_runtime_info[formName].component_lookup_by_uuid[cc.uuid] = cc
+
+                this.form_runtime_info[formName].component_incoming_count_by_uuid[cc.uuid] = 0
+                this.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.uuid] = 0
+
                 if (!this.watchList) {
                     this.watchList = []
                     //console.log( "2: " + this.uid2  + ": " + JSON.stringify(this.watchList,null,2))
