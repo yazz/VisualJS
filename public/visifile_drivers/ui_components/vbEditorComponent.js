@@ -806,7 +806,7 @@ Pushlist
                                     -&gt;
 
                                     <span   class="badge badge-primary"
-                                            v-html='(model.forms[active_form].components[active_component_index].watch)?(model.forms[active_form].components[active_component_index].watch.length):0'>
+                                            v-html='(form_runtime_info[active_form].component_incoming_count_by_uuid[model.forms[active_form].components[active_component_index].uuid])?(form_runtime_info[active_form].component_incoming_count_by_uuid[model.forms[active_form].components[active_component_index].uuid]):0'>
                                     </span>
                             </div>
 
@@ -3448,8 +3448,8 @@ ${origCode}
                                         ,
                                         type:                           "push"
                                 })
-                                this.form_runtime_info[formName].component_incoming_count_by_uuid[cc.uuid] ++
-                                this.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.push[ff].uuid] ++
+                                this.form_runtime_info[formName].component_incoming_count_by_uuid[cc.push[ff].uuid] ++
+                                this.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.uuid] ++
                                 //console.log( "3: " + this.uid2  + ": " + JSON.stringify(this.watchList,null,2))
                         }
                     }
