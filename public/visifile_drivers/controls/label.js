@@ -71,7 +71,7 @@ logo_url("/driver_icons/text_control.png")
         props: ["meta","args", "name","refresh"]
         ,
         template: `<div v-bind:style='"white-space:normal;height:100%;width:100%; border: 0px;" +
-                                    "background-color: "+    args["background_color"]  +  ";"'>
+                                    "background-color: "+    args["background_color"]  +  ";overflow: auto;"'>
 
 <pre v-if="args.use_pre == 'true'">{{text}}</pre>
 
