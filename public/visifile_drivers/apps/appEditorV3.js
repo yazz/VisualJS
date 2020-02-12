@@ -87,8 +87,9 @@ load_once_from_file(true)
                         v-on:click='chooseBoth()' >Both</button>
 
                 <button type=button
-                        v-bind:class='"btn btn-sm " + (mode == "profiler"?"btn-secondary":"btn-light")'
-                        v-on:click='chooseProfiler()' >Profiler</button>
+                        v-bind:refresh='refresh'
+                        v-bind:class='"btn btn-sm " + (uiDebuggerOn?(mode == "profiler"?"btn-primary":"btn-success"):(mode == "profiler"?"btn-secondary":"btn-light"))'
+                        v-on:click='if (uiDebuggerOn){chooseProfiler()} else {uiDebuggerOn = true;refresh++;}' >Profiler</button>
             </div>
 
 
@@ -622,6 +623,7 @@ load_once_from_file(true)
            return {
 
                info_text:           "",
+               refresh:             0,
                editor_loaded:       false,
                console_output:      "",
                selected_app:        '',
