@@ -3546,6 +3546,8 @@ return {}
             var mm      = this
             var val     = null
             var type    = null
+            
+            mm.showSaveButton()
 
 
             if (property.type == "Number") {
