@@ -9095,6 +9095,9 @@ async function checkLibsV2(componentRecord,args){
 
 
 function getDebugCode(blockName,  trcode2 , args) {
+    if (!uiDebuggerOn) {
+        return trcode2
+    }
 
     var _b = esprima.parse(trcode2,{tolerant: true , loc:true, range: true, attachComment: false})
     var line = -1
