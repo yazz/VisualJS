@@ -89,7 +89,7 @@ load_once_from_file(true)
                 <button type=button
                         v-bind:refresh='refresh'
                         v-bind:class='"btn btn-sm " + (uiDebuggerOn?(mode == "profiler"?"btn-primary":"btn-success"):(mode == "profiler"?"btn-secondary":"btn-light"))'
-                        v-on:click='if (uiDebuggerOn){chooseProfiler()} else {uiDebuggerOn = true;refresh++;}' >Profiler</button>
+                        v-on:click='if (uiDebuggerOn){if (mode == "profiler"){uiDebuggerOn = false;refresh++;alert("Debugger turned off")} else {chooseProfiler()}} else {uiDebuggerOn = true;refresh++;alert("Debugger turned on")}' >Profiler</button>
             </div>
 
 
