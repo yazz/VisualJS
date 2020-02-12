@@ -62,6 +62,11 @@ properties(
         }
         ,
         {
+            id:     "last_keypressed",
+            name:   "Last key pressed",
+            type:   "String"
+        }
+        ,        {
             id:         "width",
             name:       "Width",
             default:    130,
@@ -90,7 +95,7 @@ logo_url("/driver_icons/input_box.png")
                             v-on:change='changedFn'
                             v-on:click='click_event_callback()'
                             v-on:focus='focus_event_callback()'
-                            v-on:keypress='keypress_event_callback()'
+                            v-on:keypress='keypress_event_callback(event.key)'
                             v-bind:style=   '"width:100%; " +
                                              "background-color: "+  background_color  +  ";"'
 
@@ -101,7 +106,8 @@ logo_url("/driver_icons/input_box.png")
       watch: {
         // This would be called anytime the value of the input changes
         refresh(newValue, oldValue) {
-            //console.log("refresh: " + this.args.text)
+            console.log("refresh new: " + JSON.stringify(newValue))
+            console.log("refresh old: " + JSON.stringify(oldValue))
             if (isValidObject(this.args)) {
                 this.label = this.args.label
                 this.text = this.args.text
@@ -128,6 +134,7 @@ logo_url("/driver_icons/input_box.png")
       },
       methods: {
             changedFn: function() {
+                console.log("Called changed event: ")
                 if (isValidObject(this.args)) {
                     this.args.label = this.label
                     this.args.text = this.text
@@ -149,22 +156,27 @@ logo_url("/driver_icons/input_box.png")
 
             }
             ,
-            keypress_event_callback: function() {
+            keypress_event_callback: function(mykeypressed) {
                 //console.log("----- button_control, click_event_callback: function() = " + this.name)
                 //eval("(function(){" + this.args.click_event + "})")()
+                //this.args.last_keypressed = JSON.parse(JSON.stringify(mykeypressed))
+                console.log("mykeypressed: "+ mykeypressed)
 
-                this.$emit('send', {
+                console.log(" before this.args.text: "+   this.args.text)
+                //this.args.last_keypressed = mykeypressed
+                console.log(" after this.args.text: "+   this.args.text)
+                /*this.$emit('send', {
                                                 type:               "subcomponent_event",
                                                 form_name:           this.meta.form,
                                                 control_name:        this.meta.name,
                                                 sub_type:           "keypress",
                                                 code:                this.args.keypress_event
-                                            })
+                                            })*/
 
             }
             ,
             focus_event_callback: function() {
-                //console.log("----- button_control, focus_event_callback: function() = " + this.name)
+                console.log("----- button_control, focus_event_callback: function() = " + this.name)
 
                 this.$emit('send', {
                                                 type:               "subcomponent_event",
