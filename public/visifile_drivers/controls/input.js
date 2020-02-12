@@ -53,6 +53,15 @@ properties(
         }
         ,
         {
+            id:     "keypress_event",
+            name:   "Key pressed event",
+            type:   "Event",
+            help:       `<div>Help text for
+                            <b>key_pressed</b> event
+                         </div>`
+        }
+        ,
+        {
             id:         "width",
             name:       "Width",
             default:    130,
@@ -81,6 +90,7 @@ logo_url("/driver_icons/input_box.png")
                             v-on:change='changedFn'
                             v-on:click='click_event_callback()'
                             v-on:focus='focus_event_callback()'
+                            v-on:keypress='keypress_event_callback()'
                             v-bind:style=   '"width:100%; " +
                                              "background-color: "+  background_color  +  ";"'
 
@@ -135,6 +145,20 @@ logo_url("/driver_icons/input_box.png")
                                                 control_name:        this.meta.name,
                                                 sub_type:           "click",
                                                 code:                this.args.click_event
+                                            })
+
+            }
+            ,
+            keypress_event_callback: function() {
+                //console.log("----- button_control, click_event_callback: function() = " + this.name)
+                //eval("(function(){" + this.args.click_event + "})")()
+
+                this.$emit('send', {
+                                                type:               "subcomponent_event",
+                                                form_name:           this.meta.form,
+                                                control_name:        this.meta.name,
+                                                sub_type:           "keypress",
+                                                code:                this.args.keypress_event
                                             })
 
             }
