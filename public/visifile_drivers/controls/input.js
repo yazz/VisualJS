@@ -86,62 +86,30 @@ logo_url("/driver_icons/input_box.png")
 */
 
     Vue.component("input_control",{
-      props: [ "meta", "form",  "name", "args","refresh"]
+      props: [ "meta", "form",  "name", "args", "refresh"]
       ,
       template: `<div>
-                    <label v-if='label'>{{label}}</label>
+                    <label v-if='args.label'>{{args.label}}</label>
 
                     <input  class="form-control2"
-                            v-on:change='changedFn'
                             v-on:click='click_event_callback()'
                             v-on:focus='focus_event_callback()'
-                            v-on:keypress='keypress_event_callback(event.key)'
                             v-bind:style=   '"width:100%; " +
-                                             "background-color: "+  background_color  +  ";"'
+                                             "background-color: "+  args.background_color  +  ";"'
 
-                            v-model='text'>  </input>
+                            v-model='args.text'>  </input>
 
                  </div>`
       ,
-      watch: {
-        // This would be called anytime the value of the input changes
-        refresh(newValue, oldValue) {
-            console.log("refresh new: " + JSON.stringify(newValue))
-            console.log("refresh old: " + JSON.stringify(oldValue))
-            if (isValidObject(this.args)) {
-                this.label = this.args.label
-                this.text = this.args.text
-                this.background_color = this.args.background_color
-            }          // you can do anything here with the new value or old/previous value
-        }
-      },
       mounted: function() {
         registerComponent(this)
-
-        if (isValidObject(this.args)) {
-            this.label = this.args.label
-            this.text = this.args.text
-            this.background_color = this.args.background_color
-        }
       }
       ,
-      data: function() {
-            return {
-                text: "",
-                label: "",
-                background_color: ""
-            }
-      },
+
+
+
       methods: {
-            changedFn: function() {
-                console.log("Called changed event: ")
-                if (isValidObject(this.args)) {
-                    this.args.label = this.label
-                    this.args.text = this.text
-                    this.args.background_color = this.background_color
-                }
-            }
-            ,
+
             click_event_callback: function() {
                 //console.log("----- button_control, click_event_callback: function() = " + this.name)
                 //eval("(function(){" + this.args.click_event + "})")()
