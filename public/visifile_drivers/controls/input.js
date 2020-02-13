@@ -29,8 +29,8 @@ properties(
         }
         ,
         {
-            id:     "text",
-            name:   "Text",
+            id:     "value",
+            name:   "Value",
             type:   "String"
         }
         ,
@@ -94,10 +94,11 @@ logo_url("/driver_icons/input_box.png")
                     <input  class="form-control2"
                             v-on:click='click_event_callback()'
                             v-on:focus='focus_event_callback()'
+                            v-on:keypress='keypress_event_callback(event.key)'
                             v-bind:style=   '"width:100%; " +
                                              "background-color: "+  args.background_color  +  ";"'
 
-                            v-model='args.text'>  </input>
+                            v-model='args.value'>  </input>
 
                  </div>`
       ,
@@ -130,16 +131,14 @@ logo_url("/driver_icons/input_box.png")
                 //this.args.last_keypressed = JSON.parse(JSON.stringify(mykeypressed))
                 console.log("mykeypressed: "+ mykeypressed)
 
-                console.log(" before this.args.text: "+   this.args.text)
-                //this.args.last_keypressed = mykeypressed
-                console.log(" after this.args.text: "+   this.args.text)
-                /*this.$emit('send', {
+                this.args.last_keypressed = mykeypressed
+                this.$emit('send', {
                                                 type:               "subcomponent_event",
                                                 form_name:           this.meta.form,
                                                 control_name:        this.meta.name,
                                                 sub_type:           "keypress",
                                                 code:                this.args.keypress_event
-                                            })*/
+                                            })
 
             }
             ,
