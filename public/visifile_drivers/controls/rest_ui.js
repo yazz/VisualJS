@@ -331,7 +331,7 @@ logo_url("/driver_icons/rest.png")
             //
             // ----------------------------------------------------------------
 
-            callRestApiInternal: async function(url, filter) {
+            callRestApiInternal: async function(url) {
                 var mm = this
 
                 var result = await callFunction(
@@ -484,11 +484,15 @@ logo_url("/driver_icons/rest.png")
             //
             // ----------------------------------------------------------------
 
-            callRestApi: async function(urlToCall) {
+            callRestApi: async function(urlToCall, options) {
 
                 var mm = this
                 if (!urlToCall) {
                     urlToCall = mm.args.URL
+                }
+
+                if (options) {
+                    mm.args.productionFilter = options.filter
                 }
 
                 var qwe = await this.callRestApiInternal(urlToCall)
