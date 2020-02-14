@@ -3,7 +3,7 @@ function(args) {
 is_app(true)
 control_type("VB")
 display_name("REST API call control")
-description("This will return the REST APIn call control")
+description("This will return the REST API call control")
 base_component_id("rest_control")
 load_once_from_file(true)
 visibility("PRIVATE")
@@ -134,6 +134,14 @@ properties(
         {
             id:         "filteredProductionResponse",
             name:       "Filtered Production Response",
+            default:    null,
+            hidden:     true,
+            type:       "Object"
+        }
+        ,
+        {
+            id:         "response",
+            name:       "Response",
             default:    null,
             hidden:     true,
             type:       "Object"
@@ -355,6 +363,7 @@ logo_url("/driver_icons/rest.png")
 
                     if (result2) {
                         this.args.filteredProductionResponse = result2
+                        this.args.response = result2
                         return result2
                     }
                     return null
@@ -693,7 +702,7 @@ logo_url("/driver_icons/rest.png")
             filterProductionRestApi: async function() {
                 var aa = await this.getJsonFiltered(this.args.productionResponse)
                 this.args.filteredProductionResponse  = aa
-
+                this.args.response  = aa
             }
 
 
