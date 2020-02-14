@@ -25,10 +25,9 @@ https://yazz.com/app/homepage.html
 
 ## Benefits
 
-- Easy to build apps apps in minutes
-- Self contained
+- Build apps apps in minutes using drag and drop UI
 - Fast to deploy on any Kubernetes cluster
-- Easy to get build apps with adrag and drop UI where you wire UI components together visually
+- Can run with NodeJS
 - Reuse via pre built components such as buttons, text boxes, and data access components to talk to Postgres, Mysql, or REST APIs
 <br/><br/><br/>
 
