@@ -269,9 +269,25 @@ logo_url("/driver_icons/rest.png")
             </div>
             <div style="height: 25px;"></div>
 
+            <div v-if="!showAsCode">
+                <div style="font-weight: bold;">Result</div>
+                <pre>{{args.filteredStagingResponse}}</pre>
+            </div>
 
-            <div style="font-weight: bold;">Result</div>
-            <pre>{{args.filteredStagingResponse}}</pre>
+            <div v-if="showAsCode">
+<pre style="padding:10px; background-color: lightgray;">
+var result = await rest_control.callRestApi(
+    "https://raw.githubusercontent.com/typicode/demo/master/db.json"
+    ,
+    {
+        filter: {"posts":true,"posts.[]":true,"posts.[].id":true,"posts.[].title":true,"comments":true,"comments.[]":true,"comments.[].id":true,"comments.[].body":true,"comments.[].postId":true,"profile":true,"profile.name":true}
+        ,
+        root: "posts"
+    })
+    </pre>
+            </div>
+
+
 
         </div>
     </div>
