@@ -213,6 +213,24 @@ logo_url("/driver_icons/rest.png")
 
         </button>
 
+
+        <button    class="btn btn-info"
+                   v-if="!showAsCode"
+                   v-on:click="showThisAsCode()">
+
+              Show as code
+
+        </button>
+
+
+        <button    class="btn btn-info"
+                   v-if="showAsCode"
+                   v-on:click="hideCode()">
+
+              Hide code
+
+        </button>
+
         <div/>
 
 
@@ -294,6 +312,7 @@ logo_url("/driver_icons/rest.png")
 
         data: function() {
             return {
+                    showAsCode: false
             }
         }
 
@@ -682,6 +701,41 @@ logo_url("/driver_icons/rest.png")
                 this.args.URL               = this.args.stagingURL
                 this.args.productionRoot    = this.args.stagingRoot
                 this.args.callApiOnStartup  = 'true'
+            }
+            ,
+
+
+
+
+
+            // ----------------------------------------------------------------
+            //
+            //                             showAsCode
+            //
+            //
+            //
+            //
+            // ----------------------------------------------------------------
+
+            showThisAsCode: async function() {
+                this.showAsCode  = true
+            }
+            ,
+
+
+
+            // ----------------------------------------------------------------
+            //
+            //                             hide code
+            //
+            //
+            //
+            //
+            // ----------------------------------------------------------------
+
+            hideCode: async function() {
+
+                this.showAsCode  = false
             }
             ,
 
