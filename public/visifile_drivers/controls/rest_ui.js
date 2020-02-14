@@ -359,6 +359,9 @@ logo_url("/driver_icons/rest.png")
                         root:  this.args.productionRoot
 
                     })
+                    console.log("result: " + JSON.stringify(result))
+                    console.log("this.args.productionFilter: " + JSON.stringify(this.args.productionFilter))
+                    console.log("this.args.productionRoot: " + JSON.stringify(this.args.productionRoot))
 
 
                     if (result2) {
@@ -491,8 +494,15 @@ logo_url("/driver_icons/rest.png")
                     urlToCall = mm.args.URL
                 }
 
+                mm.args.productionFilter = new Object()
+                mm.args.productionRoot = ""
                 if (options) {
-                    mm.args.productionFilter = options.filter
+                    if (options.filter) {
+                        mm.args.productionFilter = JSON.parse(JSON.stringify(options.filter))
+                    }
+                    if (options.root) {
+                        mm.args.productionRoot = JSON.parse(JSON.stringify(options.root))
+                    }
                 }
 
                 var qwe = await this.callRestApiInternal(urlToCall)
