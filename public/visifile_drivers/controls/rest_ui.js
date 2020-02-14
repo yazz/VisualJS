@@ -276,15 +276,16 @@ logo_url("/driver_icons/rest.png")
 
             <div v-if="showAsCode">
 <pre style="padding:10px; background-color: lightgray;">
-var result = await rest_control.callRestApi(
+var result = await {{args.name}}.callRestApi(
     "https://raw.githubusercontent.com/typicode/demo/master/db.json"
     ,
     {
-        filter: {"posts":true,"posts.[]":true,"posts.[].id":true,"posts.[].title":true,"comments":true,"comments.[]":true,"comments.[].id":true,"comments.[].body":true,"comments.[].postId":true,"profile":true,"profile.name":true}
+        filter: {{JSON.stringify(args.productionFilter)}}
         ,
-        root: "posts"
+        root: {{JSON.stringify(args.productionRoot)}}
     })
-    </pre>
+
+</pre>
             </div>
 
 
