@@ -280,10 +280,12 @@ var result = await {{args.name}}.callRestApi(
     "https://raw.githubusercontent.com/typicode/demo/master/db.json"
     ,
     {
-        filter: {{JSON.stringify(args.productionFilter)}}
+        filter: {{JSON.stringify(args.stagingFilter)}}
         ,
-        root: {{JSON.stringify(args.productionRoot)}}
+        root: {{JSON.stringify(args.stagingRoot)}}
     })
+
+
 
 </pre>
             </div>
