@@ -2584,19 +2584,20 @@ ${origCode}
                         mm.ui_code_editor.on("change", function(e) {
                             var newC = mm.ui_code_editor.getValue()
                             try {
-                                var newNode = esprima.parse("(" + newC + ")", { tolerant: true })
+
+                                var newNode = esprima.parse("(async function(){" + newC + "})", { tolerant: true })
                                 //alert(JSON.stringify(newNode.errors, null, 2))
-                                /*mm.errors = newNode.errors
+                                mm.errors = newNode.errors
                                 if (mm.errors) {
                                      if (mm.errors.length == 0) {
                                          mm.errors = null
                                      } else {
                                          mm.errors = mm.errors[0]
                                      }
-                                }*/
+                                }
                                 //zzz
                             } catch (e) {
-
+                                mm.errors = e
                             } finally {
 
                             }
@@ -5107,7 +5108,7 @@ return {}
      ,
      data: function () {
        return {
-           errors: {lineNumber:1 , description: "dsds"},
+           errors: null,
            inUpdateAllFormCaches:       false,
            newCursor:                   null,
            watchList:                   [],
