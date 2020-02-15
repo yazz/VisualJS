@@ -2583,17 +2583,24 @@ ${origCode}
 
                         mm.ui_code_editor.on("change", function(e) {
                             var newC = mm.ui_code_editor.getValue()
-                            var newNode = esprima.parse("(" + newC + ")", { tolerant: true })
-                            //alert(JSON.stringify(newNode.errors, null, 2))
-                            mm.errors = newNode.errors
-                            if (mm.errors) {
-                                 if (mm.errors.length == 0) {
-                                     mm.errors = null
-                                 } else {
-                                     mm.errors = mm.errors[0]
-                                 }
+                            try {
+                                var newNode = esprima.parse("(" + newC + ")", { tolerant: true })
+                                //alert(JSON.stringify(newNode.errors, null, 2))
+                                /*mm.errors = newNode.errors
+                                if (mm.errors) {
+                                     if (mm.errors.length == 0) {
+                                         mm.errors = null
+                                     } else {
+                                         mm.errors = mm.errors[0]
+                                     }
+                                }*/
+                                //zzz
+                            } catch (e) {
+
+                            } finally {
+
                             }
-                            //zzz
+
 
 
                             if (aa.property_id && mm.model[aa.property_id] && isValidObject(mm.model[aa.property_id].fn)) {
@@ -2624,7 +2631,10 @@ ${origCode}
 
          }
         ,
-
+        gotoLine: function(line) {
+            this.ui_code_editor.gotoLine(line , 10, true);
+        }
+        ,
 
 
 
@@ -5097,7 +5107,7 @@ return {}
      ,
      data: function () {
        return {
-           errors: null,
+           errors: {lineNumber:1 , description: "dsds"},
            inUpdateAllFormCaches:       false,
            newCursor:                   null,
            watchList:                   [],
