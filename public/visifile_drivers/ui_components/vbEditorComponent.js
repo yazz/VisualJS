@@ -39,7 +39,8 @@ uses_javascript_librararies(["advanced_bundle"])
      </div>
 
 
-    <div    v-bind:id='vb_editor_element_id' v-if='vb_editor_element_id != null'
+    <div    v-bind:id='vb_editor_element_id'
+            v-if='vb_editor_element_id != null'
             style='position:relative;display: flex;'
             v-on:drop="$event.stopPropagation(); dropEditor($event)"
             v-on:ondragover="$event.stopPropagation();maintainCursor(); allowDropEditor($event)">
@@ -141,6 +142,9 @@ uses_javascript_librararies(["advanced_bundle"])
                     <div    id='ui_code_editor'>
                     </div>
 
+                    <pre    v-on:click="gotoLine(errors.lineNumber)"
+                            style="background:pink;color:blue;"
+                            v-if="errors != null">Line {{errors.lineNumber}}: {{errors.description}}</pre>
                 </div>
             </div>
 
@@ -531,8 +535,7 @@ v-if="(currentPush.from_component_uuid == model.forms[active_form].components[ac
 <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 Watchlist
 <div v-for='currentWatch in watchList'>
-<pre    zzz=""
-        v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid)">
+<pre    v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid)">
 {{JSON.stringify(  currentWatch  ,  null  ,  2  )}}
 
 </pre>
@@ -542,8 +545,7 @@ Watchlist
 <br/><br/><br/><br/><br/>
 Pushlist
 <div v-for='currentPush in watchList'>
-<pre    zzz=""
-      v-if="(currentPush.from_component_uuid == model.forms[active_form].components[active_component_links_index].uuid)">
+<pre v-if="(currentPush.from_component_uuid == model.forms[active_form].components[active_component_links_index].uuid)">
 {{JSON.stringify(  currentPush  ,  null  ,  2  )}}
 
 </pre>
@@ -1525,7 +1527,7 @@ Pushlist
 
 
 
-           //zzz
+           //
            // start of update all watched vars when a form is activated
            //
            if (!this.design_mode) {
@@ -1787,8 +1789,6 @@ Pushlist
               mm.updateAllFormCaches()
               mm.showSaveButton()
 
-              //zzz
-
           }
           ,
 
@@ -1822,10 +1822,6 @@ Pushlist
              for (var aaa =0; aaa<ccomkeys.length;aaa++) {
                  this.selectedWatchFromProperties.push(ccomkeys[aaa])
              }
-
-
-
-             //zzz
          }
          ,
 
@@ -1868,8 +1864,6 @@ Pushlist
              }
 
 
-
-             //zzz
          }
          ,
 
@@ -1893,7 +1887,6 @@ Pushlist
 
          deleteLinkedProperty: function(watchListItem ) {
              //debugger
-             //zzz
              var currentWatchIndex
              var mm                     = this
              var currentComponentCurrentWatch
@@ -1927,7 +1920,6 @@ Pushlist
 
           var pushListItem = watchListItem
               //debugger
-              //zzz
               var currentPushIndex
               var mm                     = this
               var currentComponentCurrentPush
@@ -2591,6 +2583,18 @@ ${origCode}
 
                         mm.ui_code_editor.on("change", function(e) {
                             var newC = mm.ui_code_editor.getValue()
+                            var newNode = esprima.parse("(" + newC + ")", { tolerant: true })
+                            //alert(JSON.stringify(newNode.errors, null, 2))
+                            mm.errors = newNode.errors
+                            if (mm.errors) {
+                                 if (mm.errors.length == 0) {
+                                     mm.errors = null
+                                 } else {
+                                     mm.errors = mm.errors[0]
+                                 }
+                            }
+                            //zzz
+
 
                             if (aa.property_id && mm.model[aa.property_id] && isValidObject(mm.model[aa.property_id].fn)) {
                                 mm.model[aa.property_id].fn = newC
@@ -3546,7 +3550,7 @@ return {}
             var mm      = this
             var val     = null
             var type    = null
-            
+
             mm.showSaveButton()
 
 
@@ -5093,6 +5097,7 @@ return {}
      ,
      data: function () {
        return {
+           errors: null,
            inUpdateAllFormCaches:       false,
            newCursor:                   null,
            watchList:                   [],
