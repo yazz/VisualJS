@@ -11,19 +11,13 @@ read_only(true)
 properties(
     [
         {
-            id:     "text",
-            name:   "Text",
-            type:   "String"
-        }
-        ,
-        {
             id:         "checked",
             name:       "Checked",
             type:       "Select",
-            default:    "false",
+            default:    "True",
             values:     [
                             {display: "True",   value: "True"},
-                            {display: "False",  value: ""}
+                            {display: "False",  value: "False"}
                         ]
         }
         ,
@@ -38,20 +32,29 @@ logo_url("/driver_icons/checkbox_control.png")
 */
 
     Vue.component("checkbox_control",{
-      props: ["args","design_mode"]
+      props: ["args","design_mode","meta", "form",  "name", "refresh"]
       ,
       template: `<input v-bind:id='design_mode?"":args.name'
                         type="checkbox"
-                        v-model="args.checked"
-                        v-bind:value='args.text'>{{args.text}}<br>
+                        v-bind:onchange='valChanged(event)'
+                        v-bind:checked='(args.checked=="True")?"True":""'
+                        >
 
                  </input>`
       ,
       data: function() {
-       return {
-         msg: "...",
-         checked: true
-     }
-      },
+          return {
+          }
+      }
+      ,
+      mounted: function() {
+        registerComponent(this)
+      }
+      ,
+      methods: {
+          valChanged: function(e) {
+              alert(e.target.checked)
+          }
+      }
     })
 }
