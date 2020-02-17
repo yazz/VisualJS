@@ -26,6 +26,16 @@ properties(
             name:   "Background color",
             type:   "String"
         }
+        ,
+        {
+            id:     "changed_event",
+            name:   "Changed event",
+            type:   "Event",
+            help:       `<div>Help text for
+                            <b>changed_event</b> event
+                         </div>`
+        }
+
     ]
 )//properties
 logo_url("/driver_icons/checkbox_control.png")
@@ -58,6 +68,14 @@ logo_url("/driver_icons/checkbox_control.png")
               } else {
                   this.args.checked="False"
               }
+              this.$emit('send', {
+                                              type:               "subcomponent_event",
+                                              form_name:           this.meta.form,
+                                              control_name:        this.meta.name,
+                                              sub_type:           "changed",
+                                              code:                this.args.changed_event
+                                          })
+
           }
       }
     })
