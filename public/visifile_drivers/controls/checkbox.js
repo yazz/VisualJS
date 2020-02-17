@@ -36,7 +36,7 @@ logo_url("/driver_icons/checkbox_control.png")
       ,
       template: `<input v-bind:id='design_mode?"":args.name'
                         type="checkbox"
-                        v-bind:onchange='valChanged(event)'
+                        v-on:change='valChanged(event)'
                         v-bind:checked='(args.checked=="True")?"True":""'
                         >
 
@@ -53,7 +53,11 @@ logo_url("/driver_icons/checkbox_control.png")
       ,
       methods: {
           valChanged: function(e) {
-              alert(e.target.checked)
+              if(e.target.checked) {
+                  this.args.checked="True"
+              } else {
+                  this.args.checked="False"
+              }
           }
       }
     })
