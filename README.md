@@ -10,7 +10,7 @@ https://yazz.com/visifile/docs/yazz_jan_2020.pdf
 
 
 ## Browser based IDE to build internal web apps
-Yazz Pilot is a tool for building internal web applications FAST! It can connect to Rest APIs, Postgres and other enterprise stuff, and uses JavaScript for scripting. There is a demo here (IDE only works on desktop Chrome right now although produced apps do work on iOS and Android):
+Yazz Pilot is a tool for building internal web applications. It can connect to Rest APIs, Postgres, etc and uses JavaScript for scripting. There is a demo here which works on desktop web browsers only:
 
 https://yazz.com/app/homepage.html
 <br/><br/><br/>
@@ -26,9 +26,10 @@ https://yazz.com/app/homepage.html
 ## Benefits
 
 - Build apps apps in minutes using drag and drop UI
-- Fast to deploy on any Kubernetes cluster
+- Fast to deploy on Docker or any Kubernetes cluster
 - Can run with NodeJS
 - Reuse via pre built components such as buttons, text boxes, and data access components to talk to Postgres, Mysql, or REST APIs
+- Can automatically pipe changes from one UI component to another
 <br/><br/><br/>
 
 
