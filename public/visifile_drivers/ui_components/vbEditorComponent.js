@@ -2584,8 +2584,13 @@ ${origCode}
                         mm.ui_code_editor.on("change", function(e) {
                             var newC = mm.ui_code_editor.getValue()
                             try {
-
-                                var newNode = esprima.parse("(async function(){" + newC + "})", { tolerant: true })
+                                //
+                                // whack city: we add the new line as o0therwise an error on the last
+                                // line generates an error  during code entry time, which we can detect
+                                // below by only flagging an error if the line exists within the typed
+                                // code
+                                //
+                                var newNode = esprima.parse("(async function(){" + newC + "\n})", { tolerant: true })
                                 //alert(JSON.stringify(newNode.errors, null, 2))
                                 mm.errors = newNode.errors
                                 if (mm.errors) {
@@ -2597,7 +2602,18 @@ ${origCode}
                                 }
                                 //zzz
                             } catch (e) {
-                                mm.errors = e
+                                if (e.lineNumber) {
+                                    var newC = mm.ui_code_editor.getValue()
+                                    var lineCount =  newC.split(/\r\n|\r|\n/).length
+                                    if (e.lineNumber > lineCount) {
+                                        mm.errors = null
+                                    } else {
+                                        mm.errors = e
+                                    }
+                                } else {
+                                    mm.errors = null
+                                }
+
                             } finally {
 
                             }
