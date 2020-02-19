@@ -201,15 +201,15 @@ logo_url("/driver_icons/rest.png")
         <button    class="btn btn-primary"
                    v-on:click="callStagingRestApi()">
 
-              Test staging API
+              Test API
 
         </button>
 
 
-        <button    class="btn btn-primary"
+        <button    class="btn btn-info"
                    v-on:click="promoteStagingToLive()">
 
-              Promote Staging To Live
+              Undo
 
         </button>
 
