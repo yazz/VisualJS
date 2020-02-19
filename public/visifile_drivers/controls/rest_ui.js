@@ -57,8 +57,8 @@ properties(
         }
         ,
         {
-            id:         "stagingRoot",
-            name:       "Staging response path",
+            id:         "undoRoot",
+            name:       "Undo response path",
             default:    "",
             type:       "String"
         }
@@ -71,8 +71,8 @@ properties(
         }
         ,
         {
-            id:         "stagingFilter",
-            name:       "Staging filter",
+            id:         "undoFilter",
+            name:       "Undo filter",
             default:    new Object(),
             hidden:     true,
             type:       "Object"
@@ -87,8 +87,8 @@ properties(
         }
         ,
         {
-            id:         "stagingURL",
-            name:       "Staging URL",
+            id:         "undoURL",
+            name:       "Undo URL",
             default:    "https://raw.githubusercontent.com/typicode/demo/master/db.json",
             type:       "String"
         }
@@ -115,21 +115,6 @@ properties(
             hidden:     true,
             type:       "Array"
         }
-        ,        {
-            id:         "stagingResponse",
-            name:       "Staging Response",
-            default:    null,
-            hidden:     true,
-            type:       "Object"
-        }
-        ,
-        {
-            id:         "filteredStagingResponse",
-            name:       "Filtered Staging Response",
-            default:    null,
-            hidden:     true,
-            type:       "Object"
-        }
         ,
         {
             id:         "filteredProductionResponse",
@@ -152,10 +137,10 @@ properties(
             id:         "callApiOnStartup",
             name:       "Call API on Startup",
             type:       "Select",
-            default:    "false",
+            default:    "False",
             values:     [
                             {display: "True",   value: "True"},
-                            {display: "False",  value: ""}
+                            {display: "False",  value: "False"}
                         ]
         }
     ]
@@ -199,7 +184,7 @@ logo_url("/driver_icons/rest.png")
         {{args.text}}
         <div/>
         <button    class="btn btn-primary"
-                   v-on:click="callStagingRestApi()">
+                   v-on:click="callLiveRestApi()">
 
               Test API
 
@@ -207,7 +192,7 @@ logo_url("/driver_icons/rest.png")
 
 
         <button    class="btn btn-info"
-                   v-on:click="promoteStagingToLive()">
+                   v-on:click="callUndo()">
 
               Undo
 
@@ -237,16 +222,16 @@ logo_url("/driver_icons/rest.png")
 
 
         <div style="height:100%;width:600px; border: 0px;color:black;padding: 10px;overflow:scroll;">
-            <input v-model="args.stagingURL" size=60></input>
+            <input v-model="args.URL" size=60></input>
             <div/>
 
 
 
             <div style="font-weight: bold;">Root</div>
-            <select v-model="args.stagingRoot" @change="filterStagingRestApi()">
+            <select v-model="args.productionRoot" @change="filterProductionRestApi()">
               <option disabled value="">Please select one</option>
               <option  v-for="jsonRoot in args.jsonRoots"
-                    v-bind:selected="jsonRoot == args.stagingRoot"
+                    v-bind:selected="jsonRoot == args.productionRoot"
                         >{{jsonRoot}}</option>
             </select>
 
@@ -257,21 +242,21 @@ logo_url("/driver_icons/rest.png")
             <div  style="height:200px;width:100%; border: 0px;color:black;padding: 10px;overflow:scroll;">
                 <div v-for="jsonPath in args.jsonPaths" >
 
-                   <input   v-if="jsonPath.startsWith(args.stagingRoot)"
+                   <input   v-if="jsonPath.startsWith(args.productionRoot)"
                             type="checkbox"
                             id="{{jsonPath}}"
                             value="{{jsonPath}}"
-                            v-model="args.stagingFilter[jsonPath]"
-                            @change="if (args.stagingFilter[jsonPath]) {checkParents(jsonPath)} else {uncheckChildren(jsonPath)};filterStagingRestApi()">
+                            v-model="args.productionFilter[jsonPath]"
+                            @change="if (args.productionFilter[jsonPath]) {checkParents(jsonPath)} else {uncheckChildren(jsonPath)};filterProductionRestApi()">
 
-                   <label v-if="jsonPath.startsWith(args.stagingRoot)"  for="{{jsonPath}}">{{jsonPath}}</label>
+                   <label v-if="jsonPath.startsWith(args.productionRoot)"  for="{{jsonPath}}">{{jsonPath}}</label>
                 </div>
             </div>
             <div style="height: 25px;"></div>
 
             <div v-if="!showAsCode">
                 <div style="font-weight: bold;">Result</div>
-                <pre>{{args.filteredStagingResponse}}</pre>
+                <pre>{{args.filteredProductionResponse}}</pre>
             </div>
 
             <div v-if="showAsCode">
@@ -280,9 +265,9 @@ var result = await {{args.name}}.callRestApi(
     "https://raw.githubusercontent.com/typicode/demo/master/db.json"
     ,
     {
-        filter: {{JSON.stringify(args.stagingFilter)}}
+        filter: {{JSON.stringify(args.productionFilter)}}
         ,
-        root: {{JSON.stringify(args.stagingRoot)}}
+        root: {{JSON.stringify(args.productionRoot)}}
     }
 )
 
@@ -353,7 +338,7 @@ var result = await {{args.name}}.callRestApi(
 
         mounted: async function() {
             registerComponent(this)
-            if (this.args.callApiOnStartup == 'true') {
+            if (this.args.callApiOnStartup == 'True') {
                 this.callDefaultRestApi()
             }
         }
@@ -473,8 +458,8 @@ var result = await {{args.name}}.callRestApi(
                 ,
                 {
                     input: input,
-                    filter: this.args.stagingFilter,
-                    root:  this.args.stagingRoot
+                    filter: this.args.productionFilter,
+                    root:  this.args.productionRoot
 
                 })
 
@@ -567,11 +552,11 @@ var result = await {{args.name}}.callRestApi(
 
             selectAll: async function( ) {
                 for ( var ert = 0  ;  ert < this.args.jsonPaths.length  ;  ert++  ) {
-                    if (this.args.stagingFilter[this.args.jsonPaths[ert]] == false) {
-                        this.args.stagingFilter[this.args.jsonPaths[ert]] = true
+                    if (this.args.productionFilter[this.args.jsonPaths[ert]] == false) {
+                        this.args.productionFilter[this.args.jsonPaths[ert]] = true
                     }
                 }
-                this.filterStagingRestApi()
+                this.filterProductionRestApi()
             }
             ,
 
@@ -597,7 +582,7 @@ var result = await {{args.name}}.callRestApi(
                 if (lastDotPos != -1) {
                     jsonPath = jsonPath.substring(jsonPath,lastDotPos)
                     //alert(jsonPath)
-                    this.args.stagingFilter[jsonPath] = true
+                    this.args.productionFilter[jsonPath] = true
                     this.checkParents(jsonPath)
                 }
             }
@@ -619,7 +604,7 @@ var result = await {{args.name}}.callRestApi(
             uncheckChildren: async function( jsonPath ) {
                 for ( var ert = 0  ;  ert < this.args.jsonPaths.length  ;  ert++  ) {
                     if (this.args.jsonPaths[ert].startsWith(jsonPath)) {
-                        this.args.stagingFilter[this.args.jsonPaths[ert]] = false
+                        this.args.productionFilter[this.args.jsonPaths[ert]] = false
                     }
                 }
             }
@@ -644,11 +629,11 @@ var result = await {{args.name}}.callRestApi(
 
             selectNone: async function( ) {
                 for ( var ert = 0  ;  ert < this.args.jsonPaths.length  ;  ert++  ) {
-                    if (this.args.stagingFilter[this.args.jsonPaths[ert]] == true) {
-                        this.args.stagingFilter[this.args.jsonPaths[ert]] = false
+                    if (this.args.productionFilter[this.args.jsonPaths[ert]] == true) {
+                        this.args.productionFilter[this.args.jsonPaths[ert]] = false
                     }
                 }
-                this.filterStagingRestApi()
+                this.filterProductionRestApi()
             }
             ,
 
@@ -661,23 +646,23 @@ var result = await {{args.name}}.callRestApi(
 
             // ----------------------------------------------------------------
             //
-            //                     callStagingRestApi
+            //                     callLiveRestApi
             //
             //
             //
             //
             // ----------------------------------------------------------------
 
-            callStagingRestApi: async function( urlToCall ) {
+            callLiveRestApi: async function( urlToCall ) {
 
 
                 //
                 // get the JSON response
                 //
-                this.args.filteredStagingResponse = new Object()
-                var jsonResponse  = await this.callRestApi(this.args.stagingURL)
-                this.args.stagingResponse   = jsonResponse
-                this.args.filteredStagingResponse = JSON.parse(JSON.stringify(this.args.stagingResponse))
+                this.args.filteredProductionResponse = new Object()
+                var jsonResponse  = await this.callRestApi(this.args.URL)
+                this.args.productionResponse   = jsonResponse
+                this.args.filteredProductionResponse = JSON.parse(JSON.stringify(this.args.productionResponse))
 
 
                 //
@@ -692,7 +677,7 @@ var result = await {{args.name}}.callRestApi(
                 // show all the fields in the JSON response
                 //
                 for (var ert=0;ert<this.args.jsonPaths.length;ert++) {
-                    this.args.stagingFilter[this.args.jsonPaths[ert]] = true
+                    this.args.productionFilter[this.args.jsonPaths[ert]] = true
                 }
 
 
@@ -707,20 +692,20 @@ var result = await {{args.name}}.callRestApi(
 
             // ----------------------------------------------------------------
             //
-            //                     promoteStagingToLive
+            //                     callUndo
             //
             //
             //
             //
             // ----------------------------------------------------------------
 
-            promoteStagingToLive: async function(urlToCall) {
+            callUndo: async function(urlToCall) {
 
 
-                this.args.productionFilter  = JSON.parse(JSON.stringify(this.args.stagingFilter))
-                this.args.URL               = this.args.stagingURL
-                this.args.productionRoot    = this.args.stagingRoot
-                this.args.callApiOnStartup  = 'true'
+                this.args.productionFilter  = JSON.parse(JSON.stringify(this.args.undoFilter))
+                this.args.URL               = this.args.undoURL
+                this.args.productionRoot    = this.args.undoRoot
+                this.args.callApiOnStartup  = 'True'
             }
             ,
 
@@ -761,21 +746,6 @@ var result = await {{args.name}}.callRestApi(
 
 
 
-            // ----------------------------------------------------------------
-            //
-            //                          filterStagingRestApi
-            //
-            //
-            //
-            //
-            // ----------------------------------------------------------------
-
-            filterStagingRestApi: async function() {
-                var aa = await this.getJsonFiltered(this.args.stagingResponse)
-                this.args.filteredStagingResponse  = aa
-
-            }
-            ,
 
 
             // ----------------------------------------------------------------
