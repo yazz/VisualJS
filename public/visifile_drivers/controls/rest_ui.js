@@ -228,7 +228,7 @@ logo_url("/driver_icons/rest.png")
 
 
             <div style="font-weight: bold;">Root</div>
-            <select v-model="args.productionRoot" @change="filterProductionRestApi()">
+            <select v-model="args.productionRoot" @change="filterProductionRestApi();showAsCode = false;">
               <option disabled value="">Please select one</option>
               <option  v-for="jsonRoot in args.jsonRoots"
                     v-bind:selected="jsonRoot == args.productionRoot"
@@ -247,7 +247,7 @@ logo_url("/driver_icons/rest.png")
                             id="{{jsonPath}}"
                             value="{{jsonPath}}"
                             v-model="args.productionFilter[jsonPath]"
-                            @change="if (args.productionFilter[jsonPath]) {checkParents(jsonPath)} else {uncheckChildren(jsonPath)};filterProductionRestApi()">
+                            @change="if (args.productionFilter[jsonPath]) {checkParents(jsonPath)} else {uncheckChildren(jsonPath)};filterProductionRestApi();showAsCode = false;">
 
                    <label v-if="jsonPath.startsWith(args.productionRoot)"  for="{{jsonPath}}">{{jsonPath}}</label>
                 </div>
@@ -556,6 +556,7 @@ var result = await {{args.name}}.callRestApi(
                         this.args.productionFilter[this.args.jsonPaths[ert]] = true
                     }
                 }
+                this.showAsCode = false
                 this.filterProductionRestApi()
             }
             ,
@@ -585,6 +586,7 @@ var result = await {{args.name}}.callRestApi(
                     this.args.productionFilter[jsonPath] = true
                     this.checkParents(jsonPath)
                 }
+                this.showAsCode = false
             }
             ,
 
@@ -607,6 +609,7 @@ var result = await {{args.name}}.callRestApi(
                         this.args.productionFilter[this.args.jsonPaths[ert]] = false
                     }
                 }
+                this.showAsCode = false
             }
             ,
 
@@ -634,6 +637,7 @@ var result = await {{args.name}}.callRestApi(
                     }
                 }
                 this.filterProductionRestApi()
+                this.showAsCode = false
             }
             ,
 
@@ -659,6 +663,7 @@ var result = await {{args.name}}.callRestApi(
                 //
                 // get the JSON response
                 //
+                this.showAsCode = false
                 this.args.filteredProductionResponse = new Object()
                 var jsonResponse  = await this.callRestApi(this.args.URL)
                 this.args.productionResponse   = jsonResponse
