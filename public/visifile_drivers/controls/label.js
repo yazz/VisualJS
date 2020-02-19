@@ -32,10 +32,10 @@ properties(
             id:         "use_pre",
             name:       "Use <pre>",
             type:       "Select",
-            default:     "false",
+            default:     "False",
             values:     [
-                            {display: "False",   value: "false"},
-                            {display: "True",  value: "true"}
+                            {display: "False",   value: "False"},
+                            {display: "True",  value: "True"}
                         ]
         }
         ,
@@ -73,7 +73,7 @@ logo_url("/driver_icons/text_control.png")
         template: `<div v-bind:style='"white-space:normal;height:100%;width:100%; border: 0px;" +
                                     "background-color: "+    args["background_color"]  +  ";overflow: auto;"'>
 
-<pre v-if="args.use_pre == 'true'">{{text}}</pre>
+<pre v-if="args.use_pre == 'True'">{{text}}</pre>
 
 <div v-else>
      {{text}}

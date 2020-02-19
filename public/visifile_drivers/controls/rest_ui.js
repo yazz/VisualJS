@@ -283,7 +283,8 @@ var result = await {{args.name}}.callRestApi(
         filter: {{JSON.stringify(args.stagingFilter)}}
         ,
         root: {{JSON.stringify(args.stagingRoot)}}
-    })
+    }
+)
 
 
 
