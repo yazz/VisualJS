@@ -302,7 +302,7 @@ uses_javascript_librararies(["advanced_bundle"])
 </tr>
 
 <tr v-for='currentWatch in watchList'
-v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid) &&
+v-if="model.forms[active_form].components[active_component_links_index] && (currentWatch.to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid) &&
       (design_mode_pane.direction == 'incoming')">
 
     <td style='padding:10px;'>
@@ -327,7 +327,7 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
 
 
 <tr v-for='currentPush in watchList'
-v-if="(currentPush.from_component_uuid == model.forms[active_form].components[active_component_links_index].uuid) &&
+v-if="model.forms[active_form].components[active_component_links_index] && (currentPush.from_component_uuid == model.forms[active_form].components[active_component_links_index].uuid) &&
       (design_mode_pane.direction == 'outgoing')">
 
 
