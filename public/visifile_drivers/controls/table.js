@@ -207,8 +207,8 @@ logo_url("/driver_icons/table.png")
             ,
             setData: async function(data) {
                 this.data = data
+                this.args.data = data
                 this.table.setData(data)
-                debugger
 
                 var keysOfData = new Object()
                 if ((this.columnDefinitions == null)  || (this.columnDefinitions.length == 0)) {
