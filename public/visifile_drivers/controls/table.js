@@ -206,7 +206,6 @@ logo_url("/driver_icons/table.png")
             }
             ,
             setData: async function(data) {
-                this.data = data
                 this.args.data = data
                 this.table.setData(data)
 
