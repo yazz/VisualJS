@@ -657,7 +657,7 @@ var result = await {{args.name}}.callRestApi(
             //
             // ----------------------------------------------------------------
 
-            callLiveRestApi: async function( urlToCall ) {
+            callLiveRestApi: async function( ) {
 
 
                 //
@@ -714,7 +714,7 @@ var result = await {{args.name}}.callRestApi(
                 this.args.productionFilter  = JSON.parse(JSON.stringify(this.args.undoFilter))
                 this.args.URL               = this.args.undoURL
                 this.args.productionRoot    = this.args.undoRoot
-                
+
                 var aa = await this.getJsonFiltered(this.args.productionResponse)
                 this.args.filteredProductionResponse  = aa
                 this.args.response  = aa
