@@ -261,15 +261,35 @@ logo_url("/driver_icons/rest.png")
 
             <div v-if="showAsCode">
 <pre style="padding:10px; background-color: lightgray;">
-var result = await {{args.name}}.callRestApi(
-    "https://raw.githubusercontent.com/typicode/demo/master/db.json"
+
+var result
+var result2 = await callFunction(
+{
+    driver_name: "rest_call_service",
+    method_name: "rest_call_service"
+}
+,
+{
+    URL:    "https://raw.githubusercontent.com/typicode/demo/master/db.json"
+})
+
+
+
+if (result2) {
+    var result = await callFunction(
+    {
+        driver_name: "json_filter_service",
+        method_name: "json_filter_service"
+    }
     ,
     {
-        filter: {{JSON.stringify(args.productionFilter)}}
-        ,
-        root: {{JSON.stringify(args.productionRoot)}}
-    }
-)
+        input: result2,
+            filter: {{JSON.stringify(args.productionFilter)}},
+        root:  {{JSON.stringify(args.productionRoot)}}
+
+    })
+}
+
 
 
 
