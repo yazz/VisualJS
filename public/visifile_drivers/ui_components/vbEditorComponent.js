@@ -332,13 +332,13 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
     <td style='padding:10px;' >
-        {{form_runtime_info[active_form].component_lookup_by_uuid[currentPush.from_component_uuid].name}}.{{currentPush.from_component_property_name}}
+        {{getOutgoingFromPropertyName(currentPush)}}
     </td>
 
 
 
     <td style='padding:10px;' >
-        {{form_runtime_info[active_form].component_lookup_by_uuid[currentPush.to_component_uuid].name}}.{{currentPush.to_component_property_name}}
+        {{getOutgoingToPropertyName(currentPush)}}
     </td>
 
 
@@ -1729,7 +1729,37 @@ Pushlist
      methods: {
 
 
+         getOutgoingFromPropertyName: function(currentPush) {
+             var ret
+             if (this.form_runtime_info[this.active_form].component_lookup_by_uuid[currentPush.from_component_uuid]) {
+                 ret = this.form_runtime_info[this.active_form].component_lookup_by_uuid[currentPush.from_component_uuid].name
+                     +
+                     "."
+                     +
+                     currentPush.from_component_property_name
+             } else {
+                 ret = "<Invalid>"
+             }
 
+            return ret
+         }
+         ,
+
+         getOutgoingToPropertyName: function(currentPush) {
+             var ret
+             if (this.form_runtime_info[this.active_form].component_lookup_by_uuid[currentPush.to_component_uuid]) {
+                 ret = this.form_runtime_info[this.active_form].component_lookup_by_uuid[currentPush.to_component_uuid].name
+                 +
+                 "."
+                 +
+                 currentPush.to_component_property_name
+             } else {
+                 ret = "<Invalid>"
+             }
+
+            return ret
+         }
+         ,
 
 
            addPush: function() {
