@@ -306,11 +306,11 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
       (design_mode_pane.direction == 'incoming')">
 
     <td style='padding:10px;'>
-        {{form_runtime_info[active_form].component_lookup_by_uuid[currentWatch.from_component_uuid].name}}.{{currentWatch.from_component_property_name}}
+        {{getIngoingFromPropertyName(currentWatch)}}
     </td>
 
     <td style='padding:10px;' >
-        {{model.forms[active_form].components[active_component_links_index].name}}.{{currentWatch.to_component_property_name}}
+        {{getIngoingToPropertyName(currentWatch)}}
     </td>
 
     <td style='padding:10px;' >
@@ -1727,7 +1727,38 @@ Pushlist
 
 
      methods: {
+         getIngoingToPropertyName: function(currentWatch) {
+             var ret
+             if (this.model.forms[this.active_form].components[this.active_component_links_index]) {
+                 ret = this.model.forms[this.active_form].components[this.active_component_links_index].name
+                 +
+                 "."
+                 +
+                 currentWatch.to_component_property_name
+             } else {
+                 ret = "<Invalid>"
+             }
 
+            return ret
+         }
+         ,
+
+
+         getIngoingFromPropertyName: function(currentWatch) {
+             var ret
+             if (this.form_runtime_info[this.active_form].component_lookup_by_uuid[currentWatch.from_component_uuid]) {
+                 ret = this.form_runtime_info[this.active_form].component_lookup_by_uuid[currentWatch.from_component_uuid].name
+                 +
+                 "."
+                 +
+                 currentWatch.from_component_property_name
+             } else {
+                 ret = "<Invalid>"
+             }
+
+            return ret
+         }
+         ,
 
          getOutgoingFromPropertyName: function(currentPush) {
              var ret
