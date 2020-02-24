@@ -265,8 +265,8 @@ logo_url("/driver_icons/rest.png")
 var result
 var result2 = await callFunction(
 {
-    driver_name: "rest_call_service",
-    method_name: "rest_call_service"
+    driver_name: "rest_call_service_v2",
+    method_name: "rest_call_service_v2"
 }
 ,
 {
