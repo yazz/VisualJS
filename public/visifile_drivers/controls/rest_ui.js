@@ -270,25 +270,12 @@ var result2 = await callFunction(
 }
 ,
 {
-    URL:    "https://raw.githubusercontent.com/typicode/demo/master/db.json"
+    URL:      "https://raw.githubusercontent.com/typicode/demo/master/db.json",
+    filter: {{JSON.stringify(args.productionFilter)}},
+    root:   {{JSON.stringify(args.productionRoot)}}
 })
 
 
-
-if (result2) {
-    var result = await callFunction(
-    {
-        driver_name: "json_filter_service",
-        method_name: "json_filter_service"
-    }
-    ,
-    {
-        input: result2,
-            filter: {{JSON.stringify(args.productionFilter)}},
-        root:  {{JSON.stringify(args.productionRoot)}}
-
-    })
-}
 
 
 
@@ -385,35 +372,17 @@ if (result2) {
                 }
                 ,
                 {
-                    URL:    url
+                    URL:    url,
+                    filter: this.args.productionFilter,
+                    root:   this.args.productionRoot
                 })
 
 
                 if (result) {
-                    this.args.productionResponse = result
-                    var result2 = await callFunction(
-                    {
-                        driver_name: "json_filter_service",
-                        method_name: "json_filter_service"
-                    }
-                    ,
-                    {
-                        input: result,
-                        filter: this.args.productionFilter,
-                        root:  this.args.productionRoot
-
-                    })
-                    console.log("result: " + JSON.stringify(result))
-                    console.log("this.args.productionFilter: " + JSON.stringify(this.args.productionFilter))
-                    console.log("this.args.productionRoot: " + JSON.stringify(this.args.productionRoot))
-
-
-                    if (result2) {
-                        this.args.filteredProductionResponse = result2
-                        this.args.response = result2
-                        return result2
-                    }
-                    return null
+                    this.args.productionResponse = result.raw
+                    this.args.filteredProductionResponse = result.filtered
+                    this.args.response = result.filtered
+                    return result.filtered
                 }
                 return null
             }
