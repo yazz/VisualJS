@@ -380,8 +380,8 @@ if (result2) {
 
                 var result = await callFunction(
                 {
-                    driver_name: "rest_call_service",
-                    method_name: "rest_call_service"
+                    driver_name: "rest_call_service_v2",
+                    method_name: "rest_call_service_v2"
                 }
                 ,
                 {
