@@ -222,7 +222,7 @@ logo_url("/driver_icons/rest.png")
 
 
         <div style="height:100%;width:600px; border: 0px;color:black;padding: 10px;overflow:scroll;">
-            <input v-model="args.URL" size=60></input>
+            <input v-model="args.URL" size=60 @change="changeURL()""></input>
             <div/>
 
 
@@ -361,6 +361,13 @@ var result2 = await callFunction(
             //
             //
             // ----------------------------------------------------------------
+            changeURL: async function() {
+                var mm = this
+                mm.args.productionFilter = new Object()
+                mm.args.productionRoot = ""
+            }
+            ,
+
 
             callRestApiInternal: async function(url) {
                 var mm = this
@@ -507,8 +514,6 @@ var result2 = await callFunction(
                     urlToCall = mm.args.URL
                 }
 
-                mm.args.productionFilter = new Object()
-                mm.args.productionRoot = ""
                 if (options) {
                     if (options.filter) {
                         mm.args.productionFilter = JSON.parse(JSON.stringify(options.filter))
