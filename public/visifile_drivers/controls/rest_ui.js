@@ -369,7 +369,7 @@ var result2 = await callFunction(
             ,
 
 
-            callRestApiInternal: async function(url, filter, root) {
+            callRestApiInternal: async function(url, noFilter, wholeTree) {
                 var mm = this
 
                 var result = await callFunction(
@@ -380,8 +380,8 @@ var result2 = await callFunction(
                 ,
                 {
                     URL:    url,
-                    filter: filter?filter:this.args.productionFilter,
-                    root:   root?root:this.args.productionRoot
+                    filter: noFilter?null:this.args.productionFilter,
+                    root:   wholeTree?null:this.args.productionRoot
                 })
 
 
@@ -523,7 +523,7 @@ var result2 = await callFunction(
                     }
                 }
 
-                var qwe = await this.callRestApiInternal(urlToCall, options.filter, options.root)
+                var qwe = await this.callRestApiInternal(urlToCall)
                 return qwe
             }
             ,
@@ -659,7 +659,7 @@ var result2 = await callFunction(
                 //
                 this.showAsCode = false
                 this.args.filteredProductionResponse = new Object()
-                var jsonResponse  = await this.callRestApi(this.args.URL,{filter: null,root: null})
+                var jsonResponse  = await this.callRestApiInternal(this.args.URL,true,true)
                 this.args.productionResponse   = jsonResponse
                 this.args.filteredProductionResponse = JSON.parse(JSON.stringify(this.args.productionResponse))
 

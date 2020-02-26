@@ -95,7 +95,7 @@ only_run_on_server(true)
                     }
                     console.log("returnJson: "     + JSON.stringify(returnJson,null,2));
                     console.log("scrubbed  : "     + JSON.stringify(scrubbed,null,2));
-                    returnFn({raw: returnJson, filtered: scrubbed})
+                    returnFn({raw: returnJson, filtered: scrubbed?scrubbed:returnJson})
                 } catch(err2) {
                     console.log("Started timer")
                     var startTime = new Date().getMilliseconds()
