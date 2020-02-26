@@ -95,9 +95,15 @@ only_run_on_server(true)
                     }
                     console.log("returnJson: "     + JSON.stringify(returnJson,null,2));
                     console.log("scrubbed  : "     + JSON.stringify(scrubbed,null,2));
-                    returnFn({raw: returnJson, filtered: scrubbed?scrubbed:returnJson})
+
+                    if (args.returnDetails) {
+                        returnFn({raw: returnJson, filtered: scrubbed?scrubbed:returnJson})
+                    } else {
+                        returnFn(scrubbed)
+                    }
+
                 } catch(err2) {
-                    console.log("Started timer")
+                    //console.log("Started timer")
                     var startTime = new Date().getMilliseconds()
                     xml2js.parseString(
                                 body,
@@ -109,7 +115,7 @@ only_run_on_server(true)
 
                                     var endTime = new Date().getMilliseconds()
                                     var totalTime = endTime - startTime
-                                    console.log("Took: " + totalTime + " ms")
+                                    //console.log("Took: " + totalTime + " ms")
                                     returnFn(result)
                                 });
 
@@ -118,7 +124,7 @@ only_run_on_server(true)
         );
 
     })
-    console.log("5" );
+
     var ret = await promise
 
 

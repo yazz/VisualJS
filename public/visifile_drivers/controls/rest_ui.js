@@ -262,8 +262,7 @@ logo_url("/driver_icons/rest.png")
             <div v-if="showAsCode">
 <pre style="padding:10px; background-color: lightgray;">
 
-var result
-var result2 = await callFunction(
+var result = await callFunction(
 {
     driver_name: "rest_call_service_v2",
     method_name: "rest_call_service_v2"
@@ -379,9 +378,10 @@ var result2 = await callFunction(
                 }
                 ,
                 {
-                    URL:    url,
-                    filter: noFilter?null:this.args.productionFilter,
-                    root:   wholeTree?null:this.args.productionRoot
+                    URL:             url,
+                    filter:          noFilter?null:this.args.productionFilter,
+                    root:            wholeTree?null:this.args.productionRoot,
+                    returnDetails:   true
                 })
 
 
