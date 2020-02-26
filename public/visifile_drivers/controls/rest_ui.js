@@ -677,7 +677,10 @@ var result2 = await callFunction(
                 // show all the fields in the JSON response
                 //
                 for (var ert=0;ert<this.args.jsonPaths.length;ert++) {
-                    this.args.productionFilter[this.args.jsonPaths[ert]] = true
+                     if (this.args.productionFilter[this.args.jsonPaths[ert]] == undefined) {
+                            this.args.productionFilter[this.args.jsonPaths[ert]] = true
+                     }
+
                 }
 
 
