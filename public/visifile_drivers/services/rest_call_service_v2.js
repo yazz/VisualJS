@@ -62,7 +62,7 @@ only_run_on_server(true)
                 try {
                     var returnJson = JSON.parse(body)
                     var scrubbed = null
-                    console.log("returnJson: "     + JSON.stringify(returnJson,null,2));
+                    //console.log("returnJson: "     + JSON.stringify(returnJson,null,2));
                     if (args.filter) {
 
                         var paths           = new Object()
@@ -74,17 +74,17 @@ only_run_on_server(true)
                             }
 
                             var rt = pathToString(this.path)
-                            console.log("Path: " + rt)
+                            //console.log("Path: " + rt)
 
                             paths[rt]=true
-                            console.log("paths[rt]=true " )
+                            //console.log("paths[rt]=true " )
 
                             if (args.filter[rt] == false) {
-                                console.log("this.remove()" )
+                                //console.log("this.remove()" )
                                 if(rt != "") {
                                     this.remove()
                                 }
-                                console.log("this.removed()" )
+                                //console.log("this.removed()" )
                             } else if (args.root == rt) {
                                 selectedPath = this.node
                             }

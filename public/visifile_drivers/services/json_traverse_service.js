@@ -21,7 +21,7 @@ only_run_on_server(true)
     return s
 }
 
-    console.log("** json_traverse_service **")
+    //console.log("** json_traverse_service **")
     //console.log(JSON.stringify(args,null,2))
     //var tt = traverse(args.input).paths()
     var paths=new Object()
@@ -32,7 +32,7 @@ only_run_on_server(true)
         } else  {
             var rt = pathToString(this.path)
 
-            console.log("'" + rt + "'")
+            //console.log("'" + rt + "'")
             if (rt != "") {
                 paths[rt] = true
             }
@@ -43,6 +43,6 @@ only_run_on_server(true)
         }
     });
 
-    console.log("** json_traverse_service **")
+    //console.log("** json_traverse_service **")
     return {paths: paths, roots: roots}
 }

@@ -29,13 +29,13 @@ only_run_on_server(true)
             ,
 
             function(error, res, body) {
-                console.log("Error: " + JSON.stringify(error,null,2));
-                console.log("Response: " + JSON.stringify(res,null,2));
-                console.log("Body: " + JSON.stringify(body,null,2));
+                //console.log("Error: " + JSON.stringify(error,null,2));
+                //console.log("Response: " + JSON.stringify(res,null,2));
+                //console.log("Body: " + JSON.stringify(body,null,2));
                 try {
                     returnFn(JSON.parse(body))
                 } catch(err2) {
-                    console.log("Started timer")
+                    //console.log("Started timer")
                     var startTime = new Date().getMilliseconds()
                     xml2js.parseString(
                                 body,
@@ -46,7 +46,7 @@ only_run_on_server(true)
                                 function (err, result) {
                                     var endTime = new Date().getMilliseconds()
                                     var totalTime = endTime - startTime
-                                    console.log("Took: " + totalTime + " ms")
+                                    //console.log("Took: " + totalTime + " ms")
                                     returnFn(result)
                                 });
 
@@ -55,7 +55,7 @@ only_run_on_server(true)
         );
 
     })
-    console.log("5" );
+    //console.log("5" );
     var ret = await promise
 
 

@@ -369,7 +369,7 @@ var result2 = await callFunction(
             ,
 
 
-            callRestApiInternal: async function(url) {
+            callRestApiInternal: async function(url, filter, root) {
                 var mm = this
 
                 var result = await callFunction(
@@ -380,8 +380,8 @@ var result2 = await callFunction(
                 ,
                 {
                     URL:    url,
-                    filter: this.args.productionFilter,
-                    root:   this.args.productionRoot
+                    filter: filter?filter:this.args.productionFilter,
+                    root:   root?root:this.args.productionRoot
                 })
 
 
@@ -523,7 +523,7 @@ var result2 = await callFunction(
                     }
                 }
 
-                var qwe = await this.callRestApiInternal(urlToCall)
+                var qwe = await this.callRestApiInternal(urlToCall, options.filter, options.root)
                 return qwe
             }
             ,
@@ -659,7 +659,7 @@ var result2 = await callFunction(
                 //
                 this.showAsCode = false
                 this.args.filteredProductionResponse = new Object()
-                var jsonResponse  = await this.callRestApi(this.args.URL)
+                var jsonResponse  = await this.callRestApi(this.args.URL,{filter: null,root: null})
                 this.args.productionResponse   = jsonResponse
                 this.args.filteredProductionResponse = JSON.parse(JSON.stringify(this.args.productionResponse))
 
@@ -667,6 +667,7 @@ var result2 = await callFunction(
                 //
                 // get the JSON paths and roots in the  response
                 //
+                debugger
                 var aa = await this.getListOfResponsePathsForJson(jsonResponse)
                 this.args.jsonPaths = Object.keys(aa.paths)
                 this.args.jsonRoots = Object.keys(aa.roots)
