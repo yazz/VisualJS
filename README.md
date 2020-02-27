@@ -1,12 +1,6 @@
 
 # Yazz Pilot
 
-## Documentation
-
-
-
-
-
 
 ## Browser based IDE to build internal web apps
 Yazz Pilot is a tool for building internal web applications. It can connect to Rest APIs, Postgres, and other stuff. JavaScript is used for scripting events and writing code. There is a demo which works on desktop web browsers here:
