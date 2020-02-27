@@ -667,7 +667,7 @@ var result = await callFunction(
                 //
                 // get the JSON paths and roots in the  response
                 //
-                debugger
+
                 var aa = await this.getListOfResponsePathsForJson(jsonResponse)
                 this.args.jsonPaths = Object.keys(aa.paths)
                 this.args.jsonRoots = Object.keys(aa.roots)
