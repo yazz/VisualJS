@@ -13,14 +13,14 @@ properties(
         {
             id:         "width",
             name:       "Width",
-            default:    350,
+            default:    80,
             type:       "Number"
         }
         ,
         {
             id:         "height",
             name:       "Height",
-            default:    300,
+            default:    80,
             type:       "Number"
         }
         ,
@@ -101,19 +101,23 @@ logo_url("/driver_icons/rh3scale.png")
 `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
     "background-color: "+    args["background_color"]  +  ";"'>
 
-    <div v-if="design_mode && (children.length == 0)" style="margin: 10px;">
+    <div v-if="design_mode && (design_mode != 'detail_editor')" style="margin: 10px;">
         <img src="/driver_icons/rh3scale.png" width=100px></src>
         <h3 class="text-center" >Red Hat 3Scale connector</h3>
         The Red Hat 3Scale Connector can be used to query 3Scale, or send
         API requests through the 3Scale gateway
     </div>
 
-    <div v-bind:style='"position:relative;width:100%;height:100%;border: 0px solid gray;background-color: "+    args["background_color"]  +  ";"'>
-        <div style="position:absolute;top:0px">
-            <slot v-bind:refresh='refresh'>
-            </slot>
-        </div>
+
+
+    <div v-if="design_mode && (design_mode == 'detail_editor')" style="margin: 10px;">
+        Host <input v-model="args.host" size=60 @change="changeHost()"></input>
+        API Key <input v-model="args.serviceToken" size=60 @change="changeAPIToken()"></input>
+
+
     </div>
+
+
 </div>`
 
         ,
