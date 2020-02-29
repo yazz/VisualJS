@@ -157,7 +157,7 @@ only_run_on_server(true)
                                         //console.log("scrubbed  : "     + JSON.stringify(scrubbed,null,2));
 
                                         if (args.returnDetails) {
-                                            returnFn({raw: result, filtered: scrubbed?scrubbed:result})
+                                            returnFn({raw: returnJson, filtered: scrubbed?scrubbed:returnJson})
                                         } else {
                                             returnFn(scrubbed)
                                         }
