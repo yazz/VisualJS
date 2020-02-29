@@ -52,7 +52,7 @@ only_run_on_server(true)
         console.log("paths[rt]=true " )
 
         if (args.filter[rt] == false) {
-            console.log("this.remove()" )
+            //console.log("this.remove()" )
             if(rt != "") {
                 this.remove()
             }

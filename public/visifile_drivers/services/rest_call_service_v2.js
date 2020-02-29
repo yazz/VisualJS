@@ -32,7 +32,7 @@ only_run_on_server(true)
 
 
 
-    console.log("REST Call args: " + JSON.stringify(args,null,2));
+    //console.log("REST Call args: " + JSON.stringify(args,null,2));
     //return {value: {a: 1}}
 
     var promise = new Promise(async function(returnFn) {
@@ -93,8 +93,8 @@ only_run_on_server(true)
                             scrubbed = selectedPath
                         }
                     }
-                    console.log("returnJson: "     + JSON.stringify(returnJson,null,2));
-                    console.log("scrubbed  : "     + JSON.stringify(scrubbed,null,2));
+                    //console.log("returnJson: "     + JSON.stringify(returnJson,null,2));
+                    //console.log("scrubbed  : "     + JSON.stringify(scrubbed,null,2));
 
                     if (args.returnDetails) {
                         returnFn({raw: returnJson, filtered: scrubbed?scrubbed:returnJson})
@@ -103,7 +103,8 @@ only_run_on_server(true)
                     }
 
                 } catch(err2) {
-                    console.log("****Body: " + JSON.stringify(body,null,2))
+                    console.log("Trying to read service call as XML")
+                    //console.log("****Body: " + JSON.stringify(body,null,2))
                     var startTime = new Date().getMilliseconds()
                     xml2js.parseString(
                                 body,
@@ -117,7 +118,7 @@ only_run_on_server(true)
                                     var totalTime = endTime - startTime
                                     //console.log("Took: " + totalTime + " ms")
 
-                                        console.log("****result: " + JSON.stringify(result,null,2))
+                                        //console.log("****result: " + JSON.stringify(result,null,2))
                                         //var returnJson = JSON.parse(result)
                                         //console.log("****returnJson: " + JSON.stringify(returnJson,null,2))
                                         var scrubbed = null
@@ -152,8 +153,8 @@ only_run_on_server(true)
                                                 scrubbed = selectedPath
                                             }
                                         }
-                                        console.log("result: "     + JSON.stringify(result,null,2));
-                                        console.log("scrubbed  : "     + JSON.stringify(scrubbed,null,2));
+                                        //console.log("result: "     + JSON.stringify(result,null,2));
+                                        //console.log("scrubbed  : "     + JSON.stringify(scrubbed,null,2));
 
                                         if (args.returnDetails) {
                                             returnFn({raw: result, filtered: scrubbed?scrubbed:result})
