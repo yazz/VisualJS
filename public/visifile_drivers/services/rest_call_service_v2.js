@@ -112,13 +112,13 @@ only_run_on_server(true)
                                     trim:           true,
                                     explicitArray:  false
                                 },
-                                function (err, result) {
-                                    //
+                                function (err, returnJson) {
+                                    //console.log("****returnJson: " + JSON.stringify(result,null,2))
                                     var endTime = new Date().getMilliseconds()
                                     var totalTime = endTime - startTime
                                     //console.log("Took: " + totalTime + " ms")
 
-                                        //console.log("****result: " + JSON.stringify(result,null,2))
+
                                         //var returnJson = JSON.parse(result)
                                         //console.log("****returnJson: " + JSON.stringify(returnJson,null,2))
                                         var scrubbed = null
