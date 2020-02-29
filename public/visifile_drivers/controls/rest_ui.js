@@ -269,7 +269,7 @@ var result = await callFunction(
 }
 ,
 {
-    URL:      "https://raw.githubusercontent.com/typicode/demo/master/db.json",
+    URL:      {{JSON.stringify(args.URL)}},
     filter: {{JSON.stringify(args.productionFilter)}},
     root:   {{JSON.stringify(args.productionRoot)}}
 })
