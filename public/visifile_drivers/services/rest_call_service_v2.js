@@ -99,7 +99,11 @@ only_run_on_server(true)
                     if (args.returnDetails) {
                         returnFn({raw: returnJson, filtered: scrubbed?scrubbed:returnJson})
                     } else {
-                        returnFn(scrubbed)
+                        if (scrubbed) {
+                            returnFn(scrubbed)
+                        } else {
+                            returnFn(returnJson)
+                        }
                     }
 
                 } catch(err2) {
@@ -159,7 +163,12 @@ only_run_on_server(true)
                                         if (args.returnDetails) {
                                             returnFn({raw: returnJson, filtered: scrubbed?scrubbed:returnJson})
                                         } else {
-                                            returnFn(scrubbed)
+                                            if (scrubbed) {
+                                                returnFn(scrubbed)
+                                            } else {
+                                                returnFn(returnJson)
+                                            }
+
                                         }
 
                                 });
