@@ -45,12 +45,6 @@ properties(
         }
         ,
         {
-            id:     "container_list",
-            name:   "Container list",
-            type:   "List"
-        }
-        ,
-        {
             id:         "is_container",
             name:       "Is Container?",
             type:       "Boolean",
@@ -59,11 +53,14 @@ properties(
         }
         ,
         {
-            id:         "getFilteredContainerList",
-            pre_snippet:    `await `,
-            snippet:    `getFilteredContainerList()`,
-            name:       "Get Container List",
-            type:       "Action"
+            id:         "is3ScaleAvailable",
+            name:       "Is 3 Scale Available?",
+            type:       "Select",
+            default:    "False",
+            values:     [
+                            {display: "True",   value: "True"},
+                            {display: "False",  value: "False"}
+                        ]
         }
         ,
 
@@ -81,6 +78,16 @@ properties(
             default: "78643278346874236846873248",
             type:    "String"
         }
+        ,
+        {
+            id:         "check3ScaleAvailable",
+            pre_snippet:    `await `,
+            snippet:    `check3ScaleAvailable()`,
+            name:       "Check 3Scale Available",
+            type:       "Action"
+        }
+        ,
+
 
     ]
 )//properties
@@ -134,8 +141,8 @@ logo_url("/driver_icons/rh3scale.png")
             registerComponent(this)
 
             if (!this.design_mode) {
-                var x = await this.readFromDocker()
-                this.args.container_list = x
+                var x = await this.check3ScaleAvailable()
+                this.args.is3ScaleAvailable = x?"True":"False"
             }
         }
         ,
@@ -163,22 +170,36 @@ logo_url("/driver_icons/rh3scale.png")
             ,
 
 
-            getFilteredContainerList: async function() {
-                var qwe = await this.readFromDocker()
-                var newList = []
+            check3ScaleAvailable: async function() {
+                try {
+                    var result = await callFunction(
+                    {
+                        driver_name: "rest_call_service_v2",
+                        method_name: "rest_call_service_v2"
+                    }
+                    ,
+                    {
+                        URL:     this.args.host +
+                                "/admin/api/application_plans.xml?access_token=" +
+                                 this.args.serviceToken,
+                        filter: null,
+                        root:   ""
+                    })
+                    debugger
+                    if (result && result.plans) {
+                        return true
+                    }
 
-                for (var aa = 0; aa < qwe.length; aa ++) {
+                } catch (e) {
+                    return false
+                } finally {
 
-                    var newObject = {
-                                        image:          qwe[aa].Image,
-                                        privatePort:    qwe[aa].Ports[0].PrivatePort,
-                                        publicPort:     qwe[aa].Ports[0].PublicPort,
-                                        state:          qwe[aa].State,
-                                        status:         qwe[aa].Status
-                                    }
-                    newList.push(newObject)
                 }
-                return newList
+                return false
+
+
+
+
             }
 
         }
