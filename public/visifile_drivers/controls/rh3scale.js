@@ -121,6 +121,11 @@ logo_url("/driver_icons/rh3scale.png")
         Host <input v-model="args.host" size=60 @change="changeHost()"></input>
         API Key <input v-model="args.serviceToken" size=60 @change="changeAPIToken()"></input>
 
+        <div v-bind:style='"background-color: " + (args.is3ScaleAvailable=="True"?"green":"red" ) +";color: white;padding:10px;"'
+        >
+            {{(args.is3ScaleAvailable=="True"?"Available":"Not available" )}}
+        </div>
+
 
     </div>
 
@@ -168,8 +173,17 @@ logo_url("/driver_icons/rh3scale.png")
                 return null
             }
             ,
+            changeAPIToken: async function() {
+                var x = await this.check3ScaleAvailable()
+                this.args.is3ScaleAvailable = x?"True":"False"
+            }
 
-
+            ,
+            changeHost: async function() {
+                var x = await this.check3ScaleAvailable()
+                this.args.is3ScaleAvailable = x?"True":"False"
+            }
+            ,
             check3ScaleAvailable: async function() {
                 try {
                     var result = await callFunction(
