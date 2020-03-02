@@ -34,7 +34,7 @@ properties(
         {
             id:      "host",
             name:    "Host",
-            default: "3scale.API",
+            default: "http://3scale.API",
             type:    "String"
         }
         ,
@@ -87,6 +87,13 @@ properties(
             type:       "Action"
         }
         ,
+        {
+            id:         "getApplicationPlans",
+            pre_snippet:    `await `,
+            snippet:    `getApplicationPlans()`,
+            name:       "Get app plans",
+            type:       "Action"
+        }
 
 
     ]
@@ -205,7 +212,7 @@ logo_url("/driver_icons/rh3scale.png")
                         filter: null,
                         root:   ""
                     })
-                    debugger
+
                     if (result && result.plans) {
                         return true
                     }
@@ -220,6 +227,31 @@ logo_url("/driver_icons/rh3scale.png")
 
 
 
+            }
+            ,
+            getUrlFor: function(extraURL) {
+                return this.args.host +
+                        extraURL + "?" +
+                        "&access_token=" + this.args.serviceToken
+            }
+            ,
+
+            getApplicationPlans: async function() {
+                var useURL = this.getUrlFor("/admin/api/application_plans.xml")
+                debugger
+                 var result = await callFunction(
+                 {
+                     driver_name: "rest_call_service_v2",
+                     method_name: "rest_call_service_v2"
+                 }
+                 ,
+                 {
+                     URL:    useURL,
+                     filter: {"plans":true,"plans.plan":true,"plans.plan.[]":true,"plans.plan.[].$":false,"plans.plan.[].$.custom":false,"plans.plan.[].$.default":false,"plans.plan.[].id":true,"plans.plan.[].name":true,"plans.plan.[].type":true,"plans.plan.[].state":true,"plans.plan.[].approval_required":true,"plans.plan.[].setup_fee":true,"plans.plan.[].cost_per_month":true,"plans.plan.[].trial_period_days":true,"plans.plan.[].cancellation_period":true,"plans.plan.[].service_id":true,"plans.plan.[].end_user_required":true},
+                     root:   "plans.plan"
+                 })
+
+                return result
             }
 
         }
