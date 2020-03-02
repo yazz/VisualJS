@@ -146,6 +146,12 @@ logo_url("/driver_icons/rh3scale.png")
             {{(args.is3ScaleAvailable=="True"?"Available":"Not available" )}}
         </div>
 
+        <div v-bind:refresh='refresh'
+             v-for="appPlan in args.applicationPlans" >
+
+            {{appPlan.name}}
+        </div>
+
 
     </div>
 
@@ -165,12 +171,14 @@ logo_url("/driver_icons/rh3scale.png")
         mounted: async function() {
             registerComponent(this)
 
-            if (!this.design_mode) {
-                var x = await this.check3ScaleAvailable()
-                this.args.is3ScaleAvailable = x?"True":"False"
+            var x = await this.check3ScaleAvailable()
+            this.args.is3ScaleAvailable = x?"True":"False"
+            if (this.design_mode) {
+                this.updatePlans()
             }
         }
         ,
+
 
 
         methods: {
@@ -193,15 +201,28 @@ logo_url("/driver_icons/rh3scale.png")
                 return null
             }
             ,
+
+
+            updatePlans: async function() {
+                if (this.args.is3ScaleAvailable) {
+                    this.getApplicationPlans()
+                }
+                this.refresh++
+
+            }
+            ,
+
             changeAPIToken: async function() {
                 var x = await this.check3ScaleAvailable()
                 this.args.is3ScaleAvailable = x?"True":"False"
+                this.updatePlans()
             }
 
             ,
             changeHost: async function() {
                 var x = await this.check3ScaleAvailable()
                 this.args.is3ScaleAvailable = x?"True":"False"
+                this.updatePlans()
             }
             ,
             check3ScaleAvailable: async function() {
@@ -245,7 +266,7 @@ logo_url("/driver_icons/rh3scale.png")
 
             getApplicationPlans: async function() {
                 var useURL = this.getUrlFor("/admin/api/application_plans.xml")
-                
+
                  var result = await callFunction(
                  {
                      driver_name: "rest_call_service_v2",
