@@ -94,7 +94,14 @@ properties(
             name:       "Get app plans",
             type:       "Action"
         }
-
+        ,
+        {
+            id:         "applicationPlans",
+            name:       "App plans",
+            default:    [],
+            hidden:     true,
+            type:       "Array"
+        }
 
     ]
 )//properties
@@ -238,7 +245,7 @@ logo_url("/driver_icons/rh3scale.png")
 
             getApplicationPlans: async function() {
                 var useURL = this.getUrlFor("/admin/api/application_plans.xml")
-                debugger
+                
                  var result = await callFunction(
                  {
                      driver_name: "rest_call_service_v2",
@@ -249,7 +256,10 @@ logo_url("/driver_icons/rh3scale.png")
                      URL:    useURL,
                      filter: {"plans":true,"plans.plan":true,"plans.plan.[]":true,"plans.plan.[].$":false,"plans.plan.[].$.custom":false,"plans.plan.[].$.default":false,"plans.plan.[].id":true,"plans.plan.[].name":true,"plans.plan.[].type":true,"plans.plan.[].state":true,"plans.plan.[].approval_required":true,"plans.plan.[].setup_fee":true,"plans.plan.[].cost_per_month":true,"plans.plan.[].trial_period_days":true,"plans.plan.[].cancellation_period":true,"plans.plan.[].service_id":true,"plans.plan.[].end_user_required":true},
                      root:   "plans.plan"
+                     //,returnDetails: true
                  })
+
+                 this.args.applicationPlans = JSON.parse(JSON.stringify(result))
 
                 return result
             }
