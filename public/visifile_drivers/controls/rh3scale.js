@@ -149,7 +149,7 @@ logo_url("/driver_icons/rh3scale.png")
         <div    v-if='args.applicationPlans && (args.applicationPlans.length > 0)'
                 v-bind:style='"padding:10px;"'>
 
-            Available APIs
+            <b>Available APIs</b>
             <div v-bind:refresh='refresh'
                  v-bind:style='"padding:10px;"'
                  v-for="appPlan in args.applicationPlans" >
@@ -160,9 +160,9 @@ logo_url("/driver_icons/rh3scale.png")
 
         <div    v-if='!(args.applicationPlans && (args.applicationPlans.length > 0))'
                 v-bind:style='"padding:10px;"'>
-                
+
             <div v-bind:refresh='refresh'>
-                No APIs available
+                <b>No APIs available</b>
             </div>
         </div>
 
