@@ -146,12 +146,25 @@ logo_url("/driver_icons/rh3scale.png")
             {{(args.is3ScaleAvailable=="True"?"Available":"Not available" )}}
         </div>
 
-        <div v-bind:refresh='refresh'
-             v-for="appPlan in args.applicationPlans" >
+        <div    v-if='args.applicationPlans && (args.applicationPlans.length > 0)'
+                v-bind:style='"padding:10px;"'>
 
-            {{appPlan.name}}
+            Available APIs
+            <div v-bind:refresh='refresh'
+                 v-bind:style='"padding:10px;"'
+                 v-for="appPlan in args.applicationPlans" >
+
+                {{appPlan.name}}
+            </div>
         </div>
 
+        <div    v-if='!(args.applicationPlans && (args.applicationPlans.length > 0))'
+                v-bind:style='"padding:10px;"'>
+                
+            <div v-bind:refresh='refresh'>
+                No APIs available
+            </div>
+        </div>
 
     </div>
 
