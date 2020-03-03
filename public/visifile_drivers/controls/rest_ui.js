@@ -89,14 +89,14 @@ properties(
         {
             id:         "undoURL",
             name:       "Undo URL",
-            default:    "https://raw.githubusercontent.com/typicode/demo/master/db.json",
+            default:    "http://127.0.0.1:3000/change_this_url",
             type:       "String"
         }
         ,
         {
             id:         "URL",
             name:       "URL",
-            default:    "https://raw.githubusercontent.com/typicode/demo/master/db.json",
+            default:    "http://127.0.0.1:3000/change_this_url",
             type:       "String"
         }
         ,
