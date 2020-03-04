@@ -311,6 +311,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
     </td>
 
     <td style='padding:10px;'>
+        {{getIngoingTransformFn(currentWatch)}}
     </td>
 
     <td style='padding:10px;' >
@@ -394,6 +395,8 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                 </option>
             </select>
 
+
+
             <select @change='setWatchFromProperty($event)'  style='margin:7px;'>
                 <option value=""
                         selected="true">
@@ -404,6 +407,8 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                                 {{watchFromProp}}
                 </option>
             </select>
+
+
         </div>
     </td>
 
@@ -414,6 +419,10 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
             <div style='margin:7px;'>
             {{model.forms[active_form].components[active_component_links_index].name}}
             </div>
+
+
+
+
 
             <select @change='setWatchToProperty($event)'  style='margin:7px;'>
                 <option value=""
@@ -430,6 +439,12 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
     <td  style='margin: 7px;vertical-align: bottom;'>
+        <textarea    rows=10
+                    @change='setWatchTransformFn($event)'
+                    v-bind:value='selectedWatchTransformFn'
+                    style='width: 100%;border: 1px solid black;font-family:verdana,helvetica;font-size: 13px;margin:7px;'>
+        </textarea>
+
         <div    style="border: 0px solid lightgray;margin:5px;height:150px;" class="text-center">
             <button type=button class='btn btn-sm btn-info'
                     v-bind:style='"margin-top:50%;"'
@@ -1768,6 +1783,23 @@ Pushlist
          }
          ,
 
+
+
+         getIngoingTransformFn: function(currentWatch) {
+             var ret
+             if (currentWatch.transform_fn && (currentWatch.transform_fn.length > 0)) {
+                 ret = currentWatch.transform_fn
+             } else {
+                 ret = "None"
+             }
+
+            return ret
+         }
+         ,
+
+
+
+
          getOutgoingFromPropertyName: function(currentPush) {
              var ret
              if (this.form_runtime_info[this.active_form].component_lookup_by_uuid[currentPush.from_component_uuid]) {
@@ -1847,12 +1879,14 @@ Pushlist
                   {
                     "uuid": mm.selectedWatchComponentUuid,
                     "property": mm.selectedWatchFromProperty,
-                    "send_to": mm.selectedWatchToProperty
+                    "send_to": mm.selectedWatchToProperty,
+                    "transform_fn": mm.selectedWatchTransformFn
                   }
               )
               mm.selectedWatchComponentUuid     = null
               mm.selectedWatchFromProperty      = null
               mm.selectedWatchToProperty        = null
+              mm.selectedWatchTransformFn        = null
 
               mm.refresh ++
               mm.updateAllFormCaches()
@@ -1902,6 +1936,13 @@ Pushlist
                this.selectedWatchToProperty = event.target.value
            }
            ,
+
+
+           setWatchTransformFn: function(event) {
+           //-------------------------------------------------------------------
+              this.selectedWatchTransformFn = event.target.value
+          }
+          ,
 
 
            //-------------------------------------------------------------------
@@ -5198,14 +5239,17 @@ return {}
            newCursor:                   null,
            watchList:                   [],
 
+
            selectedWatchComponentUuid:      null,
            selectedWatchFromProperty:      null,
+           selectedWatchTransformFn: null,
            selectedWatchToProperty:      null,
            selectedWatchFromProperties:      [],
            selectedWatchToProperties:      [],
 
            selectedPushComponentUuid:      null,
            selectedPushFromProperty:      null,
+           selectedPushTransform: null,
            selectedPushToProperty:      null,
            selectedPushFromProperties:      [],
            selectedPushToProperties:      [],
