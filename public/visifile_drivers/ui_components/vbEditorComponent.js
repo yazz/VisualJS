@@ -297,6 +297,7 @@ uses_javascript_librararies(["advanced_bundle"])
 <tr style="width:100%;">
 
     <td    style="width:40%;font-weight:bold;padding:10px;">From</td>
+    <td    style="width:40%;font-weight:bold;padding:10px;">Transform</td>
     <td    style="width:40%;font-weight:bold;padding:10px;">To</td>
     <td    style="width:20%;font-weight:bold;"></td>
 </tr>
@@ -307,6 +308,9 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
     <td style='padding:10px;'>
         {{getIngoingFromPropertyName(currentWatch)}}
+    </td>
+
+    <td style='padding:10px;'>
     </td>
 
     <td style='padding:10px;' >
@@ -333,6 +337,10 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
     <td style='padding:10px;' >
         {{getOutgoingFromPropertyName(currentPush)}}
+    </td>
+
+
+    <td style='padding:10px;' >
     </td>
 
 
