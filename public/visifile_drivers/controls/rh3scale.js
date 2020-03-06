@@ -80,6 +80,13 @@ properties(
         }
         ,
         {
+            id:      "apiKey",
+            name:    "API key",
+            default: "",
+            type:    "String"
+        }
+        ,
+        {
             id:         "check3ScaleAvailable",
             pre_snippet:    `await `,
             snippet:    `check3ScaleAvailable()`,
@@ -331,7 +338,25 @@ logo_url("/driver_icons/rh3scale.png")
                      //,returnDetails: true
                  })
 
-                 this.args.proxyConfigList = JSON.parse(JSON.stringify(result))
+                 var pl = result.proxy_configs
+                 var pl2=[]
+                 for (var i=0;i<pl.length;i++) {
+                     var rtt= pl[i].proxy_config
+                     var rtt2={
+                         environment: rtt.environment,
+                         id: rtt.content.id,
+                         account_id: rtt.content.account_id,
+                         name: rtt.content.name,
+                         description: rtt.content.description,
+                         service_id: rtt.content.proxy.service_id,
+                         auth_user_key: rtt.content.proxy.auth_user_key,
+                         api_test_path: rtt.content.proxy.api_test_path,
+                         sandbox_endpoint: rtt.content.proxy.sandbox_endpoint,
+                         endpoint: rtt.content.proxy.endpoint
+                     }
+                     pl2.push(rtt2)
+                 }
+                 this.args.proxyConfigList = JSON.parse(JSON.stringify(pl2))
 
                 return result
             }
