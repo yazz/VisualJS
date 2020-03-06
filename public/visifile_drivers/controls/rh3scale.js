@@ -96,13 +96,28 @@ properties(
         }
         ,
         {
+            id:         "getProxyConfigList",
+            pre_snippet:    `await `,
+            snippet:    `getProxyConfigList()`,
+            name:       "Get proxy configs",
+            type:       "Action"
+        }
+        ,
+        {
             id:         "applicationPlans",
             name:       "App plans",
             default:    [],
             hidden:     true,
             type:       "Array"
         }
-
+        ,
+        {
+            id:         "proxyConfigList",
+            name:       "proxy config list",
+            default:    [],
+            hidden:     true,
+            type:       "Array"
+        }
     ]
 )//properties
 
@@ -219,6 +234,7 @@ logo_url("/driver_icons/rh3scale.png")
             updatePlans: async function() {
                 if (this.args.is3ScaleAvailable) {
                     this.getApplicationPlans()
+                    this.getProxyConfigList()
                 }
                 this.refresh++
 
@@ -297,6 +313,30 @@ logo_url("/driver_icons/rh3scale.png")
 
                 return result
             }
+
+            ,
+            getProxyConfigList: async function() {
+                var useURL = this.getUrlFor("/admin/api/services/2555417843495/proxy/configs/sandbox.json")
+
+                 var result = await callFunction(
+                 {
+                     driver_name: "rest_call_service_v2",
+                     method_name: "rest_call_service_v2"
+                 }
+                 ,
+                 {
+                     URL:    useURL,
+                     filter: null,
+                     root:   null
+                     //,returnDetails: true
+                 })
+
+                 this.args.proxyConfigList = JSON.parse(JSON.stringify(result))
+
+                return result
+            }
+
+
 
         }
 
