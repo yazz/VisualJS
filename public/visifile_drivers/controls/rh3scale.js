@@ -159,8 +159,12 @@ logo_url("/driver_icons/rh3scale.png")
             <input v-model="args.host" size=60 @change="changeHost()"></input>
         </div>
         <div style="padding:10px;">
+            Admin Service Token
+            <input v-model="args.serviceToken" size=60 @change="changeServiceToken()"></input>
+        </div>
+        <div style="padding:10px;">
             API Key
-            <input v-model="args.serviceToken" size=60 @change="changeAPIToken()"></input>
+            <input v-model="args.apiKey" size=60 @change="changeAPIKey()"></input>
         </div>
 
         <div v-bind:style='"background-color: " + (args.is3ScaleAvailable=="True"?"green":"red" ) +";color: white;padding:10px;"'
@@ -168,7 +172,7 @@ logo_url("/driver_icons/rh3scale.png")
             {{(args.is3ScaleAvailable=="True"?"Available":"Not available" )}}
         </div>
 
-        <div    v-if='args.applicationPlans && (args.applicationPlans.length > 0)'
+        <div    v-if='args.proxyConfigList && (args.proxyConfigList.length > 0)'
                 v-bind:style='"padding:10px;"'>
 
             <b>Available APIs</b>
@@ -248,16 +252,23 @@ logo_url("/driver_icons/rh3scale.png")
             }
             ,
 
-            changeAPIToken: async function() {
+            changeServiceToken: async function() {
                 var x = await this.check3ScaleAvailable()
                 this.args.is3ScaleAvailable = x?"True":"False"
+                this.getProxyConfigList()
                 this.updatePlans()
             }
+            ,
+            changeApiKey: async function() {
+            }
+
+
 
             ,
             changeHost: async function() {
                 var x = await this.check3ScaleAvailable()
                 this.args.is3ScaleAvailable = x?"True":"False"
+                this.getProxyConfigList()
                 this.updatePlans()
             }
             ,
