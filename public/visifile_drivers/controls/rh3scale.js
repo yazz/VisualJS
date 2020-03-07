@@ -178,7 +178,9 @@ logo_url("/driver_icons/rh3scale.png")
                 <div style="display: inline-block;width:50%;height:100%;vertical-align:top;">
                     <b>Available APIs</b>
                     <div v-bind:refresh='refresh'
-                         v-bind:style='"padding:10px;"'
+                         v-on:mouseover='proxyConfigHover = thisApi.id'
+                         v-bind:style='"padding:10px;" + "background-color: " +
+                            ((proxyConfigHover == thisApi.id)?"lightgray":"") + ";"'
 
                          v-for="thisApi in args.proxyConfigList" >
 
@@ -210,7 +212,8 @@ logo_url("/driver_icons/rh3scale.png")
 
         data: function() {
             return {
-                msg: "..."
+                proxyConfigHover: null,
+                proxyConfigSelected: null
             }
         }
 
