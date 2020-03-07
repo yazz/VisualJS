@@ -179,10 +179,10 @@ logo_url("/driver_icons/rh3scale.png")
                     <b>Available APIs</b>
                     <div v-bind:refresh='refresh'
                          v-bind:style='"padding:10px;"'
-                         
-                         v-for="appPlan in args.applicationPlans" >
 
-                        {{appPlan.name}}
+                         v-for="thisApi in args.proxyConfigList" >
+
+                        {{thisApi.name}}
                     </div>
                 </div>
 
@@ -193,7 +193,7 @@ logo_url("/driver_icons/rh3scale.png")
 
         </div>
 
-        <div    v-if='(args.is3ScaleAvailable=="True") && ((!args.applicationPlans) || (args.applicationPlans.length == 0))'
+        <div    v-if='(args.is3ScaleAvailable=="True") && ((!args.proxyConfigList) || (args.proxyConfigList.length == 0))'
                 v-bind:style='"padding:10px;"'>
 
             <div v-bind:refresh='refresh'>
