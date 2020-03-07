@@ -179,7 +179,7 @@ logo_url("/driver_icons/rh3scale.png")
                     <b>Available APIs</b>
                     <div v-bind:refresh='refresh'
                          v-on:mouseover='apiListItemHover = thisApi.id'
-                         v-on:click='apiListItemSelected = thisApi.id; getProxyConfigItem(thisApi.id) '
+                         v-on:click='apiListItemSelected = thisApi.id; getProxyConfigItem(thisApi.service_id) '
                          v-bind:style='"padding:10px;" + "background-color: " +
                             ((apiListItemSelected == thisApi.id)?"gray":((apiListItemHover == thisApi.id)?"lightgray":"")) + ";"'
 
@@ -189,12 +189,9 @@ logo_url("/driver_icons/rh3scale.png")
                     </div>
                 </div>
 
-                <pre style="display: inline-block;border: 1px solid gray;width:45%;height:100%;vertical-align:top;">
-
-                   Properties:
-
-                   {{JSON.stringify(args.proxyConfig,null,2)}}
-
+                <pre    v-bind:refresh='refresh'
+                        style="display: inline-block;border: 1px solid gray;width:45%;height:100%;vertical-align:top;">
+{{JSON.stringify(args.proxyConfig,null,2)}}
                 </pre>
 
         </div>
@@ -352,11 +349,12 @@ logo_url("/driver_icons/rh3scale.png")
             ,
             getProxyConfigItem: async function(id) {
                 this.args.proxyConfig = await this.getProxyConfig(id)
+                this.refresh++
             }
 
             ,
             getProxyConfig: async function(id) {
-                id="2555417843495"
+                //id="2555417843495"
                 var useURL = this.getUrlFor("/admin/api/services/" + id + "/proxy/configs/sandbox.json")
 
                  var result = await callFunction(
