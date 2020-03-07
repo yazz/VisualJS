@@ -172,7 +172,7 @@ logo_url("/driver_icons/rh3scale.png")
             {{(args.is3ScaleAvailable=="True"?"Available":"Not available" )}}
         </div>
 
-        <div    v-if='args.proxyConfigList && (args.proxyConfigList.length > 0)'
+        <div    v-if='(args.is3ScaleAvailable=="True") && args.proxyConfigList && (args.proxyConfigList.length > 0)'
                 v-bind:style='"padding:10px;"'>
 
             <b>Available APIs</b>
@@ -184,7 +184,7 @@ logo_url("/driver_icons/rh3scale.png")
             </div>
         </div>
 
-        <div    v-if='!(args.applicationPlans && (args.applicationPlans.length > 0))'
+        <div    v-if='(args.is3ScaleAvailable=="True") && ((!args.applicationPlans) || (args.applicationPlans.length == 0))'
                 v-bind:style='"padding:10px;"'>
 
             <div v-bind:refresh='refresh'>
