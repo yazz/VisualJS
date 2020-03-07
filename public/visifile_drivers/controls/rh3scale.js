@@ -172,7 +172,7 @@ logo_url("/driver_icons/rh3scale.png")
             {{(args.is3ScaleAvailable=="True"?"Available":"Not available" )}}
         </div>
 
-        <div    v-if='(args.is3ScaleAvailable=="True") && args.proxyConfigList && (args.proxyConfigList.length > 0)'
+        <div    v-if='(args.is3ScaleAvailable=="True") && args.applicationPlans && (args.applicationPlans.length > 0)'
                 v-bind:style='"padding:10px;"'>
 
                 <div style="display: inline-block;width:50%;height:100%;vertical-align:top;">
@@ -182,7 +182,7 @@ logo_url("/driver_icons/rh3scale.png")
                          v-bind:style='"padding:10px;" + "background-color: " +
                             ((proxyConfigHover == thisApi.id)?"lightgray":"") + ";"'
 
-                         v-for="thisApi in args.proxyConfigList" >
+                         v-for="thisApi in args.applicationPlans" >
 
                         {{thisApi.name}}
                     </div>
@@ -195,7 +195,7 @@ logo_url("/driver_icons/rh3scale.png")
 
         </div>
 
-        <div    v-if='(args.is3ScaleAvailable=="True") && ((!args.proxyConfigList) || (args.proxyConfigList.length == 0))'
+        <div    v-if='(args.is3ScaleAvailable=="True") && ((!args.applicationPlans) || (args.applicationPlans.length == 0))'
                 v-bind:style='"padding:10px;"'>
 
             <div v-bind:refresh='refresh'>
@@ -362,24 +362,20 @@ logo_url("/driver_icons/rh3scale.png")
                  })
 
                  var pl = result.proxy_configs
-                 var pl2=[]
-                 for (var i=0;i<pl.length;i++) {
-                     var rtt= pl[i].proxy_config
-                     var rtt2={
-                         environment: rtt.environment,
-                         id: rtt.content.id,
-                         account_id: rtt.content.account_id,
-                         name: rtt.content.name,
-                         description: rtt.content.description,
-                         service_id: rtt.content.proxy.service_id,
-                         auth_user_key: rtt.content.proxy.auth_user_key,
-                         api_test_path: rtt.content.proxy.api_test_path,
-                         sandbox_endpoint: rtt.content.proxy.sandbox_endpoint,
-                         endpoint: rtt.content.proxy.endpoint
-                     }
-                     pl2.push(rtt2)
+                 var rtt= pl[0].proxy_config
+                 var rtt2={
+                     environment: rtt.environment,
+                     id: rtt.content.id,
+                     account_id: rtt.content.account_id,
+                     name: rtt.content.name,
+                     description: rtt.content.description,
+                     service_id: rtt.content.proxy.service_id,
+                     auth_user_key: rtt.content.proxy.auth_user_key,
+                     api_test_path: rtt.content.proxy.api_test_path,
+                     sandbox_endpoint: rtt.content.proxy.sandbox_endpoint,
+                     endpoint: rtt.content.proxy.endpoint
                  }
-                 this.args.proxyConfigList = JSON.parse(JSON.stringify(pl2))
+                 this.args.proxyConfigList = JSON.parse(JSON.stringify(rtt2))
 
                 return result
             }
