@@ -103,10 +103,10 @@ properties(
         }
         ,
         {
-            id:         "getProxyConfigList",
+            id:         "getProxyConfig",
             pre_snippet:    `await `,
-            snippet:    `getProxyConfigList()`,
-            name:       "Get proxy configs",
+            snippet:    `getProxyConfig("service ID")`,
+            name:       "Get proxy config",
             type:       "Action"
         }
         ,
@@ -119,11 +119,11 @@ properties(
         }
         ,
         {
-            id:         "proxyConfigList",
-            name:       "proxy config list",
-            default:    [],
+            id:         "proxyConfig",
+            name:       "proxy config",
+            default:    {},
             hidden:     true,
-            type:       "Array"
+            type:       "Object"
         }
     ]
 )//properties
@@ -175,11 +175,11 @@ logo_url("/driver_icons/rh3scale.png")
         <div    v-if='(args.is3ScaleAvailable=="True") && args.applicationPlans && (args.applicationPlans.length > 0)'
                 v-bind:style='"padding:10px;"'>
 
-                <div style="display: inline-block;width:50%;height:100%;vertical-align:top;">
+                <div style="display: inline-block;width:45%;height:100%;vertical-align:top;">
                     <b>Available APIs</b>
                     <div v-bind:refresh='refresh'
                          v-on:mouseover='apiListItemHover = thisApi.id'
-                         v-on:click='apiListItemSelected = thisApi.id; '
+                         v-on:click='apiListItemSelected = thisApi.id; getProxyConfigItem(thisApi.id) '
                          v-bind:style='"padding:10px;" + "background-color: " +
                             ((apiListItemSelected == thisApi.id)?"gray":((apiListItemHover == thisApi.id)?"lightgray":"")) + ";"'
 
@@ -189,10 +189,13 @@ logo_url("/driver_icons/rh3scale.png")
                     </div>
                 </div>
 
-                <div style="display: inline-block;border: 1px solid gray;width:50%;height:100%;vertical-align:top;">
+                <pre style="display: inline-block;border: 1px solid gray;width:45%;height:100%;vertical-align:top;">
 
                    Properties:
-                </div>
+
+                   {{JSON.stringify(args.proxyConfig,null,2)}}
+
+                </pre>
 
         </div>
 
@@ -258,7 +261,7 @@ logo_url("/driver_icons/rh3scale.png")
             updatePlans: async function() {
                 if (this.args.is3ScaleAvailable) {
                     this.getApplicationPlans()
-                    this.getProxyConfigList()
+                    this.getProxyConfig()
                 }
                 this.refresh++
 
@@ -268,7 +271,7 @@ logo_url("/driver_icons/rh3scale.png")
             changeServiceToken: async function() {
                 var x = await this.check3ScaleAvailable()
                 this.args.is3ScaleAvailable = x?"True":"False"
-                this.getProxyConfigList()
+                this.getProxyConfig()
                 this.updatePlans()
             }
             ,
@@ -281,7 +284,7 @@ logo_url("/driver_icons/rh3scale.png")
             changeHost: async function() {
                 var x = await this.check3ScaleAvailable()
                 this.args.is3ScaleAvailable = x?"True":"False"
-                this.getProxyConfigList()
+                this.getProxyConfig()
                 this.updatePlans()
             }
             ,
@@ -345,9 +348,16 @@ logo_url("/driver_icons/rh3scale.png")
                 return result
             }
 
+
             ,
-            getProxyConfigList: async function() {
-                var useURL = this.getUrlFor("/admin/api/services/2555417843495/proxy/configs/sandbox.json")
+            getProxyConfigItem: async function(id) {
+                this.args.proxyConfig = await this.getProxyConfig(id)
+            }
+
+            ,
+            getProxyConfig: async function(id) {
+                id="2555417843495"
+                var useURL = this.getUrlFor("/admin/api/services/" + id + "/proxy/configs/sandbox.json")
 
                  var result = await callFunction(
                  {
@@ -376,7 +386,7 @@ logo_url("/driver_icons/rh3scale.png")
                      sandbox_endpoint: rtt.content.proxy.sandbox_endpoint,
                      endpoint: rtt.content.proxy.endpoint
                  }
-                 this.args.proxyConfigList = JSON.parse(JSON.stringify(rtt2))
+                 result = JSON.parse(JSON.stringify(rtt2))
 
                 return result
             }
