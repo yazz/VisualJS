@@ -178,9 +178,10 @@ logo_url("/driver_icons/rh3scale.png")
                 <div style="display: inline-block;width:50%;height:100%;vertical-align:top;">
                     <b>Available APIs</b>
                     <div v-bind:refresh='refresh'
-                         v-on:mouseover='proxyConfigHover = thisApi.id'
+                         v-on:mouseover='apiListItemHover = thisApi.id'
+                         v-on:click='apiListItemSelected = thisApi.id; '
                          v-bind:style='"padding:10px;" + "background-color: " +
-                            ((proxyConfigHover == thisApi.id)?"lightgray":"") + ";"'
+                            ((apiListItemSelected == thisApi.id)?"gray":((apiListItemHover == thisApi.id)?"lightgray":"")) + ";"'
 
                          v-for="thisApi in args.applicationPlans" >
 
@@ -212,8 +213,8 @@ logo_url("/driver_icons/rh3scale.png")
 
         data: function() {
             return {
-                proxyConfigHover: null,
-                proxyConfigSelected: null
+                apiListItemHover: null,
+                apiListItemSelected: null
             }
         }
 
