@@ -175,11 +175,12 @@ logo_url("/driver_icons/rh3scale.png")
         <div    v-if='(args.is3ScaleAvailable=="True") && args.applicationPlans && (args.applicationPlans.length > 0)'
                 v-bind:style='"padding:10px;"'>
 
+
                 <div style="display: inline-block;width:45%;height:100%;vertical-align:top;">
                     <b>Available APIs</b>
                     <div v-bind:refresh='refresh'
                          v-on:mouseover='apiListItemHover = thisApi.id'
-                         v-on:click='apiListItemSelected = thisApi.id; getProxyConfig(thisApi.service_id,apiEnv) '
+                         v-on:click='apiServiceIdSelected = thisApi.service_id;apiListItemSelected = thisApi.id; getProxyConfig(thisApi.service_id,apiEnv); '
                          v-bind:style='"padding:10px;" + "background-color: " +
                             ((apiListItemSelected == thisApi.id)?"gray":((apiListItemHover == thisApi.id)?"lightgray":"")) + ";"'
 
@@ -191,7 +192,15 @@ logo_url("/driver_icons/rh3scale.png")
 
                 <pre    v-bind:refresh='refresh'
                         style="display: inline-block;border: 1px solid gray;width:45%;height:100%;vertical-align:top;">
-{{JSON.stringify(args.proxyConfig,null,2)}}
+
+                        <a href="#"
+                            v-on:click='apiEnv="staging"; getProxyConfig(apiServiceIdSelected,apiEnv)'
+                            v-bind:class='"badge " + (apiEnv=="staging"?"badge-dark":"badge-light")'>Staging</a>
+                        <a href="#"
+                            v-on:click='apiEnv="production"; getProxyConfig(apiServiceIdSelected,apiEnv)'
+                            v-bind:class='"badge " + (apiEnv=="production"?"badge-dark":"badge-light")'>Production</a>
+
+                        {{JSON.stringify(args.proxyConfig,null,2)}}
                 </pre>
 
         </div>
@@ -215,6 +224,7 @@ logo_url("/driver_icons/rh3scale.png")
             return {
                 apiListItemHover: null,
                 apiListItemSelected: null,
+                apiServiceIdSelected: null,
                 apiEnv: "production"
             }
         }
@@ -347,7 +357,7 @@ logo_url("/driver_icons/rh3scale.png")
 
             ,
             getProxyConfig: async function(id, env) {
-                //id="2555417843495"
+                debugger
                 var useURL = this.getUrlFor("/admin/api/services/" + id + "/proxy/configs/" + env + ".json")
 
                  var result = await callFunction(
