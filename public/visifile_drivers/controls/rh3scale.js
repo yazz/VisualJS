@@ -357,7 +357,7 @@ logo_url("/driver_icons/rh3scale.png")
 
             ,
             getProxyConfig: async function(id, env) {
-                debugger
+                
                 var useURL = this.getUrlFor("/admin/api/services/" + id + "/proxy/configs/" + env + ".json")
 
                  var result = await callFunction(
