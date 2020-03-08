@@ -105,7 +105,7 @@ properties(
         {
             id:         "getProxyConfig",
             pre_snippet:    `await `,
-            snippet:    `getProxyConfig("service ID")`,
+            snippet:    `getProxyConfig("service ID", "production")`,
             name:       "Get proxy config",
             type:       "Action"
         }
@@ -179,7 +179,7 @@ logo_url("/driver_icons/rh3scale.png")
                     <b>Available APIs</b>
                     <div v-bind:refresh='refresh'
                          v-on:mouseover='apiListItemHover = thisApi.id'
-                         v-on:click='apiListItemSelected = thisApi.id; getProxyConfig(thisApi.service_id) '
+                         v-on:click='apiListItemSelected = thisApi.id; getProxyConfig(thisApi.service_id,apiEnv) '
                          v-bind:style='"padding:10px;" + "background-color: " +
                             ((apiListItemSelected == thisApi.id)?"gray":((apiListItemHover == thisApi.id)?"lightgray":"")) + ";"'
 
@@ -214,7 +214,8 @@ logo_url("/driver_icons/rh3scale.png")
         data: function() {
             return {
                 apiListItemHover: null,
-                apiListItemSelected: null
+                apiListItemSelected: null,
+                apiEnv: "production"
             }
         }
 
@@ -258,7 +259,6 @@ logo_url("/driver_icons/rh3scale.png")
             updatePlans: async function() {
                 if (this.args.is3ScaleAvailable) {
                     this.getApplicationPlans()
-                    this.getProxyConfig()
                 }
                 this.refresh++
 
@@ -268,7 +268,6 @@ logo_url("/driver_icons/rh3scale.png")
             changeServiceToken: async function() {
                 var x = await this.check3ScaleAvailable()
                 this.args.is3ScaleAvailable = x?"True":"False"
-                this.getProxyConfig()
                 this.updatePlans()
             }
             ,
@@ -281,7 +280,6 @@ logo_url("/driver_icons/rh3scale.png")
             changeHost: async function() {
                 var x = await this.check3ScaleAvailable()
                 this.args.is3ScaleAvailable = x?"True":"False"
-                this.getProxyConfig()
                 this.updatePlans()
             }
             ,
@@ -348,9 +346,9 @@ logo_url("/driver_icons/rh3scale.png")
 
 
             ,
-            getProxyConfig: async function(id) {
+            getProxyConfig: async function(id, env) {
                 //id="2555417843495"
-                var useURL = this.getUrlFor("/admin/api/services/" + id + "/proxy/configs/production.json")
+                var useURL = this.getUrlFor("/admin/api/services/" + id + "/proxy/configs/" + env + ".json")
 
                  var result = await callFunction(
                  {
@@ -364,9 +362,14 @@ logo_url("/driver_icons/rh3scale.png")
                      root:   null
                      //,returnDetails: true
                  })
+                 if(!result) {return null}
 
                  var pl = result.proxy_configs
+                 if(!pl) {return null}
+                 if(!pl[0]) {return null}
+
                  var rtt= pl[0].proxy_config
+                 if(rtt2) {return null}
                  var rtt2={
                      environment: rtt.environment,
                      id: rtt.content.id,
