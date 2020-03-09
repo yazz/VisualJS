@@ -1787,6 +1787,7 @@ Pushlist
 
          getIngoingTransformFn: function(currentWatch) {
              var ret
+             //debugger
              if (currentWatch.transform_fn && (currentWatch.transform_fn.length > 0)) {
                  ret = currentWatch.transform_fn
              } else {
@@ -3552,6 +3553,8 @@ ${origCode}
                                         from_component_property_name:   cc.watch[ff].property
                                         ,
                                         type:                           "watch"
+                                        ,
+                                        transform_fn:                   cc.watch[ff].transform_fn
                                 })
 
 
