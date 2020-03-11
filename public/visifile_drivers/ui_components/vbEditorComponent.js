@@ -364,95 +364,6 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
 </tr>
-</table>
-
-
-
-
-
-<br/><br/>
-Add new link
-<table style="width:100%;" class="table">
-<tr style='border: 2px solid lightgray;'
-    v-if="(design_mode_pane.direction == 'incoming')">
-
-
-
-    <td style='vertical-align: top; '>
-        <div    style="border: 1px solid lightgray;margin:5px;height:150px;">
-            <div    style="width:40%;font-weight:bold;margin:7px;">From</div>
-            <select  @change='setWatchComponent($event)'  style='margin:7px;'>
-                <option     value=""
-                            selected="true">
-                </option>
-                <option     v-for="watchComp in model.forms[active_form].components"
-                            v-bind:value="watchComp.uuid"
-                            v-bind:selected="selectedWatchComponentUuid == watchComp.uuid">
-                                {{watchComp.name}}
-                </option>
-            </select>
-
-
-
-            <select @change='setWatchFromProperty($event)'  style='margin:7px;'>
-                <option value=""
-                        selected="true">
-                </option>
-                <option     v-for="watchFromProp in selectedWatchFromProperties"
-                            v-bind:value="watchFromProp"
-                            v-bind:selected="selectedWatchFromProperty == watchFromProp">
-                                {{watchFromProp}}
-                </option>
-            </select>
-
-
-        </div>
-    </td>
-
-
-    <td style='vertical-align: top;border: 1px solid lightgray;margin:5px;'>
-        <div    style="">
-            <div    style="margin:7px;width:40%;font-weight:bold;">To</div>
-            <div style='margin:7px;'>
-            {{model.forms[active_form].components[active_component_links_index].name}}
-            </div>
-
-
-
-
-
-            <select @change='setWatchToProperty($event)'  style='margin:7px;'>
-                <option value=""
-                        selected="true">
-                </option>
-                <option     v-for="watchToProp in selectedWatchToProperties"
-                            v-bind:value="watchToProp"
-                            v-bind:selected="selectedWatchToProperty == watchToProp">
-                                {{watchToProp}}
-                </option>
-            </select>
-        </div>
-    </td>
-</tr>
-<tr>
-
-    <td  style='margin: 7px;vertical-align: bottom;' colspan="2">
-        Transform function
-        <textarea    rows=7
-                    @change='setWatchTransformFn($event)'
-                    v-bind:value='selectedWatchTransformFn'
-                    style='width: 100%;border: 1px solid black;font-family:verdana,helvetica;font-size: 13px;margin:7px;'>
-        </textarea>
-
-            <button type=button class='btn btn-sm btn-info'
-                    v-bind:style='""'
-                    v-on:click='$event.stopPropagation(); addWatch();'  >
-
-                 Add
-
-            </button>
-    </td>
-</tr>
 
 
 
@@ -490,6 +401,100 @@ Add new link
 
         </div>
     </td>
+
+</table>
+
+
+
+
+
+<br/><br/>
+<b>Add new link</b>
+<table style="width:100%;border: 3px solid black;" class="table">
+<tr style=''
+    v-if="(design_mode_pane.direction == 'incoming')">
+
+
+
+    <td style='vertical-align: top; width: 50%;'>
+        <div    style="margin:5px;height:150px;">
+            <div    style="width:40%;font-weight:bold;margin:7px;">From</div>
+            <select  @change='setWatchComponent($event)'  style='margin:7px;'>
+                <option     value=""
+                            selected="true">
+                </option>
+                <option     v-for="watchComp in model.forms[active_form].components"
+                            v-bind:value="watchComp.uuid"
+                            v-bind:selected="selectedWatchComponentUuid == watchComp.uuid">
+                                {{watchComp.name}}
+                </option>
+            </select>
+
+
+
+            <select @change='setWatchFromProperty($event)'  style='margin:7px;'>
+                <option value=""
+                        selected="true">
+                </option>
+                <option     v-for="watchFromProp in selectedWatchFromProperties"
+                            v-bind:value="watchFromProp"
+                            v-bind:selected="selectedWatchFromProperty == watchFromProp">
+                                {{watchFromProp}}
+                </option>
+            </select>
+
+
+        </div>
+    </td>
+
+
+    <td style='vertical-align: top;border: 1px solid lightgray;margin:5px;'>
+        <div    style="width:50%;">
+            <div    style="margin:7px;font-weight:bold;">To</div>
+            <div style='margin:7px;'>
+                {{model.forms[active_form].components[active_component_links_index].name}}
+            </div>
+
+
+
+
+
+            <select @change='setWatchToProperty($event)'  style='margin:7px;'>
+                <option value=""
+                        selected="true">
+                </option>
+                <option     v-for="watchToProp in selectedWatchToProperties"
+                            v-bind:value="watchToProp"
+                            v-bind:selected="selectedWatchToProperty == watchToProp">
+                                {{watchToProp}}
+                </option>
+            </select>
+        </div>
+    </td>
+</tr>
+<tr>
+
+    <td  style='margin: 7px;vertical-align: bottom;' colspan="2">
+        <b>Transform function</b>
+        <textarea    rows=7
+                    @change='setWatchTransformFn($event)'
+                    v-bind:value='selectedWatchTransformFn'
+                    style='width: 100%;border: 1px solid black;font-family:verdana,helvetica;font-size: 13px;margin:7px;'>
+        </textarea>
+
+            <button type=button class='btn btn-sm btn-info'
+                    v-bind:style='""'
+                    v-on:click='$event.stopPropagation(); addWatch();'  >
+
+                 Add
+
+            </button>
+    </td>
+</tr>
+
+
+
+
 
 
 
