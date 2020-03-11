@@ -341,7 +341,8 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
     </td>
 
 
-    <td style='padding:10px;' >
+    <td style='padding:10px;'>
+        {{getOutgoingTransformFn(currentPush)}}
     </td>
 
 
@@ -537,7 +538,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
     <td  style='margin: 7px;vertical-align: bottom;' colspan="2">
         <b>Transform function</b>
         <textarea    rows=7
-                    @change='setWatchTransformFn($event)'
+                    @change='setPushTransformFn($event)'
                     v-bind:value='selectedPushTransformFn'
                     style='width: 100%;border: 1px solid black;font-family:verdana,helvetica;font-size: 13px;margin:7px;'>
         </textarea>
@@ -1824,7 +1825,18 @@ Pushlist
             return ret
          }
          ,
+         getOutgoingTransformFn: function(currentWatch) {
+             var ret
+             //debugger
+             if (currentWatch.transform_fn && (currentWatch.transform_fn.length > 0)) {
+                 ret = currentWatch.transform_fn
+             } else {
+                 ret = "None"
+             }
 
+            return ret
+         }
+         ,
 
 
 
