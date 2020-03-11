@@ -1580,7 +1580,7 @@ Pushlist
                                //mm.model.forms[this.active_form].components[0].text = "" + mm.model.forms[this.active_form].components[1].value
                                var vvvvvv = fromc[ww.from_component_property_name]
                                var toValue = JSON.parse(JSON.stringify(vvvvvv))
-                               
+
                                if (ww.transform_fn) {
                                    try {
                                        var toValueFn = eval("("+ ww.transform_fn + ")")
@@ -1727,7 +1727,17 @@ Pushlist
 
                                              //mm.model.forms[this.active_form].components[0].text = "" + mm.model.forms[this.active_form].components[1].value
                                              var vvvvvv = fromc[ww.from_component_property_name]
-                                             toc[ww.to_component_property_name] = JSON.parse(JSON.stringify(vvvvvv))
+                                             var toValue = JSON.parse(JSON.stringify(vvvvvv))
+
+                                             if (ww.transform_fn) {
+                                                 try {
+                                                     var toValueFn = eval("("+ ww.transform_fn + ")")
+                                                     toValue = toValueFn(toValue)
+                                                 } catch (err) {
+                                                     console.log(err)
+                                                 }
+                                             }
+                                             toc[ww.to_component_property_name] = toValue
                                          }
 
                                      }
