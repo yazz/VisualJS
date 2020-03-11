@@ -364,18 +364,15 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
 </tr>
-
-
-<tr>
-    <td> <div style='margin-top:50px;'></div></td>
-    <td></td>
-    <td></td>
-</tr>
+</table>
 
 
 
 
 
+<br/><br/>
+Add new link
+<table style="width:100%;" class="table">
 <tr style='border: 2px solid lightgray;'
     v-if="(design_mode_pane.direction == 'incoming')">
 
@@ -413,8 +410,8 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
     </td>
 
 
-    <td style='vertical-align: top;'>
-        <div    style="border: 1px solid lightgray;margin:5px;height:150px;">
+    <td style='vertical-align: top;border: 1px solid lightgray;margin:5px;'>
+        <div    style="">
             <div    style="margin:7px;width:40%;font-weight:bold;">To</div>
             <div style='margin:7px;'>
             {{model.forms[active_form].components[active_component_links_index].name}}
@@ -436,24 +433,24 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
             </select>
         </div>
     </td>
+</tr>
+<tr>
 
-
-    <td  style='margin: 7px;vertical-align: bottom;'>
-        <textarea    rows=10
+    <td  style='margin: 7px;vertical-align: bottom;' colspan="2">
+        Transform function
+        <textarea    rows=7
                     @change='setWatchTransformFn($event)'
                     v-bind:value='selectedWatchTransformFn'
                     style='width: 100%;border: 1px solid black;font-family:verdana,helvetica;font-size: 13px;margin:7px;'>
         </textarea>
 
-        <div    style="border: 0px solid lightgray;margin:5px;height:150px;" class="text-center">
             <button type=button class='btn btn-sm btn-info'
-                    v-bind:style='"margin-top:50%;"'
+                    v-bind:style='""'
                     v-on:click='$event.stopPropagation(); addWatch();'  >
 
                  Add
 
             </button>
-        </div>
     </td>
 </tr>
 
