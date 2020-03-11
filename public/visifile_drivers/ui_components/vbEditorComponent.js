@@ -307,15 +307,15 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
       (design_mode_pane.direction == 'incoming')">
 
     <td style='padding:10px;'>
-        {{getIngoingFromPropertyName(currentWatch)}}
+        {{getIncomingFromPropertyName(currentWatch)}}
     </td>
 
     <td style='padding:10px;'>
-        {{getIngoingTransformFn(currentWatch)}}
+        {{getIncomingTransformFn(currentWatch)}}
     </td>
 
     <td style='padding:10px;' >
-        {{getIngoingToPropertyName(currentWatch)}}
+        {{getIncomingToPropertyName(currentWatch)}}
     </td>
 
     <td style='padding:10px;' >
@@ -1778,7 +1778,7 @@ Pushlist
 
 
      methods: {
-         getIngoingToPropertyName: function(currentWatch) {
+         getIncomingToPropertyName: function(currentWatch) {
              var ret
              if (this.model.forms[this.active_form].components[this.active_component_links_index]) {
                  ret = this.model.forms[this.active_form].components[this.active_component_links_index].name
@@ -1795,7 +1795,7 @@ Pushlist
          ,
 
 
-         getIngoingFromPropertyName: function(currentWatch) {
+         getIncomingFromPropertyName: function(currentWatch) {
              var ret
              if (this.form_runtime_info[this.active_form].component_lookup_by_uuid[currentWatch.from_component_uuid]) {
                  ret = this.form_runtime_info[this.active_form].component_lookup_by_uuid[currentWatch.from_component_uuid].name
@@ -1813,7 +1813,7 @@ Pushlist
 
 
 
-         getIngoingTransformFn: function(currentWatch) {
+         getIncomingTransformFn: function(currentWatch) {
              var ret
              //debugger
              if (currentWatch.transform_fn && (currentWatch.transform_fn.length > 0)) {
