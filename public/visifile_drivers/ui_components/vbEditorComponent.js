@@ -369,38 +369,6 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
 
-<tr style='border: 2px solid lightgray;'
-    v-if="(design_mode_pane.direction == 'outgoing')">
-
-
-
-    <td style='vertical-align: top; '>
-        <div    style="border: 1px solid lightgray;margin:5px;height:150px;">
-
-
-            <div    style="width:40%;font-weight:bold;margin:7px;">From</div>
-
-
-            <div    style="width:40%;margin:7px;">
-                {{model.forms[active_form].components[active_component_links_index].name}}
-            </div>
-
-
-
-            <select @change='setPushFromProperty($event)' style='margin:7px;'>
-                <option value=""
-                        selected="true">
-                </option>
-                <option     v-for="pushFromProp in selectedPushFromProperties"
-                            v-bind:value="pushFromProp"
-                            v-bind:selected="selectedPushFromProperty == pushFromProp">
-                                {{pushFromProp}}
-                </option>
-            </select>
-
-
-        </div>
-    </td>
 
 </table>
 
@@ -472,7 +440,8 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
         </div>
     </td>
 </tr>
-<tr>
+<tr style=''
+    v-if="(design_mode_pane.direction == 'incoming')">
 
     <td  style='margin: 7px;vertical-align: bottom;' colspan="2">
         <b>Transform function</b>
@@ -499,9 +468,36 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
 
+<tr style=''
+    v-if="(design_mode_pane.direction == 'outgoing')">
+    <td style='vertical-align: top; width: 50%;'>
+        <div    style="border: 1px solid lightgray;margin:5px;height:150px;">
 
 
-    <td style='vertical-align: top;'>
+            <div    style="width:40%;font-weight:bold;margin:7px;">From</div>
+
+
+            <div    style="width:40%;margin:7px;">
+                {{model.forms[active_form].components[active_component_links_index].name}}
+            </div>
+
+
+
+            <select @change='setPushFromProperty($event)' style='margin:7px;'>
+                <option value=""
+                        selected="true">
+                </option>
+                <option     v-for="pushFromProp in selectedPushFromProperties"
+                            v-bind:value="pushFromProp"
+                            v-bind:selected="selectedPushFromProperty == pushFromProp">
+                                {{pushFromProp}}
+                </option>
+            </select>
+
+
+        </div>
+    </td>
+    <td style='vertical-align: top; width: 50%;'>
         <div    style="border: 1px solid lightgray;margin:5px;height:150px;">
             <div    style="margin:7px;width:40%;font-weight:bold;">To</div>
 
@@ -532,8 +528,11 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
         </div>
     </td>
+</tr>
 
 
+<tr style=''
+    v-if="(design_mode_pane.direction == 'outgoing')">
 
     <td  style='padding: 7px;vertical-align: top;'>
         <button type=button class='btn btn-sm btn-info'
