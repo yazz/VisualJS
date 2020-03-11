@@ -1825,11 +1825,11 @@ Pushlist
             return ret
          }
          ,
-         getOutgoingTransformFn: function(currentWatch) {
+         getOutgoingTransformFn: function(currentPush) {
              var ret
              //debugger
-             if (currentWatch.transform_fn && (currentWatch.transform_fn.length > 0)) {
-                 ret = currentWatch.transform_fn
+             if (currentPush.transform_fn && (currentPush.transform_fn.length > 0)) {
+                 ret = currentPush.transform_fn
              } else {
                  ret = "None"
              }
@@ -3639,6 +3639,8 @@ ${origCode}
                                         to_component_property_name:     cc.push[ff].send_to
                                         ,
                                         type:                           "push"
+                                        ,
+                                        transform_fn:                   cc.push[ff].transform_fn
                                 })
                                 if (this.form_runtime_info[formName].component_incoming_count_by_uuid[cc.push[ff].uuid]) {
                                     this.form_runtime_info[formName].component_incoming_count_by_uuid[cc.push[ff].uuid] ++
