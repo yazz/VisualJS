@@ -191,16 +191,16 @@ logo_url("/driver_icons/rh3scale.png")
                 </div>
 
                 <pre    v-bind:refresh='refresh'
-                        style="display: inline-block;border: 1px solid gray;width:45%;height:100%;vertical-align:top;">
+                        style="display: inline-block;border: 1px solid gray;width:45%;height:100%;vertical-align:top;padding:10px;">
 
-                        <a href="#"
-                            v-on:click='apiEnv="staging"; getProxyConfig(apiServiceIdSelected,apiEnv)'
-                            v-bind:class='"badge " + (apiEnv=="staging"?"badge-dark":"badge-light")'>Staging</a>
-                        <a href="#"
-                            v-on:click='apiEnv="production"; getProxyConfig(apiServiceIdSelected,apiEnv)'
-                            v-bind:class='"badge " + (apiEnv=="production"?"badge-dark":"badge-light")'>Production</a>
+<a href="#"
+    v-on:click='apiEnv="staging"; getProxyConfig(apiServiceIdSelected,apiEnv)'
+    v-bind:class='"badge " + (apiEnv=="staging"?"badge-dark":"badge-light")'>Staging</a>
+<a href="#"
+    v-on:click='apiEnv="production"; getProxyConfig(apiServiceIdSelected,apiEnv)'
+    v-bind:class='"badge " + (apiEnv=="production"?"badge-dark":"badge-light")'>Production</a>
 
-                        {{JSON.stringify(args.proxyConfig,null,2)}}
+{{((Object.keys(args.proxyConfig).length > 0)?JSON.stringify(args.proxyConfig,null,2):"No API selected")}}
                 </pre>
 
         </div>
@@ -357,7 +357,7 @@ logo_url("/driver_icons/rh3scale.png")
 
             ,
             getProxyConfig: async function(id, env) {
-                
+
                 var useURL = this.getUrlFor("/admin/api/services/" + id + "/proxy/configs/" + env + ".json")
 
                  var result = await callFunction(
