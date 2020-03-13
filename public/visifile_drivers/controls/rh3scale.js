@@ -111,6 +111,15 @@ properties(
         }
         ,
         {
+            id:         "createAPIComponent",
+            pre_snippet:    `await `,
+            snippet:    `createAPIComponent()`,
+            name:       "Create API Component",
+            type:       "Action"
+        }
+
+        ,
+        {
             id:         "applicationPlans",
             name:       "App plans",
             default:    [],
@@ -245,6 +254,28 @@ logo_url("/driver_icons/rh3scale.png")
 
 
         methods: {
+            createAPIComponent: async function() {
+                await loadV2(["horiz_scroll_control"])
+                this.meta.getEditor().addControl(
+                            {
+                          "leftX": 26,
+                          "topY": 182,
+                          "name": "horiz_scroll_control_114",
+                          "base_component_id": "horiz_scroll_control",
+                          "text": "",
+                          "background_color": "",
+                          "changed_event": "",
+                          "value": 50,
+                          "width": 250,
+                          "height": 30,
+                          "uuid": "e7cc0803-4a74-4497-9e09-2e87b65505e2"
+
+                })
+            }
+            ,
+
+
+
             readFromDocker: async function() {
                 var result = await callFunction(
                 {
