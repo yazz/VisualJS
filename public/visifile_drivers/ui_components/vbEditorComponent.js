@@ -2459,7 +2459,17 @@ ${origCode}
               )
         }
         ,
-
+        getControlByName: function(controlName) {
+            var mm = this
+            var control = mm.model.forms.Form_1.components[controlName]
+            for (var tt=0;tt<mm.model.forms.Form_1.components.length;tt++) {
+                if (mm.model.forms.Form_1.components[tt].name == controlName) {
+                    return mm.model.forms.Form_1.components[tt]
+                }
+            }
+            return null
+        }
+        ,
 
          refreshControlIndexes: function() {
             if (this.active_component_detail_name) {

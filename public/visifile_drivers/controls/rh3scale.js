@@ -257,20 +257,61 @@ logo_url("/driver_icons/rh3scale.png")
             createAPIComponent: async function() {
                 await loadV2(["horiz_scroll_control"])
                 this.meta.getEditor().addControl(
-                            {
-                          "leftX": 26,
-                          "topY": 182,
-                          "name": "horiz_scroll_control_114",
-                          "base_component_id": "horiz_scroll_control",
-                          "text": "",
-                          "background_color": "",
-                          "changed_event": "",
-                          "value": 50,
-                          "width": 250,
-                          "height": 30,
-                          "uuid": "e7cc0803-4a74-4497-9e09-2e87b65505e2"
+                    {
+                              "leftX": 207,
+                              "topY": 230,
+                              "name": "rest_control_114",
+                              "base_component_id": "rest_control",
+                              "text": "REST API Call",
+                              "has_details_ui": true,
+                              "width": 180,
+                              "height": 70,
+                              "callDefaultRestApi": "",
+                              "callRestApi": "",
+                              "undoRoot": "",
+                              "productionRoot": "",
+                              "undoFilter": {
+                                "a": true,
+                                "b": true,
+                                "c": true
+                              },
+                              "productionFilter": {
+                                "a": true,
+                                "b": true,
+                                "c": true
+                              },
+                              "undoURL": "https://xxx.staging.gw.xxx_apicast.co/?user_key=somekey",
+                              "URL": "https://xxx.staging.gw.xxx_apicast.co/?user_key=somekey",
+                              "jsonPaths": [
+                                "a",
+                                "b",
+                                "c"
+                              ],
+                              "jsonRoots": [
+                                ""
+                              ],
+                              "filteredProductionResponse": {
+                                "a": 1,
+                                "b": 2,
+                                "c": "Hello man!"
+                              },
+                              "response": {
+                                "a": 1,
+                                "b": 2,
+                                "c": "Hello man!"
+                              },
+                              "callApiOnStartup": "False",
+                              "uuid": "321b4695-08da-4d63-ad4c-83baec759425",
+                              "parent": null,
+                              "productionResponse": {
+                                "a": 1,
+                                "b": 2,
+                                "c": "Hello man!"
+                              }
+                            }
 
-                })
+                            )
+                  return this.meta.getEditor().getControlByName("rest_control_114")
             }
             ,
 
