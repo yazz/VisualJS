@@ -217,7 +217,8 @@ load_once_from_file(true)
                               v-on:mouseleave='setInfo(null)'
                               v-on:click='setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null)},100)'
                               type="button" class="btn  btn-warning"
-                              v-if="!read_only && (save_state == 'pending' || (!save_state))">
+                              v-if="!read_only && (save_state == 'pending' || (!save_state))"
+                              >
 
                               <img
                                   src='/driver_icons/save.png'
@@ -281,14 +282,32 @@ load_once_from_file(true)
             </div>
 
 
-            <div    v-on:click='var win = window.open(location.protocol + "//" + networkIntranetIpAddress + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
-                    v-if='app_loaded && (!is_server_app)'
+
+            <div    v-if='app_loaded && (!is_server_app)'
                     v-bind:style="'display:flex;text-decoration: underline;color:blue;padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;'">
 
-                Shareable link:<input   readonly
+                <div v-on:click='var win = window.open(location.protocol + "//" + networkIntranetIpAddress + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'>Shareable link:</div>
+
+                <button   v-on:click='setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null)},100)'
+                          type="button"
+                          v-bind:style="'padding: 0px; margin-top: 0px; margin-left:10px; position: relative; border: 0px;background-color: rgb(242, 242, 242)'"
+                          class="btn">
+
+                          <img
+                              src='/driver_icons/reload.png'
+                              style='height:15px; margin-right: 0px;'
+                              class='img-fluid'>
+                          </img>
+
+                </button>
+
+                <input   readonly
                                         style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
+                                        v-on:click='var win = window.open(location.protocol + "//" + networkIntranetIpAddress + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
                                         v-bind:value='location.protocol + "//" + networkIntranetIpAddress + ":" + location.port + "/app/" + base_component_id + ".html"'>
                 </input>
+
+
 
             </div>
 
@@ -694,7 +713,7 @@ load_once_from_file(true)
                var newrestUrl = location.protocol + "//" + location.hostname + ":" + location.port + "/" + mm.rest_api_base_url + "/" +
                                 mm.rest_api_url_2 + "?"  + mm.getRestParams()
                 mm.rest_api_return_value = ""
-                //zzz
+
                 callAjax(newrestUrl,
         				function(response) {
                             mm.rest_api_return_value = JSON.stringify(JSON.parse(response),null,2)
