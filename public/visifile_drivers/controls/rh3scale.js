@@ -315,7 +315,9 @@ logo_url("/driver_icons/rh3scale.png")
                             }
 
                             )
-                  this.meta.getEditor().selectComponentByName("rest_control_114") 
+                  this.meta.getEditor().selectComponentByName("rest_control_114")
+                  this.meta.getEditor().showComponentDetailedDesignUiByName("rest_control_114") 
+
                   return this.meta.getEditor().getControlByName("rest_control_114")
             }
             ,
