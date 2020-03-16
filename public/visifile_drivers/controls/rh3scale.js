@@ -110,15 +110,7 @@ properties(
             type:       "Action"
         }
         ,
-        {
-            id:         "createAPIComponent",
-            pre_snippet:    `await `,
-            snippet:    `createAPIComponent()`,
-            name:       "Create API Component",
-            type:       "Action"
-        }
 
-        ,
         {
             id:         "applicationPlans",
             name:       "App plans",
@@ -254,7 +246,10 @@ logo_url("/driver_icons/rh3scale.png")
 
 
         methods: {
-            createAPIComponent: async function() {
+            designModeCreateComponent: async function() {
+                if (!this.design_mode) {
+                    return
+                }
                 await loadV2(["horiz_scroll_control"])
                 this.meta.getEditor().addControl(
                     {
