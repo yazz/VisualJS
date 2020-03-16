@@ -295,7 +295,7 @@ load_once_from_file(true)
 
                           <img
                               src='/driver_icons/reload.png'
-                              style='height:15px; margin-right: 0px;'
+                              style='height:25px; margin-right: 0px;'
                               class='img-fluid'>
                           </img>
 
