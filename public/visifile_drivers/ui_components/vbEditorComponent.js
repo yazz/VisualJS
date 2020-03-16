@@ -2435,6 +2435,22 @@ ${origCode}
 
         }
         ,
+        selectComponentByName: function(compName) {
+            var mm = this
+            var parentItemIndex = -1;
+            var ccc = mm.model.forms[mm.active_form].components
+            for (var ytr = 0;ytr < ccc.length;ytr++) {
+               if (compName == ccc[ytr].name) {
+                   parentItemIndex = ytr
+                   break
+               }
+            }
+            if (parentItemIndex != -1) {
+                mm.selectComponent(parentItemIndex, true)
+            }
+            return null
+        }
+        ,
         copyControl: function(controlDetails , props , genNewName) {
             var mm = this
 

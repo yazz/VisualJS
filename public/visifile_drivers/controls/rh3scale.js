@@ -259,7 +259,7 @@ logo_url("/driver_icons/rh3scale.png")
                 if (!this.design_mode) {
                     return
                 }
-                await loadV2(["horiz_scroll_control"])
+                await loadV2(["rest_control"])
                 this.meta.getEditor().addControl(
                     {
                               "leftX": 207,
@@ -315,6 +315,7 @@ logo_url("/driver_icons/rh3scale.png")
                             }
 
                             )
+                  this.meta.getEditor().selectComponentByName("rest_control_114") 
                   return this.meta.getEditor().getControlByName("rest_control_114")
             }
             ,
