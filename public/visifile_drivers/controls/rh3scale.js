@@ -201,6 +201,10 @@ logo_url("/driver_icons/rh3scale.png")
     v-on:click='apiEnv="production"; getProxyConfig(apiServiceIdSelected,apiEnv)'
     v-bind:class='"badge " + (apiEnv=="production"?"badge-dark":"badge-light")'>Production</a>
 
+    <button  type=button class=' btn btn-danger btn-sm'
+             style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 4px;"
+             v-on:click='createApiCall()' >Create API call</button>
+
 {{((Object.keys(args.proxyConfig).length > 0)?JSON.stringify(args.proxyConfig,null,2):"No API selected")}}
                 </pre>
 
@@ -246,6 +250,11 @@ logo_url("/driver_icons/rh3scale.png")
 
 
         methods: {
+            createApiCall: async function() {
+                var mm = this
+                mm.designModeCreateComponent()
+            }
+            ,
             designModeCreateComponent: async function() {
                 if (!this.design_mode) {
                     return
