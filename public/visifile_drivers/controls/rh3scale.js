@@ -260,11 +260,12 @@ logo_url("/driver_icons/rh3scale.png")
                     return
                 }
                 await loadV2(["rest_control"])
+                //zzz
                 this.meta.getEditor().addControl(
                     {
-                              "leftX": 207,
-                              "topY": 230,
-                              "name": "rest_control_114",
+                              "leftX": 10,
+                              "topY": 10,
+                              "name": "3scale_api_call_" + Math.floor(Math.random() * 1000),
                               "base_component_id": "rest_control",
                               "text": "REST API Call",
                               "has_details_ui": true,
@@ -275,48 +276,30 @@ logo_url("/driver_icons/rh3scale.png")
                               "undoRoot": "",
                               "productionRoot": "",
                               "undoFilter": {
-                                "a": true,
-                                "b": true,
-                                "c": true
                               },
                               "productionFilter": {
-                                "a": true,
-                                "b": true,
-                                "c": true
                               },
-                              "undoURL": "https://xxx.staging.gw.xxx_apicast.co/?user_key=somekey",
-                              "URL": "https://xxx.staging.gw.xxx_apicast.co/?user_key=somekey",
+                              "undoURL": "",
+                              "URL": this.args.host + "/?user_key=" + this.args.apiKey,
                               "jsonPaths": [
-                                "a",
-                                "b",
-                                "c"
                               ],
                               "jsonRoots": [
                                 ""
                               ],
                               "filteredProductionResponse": {
-                                "a": 1,
-                                "b": 2,
-                                "c": "Hello man!"
                               },
                               "response": {
-                                "a": 1,
-                                "b": 2,
-                                "c": "Hello man!"
                               },
                               "callApiOnStartup": "False",
-                              "uuid": "321b4695-08da-4d63-ad4c-83baec759425",
+                              "uuid": uuidv4(),
                               "parent": null,
                               "productionResponse": {
-                                "a": 1,
-                                "b": 2,
-                                "c": "Hello man!"
                               }
                             }
 
                             )
                   this.meta.getEditor().selectComponentByName("rest_control_114")
-                  this.meta.getEditor().showComponentDetailedDesignUiByName("rest_control_114") 
+                  this.meta.getEditor().showComponentDetailedDesignUiByName("rest_control_114")
 
                   return this.meta.getEditor().getControlByName("rest_control_114")
             }
