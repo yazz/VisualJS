@@ -261,11 +261,12 @@ logo_url("/driver_icons/rh3scale.png")
                 }
                 await loadV2(["rest_control"])
                 //zzz
+                var newName = "3scale_api_call_" + Math.floor(Math.random() * 1000)
                 this.meta.getEditor().addControl(
                     {
                               "leftX": 10,
                               "topY": 10,
-                              "name": "3scale_api_call_" + Math.floor(Math.random() * 1000),
+                              "name": newName,
                               "base_component_id": "rest_control",
                               "text": "REST API Call",
                               "has_details_ui": true,
@@ -298,10 +299,10 @@ logo_url("/driver_icons/rh3scale.png")
                             }
 
                             )
-                  this.meta.getEditor().selectComponentByName("rest_control_114")
-                  this.meta.getEditor().showComponentDetailedDesignUiByName("rest_control_114")
+                  this.meta.getEditor().selectComponentByName(newName)
+                  this.meta.getEditor().showComponentDetailedDesignUiByName(newName)
 
-                  return this.meta.getEditor().getControlByName("rest_control_114")
+                  return this.meta.getEditor().getControlByName(newName)
             }
             ,
 
