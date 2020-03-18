@@ -44,7 +44,7 @@ properties(
             id:             "callDefaultRestApi",
             pre_snippet:    `await `,
             snippet:        `callDefaultRestApi()`,
-            name:           "Execute Command",
+            name:           "Call Default API",
             type:           "Action"
         }
         ,
@@ -52,7 +52,7 @@ properties(
             id:         "callRestApi",
             pre_snippet:    `await `,
             snippet:    `callRestApi("http://INSERT_URL_HERE")`,
-            name:       "Execute Command",
+            name:       "Call Rest API",
             type:       "Action"
         }
         ,
@@ -60,6 +60,7 @@ properties(
             id:         "undoRoot",
             name:       "Undo response path",
             default:    "",
+            hidden:     true,
             type:       "String"
         }
         ,
@@ -90,6 +91,7 @@ properties(
             id:         "undoURL",
             name:       "Undo URL",
             default:    "http://127.0.0.1:3000/change_this_url",
+            hidden:     true,
             type:       "String"
         }
         ,

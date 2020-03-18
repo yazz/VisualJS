@@ -281,7 +281,7 @@ logo_url("/driver_icons/rh3scale.png")
                               "productionFilter": {
                               },
                               "undoURL": "",
-                              "URL": this.args.host + "/?user_key=" + this.args.apiKey,
+                              "URL": this.args.proxyConfig.sandbox_endpoint + "/?user_key=" + this.args.apiKey,
                               "jsonPaths": [
                               ],
                               "jsonRoots": [
