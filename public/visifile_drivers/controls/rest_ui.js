@@ -372,28 +372,32 @@ var result = await callFunction(
 
             callRestApiInternal: async function(url, noFilter, wholeTree) {
                 var mm = this
+                try {
+                    var result = await callFunction(
+                    {
+                        driver_name: "rest_call_service_v2",
+                        method_name: "rest_call_service_v2"
+                    }
+                    ,
+                    {
+                        URL:             url,
+                        filter:          noFilter?null:this.args.productionFilter,
+                        root:            wholeTree?null:this.args.productionRoot,
+                        returnDetails:   true
+                    })
 
-                var result = await callFunction(
-                {
-                    driver_name: "rest_call_service_v2",
-                    method_name: "rest_call_service_v2"
+
+                    if (result) {
+                        this.args.productionResponse = result.raw
+                        this.args.filteredProductionResponse = result.filtered
+                        this.args.response = result.filtered
+                        return result.filtered
+                    }
+                    return null
+                } catch (err) {
+                    alert(err)
                 }
-                ,
-                {
-                    URL:             url,
-                    filter:          noFilter?null:this.args.productionFilter,
-                    root:            wholeTree?null:this.args.productionRoot,
-                    returnDetails:   true
-                })
 
-
-                if (result) {
-                    this.args.productionResponse = result.raw
-                    this.args.filteredProductionResponse = result.filtered
-                    this.args.response = result.filtered
-                    return result.filtered
-                }
-                return null
             }
             ,
 
