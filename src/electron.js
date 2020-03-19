@@ -2374,9 +2374,9 @@ function websocketFn(ws) {
 
 
 function file_uploadSingleFn(req, res) {
-      console.log('-----  file_uploadSingle  --------------');
-      console.log(req.file);
-      console.log("**FILE** " + JSON.stringify(Object.keys(req)));
+      //console.log('-----  file_uploadSingle  --------------');
+      //console.log(req.file);
+      //console.log("**FILE** " + JSON.stringify(Object.keys(req)));
       //console.log('-------------------------------------------------------------------------------------');
       //console.log('-------------------------------------------------------------------------------------');
       //console.log('-------------------------------------------------------------------------------------');
@@ -2384,7 +2384,7 @@ function file_uploadSingleFn(req, res) {
       //console.log(JSON.stringify(req.files.length));
       //console.log("client_file_upload_id: " + JSON.stringify(req.body.client_file_upload_id,null,2))
       var client_file_upload_id = req.body.client_file_upload_id
-      console.log("**client_file_upload_id** " + JSON.stringify(client_file_upload_id));
+      //console.log("**client_file_upload_id** " + JSON.stringify(client_file_upload_id));
       //console.log(    "    next: " + JSON.stringify(next));
 
       res.status( 200 ).send( req.file );
