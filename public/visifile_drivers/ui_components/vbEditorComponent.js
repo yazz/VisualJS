@@ -2222,7 +2222,7 @@ ${origCode}
 
      }
      ,
-     clickOnMainGrid: function(event) {
+     clickOnMainGrid: async function(event) {
          if (this.design_mode)
              {
                  event.stopPropagation();
@@ -2255,7 +2255,7 @@ ${origCode}
                      }
 
 
-                     this.addComponent(  offsetX,
+                     await this.addComponent(  offsetX,
                                          offsetY,
                                          data,
                                          parentId,
@@ -2301,7 +2301,6 @@ ${origCode}
             //alert(JSON.stringify(data,null,2))
 
             var newItem = new Object()
-            var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
 
             //alert(parentId +": = (" + parentOffsetX + "," + parentOffsetY + ")")
             newItem.leftX = Math.floor(leftX)
@@ -2319,8 +2318,12 @@ ${origCode}
                newItem.parent = parentName
             }
 
+            if (data.control) {
+                newItem.name = data.control.name
 
-            newItem.name = data.text + "_" + this.model.next_component_id++
+            } else {
+                newItem.name = data.text + "_" + this.model.next_component_id++
+            }
             newItem.base_component_id = data.text
 
 
@@ -2350,6 +2353,9 @@ ${origCode}
                        }
                    }
             }
+
+
+           // if (data
 
 
 
@@ -2449,7 +2455,7 @@ ${origCode}
                 mm.selectComponent(parentItemIndex, true)
             }
             return null
-        }//zzz
+        }
         ,
         copyControl: function(controlDetails , props , genNewName) {
             var mm = this
@@ -2467,12 +2473,21 @@ ${origCode}
             return yy
         }
         ,
-
-        addControl: function(controlDetails) {
+        addControl: async function(controlDetails) {
             var mm = this
-            mm.model.forms.Form_1.components.push(
-                  controlDetails
-              )
+
+              //zzz
+              await mm.addComponent(    10,
+                                          10,
+                                          {   text: controlDetails.base_component_id
+                                              ,
+                                              control: controlDetails
+                                          } ,
+                                          null,
+                                          null,
+                                          null,
+                                          null,
+                                          [])
         }
         ,
         getControlByName: function(controlName) {
@@ -4284,7 +4299,7 @@ ${eventMessage.code}
            },400)
         },
 
-//zzz
+
         showComponentDetailedDesignUiByName: async function(compName) {
             var mm = this
             var parentItemIndex = -1;
