@@ -2355,7 +2355,14 @@ ${origCode}
             }
 
 
-           // if (data
+            if (data.control) {
+                var allKeys = Object.keys(data.control)
+                for (var tt=0;tt<allKeys.length;tt++) {
+                    var propName  = allKeys[tt]
+                    var propValue = data.control[propName]
+                    newItem[propName] = propValue
+                }
+            }
 
 
 
