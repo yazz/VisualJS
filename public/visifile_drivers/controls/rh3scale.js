@@ -271,8 +271,7 @@ logo_url("/driver_icons/rh3scale.png")
                               "text": "REST API Call",
                               "URL": this.args.proxyConfig.sandbox_endpoint + "/?user_key=" + this.args.apiKey,
 
-                              "callApiOnStartup": "False",
-                              "uuid": uuidv4()
+                              "callApiOnStartup": "False"
                             }
 
                             )
