@@ -2496,6 +2496,7 @@ ${origCode}
                                         null,
                                         null,
                                         [])
+              mm.highlighted_control = null
         }
         ,
         getControlByName: function(controlName) {
