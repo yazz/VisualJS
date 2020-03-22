@@ -83,7 +83,7 @@ uses_javascript_librararies(["advanced_bundle"])
                             v-on:dragend='$event.stopPropagation();deleteCursor();'
                             v-on:dragstart='$event.stopPropagation();if (design_mode_pane.type == "drag_drop") {switchCursor($event,"grab","grabbing");highlighted_control = av.base_component_id;drag($event,{
                                                    type:   "add_component",
-                                                   text:    av.base_component_id
+                                                   base_component_id:    av.base_component_id
                                                 })} else {
                                                     event.preventDefault()
                                                     gotoDragDropEditor();
@@ -704,7 +704,7 @@ Pushlist
 
                                     v-on:dragstart='$event.stopPropagation();switchCursor($event,"nwse-resize","crosshair");drag($event,{
                                        type:   "resize_top_left",
-                                       text:    model.forms[active_form].components[active_component_index].base_component_id,
+                                       base_component_id:    model.forms[active_form].components[active_component_index].base_component_id,
                                        index:   active_component_index
                                     })'>
                             </div>
@@ -718,7 +718,7 @@ Pushlist
                                     v-bind:draggable='true'
                                     v-on:dragstart='$event.stopPropagation();switchCursor($event,"ns-resize","row-resize");drag($event,{
                                                                 type:   "resize_top",
-                                                                text:    model.forms[active_form].components[active_component_index].base_component_id,
+                                                                base_component_id:    model.forms[active_form].components[active_component_index].base_component_id,
                                                                 index:   active_component_index
                                                              })'>
                             </div>
@@ -731,7 +731,7 @@ Pushlist
                                         v-bind:draggable='true'
                                         v-on:dragstart='$event.stopPropagation();switchCursor($event,"nesw-resize","crosshair");drag($event,{
                                            type:   "resize_top_right",
-                                           text:    model.forms[active_form].components[active_component_index].base_component_id,
+                                           base_component_id:    model.forms[active_form].components[active_component_index].base_component_id,
                                            index:   active_component_index
                                            })'>
                             </div>
@@ -745,7 +745,7 @@ Pushlist
                                     v-bind:draggable='true'
                                     v-on:dragstart='$event.stopPropagation();switchCursor($event,"ew-resize","col-resize");drag($event,{
                                                                 type:   "resize_left",
-                                                                text:    model.forms[active_form].components[active_component_index].base_component_id,
+                                                                base_component_id:    model.forms[active_form].components[active_component_index].base_component_id,
                                                                 index:   active_component_index
                                                              })'>
                             </div>
@@ -758,7 +758,7 @@ Pushlist
                                     v-bind:draggable='true'
                                     v-on:dragstart='$event.stopPropagation();switchCursor($event,"ew-resize","col-resize");drag($event,{
                                                                 type:   "resize_right",
-                                                                text:    model.forms[active_form].components[active_component_index].base_component_id,
+                                                                base_component_id:    model.forms[active_form].components[active_component_index].base_component_id,
                                                                 index:   active_component_index
                                                              })'>
                             </div>
@@ -771,7 +771,7 @@ Pushlist
                                         v-bind:draggable='true'
                                         v-on:dragstart='$event.stopPropagation();switchCursor($event,"nesw-resize","crosshair");drag($event,{
                                                                     type:   "resize_bottom_left",
-                                                                    text:    model.forms[active_form].components[active_component_index].base_component_id,
+                                                                    base_component_id:    model.forms[active_form].components[active_component_index].base_component_id,
                                                                     index:   active_component_index
                                                                  })'>
                             </div>
@@ -784,7 +784,7 @@ Pushlist
                                     v-bind:draggable='true'
                                     v-on:dragstart='$event.stopPropagation();switchCursor($event,"ns-resize","row-resize");drag($event,{
                                                                 type:   "resize_bottom",
-                                                                text:    model.forms[active_form].components[active_component_index].base_component_id,
+                                                                base_component_id:    model.forms[active_form].components[active_component_index].base_component_id,
                                                                 index:   active_component_index
                                                              })'>
                             </div>
@@ -798,7 +798,7 @@ Pushlist
                                     v-bind:draggable='true'
                                     v-on:dragstart='$event.stopPropagation();switchCursor($event,"nwse-resize","crosshair");drag($event,{
                                                                    type:   "resize_bottom_right",
-                                                                   text:    model.forms[active_form].components[active_component_index].base_component_id,
+                                                                   base_component_id:    model.forms[active_form].components[active_component_index].base_component_id,
                                                                    index:   active_component_index
                                                                         })'>
                             </div>
@@ -932,7 +932,7 @@ Pushlist
                                         ondrop="return false;"
                                         v-on:dragstart='$event.stopPropagation();drag($event,{
                                                                                        type:   "move_component",
-                                                                                       text:    item.base_component_id,
+                                                                                       base_component_id:    item.base_component_id,
                                                                                        index:   index
                                                                                     })'>
 
@@ -2241,7 +2241,7 @@ ${origCode}
                      var newItem2 = new Object()
                      var data = {
                         type:       "add_component",
-                        text:        this.highlighted_control,
+                        base_component_id:        this.highlighted_control,
                         offsetX:     offsetX,
                         offsetY:     offsetY
                      }
@@ -2322,9 +2322,9 @@ ${origCode}
                 newItem.name = data.control.name
 
             } else {
-                newItem.name = data.text + "_" + this.model.next_component_id++
+                newItem.name = data.base_component_id + "_" + this.model.next_component_id++
             }
-            newItem.base_component_id = data.text
+            newItem.base_component_id = data.base_component_id
 
 
 
@@ -2406,7 +2406,7 @@ ${origCode}
                     var childDefProps = childrenCode[ee].properties
                     await this.addComponent(    0 ,
                                                 0 ,
-                                                {text: childBaseId} ,
+                                                {base_component_id: childBaseId} ,
                                                 newItem.base_component_id ,
                                                 newItem.name ,
                                                 0 ,
@@ -2487,7 +2487,7 @@ ${origCode}
               await mm.addComponent(   10,
                                        10,
                                        {
-                                              text: controlDetails.base_component_id
+                                              base_component_id: controlDetails.base_component_id
                                               ,
                                               control: controlDetails
                                         },
