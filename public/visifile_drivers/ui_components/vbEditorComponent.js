@@ -2484,17 +2484,18 @@ ${origCode}
             var mm = this
 
               //zzz
-              await mm.addComponent(    10,
-                                          10,
-                                          {   text: controlDetails.base_component_id
+              await mm.addComponent(   10,
+                                       10,
+                                       {
+                                              text: controlDetails.base_component_id
                                               ,
                                               control: controlDetails
-                                          } ,
-                                          null,
-                                          null,
-                                          null,
-                                          null,
-                                          [])
+                                        },
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        [])
         }
         ,
         getControlByName: function(controlName) {
