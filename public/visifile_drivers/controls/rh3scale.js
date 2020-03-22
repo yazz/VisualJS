@@ -261,7 +261,7 @@ logo_url("/driver_icons/rh3scale.png")
                 }
                 await loadV2(["rest_control"])
                 //zzz
-                var newName = "3scale_api_call_" + Math.floor(Math.random() * 1000)
+                var newName = "rh3scale_api_call_" + Math.floor(Math.random() * 1000)
                 await this.meta.getEditor().addControl(
                     {
                               "leftX": 10,
