@@ -2497,6 +2497,8 @@ ${origCode}
                                         null,
                                         [])
               mm.highlighted_control = null
+              mm.updateAllFormCaches()
+              mm.refresh ++
         }
         ,
         getControlByName: function(controlName) {
