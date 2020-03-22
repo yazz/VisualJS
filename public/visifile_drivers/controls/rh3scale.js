@@ -269,33 +269,10 @@ logo_url("/driver_icons/rh3scale.png")
                               "name": newName,
                               "base_component_id": "rest_control",
                               "text": "REST API Call",
-                              "has_details_ui": true,
-                              "width": 180,
-                              "height": 70,
-                              "callDefaultRestApi": "",
-                              "callRestApi": "",
-                              "undoRoot": "",
-                              "productionRoot": "",
-                              "undoFilter": {
-                              },
-                              "productionFilter": {
-                              },
-                              "undoURL": "",
                               "URL": this.args.proxyConfig.sandbox_endpoint + "/?user_key=" + this.args.apiKey,
-                              "jsonPaths": [
-                              ],
-                              "jsonRoots": [
-                                ""
-                              ],
-                              "filteredProductionResponse": {
-                              },
-                              "response": {
-                              },
+
                               "callApiOnStartup": "False",
-                              "uuid": uuidv4(),
-                              "parent": null,
-                              "productionResponse": {
-                              }
+                              "uuid": uuidv4()
                             }
 
                             )
