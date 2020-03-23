@@ -88,8 +88,8 @@ load_once_from_file(true)
 
                 <button type=button
                         v-bind:refresh='refresh'
-                        v-bind:class='"btn btn-sm " + (uiDebuggerOn?(mode == "profiler"?"btn-primary":"btn-success"):(mode == "profiler"?"btn-secondary":"btn-light"))'
-                        v-on:click='if (uiDebuggerOn){if (mode == "profiler"){uiDebuggerOn = false;refresh++;alert("Debugger turned off")} else {chooseProfiler()}} else {uiDebuggerOn = true;refresh++;alert("Debugger turned on")}' >Debugger</button>
+                        v-bind:class='"btn btn-sm " + (mode == "profiler"?"btn-secondary":"btn-light")'
+                        v-on:click='if (mode != "profiler"){chooseProfiler()}' >Debugger</button>
             </div>
 
 
@@ -1518,6 +1518,7 @@ load_once_from_file(true)
 
             mounted: async function () {
                 var mm = this
+                uiDebuggerOn = true
 
                 override_app_editor = null
 
