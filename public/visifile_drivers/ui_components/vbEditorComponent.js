@@ -163,8 +163,8 @@ uses_javascript_librararies(["advanced_bundle"])
                     </div>
 
 
-                    <div    id='show_help' style="background-color:white;color:black;">
-                        <div    style="font-weight:normal;"
+                    <div    id='show_help' style="background-color:white;color:black;font-family:helvetica,verdana;font-size: 16px;">
+                        <div    style="font-weight:normal;padding:7px;height:100%;"
                                 v-html="design_mode_pane.help"></div>
                     </div>
                 </div>

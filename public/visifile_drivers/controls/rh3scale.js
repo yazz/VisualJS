@@ -33,9 +33,14 @@ properties(
         ,
         {
             id:      "host",
-            name:    "Host",
+            name:    "3Scale Admin Host",
             default: "http://3scale.API",
             type:    "String"
+            ,
+            help:       `<div><b>3Scale Admin Host</b>
+                              <br/>
+                            This is the URL for the admin host of 3Scale
+                         </div>`
         }
         ,
         {
