@@ -194,6 +194,15 @@ uses_javascript_librararies(["advanced_bundle"])
                         style='font-family:verdana,helvetica;font-size: 13px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
 
                     <div    style='height: 30px;' >
+
+                        <div     class='btn btn-info'
+                                 v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
+                                 >
+
+                                ...
+
+                        </div>
+
                         Control details
                         <button  type=button class=' btn btn-danger btn-sm'
                                  style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 4px;"
@@ -203,7 +212,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
                 </div>
 
-                <div  v-bind:style='"border: 5px solid lightgray;background: white;;overflow:none;height:100%; overflow: auto; width:100%; "'>
+                <div  v-bind:style='"padding:7px;border: 5px solid lightgray;background: white;;overflow:none;height:100%; overflow: auto; width:100%; "'>
 
                     <component  v-bind:id='active_form + "_" + model.forms[active_form].components[active_component_detail_index].name + (design_mode?"_design":"")'
                                 v-bind:refresh='refresh'
