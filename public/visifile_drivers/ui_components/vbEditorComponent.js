@@ -279,6 +279,17 @@ uses_javascript_librararies(["advanced_bundle"])
                          style='font-family:verdana,helvetica;font-size: 13px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
 
                      <div    style='height: 30px;' >
+
+                             <span   class="badge badge-primary"
+                                     style='font-size: 12px;'
+                                     v-html='(form_runtime_info[active_form].component_incoming_count_by_uuid[model.forms[active_form].components[active_component_index].uuid])?(form_runtime_info[active_form].component_incoming_count_by_uuid[model.forms[active_form].components[active_component_index].uuid]):0'>
+                             </span>
+
+                             -&gt;<span   class="badge badge-primary"
+                                     style='font-size: 12px; margin-left: 4px;'
+                                     v-html='(form_runtime_info[active_form].component_outgoing_count_by_uuid[model.forms[active_form].components[active_component_index].uuid])?(form_runtime_info[active_form].component_outgoing_count_by_uuid[model.forms[active_form].components[active_component_index].uuid]):0'>
+                             </span>
+
                          Control Links
                          <button  type=button class=' btn btn-danger btn-sm'
                                   style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 4px;"
