@@ -1124,7 +1124,7 @@ Pushlist
                                         v-on:click='selected_pane = "properties";active_property_index = property.name;'>{{property.name}}
                                         <div v-if="isValidObject(property.help)"
                                              style="width:100%;display:inline-block;">
-                                            <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: pink; padding:0px; padding-right:5px;padding-left:5px;height: 20px;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;color:black;width:20px;'
+                                            <div        style='margin-left:4px;margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: pink; padding:0px; padding-right:5px;padding-left:5px;height: 20px;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;color:black;width:20px;'
                                                         v-on:click='$event.stopPropagation();showHelp({
                                                             help:                   property.help
                                                         })'  >?</div>
