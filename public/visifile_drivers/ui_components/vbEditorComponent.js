@@ -290,7 +290,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                      v-html='(form_runtime_info[active_form].component_outgoing_count_by_uuid[model.forms[active_form].components[active_component_index].uuid])?(form_runtime_info[active_form].component_outgoing_count_by_uuid[model.forms[active_form].components[active_component_index].uuid]):0'>
                              </span>
 
-                         Property linked changes 
+                         Property linked changes
                          <button  type=button class=' btn btn-danger btn-sm'
                                   style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 4px;"
                                   v-on:click='gotoDragDropEditor()' >x</button>
@@ -1180,7 +1180,7 @@ Pushlist
                                             </input>
                                         </div>
 
-                                        <div    v-if="(property.type  == 'Event') || ((property.type  == 'Action') && isValidObject(property.fn)) "
+                                        <div    v-if="(property.type  == 'Event') || ((property.type  == 'Action_old') && isValidObject(property.fn)) "
                                                 style="width:100%">
 
                                             <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;'
