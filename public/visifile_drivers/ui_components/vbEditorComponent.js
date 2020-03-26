@@ -290,7 +290,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                      v-html='(form_runtime_info[active_form].component_outgoing_count_by_uuid[model.forms[active_form].components[active_component_index].uuid])?(form_runtime_info[active_form].component_outgoing_count_by_uuid[model.forms[active_form].components[active_component_index].uuid]):0'>
                              </span>
 
-                         Control Links
+                         Property linked changes 
                          <button  type=button class=' btn btn-danger btn-sm'
                                   style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 4px;"
                                   v-on:click='gotoDragDropEditor()' >x</button>
