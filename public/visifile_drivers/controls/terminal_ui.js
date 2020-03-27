@@ -43,8 +43,14 @@ properties(
             id:         "execCmd",
             pre_snippet:    `await `,
             snippet:    `execCmd('ls')`,
-            name:       "Execute Command",
-            type:       "Action"
+            name:       "Execute Command()",
+            type:       "Action",
+            help:       `<div>Help text for
+                            <b>execCmd</b> action
+                             <div>
+                                You should be able to call any operating system commands with this
+                             </div>
+                         </div>`,
         }
     ]
 )//properties
