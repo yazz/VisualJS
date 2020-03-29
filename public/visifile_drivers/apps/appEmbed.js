@@ -88,7 +88,7 @@ load_once_from_file(true)
            if (mm.base_component_id) {
 
                   var sql =    "select  display_name as name from  system_code  where " +
-                               "        component_type = 'app' and base_component_id = '" + mm.base_component_id + "'" +
+                               "        component_scope = 'app' and base_component_id = '" + mm.base_component_id + "'" +
                                "        and code_tag = 'LATEST' "
 
                   //alert( sql )

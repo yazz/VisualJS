@@ -144,7 +144,7 @@ function setUpSql() {
                                                           "     base_component_id =  ? ;");
 
       stmtInsertNewCode = dbsearch.prepare(
-          " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_type,display_name, creation_timestamp,component_options, logo_url, visibility, interfaces,use_db, editors, read_write_status,properties, control_type, control_sub_type) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+          " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_scope,display_name, creation_timestamp,component_options, logo_url, visibility, interfaces,use_db, editors, read_write_status,properties, control_type, control_sub_type) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
       stmtDeprecateOldCode = dbsearch.prepare(
           " update system_code  set code_tag = NULL where base_component_id = ? and id != ?");
 

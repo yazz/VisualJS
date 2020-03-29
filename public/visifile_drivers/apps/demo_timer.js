@@ -3164,7 +3164,7 @@ ${origCode}
                                          app:                null,
                                          form:               mm.active_form,
                                          component:          "  -  " + component.name,
-                                         component_type:     component.base_component_id,
+                                         component_scope:     component.base_component_id,
                                          component_index:    ere1
                                      }
                                  )
@@ -3200,7 +3200,7 @@ ${origCode}
                                  app:                null,
                                  form:               mm.active_form,
                                  component:          "  -  " + component.name,
-                                 component_type:     component.base_component_id,
+                                 component_scope:     component.base_component_id,
                                  component_index:    ere
                              }
                          )
@@ -4610,7 +4610,7 @@ ${eventMessage.code}
                 center = "<b style='font-family:verdana,helvetica;font-size: 13px;'>" + (data.app?data.app:data.form) + "</b> "
 
              } else if (data.component) {
-                 center = "<b style='font-family:verdana,helvetica;font-size: 13px;'>" + data.component + "</b> " + data.component_type
+                 center = "<b style='font-family:verdana,helvetica;font-size: 13px;'>" + data.component + "</b> " + data.component_scope
              } else if (data.form) {
                  center = "<b style='font-family:verdana,helvetica;font-size: 13px;'>" + data.form + "</b> "
              }
@@ -4740,7 +4740,7 @@ ${eventMessage.code}
                             app:                null,
                             form:               mm.active_form,
                             component:          component.name,
-                            component_type:     component.base_component_id,
+                            component_scope:     component.base_component_id,
 
                             component_index:    ere
                         }

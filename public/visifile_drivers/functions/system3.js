@@ -9,7 +9,7 @@ only_run_on_server(true)
             dbsearch.serialize(
                 function() {
                     dbsearch.all(
-                        "SELECT  base_component_id, display_name, logo_url, read_write_status  FROM system_code where component_type = 'app' and code_tag = 'LATEST' and visibility = 'PUBLIC' ; "
+                        "SELECT  base_component_id, display_name, logo_url, read_write_status  FROM system_code where component_scope = 'app' and code_tag = 'LATEST' and visibility = 'PUBLIC' ; "
                         ,
 
                         function(err, results)
