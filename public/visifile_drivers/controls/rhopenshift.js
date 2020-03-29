@@ -1,7 +1,7 @@
 function(args) {
 /*
 is_app(true)
-control_type("VB")
+component_type("VB")
 display_name("Openshift control")
 description("This will return the Red Hat Openshift control")
 base_component_id("rhopenshift_control")

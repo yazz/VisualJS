@@ -52,7 +52,7 @@ formEditor({
     }
   }
 })//formEditor
-control_type("SYSTEM")
+component_type("SYSTEM")
 sub_components([
   "app_editor_3",
   "appEmbed",
@@ -1348,7 +1348,7 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
            //
            if (online) {
                var sql =    "select  base_component_id,logo_url  from  system_code  where " +
-                            "        code_tag = 'LATEST' and logo_url is not null and control_type = 'VB'"
+                            "        code_tag = 'LATEST' and logo_url is not null and component_type = 'VB'"
 
                var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
                    {   sql: sql  })
@@ -4688,10 +4688,10 @@ return {}
               this.text = saveHelper.insertCodeString(this.text, "sub_components", newListOfSubcomponents)
 
 
-              this.text = saveHelper.deleteCodeString(  this.text, "control_type")
+              this.text = saveHelper.deleteCodeString(  this.text, "component_type")
 
               this.text = saveHelper.insertCodeString(  this.text,
-                                                          "control_type",
+                                                          "component_type",
                                                           "SYSTEM")
 
               this.text = saveHelper.deleteCodeString(  this.text, "formEditor", ")//form" + "Editor")

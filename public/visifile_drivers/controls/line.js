@@ -1,7 +1,7 @@
 function(args) {
 /*
 is_app(true)
-control_type("VB")
+component_type("VB")
 display_name("Line control")
 description("This will return the line control")
 base_component_id("line_control")

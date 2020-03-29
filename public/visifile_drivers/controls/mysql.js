@@ -1,7 +1,7 @@
 function(args) {
 /*
 is_app(true)
-control_type("VB")
+component_type("VB")
 display_name("mysql client control")
 description("This will return the mysql control")
 base_component_id("mysql_client_component")

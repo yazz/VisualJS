@@ -1,7 +1,7 @@
 function(args) {
 /*
 is_app(true)
-control_type("VB")
+component_type("VB")
 display_name("Docker control")
 description("This will return the docker control")
 base_component_id("docker_control")

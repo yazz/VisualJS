@@ -1,7 +1,7 @@
 function(args) {
 /*
 is_app(true)
-control_type("VB")
+component_type("VB")
 display_name("Radio button control")
 description("This will return the radio button control")
 base_component_id("radio_button_control")

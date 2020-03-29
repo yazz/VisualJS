@@ -1,7 +1,7 @@
 function(args) {
 /*
 is_app(true)
-control_type("VB")
+component_type("VB")
 display_name("Data Window control")
 description("This will return the data window control")
 base_component_id("data_window_control")

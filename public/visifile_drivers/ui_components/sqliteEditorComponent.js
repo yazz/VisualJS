@@ -1,7 +1,7 @@
 function component( args ) {
 /*
 base_component_id("sqlite_editor_component")
-control_type("SYSTEM")
+component_type("SYSTEM")
 load_once_from_file(true)
 */
 

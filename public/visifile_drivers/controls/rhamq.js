@@ -1,7 +1,7 @@
 function(args) {
 /*
 is_app(true)
-control_type("VB")
+component_type("VB")
 display_name("Red Hat AMQ control")
 description("This will return the AMQ control")
 base_component_id("rhamq_control")

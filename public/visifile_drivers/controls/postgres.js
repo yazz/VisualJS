@@ -1,7 +1,7 @@
 function(args) {
 /*
 is_app(true)
-control_type("VB")
+component_type("VB")
 display_name("postgres client control")
 description("This will return the postgres control")
 base_component_id("postgres_client_component")

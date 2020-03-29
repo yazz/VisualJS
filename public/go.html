@@ -9354,9 +9354,9 @@ async function callCodeV2(componentRecord,args, seq_no) {
 
         var trcode2 = "(" + componentRecord.code + ")"
 
-        var control_type = saveHelper.getValueOfCodeString(componentRecord.code, "control_type")
-        if ((control_type != "SYSTEM") &&
-            (control_type != "VB"))
+        var component_type = saveHelper.getValueOfCodeString(componentRecord.code, "component_type")
+        if ((component_type != "SYSTEM") &&
+            (component_type != "VB"))
         {
             trcode2 = getDebugCode(componentRecord.base_component_id,  trcode2)
         }

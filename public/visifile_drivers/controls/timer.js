@@ -1,7 +1,7 @@
 function(args) {
 /*
 is_app(true)
-control_type("VB")
+component_type("VB")
 display_name("Timer control")
 description("This will return the timer control")
 base_component_id("timer_control")

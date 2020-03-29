@@ -1,7 +1,7 @@
 function(args) {
 /*
 is_app(true)
-control_type("VB")
+component_type("VB")
 display_name("3Scale control")
 description("This will return the 3Scale control")
 base_component_id("rh3scale_control")
