@@ -35,6 +35,20 @@ properties(
                             <b>changed_event</b> event
                          </div>`
         }
+        ,
+        {
+            id:         "width",
+            name:       "Width",
+            default:    30,
+            type:       "Number"
+        }
+        ,
+        {
+            id:         "height",
+            name:       "Height",
+            default:    30,
+            type:       "Number"
+        }
 
     ]
 )//properties
