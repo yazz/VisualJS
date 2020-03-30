@@ -32,6 +32,20 @@ properties(
             name:   "Background color",
             type:   "String"
         }
+        ,
+        {
+            id:         "width",
+            name:       "Width",
+            default:    30,
+            type:       "Number"
+        }
+        ,
+        {
+            id:         "height",
+            name:       "Height",
+            default:    30,
+            type:       "Number"
+        }
     ]
 )//properties
 logo_url("/driver_icons/radio.png")
@@ -40,12 +54,15 @@ logo_url("/driver_icons/radio.png")
     Vue.component("radio_button_control",{
       props: ["args","design_mode"]
       ,
-      template: `<input v-bind:id='design_mode?"":args.name'
+      template: `<div class="radio">
+                    <input v-bind:id='design_mode?"":args.name'
                         type="radio"
+                        style="width:100%;"
                         v-model="args.checked"
                         v-bind:value='args.text'>{{args.text}}<br>
 
-                 </input>`
+                 </input>
+                 </div>`
       ,
       data: function() {
        return {
