@@ -58,13 +58,15 @@ logo_url("/driver_icons/checkbox_control.png")
     Vue.component("checkbox_control",{
       props: ["args","design_mode","meta", "form",  "name", "refresh"]
       ,
-      template: `<input v-bind:id='design_mode?"":args.name'
+      template: `<div class="">
+                    <input v-bind:id='design_mode?"":args.name'
                         type="checkbox"
                         v-on:change='valChanged(event)'
                         v-bind:checked='(args.checked=="True")?"True":""'
                         >
 
-                 </input>`
+                 </input>
+                 </div>`
       ,
       data: function() {
           return {
