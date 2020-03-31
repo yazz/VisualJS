@@ -67,32 +67,32 @@ logo_url("/driver_icons/dropdown.png")
          <label for="usr">Display:</label>
          <input v-model="new_text" type="text" class="form-control" id="usr">
        </div>
-         <div class="btn btn-sm btn-info"
-         v-on:click="items.push({value: new_value, text:new_text});new_value='';new_text='';"
+         <div   class="btn btn-sm btn-info"
+                v-on:click="items.push({value: new_value, text:new_text});new_value='';new_text='';"
+                style="margin-bottom: 30px;"
          >
             Add
         </div>
 
 
         <table class="table">
-          <thead>
+          <thead class="thead-dark">
             <tr>
-              <th scope="col">Name</th>
+              <th scope="col">Display</th>
               <th scope="col">Value</th>
               <th scope="col"></th>
               <th scope="col">Delete</th>
             </tr>
           </thead>
-          <tbody>
 
 
 
-         <div    v-bind:style='"border:1px solid gray; padding: 10px;display:flex;" + ((selected_index==index)?"background-color: lightgray;":"")'
-                 v-bind:refresh='refresh'
-                 v-for='(child_item,index)  in  items'>
+          <tbody  v-bind:refresh='refresh'
+                  v-for='(child_item,index)  in  items'>
 
              <tr v-if='child_item && isValidObject(child_item)'
                      v-bind:refresh='refresh'>
+
                <th scope="row">{{child_item.text}}</th>
 
                <td>{{child_item.value}}</td>
@@ -133,9 +133,6 @@ logo_url("/driver_icons/dropdown.png")
 
 
 
-
-
-             </div>
        </tbody>
      </table>
 
