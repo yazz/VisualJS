@@ -1127,17 +1127,20 @@ Pushlist
                                 <div
                                         v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;" + (active_property_index == property.name?"background-color:#000099;color:white;":"")'
                                         v-on:click='selected_pane = "properties";active_property_index = property.name;'>{{property.name}}
-                                        <div v-if="isValidObject(property.help)"
-                                             style="width:100%;display:inline-block;">
-                                            <div        style='margin-left:4px;margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: pink; padding:0px; padding-right:5px;padding-left:5px;height: 20px;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;color:black;width:20px;'
-                                                        v-on:click='$event.stopPropagation();showHelp({
-                                                            help:                   property.help
-                                                        })'  >?</div>
-                                        </div>
                                 </div>
 
                                 <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'
                                      v-on:click='selected_pane = "properties";'>
+
+                                     <div v-if="isValidObject(property.help)"
+                                          style="width:auto;display:inline-block;">
+                                          <div        style='margin-right:4px;margin-left:2px;margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: pink; padding:0px; padding-right:5px;padding-left:5px;height: 20px;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;color:black;width:20px;'
+                                                      v-on:click='$event.stopPropagation();showHelp({
+                                                          help:                   property.help
+                                                      })'  >?</div>
+
+                                     </div>
+
                                     <div v-if='!property.readonly' style="width:100%">
 
 
