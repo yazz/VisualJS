@@ -14,7 +14,9 @@ properties(
             id:       "text",
             name:     "Text",
             default:  "Click me",
-            type:     "String"
+            type:     "String",
+            help:       `<div>This is the text that is displayed in the button
+                         </div>`
         }
         ,
         {
