@@ -9970,6 +9970,43 @@ loadKeycloak(
 )
 */
 
+    async function eval2(vv) {
+        eval.call(this,vv)
+    }
+
+    function timeout(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms))
+    }
+
+    window.slowedCode = async function() {
+        await this.timeout(1000) // Wait random amount of time between [0.5, 2.5] seconds
+        eval2.call(this,`console.log("Before Delay")`)
+        await this.timeout(1000) // Wait random amount of time between [0.5, 2.5] seconds
+        eval2.call(this,`console.log("1")`)
+        await this.timeout(1000) // Wait random amount of time between [0.5, 2.5] seconds
+        eval2.call(this,`console.log("2")`)
+        await this.timeout(1000) // Wait random amount of time between [0.5, 2.5] seconds
+        eval2.call(this,`console.log("After Delay")`)
+    }
+    window.slowedCode2 = async function() {
+        await this.timeout(1000) // Wait random amount of time between [0.5, 2.5] seconds
+        eval2.call(this,`console.log("..Before Delay")`)
+        await this.timeout(1000) // Wait random amount of time between [0.5, 2.5] seconds
+        eval2.call(this,`console.log("..1")`)
+        await this.timeout(1000) // Wait random amount of time between [0.5, 2.5] seconds
+        eval2.call(this,`console.log("..2")`)
+        await this.timeout(1000) // Wait random amount of time between [0.5, 2.5] seconds
+        eval2.call(this,`console.log("..After Delay")`)
+    }
+
+    async function runn() {
+        window.slowedCode()
+        await this.timeout(2000)
+        window.slowedCode2()
+    }
+    runn()
+
+
 </script>
 </body>
 </html>
