@@ -9970,36 +9970,43 @@ loadKeycloak(
 )
 */
 
-    async function eval2(vv) {
-        eval.call(this,vv)
-    }
+
 
     function timeout(ms) {
         return new Promise(resolve => setTimeout(resolve, ms))
     }
 
-    window.slowedCode = async function(cc) {
+    slowedCode = async function(cc) {
+        var context = {}
         var lines = cc.trim().split(/\s*[\r\n]+\s*/g);
         for (var i=0;i<lines.length;i++) {
             await this.timeout(1000) // Wait random amount of time between [0.5, 2.5] seconds
             var line =lines[i]
-            eval2.call(this,line)
+            eval.call(context,line)
         }
     }
 
     async function runn() {
-        window.slowedCode(`
-            console.log("1")
-            console.log("2")
-            console.log("3")
-            console.log("4")
-            console.log("5")
+        slowedCode(`
+            var a=0
+            console.log(a)
+            a=a+1
+            console.log(a)
+            a=a+1
+            console.log(a)
+            a=a+1
+            console.log(a)
         `)
-        await this.timeout(2000)
-        window.slowedCode(`
-            console.log("6")
-            console.log("7")
-            console.log("8")
+        await this.timeout(1500)
+        slowedCode(`
+            var a=10
+            console.log(a)
+            a=a+1
+            console.log(a)
+            a=a+1
+            console.log(a)
+            a=a+1
+            console.log(a)
         `)
     }
     runn()
