@@ -9978,31 +9978,25 @@ loadKeycloak(
         return new Promise(resolve => setTimeout(resolve, ms))
     }
 
-    window.slowedCode = async function() {
+    window.slowedCode = async function(cc) {
         await this.timeout(1000) // Wait random amount of time between [0.5, 2.5] seconds
-        eval2.call(this,`console.log("Before Delay")`)
-        await this.timeout(1000) // Wait random amount of time between [0.5, 2.5] seconds
-        eval2.call(this,`console.log("1")`)
-        await this.timeout(1000) // Wait random amount of time between [0.5, 2.5] seconds
-        eval2.call(this,`console.log("2")`)
-        await this.timeout(1000) // Wait random amount of time between [0.5, 2.5] seconds
-        eval2.call(this,`console.log("After Delay")`)
-    }
-    window.slowedCode2 = async function() {
-        await this.timeout(1000) // Wait random amount of time between [0.5, 2.5] seconds
-        eval2.call(this,`console.log("..Before Delay")`)
-        await this.timeout(1000) // Wait random amount of time between [0.5, 2.5] seconds
-        eval2.call(this,`console.log("..1")`)
-        await this.timeout(1000) // Wait random amount of time between [0.5, 2.5] seconds
-        eval2.call(this,`console.log("..2")`)
-        await this.timeout(1000) // Wait random amount of time between [0.5, 2.5] seconds
-        eval2.call(this,`console.log("..After Delay")`)
+        eval2.call(this,cc)
     }
 
     async function runn() {
-        window.slowedCode()
+        window.slowedCode(`
+            console.log("1")
+            console.log("2")
+            console.log("3")
+            console.log("4")
+            console.log("5")
+        `)
         await this.timeout(2000)
-        window.slowedCode2()
+        window.slowedCode(`
+            console.log("6")
+            console.log("7")
+            console.log("8")
+        `)
     }
     runn()
 
