@@ -9976,16 +9976,20 @@ console.log("Start debugger")
             eval.call(this,cc)
     }
 
+
     async function runn() {
         fullCode(`
-            var a=0
-            console.log(a)
-            a=a+1
-            console.log(a)
-            a=a+1
-            console.log(a)
-            a=a+1
-            console.log(a)
+            (function xx() {
+                var a=0
+                console.log(a)
+                a=a+1
+                console.log(a)
+                return
+                a=a+1
+                console.log(a)
+                a=a+1
+                console.log(a)
+            })()
         `)
     }
     runn()
