@@ -9971,35 +9971,14 @@ loadKeycloak(
 */
 
 
-
-    function timeout(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms))
-    }
-
-    slowedCode = async function(cc) {
-        var context = {}
-        var lines = cc.trim().split(/\s*[\r\n]+\s*/g);
-        for (var i=0;i<lines.length;i++) {
-            await this.timeout(1000) // Wait random amount of time between [0.5, 2.5] seconds
-            var line =lines[i]
-            eval.call(context,line)
-        }
+console.log("Start debugger")
+    fullCode = async function(cc) {
+            eval.call(this,cc)
     }
 
     async function runn() {
-        slowedCode(`
+        fullCode(`
             var a=0
-            console.log(a)
-            a=a+1
-            console.log(a)
-            a=a+1
-            console.log(a)
-            a=a+1
-            console.log(a)
-        `)
-        await this.timeout(1500)
-        slowedCode(`
-            var a=10
             console.log(a)
             a=a+1
             console.log(a)
