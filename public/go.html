@@ -9979,8 +9979,12 @@ loadKeycloak(
     }
 
     window.slowedCode = async function(cc) {
-        await this.timeout(1000) // Wait random amount of time between [0.5, 2.5] seconds
-        eval2.call(this,cc)
+        var lines = cc.trim().split(/\s*[\r\n]+\s*/g);
+        for (var i=0;i<lines.length;i++) {
+            await this.timeout(1000) // Wait random amount of time between [0.5, 2.5] seconds
+            var line =lines[i]
+            eval2.call(this,line)
+        }
     }
 
     async function runn() {
