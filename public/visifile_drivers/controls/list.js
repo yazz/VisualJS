@@ -3,7 +3,7 @@ function(args) {
 is_app(true)
 component_type("VB")
 display_name("List control")
-description("This will return the List control")
+description("The List control")
 base_component_id("list_control")
 load_once_from_file(true)
 visibility("PRIVATE")
@@ -60,58 +60,83 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMsAAAD5CAMAAAC+lzGnAAAA
          v-if='design_mode == "detail_editor"'>
 
 
-         <input v-model="new_value"></input>
-         <input v-model="new_text"></input>
-         <div class="btn btn-sm btn-info"
-         v-on:click="items.push({value: new_value, text:new_text});new_value='';new_text='';"
-         >
-            Add
+        <div class="form-group">
+            <label for="usr">Display:</label>
+            <input v-model="new_text" type="text" class="form-control" id="usr">
+        </div>
+        <div class="form-group">
+            <label for="usr">Value:</label>
+            <input v-model="new_value" type="text" class="form-control" id="usr">
+        </div>
+        <div    class="btn btn-sm btn-info"
+                v-on:click="items.push({value: new_value, text:new_text});new_value='';new_text='';"
+                style="margin-bottom: 30px;"
+        >
+                Add
         </div>
 
-         <div    v-bind:style='"border:1px solid gray; padding: 10px;display:flex;" + ((selected_index==index)?"background-color: lightgray;":"")'
-                 v-bind:refresh='refresh'
-                 v-for='(child_item,index)  in  items'>
 
-             <div    v-if='child_item'
-                     v-bind:refresh='refresh'>
 
-                 <div    v-bind:style='"display:inline-block;"'
-                         v-if='isValidObject(child_item)'
-                         v-bind:refresh='refresh'>
+                <table class="table">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">Display</th>
+                      <th scope="col">Value</th>
+                      <th scope="col"></th>
+                      <th scope="col">Delete</th>
+                    </tr>
+                  </thead>
 
-                         {{child_item.value}}:{{child_item.text}}
 
-                         </div>
 
-                 <div    class='btn btn-info'
-                         v-bind:refresh='refresh'
-                         v-on:click='var x = items[index];items.splice(index, 1);items.splice(index - 1, 0, x);changedFn();'
-                         v-if='child_item'
-                         v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
-                         "width: 60px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;margin-left: 20px;"'>
-                         UP
+                  <tbody  v-bind:refresh='refresh'
+                          v-for='(child_item,index)  in  items'>
 
-                 </div>
-                 <div    class='btn btn-info'
-                         v-bind:refresh='refresh'
-                         v-on:click='var x = items[index];items.splice(index, 1);items.splice(index + 1, 0, x);changedFn();'
-                         v-if='child_item'
-                         v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
-                         "width: 60px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;margin-left: 20px;"'>
-                         DOWN
+                     <tr v-if='child_item && isValidObject(child_item)'
+                             v-bind:refresh='refresh'>
 
-                 </div>
-                 <div    class='btn btn-danger'
-                         v-bind:refresh='refresh'
-                         v-if='child_item'
-                         v-on:click='items.splice(index, 1);changedFn();'
-                         v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
-                         "width: 20px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;margin-left: 20px;"'>
-                         X
+                       <th scope="row">{{child_item.text}}</th>
 
-                 </div>
-             </div>
-         </div>
+                       <td>{{child_item.value}}</td>
+
+                       <td>
+                           <div    class='btn btn-info'
+                                   v-bind:refresh='refresh'
+                                   v-on:click='var x = items[index];items.splice(index, 1);items.splice(index - 1, 0, x);changedFn();'
+                                   v-if='child_item'
+                                   v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
+                                   "width: 60px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;margin-left: 20px;"'>
+                                   UP
+
+                           </div>
+                           <div    class='btn btn-info'
+                                   v-bind:refresh='refresh'
+                                   v-on:click='var x = items[index];items.splice(index, 1);items.splice(index + 1, 0, x);changedFn();'
+                                   v-if='child_item'
+                                   v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
+                                   "width: 60px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;margin-left: 20px;"'>
+                                   DOWN
+
+                           </div>
+                       </td>
+
+                       <td>
+                           <div    class='btn btn-danger'
+                                   v-bind:refresh='refresh'
+                                   v-if='child_item'
+                                   v-on:click='items.splice(index, 1);changedFn();'
+                                   v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
+                                   "width: 20px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;margin-left: 20px;"'>
+                                   X
+                           </div>
+                       </td>
+
+                     </tr>
+
+
+
+               </tbody>
+             </table>
 
      </div>
 

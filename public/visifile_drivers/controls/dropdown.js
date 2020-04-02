@@ -60,19 +60,19 @@ logo_url("/driver_icons/dropdown.png")
          v-if='design_mode == "detail_editor"'>
 
          <div class="form-group">
-          <label for="usr">Value:</label>
-          <input v-model="new_value" type="text" class="form-control" id="usr">
-        </div>
-        <div class="form-group">
-         <label for="usr">Display:</label>
-         <input v-model="new_text" type="text" class="form-control" id="usr">
-       </div>
-         <div   class="btn btn-sm btn-info"
-                v-on:click="items.push({value: new_value, text:new_text});new_value='';new_text='';"
-                style="margin-bottom: 30px;"
+             <label for="usr">Display:</label>
+             <input v-model="new_text" type="text" class="form-control" id="usr">
+         </div>
+         <div class="form-group">
+             <label for="usr">Value:</label>
+             <input v-model="new_value" type="text" class="form-control" id="usr">
+         </div>
+         <div    class="btn btn-sm btn-info"
+                 v-on:click="items.push({value: new_value, text:new_text});new_value='';new_text='';"
+                 style="margin-bottom: 30px;"
          >
-            Add
-        </div>
+                 Add
+         </div>
 
 
         <table class="table">
