@@ -11,8 +11,8 @@ read_only(true)
 properties(
     [
         {
-            id:     "text",
-            name:   "Text",
+            id:     "value",
+            name:   "Value",
             type:   "String"
         }
         ,
@@ -53,7 +53,7 @@ logo_url("/driver_icons/drive_list.png")
                                     "background-color: "+    args["background_color"]  +  ";"'>
 
                                     <select
-                                        v-on:change='changedFn();runEventHandler()'
+                                        v-on:change='changedFn();if (args.value) {runEventHandler()}'
                                         v-model='value'>
 
                                         <option v-for='opt in drives'
