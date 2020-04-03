@@ -27,6 +27,20 @@ properties(
             name:   "Changed event",
             type:   "Event"
         }
+        ,
+        {
+            id:         "width",
+            name:       "Width",
+            default:    150,
+            type:       "Number"
+        }
+        ,
+        {
+            id:         "height",
+            name:       "Height",
+            default:    50,
+            type:       "Number"
+        }
     ]
 )//properties
 logo_url("/driver_icons/drive_list.png")
