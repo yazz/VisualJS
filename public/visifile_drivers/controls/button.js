@@ -47,21 +47,7 @@ properties(
                             <b>click_event</b> event
                          </div>`
         }
-        ,
-        {
-            id:     "test_method",
-            name:   "test_method",
-            snippet:    `test_method()`,
-            type:   "Action",
-            help:       `<div>Help text for
-                            <b>test_method</b> action
-                         </div>`,
 
-                         fn:
-`
-alert("test_method called")
-`
-        }
     ]
 )//properties
 logo_url("/driver_icons/button_control.png")

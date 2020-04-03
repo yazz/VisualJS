@@ -72,6 +72,21 @@ properties(
             name:       "Get Container List",
             type:       "Action"
         }
+        ,
+        {
+            id:     "test_method",
+            name:   "test_method",
+            snippet:    `test_method()`,
+            type:   "Action",
+            help:       `<div>Help text for
+                            <b>test_method</b> action
+                         </div>`,
+
+                         fn:
+`
+alert("test_method called")
+`
+        }        
     ]
 )//properties
 children([
