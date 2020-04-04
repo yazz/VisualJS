@@ -3,7 +3,7 @@ function(args) {
 is_app(true)
 component_type("VB")
 display_name("Folder list control")
-description("This will return the folder list control")
+description("The folder list control")
 base_component_id("folder_list_control")
 load_once_from_file(true)
 visibility("PRIVATE")
@@ -25,7 +25,11 @@ properties(
         {
             id:     "path",
             name:   "Path",
-            type:   "String"
+            type:   "String",
+            help:   `The <b>path</b> is the path on the filesystem that you wish to
+                      list. On Windows this should be set to something like
+                      c:\\ and on Mac or Linux
+                      systems this should be like /users/xyz/...`
         }
         ,
         {
@@ -38,6 +42,20 @@ properties(
             id:     "load",
             name:   "load",
             type:   "Action"
+        }
+        ,
+        {
+            id:         "width",
+            name:       "Width",
+            default:    150,
+            type:       "Number"
+        }
+        ,
+        {
+            id:         "height",
+            name:       "Height",
+            default:    150,
+            type:       "Number"
         }
      ]
 )//properties
