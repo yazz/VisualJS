@@ -95,6 +95,17 @@ logo_url("/driver_icons/folder_list.png")
           }
 
           this.load()
+
+          var result = await callFunction(
+                              {
+                                  driver_name: "serverGetHomeDir",
+                                  method_name: "serverGetHomeDir"  }
+                                  ,{ })
+         if (result) {
+             if (!this.args.path) {
+                 this.args.path = result.value
+             }
+         }
        }
         ,
         watch: {

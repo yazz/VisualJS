@@ -645,6 +645,7 @@ async function setUpComponentsLocally() {
 
     await evalLocalSystemDriver('serverDriveList',   path.join(__dirname, '../public/visifile_drivers/services/serverDriveList.js'))
     await evalLocalSystemDriver('serverFolderHierarchyList',   path.join(__dirname, '../public/visifile_drivers/services/serverFolderHierarchyList.js'))
+    await evalLocalSystemDriver('serverGetHomeDir',   path.join(__dirname, '../public/visifile_drivers/services/serverGetHomeDir.js'))
     await evalLocalSystemDriver('serverFileList',   path.join(__dirname, '../public/visifile_drivers/services/serverFileList.js'))
 
 
