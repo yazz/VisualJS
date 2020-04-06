@@ -9989,7 +9989,7 @@ var thecode = `
             var x = eval.call(this,cc)
             var o=x.next()
             while (!o.done) {
-                console.log(o)
+                console.log(JSON.stringify(o,null,2))
                 o=x.next()
             }
     }
@@ -9999,8 +9999,8 @@ var thecode = `
         fullCode(thecode)
     }
     runn()
-    //var rt=esprima.parse(thecode,{tolerant: true , loc:true, range: true, attachComment: false})
-    //console.log(JSON.stringify(rt,null,2))
+    var rt=esprima.parse(thecode,{tolerant: true , loc:true, range: true, attachComment: false})
+    console.log(JSON.stringify(rt,null,2))
 
 
 </script>
