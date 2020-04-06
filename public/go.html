@@ -9972,27 +9972,35 @@ loadKeycloak(
 
 
 console.log("Start debugger")
+var thecode = `
+    (function* xx() {
+        var a=0
+        yield(a)
+        a=a+1
+        yield(a)
+        return
+        a=a+1
+        yield(a)
+        a=a+1
+        yield(a)
+    })()
+`
     fullCode = async function(cc) {
-            eval.call(this,cc)
+            var x = eval.call(this,cc)
+            var o=x.next()
+            while (!o.done) {
+                console.log(o)
+                o=x.next()
+            }
     }
 
 
     async function runn() {
-        fullCode(`
-            (function xx() {
-                var a=0
-                console.log(a)
-                a=a+1
-                console.log(a)
-                return
-                a=a+1
-                console.log(a)
-                a=a+1
-                console.log(a)
-            })()
-        `)
+        fullCode(thecode)
     }
     runn()
+    //var rt=esprima.parse(thecode,{tolerant: true , loc:true, range: true, attachComment: false})
+    //console.log(JSON.stringify(rt,null,2))
 
 
 </script>
