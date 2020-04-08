@@ -50,6 +50,20 @@ properties(
             default:    true,
             hidden:     true
         }
+        ,
+        {
+            id:         "width",
+            name:       "Width",
+            default:    150,
+            type:       "Number"
+        }
+        ,
+        {
+            id:         "height",
+            name:       "Height",
+            default:    150,
+            type:       "Number"
+        }
      ]
 )//properties
 logo_url("/driver_icons/draw.png")
