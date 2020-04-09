@@ -9974,11 +9974,14 @@ loadKeycloak(
 console.log("Start debugger")
 var thecode = `
     (function xx() {
-        var a=0
+        var a=10
+        if(runLine == 1) {return}
         a=a+1
         console.log(a)
+        if(runLine == 2) {return}
         a=a+1
         console.log(a)
+        if(runLine == 3) {return}
         a=a+1
         console.log(a)
 
@@ -9988,7 +9991,7 @@ var thecode = `
             eval(cc)
     }
 
-
+var runLine=2;
     async function runn() {
         fullCode(thecode)
     }
