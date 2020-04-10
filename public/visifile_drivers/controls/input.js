@@ -79,6 +79,17 @@ properties(
             default:    40,
             type:       "Number"
         }
+        ,
+        {
+            id:         "multiline",
+            name:       "Multiline",
+            type:       "Select",
+            default:     "False",
+            values:     [
+                            {display: "False",   value: "False"},
+                            {display: "True",  value: "True"}
+                        ]
+        }
 
     ]
 )//properties
@@ -91,7 +102,8 @@ logo_url("/driver_icons/input_box.png")
       template: `<div>
                     <label v-if='args.label'>{{args.label}}</label>
 
-                    <input  class="form-control2"
+                    <input  v-if='(!args.multiline) || (args.multiline == "False") '
+                            class="form-control2"
                             v-on:click='click_event_callback()'
                             v-on:focus='focus_event_callback()'
                             v-on:keypress='keypress_event_callback(event.key)'
@@ -100,6 +112,17 @@ logo_url("/driver_icons/input_box.png")
 
                             v-model='args.value'>  </input>
 
+
+                    <textarea
+                            v-if='(args.multiline == "True")'
+                            class="form-control2"
+                            v-on:click='click_event_callback()'
+                            v-on:focus='focus_event_callback()'
+                            v-on:keypress='keypress_event_callback(event.key)'
+                            v-bind:style=   '"width:100%; " +
+                                             "background-color: "+  args.background_color  +  ";"'
+
+                            v-model='args.value'>  </textarea>
                  </div>`
       ,
       mounted: function() {
