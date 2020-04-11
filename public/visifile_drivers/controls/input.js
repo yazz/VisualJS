@@ -81,6 +81,20 @@ properties(
         }
         ,
         {
+            id:         "rows",
+            name:       "Rows",
+            default:    4,
+            type:       "Number"
+        }
+        ,
+        {
+            id:         "cols",
+            name:       "Columns",
+            default:    50,
+            type:       "Number"
+        }
+        ,
+        {
             id:         "multiline",
             name:       "Multiline",
             type:       "Select",
@@ -114,6 +128,8 @@ logo_url("/driver_icons/input_box.png")
 
 
                     <textarea
+                            v-bind:rows='(!args.rows)?"4":args.rows'
+                            v-bind:cols='(!args.cols)?"50":args.cols'
                             v-if='(args.multiline == "True")'
                             class="form-control2"
                             v-on:click='click_event_callback()'
