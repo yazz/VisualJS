@@ -119,40 +119,43 @@ properties(
 )//properties
 logo_url("/driver_icons/ace_editor.jpeg")
 */
-
     Vue.component("ace_editor",{
       props: [ "meta", "form",  "name", "args", "refresh"]
       ,
       template: `<div>
                     <label v-if='args.label'>{{args.label}}</label>
 
-                    <input  v-if='(!args.multiline) || (args.multiline == "False") '
-                            class="form-control2"
-                            v-on:click='click_event_callback()'
-                            v-on:focus='focus_event_callback()'
-                            v-on:keypress='keypress_event_callback(event.key)'
-                            v-bind:style=   '"width:100%; " +
-                                             "background-color: "+  args.background_color  +  ";"'
-
-                            v-model='args.value'>  </input>
-
-
-                    <textarea
-                            v-bind:rows='(!args.rows)?"4":args.rows'
-                            v-bind:cols='(!args.cols)?"50":args.cols'
-                            v-if='(args.multiline == "True")'
-                            class="form-control2"
-                            v-on:click='click_event_callback()'
-                            v-on:focus='focus_event_callback()'
-                            v-on:keypress='keypress_event_callback(event.key)'
-                            v-bind:style=   '"width:100%; " +
-                                             "background-color: "+  args.background_color  +  ";"'
-
-                            v-model='args.valueMultiline'>  </textarea>
+                    <div    v-bind:id='editorName'>
+                        {{editorName}}
+                    </div>
                  </div>`
       ,
       mounted: function() {
         registerComponent(this)
+        if (this.editorName) {
+            this.editorName = '_' + this.name
+            ace.config.set('basePath', '/');
+            setTimeout(function(){
+                var editorElement = ace.edit( this.editorName,
+                                                {
+                                                       selectionStyle:  "text",
+                                                       mode:            "ace/mode/javascript"
+                                                })
+                editorElement.setTheme("ace/theme/sqlserver");
+                document.getElementById(this.editorName).style["font-size"]    = "16px"
+                document.getElementById(this.editorName).style.width           = "100%"
+                document.getElementById(this.editorName).style.border          = "0px solid #2C2828"
+                document.getElementById(this.editorName).style.height          = "55vh"
+                editorElement.getSession().setValue("");
+                editorElement.getSession().setUseWorker(false);
+            },100)
+        }
+      }
+      ,
+      data: function() {
+          return {
+              editorName:  null
+          }
       }
       ,
 
