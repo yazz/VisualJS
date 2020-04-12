@@ -34,6 +34,16 @@ properties(
             type:   "String"
         }
         ,
+
+        {
+            id:     "valueMultiline",
+            name:   "Multiline Value",
+            type:   "String",
+            textarea: true
+        }
+
+
+        ,
         {
             id:     "click_event",
             name:   "Clicked event",
@@ -138,7 +148,7 @@ logo_url("/driver_icons/input_box.png")
                             v-bind:style=   '"width:100%; " +
                                              "background-color: "+  args.background_color  +  ";"'
 
-                            v-model='args.value'>  </textarea>
+                            v-model='args.valueMultiline'>  </textarea>
                  </div>`
       ,
       mounted: function() {
