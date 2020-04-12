@@ -26,8 +26,28 @@ properties(
             type:   "String"
         }
         ,
-
-
+        {
+            id:     "border_color",
+            name:   "Border color",
+            type:   "String",
+            default: "black"
+        }
+        ,
+        {
+            id:     "border_width_px",
+            name:   "Border width px",
+            type:   "Number",
+            default: 1
+        }
+        ,
+        
+        {
+            id:     "padding_px",
+            name:   "Padding px",
+            type:   "Number",
+            default: 4
+        }
+        ,
         {
             id:         "use_pre",
             name:       "Use <pre>",
@@ -68,10 +88,15 @@ logo_url("/driver_icons/text_control.png")
 */
 
     Vue.component("label_control",{
-        props: ["meta","args", "name","refresh"]
+        props: ["meta","name","args","refresh","design_mode"]
         ,
-        template: `<div v-bind:style='"white-space:normal;height:100%;width:100%; border: 0px;" +
-                                    "background-color: "+    args["background_color"]  +  ";overflow: auto;"'>
+        template: `<div v-bind:style='"white-space:normal;height:100%;width:100%; " +
+                                        "border-color: "       +     args["border_color"]  + ";" +
+                                        "border: "             +    (design_mode?0:args["border_width_px"])  + "px;" +
+                                        "background-color: "   +     args["background_color"]  + ";" +
+                                        "padding: "            +     args["padding_px"]  + ";" +
+                                        "border-style: solid;" +
+                                    "overflow: auto;"'>
 
 <pre v-if="args.use_pre == 'True'">{{text}}</pre>
 
