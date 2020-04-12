@@ -2,9 +2,9 @@ function(args) {
 /*
 is_app(true)
 component_type("VB")
-display_name("CodeMirror component")
-description("This will return the CodeMirror editor component")
-base_component_id("codemirror")
+display_name("Ace Editor component")
+description("This will return the Ace editor component")
+base_component_id("ace_editor")
 visibility("PRIVATE")
 read_only(true)
 load_once_from_file(true)
@@ -117,10 +117,10 @@ properties(
 
     ]
 )//properties
-logo_url("/driver_icons/codemirror.png")
+logo_url("/driver_icons/ace_editor.jpeg")
 */
 
-    Vue.component("input_control",{
+    Vue.component("ace_editor",{
       props: [ "meta", "form",  "name", "args", "refresh"]
       ,
       template: `<div>

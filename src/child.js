@@ -667,7 +667,7 @@ async function setUpComponentsLocally() {
 
     await evalLocalSystemDriver('label_control',   path.join(__dirname, '../public/visifile_drivers/controls/label.js'))
     await evalLocalSystemDriver('input_control',   path.join(__dirname, '../public/visifile_drivers/controls/input.js'))
-    await evalLocalSystemDriver('code_mirror',   path.join(__dirname, '../public/visifile_drivers/controls/codemirror.js'))
+    await evalLocalSystemDriver('ace_editor',   path.join(__dirname, '../public/visifile_drivers/controls/ace_editor.js'))
 
     await evalLocalSystemDriver('group_control',   path.join(__dirname, '../public/visifile_drivers/controls/group.js'))
     await evalLocalSystemDriver('button_control',   path.join(__dirname, '../public/visifile_drivers/controls/button.js'))
