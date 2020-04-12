@@ -132,20 +132,22 @@ logo_url("/driver_icons/ace_editor.jpeg")
       ,
       mounted: function() {
         registerComponent(this)
-        if (this.editorName) {
-            this.editorName = '_' + this.name
+        var mm = this
+        if (mm.name) {
+            //debugger
+            this.editorName = '_' + mm.name
             ace.config.set('basePath', '/');
             setTimeout(function(){
-                var editorElement = ace.edit( this.editorName,
+                var editorElement = ace.edit( mm.editorName,
                                                 {
                                                        selectionStyle:  "text",
                                                        mode:            "ace/mode/javascript"
                                                 })
                 editorElement.setTheme("ace/theme/sqlserver");
-                document.getElementById(this.editorName).style["font-size"]    = "16px"
-                document.getElementById(this.editorName).style.width           = "100%"
-                document.getElementById(this.editorName).style.border          = "0px solid #2C2828"
-                document.getElementById(this.editorName).style.height          = "55vh"
+                document.getElementById(mm.editorName).style["font-size"]    = "16px"
+                document.getElementById(mm.editorName).style.width           = "100%"
+                document.getElementById(mm.editorName).style.border          = "0px solid #2C2828"
+                document.getElementById(mm.editorName).style.height          = "55vh"
                 editorElement.getSession().setValue("");
                 editorElement.getSession().setUseWorker(false);
             },100)
