@@ -143,13 +143,16 @@ logo_url("/driver_icons/ace_editor.jpeg")
                                                        selectionStyle:  "text",
                                                        mode:            "ace/mode/javascript"
                                                 })
-                editorElement.setTheme("ace/theme/sqlserver");
+
                 document.getElementById(mm.editorName).style["font-size"]    = "16px"
                 document.getElementById(mm.editorName).style.width           = "100%"
                 document.getElementById(mm.editorName).style.border          = "0px solid #2C2828"
                 document.getElementById(mm.editorName).style.height          = "55vh"
                 editorElement.getSession().setValue("");
                 editorElement.getSession().setUseWorker(false);
+                setTimeout(function(){
+                    editorElement.setTheme("ace/theme/sqlserver");
+                },200)
             },100)
         }
       }
