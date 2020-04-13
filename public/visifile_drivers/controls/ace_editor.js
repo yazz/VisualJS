@@ -31,16 +31,10 @@ properties(
         {
             id:     "value",
             name:   "Value",
-            type:   "String"
-        }
-        ,
-
-        {
-            id:     "valueMultiline",
-            name:   "Multiline Value",
             type:   "String",
             textarea: true
         }
+
 
 
         ,
@@ -89,31 +83,8 @@ properties(
             default:    150,
             type:       "Number"
         }
-        ,
-        {
-            id:         "rows",
-            name:       "Rows",
-            default:    4,
-            type:       "Number"
-        }
-        ,
-        {
-            id:         "cols",
-            name:       "Columns",
-            default:    50,
-            type:       "Number"
-        }
-        ,
-        {
-            id:         "multiline",
-            name:       "Multiline",
-            type:       "Select",
-            default:     "False",
-            values:     [
-                            {display: "False",   value: "False"},
-                            {display: "True",  value: "True"}
-                        ]
-        }
+
+
 
     ]
 )//properties
@@ -126,7 +97,6 @@ logo_url("/driver_icons/ace_editor.jpeg")
                     <label v-if='args.label'>{{args.label}}</label>
 
                     <div    v-bind:id='editorName'>
-                        {{editorName}}
                     </div>
                  </div>`
       ,
@@ -148,7 +118,9 @@ logo_url("/driver_icons/ace_editor.jpeg")
                 document.getElementById(mm.editorName).style.width           = "100%"
                 document.getElementById(mm.editorName).style.border          = "0px solid #2C2828"
                 document.getElementById(mm.editorName).style.height          = "55vh"
-                editorElement.getSession().setValue("");
+                if (mm.args.value) {
+                    editorElement.getSession().setValue(mm.args.value);
+                }
                 editorElement.getSession().setUseWorker(false);
                 setTimeout(function(){
                     editorElement.setTheme("ace/theme/sqlserver");
