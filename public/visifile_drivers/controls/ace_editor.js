@@ -38,10 +38,16 @@ properties(
         {
             id:         "setValue",
             snippet:    `setValue("hello World")`,
-            name:       "setValue",
+            name:       "setValue(...)",
             type:       "Action"
         }
-
+        ,
+        {
+            id:         "gotoLine",
+            snippet:    `gotoLine(1)`,
+            name:       "gotoLine(...)",
+            type:       "Action"
+        }
 
         ,
         {
@@ -170,6 +176,13 @@ logo_url("/driver_icons/ace_editor.jpeg")
                 }
             }
             ,
+
+
+            gotoLine(line) {
+                this.editorElement.gotoLine(line , 0, true);
+            }
+            ,
+
             click_event_callback: function() {
                 //console.log("----- button_control, click_event_callback: function() = " + this.name)
                 //eval("(function(){" + this.args.click_event + "})")()
