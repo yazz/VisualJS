@@ -34,7 +34,13 @@ properties(
             type:   "String",
             textarea: true
         }
-
+        ,
+        {
+            id:         "setValue",
+            snippet:    `setValue("hello World")`,
+            name:       "setValue",
+            type:       "Action"
+        }
 
 
         ,
@@ -100,6 +106,18 @@ logo_url("/driver_icons/ace_editor.jpeg")
                     </div>
                  </div>`
       ,
+      watch: {
+        // This would be called anytime the value of the input changes
+        args: function(newValue, oldValue) {
+            debugger
+            //console.log("refresh: " + this.args.text)
+            if (isValidObject(this.args)) {
+
+                //alert(JSON.stringify(this.tables,null,2))
+            }
+        }
+      }
+      ,
       mounted: function() {
         registerComponent(this)
         var mm = this
@@ -108,7 +126,7 @@ logo_url("/driver_icons/ace_editor.jpeg")
             this.editorName = '_' + mm.name
             ace.config.set('basePath', '/');
             setTimeout(function(){
-                var editorElement = ace.edit( mm.editorName,
+                mm.editorElement = ace.edit( mm.editorName,
                                                 {
                                                        selectionStyle:  "text",
                                                        mode:            "ace/mode/javascript"
@@ -119,11 +137,11 @@ logo_url("/driver_icons/ace_editor.jpeg")
                 document.getElementById(mm.editorName).style.border          = "0px solid #2C2828"
                 document.getElementById(mm.editorName).style.height          = "55vh"
                 if (mm.args.value) {
-                    editorElement.getSession().setValue(mm.args.value);
+                    mm.editorElement.getSession().setValue(mm.args.value);
                 }
-                editorElement.getSession().setUseWorker(false);
+                mm.editorElement.getSession().setUseWorker(false);
                 setTimeout(function(){
-                    editorElement.setTheme("ace/theme/sqlserver");
+                    mm.editorElement.setTheme("ace/theme/sqlserver");
                 },200)
             },100)
         }
@@ -131,7 +149,8 @@ logo_url("/driver_icons/ace_editor.jpeg")
       ,
       data: function() {
           return {
-              editorName:  null
+              editorName:  null,
+              editorElement: null
           }
       }
       ,
@@ -139,7 +158,14 @@ logo_url("/driver_icons/ace_editor.jpeg")
 
 
       methods: {
-
+            setValue(x) {
+                if (x) {
+                    this.editorElement.setValue(x);
+                } else {
+                    this.editorElement.setValue(this.args.value);
+                }
+            }
+            ,
             click_event_callback: function() {
                 //console.log("----- button_control, click_event_callback: function() = " + this.name)
                 //eval("(function(){" + this.args.click_event + "})")()
