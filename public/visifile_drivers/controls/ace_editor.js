@@ -143,6 +143,10 @@ logo_url("/driver_icons/ace_editor.jpeg")
                 setTimeout(function(){
                     mm.editorElement.setTheme("ace/theme/sqlserver");
                 },200)
+
+                mm.editorElement.getSession().on('change', function() {
+                   mm.args.value = mm.editorElement.getSession().getValue();
+                })
             },100)
         }
       }
