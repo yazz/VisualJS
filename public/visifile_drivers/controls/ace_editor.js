@@ -65,6 +65,22 @@ properties(
             type:       "Action"
         }
         ,
+
+
+        {
+            id:     "useZeroBasedIndex",
+            name:   "Use Zero based Index?",
+            type:       "Select",
+            default:    "False",
+            values:     [
+                            {display: "True",  value: "True"},
+                            {display: "False",  value: "False"}
+
+
+                        ]
+        }
+        ,
+
         {
             id:     "click_event",
             name:   "Clicked event",
@@ -130,7 +146,7 @@ logo_url("/driver_icons/ace_editor.jpeg")
       watch: {
         // This would be called anytime the value of the input changes
         args: function(newValue, oldValue) {
-            debugger
+
             //console.log("refresh: " + this.args.text)
             if (isValidObject(this.args)) {
 
@@ -196,17 +212,32 @@ logo_url("/driver_icons/ace_editor.jpeg")
 
 
             gotoLine: function(line) {
-                this.editorElement.gotoLine(line , 0, true);
+                debugger
+                var addNum = 0
+                if (this.args.useZeroBasedIndex && (this.args.useZeroBasedIndex == "True")) {
+                    addNum = 1
+                }
+                this.editorElement.gotoLine(line + addNum, 0, true);
             }
             ,
             getRow: function() {
+                debugger
+                var addNum = 1
+                if (this.args.useZeroBasedIndex && (this.args.useZeroBasedIndex == "True")) {
+                    addNum = 0
+                }
                 var row =  (this.editorElement).getCursorPosition();
-                return row.row;
+                return row.row + addNum;
             }
             ,
             getColumn: function() {
+                debugger
+                 var addNum = 1
+                 if (this.args.useZeroBasedIndex && (this.args.useZeroBasedIndex == "True")) {
+                     addNum = 0
+                 }
                  var column =  (this.editorElement).getCursorPosition();
-                 return column.column
+                 return column.column + addNum
             }
             ,
             click_event_callback: function() {
