@@ -48,7 +48,22 @@ properties(
             name:       "gotoLine(...)",
             type:       "Action"
         }
-
+        ,
+        {
+            id:         "getRow",
+            pre_snippet: `await `,
+            snippet:    `getRow()`,
+            name:       "getRow()",
+            type:       "Action"
+        }
+        ,
+        {
+            id:         "getColumn",
+            pre_snippet: `await `,
+            snippet:    `getColumn()`,
+            name:       "getColumn()",
+            type:       "Action"
+        }
         ,
         {
             id:     "click_event",
@@ -153,7 +168,9 @@ logo_url("/driver_icons/ace_editor.jpeg")
                 mm.editorElement.getSession().on('change', function() {
                    mm.args.value = mm.editorElement.getSession().getValue();
                 })
+                testObject = mm.editorElement
             },100)
+
         }
       }
       ,
@@ -178,11 +195,20 @@ logo_url("/driver_icons/ace_editor.jpeg")
             ,
 
 
-            gotoLine(line) {
+            gotoLine: function(line) {
                 this.editorElement.gotoLine(line , 0, true);
             }
             ,
-
+            getRow: function() {
+                var row =  (this.editorElement).getCursorPosition();
+                return row.row;
+            }
+            ,
+            getColumn: function() {
+                 var column =  (this.editorElement).getCursorPosition();
+                 return column.column
+            }
+            ,
             click_event_callback: function() {
                 //console.log("----- button_control, click_event_callback: function() = " + this.name)
                 //eval("(function(){" + this.args.click_event + "})")()
