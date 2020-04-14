@@ -134,12 +134,18 @@ properties(
 logo_url("/driver_icons/ace_editor.jpeg")
 */
     Vue.component("ace_editor",{
-      props: [ "meta", "form",  "name", "args", "refresh"]
+      props: [ "meta", "form",  "name", "args", "refresh", "design_mode"]
       ,
       template: `<div>
-                    <label v-if='args.label'>{{args.label}}</label>
+                    <div v-if='!design_mode'>
+                        <label v-if='args.label'>{{args.label}}</label>
 
-                    <div    v-bind:id='editorName'>
+                        <div    v-bind:id='editorName'>
+                        </div>
+                    </div>
+
+                    <div v-if='design_mode'>
+                        <img src="/driver_icons/ace_editor.jpeg" width=100px></src>
                     </div>
                  </div>`
       ,
