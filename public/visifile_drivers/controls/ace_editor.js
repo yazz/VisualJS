@@ -150,7 +150,22 @@ properties(
             type:   "Number",
             default: 0
         }
+        ,
 
+        {
+            id:     "mouseX",
+            name:   "Mouse X",
+            type:   "Number",
+            default: 0
+        }
+        ,
+
+        {
+            id:     "mouseY",
+            name:   "Mouse Y",
+            type:   "Number",
+            default: 0
+        }
 
     ]
 )//properties
@@ -169,6 +184,8 @@ logo_url("/driver_icons/ace_editor.jpeg")
                                               "background-color: "   +     args["background_color"]  + ";" +
                                               "padding: "            +     args["padding_px"]  + ";" +
                                               "border-style: solid;"'
+
+                                 v-on:mousemove='args.mouseX = event.clientX;args.mouseY  = event.clientY;'
                         >
                             <div    v-bind:id='editorName'
                             >
