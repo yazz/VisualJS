@@ -210,7 +210,7 @@ logo_url("/driver_icons/ace_editor.jpeg")
                 document.getElementById(mm.editorName).style["font-size"]    = "16px"
                 document.getElementById(mm.editorName).style.width           = "100%"
                 document.getElementById(mm.editorName).style.border          = "0px solid #2C2828"
-                document.getElementById(mm.editorName).style.height          = "55vh"
+                document.getElementById(mm.editorName).style.height          = "100%"
                 if (mm.args.value) {
                     mm.editorElement.getSession().setValue(mm.args.value);
                 }
