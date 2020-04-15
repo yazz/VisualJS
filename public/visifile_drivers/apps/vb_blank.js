@@ -40,7 +40,9 @@ formEditor({
           "background_color": "",
           "parent": null,
           "uuid": "d0bfeadc-20c0-4cd1-b405-36d5f8d601e8",
-          "watch": []
+          "watch": [],
+          "border_width_px": 1,
+          "padding_px": 5
         }
       ]
     },
@@ -4764,7 +4766,9 @@ return {}
           "background_color": "",
           "parent": null,
           "uuid": "d0bfeadc-20c0-4cd1-b405-36d5f8d601e8",
-          "watch": []
+          "watch": [],
+          "border_width_px": 1,
+          "padding_px": 5
         }
       ]
     },

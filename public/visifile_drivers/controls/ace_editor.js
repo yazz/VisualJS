@@ -126,7 +126,30 @@ properties(
             default:    150,
             type:       "Number"
         }
+        ,
 
+
+        {
+            id:     "border_color",
+            name:   "Border color",
+            type:   "String",
+            default: "black"
+        }
+        ,
+        {
+            id:     "border_width_px",
+            name:   "Border width px",
+            type:   "Number",
+            default: 1
+        }
+        ,
+
+        {
+            id:     "padding_px",
+            name:   "Padding px",
+            type:   "Number",
+            default: 0
+        }
 
 
     ]
@@ -140,7 +163,16 @@ logo_url("/driver_icons/ace_editor.jpeg")
                     <div v-if='!design_mode'>
                         <label v-if='args.label'>{{args.label}}</label>
 
-                        <div    v-bind:id='editorName'>
+                        <div    v-bind:style='"height:100%;width:100%; " +
+                                              "border-color: "       +     args["border_color"]  + ";" +
+                                              "border: "             +    (design_mode?0:args["border_width_px"])  + "px;" +
+                                              "background-color: "   +     args["background_color"]  + ";" +
+                                              "padding: "            +     args["padding_px"]  + ";" +
+                                              "border-style: solid;"'
+                        >
+                            <div    v-bind:id='editorName'
+                            >
+                            </div>
                         </div>
                     </div>
 
