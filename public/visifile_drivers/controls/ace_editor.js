@@ -185,7 +185,7 @@ logo_url("/driver_icons/ace_editor.jpeg")
                                               "padding: "            +     args["padding_px"]  + ";" +
                                               "border-style: solid;"'
 
-                                 v-on:mousemove='args.mouseX = event.clientX;args.mouseY  = event.clientY;'
+                                 v-on:mousemove='var rect = event.target.getBoundingClientRect();var x = event.clientX - rect.left; var y = event.clientY - rect.top;args.mouseX = x;args.mouseY  = y;'
                         >
                             <div    v-bind:id='editorName'
                             >
