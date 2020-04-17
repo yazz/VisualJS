@@ -185,7 +185,7 @@ logo_url("/driver_icons/ace_editor.jpeg")
                                               "padding: "            +     args["padding_px"]  + ";" +
                                               "border-style: solid;"'
 
-                                 v-on:mousemove='var rect = event.target.getBoundingClientRect();var x = event.clientX - rect.left; var y = event.clientY - rect.top;args.mouseX = x;args.mouseY  = y;'
+
                         >
                             <div    v-bind:id='editorName'
                             >
@@ -242,9 +242,15 @@ logo_url("/driver_icons/ace_editor.jpeg")
                 testObject = mm.editorElement
 
 
+                testObject.on("mousemove", function(e) {
+                    debugger
+                     var position = e.getDocumentPosition();
+                     mm.args.mouseX = position.column;
+                     mm.args.mouseY  = position.row;
+                })
 
                 testObject.on("guttermousedown", function(e) {
-                debugger
+
                     var target = e.domEvent.target;
 
                     if (target.className.indexOf("ace_gutter-cell") == -1){
@@ -258,6 +264,8 @@ logo_url("/driver_icons/ace_editor.jpeg")
                     if (e.clientX > 25 + target.getBoundingClientRect().left){
                         return;
                     }
+
+
 
                     var breakpoints = e.editor.session.getBreakpoints(row, 0);
                     var row = e.getDocumentPosition().row;
