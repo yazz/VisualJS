@@ -242,14 +242,14 @@ logo_url("/driver_icons/ace_editor.jpeg")
                 testObject = mm.editorElement
 
 
-                testObject.on("mousemove", function(e) {
+                mm.editorElement.on("mousemove", function(e) {
                     debugger
                      var position = e.getDocumentPosition();
                      mm.args.mouseX = position.column;
                      mm.args.mouseY  = position.row;
                 })
 
-                testObject.on("guttermousedown", function(e) {
+                mm.editorElement.on("guttermousedown", function(e) {
 
                     var target = e.domEvent.target;
 
@@ -257,7 +257,7 @@ logo_url("/driver_icons/ace_editor.jpeg")
                         return;
                     }
 
-                    if (!testObject.isFocused()){
+                    if (!mm.editorElement.isFocused()){
                         return;
                     }
 
