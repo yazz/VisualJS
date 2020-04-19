@@ -89,7 +89,7 @@ load_once_from_file(true)
                 <button type=button
                         v-bind:refresh='refresh'
                         v-bind:class='"btn btn-sm " + (mode == "profiler"?"btn-secondary":"btn-light")'
-                        v-on:click='if (mode != "profiler"){chooseProfiler()}' >Debugger</button>
+                        v-on:click='if (mode != "profiler"){chooseProfiler()}' >Profiler</button>
             </div>
 
 
