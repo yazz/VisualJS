@@ -247,6 +247,7 @@ logo_url("/driver_icons/rh3scale.png")
             var x = await this.check3ScaleAvailable()
             this.args.is3ScaleAvailable = x?"True":"False"
             if (this.design_mode) {
+                this.args.proxyConfig = {}
                 this.updatePlans()
             }
         }
