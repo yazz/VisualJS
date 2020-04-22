@@ -303,8 +303,8 @@ load_once_from_file(true)
 
                 <input   readonly
                                         style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
-                                        v-on:click='var win = window.open(location.protocol + "//" + networkIntranetIpAddress + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
-                                        v-bind:value='location.protocol + "//" + networkIntranetIpAddress + ":" + location.port + "/app/" + base_component_id + ".html"'>
+                                        v-on:click='var win = window.open(location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
+                                        v-bind:value='location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'>
                 </input>
 
 
