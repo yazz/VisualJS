@@ -270,13 +270,13 @@ load_once_from_file(true)
 
 
 
-            <div    v-on:click='var win = window.open(location.protocol + "//" + networkIntranetIpAddress + ":" + location.port + "/" + rest_api_base_url + "", "_blank"); win.focus();'
+            <div    v-on:click='var win = window.open(location.protocol + "//" + location.hostname + ":" + location.port + "/" + rest_api_base_url + "", "_blank"); win.focus();'
                     v-if='app_loaded && (is_server_app)'
                     v-bind:style="'display:flex;text-decoration: underline;color:blue;padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;'">
 
                 Shareable link:<input   readonly
                                         style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
-                                        v-bind:value='location.protocol + "//" + networkIntranetIpAddress + ":" + location.port + "/" + rest_api_base_url + ""'>
+                                        v-bind:value='location.protocol + "//" + location.hostname + ":" + location.port + "/" + rest_api_base_url + ""'>
                 </input>
 
             </div>
@@ -286,7 +286,7 @@ load_once_from_file(true)
             <div    v-if='app_loaded && (!is_server_app)'
                     v-bind:style="'display:flex;text-decoration: underline;color:blue;padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;'">
 
-                <div v-on:click='var win = window.open(location.protocol + "//" + networkIntranetIpAddress + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'>Shareable link:</div>
+                <div v-on:click='var win = window.open(location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'>Shareable link:</div>
 
                 <button   v-on:click='setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null)},100)'
                           type="button"
