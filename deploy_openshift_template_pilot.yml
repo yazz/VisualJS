@@ -51,7 +51,7 @@ objects:
                         timeoutSeconds: 1
             resources:
               limits:
-                memory: 512Mi
+                memory: 512Mi                        
       replicas: 1
       selector:
         name: "pilot"
@@ -61,7 +61,7 @@ objects:
   - apiVersion: v1
     kind: Service
     metadata:
-      name: service
+      name: pilot-service
     spec:
       ports:
         - port: 3000
@@ -79,6 +79,6 @@ objects:
     spec:
       to:
         kind: Service
-        name: service
+        name: pilot-service
     labels:
       app: pilot
