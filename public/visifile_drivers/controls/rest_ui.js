@@ -103,6 +103,13 @@ properties(
         }
         ,
         {
+            id:         "error",
+            name:       "Error",
+            default:    "",
+            type:       "String"
+        }
+        ,
+        {
             id:         "jsonPaths",
             name:       "JSON Paths",
             default:    [],
@@ -373,6 +380,7 @@ var result = await callFunction(
             callRestApiInternal: async function(url, noFilter, wholeTree) {
                 var mm = this
                 try {
+                    mm.args.error = ""
                     var result = await callFunction(
                     {
                         driver_name: "rest_call_service_v2",
@@ -395,7 +403,9 @@ var result = await callFunction(
                     }
                     return null
                 } catch (err) {
-                    alert(err)
+                    //alert(err)
+                    //add failure event here
+                    mm.args.error = err
                 }
 
             }
