@@ -9,6 +9,10 @@ logo_url("/driver_icons/rest.png")
 */
     console.log("This is console.log output for a Echo Microservice")
     //return args
-    return args.params
+    if (args) {
+        return args.params
+    } else {
+        return {}
+    }
 
 }
