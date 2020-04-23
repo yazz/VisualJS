@@ -27,6 +27,12 @@ properties(
         }
         ,
         {
+            id:     "color",
+            name:   "Color",
+            default: "black",
+            type:   "String"
+        }
+        ,        {
             id:     "border_color",
             name:   "Border color",
             type:   "String",
@@ -40,7 +46,7 @@ properties(
             default: 1
         }
         ,
-        
+
         {
             id:     "padding_px",
             name:   "Padding px",
@@ -91,6 +97,7 @@ logo_url("/driver_icons/text_control.png")
         props: ["meta","name","args","refresh","design_mode"]
         ,
         template: `<div v-bind:style='"white-space:normal;height:100%;width:100%; " +
+                                        "color: "              +     args["color"]  + ";" +
                                         "border-color: "       +     args["border_color"]  + ";" +
                                         "border: "             +    (design_mode?0:args["border_width_px"])  + "px;" +
                                         "background-color: "   +     args["background_color"]  + ";" +
