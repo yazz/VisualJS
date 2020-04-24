@@ -124,7 +124,7 @@ function processMessagesFromMainProcess() {
             function() {
                 dbsearch.run("begin exclusive transaction");
                 setProcessToIdle.run(msg.child_process_name)
-                //zzz
+
                 dbsearch.run("commit", function() {
                     processesInUse[msg.child_process_name] = false
                 });
@@ -255,7 +255,7 @@ function processMessagesFromMainProcess() {
 //-----------------------------------------------------------------------------------------//
 function setUpSql() {
 
-    setProcessToRunning = dbsearch.prepare("UPDATE system_process_info SET status = 'RUNNING', last_driver = ?, last_event = ?, system_code_id = ? WHERE process = ?");
+    setProcessToRunning = dbsearch.prepare("UPDATE system_process_info SET status = 'RUNNING', last_driver = ?, last_event = ?, running_start_time_ms = ?, event_duration_ms = 0, system_code_id = ? WHERE process = ?");
 
     setProcessToIdle = dbsearch.prepare("UPDATE system_process_info SET status = 'IDLE' WHERE process = ?");
 
@@ -269,7 +269,9 @@ function setUpSql() {
 
 }
 
-
+//zzz
+function updateRunningTimeForprocess() {
+}
 
 
 
@@ -448,7 +450,10 @@ function sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processName  ,  
     dbsearch.serialize(
         function() {
             dbsearch.run("begin exclusive transaction");
-            setProcessToRunning.run( base_component_id, on_condition, id, processName )
+            let runningStartTime = new Date().getTime();
+            setProcessToRunning.run( base_component_id, on_condition, runningStartTime, id, processName )
+
+
             dbsearch.run("commit", function() {
                 process.send({  message_type:       "execute_code_in_exe_child_process" ,
                                 child_process_name:  processName,
