@@ -21,13 +21,29 @@ var setProcessToIdle;
 
 
 
-
+//-----------------------------------------------------------------------------------------//
+//                                                                                         //
+//                             processMessagesFromMainProcess                              //
+//                                                                                         //
+//   This is the main event loop that waits for messages from the main NodeJS child.js     //
+//   process                                                                               //
+//                                                                                         //
+//                                                                                         //
+//-----------------------------------------------------------------------------------------//
 processMessagesFromMainProcess();
 
 function processMessagesFromMainProcess() {
     process.on('message', (msg) => {
 
 
+    //-----------------------------------------------------------------------------------------
+    //
+    //                                            init
+    //
+    // This just sets up the Scheduler by connecting to the database, and sets up some
+    // prepared SQL statements
+    //
+    //-----------------------------------------------------------------------------------------
     if  (msg.message_type == 'init') {
 
         //console.log('-- Init v3');
@@ -43,19 +59,21 @@ function processMessagesFromMainProcess() {
         process.send({  message_type:       "database_setup_in_child" ,
                         child_process_name:  childProcessName
                         });
-
-
         setUpSql()
 
 
 
 
 
-
+    //-----------------------------------------------------------------------------------------
+    //
+    //                                   setUpSql
+    //
+    // This sets up some prepared SQL statements
+    //
+    //-----------------------------------------------------------------------------------------
     } else if (msg.message_type == 'setUpSql') {
 
-
-         //console.log(" --- setUpSql --- ")
          setUpSql();
 
 
