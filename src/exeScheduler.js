@@ -69,11 +69,11 @@ function processMessagesFromMainProcess() {
 
 
 
-        } else if (msg.message_type == 'setUpSql') {
+    } else if (msg.message_type == 'setUpSql') {
 
 
-             //console.log(" --- setUpSql --- ")
-             setUpSql();
+         //console.log(" --- setUpSql --- ")
+         setUpSql();
 
 
 
@@ -162,38 +162,38 @@ function processMessagesFromMainProcess() {
 
 
         } else if (msg.find_component.code_id) {
-                       scheduleJobWithCodeId(  msg.find_component.code_id,
-                                               msg.args,
-                                               msg.caller_call_id,
-                                               msg.callback_index)
+           scheduleJobWithCodeId(  msg.find_component.code_id,
+                                   msg.args,
+                                   msg.caller_call_id,
+                                   msg.callback_index)
 
 
 
         } else if (msg.find_component.base_component_id) {
             //console.log("In msg.find_component.base_component_id")
-                    dbsearch.serialize(
-                        function() {
-                            var stmt = dbsearch.all(
-                              "SELECT id FROM system_code where base_component_id = ? and code_tag = 'LATEST'; ",
+            dbsearch.serialize(
+                function() {
+                    var stmt = dbsearch.all(
+                      "SELECT id FROM system_code where base_component_id = ? and code_tag = 'LATEST'; ",
 
-                               msg.find_component.base_component_id,
+                       msg.find_component.base_component_id,
 
-                                function(err, results)
-                                {
-                                    if (results && (results.length > 0)) {
-                                        //console.log("    msg.find_component.base_component_id: " + msg.find_component.base_component_id  + " = " + results[0].id)
-                                       scheduleJobWithCodeId(  results[0].id,
-                                                               msg.args,
-                                                               msg.caller_call_id,
-                                                               msg.callback_index)
-                                        //callbackFn(results[0].id);
-                                    } else {
-                                        console.log("    msg.find_component.base_component_id: Could not find " +   msg.find_component.base_component_id)
-                                    }
+                        function(err, results)
+                        {
+                            if (results && (results.length > 0)) {
+                                //console.log("    msg.find_component.base_component_id: " + msg.find_component.base_component_id  + " = " + results[0].id)
+                               scheduleJobWithCodeId(  results[0].id,
+                                                       msg.args,
+                                                       msg.caller_call_id,
+                                                       msg.callback_index)
+                                //callbackFn(results[0].id);
+                            } else {
+                                console.log("    msg.find_component.base_component_id: Could not find " +   msg.find_component.base_component_id)
+                            }
 
-                                })
-                    }, sqlite3.OPEN_READONLY)
-                    }
+                        })
+            }, sqlite3.OPEN_READONLY)
+        }
 
 
 
