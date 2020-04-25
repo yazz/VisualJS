@@ -274,7 +274,6 @@ function updateRunningTimeForprocess() {
 function init() {
     parseEvents()
 
-    setInterval( findNextJobToRun, 1000)
 }
 
 
@@ -290,103 +289,6 @@ function parseEvents() {
 
 }
 
-
-
-
-var inScheduleCode2 = false;
-function findNextJobToRun() {
-    if (inScheduleCode2) {
-        return
-    }
-    inScheduleCode2 = true
-
-    var code_id = null
-
-    for (var ff = 0; ff < eventList.length; ff++) {
-        var cond = eventList[ff]
-        code_id = cond.id
-        if (cond.condType == "query") {
-            testQueryToExecute(cond, code_id)
-
-        }
-    }
-    inScheduleCode2 = false
-
-}
-
-
-
-function testQueryToExecute(cond, code_id) {
-    if (cond.condition.where) {
-        dbsearch.serialize(
-            function() {
-                var stmt = dbsearch.all(
-                    `select
-                         count( process ) as cnt_max
-                     from
-                         system_process_info
-                     where
-                         system_code_id = ?
-                     and
-                         status = 'RUNNING'
-                    `
-                    ,
-                    code_id
-                    ,
-                    function(err, results)
-                    {
-                        if (err) {
-                            console.log("err: " + err)
-                        } else {
-                            //console.log("")
-                            //console.log(JSON.stringify(cond,null,2))
-                            //console.log("Process count    :" + JSON.stringify(results[0].cnt_max,null,2))
-                            //console.log("Process count max:" + JSON.stringify(cond.max_processes,null,2))
-                            //console.log("")
-                            if (cond.max_processes && (results[0].cnt_max >= cond.max_processes)) {
-                            } else {
-                                //console.log("*) Executing SQlite: " + cond.condition.where)
-                                dbsearch.serialize(
-                                    function() {
-                                        var stmt = dbsearch.all(
-                                            "SELECT * FROM all_data where " +  cond.condition.where + " and status is NULL LIMIT 1",
-
-                                            function(err, results)
-                                            {
-                                                if (results) {
-                                                    if (results.length > 0) {
-
-                                                        dbsearch.serialize(
-                                                            function() {
-                                                                dbsearch.run("begin exclusive transaction");
-                                                                lockData.run(results[0].id)
-                                                                dbsearch.run("commit",
-                                                                    function() {
-
-                                                                        //console.log("*) INIT -  starting the first job")
-                                                                        scheduleJobWithCodeId(  code_id,  results,  null, null )
-                                                                        inScheduleCode2 = false
-                                                                    });
-                                                                })
-
-
-
-                                                    }
-                                                } else {
-                                                    inScheduleCode2 = false
-                                                }
-                                            })
-                                }, sqlite3.OPEN_READONLY)
-                            }
-                        }
-                    })
-        }, sqlite3.OPEN_READONLY)
-        //console.log("testQueryToExecute: " + JSON.stringify(cond,null,2))
-
-
-
-    }
-}
 
 
 
