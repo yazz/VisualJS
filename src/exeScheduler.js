@@ -8,15 +8,15 @@ var os                          = require('os')
 var db_helper                   = require("./db_helper")
 var userData
 var childProcessName
-var nextCallId = 0
-var updateProcessTable                  = null;
-var username                            = "node"
 var dbsearch;
 var setProcessToRunning;
 var setProcessToIdle;
-
-
-
+var processesInUse                      = new Object()
+var tryAgain                            = true
+var nextCallId                          = 0
+var updateProcessTable                  = null;
+var username                            = "node"
+var callList                            = new Object
 
 
 
@@ -31,6 +31,8 @@ var setProcessToIdle;
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
 processMessagesFromMainProcess();
+
+
 
 function processMessagesFromMainProcess() {
     process.on('message', (msg) => {
@@ -80,7 +82,13 @@ function processMessagesFromMainProcess() {
 
 
 
-
+     //-----------------------------------------------------------------------------------------
+     //
+     //                                   function_call_response
+     //
+     // This is called to return the response of a call
+     //
+     //-----------------------------------------------------------------------------------------
      } else if (msg.message_type == "function_call_response") {
 
          //console.log("*) Response received at Scheduler ")
@@ -114,6 +122,17 @@ function processMessagesFromMainProcess() {
 
 
 
+
+
+
+    //-----------------------------------------------------------------------------------------
+    //
+    //                                   processor_free
+    //
+    // This is called whenever one of the code processors is free. They should only be allowed
+    // to process one thing at a time
+    //
+    //-----------------------------------------------------------------------------------------
      } else if (msg.message_type == "processor_free") {
 
 
@@ -133,7 +152,13 @@ function processMessagesFromMainProcess() {
 
 
 
-
+    //-----------------------------------------------------------------------------------------
+    //
+    //                                   function_call_request
+    //
+    // This is called to call code.
+    //
+    //-----------------------------------------------------------------------------------------
      } else if (msg.message_type == "function_call_request") {
 
         if (msg.find_component.driver_name && msg.find_component.method_name) {
@@ -204,6 +229,17 @@ function processMessagesFromMainProcess() {
 
 
 
+
+
+        //-----------------------------------------------------------------------------------------
+        //
+        //                                  startNode
+        //
+        // This is called when a node has been started. Noter that this does not start the
+        // NodeJS process, it just updates the Sqlite database to say that the process is
+        // ready to accept requests
+        //
+        //-----------------------------------------------------------------------------------------
         } else if (msg.message_type == 'startNode') {
 
 
@@ -267,6 +303,16 @@ function setUpSql() {
 }
 
 
+
+
+
+//-----------------------------------------------------------------------------------------//
+//                                                                                         //
+//                          updateRunningTimeForprocess                                    //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//-----------------------------------------------------------------------------------------//
 function updateRunningTimeForprocess() {
 }
 
@@ -279,9 +325,13 @@ function updateRunningTimeForprocess() {
 
 
 
-var processesInUse = new Object()
-
-var tryAgain = true
+//-----------------------------------------------------------------------------------------//
+//                                                                                         //
+//                            scheduleJobWithCodeId                                        //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//-----------------------------------------------------------------------------------------//
 function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
 
     var processToUse = null
@@ -341,6 +391,13 @@ function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
 
 
 
+//-----------------------------------------------------------------------------------------//
+//                                                                                         //
+//                                   sendToProcess                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//-----------------------------------------------------------------------------------------//
 function sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processName  ,  base_component_id ,  on_condition  ,  args) {
 
     var newCallId = nextCallId ++
@@ -369,7 +426,18 @@ function sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processName  ,  
 }
 
 
-var callList = new Object
+
+
+
+
+
+//-----------------------------------------------------------------------------------------//
+//                                                                                         //
+//                                   sendJobToProcessName                                  //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//-----------------------------------------------------------------------------------------//
 function sendJobToProcessName(id, args, processName, parentCallId, callbackIndex) {
 
     dbsearch.serialize(
@@ -399,7 +467,7 @@ function sendJobToProcessName(id, args, processName, parentCallId, callbackIndex
                 })
     }, sqlite3.OPEN_READONLY)
 
-    }
+}
 
 
 
@@ -411,13 +479,19 @@ function sendJobToProcessName(id, args, processName, parentCallId, callbackIndex
 
 
 
-process.on('exit', function(err) {
-    shutdownExeProcess(err);
-  });
-process.on('quit', function(err) {
-  shutdownExeProcess(err);
-});
 
+
+
+
+//-----------------------------------------------------------------------------------------//
+//                                                                                         //
+//                                   shutdownExeProcess                                    //
+//                                                                                         //
+// If the process is killed then make sure we checkpoint the database to                   //
+// avoid data corruption                                                                   //
+//                                                                                         //
+//                                                                                         //
+//-----------------------------------------------------------------------------------------//
 function shutdownExeProcess(err) {
     console.log("** exeScheduler process was killed: " )
     if (err) {
@@ -429,3 +503,10 @@ function shutdownExeProcess(err) {
         dbsearch.run("PRAGMA wal_checkpoint;")
     }
 }
+
+process.on('exit', function(err) {
+    shutdownExeProcess(err);
+  });
+process.on('quit', function(err) {
+  shutdownExeProcess(err);
+});
