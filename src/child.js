@@ -638,8 +638,6 @@ async function setUpComponentsLocally() {
     //await evalLocalSystemDriver('spreahsheetPreview',     path.join(__dirname, '../public/visifile_drivers/services/spreadsheet_preview.js'))
     //await evalLocalSystemDriver('csvPreview',             path.join(__dirname, '../public/visifile_drivers/services/csv_preview.js'))
     //await evalLocalSystemDriver('docPreview',             path.join(__dirname, '../public/visifile_drivers/services/doc_preview.js'))
-    //await evalLocalSystemDriver('fileScannerService',     path.join(__dirname, '../public/visifile_drivers/services/file_scanner_service.js'))
-    //await evalLocalSystemDriver('folderScannerService',   path.join(__dirname, '../public/visifile_drivers/services/folder_scanner_service.js'))
 
 
 
