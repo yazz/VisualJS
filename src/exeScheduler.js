@@ -2,7 +2,6 @@
 
 var fs                          = require('fs');
 var path                        = require('path');
-var mkdirp                      = require('mkdirp')
 const uuidv1                    = require('uuid/v1');
 var sqlite3                     = require('sqlite3');
 var os                          = require('os')
@@ -10,28 +9,12 @@ var db_helper                   = require("./db_helper")
 var userData
 var childProcessName
 var nextCallId = 0
-var stmt2                               = null;
-var stmt3                               = null;
-var setIn                               = null;
 var updateProcessTable                  = null;
-var finishedFindingFolders              = false;
-var username                            = "Unknown user";
+var username                            = "node"
 var dbsearch;
-
 var setProcessToRunning;
-
 var setProcessToIdle;
 
-
-
-//username = os.userInfo().username.toLowerCase();
-username = "node"
-//console.log(username);
-
-//dbsearch.run("PRAGMA synchronous=OFF;")
-//dbsearch.run("PRAGMA count_changes=OFF;")
-//dbsearch.run("PRAGMA journal_mode=MEMORY;")
-//dbsearch.run("PRAGMA temp_store=MEMORY;")
 
 
 
