@@ -17,6 +17,7 @@ var nextCallId                          = 0
 var updateProcessTable                  = null;
 var username                            = "node"
 var callList                            = new Object
+var processesRetryingCount              = 0
 
 
 
@@ -369,16 +370,24 @@ function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
             }
 
             //console.log("msg.callback_index returned: " + msg.callback_index)
-            process.send({     message_type:       "return_response_to_function_caller" ,
-                               child_process_name:  processName,
-                               callback_index:      callbackIndex,
-                               result:              {error: "Yazz Server too busy"}
-                           });
-                           
-            //console.log("Retry in 2 seconds ..." )
-            //setTimeout(function() {
-            //    scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex)
-            //},2000)
+            if (processesRetryingCount < 10) {
+                console.log("Retry in 2 seconds ..." )
+                processesRetryingCount ++
+                console.log("processesRetryingCount: " + processesRetryingCount)
+                setTimeout(function() {
+                    processesRetryingCount --
+                    console.log("processesRetryingCount: " + processesRetryingCount)
+                    scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex)
+                },2000)
+            } else {
+                process.send({     message_type:       "return_response_to_function_caller" ,
+                                   child_process_name:  processName,
+                                   callback_index:      callbackIndex,
+                                   result:              {error: "Yazz Server too busy"}
+                               });
+            }
+
+
         }
     }
 }
