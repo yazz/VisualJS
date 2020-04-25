@@ -357,7 +357,7 @@ function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
         console.log("Could not find a process to use for " + codeId)
         if (tryAgain) {
             //zzz
-            /*
+
             var processName
             if (parentCallId == -1) {
                 processName = "forked"
@@ -374,11 +374,11 @@ function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
                                callback_index:      callbackIndex,
                                result:              {error: "Yazz Server too busy"}
                            });
-                           */
-            console.log("Retry in 2 seconds ..." )
-            setTimeout(function() {
-                scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex)
-            },2000)
+                           
+            //console.log("Retry in 2 seconds ..." )
+            //setTimeout(function() {
+            //    scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex)
+            //},2000)
         }
     }
 }
