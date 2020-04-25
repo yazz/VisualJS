@@ -355,9 +355,6 @@ function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
     }
     if (!processToUse) {
         console.log("Could not find a process to use for " + codeId)
-        for ( var processNameIndex = 0 ; processNameIndex < processNames.length; processNameIndex ++ ) {
-                console.log(`${processNameIndex}: ${processesInUse[actualProcessName]}`  )
-        }
         if (tryAgain) {
             //zzz
             /*
