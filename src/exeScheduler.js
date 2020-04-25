@@ -254,24 +254,6 @@ function updateRunningTimeForprocess() {
 
 
 
-function init() {
-    parseEvents()
-
-}
-
-
-
-
-
-
-
-function parseEvents() {
-
-    //console.log("function(executeCode) {")
-    parseAllEvents()
-
-}
-
 
 
 
@@ -404,62 +386,6 @@ function sendJobToProcessName(id, args, processName, parentCallId, callbackIndex
 
 
 
-
-
-function parseAllEvents( ) {
-
-    dbsearch.serialize(
-        function() {
-            var stmt = dbsearch.all(
-                "SELECT id, on_condition, max_processes FROM system_code; ",
-
-                function(err, results)
-                {
-                    if (results) {
-                        for (var tt = 0; tt < results.length; tt ++) {
-
-                            var cond = results[tt].on_condition
-                            try {
-                                var evaledCond = eval("(" +  cond + ")")
-                                saveEvent(evaledCond, results[tt].id, results[tt].max_processes)
-                                //console.log("")
-                            } catch (err) {
-                                console.log("Error in: "+ cond)
-                                console.log(err)
-                            }
-
-                        }
-
-                    }
-
-                })
-    }, sqlite3.OPEN_READONLY)
-}
-
-
-
-var eventList = []
-
-
-function saveEvent(cond, id, maxP) {
-    var typeCond =  (typeof cond)
-    var saveType = null
-
-    if (typeCond == "string") {
-        saveType = "method"
-
-    } else if (typeCond == "object") {
-        saveType = "query"
-
-    }
-    //console.log("*) type: " + saveType)
-
-    eventList.push({condType:       saveType,
-                    condition:      cond,
-                    max_processes:  maxP,
-                    id:             id})
-
-}
 
 
 
