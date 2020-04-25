@@ -6,14 +6,10 @@ var mkdirp                      = require('mkdirp')
 const uuidv1                    = require('uuid/v1');
 var sqlite3                     = require('sqlite3');
 var os                          = require('os')
-var perf                        = require('./perf')
 var db_helper                   = require("./db_helper")
 var userData
 var childProcessName
 var nextCallId = 0
-
-var isWin                               = /^win/.test(process.platform);
-var inScan                              = false;
 var stmt2                               = null;
 var stmt3                               = null;
 var setIn                               = null;
