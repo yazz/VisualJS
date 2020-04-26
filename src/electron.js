@@ -184,6 +184,7 @@ if (process.argv.length > 1) {
       .option('-z, --showdebug [showdebug]', 'Allow to show debug info (default false) [showdebug]', 'false')
       .option('-j, --showstats [showstats]', 'Allow to show stats debug info (default false) [showstats]', 'false')
       .option('-i, --statsinterval [statsinterval]', 'Allow to show debug info every x seconds (default 10 seconds) [statsinterval]', 10)
+      .option('-m, --maxprocessesretry [maxprocessesretry]', 'Number of processes to retry when all cores are busy (default 10 processes) [maxprocessesretry]', 10)
       .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
       .option('-x, --deleteonexit [deleteonexit]', 'Delete database files on exit (default true) [deleteonexit]', 'true')
       .option('-y, --deleteonstartup [deleteonstartup]', 'Delete database files on startup (default false) [deleteonstartup]', 'false')
@@ -274,6 +275,21 @@ if (program.statsinterval > 0) {
     }
 
 };
+
+
+
+
+var maxProcessesCountToRetry = 10
+if (program.maxprocessesretry > 0) {
+    maxProcessesCountToRetry = program.maxprocessesretry;
+}
+if (showDebug) {
+     console.log("       maxProcessesCountToRetry: " + maxProcessesCountToRetry );
+} else {
+    process.stdout.write(".");
+}
+
+
 
 
 
@@ -1063,6 +1079,7 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
         forkedProcesses["forked"].send({         message_type: "init" ,
                                                  user_data_path: userData,
                                                  child_process_name: "forked",
+                                                 max_processes_count_to_retry: maxProcessesCountToRetry,
                                                  show_debug: showDebug
                                               });
 
