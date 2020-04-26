@@ -18,6 +18,7 @@ var updateProcessTable                  = null;
 var username                            = "node"
 var callList                            = new Object
 var processesRetryingCount              = 0
+var maxProcessesCountToRetry            = 10
 
 
 
@@ -50,8 +51,11 @@ function processMessagesFromMainProcess() {
     if  (msg.message_type == 'init') {
 
         //console.log('-- Init v3');
-        userData            = msg.user_data_path
-        childProcessName    = msg.child_process_name
+        userData                    = msg.user_data_path
+        childProcessName            = msg.child_process_name
+        if (msg.max_processes_count_to_retry) {
+            maxProcessesCountToRetry    = msg.max_processes_count_to_retry
+        }
 
         //console.log("  Child recieved user data path: " + userData)
         var dbPath = path.join(userData, username + '.visi')
@@ -370,7 +374,7 @@ function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
             }
 
             //console.log("msg.callback_index returned: " + msg.callback_index)
-            if (processesRetryingCount < 10) {
+            if (processesRetryingCount < maxProcessesCountToRetry) {
                 console.log("Retry in 2 seconds ..." )
                 processesRetryingCount ++
                 console.log("processesRetryingCount: " + processesRetryingCount)
