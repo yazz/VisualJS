@@ -1079,7 +1079,6 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
         forkedProcesses["forked"].send({         message_type: "init" ,
                                                  user_data_path: userData,
                                                  child_process_name: "forked",
-                                                 max_processes_count_to_retry: maxProcessesCountToRetry,
                                                  show_debug: showDebug
                                               });
 
@@ -1095,6 +1094,7 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
         forkedProcesses["forkedExeScheduler"].send({  message_type: "init" ,
                                                       user_data_path: userData,
                                                       child_process_name: "forkedExeScheduler",
+                                                      max_processes_count_to_retry: maxProcessesCountToRetry,
                                                       show_debug: showDebug
                                               });
     }
