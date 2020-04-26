@@ -383,7 +383,10 @@ function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
                 process.send({     message_type:       "return_response_to_function_caller" ,
                                    child_process_name:  processName,
                                    callback_index:      callbackIndex,
-                                   result:              {error: "Yazz Server too busy"}
+                                   result:              {error: {
+                                                            text: "Yazz Server too busy",
+                                                            code: 503
+                                   }}
                                });
             }
 
