@@ -40,16 +40,20 @@ only_run_on_server(true)
         //const url = "https://jsonplaceholder.typicode.com/posts/1";
         const url = args.URL;
 
+        var headers = {}
+        if (args.headers) {
+            headers = args.headers
+        }
+
         request(
             url
             ,
             {
-                rejectUnauthorized : false
+                rejectUnauthorized : false,
 
-                //auth: {
-                //    user: 'adminuser',
-                //    pass: 'admin1!'
-                //}
+
+                headers: headers
+
 
             }
             ,

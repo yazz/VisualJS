@@ -11,6 +11,22 @@ read_only(true)
 properties(
     [
         {
+            id:         "width",
+            name:       "Width",
+            default:    180,
+            type:       "Number"
+        }
+        ,
+        {
+            id:         "height",
+            name:       "Height",
+            default:    70,
+            type:       "Number"
+        }
+        ,
+
+
+        {
             id:         "text",
             name:       "Dev text",
             default:    "REST API Call",
@@ -26,20 +42,7 @@ properties(
             hidden:     true
         }
         ,
-        {
-            id:         "width",
-            name:       "Width",
-            default:    180,
-            type:       "Number"
-        }
-        ,
-        {
-            id:         "height",
-            name:       "Height",
-            default:    70,
-            type:       "Number"
-        }
-        ,
+
         {
             id:             "callDefaultRestApi",
             pre_snippet:    `await `,
@@ -151,6 +154,55 @@ properties(
                             {display: "True",   value: "True"},
                             {display: "False",  value: "False"}
                         ]
+        }
+        ,
+        {
+            id:         "headerName1",
+            name:       "Header 1 Name",
+            default:    "",
+            type:       "String"
+        }
+        ,
+        {
+            id:         "headerValue1",
+            name:       "Header 1 Value",
+            default:    "",
+            textarea:   true,
+            type:       "String"
+        }
+        ,
+
+
+        {
+            id:         "headerName2",
+            name:       "Header 2 Name",
+            default:    "",
+            type:       "String"
+        }
+        ,
+        {
+            id:         "headerValue2",
+            name:       "Header 2 Value",
+            default:    "",
+            textarea:   true,
+            type:       "String"
+        }
+        ,
+
+
+        {
+            id:         "headerName3",
+            name:       "Header 3 Name",
+            default:    "",
+            type:       "String"
+        }
+        ,
+        {
+            id:         "headerValue3",
+            name:       "Header 3 Value",
+            default:    "",
+            textarea:   true,
+            type:       "String"
         }
     ]
 )//properties
@@ -381,6 +433,16 @@ var result = await callFunction(
                 var mm = this
                 try {
                     mm.args.error = ""
+                    var headers={}
+                    if (mm.args.headerName1 && (mm.args.headerName1 != "")) {
+                        headers[mm.args.headerName1] = mm.args.headerValue1
+                    }
+                    if (mm.args.headerName2 && (mm.args.headerName2 != "")) {
+                        headers[mm.args.headerName2] = mm.args.headerValue2
+                    }
+                    if (mm.args.headerName3 && (mm.args.headerName3 != "")) {
+                        headers[mm.args.headerName3] = mm.args.headerValue3
+                    }
                     var result = await callFunction(
                     {
                         driver_name: "rest_call_service_v2",
@@ -391,7 +453,8 @@ var result = await callFunction(
                         URL:             url,
                         filter:          noFilter?null:this.args.productionFilter,
                         root:            wholeTree?null:this.args.productionRoot,
-                        returnDetails:   true
+                        returnDetails:   true,
+                        headers:         headers
                     })
 
 
