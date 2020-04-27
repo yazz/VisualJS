@@ -33,13 +33,13 @@ properties(
         ,
         {
             id:      "host",
-            name:    "3Scale Admin Host",
-            default: "http://3scale.API",
+            name:    "Kubernetes Admin Host",
+            default: "http://kubernetes.com",
             type:    "String"
             ,
-            help:       `<div><b>3Scale Admin Host</b>
+            help:       `<div><b>Kubernetes Master Host</b>
                               <br/>
-                            This is the URL for the admin host of 3Scale
+                            This is the URL for the Kubernetes master server.
                          </div>`
         }
         ,
@@ -53,13 +53,13 @@ properties(
             id:         "is_container",
             name:       "Is Container?",
             type:       "Boolean",
-            default:    true,
+            default:    false,
             hidden:     true
         }
         ,
         {
-            id:         "is3ScaleAvailable",
-            name:       "Is 3 Scale Available?",
+            id:         "isKubernetesAvailable",
+            name:       "Is Kubernetes Available?",
             type:       "Select",
             default:    "False",
             values:     [
@@ -92,10 +92,10 @@ properties(
         }
         ,
         {
-            id:         "check3ScaleAvailable",
+            id:         "checkKubernetesAvailable",
             pre_snippet:    `await `,
-            snippet:    `check3ScaleAvailable()`,
-            name:       "Check 3Scale Available",
+            snippet:    `checkKubernetesAvailable()`,
+            name:       "Check Kubernetes Available",
             type:       "Action"
         }
         ,
@@ -151,10 +151,9 @@ logo_url("/driver_icons/kubernetes.png")
     "background-color: "+    args["background_color"]  +  ";"'>
 
     <div v-if="design_mode && (design_mode != 'detail_editor')" style="margin: 10px;">
-        <img src="/driver_icons/rh3scale.png" width=100px></src>
-        <h3 class="text-center" >Red Hat 3Scale connector</h3>
-        The Red Hat 3Scale Connector can be used to query 3Scale, or send
-        API requests through the 3Scale gateway
+        <img src="/driver_icons/kubernetes.png" width=100px></src>
+        <h3 class="text-center" >Kubernetes connector</h3>
+        The Kubernetes Connector can be used to query a Kubernetes cluster
     </div>
 
 
@@ -173,12 +172,12 @@ logo_url("/driver_icons/kubernetes.png")
             <input v-model="args.apiKey" size=60 @change="changeAPIKey()"></input>
         </div>
 
-        <div v-bind:style='"background-color: " + (args.is3ScaleAvailable=="True"?"green":"red" ) +";color: white;padding:10px;"'
+        <div v-bind:style='"background-color: " + (args.isKubernetesAvailable=="True"?"green":"red" ) +";color: white;padding:10px;"'
         >
-            {{(args.is3ScaleAvailable=="True"?"Available":"Not available" )}}
+            {{(args.isKubernetesAvailable=="True"?"Available":"Not available" )}}
         </div>
 
-        <div    v-if='(args.is3ScaleAvailable=="True") && args.applicationPlans && (args.applicationPlans.length > 0)'
+        <div    v-if='(args.isKubernetesAvailable=="True") && args.applicationPlans && (args.applicationPlans.length > 0)'
                 v-bind:style='"padding:10px;"'>
 
 
@@ -215,7 +214,7 @@ logo_url("/driver_icons/kubernetes.png")
 
         </div>
 
-        <div    v-if='(args.is3ScaleAvailable=="True") && ((!args.applicationPlans) || (args.applicationPlans.length == 0))'
+        <div    v-if='(args.isKubernetesAvailable=="True") && ((!args.applicationPlans) || (args.applicationPlans.length == 0))'
                 v-bind:style='"padding:10px;"'>
 
             <div v-bind:refresh='refresh'>
@@ -244,8 +243,8 @@ logo_url("/driver_icons/kubernetes.png")
         mounted: async function() {
             registerComponent(this)
 
-            var x = await this.check3ScaleAvailable()
-            this.args.is3ScaleAvailable = x?"True":"False"
+            var x = await this.checkKubernetesAvailable()
+            this.args.isKubernetesAvailable = x?"True":"False"
             if (this.design_mode) {
                 this.args.proxyConfig = {}
                 this.updatePlans()
@@ -321,8 +320,8 @@ logo_url("/driver_icons/kubernetes.png")
             ,
 
             changeServiceToken: async function() {
-                var x = await this.check3ScaleAvailable()
-                this.args.is3ScaleAvailable = x?"True":"False"
+                var x = await this.checkKubernetesAvailable()
+                this.args.isKubernetesAvailable = x?"True":"False"
                 this.updatePlans()
             }
             ,
@@ -333,13 +332,15 @@ logo_url("/driver_icons/kubernetes.png")
 
             ,
             changeHost: async function() {
-                var x = await this.check3ScaleAvailable()
-                this.args.is3ScaleAvailable = x?"True":"False"
+                var x = await this.checkKubernetesAvailable()
+                this.args.isKubernetesAvailable = x?"True":"False"
                 this.updatePlans()
             }
             ,
-            check3ScaleAvailable: async function() {
+            checkKubernetesAvailable: async function() {
+                   debugger
                 try {
+                    var apiURL = this.args.host + "/api"
                     var result = await callFunction(
                     {
                         driver_name: "rest_call_service_v2",
@@ -347,14 +348,12 @@ logo_url("/driver_icons/kubernetes.png")
                     }
                     ,
                     {
-                        URL:     this.args.host +
-                                "/admin/api/application_plans.xml?access_token=" +
-                                 this.args.serviceToken,
+                        URL:     apiURL,
                         filter: null,
                         root:   ""
                     })
 
-                    if (result && result.plans) {
+                    if (result && result.kind) {
                         return true
                     }
 
