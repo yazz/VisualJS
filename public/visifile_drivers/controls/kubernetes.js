@@ -78,15 +78,24 @@ properties(
         }
         ,
         {
-            id:      "serviceToken",
-            name:    "Service Token",
+            id:      "k8sAuthenticationToken",
+            name:    "K8s Authentication Token",
             default: "78643278346874236846873248",
             type:    "String"
+            ,
+            help:       `<div><b>Kubernetes Bearer token</b>
+                              <br/>
+                            From your command line, when logged in to your OpenShift account:<br />
+                            APISERVER=$(kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}')
+                            <br />
+                            TOKEN=$(kubectl get secret $(kubectl get serviceaccount deployer -o jsonpath='{.secrets[0].name}') -o jsonpath='{.data.token}' | base64 --decode )
+                         </div>`
+
         }
         ,
         {
-            id:      "apiKey",
-            name:    "API key",
+            id:      "k8sProjectName",
+            name:    "K8s Project",
             default: "",
             type:    "String"
         }
@@ -100,10 +109,10 @@ properties(
         }
         ,
         {
-            id:         "getApplicationPlans",
+            id:         "getPods",
             pre_snippet:    `await `,
-            snippet:    `getApplicationPlans()`,
-            name:       "Get app plans",
+            snippet:    `getPods()`,
+            name:       "Get the pods in the current project",
             type:       "Action"
         }
         ,
@@ -117,11 +126,11 @@ properties(
         ,
 
         {
-            id:         "applicationPlans",
-            name:       "App plans",
-            default:    [],
+            id:         "pods",
+            name:       "Pods",
+            default:    "",
             hidden:     true,
-            type:       "Array"
+            type:       "String"
         }
         ,
         {
@@ -164,12 +173,12 @@ logo_url("/driver_icons/kubernetes.png")
             <input v-model="args.host" size=60 @change="changeHost()"></input>
         </div>
         <div style="padding:10px;">
-            Admin Service Token
-            <input v-model="args.serviceToken" size=60 @change="changeServiceToken()"></input>
+            k8s Authentication Token
+            <input v-model="args.k8sAuthenticationToken" size=60 @change="changeK8sAuthenticationToken()"></input>
         </div>
         <div style="padding:10px;">
             API Key
-            <input v-model="args.apiKey" size=60 @change="changeAPIKey()"></input>
+            <input v-model="args.k8sProjectName" size=60 @change="changeAPIKey()"></input>
         </div>
 
         <div v-bind:style='"background-color: " + (args.isKubernetesAvailable=="True"?"green":"red" ) +";color: white;padding:10px;"'
@@ -177,7 +186,7 @@ logo_url("/driver_icons/kubernetes.png")
             {{(args.isKubernetesAvailable=="True"?"Available":"Not available" )}}
         </div>
 
-        <div    v-if='(args.isKubernetesAvailable=="True") && args.applicationPlans && (args.applicationPlans.length > 0)'
+        <div    v-if='(args.isKubernetesAvailable=="True") && args.pods && (args.pods.length > 0)'
                 v-bind:style='"padding:10px;"'>
 
 
@@ -189,7 +198,7 @@ logo_url("/driver_icons/kubernetes.png")
                          v-bind:style='"padding:10px;" + "background-color: " +
                             ((apiListItemSelected == thisApi.id)?"gray":((apiListItemHover == thisApi.id)?"lightgray":"")) + ";"'
 
-                         v-for="thisApi in args.applicationPlans" >
+                         v-for="thisApi in args.pods" >
 
                         {{thisApi.name}}
                     </div>
@@ -214,7 +223,7 @@ logo_url("/driver_icons/kubernetes.png")
 
         </div>
 
-        <div    v-if='(args.isKubernetesAvailable=="True") && ((!args.applicationPlans) || (args.applicationPlans.length == 0))'
+        <div    v-if='(args.isKubernetesAvailable=="True") && ((!args.pods) || (args.pods.length == 0))'
                 v-bind:style='"padding:10px;"'>
 
             <div v-bind:refresh='refresh'>
@@ -274,7 +283,7 @@ logo_url("/driver_icons/kubernetes.png")
                               "name": newName,
                               "base_component_id": "rest_control",
                               "text": "REST API Call",
-                              "URL": this.args.proxyConfig.sandbox_endpoint + "/?user_key=" + this.args.apiKey,
+                              "URL": this.args.proxyConfig.sandbox_endpoint + "/?user_key=" + this.args.k8sProjectName,
 
                               "callApiOnStartup": "False"
                             }
@@ -312,14 +321,14 @@ logo_url("/driver_icons/kubernetes.png")
 
             updatePlans: async function() {
                 if (this.args.is3ScaleAvailable) {
-                    this.getApplicationPlans()
+                    this.getPods()
                 }
                 this.refresh++
 
             }
             ,
 
-            changeServiceToken: async function() {
+            changeK8sAuthenticationToken: async function() {
                 var x = await this.checkKubernetesAvailable()
                 this.args.isKubernetesAvailable = x?"True":"False"
                 this.updatePlans()
@@ -370,13 +379,13 @@ logo_url("/driver_icons/kubernetes.png")
             }
             ,
             getUrlFor: function(extraURL) {
-                return this.args.host +
-                        extraURL + "?" +
-                        "&access_token=" + this.args.serviceToken
+                return this.args.host + "/api/v1/namespaces/" +  this.args.k8sProjectName + "/" +
+                        extraURL
+                        //"&token=" + this.args.k8sAuthenticationToken
             }
             ,
 
-            getApplicationPlans: async function() {
+            getPods: async function() {
                 var useURL = this.getUrlFor("/admin/api/application_plans.xml")
 
                  var result = await callFunction(
@@ -387,12 +396,12 @@ logo_url("/driver_icons/kubernetes.png")
                  ,
                  {
                      URL:    useURL,
-                     filter: {"plans":true,"plans.plan":true,"plans.plan.[]":true,"plans.plan.[].$":false,"plans.plan.[].$.custom":false,"plans.plan.[].$.default":false,"plans.plan.[].id":true,"plans.plan.[].name":true,"plans.plan.[].type":true,"plans.plan.[].state":true,"plans.plan.[].approval_required":true,"plans.plan.[].setup_fee":true,"plans.plan.[].cost_per_month":true,"plans.plan.[].trial_period_days":true,"plans.plan.[].cancellation_period":true,"plans.plan.[].service_id":true,"plans.plan.[].end_user_required":true},
-                     root:   "plans.plan"
+                     filter: null,
+                     root:   null
                      //,returnDetails: true
                  })
 
-                 this.args.applicationPlans = JSON.parse(JSON.stringify(result))
+                 this.args.pods = JSON.parse(JSON.stringify(result))
 
                 return result
             }
