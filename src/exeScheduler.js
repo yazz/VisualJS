@@ -11,6 +11,7 @@ var childProcessName
 var dbsearch;
 var setProcessToRunning;
 var setProcessToIdle;
+var setProcessRunningTime;
 var processesInUse                      = new Object()
 var tryAgain                            = true
 var nextCallId                          = 0
@@ -296,6 +297,7 @@ function setUpSql() {
     setProcessToRunning = dbsearch.prepare("UPDATE system_process_info SET status = 'RUNNING', last_driver = ?, last_event = ?, running_start_time_ms = ?, event_duration_ms = 0, system_code_id = ? WHERE process = ?");
 
     setProcessToIdle = dbsearch.prepare("UPDATE system_process_info SET status = 'IDLE' WHERE process = ?");
+    setProcessRunningTime  = dbsearch.prepare("UPDATE  system_process_info  SET running_start_time_ms = ?  WHERE  process = ?");
 
 
     updateProcessTable = dbsearch.prepare(
