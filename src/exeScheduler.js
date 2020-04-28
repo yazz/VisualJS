@@ -353,7 +353,7 @@ function updateRunningTimeForprocess() {
 }
 
 
-setInterval(updateRunningTimeForprocess,1000)
+//setInterval(updateRunningTimeForprocess,1000)
 //zzz
 
 
@@ -374,7 +374,7 @@ function findLongRunningProcesses() {
                            for (var ii = 0 ; ii < results.length ; ii++ ) {
                                var thisProcess = results[ii]
                                console.log(thisProcess)
-                               killProcess(thisProcess.process, thisProcess.callback_index)
+                               //killProcess(thisProcess.process, thisProcess.callback_index)
                            }
                            dbsearch.run("commit", function() {
                            });
@@ -384,7 +384,7 @@ function findLongRunningProcesses() {
         })
 }
 
-setInterval(findLongRunningProcesses,1000)
+//setInterval(findLongRunningProcesses,1000)
 
 function killProcess(processName, callbackIndex) {
     dbsearch.serialize(
