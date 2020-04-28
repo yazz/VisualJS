@@ -299,7 +299,7 @@ function processMessagesFromMainProcess() {
 //-----------------------------------------------------------------------------------------//
 function setUpSql() {
 
-    setProcessToRunning = dbsearch.prepare("UPDATE system_process_info SET status = 'RUNNING', last_driver = ?, last_event = ?, running_start_time_ms = ?, event_duration_ms = 0, system_code_id = ? WHERE process = ?");
+    setProcessToRunning = dbsearch.prepare("UPDATE system_process_info SET status = 'RUNNING', last_driver = ?, last_event = ?, running_start_time_ms = ?, event_duration_ms = 0, system_code_id = ?, callback_index = ? WHERE process = ?");
 
     setProcessToIdle = dbsearch.prepare("UPDATE system_process_info SET status = 'IDLE' WHERE process = ?");
     setProcessRunningDurationMs  = dbsearch.prepare("UPDATE  system_process_info  SET event_duration_ms = ?  WHERE  process = ?");
@@ -374,19 +374,37 @@ function findLongRunningProcesses() {
                            for (var ii = 0 ; ii < results.length ; ii++ ) {
                                var thisProcess = results[ii]
                                console.log(thisProcess)
-                               //setProcessRunningDurationMs.run(duration, thisProcess.process)
+                               killProcess(thisProcess.process, thisProcess.callback_index)
                            }
                            dbsearch.run("commit", function() {
                            });
                         }
 
                     })
-        }, sqlite3.OPEN_READONLY)
+        })
 }
 
 setInterval(findLongRunningProcesses,1000)
 
+function killProcess(processName, callbackIndex) {
+    dbsearch.serialize(
+        function() {
+            dbsearch.run("begin exclusive transaction");
+            setProcessToIdle.run(processName)
 
+            dbsearch.run("commit", function() {
+                processesInUse[processName] = false
+                process.send({     message_type:       "return_response_to_function_caller" ,
+                                   child_process_name:  processName,
+                                   callback_index:      callbackIndex,
+                                   result:              {error: {
+                                                            text: "Request timeout",
+                                                            code: 408
+                                   }}
+                               });
+            });
+        })
+}
 
 
 
@@ -481,7 +499,7 @@ function sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processName  ,  
         function() {
             dbsearch.run("begin exclusive transaction");
             let runningStartTime = new Date().getTime();
-            setProcessToRunning.run( base_component_id, on_condition, runningStartTime, id, processName )
+            setProcessToRunning.run( base_component_id, on_condition, runningStartTime, id, callbackIndex, processName )
 
 
             dbsearch.run("commit", function() {
