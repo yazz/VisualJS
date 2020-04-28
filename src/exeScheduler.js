@@ -20,6 +20,7 @@ var username                            = "node"
 var callList                            = new Object
 var processesRetryingCount              = 0
 var maxProcessesCountToRetry            = 10
+var maxJobProcessDurationMs             = 10000
 
 
 
@@ -57,6 +58,10 @@ function processMessagesFromMainProcess() {
         if (msg.max_processes_count_to_retry) {
             maxProcessesCountToRetry    = msg.max_processes_count_to_retry
         }
+        if (msg.max_job_process_duration_ms) {
+            maxJobProcessDurationMs    = msg.max_job_process_duration_ms
+        }
+
 
         //console.log("  Child recieved user data path: " + userData)
         var dbPath = path.join(userData, username + '.visi')
