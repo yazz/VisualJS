@@ -185,6 +185,7 @@ if (process.argv.length > 1) {
       .option('-j, --showstats [showstats]', 'Allow to show stats debug info (default false) [showstats]', 'false')
       .option('-i, --statsinterval [statsinterval]', 'Allow to show debug info every x seconds (default 10 seconds) [statsinterval]', 10)
       .option('-m, --maxprocessesretry [maxprocessesretry]', 'Number of processes to retry when all cores are busy (default 10 processes) [maxprocessesretry]', 10)
+      .option('-n, --maxjobwaitinms [maxjobwaitinms]', 'Maximum time to wait for a job to complete (default 10000 ms) [maxjobwaitinms]', 10000)
       .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
       .option('-x, --deleteonexit [deleteonexit]', 'Delete database files on exit (default true) [deleteonexit]', 'true')
       .option('-y, --deleteonstartup [deleteonstartup]', 'Delete database files on startup (default false) [deleteonstartup]', 'false')
@@ -289,7 +290,15 @@ if (showDebug) {
     process.stdout.write(".");
 }
 
-
+var maxJobWaitInMs = 10000
+if (program.maxjobwaitinms > 0) {
+    maxJobWaitInMs = program.maxjobwaitinms;
+}
+if (showDebug) {
+     console.log("       maxJobWaitInMs: " + maxJobWaitInMs );
+} else {
+    process.stdout.write(".");
+}
 
 
 
@@ -1095,6 +1104,7 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
                                                       user_data_path: userData,
                                                       child_process_name: "forkedExeScheduler",
                                                       max_processes_count_to_retry: maxProcessesCountToRetry,
+                                                      max_job_wait_ms: maxJobWaitInMs,
                                                       show_debug: showDebug
                                               });
     }
