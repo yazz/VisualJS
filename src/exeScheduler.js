@@ -11,7 +11,7 @@ var childProcessName
 var dbsearch;
 var setProcessToRunning;
 var setProcessToIdle;
-var setProcessRunningTime;
+var setProcessRunningDurationMs;
 var processesInUse                      = new Object()
 var tryAgain                            = true
 var nextCallId                          = 0
@@ -302,7 +302,7 @@ function setUpSql() {
     setProcessToRunning = dbsearch.prepare("UPDATE system_process_info SET status = 'RUNNING', last_driver = ?, last_event = ?, running_start_time_ms = ?, event_duration_ms = 0, system_code_id = ? WHERE process = ?");
 
     setProcessToIdle = dbsearch.prepare("UPDATE system_process_info SET status = 'IDLE' WHERE process = ?");
-    setProcessRunningTime  = dbsearch.prepare("UPDATE  system_process_info  SET running_start_time_ms = ?  WHERE  process = ?");
+    setProcessRunningDurationMs  = dbsearch.prepare("UPDATE  system_process_info  SET event_duration_ms = ?  WHERE  process = ?");
 
 
     updateProcessTable = dbsearch.prepare(
@@ -326,8 +326,35 @@ function setUpSql() {
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
 function updateRunningTimeForprocess() {
+        console.log("Checking processes")
+
+        dbsearch.serialize(
+            function() {
+                var stmt = dbsearch.all(
+                  "SELECT * FROM system_process_info where  status = 'RUNNING'; ",
+
+                    function(err, results)
+                    {
+                        if (results) {
+                           var timeNow = new Date().getTime();
+                           dbsearch.run("begin exclusive transaction");
+                           for (var ii = 0 ; ii < results.length ; ii++ ) {
+                               var thisProcess = results[ii]
+                               var startTime = thisProcess.running_start_time_ms
+                               var duration = timeNow - startTime
+                               setProcessRunningDurationMs.run(duration, thisProcess.process)
+                           }
+                           dbsearch.run("commit", function() {
+                           });
+                        }
+
+                    })
+        }, sqlite3.OPEN_READONLY)
 }
 
+
+setInterval(updateRunningTimeForprocess,1000)
+//zzz
 
 
 
@@ -368,7 +395,7 @@ function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
     if (!processToUse) {
         console.log("Could not find a process to use for " + codeId)
         if (tryAgain) {
-            //zzz
+
 
             var processName
             if (parentCallId == -1) {
