@@ -326,7 +326,7 @@ function setUpSql() {
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
 function updateRunningTimeForprocess() {
-        console.log("Checking processes")
+        //console.log("Checking processes")
 
         dbsearch.serialize(
             function() {
@@ -349,7 +349,7 @@ function updateRunningTimeForprocess() {
                         }
 
                     })
-        }, sqlite3.OPEN_READONLY)
+        })
 }
 
 
@@ -359,6 +359,32 @@ setInterval(updateRunningTimeForprocess,1000)
 
 
 
+function findLongRunningProcesses() {
+        console.log("Checking processes")
+
+        dbsearch.serialize(
+            function() {
+                var stmt = dbsearch.all(
+                  "SELECT * FROM system_process_info where  status = 'RUNNING' and event_duration_ms > ?; ",
+                   maxJobProcessDurationMs,
+                    function(err, results)
+                    {
+                        if (results) {
+                           dbsearch.run("begin exclusive transaction");
+                           for (var ii = 0 ; ii < results.length ; ii++ ) {
+                               var thisProcess = results[ii]
+                               console.log(thisProcess)
+                               //setProcessRunningDurationMs.run(duration, thisProcess.process)
+                           }
+                           dbsearch.run("commit", function() {
+                           });
+                        }
+
+                    })
+        }, sqlite3.OPEN_READONLY)
+}
+
+setInterval(findLongRunningProcesses,1000)
 
 
 
