@@ -176,60 +176,13 @@ logo_url("/driver_icons/kubernetes.png")
             k8s Authentication Token
             <input v-model="args.k8sAuthenticationToken" size=60 @change="changeK8sAuthenticationToken()"></input>
         </div>
-        <div style="padding:10px;">
-            API Key
-            <input v-model="args.k8sProjectName" size=60 @change="changeAPIKey()"></input>
-        </div>
+
 
         <div v-bind:style='"background-color: " + (args.isKubernetesAvailable=="True"?"green":"red" ) +";color: white;padding:10px;"'
         >
             {{(args.isKubernetesAvailable=="True"?"Available":"Not available" )}}
         </div>
 
-        <div    v-if='(args.isKubernetesAvailable=="True") && args.pods && (args.pods.length > 0)'
-                v-bind:style='"padding:10px;"'>
-
-
-                <div style="display: inline-block;width:45%;height:100%;vertical-align:top;">
-                    <b>Available APIs</b>
-                    <div v-bind:refresh='refresh'
-                         v-on:mouseover='apiListItemHover = thisApi.id'
-                         v-on:click='apiServiceIdSelected = thisApi.service_id;apiListItemSelected = thisApi.id; getProxyConfig(thisApi.service_id,apiEnv); '
-                         v-bind:style='"padding:10px;" + "background-color: " +
-                            ((apiListItemSelected == thisApi.id)?"gray":((apiListItemHover == thisApi.id)?"lightgray":"")) + ";"'
-
-                         v-for="thisApi in args.pods" >
-
-                        {{thisApi.name}}
-                    </div>
-                </div>
-
-                <pre    v-bind:refresh='refresh'
-                        style="display: inline-block;border: 1px solid gray;width:45%;height:100%;vertical-align:top;padding:10px;">
-
-<a href="#"
-    v-on:click='apiEnv="staging"; getProxyConfig(apiServiceIdSelected,apiEnv)'
-    v-bind:class='"badge " + (apiEnv=="staging"?"badge-dark":"badge-light")'>Staging</a>
-<a href="#"
-    v-on:click='apiEnv="production"; getProxyConfig(apiServiceIdSelected,apiEnv)'
-    v-bind:class='"badge " + (apiEnv=="production"?"badge-dark":"badge-light")'>Production</a>
-
-    <button  type=button class=' btn btn-danger btn-sm'
-             style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 4px;"
-             v-on:click='createApiCall()' >Create API call</button>
-
-{{((Object.keys(args.proxyConfig).length > 0)?JSON.stringify(args.proxyConfig,null,2):"No API selected")}}
-                </pre>
-
-        </div>
-
-        <div    v-if='(args.isKubernetesAvailable=="True") && ((!args.pods) || (args.pods.length == 0))'
-                v-bind:style='"padding:10px;"'>
-
-            <div v-bind:refresh='refresh'>
-                <b>No APIs available</b>
-            </div>
-        </div>
 
     </div>
 
