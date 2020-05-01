@@ -1382,24 +1382,31 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
 
 
-
                                 //
                                 // 1) call this first
                                 //
                                 //console.log("::::" + baseComponentId)
-                                var prjs = esprima.parse( "(" + code.toString() + ")");
-                                if (prjs.body) {
-                                    if (prjs.body[0]) {
-                                        if (prjs.body[0].expression) {
-                                            if (prjs.body[0].expression.id) {
-                                                //console.log(driverName + ": " + JSON.stringify(prjs.body[0].expression.id.name,null,2))
-                                                oncode = "\"" + prjs.body[0].expression.id.name + "\""
-                                                eventName = prjs.body[0].expression.id.name
-                                                componentType = "method"
-                                            }
+
+
+                                function getName(text) {
+                                    var resttext = text.match(/([a-zA-Z_{1}][a-zA-Z0-9_]+)(?=\()/g)
+                                    var res=null
+                                    if (resttext) {
+                                        if (resttext[0] != "function") {
+                                            res = resttext[0]
                                         }
                                     }
+
+                                    return res
                                 }
+                                var fnName = getName(code.toString())
+                                if (fnName) {
+                                    oncode = "\"" + fnName + "\""
+                                    eventName = fnName
+                                    componentType = "method"
+                                }
+                                //console.log("fnName: " + fnName)
+
 
                                 //
                                 // 2) and then call this , as apps can also be methods
