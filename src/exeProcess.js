@@ -292,7 +292,26 @@ function executeCode(callId, codeId, args, on_condition,  base_component_id) {
                             } else { // front and backend code
 //console.log(code)
                                 var fnfn = eval("(" + code + ")")
-                                if (code.indexOf("async ") != -1) {
+                                if (code.indexOf("async function*") != -1) {
+                                    //zzz
+                                    var generator = fnfn()
+                                    let result = generator.next();
+                                    while (!result.done) {
+                                        console.log(result.value); // 1 3 5 7 9
+                                        result = generator.next();
+                                    }
+                                    process.send({  message_type:       "function_call_response" ,
+                                                    child_process_name:  childProcessName,
+                                                    driver_name:         currentDriver,
+                                                    method_name:         currentEvent,
+                                                    callback_index:      currentCallbackIndex,
+                                                    result:              {value: result},
+                                                    called_call_id:      callId
+                                                    });
+                                    //console.log("*) Result process call ID: " + callId);
+                                    inUseIndex --
+
+                                } else if (code.indexOf("async ") != -1) {
                                     //console.log(    "    async code:" + code)
                                     var runAsync = async function() {
                                         var result = await fnfn(args)
@@ -349,7 +368,7 @@ function executeCode(callId, codeId, args, on_condition,  base_component_id) {
                                           currentCodeID,
                                           JSON.stringify(currentArgs,null,2),
                                           errM.toString() )
-                                          //zzz
+
                                     dbsearch.run("commit");
                                 })
                             }
@@ -488,7 +507,7 @@ process.on('unhandledRejection', (reason) => {
               currentCodeID,
               JSON.stringify(currentArgs,null,2),
               reason.toString() )
-              //zzz
+
         dbsearch.run("commit");
     })
     throw reason
