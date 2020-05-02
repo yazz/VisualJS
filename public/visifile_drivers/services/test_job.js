@@ -1,4 +1,4 @@
-async function test_job(args) {
+async function* test_job(args) {
 /*
 description("REST API Call test_job")
 base_component_id("test_job")
@@ -7,5 +7,6 @@ only_run_on_server(true)
 */
 
     console.log("test_job: " + JSON.stringify(args,null,2));
+    yeild(1)
     return {value: "Test job complete"}
 }
