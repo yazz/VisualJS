@@ -15,7 +15,7 @@ var http                        = require('http');
 var request                     = require('request');
 var xml2js                      = require('xml2js')
 var traverse                    = require('traverse');
-var Kafka                       = require('kafkajs')
+var Kafka                       = require('kafkajs').Kafka
 var userData
 var childProcessName
 
