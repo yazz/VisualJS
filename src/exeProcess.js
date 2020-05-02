@@ -292,7 +292,7 @@ function executeCode(callId, codeId, args, on_condition,  base_component_id) {
                             } else { // front and backend code
 //console.log(code)
                                 var fnfn = eval("(" + code + ")")
-                                if (code.indexOf("async function*") != -1) {
+                                if (code.indexOf("function*") != -1) {
                                     //zzz
                                     var generator = fnfn()
                                     let result = generator.next();
@@ -305,7 +305,7 @@ function executeCode(callId, codeId, args, on_condition,  base_component_id) {
                                                     driver_name:         currentDriver,
                                                     method_name:         currentEvent,
                                                     callback_index:      currentCallbackIndex,
-                                                    result:              {value: result},
+                                                    result:              {value: result.value},
                                                     called_call_id:      callId
                                                     });
                                     //console.log("*) Result process call ID: " + callId);
