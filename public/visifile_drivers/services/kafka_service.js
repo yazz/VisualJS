@@ -5,28 +5,36 @@ base_component_id("kafka_service")
 load_once_from_file(true)
 only_run_on_server(true)
 */
-
-    console.log("test_job: " + JSON.stringify(args,null,2));
-    console.log("Kafka: " + JSON.stringify(Kafka,null,2));
-    var kafkaConnection = new Kafka({
-        clientId: 'my-app',
-        brokers: ['localhost:9092']
-    })
-    const producer = kafkaConnection.producer()
-    const consumer = kafkaConnection.consumer({ groupId: 'test-group' })
-    await consumer.connect()
-    await consumer.subscribe({ topic: 'test2', fromBeginning: true })
-
-    var dd=[]
-    await consumer.run({
-      eachMessage: async ({ topic, partition, message }) => {
-        console.log({
-          partition,
-          offset: message.offset,
-          value: message.value.toString(),
+    var promise = new Promise(async function(returnfn) {
+        var kafkaConnection = new Kafka({
+            clientId: 'myapp2',
+            brokers: ['localhost:9092','localhost:9092']
         })
-        dd.push(message.value.toString())
-      },
+        console.log(1)
+        const producer = kafkaConnection.producer()
+        console.log(2)
+        const consumer = kafkaConnection.consumer({ groupId: 'test-group2' })
+        console.log(3)
+        await consumer.connect()
+        console.log(4)
+        await consumer.subscribe({ topic: 'test', fromBeginning: true })
+        console.log(5)
+
+        var dd=[]
+        console.log(6)
+        await consumer.run({
+          eachMessage: async ({ topic, partition, message }) => {
+            console.log({
+              partition,
+              offset: message.offset,
+              value: message.value.toString(),
+          })
+            dd.push(message.value.toString())
+            console.log(8)
+          }
+        })
+        returnfn(dd)
     })
-    return {value: "Kafka"}
+    var ret = await promise
+    return ret
 }
