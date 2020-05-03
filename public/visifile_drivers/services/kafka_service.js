@@ -10,24 +10,28 @@ only_run_on_server(true)
             clientId: 'myapp',
             brokers: ['localhost:9092']
         })
-        const consumer = kafkaConnection.consumer({ groupId: "uuidv1" })
+        const consumer = kafkaConnection.consumer({ groupId: "uuidv1b" })
         await consumer.connect()
         await consumer.subscribe({ topic: 'test', fromBeginning: true })
 
         var dd=null
-        await consumer.run({
-          eachMessage: async function(ee) {
-              consumer.pause([{ topic: ee.topic }])
-              dd={
-                  partition: ee.partition,
-                  offset: ee.message.offset,
-                  value: ee.message.value.toString()
+        try {
+            await consumer.run({
+              eachMessage: async function(ee) {
+                  consumer.pause([{ topic: ee.topic }])
+                  dd={
+                      partition: ee.partition,
+                      offset: ee.message.offset,
+                      value: ee.message.value.toString()
+                  }
+                  console.log(dd)
+                  consumer.disconnect()
+                  returnfn(dd)
               }
-              console.log(dd)
-              consumer.disconnect()
-              returnfn(dd)
-          }
-        })
+            })
+        } catch (err)  {
+            returnfn({error: err})
+        }
 
     })
     var ret = await promise
