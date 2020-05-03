@@ -17,9 +17,13 @@ only_run_on_server(true)
 
         var dd=null
         await consumer.run({
-          eachMessage: async ({ topic, partition, message }) => {
-              consumer.pause([{ topic }])
-              dd={partition,offset: message.offset,value: message.value.toString()}
+          eachMessage: async function(ee) {
+              consumer.pause([{ topic: ee.topic }])
+              dd={
+                  partition: ee.partition,
+                  offset: ee.message.offset,
+                  value: ee.message.value.toString()
+              }
               console.log(dd)
               returnfn(dd)
           }
