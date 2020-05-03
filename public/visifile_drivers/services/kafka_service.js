@@ -15,17 +15,13 @@ only_run_on_server(true)
         await consumer.connect()
         await consumer.subscribe({ topic: 'test', fromBeginning: true })
 
-        var dd=[]
+        var dd=null
         await consumer.run({
           eachMessage: async ({ topic, partition, message }) => {
               consumer.pause([{ topic }])
-            console.log({
-              partition,
-              offset: message.offset,
-              value: message.value.toString(),
-          })
-            dd.push(message.value.toString())
-            returnfn(dd)
+              dd={partition,offset: message.offset,value: message.value.toString()}
+              console.log(dd)
+              returnfn(dd)
           }
         })
 
