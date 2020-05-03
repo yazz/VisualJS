@@ -8,9 +8,8 @@ only_run_on_server(true)
     var promise = new Promise(async function(returnfn) {
         var kafkaConnection = new Kafka({
             clientId: 'myapp',
-            brokers: ['localhost:9092','localhost:9092']
+            brokers: ['localhost:9092']
         })
-        const producer = kafkaConnection.producer()
         const consumer = kafkaConnection.consumer({ groupId: uuidv1() })
         await consumer.connect()
         await consumer.subscribe({ topic: 'test', fromBeginning: true })
