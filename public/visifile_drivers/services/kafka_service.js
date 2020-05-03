@@ -29,7 +29,9 @@ only_run_on_server(true)
                   returnfn(dd)
               }
             })
-            consumer.seek({ topic: 'test', partition: 0, offset: 4 })
+            if (args.offset) {
+                consumer.seek({ topic: 'test', partition: 0, offset: args.offset })                
+            }
         } catch (err)  {
             returnfn({error: err})
         }
