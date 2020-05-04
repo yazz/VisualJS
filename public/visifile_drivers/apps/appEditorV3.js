@@ -168,7 +168,7 @@ load_once_from_file(true)
                                   style='height:35px; margin-right: 10px;'
                                   class='img-fluid'>
                               </img>
-                             Save as .pilot file
+                             Export .pilot file to PC
 
                     </a>
 
@@ -224,7 +224,7 @@ load_once_from_file(true)
                                   src='/driver_icons/save.png'
                                   style='height:35px; margin-right: 10px;'
                                   class='img-fluid'>
-                              </img>Pending changes.. Save
+                              </img>Pending changes.. update
 
                     </button>
 
@@ -232,7 +232,7 @@ load_once_from_file(true)
                             v-bind:disabled='read_only?"":false'
                             v-bind:style="'padding:10px;;display: inline-block;width: 200px;margin-left:200px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
                     >
-                    All changes saved
+                    App preview up to date
                     </div>
 
                     <div    v-if="!read_only && (save_state == 'saving')"
