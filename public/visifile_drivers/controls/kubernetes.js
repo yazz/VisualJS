@@ -84,11 +84,19 @@ properties(
             type:    "String"
             ,
             help:       `<div><b>Kubernetes Bearer token</b>
-                              <br/>
-                            From your command line, when logged in to your OpenShift account:<br />
-                            APISERVER=$(kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}')
-                            <br />
-                            TOKEN=$(kubectl get secret $(kubectl get serviceaccount deployer -o jsonpath='{.secrets[0].name}') -o jsonpath='{.data.token}' | base64 --decode )
+                              <br/><br/>
+                            From your command line, when logged in to your OpenShift/Kubernetes cluster:<br />
+                            <div style="font-family: monospace; ">
+                                <br />
+                                APISERVER=$(kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}')
+                                <br /><br />
+                                TOKEN=$(kubectl get secret $(kubectl get serviceaccount deployer -o jsonpath='{.secrets[0].name}') -o jsonpath='{.data.token}' | base64 --decode )
+                                <br /><br />
+                                echo $TOKEN
+                                <br /><br />
+                            </div>
+                            If the result is empty then you need to ask your system administrator for rights to do this.  Paste the token into
+                            the "K8s Authentication Token" field. Note that on OpenShift you can replace "kubectl" with the "oc" command.
                          </div>`
 
         }
