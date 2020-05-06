@@ -88,9 +88,8 @@ properties(
                             From your command line, when logged in to your OpenShift/Kubernetes cluster:<br />
                             <div style="font-family: monospace; ">
                                 <br />
-                                APISERVER=$(kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}')
-                                <br /><br />
-                                TOKEN=$(kubectl get secret $(kubectl get serviceaccount deployer -o jsonpath='{.secrets[0].name}') -o jsonpath='{.data.token}' | base64 --decode )
+                                TOKEN=$(kubectl get secrets -o jsonpath="{.items[?(@.metadata.annotations['kubernetes\.io/service-account\.name']=='default')].data.token}"|base64 --decode)
+
                                 <br /><br />
                                 echo $TOKEN
                                 <br /><br />
