@@ -692,7 +692,6 @@ function setUpChildListeners(processName, fileName, debugPort) {
     	}
 
 
-        console.log("\nYazz Pilot started on:");
 console.log(`
 
  YYYYYYY       YYYYYYY
@@ -712,7 +711,7 @@ console.log(`
      Y:::::::::::Y     a::::::::::aa:::az:::::::::::::::zz:::::::::::::::z
      YYYYYYYYYYYYY      aaaaaaaaaa  aaaazzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
 
-                                                       
+
 
  PPPPPPPPPPPPPPPPP     iiii  lllllll                           tttt
  P::::::::::::::::P   i::::i l:::::l                        ttt:::t
@@ -732,6 +731,7 @@ console.log(`
  PPPPPPPPPP          iiiiiiiillllllll   ooooooooooo             ttttttttttt
 `)
 
+        console.log("\nYazz Pilot started on:");
         console.log("Network Host Address: " + hostaddressintranet)
         console.log("Local Machine Address: " + serverProtocol + "://" + hostaddress + ':' + port);
         systemReady = true
