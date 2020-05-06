@@ -1198,7 +1198,7 @@ Pushlist
                                                             active_component_index: active_component_index,
                                                             property_id:            property.id
                                                         })'  >
-                                                ...
+                                                View code
                                             </div>
                                         </div>
 
