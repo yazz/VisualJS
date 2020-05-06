@@ -123,14 +123,7 @@ properties(
             type:       "Action"
         }
         ,
-        {
-            id:         "getProxyConfig",
-            pre_snippet:    `await `,
-            snippet:    `getProxyConfig("service ID", "production")`,
-            name:       "Get proxy config",
-            type:       "Action"
-        }
-        ,
+
 
         {
             id:         "pods",
@@ -387,50 +380,6 @@ logo_url("/driver_icons/kubernetes.png")
 
 
 
-            ,
-            getProxyConfig: async function(id, env) {
-
-                var useURL = this.getUrlFor("/admin/api/services/" + id + "/proxy/configs/" + env + ".json")
-
-                 var result = await callFunction(
-                 {
-                     driver_name: "rest_call_service_v2",
-                     method_name: "rest_call_service_v2"
-                 }
-                 ,
-                 {
-                     URL:    useURL,
-                     filter: null,
-                     root:   null
-                     //,returnDetails: true
-                 })
-                 if(!result) {return null}
-
-                 var pl = result.proxy_configs
-                 if(!pl) {return null}
-                 if(!pl[0]) {return null}
-
-                 var rtt= pl[0].proxy_config
-                 if(rtt2) {return null}
-                 var rtt2={
-                     environment: rtt.environment,
-                     id: rtt.content.id,
-                     account_id: rtt.content.account_id,
-                     name: rtt.content.name,
-                     description: rtt.content.description,
-                     service_id: rtt.content.proxy.service_id,
-                     auth_user_key: rtt.content.proxy.auth_user_key,
-                     api_test_path: rtt.content.proxy.api_test_path,
-                     sandbox_endpoint: rtt.content.proxy.sandbox_endpoint,
-                     endpoint: rtt.content.proxy.endpoint
-                 }
-                 result = JSON.parse(JSON.stringify(rtt2))
-
-                 this.args.proxyConfig = result
-                 this.refresh++
-
-                 return result
-            }
 
 
 

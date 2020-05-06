@@ -45,6 +45,7 @@ only_run_on_server(true)
             headers = args.headers
         }
 
+        console.log(url)
         request(
             url
             ,
