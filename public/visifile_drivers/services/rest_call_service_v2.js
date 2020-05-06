@@ -45,6 +45,11 @@ only_run_on_server(true)
             headers = args.headers
         }
 
+        var method = "GET"
+        if (args.method) {
+            method = args.method
+        }
+
         console.log(url)
         request(
             url
@@ -53,7 +58,9 @@ only_run_on_server(true)
                 rejectUnauthorized : false,
 
 
-                headers: headers
+                headers: headers,
+
+                method: method
 
 
             }
