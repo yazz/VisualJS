@@ -87,7 +87,7 @@ properties(
         {
             id:         "topic",
             name:       "Topic",
-            default:    "Test",
+            default:    "test",
             type:       "String"
         }
         ,
@@ -172,15 +172,16 @@ logo_url("/driver_icons/kafka.png")
                     }
                     ,
                     {
-                        offset: 0
+                        offset: this.args.offset
                         ,
+                        //brokers: this.args.brokers
                         brokers: ['localhost:9092']
                         ,
-                        client_id: 'myapp'
+                        client_id: this.args.client_id
                         ,
-                        topic: "test"
+                        topic: this.args.topic
                         ,
-                        parition: 0
+                        partition: this.args.partition
                     })
 
                 console.log(JSON.stringify(result,null,2))
