@@ -7,12 +7,12 @@ only_run_on_server(true)
 */
     var promise = new Promise(async function(returnfn) {
         var kafkaConnection = new Kafka({
-            clientId: 'myapp',
-            brokers: ['localhost:9092']
+            clientId: args.client_id,
+            brokers: args.brokers
         })
         const consumer = kafkaConnection.consumer({ groupId: uuidv1() })
         await consumer.connect()
-        await consumer.subscribe({ topic: 'test', fromBeginning: true })
+        await consumer.subscribe({ topic: args.topic, fromBeginning: true })
 
         var dd=null
         try {
@@ -30,7 +30,7 @@ only_run_on_server(true)
               }
             })
             if (args.offset) {
-                consumer.seek({ topic: 'test', partition: 0, offset: args.offset })                
+                consumer.seek({ topic: args.topic, partition: args.partition, offset: args.offset })
             }
         } catch (err)  {
             returnfn({error: err})
