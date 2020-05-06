@@ -134,8 +134,16 @@ properties(
             name:       "Get the pods in the current project",
             type:       "Action"
         }
-        ,
 
+        ,
+        {
+            id:         "deletePod",
+            pre_snippet:    `await `,
+            snippet:    `deletePod("pod_name")`,
+            name:       "Delete Pod",
+            type:       "Action"
+        }
+        ,
 
         {
             id:         "pods",
@@ -350,6 +358,21 @@ logo_url("/driver_icons/kubernetes.png")
             }
             ,
 
+            deletePod:  async function(podName) {
+                var useURL = this.getUrlFor("pods/" + podName)
+                var result = await callFunction(
+                {
+                    driver_name: "rest_call_service_v2",
+                    method_name: "rest_call_service_v2"
+                }
+                ,
+                {
+                    URL:    useURL,
+                    headers: {Authorization: this.args.k8sAuthenticationToken},
+                    method: "DELETE"
+                })
+            }
+            ,
             getPods: async function() {
                 var useURL = this.getUrlFor("pods")
 
