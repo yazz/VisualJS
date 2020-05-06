@@ -144,7 +144,24 @@ properties(
             type:       "Object"
         }
         ,
-
+        {
+            id:         "httpMethod",
+            name:       "HTTP Method",
+            type:       "Select",
+            default:    "GET",
+            values:     [
+                            {display: "Get",   value: "GET"},
+                            {display: "Head",  value: "HEAD"},
+                            {display: "Post",  value: "POST"},
+                            {display: "Put",  value: "PUT"},
+                            {display: "Delete",  value: "DELETE"},
+                            {display: "Connect",  value: "CONNECT"},
+                            {display: "Options",  value: "OPTIONS"},
+                            {display: "Trace",  value: "TRACE"},
+                            {display: "Patch",  value: "PATCH"}
+                        ]
+        }
+        ,
         {
             id:         "callApiOnStartup",
             name:       "Call API on Startup",
@@ -454,7 +471,8 @@ var result = await callFunction(
                         filter:          noFilter?null:this.args.productionFilter,
                         root:            wholeTree?null:this.args.productionRoot,
                         returnDetails:   true,
-                        headers:         headers
+                        headers:         headers,
+                        method:          this.args.httpMethod?this.args.httpMethod:"GET"
                     })
 
 
