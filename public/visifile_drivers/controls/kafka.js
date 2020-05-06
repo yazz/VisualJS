@@ -63,14 +63,39 @@ properties(
             hidden:     true
         }
         ,
-
-
         {
-            id:         "checkKafkaAvailable",
-            pre_snippet:    `await `,
-            snippet:    `checkKafkaAvailable()`,
-            name:       "Check Kafka Available",
-            type:       "Action"
+            id:         "brokers",
+            name:       "Brokers",
+            default:    ['localhost:9092'],
+            type:       "Array"
+        }
+        ,
+        {
+            id:         "client_id",
+            name:       "Client ID",
+            default:    'myapp',
+            type:       "String"
+        }
+        ,
+        {
+            id:         "offset",
+            name:       "Offset",
+            default:    0,
+            type:       "Number"
+        }
+        ,
+        {
+            id:         "topic",
+            name:       "Topic",
+            default:    "Test",
+            type:       "String"
+        }
+        ,
+        {
+            id:         "partition",
+            name:       "Partition",
+            default:    0,
+            type:       "Number"
         }
 
     ]
