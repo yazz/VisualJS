@@ -58,14 +58,9 @@ properties(
         }
         ,
         {
-            id:         "isKubernetesAvailable",
-            name:       "Is Kubernetes Available?",
-            type:       "Select",
-            default:    "False",
-            values:     [
-                            {display: "True",   value: "True"},
-                            {display: "False",  value: "False"}
-                        ]
+            id:         "readTopic",
+            name:       "Read a Kafka topic()",
+            type:       "Action"
         }
         ,
 
@@ -264,6 +259,21 @@ logo_url("/driver_icons/kafka.png")
 
 
         methods: {
+            readTopic: async function() {
+                var result = await callFunction(
+                    {
+                        driver_name: "kafka_service",
+                        method_name: "kafka_service"
+                    }
+                    ,
+                    {
+                        offset: 4
+                    })
+
+                console.log(JSON.stringify(result,null,2))
+                return result
+            }
+            ,
             createApiCall: async function() {
                 var mm = this
                 await mm.designModeCreateComponent()
