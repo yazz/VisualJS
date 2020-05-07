@@ -196,7 +196,7 @@ logo_url("/driver_icons/kafka.png")
             <input v-model="new_port" type="text" class="form-control" id="new_port">
         </div>
         <div    class="btn btn-sm btn-info"
-                v-on:click='args.brokers.push("" + new_server + ":" + new_port);new_server="";new_port="";checkKafkaAvailable();refresh ++;'
+                v-on:click='addBroker(new_server,new_port)'
                 style="margin-bottom: 30px;">
                 Add Kafka broker
         </div>
@@ -284,6 +284,15 @@ logo_url("/driver_icons/kafka.png")
             delete_broker: async function(index)  {
                 this.args.brokers.splice(index,1)
                 this.checkKafkaAvailable()
+            }
+            ,
+            addBroker: async function(new_server,new_port)  {
+                var newBrokerUrl = "" + new_server + ":" + new_port
+                this.args.brokers.push(newBrokerUrl);
+                this.new_server="";
+                this.new_port="";
+                this.checkKafkaAvailable();
+                this.refresh ++;
             }
 
         }
