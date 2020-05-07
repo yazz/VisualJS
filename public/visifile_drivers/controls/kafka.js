@@ -149,9 +149,10 @@ logo_url("/driver_icons/kafka.png")
         <div style="padding:10px;">
             Kafka
         </div>
-        <div v-bind:style='"background-color: " + (args.isKafkaAvailable=="True"?"green":"red" ) +";color: white;padding:10px;"'
+        <div    v-bind:refresh='refresh'
+                v-bind:style='"background-color: " + (args.isKafkaAvailable=="True"?"green":"red" ) +";color: white;padding:10px;"'
         >
-            {{(args.isKafkaAvailable=="True"?"Available":"Not available" )}}
+            {{(args.isKafkaAvailable == "True"?"Available":"Not available" )}}
         </div>
 
 
@@ -173,6 +174,7 @@ logo_url("/driver_icons/kafka.png")
             registerComponent(this)
 
             var x = await this.checkKafkaAvailable()
+            this.refresh++
 
             if (this.design_mode) {
 

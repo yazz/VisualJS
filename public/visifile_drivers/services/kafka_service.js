@@ -36,7 +36,7 @@ only_run_on_server(true)
                           value: ee.message.value.toString()
                       }
                       console.log(dd)
-                      //consumer.disconnect()
+                      consumer.disconnect()
                       returnfn(dd)
                   }
                 })
@@ -59,6 +59,7 @@ only_run_on_server(true)
             try {
                 const consumer = kafkaConnection.consumer({ groupId: uuidv1() })
                 await consumer.connect()
+                returnfn({success: true})
 
             } catch (err)  {
 
