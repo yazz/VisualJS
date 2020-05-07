@@ -10,6 +10,8 @@ only_run_on_server(true)
             clientId: args.client_id,
             brokers: args.brokers
         })
+
+    if (args.action  == "read_single_message") {
         const consumer = kafkaConnection.consumer({ groupId: uuidv1() })
         await consumer.connect()
         await consumer.subscribe({ topic: args.topic, fromBeginning: true })
@@ -35,6 +37,8 @@ only_run_on_server(true)
         } catch (err)  {
             returnfn({error: err})
         }
+    }
+
 
     })
     var ret = await promise

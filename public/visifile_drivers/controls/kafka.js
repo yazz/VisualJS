@@ -201,6 +201,8 @@ logo_url("/driver_icons/kafka.png")
                         topic: this.args.topic
                         ,
                         partition: this.args.partition
+                        ,
+                        action: "read_single_message"
                     })
 
                 console.log(JSON.stringify(result,null,2))
