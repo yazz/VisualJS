@@ -160,9 +160,9 @@ logo_url("/driver_icons/kafka.png")
                 No brokers available
         </div>
 
-        <div    v-bind:style='"border:1px solid gray; padding: 10px;display:flex;" + ((selected_index==index)?"background-color: lightgray;":"")'
+        <div    v-bind:style='"border:1px solid gray; padding: 10px;display:flex;lightgray;"'
                 v-bind:refresh='refresh'
-                v-on:click='$event.stopPropagation();selected_index=index;select_design_time_component(child_item.index_in_parent_array)'
+                v-on:click='$event.stopPropagation()'
                 v-if='args.brokers'
                 v-for='(child_item,index)  in  args.brokers'>
 
@@ -178,13 +178,29 @@ logo_url("/driver_icons/kafka.png")
                         v-if='child_item'
                         v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
                         "width: 20px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;margin-left: 20px;"'
-                        v-on:click='$event.stopPropagation();delete_broker(index)'>
+                        v-on:click='$event.stopPropagation();delete_broker(index); refresh++;'>
 
                         X
 
                 </div>
+
             </div>
 
+        </div>
+        <div class="form-group">
+            <label for="usr">Server:</label>
+            <input v-model="new_server" type="text" class="form-control" id="usr">
+        </div>
+        <div class="form-group">
+            <label for="usr">Port:</label>
+            <input v-model="new_port" type="text" class="form-control" id="usr">
+        </div>
+        <div    class="btn btn-sm btn-info"
+                v-on:click='args.brokers.push("" + new_server + ":" + new_port);new_server="";new_port="";checkKafkaAvailable();refresh ++;'
+                style="margin-bottom: 30px;"
+        >
+                Add
+        </div>
     </div>
 
 
@@ -194,7 +210,8 @@ logo_url("/driver_icons/kafka.png")
 
         data: function() {
             return {
-                selected_index: -1
+                new_server: "",
+                new_port: ""
             }
         }
 
@@ -263,6 +280,11 @@ logo_url("/driver_icons/kafka.png")
                     this.args.isKafkaAvailable = "True"
                 }
                 return result
+            }
+            ,
+            delete_broker: async function(index)  {
+                this.args.brokers.splice(index,1)
+                this.checkKafkaAvailable()
             }
 
         }
