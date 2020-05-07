@@ -186,7 +186,7 @@ logo_url("/driver_icons/kafka.png")
                         v-if='child_item'
                         v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
                         "width: 20px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;margin-left: 20px;"'
-                        v-on:click='$event.stopPropagation();delete_broker(index); changedFn();'>
+                        v-on:click='$event.stopPropagation();(async function() {await delete_broker(index); })()'>
 
                         X
 
@@ -202,7 +202,7 @@ logo_url("/driver_icons/kafka.png")
             <input v-model="new_port" type="text" class="form-control">
         </div>
         <div    class="btn btn-sm btn-info"
-                v-on:click='addBroker(new_server,new_port)'
+                v-on:click='(async function() {await addBroker(new_server,new_port); })()'
                 style="margin-bottom: 30px;">
                 Add Kafka broker
         </div>
@@ -232,7 +232,7 @@ logo_url("/driver_icons/kafka.png")
                     mm.args.brokers = []
                 }
                 await mm.checkKafkaAvailable()
-                mm.refresh++
+
             }
         }
         ,
@@ -289,8 +289,10 @@ logo_url("/driver_icons/kafka.png")
             }
             ,
             delete_broker: async function(index)  {
+                alert(index)
                 mm.args.brokers.splice(index,1)
-                mm.changedFn()
+                await mm.checkKafkaAvailable()
+                changedFn();
             }
             ,
             addBroker: async function(new_server,new_port)  {
@@ -298,7 +300,8 @@ logo_url("/driver_icons/kafka.png")
                 mm.args.brokers.push(newBrokerUrl);
                 mm.new_server="";
                 mm.new_port="";
-                mm.changedFn()
+                await mm.checkKafkaAvailable()
+                changedFn();
             }
             ,
             changedFn: function() {
