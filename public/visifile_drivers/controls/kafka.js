@@ -117,7 +117,13 @@ properties(
             default:    0,
             type:       "Number"
         }
-
+        ,
+        {
+            id:         "changed",
+            name:       "Changed",
+            default:    "",
+            type:       "String"
+        }
     ]
 )//properties
 
@@ -180,7 +186,7 @@ logo_url("/driver_icons/kafka.png")
                         v-if='child_item'
                         v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
                         "width: 20px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;margin-left: 20px;"'
-                        v-on:click='$event.stopPropagation();delete_broker(index); refresh++;'>
+                        v-on:click='$event.stopPropagation();delete_broker(index); changedFn();'>
 
                         X
 
@@ -225,7 +231,7 @@ logo_url("/driver_icons/kafka.png")
                 if (!mm.args.brokers) {
                     mm.args.brokers = []
                 }
-                var x = await mm.checkKafkaAvailable()
+                await mm.checkKafkaAvailable()
                 mm.refresh++
             }
         }
@@ -284,7 +290,7 @@ logo_url("/driver_icons/kafka.png")
             ,
             delete_broker: async function(index)  {
                 mm.args.brokers.splice(index,1)
-                mm.checkKafkaAvailable()
+                mm.changedFn()
             }
             ,
             addBroker: async function(new_server,new_port)  {
@@ -292,9 +298,15 @@ logo_url("/driver_icons/kafka.png")
                 mm.args.brokers.push(newBrokerUrl);
                 mm.new_server="";
                 mm.new_port="";
-                await mm.checkKafkaAvailable();
-                mm.refresh ++;
+                mm.changedFn()
             }
+            ,
+            changedFn: function() {
+                if (isValidObject(mm.args)) {
+                    mm.args.changed = uuidv4()
+                }
+            }
+
 
         }
 
