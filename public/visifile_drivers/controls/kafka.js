@@ -292,7 +292,7 @@ logo_url("/driver_icons/kafka.png")
                 mm.args.brokers.push(newBrokerUrl);
                 mm.new_server="";
                 mm.new_port="";
-                mm.checkKafkaAvailable();
+                await mm.checkKafkaAvailable();
                 mm.refresh ++;
             }
 
