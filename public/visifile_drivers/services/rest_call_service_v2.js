@@ -50,7 +50,7 @@ only_run_on_server(true)
             method = args.method
         }
 
-        console.log(url)
+        //console.log(url)
         request(
             url
             ,

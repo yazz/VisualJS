@@ -211,7 +211,22 @@ logo_url("/driver_icons/kafka.png")
             ,
             checkKafkaAvailable: async function()  {
                 this.args.isKafkaAvailable = "False"
+                var result = await callFunction(
+                    {
+                        driver_name: "kafka_service",
+                        method_name: "kafka_service"
+                    }
+                    ,
+                    {
+                        brokers: ['localhost:9092']
+                        ,
+                        client_id: this.args.client_id
+                        ,
+                        action: "test_connection"
+                    })
 
+                console.log(JSON.stringify(result,null,2))
+                return result
             }
 
         }
