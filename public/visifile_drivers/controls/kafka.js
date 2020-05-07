@@ -55,6 +55,26 @@ properties(
         }
         ,
 
+
+        {
+            id:         "checkKafkaAvailable",
+            name:       "Check Kafka Available()",
+            type:       "Action",
+            pre_snippet:    `await `,
+            snippet:    `checkKafkaAvailable()`
+        }
+        ,
+        {
+            id:         "isKafkaAvailable",
+            name:       "Is Kafka Available?",
+            type:       "Select",
+            default:    "False",
+            values:     [
+                            {display: "True",   value: "True"},
+                            {display: "False",  value: "False"}
+                        ]
+        }
+        ,
         {
             id:         "has_details_ui",
             name:       "Has details UI?",
@@ -129,7 +149,10 @@ logo_url("/driver_icons/kafka.png")
         <div style="padding:10px;">
             Kafka
         </div>
-
+        <div v-bind:style='"background-color: " + (args.isKafkaAvailable=="True"?"green":"red" ) +";color: white;padding:10px;"'
+        >
+            {{(args.isKafkaAvailable=="True"?"Available":"Not available" )}}
+        </div>
 
 
     </div>
@@ -141,10 +164,6 @@ logo_url("/driver_icons/kafka.png")
 
         data: function() {
             return {
-                apiListItemHover: null,
-                apiListItemSelected: null,
-                apiServiceIdSelected: null,
-                apiEnv: "production"
             }
         }
 
@@ -153,7 +172,7 @@ logo_url("/driver_icons/kafka.png")
         mounted: async function() {
             registerComponent(this)
 
-            var x = await this.checkKubernetesAvailable()
+            var x = await this.checkKafkaAvailable()
 
             if (this.design_mode) {
 
@@ -186,6 +205,11 @@ logo_url("/driver_icons/kafka.png")
 
                 console.log(JSON.stringify(result,null,2))
                 return result
+            }
+            ,
+            checkKafkaAvailable: async function()  {
+                this.args.isKafkaAvailable = "False"
+
             }
 
         }
