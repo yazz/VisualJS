@@ -7,22 +7,33 @@ only_run_on_server(true)
 */
     var promise = new Promise(async function(returnfn) {
 
+        console.log(.1)
         var kafkaConnection = new Kafka({
             clientId: args.client_id,
-            brokers: args.brokers
+            brokers: args.brokers,
+            connectionTimeout: 1000,
+            requestTimeout: 1000,
+            initialRetryTime: 100,
+            retries: 0
         })
+        console.log(.2)
+        console.log(kafkaConnection)
 
 
         //
         //    read_single_message
         //
         if (args.action  == "read_single_message") {
-            const consumer = kafkaConnection.consumer({ groupId: uuidv1() })
-            await consumer.connect()
-            await consumer.subscribe({ topic: args.topic, fromBeginning: true })
-
-            var dd=null
             try {
+                console.log(1)
+                const consumer = kafkaConnection.consumer({ groupId: uuidv1() })
+                console.log(2)
+                await consumer.connect()
+                console.log(3)
+                await consumer.subscribe({ topic: args.topic, fromBeginning: true })
+                console.log(4)
+
+                var dd=null
                  consumer.run({
                   eachMessage: async function(ee) {
                       consumer.pause([{ topic: ee.topic }])
@@ -40,6 +51,7 @@ only_run_on_server(true)
                     consumer.seek({ topic: args.topic, partition: args.partition, offset: args.offset })
                 }
             } catch (err)  {
+                console.log(5)
 
                 returnfn({error: err})
             }
