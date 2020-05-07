@@ -149,6 +149,7 @@ logo_url("/driver_icons/kafka.png")
         <div style="padding:10px;">
             Kafka
         </div>
+
         <div    v-bind:refresh='refresh'
                 v-bind:style='"background-color: " + (args.isKafkaAvailable=="True"?"green":"red" ) +";color: white;padding:10px;"'>
             {{(args.isKafkaAvailable == "True"?"Available":"Not available" )}}
@@ -171,7 +172,8 @@ logo_url("/driver_icons/kafka.png")
 
                 <div    v-bind:style='"display:inline-block;"'
                         v-if='isValidObject(child_item)'
-                        v-bind:refresh='refresh'>{{child_item}}</div>
+                        v-bind:refresh='refresh'>{{child_item}}
+                </div>
 
                 <div    class='btn btn-danger'
                         v-bind:refresh='refresh'
@@ -189,17 +191,14 @@ logo_url("/driver_icons/kafka.png")
         </div>
         <div class="form-group">
             <label for="usr">Server:</label>
-            <input v-model="new_server" type="text" class="form-control" id="usr">
-        </div>
-        <div class="form-group">
+            <input v-model="new_server" type="text" class="form-control" id="new_server">
             <label for="usr">Port:</label>
-            <input v-model="new_port" type="text" class="form-control" id="usr">
+            <input v-model="new_port" type="text" class="form-control" id="new_port">
         </div>
         <div    class="btn btn-sm btn-info"
                 v-on:click='args.brokers.push("" + new_server + ":" + new_port);new_server="";new_port="";checkKafkaAvailable();refresh ++;'
-                style="margin-bottom: 30px;"
-        >
-                Add
+                style="margin-bottom: 30px;">
+                Add Kafka broker
         </div>
     </div>
 
@@ -220,13 +219,13 @@ logo_url("/driver_icons/kafka.png")
         mounted: async function() {
             registerComponent(this)
 
-            var x = await this.checkKafkaAvailable()
-            this.refresh++
 
             if (this.design_mode) {
                 if (!this.args.brokers) {
                     this.args.brokers = []
                 }
+                var x = await this.checkKafkaAvailable()
+                this.refresh++
             }
         }
         ,
