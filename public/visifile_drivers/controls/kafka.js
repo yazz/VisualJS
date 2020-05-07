@@ -150,11 +150,40 @@ logo_url("/driver_icons/kafka.png")
             Kafka
         </div>
         <div    v-bind:refresh='refresh'
-                v-bind:style='"background-color: " + (args.isKafkaAvailable=="True"?"green":"red" ) +";color: white;padding:10px;"'
-        >
+                v-bind:style='"background-color: " + (args.isKafkaAvailable=="True"?"green":"red" ) +";color: white;padding:10px;"'>
             {{(args.isKafkaAvailable == "True"?"Available":"Not available" )}}
         </div>
 
+        <div    v-bind:style='"border:1px solid gray; padding: 10px;display:flex;"'
+                v-bind:refresh='refresh'
+                v-if='(!args.brokers) || (args.brokers.length == 0)'>
+                No brokers available
+        </div>
+
+        <div    v-bind:style='"border:1px solid gray; padding: 10px;display:flex;" + ((selected_index==index)?"background-color: lightgray;":"")'
+                v-bind:refresh='refresh'
+                v-on:click='$event.stopPropagation();selected_index=index;select_design_time_component(child_item.index_in_parent_array)'
+                v-if='args.brokers'
+                v-for='(child_item,index)  in  args.brokers'>
+
+            <div    v-if='child_item'
+                    v-bind:refresh='refresh'>
+
+                <div    v-bind:style='"display:inline-block;"'
+                        v-if='isValidObject(child_item)'
+                        v-bind:refresh='refresh'>{{child_item}}</div>
+
+                <div    class='btn btn-danger'
+                        v-bind:refresh='refresh'
+                        v-if='child_item'
+                        v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
+                        "width: 20px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;margin-left: 20px;"'
+                        v-on:click='$event.stopPropagation();delete_broker(index)'>
+
+                        X
+
+                </div>
+            </div>
 
     </div>
 
@@ -165,6 +194,7 @@ logo_url("/driver_icons/kafka.png")
 
         data: function() {
             return {
+                selected_index: -1
             }
         }
 
@@ -177,7 +207,9 @@ logo_url("/driver_icons/kafka.png")
             this.refresh++
 
             if (this.design_mode) {
-
+                if (!this.args.brokers) {
+                    this.args.brokers = []
+                }
             }
         }
         ,
@@ -196,7 +228,7 @@ logo_url("/driver_icons/kafka.png")
                         offset: this.args.offset
                         ,
                         //brokers: this.args.brokers
-                        brokers: ['localhost:9092']
+                        brokers: this.args.brokers
                         ,
                         client_id: this.args.client_id
                         ,
@@ -220,7 +252,7 @@ logo_url("/driver_icons/kafka.png")
                     }
                     ,
                     {
-                        brokers: ['localhost:9092']
+                        brokers: this.args.brokers
                         ,
                         client_id: this.args.client_id
                         ,
