@@ -7,7 +7,6 @@ only_run_on_server(true)
 */
     var promise = new Promise(async function(returnfn) {
 
-        console.log(.1)
         var kafkaConnection = new Kafka({
             clientId: args.client_id,
             brokers: args.brokers,
@@ -16,8 +15,6 @@ only_run_on_server(true)
             initialRetryTime: 100,
             retries: 0
         })
-        console.log(.2)
-        console.log(kafkaConnection)
 
 
         //
@@ -25,13 +22,9 @@ only_run_on_server(true)
         //
         if (args.action  == "read_single_message") {
             try {
-                console.log(1)
                 const consumer = kafkaConnection.consumer({ groupId: uuidv1() })
-                console.log(2)
                 await consumer.connect()
-                console.log(3)
                 await consumer.subscribe({ topic: args.topic, fromBeginning: true })
-                console.log(4)
 
                 var dd=null
                  consumer.run({

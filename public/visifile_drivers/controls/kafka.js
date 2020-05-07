@@ -225,7 +225,9 @@ logo_url("/driver_icons/kafka.png")
                         action: "test_connection"
                     })
 
-                console.log(JSON.stringify(result,null,2))
+                if (!result.error) {
+                    this.args.isKafkaAvailable = "True"
+                }
                 return result
             }
 
