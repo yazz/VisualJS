@@ -123,7 +123,7 @@ properties(
 
 logo_url("/driver_icons/kafka.png")
 */
-
+    var mm = null
     Vue.component("kafka_control",{
 
         props: ["meta", "args","design_mode","refresh", "children"]
@@ -190,10 +190,10 @@ logo_url("/driver_icons/kafka.png")
 
         </div>
         <div class="form-group">
-            <label for="usr">Server:</label>
-            <input v-model="new_server" type="text" class="form-control" id="new_server">
-            <label for="usr">Port:</label>
-            <input v-model="new_port" type="text" class="form-control" id="new_port">
+            <label>Server:</label>
+            <input v-model="new_server" type="text" class="form-control">
+            <label>Port:</label>
+            <input v-model="new_port" type="text" class="form-control">
         </div>
         <div    class="btn btn-sm btn-info"
                 v-on:click='addBroker(new_server,new_port)'
@@ -217,15 +217,16 @@ logo_url("/driver_icons/kafka.png")
         ,
 
         mounted: async function() {
+            mm = this
             registerComponent(this)
 
 
-            if (this.design_mode) {
-                if (!this.args.brokers) {
-                    this.args.brokers = []
+            if (mm.design_mode) {
+                if (!mm.args.brokers) {
+                    mm.args.brokers = []
                 }
-                var x = await this.checkKafkaAvailable()
-                this.refresh++
+                var x = await mm.checkKafkaAvailable()
+                mm.refresh++
             }
         }
         ,
@@ -241,16 +242,16 @@ logo_url("/driver_icons/kafka.png")
                     }
                     ,
                     {
-                        offset: this.args.offset
+                        offset: mm.args.offset
                         ,
-                        //brokers: this.args.brokers
-                        brokers: this.args.brokers
+                        //brokers: mm.args.brokers
+                        brokers: mm.args.brokers
                         ,
-                        client_id: this.args.client_id
+                        client_id: mm.args.client_id
                         ,
-                        topic: this.args.topic
+                        topic: mm.args.topic
                         ,
-                        partition: this.args.partition
+                        partition: mm.args.partition
                         ,
                         action: "read_single_message"
                     })
@@ -260,7 +261,7 @@ logo_url("/driver_icons/kafka.png")
             }
             ,
             checkKafkaAvailable: async function()  {
-                this.args.isKafkaAvailable = "False"
+                mm.args.isKafkaAvailable = "False"
                 var result = await callFunction(
                     {
                         driver_name: "kafka_service",
@@ -268,31 +269,31 @@ logo_url("/driver_icons/kafka.png")
                     }
                     ,
                     {
-                        brokers: this.args.brokers
+                        brokers: mm.args.brokers
                         ,
-                        client_id: this.args.client_id
+                        client_id: mm.args.client_id
                         ,
                         action: "test_connection"
                     })
 
                 if (!result.error) {
-                    this.args.isKafkaAvailable = "True"
+                    mm.args.isKafkaAvailable = "True"
                 }
                 return result
             }
             ,
             delete_broker: async function(index)  {
-                this.args.brokers.splice(index,1)
-                this.checkKafkaAvailable()
+                mm.args.brokers.splice(index,1)
+                mm.checkKafkaAvailable()
             }
             ,
             addBroker: async function(new_server,new_port)  {
                 var newBrokerUrl = "" + new_server + ":" + new_port
-                this.args.brokers.push(newBrokerUrl);
-                this.new_server="";
-                this.new_port="";
-                this.checkKafkaAvailable();
-                this.refresh ++;
+                mm.args.brokers.push(newBrokerUrl);
+                mm.new_server="";
+                mm.new_port="";
+                mm.checkKafkaAvailable();
+                mm.refresh ++;
             }
 
         }
