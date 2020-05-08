@@ -40,6 +40,18 @@ properties(
         }
         ,
         {
+            id:     "button_size",
+            name:   "Button size",
+            type:       "Select",
+            default:    "large",
+            values:     [
+                            {display: "Large",   value: "large"},
+                            {display: "Normal",  value: "normal"},
+                            {display: "Small",  value: "small"}
+                        ]
+        }
+        ,
+        {
             id:     "click_event",
             name:   "Clicked event",
             type:   "Event",
@@ -56,7 +68,8 @@ logo_url("/driver_icons/button_control.png")
     Vue.component("button_control",{
       props: [ "meta", "form",  "name", "args" ]
       ,
-      template: `<button    type=button class='btn btn-info btn-lg'
+      template: `<button    type=button
+      v-bind:class='"btn btn-info " + (((args.button_size=="large") || (!args.button_size))?"btn-lg ":"")  + (args.button_size=="small"?"btn-sm ":"") '
                             v-bind:style='"height:100%;width:100%; border: 0px;" + "background-color: "+    args["background_color"]  +  ";"'
                             v-on:click='event_callback()'
                             >
