@@ -163,6 +163,15 @@ properties(
         }
         ,
         {
+            id:         "body",
+            name:       "HTTP Body",
+            default:    "",
+            textarea:   true,
+            type:       "String"
+        }
+
+        ,
+        {
             id:         "callApiOnStartup",
             name:       "Call API on Startup",
             type:       "Select",
@@ -472,7 +481,8 @@ var result = await callFunction(
                         root:            wholeTree?null:this.args.productionRoot,
                         returnDetails:   true,
                         headers:         headers,
-                        method:          this.args.httpMethod?this.args.httpMethod:"GET"
+                        method:          this.args.httpMethod?this.args.httpMethod:"GET",
+                        body:            this.args.body?this.args.body:""
                     })
 
 

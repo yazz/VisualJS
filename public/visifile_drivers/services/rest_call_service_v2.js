@@ -50,6 +50,12 @@ only_run_on_server(true)
             method = args.method
         }
 
+
+        var body = ""
+        if (args.body) {
+            body = args.body
+        }
+
         //console.log(url)
         request(
             url
@@ -60,7 +66,9 @@ only_run_on_server(true)
 
                 headers: headers,
 
-                method: method
+                method: method,
+
+                body: body
 
 
             }
