@@ -821,6 +821,7 @@ await evalLocalSystemDriver('mysql_client_component', path.join(__dirname, '../p
     await evalLocalSystemDriver('new_microservice', path.join(__dirname, '../public/visifile_drivers/apps/blank_microservice.js'),{save_html: true})
     await evalLocalSystemDriver('demo_microservice', path.join(__dirname, '../public/visifile_drivers/apps/demo_microservice.js'),{save_html: true})
     await evalLocalSystemDriver('echo_microservice', path.join(__dirname, '../public/visifile_drivers/apps/echo_microservice.js'),{save_html: true})
+    await evalLocalSystemDriver('echo_post_microservice', path.join(__dirname, '../public/visifile_drivers/apps/echo_post_microservice.js'),{save_html: true})
     if (showDebug) {
         console.log("Loaded all apps (may use already loaded drivers)")
     } else {
