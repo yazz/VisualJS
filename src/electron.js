@@ -617,7 +617,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
             if (!isValidObject(restRoutes[msg.route])) {
-                if (msg.method == "POST") {
+                if (msg.rest_method == "POST") {
                     app.post(  '/' + msg.route + '/*'  , async function(req, res){
                         await ((restRoutes[msg.route])(req,res))
                     })
