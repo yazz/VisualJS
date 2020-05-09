@@ -561,6 +561,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
                 var params  = req.query;
                 var url     = req.originalUrl;
+                var body    = req.body;
 
                 var promise = new Promise(async function(returnFn) {
                     var seqNum = queuedResponseSeqNum;
@@ -581,6 +582,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
                                                                     ,
                                             args:                   {
                                                                         params: params,
+                                                                        body:   body,
                                                                         url:    url
                                                                     }
                                                                     ,
@@ -615,12 +617,22 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
             if (!isValidObject(restRoutes[msg.route])) {
-                app.get(  '/' + msg.route + '/*'  , async function(req, res){
-                    await ((restRoutes[msg.route])(req,res))
-                })
-                app.get(  '/' + msg.route  , async function(req, res){
-                    await ((restRoutes[msg.route])(req,res))
-                })
+                if (msg.method == "POST") {
+                    app.post(  '/' + msg.route + '/*'  , async function(req, res){
+                        await ((restRoutes[msg.route])(req,res))
+                    })
+                    app.post(  '/' + msg.route  , async function(req, res){
+                        await ((restRoutes[msg.route])(req,res))
+                    })
+
+                } else {
+                    app.get(  '/' + msg.route + '/*'  , async function(req, res){
+                        await ((restRoutes[msg.route])(req,res))
+                    })
+                    app.get(  '/' + msg.route  , async function(req, res){
+                        await ((restRoutes[msg.route])(req,res))
+                    })
+                }
             }
             restRoutes[msg.route] = newFunction
 

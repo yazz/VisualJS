@@ -1454,10 +1454,12 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
                                     var restApi = saveHelper.getValueOfCodeString(code, "rest_api")
                                     if (restApi) {
+                                        var restMethod = saveHelper.getValueOfCodeString(code, "rest_method")
                                         process.send({
                                                         message_type:       "add_rest_api",
                                                         route:               restApi,
-                                                        base_component_id:   baseComponentId
+                                                        base_component_id:   baseComponentId,
+                                                        rest_method:         restMethod
                                                     });
                                     }
 
