@@ -19,7 +19,7 @@ only_run_on_server(true)
                 console.log(disk._blocks);
                 if (disk._blocks > 0) {
                     console.log("Added "+ disk._mounted);
-                    returnVal.push(disk._mounted)
+                    returnVal.push({drive: disk._mounted})
                     //console.log("returnVal "+ returnVal);
                 }
             }

@@ -31,14 +31,14 @@ properties(
         {
             id:         "width",
             name:       "Width",
-            default:    150,
+            default:    200,
             type:       "Number"
         }
         ,
         {
             id:         "height",
             name:       "Height",
-            default:    50,
+            default:    30,
             type:       "Number"
         }
     ]
