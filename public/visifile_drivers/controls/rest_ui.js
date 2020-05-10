@@ -278,19 +278,20 @@ logo_url("/driver_icons/rest.png")
         </button>
 
 
-        <button    class="btn btn-info"
-                   v-on:click="callUndo()">
-
-              Undo
-
-        </button>
-
 
         <button    class="btn btn-info"
                    v-if="!showAsCode"
                    v-on:click="showThisAsCode()">
 
               Show as code
+
+        </button>
+
+
+        <button    class="btn btn-danger"
+                   v-on:click="makeLive()">
+
+              Make live
 
         </button>
 
@@ -804,29 +805,6 @@ var result = await callFunction(
 
 
 
-            // ----------------------------------------------------------------
-            //
-            //                     callUndo
-            //
-            //
-            //
-            //
-            // ----------------------------------------------------------------
-
-            callUndo: async function(urlToCall) {
-
-
-                this.args.productionFilter  = JSON.parse(JSON.stringify(this.args.undoFilter))
-                this.args.URL               = this.args.undoURL
-                this.args.productionRoot    = this.args.undoRoot
-
-                var aa = await this.getJsonFiltered(this.args.productionResponse)
-                this.args.filteredProductionResponse  = aa
-                this.args.response  = aa
-            }
-            ,
-
-
 
 
 
@@ -878,6 +856,14 @@ var result = await callFunction(
                 var aa = await this.getJsonFiltered(this.args.productionResponse)
                 this.args.filteredProductionResponse  = aa
                 this.args.response  = aa
+            }
+
+
+            ,
+
+
+            makeLive: async function() {
+
             }
 
 
