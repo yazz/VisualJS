@@ -248,6 +248,8 @@ uses_javascript_librararies(["advanced_bundle"])
                                                 v-on:send="processControlEvent"
                                                 v-bind:is='child_item.base_component_id'
                                                 v-bind:name='child_item.name + "_design_mode_" + design_mode'
+                                                v-bind:properties='model.forms[active_form].components[child_item.index_in_parent_array]'
+                                                v-bind:props='model.forms[active_form].components[child_item.index_in_parent_array]'
                                                 v-bind:args='model.forms[active_form].components[child_item.index_in_parent_array]'>
                                     </component>
 
@@ -947,6 +949,8 @@ Pushlist
                                                         v-on:send="processControlEvent"
                                                         v-bind:is='child_item.base_component_id'
                                                         v-bind:name='child_item.name + "_design_mode_" + design_mode'
+                                                        v-bind:properties='model.forms[active_form].components[child_item.index_in_parent_array]'
+                                                        v-bind:props='model.forms[active_form].components[child_item.index_in_parent_array]'
                                                         v-bind:args='model.forms[active_form].components[child_item.index_in_parent_array]'>
                                             </component>
 
@@ -5208,8 +5212,10 @@ return {}
         //-------------------------------------------------------------------
         getText: async function() {
         //-------------------------------------------------------------------
+
             //console.log("2) VB: getText")
             await this.generateCodeFromModel()
+            //debugger
             return this.text
         },
 
@@ -5219,6 +5225,7 @@ return {}
         //-------------------------------------------------------------------
         setText: function(textValue) {
         //-------------------------------------------------------------------
+        //debugger
             //console.log("start setText")
             var mm = this
             this.text =  textValue
