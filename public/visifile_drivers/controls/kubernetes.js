@@ -320,7 +320,7 @@ logo_url("/driver_icons/kubernetes.png")
             }
             ,
             checkKubernetesAvailable: async function() {
-                   debugger
+                   
                 try {
                     var apiURL = this.args.host + "/api"
                     var result = await callFunction(

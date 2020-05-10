@@ -7726,25 +7726,38 @@ t.func.call(i,e,o,t.params)||n.push({type:t.type,parameters:t.params})}),!n.leng
 <script>
 function registerComponent(vueComponentObject) {
 
-
     if (isValidObject(vueComponentObject)) {
-        if (isValidObject(vueComponentObject.args)) {
-            if (isValidObject(vueComponentObject.args.name)) {
-                globalControl[vueComponentObject.args.name] =  vueComponentObject
-            }
+
+
+        var usePropVar = vueComponentObject.args
+        if (!isValidObject(usePropVar)) {
+            usePropVar = vueComponentObject.properties
         }
-    }
+        if (!isValidObject(usePropVar)) {
+            usePropVar = vueComponentObject.props
+        }
 
-    if (isValidObject(vueComponentObject.args.load) && isValidObject(vueComponentObject.meta) ) {
 
-        setTimeout(function(){
-            vueComponentObject.$emit('send', {
-                                            type:               "subcomponent_event",
-                                            form_name:           vueComponentObject.meta.form,
-                                            control_name:        vueComponentObject.meta.name,
-                                            code:                vueComponentObject.args.load
-                                        })
-            },350)
+
+        if (isValidObject(usePropVar)) {
+            if (isValidObject(usePropVar.name)) {
+                globalControl[usePropVar.name] =  vueComponentObject
+            }
+
+            if (isValidObject(usePropVar.load) && isValidObject(vueComponentObject.meta) ) {
+
+                setTimeout(function(){
+                    vueComponentObject.$emit('send', {
+                                                    type:               "subcomponent_event",
+                                                    form_name:           vueComponentObject.meta.form,
+                                                    control_name:        vueComponentObject.meta.name,
+                                                    code:                usePropVar.load
+                                                })
+                    },350)
+
+            }
+
+        }
 
     }
 
