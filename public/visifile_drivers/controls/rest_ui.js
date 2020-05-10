@@ -59,14 +59,7 @@ properties(
             type:       "Action"
         }
         ,
-        {
-            id:         "undoRoot",
-            name:       "Undo response path",
-            default:    "",
-            hidden:     true,
-            type:       "String"
-        }
-        ,
+        
         {
             id:         "productionRoot",
             name:       "Production response path",
@@ -74,14 +67,7 @@ properties(
             type:       "String"
         }
         ,
-        {
-            id:         "undoFilter",
-            name:       "Undo filter",
-            default:    new Object(),
-            hidden:     true,
-            type:       "Object"
-        }
-        ,
+
         {
             id:         "productionFilter",
             name:       "Production filter",
@@ -90,14 +76,7 @@ properties(
             type:       "Object"
         }
         ,
-        {
-            id:         "undoURL",
-            name:       "Undo URL",
-            default:    "http://127.0.0.1:3000/change_this_url",
-            hidden:     true,
-            type:       "String"
-        }
-        ,
+
         {
             id:         "URL",
             name:       "URL",
@@ -791,10 +770,6 @@ var result = await callFunction(
 
                 }
 
-
-                this.args.undoFilter  = JSON.parse(JSON.stringify(this.args.productionFilter))
-                this.args.undoURL     = this.args.URL
-                this.args.undoRoot    = this.args.productionRoot
 
             }
             ,
