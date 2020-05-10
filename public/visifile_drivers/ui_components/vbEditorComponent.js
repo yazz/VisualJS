@@ -230,6 +230,8 @@ uses_javascript_librararies(["advanced_bundle"])
                                 v-on:send="processControlEvent"
                                 v-bind:is='model.forms[active_form].components[active_component_detail_index].base_component_id'
                                 v-bind:name='model.forms[active_form].components[active_component_detail_index].name + "_design_mode_" + design_mode'
+                                v-bind:props='model.forms[active_form].components[active_component_detail_index]'
+                                v-bind:properties='model.forms[active_form].components[active_component_detail_index]'
                                 v-bind:args='model.forms[active_form].components[active_component_detail_index]'>
 
                                 <template       slot-scope="child_components"
@@ -927,6 +929,8 @@ Pushlist
                                                 v-bind:is='item.base_component_id'
                                                 v-if='!item.parent'
                                                 v-bind:name='item.name + "_design_mode_" + design_mode'
+                                                v-bind:properties='model.forms[active_form].components[index]'
+                                                v-bind:props='model.forms[active_form].components[index]'
                                                 v-bind:args='model.forms[active_form].components[index]'>
 
                                         <template       slot-scope="child_components"
