@@ -1,4 +1,4 @@
-function(args) {
+function() {
 /*
 is_app(true)
 component_type("VB")
@@ -59,7 +59,7 @@ properties(
             type:       "Action"
         }
         ,
-        
+
         {
             id:         "productionRoot",
             name:       "Production response path",
