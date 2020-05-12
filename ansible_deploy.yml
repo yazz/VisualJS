@@ -4,5 +4,5 @@
   tasks:
     - name: copy a file
       copy:
-        content: hello world changed by Ansible Again
-        dest: visifile/public/visifile/testfile.txt
+        src: public/visifile/index.html
+        dest: visifile/public/visifile/index.html
