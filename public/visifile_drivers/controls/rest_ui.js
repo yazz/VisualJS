@@ -486,6 +486,56 @@ var result = await callFunction(
 
 
 
+            callRestApiInternalV2: async function(url, noFilter, wholeTree) {
+                var mm = this
+                try {
+                    mm.args.error = ""
+                    var headers={}
+                    if (mm.args.headerName1 && (mm.args.headerName1 != "")) {
+                        headers[mm.args.headerName1] = mm.args.headerValue1
+                    }
+                    if (mm.args.headerName2 && (mm.args.headerName2 != "")) {
+                        headers[mm.args.headerName2] = mm.args.headerValue2
+                    }
+                    if (mm.args.headerName3 && (mm.args.headerName3 != "")) {
+                        headers[mm.args.headerName3] = mm.args.headerValue3
+                    }
+                    var result = await callFunction(
+                    {
+                        driver_name: "rest_call_service_v2",
+                        method_name: "rest_call_service_v2"
+                    }
+                    ,
+                    {
+                        URL:             url,
+                        filter:          noFilter?null:this.args.productionFilter,
+                        root:            wholeTree?null:this.args.productionRoot,
+                        returnDetails:   true,
+                        headers:         headers,
+                        method:          this.args.httpMethod?this.args.httpMethod:"GET",
+                        body:            this.args.body?this.args.body:""
+                    })
+
+
+                    if (result) {
+                        this.args.productionResponse = result.raw
+                        this.args.filteredProductionResponse = result.filtered
+                        this.args.response = result.filtered
+                        return result.filtered
+                    }
+                    return null
+                } catch (err) {
+                    //alert(err)
+                    //add failure event here
+                    mm.args.error = err
+                }
+
+            }
+            ,
+
+
+
+
             // ----------------------------------------------------------------
             //
             //                        getListOfResponsePathsForJson
