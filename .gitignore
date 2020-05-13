@@ -16,6 +16,7 @@
 !/forge.config.js
 !/package.json
 
+!/*.sh
 !/*.ps1
 !/start32.bat
 !/webpack.config.js
