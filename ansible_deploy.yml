@@ -2,7 +2,10 @@
 - name: This is used to deploy the latest version of Yazz publicly
   hosts: webservers
   tasks:
-    - name: copy a file
-      copy:
-        src: public/visifile/index.html
-        dest: visifile/public/visifile/index.html
+    - name: reboot Linux server
+      reboot:
+        reboot_timeout: 120
+    - name: install the latest version of Git
+      yum:
+        name: git
+        state: latest
