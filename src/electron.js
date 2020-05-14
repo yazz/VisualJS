@@ -334,6 +334,9 @@ for (var i=0 ;i< envNames.length; i++){
 
     envVars[envNames[i]] = listOfEnvs[envNames[i]]
 }
+if (isValidObject(envVars.virtualprocessors)) {
+    executionProcessCount = envVars.virtualprocessors
+}
 
 
 
@@ -1662,9 +1665,6 @@ function checkForJSLoaded() {
     }
     if (isValidObject(envVars.loadjscode)) {
         loadjscode = envVars.loadjscode
-    }
-    if (isValidObject(envVars.virtualprocessors)) {
-        executionProcessCount = envVars.virtualprocessors
     }
 
     if (isValidObject(loadjsurl)) {
