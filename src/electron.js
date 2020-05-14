@@ -184,6 +184,7 @@ if (process.argv.length > 1) {
       .option('-z, --showdebug [showdebug]', 'Allow to show debug info (default false) [showdebug]', 'false')
       .option('-j, --showstats [showstats]', 'Allow to show stats debug info (default false) [showstats]', 'false')
       .option('-i, --statsinterval [statsinterval]', 'Allow to show debug info every x seconds (default 10 seconds) [statsinterval]', 10)
+      .option('-a, --virtualprocessors [virtualprocessors]', 'How many virtual processors to run (default 6 processors) [virtualprocessors]', 6)
       .option('-m, --maxprocessesretry [maxprocessesretry]', 'Number of processes to retry when all cores are busy (default 10 processes) [maxprocessesretry]', 10)
       .option('-n, --maxJobProcessDurationMs [maxJobProcessDurationMs]', 'Maximum time to wait for a job to complete (default 10000 ms) [maxJobProcessDurationMs]', 10000)
       .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
@@ -276,6 +277,26 @@ if (program.statsinterval > 0) {
     }
 
 };
+
+
+
+if (program.virtualprocessors > 0) {
+    executionProcessCount = program.virtualprocessors;
+    if (showDebug) {
+         console.log("       executionProcessCount: " + executionProcessCount );
+    } else {
+        process.stdout.write(".");
+    }
+
+} else {
+    if (showDebug) {
+        console.log("       executionProcessCount: " + executionProcessCount );
+    } else {
+        process.stdout.write(".");
+    }
+
+};
+
 
 
 
@@ -743,6 +764,8 @@ console.log(`
  PPPPPPPPPP          iiiiiiiillllllll   ooooooooooo             ttttttttttt
 `)
 
+
+        console.log("\nRunning " + executionProcessCount + " virtual processors");
         console.log("\nYazz Pilot started on:");
         console.log("Network Host Address: " + hostaddressintranet)
         console.log("Local Machine Address: " + serverProtocol + "://" + hostaddress + ':' + port);
