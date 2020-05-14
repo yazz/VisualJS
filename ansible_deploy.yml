@@ -6,27 +6,9 @@
   tasks:
 
 
-    - name: Get running processes
-      shell: "ps -ef | grep -v grep | grep -w {{ PROCESS }} | awk '{print $2}'"
-      register: running_processes
-
-
     - name: Kill running processes
-      shell: "kill {{ item }}"
-      with_items: "{{ running_processes.stdout_lines }}"
-
-
-    - wait_for:
-        path: "/proc/{{ item }}/status"
-        state: absent
-      with_items: "{{ running_processes.stdout_lines }}"
-      ignore_errors: yes
-      register: killed_processes
-
-
-    - name: Force kill stuck processes
-      shell: "kill -9 {{ item }}"
-      with_items: "{{ killed_processes.results | select('failed') | map(attribute='item') | list }}"
+      shell: "killall node"
+      
 
     - command: git reset --hard origin/master
       args:
@@ -37,6 +19,7 @@
       git:
         repo: 'https://github.com/zubairq/pilot.git'
         dest: /root/visifile
+
 
     - name: Start Yazz
       shell:
