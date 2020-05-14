@@ -1664,7 +1664,7 @@ function checkForJSLoaded() {
         loadjscode = envVars.loadjscode
     }
     if (isValidObject(envVars.virtualprocessors)) {
-        virtualprocessors = envVars.virtualprocessors
+        executionProcessCount = envVars.virtualprocessors
     }
 
     if (isValidObject(loadjsurl)) {
