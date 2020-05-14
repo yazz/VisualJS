@@ -2,13 +2,35 @@
 - name: This is used to deploy the latest version of Yazz publicly
   hosts: webservers
   vars:
-    node_version: 6.1.0
+    PROCESS: node
   tasks:
 
-    - name: install the latest version of Git
-      yum:
-        name: git
-        state: latest
+
+    - name: Get running processes
+      shell: "ps -ef | grep -v grep | grep -w {{ PROCESS }} | awk '{print $2}'"
+      register: running_processes
+
+
+    - name: Kill running processes
+      shell: "kill {{ item }}"
+      with_items: "{{ running_processes.stdout_lines }}"
+
+
+    - wait_for:
+        path: "/proc/{{ item }}/status"
+        state: absent
+      with_items: "{{ running_processes.stdout_lines }}"
+      ignore_errors: yes
+      register: killed_processes
+
+
+    - name: Force kill stuck processes
+      shell: "kill -9 {{ item }}"
+      with_items: "{{ killed_processes.results | select('failed') | map(attribute='item') | list }}"
+
+    - command: git reset --hard origin/master
+      args:
+        chdir: /root/visifile
 
 
     - name: install the latest version of Yazz
@@ -16,8 +38,10 @@
         repo: 'https://github.com/zubairq/pilot.git'
         dest: /root/visifile
 
-
-    - name: Install wget
-      yum:
-        name: wget
-        state: present
+    - name: Start Yazz
+      shell:
+          cmd:  node src/electron.js --port 443 --public {{ ssl_private }} --private {{ ssl_key }} --usehost {{ use_host }} --https true --cacert1 {{ ssl_cacert1 }} --cacert2 {{ ssl_cacert2 }} --cacert3 {{ ssl_cacert3 }} > nohup.out &
+      async: 10
+      poll: 0
+      args:
+        chdir: /root/visifile/
