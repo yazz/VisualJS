@@ -3,13 +3,12 @@ kind: Template
 message: Installing Kubernetes Pilot
 metadata:
   annotations:
-    description: Pilot Installer 4
-    iconClass: icon-3scale
-    openshift.io/display-name: Pilot Installer 4
+    description: Pilot Installer 5
+    openshift.io/display-name: Pilot Installer 5
     openshift.io/provider-display-name: Pilot
     tags: integration, api management, javascript
   creationTimestamp: null
-  name: pilot-installer-4
+  name: pilot-installer-5
 
 
 
@@ -27,7 +26,7 @@ objects:
         spec:
           containers:
           - name: "pilot"
-            image: "zubairq/pilot:latest"
+            image: "yazzcorp/pilot:1.6"
             ports:
             - containerPort: 3000
               protocol: "TCP"
@@ -51,7 +50,13 @@ objects:
                         timeoutSeconds: 1
             resources:
               limits:
-                memory: 512Mi
+                memory: 4096Mi
+              limits:
+                cpu:	4000m
+                memory:	4096Mi
+              requests:
+                cpu:	500m
+                memory:	512Mi
       replicas: 1
       selector:
         name: "pilot"
