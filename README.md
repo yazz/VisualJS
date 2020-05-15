@@ -159,6 +159,9 @@ http://localhost:3000
 
 
 
+<br/><br/><br/>
+### Build a command line exexutablel for MacOS
+    nexe src/electron.js -r public/ -r src/ -r package.json -r node_sqlite3.node
 
 
 
@@ -446,7 +449,7 @@ We were limiting ourselves to a very small subset of developers by being in Cloj
 
 
 ### Where can I find the app store for Yazz?
-It is under development 
+It is under development
 
 
 
