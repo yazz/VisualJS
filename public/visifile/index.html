@@ -25,19 +25,18 @@
         <div class="container-fluid mt-3">
             <div class="container-fluid">
               <div class="row">
-                <div class="col-sm  pull-left">
+
+                <div class="col-sm-6  pull-left">
                   <h5>Yazz.com</h5>
-
-
-
-
                 </div>
-                <div class="col-sm pull-right">
+
+                <div class="col-sm-6 pull-right">
                     <a style="margin-right:50px;" href='https://github.com/zubairq/pilot' >Link to Github repo</a>
 
-                    <a href='/visifile/docs/yazz_march_2020.pdf'>Link to Docs</a>
+                    <a style="margin-right:0px;"  href='/visifile/docs/yazz_march_2020.pdf'>Link to Docs</a>
                     </p>
                 </div>
+
               </div>
             </div>
 
@@ -57,7 +56,7 @@
 
             <div class="lead mt-3">Yazz Pilot is a browser based IDE to build internal dashboards on Kubernetes or Docker. It can connect to Rest APIs, Postgres, and other stuff. JavaScript is used for scripting events and writing code. </div>
 
-            <h3 style="margin-top: 50px;"><a href='https://yazz.com/app/homepage.html'>Demo</a></h3>
+            <h3 style="margin-top: 150px;"><a href='https://yazz.com/app/homepage.html'>Demo</a></h3>
             <br /><br />
             <h3><a href='https://yazz.com/visifile/docs/yazz_march_2020.pdf'>Docs</a></h3>
             <br /><br />
@@ -65,7 +64,10 @@
 
 
 
-            <h3 style="margin-top: 50px;">docker run -p 3000:3000 --name yazz yazzcorp:pilot/1.5</h3>
+            <h3 style="margin-top: 150px;"><b>Run on Docker:</b> docker run -p 3000:3000 --name yazz yazzcorp:pilot/1.5</h3>
+
+            <h3 style="margin-top: 50px;"><b>Run on OpenShift:</b> oc new-app https://raw.githubusercontent.com/zubairq/pilot/master/deploy_openshift_template_pilot.yml</h3>
+
 
 
 
