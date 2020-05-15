@@ -21,6 +21,7 @@
 !/start32.bat
 !/webpack.config.js
 !/*.yml
+!/*.node
 !/*.cfg
 /hosts
 
