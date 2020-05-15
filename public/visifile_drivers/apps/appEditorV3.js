@@ -342,10 +342,6 @@ load_once_from_file(true)
                          <span style="height:40px;margin-bottom:10px;">{{location.protocol + "//" + location.hostname + ":" + location.port + "/" + rest_api_base_url + ""}}</span>
 
                          <span>
-                            /
-                             <input  style=''
-                                     v-model="rest_api_url_2">
-                             </input>
                              ?
                              <span><button type=button
                                      class='btn-sm'
