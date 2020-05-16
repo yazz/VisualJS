@@ -180,6 +180,7 @@ const yazzProcessMainMemoryUsageMetric = new Prometheus.Gauge({
   help: 'Memory Usage for Yazz NodeJS process "main"'
 });
 
+
 if (process.argv.length > 1) {
 
     program
@@ -1668,9 +1669,24 @@ function checkForJSLoaded() {
     if (isValidObject(envVars.loadjsurl)) {
         loadjsurl = envVars.loadjsurl
     }
+
+    //
+    // load JS code from file
+    //
     if (isValidObject(envVars.loadjsfile)) {
         loadjsfile = envVars.loadjsfile
     }
+
+
+    console.log("process.argv.length : " + process.argv.length )
+    console.log("process.argv[2] : " + process.argv[2] )
+    if ((process.argv[2]) && (process.argv[2].indexOf(".js") != -1)) {
+        loadjsfile = process.argv[2]
+    }
+
+
+
+
     if (isValidObject(envVars.loadjscode)) {
         loadjscode = envVars.loadjscode
     }
