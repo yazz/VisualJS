@@ -34,8 +34,10 @@ var expressWs       = require('express-ws')(app);
 console.log("__filename: " + __filename)
 console.log("__dirname: " + __dirname)
 mkdirp.sync('node_modules/sqlite3/lib/binding/node-v64-darwin-x64');
+var srcNodeJsFile = path.join(__filename,'../../node_sqlite3.node')
+console.log("srcNodeJsFile: " + srcNodeJsFile)
 fs.copyFileSync(
-    path.join(__filename,'../../node_sqlite3.node'),
+    srcNodeJsFile,
     path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-darwin-x64/node_sqlite3.node'),
                     );
 
