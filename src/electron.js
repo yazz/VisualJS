@@ -30,6 +30,10 @@ var express         = require('express')
 var http            = require('http')
 var https           = require('https');
 var app             = express()
+
+
+
+
 var expressWs       = require('express-ws')(app);
 console.log("__filename: " + __filename)
 console.log("__dirname: " + __dirname)
@@ -181,6 +185,23 @@ const yazzProcessMainMemoryUsageMetric = new Prometheus.Gauge({
   name: 'yazz_node_process_main_memory_bytes',
   help: 'Memory Usage for Yazz NodeJS process "main"'
 });
+
+
+
+
+var stdin = process.openStdin();
+
+var data = "";
+
+stdin.on('data', function(chunk) {
+  data += chunk;
+});
+
+stdin.on('end', function() {
+  console.log("DATA:\n" + data + "\nEND DATA");
+});
+
+
 
 
 if (process.argv.length > 1) {
@@ -1680,8 +1701,8 @@ function checkForJSLoaded() {
     }
 
 
-    console.log("process.argv.length : " + process.argv.length )
-    console.log("process.argv[2] : " + process.argv[2] )
+    //console.log("process.argv.length : " + process.argv.length )
+    //console.log("process.argv[2] : " + process.argv[2] )
     if ((process.argv[2]) && (process.argv[2].indexOf(".js") != -1)) {
         loadjsfile = process.argv[2]
     }
