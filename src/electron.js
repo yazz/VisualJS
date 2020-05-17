@@ -45,6 +45,17 @@ fs.copyFileSync(
     path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-darwin-x64/node_sqlite3.node'),
                     );
 
+
+srcNodeJsFile = path.join(__filename,'../../node_sqlite3_win64.rename')
+console.log("srcNodeJsFile: " + srcNodeJsFile)
+fs.copyFileSync(
+    srcNodeJsFile,
+    path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v72-win32-x64/node_sqlite3.node'),
+                    );
+
+
+
+
 var request         = require("request");
 var db_helper       = require("./db_helper")
 var perf            = require('./perf')

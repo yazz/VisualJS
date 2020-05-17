@@ -27,6 +27,7 @@
 /hosts
 
 
+/node_modules/sqlite/sql.js
 !/node_modules/
 !/node_modules/sqlite/
 !/node_modules/sqlite/*

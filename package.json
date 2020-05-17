@@ -58,11 +58,9 @@
     "uuid": "^3.1.0",
     "vue": "^2.5.2",
     "xml2js": "^0.4.22"
-  }
-  ,
+  },
   "pkg": {
     "scripts": "src/electron.js",
     "assets": "node_sqlite3_macos64.rename"
   }
-
 }
