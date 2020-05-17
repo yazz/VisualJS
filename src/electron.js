@@ -38,20 +38,25 @@ var expressWs       = require('express-ws')(app);
 console.log("__filename: " + __filename)
 console.log("__dirname: " + __dirname)
 mkdirp.sync('node_modules/sqlite3/lib/binding/node-v64-darwin-x64');
-var srcNodeJsFile = path.join(__filename,'../../node_sqlite3_macos64.rename')
-console.log("srcNodeJsFile: " + srcNodeJsFile)
-fs.copyFileSync(
-    srcNodeJsFile,
-    path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-darwin-x64/node_sqlite3.node'),
-                    );
 
 
-srcNodeJsFile = path.join(__filename,'../../node_sqlite3_win64.rename')
-console.log("srcNodeJsFile: " + srcNodeJsFile)
-fs.copyFileSync(
-    srcNodeJsFile,
-    path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v72-win32-x64/node_sqlite3.node'),
-                    );
+if (isWin)  {
+  mkdirp.sync('node_modules\\sqlite3\\lib/binding\\node-v72-win32-x64');
+  var srcNodeJsFile = path.join(__dirname,'..\\node_sqlite3_win64.rename')
+  console.log("srcNodeJsFile: " + srcNodeJsFile)
+  fs.copyFileSync(
+      srcNodeJsFile,
+      path.join(__dirname,'..\\node_modules\\sqlite3\\lib\\binding\\node-v72-win32-x64\\node_sqlite3.node'),
+                      );
+} else {
+    var srcNodeJsFile = path.join(__filename,'../../node_sqlite3_macos64.rename')
+    console.log("srcNodeJsFile: " + srcNodeJsFile)
+    fs.copyFileSync(
+        srcNodeJsFile,
+        path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-darwin-x64/node_sqlite3.node'),
+                        );
+}
+
 
 
 
