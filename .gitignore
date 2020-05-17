@@ -22,6 +22,7 @@
 !/webpack.config.js
 !/*.yml
 !/*.node
+!/*.rename
 !/*.cfg
 /hosts
 
