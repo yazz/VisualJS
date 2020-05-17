@@ -1,6 +1,21 @@
 'use strict';
 var async           = require('async');
-var sqlite3         = require('sqlite3');
+var isWin         = /^win/.test(process.platform);
+function require2(moduleName) {
+	var pat;
+	if (isWin) {
+		pat = "require(process.cwd() + " + "'\\\\node_modules\\\\" + moduleName + "');";
+	} else {
+	    pat = "require(process.cwd() + " + "'/node_modules/" + moduleName + "');";
+	}
+
+	//console.log('PATH: ' + pat);
+	//console.log('    MODULE PATH: ' + process.cwd() + '/node_modules/' + moduleName);
+    var reac = eval(pat);
+	return reac;
+};
+//var sqlite3                     = require('sqlite3');
+var sqlite3                     = require2('sqlite3');
 
 module.exports = {
     createTables: function(dbsearch, callbackFn) {
