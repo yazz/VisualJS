@@ -35,55 +35,15 @@ var app             = express()
 
 
 var expressWs       = require('express-ws')(app);
-//console.log("__filename: " + __filename)
-//console.log("__dirname: " + __dirname)
-//mkdirp.sync('node_modules/sqlite3/lib/binding/node-v64-darwin-x64');
-//var srcNodeJsFile = path.join(__filename,'../../node_sqlite3_macos64.rename')
-//console.log("srcNodeJsFile: " + srcNodeJsFile)
-//fs.copyFileSync(
-//    srcNodeJsFile,
-//    path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-darwin-x64/node_sqlite3.node'),
-//                    );
-
-
-if (!fs.existsSync(process.cwd() + "/s.rename") ) {
-    copyFolderRecursiveSync(path.join(__dirname, "../node_sqlite3_macos64.rename")  , process.cwd() ); }
-
-
-function copyNodeNativeAdapter( osName, moduleName, directoryToSaveTo , nativeFileName) {
-    //console.log('Copy started of : ' + osName + ', '+ moduleName + ','+ directoryToSaveTo + ','+ nativeFileName);
-	if (!fs.existsSync(process.cwd() + "/node_modules/" + moduleName + "/" + directoryToSaveTo + "/" + nativeFileName) ) {
-		//console.log('* Creating native driver for: ' + moduleName);
-		mkdirSync(process.cwd() + "/node_modules/" + moduleName +  "/" + directoryToSaveTo);
-		copyFileSync(	process.cwd() + "/node_" + moduleName + "_" + osName + ".rename",
-                        process.cwd() + "/node_modules/" + moduleName + "/" + directoryToSaveTo + "/" + nativeFileName) ;
-	}
-	//console.log('Copy done');
-}
-
-
-
-if (isWin) {
-    //console.log('******* WINDOWS *******');
-	// copy WIndows 32 node native files
-	//copyNodeNativeAdapter( "win32", "sqlite3", 		"lib/binding/node-v57-win32-ia32" , "node_sqlite3.node")
-	//copyNodeNativeAdapter( "win64", "sqlite3", 		"lib/binding/node-v57-win32-x64" , "node_sqlite3.node")
-
-
-//} else if (isRaspberryPi) {
-    //console.log('******* PI *******');
-	// copy Raspberry PI ARM node native files
-	//copyNodeNativeAdapter( "pi", "sqlite3", 	"lib/binding/node-v48-linux-arm" , "node_sqlite3.node")
-
-
-
-} else { //means Mac OS
-    //console.log('******* MAC *******');
-	// copy Mac OS 64 node native files
-	copyNodeNativeAdapter( "macos64", "sqlite3", 	"lib/binding/node-v57-darwin-x64" , "node_sqlite3.node")
-}
-
-
+console.log("__filename: " + __filename)
+console.log("__dirname: " + __dirname)
+mkdirp.sync('node_modules/sqlite3/lib/binding/node-v64-darwin-x64');
+var srcNodeJsFile = path.join(__filename,'../../node_sqlite3_macos64.rename')
+console.log("srcNodeJsFile: " + srcNodeJsFile)
+fs.copyFileSync(
+    srcNodeJsFile,
+    path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-darwin-x64/node_sqlite3.node'),
+                    );
 
 var request         = require("request");
 var db_helper       = require("./db_helper")
@@ -98,21 +58,8 @@ var cors            = require('cors')
 var saveHelper      = require('./save_helpers')
 var isDocker        = require('is-docker');
 
-function require2(moduleName) {
-	var pat;
-	if (isWin) {
-		pat = "require(process.cwd() + " + "'\\\\node_modules\\\\" + moduleName + "');";
-	} else {
-	    pat = "require(process.cwd() + " + "'/node_modules/" + moduleName + "');";
-	}
+var sqlite3                     = require('sqlite3');
 
-	//console.log('PATH: ' + pat);
-	//console.log('    MODULE PATH: ' + process.cwd() + '/node_modules/' + moduleName);
-    var reac = eval(pat);
-	return reac;
-};
-//var sqlite3                     = require('sqlite3');
-var sqlite3                     = require2('sqlite3');
 
 var os              = require('os')
 var username                            = "Unknown user";
