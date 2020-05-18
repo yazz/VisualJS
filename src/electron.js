@@ -1719,13 +1719,14 @@ function checkForJSLoaded() {
 
     //console.log("process.argv.length : " + process.argv.length )
     //console.log("process.argv[2] : " + process.argv[2] )
-    if ((process.argv[2]) && (!process.argv[2].startsWith("--"))) {
+  if ((process.argv[2]) && (process.argv[2].endsWith(".js") || process.argv[2].endsWith(".pilot") )) {
+      loadjsfile = process.argv[2]
+  } else if ((process.argv[2]) && (!process.argv[2].startsWith("--"))) {
         loadjscode = process.argv[2]
         console.log("load code: " + loadjscode )
+  }
 
-    } else if ((process.argv[2]) && ((process.argv[2].indexOf(".js") != -1) || (process.argv[2].indexOf(".pilot") != -1))) {
-        loadjsfile = process.argv[2]
-    }
+
 
 
 
