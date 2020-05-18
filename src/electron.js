@@ -374,13 +374,14 @@ if (showDebug) {
 var listOfEnvs = process.env
 var envNames = Object.keys(listOfEnvs)
 for (var i=0 ;i< envNames.length; i++){
+    let envName = envNames[i].replace(/[^a-zA-Z0-9]/g,'_');
     if (showDebug) {
-         console.log("Env var  " + envNames[i] + ": " + listOfEnvs[envNames[i]])
+         console.log("Env var  " + envName + ": " + listOfEnvs[envName])
     } else {
         process.stdout.write(".");
     }
 
-    envVars[envNames[i]] = listOfEnvs[envNames[i]]
+    envVars[envName] = listOfEnvs[envName]
 }
 if (isValidObject(envVars.virtualprocessors)) {
     executionProcessCount = envVars.virtualprocessors

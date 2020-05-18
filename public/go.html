@@ -8720,13 +8720,18 @@ function setupWebSocket(host, port)
 
         var allEnvVarNames = Object.keys(data.value)
         for (var i=0; i< allEnvVarNames.length;i++) {
-                var valueEnvVar = data.value[allEnvVarNames[i]]
-                var cmddd = '($' + allEnvVarNames[i] + " =  String.raw`" +  String.raw`${valueEnvVar}` +"`)"
-                if (mainMoonApp.is_gui_app) {
-                    console.log(cmddd)
-                }
-                try {
-                  eval(cmddd)
+                try
+                {
+                    let envName = allEnvVarNames[i].replace(/[^a-zA-Z0-9]/g,'_')
+                    console.log(envName)
+                    var valueEnvVar = data.value[envName]
+                    var cmddd = '($' + envName + " =  String.raw`" +  String.raw`${valueEnvVar}` +"`)"
+
+                    if (mainMoonApp.is_gui_app) {
+                        console.log(cmddd)
+                    }
+
+                    eval(cmddd)
 
                 } catch (errr) {
                     console.log(errr)
@@ -9434,8 +9439,8 @@ async function callCodeV2(componentRecord,args, seq_no) {
 `
                 }
             }
-            var fnfn = eval( trcode2  )
             //console.log("Code to run: " + trcode2)
+            var fnfn = eval( trcode2  )
 
             setTimeout(async function() {
                 if (trcode2.indexOf("async ")  == -1) {
@@ -9454,8 +9459,8 @@ async function callCodeV2(componentRecord,args, seq_no) {
                 }
             },100)
         } else {
-            var fnfn = eval( trcode2  )
             //console.log("Code to run: " + trcode2)
+            var fnfn = eval( trcode2  )
 
 
             if (trcode2.indexOf("async ")  == -1) {
