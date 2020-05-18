@@ -17,6 +17,7 @@
 !/package.json
 
 !/*.sh
+!/*.bat
 !/*.ps1
 !/start32.bat
 !/webpack.config.js
