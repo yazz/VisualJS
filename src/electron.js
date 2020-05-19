@@ -1610,7 +1610,7 @@ function getPort () {
           ca: caCerts
         }
         certOptions.requestCert = true
-        certOptions.rejectUnauthorized = true
+        certOptions.rejectUnauthorized = false
 
         httpServer = https.createServer(certOptions,app)
 
