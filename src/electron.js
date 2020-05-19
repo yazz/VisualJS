@@ -1612,7 +1612,7 @@ function getPort () {
         console.log("" )
         console.log("" )
 
-        
+
         var caCerts = []
         if (caCertificate1) {
             console.log("CA Cert 1 = " + caCertificate1)
@@ -3221,8 +3221,12 @@ function startServices() {
     if (useHttps) {
         var certOptions = {
           key: fs.readFileSync(privateKey, 'utf8'),
-          cert: fs.readFileSync(publicCertificate, 'utf8')
+          cert: fs.readFileSync(publicCertificate, 'utf8'),
+          ca: caCerts
         }
+        certOptions.requestCert = true
+        certOptions.rejectUnauthorized = true
+
         httpServer = https.createServer(certOptions,app)
 
     } else {
