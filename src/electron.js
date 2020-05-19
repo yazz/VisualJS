@@ -3194,8 +3194,11 @@ function startServices() {
         var caCerts = readCerts()
         var certOptions = {
           key: fs.readFileSync(privateKey, 'utf8'),
-          cert: fs.readFileSync(publicCertificate, 'utf8')
+          cert: fs.readFileSync(publicCertificate, 'utf8'),
+          ca: caCerts
         }
+        certOptions.requestCert = true
+        certOptions.rejectUnauthorized = false
 
         httpServer = https.createServer(certOptions,app)
 
