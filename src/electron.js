@@ -3200,7 +3200,7 @@ function startServices() {
     //------------------------------------------------------------------------------
 
     if (useHttps) {
-        var caCerts = readCerts()
+        var caCerts = null
         var certOptions = {
           key: fs.readFileSync(privateKey, 'utf8'),
           cert: fs.readFileSync(publicCertificate, 'utf8'),
