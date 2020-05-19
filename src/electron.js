@@ -56,7 +56,7 @@ if (isWin)  {
 
 
 } else if (isLinux) {
-  var srcNodeJsFile = path.join(__filename,'../../node_sqlite3_linux64.rename')
+  var srcNodeJsFile = path.join(__dirname,'../node_sqlite3_linux64.rename')
   console.log("srcNodeJsFile: " + srcNodeJsFile)
   fs.copyFileSync(
       srcNodeJsFile,
