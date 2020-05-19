@@ -3404,24 +3404,24 @@ if (statsInterval > 0) {
 
 
 function readCerts() {
-    let caCerts = []
+    let caCertsRet = []
     if (caCertificate1) {
         console.log("CA Cert 1 = " + caCertificate1)
         var fff = fs.readFileSync(caCertificate1, 'utf8')
         console.log("  = " + fff)
-        caCerts.push(fff)
+        caCertsRet.push(fff)
     }
     if (caCertificate2) {
         console.log("CA Cert 2 = " + caCertificate2)
         var fff = fs.readFileSync(caCertificate2, 'utf8')
         console.log("  = " + fff)
-        caCerts.push(fff)
+        caCertsRet.push(fff)
     }
     if (caCertificate3) {
         console.log("CA Cert 3 = " + caCertificate3)
         var fff = fs.readFileSync(caCertificate3, 'utf8')
         console.log("  = " + fff)
-        caCerts.push(fff)
+        caCertsRet.push(fff)
     }
-    return caCerts
+    return caCertsRet
 }
