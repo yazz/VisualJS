@@ -3404,7 +3404,7 @@ if (statsInterval > 0) {
 
 
 function readCerts() {
-    var caCerts = []
+    let caCerts = []
     if (caCertificate1) {
         console.log("CA Cert 1 = " + caCertificate1)
         var fff = fs.readFileSync(caCertificate1, 'utf8')
