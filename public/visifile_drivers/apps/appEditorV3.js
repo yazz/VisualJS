@@ -1070,7 +1070,8 @@ load_once_from_file(true)
                     await this.save( this.base_component_id, this.code_id, this.editor_text )
                     setTimeout(async function() {
                             await mm.load_app( mm.base_component_id , true)
-                            showProgressBar()
+                            //showProgressBar()
+                            hideProgressBar()
                         },
                     200)
                 }
