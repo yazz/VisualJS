@@ -39,7 +39,7 @@ var app             = express()
 var expressWs       = require('express-ws')(app);
 console.log("__filename: " + __filename)
 console.log("__dirname: " + __dirname)
-mkdirp.sync('node_modules/sqlite3/lib/binding/node-v64-darwin-x64');
+
 
 console.log("Platform: " + process.platform)
 
@@ -58,6 +58,7 @@ if (isWin)  {
 
 } else if (isLinux) {
     console.log("Creating Linux driver")
+    mkdirp.sync('node_modules/sqlite3/lib/binding/node-v64-linux-x64');
   var srcNodeJsFile = path.join(__dirname,'../node_sqlite3_linux64.rename')
   console.log("srcNodeJsFile: " + srcNodeJsFile)
   fs.copyFileSync(
@@ -71,6 +72,7 @@ if (isWin)  {
 
 } else if (isMac) {
     console.log("Creating Mac driver")
+    mkdirp.sync('node_modules/sqlite3/lib/binding/node-v64-darwin-x64');
 
     var srcNodeJsFile = path.join(__filename,'../../node_sqlite3_macos64.rename')
     console.log("srcNodeJsFile: " + srcNodeJsFile)
