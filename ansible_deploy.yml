@@ -8,7 +8,8 @@
 
     - name: Kill running processes
       shell: "killall node"
-      
+      ignore_errors: yes
+
 
     - command: git reset --hard origin/master
       args:

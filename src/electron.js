@@ -1604,6 +1604,8 @@ function getPort () {
 
     if (useHttps) {
         console.log("Checking CA certs" )
+        console.log("" )
+        console.log("" )
         console.log("CA Cert 1 = " + caCertificate1)
         console.log("CA Cert 2 = " + caCertificate2)
         console.log("CA Cert 3 = " + caCertificate3)
