@@ -44,6 +44,7 @@ mkdirp.sync('node_modules/sqlite3/lib/binding/node-v64-darwin-x64');
 console.log("Platform: " + process.platform)
 
 if (isWin)  {
+    console.log("Creating Windows driver")
   mkdirp.sync('node_modules\\sqlite3\\lib/binding\\node-v72-win32-x64');
   var srcNodeJsFile = path.join(__dirname,'..\\node_sqlite3_win64.rename')
   console.log("srcNodeJsFile: " + srcNodeJsFile)
@@ -56,6 +57,7 @@ if (isWin)  {
 
 
 } else if (isLinux) {
+    console.log("Creating Linux driver")
   var srcNodeJsFile = path.join(__dirname,'../node_sqlite3_linux64.rename')
   console.log("srcNodeJsFile: " + srcNodeJsFile)
   fs.copyFileSync(
@@ -68,6 +70,8 @@ if (isWin)  {
 
 
 } else if (isMac) {
+    console.log("Creating Mac driver")
+
     var srcNodeJsFile = path.join(__filename,'../../node_sqlite3_macos64.rename')
     console.log("srcNodeJsFile: " + srcNodeJsFile)
     fs.copyFileSync(
