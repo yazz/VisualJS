@@ -3423,5 +3423,5 @@ function readCerts() {
         console.log("  = " + fff)
         caCerts.push(fff)
     }
-
+    return caCerts
 }
