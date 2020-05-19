@@ -1603,15 +1603,6 @@ function getPort () {
 
 
     if (useHttps) {
-        console.log("Checking CA certs" )
-        console.log("-----------------" )
-        console.log("" )
-        console.log("CA Cert 1 = " + caCertificate1)
-        console.log("CA Cert 2 = " + caCertificate2)
-        console.log("CA Cert 3 = " + caCertificate3)
-        console.log("" )
-        console.log("" )
-
         var caCerts = readCerts()
         var certOptions = {
           key: fs.readFileSync(privateKey, 'utf8'),
@@ -3200,7 +3191,7 @@ function startServices() {
     //------------------------------------------------------------------------------
 
     if (useHttps) {
-        var caCerts = null
+        var caCerts = readCerts()
         var certOptions = {
           key: fs.readFileSync(privateKey, 'utf8'),
           cert: fs.readFileSync(publicCertificate, 'utf8'),
@@ -3404,6 +3395,16 @@ if (statsInterval > 0) {
 
 
 function readCerts() {
+    console.log("Checking CA certs" )
+    console.log("-----------------" )
+    console.log("" )
+    console.log("CA Cert 1 = " + caCertificate1)
+    console.log("CA Cert 2 = " + caCertificate2)
+    console.log("CA Cert 3 = " + caCertificate3)
+    console.log("" )
+    console.log("" )
+
+
     let caCertsRet = []
     if (caCertificate1) {
         console.log("CA Cert 1 = " + caCertificate1)
