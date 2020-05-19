@@ -10,6 +10,8 @@ var fork            = require('child_process');
 var fs = require('fs');
 var ip = require('ip');
 var isWin         = /^win/.test(process.platform);
+var isLinux       = /^linux/.test(process.platform);
+var isMac       = /^darwin/.test(process.platform);
 var mainNodeProcessStarted = false;
 var restRoutes = new Object()
 var envVars = new Object()
@@ -39,6 +41,7 @@ console.log("__filename: " + __filename)
 console.log("__dirname: " + __dirname)
 mkdirp.sync('node_modules/sqlite3/lib/binding/node-v64-darwin-x64');
 
+console.log("Platform: " + process.platform)
 
 if (isWin)  {
   mkdirp.sync('node_modules\\sqlite3\\lib/binding\\node-v72-win32-x64');
@@ -48,13 +51,35 @@ if (isWin)  {
       srcNodeJsFile,
       path.join(__dirname,'..\\node_modules\\sqlite3\\lib\\binding\\node-v72-win32-x64\\node_sqlite3.node'),
                       );
-} else {
+
+
+
+
+} else if (isLinux) {
+  var srcNodeJsFile = path.join(__filename,'../../node_sqlite3_linux64.rename')
+  console.log("srcNodeJsFile: " + srcNodeJsFile)
+  fs.copyFileSync(
+      srcNodeJsFile,
+      path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-linux-x64/node_sqlite3.node'),
+                      );
+
+
+
+
+
+} else if (isMac) {
     var srcNodeJsFile = path.join(__filename,'../../node_sqlite3_macos64.rename')
     console.log("srcNodeJsFile: " + srcNodeJsFile)
     fs.copyFileSync(
         srcNodeJsFile,
         path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-darwin-x64/node_sqlite3.node'),
                         );
+
+
+
+
+} else {
+    console.log("Error, unsupported platform: " + process.platform)
 }
 
 
