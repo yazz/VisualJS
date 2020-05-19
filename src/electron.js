@@ -1612,26 +1612,7 @@ function getPort () {
         console.log("" )
         console.log("" )
 
-
-        var caCerts = []
-        if (caCertificate1) {
-            console.log("CA Cert 1 = " + caCertificate1)
-            var fff = fs.readFileSync(caCertificate1, 'utf8')
-            console.log("  = " + fff)
-            caCerts.push(fff)
-        }
-        if (caCertificate2) {
-            console.log("CA Cert 2 = " + caCertificate2)
-            var fff = fs.readFileSync(caCertificate2, 'utf8')
-            console.log("  = " + fff)
-            caCerts.push(fff)
-        }
-        if (caCertificate3) {
-            console.log("CA Cert 3 = " + caCertificate3)
-            var fff = fs.readFileSync(caCertificate3, 'utf8')
-            console.log("  = " + fff)
-            caCerts.push(fff)
-        }
+        var caCerts = readCerts()
         var certOptions = {
           key: fs.readFileSync(privateKey, 'utf8'),
           cert: fs.readFileSync(publicCertificate, 'utf8'),
@@ -3219,6 +3200,7 @@ function startServices() {
     //------------------------------------------------------------------------------
 
     if (useHttps) {
+        var caCerts = readCerts()
         var certOptions = {
           key: fs.readFileSync(privateKey, 'utf8'),
           cert: fs.readFileSync(publicCertificate, 'utf8'),
@@ -3418,4 +3400,28 @@ if (statsInterval > 0) {
             }
         }
     },(statsInterval * 1000))
+}
+
+
+function readCerts() {
+    var caCerts = []
+    if (caCertificate1) {
+        console.log("CA Cert 1 = " + caCertificate1)
+        var fff = fs.readFileSync(caCertificate1, 'utf8')
+        console.log("  = " + fff)
+        caCerts.push(fff)
+    }
+    if (caCertificate2) {
+        console.log("CA Cert 2 = " + caCertificate2)
+        var fff = fs.readFileSync(caCertificate2, 'utf8')
+        console.log("  = " + fff)
+        caCerts.push(fff)
+    }
+    if (caCertificate3) {
+        console.log("CA Cert 3 = " + caCertificate3)
+        var fff = fs.readFileSync(caCertificate3, 'utf8')
+        console.log("  = " + fff)
+        caCerts.push(fff)
+    }
+
 }
