@@ -334,20 +334,8 @@ outputDebug("       statsInterval: " + statsInterval );
 
 if (program.virtualprocessors > 0) {
     executionProcessCount = program.virtualprocessors;
-    if (showDebug) {
-         console.log("       executionProcessCount: " + executionProcessCount );
-    } else {
-        process.stdout.write(".");
-    }
-
-} else {
-    if (showDebug) {
-        console.log("       executionProcessCount: " + executionProcessCount );
-    } else {
-        process.stdout.write(".");
-    }
-
-};
+}
+outputDebug("       executionProcessCount: " + executionProcessCount );
 
 
 
@@ -357,21 +345,15 @@ var maxProcessesCountToRetry = 10
 if (program.maxprocessesretry > 0) {
     maxProcessesCountToRetry = program.maxprocessesretry;
 }
-if (showDebug) {
-     console.log("       maxProcessesCountToRetry: " + maxProcessesCountToRetry );
-} else {
-    process.stdout.write(".");
-}
+outputDebug("       maxProcessesCountToRetry: " + maxProcessesCountToRetry );
+
 
 var maxJobProcessDurationMs = 10000
 if (program.maxJobProcessDurationMs > 0) {
     maxJobProcessDurationMs = program.maxJobProcessDurationMs;
 }
-if (showDebug) {
-     console.log("       maxJobProcessDurationMs: " + maxJobProcessDurationMs );
-} else {
-    process.stdout.write(".");
-}
+outputDebug("       maxJobProcessDurationMs: " + maxJobProcessDurationMs );
+
 
 
 
@@ -379,11 +361,7 @@ var listOfEnvs = process.env
 var envNames = Object.keys(listOfEnvs)
 for (var i=0 ;i< envNames.length; i++){
     let envName = envNames[i].replace(/[^a-zA-Z0-9]/g,'_');
-    if (showDebug) {
-         console.log("Env var  " + envName + ": " + listOfEnvs[envName])
-    } else {
-        process.stdout.write(".");
-    }
+    outputDebug("Env var  " + envName + ": " + listOfEnvs[envName])
 
     envVars[envName] = listOfEnvs[envName]
 }
@@ -400,11 +378,8 @@ function isValidObject(variable){
     }
     return false
 }
-if (showDebug) {
-     console.log("process.env.OPENSHIFT_NODEJS_IP:= " + process.env.OPENSHIFT_NODEJS_IP)
-} else {
-    process.stdout.write(".");
-}
+outputDebug("process.env.OPENSHIFT_NODEJS_IP:= " + process.env.OPENSHIFT_NODEJS_IP)
+
 
 if (process.env.OPENSHIFT_NODEJS_IP) {
     username = "node"
@@ -417,33 +392,23 @@ if (process.env.OPENSHIFT_NODEJS_IP) {
 
 var LOCAL_HOME = process.env.HOME
 
-if (showDebug) {
-     console.log('LOCAL_HOME:' + LOCAL_HOME);
-} else {
-    process.stdout.write(".");
-}
+outputDebug('LOCAL_HOME:' + LOCAL_HOME);
+
+
+
 //
 // We set the HOME environment variable if we are running in OpenShift
 //
-if (showDebug) {
-     console.log('DOCKER CHECK...');
-} else {
-    process.stdout.write(".");
-}
+outputDebug('DOCKER CHECK...');
+
+
 if (isDocker()) {
 
-    if (showDebug) {
-         console.log('Running inside a Linux container');
-    } else {
-        process.stdout.write(".");
-    }
+    outputDebug('Running inside a Linux container');
+
 
 } else {
-    if (showDebug) {
-         console.log('NOT running inside a Linux container');
-    } else {
-        process.stdout.write(".");
-    }
+    outputDebug('NOT running inside a Linux container');
 }
 
 if (!isValidObject(LOCAL_HOME) || (LOCAL_HOME == "/")) {
@@ -452,40 +417,22 @@ if (!isValidObject(LOCAL_HOME) || (LOCAL_HOME == "/")) {
 
 
 
-if (showDebug) {
-     console.log('Starting services');
-} else {
-    process.stdout.write(".");
-}
+outputDebug('Starting services');
+
 var debug = false;
-if (showDebug) {
-     console.log("NodeJS version: " + process.versions.node);
-} else {
-    process.stdout.write(".");
-}
+outputDebug("NodeJS version: " + process.versions.node);
+
 
 if (semver.gt(process.versions.node, '6.9.0')) {
-    if (showDebug) {
-         console.log("NodeJS version > 6.9 " );
-    } else {
-        process.stdout.write(".");
-    }
-
+    outputDebug("NodeJS version > 6.9 " );
 }
 if (program.debug == 'true') {
     debug = true;
 
-    if (showDebug) {
-         console.log("       debug: true" );
-    } else {
-        process.stdout.write(".");
-    }
+    outputDebug("       debug: true" );
+
 } else {
-    if (showDebug) {
-         console.log("       debug: false" );
-    } else {
-        process.stdout.write(".");
-    }
+    outputDebug("       debug: false" );
 
 };
 
@@ -493,19 +440,13 @@ if (program.debug == 'true') {
 
 
 var deleteOnExit = (program.deleteonexit == 'true');
-if (showDebug) {
-     console.log("deleteOnExit: " + deleteOnExit)
-} else {
-    process.stdout.write(".");
-}
+outputDebug("deleteOnExit: " + deleteOnExit)
+
 
 
 var deleteOnStartup = (program.deleteonstartup == 'true');
-if (showDebug) {
-     console.log("deleteOnStartup: " + deleteOnStartup)
-} else {
-    process.stdout.write(".");
-}
+outputDebug("deleteOnStartup: " + deleteOnStartup)
+
 
 
 locked = (program.locked == 'true');
@@ -543,11 +484,8 @@ if (!isNumber(port)) {
 };
 
 
-if (showDebug) {
-     console.log('Yazz node local hostname: ' + ip.address() + ' ')
-} else {
-    process.stdout.write(".");
-}
+outputDebug('Yazz node local hostname: ' + ip.address() + ' ')
+
 
 
 setupVisifileParams();
@@ -628,11 +566,8 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
         } else if (msg.message_type == "add_rest_api") {
 
-            if (showDebug) {
-                 console.log("add_rest_api called")
-             } else {
-                 process.stdout.write(".");
-             }
+            outputDebug("add_rest_api called")
+
 
             var newFunction = async function (req, res) {
 
@@ -720,11 +655,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
             forkedProcesses["forked"].send({         message_type: "setUpSql" });
             forkedProcesses["forked"].send({         message_type: "greeting" , hello: 'world' });
 
-            if (showDebug) {
-                console.log("mainNodeProcessStarted: " + mainNodeProcessStarted)
-            } else {
-                console.log(".")
-            }
+            outputDebug("mainNodeProcessStarted: " + mainNodeProcessStarted)
 
             if (!mainNodeProcessStarted) {
                 mainNodeProcessStarted = true
@@ -1255,14 +1186,7 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
 
 
 
-    if (showDebug) {
-         console.log("Started subprocess '" + processName + "' ")
-     } else {
-         process.stdout.write(".");
-     }
-
-
-
+    outputDebug("Started subprocess '" + processName + "' ")
 
 }
 
@@ -1350,11 +1274,8 @@ function setupVisifileParams() {
 
 
 
-    if (showDebug) {
-        console.log("process.platform = " + process.platform)
-    } else {
-        process.stdout.write(".");
-    }
+    outputDebug("process.platform = " + process.platform)
+
 
           if (process.platform === "win32") {
             var rl = require("readline").createInterface({
@@ -1378,11 +1299,8 @@ function setupVisifileParams() {
         		userData = path.join(localappdata, '/Yazz/')
         	} else {
 
-                if (showDebug) {
-                    console.log("Running as Linux/Mac")
-                } else {
-                    process.stdout.write(".");
-                }
+                outputDebug("Running as Linux/Mac")
+
         		userData =  path.join(LOCAL_HOME, 'Yazz')
         	}
         	dbPath = path.join(userData, username + '.visi')
@@ -1417,7 +1335,7 @@ function setupVisifileParams() {
                 outputToBrowser('process.env.LOCALAPPDATA: ' + JSON.stringify(localappdata ,null,2))
                 outputToBrowser("Local home data path: " + LOCAL_HOME)
 
-              outputToBrowser("userData: " + JSON.stringify(userData ,null,2))
+                outputToBrowser("userData: " + JSON.stringify(userData ,null,2))
                 outputToBrowser("process.env keys: " + Object.keys(process.env))
             } else {
                 process.stdout.write(".");
