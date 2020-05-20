@@ -31,7 +31,7 @@ var express         = require('express')
 var http            = require('http')
 var https           = require('https');
 var app             = express()
-
+var isTty           = false
 
 
 
@@ -244,7 +244,10 @@ stdin.on('data', function(chunk) {
 });
 
 stdin.on('end', function() {
-  console.log("DATA:\n" + data + "\nEND DATA");
+    isTty = true
+    if (!isTty) {
+        console.log("DATA:\n" + data + "\nEND DATA");
+    }
 });
 
 
@@ -512,7 +515,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
     forkedProcesses[processName].on('close', function() {
         if (!shuttingDown) {
-            console.log("Child process " + processName + " exited.. restarting... ")
+            outputDebug("Child process " + processName + " exited.. restarting... ")
 
 
 
@@ -687,44 +690,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
         checkForJSLoaded();
 
 
-    	if (typeOfSystem == 'client') {
-            var localClientUrl = serverProtocol + '://' + hostaddress  + ":" + port;
-            var remoteServerUrl = 'http://' + centralHostAddress  + ":" + centralHostPort + "/visifile/list_intranet_servers.html?time=" + new Date().getTime();
-
-
-
-
-            request({
-                      uri: remoteServerUrl,
-                      method: "GET",
-                      timeout: 10000,
-                      agent: false,
-                      followRedirect: true,
-                      maxRedirects: 10
-                },
-                function(error, response, body) {
-                  if (error) {
-                      //console.log("Error opening central server: " + error);
-                      if (!alreadyOpen) {
-                          alreadyOpen = true;
-                      }
-                  } else {
-                    if (!alreadyOpen) {
-                        alreadyOpen = true;
-                        //open(remoteServerUrl);
-                    }
-                  }
-                });
-    	} else if (typeOfSystem == 'server') {
-            if (!alreadyOpen) {
-                alreadyOpen = true;
-                //open('http://' + hostaddress  + ":" + port + "/visifile/list_intranet_servers.html?time=" + new Date().getTime());
-
-
-            }
-    	}
-
-
+if (!isTty) {
 console.log(`
 
  YYYYYYY       YYYYYYY
@@ -769,13 +735,15 @@ console.log(`
         console.log("\nYazz Pilot started on:");
         console.log("Network Host Address: " + hostaddressintranet)
         console.log("Local Machine Address: " + serverProtocol + "://" + hostaddress + ':' + port);
+}
+
         systemReady = true
 
 
 
         } else if (msg.message_type == "ipc_child_returning_uploaded_app_as_file_in_child_response") {
 
-            console.log("uploaded_app_as_file_in_child: " + JSON.stringify(msg))
+            outputDebug("uploaded_app_as_file_in_child: " + JSON.stringify(msg))
 
                 // ______
                 // Server  --1 data item-->  Browser
@@ -1265,7 +1233,7 @@ function setupVisifileParams() {
 
 
     if (!(typeOfSystem == 'client' || typeOfSystem == 'server')) {
-        console.log('-------* Invalid system type: ' + typeOfSystem);
+        outputDebug('-------* Invalid system type: ' + typeOfSystem);
         process.exit();
     };
 
@@ -1384,7 +1352,7 @@ process.on("SIGINT", function () {
 
 
 function shutDown() {
-    console.log(" shutDown() called")
+    outputDebug(" shutDown() called")
     if (!shuttingDown) {
         shuttingDown = true;
 
@@ -1442,7 +1410,7 @@ function shutDown() {
 
 
 function deleteYazzDataWindows(dddd) {
-  console.log("deleteYazzDataWindows")
+  outputDebug("deleteYazzDataWindows")
   if (dddd.length > 6) {
     var ff = 'timeout 8 && rd /s /q "' + dddd + '"'
     outputDebug(ff)
