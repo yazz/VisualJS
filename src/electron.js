@@ -259,7 +259,7 @@ if (process.argv.length > 1) {
       .option('-p, --port [port]', 'Which port should I listen on? (default 80) [port]', parseInt)
       .option('-h, --host [host]', 'Server address of the central host (default yazz.com) [host]', 'yazz.com')
       .option('-l, --locked [locked]', 'Allow server to be locked/unlocked on start up (default true) [locked]', 'true')
-      .option('-d, --debug [debug]', 'Allow to run in debug mode (default false) [debug]', 'false')
+      .option('-d, --debug [debug]', 'Allow to run NodeJS in debug mode (default false) [debug]', 'false')
       .option('-z, --showdebug [showdebug]', 'Allow to show debug info (default false) [showdebug]', 'false')
       .option('-j, --showstats [showstats]', 'Allow to show stats debug info (default false) [showstats]', 'false')
       .option('-i, --statsinterval [statsinterval]', 'Allow to show debug info every x seconds (default 10 seconds) [statsinterval]', 10)
@@ -315,7 +315,13 @@ if (program.showdebug == 'true') {
     }
 
 };
-
+function outputDebug(text) {
+    if (showDebug) {
+         console.log(text);
+    } else {
+        process.stdout.write(".");
+    }
+};
 
 
 var showStats = false
