@@ -131,8 +131,6 @@ go/pkg
 !/public/*/*/*/*/*
 !/public/*/*/*/*/*/*
 !/public/*/*/*/*/*/*/*
-!/public/gosharedata/list_intranet_servers.html
-!/public/visifile/list_intranet_servers.html
 
 
 /visifile/public/dist/build.js.map

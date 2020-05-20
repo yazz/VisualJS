@@ -192,7 +192,6 @@ var requestClientPublicIp;
 var hostcount  							= 0;
 var queuedResponses                     = new Object();
 var queuedResponseSeqNum                = 1;
-var alreadyOpen                         = false;
 var executionProcessCount                       = 6;
 
 
@@ -1877,43 +1876,6 @@ function findViafromString(inp) {
 
 
 
-function aliveCheckFn() {
-		var urlToConnectTo = "http://" + centralHostAddress + ":" + centralHostPort + '/client_connect';
-		//console.log('-------* urlToConnectTo: ' + urlToConnectTo);
-		//console.log('trying to connect to central server...');
-		request({
-					uri: urlToConnectTo,
-					method: "GET",
-					timeout: 10000,
-					agent: false,
-					followRedirect: true,
-					maxRedirects: 10,
-					qs: {
-							requestClientInternalHostAddress: hostaddress
-							,
-							requestClientInternalPort:        port
-							,
-							clientUsername:        username
-					}
-				},
-				function(error, response, body) {
-					//console.log('Error: ' + error);
-					if (response) {
-							if (response.statusCode == '403') {
-										//console.log('403 received, not allowed through firewall for ' + urlToConnectTo);
-										//open("http://" + centralHostAddress + ":" + centralHostPort);
-							} else {
-										////console.log('response: ' + JSON.stringify(response));
-										////console.log(body);
-							}
-					}
-				});
-};
-
-
-
-
-
 
 
 
@@ -2101,24 +2063,6 @@ function getEditApp(req, res) {
     res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
     res.end(newStaticFileContent);
 }
-
-
-
-
-
-function testFirewall(req, res) {
-			var tracking_id =    url.parse(req.url, true).query.tracking_id;
-			var server      =    url.parse(req.url, true).query.server;
-
-			//console.log(JSON.stringify(tracking_id,null,2));
-
-			res.writeHead(200, {'Content-Type': 'text/plain'});
-			res.end(JSON.stringify({    got_through_firewall:   tracking_id  ,
-																	server:                 server,
-																	username:               username,
-																	locked:                 locked
-																	}));
-};
 
 
 
@@ -2877,37 +2821,6 @@ function startServices() {
 
 
 
-    //------------------------------------------------------------------------------
-    // test_firewall
-    //------------------------------------------------------------------------------
-    app.get('/test_firewall', function (req, res) {
-        return testFirewall(req,res);
-    });
-
-
-
-    //------------------------------------------------------------------------------
-    // get_intranet_servers
-    //------------------------------------------------------------------------------
-    app.get('/get_intranet_servers', function (req, res) {
-        //console.log("1 - get_intranet_servers: " + req.ip)
-        //console.log("1.1 - get_intranet_servers: " + Object.keys(req.headers))
-
-        var seqNum = queuedResponseSeqNum;
-        queuedResponseSeqNum ++;
-        queuedResponses[seqNum] = res;
-        //console.log("2")
-        forkedProcesses["forked"].send({   message_type:               "get_intranet_servers",
-                        seq_num:                    seqNum,
-                        requestClientPublicIp:      req.ip ,
-                        numberOfSecondsAliveCheck:  numberOfSecondsAliveCheck,
-                        requestVia:                 findViafromString(req.headers.via)
-                        });
-
-
-    });
-
-
 
     app.post('/file_upload_single', upload.single( 'uploadfilefromhomepage' ), function (req, res, next) {
         return file_uploadSingleFn(req, res, next);
@@ -3092,21 +3005,6 @@ function startServices() {
 
 
       //console.log('addr: '+ hostaddress + ":" + port);
-
-
-
-
-
-
-    //aliveCheckFn();
-
-
-
-
-    if (typeOfSystem == 'client') {
-        //setInterval(aliveCheckFn ,numberOfSecondsAliveCheck * 1000);
-    }
-
 
 
 
