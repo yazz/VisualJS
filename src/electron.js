@@ -36,17 +36,17 @@ var app             = express()
 
 
 var expressWs       = require('express-ws')(app);
-console.log("__filename: " + __filename)
-console.log("__dirname: " + __dirname)
+outputDebug("__filename: " + __filename)
+outputDebug("__dirname: " + __dirname)
 
 
-console.log("Platform: " + process.platform)
+outputDebug("Platform: " + process.platform)
 
 if (isWin)  {
-    console.log("Creating Windows driver")
+    outputDebug("Creating Windows driver")
   mkdirp.sync('node_modules\\sqlite3\\lib/binding\\node-v72-win32-x64');
   var srcNodeJsFile = path.join(__dirname,'..\\node_sqlite3_win64.rename')
-  console.log("srcNodeJsFile: " + srcNodeJsFile)
+  outputDebug("srcNodeJsFile: " + srcNodeJsFile)
   fs.copyFileSync(
       srcNodeJsFile,
       path.join(__dirname,'..\\node_modules\\sqlite3\\lib\\binding\\node-v72-win32-x64\\node_sqlite3.node'),
@@ -56,10 +56,10 @@ if (isWin)  {
 
 
 } else if (isLinux) {
-    console.log("Creating Linux driver")
+    outputDebug("Creating Linux driver")
     mkdirp.sync('node_modules/sqlite3/lib/binding/node-v64-linux-x64');
   var srcNodeJsFile = path.join(__dirname,'../node_sqlite3_linux64.rename')
-  console.log("srcNodeJsFile: " + srcNodeJsFile)
+  outputDebug("srcNodeJsFile: " + srcNodeJsFile)
   fs.copyFileSync(
       srcNodeJsFile,
       path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-linux-x64/node_sqlite3.node'),
@@ -70,11 +70,11 @@ if (isWin)  {
 
 
 } else if (isMac) {
-    console.log("Creating Mac driver")
+    outputDebug("Creating Mac driver")
     mkdirp.sync('node_modules/sqlite3/lib/binding/node-v64-darwin-x64');
 
     var srcNodeJsFile = path.join(__filename,'../../node_sqlite3_macos64.rename')
-    console.log("srcNodeJsFile: " + srcNodeJsFile)
+    outputDebug("srcNodeJsFile: " + srcNodeJsFile)
     fs.copyFileSync(
         srcNodeJsFile,
         path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-darwin-x64/node_sqlite3.node'),
@@ -84,7 +84,7 @@ if (isWin)  {
 
 
 } else {
-    console.log("Error, unsupported platform: " + process.platform)
+    outputDebug("Error, unsupported platform: " + process.platform)
 }
 
 
@@ -477,7 +477,7 @@ var useHost = program.usehost;
 
 if (useHost) {
     hostaddress = useHost
-    console.log("USE Host: " + useHost)
+    outputDebug("USE Host: " + useHost)
 }
 
 
@@ -596,8 +596,8 @@ function setUpChildListeners(processName, fileName, debugPort) {
                     }
 
 
-                    console.log(" msg.base_component_id: " + msg.base_component_id);
-                    console.log(" seqNum: " + seqNum);
+                    outputDebug(" msg.base_component_id: " + msg.base_component_id);
+                    outputDebug(" seqNum: " + seqNum);
                             forkedProcesses["forked"].send({
                                             message_type:          "callDriverMethod",
                                             find_component:         {
@@ -1301,7 +1301,7 @@ function setupVisifileParams() {
 
 
         	if (isWin) {
-                console.log("Running as Windows")
+                outputDebug("Running as Windows")
         		var localappdata  = process.env.LOCALAPPDATA
         		userData = path.join(localappdata, '/Yazz/')
         	} else {
@@ -1314,7 +1314,7 @@ function setupVisifileParams() {
 
 
             if (deleteOnStartup) {
-                console.log("deleting dir :" + userData)
+                outputDebug("deleting dir :" + userData)
                 if (userData.length > 6) {
                         deleteYazzDataV2(userData)
                 }
@@ -1389,28 +1389,28 @@ function shutDown() {
         shuttingDown = true;
 
         if (dbsearch) {
-            console.log("Database closing...")
+            outputDebug("Database closing...")
             dbsearch.run("PRAGMA wal_checkpoint;")
             dbsearch.close(function(err){
-                console.log("...database closed")
+                outputDebug("...database closed")
                 visifile = null
 
             })
         }
 
         if (forkedProcesses["forked"]) {
-            console.log("Killed Process forked")
+            outputDebug("Killed Process forked")
             forkedProcesses["forked"].kill();
         }
         if (forkedProcesses["forkedExeScheduler"]) {
-            console.log("Killed Exe Scheduler process")
+            outputDebug("Killed Exe Scheduler process")
             forkedProcesses["forkedExeScheduler"].kill();
         }
 
         for (var i = 0; i < executionProcessCount; i++ ) {
             var exeProcName = "forkedExeProcess" + i
             forkedProcesses[exeProcName].kill();
-            console.log("Killed Process " + exeProcName)
+            outputDebug("Killed Process " + exeProcName)
         }
         if (visifile){
             visifile.removeAllListeners('close');
@@ -1421,10 +1421,10 @@ function shutDown() {
             }
         }
 
-        console.log("deleteOnExit =" + deleteOnExit)
+        outputDebug("deleteOnExit =" + deleteOnExit)
         if (deleteOnExit) {
 
-            console.log("deleting dir :" + userData)
+            outputDebug("deleting dir :" + userData)
             if (userData.length > 6) {
                 if (isWin) {
                     deleteYazzDataWindows(userData)
@@ -1445,7 +1445,7 @@ function deleteYazzDataWindows(dddd) {
   console.log("deleteYazzDataWindows")
   if (dddd.length > 6) {
     var ff = 'timeout 8 && rd /s /q "' + dddd + '"'
-    console.log(ff)
+    outputDebug(ff)
     fork.exec(ff
               ,
               function(err, stdout, stderr) {
@@ -1459,9 +1459,9 @@ function deleteYazzDataWindows(dddd) {
 
 
 function deleteYazzDataV2(dddd) {
-    console.log("----------------------------------")
-    console.log("Before delete :" + ls(dddd))
-    console.log("----------------------------------")
+    outputDebug("----------------------------------")
+    outputDebug("Before delete :" + ls(dddd))
+    outputDebug("----------------------------------")
 
     rimraf.sync(path.join(dddd,  'uploads/'));
     rimraf.sync(path.join(dddd,  'files/'));
@@ -1470,9 +1470,9 @@ function deleteYazzDataV2(dddd) {
     rimraf.sync(path.join(dddd,  '*.visi'));
     rimraf.sync(path.join(dddd,  '*.visi*'));
 
-    console.log("----------------------------------")
-    console.log("After delete :" + ls(dddd))
-    console.log("----------------------------------")
+    outputDebug("----------------------------------")
+    outputDebug("After delete :" + ls(dddd))
+    outputDebug("----------------------------------")
 }
 
 function deleteYazzData(dddd) {
@@ -1588,7 +1588,7 @@ function checkForJSLoaded() {
       loadjsfile = process.argv[2]
   } else if ((process.argv[2]) && (!process.argv[2].startsWith("--"))) {
         loadjscode = process.argv[2]
-        console.log("load code: " + loadjscode )
+        outputDebug("load code: " + loadjscode )
   }
 
 
@@ -1615,12 +1615,12 @@ function checkForJSLoaded() {
           resp.on('end', () => {
             //console.log("code:" + data);
             var baseComponentIdForUrl = saveHelper.getValueOfCodeString(data, "base_component_id")
-            console.log("baseComponentIdForUrl:" + baseComponentIdForUrl);
+            outputDebug("baseComponentIdForUrl:" + baseComponentIdForUrl);
             if (!isValidObject(baseComponentIdForUrl)) {
                 baseComponentIdForUrl = loadjsurl.replace(/[^A-Z0-9]/ig, "_");
             }
             var jsCode = data
-            console.log("*********** Trying to load loadjsurl code *************")
+            outputDebug("*********** Trying to load loadjsurl code *************")
             forkedProcesses["forked"].send({
                                                 message_type:        "save_code",
                                                 base_component_id:    baseComponentIdForUrl,
@@ -1635,7 +1635,7 @@ function checkForJSLoaded() {
           });
 
         }).on("error", (err) => {
-          console.log("Error: " + err.message);
+          outputDebug("Error: " + err.message);
         });
 
     } else if (isValidObject(loadjsfile)) {
@@ -1667,14 +1667,14 @@ function checkForJSLoaded() {
 console.log("loadjscode ...")
          var data2 = loadjscode
          var baseComponentIdForCode = saveHelper.getValueOfCodeString(data2, "base_component_id")
-         console.log("baseComponentIdForCode:" + baseComponentIdForCode);
+         outputDebug("baseComponentIdForCode:" + baseComponentIdForCode);
          if (!isValidObject(baseComponentIdForCode)) {
              baseComponentIdForCode = "code_" + (("" + Math.random()).replace(/[^A-Z0-9]/ig, "_"));
-             console.log("baseComponentIdForFile:" + baseComponentIdForCode);
+             outputDebug("baseComponentIdForFile:" + baseComponentIdForCode);
          }
 
          //console.log("code:" + data2);
-         console.log("*********** Trying to load loadjscode code *************")
+         outputDebug("*********** Trying to load loadjscode code *************")
          forkedProcesses["forked"].send({
                                              message_type:        "save_code",
                                              base_component_id:    baseComponentIdForCode,
@@ -1999,12 +1999,12 @@ function getRoot(req, res, next) {
     var homepageUrl = serverProtocol + '://yazz.com/visifile/index.html?time=' + new Date().getTime()
 	if (req.headers.host) {
         if (req.query.goto) {
-            console.log("*** FOUND goto")
+            outputDebug("*** FOUND goto")
             res.end(fs.readFileSync(homepage));
             return
         }
         if (req.query.embed) {
-            console.log("*** FOUND embed")
+            outputDebug("*** FOUND embed")
             res.end(fs.readFileSync(homepage));
             return
         }
@@ -2098,7 +2098,7 @@ function getRoot(req, res, next) {
         runOnPageExists(req,res,homepage)
         return
     }
-    console.log("Serving: " + homepage)
+    outputDebug("Serving: " + homepage)
 
 
 }
@@ -2115,7 +2115,7 @@ function getEditApp(req, res) {
     var parts = req.path.split('/');
     var lastSegment = parts.pop() || parts.pop();
 
-    console.log("URL PATH: " + lastSegment);
+    outputDebug("URL PATH: " + lastSegment);
 	//console.log("Full URL: " + req.protocol + '://' + req.get('host') + req.originalUrl);
 
 
@@ -2254,7 +2254,7 @@ function websocketFn(ws) {
         //                                  ______
         //
         } else if (receivedMessage.message_type == "edit_static_app") {
-            console.log("*** server got message from static app: edit_static_app")
+            outputDebug("*** server got message from static app: edit_static_app")
             var sql_data = receivedMessage.sql_data
             var code_fn = receivedMessage.code_fn
 
@@ -2337,9 +2337,9 @@ function websocketFn(ws) {
 
 } else if (receivedMessage.message_type == "browser_asks_server_for_apps") {
 
-   // console.log("******************* browser_asks_server_for_apps *******************")
+   // outputDebug("******************* browser_asks_server_for_apps *******************")
     findLatestVersionOfApps( function(results) {
-       // console.log(JSON.stringify(results,null,2))
+       // outputDebug(JSON.stringify(results,null,2))
 
         sendToBrowserViaWebSocket(  ws,
                                     {
@@ -2450,7 +2450,7 @@ function file_uploadSingleFn(req, res) {
             var tts = readIn.substring(indexStart,indexEnd)
             //console.log(tts)
             var ytr = unescape(tts)
-            console.log("SENDING FROM UPLOAD___=+++****")
+            outputDebug("SENDING FROM UPLOAD___=+++****")
             var bci = saveHelper.getValueOfCodeString(ytr, "base_component_id")
 
             var indexStart = readIn.indexOf("/*APP_START*/")
@@ -2496,7 +2496,7 @@ function file_uploadSingleFn(req, res) {
                                                });
 
       } else {
-        console.log('Ignoring file ');
+        outputDebug('Ignoring file ');
 
       }
 
@@ -2554,7 +2554,7 @@ function file_uploadFn(req, res, next) {
                 var tts = readIn.substring(indexStart,indexEnd)
                 //console.log(tts)
                 var ytr = unescape(tts)
-                console.log("SENDINF FROM UPLAOD___=+++****")
+                outputDebug("SENDINF FROM UPLAOD___=+++****")
                 var bci = saveHelper.getValueOfCodeString(ytr, "base_component_id")
 
                 var indexStart = readIn.indexOf("/*APP_START*/")
@@ -2600,7 +2600,7 @@ function file_uploadFn(req, res, next) {
                                                    });
 
           } else {
-            console.log('Ignoring file ');
+            outputDebug('Ignoring file ');
 
           }
 
@@ -2731,9 +2731,9 @@ function keycloakProtector(params) {
                     function(err, results)
                     {
                         if (results.length == 0) {
-                            console.log("Could not find component : " + appName2)
+                            outputDebug("Could not find component : " + appName2)
                         } else {
-                            console.log("Found code for : " + appName2)
+                            outputDebug("Found code for : " + appName2)
                             var fileC = results[0].code.toString()
                             //console.log("Code : " + fileC)
 
@@ -2777,7 +2777,7 @@ function startServices() {
 
         app2.get('*', function(req, res) {
              if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
-                console.log("path: " + req.path)
+                outputDebug("path: " + req.path)
 
                 var rty = req.path
                 if (req.path == "/canlabs") {
@@ -2794,7 +2794,7 @@ function startServices() {
 
 
              } else {
-                 console.log("Redirect HTTP to HTTPS")
+                 outputDebug("Redirect HTTP to HTTPS")
                  res.redirect('https://' + req.headers.host + req.url);
              }
         })
@@ -2837,15 +2837,15 @@ function startServices() {
 
 
     app.get('/live-check',(req,res)=> {
-       console.log("Live check passed")
+       outputDebug("Live check passed")
        res.send ("Live check passed");
     });
     app.get('/readiness-check',(req,res)=> {
         if (systemReady) {
-            console.log("Readiness check passed")
+            outputDebug("Readiness check passed")
             res.send ("Readiness check passed");
         } else {
-            console.log("Readiness check failed")
+            outputDebug("Readiness check failed")
             res.status(500).send('Readiness check did not pass');
         }
     });
@@ -2875,8 +2875,8 @@ function startServices() {
     //app.get('/app/*', keycloakProtector({compIdFromReqFn: getBaseComponentIdFromRequest}), function (req, res, next) {
     app.get('/app/*', function (req, res, next) {
         if (req.kauth) {
-            console.log('Keycloak details from server:')
-            console.log(req.kauth.grant)
+            outputDebug('Keycloak details from server:')
+            outputDebug(req.kauth.grant)
         }
         var parts = req.path.split('/');
         var appHtmlFile = parts.pop() || parts.pop();
@@ -2971,7 +2971,7 @@ function startServices() {
 
 
     process.on('uncaughtException', function (err) {
-      console.log(err);
+      outputDebug(err);
     })
 
 
@@ -3234,7 +3234,7 @@ function getChildMem(childProcessName,stats) {
         totalMem += memoryused
     }
     if (showStats) {
-        console.log(`${childProcessName}: ${Math.round(bytesToMb(memoryused) * 100) / 100} MB`);
+        outputDebug(`${childProcessName}: ${Math.round(bytesToMb(memoryused) * 100) / 100} MB`);
     }
 }
 
@@ -3244,9 +3244,9 @@ function usePid(childProcessName,childprocess) {
         returnedmemCount ++
         if (returnedmemCount == allForked.length) {
             if (showStats) {
-                console.log("------------------------------------")
-                console.log(" TOTAL MEM = " + bytesToMb(totalMem) + " MB")
-                console.log("------------------------------------")
+                outputDebug("------------------------------------")
+                outputDebug(" TOTAL MEM = " + bytesToMb(totalMem) + " MB")
+                outputDebug("------------------------------------")
             }
             inmemcalc = false
             yazzMemoryUsageMetric.set(totalMem)
@@ -3264,7 +3264,7 @@ if (statsInterval > 0) {
             totalMem += used
             yazzProcessMainMemoryUsageMetric.set(used)
             if (showStats) {
-                console.log(`Main: ${Math.round( bytesToMb(used) * 100) / 100} MB`);
+                outputDebug(`Main: ${Math.round( bytesToMb(used) * 100) / 100} MB`);
             }
             allForked = Object.keys(forkedProcesses)
             returnedmemCount = 0
@@ -3280,33 +3280,33 @@ if (statsInterval > 0) {
 
 
 function readCerts() {
-    console.log("Checking CA certs" )
-    console.log("-----------------" )
-    console.log("" )
-    console.log("CA Cert 1 = " + caCertificate1)
-    console.log("CA Cert 2 = " + caCertificate2)
-    console.log("CA Cert 3 = " + caCertificate3)
-    console.log("" )
-    console.log("" )
+    outputDebug("Checking CA certs" )
+    outputDebug("-----------------" )
+    outputDebug("" )
+    outputDebug("CA Cert 1 = " + caCertificate1)
+    outputDebug("CA Cert 2 = " + caCertificate2)
+    outputDebug("CA Cert 3 = " + caCertificate3)
+    outputDebug("" )
+    outputDebug("" )
 
 
     let caCertsRet = []
     if (caCertificate1) {
-        console.log("CA Cert 1 = " + caCertificate1)
+        outputDebug("CA Cert 1 = " + caCertificate1)
         var fff = fs.readFileSync(caCertificate1, 'utf8')
-        console.log("  = " + fff)
+        outputDebug("  = " + fff)
         caCertsRet.push(fff)
     }
     if (caCertificate2) {
-        console.log("CA Cert 2 = " + caCertificate2)
+        outputDebug("CA Cert 2 = " + caCertificate2)
         var fff = fs.readFileSync(caCertificate2, 'utf8')
-        console.log("  = " + fff)
+        outputDebug("  = " + fff)
         caCertsRet.push(fff)
     }
     if (caCertificate3) {
-        console.log("CA Cert 3 = " + caCertificate3)
+        outputDebug("CA Cert 3 = " + caCertificate3)
         var fff = fs.readFileSync(caCertificate3, 'utf8')
-        console.log("  = " + fff)
+        outputDebug("  = " + fff)
         caCertsRet.push(fff)
     }
     return caCertsRet
