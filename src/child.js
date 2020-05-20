@@ -50,7 +50,7 @@ var stmtDeleteDependencies;
 var stmtInsertAppDDLRevision;
 var stmtUpdateLatestAppDDLRevision;
 
-var stmtInsertIntoIntranetClientConnects;
+
 var copyMigration;
 var stmtInsertNewCode
 var stmtDeprecateOldCode
@@ -120,10 +120,6 @@ function setUpSql() {
     `
     );
 
-    stmtInsertIntoIntranetClientConnects = dbsearch.prepare(" insert  into  intranet_client_connects " +
-                            "    ( id, internal_host, internal_port, public_ip, via, public_host, user_name, client_user_name, when_connected) " +
-                            " values " +
-                            "    (?,   ?,?,?,?,  ?,?,?,?);");
 
 
     stmtInsertDependency = dbsearch.prepare(" insert or replace into app_dependencies " +
@@ -478,48 +474,9 @@ function processMessagesFromMainProcess() {
        // console.log("*)  result:        " + msg.result );
         callbackList[ msg.callback_index ](msg.result)
 
+    }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    } else if (msg.message_type == 'client_connect') {
-        //console.log("3 client_connect: " + msg.seq_num )
-        clientConnectFn( msg.queryData,
-                         msg.requestClientInternalHostAddress,
-                         msg.requestClientInternalPort,
-                         msg.requestVia,
-                         msg.requestClientPublicIp,
-                         msg.clientUsername,
-                         msg.requestClientPublicHostName,
-
-                            function(result) {
-                                //console.log("5: " + JSON.stringify(result))
-                                var returnclientConnectMsg = {
-                                    message_type:           'returnClientConnect',
-                                    seq_num:                msg.seq_num,
-                                    returned:               result.connected,
-                                    error:                  result.error
-                                };
-                                //console.log("5.1: " + JSON.stringify(returnIntranetServersMsg))
-                                //console.log("5.2: " + Object.keys(returnclientConnectMsg))
-                                process.send( returnclientConnectMsg );
-                                //console.log("5.3: ")
-                    }  )
-
-
-        }
 
     });
 }
@@ -842,100 +799,9 @@ async function addOrUpdateDriver(  name, codeString ,options ) {
 
 
 
-function getIntranetServers(  requestClientPublicIp,  requestVia,  numberOfSecondsAliveCheck,  callbackFn) {
-    var mysql = "select *  from  intranet_client_connects  where " +
-                                "    (when_connected > " + ( new Date().getTime() - (numberOfSecondsAliveCheck * 1000)) + ") " +
-                                " and " +
-                                "    (( public_ip = '" + requestClientPublicIp + "') or " +
-                                                    "((via = '" + requestVia + "') and (length(via) > 0)))";
-        //console.log("check IP: " + mysql);
-    dbsearch.serialize(
-        function() {
-
-        var stmt = dbsearch.all(
-            mysql,
-            function(err, rows) {
-                if (!err) {
-                    //console.log( "           " + JSON.stringify(rows));
-                    callbackFn({rows: rows})
-                } else {
-                    callbackFn({error: err})
-                }
-        });
-    }, sqlite3.OPEN_READONLY)
-};
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function clientConnectFn(
-                            queryData,
-                            requestClientInternalHostAddress,
-                            requestClientInternalPort,
-                            requestVia,
-                            requestClientPublicIp,
-                            clientUsername,
-                            requestClientPublicHostName,
-                            callbackFn
-        ) {
-	try
-	{
-
-        outputDebug('clientConnectFn');
-
-
-		//console.log('Client attempting to connect from:');
-		//console.log('client internal host address:    ' + requestClientInternalHostAddress)
-		//console.log('client internal port:            ' + requestClientInternalPort)
-		//console.log('client public IP address:        ' + requestClientPublicIp)
-		//console.log('client public IP host name:      ' + requestClientPublicHostName)
-		//console.log('client VIA:                      ' + requestVia)
-
-          dbsearch.serialize(function() {
-
-
-              var newid = uuidv1();
-              dbsearch.run("begin exclusive transaction");
-              stmtInsertIntoIntranetClientConnects.run(   newid,
-                          requestClientInternalHostAddress,
-                          requestClientInternalPort,
-                          requestClientPublicIp,
-                          requestVia,
-                          requestClientPublicHostName,
-                          username,
-                          clientUsername,
-                          new Date().getTime())
-              dbsearch.run("commit");
-
-          });
-          //console.log('***SAVED***');
-
-        callbackFn({connected: true})
-	}
-	catch (err) {
-        console.log(err);
-        var stack = new Error().stack
-        console.log( stack )
-		//console.log('Warning: Central server not available:');
-	}
-
-}
 
 
 
