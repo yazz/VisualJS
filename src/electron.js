@@ -299,6 +299,16 @@ if (process.argv.length > 1) {
 }
 var semver = require('semver')
 
+
+
+
+
+var showProgress = false
+if (program.showprogress == 'true') {
+    showProgress = true;
+}
+
+
 var showDebug = false
 function outputDebug(text) {
     if (showDebug) {
@@ -317,12 +327,6 @@ outputDebug("       showDebug: " + showDebug);
 
 
 
-
-var showProgress = false
-if (program.showprogress == 'true') {
-    showProgress = true;
-}
-outputDebug("       showProgress: " + showProgress );
 
 var showStats = false
 if (program.showstats == 'true') {
@@ -1155,7 +1159,6 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
 
     if (processName == "forked") {
 
-        //outputToBrowser("- sending user_data_path to child 'forked':  " + userData)
         forkedProcesses["forked"].send({         message_type: "init" ,
                                                  user_data_path: userData,
                                                  child_process_name: "forked",
@@ -1170,7 +1173,6 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
 
     if (processName == "forkedExeScheduler") {
 
-        //outputToBrowser("- sending user_data_path to child 'forkedExeScheduler':  " + userData)
         forkedProcesses["forkedExeScheduler"].send({  message_type: "init" ,
                                                       user_data_path: userData,
                                                       child_process_name: "forkedExeScheduler",
@@ -1183,7 +1185,7 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
     for (var i=0;i<executionProcessCount; i++ ) {
         var exeProcName = "forkedExeProcess" + i
         if (processName == exeProcName) {
-            //outputToBrowser("- sending user_data_path to child '" + exeProcName + "':  " + userData)
+
             forkedProcesses[exeProcName].send({  message_type: "init" ,
                                                  user_data_path: userData,
                                                  child_process_name: exeProcName,
@@ -1264,23 +1266,16 @@ function setupVisifileParams() {
         console.log('-------* Invalid system type: ' + typeOfSystem);
         process.exit();
     };
-    if (showDebug) {
-        console.log('-------* System type: ' + typeOfSystem);
-        console.log('-------* Port: ' + port);
-        console.log('-------* Central host: ' + centralHostAddress);
-        console.log('-------* Central host port: ' + centralHostPort);
 
-
-       console.dir ( ip.address() );
-   } else {
-       process.stdout.write(".");
-   }
-
+    outputDebug('-------* System type: ' + typeOfSystem);
+    outputDebug('-------* Port: ' + port);
+    outputDebug('-------* Central host: ' + centralHostAddress);
+    outputDebug('-------* Central host port: ' + centralHostPort);
+    outputDebug( ip.address() );
 
 	//console.log('addr: '+ ip.address());
 	//hostaddress = ip.address();
-
-	}
+}
 
 
 
@@ -1323,13 +1318,10 @@ function setupVisifileParams() {
                 }
             }
             var uploadPath = path.join(userData,  'uploads/')
-            if (showDebug) {
-                console.log("LOCAL_HOME: " + LOCAL_HOME)
-                console.log("userData: " + userData)
-                console.log("uploadPath: " + uploadPath)
-            } else {
-                process.stdout.write(".");
-            }
+
+            outputDebug("LOCAL_HOME: " + LOCAL_HOME)
+            outputDebug("userData: " + userData)
+            outputDebug("uploadPath: " + uploadPath)
 
             upload          = multer( { dest: uploadPath});
 
@@ -1341,15 +1333,11 @@ function setupVisifileParams() {
             mkdirp.sync(path.join(userData,  'app_dbs'));
 
 
-            if (showDebug) {
-                outputToBrowser('process.env.LOCALAPPDATA: ' + JSON.stringify(localappdata ,null,2))
-                outputToBrowser("Local home data path: " + LOCAL_HOME)
+            outputDebug('process.env.LOCALAPPDATA: ' + JSON.stringify(localappdata ,null,2))
+            outputDebug("Local home data path: " + LOCAL_HOME)
 
-                outputToBrowser("userData: " + JSON.stringify(userData ,null,2))
-                outputToBrowser("process.env keys: " + Object.keys(process.env))
-            } else {
-                process.stdout.write(".");
-            }
+            outputDebug("userData: " + JSON.stringify(userData ,null,2))
+            outputDebug("process.env keys: " + Object.keys(process.env))
 
 
 
@@ -1496,22 +1484,6 @@ function deleteYazzData(dddd) {
 
 
 
-function outputToBrowser(txt) {
-    f++
-
-    //var line = txt.toString().replace(/\'|\"|\n|\r"/g , "").toString()
-    var line = txt.toString().replace(/\'/g , "").toString()
-    var jsc = "document.write('<br>" + ": " + line + " ')"
-    //console.log(line);
-    if (visifile && (!alreadyOpen) ) {
-        if (visifile.webContents) {
-            visifile.webContents.executeJavaScript(jsc);
-        }
-    } else {
-        console.log(txt)
-    }
-
-}
 
 
 
@@ -1526,11 +1498,8 @@ function outputToBrowser(txt) {
 
 var httpServer = null;
 function getPort () {
-    if (showDebug) {
-        outputToBrowser('** called getPort v2')
-    } else {
-        process.stdout.write(".");
-    }
+    outputDebug('** called getPort v2')
+
 
 
 
@@ -1556,9 +1525,8 @@ function getPort () {
 
     httpServer.listen(port, ip.address(), function (err) {
 
-        if (showDebug) {
-             outputToBrowser('trying port: ' + port + ' ')
-          }
+        outputDebug('trying port: ' + port + ' ')
+
         httpServer.once('close', function () {
         })
         httpServer.close()
@@ -1568,35 +1536,20 @@ function getPort () {
 
 
     httpServer.on('error', function (err) {
-        if (showDebug) {
-             outputToBrowser('Couldnt connect on port ' + port + '...')
-         } else {
-             process.stdout.write(".");
-         }
+        outputDebug('Couldnt connect on port ' + port + '...')
 
         if (port < portrange) {
             port = portrange
             };
-            if (showDebug) {
-                 outputToBrowser('... trying port ' + port)
-             } else {
-                 process.stdout.write(".");
-             }
+            outputDebug('... trying port ' + port)
 
         portrange += 1
         getPort()
     })
     httpServer.on('listening', function (err) {
-        if (showDebug) {
 
-            if (showDebug) {
-                 outputToBrowser('Can connect on ' + ip.address() +  ':' + port + ' :) ')
-             } else {
-                 process.stdout.write(".");
-             }
-          } else {
-              process.stdout.write(".");
-          }
+            outputDebug('Can connect on ' + ip.address() +  ':' + port + ' :) ')
+
             forkedProcesses["forked"].send({         message_type: "host_and_port" ,
                                                      child_process_name: "forked",
                                                      ip: hostaddress,
@@ -3140,13 +3093,11 @@ function startServices() {
     }
     socket = require('socket.io')
     httpServer.listen(port, hostaddress, function () {
-        if (showDebug) {
-            console.log("****HOST=" + hostaddress + "HOST****\n");
-            console.log("****PORT=" + port+ "PORT****\n");
-            console.log(typeOfSystem + ' started on port ' + port + ' with local folder at ' + process.cwd() + ' and __dirname = ' + __dirname+ "\n");
-        } else {
-            process.stdout.write(".");
-        }
+
+            outputDebug("****HOST=" + hostaddress + "HOST****\n");
+            outputDebug("****PORT=" + port+ "PORT****\n");
+            outputDebug(typeOfSystem + ' started on port ' + port + ' with local folder at ' + process.cwd() + ' and __dirname = ' + __dirname+ "\n");
+
 
 
 
