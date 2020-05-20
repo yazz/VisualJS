@@ -20,7 +20,17 @@ var tdeval
 var toeval;
 var userData
 var childProcessName
-var showDebug
+var showDebug = false
+var showProgress = false
+function outputDebug(text) {
+    if (showDebug) {
+         console.log(text);
+    } else {
+        if (showProgress) {
+            process.stdout.write(".");
+        }
+    }
+};
 
 var isWin                               = /^win/.test(process.platform);
 var inScan                              = false;
@@ -394,11 +404,8 @@ function processMessagesFromMainProcess() {
 
     } else if (msg.message_type == 'greeting') {
 
-        if (showDebug) {
-             console.log("**** greeting");
-        } else {
-            process.stdout.write(".");
-        }
+        outputDebug("**** greeting");
+
 
     } else if (msg.message_type == 'host_and_port') {
 
@@ -412,6 +419,7 @@ function processMessagesFromMainProcess() {
         userData            = msg.user_data_path
         childProcessName    = msg.child_process_name
         showDebug           = msg.show_debug
+        showProgress        = msg.show_progress
 
 
         ////console.log("Child recieved user data path: " + userData)
@@ -438,22 +446,15 @@ function processMessagesFromMainProcess() {
 
     } else if (msg.message_type == 'createTables') {
 
-        if (showDebug) {
-            console.log("**** createTables");
-        } else {
-            process.stdout.write(".");
-        }
+        outputDebug("**** createTables");
+
         db_helper.createTables(dbsearch,
             function() {
-                if (showDebug) {
-                    console.log("");
-                    console.log("***********************************");
-                    console.log("**** createTables returned");
-                    console.log("***********************************");
-                    console.log("");
-                } else {
-                    process.stdout.write(".");
-                }
+                outputDebug("");
+                outputDebug("***********************************");
+                outputDebug("**** createTables returned");
+                outputDebug("***********************************");
+                outputDebug("");
 
                 process.send({  message_type:       "createdTablesInChild"  });
 
@@ -594,11 +595,8 @@ function processMessagesFromMainProcess() {
 
 
 async function evalLocalSystemDriver(driverName, location, options) {
-    if (showDebug) {
-        console.log("*** Loading driver: *** : " + driverName)
-    } else {
-        process.stdout.write(".");
-    }
+    outputDebug("*** Loading driver: *** : " + driverName)
+
 	var evalDriver = fs.readFileSync(location);
 	await addOrUpdateDriver(driverName, evalDriver,options)
 }
@@ -753,11 +751,8 @@ async function setUpComponentsLocally() {
     await evalLocalSystemDriver('simple_display_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/simpleDisplayEditorComponent.js'))
     await evalLocalSystemDriver('vb_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/vbEditorComponent.js'))
 
-    if (showDebug) {
-        console.log("Loaded all drivers")
-    } else {
-        process.stdout.write(".");
-    }
+    outputDebug("Loaded all drivers")
+
 
 
 
@@ -801,13 +796,7 @@ await evalLocalSystemDriver('mysql_client_component', path.join(__dirname, '../p
 
 //zzz
     var extraFns = fs.readFileSync( path.join(__dirname, '../src/extraFns.js') ).toString()
-    if (showDebug) {
-        console.log("Extra functions code:" )
-        //console.log( extraFns )
-        //console.log("." )
-    } else {
-        process.stdout.write(".");
-    }
+    outputDebug("Extra functions code:" )
 
     await eval("(" + extraFns + "())")
 
@@ -822,11 +811,8 @@ await evalLocalSystemDriver('mysql_client_component', path.join(__dirname, '../p
     await evalLocalSystemDriver('demo_microservice', path.join(__dirname, '../public/visifile_drivers/apps/demo_microservice.js'),{save_html: true})
     await evalLocalSystemDriver('echo_microservice', path.join(__dirname, '../public/visifile_drivers/apps/echo_microservice.js'),{save_html: true})
     await evalLocalSystemDriver('echo_post_microservice', path.join(__dirname, '../public/visifile_drivers/apps/echo_post_microservice.js'),{save_html: true})
-    if (showDebug) {
-        console.log("Loaded all apps (may use already loaded drivers)")
-    } else {
-        process.stdout.write(".");
-    }
+    outputDebug("Loaded all apps (may use already loaded drivers)")
+
 
 
 
@@ -957,11 +943,7 @@ function clientConnectFn(
 	try
 	{
 
-        if (showDebug) {
-            console.log('clientConnectFn');
-        } else {
-            process.stdout.write(".");
-        }
+        outputDebug('clientConnectFn');
 
 
 		//console.log('Client attempting to connect from:');

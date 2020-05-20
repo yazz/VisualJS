@@ -17,7 +17,6 @@ var restRoutes = new Object()
 var envVars = new Object()
 var systemReady = false;
 
-console.log('...');
 
 var ls = require('ls-sync');
 var rimraf = require("rimraf");
@@ -1162,7 +1161,8 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
         forkedProcesses["forked"].send({         message_type: "init" ,
                                                  user_data_path: userData,
                                                  child_process_name: "forked",
-                                                 show_debug: showDebug
+                                                 show_debug: showDebug,
+                                                 show_progress: showProgress
                                               });
 
         forkedProcesses["forked"].send({         message_type: "createTables" });
@@ -1178,7 +1178,8 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
                                                       child_process_name: "forkedExeScheduler",
                                                       max_processes_count_to_retry: maxProcessesCountToRetry,
                                                       max_job_process_duration_ms: maxJobProcessDurationMs,
-                                                      show_debug: showDebug
+                                                      show_debug: showDebug,
+                                                      show_progress: showProgress
                                               });
     }
 
@@ -1189,7 +1190,8 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
             forkedProcesses[exeProcName].send({  message_type: "init" ,
                                                  user_data_path: userData,
                                                  child_process_name: exeProcName,
-                                                 show_debug: showDebug
+                                                 show_debug: showDebug,
+                                                 show_progress: showProgress
                                               });
 
       }
