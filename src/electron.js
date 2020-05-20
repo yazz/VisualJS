@@ -261,6 +261,7 @@ if (process.argv.length > 1) {
       .option('-l, --locked [locked]', 'Allow server to be locked/unlocked on start up (default true) [locked]', 'true')
       .option('-d, --debug [debug]', 'Allow to run NodeJS in debug mode (default false) [debug]', 'false')
       .option('-z, --showdebug [showdebug]', 'Allow to show debug info (default false) [showdebug]', 'false')
+      .option('-k, --showprogress [showprogress]', 'Allow to show progress when starting Pilot (default false) [showprogress]', 'false')
       .option('-j, --showstats [showstats]', 'Allow to show stats debug info (default false) [showstats]', 'false')
       .option('-i, --statsinterval [statsinterval]', 'Allow to show debug info every x seconds (default 10 seconds) [statsinterval]', 10)
       .option('-a, --virtualprocessors [virtualprocessors]', 'How many virtual processors to run (default 6 processors) [virtualprocessors]', 6)
@@ -303,7 +304,9 @@ function outputDebug(text) {
     if (showDebug) {
          console.log(text);
     } else {
-        process.stdout.write(".");
+        if (showProgress) {
+            process.stdout.write(".");
+        }
     }
 };
 if (program.showdebug == 'true') {
@@ -313,6 +316,13 @@ if (program.showdebug == 'true') {
 outputDebug("       showDebug: " + showDebug);
 
 
+
+
+var showProgress = false
+if (program.showprogress == 'true') {
+    showProgress = true;
+}
+outputDebug("       showProgress: " + showProgress );
 
 var showStats = false
 if (program.showstats == 'true') {
