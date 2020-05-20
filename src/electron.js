@@ -299,22 +299,6 @@ if (process.argv.length > 1) {
 var semver = require('semver')
 
 var showDebug = false
-if (program.showdebug == 'true') {
-    showDebug = true;
-    if (showDebug) {
-         console.log("       showDebug: true" );
-    } else {
-        process.stdout.write(".");
-    }
-
-} else {
-    if (showDebug) {
-         console.log("       showDebug: false" );
-    } else {
-        process.stdout.write(".");
-    }
-
-};
 function outputDebug(text) {
     if (showDebug) {
          console.log(text);
@@ -322,25 +306,20 @@ function outputDebug(text) {
         process.stdout.write(".");
     }
 };
+if (program.showdebug == 'true') {
+    showDebug = true;
+
+}
+outputDebug("       showDebug: " + showDebug);
+
 
 
 var showStats = false
 if (program.showstats == 'true') {
     showStats = true;
-    if (showDebug) {
-         console.log("       showStats: true" );
-    } else {
-        process.stdout.write(".");
-    }
+}
+outputDebug("       showStats: " + showStats );
 
-} else {
-    if (showDebug) {
-         console.log("       showStats: false" );
-    } else {
-        process.stdout.write(".");
-    }
-
-};
 
 
 
@@ -348,20 +327,8 @@ if (program.showstats == 'true') {
 var statsInterval = -1
 if (program.statsinterval > 0) {
     statsInterval = program.statsinterval;
-    if (showDebug) {
-         console.log("       statsInterval: " + statsInterval );
-    } else {
-        process.stdout.write(".");
-    }
-
-} else {
-    if (showDebug) {
-        console.log("       statsInterval: " + statsInterval );
-    } else {
-        process.stdout.write(".");
-    }
-
-};
+}
+outputDebug("       statsInterval: " + statsInterval );
 
 
 
