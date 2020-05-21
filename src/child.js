@@ -54,7 +54,8 @@ var stmtUpdateLatestAppDDLRevision;
 var copyMigration;
 var stmtInsertNewCode
 var stmtDeprecateOldCode
-
+var hostaddress = null
+var port = null
 
 
 //username = os.userInfo().username.toLowerCase();
@@ -65,7 +66,8 @@ username = "node"
 //dbsearch.run("PRAGMA count_changes=OFF;")
 //dbsearch.run("PRAGMA journal_mode=MEMORY;")
 //dbsearch.run("PRAGMA temp_store=MEMORY;")
-
+var callbackIndex = 0;
+var callbackList = new Object()
 
 
 
@@ -162,9 +164,6 @@ function setUpSql() {
 
 
 
-function timestampInSeconds() {
-    return Math.floor(Date.now() / 1000)
-}
 
 
 
@@ -174,60 +173,13 @@ function timestampInSeconds() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//-----------------------------------------------------------------------------------------//
-//                                                                                         //
-//                                       outputToConsole                                   //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//-----------------------------------------------------------------------------------------//
-function outputToConsole(text) {
-    var c = console;
-    c.log(text);
-}
-
-
-
-
-
-
-
-
-
-
-
-var callbackIndex = -1
-
-
-var callbackIndex = 0;
-var callbackList = new Object()
-
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function callDriverMethod( findComponentArgs, args, callbackFn ) {
 
     //console.log("*) called '" + driverName + ":" + methodName + "' with args: " + JSON.stringify(args,null,2))
@@ -244,6 +196,17 @@ function callDriverMethod( findComponentArgs, args, callbackFn ) {
 }
 
 
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function findDriversWithMethod(methodName, callbackFn) {
     dbsearch.serialize(
         function() {
@@ -265,6 +228,16 @@ function findDriversWithMethod(methodName, callbackFn) {
 
 
 
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function findDriversWithMethodLike(methodName, callbackFn) {
     dbsearch.serialize(
         function() {
@@ -287,25 +260,10 @@ function findDriversWithMethodLike(methodName, callbackFn) {
 
 
 
-function getFileExtension(fullFileNamePath) {
-    var extension = fullFileNamePath.substr(fullFileNamePath.lastIndexOf('.') + 1).toLowerCase()
-    return extension
-}
 
 
 
 
-function getProperty(record,propName) {
-    var properties = record.properties
-    var rt = properties.indexOf("||  " + propName + "=") + 5 + propName.length
-    var st = properties.substring(rt)
-    var xt = st.indexOf("  ||")
-    var amiga = st.substring(0,xt)
-    return amiga
-}
-
-var hostaddress = null
-var port = null
 
 
 //-----------------------------------------------------------------------------------------//
@@ -505,6 +463,17 @@ function processMessagesFromMainProcess() {
 
 
 
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 async function evalLocalSystemDriver(driverName, location, options) {
     outputDebug("*** Loading driver: *** : " + driverName)
 
@@ -514,6 +483,22 @@ async function evalLocalSystemDriver(driverName, location, options) {
 
 
 
+
+
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 async function setUpComponentsLocally() {
     //await evalLocalSystemDriver('glb',                    path.join(__dirname, '../public/visifile_drivers/glb.js'))
     //await evalLocalSystemDriver('csv',                    path.join(__dirname, '../public/visifile_drivers/csv.js'))
@@ -740,6 +725,17 @@ await evalLocalSystemDriver('mysql_client_component', path.join(__dirname, '../p
 
 
 
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 async function addOrUpdateDriver(  name, codeString ,options ) {
     //console.log('addOrUpdateDriver: ' + name);
 
@@ -824,6 +820,17 @@ async function addOrUpdateDriver(  name, codeString ,options ) {
 
 
 
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 process.on('exit', function(err) {
     shutdownExeProcess(err);
   });
@@ -831,6 +838,22 @@ process.on('quit', function(err) {
   shutdownExeProcess(err);
 });
 
+
+
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function shutdownExeProcess(err) {
     console.log("** child.js process was killed " )
     if (err) {
@@ -848,6 +871,20 @@ function shutdownExeProcess(err) {
 
 
 
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function updateRevisions(sqlite, baseComponentId) {
     //console.log("updateRevisions    ")
     try {
@@ -926,6 +963,17 @@ function updateRevisions(sqlite, baseComponentId) {
 
 
 
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function fastForwardToLatestRevision(sqlite, baseComponentId) {
     //console.log("fastForwardToLatestRevision    ")
     try {
@@ -986,6 +1034,17 @@ function fastForwardToLatestRevision(sqlite, baseComponentId) {
 
 
 
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function copyFile(source, target, cb) {
   var cbCalled = false;
 
@@ -1017,6 +1076,17 @@ function copyFile(source, target, cb) {
 
 
 
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function isValidObject(variable){
     if ((typeof variable !== 'undefined') && (variable != null)) {
         return true
@@ -1024,6 +1094,23 @@ function isValidObject(variable){
     return false
 }
 
+
+
+
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 async function saveCodeV2( baseComponentId, parentHash, code , options) {
     if (code) {
         code = code.toString()

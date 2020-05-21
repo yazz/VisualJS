@@ -1037,6 +1037,13 @@ console.log(`
 
 
 
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function setupForkedProcess(  processName,  fileName,  debugPort  ) {
     var debugArgs =[];
     if (debug) {
@@ -1114,12 +1121,33 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
 
 
 
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function setupMainChildProcess() {
     setupForkedProcess("forked",        "child.js", 40003)
 }
 
 
 
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function setupChildProcesses() {
     setupForkedProcess("forkedExeScheduler", "exeScheduler.js", 40004)
     for (var i=0;i<executionProcessCount; i++ ) {
