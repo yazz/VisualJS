@@ -691,15 +691,58 @@ function setUpChildListeners(processName, fileName, debugPort) {
                 if (!isTty) {
                     getPort()
                 } else {
-                    console.log("Input: " + inputStdin)
+
                     startServices()
                     setupChildProcesses();
 
                     //setTimeout(function(){
-                        process.exit();
+
                     //},3000)
                     //
                     //zzz
+
+
+                    console.log("Input: " + inputStdin);
+
+                    (async function() {
+                    var promise = new Promise(async function(returnFn) {
+                        console.log(1);
+                        var seqNum = queuedResponseSeqNum;
+                        queuedResponseSeqNum ++;
+                        queuedResponses[ seqNum ] = function(value) {
+                            returnFn(value)
+                        }
+
+                        console.log(2);
+
+                        forkedProcesses["forked"].send({
+                                        message_type:          "callDriverMethod",
+                                        find_component:         {
+                                                                    method_name: "serverTerminalStuff",
+                                                                    driver_name: "serverTerminalStuff"
+                                                                }
+                                                                ,
+                                        args:                   {
+                                                                    cmd_string:    "ls"
+                                                                }
+                                                                ,
+                                        seq_num_parent:         null,
+                                        seq_num_browser:        null,
+                                        seq_num_local:          seqNum,
+                                    });
+
+
+                    })
+                    var ret = await promise
+                    console.log(3);
+
+                    if (ret.value) {
+                        console.log(ret.value)
+                    }
+
+                    process.exit();
+                })()
+
                 }
             }
 
