@@ -772,18 +772,18 @@ console.log(`
 } else {
     //zzz
 
-                        console.log("Input: " + inputStdin);
+                        //console.log("Input: " + inputStdin);
+                        //var parsedInput = JSON.parse(inputStdin)
+                        var parsedInput = eval("(" + inputStdin + ")");
+                        //console.log("Parsed: " + JSON.stringify(parsedInput));
 
                         (async function() {
                         var promise = new Promise(async function(returnFn) {
-                            console.log(1);
                             var seqNum = queuedResponseSeqNum;
                             queuedResponseSeqNum ++;
                             queuedResponses[ seqNum ] = function(value) {
                                 returnFn(value)
                             }
-
-                            console.log(2);
 
                             forkedProcesses["forked"].send({
                                             message_type:          "callDriverMethod",
@@ -792,9 +792,7 @@ console.log(`
                                                                         driver_name: "serverTerminalStuff"
                                                                     }
                                                                     ,
-                                            args:                   {
-                                                                        cmd_string:    "ls"
-                                                                    }
+                                            args:                   parsedInput
                                                                     ,
                                             seq_num_parent:         null,
                                             seq_num_browser:        null,
@@ -804,7 +802,6 @@ console.log(`
 
                         })
                         var ret = await promise
-                        console.log(3);
 
                         if (ret.value) {
                             console.log(ret.value)
