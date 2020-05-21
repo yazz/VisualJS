@@ -554,6 +554,15 @@ function setUpChildListeners(processName, fileName, debugPort) {
     forkedProcesses[processName].on('message', (msg) => {
         //console.log("message from child: " + JSON.stringify(msg,null,2))
         //console.log("message type from child: " + JSON.stringify(msg.message_type,null,2))
+
+
+        //------------------------------------------------------------------------------
+        //
+        //
+        //
+        //
+        //
+        //------------------------------------------------------------------------------
         if (msg.message_type == "save_code") {
 
             forkedProcesses["forked"].send({
@@ -565,6 +574,13 @@ function setUpChildListeners(processName, fileName, debugPort) {
                                            });
 
 
+        //------------------------------------------------------------------------------
+        //
+        //
+        //
+        //
+        //
+        //------------------------------------------------------------------------------
         } else if (msg.message_type == "add_rest_api") {
 
             outputDebug("add_rest_api called")
@@ -652,6 +668,18 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
+
+
+
+
+
+        //------------------------------------------------------------------------------
+        //
+        //
+        //
+        //
+        //
+        //------------------------------------------------------------------------------
         } else if (msg.message_type == "createdTablesInChild") {
             forkedProcesses["forked"].send({         message_type: "setUpSql" });
             forkedProcesses["forked"].send({         message_type: "greeting" , hello: 'world' });
@@ -678,7 +706,13 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
-
+    //------------------------------------------------------------------------------
+    //
+    //
+    //
+    //
+    //
+    //------------------------------------------------------------------------------
     } else if (msg.message_type == "drivers_loaded_by_child") {
 
     	//--------------------------------------------------------
@@ -738,6 +772,21 @@ console.log(`
 
 
 
+
+
+
+
+
+
+
+
+        //------------------------------------------------------------------------------
+        //
+        //
+        //
+        //
+        //
+        //------------------------------------------------------------------------------
         } else if (msg.message_type == "ipc_child_returning_uploaded_app_as_file_in_child_response") {
 
             outputDebug("uploaded_app_as_file_in_child: " + JSON.stringify(msg))
@@ -756,6 +805,17 @@ console.log(`
 
 
 
+
+
+
+
+        //------------------------------------------------------------------------------
+        //
+        //
+        //
+        //
+        //
+        //------------------------------------------------------------------------------
         } else if (msg.message_type == "database_setup_in_child") {
 
 
@@ -780,7 +840,13 @@ console.log(`
 
 
 
-
+        //------------------------------------------------------------------------------
+        //
+        //
+        //
+        //
+        //
+        //------------------------------------------------------------------------------
         } else if (msg.message_type == "return_add_local_driver_results_msg") {
             //console.log("6 - return_get_search_results: " + msg.returned);
             var rett = eval("(" + msg.success + ")");
@@ -803,7 +869,13 @@ console.log(`
 
 
 
-
+        //------------------------------------------------------------------------------
+        //
+        //
+        //
+        //
+        //
+        //------------------------------------------------------------------------------
         } else if (msg.message_type == "processor_free") {
 
             forkedProcesses["forkedExeScheduler"].send({
@@ -815,6 +887,17 @@ console.log(`
 
 
 
+
+
+
+
+        //------------------------------------------------------------------------------
+        //
+        //
+        //
+        //
+        //
+        //------------------------------------------------------------------------------
         } else if (msg.message_type == "execute_code_in_exe_child_process") {
                 //console.log("6 - return_get_all_table: " );
 
@@ -833,8 +916,13 @@ console.log(`
 
 
 
-
-
+      //------------------------------------------------------------------------------
+      //
+      //
+      //
+      //
+      //
+      //------------------------------------------------------------------------------
       } else if (msg.message_type == "function_call_request") {
               //console.log("6 - return_get_all_table: " );
 
@@ -852,6 +940,13 @@ console.log(`
 
 
 
+      //------------------------------------------------------------------------------
+      //
+      //
+      //
+      //
+      //
+      //------------------------------------------------------------------------------
       } else if (msg.message_type == "function_call_response") {
           //console.log("*** function_call_response: " + JSON.stringify(msg,null,2))
           forkedProcesses["forkedExeScheduler"].send({
@@ -869,6 +964,13 @@ console.log(`
 
 
 
+    //------------------------------------------------------------------------------
+    //
+    //
+    //
+    //
+    //
+    //------------------------------------------------------------------------------
       } else if (msg.message_type == "return_response_to_function_caller") {
           //console.log("*) Electron.js    got response for " + msg.child_process_name);
           //console.log("*) "+ msg.result)
@@ -884,6 +986,17 @@ console.log(`
 
 
 
+
+
+
+
+        //------------------------------------------------------------------------------
+        //
+        //
+        //
+        //
+        //
+        //------------------------------------------------------------------------------
             } else if (msg.message_type == "ipc_child_returning_callDriverMethod_response") {
 
                 //console.log(" .......3: " + JSON.stringify(msg,null,2));
