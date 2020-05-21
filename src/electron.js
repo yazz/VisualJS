@@ -236,17 +236,14 @@ const yazzProcessMainMemoryUsageMetric = new Prometheus.Gauge({
 
 var stdin = process.openStdin();
 
-var data = "";
+var inputStdin = "";
 
 stdin.on('data', function(chunk) {
-  data += chunk;
+  inputStdin += chunk;
 });
 
 stdin.on('end', function() {
     isTty = true
-    if (!isTty) {
-        console.log("DATA:\n" + data + "\nEND DATA");
-    }
 });
 
 
@@ -677,7 +674,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
                 if (!isTty) {
                     getPort()
                 } else {
-                    console.log("Ok, we're done!")
+                    console.log("Input: " + inputStdin)
                     startServices()
                     setupChildProcesses();
 
@@ -920,86 +917,6 @@ console.log(`
 
 
 
-
-        } else if (msg.message_type == "returnIntranetServers") {
-            var newres = queuedResponses[ msg.seq_num ]
-
-            newres.writeHead(200, {'Content-Type': 'text/plain'});
-
-
-            if (msg.returned) {
-                newres.end( JSON.stringify( {  allServers:         msg.returned,
-                                               intranetPublicIp:   msg.requestClientPublicIp}) );
-            } else {
-                //console.log( "8: " + msg.error );
-                newres.end(JSON.stringify( {  allServers:        [],
-                                              intranetPublicIp:  msg.requestClientPublicIp}) );
-            }
-            newres = null;
-
-
-
-
-        } else if (msg.message_type == "returnIntranetServers_json") {
-            var newres = queuedResponses[ msg.seq_num ]
-
-            newres.writeHead(200, {'Content-Type': 'application/json'});
-
-            var result = {
-                            list:               [],
-                            links:              {"self": { "href": "/start" }},
-                        }
-
-
-            if (msg.returned) {
-                result.links.servers    = {}
-                result.intranetPublicIp = msg.requestClientPublicIp
-                result.error            = false
-                result.count            = msg.returned.length
-
-                if (msg.returned.length > 0) {
-
-                    result.main_user    = msg.returned[0].client_user_name
-                    result.main         = msg.returned[0].internal_host + ":" + msg.returned[0].internal_port
-                    result.main_url     = serverProtocol + "://" +  msg.returned[0].internal_host + ":" +
-                                            msg.returned[0].internal_port + "/home"
-                }
-
-
-                for (var i =0 ; i< msg.returned.length; i ++) {
-
-                    var addr = msg.returned[i].internal_host + ":" + msg.returned[i].internal_port
-                    result.list.push( addr )
-                    result.links.servers[addr] =
-                        {"href":        serverProtocol + "://" +  addr + "/home" ,
-                         "user":         msg.returned[i].client_user_name}
-                    }
-
-                    newres.end(JSON.stringify(result));
-            } else {
-                newres.end(JSON.stringify( {  allServers:        [],
-                                              error:              true}) );
-            }
-            newres = null;
-
-
-
-
-
-
-        } else if (msg.message_type == "returnClientConnect") {
-            //console.log("6: returnClientConnect")
-            //console.log("6.1: " + msg)
-            //console.log("7: " + msg.returned)
-            var newres = queuedResponses[ msg.seq_num ]
-
-
-
-            if (msg.returned) {
-                newres.writeHead(200, {'Content-Type': 'text/plain'});
-                newres.end( JSON.stringify( JSON.stringify({  connected:         msg.returned })) );
-            }
-            newres = null;
 
 
 
