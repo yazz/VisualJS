@@ -674,7 +674,19 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
             if (!mainNodeProcessStarted) {
                 mainNodeProcessStarted = true
-                getPort()
+                if (!isTty) {
+                    getPort()
+                } else {
+                    console.log("Ok, we're done!")
+                    startServices()
+                    setupChildProcesses();
+
+                    //setTimeout(function(){
+                        process.exit();
+                    //},3000)
+                    //
+                    //zzz
+                }
             }
 
 
@@ -2832,7 +2844,7 @@ function startServices() {
 
     app.get('/code_upload', function (req, res, next) {
         code_uploadFn(req, res);
-        //zzz
+
         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
         res.end("Done");
     });
