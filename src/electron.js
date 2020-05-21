@@ -554,18 +554,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
     forkedProcesses[processName].on('message', (msg) => {
         //console.log("message from child: " + JSON.stringify(msg,null,2))
         //console.log("message type from child: " + JSON.stringify(msg.message_type,null,2))
-        if (msg.message_type == "return_test_fork") {
-            //console.log('Message from child', msg);
-            sendOverWebSockets({
-                                    type:   "test_fork",
-                                    value:  "Counter: " + msg.counter + ", count data_states from sqlite: " + msg.sqlite
-                                    });
-
-
-
-
-
-        } else if (msg.message_type == "save_code") {
+        if (msg.message_type == "save_code") {
 
             forkedProcesses["forked"].send({
                                                 message_type:       "save_code",
@@ -788,18 +777,6 @@ console.log(`
                                               }
 
 
-        } else if (msg.message_type == "getResultReturned") {
-            var newres = queuedResponses[ msg.seqNum ]
-            newres.writeHead(200, {'Content-Type': 'text/plain'});
-            newres.end(JSON.stringify(msg.result));
-            newres = null;
-
-
-
-
-
-
-
 
 
 
@@ -906,71 +883,6 @@ console.log(`
 
 
 
-        } else if (msg.message_type == "return_get_all_table") {
-                //console.log("6 - return_get_all_table: " );
-                var newres = queuedResponses[ msg.seq_num ]
-
-                newres.writeHead(200, {'Content-Type': 'text/plain'});
-                newres.end(msg.result);
-
-                newres = null;
-
-
-
-
-
-
-
-
-        //                               ______
-        // Subprocess  --1 data item-->  Server
-        //                               ______
-        //
-        } else if (msg.message_type == "subprocess_returns_data_item_to_server") {
-            //console.log("6: return_query_item")
-            //console.log("6.1: " + msg)
-            //console.log("7: " + msg.returned)
-            var new_ws = queuedResponses[ msg.seq_num ]
-
-            if (msg.returned) {
-                // ______
-                // Server  --1 data item-->  Browser
-                // ______
-                //
-                sendToBrowserViaWebSocket(
-                new_ws,
-                {
-                    type:      "client_data_item_received_from_server",
-                    data_item:  msg.returned
-                });
-            }
-
-
-
-        } else if (msg.message_type == "ipc_child_returning_find_results") {
-
-           // console.log(" .......3: " + msg.results);
-            //console.log("6: return_query_items_ended")
-            //console.log("6.1: " + msg)
-            var new_ws = queuedResponses[ msg.seq_num ]
-
-
-            sendToBrowserViaWebSocket(
-                                         new_ws
-                                         ,
-                                         {
-                                            type:   "ws_to_browser_find_results",
-                                            results:  msg.results
-                                         });
-            //new_ws = null;
-
-
-
-
-
-
-
-
 
             } else if (msg.message_type == "ipc_child_returning_callDriverMethod_response") {
 
@@ -998,23 +910,7 @@ console.log(`
 
 
 
-        } else if (msg.message_type == "subprocess_alerts_data_done_to_server") {
-            //console.log("6: return_query_items_ended")
-            //console.log("6.1: " + msg)
-            var new_ws = queuedResponses[ msg.seq_num ]
-
-            sendToBrowserViaWebSocket(      new_ws,
-                                        {   type: "server_alerts_data_done_to_browser"  });
-            //new_ws = null;
         }
-
-
-//
-//
-
-
-
-
 
 
 
