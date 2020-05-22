@@ -49,7 +49,8 @@ var stmtDeleteDependencies;
 
 var stmtInsertAppDDLRevision;
 var stmtUpdateLatestAppDDLRevision;
-
+var stmtInsertIntoAppRegistry
+var stmtUpdateAppRegistry
 
 var copyMigration;
 var stmtInsertNewCode
@@ -121,6 +122,17 @@ function setUpSql() {
 
     `
     );
+
+    stmtInsertIntoAppRegistry = dbsearch.prepare(" insert or replace into app_registry " +
+                                "    (id,  username, reponame, version, code_id ) " +
+                                " values " +
+                                "    (?, ?, ?, ?, ? );");
+
+
+    stmtUpdateAppRegistry = dbsearch.prepare(" update app_registry " +
+                                "    set code_id = ? " +
+                                " where " +
+                                "    username = ?  and  reponame = ? and version = ?;");
 
 
 
@@ -690,7 +702,7 @@ await evalLocalSystemDriver('mysql_client_component', path.join(__dirname, '../p
 
 
 
-//zzz
+
     var extraFns = fs.readFileSync( path.join(__dirname, '../src/extraFns.js') ).toString()
     outputDebug("Extra functions code:" )
 
@@ -871,8 +883,61 @@ function shutdownExeProcess(err) {
 
 
 
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
+function updateRegistry(options, sha1sum) {
+//zzz
+    if (!options.username || !options.reponame) {
+        return
+    }
+    if (!options.version) {
+        options.version = "LATEST"
+    }
+    if (!sha1sum) {
+        return
+    }
+    try {
+
+        dbsearch.serialize(
+            function() {
+                dbsearch.all(
+                    "SELECT  *  from  app_registry  where  username = ?  and  reponame = ? and version = ?; "
+                    ,
+                    [options.username  ,  options.reponame  ,  options.version]
+                    ,
+
+                    function(err, results)
+                    {
+
+                        try {
+                            dbsearch.serialize(function() {
+                                dbsearch.run("begin exclusive transaction");
+                                if (results.length == 0) {
+                                    stmtInsertIntoAppRegistry.run(uuidv1(),  options.username  ,  options.reponame  ,  options.version,  sha1sum)
+                                } else {
+                                    stmtUpdateAppRegistry.run(sha1sum, options.username  ,  options.reponame  ,  options.version)
+                                }
+                                dbsearch.run("commit")
+                            })
+                        } catch(er) {
+                            console.log(er)
+                        }
 
 
+                     })
+                 },
+                 sqlite3.OPEN_READONLY)
+
+
+    } catch (ewr) {
+        console.log(ewr)
+    }
+}
 
 
 
@@ -1604,7 +1669,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
 
 
-
+                                    updateRegistry(options, sha1sum)
                                     returnFn( {
                                                     code:               code.toString(),
                                                     code_id:            sha1sum,
@@ -1636,6 +1701,8 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
     									}
     								}
                                 }
+
+                                updateRegistry(options, sha1sum)
                                 returnFn( {
                                                 code:               code.toString(),
                                                 code_id:            sha1sum,
