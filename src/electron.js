@@ -772,17 +772,20 @@ console.log(`
 } else {
     //zzz
 
-                        //console.log("Input: " + inputStdin);
-                        //var parsedInput = JSON.parse(inputStdin)
                         var parsedInput = null
                         try {
                             parsedInput = eval("(" + inputStdin + ")");
                         } catch(qwe) {
+                            //console.log("Err: " + qwe);
                             try {
-                                parsedInput = eval("\"" + inputStdin + "\"");
+                                let pss = "('" + inputStdin + "')";
+                                pss = pss.replace(/(\r\n|\n|\r)/gm, "");
+                                parsedInput = eval(pss);
                             } catch(ex) {
+                                //console.log(ex)
                             }
                         }
+                        //console.log("client args:" + JSON.stringify( parsedInput,null,2))
 
                         //console.log("Parsed: " + JSON.stringify(parsedInput));
 
@@ -813,7 +816,7 @@ console.log(`
                         var ret = await promise
 
                         if (ret.value) {
-                            console.log(ret.value)
+                            process.stdout.write(ret.value);
                         }
 
                         process.exit();
