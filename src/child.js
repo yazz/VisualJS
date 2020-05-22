@@ -896,7 +896,7 @@ function updateRegistry(options, sha1sum) {
         return
     }
     if (!options.version) {
-        options.version = "LATEST"
+        options.version = "latest"
     }
     if (!sha1sum) {
         return
