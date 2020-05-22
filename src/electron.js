@@ -774,7 +774,16 @@ console.log(`
 
                         //console.log("Input: " + inputStdin);
                         //var parsedInput = JSON.parse(inputStdin)
-                        var parsedInput = eval("(" + inputStdin + ")");
+                        var parsedInput = null
+                        try {
+                            parsedInput = eval("(" + inputStdin + ")");
+                        } catch(qwe) {
+                            try {
+                                parsedInput = eval("\"" + inputStdin + "\"");
+                            } catch(ex) {
+                            }
+                        }
+
                         //console.log("Parsed: " + JSON.stringify(parsedInput));
 
                         (async function() {
