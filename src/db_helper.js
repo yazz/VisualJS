@@ -14,6 +14,14 @@ module.exports = {
             "CREATE TABLE IF NOT EXISTS app_dependencies (id TEXT, code_id	TEXT, dependency_type TEXT , dependency_name TEXT, dependency_version TEXT);",
             "CREATE INDEX IF NOT EXISTS app_dependencies_code_id_id_idx ON app_dependencies (code_id);",
 
+            "CREATE TABLE IF NOT EXISTS app_registry (id TEXT, username TEXT , reponame TEXT, version TEXT, code_id	TEXT);",
+            "CREATE INDEX IF NOT EXISTS app_registry_code_id_idx ON app_registry (code_id);",
+            "CREATE INDEX IF NOT EXISTS app_registry_username_idx ON app_registry (username);",
+            "CREATE INDEX IF NOT EXISTS app_registry_reponame_idx ON app_registry (reponame);",
+            "CREATE INDEX IF NOT EXISTS app_registry_username_reponame_idx ON app_registry (username,reponame);",
+            "CREATE INDEX IF NOT EXISTS app_registry_username_reponame_version_idx ON app_registry (username,reponame,version);",
+
+
             "CREATE TABLE IF NOT EXISTS component_usage (base_component_id TEXT, child_component_id, UNIQUE(base_component_id, child_component_id));",
             "CREATE INDEX IF NOT EXISTS component_usage_base_component_id_idx ON component_usage (base_component_id);",
             "CREATE INDEX IF NOT EXISTS component_usage_child_component_id_idx ON component_usage (child_component_id);",
