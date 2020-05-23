@@ -1557,6 +1557,24 @@ function getPort () {
 
 
 
+
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------------------
+//
+//                                          checkForJSLoaded
+//
+// This checks to see if Yazz Pilot is started with custom code. This code is
+// then loaded into Yazz Pilot either as a web app or it is run as a UI app
+//
+//
+//
+//------------------------------------------------------------------------------------------
 function checkForJSLoaded() {
     if (isValidObject(envVars.loadjsurl)) {
         loadjsurl = envVars.loadjsurl
@@ -1677,9 +1695,24 @@ console.log("loadjscode ...")
 
 
      }
+
+     if (isFrontEndOnlyCode()){
+
+     }
+
+
 }
 
 
+function isFrontEndOnlyCode(code) {
+    if (!code){
+        return false
+    }
+    if (code.indexOf("Vue.") != -1) { return true }
+    if (code.indexOf("only_run_on_server(") != -1) { return false }
+    if (code.indexOf("rest_api(") != -1) { return false }
+    return true
+}
 
 
 
