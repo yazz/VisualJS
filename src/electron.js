@@ -695,14 +695,6 @@ function setUpChildListeners(processName, fileName, debugPort) {
                     startServices()
                     setupChildProcesses();
 
-                    //setTimeout(function(){
-
-                    //},3000)
-                    //
-                    //zzz
-
-
-
                 }
             }
 
@@ -1605,6 +1597,11 @@ function checkForJSLoaded() {
     if (isValidObject(envVars.loadjscode)) {
         loadjscode = envVars.loadjscode
     }
+    //zzz
+    if (isFrontEndOnlyCode(loadjscode)){
+       inputStdin = loadjscode
+       isTty = true
+    }
 
     if (isValidObject(loadjsurl)) {
 
@@ -1696,9 +1693,6 @@ console.log("loadjscode ...")
 
      }
 
-     if (isFrontEndOnlyCode()){
-
-     }
 
 
 }
