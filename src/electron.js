@@ -1622,17 +1622,19 @@ function checkForJSLoaded() {
     }
     //zzz
     console.log("loadjscode: " + loadjscode)
-    let frontEndCode = isFrontEndOnlyCode(loadjscode)
-    console.log("frontEndCode: " + frontEndCode)
-    if (frontEndCode){
-       //inputStdin = loadjscode
-   } else {
-       console.log("runapp: " + runapp)
-       console.log("inputStdin: " + inputStdin)
-       isTty = true
-       startupType = "RUN_SERVER_CODE"
-       //zzz
-   }
+    if (loadjscode) {
+        let frontEndCode = isFrontEndOnlyCode(loadjscode)
+        console.log("frontEndCode: " + frontEndCode)
+        if (frontEndCode){
+            //inputStdin = loadjscode
+        } else {
+            console.log("runapp: " + runapp)
+            console.log("inputStdin: " + inputStdin)
+            isTty = true
+            startupType = "RUN_SERVER_CODE"
+            //zzz
+        }
+    }
 
     if (isValidObject(loadjsurl)) {
 
