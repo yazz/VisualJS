@@ -1621,15 +1621,15 @@ function checkForJSLoaded() {
         loadjscode = envVars.loadjscode
     }
     //zzz
-    console.log("loadjscode: " + loadjscode)
+    //console.log("loadjscode: " + loadjscode)
     if (loadjscode) {
         let frontEndCode = isFrontEndOnlyCode(loadjscode)
-        console.log("frontEndCode: " + frontEndCode)
+        //console.log("frontEndCode: " + frontEndCode)
         if (frontEndCode){
             //inputStdin = loadjscode
         } else {
-            console.log("runapp: " + runapp)
-            console.log("inputStdin: " + inputStdin)
+            //console.log("runapp: " + runapp)
+            //console.log("inputStdin: " + inputStdin)
             isTty = true
             startupType = "RUN_SERVER_CODE"
             //zzz
