@@ -32,6 +32,7 @@ var http            = require('http')
 var https           = require('https');
 var app             = express()
 var isTty           = false
+var startupType     = null
 
 
 
@@ -703,7 +704,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
     //------------------------------------------------------------------------------
     //
-    //
+    // This is the last thing that happens when Yazz Pilot is started
     //
     //
     //
@@ -711,7 +712,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
     } else if (msg.message_type == "drivers_loaded_by_child") {
 
     	//--------------------------------------------------------
-    	// open the app in a web browser
+    	// Check if any JS is loaded
     	//--------------------------------------------------------
         checkForJSLoaded();
 
@@ -789,23 +790,44 @@ console.log(`
                                 returnFn(value)
                             }
 
-                            forkedProcesses["forked"].send({
-                                            message_type:          "callDriverMethod",
-                                            find_component:         {
-                                                                        method_name: "serverTerminalStuff",
-                                                                        driver_name: "serverTerminalStuff"
-                                                                    }
-                                                                    ,
-                                            args:                   parsedInput
-                                                                    ,
-                                            seq_num_parent:         null,
-                                            seq_num_browser:        null,
-                                            seq_num_local:          seqNum,
-                                        });
+                            if(startupType == "RUN_SERVER_CODE") {
+                                setTimeout(function(){
+                                    forkedProcesses["forked"].send({
+                                                    message_type:          "callDriverMethod",
+                                                    find_component:         {
+                                                                                base_component_id: runapp
+                                                                            }
+                                                                            ,
+                                                    args:                   parsedInput
+                                                                            ,
+                                                    seq_num_parent:         null,
+                                                    seq_num_browser:        null,
+                                                    seq_num_local:          seqNum,
+                                                });
+                                },2000)
+
+
+                            } else {
+                                forkedProcesses["forked"].send({
+                                                message_type:          "callDriverMethod",
+                                                find_component:         {
+                                                                            method_name: "serverTerminalStuff",
+                                                                            driver_name: "serverTerminalStuff"
+                                                                        }
+                                                                        ,
+                                                args:                   parsedInput
+                                                                        ,
+                                                seq_num_parent:         null,
+                                                seq_num_browser:        null,
+                                                seq_num_local:          seqNum,
+                                            });
+                                        }
+
 
 
                         })
                         var ret = await promise
+                        console.log("ret: "  +  JSON.stringify(ret,null,2))
 
                         if (ret.value) {
                             process.stdout.write(ret.value);
@@ -1587,6 +1609,7 @@ function checkForJSLoaded() {
   } else if ((process.argv[2]) && (!process.argv[2].startsWith("--"))) {
         loadjscode = process.argv[2]
         outputDebug("load code: " + loadjscode )
+        //console.log("load code: " + loadjscode )
   }
 
 
@@ -1598,10 +1621,18 @@ function checkForJSLoaded() {
         loadjscode = envVars.loadjscode
     }
     //zzz
-    if (isFrontEndOnlyCode(loadjscode)){
-       inputStdin = loadjscode
+    console.log("loadjscode: " + loadjscode)
+    let frontEndCode = isFrontEndOnlyCode(loadjscode)
+    console.log("frontEndCode: " + frontEndCode)
+    if (frontEndCode){
+       //inputStdin = loadjscode
+   } else {
+       console.log("runapp: " + runapp)
+       console.log("inputStdin: " + inputStdin)
        isTty = true
-    }
+       startupType = "RUN_SERVER_CODE"
+       //zzz
+   }
 
     if (isValidObject(loadjsurl)) {
 
@@ -1667,7 +1698,7 @@ function checkForJSLoaded() {
 
 
      } else if (isValidObject(loadjscode)) {
-console.log("loadjscode ...")
+         //console.log("loadjscode ...")
          var data2 = loadjscode
          var baseComponentIdForCode = saveHelper.getValueOfCodeString(data2, "base_component_id")
          outputDebug("baseComponentIdForCode:" + baseComponentIdForCode);
@@ -1689,7 +1720,8 @@ console.log("loadjscode ...")
                                                                   }
                                             });
           runapp = baseComponentIdForCode
-
+          console.log("baseComponentIdForCode: " + baseComponentIdForCode)
+          console.log("runapp: " + runapp)
 
      }
 
@@ -1705,7 +1737,7 @@ function isFrontEndOnlyCode(code) {
     if (code.indexOf("Vue.") != -1) { return true }
     if (code.indexOf("only_run_on_server(") != -1) { return false }
     if (code.indexOf("rest_api(") != -1) { return false }
-    return true
+    return false
 }
 
 
