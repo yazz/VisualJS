@@ -827,7 +827,7 @@ console.log(`
 
                         })
                         var ret = await promise
-                        console.log("ret: "  +  JSON.stringify(ret,null,2))
+                        //console.log("ret: "  +  JSON.stringify(ret,null,2))
 
                         if (ret.value) {
                             process.stdout.write(ret.value);
@@ -1722,8 +1722,8 @@ function checkForJSLoaded() {
                                                                   }
                                             });
           runapp = baseComponentIdForCode
-          console.log("baseComponentIdForCode: " + baseComponentIdForCode)
-          console.log("runapp: " + runapp)
+          //console.log("baseComponentIdForCode: " + baseComponentIdForCode)
+          //console.log("runapp: " + runapp)
 
      }
 
