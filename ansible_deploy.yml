@@ -24,7 +24,7 @@
 
     - name: Start Yazz
       shell:
-          cmd:  node src/electron.js --port 443 --public {{ ssl_private }} --private {{ ssl_key }} --usehost {{ use_host }} --https true --cacert1 {{ ssl_cacert1 }} --cacert2 {{ ssl_cacert2 }} --cacert3 {{ ssl_cacert3 }} > nohup.out &
+          cmd:  node src/electron.js --port 443 --public {{ ssl_private }} --private {{ ssl_key }} --usehost {{ use_host }} --https true --cacert1 {{ ssl_cacert1 }} --cacert2 {{ ssl_cacert2 }} --cacert3 {{ ssl_cacert3 }} --showdebug true > nohup.out &
       async: 10
       poll: 0
       args:
