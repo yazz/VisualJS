@@ -1622,19 +1622,7 @@ function checkForJSLoaded() {
     }
     //zzz
     //console.log("loadjscode: " + loadjscode)
-    if (loadjscode) {
-        let frontEndCode = isFrontEndOnlyCode(loadjscode)
-        //console.log("frontEndCode: " + frontEndCode)
-        if (frontEndCode){
-            //inputStdin = loadjscode
-        } else {
-            //console.log("runapp: " + runapp)
-            //console.log("inputStdin: " + inputStdin)
-            isTty = true
-            startupType = "RUN_SERVER_CODE"
-            //zzz
-        }
-    }
+
 
     if (isValidObject(loadjsurl)) {
 
@@ -1668,6 +1656,17 @@ function checkForJSLoaded() {
                                                                      }
                                            });
             runapp = baseComponentIdForUrl
+            let frontEndCode = isFrontEndOnlyCode(data)
+            //console.log("frontEndCode: " + frontEndCode)
+            if (frontEndCode){
+                //inputStdin = loadjscode
+            } else {
+                //console.log("runapp: " + runapp)
+                //console.log("inputStdin: " + inputStdin)
+                isTty = true
+                startupType = "RUN_SERVER_CODE"
+                //zzz
+            }
           });
 
         }).on("error", (err) => {
@@ -1697,7 +1696,17 @@ function checkForJSLoaded() {
                                                                  }
                                            });
          runapp = baseComponentIdForFile
-
+         let frontEndCode = isFrontEndOnlyCode(data2)
+         //console.log("frontEndCode: " + frontEndCode)
+         if (frontEndCode){
+             //inputStdin = loadjscode
+         } else {
+             //console.log("runapp: " + runapp)
+             //console.log("inputStdin: " + inputStdin)
+             isTty = true
+             startupType = "RUN_SERVER_CODE"
+             //zzz
+         }
 
      } else if (isValidObject(loadjscode)) {
          //console.log("loadjscode ...")
@@ -1724,6 +1733,17 @@ function checkForJSLoaded() {
           runapp = baseComponentIdForCode
           //console.log("baseComponentIdForCode: " + baseComponentIdForCode)
           //console.log("runapp: " + runapp)
+          let frontEndCode = isFrontEndOnlyCode(loadjscode)
+          //console.log("frontEndCode: " + frontEndCode)
+          if (frontEndCode){
+              //inputStdin = loadjscode
+          } else {
+              //console.log("runapp: " + runapp)
+              //console.log("inputStdin: " + inputStdin)
+              isTty = true
+              startupType = "RUN_SERVER_CODE"
+              //zzz
+          }
 
      }
 
