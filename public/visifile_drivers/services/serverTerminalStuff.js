@@ -7,7 +7,7 @@ only_run_on_server(true)
 */
     var exec = require('child_process').exec;
 
-    console.log("server args:" + JSON.stringify( args,null,2));
+    //console.log("server args:" + JSON.stringify( args,null,2));
 
     if (typeof args === 'string') {
         args = {

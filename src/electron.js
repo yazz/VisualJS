@@ -808,19 +808,7 @@ console.log(`
 
 
                             } else {
-                                forkedProcesses["forked"].send({
-                                                message_type:          "callDriverMethod",
-                                                find_component:         {
-                                                                            method_name: "serverTerminalStuff",
-                                                                            driver_name: "serverTerminalStuff"
-                                                                        }
-                                                                        ,
-                                                args:                   parsedInput
-                                                                        ,
-                                                seq_num_parent:         null,
-                                                seq_num_browser:        null,
-                                                seq_num_local:          seqNum,
-                                            });
+ 
                                         }
 
 
