@@ -1,9 +1,6 @@
 #!/usr/bin/env node
 
 
-// Module to control application life.
-// Module to create native browser window.
-var startNodeServer = false
 const path = require("path");
 const url = require('url');
 var fork            = require('child_process');
@@ -96,7 +93,6 @@ var request         = require("request");
 var db_helper       = require("./db_helper")
 var perf            = require('./perf')
 var compression     = require('compression')
-var dns             = require('dns');
 
 var program         = require('commander');
 var bodyParser      = require('body-parser');
@@ -154,10 +150,8 @@ hostaddress = "0.0.0.0"//ip.address();
 var hostaddressintranet;
 hostaddressintranet = ip.address();
 port = 80
-var f = 0
-var started = false
 
-var visifile
+
 var socket          = null
 
 
@@ -254,8 +248,9 @@ if (process.argv.length > 1) {
 
     program
       .version('0.0.1')
-      .option('-t, --type [type]', 'Add the specified type of app (client/server) [type]', 'client')
+      .option('-a, --virtualprocessors [virtualprocessors]', 'How many virtual processors to run (default 6 processors) [virtualprocessors]', 6)
       .option('-p, --port [port]', 'Which port should I listen on? (default 80) [port]', parseInt)
+      .option('-t, --type [type]', 'Add the specified type of app (client/server) [type]', 'client')
       .option('-h, --host [host]', 'Server address of the central host (default yazz.com) [host]', 'yazz.com')
       .option('-l, --locked [locked]', 'Allow server to be locked/unlocked on start up (default true) [locked]', 'true')
       .option('-d, --debug [debug]', 'Allow to run NodeJS in debug mode (default false) [debug]', 'false')
@@ -263,7 +258,6 @@ if (process.argv.length > 1) {
       .option('-k, --showprogress [showprogress]', 'Allow to show progress when starting Pilot (default false) [showprogress]', 'false')
       .option('-j, --showstats [showstats]', 'Allow to show stats debug info (default false) [showstats]', 'false')
       .option('-i, --statsinterval [statsinterval]', 'Allow to show debug info every x seconds (default 10 seconds) [statsinterval]', 10)
-      .option('-a, --virtualprocessors [virtualprocessors]', 'How many virtual processors to run (default 6 processors) [virtualprocessors]', 6)
       .option('-m, --maxprocessesretry [maxprocessesretry]', 'Number of processes to retry when all cores are busy (default 10 processes) [maxprocessesretry]', 10)
       .option('-n, --maxJobProcessDurationMs [maxJobProcessDurationMs]', 'Maximum time to wait for a job to complete (default 10000 ms) [maxJobProcessDurationMs]', 10000)
       .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
@@ -1383,7 +1377,6 @@ function shutDown() {
             dbsearch.run("PRAGMA wal_checkpoint;")
             dbsearch.close(function(err){
                 outputDebug("...database closed")
-                visifile = null
 
             })
         }
@@ -1402,14 +1395,7 @@ function shutDown() {
             forkedProcesses[exeProcName].kill();
             outputDebug("Killed Process " + exeProcName)
         }
-        if (visifile){
-            visifile.removeAllListeners('close');
-            //visifile.close();
-            if (visifile.globalShortcut) {
-                //visifile.globalShortcut.unregisterAll();
 
-            }
-        }
 
         outputDebug("deleteOnExit =" + deleteOnExit)
         if (deleteOnExit) {
