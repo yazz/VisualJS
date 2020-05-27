@@ -498,8 +498,14 @@ setupVisifileParams();
 
 
 
-
-function setUpChildListeners(processName, fileName, debugPort) {
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
+async function setUpChildListeners(processName, fileName, debugPort) {
 
     forkedProcesses[processName].on('close', function() {
         if (!shuttingDown) {
@@ -1092,7 +1098,7 @@ console.log(`
 //
 //
 //------------------------------------------------------------------------------
-function setupForkedProcess(  processName,  fileName,  debugPort  ) {
+async function setupForkedProcess(  processName,  fileName,  debugPort  ) {
     var debugArgs =[];
     if (debug) {
         if (semver.gte(process.versions.node, '6.9.0')) {
@@ -1179,7 +1185,7 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
 //
 //
 //------------------------------------------------------------------------------
-function setupMainChildProcess() {
+async function setupMainChildProcess() {
     setupForkedProcess("forked",        "child.js", 40003)
 }
 
@@ -1196,7 +1202,7 @@ function setupMainChildProcess() {
 //
 //
 //------------------------------------------------------------------------------
-function setupChildProcesses() {
+async function setupChildProcesses() {
     setupForkedProcess("forkedExeScheduler", "exeScheduler.js", 40004)
     for (var i=0;i<executionProcessCount; i++ ) {
         var exeProcName = "forkedExeProcess" + i
@@ -1213,8 +1219,14 @@ function setupChildProcesses() {
 
 
 
-
-function sendOverWebSockets(data) {
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
+async function sendOverWebSockets(data) {
     var ll = serverwebsockets.length;
     //console.log('send to sockets Count: ' + JSON.stringify(serverwebsockets.length));
     for (var i =0 ; i < ll; i++ ) {
@@ -1233,11 +1245,28 @@ function sendOverWebSockets(data) {
 
 
 
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function isNumber(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
 
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 async function setupVisifileParams() {
     centralHostAddress = program.host;
     centralHostPort = program.hostport;
@@ -1465,7 +1494,14 @@ function deleteYazzData(dddd) {
 
 
 
-function getPort () {
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
+async function getPort () {
     outputDebug('** called getPort v2')
 
 
@@ -1553,7 +1589,7 @@ function getPort () {
 //
 //
 //------------------------------------------------------------------------------------------
-function checkForJSLoaded() {
+async function checkForJSLoaded() {
     if (isValidObject(envVars.loadjsurl)) {
         loadjsurl = envVars.loadjsurl
     }
@@ -1743,7 +1779,13 @@ function isFrontEndOnlyCode(code) {
 
 
 
-
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function mkdirSync(dirPath) {
     try {
         mkdirp.sync(dirPath)
@@ -1753,6 +1795,15 @@ function mkdirSync(dirPath) {
 }
 
 
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function outputToConsole(text) {
     var c = console;
     c.log(text);
@@ -1761,6 +1812,15 @@ function outputToConsole(text) {
 
 
 
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function copyFileSync( source, target ) {
 
     var targetFile = target;
@@ -1775,6 +1835,17 @@ function copyFileSync( source, target ) {
     fs.writeFileSync(targetFile, fs.readFileSync(source));
 }
 
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function copyFolderRecursiveSync( source, target ) {
     //console.log('çopy from: '+ source + ' to ' + target);
     var files = [];
@@ -1833,6 +1904,13 @@ function copyFolderRecursiveSync( source, target ) {
 // ============================================================
 // This sends a message to a specific websocket
 // ============================================================
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function sendToBrowserViaWebSocket(aws, msg) {
     aws.emit(msg.type,msg);
 }
@@ -1844,7 +1922,13 @@ function sendToBrowserViaWebSocket(aws, msg) {
 
 
 
-
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function isLocalMachine(req) {
     if ((req.ip == '127.0.0.1') || (hostaddress == req.ip) || (hostaddress == "0.0.0.0")) {  // this is the correct line to use
     //if (req.ip == '127.0.0.1')  {      // this is used for debugging only so that we can deny access from the local machine
@@ -1859,6 +1943,13 @@ function isLocalMachine(req) {
 
 //------------------------------------------------------------------------------
 // test if allowed
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
 //------------------------------------------------------------------------------
 function canAccess(req,res) {
     if (!locked) {
@@ -1885,7 +1976,13 @@ function canAccess(req,res) {
 
 
 
-
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function extractHostname(url) {
     var hostname;
     //find & remove protocol (http, ftp, etc.) and get hostname
@@ -1908,6 +2005,15 @@ function extractHostname(url) {
 
 
 
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function extractRootDomain(url) {
     var domain = extractHostname(url),
         splitArr = domain.split('.'),
@@ -1924,6 +2030,16 @@ function extractRootDomain(url) {
 
 
 
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function findViafromString(inp) {
     if (inp == null) {
         return "";
@@ -1972,7 +2088,13 @@ function findViafromString(inp) {
 
 
 
-
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function runOnPageExists(req, res, homepage) {
 
     if (fs.existsSync(homepage)) {
@@ -1989,6 +2111,18 @@ function runOnPageExists(req, res, homepage) {
 
 }
 
+
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function getRoot(req, res, next) {
 	hostcount++;
 	//console.log("Host: " + req.headers.host + ", " + hostcount);
@@ -2104,7 +2238,18 @@ function getRoot(req, res, next) {
 
 
 
-function getEditApp(req, res) {
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
+async function getEditApp(req, res) {
 	hostcount++;
 
     // I dont know why sockets.io calls .map files here
@@ -2148,8 +2293,14 @@ function getEditApp(req, res) {
 
 
 
-
-function websocketFn(ws) {
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
+async function websocketFn(ws) {
     serverwebsockets.push(ws);
     sendToBrowserViaWebSocket(ws, {type: "socket_connected"});
     sendOverWebSockets({
@@ -2384,7 +2535,13 @@ function websocketFn(ws) {
 
 
 
-
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function file_uploadSingleFn(req, res) {
       //console.log('-----  file_uploadSingle  --------------');
       //console.log(req.file);
@@ -2482,6 +2639,16 @@ function file_uploadSingleFn(req, res) {
 
 
 
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function file_uploadFn(req, res, next) {
       //console.log('-------------------------------------------------------------------------------------');
       //console.log('-------------------------------------------------------------------------------------');
@@ -2591,7 +2758,13 @@ function file_uploadFn(req, res, next) {
 
 
 
-
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function code_uploadFn(req, res) {
 
         forkedProcesses["forked"].send({
@@ -2614,7 +2787,13 @@ function code_uploadFn(req, res) {
 
 
 
-
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function keycloakProtector(params) {
     return function(req,res,next) {
         next()
@@ -2662,10 +2841,21 @@ function keycloakProtector(params) {
 
 
 
+
+
+
+
 //------------------------------------------------------------
 // This starts all the system services
 //------------------------------------------------------------
-function startServices() {
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
+async function startServices() {
     if (useHttps) {
 
         var app2             = express()
@@ -3036,7 +3226,13 @@ function startServices() {
 
 
 
-
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function findLatestVersionOfApps( callbackFn) {
     dbsearch.serialize(
         function() {
@@ -3059,30 +3255,34 @@ function findLatestVersionOfApps( callbackFn) {
 
 
 
-function findDriversWithMethodLike(methodName, callbackFn) {
-    dbsearch.serialize(
-        function() {
-            var stmt = dbsearch.all(
-                "SELECT base_component_id FROM system_code where on_condition like '%" + methodName + "%'; ",
-
-                function(err, results)
-                {
-                    if (results.length > 0) {
-                        callbackFn(results)
-                    } else {
-                        callbackFn(null)
-                    }
-
-                })
-    }, sqlite3.OPEN_READONLY)
-}
 
 
 
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function bytesToMb(bytes) {
     return (bytes / 1024 ) / 1024
 }
 
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function getChildMem(childProcessName,stats) {
     var memoryused = 0
     if (stats) {
@@ -3094,6 +3294,17 @@ function getChildMem(childProcessName,stats) {
     }
 }
 
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function usePid(childProcessName,childprocess) {
     pidusage(childprocess.pid, function (err, stats) {
         getChildMem(childProcessName,stats)
@@ -3111,6 +3322,16 @@ function usePid(childProcessName,childprocess) {
     });
 
 }
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 if (statsInterval > 0) {
     setInterval(function(){
         if (!inmemcalc) {
@@ -3135,7 +3356,17 @@ if (statsInterval > 0) {
 }
 
 
-function readCerts() {
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
+async function readCerts() {
     outputDebug("Checking CA certs" )
     outputDebug("-----------------" )
     outputDebug("" )
