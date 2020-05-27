@@ -492,7 +492,7 @@ outputDebug('Yazz node local hostname: ' + ip.address() + ' ')
 
 
 
-setupVisifileParams();
+
 
 
 
@@ -1281,103 +1281,6 @@ async function setupVisifileParams() {
 	//console.log('addr: '+ ip.address());
 	//hostaddress = ip.address();
 }
-
-
-
-outputDebug("process.platform = " + process.platform)
-
-
-if (process.platform === "win32") {
-var rl = require("readline").createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
-
-rl.on("SIGINT", function () {
-    shutDown();
-    process.exit();
-});
-}
-
-
-
-
-
-if (isWin) {
-    outputDebug("Running as Windows")
-	var localappdata  = process.env.LOCALAPPDATA
-	userData = path.join(localappdata, '/Yazz/')
-} else {
-
-    outputDebug("Running as Linux/Mac")
-
-	userData =  path.join(LOCAL_HOME, 'Yazz')
-}
-dbPath = path.join(userData, username + '.visi')
-
-
-if (deleteOnStartup) {
-    outputDebug("deleting dir :" + userData)
-    if (userData.length > 6) {
-            deleteYazzDataV2(userData)
-    }
-}
-var uploadPath = path.join(userData,  'uploads/')
-
-outputDebug("LOCAL_HOME: " + LOCAL_HOME)
-outputDebug("userData: " + userData)
-outputDebug("uploadPath: " + uploadPath)
-
-upload          = multer( { dest: uploadPath});
-
-
-rmdir("uploads");
-mkdirp.sync(path.join(userData,  'uploads'));
-mkdirp.sync(path.join(userData,  'files'));
-mkdirp.sync(path.join(userData,  'apps'));
-mkdirp.sync(path.join(userData,  'app_dbs'));
-
-
-outputDebug('process.env.LOCALAPPDATA: ' + JSON.stringify(localappdata ,null,2))
-outputDebug("Local home data path: " + LOCAL_HOME)
-
-outputDebug("userData: " + JSON.stringify(userData ,null,2))
-outputDebug("process.env keys: " + Object.keys(process.env))
-
-
-
-
-dbsearch = new sqlite3.Database(dbPath);
-dbsearch.run("PRAGMA journal_mode=WAL;")
-
-
-
-
-
-
-
-//var index = require(path.resolve('src/index.js'))
-
-
-setupMainChildProcess();
-
-
-
-
-
-
-
-var shuttingDown = false;
-process.on('exit', function() {
-    shutDown();
-  });
-process.on('quit', function() {
-  shutDown();
-});
-process.on("SIGINT", function () {
-    shutDown();
-    process.exit()
-});
 
 
 
@@ -3344,3 +3247,96 @@ async function readCerts() {
     }
     return caCertsRet
 }
+
+
+
+
+
+
+
+setupVisifileParams();
+outputDebug("process.platform = " + process.platform)
+
+
+if (process.platform === "win32") {
+var rl = require("readline").createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+rl.on("SIGINT", function () {
+    shutDown();
+    process.exit();
+});
+}
+
+
+
+
+
+if (isWin) {
+    outputDebug("Running as Windows")
+	var localappdata  = process.env.LOCALAPPDATA
+	userData = path.join(localappdata, '/Yazz/')
+} else {
+
+    outputDebug("Running as Linux/Mac")
+
+	userData =  path.join(LOCAL_HOME, 'Yazz')
+}
+dbPath = path.join(userData, username + '.visi')
+
+
+if (deleteOnStartup) {
+    outputDebug("deleting dir :" + userData)
+    if (userData.length > 6) {
+            deleteYazzDataV2(userData)
+    }
+}
+var uploadPath = path.join(userData,  'uploads/')
+
+outputDebug("LOCAL_HOME: " + LOCAL_HOME)
+outputDebug("userData: " + userData)
+outputDebug("uploadPath: " + uploadPath)
+
+upload          = multer( { dest: uploadPath});
+
+
+rmdir("uploads");
+mkdirp.sync(path.join(userData,  'uploads'));
+mkdirp.sync(path.join(userData,  'files'));
+mkdirp.sync(path.join(userData,  'apps'));
+mkdirp.sync(path.join(userData,  'app_dbs'));
+
+
+outputDebug('process.env.LOCALAPPDATA: ' + JSON.stringify(localappdata ,null,2))
+outputDebug("Local home data path: " + LOCAL_HOME)
+outputDebug("userData: " + JSON.stringify(userData ,null,2))
+outputDebug("process.env keys: " + Object.keys(process.env))
+
+
+
+
+dbsearch = new sqlite3.Database(dbPath);
+dbsearch.run("PRAGMA journal_mode=WAL;")
+
+
+setupMainChildProcess();
+
+
+
+
+
+
+
+var shuttingDown = false;
+process.on('exit', function() {
+    shutDown();
+  });
+process.on('quit', function() {
+  shutDown();
+});
+process.on("SIGINT", function () {
+    shutDown();
+    process.exit()
+});
