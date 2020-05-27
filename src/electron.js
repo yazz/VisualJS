@@ -459,6 +459,7 @@ useHttps = (program.https == 'true');
 if (useHttps) {
     serverProtocol = "https"
 }
+outputDebug("useHttps: " + useHttps)
 privateKey = program.private;
 publicCertificate = program.public;
 caCertificate1 = program.cacert1;
