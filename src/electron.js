@@ -507,7 +507,7 @@ outputDebug('Yazz node local hostname: ' + ip.address() + ' ')
 //------------------------------------------------------------------------------
 async function setUpChildListeners(processName, fileName, debugPort) {
 
-    forkedProcesses[processName].on('close', function() {
+    forkedProcesses[processName].on('close', async function() {
         if (!shuttingDown) {
             outputDebug("Child process " + processName + " exited.. restarting... ")
 
@@ -549,7 +549,7 @@ async function setUpChildListeners(processName, fileName, debugPort) {
     });
 
 
-    forkedProcesses[processName].on('message', (msg) => {
+    forkedProcesses[processName].on('message', async function(msg) {
         //console.log("message from child: " + JSON.stringify(msg,null,2))
         //console.log("message type from child: " + JSON.stringify(msg.message_type,null,2))
 
@@ -711,7 +711,7 @@ async function setUpChildListeners(processName, fileName, debugPort) {
     	//--------------------------------------------------------
     	// Check if any JS is loaded
     	//--------------------------------------------------------
-        checkForJSLoaded();
+        await checkForJSLoaded();
 
 
 if (!isTty) {
@@ -3341,6 +3341,7 @@ process.on("SIGINT", function () {
 
 
 
-
-setupVisifileParams();
-setupMainChildProcess();
+(async function() {
+    await setupVisifileParams();
+    await setupMainChildProcess();
+})()
