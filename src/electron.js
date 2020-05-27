@@ -373,7 +373,7 @@ if (isValidObject(envVars.virtualprocessors)) {
     executionProcessCount = envVars.virtualprocessors
 }
 
-
+envVars.IP_ADDRESS = ip.address()
 
 
 function isValidObject(variable){
