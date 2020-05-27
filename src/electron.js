@@ -3313,8 +3313,8 @@ process.on("SIGINT", function () {
 
 
 (async function() {
-    await setupVisifileParams();
-    await setupMainChildProcess();
+    setupVisifileParams();
+    setupMainChildProcess();
 
 
 
