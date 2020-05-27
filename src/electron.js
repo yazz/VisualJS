@@ -237,6 +237,7 @@ stdin.on('data', function(chunk) {
 });
 
 stdin.on('end', function() {
+    outputDebug("isTty = true - 4")
     isTty = true
 });
 
