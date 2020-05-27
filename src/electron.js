@@ -1494,6 +1494,7 @@ async function checkForJSLoaded() {
 
 
     if (isValidObject(loadjsurl)) {
+        outputDebug("*********** Using loadjsurl ************")
 
         var jsUrl = loadjsurl
         https.get(jsUrl, (resp) => {
@@ -1543,6 +1544,7 @@ async function checkForJSLoaded() {
         });
 
     } else if (isValidObject(loadjsfile)) {
+        outputDebug("*********** Using loadjsfile ************")
 
         var jsFile = loadjsfile
 
@@ -1578,7 +1580,8 @@ async function checkForJSLoaded() {
          }
 
      } else if (isValidObject(loadjscode)) {
-         //console.log("loadjscode ...")
+         outputDebug("*********** Using loadjscode ************")
+
          var data2 = loadjscode
          var baseComponentIdForCode = saveHelper.getValueOfCodeString(data2, "base_component_id")
          outputDebug("baseComponentIdForCode:" + baseComponentIdForCode);
