@@ -1460,6 +1460,7 @@ async function checkForJSLoaded() {
     if (isValidObject(envVars.loadjsurl)) {
         loadjsurl = envVars.loadjsurl
     }
+    outputDebug("1")
 
     //
     // load JS code from file
@@ -1467,6 +1468,7 @@ async function checkForJSLoaded() {
     if (isValidObject(envVars.loadjsfile)) {
         loadjsfile = envVars.loadjsfile
     }
+    outputDebug("2")
 
 
     //console.log("process.argv.length : " + process.argv.length )
@@ -1488,6 +1490,7 @@ async function checkForJSLoaded() {
     }
 
 
+    outputDebug("3")
 
 
 
@@ -1498,6 +1501,7 @@ async function checkForJSLoaded() {
     //zzz
     //console.log("loadjscode: " + loadjscode)
 
+    outputDebug("4")
 
     if (isValidObject(loadjsurl)) {
         outputDebug("*********** Using loadjsurl ************")
@@ -1624,9 +1628,8 @@ async function checkForJSLoaded() {
           }
 
      }
-
-
-
+     outputDebug("5")
+     return
 }
 
 
