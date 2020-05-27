@@ -2910,23 +2910,6 @@ function findLatestVersionOfApps( callbackFn) {
 
 
 
-function findDriversWithMethodLike(methodName, callbackFn) {
-    dbsearch.serialize(
-        function() {
-            var stmt = dbsearch.all(
-                "SELECT base_component_id FROM system_code where on_condition like '%" + methodName + "%'; ",
-
-                function(err, results)
-                {
-                    if (results.length > 0) {
-                        callbackFn(results)
-                    } else {
-                        callbackFn(null)
-                    }
-
-                })
-    }, sqlite3.OPEN_READONLY)
-}
 
 
 
