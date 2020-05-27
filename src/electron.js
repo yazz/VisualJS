@@ -16,7 +16,7 @@ var mainNodeProcessStarted = false;
 var restRoutes = new Object()
 var envVars = new Object()
 var systemReady = false;
-
+var httpServer = null;
 
 var ls = require('ls-sync');
 var rimraf = require("rimraf");
@@ -808,7 +808,7 @@ console.log(`
 
 
                             } else {
- 
+
                                         }
 
 
@@ -1247,7 +1247,7 @@ function isNumber(n) {
 }
 
 
-function setupVisifileParams() {
+async function setupVisifileParams() {
     typeOfSystem = program.type;
     centralHostAddress = program.host;
     centralHostPort = program.hostport;
@@ -1488,7 +1488,7 @@ function deleteYazzData(dddd) {
 
 
 
-var httpServer = null;
+
 function getPort () {
     outputDebug('** called getPort v2')
 
@@ -2401,15 +2401,9 @@ function websocketFn(ws) {
                         });
 
 
-    }
-
-
-
-
-
-
-
-});};
+        }
+    });
+};
 
 
 
