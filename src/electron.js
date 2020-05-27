@@ -3174,37 +3174,6 @@ function usePid(childProcessName,childprocess) {
 
 
 
-//------------------------------------------------------------------------------
-//
-//
-//
-//
-//
-//------------------------------------------------------------------------------
-if (statsInterval > 0) {
-    setInterval(function(){
-        if (!inmemcalc) {
-            inmemcalc = true
-            totalMem = 0
-            const used = process.memoryUsage().heapUsed ;
-            totalMem += used
-            yazzProcessMainMemoryUsageMetric.set(used)
-            if (showStats) {
-                outputDebug(`Main: ${Math.round( bytesToMb(used) * 100) / 100} MB`);
-            }
-            allForked = Object.keys(forkedProcesses)
-            returnedmemCount = 0
-            for (var ttt=0; ttt< allForked.length; ttt++) {
-                var childProcessName = allForked[ttt]
-                const childprocess = forkedProcesses[childProcessName]
-
-                usePid(childProcessName,childprocess)
-            }
-        }
-    },(statsInterval * 1000))
-}
-
-
 
 
 
@@ -3344,4 +3313,37 @@ process.on("SIGINT", function () {
 (async function() {
     await setupVisifileParams();
     await setupMainChildProcess();
+
+
+
+    //------------------------------------------------------------------------------
+    //
+    //
+    //
+    //
+    //
+    //------------------------------------------------------------------------------
+    if (statsInterval > 0) {
+        setInterval(function(){
+            if (!inmemcalc) {
+                inmemcalc = true
+                totalMem = 0
+                const used = process.memoryUsage().heapUsed ;
+                totalMem += used
+                yazzProcessMainMemoryUsageMetric.set(used)
+                if (showStats) {
+                    outputDebug(`Main: ${Math.round( bytesToMb(used) * 100) / 100} MB`);
+                }
+                allForked = Object.keys(forkedProcesses)
+                returnedmemCount = 0
+                for (var ttt=0; ttt< allForked.length; ttt++) {
+                    var childProcessName = allForked[ttt]
+                    const childprocess = forkedProcesses[childProcessName]
+
+                    usePid(childProcessName,childprocess)
+                }
+            }
+        },(statsInterval * 1000))
+    }
+
 })()
