@@ -1,0 +1,32 @@
+---
+- name: This is used to deploy the latest version of Yazz publicly
+  hosts: webservers
+  vars:
+    PROCESS: node
+  tasks:
+
+
+    - name: Kill running processes
+      shell: "killall node"
+      ignore_errors: yes
+
+
+    - command: git reset --hard origin/master
+      args:
+        chdir: /root/visifile
+
+
+    - name: install the latest version of Yazz
+      git:
+        repo: 'https://github.com/zubairq/pilot.git'
+        dest: /root/visifile
+        version: 3cb26eddd42645b2e6bd5b2e77b42d15aa8f0716
+
+
+    - name: Start Yazz
+      shell:
+          cmd:  node src/electron.js --port 443 --public {{ ssl_private }} --private {{ ssl_key }} --usehost {{ use_host }} --https true --cacert1 {{ ssl_cacert1 }} --cacert2 {{ ssl_cacert2 }} --cacert3 {{ ssl_cacert3 }} --showdebug true > nohup.out &
+      async: 10
+      poll: 0
+      args:
+        chdir: /root/visifile/
