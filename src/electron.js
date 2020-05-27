@@ -683,6 +683,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
             if (!mainNodeProcessStarted) {
                 mainNodeProcessStarted = true
+                outputDebug("createdTablesInChild, isTty: " + isTty)
                 if (!isTty) {
                     getPort()
                 } else {
