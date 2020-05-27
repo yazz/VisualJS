@@ -1543,6 +1543,7 @@ async function checkForJSLoaded() {
             } else {
                 //console.log("runapp: " + runapp)
                 //console.log("inputStdin: " + inputStdin)
+                outputDebug("isTty = true - 1")
                 isTty = true
                 startupType = "RUN_SERVER_CODE"
                 //zzz
@@ -1584,6 +1585,7 @@ async function checkForJSLoaded() {
          } else {
              //console.log("runapp: " + runapp)
              //console.log("inputStdin: " + inputStdin)
+             outputDebug("isTty = true - 2")
              isTty = true
              startupType = "RUN_SERVER_CODE"
              //zzz
@@ -1622,6 +1624,7 @@ async function checkForJSLoaded() {
           } else {
               //console.log("runapp: " + runapp)
               //console.log("inputStdin: " + inputStdin)
+              outputDebug("isTty = true - 3")
               isTty = true
               startupType = "RUN_SERVER_CODE"
               //zzz
