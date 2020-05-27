@@ -3080,56 +3080,6 @@ async function startServices() {
 
 
 
-    //------------------------------------------------------------------------------
-    // run on the central server only
-    //
-    // This is where the client sends its details to the central server
-    //------------------------------------------------------------------------------
-    app.get('/client_connect', function (req, res) {
-
-        //console.log("1 - client_connect: ")
-        var queryData = url.parse(req.url, true).query;
-
-		var requestClientInternalHostAddress = req.query.requestClientInternalHostAddress;
-        //console.log("    requestClientInternalHostAddress: "  + requestClientInternalHostAddress)
-
-		var requestClientInternalPort        = req.query.requestClientInternalPort;
-        //console.log("    requestClientInternalPort: "  + requestClientInternalPort)
-
-		var requestVia                       = findViafromString(req.headers.via);
-        //console.log("    requestVia: "  + requestVia)
-
-		var requestClientPublicIp            = req.ip;
-        //console.log("    requestClientPublicIp: "  + requestClientPublicIp)
-
-        var clientUsername                   = req.query.clientUsername;
-        //console.log("    clientUsername: "  + clientUsername)
-
-		//requestClientPublicHostName      = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-		var requestClientPublicHostName      = "req keys::" + Object.keys(req) + ", VIA::" + req.headers.via + ", raw::" + JSON.stringify(req.rawHeaders);
-        //console.log("    requestClientPublicHostName: "  + requestClientPublicHostName)
-
-
-
-
-
-        var seqNum = queuedResponseSeqNum;
-        queuedResponseSeqNum ++;
-        queuedResponses[seqNum] = res;
-        //console.log("2")
-        forkedProcesses["forked"].send({   message_type:                       "client_connect",
-                        seq_num:                            seqNum,
-                        requestClientInternalHostAddress:   requestClientInternalHostAddress,
-                        requestClientInternalPort:          requestClientInternalPort,
-                        requestVia:                         requestVia,
-                        requestClientPublicIp:              requestClientPublicIp,
-                        clientUsername:                     clientUsername,
-                        requestClientPublicHostName:        requestClientPublicHostName
-                        });
-
-    })
-
-
 
 
 
