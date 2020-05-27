@@ -1484,7 +1484,7 @@ async function checkForJSLoaded() {
             //console.log("load code: " + loadjscode )
         }
     } catch(err) {
-        outputDebug(err)
+        outputDebug("Error in checkForJSLoaded: " + err)
     }
 
 
