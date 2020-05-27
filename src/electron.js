@@ -473,6 +473,7 @@ if (useHost) {
 
 
 port = program.port;
+outputDebug("port: " + port)
 var runapp = program.runapp;
 var runhtml = program.runhtml;
 var loadjsurl = program.loadjsurl;
