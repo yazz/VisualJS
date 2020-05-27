@@ -3254,23 +3254,21 @@ async function readCerts() {
 
 
 
-setupVisifileParams();
+
 outputDebug("process.platform = " + process.platform)
 
 
 if (process.platform === "win32") {
-var rl = require("readline").createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
+    var rl = require("readline").createInterface({
+      input: process.stdin,
+      output: process.stdout
+    });
 
-rl.on("SIGINT", function () {
-    shutDown();
-    process.exit();
-});
+    rl.on("SIGINT", function () {
+        shutDown();
+        process.exit();
+    });
 }
-
-
 
 
 
@@ -3281,7 +3279,6 @@ if (isWin) {
 } else {
 
     outputDebug("Running as Linux/Mac")
-
 	userData =  path.join(LOCAL_HOME, 'Yazz')
 }
 dbPath = path.join(userData, username + '.visi')
@@ -3299,7 +3296,7 @@ outputDebug("LOCAL_HOME: " + LOCAL_HOME)
 outputDebug("userData: " + userData)
 outputDebug("uploadPath: " + uploadPath)
 
-upload          = multer( { dest: uploadPath});
+upload = multer( { dest: uploadPath});
 
 
 rmdir("uploads");
@@ -3321,8 +3318,6 @@ dbsearch = new sqlite3.Database(dbPath);
 dbsearch.run("PRAGMA journal_mode=WAL;")
 
 
-setupMainChildProcess();
-
 
 
 
@@ -3340,3 +3335,12 @@ process.on("SIGINT", function () {
     shutDown();
     process.exit()
 });
+
+
+
+
+
+
+
+setupVisifileParams();
+setupMainChildProcess();
