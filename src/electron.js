@@ -2757,43 +2757,6 @@ function keycloakProtector(params) {
 //
 //------------------------------------------------------------------------------
 async function startServices() {
-    if (useHttps) {
-
-        var app2             = express()
-
-        var newhttp = http.createServer(app2);
-        app2.use(compression())
-        app2.get('/', function (req, res, next) {
-            return getRoot(req, res, next);
-        })
-
-
-        app2.get('*', function(req, res) {
-             if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
-                outputDebug("path: " + req.path)
-
-                var rty = req.path
-                if (req.path == "/canlabs") {
-                    rty = "/canlabs/index.html"
-                }
-
-                var fileNameRead = path.join(__dirname, '../public' + rty)
-                res.end(fs.readFileSync(fileNameRead));
-
-
-             } else if (  req.path.indexOf(".well-known") != -1  ) {
-                var fileNameRead = path.join(__dirname, '../public' + req.path)
-                res.end(fs.readFileSync(fileNameRead));
-
-
-             } else {
-                 outputDebug("Redirect HTTP to HTTPS")
-                 res.redirect('https://' + req.headers.host + req.url);
-             }
-        })
-
-        newhttp.listen(80);
-    }
 
 
     app.use(compression())
