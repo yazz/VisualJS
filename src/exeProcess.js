@@ -18,7 +18,7 @@ var traverse                    = require('traverse');
 var Kafka                       = require('kafkajs').Kafka
 var userData
 var childProcessName
-
+var ip = require('ip');
 
 var isWin                               = /^win/.test(process.platform);
 var stmtInsertRowFullTextSearch                               = null;
