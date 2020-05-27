@@ -1455,6 +1455,8 @@ function getPort () {
 //
 //------------------------------------------------------------------------------------------
 async function checkForJSLoaded() {
+    outputDebug("*********** In checkForJSLoaded() ************")
+
     if (isValidObject(envVars.loadjsurl)) {
         loadjsurl = envVars.loadjsurl
     }
