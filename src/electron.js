@@ -159,7 +159,6 @@ var io = null;
 var forkedProcesses = new Object();
 var timeout                             = 0;
 var port;
-var typeOfSystem;
 var centralHostAddress;
 var centralHostPort;
 
@@ -248,36 +247,34 @@ if (process.argv.length > 1) {
 
     program
       .version('0.0.1')
-      .option('-a, --virtualprocessors [virtualprocessors]', 'How many virtual processors to run (default 6 processors) [virtualprocessors]', 6)
-      .option('-p, --port [port]', 'Which port should I listen on? (default 80) [port]', parseInt)
-      .option('-t, --type [type]', 'Add the specified type of app (client/server) [type]', 'client')
-      .option('-h, --host [host]', 'Server address of the central host (default yazz.com) [host]', 'yazz.com')
-      .option('-l, --locked [locked]', 'Allow server to be locked/unlocked on start up (default true) [locked]', 'true')
-      .option('-d, --debug [debug]', 'Allow to run NodeJS in debug mode (default false) [debug]', 'false')
-      .option('-z, --showdebug [showdebug]', 'Allow to show debug info (default false) [showdebug]', 'false')
-      .option('-k, --showprogress [showprogress]', 'Allow to show progress when starting Pilot (default false) [showprogress]', 'false')
-      .option('-j, --showstats [showstats]', 'Allow to show stats debug info (default false) [showstats]', 'false')
-      .option('-i, --statsinterval [statsinterval]', 'Allow to show debug info every x seconds (default 10 seconds) [statsinterval]', 10)
-      .option('-m, --maxprocessesretry [maxprocessesretry]', 'Number of processes to retry when all cores are busy (default 10 processes) [maxprocessesretry]', 10)
-      .option('-n, --maxJobProcessDurationMs [maxJobProcessDurationMs]', 'Maximum time to wait for a job to complete (default 10000 ms) [maxJobProcessDurationMs]', 10000)
-      .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
-      .option('-x, --deleteonexit [deleteonexit]', 'Delete database files on exit (default true) [deleteonexit]', 'true')
-      .option('-y, --deleteonstartup [deleteonstartup]', 'Delete database files on startup (default false) [deleteonstartup]', 'false')
       .option('-a, --runapp [runapp]', 'Run the app with ID as the homepage (default not set) [runapp]', null)
+      .option('-b, --virtualprocessors [virtualprocessors]', 'How many virtual processors to run (default 6 processors) [virtualprocessors]', 6)
+      .option('-c, --runhtml [runhtml]', 'Run using a local HTML page as the homepage (default not set) [runhtml]', null)
+      .option('-d, --public [public]', 'Public HTTPS certificate [public]', null)
+      .option('-e, --debug [debug]', 'Allow to run NodeJS in debug mode (default false) [debug]', 'false')
+      .option('-f, --cacert1 [cacert1]', 'Public HTTPS CA certificate 1 [cacert1]', null)
+      .option('-g, --cacert2 [cacert2]', 'Public HTTPS CA certificate 2 [cacert2]', null)
+      .option('-h, --loadjsfile [loadjsfile]', 'Load the following JS from a file (default not set) [loadjsfile]', null)
+      .option('-i, --cacert3 [cacert3]', 'Public HTTPS CA certificate 3 [cacert3]', null)
+      .option('-j, --host [host]', 'Server address of the central host (default yazz.com) [host]', 'yazz.com')
+      .option('-k, --statsinterval [statsinterval]', 'Allow to show debug info every x seconds (default 10 seconds) [statsinterval]', 10)
+      .option('-l, --showstats [showstats]', 'Allow to show stats debug info (default false) [showstats]', 'false')
+      .option('-m, --showprogress [showprogress]', 'Allow to show progress when starting Pilot (default false) [showprogress]', 'false')
+      .option('-n, --locked [locked]', 'Allow server to be locked/unlocked on start up (default true) [locked]', 'true')
+      .option('-o, --maxprocessesretry [maxprocessesretry]', 'Number of processes to retry when all cores are busy (default 10 processes) [maxprocessesretry]', 10)
+      .option('-p, --maxJobProcessDurationMs [maxJobProcessDurationMs]', 'Maximum time to wait for a job to complete (default 10000 ms) [maxJobProcessDurationMs]', 10000)
+      .option('-q, --port [port]', 'Which port should I listen on? (default 80) [port]', parseInt)
+      .option('-r, --https [https]', 'Run using a HTTPS (default is http) [https]', 'false')
+      .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
+      .option('-t, --usehost [usehost]', 'Use host name [usehost]', null)
       .option('-u, --loadjsurl [loadjsurl]', 'Load the following JS from a URL (default not set) [loadjsurl]', null)
-      .option('-f, --loadjsfile [loadjsfile]', 'Load the following JS from a file (default not set) [loadjsfile]', null)
+      .option('-v, --deleteonexit [deleteonexit]', 'Delete database files on exit (default true) [deleteonexit]', 'true')
+      .option('-w, --deleteonstartup [deleteonstartup]', 'Delete database files on startup (default false) [deleteonstartup]', 'false')
+      .option('-x, --private [private]', 'Private HTTPS key [private]', null)
+      .option('-y, --showdebug [showdebug]', 'Allow to show debug info (default false) [showdebug]', 'false')
       .option('-z, --loadjscode [loadjscode]', 'Load the following JS from the command line (default not set) [loadjscode]', null)
-      .option('-b, --runhtml [runhtml]', 'Run using a local HTML page as the homepage (default not set) [runhtml]', null)
-      .option('-q, --https [https]', 'Run using a HTTPS (default is http) [https]', 'false')
-      .option('-v, --private [private]', 'Private HTTPS key [private]', null)
-      .option('-c, --public [public]', 'Public HTTPS certificate [public]', null)
-      .option('-e, --cacert1 [cacert1]', 'Public HTTPS CA certificate 1 [cacert1]', null)
-      .option('-f, --cacert2 [cacert2]', 'Public HTTPS CA certificate 2 [cacert2]', null)
-      .option('-g, --cacert3 [cacert3]', 'Public HTTPS CA certificate 3 [cacert3]', null)
-      .option('-u, --usehost [usehost]', 'Use host name [usehost]', null)
       .parse(process.argv);
 } else {
-    program.type = 'client'
     program.host = 'yazz.com'
     program.locked = 'true'
     program.debug = 'false'
@@ -1242,18 +1239,11 @@ function isNumber(n) {
 
 
 async function setupVisifileParams() {
-    typeOfSystem = program.type;
     centralHostAddress = program.host;
     centralHostPort = program.hostport;
     if (!isNumber(centralHostPort)) {centralHostPort = 80;};
 
 
-    if (!(typeOfSystem == 'client' || typeOfSystem == 'server')) {
-        outputDebug('-------* Invalid system type: ' + typeOfSystem);
-        process.exit();
-    };
-
-    outputDebug('-------* System type: ' + typeOfSystem);
     outputDebug('-------* Port: ' + port);
     outputDebug('-------* Central host: ' + centralHostAddress);
     outputDebug('-------* Central host port: ' + centralHostPort);
@@ -1986,12 +1976,10 @@ function findViafromString(inp) {
 function runOnPageExists(req, res, homepage) {
 
     if (fs.existsSync(homepage)) {
-        if (typeOfSystem == 'client') {
-            if (!canAccess(req,res)) {
-                return;
-            }
-            res.end(fs.readFileSync(homepage));
+        if (!canAccess(req,res)) {
+            return;
         }
+        res.end(fs.readFileSync(homepage));
     } else {
         setTimeout(function() {
             runOnPageExists(req, res, homepage)
@@ -2981,7 +2969,7 @@ function startServices() {
 
             outputDebug("****HOST=" + hostaddress + "HOST****\n");
             outputDebug("****PORT=" + port+ "PORT****\n");
-            outputDebug(typeOfSystem + ' started on port ' + port + ' with local folder at ' + process.cwd() + ' and __dirname = ' + __dirname+ "\n");
+            outputDebug(' Started on port ' + port + ' with local folder at ' + process.cwd() + ' and __dirname = ' + __dirname+ "\n");
 
 
 
