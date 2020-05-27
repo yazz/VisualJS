@@ -20,7 +20,7 @@
       git:
         repo: 'https://github.com/zubairq/pilot.git'
         dest: /root/visifile
-        version: 3cb26eddd42645b2e6bd5b2e77b42d15aa8f0716
+        version: "{{ sha }}"
 
 
     - name: Start Yazz
