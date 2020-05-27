@@ -3225,6 +3225,7 @@ async function readCerts() {
 
 
 
+setupVisifileParams();
 
 outputDebug("process.platform = " + process.platform)
 
@@ -3312,8 +3313,8 @@ process.on("SIGINT", function () {
 
 
 
-(async function() {
-    setupVisifileParams();
+
+
     setupMainChildProcess();
 
 
@@ -3347,5 +3348,3 @@ process.on("SIGINT", function () {
             }
         },(statsInterval * 1000))
     }
-
-})()
