@@ -158,7 +158,7 @@ var socket          = null
 var io = null;
 var forkedProcesses = new Object();
 var timeout                             = 0;
-var port;
+
 var centralHostAddress;
 var centralHostPort;
 
