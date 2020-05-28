@@ -1493,18 +1493,11 @@ async function checkForJSLoaded() {
     }
 
 
-    outputDebug("3")
-
-
-
 
     if (isValidObject(envVars.loadjscode)) {
         loadjscode = envVars.loadjscode
     }
     //zzz
-    //console.log("loadjscode: " + loadjscode)
-
-    outputDebug("4")
 
     let promise = new Promise(async function(returnFn) {
         if (isValidObject(loadjsurl)) {
@@ -1551,9 +1544,9 @@ async function checkForJSLoaded() {
                     isTty = true
                     startupType = "RUN_SERVER_CODE"
                 }
+                outputDebug("3.3")
+                returnFn()
               });
-              outputDebug("3.3")
-              returnFn()
 
             }).on("error", (err) => {
               outputDebug("Error: " + err.message);
