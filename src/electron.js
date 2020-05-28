@@ -1506,134 +1506,144 @@ async function checkForJSLoaded() {
 
     outputDebug("4")
 
-    if (isValidObject(loadjsurl)) {
-        outputDebug("*********** Using loadjsurl ************")
+    let promise = new Promise(async function(returnFn) {
+        if (isValidObject(loadjsurl)) {
+            outputDebug("*********** Using loadjsurl ************")
+            outputDebug("3.1")
+            var jsUrl = loadjsurl
+            https.get(jsUrl, (resp) => {
+              var data = '';
+              outputDebug("3.2")
 
-        var jsUrl = loadjsurl
-        https.get(jsUrl, (resp) => {
-          var data = '';
+              // A chunk of data has been recieved.
+              resp.on('data', (chunk) => {
+                data += chunk;
+              });
 
-          // A chunk of data has been recieved.
-          resp.on('data', (chunk) => {
-            data += chunk;
-          });
+              // The whole response has been received. Print out the result.
+              resp.on('end', () => {
+                //console.log("code:" + data);
+                var baseComponentIdForUrl = saveHelper.getValueOfCodeString(data, "base_component_id")
+                outputDebug("baseComponentIdForUrl:" + baseComponentIdForUrl);
+                if (!isValidObject(baseComponentIdForUrl)) {
+                    baseComponentIdForUrl = loadjsurl.replace(/[^A-Z0-9]/ig, "_");
+                }
+                var jsCode = data
+                outputDebug("*********** Trying to load loadjsurl code *************")
+                forkedProcesses["forked"].send({
+                                                    message_type:        "save_code",
+                                                    base_component_id:    baseComponentIdForUrl,
+                                                    parent_hash:          null,
+                                                    code:                 data,
+                                                    options:             {
+                                                                            make_public: true,
+                                                                            save_html:   true
+                                                                         }
+                                               });
+                runapp = baseComponentIdForUrl
+                let frontEndCode = isFrontEndOnlyCode(data)
+                //console.log("frontEndCode: " + frontEndCode)
+                if (frontEndCode){
+                    //inputStdin = loadjscode
+                } else {
+                    //console.log("runapp: " + runapp)
+                    //console.log("inputStdin: " + inputStdin)
+                    isTty = true
+                    startupType = "RUN_SERVER_CODE"
+                }
+              });
+              outputDebug("3.3")
+              returnFn()
 
-          // The whole response has been received. Print out the result.
-          resp.on('end', () => {
-            //console.log("code:" + data);
-            var baseComponentIdForUrl = saveHelper.getValueOfCodeString(data, "base_component_id")
-            outputDebug("baseComponentIdForUrl:" + baseComponentIdForUrl);
-            if (!isValidObject(baseComponentIdForUrl)) {
-                baseComponentIdForUrl = loadjsurl.replace(/[^A-Z0-9]/ig, "_");
+            }).on("error", (err) => {
+              outputDebug("Error: " + err.message);
+              returnFn()
+            });
+
+        } else if (isValidObject(loadjsfile)) {
+            outputDebug("*********** Using loadjsfile ************")
+
+            var jsFile = loadjsfile
+
+            var data2 = fs.readFileSync(jsFile).toString()
+            var baseComponentIdForFile = saveHelper.getValueOfCodeString(data2, "base_component_id")
+            if (!isValidObject(baseComponentIdForFile)) {
+                baseComponentIdForFile = loadjsfile.replace(/[^A-Z0-9]/ig, "_");
             }
-            var jsCode = data
-            outputDebug("*********** Trying to load loadjsurl code *************")
+
+            //console.log("code from file:" + data2);
+            //console.log("*********** Trying to load loadjsfile code *************")
             forkedProcesses["forked"].send({
                                                 message_type:        "save_code",
-                                                base_component_id:    baseComponentIdForUrl,
+                                                base_component_id:    baseComponentIdForFile,
                                                 parent_hash:          null,
-                                                code:                 data,
+                                                code:                 data2,
                                                 options:             {
                                                                         make_public: true,
                                                                         save_html:   true
                                                                      }
-                                           });
-            runapp = baseComponentIdForUrl
-            let frontEndCode = isFrontEndOnlyCode(data)
-            //console.log("frontEndCode: " + frontEndCode)
-            if (frontEndCode){
-                //inputStdin = loadjscode
-            } else {
-                //console.log("runapp: " + runapp)
-                //console.log("inputStdin: " + inputStdin)
-                outputDebug("isTty = true - 1")
-                isTty = true
-                startupType = "RUN_SERVER_CODE"
-                //zzz
-            }
-          });
+                                               });
+             runapp = baseComponentIdForFile
+             let frontEndCode = isFrontEndOnlyCode(data2)
+             //console.log("frontEndCode: " + frontEndCode)
+             if (frontEndCode){
+                 //inputStdin = loadjscode
+             } else {
+                 //console.log("runapp: " + runapp)
+                 //console.log("inputStdin: " + inputStdin)
+                 outputDebug("isTty = true - 2")
+                 isTty = true
+                 startupType = "RUN_SERVER_CODE"
+             }
+             returnFn()
 
-        }).on("error", (err) => {
-          outputDebug("Error: " + err.message);
-        });
+         } else if (isValidObject(loadjscode)) {
+             outputDebug("*********** Using loadjscode ************")
 
-    } else if (isValidObject(loadjsfile)) {
-        outputDebug("*********** Using loadjsfile ************")
+             var data2 = loadjscode
+             var baseComponentIdForCode = saveHelper.getValueOfCodeString(data2, "base_component_id")
+             outputDebug("baseComponentIdForCode:" + baseComponentIdForCode);
+             if (!isValidObject(baseComponentIdForCode)) {
+                 baseComponentIdForCode = "code_" + (("" + Math.random()).replace(/[^A-Z0-9]/ig, "_"));
+                 outputDebug("baseComponentIdForFile:" + baseComponentIdForCode);
+             }
 
-        var jsFile = loadjsfile
-
-        var data2 = fs.readFileSync(jsFile).toString()
-        var baseComponentIdForFile = saveHelper.getValueOfCodeString(data2, "base_component_id")
-        if (!isValidObject(baseComponentIdForFile)) {
-            baseComponentIdForFile = loadjsfile.replace(/[^A-Z0-9]/ig, "_");
-        }
-
-        //console.log("code from file:" + data2);
-        //console.log("*********** Trying to load loadjsfile code *************")
-        forkedProcesses["forked"].send({
-                                            message_type:        "save_code",
-                                            base_component_id:    baseComponentIdForFile,
-                                            parent_hash:          null,
-                                            code:                 data2,
-                                            options:             {
-                                                                    make_public: true,
-                                                                    save_html:   true
-                                                                 }
-                                           });
-         runapp = baseComponentIdForFile
-         let frontEndCode = isFrontEndOnlyCode(data2)
-         //console.log("frontEndCode: " + frontEndCode)
-         if (frontEndCode){
-             //inputStdin = loadjscode
-         } else {
-             //console.log("runapp: " + runapp)
-             //console.log("inputStdin: " + inputStdin)
-             outputDebug("isTty = true - 2")
-             isTty = true
-             startupType = "RUN_SERVER_CODE"
-             //zzz
-         }
-
-     } else if (isValidObject(loadjscode)) {
-         outputDebug("*********** Using loadjscode ************")
-
-         var data2 = loadjscode
-         var baseComponentIdForCode = saveHelper.getValueOfCodeString(data2, "base_component_id")
-         outputDebug("baseComponentIdForCode:" + baseComponentIdForCode);
-         if (!isValidObject(baseComponentIdForCode)) {
-             baseComponentIdForCode = "code_" + (("" + Math.random()).replace(/[^A-Z0-9]/ig, "_"));
-             outputDebug("baseComponentIdForFile:" + baseComponentIdForCode);
-         }
-
-         //console.log("code:" + data2);
-         outputDebug("*********** Trying to load loadjscode code *************")
-         forkedProcesses["forked"].send({
-                                             message_type:        "save_code",
-                                             base_component_id:    baseComponentIdForCode,
-                                             parent_hash:          null,
-                                             code:                 data2,
-                                             options:             {
-                                                                     make_public: true,
-                                                                     save_html:   true
-                                                                  }
-                                            });
-          runapp = baseComponentIdForCode
-          //console.log("baseComponentIdForCode: " + baseComponentIdForCode)
-          //console.log("runapp: " + runapp)
-          let frontEndCode = isFrontEndOnlyCode(loadjscode)
-          //console.log("frontEndCode: " + frontEndCode)
-          if (frontEndCode){
-              //inputStdin = loadjscode
-          } else {
+             //console.log("code:" + data2);
+             outputDebug("*********** Trying to load loadjscode code *************")
+             forkedProcesses["forked"].send({
+                                                 message_type:        "save_code",
+                                                 base_component_id:    baseComponentIdForCode,
+                                                 parent_hash:          null,
+                                                 code:                 data2,
+                                                 options:             {
+                                                                         make_public: true,
+                                                                         save_html:   true
+                                                                      }
+                                                });
+              runapp = baseComponentIdForCode
+              //console.log("baseComponentIdForCode: " + baseComponentIdForCode)
               //console.log("runapp: " + runapp)
-              //console.log("inputStdin: " + inputStdin)
-              outputDebug("isTty = true - 3")
-              isTty = true
-              startupType = "RUN_SERVER_CODE"
-              //zzz
-          }
+              let frontEndCode = isFrontEndOnlyCode(loadjscode)
+              //console.log("frontEndCode: " + frontEndCode)
+              if (frontEndCode){
+                  //inputStdin = loadjscode
+              } else {
+                  //console.log("runapp: " + runapp)
+                  //console.log("inputStdin: " + inputStdin)
+                  outputDebug("isTty = true - 3")
+                  isTty = true
+                  startupType = "RUN_SERVER_CODE"
+              }
+              returnFn()
 
-     }
+         } else {
+             returnFn()
+
+         }
+     })
+     var ret = await promise
+
+     //zzz
      outputDebug("5")
      return
 }
