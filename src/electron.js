@@ -14,7 +14,8 @@ var restRoutes = new Object()
 var envVars = new Object()
 var systemReady = false;
 var httpServer = null;
-
+var username                            = "Unknown user";
+var isDocker        = require('is-docker');
 var ls = require('ls-sync');
 var rimraf = require("rimraf");
 
@@ -40,7 +41,57 @@ outputDebug("__dirname: " + __dirname)
 
 outputDebug("Platform: " + process.platform)
 
-if (isWin)  {
+
+
+outputDebug("process.env.OPENSHIFT_NODEJS_IP:= " + process.env.OPENSHIFT_NODEJS_IP)
+
+
+if (process.env.OPENSHIFT_NODEJS_IP) {
+    username = "node"
+} else {
+    username = "node"
+    //if (isValidObject(os) && isValidObject(os.userInfo()) && isValidObject(os.userInfo().username)) {
+    //    username = os.userInfo().username.toLowerCase();
+    //}
+}
+
+var LOCAL_HOME = process.env.HOME
+
+outputDebug('LOCAL_HOME:' + LOCAL_HOME);
+
+
+
+//
+// We set the HOME environment variable if we are running in OpenShift
+//
+outputDebug('DOCKER CHECK...');
+
+
+if (isDocker()) {
+
+    outputDebug('Running inside a Linux container');
+
+
+} else {
+    outputDebug('NOT running inside a Linux container');
+}
+
+if (!isValidObject(LOCAL_HOME) || (LOCAL_HOME == "/")) {
+    LOCAL_HOME = "/home/node"
+}
+
+
+
+
+
+if (isDocker()) {
+
+
+
+
+
+    
+} else if (isWin)  {
     outputDebug("Creating Windows driver")
   mkdirp.sync('node_modules\\sqlite3\\lib/binding\\node-v72-win32-x64');
   var srcNodeJsFile = path.join(__dirname,'..\\node_sqlite3_win64.rename')
@@ -99,13 +150,13 @@ var bodyParser      = require('body-parser');
 var multer          = require('multer');
 var cors            = require('cors')
 var saveHelper      = require('./save_helpers')
-var isDocker        = require('is-docker');
+
 
 var sqlite3                     = require('sqlite3');
 
 
 var os              = require('os')
-var username                            = "Unknown user";
+
 
 var Keycloak =      require('keycloak-connect');
 var session =       require('express-session');
@@ -383,42 +434,6 @@ function isValidObject(variable){
         return true
     }
     return false
-}
-outputDebug("process.env.OPENSHIFT_NODEJS_IP:= " + process.env.OPENSHIFT_NODEJS_IP)
-
-
-if (process.env.OPENSHIFT_NODEJS_IP) {
-    username = "node"
-} else {
-    username = "node"
-    //if (isValidObject(os) && isValidObject(os.userInfo()) && isValidObject(os.userInfo().username)) {
-    //    username = os.userInfo().username.toLowerCase();
-    //}
-}
-
-var LOCAL_HOME = process.env.HOME
-
-outputDebug('LOCAL_HOME:' + LOCAL_HOME);
-
-
-
-//
-// We set the HOME environment variable if we are running in OpenShift
-//
-outputDebug('DOCKER CHECK...');
-
-
-if (isDocker()) {
-
-    outputDebug('Running inside a Linux container');
-
-
-} else {
-    outputDebug('NOT running inside a Linux container');
-}
-
-if (!isValidObject(LOCAL_HOME) || (LOCAL_HOME == "/")) {
-    LOCAL_HOME = "/home/node"
 }
 
 
