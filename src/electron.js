@@ -88,7 +88,7 @@ try {
 if (isDocker()) {
 
 
-
+} else if (process.env["KUBERNETES_SERVICE_HOST"]) {
 
 
 
