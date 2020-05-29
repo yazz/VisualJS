@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: pilot
-        image: yazzcorp/pilot:1.8
+        image: yazzcorp/pilot:2.0
         ports:
         - containerPort: 3000
 ---
