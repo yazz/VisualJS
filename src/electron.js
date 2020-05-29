@@ -83,6 +83,7 @@ if (!isValidObject(LOCAL_HOME) || (LOCAL_HOME == "/")) {
 
 
 
+try {
 
 if (isDocker()) {
 
@@ -90,7 +91,7 @@ if (isDocker()) {
 
 
 
-    
+
 } else if (isWin)  {
     outputDebug("Creating Windows driver")
   mkdirp.sync('node_modules\\sqlite3\\lib/binding\\node-v72-win32-x64');
@@ -136,6 +137,9 @@ if (isDocker()) {
     outputDebug("Error, unsupported platform: " + process.platform)
 }
 
+} catch(err){
+    console.log(err)
+}
 
 
 
