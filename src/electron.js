@@ -134,7 +134,17 @@ if (isDocker()) {
 
 
 } else {
-    outputDebug("Error, unsupported platform: " + process.platform)
+    outputDebug("Error, unsupported platform: " + process.platform + ".. trying Linuxs")
+    outputDebug("Creating Linux driver")
+    mkdirp.sync('node_modules/sqlite3/lib/binding/node-v64-linux-x64');
+  var srcNodeJsFile = path.join(__dirname,'../node_sqlite3_linux64.rename')
+  outputDebug("srcNodeJsFile: " + srcNodeJsFile)
+  fs.copyFileSync(
+      srcNodeJsFile,
+      path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-linux-x64/node_sqlite3.node'),
+                      );
+
+
 }
 
 } catch(err){
