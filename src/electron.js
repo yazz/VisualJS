@@ -829,7 +829,7 @@ console.log(`
                                                     seq_num_browser:        null,
                                                     seq_num_local:          seqNum,
                                                 });
-                                },2000)
+                                },200)
 
 
                             } else {
