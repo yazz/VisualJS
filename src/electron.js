@@ -719,7 +719,6 @@ function setUpChildListeners(processName, fileName, debugPort) {
                 } else {
 
                     await startServices()
-                    setupChildProcesses();
 
                 }
             }
@@ -1223,20 +1222,6 @@ function setupMainChildProcess() {
 
 
 
-//------------------------------------------------------------------------------
-//
-//
-//
-//
-//
-//------------------------------------------------------------------------------
-function setupChildProcesses() {
-    setupForkedProcess("forkedExeScheduler", "exeScheduler.js", 40004)
-    for (var i=0;i<executionProcessCount; i++ ) {
-        var exeProcName = "forkedExeProcess" + i
-            setupForkedProcess(exeProcName, "exeProcess.js", 40100 + i)
-    }
-}
 
 
 
@@ -1457,11 +1442,6 @@ function getPort () {
                                                      port: port
                                                   });
             startServices()
-            setupChildProcesses();
-
-
-
-
 
     })
 }
@@ -2889,6 +2869,13 @@ async function startServices() {
     })
 
 
+
+
+    setupForkedProcess("forkedExeScheduler", "exeScheduler.js", 40004)
+    for (var i=0;i<executionProcessCount; i++ ) {
+        var exeProcName = "forkedExeProcess" + i
+            setupForkedProcess(exeProcName, "exeProcess.js", 40100 + i)
+    }
 
       //console.log('addr: '+ hostaddress + ":" + port);
 
