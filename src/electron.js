@@ -734,127 +734,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
     //
     //------------------------------------------------------------------------------
     } else if (msg.message_type == "drivers_loaded_by_child") {
-
-    	//--------------------------------------------------------
-    	// Check if any JS is loaded
-    	//--------------------------------------------------------
-        await checkForJSLoaded();
-
-
-if (!isTty) {
-console.log(`
-
- YYYYYYY       YYYYYYY
- Y:::::Y       Y:::::Y
- Y:::::Y       Y:::::Y
- Y::::::Y     Y::::::Y
- YYY:::::Y   Y:::::YYY  aaaaaaaaaaaaa   zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
-    Y:::::Y Y:::::Y     a::::::::::::a  z:::::::::::::::zz:::::::::::::::z
-     Y:::::Y:::::Y      aaaaaaaaa:::::a z::::::::::::::z z::::::::::::::z
-      Y:::::::::Y                a::::a zzzzzzzz::::::z  zzzzzzzz::::::z
-       Y:::::::Y          aaaaaaa:::::a       z::::::z         z::::::z
-        Y:::::Y         aa::::::::::::a      z::::::z         z::::::z
-        Y:::::Y        a::::aaaa::::::a     z::::::z         z::::::z
-        Y:::::Y       a::::a    a:::::a    z::::::z         z::::::z
-        Y:::::Y       a::::a    a:::::a   z::::::zzzzzzzz  z::::::zzzzzzzz
-     YYYY:::::YYYY    a:::::aaaa::::::a  z::::::::::::::z z::::::::::::::z
-     Y:::::::::::Y     a::::::::::aa:::az:::::::::::::::zz:::::::::::::::z
-     YYYYYYYYYYYYY      aaaaaaaaaa  aaaazzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
-
-
-
- PPPPPPPPPPPPPPPPP     iiii  lllllll                           tttt
- P::::::::::::::::P   i::::i l:::::l                        ttt:::t
- P::::::PPPPPP:::::P   iiii  l:::::l                        t:::::t
- PP:::::P     P:::::P        l:::::l                        t:::::t
-   P::::P     P:::::Piiiiiii  l::::l    ooooooooooo   ttttttt:::::ttttttt
-   P::::P     P:::::Pi:::::i  l::::l  oo:::::::::::oo t:::::::::::::::::t
-   P::::PPPPPP:::::P  i::::i  l::::l o:::::::::::::::ot:::::::::::::::::t
-   P:::::::::::::PP   i::::i  l::::l o:::::ooooo:::::otttttt:::::::tttttt
-   P::::PPPPPPPPP     i::::i  l::::l o::::o     o::::o      t:::::t
-   P::::P             i::::i  l::::l o::::o     o::::o      t:::::t
-   P::::P             i::::i  l::::l o::::o     o::::o      t:::::t
-   P::::P             i::::i  l::::l o::::o     o::::o      t:::::t    tttttt
- PP::::::PP          i::::::il::::::lo:::::ooooo:::::o      t::::::tttt:::::t
- P::::::::P          i::::::il::::::lo:::::::::::::::o      tt::::::::::::::t
- P::::::::P          i::::::il::::::l oo:::::::::::oo         tt:::::::::::tt
- PPPPPPPPPP          iiiiiiiillllllll   ooooooooooo             ttttttttttt
-`)
-
-
-        console.log("\nRunning " + executionProcessCount + " virtual processors");
-        console.log("\nYazz Pilot started on:");
-        console.log("Network Host Address: " + hostaddressintranet)
-        console.log("Local Machine Address: " + serverProtocol + "://" + hostaddress + ':' + port);
-} else {
-    //zzz
-
-                        var parsedInput = null
-                        try {
-                            parsedInput = eval("(" + inputStdin + ")");
-                        } catch(qwe) {
-                            //console.log("Err: " + qwe);
-                            try {
-                                let pss = "('" + inputStdin + "')";
-                                pss = pss.replace(/(\r\n|\n|\r)/gm, "");
-                                parsedInput = eval(pss);
-                            } catch(ex) {
-                                //console.log(ex)
-                            }
-                        }
-                        //console.log("client args:" + JSON.stringify( parsedInput,null,2))
-
-                        //console.log("Parsed: " + JSON.stringify(parsedInput));
-
-                        (async function() {
-                        var promise = new Promise(async function(returnFn) {
-                            var seqNum = queuedResponseSeqNum;
-                            queuedResponseSeqNum ++;
-                            queuedResponses[ seqNum ] = function(value) {
-                                returnFn(value)
-                            }
-
-                            if(startupType == "RUN_SERVER_CODE") {
-                                setTimeout(function(){
-                                    forkedProcesses["forked"].send({
-                                                    message_type:          "callDriverMethod",
-                                                    find_component:         {
-                                                                                base_component_id: runapp
-                                                                            }
-                                                                            ,
-                                                    args:                   parsedInput
-                                                                            ,
-                                                    seq_num_parent:         null,
-                                                    seq_num_browser:        null,
-                                                    seq_num_local:          seqNum,
-                                                });
-                                },startupDelay)
-
-
-                            } else {
-
-                                        }
-
-
-
-                        })
-                        var ret = await promise
-                        //console.log("ret: "  +  JSON.stringify(ret,null,2))
-
-                        if (ret.value) {
-                            process.stdout.write(ret.value);
-                        }
-
-                        process.exit();
-                    })()
-}
-
-        systemReady = true
-
-
-
-
-
+        await finalizeYazzLoading();
 
 
 
@@ -2832,8 +2712,18 @@ async function startServices() {
 
 
 
-    setTimeout(function(){
-        forkedProcesses["forked"].send({message_type:       'setUpPredefinedComponents'});
+    setTimeout(async function(){
+        //--------------------------------------------------------
+    	// Check if any JS is loaded
+    	//--------------------------------------------------------
+        await checkForJSLoaded();
+
+
+        if (isTty) {
+            await finalizeYazzLoading()
+        } else {
+            forkedProcesses["forked"].send({message_type:       'setUpPredefinedComponents'});
+        }
 
 
     },1000)
@@ -2843,7 +2733,118 @@ async function startServices() {
 
 
 
+async function finalizeYazzLoading() {
 
+    if (!isTty) {
+        console.log(`
+
+YYYYYYY       YYYYYYY
+Y:::::Y       Y:::::Y
+Y:::::Y       Y:::::Y
+Y::::::Y     Y::::::Y
+YYY:::::Y   Y:::::YYY  aaaaaaaaaaaaa   zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
+Y:::::Y Y:::::Y     a::::::::::::a  z:::::::::::::::zz:::::::::::::::z
+Y:::::Y:::::Y      aaaaaaaaa:::::a z::::::::::::::z z::::::::::::::z
+Y:::::::::Y                a::::a zzzzzzzz::::::z  zzzzzzzz::::::z
+Y:::::::Y          aaaaaaa:::::a       z::::::z         z::::::z
+Y:::::Y         aa::::::::::::a      z::::::z         z::::::z
+Y:::::Y        a::::aaaa::::::a     z::::::z         z::::::z
+Y:::::Y       a::::a    a:::::a    z::::::z         z::::::z
+Y:::::Y       a::::a    a:::::a   z::::::zzzzzzzz  z::::::zzzzzzzz
+YYYY:::::YYYY    a:::::aaaa::::::a  z::::::::::::::z z::::::::::::::z
+Y:::::::::::Y     a::::::::::aa:::az:::::::::::::::zz:::::::::::::::z
+YYYYYYYYYYYYY      aaaaaaaaaa  aaaazzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
+
+
+
+PPPPPPPPPPPPPPPPP     iiii  lllllll                           tttt
+P::::::::::::::::P   i::::i l:::::l                        ttt:::t
+P::::::PPPPPP:::::P   iiii  l:::::l                        t:::::t
+PP:::::P     P:::::P        l:::::l                        t:::::t
+P::::P     P:::::Piiiiiii  l::::l    ooooooooooo   ttttttt:::::ttttttt
+P::::P     P:::::Pi:::::i  l::::l  oo:::::::::::oo t:::::::::::::::::t
+P::::PPPPPP:::::P  i::::i  l::::l o:::::::::::::::ot:::::::::::::::::t
+P:::::::::::::PP   i::::i  l::::l o:::::ooooo:::::otttttt:::::::tttttt
+P::::PPPPPPPPP     i::::i  l::::l o::::o     o::::o      t:::::t
+P::::P             i::::i  l::::l o::::o     o::::o      t:::::t
+P::::P             i::::i  l::::l o::::o     o::::o      t:::::t
+P::::P             i::::i  l::::l o::::o     o::::o      t:::::t    tttttt
+PP::::::PP          i::::::il::::::lo:::::ooooo:::::o      t::::::tttt:::::t
+P::::::::P          i::::::il::::::lo:::::::::::::::o      tt::::::::::::::t
+P::::::::P          i::::::il::::::l oo:::::::::::oo         tt:::::::::::tt
+PPPPPPPPPP          iiiiiiiillllllll   ooooooooooo             ttttttttttt
+`)
+
+
+console.log("\nRunning " + executionProcessCount + " virtual processors");
+console.log("\nYazz Pilot started on:");
+console.log("Network Host Address: " + hostaddressintranet)
+console.log("Local Machine Address: " + serverProtocol + "://" + hostaddress + ':' + port);
+} else {
+//zzz
+
+                var parsedInput = null
+                try {
+                    parsedInput = eval("(" + inputStdin + ")");
+                } catch(qwe) {
+                    //console.log("Err: " + qwe);
+                    try {
+                        let pss = "('" + inputStdin + "')";
+                        pss = pss.replace(/(\r\n|\n|\r)/gm, "");
+                        parsedInput = eval(pss);
+                    } catch(ex) {
+                        //console.log(ex)
+                    }
+                }
+                //console.log("client args:" + JSON.stringify( parsedInput,null,2))
+
+                //console.log("Parsed: " + JSON.stringify(parsedInput));
+
+                (async function() {
+                var promise = new Promise(async function(returnFn) {
+                    var seqNum = queuedResponseSeqNum;
+                    queuedResponseSeqNum ++;
+                    queuedResponses[ seqNum ] = function(value) {
+                        returnFn(value)
+                    }
+
+                    if(startupType == "RUN_SERVER_CODE") {
+                        setTimeout(function(){
+                            forkedProcesses["forked"].send({
+                                            message_type:          "callDriverMethod",
+                                            find_component:         {
+                                                                        base_component_id: runapp
+                                                                    }
+                                                                    ,
+                                            args:                   parsedInput
+                                                                    ,
+                                            seq_num_parent:         null,
+                                            seq_num_browser:        null,
+                                            seq_num_local:          seqNum,
+                                        });
+                        },startupDelay)
+
+
+                    } else {
+
+                                }
+
+
+
+                })
+                var ret = await promise
+                //console.log("ret: "  +  JSON.stringify(ret,null,2))
+
+                if (ret.value) {
+                    process.stdout.write(ret.value);
+                }
+
+                process.exit();
+            })()
+    }
+
+    systemReady = true
+}
 
 
 
