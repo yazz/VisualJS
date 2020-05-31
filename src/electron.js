@@ -828,7 +828,7 @@ console.log(`
                                                     seq_num_browser:        null,
                                                     seq_num_local:          seqNum,
                                                 });
-                                },10)
+                                },1000)
 
 
                             } else {
