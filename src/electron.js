@@ -1492,7 +1492,6 @@ async function checkForJSLoaded() {
     if (isValidObject(envVars.loadjsurl)) {
         loadjsurl = envVars.loadjsurl
     }
-    outputDebug("1")
 
     //
     // load JS code from file
@@ -1500,7 +1499,6 @@ async function checkForJSLoaded() {
     if (isValidObject(envVars.loadjsfile)) {
         loadjsfile = envVars.loadjsfile
     }
-    outputDebug("2")
 
 
     //console.log("process.argv.length : " + process.argv.length )
@@ -1531,11 +1529,9 @@ async function checkForJSLoaded() {
     let promise = new Promise(async function(returnFn) {
         if (isValidObject(loadjsurl)) {
             outputDebug("*********** Using loadjsurl ************")
-            outputDebug("3.1")
             var jsUrl = loadjsurl
             https.get(jsUrl, (resp) => {
               var data = '';
-              outputDebug("3.2")
 
               // A chunk of data has been recieved.
               resp.on('data', (chunk) => {
@@ -1573,7 +1569,6 @@ async function checkForJSLoaded() {
                     isTty = true
                     startupType = "RUN_SERVER_CODE"
                 }
-                outputDebug("3.3")
                 returnFn()
               });
 
@@ -1613,7 +1608,6 @@ async function checkForJSLoaded() {
              } else {
                  //console.log("runapp: " + runapp)
                  //console.log("inputStdin: " + inputStdin)
-                 outputDebug("isTty = true - 2")
                  isTty = true
                  startupType = "RUN_SERVER_CODE"
              }
@@ -1652,7 +1646,6 @@ async function checkForJSLoaded() {
               } else {
                   //console.log("runapp: " + runapp)
                   //console.log("inputStdin: " + inputStdin)
-                  outputDebug("isTty = true - 3")
                   isTty = true
                   startupType = "RUN_SERVER_CODE"
               }
@@ -1666,7 +1659,6 @@ async function checkForJSLoaded() {
      var ret = await promise
 
      //zzz
-     outputDebug("5")
      return
 }
 
