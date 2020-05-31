@@ -225,21 +225,10 @@ var io = null;
 var forkedProcesses = new Object();
 var timeout                             = 0;
 
-var centralHostAddress;
-var centralHostPort;
 
-var stmt2                               = null;
-var stmt3                               = null;
-var setIn                               = null;
-var stopScan                            = false;
-var inScan                              = false;
-var numberOfSecondsAliveCheck           = 60;
+
 var serverwebsockets                    = [];
 var portrange                           = 3000
-var requestClientInternalHostAddress    = '';
-var requestClientInternalPort           = -1;
-var requestClientPublicIp               = '';
-var requestClientPublicHostName         = '';
 var locked;
 var useHttps;
 var serverProtocol                       = "http";
@@ -248,7 +237,6 @@ var publicCertificate;
 var caCertificate1;
 var caCertificate2;
 var caCertificate3;
-var requestClientPublicIp;
 var hostcount  							= 0;
 var queuedResponses                     = new Object();
 var queuedResponseSeqNum                = 1;
@@ -1136,14 +1124,9 @@ function isNumber(n) {
 
 
 async function setupVisifileParams() {
-    centralHostAddress = program.host;
-    centralHostPort = program.hostport;
-    if (!isNumber(centralHostPort)) {centralHostPort = 80;};
 
 
     outputDebug('-------* Port: ' + port);
-    outputDebug('-------* Central host: ' + centralHostAddress);
-    outputDebug('-------* Central host port: ' + centralHostPort);
     outputDebug( ip.address() );
 
 	//console.log('addr: '+ ip.address());
