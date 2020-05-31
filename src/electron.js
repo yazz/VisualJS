@@ -980,7 +980,6 @@ console.log(`
         //
         //------------------------------------------------------------------------------
         } else if (msg.message_type == "execute_code_in_exe_child_process") {
-                //console.log("6 - return_get_all_table: " );
 
                 forkedProcesses[msg.child_process_name].send({
                                                         message_type:       "execute_code",
@@ -1005,7 +1004,6 @@ console.log(`
       //
       //------------------------------------------------------------------------------
       } else if (msg.message_type == "function_call_request") {
-              //console.log("6 - return_get_all_table: " );
 
               forkedProcesses["forkedExeScheduler"].send({
                                                       message_type:         "function_call_request",
@@ -2756,12 +2754,6 @@ async function startServices() {
 
 
 
-
-    app.get('/send_client_details', function (req, res) {
-    	return send_client_detailsFn(req, res);
-    })
-
-
     app.get('/lock', function (req, res) {
         return lockFn(req, res);
     })
@@ -2770,49 +2762,6 @@ async function startServices() {
     process.on('uncaughtException', function (err) {
       outputDebug(err);
     })
-
-
-
-    //------------------------------------------------------------------------------
-    // This is called by the central server to get the details of the last
-    // client that connected tp the central server
-    //------------------------------------------------------------------------------
-    app.get('/get_connect', function (req, res) {
-    	return get_connectFn(req, res);
-    })
-
-    //app.enable('trust proxy')
-
-
-    app.get('/get_all_table', function (req, res) {
-        var tableName = url.parse(req.url, true).query.tableName;
-        var fields = url.parse(req.url, true).query.fields;
-
-        //console.log("1 - get_all_table ,tableName: " + tableName)
-        //console.log("    get_all_table ,fields: "    + fields)
-
-        var seqNum = queuedResponseSeqNum;
-        queuedResponseSeqNum ++;
-        queuedResponses[seqNum] = res;
-        //console.log("2 - get_search_results")
-        forkedProcesses["forked"].send({
-                        message_type:               "get_all_tables",
-                        seq_num:                    seqNum,
-                        table_name:                 tableName,
-                        fields:                     fields
-                        });    });
-
-    app.post('/add_new_connection', function (req, res) {
-    		return add_new_connectionFn(req, res)
-    });
-
-
-
-    app.post('/add_new_query',function (req, res) {
-        return add_new_queryFn(req, res)
-    });
-
-
 
 
 
