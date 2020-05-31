@@ -302,7 +302,6 @@ stdin.on('data', function(chunk) {
 });
 
 stdin.on('end', function() {
-    outputDebug("isTty = true - 4")
     outputDebug("inputStdin: " + inputStdin)
     //isTty = true
 });
@@ -829,7 +828,7 @@ console.log(`
                                                     seq_num_browser:        null,
                                                     seq_num_local:          seqNum,
                                                 });
-                                },200)
+                                },10)
 
 
                             } else {
