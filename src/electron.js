@@ -31,6 +31,7 @@ var https           = require('https');
 var app             = express()
 var isTty           = false
 var startupType     = null
+var startupDelay     = 0
 
 
 
@@ -828,7 +829,7 @@ console.log(`
                                                     seq_num_browser:        null,
                                                     seq_num_local:          seqNum,
                                                 });
-                                },1000)
+                                },startupDelay)
 
 
                             } else {
@@ -1567,6 +1568,7 @@ async function checkForJSLoaded() {
                     //console.log("inputStdin: " + inputStdin)
                     isTty = true
                     startupType = "RUN_SERVER_CODE"
+                    startupDelay = 1000
                 }
                 returnFn()
               });
@@ -1609,6 +1611,7 @@ async function checkForJSLoaded() {
                  //console.log("inputStdin: " + inputStdin)
                  isTty = true
                  startupType = "RUN_SERVER_CODE"
+                 startupDelay = 1000
              }
              returnFn()
 
@@ -1647,6 +1650,7 @@ async function checkForJSLoaded() {
                   //console.log("inputStdin: " + inputStdin)
                   isTty = true
                   startupType = "RUN_SERVER_CODE"
+                  startupDelay = 1000
               }
               returnFn()
 
