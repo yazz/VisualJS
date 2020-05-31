@@ -32,7 +32,7 @@ var app             = express()
 var isTty           = false
 var startupType     = null
 var startupDelay     = 0
-
+var isCodeTtyCode = false
 
 
 var expressWs       = require('express-ws')(app);
@@ -1522,6 +1522,103 @@ async function checkForJSLoaded() {
      //zzz
      return
 }
+
+
+
+
+//------------------------------------------------------------------------------------------
+//
+//                                          checkForJSLoaded
+//
+// This checks to see if Yazz Pilot is started with custom code. This code is
+// then loaded into Yazz Pilot either as a web app or it is run as a UI app
+//
+//
+//
+//------------------------------------------------------------------------------------------
+async function isTtyCode() {
+    outputDebug("*********** In isTtyCode() ************")
+
+    if (isValidObject(envVars.loadjsurl)) {
+        loadjsurl = envVars.loadjsurl
+    }
+
+    //
+    // load JS code from file
+    //
+    if (isValidObject(envVars.loadjsfile)) {
+        loadjsfile = envVars.loadjsfile
+    }
+
+
+    //console.log("process.argv.length : " + process.argv.length )
+    //console.log("process.argv[2] : " + process.argv[2] )
+    try {
+        if ((process.argv[2]) && (process.argv[2].startsWith("http://") || process.argv[2].startsWith("https://") )) {
+            loadjsurl = process.argv[2]
+
+        } else if ((process.argv[2]) && (process.argv[2].endsWith(".js") || process.argv[2].endsWith(".pilot") )) {
+            loadjsfile = process.argv[2]
+
+        } else if ((process.argv[2]) && (!process.argv[2].startsWith("--"))) {
+            loadjscode = process.argv[2]
+            outputDebug("load code: " + loadjscode )
+            //console.log("load code: " + loadjscode )
+        }
+    } catch(err) {
+        outputDebug("Error in checkForJSLoaded: " + err)
+    }
+
+
+
+    if (isValidObject(envVars.loadjscode)) {
+        loadjscode = envVars.loadjscode
+    }
+    //zzz
+
+    let promise = new Promise(async function(returnFn) {
+        if (isValidObject(loadjsurl)) {
+            var jsUrl = loadjsurl
+            https.get(jsUrl, (resp) => {
+              var data = '';
+
+              resp.on('data', (chunk) => {
+                data += chunk;
+              });
+
+              resp.on('end', () => {
+                returnFn(data)
+              });
+
+            }).on("error", (err) => {
+              outputDebug("Error: " + err.message);
+              returnFn("")
+            });
+
+
+
+        } else if (isValidObject(loadjsfile)) {
+            var jsFile = loadjsfile
+
+            var data2 = fs.readFileSync(jsFile).toString()
+             returnFn(data2)
+
+         } else if (isValidObject(loadjscode)) {
+              returnFn(loadjscode)
+
+         } else {
+             returnFn("")
+
+         }
+     })
+     var theCode = await promise
+     let frontEndCode = isFrontEndOnlyCode(theCode)
+
+     return frontEndCode
+}
+
+
+
 
 
 function isFrontEndOnlyCode(code) {
