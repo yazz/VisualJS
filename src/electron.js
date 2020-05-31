@@ -1432,7 +1432,7 @@ function getPort () {
         portrange += 1
         getPort()
     })
-    httpServer.on('listening', function (err) {
+    httpServer.on('listening', async function (err) {
 
             outputDebug('Can connect on ' + ip.address() +  ':' + port + ' :) ')
 
@@ -1441,7 +1441,7 @@ function getPort () {
                                                      ip: hostaddress,
                                                      port: port
                                                   });
-            startServices()
+            await startServices()
 
     })
 }
