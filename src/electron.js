@@ -718,7 +718,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
                     getPort()
                 } else {
 
-                    startServices()
+                    await startServices()
                     setupChildProcesses();
 
                 }
@@ -2611,7 +2611,7 @@ function keycloakProtector(params) {
 //------------------------------------------------------------
 // This starts all the system services
 //------------------------------------------------------------
-function startServices() {
+async function startServices() {
     if (useHttps) {
 
         var app2             = express()
