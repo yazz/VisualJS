@@ -2836,10 +2836,10 @@ console.log("Local Machine Address: " + serverProtocol + "://" + hostaddress + '
                 //console.log("ret: "  +  JSON.stringify(ret,null,2))
 
                 if (ret.value) {
-                    process.stdout.write(ret.value);
+                    process.stdout.write(JSON.stringify(ret.value,null,2));
                 }
 
-                process.exit();
+                //process.exit();
             })()
     }
 
