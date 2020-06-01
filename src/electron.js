@@ -431,6 +431,12 @@ if (isValidObject(envVars.virtualprocessors)) {
 envVars.IP_ADDRESS = ip.address()
 
 
+
+
+
+
+
+
 function isValidObject(variable){
     if ((typeof variable !== 'undefined') && (variable != null)) {
         return true
@@ -510,7 +516,6 @@ if (!isNumber(port)) {
 
 
 outputDebug('Yazz node local hostname: ' + ip.address() + ' ')
-
 
 
 
@@ -702,6 +707,19 @@ function setUpChildListeners(processName, fileName, debugPort) {
             if (!mainNodeProcessStarted) {
                 mainNodeProcessStarted = true
                 outputDebug("createdTablesInChild, isTty: " + isTty)
+
+
+
+                //zzz
+                var rfg= (async function() {
+                    isCodeTtyCode = await isTtyCode()
+                    console.log("isCodeTtyCode:= " + isCodeTtyCode)
+
+                })
+                rfg()
+
+
+
                 if (!isTty) {
                     getPort()
                 } else {
@@ -1365,7 +1383,7 @@ async function checkForJSLoaded() {
     if (isValidObject(envVars.loadjscode)) {
         loadjscode = envVars.loadjscode
     }
-    //zzz
+
 
     let promise = new Promise(async function(returnFn) {
         if (isValidObject(loadjsurl)) {
@@ -1502,7 +1520,7 @@ async function checkForJSLoaded() {
      })
      var ret = await promise
 
-     //zzz
+
      return
 }
 
@@ -1557,7 +1575,7 @@ async function isTtyCode() {
     if (isValidObject(envVars.loadjscode)) {
         loadjscode = envVars.loadjscode
     }
-    //zzz
+
 
     let promise = new Promise(async function(returnFn) {
         if (isValidObject(loadjsurl)) {
@@ -2861,7 +2879,7 @@ console.log("\nYazz Pilot started on:");
 console.log("Network Host Address: " + hostaddressintranet)
 console.log("Local Machine Address: " + serverProtocol + "://" + hostaddress + ':' + port);
 } else {
-//zzz
+
 
                 var parsedInput = null
                 try {
