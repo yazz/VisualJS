@@ -29,7 +29,6 @@ var express         = require('express')
 var http            = require('http')
 var https           = require('https');
 var app             = express()
-var isTty           = false
 var startupType     = null
 var startupDelay     = 0
 var isCodeTtyCode = false
@@ -292,7 +291,6 @@ stdin.on('data', function(chunk) {
 
 stdin.on('end', function() {
     outputDebug("inputStdin: " + inputStdin)
-    //isTty = true
 });
 
 
@@ -706,22 +704,21 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
             if (!mainNodeProcessStarted) {
                 mainNodeProcessStarted = true
-                outputDebug("createdTablesInChild, isTty: " + isTty)
+                outputDebug("createdTablesInChild")
 
 
 
                 //zzz
                 isCodeTtyCode = await isTtyCode()
                 console.log("isCodeTtyCode:= " + isCodeTtyCode)
-                console.log("isTty:= " + isTty)
 
 
 
-                if (!isTty) {
-                    getPort()
-                } else {
-
+                if (isCodeTtyCode) {
                     await startServices()
+                } else {
+                    getPort()
+
 
                 }
             }
@@ -1422,7 +1419,6 @@ async function checkForJSLoaded() {
                 } else {
                     //console.log("runapp: " + runapp)
                     //console.log("inputStdin: " + inputStdin)
-                    isTty = true
                     startupType = "RUN_SERVER_CODE"
                     startupDelay = 1000
                 }
@@ -1465,7 +1461,6 @@ async function checkForJSLoaded() {
              } else {
                  //console.log("runapp: " + runapp)
                  //console.log("inputStdin: " + inputStdin)
-                 isTty = true
                  startupType = "RUN_SERVER_CODE"
                  startupDelay = 1000
              }
@@ -1504,7 +1499,6 @@ async function checkForJSLoaded() {
               } else {
                   //console.log("runapp: " + runapp)
                   //console.log("inputStdin: " + inputStdin)
-                  isTty = true
                   startupType = "RUN_SERVER_CODE"
                   startupDelay = 1000
               }
@@ -2817,7 +2811,7 @@ async function startServices() {
         await checkForJSLoaded();
 
 
-        if (isTty) {
+        if (isCodeTtyCode) {
             await finalizeYazzLoading()
         } else {
             forkedProcesses["forked"].send({message_type:       'setUpPredefinedComponents'});
@@ -2833,7 +2827,7 @@ async function startServices() {
 
 async function finalizeYazzLoading() {
 
-    if (!isTty) {
+    if (!isCodeTtyCode) {
         console.log(`
 
 YYYYYYY       YYYYYYY
