@@ -713,10 +713,11 @@ function setUpChildListeners(processName, fileName, debugPort) {
                 //zzz
                 isCodeTtyCode = await isTtyCode()
                 console.log("isCodeTtyCode:= " + isCodeTtyCode)
+                console.log("isTty:= " + isTty)
 
 
 
-                if ((!isCodeTtyCode) && (!isTty)) {
+                if (!isTty) {
                     getPort()
                 } else {
 
