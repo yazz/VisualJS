@@ -711,16 +711,12 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
                 //zzz
-                var rfg= (async function() {
-                    isCodeTtyCode = await isTtyCode()
-                    console.log("isCodeTtyCode:= " + isCodeTtyCode)
-
-                })
-                rfg()
+                isCodeTtyCode = await isTtyCode()
+                console.log("isCodeTtyCode:= " + isCodeTtyCode)
 
 
 
-                if (!isTty) {
+                if ((!isCodeTtyCode) && (!isTty)) {
                     getPort()
                 } else {
 
@@ -1615,7 +1611,7 @@ async function isTtyCode() {
      var theCode = await promise
      let frontEndCode = isFrontEndOnlyCode(theCode)
 
-     return frontEndCode
+     return !frontEndCode
 }
 
 
