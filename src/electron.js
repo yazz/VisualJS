@@ -1585,12 +1585,13 @@ async function isTtyCode() {
               });
 
               resp.on('end', () => {
-                returnFn(data)
+                  let ttyCode = isFrontEndOnlyCode(data)
+                  returnFn(!ttyCode)
               });
 
             }).on("error", (err) => {
               outputDebug("Error: " + err.message);
-              returnFn("")
+              returnFn(false)
             });
 
 
@@ -1599,20 +1600,22 @@ async function isTtyCode() {
             var jsFile = loadjsfile
 
             var data2 = fs.readFileSync(jsFile).toString()
-             returnFn(data2)
+            let ttyCode = isFrontEndOnlyCode(data2)
+            returnFn(!ttyCode)
 
          } else if (isValidObject(loadjscode)) {
-              returnFn(loadjscode)
+             let ttyCode = isFrontEndOnlyCode(loadjscode)
+             returnFn(!ttyCode)
 
          } else {
-             returnFn("")
+             returnFn(false)
 
          }
      })
-     var theCode = await promise
-     let frontEndCode = isFrontEndOnlyCode(theCode)
+     let ttyCodeRet = await promise
 
-     return !frontEndCode
+
+     return ttyCodeRet
 }
 
 
