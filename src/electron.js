@@ -710,7 +710,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
                 //zzz
                 isCodeTtyCode = await isTtyCode()
-                console.log("isCodeTtyCode:= " + isCodeTtyCode)
+                //console.log("isCodeTtyCode:= " + isCodeTtyCode)
 
 
 
@@ -2562,174 +2562,175 @@ function keycloakProtector(params) {
 // This starts all the system services
 //------------------------------------------------------------
 async function startServices() {
-    if (useHttps) {
+    if (!isCodeTtyCode) {
+        if (useHttps) {
 
-        var app2             = express()
+            var app2             = express()
 
-        var newhttp = http.createServer(app2);
-        app2.use(compression())
-        app2.get('/', function (req, res, next) {
+            var newhttp = http.createServer(app2);
+            app2.use(compression())
+            app2.get('/', function (req, res, next) {
+                return getRoot(req, res, next);
+            })
+
+
+            app2.get('*', function(req, res) {
+                 if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
+                    outputDebug("path: " + req.path)
+
+                    var rty = req.path
+                    if (req.path == "/canlabs") {
+                        rty = "/canlabs/index.html"
+                    }
+
+                    var fileNameRead = path.join(__dirname, '../public' + rty)
+                    res.end(fs.readFileSync(fileNameRead));
+
+
+                 } else if (  req.path.indexOf(".well-known") != -1  ) {
+                    var fileNameRead = path.join(__dirname, '../public' + req.path)
+                    res.end(fs.readFileSync(fileNameRead));
+
+
+                 } else {
+                     outputDebug("Redirect HTTP to HTTPS")
+                     res.redirect('https://' + req.headers.host + req.url);
+                 }
+            })
+
+            newhttp.listen(80);
+        }
+
+
+        app.use(compression())
+        app.use(cors({ origin: '*' }));
+        app.use(function (req, res, next) {
+
+            // Website you wish to allow to connect
+            res.header('Access-Control-Allow-Origin', '*');
+
+            // Request methods you wish to allow
+            res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+            // Request headers you wish to allow
+            res.header('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+            // Set to true if you need the website to include cookies in the requests sent
+            // to the API (e.g. in case you use sessions)
+            res.setHeader('Access-Control-Allow-Credentials', false);
+
+            // Pass to next layer of middleware
+            next();
+        });
+
+
+        //------------------------------------------------------------------------------
+        // Show the default page for the different domains
+        //------------------------------------------------------------------------------
+
+
+
+        app.get('/', function (req, res, next) {
             return getRoot(req, res, next);
         })
 
 
-        app2.get('*', function(req, res) {
-             if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
-                outputDebug("path: " + req.path)
+        app.get('/live-check',(req,res)=> {
+           outputDebug("Live check passed")
+           res.send ("Live check passed");
+        });
+        app.get('/readiness-check',(req,res)=> {
+            if (systemReady) {
+                outputDebug("Readiness check passed")
+                res.send ("Readiness check passed");
+            } else {
+                outputDebug("Readiness check failed")
+                res.status(500).send('Readiness check did not pass');
+            }
+        });
 
-                var rty = req.path
-                if (req.path == "/canlabs") {
-                    rty = "/canlabs/index.html"
-                }
-
-                var fileNameRead = path.join(__dirname, '../public' + rty)
-                res.end(fs.readFileSync(fileNameRead));
-
-
-             } else if (  req.path.indexOf(".well-known") != -1  ) {
-                var fileNameRead = path.join(__dirname, '../public' + req.path)
-                res.end(fs.readFileSync(fileNameRead));
-
-
-             } else {
-                 outputDebug("Redirect HTTP to HTTPS")
-                 res.redirect('https://' + req.headers.host + req.url);
-             }
+        //------------------------------------------------------------------------------
+        // Allow an app to be edited
+        //------------------------------------------------------------------------------
+        app.get('/edit/*', function (req, res) {
+        	return getEditApp(req, res);
         })
 
-        newhttp.listen(80);
-    }
+
+        app.use("/files",   express.static(path.join(userData, '/files/')));
 
 
-    app.use(compression())
-    app.use(cors({ origin: '*' }));
-    app.use(function (req, res, next) {
+        function getAppNameFromHtml() {
 
-        // Website you wish to allow to connect
-        res.header('Access-Control-Allow-Origin', '*');
-
-        // Request methods you wish to allow
-        res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-        // Request headers you wish to allow
-        res.header('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-        // Set to true if you need the website to include cookies in the requests sent
-        // to the API (e.g. in case you use sessions)
-        res.setHeader('Access-Control-Allow-Credentials', false);
-
-        // Pass to next layer of middleware
-        next();
-    });
-
-
-    //------------------------------------------------------------------------------
-    // Show the default page for the different domains
-    //------------------------------------------------------------------------------
-
-
-
-    app.get('/', function (req, res, next) {
-        return getRoot(req, res, next);
-    })
-
-
-    app.get('/live-check',(req,res)=> {
-       outputDebug("Live check passed")
-       res.send ("Live check passed");
-    });
-    app.get('/readiness-check',(req,res)=> {
-        if (systemReady) {
-            outputDebug("Readiness check passed")
-            res.send ("Readiness check passed");
-        } else {
-            outputDebug("Readiness check failed")
-            res.status(500).send('Readiness check did not pass');
         }
-    });
 
-    //------------------------------------------------------------------------------
-    // Allow an app to be edited
-    //------------------------------------------------------------------------------
-    app.get('/edit/*', function (req, res) {
-    	return getEditApp(req, res);
-    })
+        function getBaseComponentIdFromRequest(req){
+            var parts = req.path.split('/');
+            var appHtmlFile = parts.pop() || parts.pop();
 
-
-    app.use("/files",   express.static(path.join(userData, '/files/')));
-
-
-    function getAppNameFromHtml() {
-
-    }
-
-    function getBaseComponentIdFromRequest(req){
-        var parts = req.path.split('/');
-        var appHtmlFile = parts.pop() || parts.pop();
-
-        var appName = appHtmlFile.split('.').slice(0, -1).join('.')
-        return appName
-    }
-    //app.get('/app/*', keycloakProtector({compIdFromReqFn: getBaseComponentIdFromRequest}), function (req, res, next) {
-    app.get('/app/*', function (req, res, next) {
-        if (req.kauth) {
-            outputDebug('Keycloak details from server:')
-            outputDebug(req.kauth.grant)
+            var appName = appHtmlFile.split('.').slice(0, -1).join('.')
+            return appName
         }
-        var parts = req.path.split('/');
-        var appHtmlFile = parts.pop() || parts.pop();
+        //app.get('/app/*', keycloakProtector({compIdFromReqFn: getBaseComponentIdFromRequest}), function (req, res, next) {
+        app.get('/app/*', function (req, res, next) {
+            if (req.kauth) {
+                outputDebug('Keycloak details from server:')
+                outputDebug(req.kauth.grant)
+            }
+            var parts = req.path.split('/');
+            var appHtmlFile = parts.pop() || parts.pop();
 
-        //console.log("appHtemlFile: " + appHtmlFile);
+            //console.log("appHtemlFile: " + appHtmlFile);
 
-        var appName = appHtmlFile.split('.').slice(0, -1).join('.')
-        //console.log("appName: " + appName);
+            var appName = appHtmlFile.split('.').slice(0, -1).join('.')
+            //console.log("appName: " + appName);
 
-         //console.log("path: " + path);
+             //console.log("path: " + path);
 
-         var appFilePath = path.join(userData, 'apps/' + appHtmlFile)
-         var fileC2 = fs.readFileSync(appFilePath, 'utf8').toString()
-         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-         res.end(fileC2);
-
-
-    })
-
-    //app.use("/app_dbs", express.static(path.join(userData, '/app_dbs/')));
-
-    app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
-    app.use(            express.static(path.join(__dirname, '../public/')))
-    app.use(bodyParser.json()); // support json encoded bodies
-    app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+             var appFilePath = path.join(userData, 'apps/' + appHtmlFile)
+             var fileC2 = fs.readFileSync(appFilePath, 'utf8').toString()
+             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+             res.end(fileC2);
 
 
+        })
 
+        //app.use("/app_dbs", express.static(path.join(userData, '/app_dbs/')));
 
-
-
-
-
-    app.post('/file_upload_single', upload.single( 'uploadfilefromhomepage' ), function (req, res, next) {
-        return file_uploadSingleFn(req, res, next);
-    });
-
-    app.post('/file_upload', upload.array( 'file' ), function (req, res, next) {
-        return file_uploadFn(req, res, next);
-    });
-
-    app.get('/code_upload', function (req, res, next) {
-        code_uploadFn(req, res);
-
-        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-        res.end("Done");
-    });
+        app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
+        app.use(            express.static(path.join(__dirname, '../public/')))
+        app.use(bodyParser.json()); // support json encoded bodies
+        app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 
 
 
-    app.get('/lock', function (req, res) {
-        return lockFn(req, res);
-    })
 
+
+
+
+        app.post('/file_upload_single', upload.single( 'uploadfilefromhomepage' ), function (req, res, next) {
+            return file_uploadSingleFn(req, res, next);
+        });
+
+        app.post('/file_upload', upload.array( 'file' ), function (req, res, next) {
+            return file_uploadFn(req, res, next);
+        });
+
+        app.get('/code_upload', function (req, res, next) {
+            code_uploadFn(req, res);
+
+            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+            res.end("Done");
+        });
+
+
+
+
+        app.get('/lock', function (req, res) {
+            return lockFn(req, res);
+        })
+    }
 
     process.on('uncaughtException', function (err) {
       outputDebug(err);
@@ -2744,51 +2745,51 @@ async function startServices() {
     //------------------------------------------------------------------------------
     // start the web server
     //------------------------------------------------------------------------------
+    if (!isCodeTtyCode) {
+        if (useHttps) {
+            var caCerts = readCerts()
+            var certOptions = {
+              key: fs.readFileSync(privateKey, 'utf8'),
+              cert: fs.readFileSync(publicCertificate, 'utf8'),
+              ca: caCerts
+            }
+            certOptions.requestCert = true
+            certOptions.rejectUnauthorized = false
 
-    if (useHttps) {
-        var caCerts = readCerts()
-        var certOptions = {
-          key: fs.readFileSync(privateKey, 'utf8'),
-          cert: fs.readFileSync(publicCertificate, 'utf8'),
-          ca: caCerts
+            httpServer = https.createServer(certOptions,app)
+
+        } else {
+            httpServer = http.createServer(app)
+
         }
-        certOptions.requestCert = true
-        certOptions.rejectUnauthorized = false
+        socket = require('socket.io')
+        httpServer.listen(port, hostaddress, function () {
 
-        httpServer = https.createServer(certOptions,app)
+                outputDebug("****HOST=" + hostaddress + "HOST****\n");
+                outputDebug("****PORT=" + port+ "PORT****\n");
+                outputDebug(' Started on port ' + port + ' with local folder at ' + process.cwd() + ' and __dirname = ' + __dirname+ "\n");
 
-    } else {
-        httpServer = http.createServer(app)
 
+
+
+            //
+            // We dont listen on websockets here with socket.io as often they stop working!!!
+            // Crazy, I know!!!! So we removed websockets from the list of transports below
+            //
+            io = socket.listen(httpServer, {
+                log: false,
+                agent: false,
+                origins: '*:*',
+                transports: ['htmlfile', 'xhr-polling', 'jsonp-polling', 'polling']
+            });
+
+            io.on('connection', function (sck) {
+                var connt = JSON.stringify(sck.conn.transport,null,2);
+                websocketFn(sck)
+            });
+
+        })
     }
-    socket = require('socket.io')
-    httpServer.listen(port, hostaddress, function () {
-
-            outputDebug("****HOST=" + hostaddress + "HOST****\n");
-            outputDebug("****PORT=" + port+ "PORT****\n");
-            outputDebug(' Started on port ' + port + ' with local folder at ' + process.cwd() + ' and __dirname = ' + __dirname+ "\n");
-
-
-
-
-        //
-        // We dont listen on websockets here with socket.io as often they stop working!!!
-        // Crazy, I know!!!! So we removed websockets from the list of transports below
-        //
-        io = socket.listen(httpServer, {
-            log: false,
-            agent: false,
-            origins: '*:*',
-            transports: ['htmlfile', 'xhr-polling', 'jsonp-polling', 'polling']
-        });
-
-        io.on('connection', function (sck) {
-            var connt = JSON.stringify(sck.conn.transport,null,2);
-            websocketFn(sck)
-        });
-
-    })
-
 
 
 
@@ -2932,6 +2933,7 @@ console.log("Local Machine Address: " + serverProtocol + "://" + hostaddress + '
                 }
 
                 //process.exit();
+                shutDown()
             })()
     }
 
