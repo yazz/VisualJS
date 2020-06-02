@@ -5,7 +5,8 @@ base_component_id("rest_call_service_v2")
 load_once_from_file(true)
 only_run_on_server(true)
 */
-
+console.log("username: " + args.username)
+console.log("password: " + args.password)
     // -------------------------------------------------------------------
     //
     //                          pathToString
@@ -56,6 +57,15 @@ only_run_on_server(true)
             body = args.body
         }
 
+        var auth = null
+        if (args.username) {
+            auth = {
+                      user:             args.username,
+                      pass:             args.password,
+                      sendImmediately:  false
+            }
+        }
+
         //console.log(url)
         request(
             url
@@ -68,9 +78,10 @@ only_run_on_server(true)
 
                 method: method,
 
-                body: body
+                body: body,
 
-
+                auth: auth
+                
             }
             ,
 

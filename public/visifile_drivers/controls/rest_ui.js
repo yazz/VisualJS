@@ -209,6 +209,22 @@ properties(
             textarea:   true,
             type:       "String"
         }
+        ,
+        {
+            id:         "username",
+            name:       "Username",
+            default:    "",
+            type:       "String"
+        }
+        ,
+
+
+        {
+            id:         "password",
+            name:       "Password",
+            default:    "",
+            type:       "String"
+        }
     ]
 )//properties
 logo_url("/driver_icons/rest.png")
@@ -462,7 +478,9 @@ var result = await callFunction(
                         returnDetails:   true,
                         headers:         headers,
                         method:          this.args.httpMethod?this.args.httpMethod:"GET",
-                        body:            this.args.body?this.args.body:""
+                        body:            this.args.body?this.args.body:"",
+                        username:        (this.args.username && (this.args.username.length > 0))?this.args.username:null,
+                        password:        (this.args.password && (this.args.password.length > 0))?this.args.password:null
                     })
 
 
