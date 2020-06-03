@@ -5,9 +5,7 @@ base_component_id("rest_call_service_v2")
 load_once_from_file(true)
 only_run_on_server(true)
 */
-console.log("username: " + args.username)
-console.log("password: " + args.password)
-console.log("sendImmediately: " + args.sendImmediately)
+
     // -------------------------------------------------------------------
     //
     //                          pathToString
