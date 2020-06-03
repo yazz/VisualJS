@@ -225,6 +225,20 @@ properties(
             default:    "",
             type:       "String"
         }
+        ,
+
+
+        {
+            id:         "send_immediately",
+            name:       "Send Immediately",
+            type:       "Select",
+            default:    "False",
+            values:     [
+                            {display: "True",   value: "True"},
+                            {display: "False",  value: "False"}
+                        ]
+        }
+
     ]
 )//properties
 logo_url("/driver_icons/rest.png")
@@ -480,7 +494,9 @@ var result = await callFunction(
                         method:          this.args.httpMethod?this.args.httpMethod:"GET",
                         body:            this.args.body?this.args.body:"",
                         username:        (this.args.username && (this.args.username.length > 0))?this.args.username:null,
-                        password:        (this.args.password && (this.args.password.length > 0))?this.args.password:null
+                        password:        (this.args.password && (this.args.password.length > 0))?this.args.password:null,
+                        sendImmediately: ((this.args.send_immediately == 'True')?true:false)
+
                     })
 
 
@@ -531,7 +547,10 @@ var result = await callFunction(
                         returnDetails:   true,
                         headers:         headers,
                         method:          this.args.httpMethod?this.args.httpMethod:"GET",
-                        body:            this.args.body?this.args.body:""
+                        body:            this.args.body?this.args.body:"",
+                        username:        (this.args.username && (this.args.username.length > 0))?this.args.username:null,
+                        password:        (this.args.password && (this.args.password.length > 0))?this.args.password:null,
+                        sendImmediately: ((this.args.send_immediately == 'True')?true:false)
                     })
 
 

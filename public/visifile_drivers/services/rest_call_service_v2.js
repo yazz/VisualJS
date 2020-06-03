@@ -7,6 +7,7 @@ only_run_on_server(true)
 */
 console.log("username: " + args.username)
 console.log("password: " + args.password)
+console.log("sendImmediately: " + args.sendImmediately)
     // -------------------------------------------------------------------
     //
     //                          pathToString
@@ -62,7 +63,7 @@ console.log("password: " + args.password)
             auth = {
                       user:             args.username,
                       pass:             args.password,
-                      sendImmediately:  false
+                      sendImmediately:  args.sendImmediately
             }
         }
 
@@ -81,7 +82,7 @@ console.log("password: " + args.password)
                 body: body,
 
                 auth: auth
-                
+
             }
             ,
 
