@@ -1369,7 +1369,7 @@ async function checkForJSLoaded() {
             //console.log("load code: " + loadjscode )
         }
     } catch(err) {
-        outputDebug("Error in checkForJSLoaded: " + err)
+        console.log("Error in checkForJSLoaded: " + err)
     }
 
 
@@ -1558,7 +1558,7 @@ async function isTtyCode() {
             //console.log("load code: " + loadjscode )
         }
     } catch(err) {
-        outputDebug("Error in checkForJSLoaded: " + err)
+        console.log("Error in checkForJSLoaded: " + err)
     }
 
 
