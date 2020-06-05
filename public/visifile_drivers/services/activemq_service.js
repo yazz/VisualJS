@@ -11,8 +11,21 @@ only_run_on_server(true)
         //    test_connection
         //
         try {
+            var Stomp = require('stomp-client');
+            var destination = args.destination
+            var client = new Stomp(args.host, args.port, 'admin', 'admin');
+            var a = 1
 
-            returnfn({success: args})
+            client.connect(function(sessionId) {
+                client.subscribe(destination, function(body, headers) {
+                  console.log('This is the body of a message on the subscribed queue:', body);
+                });
+
+                client.publish(destination, 'Oh herrow ' + a++);
+                client.publish(destination, 'Oh herrow ' + a++);
+                returnfn({success: args})
+            });
+
 
         } catch (err)  {
 
