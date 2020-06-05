@@ -13,7 +13,7 @@ only_run_on_server(true)
         try {
             var Stomp = require('stomp-client');
             var destination = args.destination
-            var client = new Stomp(args.host, args.port, 'admin', 'admin');
+            var client = new Stomp(args.host, args.port, args.username, args.password);
             var a = 1
 
             client.connect(function(sessionId) {
