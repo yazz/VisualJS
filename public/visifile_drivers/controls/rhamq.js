@@ -13,14 +13,14 @@ properties(
         {
             id:         "width",
             name:       "Width",
-            default:    350,
+            default:    50,
             type:       "Number"
         }
         ,
         {
             id:         "height",
             name:       "Height",
-            default:    300,
+            default:    50,
             type:       "Number"
         }
         ,
@@ -71,7 +71,14 @@ properties(
             default: "admin"
         }
 
-
+        ,
+        {
+            id:         "testAMQ",
+            name:       "test AMQ()",
+            type:       "Action",
+            pre_snippet:    `await `,
+            snippet:    `testAMQ()`
+        }
 
 
     ]
@@ -130,7 +137,33 @@ logo_url("/driver_icons/rhamq.png")
 
         methods: {
 
+            testAMQ: async function() {
+                var mm = this
+                var result = await callFunction(
+                    {
+                        driver_name: "activemq_service",
+                        method_name: "activemq_service"
+                    }
+                    ,
+                    {
+                        host: mm.args.host
+                        ,
+                        //brokers: mm.args.brokers
+                        port: mm.args.port
+                        ,
+                        destination: mm.args.destination
+                        ,
+                        username: mm.args.username
+                        ,
+                        password: mm.args.password
+                        ,
+                        action: "read_single_message"
+                    })
 
+                console.log(JSON.stringify(result,null,2))
+                return result
+            }
+            ,
 
         }
 
