@@ -1359,14 +1359,31 @@ async function checkForJSLoaded() {
     try {
         if ((process.argv[2]) && (process.argv[2].startsWith("http://") || process.argv[2].startsWith("https://") )) {
             loadjsurl = process.argv[2]
+            //console.log("inputStdin: " + inputStdin )
+            if ((!inputStdin) || (inputStdin.length == 0)) {
+                if ((process.argv[3]) && (!process.argv[3].startsWith("--"))) {
+                    inputStdin = process.argv[3]
+                }
+            }
 
         } else if ((process.argv[2]) && (process.argv[2].endsWith(".js") || process.argv[2].endsWith(".pilot") )) {
             loadjsfile = process.argv[2]
+            if ((!inputStdin) || (inputStdin.length == 0)) {
+                if ((process.argv[3]) && (!process.argv[3].startsWith("--"))) {
+                    inputStdin = process.argv[3]
+                }
+            }
 
         } else if ((process.argv[2]) && (!process.argv[2].startsWith("--"))) {
             loadjscode = process.argv[2]
             outputDebug("load code: " + loadjscode )
+            //console.log("inputStdin: " + inputStdin )
             //console.log("load code: " + loadjscode )
+            if ((!inputStdin) || (inputStdin.length == 0)) {
+                if ((process.argv[3]) && (!process.argv[3].startsWith("--"))) {
+                    inputStdin = process.argv[3]
+                }
+            }
         }
     } catch(err) {
         console.log("Error in checkForJSLoaded: " + err)
