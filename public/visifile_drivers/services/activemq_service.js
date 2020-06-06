@@ -17,10 +17,8 @@ only_run_on_server(true)
             var a = 1
 
             client.connect(function(sessionId) {
-                client.subscribe(destination, function(body, headers) {
-                });
 
-                client.publish(destination, 'Oh herrow ' + a++);
+                client.publish(destination, 'Test message to queue ' + a++);
                 console.log('sending message');
                 returnfn({success: args})
             });
