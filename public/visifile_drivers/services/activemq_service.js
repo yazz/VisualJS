@@ -18,11 +18,10 @@ only_run_on_server(true)
 
             client.connect(function(sessionId) {
                 client.subscribe(destination, function(body, headers) {
-                  console.log('This is the body of a message on the subscribed queue:', body);
                 });
 
                 client.publish(destination, 'Oh herrow ' + a++);
-                client.publish(destination, 'Oh herrow ' + a++);
+                console.log('sending message');
                 returnfn({success: args})
             });
 
