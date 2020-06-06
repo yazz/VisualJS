@@ -11,20 +11,44 @@ only_run_on_server(true)
         //    test_connection
         //
         try {
-            var Stomp = require('stomp-client');
-            var destination = args.destination
-            var client = new Stomp(args.host, args.port, args.username, args.password);
-            var a = 1
+            const stompit = require('stompit');
+console.log(1)
+            const connectOptions = {
+              'host': args.host,
+              'port': args.port,
+              'connectHeaders':{
+                'host': '/',
+                'login': args.username,
+                'passcode': args.password
+              }
+            };
 
-            client.connect(function(sessionId) {
+            stompit.connect(connectOptions, function(error, client) {
+                console.log(2)
 
-                client.publish(destination, 'Test message to queue ' + a++);
-                console.log('sending message');
-                returnfn({success: args})
+              if (error) {
+                console.log('connect error ' + error.message);
+                return;
+              }
+
+              const sendHeaders = {
+                'destination':args.destination,
+                'content-type': 'text/plain'
+              };
+              console.log(3)
+
+              const frame = client.send(sendHeaders);
+              frame.write('hello');
+              frame.end();
+              console.log(4)
+              returnfn({success: args})
+
             });
 
 
+
         } catch (err)  {
+            console.log(6)
 
             returnfn({error: err})
         }
