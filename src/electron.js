@@ -1,9 +1,6 @@
 #!/usr/bin/env node
 
 
-// Module to control application life.
-// Module to create native browser window.
-var startNodeServer = false
 const path = require("path");
 const url = require('url');
 var fork            = require('child_process');
@@ -16,9 +13,9 @@ var mainNodeProcessStarted = false;
 var restRoutes = new Object()
 var envVars = new Object()
 var systemReady = false;
-
-console.log('...');
-
+var httpServer = null;
+var username                            = "Unknown user";
+var isDocker        = require('is-docker');
 var ls = require('ls-sync');
 var rimraf = require("rimraf");
 
@@ -32,22 +29,74 @@ var express         = require('express')
 var http            = require('http')
 var https           = require('https');
 var app             = express()
-
-
+var startupType     = null
+var startupDelay     = 0
+var isCodeTtyCode = false
 
 
 var expressWs       = require('express-ws')(app);
-console.log("__filename: " + __filename)
-console.log("__dirname: " + __dirname)
+outputDebug("__filename: " + __filename)
+outputDebug("__dirname: " + __dirname)
 
 
-console.log("Platform: " + process.platform)
+outputDebug("Platform: " + process.platform)
 
-if (isWin)  {
-    console.log("Creating Windows driver")
+
+
+outputDebug("process.env.OPENSHIFT_NODEJS_IP:= " + process.env.OPENSHIFT_NODEJS_IP)
+
+
+if (process.env.OPENSHIFT_NODEJS_IP) {
+    username = "node"
+} else {
+    username = "node"
+    //if (isValidObject(os) && isValidObject(os.userInfo()) && isValidObject(os.userInfo().username)) {
+    //    username = os.userInfo().username.toLowerCase();
+    //}
+}
+
+var LOCAL_HOME = process.env.HOME
+
+outputDebug('LOCAL_HOME:' + LOCAL_HOME);
+
+
+
+//
+// We set the HOME environment variable if we are running in OpenShift
+//
+outputDebug('DOCKER CHECK...');
+
+
+if (isDocker()) {
+
+    outputDebug('Running inside a Linux container');
+
+
+} else {
+    outputDebug('NOT running inside a Linux container');
+}
+
+if (!isValidObject(LOCAL_HOME) || (LOCAL_HOME == "/")) {
+    LOCAL_HOME = "/home/node"
+}
+
+
+
+
+try {
+
+if (isDocker()) {
+
+
+} else if (process.env["KUBERNETES_SERVICE_HOST"]) {
+
+
+
+} else if (isWin)  {
+    outputDebug("Creating Windows driver")
   mkdirp.sync('node_modules\\sqlite3\\lib/binding\\node-v72-win32-x64');
   var srcNodeJsFile = path.join(__dirname,'..\\node_sqlite3_win64.rename')
-  console.log("srcNodeJsFile: " + srcNodeJsFile)
+  outputDebug("srcNodeJsFile: " + srcNodeJsFile)
   fs.copyFileSync(
       srcNodeJsFile,
       path.join(__dirname,'..\\node_modules\\sqlite3\\lib\\binding\\node-v72-win32-x64\\node_sqlite3.node'),
@@ -57,10 +106,10 @@ if (isWin)  {
 
 
 } else if (isLinux) {
-    console.log("Creating Linux driver")
+    outputDebug("Creating Linux driver")
     mkdirp.sync('node_modules/sqlite3/lib/binding/node-v64-linux-x64');
   var srcNodeJsFile = path.join(__dirname,'../node_sqlite3_linux64.rename')
-  console.log("srcNodeJsFile: " + srcNodeJsFile)
+  outputDebug("srcNodeJsFile: " + srcNodeJsFile)
   fs.copyFileSync(
       srcNodeJsFile,
       path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-linux-x64/node_sqlite3.node'),
@@ -71,11 +120,11 @@ if (isWin)  {
 
 
 } else if (isMac) {
-    console.log("Creating Mac driver")
+    outputDebug("Creating Mac driver")
     mkdirp.sync('node_modules/sqlite3/lib/binding/node-v64-darwin-x64');
 
     var srcNodeJsFile = path.join(__filename,'../../node_sqlite3_macos64.rename')
-    console.log("srcNodeJsFile: " + srcNodeJsFile)
+    outputDebug("srcNodeJsFile: " + srcNodeJsFile)
     fs.copyFileSync(
         srcNodeJsFile,
         path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-darwin-x64/node_sqlite3.node'),
@@ -85,9 +134,22 @@ if (isWin)  {
 
 
 } else {
-    console.log("Error, unsupported platform: " + process.platform)
+    outputDebug("Error, unsupported platform: " + process.platform + ".. trying Linuxs")
+    outputDebug("Creating Linux driver")
+    mkdirp.sync('node_modules/sqlite3/lib/binding/node-v64-linux-x64');
+  var srcNodeJsFile = path.join(__dirname,'../node_sqlite3_linux64.rename')
+  outputDebug("srcNodeJsFile: " + srcNodeJsFile)
+  fs.copyFileSync(
+      srcNodeJsFile,
+      path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-linux-x64/node_sqlite3.node'),
+                      );
+
+
 }
 
+} catch(err){
+    console.log(err)
+}
 
 
 
@@ -96,20 +158,19 @@ var request         = require("request");
 var db_helper       = require("./db_helper")
 var perf            = require('./perf')
 var compression     = require('compression')
-var dns             = require('dns');
 
 var program         = require('commander');
 var bodyParser      = require('body-parser');
 var multer          = require('multer');
 var cors            = require('cors')
 var saveHelper      = require('./save_helpers')
-var isDocker        = require('is-docker');
+
 
 var sqlite3                     = require('sqlite3');
 
 
 var os              = require('os')
-var username                            = "Unknown user";
+
 
 var Keycloak =      require('keycloak-connect');
 var session =       require('express-session');
@@ -159,33 +220,19 @@ if (isWin) {
 var hostaddressintranet;
 hostaddressintranet = ip.address();
 port = 80
-var f = 0
-var started = false
 
-var visifile
+
 var socket          = null
 
 
 var io = null;
 var forkedProcesses = new Object();
 var timeout                             = 0;
-var port;
-var typeOfSystem;
-var centralHostAddress;
-var centralHostPort;
 
-var stmt2                               = null;
-var stmt3                               = null;
-var setIn                               = null;
-var stopScan                            = false;
-var inScan                              = false;
-var numberOfSecondsAliveCheck           = 60;
+
+
 var serverwebsockets                    = [];
 var portrange                           = 3000
-var requestClientInternalHostAddress    = '';
-var requestClientInternalPort           = -1;
-var requestClientPublicIp               = '';
-var requestClientPublicHostName         = '';
 var locked;
 var useHttps;
 var serverProtocol                       = "http";
@@ -194,11 +241,9 @@ var publicCertificate;
 var caCertificate1;
 var caCertificate2;
 var caCertificate3;
-var requestClientPublicIp;
 var hostcount  							= 0;
 var queuedResponses                     = new Object();
 var queuedResponseSeqNum                = 1;
-var alreadyOpen                         = false;
 var executionProcessCount                       = 6;
 
 
@@ -243,14 +288,14 @@ const yazzProcessMainMemoryUsageMetric = new Prometheus.Gauge({
 
 var stdin = process.openStdin();
 
-var data = "";
+var inputStdin = "";
 
 stdin.on('data', function(chunk) {
-  data += chunk;
+  inputStdin += chunk;
 });
 
 stdin.on('end', function() {
-  console.log("DATA:\n" + data + "\nEND DATA");
+    outputDebug("inputStdin: " + inputStdin)
 });
 
 
@@ -260,35 +305,34 @@ if (process.argv.length > 1) {
 
     program
       .version('0.0.1')
-      .option('-t, --type [type]', 'Add the specified type of app (client/server) [type]', 'client')
-      .option('-p, --port [port]', 'Which port should I listen on? (default 80) [port]', parseInt)
-      .option('-h, --host [host]', 'Server address of the central host (default yazz.com) [host]', 'yazz.com')
-      .option('-l, --locked [locked]', 'Allow server to be locked/unlocked on start up (default true) [locked]', 'true')
-      .option('-d, --debug [debug]', 'Allow to run in debug mode (default false) [debug]', 'false')
-      .option('-z, --showdebug [showdebug]', 'Allow to show debug info (default false) [showdebug]', 'false')
-      .option('-j, --showstats [showstats]', 'Allow to show stats debug info (default false) [showstats]', 'false')
-      .option('-i, --statsinterval [statsinterval]', 'Allow to show debug info every x seconds (default 10 seconds) [statsinterval]', 10)
-      .option('-a, --virtualprocessors [virtualprocessors]', 'How many virtual processors to run (default 6 processors) [virtualprocessors]', 6)
-      .option('-m, --maxprocessesretry [maxprocessesretry]', 'Number of processes to retry when all cores are busy (default 10 processes) [maxprocessesretry]', 10)
-      .option('-n, --maxJobProcessDurationMs [maxJobProcessDurationMs]', 'Maximum time to wait for a job to complete (default 10000 ms) [maxJobProcessDurationMs]', 10000)
-      .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
-      .option('-x, --deleteonexit [deleteonexit]', 'Delete database files on exit (default true) [deleteonexit]', 'true')
-      .option('-y, --deleteonstartup [deleteonstartup]', 'Delete database files on startup (default false) [deleteonstartup]', 'false')
       .option('-a, --runapp [runapp]', 'Run the app with ID as the homepage (default not set) [runapp]', null)
+      .option('-b, --virtualprocessors [virtualprocessors]', 'How many virtual processors to run (default 6 processors) [virtualprocessors]', 6)
+      .option('-c, --runhtml [runhtml]', 'Run using a local HTML page as the homepage (default not set) [runhtml]', null)
+      .option('-d, --public [public]', 'Public HTTPS certificate [public]', null)
+      .option('-e, --debug [debug]', 'Allow to run NodeJS in debug mode (default false) [debug]', 'false')
+      .option('-f, --cacert1 [cacert1]', 'Public HTTPS CA certificate 1 [cacert1]', null)
+      .option('-g, --cacert2 [cacert2]', 'Public HTTPS CA certificate 2 [cacert2]', null)
+      .option('-h, --loadjsfile [loadjsfile]', 'Load the following JS from a file (default not set) [loadjsfile]', null)
+      .option('-i, --cacert3 [cacert3]', 'Public HTTPS CA certificate 3 [cacert3]', null)
+      .option('-j, --host [host]', 'Server address of the central host (default yazz.com) [host]', 'yazz.com')
+      .option('-k, --statsinterval [statsinterval]', 'Allow to show debug info every x seconds (default 10 seconds) [statsinterval]', 10)
+      .option('-l, --showstats [showstats]', 'Allow to show stats debug info (default false) [showstats]', 'false')
+      .option('-m, --showprogress [showprogress]', 'Allow to show progress when starting Pilot (default false) [showprogress]', 'false')
+      .option('-n, --locked [locked]', 'Allow server to be locked/unlocked on start up (default true) [locked]', 'true')
+      .option('-o, --maxprocessesretry [maxprocessesretry]', 'Number of processes to retry when all cores are busy (default 10 processes) [maxprocessesretry]', 10)
+      .option('-p, --maxJobProcessDurationMs [maxJobProcessDurationMs]', 'Maximum time to wait for a job to complete (default 10000 ms) [maxJobProcessDurationMs]', 10000)
+      .option('-q, --port [port]', 'Which port should I listen on? (default 80) [port]', parseInt)
+      .option('-r, --https [https]', 'Run using a HTTPS (default is http) [https]', 'false')
+      .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
+      .option('-t, --usehost [usehost]', 'Use host name [usehost]', null)
       .option('-u, --loadjsurl [loadjsurl]', 'Load the following JS from a URL (default not set) [loadjsurl]', null)
-      .option('-f, --loadjsfile [loadjsfile]', 'Load the following JS from a file (default not set) [loadjsfile]', null)
+      .option('-v, --deleteonexit [deleteonexit]', 'Delete database files on exit (default true) [deleteonexit]', 'true')
+      .option('-w, --deleteonstartup [deleteonstartup]', 'Delete database files on startup (default false) [deleteonstartup]', 'false')
+      .option('-x, --private [private]', 'Private HTTPS key [private]', null)
+      .option('-y, --showdebug [showdebug]', 'Allow to show debug info (default false) [showdebug]', 'false')
       .option('-z, --loadjscode [loadjscode]', 'Load the following JS from the command line (default not set) [loadjscode]', null)
-      .option('-b, --runhtml [runhtml]', 'Run using a local HTML page as the homepage (default not set) [runhtml]', null)
-      .option('-q, --https [https]', 'Run using a HTTPS (default is http) [https]', 'false')
-      .option('-v, --private [private]', 'Private HTTPS key [private]', null)
-      .option('-c, --public [public]', 'Public HTTPS certificate [public]', null)
-      .option('-e, --cacert1 [cacert1]', 'Public HTTPS CA certificate 1 [cacert1]', null)
-      .option('-f, --cacert2 [cacert2]', 'Public HTTPS CA certificate 2 [cacert2]', null)
-      .option('-g, --cacert3 [cacert3]', 'Public HTTPS CA certificate 3 [cacert3]', null)
-      .option('-u, --usehost [usehost]', 'Use host name [usehost]', null)
       .parse(process.argv);
 } else {
-    program.type = 'client'
     program.host = 'yazz.com'
     program.locked = 'true'
     program.debug = 'false'
@@ -303,43 +347,41 @@ if (process.argv.length > 1) {
 }
 var semver = require('semver')
 
+
+
+
+
+var showProgress = false
+if (program.showprogress == 'true') {
+    showProgress = true;
+}
+
+
 var showDebug = false
+function outputDebug(text) {
+    if (showDebug) {
+         console.log(text);
+    } else {
+        if (showProgress) {
+            process.stdout.write(".");
+        }
+    }
+};
 if (program.showdebug == 'true') {
     showDebug = true;
-    if (showDebug) {
-         console.log("       showDebug: true" );
-    } else {
-        process.stdout.write(".");
-    }
 
-} else {
-    if (showDebug) {
-         console.log("       showDebug: false" );
-    } else {
-        process.stdout.write(".");
-    }
+}
+outputDebug("       showDebug: " + showDebug);
 
-};
 
 
 
 var showStats = false
 if (program.showstats == 'true') {
     showStats = true;
-    if (showDebug) {
-         console.log("       showStats: true" );
-    } else {
-        process.stdout.write(".");
-    }
+}
+outputDebug("       showStats: " + showStats );
 
-} else {
-    if (showDebug) {
-         console.log("       showStats: false" );
-    } else {
-        process.stdout.write(".");
-    }
-
-};
 
 
 
@@ -347,39 +389,15 @@ if (program.showstats == 'true') {
 var statsInterval = -1
 if (program.statsinterval > 0) {
     statsInterval = program.statsinterval;
-    if (showDebug) {
-         console.log("       statsInterval: " + statsInterval );
-    } else {
-        process.stdout.write(".");
-    }
-
-} else {
-    if (showDebug) {
-        console.log("       statsInterval: " + statsInterval );
-    } else {
-        process.stdout.write(".");
-    }
-
-};
+}
+outputDebug("       statsInterval: " + statsInterval );
 
 
 
 if (program.virtualprocessors > 0) {
     executionProcessCount = program.virtualprocessors;
-    if (showDebug) {
-         console.log("       executionProcessCount: " + executionProcessCount );
-    } else {
-        process.stdout.write(".");
-    }
-
-} else {
-    if (showDebug) {
-        console.log("       executionProcessCount: " + executionProcessCount );
-    } else {
-        process.stdout.write(".");
-    }
-
-};
+}
+outputDebug("       executionProcessCount: " + executionProcessCount );
 
 
 
@@ -389,21 +407,15 @@ var maxProcessesCountToRetry = 10
 if (program.maxprocessesretry > 0) {
     maxProcessesCountToRetry = program.maxprocessesretry;
 }
-if (showDebug) {
-     console.log("       maxProcessesCountToRetry: " + maxProcessesCountToRetry );
-} else {
-    process.stdout.write(".");
-}
+outputDebug("       maxProcessesCountToRetry: " + maxProcessesCountToRetry );
+
 
 var maxJobProcessDurationMs = 10000
 if (program.maxJobProcessDurationMs > 0) {
     maxJobProcessDurationMs = program.maxJobProcessDurationMs;
 }
-if (showDebug) {
-     console.log("       maxJobProcessDurationMs: " + maxJobProcessDurationMs );
-} else {
-    process.stdout.write(".");
-}
+outputDebug("       maxJobProcessDurationMs: " + maxJobProcessDurationMs );
+
 
 
 
@@ -411,17 +423,19 @@ var listOfEnvs = process.env
 var envNames = Object.keys(listOfEnvs)
 for (var i=0 ;i< envNames.length; i++){
     let envName = envNames[i].replace(/[^a-zA-Z0-9]/g,'_');
-    if (showDebug) {
-         console.log("Env var  " + envName + ": " + listOfEnvs[envName])
-    } else {
-        process.stdout.write(".");
-    }
+    outputDebug("Env var  " + envName + ": " + listOfEnvs[envName])
 
     envVars[envName] = listOfEnvs[envName]
 }
 if (isValidObject(envVars.virtualprocessors)) {
     executionProcessCount = envVars.virtualprocessors
 }
+
+envVars.IP_ADDRESS = ip.address()
+
+
+
+
 
 
 
@@ -432,92 +446,25 @@ function isValidObject(variable){
     }
     return false
 }
-if (showDebug) {
-     console.log("process.env.OPENSHIFT_NODEJS_IP:= " + process.env.OPENSHIFT_NODEJS_IP)
-} else {
-    process.stdout.write(".");
-}
-
-if (process.env.OPENSHIFT_NODEJS_IP) {
-    username = "node"
-} else {
-    username = "node"
-    //if (isValidObject(os) && isValidObject(os.userInfo()) && isValidObject(os.userInfo().username)) {
-    //    username = os.userInfo().username.toLowerCase();
-    //}
-}
-
-var LOCAL_HOME = process.env.HOME
-
-if (showDebug) {
-     console.log('LOCAL_HOME:' + LOCAL_HOME);
-} else {
-    process.stdout.write(".");
-}
-//
-// We set the HOME environment variable if we are running in OpenShift
-//
-if (showDebug) {
-     console.log('DOCKER CHECK...');
-} else {
-    process.stdout.write(".");
-}
-if (isDocker()) {
-
-    if (showDebug) {
-         console.log('Running inside a Linux container');
-    } else {
-        process.stdout.write(".");
-    }
-
-} else {
-    if (showDebug) {
-         console.log('NOT running inside a Linux container');
-    } else {
-        process.stdout.write(".");
-    }
-}
-
-if (!isValidObject(LOCAL_HOME) || (LOCAL_HOME == "/")) {
-    LOCAL_HOME = "/home/node"
-}
 
 
 
-if (showDebug) {
-     console.log('Starting services');
-} else {
-    process.stdout.write(".");
-}
+outputDebug('Starting services');
+
 var debug = false;
-if (showDebug) {
-     console.log("NodeJS version: " + process.versions.node);
-} else {
-    process.stdout.write(".");
-}
+outputDebug("NodeJS version: " + process.versions.node);
+
 
 if (semver.gt(process.versions.node, '6.9.0')) {
-    if (showDebug) {
-         console.log("NodeJS version > 6.9 " );
-    } else {
-        process.stdout.write(".");
-    }
-
+    outputDebug("NodeJS version > 6.9 " );
 }
 if (program.debug == 'true') {
     debug = true;
 
-    if (showDebug) {
-         console.log("       debug: true" );
-    } else {
-        process.stdout.write(".");
-    }
+    outputDebug("       debug: true" );
+
 } else {
-    if (showDebug) {
-         console.log("       debug: false" );
-    } else {
-        process.stdout.write(".");
-    }
+    outputDebug("       debug: false" );
 
 };
 
@@ -525,19 +472,13 @@ if (program.debug == 'true') {
 
 
 var deleteOnExit = (program.deleteonexit == 'true');
-if (showDebug) {
-     console.log("deleteOnExit: " + deleteOnExit)
-} else {
-    process.stdout.write(".");
-}
+outputDebug("deleteOnExit: " + deleteOnExit)
+
 
 
 var deleteOnStartup = (program.deleteonstartup == 'true');
-if (showDebug) {
-     console.log("deleteOnStartup: " + deleteOnStartup)
-} else {
-    process.stdout.write(".");
-}
+outputDebug("deleteOnStartup: " + deleteOnStartup)
+
 
 
 locked = (program.locked == 'true');
@@ -546,6 +487,7 @@ useHttps = (program.https == 'true');
 if (useHttps) {
     serverProtocol = "https"
 }
+outputDebug("useHttps: " + useHttps)
 privateKey = program.private;
 publicCertificate = program.public;
 caCertificate1 = program.cacert1;
@@ -555,11 +497,12 @@ var useHost = program.usehost;
 
 if (useHost) {
     hostaddress = useHost
-    console.log("USE Host: " + useHost)
+    outputDebug("USE Host: " + useHost)
 }
 
 
 port = program.port;
+outputDebug("port: " + port)
 var runapp = program.runapp;
 var runhtml = program.runhtml;
 var loadjsurl = program.loadjsurl;
@@ -575,14 +518,10 @@ if (!isNumber(port)) {
 };
 
 
-if (showDebug) {
-     console.log('Yazz node local hostname: ' + ip.address() + ' ')
-} else {
-    process.stdout.write(".");
-}
+outputDebug('Yazz node local hostname: ' + ip.address() + ' ')
 
 
-setupVisifileParams();
+
 
 
 
@@ -591,9 +530,9 @@ setupVisifileParams();
 
 function setUpChildListeners(processName, fileName, debugPort) {
 
-    forkedProcesses[processName].on('close', function() {
+    forkedProcesses[processName].on('close', async function() {
         if (!shuttingDown) {
-            console.log("Child process " + processName + " exited.. restarting... ")
+            outputDebug("Child process " + processName + " exited.. restarting... ")
 
 
 
@@ -633,21 +572,19 @@ function setUpChildListeners(processName, fileName, debugPort) {
     });
 
 
-    forkedProcesses[processName].on('message', (msg) => {
+    forkedProcesses[processName].on('message', async function(msg) {
         //console.log("message from child: " + JSON.stringify(msg,null,2))
         //console.log("message type from child: " + JSON.stringify(msg.message_type,null,2))
-        if (msg.message_type == "return_test_fork") {
-            //console.log('Message from child', msg);
-            sendOverWebSockets({
-                                    type:   "test_fork",
-                                    value:  "Counter: " + msg.counter + ", count data_states from sqlite: " + msg.sqlite
-                                    });
 
 
-
-
-
-        } else if (msg.message_type == "save_code") {
+        //------------------------------------------------------------------------------
+        //
+        //
+        //
+        //
+        //
+        //------------------------------------------------------------------------------
+        if (msg.message_type == "save_code") {
 
             forkedProcesses["forked"].send({
                                                 message_type:       "save_code",
@@ -658,13 +595,17 @@ function setUpChildListeners(processName, fileName, debugPort) {
                                            });
 
 
+        //------------------------------------------------------------------------------
+        //
+        //
+        //
+        //
+        //
+        //------------------------------------------------------------------------------
         } else if (msg.message_type == "add_rest_api") {
 
-            if (showDebug) {
-                 console.log("add_rest_api called")
-             } else {
-                 process.stdout.write(".");
-             }
+            outputDebug("add_rest_api called")
+
 
             var newFunction = async function (req, res) {
 
@@ -680,8 +621,8 @@ function setUpChildListeners(processName, fileName, debugPort) {
                     }
 
 
-                    console.log(" msg.base_component_id: " + msg.base_component_id);
-                    console.log(" seqNum: " + seqNum);
+                    outputDebug(" msg.base_component_id: " + msg.base_component_id);
+                    outputDebug(" seqNum: " + seqNum);
                             forkedProcesses["forked"].send({
                                             message_type:          "callDriverMethod",
                                             find_component:         {
@@ -748,122 +689,73 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
+
+
+
+
+
+        //------------------------------------------------------------------------------
+        //
+        //
+        //
+        //
+        //
+        //------------------------------------------------------------------------------
         } else if (msg.message_type == "createdTablesInChild") {
             forkedProcesses["forked"].send({         message_type: "setUpSql" });
             forkedProcesses["forked"].send({         message_type: "greeting" , hello: 'world' });
 
-            if (showDebug) {
-                console.log("mainNodeProcessStarted: " + mainNodeProcessStarted)
-            } else {
-                console.log(".")
-            }
+            outputDebug("mainNodeProcessStarted: " + mainNodeProcessStarted)
 
             if (!mainNodeProcessStarted) {
                 mainNodeProcessStarted = true
-                getPort()
+                outputDebug("createdTablesInChild")
+
+
+
+                //zzz
+                isCodeTtyCode = await isTtyCode()
+                //console.log("isCodeTtyCode:= " + isCodeTtyCode)
+
+
+
+                if (isCodeTtyCode) {
+                    await startServices()
+                } else {
+                    getPort()
+
+
+                }
             }
 
 
 
 
-
+    //------------------------------------------------------------------------------
+    //
+    // This is the last thing that happens when Yazz Pilot is started
+    //
+    //
+    //
+    //------------------------------------------------------------------------------
     } else if (msg.message_type == "drivers_loaded_by_child") {
-
-    	//--------------------------------------------------------
-    	// open the app in a web browser
-    	//--------------------------------------------------------
-        checkForJSLoaded();
-
-
-    	if (typeOfSystem == 'client') {
-            var localClientUrl = serverProtocol + '://' + hostaddress  + ":" + port;
-            var remoteServerUrl = 'http://' + centralHostAddress  + ":" + centralHostPort + "/visifile/list_intranet_servers.html?time=" + new Date().getTime();
+        await finalizeYazzLoading();
 
 
 
 
-            request({
-                      uri: remoteServerUrl,
-                      method: "GET",
-                      timeout: 10000,
-                      agent: false,
-                      followRedirect: true,
-                      maxRedirects: 10
-                },
-                function(error, response, body) {
-                  if (error) {
-                      //console.log("Error opening central server: " + error);
-                      if (!alreadyOpen) {
-                          alreadyOpen = true;
-                      }
-                  } else {
-                    if (!alreadyOpen) {
-                        alreadyOpen = true;
-                        //open(remoteServerUrl);
-                    }
-                  }
-                });
-    	} else if (typeOfSystem == 'server') {
-            if (!alreadyOpen) {
-                alreadyOpen = true;
-                //open('http://' + hostaddress  + ":" + port + "/visifile/list_intranet_servers.html?time=" + new Date().getTime());
 
 
-            }
-    	}
-
-
-console.log(`
-
- YYYYYYY       YYYYYYY
- Y:::::Y       Y:::::Y
- Y:::::Y       Y:::::Y
- Y::::::Y     Y::::::Y
- YYY:::::Y   Y:::::YYY  aaaaaaaaaaaaa   zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
-    Y:::::Y Y:::::Y     a::::::::::::a  z:::::::::::::::zz:::::::::::::::z
-     Y:::::Y:::::Y      aaaaaaaaa:::::a z::::::::::::::z z::::::::::::::z
-      Y:::::::::Y                a::::a zzzzzzzz::::::z  zzzzzzzz::::::z
-       Y:::::::Y          aaaaaaa:::::a       z::::::z         z::::::z
-        Y:::::Y         aa::::::::::::a      z::::::z         z::::::z
-        Y:::::Y        a::::aaaa::::::a     z::::::z         z::::::z
-        Y:::::Y       a::::a    a:::::a    z::::::z         z::::::z
-        Y:::::Y       a::::a    a:::::a   z::::::zzzzzzzz  z::::::zzzzzzzz
-     YYYY:::::YYYY    a:::::aaaa::::::a  z::::::::::::::z z::::::::::::::z
-     Y:::::::::::Y     a::::::::::aa:::az:::::::::::::::zz:::::::::::::::z
-     YYYYYYYYYYYYY      aaaaaaaaaa  aaaazzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
-
-
-
- PPPPPPPPPPPPPPPPP     iiii  lllllll                           tttt
- P::::::::::::::::P   i::::i l:::::l                        ttt:::t
- P::::::PPPPPP:::::P   iiii  l:::::l                        t:::::t
- PP:::::P     P:::::P        l:::::l                        t:::::t
-   P::::P     P:::::Piiiiiii  l::::l    ooooooooooo   ttttttt:::::ttttttt
-   P::::P     P:::::Pi:::::i  l::::l  oo:::::::::::oo t:::::::::::::::::t
-   P::::PPPPPP:::::P  i::::i  l::::l o:::::::::::::::ot:::::::::::::::::t
-   P:::::::::::::PP   i::::i  l::::l o:::::ooooo:::::otttttt:::::::tttttt
-   P::::PPPPPPPPP     i::::i  l::::l o::::o     o::::o      t:::::t
-   P::::P             i::::i  l::::l o::::o     o::::o      t:::::t
-   P::::P             i::::i  l::::l o::::o     o::::o      t:::::t
-   P::::P             i::::i  l::::l o::::o     o::::o      t:::::t    tttttt
- PP::::::PP          i::::::il::::::lo:::::ooooo:::::o      t::::::tttt:::::t
- P::::::::P          i::::::il::::::lo:::::::::::::::o      tt::::::::::::::t
- P::::::::P          i::::::il::::::l oo:::::::::::oo         tt:::::::::::tt
- PPPPPPPPPP          iiiiiiiillllllll   ooooooooooo             ttttttttttt
-`)
-
-
-        console.log("\nRunning " + executionProcessCount + " virtual processors");
-        console.log("\nYazz Pilot started on:");
-        console.log("Network Host Address: " + hostaddressintranet)
-        console.log("Local Machine Address: " + serverProtocol + "://" + hostaddress + ':' + port);
-        systemReady = true
-
-
-
+        //------------------------------------------------------------------------------
+        //
+        //
+        //
+        //
+        //
+        //------------------------------------------------------------------------------
         } else if (msg.message_type == "ipc_child_returning_uploaded_app_as_file_in_child_response") {
 
-            console.log("uploaded_app_as_file_in_child: " + JSON.stringify(msg))
+            outputDebug("uploaded_app_as_file_in_child: " + JSON.stringify(msg))
 
                 // ______
                 // Server  --1 data item-->  Browser
@@ -879,6 +771,17 @@ console.log(`
 
 
 
+
+
+
+
+        //------------------------------------------------------------------------------
+        //
+        //
+        //
+        //
+        //
+        //------------------------------------------------------------------------------
         } else if (msg.message_type == "database_setup_in_child") {
 
 
@@ -900,22 +803,16 @@ console.log(`
                                               }
 
 
-        } else if (msg.message_type == "getResultReturned") {
-            var newres = queuedResponses[ msg.seqNum ]
-            newres.writeHead(200, {'Content-Type': 'text/plain'});
-            newres.end(JSON.stringify(msg.result));
-            newres = null;
 
 
 
-
-
-
-
-
-
-
-
+        //------------------------------------------------------------------------------
+        //
+        //
+        //
+        //
+        //
+        //------------------------------------------------------------------------------
         } else if (msg.message_type == "return_add_local_driver_results_msg") {
             //console.log("6 - return_get_search_results: " + msg.returned);
             var rett = eval("(" + msg.success + ")");
@@ -938,7 +835,13 @@ console.log(`
 
 
 
-
+        //------------------------------------------------------------------------------
+        //
+        //
+        //
+        //
+        //
+        //------------------------------------------------------------------------------
         } else if (msg.message_type == "processor_free") {
 
             forkedProcesses["forkedExeScheduler"].send({
@@ -950,8 +853,18 @@ console.log(`
 
 
 
+
+
+
+
+        //------------------------------------------------------------------------------
+        //
+        //
+        //
+        //
+        //
+        //------------------------------------------------------------------------------
         } else if (msg.message_type == "execute_code_in_exe_child_process") {
-                //console.log("6 - return_get_all_table: " );
 
                 forkedProcesses[msg.child_process_name].send({
                                                         message_type:       "execute_code",
@@ -968,10 +881,14 @@ console.log(`
 
 
 
-
-
+      //------------------------------------------------------------------------------
+      //
+      //
+      //
+      //
+      //
+      //------------------------------------------------------------------------------
       } else if (msg.message_type == "function_call_request") {
-              //console.log("6 - return_get_all_table: " );
 
               forkedProcesses["forkedExeScheduler"].send({
                                                       message_type:         "function_call_request",
@@ -987,6 +904,13 @@ console.log(`
 
 
 
+      //------------------------------------------------------------------------------
+      //
+      //
+      //
+      //
+      //
+      //------------------------------------------------------------------------------
       } else if (msg.message_type == "function_call_response") {
           //console.log("*** function_call_response: " + JSON.stringify(msg,null,2))
           forkedProcesses["forkedExeScheduler"].send({
@@ -1004,6 +928,13 @@ console.log(`
 
 
 
+    //------------------------------------------------------------------------------
+    //
+    //
+    //
+    //
+    //
+    //------------------------------------------------------------------------------
       } else if (msg.message_type == "return_response_to_function_caller") {
           //console.log("*) Electron.js    got response for " + msg.child_process_name);
           //console.log("*) "+ msg.result)
@@ -1018,152 +949,18 @@ console.log(`
 
 
 
-        } else if (msg.message_type == "return_get_all_table") {
-                //console.log("6 - return_get_all_table: " );
-                var newres = queuedResponses[ msg.seq_num ]
-
-                newres.writeHead(200, {'Content-Type': 'text/plain'});
-                newres.end(msg.result);
-
-                newres = null;
-
-
-
-
-        } else if (msg.message_type == "returnIntranetServers") {
-            var newres = queuedResponses[ msg.seq_num ]
-
-            newres.writeHead(200, {'Content-Type': 'text/plain'});
-
-
-            if (msg.returned) {
-                newres.end( JSON.stringify( {  allServers:         msg.returned,
-                                               intranetPublicIp:   msg.requestClientPublicIp}) );
-            } else {
-                //console.log( "8: " + msg.error );
-                newres.end(JSON.stringify( {  allServers:        [],
-                                              intranetPublicIp:  msg.requestClientPublicIp}) );
-            }
-            newres = null;
-
-
-
-
-        } else if (msg.message_type == "returnIntranetServers_json") {
-            var newres = queuedResponses[ msg.seq_num ]
-
-            newres.writeHead(200, {'Content-Type': 'application/json'});
-
-            var result = {
-                            list:               [],
-                            links:              {"self": { "href": "/start" }},
-                        }
-
-
-            if (msg.returned) {
-                result.links.servers    = {}
-                result.intranetPublicIp = msg.requestClientPublicIp
-                result.error            = false
-                result.count            = msg.returned.length
-
-                if (msg.returned.length > 0) {
-
-                    result.main_user    = msg.returned[0].client_user_name
-                    result.main         = msg.returned[0].internal_host + ":" + msg.returned[0].internal_port
-                    result.main_url     = serverProtocol + "://" +  msg.returned[0].internal_host + ":" +
-                                            msg.returned[0].internal_port + "/home"
-                }
-
-
-                for (var i =0 ; i< msg.returned.length; i ++) {
-
-                    var addr = msg.returned[i].internal_host + ":" + msg.returned[i].internal_port
-                    result.list.push( addr )
-                    result.links.servers[addr] =
-                        {"href":        serverProtocol + "://" +  addr + "/home" ,
-                         "user":         msg.returned[i].client_user_name}
-                    }
-
-                    newres.end(JSON.stringify(result));
-            } else {
-                newres.end(JSON.stringify( {  allServers:        [],
-                                              error:              true}) );
-            }
-            newres = null;
 
 
 
 
 
-
-        } else if (msg.message_type == "returnClientConnect") {
-            //console.log("6: returnClientConnect")
-            //console.log("6.1: " + msg)
-            //console.log("7: " + msg.returned)
-            var newres = queuedResponses[ msg.seq_num ]
-
-
-
-            if (msg.returned) {
-                newres.writeHead(200, {'Content-Type': 'text/plain'});
-                newres.end( JSON.stringify( JSON.stringify({  connected:         msg.returned })) );
-            }
-            newres = null;
-
-
-
-
-
-        //                               ______
-        // Subprocess  --1 data item-->  Server
-        //                               ______
+        //------------------------------------------------------------------------------
         //
-        } else if (msg.message_type == "subprocess_returns_data_item_to_server") {
-            //console.log("6: return_query_item")
-            //console.log("6.1: " + msg)
-            //console.log("7: " + msg.returned)
-            var new_ws = queuedResponses[ msg.seq_num ]
-
-            if (msg.returned) {
-                // ______
-                // Server  --1 data item-->  Browser
-                // ______
-                //
-                sendToBrowserViaWebSocket(
-                new_ws,
-                {
-                    type:      "client_data_item_received_from_server",
-                    data_item:  msg.returned
-                });
-            }
-
-
-
-        } else if (msg.message_type == "ipc_child_returning_find_results") {
-
-           // console.log(" .......3: " + msg.results);
-            //console.log("6: return_query_items_ended")
-            //console.log("6.1: " + msg)
-            var new_ws = queuedResponses[ msg.seq_num ]
-
-
-            sendToBrowserViaWebSocket(
-                                         new_ws
-                                         ,
-                                         {
-                                            type:   "ws_to_browser_find_results",
-                                            results:  msg.results
-                                         });
-            //new_ws = null;
-
-
-
-
-
-
-
-
-
+        //
+        //
+        //
+        //
+        //------------------------------------------------------------------------------
             } else if (msg.message_type == "ipc_child_returning_callDriverMethod_response") {
 
                 //console.log(" .......3: " + JSON.stringify(msg,null,2));
@@ -1190,23 +987,7 @@ console.log(`
 
 
 
-        } else if (msg.message_type == "subprocess_alerts_data_done_to_server") {
-            //console.log("6: return_query_items_ended")
-            //console.log("6.1: " + msg)
-            var new_ws = queuedResponses[ msg.seq_num ]
-
-            sendToBrowserViaWebSocket(      new_ws,
-                                        {   type: "server_alerts_data_done_to_browser"  });
-            //new_ws = null;
         }
-
-
-//
-//
-
-
-
-
 
 
 
@@ -1220,6 +1001,13 @@ console.log(`
 
 
 
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function setupForkedProcess(  processName,  fileName,  debugPort  ) {
     var debugArgs =[];
     if (debug) {
@@ -1246,11 +1034,11 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
 
     if (processName == "forked") {
 
-        //outputToBrowser("- sending user_data_path to child 'forked':  " + userData)
         forkedProcesses["forked"].send({         message_type: "init" ,
                                                  user_data_path: userData,
                                                  child_process_name: "forked",
-                                                 show_debug: showDebug
+                                                 show_debug: showDebug,
+                                                 show_progress: showProgress
                                               });
 
         forkedProcesses["forked"].send({         message_type: "createTables" });
@@ -1261,24 +1049,25 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
 
     if (processName == "forkedExeScheduler") {
 
-        //outputToBrowser("- sending user_data_path to child 'forkedExeScheduler':  " + userData)
         forkedProcesses["forkedExeScheduler"].send({  message_type: "init" ,
                                                       user_data_path: userData,
                                                       child_process_name: "forkedExeScheduler",
                                                       max_processes_count_to_retry: maxProcessesCountToRetry,
                                                       max_job_process_duration_ms: maxJobProcessDurationMs,
-                                                      show_debug: showDebug
+                                                      show_debug: showDebug,
+                                                      show_progress: showProgress
                                               });
     }
 
     for (var i=0;i<executionProcessCount; i++ ) {
         var exeProcName = "forkedExeProcess" + i
         if (processName == exeProcName) {
-            //outputToBrowser("- sending user_data_path to child '" + exeProcName + "':  " + userData)
+
             forkedProcesses[exeProcName].send({  message_type: "init" ,
                                                  user_data_path: userData,
                                                  child_process_name: exeProcName,
-                                                 show_debug: showDebug
+                                                 show_debug: showDebug,
+                                                 show_progress: showProgress
                                               });
 
       }
@@ -1287,14 +1076,7 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
 
 
 
-    if (showDebug) {
-         console.log("Started subprocess '" + processName + "' ")
-     } else {
-         process.stdout.write(".");
-     }
-
-
-
+    outputDebug("Started subprocess '" + processName + "' ")
 
 }
 
@@ -1303,19 +1085,26 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
 
 
 
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function setupMainChildProcess() {
     setupForkedProcess("forked",        "child.js", 40003)
 }
 
 
 
-function setupChildProcesses() {
-    setupForkedProcess("forkedExeScheduler", "exeScheduler.js", 40004)
-    for (var i=0;i<executionProcessCount; i++ ) {
-        var exeProcName = "forkedExeProcess" + i
-            setupForkedProcess(exeProcName, "exeProcess.js", 40100 + i)
-    }
-}
+
+
+
+
 
 
 
@@ -1351,194 +1140,53 @@ function isNumber(n) {
 }
 
 
-function setupVisifileParams() {
-    typeOfSystem = program.type;
-    centralHostAddress = program.host;
-    centralHostPort = program.hostport;
-    if (!isNumber(centralHostPort)) {centralHostPort = 80;};
+async function setupVisifileParams() {
 
 
-    if (!(typeOfSystem == 'client' || typeOfSystem == 'server')) {
-        console.log('-------* Invalid system type: ' + typeOfSystem);
-        process.exit();
-    };
-    if (showDebug) {
-        console.log('-------* System type: ' + typeOfSystem);
-        console.log('-------* Port: ' + port);
-        console.log('-------* Central host: ' + centralHostAddress);
-        console.log('-------* Central host port: ' + centralHostPort);
-
-
-       console.dir ( ip.address() );
-   } else {
-       process.stdout.write(".");
-   }
-
+    outputDebug('-------* Port: ' + port);
+    outputDebug( ip.address() );
 
 	//console.log('addr: '+ ip.address());
 	//hostaddress = ip.address();
-
-	}
-
-
-
-    if (showDebug) {
-        console.log("process.platform = " + process.platform)
-    } else {
-        process.stdout.write(".");
-    }
-
-          if (process.platform === "win32") {
-            var rl = require("readline").createInterface({
-              input: process.stdin,
-              output: process.stdout
-            });
-
-            rl.on("SIGINT", function () {
-                shutDown();
-                process.exit();
-            });
-          }
-
-
-
-
-
-        	if (isWin) {
-                console.log("Running as Windows")
-        		var localappdata  = process.env.LOCALAPPDATA
-        		userData = path.join(localappdata, '/Yazz/')
-        	} else {
-
-                if (showDebug) {
-                    console.log("Running as Linux/Mac")
-                } else {
-                    process.stdout.write(".");
-                }
-        		userData =  path.join(LOCAL_HOME, 'Yazz')
-        	}
-        	dbPath = path.join(userData, username + '.visi')
-
-
-            if (deleteOnStartup) {
-                console.log("deleting dir :" + userData)
-                if (userData.length > 6) {
-                        deleteYazzDataV2(userData)
-                }
-            }
-            var uploadPath = path.join(userData,  'uploads/')
-            if (showDebug) {
-                console.log("LOCAL_HOME: " + LOCAL_HOME)
-                console.log("userData: " + userData)
-                console.log("uploadPath: " + uploadPath)
-            } else {
-                process.stdout.write(".");
-            }
-
-            upload          = multer( { dest: uploadPath});
-
-
-            rmdir("uploads");
-            mkdirp.sync(path.join(userData,  'uploads'));
-            mkdirp.sync(path.join(userData,  'files'));
-            mkdirp.sync(path.join(userData,  'apps'));
-            mkdirp.sync(path.join(userData,  'app_dbs'));
-
-
-            if (showDebug) {
-                outputToBrowser('process.env.LOCALAPPDATA: ' + JSON.stringify(localappdata ,null,2))
-                outputToBrowser("Local home data path: " + LOCAL_HOME)
-
-              outputToBrowser("userData: " + JSON.stringify(userData ,null,2))
-                outputToBrowser("process.env keys: " + Object.keys(process.env))
-            } else {
-                process.stdout.write(".");
-            }
-
-
-
-
-            dbsearch = new sqlite3.Database(dbPath);
-            dbsearch.run("PRAGMA journal_mode=WAL;")
-
-
-
-
-
-        	var nodeConsole = require('console');
-        	var myConsole = new nodeConsole.Console(process.stdout, process.stderr);
-
-
-
-
-            //var index = require(path.resolve('src/index.js'))
-
-
-            setupMainChildProcess();
-
-
-
-
-
-
-
-var shuttingDown = false;
-process.on('exit', function() {
-    shutDown();
-  });
-process.on('quit', function() {
-  shutDown();
-});
-process.on("SIGINT", function () {
-    shutDown();
-    process.exit()
-});
+}
 
 
 
 
 function shutDown() {
-    console.log(" shutDown() called")
+    outputDebug(" shutDown() called")
     if (!shuttingDown) {
         shuttingDown = true;
 
         if (dbsearch) {
-            console.log("Database closing...")
+            outputDebug("Database closing...")
             dbsearch.run("PRAGMA wal_checkpoint;")
             dbsearch.close(function(err){
-                console.log("...database closed")
-                visifile = null
+                outputDebug("...database closed")
 
             })
         }
 
         if (forkedProcesses["forked"]) {
-            console.log("Killed Process forked")
+            outputDebug("Killed Process forked")
             forkedProcesses["forked"].kill();
         }
         if (forkedProcesses["forkedExeScheduler"]) {
-            console.log("Killed Exe Scheduler process")
+            outputDebug("Killed Exe Scheduler process")
             forkedProcesses["forkedExeScheduler"].kill();
         }
 
         for (var i = 0; i < executionProcessCount; i++ ) {
             var exeProcName = "forkedExeProcess" + i
             forkedProcesses[exeProcName].kill();
-            console.log("Killed Process " + exeProcName)
-        }
-        if (visifile){
-            visifile.removeAllListeners('close');
-            //visifile.close();
-            if (visifile.globalShortcut) {
-                //visifile.globalShortcut.unregisterAll();
-
-            }
+            outputDebug("Killed Process " + exeProcName)
         }
 
-        console.log("deleteOnExit =" + deleteOnExit)
+
+        outputDebug("deleteOnExit =" + deleteOnExit)
         if (deleteOnExit) {
 
-            console.log("deleting dir :" + userData)
+            outputDebug("deleting dir :" + userData)
             if (userData.length > 6) {
                 if (isWin) {
                     deleteYazzDataWindows(userData)
@@ -1556,10 +1204,10 @@ function shutDown() {
 
 
 function deleteYazzDataWindows(dddd) {
-  console.log("deleteYazzDataWindows")
+  outputDebug("deleteYazzDataWindows")
   if (dddd.length > 6) {
     var ff = 'timeout 8 && rd /s /q "' + dddd + '"'
-    console.log(ff)
+    outputDebug(ff)
     fork.exec(ff
               ,
               function(err, stdout, stderr) {
@@ -1573,9 +1221,9 @@ function deleteYazzDataWindows(dddd) {
 
 
 function deleteYazzDataV2(dddd) {
-    console.log("----------------------------------")
-    console.log("Before delete :" + ls(dddd))
-    console.log("----------------------------------")
+    outputDebug("----------------------------------")
+    outputDebug("Before delete :" + ls(dddd))
+    outputDebug("----------------------------------")
 
     rimraf.sync(path.join(dddd,  'uploads/'));
     rimraf.sync(path.join(dddd,  'files/'));
@@ -1584,9 +1232,9 @@ function deleteYazzDataV2(dddd) {
     rimraf.sync(path.join(dddd,  '*.visi'));
     rimraf.sync(path.join(dddd,  '*.visi*'));
 
-    console.log("----------------------------------")
-    console.log("After delete :" + ls(dddd))
-    console.log("----------------------------------")
+    outputDebug("----------------------------------")
+    outputDebug("After delete :" + ls(dddd))
+    outputDebug("----------------------------------")
 }
 
 function deleteYazzData(dddd) {
@@ -1600,22 +1248,6 @@ function deleteYazzData(dddd) {
 
 
 
-function outputToBrowser(txt) {
-    f++
-
-    //var line = txt.toString().replace(/\'|\"|\n|\r"/g , "").toString()
-    var line = txt.toString().replace(/\'/g , "").toString()
-    var jsc = "document.write('<br>" + ": " + line + " ')"
-    //console.log(line);
-    if (visifile && (!alreadyOpen) ) {
-        if (visifile.webContents) {
-            visifile.webContents.executeJavaScript(jsc);
-        }
-    } else {
-        console.log(txt)
-    }
-
-}
 
 
 
@@ -1628,13 +1260,10 @@ function outputToBrowser(txt) {
 
 
 
-var httpServer = null;
+
 function getPort () {
-    if (showDebug) {
-        outputToBrowser('** called getPort v2')
-    } else {
-        process.stdout.write(".");
-    }
+    outputDebug('** called getPort v2')
+
 
 
 
@@ -1660,9 +1289,8 @@ function getPort () {
 
     httpServer.listen(port, ip.address(), function (err) {
 
-        if (showDebug) {
-             outputToBrowser('trying port: ' + port + ' ')
-          }
+        outputDebug('trying port: ' + port + ' ')
+
         httpServer.once('close', function () {
         })
         httpServer.close()
@@ -1672,53 +1300,53 @@ function getPort () {
 
 
     httpServer.on('error', function (err) {
-        if (showDebug) {
-             outputToBrowser('Couldnt connect on port ' + port + '...')
-         } else {
-             process.stdout.write(".");
-         }
+        outputDebug('Couldnt connect on port ' + port + '...')
 
         if (port < portrange) {
             port = portrange
             };
-            if (showDebug) {
-                 outputToBrowser('... trying port ' + port)
-             } else {
-                 process.stdout.write(".");
-             }
+            outputDebug('... trying port ' + port)
 
         portrange += 1
         getPort()
     })
-    httpServer.on('listening', function (err) {
-        if (showDebug) {
+    httpServer.on('listening', async function (err) {
 
-            if (showDebug) {
-                 outputToBrowser('Can connect on ' + ip.address() +  ':' + port + ' :) ')
-             } else {
-                 process.stdout.write(".");
-             }
-          } else {
-              process.stdout.write(".");
-          }
+            outputDebug('Can connect on ' + ip.address() +  ':' + port + ' :) ')
+
             forkedProcesses["forked"].send({         message_type: "host_and_port" ,
                                                      child_process_name: "forked",
                                                      ip: hostaddress,
                                                      port: port
                                                   });
-            startServices()
-            setupChildProcesses();
-
-
-
-
+            await startServices()
 
     })
 }
 
 
 
-function checkForJSLoaded() {
+
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------------------
+//
+//                                          checkForJSLoaded
+//
+// This checks to see if Yazz Pilot is started with custom code. This code is
+// then loaded into Yazz Pilot either as a web app or it is run as a UI app
+//
+//
+//
+//------------------------------------------------------------------------------------------
+async function checkForJSLoaded() {
+    outputDebug("*********** In checkForJSLoaded() ************")
+
     if (isValidObject(envVars.loadjsurl)) {
         loadjsurl = envVars.loadjsurl
     }
@@ -1733,15 +1361,38 @@ function checkForJSLoaded() {
 
     //console.log("process.argv.length : " + process.argv.length )
     //console.log("process.argv[2] : " + process.argv[2] )
-  if ((process.argv[2]) && (process.argv[2].endsWith(".js") || process.argv[2].endsWith(".pilot") )) {
-      loadjsfile = process.argv[2]
-  } else if ((process.argv[2]) && (!process.argv[2].startsWith("--"))) {
-        loadjscode = process.argv[2]
-        console.log("load code: " + loadjscode )
-  }
+    try {
+        if ((process.argv[2]) && (process.argv[2].startsWith("http://") || process.argv[2].startsWith("https://") )) {
+            loadjsurl = process.argv[2]
+            //console.log("inputStdin: " + inputStdin )
+            if ((!inputStdin) || (inputStdin.length == 0)) {
+                if ((process.argv[3]) && (!process.argv[3].startsWith("--"))) {
+                    inputStdin = process.argv[3]
+                }
+            }
 
+        } else if ((process.argv[2]) && (process.argv[2].endsWith(".js") || process.argv[2].endsWith(".pilot") )) {
+            loadjsfile = process.argv[2]
+            if ((!inputStdin) || (inputStdin.length == 0)) {
+                if ((process.argv[3]) && (!process.argv[3].startsWith("--"))) {
+                    inputStdin = process.argv[3]
+                }
+            }
 
-
+        } else if ((process.argv[2]) && (!process.argv[2].startsWith("--"))) {
+            loadjscode = process.argv[2]
+            outputDebug("load code: " + loadjscode )
+            //console.log("inputStdin: " + inputStdin )
+            //console.log("load code: " + loadjscode )
+            if ((!inputStdin) || (inputStdin.length == 0)) {
+                if ((process.argv[3]) && (!process.argv[3].startsWith("--"))) {
+                    inputStdin = process.argv[3]
+                }
+            }
+        }
+    } catch(err) {
+        console.log("Error in checkForJSLoaded: " + err)
+    }
 
 
 
@@ -1749,98 +1400,254 @@ function checkForJSLoaded() {
         loadjscode = envVars.loadjscode
     }
 
-    if (isValidObject(loadjsurl)) {
 
-        var jsUrl = loadjsurl
-        https.get(jsUrl, (resp) => {
-          var data = '';
+    let promise = new Promise(async function(returnFn) {
+        if (isValidObject(loadjsurl)) {
+            outputDebug("*********** Using loadjsurl ************")
+            var jsUrl = loadjsurl
+            https.get(jsUrl, (resp) => {
+              var data = '';
 
-          // A chunk of data has been recieved.
-          resp.on('data', (chunk) => {
-            data += chunk;
-          });
+              // A chunk of data has been recieved.
+              resp.on('data', (chunk) => {
+                data += chunk;
+              });
 
-          // The whole response has been received. Print out the result.
-          resp.on('end', () => {
-            //console.log("code:" + data);
-            var baseComponentIdForUrl = saveHelper.getValueOfCodeString(data, "base_component_id")
-            console.log("baseComponentIdForUrl:" + baseComponentIdForUrl);
-            if (!isValidObject(baseComponentIdForUrl)) {
-                baseComponentIdForUrl = loadjsurl.replace(/[^A-Z0-9]/ig, "_");
+              // The whole response has been received. Print out the result.
+              resp.on('end', () => {
+                //console.log("code:" + data);
+                var baseComponentIdForUrl = saveHelper.getValueOfCodeString(data, "base_component_id")
+                outputDebug("baseComponentIdForUrl:" + baseComponentIdForUrl);
+                if (!isValidObject(baseComponentIdForUrl)) {
+                    baseComponentIdForUrl = loadjsurl.replace(/[^A-Z0-9]/ig, "_");
+                }
+                var jsCode = data
+                outputDebug("*********** Trying to load loadjsurl code *************")
+                forkedProcesses["forked"].send({
+                                                    message_type:        "save_code",
+                                                    base_component_id:    baseComponentIdForUrl,
+                                                    parent_hash:          null,
+                                                    code:                 data,
+                                                    options:             {
+                                                                            make_public: true,
+                                                                            save_html:   true
+                                                                         }
+                                               });
+                runapp = baseComponentIdForUrl
+                let frontEndCode = isFrontEndOnlyCode(data)
+                //console.log("frontEndCode: " + frontEndCode)
+                if (frontEndCode){
+                    //inputStdin = loadjscode
+                } else {
+                    //console.log("runapp: " + runapp)
+                    //console.log("inputStdin: " + inputStdin)
+                    startupType = "RUN_SERVER_CODE"
+                    startupDelay = 1000
+                }
+                returnFn()
+              });
+
+            }).on("error", (err) => {
+              outputDebug("Error: " + err.message);
+              returnFn()
+            });
+
+        } else if (isValidObject(loadjsfile)) {
+            outputDebug("*********** Using loadjsfile ************")
+
+            var jsFile = loadjsfile
+
+            var data2 = fs.readFileSync(jsFile).toString()
+            var baseComponentIdForFile = saveHelper.getValueOfCodeString(data2, "base_component_id")
+            if (!isValidObject(baseComponentIdForFile)) {
+                baseComponentIdForFile = loadjsfile.replace(/[^A-Z0-9]/ig, "_");
             }
-            var jsCode = data
-            console.log("*********** Trying to load loadjsurl code *************")
+
+            //console.log("code from file:" + data2);
+            //console.log("*********** Trying to load loadjsfile code *************")
             forkedProcesses["forked"].send({
                                                 message_type:        "save_code",
-                                                base_component_id:    baseComponentIdForUrl,
+                                                base_component_id:    baseComponentIdForFile,
                                                 parent_hash:          null,
-                                                code:                 data,
+                                                code:                 data2,
                                                 options:             {
                                                                         make_public: true,
                                                                         save_html:   true
                                                                      }
-                                           });
-            runapp = baseComponentIdForUrl
-          });
+                                               });
+             runapp = baseComponentIdForFile
+             let frontEndCode = isFrontEndOnlyCode(data2)
+             //console.log("frontEndCode: " + frontEndCode)
+             if (frontEndCode){
+                 //inputStdin = loadjscode
+             } else {
+                 //console.log("runapp: " + runapp)
+                 //console.log("inputStdin: " + inputStdin)
+                 startupType = "RUN_SERVER_CODE"
+                 startupDelay = 1000
+             }
+             returnFn()
 
-        }).on("error", (err) => {
-          console.log("Error: " + err.message);
-        });
+         } else if (isValidObject(loadjscode)) {
+             outputDebug("*********** Using loadjscode ************")
 
-    } else if (isValidObject(loadjsfile)) {
+             var data2 = loadjscode
+             var baseComponentIdForCode = saveHelper.getValueOfCodeString(data2, "base_component_id")
+             outputDebug("baseComponentIdForCode:" + baseComponentIdForCode);
+             if (!isValidObject(baseComponentIdForCode)) {
+                 baseComponentIdForCode = "code_" + (("" + Math.random()).replace(/[^A-Z0-9]/ig, "_"));
+                 outputDebug("baseComponentIdForFile:" + baseComponentIdForCode);
+             }
 
-        var jsFile = loadjsfile
+             //console.log("code:" + data2);
+             outputDebug("*********** Trying to load loadjscode code *************")
+             forkedProcesses["forked"].send({
+                                                 message_type:        "save_code",
+                                                 base_component_id:    baseComponentIdForCode,
+                                                 parent_hash:          null,
+                                                 code:                 data2,
+                                                 options:             {
+                                                                         make_public: true,
+                                                                         save_html:   true
+                                                                      }
+                                                });
+              runapp = baseComponentIdForCode
+              //console.log("baseComponentIdForCode: " + baseComponentIdForCode)
+              //console.log("runapp: " + runapp)
+              let frontEndCode = isFrontEndOnlyCode(loadjscode)
+              //console.log("frontEndCode: " + frontEndCode)
+              if (frontEndCode){
+                  //inputStdin = loadjscode
+              } else {
+                  //console.log("runapp: " + runapp)
+                  //console.log("inputStdin: " + inputStdin)
+                  startupType = "RUN_SERVER_CODE"
+                  startupDelay = 1000
+              }
+              returnFn()
 
-        var data2 = fs.readFileSync(jsFile).toString()
-        var baseComponentIdForFile = saveHelper.getValueOfCodeString(data2, "base_component_id")
-        if (!isValidObject(baseComponentIdForFile)) {
-            baseComponentIdForFile = loadjsfile.replace(/[^A-Z0-9]/ig, "_");
-        }
+         } else {
+             returnFn()
 
-        //console.log("code from file:" + data2);
-        //console.log("*********** Trying to load loadjsfile code *************")
-        forkedProcesses["forked"].send({
-                                            message_type:        "save_code",
-                                            base_component_id:    baseComponentIdForFile,
-                                            parent_hash:          null,
-                                            code:                 data2,
-                                            options:             {
-                                                                    make_public: true,
-                                                                    save_html:   true
-                                                                 }
-                                           });
-         runapp = baseComponentIdForFile
-
-
-     } else if (isValidObject(loadjscode)) {
-console.log("loadjscode ...")
-         var data2 = loadjscode
-         var baseComponentIdForCode = saveHelper.getValueOfCodeString(data2, "base_component_id")
-         console.log("baseComponentIdForCode:" + baseComponentIdForCode);
-         if (!isValidObject(baseComponentIdForCode)) {
-             baseComponentIdForCode = "code_" + (("" + Math.random()).replace(/[^A-Z0-9]/ig, "_"));
-             console.log("baseComponentIdForFile:" + baseComponentIdForCode);
          }
-
-         //console.log("code:" + data2);
-         console.log("*********** Trying to load loadjscode code *************")
-         forkedProcesses["forked"].send({
-                                             message_type:        "save_code",
-                                             base_component_id:    baseComponentIdForCode,
-                                             parent_hash:          null,
-                                             code:                 data2,
-                                             options:             {
-                                                                     make_public: true,
-                                                                     save_html:   true
-                                                                  }
-                                            });
-          runapp = baseComponentIdForCode
+     })
+     var ret = await promise
 
 
-     }
+     return
 }
 
 
+
+
+//------------------------------------------------------------------------------------------
+//
+//                                          checkForJSLoaded
+//
+// This checks to see if Yazz Pilot is started with custom code. This code is
+// then loaded into Yazz Pilot either as a web app or it is run as a UI app
+//
+//
+//
+//------------------------------------------------------------------------------------------
+async function isTtyCode() {
+    outputDebug("*********** In isTtyCode() ************")
+
+    if (isValidObject(envVars.loadjsurl)) {
+        loadjsurl = envVars.loadjsurl
+    }
+
+    //
+    // load JS code from file
+    //
+    if (isValidObject(envVars.loadjsfile)) {
+        loadjsfile = envVars.loadjsfile
+    }
+
+
+    //console.log("process.argv.length : " + process.argv.length )
+    //console.log("process.argv[2] : " + process.argv[2] )
+    try {
+        if ((process.argv[2]) && (process.argv[2].startsWith("http://") || process.argv[2].startsWith("https://") )) {
+            loadjsurl = process.argv[2]
+
+        } else if ((process.argv[2]) && (process.argv[2].endsWith(".js") || process.argv[2].endsWith(".pilot") )) {
+            loadjsfile = process.argv[2]
+
+        } else if ((process.argv[2]) && (!process.argv[2].startsWith("--"))) {
+            loadjscode = process.argv[2]
+            outputDebug("load code: " + loadjscode )
+            //console.log("load code: " + loadjscode )
+        }
+    } catch(err) {
+        console.log("Error in checkForJSLoaded: " + err)
+    }
+
+
+
+    if (isValidObject(envVars.loadjscode)) {
+        loadjscode = envVars.loadjscode
+    }
+
+
+    let promise = new Promise(async function(returnFn) {
+        if (isValidObject(loadjsurl)) {
+            var jsUrl = loadjsurl
+            https.get(jsUrl, (resp) => {
+              var data = '';
+
+              resp.on('data', (chunk) => {
+                data += chunk;
+              });
+
+              resp.on('end', () => {
+                  let ttyCode = isFrontEndOnlyCode(data)
+                  returnFn(!ttyCode)
+              });
+
+            }).on("error", (err) => {
+              outputDebug("Error: " + err.message);
+              returnFn(false)
+            });
+
+
+
+        } else if (isValidObject(loadjsfile)) {
+            var jsFile = loadjsfile
+
+            var data2 = fs.readFileSync(jsFile).toString()
+            let ttyCode = isFrontEndOnlyCode(data2)
+            returnFn(!ttyCode)
+
+         } else if (isValidObject(loadjscode)) {
+             let ttyCode = isFrontEndOnlyCode(loadjscode)
+             returnFn(!ttyCode)
+
+         } else {
+             returnFn(false)
+
+         }
+     })
+     let ttyCodeRet = await promise
+
+
+     return ttyCodeRet
+}
+
+
+
+
+
+function isFrontEndOnlyCode(code) {
+    if (!code){
+        return false
+    }
+    if (code.indexOf("Vue.") != -1) { return true }
+    if (code.indexOf("only_run_on_server(") != -1) { return false }
+    if (code.indexOf("only_run_on_frontend(") != -1) { return true }
+    if (code.indexOf("rest_api(") != -1) { return false }
+    return false
+}
 
 
 
@@ -2058,43 +1865,6 @@ function findViafromString(inp) {
 
 
 
-function aliveCheckFn() {
-		var urlToConnectTo = "http://" + centralHostAddress + ":" + centralHostPort + '/client_connect';
-		//console.log('-------* urlToConnectTo: ' + urlToConnectTo);
-		//console.log('trying to connect to central server...');
-		request({
-					uri: urlToConnectTo,
-					method: "GET",
-					timeout: 10000,
-					agent: false,
-					followRedirect: true,
-					maxRedirects: 10,
-					qs: {
-							requestClientInternalHostAddress: hostaddress
-							,
-							requestClientInternalPort:        port
-							,
-							clientUsername:        username
-					}
-				},
-				function(error, response, body) {
-					//console.log('Error: ' + error);
-					if (response) {
-							if (response.statusCode == '403') {
-										//console.log('403 received, not allowed through firewall for ' + urlToConnectTo);
-										//open("http://" + centralHostAddress + ":" + centralHostPort);
-							} else {
-										////console.log('response: ' + JSON.stringify(response));
-										////console.log(body);
-							}
-					}
-				});
-};
-
-
-
-
-
 
 
 
@@ -2124,12 +1894,10 @@ function aliveCheckFn() {
 function runOnPageExists(req, res, homepage) {
 
     if (fs.existsSync(homepage)) {
-        if (typeOfSystem == 'client') {
-            if (!canAccess(req,res)) {
-                return;
-            }
-            res.end(fs.readFileSync(homepage));
+        if (!canAccess(req,res)) {
+            return;
         }
+        res.end(fs.readFileSync(homepage));
     } else {
         setTimeout(function() {
             runOnPageExists(req, res, homepage)
@@ -2148,12 +1916,12 @@ function getRoot(req, res, next) {
     var homepageUrl = serverProtocol + '://yazz.com/visifile/index.html?time=' + new Date().getTime()
 	if (req.headers.host) {
         if (req.query.goto) {
-            console.log("*** FOUND goto")
+            outputDebug("*** FOUND goto")
             res.end(fs.readFileSync(homepage));
             return
         }
         if (req.query.embed) {
-            console.log("*** FOUND embed")
+            outputDebug("*** FOUND embed")
             res.end(fs.readFileSync(homepage));
             return
         }
@@ -2247,7 +2015,7 @@ function getRoot(req, res, next) {
         runOnPageExists(req,res,homepage)
         return
     }
-    console.log("Serving: " + homepage)
+    outputDebug("Serving: " + homepage)
 
 
 }
@@ -2264,7 +2032,7 @@ function getEditApp(req, res) {
     var parts = req.path.split('/');
     var lastSegment = parts.pop() || parts.pop();
 
-    console.log("URL PATH: " + lastSegment);
+    outputDebug("URL PATH: " + lastSegment);
 	//console.log("Full URL: " + req.protocol + '://' + req.get('host') + req.originalUrl);
 
 
@@ -2282,24 +2050,6 @@ function getEditApp(req, res) {
     res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
     res.end(newStaticFileContent);
 }
-
-
-
-
-
-function testFirewall(req, res) {
-			var tracking_id =    url.parse(req.url, true).query.tracking_id;
-			var server      =    url.parse(req.url, true).query.server;
-
-			//console.log(JSON.stringify(tracking_id,null,2));
-
-			res.writeHead(200, {'Content-Type': 'text/plain'});
-			res.end(JSON.stringify({    got_through_firewall:   tracking_id  ,
-																	server:                 server,
-																	username:               username,
-																	locked:                 locked
-																	}));
-};
 
 
 
@@ -2403,7 +2153,7 @@ function websocketFn(ws) {
         //                                  ______
         //
         } else if (receivedMessage.message_type == "edit_static_app") {
-            console.log("*** server got message from static app: edit_static_app")
+            outputDebug("*** server got message from static app: edit_static_app")
             var sql_data = receivedMessage.sql_data
             var code_fn = receivedMessage.code_fn
 
@@ -2486,9 +2236,9 @@ function websocketFn(ws) {
 
 } else if (receivedMessage.message_type == "browser_asks_server_for_apps") {
 
-   // console.log("******************* browser_asks_server_for_apps *******************")
+   // outputDebug("******************* browser_asks_server_for_apps *******************")
     findLatestVersionOfApps( function(results) {
-       // console.log(JSON.stringify(results,null,2))
+       // outputDebug(JSON.stringify(results,null,2))
 
         sendToBrowserViaWebSocket(  ws,
                                     {
@@ -2543,15 +2293,9 @@ function websocketFn(ws) {
                         });
 
 
-    }
-
-
-
-
-
-
-
-});};
+        }
+    });
+};
 
 
 
@@ -2599,7 +2343,7 @@ function file_uploadSingleFn(req, res) {
             var tts = readIn.substring(indexStart,indexEnd)
             //console.log(tts)
             var ytr = unescape(tts)
-            console.log("SENDING FROM UPLOAD___=+++****")
+            outputDebug("SENDING FROM UPLOAD___=+++****")
             var bci = saveHelper.getValueOfCodeString(ytr, "base_component_id")
 
             var indexStart = readIn.indexOf("/*APP_START*/")
@@ -2645,7 +2389,7 @@ function file_uploadSingleFn(req, res) {
                                                });
 
       } else {
-        console.log('Ignoring file ');
+        outputDebug('Ignoring file ');
 
       }
 
@@ -2703,7 +2447,7 @@ function file_uploadFn(req, res, next) {
                 var tts = readIn.substring(indexStart,indexEnd)
                 //console.log(tts)
                 var ytr = unescape(tts)
-                console.log("SENDINF FROM UPLAOD___=+++****")
+                outputDebug("SENDINF FROM UPLAOD___=+++****")
                 var bci = saveHelper.getValueOfCodeString(ytr, "base_component_id")
 
                 var indexStart = readIn.indexOf("/*APP_START*/")
@@ -2749,7 +2493,7 @@ function file_uploadFn(req, res, next) {
                                                    });
 
           } else {
-            console.log('Ignoring file ');
+            outputDebug('Ignoring file ');
 
           }
 
@@ -2789,79 +2533,6 @@ function code_uploadFn(req, res) {
 
 
 
-
-
-function send_client_detailsFn(req, res) {
-    ////console.log('in send_client_details: ' + JSON.stringify(req,null,2));
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.end(JSON.stringify({
-            returned:           'some data ',
-            server:             hostaddress,
-            port:               port,
-            username:           username,
-            locked:             locked,
-            localIp:            req.ip,
-            isLocalMachine:     isLocalMachine(req) }));
-}
-
-
-function lockFn(req, res) {
-    if ((req.query.locked == "TRUE") || (req.query.locked == "true")) {
-        locked = true;
-    } else {
-        locked = false;
-    }
-
-        ////console.log('in lock: ' + JSON.stringify(req,null,2));
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.end(JSON.stringify({locked: locked}));
-}
-
-
-
-
-//------------------------------------------------------------------------------
-// This is called by the central server to get the details of the last
-// client that connected tp the central server
-//------------------------------------------------------------------------------
-function get_connectFn(req, res) {
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.end(
-            JSON.stringify(
-                {
-                    requestClientInternalHostAddress: requestClientInternalHostAddress
-                    ,
-                    requestClientInternalPort:        requestClientInternalPort
-                    ,
-                    requestClientPublicIp:            requestClientPublicIp
-                    ,
-                    requestClientPublicHostName:      requestClientPublicHostName
-                    ,
-                    version:      31
-                }
-          ));
-}
-
-
-
-
-
-function add_new_connectionFn(req, res) {
-    var params = req.body;
-    forkedProcesses["forked"].send({ message_type: "addNewConnection" , params: params});
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.end(JSON.stringify({done: "ok"}))};
-
-
-
-function add_new_queryFn(req, res) {
-    var params = req.body;
-    forkedProcesses["forked"].send({ message_type: "addNewQuery" , params: params});
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.end(JSON.stringify({done: "ok"}))};
-
-
-
 function keycloakProtector(params) {
     return function(req,res,next) {
         next()
@@ -2880,9 +2551,9 @@ function keycloakProtector(params) {
                     function(err, results)
                     {
                         if (results.length == 0) {
-                            console.log("Could not find component : " + appName2)
+                            outputDebug("Could not find component : " + appName2)
                         } else {
-                            console.log("Found code for : " + appName2)
+                            outputDebug("Found code for : " + appName2)
                             var fileC = results[0].code.toString()
                             //console.log("Code : " + fileC)
 
@@ -2912,310 +2583,181 @@ function keycloakProtector(params) {
 //------------------------------------------------------------
 // This starts all the system services
 //------------------------------------------------------------
-function startServices() {
-    if (useHttps) {
+async function startServices() {
+    if (!isCodeTtyCode) {
+        if (useHttps) {
 
-        var app2             = express()
+            var app2             = express()
 
-        var newhttp = http.createServer(app2);
-        app2.use(compression())
-        app2.get('/', function (req, res, next) {
+            var newhttp = http.createServer(app2);
+            app2.use(compression())
+            app2.get('/', function (req, res, next) {
+                return getRoot(req, res, next);
+            })
+
+
+            app2.get('*', function(req, res) {
+                 if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
+                    outputDebug("path: " + req.path)
+
+                    var rty = req.path
+                    if (req.path == "/canlabs") {
+                        rty = "/canlabs/index.html"
+                    }
+
+                    var fileNameRead = path.join(__dirname, '../public' + rty)
+                    res.end(fs.readFileSync(fileNameRead));
+
+
+                 } else if (  req.path.indexOf(".well-known") != -1  ) {
+                    var fileNameRead = path.join(__dirname, '../public' + req.path)
+                    res.end(fs.readFileSync(fileNameRead));
+
+
+                 } else {
+                     outputDebug("Redirect HTTP to HTTPS")
+                     res.redirect('https://' + req.headers.host + req.url);
+                 }
+            })
+
+            newhttp.listen(80);
+        }
+
+
+        app.use(compression())
+        app.use(cors({ origin: '*' }));
+        app.use(function (req, res, next) {
+
+            // Website you wish to allow to connect
+            res.header('Access-Control-Allow-Origin', '*');
+
+            // Request methods you wish to allow
+            res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+            // Request headers you wish to allow
+            res.header('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+            // Set to true if you need the website to include cookies in the requests sent
+            // to the API (e.g. in case you use sessions)
+            res.setHeader('Access-Control-Allow-Credentials', false);
+
+            // Pass to next layer of middleware
+            next();
+        });
+
+
+        //------------------------------------------------------------------------------
+        // Show the default page for the different domains
+        //------------------------------------------------------------------------------
+
+
+
+        app.get('/', function (req, res, next) {
             return getRoot(req, res, next);
         })
 
 
-        app2.get('*', function(req, res) {
-             if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
-                console.log("path: " + req.path)
+        app.get('/live-check',(req,res)=> {
+           outputDebug("Live check passed")
+           res.send ("Live check passed");
+        });
+        app.get('/readiness-check',(req,res)=> {
+            if (systemReady) {
+                outputDebug("Readiness check passed")
+                res.send ("Readiness check passed");
+            } else {
+                outputDebug("Readiness check failed")
+                res.status(500).send('Readiness check did not pass');
+            }
+        });
 
-                var rty = req.path
-                if (req.path == "/canlabs") {
-                    rty = "/canlabs/index.html"
-                }
-
-                var fileNameRead = path.join(__dirname, '../public' + rty)
-                res.end(fs.readFileSync(fileNameRead));
-
-
-             } else if (  req.path.indexOf(".well-known") != -1  ) {
-                var fileNameRead = path.join(__dirname, '../public' + req.path)
-                res.end(fs.readFileSync(fileNameRead));
-
-
-             } else {
-                 console.log("Redirect HTTP to HTTPS")
-                 res.redirect('https://' + req.headers.host + req.url);
-             }
+        //------------------------------------------------------------------------------
+        // Allow an app to be edited
+        //------------------------------------------------------------------------------
+        app.get('/edit/*', function (req, res) {
+        	return getEditApp(req, res);
         })
 
-        newhttp.listen(80);
-    }
+
+        app.use("/files",   express.static(path.join(userData, '/files/')));
 
 
-    app.use(compression())
-    app.use(cors({ origin: '*' }));
-    app.use(function (req, res, next) {
+        function getAppNameFromHtml() {
 
-        // Website you wish to allow to connect
-        res.header('Access-Control-Allow-Origin', '*');
-
-        // Request methods you wish to allow
-        res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-        // Request headers you wish to allow
-        res.header('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-        // Set to true if you need the website to include cookies in the requests sent
-        // to the API (e.g. in case you use sessions)
-        res.setHeader('Access-Control-Allow-Credentials', false);
-
-        // Pass to next layer of middleware
-        next();
-    });
-
-
-    //------------------------------------------------------------------------------
-    // Show the default page for the different domains
-    //------------------------------------------------------------------------------
-
-
-
-    app.get('/', function (req, res, next) {
-        return getRoot(req, res, next);
-    })
-
-
-    app.get('/live-check',(req,res)=> {
-       console.log("Live check passed")
-       res.send ("Live check passed");
-    });
-    app.get('/readiness-check',(req,res)=> {
-        if (systemReady) {
-            console.log("Readiness check passed")
-            res.send ("Readiness check passed");
-        } else {
-            console.log("Readiness check failed")
-            res.status(500).send('Readiness check did not pass');
         }
-    });
 
-    //------------------------------------------------------------------------------
-    // Allow an app to be edited
-    //------------------------------------------------------------------------------
-    app.get('/edit/*', function (req, res) {
-    	return getEditApp(req, res);
-    })
+        function getBaseComponentIdFromRequest(req){
+            var parts = req.path.split('/');
+            var appHtmlFile = parts.pop() || parts.pop();
 
-
-    app.use("/files",   express.static(path.join(userData, '/files/')));
-
-
-    function getAppNameFromHtml() {
-
-    }
-
-    function getBaseComponentIdFromRequest(req){
-        var parts = req.path.split('/');
-        var appHtmlFile = parts.pop() || parts.pop();
-
-        var appName = appHtmlFile.split('.').slice(0, -1).join('.')
-        return appName
-    }
-    //app.get('/app/*', keycloakProtector({compIdFromReqFn: getBaseComponentIdFromRequest}), function (req, res, next) {
-    app.get('/app/*', function (req, res, next) {
-        if (req.kauth) {
-            console.log('Keycloak details from server:')
-            console.log(req.kauth.grant)
+            var appName = appHtmlFile.split('.').slice(0, -1).join('.')
+            return appName
         }
-        var parts = req.path.split('/');
-        var appHtmlFile = parts.pop() || parts.pop();
+        //app.get('/app/*', keycloakProtector({compIdFromReqFn: getBaseComponentIdFromRequest}), function (req, res, next) {
+        app.get('/app/*', function (req, res, next) {
+            if (req.kauth) {
+                outputDebug('Keycloak details from server:')
+                outputDebug(req.kauth.grant)
+            }
+            var parts = req.path.split('/');
+            var appHtmlFile = parts.pop() || parts.pop();
 
-        //console.log("appHtemlFile: " + appHtmlFile);
+            //console.log("appHtemlFile: " + appHtmlFile);
 
-        var appName = appHtmlFile.split('.').slice(0, -1).join('.')
-        //console.log("appName: " + appName);
+            var appName = appHtmlFile.split('.').slice(0, -1).join('.')
+            //console.log("appName: " + appName);
 
-         //console.log("path: " + path);
+             //console.log("path: " + path);
 
-         var appFilePath = path.join(userData, 'apps/' + appHtmlFile)
-         var fileC2 = fs.readFileSync(appFilePath, 'utf8').toString()
-         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-         res.end(fileC2);
-
-
-    })
-
-    //app.use("/app_dbs", express.static(path.join(userData, '/app_dbs/')));
-
-    app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
-    app.use(            express.static(path.join(__dirname, '../public/')))
-    app.use(bodyParser.json()); // support json encoded bodies
-    app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+             var appFilePath = path.join(userData, 'apps/' + appHtmlFile)
+             var fileC2 = fs.readFileSync(appFilePath, 'utf8').toString()
+             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+             res.end(fileC2);
 
 
+        })
 
+        //app.use("/app_dbs", express.static(path.join(userData, '/app_dbs/')));
 
-
-
-
-    //------------------------------------------------------------------------------
-    // test_firewall
-    //------------------------------------------------------------------------------
-    app.get('/test_firewall', function (req, res) {
-        return testFirewall(req,res);
-    });
-
-
-
-    //------------------------------------------------------------------------------
-    // get_intranet_servers
-    //------------------------------------------------------------------------------
-    app.get('/get_intranet_servers', function (req, res) {
-        //console.log("1 - get_intranet_servers: " + req.ip)
-        //console.log("1.1 - get_intranet_servers: " + Object.keys(req.headers))
-
-        var seqNum = queuedResponseSeqNum;
-        queuedResponseSeqNum ++;
-        queuedResponses[seqNum] = res;
-        //console.log("2")
-        forkedProcesses["forked"].send({   message_type:               "get_intranet_servers",
-                        seq_num:                    seqNum,
-                        requestClientPublicIp:      req.ip ,
-                        numberOfSecondsAliveCheck:  numberOfSecondsAliveCheck,
-                        requestVia:                 findViafromString(req.headers.via)
-                        });
-
-
-    });
-
-
-
-    app.post('/file_upload_single', upload.single( 'uploadfilefromhomepage' ), function (req, res, next) {
-        return file_uploadSingleFn(req, res, next);
-    });
-
-    app.post('/file_upload', upload.array( 'file' ), function (req, res, next) {
-        return file_uploadFn(req, res, next);
-    });
-
-    app.get('/code_upload', function (req, res, next) {
-        code_uploadFn(req, res);
-        //zzz
-        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-        res.end("Done");
-    });
+        app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
+        app.use(            express.static(path.join(__dirname, '../public/')))
+        app.use(bodyParser.json()); // support json encoded bodies
+        app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 
 
 
 
-    app.get('/send_client_details', function (req, res) {
-    	return send_client_detailsFn(req, res);
-    })
 
 
-    app.get('/lock', function (req, res) {
-        return lockFn(req, res);
-    })
 
+        app.post('/file_upload_single', upload.single( 'uploadfilefromhomepage' ), function (req, res, next) {
+            return file_uploadSingleFn(req, res, next);
+        });
+
+        app.post('/file_upload', upload.array( 'file' ), function (req, res, next) {
+            return file_uploadFn(req, res, next);
+        });
+
+        app.get('/code_upload', function (req, res, next) {
+            code_uploadFn(req, res);
+
+            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+            res.end("Done");
+        });
+
+
+
+
+        app.get('/lock', function (req, res) {
+            return lockFn(req, res);
+        })
+    }
 
     process.on('uncaughtException', function (err) {
-      console.log(err);
+      outputDebug(err);
     })
 
-
-
-    //------------------------------------------------------------------------------
-    // This is called by the central server to get the details of the last
-    // client that connected tp the central server
-    //------------------------------------------------------------------------------
-    app.get('/get_connect', function (req, res) {
-    	return get_connectFn(req, res);
-    })
-
-    //app.enable('trust proxy')
-
-
-    app.get('/get_all_table', function (req, res) {
-        var tableName = url.parse(req.url, true).query.tableName;
-        var fields = url.parse(req.url, true).query.fields;
-
-        //console.log("1 - get_all_table ,tableName: " + tableName)
-        //console.log("    get_all_table ,fields: "    + fields)
-
-        var seqNum = queuedResponseSeqNum;
-        queuedResponseSeqNum ++;
-        queuedResponses[seqNum] = res;
-        //console.log("2 - get_search_results")
-        forkedProcesses["forked"].send({
-                        message_type:               "get_all_tables",
-                        seq_num:                    seqNum,
-                        table_name:                 tableName,
-                        fields:                     fields
-                        });    });
-
-    app.post('/add_new_connection', function (req, res) {
-    		return add_new_connectionFn(req, res)
-    });
-
-
-
-    app.post('/add_new_query',function (req, res) {
-        return add_new_queryFn(req, res)
-    });
-
-
-
-
-
-    //------------------------------------------------------------------------------
-    // run on the central server only
-    //
-    // This is where the client sends its details to the central server
-    //------------------------------------------------------------------------------
-    app.get('/client_connect', function (req, res) {
-
-        //console.log("1 - client_connect: ")
-        var queryData = url.parse(req.url, true).query;
-
-		var requestClientInternalHostAddress = req.query.requestClientInternalHostAddress;
-        //console.log("    requestClientInternalHostAddress: "  + requestClientInternalHostAddress)
-
-		var requestClientInternalPort        = req.query.requestClientInternalPort;
-        //console.log("    requestClientInternalPort: "  + requestClientInternalPort)
-
-		var requestVia                       = findViafromString(req.headers.via);
-        //console.log("    requestVia: "  + requestVia)
-
-		var requestClientPublicIp            = req.ip;
-        //console.log("    requestClientPublicIp: "  + requestClientPublicIp)
-
-        var clientUsername                   = req.query.clientUsername;
-        //console.log("    clientUsername: "  + clientUsername)
-
-		//requestClientPublicHostName      = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-		var requestClientPublicHostName      = "req keys::" + Object.keys(req) + ", VIA::" + req.headers.via + ", raw::" + JSON.stringify(req.rawHeaders);
-        //console.log("    requestClientPublicHostName: "  + requestClientPublicHostName)
-
-
-
-
-
-        var seqNum = queuedResponseSeqNum;
-        queuedResponseSeqNum ++;
-        queuedResponses[seqNum] = res;
-        //console.log("2")
-        forkedProcesses["forked"].send({   message_type:                       "client_connect",
-                        seq_num:                            seqNum,
-                        requestClientInternalHostAddress:   requestClientInternalHostAddress,
-                        requestClientInternalPort:          requestClientInternalPort,
-                        requestVia:                         requestVia,
-                        requestClientPublicIp:              requestClientPublicIp,
-                        clientUsername:                     clientUsername,
-                        requestClientPublicHostName:        requestClientPublicHostName
-                        });
-
-    })
 
 
 
@@ -3225,54 +2767,59 @@ function startServices() {
     //------------------------------------------------------------------------------
     // start the web server
     //------------------------------------------------------------------------------
+    if (!isCodeTtyCode) {
+        if (useHttps) {
+            var caCerts = readCerts()
+            var certOptions = {
+              key: fs.readFileSync(privateKey, 'utf8'),
+              cert: fs.readFileSync(publicCertificate, 'utf8'),
+              ca: caCerts
+            }
+            certOptions.requestCert = true
+            certOptions.rejectUnauthorized = false
 
-    if (useHttps) {
-        var caCerts = readCerts()
-        var certOptions = {
-          key: fs.readFileSync(privateKey, 'utf8'),
-          cert: fs.readFileSync(publicCertificate, 'utf8'),
-          ca: caCerts
-        }
-        certOptions.requestCert = true
-        certOptions.rejectUnauthorized = false
+            httpServer = https.createServer(certOptions,app)
 
-        httpServer = https.createServer(certOptions,app)
-
-    } else {
-        httpServer = http.createServer(app)
-
-    }
-    socket = require('socket.io')
-    httpServer.listen(port, hostaddress, function () {
-        if (showDebug) {
-            console.log("****HOST=" + hostaddress + "HOST****\n");
-            console.log("****PORT=" + port+ "PORT****\n");
-            console.log(typeOfSystem + ' started on port ' + port + ' with local folder at ' + process.cwd() + ' and __dirname = ' + __dirname+ "\n");
         } else {
-            process.stdout.write(".");
+            httpServer = http.createServer(app)
+
         }
+        socket = require('socket.io')
+        httpServer.listen(port, hostaddress, function () {
+
+                outputDebug("****HOST=" + hostaddress + "HOST****\n");
+                outputDebug("****PORT=" + port+ "PORT****\n");
+                outputDebug(' Started on port ' + port + ' with local folder at ' + process.cwd() + ' and __dirname = ' + __dirname+ "\n");
 
 
 
-        //
-        // We dont listen on websockets here with socket.io as often they stop working!!!
-        // Crazy, I know!!!! So we removed websockets from the list of transports below
-        //
-        io = socket.listen(httpServer, {
-            log: false,
-            agent: false,
-            origins: '*:*',
-            transports: ['htmlfile', 'xhr-polling', 'jsonp-polling', 'polling']
-        });
 
-        io.on('connection', function (sck) {
-            var connt = JSON.stringify(sck.conn.transport,null,2);
-            websocketFn(sck)
-        });
+            //
+            // We dont listen on websockets here with socket.io as often they stop working!!!
+            // Crazy, I know!!!! So we removed websockets from the list of transports below
+            //
+            io = socket.listen(httpServer, {
+                log: false,
+                agent: false,
+                origins: '*:*',
+                transports: ['htmlfile', 'xhr-polling', 'jsonp-polling', 'polling']
+            });
 
-    })
+            io.on('connection', function (sck) {
+                var connt = JSON.stringify(sck.conn.transport,null,2);
+                websocketFn(sck)
+            });
+
+        })
+    }
 
 
+
+    setupForkedProcess("forkedExeScheduler", "exeScheduler.js", 40004)
+    for (var i=0;i<executionProcessCount; i++ ) {
+        var exeProcName = "forkedExeProcess" + i
+            setupForkedProcess(exeProcName, "exeProcess.js", 40100 + i)
+    }
 
       //console.log('addr: '+ hostaddress + ":" + port);
 
@@ -3280,23 +2827,18 @@ function startServices() {
 
 
 
-
-    //aliveCheckFn();
-
-
-
-
-    if (typeOfSystem == 'client') {
-        //setInterval(aliveCheckFn ,numberOfSecondsAliveCheck * 1000);
-    }
+    setTimeout(async function(){
+        //--------------------------------------------------------
+    	// Check if any JS is loaded
+    	//--------------------------------------------------------
+        await checkForJSLoaded();
 
 
-
-
-
-
-    setTimeout(function(){
-        forkedProcesses["forked"].send({message_type:       'setUpPredefinedComponents'});
+        if (isCodeTtyCode) {
+            await finalizeYazzLoading()
+        } else {
+            forkedProcesses["forked"].send({message_type:       'setUpPredefinedComponents'});
+        }
 
 
     },1000)
@@ -3306,7 +2848,121 @@ function startServices() {
 
 
 
+async function finalizeYazzLoading() {
 
+    if (!isCodeTtyCode) {
+        console.log(`
+
+YYYYYYY       YYYYYYY
+Y:::::Y       Y:::::Y
+Y:::::Y       Y:::::Y
+Y::::::Y     Y::::::Y
+YYY:::::Y   Y:::::YYY  aaaaaaaaaaaaa   zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
+Y:::::Y Y:::::Y     a::::::::::::a  z:::::::::::::::zz:::::::::::::::z
+Y:::::Y:::::Y      aaaaaaaaa:::::a z::::::::::::::z z::::::::::::::z
+Y:::::::::Y                a::::a zzzzzzzz::::::z  zzzzzzzz::::::z
+Y:::::::Y          aaaaaaa:::::a       z::::::z         z::::::z
+Y:::::Y         aa::::::::::::a      z::::::z         z::::::z
+Y:::::Y        a::::aaaa::::::a     z::::::z         z::::::z
+Y:::::Y       a::::a    a:::::a    z::::::z         z::::::z
+Y:::::Y       a::::a    a:::::a   z::::::zzzzzzzz  z::::::zzzzzzzz
+YYYY:::::YYYY    a:::::aaaa::::::a  z::::::::::::::z z::::::::::::::z
+Y:::::::::::Y     a::::::::::aa:::az:::::::::::::::zz:::::::::::::::z
+YYYYYYYYYYYYY      aaaaaaaaaa  aaaazzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
+
+
+
+PPPPPPPPPPPPPPPPP     iiii  lllllll                           tttt
+P::::::::::::::::P   i::::i l:::::l                        ttt:::t
+P::::::PPPPPP:::::P   iiii  l:::::l                        t:::::t
+PP:::::P     P:::::P        l:::::l                        t:::::t
+P::::P     P:::::Piiiiiii  l::::l    ooooooooooo   ttttttt:::::ttttttt
+P::::P     P:::::Pi:::::i  l::::l  oo:::::::::::oo t:::::::::::::::::t
+P::::PPPPPP:::::P  i::::i  l::::l o:::::::::::::::ot:::::::::::::::::t
+P:::::::::::::PP   i::::i  l::::l o:::::ooooo:::::otttttt:::::::tttttt
+P::::PPPPPPPPP     i::::i  l::::l o::::o     o::::o      t:::::t
+P::::P             i::::i  l::::l o::::o     o::::o      t:::::t
+P::::P             i::::i  l::::l o::::o     o::::o      t:::::t
+P::::P             i::::i  l::::l o::::o     o::::o      t:::::t    tttttt
+PP::::::PP          i::::::il::::::lo:::::ooooo:::::o      t::::::tttt:::::t
+P::::::::P          i::::::il::::::lo:::::::::::::::o      tt::::::::::::::t
+P::::::::P          i::::::il::::::l oo:::::::::::oo         tt:::::::::::tt
+PPPPPPPPPP          iiiiiiiillllllll   ooooooooooo             ttttttttttt
+`)
+
+
+console.log("\nRunning " + executionProcessCount + " virtual processors");
+console.log("\nYazz Pilot started on:");
+console.log("Network Host Address: " + hostaddressintranet)
+console.log("Local Machine Address: " + serverProtocol + "://" + hostaddress + ':' + port);
+} else {
+
+
+                var parsedInput = null
+                try {
+                    parsedInput = eval("(" + inputStdin + ")");
+                } catch(qwe) {
+                    //console.log("Err: " + qwe);
+                    try {
+                        let pss = "('" + inputStdin + "')";
+                        pss = pss.replace(/(\r\n|\n|\r)/gm, "");
+                        parsedInput = eval(pss);
+                    } catch(ex) {
+                        //console.log(ex)
+                    }
+                }
+                //console.log("client args:" + JSON.stringify( parsedInput,null,2))
+
+                //console.log("Parsed: " + JSON.stringify(parsedInput));
+
+                (async function() {
+                var promise = new Promise(async function(returnFn) {
+                    var seqNum = queuedResponseSeqNum;
+                    queuedResponseSeqNum ++;
+                    queuedResponses[ seqNum ] = function(value) {
+                        returnFn(value)
+                    }
+
+                    if(startupType == "RUN_SERVER_CODE") {
+                        setTimeout(function(){
+                            forkedProcesses["forked"].send({
+                                            message_type:          "callDriverMethod",
+                                            find_component:         {
+                                                                        base_component_id: runapp
+                                                                    }
+                                                                    ,
+                                            args:                   parsedInput
+                                                                    ,
+                                            seq_num_parent:         null,
+                                            seq_num_browser:        null,
+                                            seq_num_local:          seqNum,
+                                        });
+                        },startupDelay)
+
+
+                    } else {
+
+                                }
+
+
+
+                })
+                var ret = await promise
+                //console.log("ret: "  +  JSON.stringify(ret,null,2))
+
+                if (ret.value) {
+                    console.log(JSON.stringify(ret.value,null,2));
+                    //process.stdout.write(JSON.stringify(ret.value,null,2));
+                    //console.log("Who let the dogs out!");
+                }
+
+                shutDown();
+                process.exit();
+            })()
+    }
+
+    systemReady = true
+}
 
 
 
@@ -3354,23 +3010,6 @@ function findLatestVersionOfApps( callbackFn) {
 
 
 
-function findDriversWithMethodLike(methodName, callbackFn) {
-    dbsearch.serialize(
-        function() {
-            var stmt = dbsearch.all(
-                "SELECT base_component_id FROM system_code where on_condition like '%" + methodName + "%'; ",
-
-                function(err, results)
-                {
-                    if (results.length > 0) {
-                        callbackFn(results)
-                    } else {
-                        callbackFn(null)
-                    }
-
-                })
-    }, sqlite3.OPEN_READONLY)
-}
 
 
 
@@ -3385,7 +3024,7 @@ function getChildMem(childProcessName,stats) {
         totalMem += memoryused
     }
     if (showStats) {
-        console.log(`${childProcessName}: ${Math.round(bytesToMb(memoryused) * 100) / 100} MB`);
+        outputDebug(`${childProcessName}: ${Math.round(bytesToMb(memoryused) * 100) / 100} MB`);
     }
 }
 
@@ -3395,9 +3034,9 @@ function usePid(childProcessName,childprocess) {
         returnedmemCount ++
         if (returnedmemCount == allForked.length) {
             if (showStats) {
-                console.log("------------------------------------")
-                console.log(" TOTAL MEM = " + bytesToMb(totalMem) + " MB")
-                console.log("------------------------------------")
+                outputDebug("------------------------------------")
+                outputDebug(" TOTAL MEM = " + bytesToMb(totalMem) + " MB")
+                outputDebug("------------------------------------")
             }
             inmemcalc = false
             yazzMemoryUsageMetric.set(totalMem)
@@ -3406,59 +3045,178 @@ function usePid(childProcessName,childprocess) {
     });
 
 }
-if (statsInterval > 0) {
-    setInterval(function(){
-        if (!inmemcalc) {
-            inmemcalc = true
-            totalMem = 0
-            const used = process.memoryUsage().heapUsed ;
-            totalMem += used
-            yazzProcessMainMemoryUsageMetric.set(used)
-            if (showStats) {
-                console.log(`Main: ${Math.round( bytesToMb(used) * 100) / 100} MB`);
-            }
-            allForked = Object.keys(forkedProcesses)
-            returnedmemCount = 0
-            for (var ttt=0; ttt< allForked.length; ttt++) {
-                var childProcessName = allForked[ttt]
-                const childprocess = forkedProcesses[childProcessName]
-
-                usePid(childProcessName,childprocess)
-            }
-        }
-    },(statsInterval * 1000))
-}
 
 
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function readCerts() {
-    console.log("Checking CA certs" )
-    console.log("-----------------" )
-    console.log("" )
-    console.log("CA Cert 1 = " + caCertificate1)
-    console.log("CA Cert 2 = " + caCertificate2)
-    console.log("CA Cert 3 = " + caCertificate3)
-    console.log("" )
-    console.log("" )
+    outputDebug("Checking CA certs" )
+    outputDebug("-----------------" )
+    outputDebug("" )
+    outputDebug("CA Cert 1 = " + caCertificate1)
+    outputDebug("CA Cert 2 = " + caCertificate2)
+    outputDebug("CA Cert 3 = " + caCertificate3)
+    outputDebug("" )
+    outputDebug("" )
 
 
     let caCertsRet = []
     if (caCertificate1) {
-        console.log("CA Cert 1 = " + caCertificate1)
+        outputDebug("CA Cert 1 = " + caCertificate1)
         var fff = fs.readFileSync(caCertificate1, 'utf8')
-        console.log("  = " + fff)
+        outputDebug("  = " + fff)
         caCertsRet.push(fff)
     }
     if (caCertificate2) {
-        console.log("CA Cert 2 = " + caCertificate2)
+        outputDebug("CA Cert 2 = " + caCertificate2)
         var fff = fs.readFileSync(caCertificate2, 'utf8')
-        console.log("  = " + fff)
+        outputDebug("  = " + fff)
         caCertsRet.push(fff)
     }
     if (caCertificate3) {
-        console.log("CA Cert 3 = " + caCertificate3)
+        outputDebug("CA Cert 3 = " + caCertificate3)
         var fff = fs.readFileSync(caCertificate3, 'utf8')
-        console.log("  = " + fff)
+        outputDebug("  = " + fff)
         caCertsRet.push(fff)
     }
     return caCertsRet
 }
+
+
+
+
+
+
+
+setupVisifileParams();
+
+outputDebug("process.platform = " + process.platform)
+
+
+if (process.platform === "win32") {
+    var rl = require("readline").createInterface({
+      input: process.stdin,
+      output: process.stdout
+    });
+
+    rl.on("SIGINT", function () {
+        shutDown();
+        process.exit();
+    });
+}
+
+
+
+if (isWin) {
+    outputDebug("Running as Windows")
+	var localappdata  = process.env.LOCALAPPDATA
+	userData = path.join(localappdata, '/Yazz/')
+} else {
+
+    outputDebug("Running as Linux/Mac")
+	userData =  path.join(LOCAL_HOME, 'Yazz')
+}
+dbPath = path.join(userData, username + '.visi')
+
+
+if (deleteOnStartup) {
+    outputDebug("deleting dir :" + userData)
+    if (userData.length > 6) {
+            deleteYazzDataV2(userData)
+    }
+}
+var uploadPath = path.join(userData,  'uploads/')
+
+outputDebug("LOCAL_HOME: " + LOCAL_HOME)
+outputDebug("userData: " + userData)
+outputDebug("uploadPath: " + uploadPath)
+
+upload = multer( { dest: uploadPath});
+
+
+rmdir("uploads");
+mkdirp.sync(path.join(userData,  'uploads'));
+mkdirp.sync(path.join(userData,  'files'));
+mkdirp.sync(path.join(userData,  'apps'));
+mkdirp.sync(path.join(userData,  'app_dbs'));
+
+
+outputDebug('process.env.LOCALAPPDATA: ' + JSON.stringify(localappdata ,null,2))
+outputDebug("Local home data path: " + LOCAL_HOME)
+outputDebug("userData: " + JSON.stringify(userData ,null,2))
+outputDebug("process.env keys: " + Object.keys(process.env))
+
+
+
+
+dbsearch = new sqlite3.Database(dbPath);
+dbsearch.run("PRAGMA journal_mode=WAL;")
+
+
+
+
+
+
+
+
+var shuttingDown = false;
+process.on('exit', function() {
+    shutDown();
+  });
+process.on('quit', function() {
+  shutDown();
+});
+process.on("SIGINT", function () {
+    shutDown();
+    process.exit()
+});
+
+
+
+
+
+
+
+
+    setupMainChildProcess();
+
+
+
+    //------------------------------------------------------------------------------
+    //
+    //
+    //
+    //
+    //
+    //------------------------------------------------------------------------------
+    if (statsInterval > 0) {
+        setInterval(function(){
+            if (!inmemcalc) {
+                inmemcalc = true
+                totalMem = 0
+                const used = process.memoryUsage().heapUsed ;
+                totalMem += used
+                yazzProcessMainMemoryUsageMetric.set(used)
+                if (showStats) {
+                    outputDebug(`Main: ${Math.round( bytesToMb(used) * 100) / 100} MB`);
+                }
+                allForked = Object.keys(forkedProcesses)
+                returnedmemCount = 0
+                for (var ttt=0; ttt< allForked.length; ttt++) {
+                    var childProcessName = allForked[ttt]
+                    const childprocess = forkedProcesses[childProcessName]
+
+                    usePid(childProcessName,childprocess)
+                }
+            }
+        },(statsInterval * 1000))
+    }

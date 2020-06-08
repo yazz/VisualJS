@@ -27,7 +27,7 @@ objects:
         spec:
           containers:
           - name: "pilot"
-            image: "zubairq/pilot:latest"
+            image: "yazzcorp/pilot:2.2"
             ports:
             - containerPort: 3000
               protocol: "TCP"
@@ -51,7 +51,7 @@ objects:
                         timeoutSeconds: 1
             resources:
               limits:
-                memory: 512Mi                        
+                memory: 512Mi
       replicas: 1
       selector:
         name: "pilot"

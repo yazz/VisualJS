@@ -8723,7 +8723,7 @@ function setupWebSocket(host, port)
                 try
                 {
                     let envName = allEnvVarNames[i].replace(/[^a-zA-Z0-9]/g,'_')
-                    console.log(envName)
+                    //console.log(envName)
                     var valueEnvVar = data.value[envName]
                     var cmddd = '($' + envName + " =  String.raw`" +  String.raw`${valueEnvVar}` +"`)"
 

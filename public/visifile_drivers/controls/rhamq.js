@@ -13,28 +13,28 @@ properties(
         {
             id:         "width",
             name:       "Width",
-            default:    350,
+            default:    50,
             type:       "Number"
         }
         ,
         {
             id:         "height",
             name:       "Height",
-            default:    300,
+            default:    50,
             type:       "Number"
         }
         ,
         {
             id:         "port",
             name:       "Port",
-            default:    1234,
+            default:    61613,
             type:       "Number"
         }
         ,
         {
             id:      "host",
             name:    "Host",
-            default: "host.docker.internal",
+            default: "localhost",
             type:    "String"
         }
         ,
@@ -44,27 +44,43 @@ properties(
             type:   "String"
         }
         ,
+
+
+
         {
-            id:     "container_list",
-            name:   "Container list",
-            type:   "List"
+            id:      "destination",
+            name:    "Destination",
+            type:    "String",
+            default: "/queue/test"
+        }
+        ,
+
+
+        {
+            id:      "username",
+            name:    "Username",
+            type:    "String",
+            default: "admin"
         }
         ,
         {
-            id:         "is_container",
-            name:       "Is Container?",
-            type:       "Boolean",
-            default:    true,
-            hidden:     true
+            id:     "password",
+            name:   "Password",
+            password: true,
+            type:   "String",
+            default: "admin"
         }
+
         ,
         {
-            id:         "getFilteredContainerList",
+            id:         "testAMQ",
+            name:       "test AMQ()",
+            type:       "Action",
             pre_snippet:    `await `,
-            snippet:    `getFilteredContainerList()`,
-            name:       "Get Container List",
-            type:       "Action"
+            snippet:    `testAMQ()`
         }
+
+
     ]
 )//properties
 
@@ -113,52 +129,41 @@ logo_url("/driver_icons/rhamq.png")
             registerComponent(this)
 
             if (!this.design_mode) {
-                var x = await this.readFromDocker()
-                this.args.container_list = x
+
             }
         }
         ,
 
 
         methods: {
-            readFromDocker: async function() {
-                var result = await callFunction(
-                {
-                    driver_name: "serverDockerStuff",
-                    method_name: "serverDockerStuff"
-                }
-                ,
-                {
-                    host: this.args.host ,
-                    port: this.args.port
-                })
 
-                //alert(JSON.stringify(result,null,2))
-                if (result) {
-                    return result
-                }
-                return null
+            testAMQ: async function() {
+                var mm = this
+                var result = await callFunction(
+                    {
+                        driver_name: "activemq_service",
+                        method_name: "activemq_service"
+                    }
+                    ,
+                    {
+                        host: mm.args.host
+                        ,
+                        //brokers: mm.args.brokers
+                        port: mm.args.port
+                        ,
+                        destination: mm.args.destination
+                        ,
+                        username: mm.args.username
+                        ,
+                        password: mm.args.password
+                        ,
+                        action: "read_single_message"
+                    })
+
+                console.log(JSON.stringify(result,null,2))
+                return result
             }
             ,
-
-
-            getFilteredContainerList: async function() {
-                var qwe = await this.readFromDocker()
-                var newList = []
-
-                for (var aa = 0; aa < qwe.length; aa ++) {
-
-                    var newObject = {
-                                        image:          qwe[aa].Image,
-                                        privatePort:    qwe[aa].Ports[0].PrivatePort,
-                                        publicPort:     qwe[aa].Ports[0].PublicPort,
-                                        state:          qwe[aa].State,
-                                        status:         qwe[aa].Status
-                                    }
-                    newList.push(newObject)
-                }
-                return newList
-            }
 
         }
 

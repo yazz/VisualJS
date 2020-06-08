@@ -20,7 +20,17 @@ var tdeval
 var toeval;
 var userData
 var childProcessName
-var showDebug
+var showDebug = false
+var showProgress = false
+function outputDebug(text) {
+    if (showDebug) {
+         console.log(text);
+    } else {
+        if (showProgress) {
+            process.stdout.write(".");
+        }
+    }
+};
 
 var isWin                               = /^win/.test(process.platform);
 var inScan                              = false;
@@ -39,12 +49,14 @@ var stmtDeleteDependencies;
 
 var stmtInsertAppDDLRevision;
 var stmtUpdateLatestAppDDLRevision;
+var stmtInsertIntoAppRegistry
+var stmtUpdateAppRegistry
 
-var stmtInsertIntoIntranetClientConnects;
 var copyMigration;
 var stmtInsertNewCode
 var stmtDeprecateOldCode
-
+var hostaddress = null
+var port = null
 
 
 //username = os.userInfo().username.toLowerCase();
@@ -55,7 +67,8 @@ username = "node"
 //dbsearch.run("PRAGMA count_changes=OFF;")
 //dbsearch.run("PRAGMA journal_mode=MEMORY;")
 //dbsearch.run("PRAGMA temp_store=MEMORY;")
-
+var callbackIndex = 0;
+var callbackList = new Object()
 
 
 
@@ -110,10 +123,17 @@ function setUpSql() {
     `
     );
 
-    stmtInsertIntoIntranetClientConnects = dbsearch.prepare(" insert  into  intranet_client_connects " +
-                            "    ( id, internal_host, internal_port, public_ip, via, public_host, user_name, client_user_name, when_connected) " +
-                            " values " +
-                            "    (?,   ?,?,?,?,  ?,?,?,?);");
+    stmtInsertIntoAppRegistry = dbsearch.prepare(" insert or replace into app_registry " +
+                                "    (id,  username, reponame, version, code_id ) " +
+                                " values " +
+                                "    (?, ?, ?, ?, ? );");
+
+
+    stmtUpdateAppRegistry = dbsearch.prepare(" update app_registry " +
+                                "    set code_id = ? " +
+                                " where " +
+                                "    username = ?  and  reponame = ? and version = ?;");
+
 
 
     stmtInsertDependency = dbsearch.prepare(" insert or replace into app_dependencies " +
@@ -156,9 +176,6 @@ function setUpSql() {
 
 
 
-function timestampInSeconds() {
-    return Math.floor(Date.now() / 1000)
-}
 
 
 
@@ -168,60 +185,13 @@ function timestampInSeconds() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//-----------------------------------------------------------------------------------------//
-//                                                                                         //
-//                                       outputToConsole                                   //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//-----------------------------------------------------------------------------------------//
-function outputToConsole(text) {
-    var c = console;
-    c.log(text);
-}
-
-
-
-
-
-
-
-
-
-
-
-var callbackIndex = -1
-
-
-var callbackIndex = 0;
-var callbackList = new Object()
-
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function callDriverMethod( findComponentArgs, args, callbackFn ) {
 
     //console.log("*) called '" + driverName + ":" + methodName + "' with args: " + JSON.stringify(args,null,2))
@@ -238,6 +208,17 @@ function callDriverMethod( findComponentArgs, args, callbackFn ) {
 }
 
 
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function findDriversWithMethod(methodName, callbackFn) {
     dbsearch.serialize(
         function() {
@@ -259,47 +240,13 @@ function findDriversWithMethod(methodName, callbackFn) {
 
 
 
-function findDriversWithMethodLike(methodName, callbackFn) {
-    dbsearch.serialize(
-        function() {
-            var stmt = dbsearch.all(
-                "SELECT base_component_id FROM system_code where on_condition like '%" + methodName + "%'; ",
-
-                function(err, results)
-                {
-                    if (results.length > 0) {
-                        callbackFn(results)
-                    } else {
-                        callbackFn(null)
-                    }
-
-                })
-    }, sqlite3.OPEN_READONLY)
-}
 
 
 
 
 
-function getFileExtension(fullFileNamePath) {
-    var extension = fullFileNamePath.substr(fullFileNamePath.lastIndexOf('.') + 1).toLowerCase()
-    return extension
-}
 
 
-
-
-function getProperty(record,propName) {
-    var properties = record.properties
-    var rt = properties.indexOf("||  " + propName + "=") + 5 + propName.length
-    var st = properties.substring(rt)
-    var xt = st.indexOf("  ||")
-    var amiga = st.substring(0,xt)
-    return amiga
-}
-
-var hostaddress = null
-var port = null
 
 
 //-----------------------------------------------------------------------------------------//
@@ -394,11 +341,8 @@ function processMessagesFromMainProcess() {
 
     } else if (msg.message_type == 'greeting') {
 
-        if (showDebug) {
-             console.log("**** greeting");
-        } else {
-            process.stdout.write(".");
-        }
+        outputDebug("**** greeting");
+
 
     } else if (msg.message_type == 'host_and_port') {
 
@@ -412,6 +356,7 @@ function processMessagesFromMainProcess() {
         userData            = msg.user_data_path
         childProcessName    = msg.child_process_name
         showDebug           = msg.show_debug
+        showProgress        = msg.show_progress
 
 
         ////console.log("Child recieved user data path: " + userData)
@@ -438,22 +383,15 @@ function processMessagesFromMainProcess() {
 
     } else if (msg.message_type == 'createTables') {
 
-        if (showDebug) {
-            console.log("**** createTables");
-        } else {
-            process.stdout.write(".");
-        }
+        outputDebug("**** createTables");
+
         db_helper.createTables(dbsearch,
             function() {
-                if (showDebug) {
-                    console.log("");
-                    console.log("***********************************");
-                    console.log("**** createTables returned");
-                    console.log("***********************************");
-                    console.log("");
-                } else {
-                    process.stdout.write(".");
-                }
+                outputDebug("");
+                outputDebug("***********************************");
+                outputDebug("**** createTables returned");
+                outputDebug("***********************************");
+                outputDebug("");
 
                 process.send({  message_type:       "createdTablesInChild"  });
 
@@ -477,94 +415,9 @@ function processMessagesFromMainProcess() {
        // console.log("*)  result:        " + msg.result );
         callbackList[ msg.callback_index ](msg.result)
 
+    }
 
 
-
-
-
-
-
-
-
-
-
-
-    } else if (msg.message_type == 'get_intranet_servers') {
-        //console.log("3: " + msg.seq_num )
-        getIntranetServers( msg.requestClientPublicIp,
-                            msg.requestVia,
-                            msg.numberOfSecondsAliveCheck,
-
-                            function(result) {
-                                //console.log("5: " + JSON.stringify(result))
-                                var returnIntranetServersMsg = {
-                                    message_type:           'returnIntranetServers',
-                                    requestClientPublicIp:  msg.requestClientPublicIp,
-                                    requestVia:             msg.requestVia,
-                                    seq_num:                msg.seq_num,
-                                    returned:               result.rows,
-                                    error:                  result.error
-                                };
-                                //console.log("5.1: " + JSON.stringify(returnIntranetServersMsg))
-                                //console.log("5.2: " + Object.keys(returnIntranetServersMsg))
-                                process.send( returnIntranetServersMsg );
-                                //console.log("5.3: ")
-                    }  )
-
-
-
-            } else if (msg.message_type == 'get_intranet_servers_json') {
-                //console.log("3: " + msg.seq_num )
-                getIntranetServers( msg.requestClientPublicIp,
-                                    msg.requestVia,
-                                    msg.numberOfSecondsAliveCheck,
-
-                                    function(result) {
-                                        //console.log("5: " + JSON.stringify(result))
-                                        var returnIntranetServersMsg = {
-                                            message_type:           'returnIntranetServers_json',
-                                            requestClientPublicIp:  msg.requestClientPublicIp,
-                                            requestVia:             msg.requestVia,
-                                            seq_num:                msg.seq_num,
-                                            returned:               result.rows,
-                                            error:                  result.error
-                                        };
-                                        //console.log("5.1: " + JSON.stringify(returnIntranetServersMsg))
-                                        //console.log("5.2: " + Object.keys(returnIntranetServersMsg))
-                                        process.send( returnIntranetServersMsg );
-                                        //console.log("5.3: ")
-                            }  )
-
-
-
-
-
-    } else if (msg.message_type == 'client_connect') {
-        //console.log("3 client_connect: " + msg.seq_num )
-        clientConnectFn( msg.queryData,
-                         msg.requestClientInternalHostAddress,
-                         msg.requestClientInternalPort,
-                         msg.requestVia,
-                         msg.requestClientPublicIp,
-                         msg.clientUsername,
-                         msg.requestClientPublicHostName,
-
-                            function(result) {
-                                //console.log("5: " + JSON.stringify(result))
-                                var returnclientConnectMsg = {
-                                    message_type:           'returnClientConnect',
-                                    seq_num:                msg.seq_num,
-                                    returned:               result.connected,
-                                    error:                  result.error
-                                };
-                                //console.log("5.1: " + JSON.stringify(returnIntranetServersMsg))
-                                //console.log("5.2: " + Object.keys(returnclientConnectMsg))
-                                process.send( returnclientConnectMsg );
-                                //console.log("5.3: ")
-                    }  )
-
-
-        }
 
     });
 }
@@ -593,34 +446,58 @@ function processMessagesFromMainProcess() {
 
 
 
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 async function evalLocalSystemDriver(driverName, location, options) {
-    if (showDebug) {
-        console.log("*** Loading driver: *** : " + driverName)
-    } else {
-        process.stdout.write(".");
-    }
+    outputDebug("*** Loading driver: *** : " + driverName)
+
 	var evalDriver = fs.readFileSync(location);
 	await addOrUpdateDriver(driverName, evalDriver,options)
 }
 
 
 
+
+
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 async function setUpComponentsLocally() {
-    //await evalLocalSystemDriver('glb',                    path.join(__dirname, '../public/visifile_drivers/glb.js'))
-    //await evalLocalSystemDriver('csv',                    path.join(__dirname, '../public/visifile_drivers/csv.js'))
-    //await evalLocalSystemDriver('txt',                    path.join(__dirname, '../public/visifile_drivers/glb.js'))
-    //await evalLocalSystemDriver('excel',                  path.join(__dirname, '../public/visifile_drivers/excel.js'))
-    //await evalLocalSystemDriver('word',                   path.join(__dirname, '../public/visifile_drivers/word.js'))
-    //await evalLocalSystemDriver('pdf',                    path.join(__dirname, '../public/visifile_drivers/pdf.js'))
+    //await evalLocalSystemDriver('glb',                    path.join(__dirname, '../public/visifile_drivers/glb.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver('csv',                    path.join(__dirname, '../public/visifile_drivers/csv.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver('txt',                    path.join(__dirname, '../public/visifile_drivers/glb.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver('excel',                  path.join(__dirname, '../public/visifile_drivers/excel.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver('word',                   path.join(__dirname, '../public/visifile_drivers/word.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver('pdf',                    path.join(__dirname, '../public/visifile_drivers/pdf.js'),{username: "default", reponame: "", version: "latest"})
 
-    //await evalLocalSystemDriver('outlook2012',            path.join(__dirname, '../public/visifile_drivers/outlook2012.js'))
+    //await evalLocalSystemDriver('outlook2012',            path.join(__dirname, '../public/visifile_drivers/outlook2012.js'),{username: "default", reponame: "", version: "latest"})
     //await evalLocalSystemDriver('outlook2010')
-    //await evalLocalSystemDriver('sqlite',                 path.join(__dirname, '../public/visifile_drivers/sqlite.js'))
-    //await evalLocalSystemDriver('mysql',                  path.join(__dirname, '../public/visifile_drivers/mysql.js'))
-    //await evalLocalSystemDriver('oracle',                 path.join(__dirname, '../public/visifile_drivers/oracle.js'))
-    //await evalLocalSystemDriver('testdriver',             path.join(__dirname, '../public/visifile_drivers/testdriver.js'))
+    //await evalLocalSystemDriver('sqlite',                 path.join(__dirname, '../public/visifile_drivers/sqlite.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver('mysql',                  path.join(__dirname, '../public/visifile_drivers/mysql.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver('oracle',                 path.join(__dirname, '../public/visifile_drivers/oracle.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver('testdriver',             path.join(__dirname, '../public/visifile_drivers/testdriver.js'),{username: "default", reponame: "", version: "latest"})
 
-    //await evalLocalSystemDriver('fileuploader',           path.join(__dirname, '../public/visifile_drivers/file_uploader.js'))
+    //await evalLocalSystemDriver('fileuploader',           path.join(__dirname, '../public/visifile_drivers/file_uploader.js'),{username: "default", reponame: "", version: "latest"})
 
 
 
@@ -628,98 +505,101 @@ async function setUpComponentsLocally() {
     // services
     //
     if (isWin) {
-        //await evalLocalSystemDriver('powershell',         path.join(__dirname, '../public/visifile_drivers/services/powershell.js'))
+        //await evalLocalSystemDriver('powershell',         path.join(__dirname, '../public/visifile_drivers/services/powershell.js'),{username: "default", reponame: "", version: "latest"})
     }
-    await evalLocalSystemDriver('commandLine',              path.join(__dirname, '../public/visifile_drivers/services/commandLine.js'))
-    await evalLocalSystemDriver('commandLine2',             path.join(__dirname, '../public/visifile_drivers/services/commandLine2.js'))
-    await evalLocalSystemDriver('copyApp',                  path.join(__dirname, '../public/visifile_drivers/services/copyApp.js'))
-    await evalLocalSystemDriver('test_job',                 path.join(__dirname, '../public/visifile_drivers/services/test_job.js'))
-    await evalLocalSystemDriver('kafka_service',            path.join(__dirname, '../public/visifile_drivers/services/kafka_service.js'))
+    await evalLocalSystemDriver('commandLine',              path.join(__dirname, '../public/visifile_drivers/services/commandLine.js'),{username: "default", reponame: "commandLine", version: "latest"})
+    await evalLocalSystemDriver('commandLine2',             path.join(__dirname, '../public/visifile_drivers/services/commandLine2.js'),{username: "default", reponame: "commandLine2", version: "latest"})
+    await evalLocalSystemDriver('copyApp',                  path.join(__dirname, '../public/visifile_drivers/services/copyApp.js'),{username: "default", reponame: "copyApp", version: "latest"})
+    await evalLocalSystemDriver('test_job',                 path.join(__dirname, '../public/visifile_drivers/services/test_job.js'),{username: "default", reponame: "test_job", version: "latest"})
+    await evalLocalSystemDriver('kafka_service',            path.join(__dirname, '../public/visifile_drivers/services/kafka_service.js'),{username: "default", reponame: "kafka_service", version: "latest"})
 
-    //await evalLocalSystemDriver('webPreview',             path.join(__dirname, '../public/visifile_drivers/services/web_preview.js'))
-
-    //await evalLocalSystemDriver('spreahsheetPreview',     path.join(__dirname, '../public/visifile_drivers/services/spreadsheet_preview.js'))
-    //await evalLocalSystemDriver('csvPreview',             path.join(__dirname, '../public/visifile_drivers/services/csv_preview.js'))
-    //await evalLocalSystemDriver('docPreview',             path.join(__dirname, '../public/visifile_drivers/services/doc_preview.js'))
+    await evalLocalSystemDriver('activemq_service',            path.join(__dirname, '../public/visifile_drivers/services/activemq_service.js'),{username: "default", reponame: "activemq_service", version: "latest"})
 
 
+    //await evalLocalSystemDriver('webPreview',             path.join(__dirname, '../public/visifile_drivers/services/web_preview.js'),{username: "default", reponame: "", version: "latest"})
 
-    await evalLocalSystemDriver('serverDriveList',   path.join(__dirname, '../public/visifile_drivers/services/serverDriveList.js'))
-    await evalLocalSystemDriver('serverFolderHierarchyList',   path.join(__dirname, '../public/visifile_drivers/services/serverFolderHierarchyList.js'))
-    await evalLocalSystemDriver('serverGetHomeDir',   path.join(__dirname, '../public/visifile_drivers/services/serverGetHomeDir.js'))
-    await evalLocalSystemDriver('serverFileList',   path.join(__dirname, '../public/visifile_drivers/services/serverFileList.js'))
+    //await evalLocalSystemDriver('spreahsheetPreview',     path.join(__dirname, '../public/visifile_drivers/services/spreadsheet_preview.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver('csvPreview',             path.join(__dirname, '../public/visifile_drivers/services/csv_preview.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver('docPreview',             path.join(__dirname, '../public/visifile_drivers/services/doc_preview.js'),{username: "default", reponame: "", version: "latest"})
 
 
-    await evalLocalSystemDriver('serverDatabaseStuff',   path.join(__dirname, '../public/visifile_drivers/services/serverDatabaseStuff.js'))
-    await evalLocalSystemDriver('serverDockerStuff',   path.join(__dirname, '../public/visifile_drivers/services/serverDockerStuff.js'))
-    await evalLocalSystemDriver('serverTerminalStuff',   path.join(__dirname, '../public/visifile_drivers/services/serverTerminalStuff.js'))
 
-    await evalLocalSystemDriver('postgres_server',   path.join(__dirname, '../public/visifile_drivers/services/postgres_server.js'))
-    await evalLocalSystemDriver('rest_call_service',   path.join(__dirname, '../public/visifile_drivers/services/rest_call_service.js'))
-    await evalLocalSystemDriver('rest_call_service_v2',   path.join(__dirname, '../public/visifile_drivers/services/rest_call_service_v2.js'))
-    await evalLocalSystemDriver('json_traverse_service',   path.join(__dirname, '../public/visifile_drivers/services/json_traverse_service.js'))
-    await evalLocalSystemDriver('json_filter_service',   path.join(__dirname, '../public/visifile_drivers/services/json_filter_service.js'))
+    await evalLocalSystemDriver('serverDriveList',   path.join(__dirname, '../public/visifile_drivers/services/serverDriveList.js'),{username: "default", reponame: "serverDriveList", version: "latest"})
+    await evalLocalSystemDriver('serverFolderHierarchyList',   path.join(__dirname, '../public/visifile_drivers/services/serverFolderHierarchyList.js'),{username: "default", reponame: "serverFolderHierarchyList", version: "latest"})
+    await evalLocalSystemDriver('serverGetHomeDir',   path.join(__dirname, '../public/visifile_drivers/services/serverGetHomeDir.js'),{username: "default", reponame: "serverGetHomeDir", version: "latest"})
+    await evalLocalSystemDriver('serverFileList',   path.join(__dirname, '../public/visifile_drivers/services/serverFileList.js'),{username: "default", reponame: "serverFileList", version: "latest"})
+
+
+    await evalLocalSystemDriver('serverDatabaseStuff',   path.join(__dirname, '../public/visifile_drivers/services/serverDatabaseStuff.js'),{username: "default", reponame: "serverDatabaseStuff", version: "latest"})
+    await evalLocalSystemDriver('serverDockerStuff',   path.join(__dirname, '../public/visifile_drivers/services/serverDockerStuff.js'),{username: "default", reponame: "serverDockerStuff", version: "latest"})
+    await evalLocalSystemDriver('serverTerminalStuff',   path.join(__dirname, '../public/visifile_drivers/services/serverTerminalStuff.js'),{username: "default", reponame: "serverTerminalStuff", version: "latest"})
+
+    await evalLocalSystemDriver('postgres_server',   path.join(__dirname, '../public/visifile_drivers/services/postgres_server.js'),{username: "default", reponame: "postgres_server", version: "latest"})
+    await evalLocalSystemDriver('rest_call_service',   path.join(__dirname, '../public/visifile_drivers/services/rest_call_service.js'),{username: "default", reponame: "rest_call_service", version: "latest"})
+    await evalLocalSystemDriver('rest_call_service_v2',   path.join(__dirname, '../public/visifile_drivers/services/rest_call_service_v2.js'),{username: "default", reponame: "rest_call_service_v2", version: "latest"})
+    await evalLocalSystemDriver('json_traverse_service',   path.join(__dirname, '../public/visifile_drivers/services/json_traverse_service.js'),{username: "default", reponame: "json_traverse_service", version: "latest"})
+    await evalLocalSystemDriver('json_filter_service',   path.join(__dirname, '../public/visifile_drivers/services/json_filter_service.js'),{username: "default", reponame: "json_filter_service", version: "latest"})
 
 
     //
     // controls
     //
-    await evalLocalSystemDriver('image_control',   path.join(__dirname, '../public/visifile_drivers/controls/image.js'))
+    await evalLocalSystemDriver('image_control',   path.join(__dirname, '../public/visifile_drivers/controls/image.js'),{username: "default", reponame: "image_control", version: "latest"})
 
-    await evalLocalSystemDriver('label_control',   path.join(__dirname, '../public/visifile_drivers/controls/label.js'))
-    await evalLocalSystemDriver('input_control',   path.join(__dirname, '../public/visifile_drivers/controls/input.js'))
+    await evalLocalSystemDriver('label_control',   path.join(__dirname, '../public/visifile_drivers/controls/label.js'),{username: "default", reponame: "label_control", version: "latest"})
+    await evalLocalSystemDriver('input_control',   path.join(__dirname, '../public/visifile_drivers/controls/input.js'),{username: "default", reponame: "input_control", version: "latest"})
 
-    await evalLocalSystemDriver('group_control',   path.join(__dirname, '../public/visifile_drivers/controls/group.js'))
-    await evalLocalSystemDriver('button_control',   path.join(__dirname, '../public/visifile_drivers/controls/button.js'))
+    await evalLocalSystemDriver('group_control',   path.join(__dirname, '../public/visifile_drivers/controls/group.js'),{username: "default", reponame: "group_control", version: "latest"})
+    await evalLocalSystemDriver('button_control',   path.join(__dirname, '../public/visifile_drivers/controls/button.js'),{username: "default", reponame: "button_control", version: "latest"})
 
-    await evalLocalSystemDriver('checkbox_control',   path.join(__dirname, '../public/visifile_drivers/controls/checkbox.js'))
-    await evalLocalSystemDriver('radio_button_control',   path.join(__dirname, '../public/visifile_drivers/controls/radiobutton.js'))
+    await evalLocalSystemDriver('checkbox_control',   path.join(__dirname, '../public/visifile_drivers/controls/checkbox.js'),{username: "default", reponame: "checkbox_control", version: "latest"})
+    await evalLocalSystemDriver('radio_button_control',   path.join(__dirname, '../public/visifile_drivers/controls/radiobutton.js'),{username: "default", reponame: "radio_button_control", version: "latest"})
 
-    await evalLocalSystemDriver('dropdown_control',   path.join(__dirname, '../public/visifile_drivers/controls/dropdown.js'))
-    await evalLocalSystemDriver('list_control',   path.join(__dirname, '../public/visifile_drivers/controls/list.js'))
+    await evalLocalSystemDriver('dropdown_control',   path.join(__dirname, '../public/visifile_drivers/controls/dropdown.js'),{username: "default", reponame: "dropdown_control", version: "latest"})
+    await evalLocalSystemDriver('list_control',   path.join(__dirname, '../public/visifile_drivers/controls/list.js'),{username: "default", reponame: "list_control", version: "latest"})
 
-    await evalLocalSystemDriver('horiz_scroll_control',   path.join(__dirname, '../public/visifile_drivers/controls/horiz_scroll.js'))
-    await evalLocalSystemDriver('vert_scroll_control',   path.join(__dirname, '../public/visifile_drivers/controls/vert_scroll.js'))
-
-
-    await evalLocalSystemDriver('timer_control',   path.join(__dirname, '../public/visifile_drivers/controls/timer.js'))
-    await evalLocalSystemDriver('drive_list_control',   path.join(__dirname, '../public/visifile_drivers/controls/drive_list.js'))
-
-    await evalLocalSystemDriver('folder_list_control',   path.join(__dirname, '../public/visifile_drivers/controls/folder_list.js'))
-    await evalLocalSystemDriver('file_list_control',   path.join(__dirname, '../public/visifile_drivers/controls/file_list.js'))
-
-    await evalLocalSystemDriver('shapes_control',   path.join(__dirname, '../public/visifile_drivers/controls/shapes.js'))
-    await evalLocalSystemDriver('line_control',   path.join(__dirname, '../public/visifile_drivers/controls/line.js'))
-
-    await evalLocalSystemDriver('draw_control',   path.join(__dirname, '../public/visifile_drivers/controls/draw.js'))
-    await evalLocalSystemDriver('database_control',   path.join(__dirname, '../public/visifile_drivers/controls/database.js'))
+    await evalLocalSystemDriver('horiz_scroll_control',   path.join(__dirname, '../public/visifile_drivers/controls/horiz_scroll.js'),{username: "default", reponame: "horiz_scroll_control", version: "latest"})
+    await evalLocalSystemDriver('vert_scroll_control',   path.join(__dirname, '../public/visifile_drivers/controls/vert_scroll.js'),{username: "default", reponame: "vert_scroll_control", version: "latest"})
 
 
-    await evalLocalSystemDriver('data_window_control',   path.join(__dirname, '../public/visifile_drivers/controls/data_window.js'))
+    await evalLocalSystemDriver('timer_control',   path.join(__dirname, '../public/visifile_drivers/controls/timer.js'),{username: "default", reponame: "timer_control", version: "latest"})
+    await evalLocalSystemDriver('drive_list_control',   path.join(__dirname, '../public/visifile_drivers/controls/drive_list.js'),{username: "default", reponame: "drive_list_control", version: "latest"})
 
-    await evalLocalSystemDriver('ace_editor',   path.join(__dirname, '../public/visifile_drivers/controls/ace_editor.js'))
+    await evalLocalSystemDriver('folder_list_control',   path.join(__dirname, '../public/visifile_drivers/controls/folder_list.js'),{username: "default", reponame: "folder_list_control", version: "latest"})
+    await evalLocalSystemDriver('file_list_control',   path.join(__dirname, '../public/visifile_drivers/controls/file_list.js'),{username: "default", reponame: "file_list_control", version: "latest"})
 
+    await evalLocalSystemDriver('shapes_control',   path.join(__dirname, '../public/visifile_drivers/controls/shapes.js'),{username: "default", reponame: "shapes_control", version: "latest"})
+    await evalLocalSystemDriver('line_control',   path.join(__dirname, '../public/visifile_drivers/controls/line.js'),{username: "default", reponame: "line_control", version: "latest"})
 
-    await evalLocalSystemDriver('container_3d',        path.join(__dirname, '../public/visifile_drivers/controls/container_3d.js'))
-    await evalLocalSystemDriver('item_3d',   path.join(__dirname, '../public/visifile_drivers/controls/item_3d.js'))
-
-
-    await evalLocalSystemDriver('terminal_control',   path.join(__dirname, '../public/visifile_drivers/controls/terminal_ui.js'))
-    await evalLocalSystemDriver('osquery_control',   path.join(__dirname, '../public/visifile_drivers/controls/osquery_ui.js'))
-    await evalLocalSystemDriver('rest_control',   path.join(__dirname, '../public/visifile_drivers/controls/rest_ui.js'))
-    await evalLocalSystemDriver('docker_control',   path.join(__dirname, '../public/visifile_drivers/controls/ducker.js'))
-    await evalLocalSystemDriver('table_control',   path.join(__dirname, '../public/visifile_drivers/controls/table.js'))
+    await evalLocalSystemDriver('draw_control',   path.join(__dirname, '../public/visifile_drivers/controls/draw.js'),{username: "default", reponame: "draw_control", version: "latest"})
+    await evalLocalSystemDriver('database_control',   path.join(__dirname, '../public/visifile_drivers/controls/database.js'),{username: "default", reponame: "database_control", version: "latest"})
 
 
+    await evalLocalSystemDriver('data_window_control',   path.join(__dirname, '../public/visifile_drivers/controls/data_window.js'),{username: "default", reponame: "data_window_control", version: "latest"})
 
-    await evalLocalSystemDriver('rh3scale_control',   path.join(__dirname, '../public/visifile_drivers/controls/rh3scale.js'))
-    await evalLocalSystemDriver('kubernetes_control',   path.join(__dirname, '../public/visifile_drivers/controls/kubernetes.js'))
-    await evalLocalSystemDriver('kafka_control',   path.join(__dirname, '../public/visifile_drivers/controls/kafka.js'))
-    //await evalLocalSystemDriver('rhfuse_control',   path.join(__dirname, '../public/visifile_drivers/controls/rhfuse.js'))
-    //await evalLocalSystemDriver('rhamq_control',   path.join(__dirname, '../public/visifile_drivers/controls/rhamq.js'))
-    //await evalLocalSystemDriver('rhpam_control',   path.join(__dirname, '../public/visifile_drivers/controls/rhpam.js'))
-    //await evalLocalSystemDriver('rhdata_grid_control',   path.join(__dirname, '../public/visifile_drivers/controls/rhdata_grid.js'))
-    //await evalLocalSystemDriver('rhopenshift_control',   path.join(__dirname, '../public/visifile_drivers/controls/rhopenshift.js'))
+    await evalLocalSystemDriver('ace_editor',   path.join(__dirname, '../public/visifile_drivers/controls/ace_editor.js'),{username: "default", reponame: "ace_editor", version: "latest"})
+
+
+    await evalLocalSystemDriver('container_3d',        path.join(__dirname, '../public/visifile_drivers/controls/container_3d.js'),{username: "default", reponame: "container_3d", version: "latest"})
+    await evalLocalSystemDriver('item_3d',   path.join(__dirname, '../public/visifile_drivers/controls/item_3d.js'),{username: "default", reponame: "item_3d", version: "latest"})
+
+
+    await evalLocalSystemDriver('terminal_control',   path.join(__dirname, '../public/visifile_drivers/controls/terminal_ui.js'),{username: "default", reponame: "terminal_control", version: "latest"})
+    await evalLocalSystemDriver('osquery_control',   path.join(__dirname, '../public/visifile_drivers/controls/osquery_ui.js'),{username: "default", reponame: "osquery_control", version: "latest"})
+    await evalLocalSystemDriver('rest_control',   path.join(__dirname, '../public/visifile_drivers/controls/rest_ui.js'),{username: "default", reponame: "rest_control", version: "latest"})
+    await evalLocalSystemDriver('docker_control',   path.join(__dirname, '../public/visifile_drivers/controls/ducker.js'),{username: "default", reponame: "docker_control", version: "latest"})
+    await evalLocalSystemDriver('table_control',   path.join(__dirname, '../public/visifile_drivers/controls/table.js'),{username: "default", reponame: "table_control", version: "latest"})
+
+
+
+    await evalLocalSystemDriver('rh3scale_control',   path.join(__dirname, '../public/visifile_drivers/controls/rh3scale.js'),{username: "default", reponame: "rh3scale_control", version: "latest"})
+    await evalLocalSystemDriver('kubernetes_control',   path.join(__dirname, '../public/visifile_drivers/controls/kubernetes.js'),{username: "default", reponame: "kubernetes_control", version: "latest"})
+    await evalLocalSystemDriver('kafka_control',   path.join(__dirname, '../public/visifile_drivers/controls/kafka.js'),{username: "default", reponame: "kafka_control", version: "latest"})
+    //await evalLocalSystemDriver('rhfuse_control',   path.join(__dirname, '../public/visifile_drivers/controls/rhfuse.js'),{username: "default", reponame: "", version: "latest"})
+    await evalLocalSystemDriver('rhamq_control',   path.join(__dirname, '../public/visifile_drivers/controls/rhamq.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver('rhpam_control',   path.join(__dirname, '../public/visifile_drivers/controls/rhpam.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver('rhdata_grid_control',   path.join(__dirname, '../public/visifile_drivers/controls/rhdata_grid.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver('rhopenshift_control',   path.join(__dirname, '../public/visifile_drivers/controls/rhopenshift.js'),{username: "default", reponame: "", version: "latest"})
 
 
 
@@ -727,7 +607,7 @@ async function setUpComponentsLocally() {
     //
     // forms
     //
-    await evalLocalSystemDriver('form_subscribe_to_appshare',   path.join(__dirname, '../public/visifile_drivers/apps/formSubscribeToAppshare.js'))
+    await evalLocalSystemDriver('form_subscribe_to_appshare',   path.join(__dirname, '../public/visifile_drivers/apps/formSubscribeToAppshare.js'),{username: "default", reponame: "form_subscribe_to_appshare", version: "latest"})
 
 
 
@@ -735,29 +615,26 @@ async function setUpComponentsLocally() {
     // functions
     //
 
-    await evalLocalSystemDriver('systemFunctions',   path.join(__dirname, '../public/visifile_drivers/functions/system.js'))
-    await evalLocalSystemDriver('systemFunctions2',   path.join(__dirname, '../public/visifile_drivers/functions/system2.js'))
-    await evalLocalSystemDriver('systemFunctions3',   path.join(__dirname, '../public/visifile_drivers/functions/system3.js'))
-    await evalLocalSystemDriver('systemFunctionAppSql',   path.join(__dirname, '../public/visifile_drivers/functions/systemFunctionAppSql.js'))
-    await evalLocalSystemDriver('appEditorV2SaveCode',   path.join(__dirname, '../public/visifile_drivers/apps/appEditorV2SaveCode.js'))
+    await evalLocalSystemDriver('systemFunctions',   path.join(__dirname, '../public/visifile_drivers/functions/system.js'),{username: "default", reponame: "systemFunctions", version: "latest"})
+    await evalLocalSystemDriver('systemFunctions2',   path.join(__dirname, '../public/visifile_drivers/functions/system2.js'),{username: "default", reponame: "systemFunctions2", version: "latest"})
+    await evalLocalSystemDriver('systemFunctions3',   path.join(__dirname, '../public/visifile_drivers/functions/system3.js'),{username: "default", reponame: "systemFunctions3", version: "latest"})
+    await evalLocalSystemDriver('systemFunctionAppSql',   path.join(__dirname, '../public/visifile_drivers/functions/systemFunctionAppSql.js'),{username: "default", reponame: "systemFunctionAppSql", version: "latest"})
+    await evalLocalSystemDriver('appEditorV2SaveCode',   path.join(__dirname, '../public/visifile_drivers/apps/appEditorV2SaveCode.js'),{username: "default", reponame: "appEditorV2SaveCode", version: "latest"})
 
     //
     // UI components
     //
-    await evalLocalSystemDriver('comp',   path.join(__dirname, '../public/visifile_drivers/ui_components/comp.js'))
-    await evalLocalSystemDriver('editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/editorComponent.js'))
-    await evalLocalSystemDriver('sqlite_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/sqliteEditorComponent.js'))
-    await evalLocalSystemDriver('keycloak_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/keycloakEditorComponent.js'))
-    await evalLocalSystemDriver('export_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/exportEditorComponent.js'))
-    await evalLocalSystemDriver('form_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/formEditorComponent.js'))
-    await evalLocalSystemDriver('simple_display_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/simpleDisplayEditorComponent.js'))
-    await evalLocalSystemDriver('vb_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/vbEditorComponent.js'))
+    await evalLocalSystemDriver('comp',   path.join(__dirname, '../public/visifile_drivers/ui_components/comp.js'),{username: "default", reponame: "comp", version: "latest"})
+    await evalLocalSystemDriver('editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/editorComponent.js'),{username: "default", reponame: "editor_component", version: "latest"})
+    await evalLocalSystemDriver('sqlite_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/sqliteEditorComponent.js'),{username: "default", reponame: "sqlite_editor_component", version: "latest"})
+    await evalLocalSystemDriver('keycloak_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/keycloakEditorComponent.js'),{username: "default", reponame: "keycloak_editor_component", version: "latest"})
+    await evalLocalSystemDriver('export_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/exportEditorComponent.js'),{username: "default", reponame: "export_editor_component", version: "latest"})
+    await evalLocalSystemDriver('form_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/formEditorComponent.js'),{username: "default", reponame: "form_editor_component", version: "latest"})
+    await evalLocalSystemDriver('simple_display_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/simpleDisplayEditorComponent.js'),{username: "default", reponame: "simple_display_editor_component", version: "latest"})
+    await evalLocalSystemDriver('vb_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/vbEditorComponent.js'),{username: "default", reponame: "vb_editor_component", version: "latest"})
 
-    if (showDebug) {
-        console.log("Loaded all drivers")
-    } else {
-        process.stdout.write(".");
-    }
+    outputDebug("Loaded all drivers")
+
 
 
 
@@ -767,66 +644,57 @@ async function setUpComponentsLocally() {
     //
     // apps
     //
-    await evalLocalSystemDriver('homepage',     path.join(__dirname, '../public/visifile_drivers/apps/homepage.js'),{save_html: true})
-    await evalLocalSystemDriver('appstore',     path.join(__dirname, '../public/visifile_drivers/apps/appstore.js'),{save_html: true})
-    await evalLocalSystemDriver('vb_blank',   path.join(__dirname, '../public/visifile_drivers/apps/vb_blank.js'))
+    await evalLocalSystemDriver('homepage',     path.join(__dirname, '../public/visifile_drivers/apps/homepage.js'),{save_html: true, username: "default", reponame: "homepage", version: "latest"})
+    await evalLocalSystemDriver('appstore',     path.join(__dirname, '../public/visifile_drivers/apps/appstore.js'),{save_html: true, username: "default", reponame: "appstore", version: "latest"})
+    await evalLocalSystemDriver('vb_blank',   path.join(__dirname, '../public/visifile_drivers/apps/vb_blank.js'),{username: "default", reponame: "vb_blank", version: "latest"})
 
 
 
-    await evalLocalSystemDriver('app_editor_3',   path.join(__dirname, '../public/visifile_drivers/apps/appEditorV3.js'))
-    await evalLocalSystemDriver('appEmbed',   path.join(__dirname, '../public/visifile_drivers/apps/appEmbed.js'))
-    await evalLocalSystemDriver('search',   path.join(__dirname, '../public/visifile_drivers/apps/search.js'))
-    await evalLocalSystemDriver('test',   path.join(__dirname, '../public/visifile_drivers/apps/test.js'),{save_html: true})
-    await evalLocalSystemDriver('oculus_go',   path.join(__dirname, '../public/visifile_drivers/apps/oculus_go.js'),{save_html: true})
-    await evalLocalSystemDriver('game',   path.join(__dirname, '../public/visifile_drivers/apps/game.js'),{save_html: true})
-    //await evalLocalSystemDriver('kinetic',   path.join(__dirname, '../public/visifile_drivers/apps/kinetic.js'),{save_html: true})
-    await evalLocalSystemDriver('intro_logo_3d',   path.join(__dirname, '../public/visifile_drivers/apps/intro_logo_3d.js'),{save_html: true})
-    await evalLocalSystemDriver('list_apps',   path.join(__dirname, '../public/visifile_drivers/apps/listApps.js'))
-    await evalLocalSystemDriver('listPublicApps',   path.join(__dirname, '../public/visifile_drivers/apps/listPublicApps.js'))
-    await evalLocalSystemDriver('vue',   path.join(__dirname, '../public/visifile_drivers/apps/vue.js'))
-    await evalLocalSystemDriver('bootstrap',   path.join(__dirname, '../public/visifile_drivers/apps/bootstrap.js'))
-    await evalLocalSystemDriver('database_reader',   path.join(__dirname, '../public/visifile_drivers/apps/databaseReader.js'))
-    await evalLocalSystemDriver('todo',   path.join(__dirname, '../public/visifile_drivers/apps/todo.js'),{save_html: true})
-    await evalLocalSystemDriver('todo_app_reader',   path.join(__dirname, '../public/visifile_drivers/apps/todo_app_reader.js'))
-    await evalLocalSystemDriver('newSql',   path.join(__dirname, '../public/visifile_drivers/apps/newSqlApp.js'))
-    await evalLocalSystemDriver('yazzcraft',   path.join(__dirname, '../public/visifile_drivers/apps/yazzcraft.js'),{save_html: true})
+    await evalLocalSystemDriver('app_editor_3',   path.join(__dirname, '../public/visifile_drivers/apps/appEditorV3.js'),{username: "default", reponame: "app_editor_3", version: "latest"})
+    await evalLocalSystemDriver('appEmbed',   path.join(__dirname, '../public/visifile_drivers/apps/appEmbed.js'),{username: "default", reponame: "appEmbed", version: "latest"})
+    await evalLocalSystemDriver('search',   path.join(__dirname, '../public/visifile_drivers/apps/search.js'),{username: "default", reponame: "search", version: "latest"})
+    await evalLocalSystemDriver('test',   path.join(__dirname, '../public/visifile_drivers/apps/test.js'),{save_html: true, username: "default", reponame: "test", version: "latest"})
+    await evalLocalSystemDriver('oculus_go',   path.join(__dirname, '../public/visifile_drivers/apps/oculus_go.js'),{save_html: true, username: "default", reponame: "oculus_go", version: "latest"})
+    await evalLocalSystemDriver('game',   path.join(__dirname, '../public/visifile_drivers/apps/game.js'),{save_html: true, username: "default", reponame: "game", version: "latest"})
+    //await evalLocalSystemDriver('kinetic',   path.join(__dirname, '../public/visifile_drivers/apps/kinetic.js'),{save_html: true, username: "default", reponame: "", version: "latest"})
+    await evalLocalSystemDriver('intro_logo_3d',   path.join(__dirname, '../public/visifile_drivers/apps/intro_logo_3d.js'),{save_html: true, username: "default", reponame: "intro_logo_3d", version: "latest"})
+    await evalLocalSystemDriver('list_apps',   path.join(__dirname, '../public/visifile_drivers/apps/listApps.js'),{username: "default", reponame: "list_apps", version: "latest"})
+    await evalLocalSystemDriver('listPublicApps',   path.join(__dirname, '../public/visifile_drivers/apps/listPublicApps.js'),{username: "default", reponame: "listPublicApps", version: "latest"})
+    await evalLocalSystemDriver('vue',   path.join(__dirname, '../public/visifile_drivers/apps/vue.js'),{username: "default", reponame: "vue", version: "latest"})
+    await evalLocalSystemDriver('bootstrap',   path.join(__dirname, '../public/visifile_drivers/apps/bootstrap.js'),{username: "default", reponame: "bootstrap", version: "latest"})
+    await evalLocalSystemDriver('database_reader',   path.join(__dirname, '../public/visifile_drivers/apps/databaseReader.js'),{username: "default", reponame: "database_reader", version: "latest"})
+    await evalLocalSystemDriver('todo',   path.join(__dirname, '../public/visifile_drivers/apps/todo.js'),{save_html: true, username: "default", reponame: "todo", version: "latest"})
+    await evalLocalSystemDriver('todo_app_reader',   path.join(__dirname, '../public/visifile_drivers/apps/todo_app_reader.js'),{username: "default", reponame: "todo_app_reader", version: "latest"})
+    await evalLocalSystemDriver('newSql',   path.join(__dirname, '../public/visifile_drivers/apps/newSqlApp.js'),{username: "default", reponame: "newSql", version: "latest"})
+    await evalLocalSystemDriver('yazzcraft',   path.join(__dirname, '../public/visifile_drivers/apps/yazzcraft.js'),{save_html: true, username: "default", reponame: "yazzcraft", version: "latest"})
 
 
 //database drivers
-await evalLocalSystemDriver('postgres_client_component', path.join(__dirname, '../public/visifile_drivers/controls/postgres.js'))
-await evalLocalSystemDriver('mysql_client_component', path.join(__dirname, '../public/visifile_drivers/controls/mysql.js'))
+await evalLocalSystemDriver('postgres_client_component', path.join(__dirname, '../public/visifile_drivers/controls/postgres.js'),{username: "default", reponame: "postgres_client_component", version: "latest"})
+await evalLocalSystemDriver('mysql_client_component', path.join(__dirname, '../public/visifile_drivers/controls/mysql.js'),{username: "default", reponame: "mysql_client_component", version: "latest"})
 
 
 
 
-//zzz
+
     var extraFns = fs.readFileSync( path.join(__dirname, '../src/extraFns.js') ).toString()
-    if (showDebug) {
-        console.log("Extra functions code:" )
-        //console.log( extraFns )
-        //console.log("." )
-    } else {
-        process.stdout.write(".");
-    }
+    outputDebug("Extra functions code:" )
 
     await eval("(" + extraFns + "())")
 
     //
     // non GUI front end apps
     //
-    await evalLocalSystemDriver('rh3scale_app',   path.join(__dirname, '../public/visifile_drivers/apps/rh3scale_app.js'),{save_html: true})
-    await evalLocalSystemDriver('quicksort',  path.join(__dirname, '../public/visifile_drivers/apps/quicksort.js'),{save_html: true})
-    await evalLocalSystemDriver('bubblesort', path.join(__dirname, '../public/visifile_drivers/apps/bubblesort.js'),{save_html: true})
-    await evalLocalSystemDriver('new', path.join(__dirname, '../public/visifile_drivers/apps/blank_app.js'),{save_html: true})
-    await evalLocalSystemDriver('new_microservice', path.join(__dirname, '../public/visifile_drivers/apps/blank_microservice.js'),{save_html: true})
-    await evalLocalSystemDriver('demo_microservice', path.join(__dirname, '../public/visifile_drivers/apps/demo_microservice.js'),{save_html: true})
-    await evalLocalSystemDriver('echo_microservice', path.join(__dirname, '../public/visifile_drivers/apps/echo_microservice.js'),{save_html: true})
-    await evalLocalSystemDriver('echo_post_microservice', path.join(__dirname, '../public/visifile_drivers/apps/echo_post_microservice.js'),{save_html: true})
-    if (showDebug) {
-        console.log("Loaded all apps (may use already loaded drivers)")
-    } else {
-        process.stdout.write(".");
-    }
+    await evalLocalSystemDriver('rh3scale_app',   path.join(__dirname, '../public/visifile_drivers/apps/rh3scale_app.js'),{save_html: true, username: "default", reponame: "rh3scale_app", version: "latest"})
+    await evalLocalSystemDriver('quicksort',  path.join(__dirname, '../public/visifile_drivers/apps/quicksort.js'),{save_html: true, username: "default", reponame: "quicksort", version: "latest"})
+    await evalLocalSystemDriver('bubblesort', path.join(__dirname, '../public/visifile_drivers/apps/bubblesort.js'),{save_html: true, username: "default", reponame: "bubblesort", version: "latest"})
+    await evalLocalSystemDriver('new', path.join(__dirname, '../public/visifile_drivers/apps/blank_app.js'),{save_html: true, username: "default", reponame: "new", version: "latest"})
+    await evalLocalSystemDriver('new_microservice', path.join(__dirname, '../public/visifile_drivers/apps/blank_microservice.js'),{save_html: true, username: "default", reponame: "new_microservice", version: "latest"})
+    await evalLocalSystemDriver('demo_microservice', path.join(__dirname, '../public/visifile_drivers/apps/demo_microservice.js'),{save_html: true, username: "default", reponame: "demo_microservice", version: "latest"})
+    await evalLocalSystemDriver('echo_microservice', path.join(__dirname, '../public/visifile_drivers/apps/echo_microservice.js'),{save_html: true, username: "default", reponame: "echo_microservice", version: "latest"})
+    await evalLocalSystemDriver('echo_post_microservice', path.join(__dirname, '../public/visifile_drivers/apps/echo_post_microservice.js'),{save_html: true, username: "default", reponame: "echo_post_microservice", version: "latest"})
+    outputDebug("Loaded all apps (may use already loaded drivers)")
+
 
 
 
@@ -843,6 +711,17 @@ await evalLocalSystemDriver('mysql_client_component', path.join(__dirname, '../p
 
 
 
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 async function addOrUpdateDriver(  name, codeString ,options ) {
     //console.log('addOrUpdateDriver: ' + name);
 
@@ -902,104 +781,6 @@ async function addOrUpdateDriver(  name, codeString ,options ) {
 
 
 
-function getIntranetServers(  requestClientPublicIp,  requestVia,  numberOfSecondsAliveCheck,  callbackFn) {
-    var mysql = "select *  from  intranet_client_connects  where " +
-                                "    (when_connected > " + ( new Date().getTime() - (numberOfSecondsAliveCheck * 1000)) + ") " +
-                                " and " +
-                                "    (( public_ip = '" + requestClientPublicIp + "') or " +
-                                                    "((via = '" + requestVia + "') and (length(via) > 0)))";
-        //console.log("check IP: " + mysql);
-    dbsearch.serialize(
-        function() {
-
-        var stmt = dbsearch.all(
-            mysql,
-            function(err, rows) {
-                if (!err) {
-                    //console.log( "           " + JSON.stringify(rows));
-                    callbackFn({rows: rows})
-                } else {
-                    callbackFn({error: err})
-                }
-        });
-    }, sqlite3.OPEN_READONLY)
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function clientConnectFn(
-                            queryData,
-                            requestClientInternalHostAddress,
-                            requestClientInternalPort,
-                            requestVia,
-                            requestClientPublicIp,
-                            clientUsername,
-                            requestClientPublicHostName,
-                            callbackFn
-        ) {
-	try
-	{
-
-        if (showDebug) {
-            console.log('clientConnectFn');
-        } else {
-            process.stdout.write(".");
-        }
-
-
-		//console.log('Client attempting to connect from:');
-		//console.log('client internal host address:    ' + requestClientInternalHostAddress)
-		//console.log('client internal port:            ' + requestClientInternalPort)
-		//console.log('client public IP address:        ' + requestClientPublicIp)
-		//console.log('client public IP host name:      ' + requestClientPublicHostName)
-		//console.log('client VIA:                      ' + requestVia)
-
-          dbsearch.serialize(function() {
-
-
-              var newid = uuidv1();
-              dbsearch.run("begin exclusive transaction");
-              stmtInsertIntoIntranetClientConnects.run(   newid,
-                          requestClientInternalHostAddress,
-                          requestClientInternalPort,
-                          requestClientPublicIp,
-                          requestVia,
-                          requestClientPublicHostName,
-                          username,
-                          clientUsername,
-                          new Date().getTime())
-              dbsearch.run("commit");
-
-          });
-          //console.log('***SAVED***');
-
-        callbackFn({connected: true})
-	}
-	catch (err) {
-        console.log(err);
-        var stack = new Error().stack
-        console.log( stack )
-		//console.log('Warning: Central server not available:');
-	}
-
-}
 
 
 
@@ -1022,6 +803,20 @@ function clientConnectFn(
 
 
 
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 process.on('exit', function(err) {
     shutdownExeProcess(err);
   });
@@ -1029,6 +824,22 @@ process.on('quit', function(err) {
   shutdownExeProcess(err);
 });
 
+
+
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function shutdownExeProcess(err) {
     console.log("** child.js process was killed " )
     if (err) {
@@ -1046,6 +857,73 @@ function shutdownExeProcess(err) {
 
 
 
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
+function updateRegistry(options, sha1sum) {
+//zzz
+    if (!options.username || !options.reponame) {
+        return
+    }
+    if (!options.version) {
+        options.version = "latest"
+    }
+    if (!sha1sum) {
+        return
+    }
+    try {
+
+        dbsearch.serialize(
+            function() {
+                dbsearch.all(
+                    "SELECT  *  from  app_registry  where  username = ?  and  reponame = ? and version = ?; "
+                    ,
+                    [options.username  ,  options.reponame  ,  options.version]
+                    ,
+
+                    function(err, results)
+                    {
+
+                        try {
+                            dbsearch.serialize(function() {
+                                dbsearch.run("begin exclusive transaction");
+                                if (results.length == 0) {
+                                    stmtInsertIntoAppRegistry.run(uuidv1(),  options.username  ,  options.reponame  ,  options.version,  sha1sum)
+                                } else {
+                                    stmtUpdateAppRegistry.run(sha1sum, options.username  ,  options.reponame  ,  options.version)
+                                }
+                                dbsearch.run("commit")
+                            })
+                        } catch(er) {
+                            console.log(er)
+                        }
+
+
+                     })
+                 },
+                 sqlite3.OPEN_READONLY)
+
+
+    } catch (ewr) {
+        console.log(ewr)
+    }
+}
+
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function updateRevisions(sqlite, baseComponentId) {
     //console.log("updateRevisions    ")
     try {
@@ -1124,6 +1002,17 @@ function updateRevisions(sqlite, baseComponentId) {
 
 
 
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function fastForwardToLatestRevision(sqlite, baseComponentId) {
     //console.log("fastForwardToLatestRevision    ")
     try {
@@ -1184,6 +1073,17 @@ function fastForwardToLatestRevision(sqlite, baseComponentId) {
 
 
 
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function copyFile(source, target, cb) {
   var cbCalled = false;
 
@@ -1215,6 +1115,17 @@ function copyFile(source, target, cb) {
 
 
 
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 function isValidObject(variable){
     if ((typeof variable !== 'undefined') && (variable != null)) {
         return true
@@ -1222,6 +1133,23 @@ function isValidObject(variable){
     return false
 }
 
+
+
+
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 async function saveCodeV2( baseComponentId, parentHash, code , options) {
     if (code) {
         code = code.toString()
@@ -1715,7 +1643,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
 
 
-
+                                    updateRegistry(options, sha1sum)
                                     returnFn( {
                                                     code:               code.toString(),
                                                     code_id:            sha1sum,
@@ -1747,6 +1675,8 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
     									}
     								}
                                 }
+
+                                updateRegistry(options, sha1sum)
                                 returnFn( {
                                                 code:               code.toString(),
                                                 code_id:            sha1sum,

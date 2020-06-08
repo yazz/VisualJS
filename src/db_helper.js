@@ -7,14 +7,20 @@ module.exports = {
     //console.log("--------------- createTables: function(dbsearch, callbackFn) {");
     async.map([
 
-            "CREATE TABLE IF NOT EXISTS intranet_client_connects (id TEXT, internal_host TEXT, internal_port INTEGER, public_ip TEXT, via TEXT, public_host TEXT, user_name TEXT, client_user_name TEXT, when_connected INTEGER);",
-
             "CREATE TABLE IF NOT EXISTS system_process_info (process	TEXT PRIMARY KEY, process_id	TEXT, callback_index INTEGER, running_since	TEXT, status TEXT , last_driver TEXT, last_event TEXT, running_start_time_ms INTEGER, event_duration_ms INTEGER, job_priority INTEGER, system_code_id TEXT);",
 
             "CREATE TABLE IF NOT EXISTS system_process_errors (id TEXT, timestamp INTEGER, process	TEXT, status TEXT , base_component_id TEXT, event TEXT, system_code_id TEXT, args TEXT, error_message TEXT);",
 
             "CREATE TABLE IF NOT EXISTS app_dependencies (id TEXT, code_id	TEXT, dependency_type TEXT , dependency_name TEXT, dependency_version TEXT);",
             "CREATE INDEX IF NOT EXISTS app_dependencies_code_id_id_idx ON app_dependencies (code_id);",
+
+            "CREATE TABLE IF NOT EXISTS app_registry (id TEXT, username TEXT , reponame TEXT, version TEXT, code_id	TEXT);",
+            "CREATE INDEX IF NOT EXISTS app_registry_code_id_idx ON app_registry (code_id);",
+            "CREATE INDEX IF NOT EXISTS app_registry_username_idx ON app_registry (username);",
+            "CREATE INDEX IF NOT EXISTS app_registry_reponame_idx ON app_registry (reponame);",
+            "CREATE INDEX IF NOT EXISTS app_registry_username_reponame_idx ON app_registry (username,reponame);",
+            "CREATE INDEX IF NOT EXISTS app_registry_username_reponame_version_idx ON app_registry (username,reponame,version);",
+
 
             "CREATE TABLE IF NOT EXISTS component_usage (base_component_id TEXT, child_component_id, UNIQUE(base_component_id, child_component_id));",
             "CREATE INDEX IF NOT EXISTS component_usage_base_component_id_idx ON component_usage (base_component_id);",

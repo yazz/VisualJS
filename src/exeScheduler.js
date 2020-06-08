@@ -21,7 +21,17 @@ var callList                            = new Object
 var processesRetryingCount              = 0
 var maxProcessesCountToRetry            = 10
 var maxJobProcessDurationMs             = 10000
-
+var showDebug = false
+var showProgress = false
+function outputDebug(text) {
+    if (showDebug) {
+         console.log(text);
+    } else {
+        if (showProgress) {
+            process.stdout.write(".");
+        }
+    }
+};
 
 
 
@@ -55,6 +65,9 @@ function processMessagesFromMainProcess() {
         //console.log('-- Init v3');
         userData                    = msg.user_data_path
         childProcessName            = msg.child_process_name
+        showDebug                   = msg.show_debug
+        showProgress                = msg.show_progress
+
         if (msg.max_processes_count_to_retry) {
             maxProcessesCountToRetry    = msg.max_processes_count_to_retry
         }
@@ -431,7 +444,7 @@ function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
         if ( !isInUse ) {
             processToUse = actualProcessName
             processesInUse[actualProcessName] = true
-            console.log(" Sending job to process:    " + JSON.stringify(processToUse,null,2))
+            outputDebug(" Sending job to process:    " + JSON.stringify(processToUse,null,2))
             sendJobToProcessName(codeId, args, actualProcessName, parentCallId, callbackIndex)
             return
         }

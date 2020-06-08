@@ -4,6 +4,7 @@ base_component_id("bubblesort")
 display_name("Bubble sort")
 is_app(true)
 visibility("PUBLIC")
+only_run_on_frontend(true)
 read_only(true)
 logo_url("/bubblesort.jpeg")
 */
