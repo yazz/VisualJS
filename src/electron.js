@@ -150,7 +150,12 @@ var userData = null
 
 var port;
 var hostaddress;
-hostaddress = "0.0.0.0"//ip.address();
+if (isWin) {
+  hostaddress = "127.0.0.1"//ip.address();
+} else {
+  hostaddress = "0.0.0.0"//ip.address();
+}
+
 var hostaddressintranet;
 hostaddressintranet = ip.address();
 port = 80
