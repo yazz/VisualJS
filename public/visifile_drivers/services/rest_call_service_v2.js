@@ -140,7 +140,7 @@ only_run_on_server(true)
                         }
 
                     } catch(err2) {
-                        console.log("Trying to read service call as XML")
+                        //console.log("Trying to read service call as XML")
                         //console.log("****Body: " + JSON.stringify(body,null,2))
                         var startTime = new Date().getMilliseconds()
                         xml2js.parseString(
