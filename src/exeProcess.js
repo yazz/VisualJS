@@ -455,7 +455,22 @@ async function callComponent(name,args) {
 }
 
 
+async function callFunction(options,args) {
+    var promise = new Promise(async function(returnfn) {
+        callDriverMethod(
+            options.driver_name,
+            options.method_name,
+            args
+            ,
+            function(results) {
+                returnfn(results)
+            })
+    })
+    var val = await promise
 
+        return val
+
+}
 
 
 function findDriverWithMethod(methodName, callbackFn) {
