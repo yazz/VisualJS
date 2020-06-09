@@ -41,6 +41,7 @@ console.log(1)
               frame.write(args.message);
               frame.end();
               console.log(4)
+              client.disconnect();
               returnfn({success: args})
 
             });
