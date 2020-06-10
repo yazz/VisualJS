@@ -1,4 +1,4 @@
-function new_microservice(args) {
+async function new_microservice(args) {
 /*
 base_component_id("new_microservice")
 display_name("New microservice")
