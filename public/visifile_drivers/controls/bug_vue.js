@@ -2,7 +2,7 @@ function() {
 /*
 is_app(true)
 component_type("VB")
-display_name("REST API call control")
+display_name("Debugl control")
 description("This will return the REST API call control")
 base_component_id("rest_control")
 load_once_from_file(true)
@@ -261,10 +261,11 @@ logo_url("https://images.unsplash.com/photo-1526773357673-2d4e8116d497?ixlib=rb-
         template:
 
 `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
-    "background-color: "+    args["background_color"]  +  ";"'>
+    "background-color: "+    args["background_color"]  +  ";"'
+    v-bind:refresh='refresh'>
 
 
-
+{{args.URL}}
 
 
 
