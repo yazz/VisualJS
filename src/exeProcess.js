@@ -95,6 +95,7 @@ function processMessagesFromMainProcess() {
         //console.log('-- Init v3');
         userData            = msg.user_data_path
         childProcessName    = msg.child_process_name
+        yazzInstanceId      = msg.yazz_instance_id
 
         //console.log("  Child recieved user data path: " + userData)
         var dbPath = path.join(userData, username + '.visi')
