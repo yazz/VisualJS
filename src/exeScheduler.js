@@ -69,7 +69,7 @@ function processMessagesFromMainProcess() {
         showDebug                   = msg.show_debug
         showProgress                = msg.show_progress
         yazzInstanceId              = msg.yazz_instance_id
-        outputDebug("yazzInstanceId in scheduler: " + yazzInstanceId);        
+        outputDebug("yazzInstanceId in scheduler: " + yazzInstanceId);
 
         if (msg.max_processes_count_to_retry) {
             maxProcessesCountToRetry    = msg.max_processes_count_to_retry
@@ -315,7 +315,7 @@ function processMessagesFromMainProcess() {
 //-----------------------------------------------------------------------------------------//
 function setUpSql() {
 
-    setProcessToRunning = dbsearch.prepare("UPDATE system_process_info SET status = 'RUNNING', last_driver = ?, last_event = ?, running_start_time_ms = ?, event_duration_ms = 0, system_code_id = ?, callback_index = ? WHERE process = ?");
+    setProcessToRunning = dbsearch.prepare("UPDATE system_process_info SET status = 'RUNNING', last_driver = ?, last_event = ?, running_start_time_ms = ?, event_duration_ms = 0, system_code_id = ?, callback_index = ?, yazz_instance_id = ? WHERE process = ?");
 
     setProcessToIdle = dbsearch.prepare("UPDATE system_process_info SET status = 'IDLE' WHERE process = ?");
     setProcessRunningDurationMs  = dbsearch.prepare("UPDATE  system_process_info  SET event_duration_ms = ?  WHERE  process = ?");
@@ -515,7 +515,7 @@ function sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processName  ,  
         function() {
             dbsearch.run("begin exclusive transaction");
             let runningStartTime = new Date().getTime();
-            setProcessToRunning.run( base_component_id, on_condition, runningStartTime, id, callbackIndex, processName )
+            setProcessToRunning.run( base_component_id, on_condition, runningStartTime, id, callbackIndex, yazzInstanceId,     processName )
 
 
             dbsearch.run("commit", function() {
