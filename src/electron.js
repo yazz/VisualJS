@@ -85,67 +85,80 @@ if (!isValidObject(LOCAL_HOME) || (LOCAL_HOME == "/")) {
 
 try {
 
-if (isDocker()) {
+    if (isDocker()) {
 
 
-} else if (process.env["KUBERNETES_SERVICE_HOST"]) {
-
-
-
-} else if (isWin)  {
-    outputDebug("Creating Windows driver")
-  mkdirp.sync('node_modules\\sqlite3\\lib/binding\\node-v72-win32-x64');
-  var srcNodeJsFile = path.join(__dirname,'..\\node_sqlite3_win64.rename')
-  outputDebug("srcNodeJsFile: " + srcNodeJsFile)
-  fs.copyFileSync(
-      srcNodeJsFile,
-      path.join(__dirname,'..\\node_modules\\sqlite3\\lib\\binding\\node-v72-win32-x64\\node_sqlite3.node'),
-                      );
+    } else if (process.env["KUBERNETES_SERVICE_HOST"]) {
 
 
 
-
-} else if (isLinux) {
-    outputDebug("Creating Linux driver")
-    mkdirp.sync('node_modules/sqlite3/lib/binding/node-v64-linux-x64');
-  var srcNodeJsFile = path.join(__dirname,'../node_sqlite3_linux64.rename')
-  outputDebug("srcNodeJsFile: " + srcNodeJsFile)
-  fs.copyFileSync(
-      srcNodeJsFile,
-      path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-linux-x64/node_sqlite3.node'),
-                      );
+    } else if (isWin)  {
+        let pathWindows = path.join(__dirname,'..\\node_modules\\sqlite3\\lib\\binding\\node-v72-win32-x64\\node_sqlite3.node')
+        try {
+            fs.accessSync(pathWindows, fs.constants.R_OK | fs.constants.W_OK);
+            outputDebug('can read/write ' + pathWindows);
+        } catch (err) {
+            outputDebug('no access to ' + pathWindows + '!');
+            outputDebug("Creating Windows driver")
+            mkdirp.sync('node_modules\\sqlite3\\lib/binding\\node-v72-win32-x64');
+            var srcNodeJsFile = path.join(__dirname,'..\\node_sqlite3_win64.rename')
+            outputDebug("srcNodeJsFile: " + srcNodeJsFile)
+            fs.copyFileSync(  srcNodeJsFile,  pathWindows  );
+        }
 
 
 
 
-
-} else if (isMac) {
-    outputDebug("Creating Mac driver")
-    mkdirp.sync('node_modules/sqlite3/lib/binding/node-v64-darwin-x64');
-
-    var srcNodeJsFile = path.join(__filename,'../../node_sqlite3_macos64.rename')
-    outputDebug("srcNodeJsFile: " + srcNodeJsFile)
-    fs.copyFileSync(
-        srcNodeJsFile,
-        path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-darwin-x64/node_sqlite3.node'),
-                        );
-
-
-
-
-} else {
-    outputDebug("Error, unsupported platform: " + process.platform + ".. trying Linuxs")
-    outputDebug("Creating Linux driver")
-    mkdirp.sync('node_modules/sqlite3/lib/binding/node-v64-linux-x64');
-  var srcNodeJsFile = path.join(__dirname,'../node_sqlite3_linux64.rename')
-  outputDebug("srcNodeJsFile: " + srcNodeJsFile)
-  fs.copyFileSync(
-      srcNodeJsFile,
-      path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-linux-x64/node_sqlite3.node'),
-                      );
+    } else if (isLinux) {
+        let pathLinux = path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-linux-x64/node_sqlite3.node')
+        try {
+            fs.accessSync(pathLinux, fs.constants.R_OK | fs.constants.W_OK);
+            outputDebug('can read/write ' + pathLinux);
+        } catch (err) {
+            outputDebug('no access to ' + pathLinux + '!');
+            outputDebug("Creating Linux driver")
+            mkdirp.sync('node_modules/sqlite3/lib/binding/node-v64-linux-x64');
+            var srcNodeJsFile = path.join(__dirname,'../node_sqlite3_linux64.rename')
+            outputDebug("srcNodeJsFile: " + srcNodeJsFile)
+            fs.copyFileSync(  srcNodeJsFile,  pathLinux  );
+        }
 
 
-}
+
+
+    } else if (isMac) {
+        let pathMac = path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-darwin-x64/node_sqlite3.node')
+        try {
+          fs.accessSync(pathMac, fs.constants.R_OK | fs.constants.W_OK);
+          outputDebugg('can read/write ' + pathMac);
+        } catch (err) {
+          outputDebug('no access to ' + pathMac + '!');
+          outputDebug("Creating Mac driver")
+          mkdirp.sync('node_modules/sqlite3/lib/binding/node-v64-darwin-x64');
+
+          var srcNodeJsFile = path.join(__filename,'../../node_sqlite3_macos64.rename')
+          outputDebug("srcNodeJsFile: " + srcNodeJsFile)
+          fs.copyFileSync(  srcNodeJsFile,  pathMac  );
+        }
+
+
+
+
+    } else {
+        let pathLinux = path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-linux-x64/node_sqlite3.node')
+        try {
+          fs.accessSync(pathLinux, fs.constants.R_OK | fs.constants.W_OK);
+          outputDebug('can read/write ' + pathLinux);
+        } catch (err) {
+            outputDebug('no access to ' + pathLinux + '!');
+            outputDebug("Error, unsupported platform: " + process.platform + ".. trying Linuxs")
+            outputDebug("Creating Linux driver")
+            mkdirp.sync('node_modules/sqlite3/lib/binding/node-v64-linux-x64');
+            var srcNodeJsFile = path.join(__dirname,'../node_sqlite3_linux64.rename')
+            outputDebug("srcNodeJsFile: " + srcNodeJsFile)
+            fs.copyFileSync(  srcNodeJsFile,  pathLinux  )
+        }
+    }
 
 } catch(err){
     console.log(err)
