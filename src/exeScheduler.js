@@ -68,6 +68,8 @@ function processMessagesFromMainProcess() {
         childProcessName            = msg.child_process_name
         showDebug                   = msg.show_debug
         showProgress                = msg.show_progress
+        yazzInstanceId              = msg.yazz_instance_id
+        outputDebug("yazzInstanceId in scheduler: " + yazzInstanceId);        
 
         if (msg.max_processes_count_to_retry) {
             maxProcessesCountToRetry    = msg.max_processes_count_to_retry
