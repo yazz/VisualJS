@@ -292,7 +292,7 @@ logo_url("/driver_icons/kafka.png")
             ,
             delete_broker: async function(index)  {
                 let mm = this
-                alert(index)
+                //alert(index)
                 mm.args.brokers.splice(index,1)
                 await mm.checkKafkaAvailable()
                 changedFn();
