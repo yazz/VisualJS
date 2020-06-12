@@ -6,6 +6,7 @@ const uuidv1                    = require('uuid/v1');
 var sqlite3                     = require('sqlite3');
 var os                          = require('os')
 var db_helper                   = require("./db_helper")
+var yazzInstanceId = null
 var userData
 var childProcessName
 var dbsearch;

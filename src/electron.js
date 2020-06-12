@@ -1052,7 +1052,9 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
                                                  user_data_path: userData,
                                                  child_process_name: "forked",
                                                  show_debug: showDebug,
-                                                 show_progress: showProgress
+                                                 show_progress: showProgress,
+                                                 yazz_instance_id: yazzInstanceId
+
                                               });
 
         forkedProcesses["forked"].send({         message_type: "createTables" });
@@ -1069,7 +1071,9 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
                                                       max_processes_count_to_retry: maxProcessesCountToRetry,
                                                       max_job_process_duration_ms: maxJobProcessDurationMs,
                                                       show_debug: showDebug,
-                                                      show_progress: showProgress
+                                                      show_progress: showProgress,
+                                                      yazz_instance_id: yazzInstanceId
+
                                               });
     }
 
@@ -1081,7 +1085,9 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
                                                  user_data_path: userData,
                                                  child_process_name: exeProcName,
                                                  show_debug: showDebug,
-                                                 show_progress: showProgress
+                                                 show_progress: showProgress,
+                                                 yazz_instance_id: yazzInstanceId
+
                                               });
 
       }

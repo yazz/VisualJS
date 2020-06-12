@@ -13,6 +13,7 @@ var perf                        = require('./perf')
 var db_helper                   = require("./db_helper")
 var saveHelper                  = require('./save_helpers')
 var esprima                     = require('esprima');
+var yazzInstanceId = null
 
 var pgeval
 var sqliteeval

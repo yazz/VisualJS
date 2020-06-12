@@ -19,6 +19,7 @@ var Kafka                       = require('kafkajs').Kafka
 var userData
 var childProcessName
 var ip = require('ip');
+var yazzInstanceId = null
 
 var isWin                               = /^win/.test(process.platform);
 var stmtInsertRowFullTextSearch                               = null;
