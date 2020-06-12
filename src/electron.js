@@ -2964,12 +2964,13 @@ console.log("Local Machine Address: " + serverProtocol + "://" + hostaddress + '
                 //console.log("ret: "  +  JSON.stringify(ret,null,2))
 
                 if (ret.value) {
-                    console.log(JSON.stringify(ret.value,null,2));
-                    //process.stdout.write(JSON.stringify(ret.value,null,2));
+                    //console.log(JSON.stringify(ret.value,null,2));
+                    process.stdout.write(JSON.stringify(ret.value,null,2));
+                    process.stdout.write('\n');
                     //console.log("Who let the dogs out!");
                 }
 
-                shutDown();
+                //shutDown();
                 process.exit();
             })()
     }
