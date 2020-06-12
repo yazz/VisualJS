@@ -358,6 +358,8 @@ function processMessagesFromMainProcess() {
         childProcessName    = msg.child_process_name
         showDebug           = msg.show_debug
         showProgress        = msg.show_progress
+        yazzInstanceId      = msg.yazz_instance_id
+        outputDebug("yazzInstanceId in child: " + yazzInstanceId);
 
 
         ////console.log("Child recieved user data path: " + userData)
