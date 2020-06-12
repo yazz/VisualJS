@@ -1299,8 +1299,8 @@ function getPort () {
 
 
 
-
-    httpServer.listen(port, ip.address(), function (err) {
+//zzz
+    httpServer.listen(port, hostaddress, function (err) {
 
         outputDebug('trying port: ' + port + ' ')
 
@@ -3157,7 +3157,7 @@ outputDebug("uploadPath: " + uploadPath)
 upload = multer( { dest: uploadPath});
 
 
-//zzz
+
 if (!fs.existsSync( path.join(userData,  'uploads') )) {
     mkdirp.sync(path.join(userData,  'uploads'));
 }
