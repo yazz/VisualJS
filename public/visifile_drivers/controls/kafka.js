@@ -129,7 +129,7 @@ properties(
 
 logo_url("/driver_icons/kafka.png")
 */
-    var mm = null
+
     Vue.component("kafka_control",{
 
         props: ["meta", "args","design_mode","refresh", "children"]
@@ -223,7 +223,7 @@ logo_url("/driver_icons/kafka.png")
         ,
 
         mounted: async function() {
-            mm = this
+            let mm = this
             registerComponent(this)
 
 
@@ -241,6 +241,7 @@ logo_url("/driver_icons/kafka.png")
 
         methods: {
             readTopic: async function() {
+                let mm = this
                 var result = await callFunction(
                     {
                         driver_name: "kafka_service",
@@ -267,6 +268,7 @@ logo_url("/driver_icons/kafka.png")
             }
             ,
             checkKafkaAvailable: async function()  {
+                let mm = this
                 mm.args.isKafkaAvailable = "False"
                 var result = await callFunction(
                     {
@@ -289,6 +291,7 @@ logo_url("/driver_icons/kafka.png")
             }
             ,
             delete_broker: async function(index)  {
+                let mm = this
                 alert(index)
                 mm.args.brokers.splice(index,1)
                 await mm.checkKafkaAvailable()
@@ -296,6 +299,7 @@ logo_url("/driver_icons/kafka.png")
             }
             ,
             addBroker: async function(new_server,new_port)  {
+                let mm = this
                 var newBrokerUrl = "" + new_server + ":" + new_port
                 mm.args.brokers.push(newBrokerUrl);
                 mm.new_server="";
@@ -305,6 +309,7 @@ logo_url("/driver_icons/kafka.png")
             }
             ,
             changedFn: function() {
+                let mm = this
                 if (isValidObject(mm.args)) {
                     mm.args.changed = uuidv4()
                 }
