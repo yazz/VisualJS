@@ -544,7 +544,7 @@ async function setUpComponentsLocally() {
     //
     // debug controls
     //
-    await evalLocalSystemDriver('bug_vue',   path.join(__dirname, '../public/visifile_drivers/controls/bug_vue.js'),{username: "default", reponame: "bug_vue", version: "latest"})
+    //await evalLocalSystemDriver('bug_vue',   path.join(__dirname, '../public/visifile_drivers/controls/bug_vue.js'),{username: "default", reponame: "bug_vue", version: "latest"})
 
     //
     // controls
