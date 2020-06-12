@@ -713,7 +713,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
-                //zzz
+
                 isCodeTtyCode = await isTtyCode()
                 //console.log("isCodeTtyCode:= " + isCodeTtyCode)
 
@@ -3143,11 +3143,19 @@ outputDebug("uploadPath: " + uploadPath)
 upload = multer( { dest: uploadPath});
 
 
-rmdir("uploads");
-mkdirp.sync(path.join(userData,  'uploads'));
-mkdirp.sync(path.join(userData,  'files'));
-mkdirp.sync(path.join(userData,  'apps'));
-mkdirp.sync(path.join(userData,  'app_dbs'));
+//zzz
+if (!fs.existsSync( path.join(userData,  'uploads') )) {
+    mkdirp.sync(path.join(userData,  'uploads'));
+}
+if (!fs.existsSync( path.join(userData,  'files') )) {
+    mkdirp.sync(path.join(userData,  'files'));
+}
+if (!fs.existsSync( path.join(userData,  'apps') )) {
+    mkdirp.sync(path.join(userData,  'apps'));
+}
+if (!fs.existsSync( path.join(userData,  'app_dbs') )) {
+    mkdirp.sync(path.join(userData,  'app_dbs'));
+}
 
 
 outputDebug('process.env.LOCALAPPDATA: ' + JSON.stringify(localappdata ,null,2))
