@@ -32,6 +32,7 @@ var app             = express()
 var startupType     = null
 var startupDelay     = 0
 var isCodeTtyCode = false
+var yazzInstanceId = uuidv1()
 
 
 var expressWs       = require('express-ws')(app);
@@ -2903,7 +2904,7 @@ P::::::::P          i::::::il::::::l oo:::::::::::oo         tt:::::::::::tt
 PPPPPPPPPP          iiiiiiiillllllll   ooooooooooo             ttttttttttt
 `)
 
-
+console.log("\nYazz Pilot Instance ID: " + yazzInstanceId );
 console.log("\nRunning " + executionProcessCount + " virtual processors");
 console.log("\nYazz Pilot started on:");
 console.log("Network Host Address: " + hostaddressintranet)
