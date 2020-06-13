@@ -348,7 +348,10 @@ function updateRunningTimeForprocess() {
         dbsearch.serialize(
             function() {
                 var stmt = dbsearch.all(
-                  "SELECT * FROM system_process_info where  status = 'RUNNING'; ",
+                  "SELECT * FROM system_process_info where  status = 'RUNNING'  AND  yazz_instance_id = ?; "
+                  ,
+                  [  yazzInstanceId  ]
+                  ,
 
                     function(err, results)
                     {
@@ -382,8 +385,10 @@ function findLongRunningProcesses() {
         dbsearch.serialize(
             function() {
                 var stmt = dbsearch.all(
-                  "SELECT * FROM system_process_info where  status = 'RUNNING' and event_duration_ms > ?; ",
-                   maxJobProcessDurationMs,
+                  "SELECT * FROM system_process_info where  status = 'RUNNING' and event_duration_ms > ?  and  yazz_instance_id = ?; "
+                  ,
+                  [  maxJobProcessDurationMs  ,  yazzInstanceId  ]
+                  ,
                     function(err, results)
                     {
                         if (results) {
