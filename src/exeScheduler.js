@@ -166,7 +166,7 @@ function processMessagesFromMainProcess() {
         dbsearch.serialize(
             function() {
                 dbsearch.run("begin exclusive transaction");
-                setProcessToIdle.run(msg.child_process_name)
+                setProcessToIdle.run(msg.child_process_name, yazzInstanceId)
 
                 dbsearch.run("commit", function() {
                     processesInUse[msg.child_process_name] = false
@@ -316,10 +316,10 @@ function processMessagesFromMainProcess() {
 //-----------------------------------------------------------------------------------------//
 function setUpSql() {
 
-    setProcessToRunning = dbsearch.prepare("UPDATE system_process_info SET status = 'RUNNING', last_driver = ?, last_event = ?, running_start_time_ms = ?, event_duration_ms = 0, system_code_id = ?, callback_index = ? WHERE process = ?");
+    setProcessToRunning = dbsearch.prepare("UPDATE system_process_info SET status = 'RUNNING', last_driver = ?, last_event = ?, running_start_time_ms = ?, event_duration_ms = 0, system_code_id = ?, callback_index = ? WHERE process = ? AND yazz_instance_id = ?");
 
-    setProcessToIdle = dbsearch.prepare("UPDATE system_process_info SET status = 'IDLE' WHERE process = ?");
-    setProcessRunningDurationMs  = dbsearch.prepare("UPDATE  system_process_info  SET event_duration_ms = ?  WHERE  process = ?");
+    setProcessToIdle = dbsearch.prepare("UPDATE system_process_info SET status = 'IDLE' WHERE process = ? AND yazz_instance_id = ?");
+    setProcessRunningDurationMs  = dbsearch.prepare("UPDATE  system_process_info  SET event_duration_ms = ?  WHERE  process = ? AND yazz_instance_id = ?");
 
 
     updateProcessTable = dbsearch.prepare(
@@ -359,7 +359,7 @@ function updateRunningTimeForprocess() {
                                var thisProcess = results[ii]
                                var startTime = thisProcess.running_start_time_ms
                                var duration = timeNow - startTime
-                               setProcessRunningDurationMs.run(duration, thisProcess.process)
+                               setProcessRunningDurationMs.run(duration, thisProcess.process, yazzInstanceId)
                            }
                            dbsearch.run("commit", function() {
                            });
@@ -407,7 +407,7 @@ function killProcess(processName, callbackIndex) {
     dbsearch.serialize(
         function() {
             dbsearch.run("begin exclusive transaction");
-            setProcessToIdle.run(processName)
+            setProcessToIdle.run(processName, yazzInstanceId)
 
             dbsearch.run("commit", function() {
                 processesInUse[processName] = false
@@ -516,7 +516,7 @@ function sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processName  ,  
         function() {
             dbsearch.run("begin exclusive transaction");
             let runningStartTime = new Date().getTime();
-            setProcessToRunning.run( base_component_id, on_condition, runningStartTime, id, callbackIndex, processName )
+            setProcessToRunning.run( base_component_id, on_condition, runningStartTime, id, callbackIndex, processName, yazzInstanceId )
 
 
             dbsearch.run("commit", function() {
