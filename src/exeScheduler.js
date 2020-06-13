@@ -278,12 +278,12 @@ function processMessagesFromMainProcess() {
                  function() {
                      dbsearch.run("begin exclusive transaction");
                      updateProcessTable.run(
+                         yazzInstanceId,
                          msg.node_id,
                          msg.child_process_id,
                          msg.started,
                          "IDLE",
-                         null,
-                         yazzInstanceId
+                         null
                          )
                      dbsearch.run("commit", function() {
                             processesInUse[msg.node_id] = false
@@ -324,7 +324,7 @@ function setUpSql() {
 
     updateProcessTable = dbsearch.prepare(
         " insert or replace into "+
-        "     system_process_info (process, process_id, running_since, status, job_priority,  yazz_instance_id) " +
+        "     system_process_info (yazz_instance_id, process, process_id, running_since, status, job_priority) " +
         " values " +
         "     (?,?,?,?,?,?)"
     )
