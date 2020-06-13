@@ -16,6 +16,7 @@ var setProcessRunningDurationMs;
 var processesInUse                      = new Object()
 var tryAgain                            = true
 var nextCallId                          = 0
+var insertIntoProcessTable              = null;
 var updateProcessTable                  = null;
 var username                            = "node"
 var callList                            = new Object
@@ -276,19 +277,50 @@ function processMessagesFromMainProcess() {
              //console.log("     Started: " + msg.started)
              dbsearch.serialize(
                  function() {
-                     dbsearch.run("begin exclusive transaction");
-                     updateProcessTable.run(
-                         yazzInstanceId,
-                         msg.node_id,
-                         msg.child_process_id,
-                         msg.started,
-                         "IDLE",
-                         null
-                         )
-                     dbsearch.run("commit", function() {
-                            processesInUse[msg.node_id] = false
-                     });
-                 })
+                     var stmt = dbsearch.all(
+                       "SELECT * FROM system_process_info where  yazz_instance_id = ?  AND  process = ?; "
+                       ,
+                       [  yazzInstanceId  ,  msg.node_id  ]
+                       ,
+
+                         function(err, results)
+                         {
+                             if (results.length == 0)  {
+                                 dbsearch.serialize(
+                                     function() {
+                                         dbsearch.run("begin exclusive transaction");
+                                         insertIntoProcessTable.run(
+                                             yazzInstanceId,
+                                             msg.node_id,
+                                             msg.child_process_id,
+                                             msg.started,
+                                             "IDLE",
+                                             null
+                                             )
+                                         dbsearch.run("commit", function() {
+                                                processesInUse[msg.node_id] = false
+                                         });
+                                 })
+
+                             } else {
+                                 dbsearch.serialize(
+                                     function() {
+                                         dbsearch.run("begin exclusive transaction");
+                                         updateProcessTable.run(
+                                             msg.child_process_id,
+                                             msg.started,
+                                             "IDLE",
+                                             null,
+                                             yazzInstanceId,
+                                             msg.node_id
+                                         )
+                                         dbsearch.run("commit", function() {
+                                                processesInUse[msg.node_id] = false
+                                         });
+                                 })
+                             }
+                         })
+                     })
 
         }
 
@@ -321,13 +353,17 @@ function setUpSql() {
     setProcessToIdle = dbsearch.prepare("UPDATE system_process_info SET status = 'IDLE' WHERE process = ? AND yazz_instance_id = ?");
     setProcessRunningDurationMs  = dbsearch.prepare("UPDATE  system_process_info  SET event_duration_ms = ?  WHERE  process = ? AND yazz_instance_id = ?");
 
-
-    updateProcessTable = dbsearch.prepare(
-        " insert or replace into "+
+    insertIntoProcessTable = dbsearch.prepare(
+        " insert into "+
         "     system_process_info (yazz_instance_id, process, process_id, running_since, status, job_priority) " +
         " values " +
-        "     (?,?,?,?,?,?)"
-    )
+        "     (?,?,?,?,?,?)")
+
+    updateProcessTable = dbsearch.prepare(
+        "UPDATE  system_process_info " +
+        "      SET process_id = ?, running_since = ?, status = ?, job_priority = ? " +
+        "WHERE " +
+        "     yazz_instance_id = ? AND process = ? ")
 
 }
 
