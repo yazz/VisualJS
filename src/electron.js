@@ -555,6 +555,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
                                                               (   id,
                                                                   timestamp,
                                                                   process,
+                                                                  yazz_instance_id,
                                                                   status,
                                                                   base_component_id,
                                                                   event,
@@ -562,7 +563,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
                                                                   args,
                                                                   error_message )
                                                               values
-                                                                  ( ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ? );`)
+                                                                  ( ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ? , ? );`)
             dbsearch.serialize(function() {
                 dbsearch.run("begin exclusive transaction");
                 var newId = uuidv1()
@@ -570,6 +571,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
                       newId,
                       new Date().getTime(),
                       processName,
+                      yazzInstanceId,
                       "KILLED",
                       null,
                       null,

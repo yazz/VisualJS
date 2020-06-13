@@ -198,6 +198,7 @@ function setUpSql() {
                                                   (   id,
                                                       timestamp,
                                                       process,
+                                                      yazz_instance_id,
                                                       status,
                                                       base_component_id,
                                                       event,
@@ -205,7 +206,7 @@ function setUpSql() {
                                                       args,
                                                       error_message )
                                                   values
-                                                      ( ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ? );`)
+                                                      ( ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ? , ?);`)
 }
 
 
@@ -365,6 +366,7 @@ function executeCode(callId, codeId, args, on_condition,  base_component_id) {
                                           newId,
                                           new Date().getTime(),
                                           childProcessName,
+                                          yazzInstanceId,
                                           "ERROR",
                                           currentDriver,
                                           currentEvent,
@@ -520,6 +522,7 @@ process.on('unhandledRejection', (reason) => {
               newId,
               new Date().getTime(),
               childProcessName,
+              yazzInstanceId,
               "ERROR",
               currentDriver,
               currentEvent,
