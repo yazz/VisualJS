@@ -69,7 +69,7 @@ function processMessagesFromMainProcess() {
         showDebug                   = msg.show_debug
         showProgress                = msg.show_progress
         yazzInstanceId              = msg.yazz_instance_id
-        outputDebug("yazzInstanceId in scheduler: " + yazzInstanceId);        
+        outputDebug("yazzInstanceId in scheduler: " + yazzInstanceId);
 
         if (msg.max_processes_count_to_retry) {
             maxProcessesCountToRetry    = msg.max_processes_count_to_retry
@@ -282,7 +282,8 @@ function processMessagesFromMainProcess() {
                          msg.child_process_id,
                          msg.started,
                          "IDLE",
-                         null
+                         null,
+                         yazzInstanceId
                          )
                      dbsearch.run("commit", function() {
                             processesInUse[msg.node_id] = false
@@ -323,9 +324,9 @@ function setUpSql() {
 
     updateProcessTable = dbsearch.prepare(
         " insert or replace into "+
-        "     system_process_info (process, process_id, running_since, status, job_priority) " +
+        "     system_process_info (process, process_id, running_since, status, job_priority,  yazz_instance_id) " +
         " values " +
-        "     (?,?,?,?,?)"
+        "     (?,?,?,?,?,?)"
     )
 
 }
