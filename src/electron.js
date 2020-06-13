@@ -340,7 +340,7 @@ if (process.argv.length > 1) {
       .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
       .option('-t, --usehost [usehost]', 'Use host name [usehost]', null)
       .option('-u, --loadjsurl [loadjsurl]', 'Load the following JS from a URL (default not set) [loadjsurl]', null)
-      .option('-v, --deleteonexit [deleteonexit]', 'Delete database files on exit (default true) [deleteonexit]', 'true')
+      .option('-v, --deleteonexit [deleteonexit]', 'Delete database files on exit (default true) [deleteonexit]', 'false')
       .option('-w, --deleteonstartup [deleteonstartup]', 'Delete database files on startup (default false) [deleteonstartup]', 'false')
       .option('-x, --private [private]', 'Private HTTPS key [private]', null)
       .option('-y, --showdebug [showdebug]', 'Allow to show debug info (default false) [showdebug]', 'false')
