@@ -474,20 +474,28 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
     v-if="(design_mode_pane.direction == 'incoming')">
 
     <td  style='margin: 7px;vertical-align: bottom;' colspan="2">
-        <b>Transform function</b>
-        <textarea    rows=7
-                    @change='setWatchTransformFn($event)'
-                    v-bind:value='selectedWatchTransformFn'
-                    style='width: 100%;border: 1px solid black;font-family:verdana,helvetica;font-size: 13px;margin:7px;'>
-        </textarea>
 
-            <button type=button class='btn btn-sm btn-info'
-                    v-bind:style='""'
-                    v-on:click='$event.stopPropagation(); addWatch();'  >
 
-                 Add
+        <div v-if="(show_advanced_transform == true)">
+            <div><a href="#" v-on:click="show_advanced_transform=false;">Hide advanced</a></div>
+            <b>Transform function</b>
+            <textarea    rows=7
+                        @change='setWatchTransformFn($event)'
+                        v-bind:value='selectedWatchTransformFn'
+                        style='width: 100%;border: 1px solid black;font-family:verdana,helvetica;font-size: 13px;margin:7px;'>
+            </textarea>
+        </div>
+        <div v-if="(show_advanced_transform != true)">
+            <a href="#"  v-on:click="show_advanced_transform=true;">Show advanced</a>
+        </div>
 
-            </button>
+        <button type=button class='btn btn-sm btn-info'
+                v-bind:style='""'
+                v-on:click='$event.stopPropagation(); addWatch();'  >
+             Add
+        </button>
+
+
     </td>
 </tr>
 
@@ -565,12 +573,21 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
     v-if="(design_mode_pane.direction == 'outgoing')">
 
     <td  style='margin: 7px;vertical-align: bottom;' colspan="2">
-        <b>Transform function</b>
-        <textarea    rows=7
-                    @change='setPushTransformFn($event)'
-                    v-bind:value='selectedPushTransformFn'
-                    style='width: 100%;border: 1px solid black;font-family:verdana,helvetica;font-size: 13px;margin:7px;'>
-        </textarea>
+
+        <div v-if="(show_advanced_transform == true)">
+            <div><a href="#" v-on:click="show_advanced_transform=false;">Hide advanced</a></div>
+            <b>Transform function</b>
+            <textarea    rows=7
+                        @change='setPushTransformFn($event)'
+                        v-bind:value='selectedPushTransformFn'
+                        style='width: 100%;border: 1px solid black;font-family:verdana,helvetica;font-size: 13px;margin:7px;'>
+            </textarea>
+        </div>
+        <div v-if="(show_advanced_transform != true)">
+            <a href="#"  v-on:click="show_advanced_transform=true;">Show advanced</a>
+        </div>
+
+
         <button type=button class='btn btn-sm btn-info'
                 v-bind:style='""'
                 v-on:click='$event.stopPropagation(); addPush();'  >
@@ -5305,6 +5322,7 @@ return {}
                       vb_editor_element_id:        null,
                       design_mode: designMode,
                       design_mode_pane:            {},
+                      show_advanced_transform:      false,
                       local_app:                    false,
                       refresh: 0,
                       runtime_mode: runtimeMode,
@@ -5445,6 +5463,7 @@ return {}
            selected_pane:               null,
            active_property_index:       null,
            design_mode_pane:            {type: "drag_drop"},
+           show_advanced_transform:     false,
            available_components:        [],
            component_usage:             new Object(),
            form_runtime_info:           {},
