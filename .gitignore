@@ -123,6 +123,7 @@ go/pkg
 /public/gosharedata
 /public/visifile
 
+
 !/public/
 !/public/*
 !/public/*/*
@@ -132,6 +133,8 @@ go/pkg
 !/public/*/*/*/*/*/*
 !/public/*/*/*/*/*/*/*
 
+/public/visifile/docs
+/public/visifile/docs/*
 
 /visifile/public/dist/build.js.map
 /visifile/public/index.js
