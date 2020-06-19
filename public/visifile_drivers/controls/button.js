@@ -40,6 +40,11 @@ properties(
         }
         ,
         {
+            id:     "color",
+            name:   "Color",
+            type:   "String"
+        }
+        ,        {
             id:     "button_size",
             name:   "Button size",
             type:       "Select",
@@ -70,7 +75,7 @@ logo_url("/driver_icons/button_control.png")
       ,
       template: `<button    type=button
       v-bind:class='"btn btn-info " + (((properties.button_size=="large") || (!properties.button_size))?"btn-lg ":"")  + (properties.button_size=="small"?"btn-sm ":"") '
-                            v-bind:style='"height:100%;width:100%; border: 0px;" + "background-color: "+    properties["background_color"]  +  ";"'
+                            v-bind:style='"height:100%;width:100%; border: 0px;" + "background-color: "+    properties["background_color"]  +  ";"+ "color: "+    (properties["color"]?properties["color"]:"black")  +  ";"'
                             v-on:click='event_callback()'
                             >
 

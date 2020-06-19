@@ -43,7 +43,7 @@ properties(
             id:     "border_width_px",
             name:   "Border width px",
             type:   "Number",
-            default: 1
+            default: 0
         }
         ,
 
