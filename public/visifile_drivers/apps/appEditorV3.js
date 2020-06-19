@@ -211,6 +211,8 @@ load_once_from_file(true)
 
 
 
+
+
                     <button   v-bind:disabled='read_only?"":false'
                               v-bind:style="'margin-left:200px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
                               v-on:mouseenter='setInfo("Save the changes made in the UI and reload the app")'
@@ -227,6 +229,11 @@ load_once_from_file(true)
                               </img>Pending changes.. update
 
                     </button>
+
+
+
+
+
 
                     <div    v-if="!read_only && (save_state == 'saved')"
                             v-bind:disabled='read_only?"":false'
@@ -256,6 +263,19 @@ load_once_from_file(true)
                               </img>Remix
 
                     </button>
+
+
+
+                    <a   style='text-decoration:underline;cursor: pointer;flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
+
+                          v-on:click='var win = window.open(location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
+
+                          v-if="code_shown && (!app_shown)">
+
+                          {{location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"}}
+                    </a>
+
+
 
                 </div>
 
