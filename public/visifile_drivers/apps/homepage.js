@@ -157,7 +157,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                    v-on:click="thisFileUpload();"
                    >
 
-                    <img    src='/driver_icons/fileopen.png'
+                    <img    src='/driver_icons/import.png'
                             style='position:relative;max-width: 70px; left:0px; top: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
                             >
                     </img>
@@ -165,6 +165,21 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 Import app
             </button>
 
+
+            <button
+
+                   class="btn btn-danger btn-lg"
+                   style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold; background-color:lightgray;color:black;'
+                   v-on:click="thisFileUpload();"
+                   >
+
+                    <img    src='/driver_icons/fileopen.png'
+                            style='position:relative;max-width: 70px; left:0px; top: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
+                            >
+                    </img>
+
+                Open file
+            </button>
 
 
 
