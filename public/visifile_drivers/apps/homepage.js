@@ -148,13 +148,27 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             </form>
 
 
+            <form       id="openfilefromhomepageform"
+                        method="POST"
+                        style="display:none;"
+                        enctype="multipart/form-data"
+                        action="/file_open_single"  >
+
+                <input  type="file"
+                        id="openfilefromhomepage"
+                        name="openfilefromhomepage"
+                        multiple
+                        style="display:none;"
+                        v-on:change="openFileChange();"
+                        />
+            </form>
 
 
             <button
 
                     class="btn btn-danger btn-lg"
                    style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold; background-color:lightgray;color:black;'
-                   v-on:click="thisFileUpload();"
+                   v-on:click="importApp();"
                    >
 
                     <img    src='/driver_icons/import.png'
@@ -170,7 +184,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                    class="btn btn-danger btn-lg"
                    style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold; background-color:lightgray;color:black;'
-                   v-on:click="thisFileUpload();"
+                   v-on:click="openFile();"
                    >
 
                     <img    src='/driver_icons/fileopen.png'
@@ -376,7 +390,12 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
       methods: {
-         thisFileUpload: function() {
+          openFile: function() {
+              //alert(1)
+             document.getElementById("openfilefromhomepage").click();
+            //
+         },
+         importApp: function() {
              //alert(1)
             document.getElementById("uploadfilefromhomepage").click();
            //
@@ -546,7 +565,19 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             xmlhttp.open("POST","/file_upload_single",true);
             xmlhttp.send(formData);
         }
+        ,
+        openFileChange: function() {
+          let xmlhttp= window.XMLHttpRequest ?
+              new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
 
+
+
+          var form = document.getElementById('openfilefromhomepageform');
+          var formData = new FormData(form);
+
+          xmlhttp.open("POST","/file_open_single",true);
+          xmlhttp.send(formData);
+      }
 
       }
     })
