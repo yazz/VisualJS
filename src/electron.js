@@ -2749,7 +2749,7 @@ async function startServices() {
 
 
 
-        app.post('/file_open_single', upload.single( 'uploadfilefromhomepage' ), function (req, res, next) {
+        app.post('/file_open_single', upload.single( 'openfilefromhomepage' ), function (req, res, next) {
             console.log("File open: " + JSON.stringify(req.file.originalname,null,2))
             return file_uploadSingleFn(req, res, next);
         });
