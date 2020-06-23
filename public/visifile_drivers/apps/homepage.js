@@ -163,6 +163,12 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         />
             </form>
 
+            <div    v-if="showFilePicker"
+                    style="position: fixed;left:10vw;top:10vh;width:80vw;height:80vh; z-index: 200000;opacity:1;background-color: white;"
+                    v-on:click="showFilePicker=false">
+            File picker
+            </div>
+
 
             <button
 
@@ -315,7 +321,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     loaded_app:     new Object(),
                     refresh:        0,
                     edit_app:       null,
-                    app_logos:    new Object()
+                    app_logos:    new Object(),
+                    showFilePicker: false
                 }},
 
     mounted: async function() {
@@ -392,7 +399,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
       methods: {
           openFile: function() {
               //alert(1)
-             document.getElementById("openfilefromhomepage").click();
+             //document.getElementById("openfilefromhomepage").click();
+             this.showFilePicker = true
             //
          },
          importApp: function() {
