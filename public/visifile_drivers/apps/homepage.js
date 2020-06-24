@@ -172,7 +172,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     {{open_file_path}}
                 </div>
 
-                <div style="width:80vw;height:50vh; background-color: lightgray;"></div>
+                <pre style="width:80vw;height:50vh; background-color: lightgray;">
+                    {{open_file_list}}
+                </pre>
 
 
 
@@ -382,7 +384,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     app_logos:    new Object(),
                     showFilePicker: false,
                     open_file_path: "/",
-                    open_file_path_dirs: ["/"]
+                    open_file_path_dirs: ["/"],
+                    open_file_list: []
                 }},
 
     mounted: async function() {
@@ -469,7 +472,17 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             if (result) {
                 this.open_file_path = result.value
             }
-             //zzz
+            var result2 = await callFunction(
+                                {
+                                    driver_name: "serverFolderContents",
+                                    method_name: "serverFolderContents"  }
+                                    ,{
+                                            path: this.open_file_path
+                                    })
+           if (result2) {
+               this.open_file_list = result2
+           }
+                        //zzz
             //
          },
          importApp: function() {
