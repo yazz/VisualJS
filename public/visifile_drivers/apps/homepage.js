@@ -457,10 +457,19 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
       methods: {
-          openFile: function() {
+          openFile: async function() {
               //alert(1)
              //document.getElementById("openfilefromhomepage").click();
              this.showFilePicker = true
+             var result = await callFunction(
+                                 {
+                                     driver_name: "serverGetHomeDir",
+                                     method_name: "serverGetHomeDir"  }
+                                     ,{ })
+            if (result) {
+                this.open_file_path = result.value
+            }
+             //zzz
             //
          },
          importApp: function() {
