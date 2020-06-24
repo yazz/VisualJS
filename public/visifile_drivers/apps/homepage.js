@@ -176,12 +176,12 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                        v-on:click="loadPilotFile();"
                        >
 
-                        <img    src='/driver_icons/import.png'
+                        <img    src='/driver_icons/start.svg'
                                 style='position:relative;max-width: 70px; bottom:0px; left: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
                                 >
                         </img>
 
-                    Load
+                    Run
                 </button>
 
                 <button
@@ -191,7 +191,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                        v-on:click="loadPilotFile();"
                        >
 
-                        <img    src='/driver_icons/import.png'
+                        <img    src='/driver_icons/edit.svg'
                                 style='position:relative;max-width: 70px; bottom:0px; left: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
                                 >
                         </img>
