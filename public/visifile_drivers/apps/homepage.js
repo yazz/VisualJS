@@ -164,57 +164,63 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             </form>
 
             <div    v-if="showFilePicker"
-                    style="position: fixed;left:10vw;top:10vh;width:80vw;height:80vh; z-index: 200000;opacity:1;background-color: white;"
+                    style="position: fixed;left:10vw;top:5vh;width:80vw;height:80vh; z-index: 200000;opacity:1;background-color: white;font-size: 20px;"
                     >
             Choose a .pilot file
 
-                <div style="position:absolute;left: 100px; top: 30vh;width:80vw;height:60vh; background-color: lightgray;"></div>
+                <div style="width:80vw;height:5vh; background-color: darkgray;color:white;">PATH</div>
 
-                <button
-
-                        class="btn btn-danger btn-lg"
-                       style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold; background-color:lightgray;color:black;display:inline;'
-                       v-on:click="loadPilotFile();"
-                       >
-
-                        <img    src='/driver_icons/start.svg'
-                                style='position:relative;max-width: 70px; bottom:0px; left: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
-                                >
-                        </img>
-
-                    Run
-                </button>
-
-                <button
-
-                        class="btn btn-danger btn-lg"
-                       style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold; background-color:lightgray;color:black;display:inline;'
-                       v-on:click="loadPilotFile();"
-                       >
-
-                        <img    src='/driver_icons/edit.svg'
-                                style='position:relative;max-width: 70px; bottom:0px; left: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
-                                >
-                        </img>
-
-                    Edit
-                </button>
+                <div style="width:80vw;height:50vh; background-color: lightgray;"></div>
 
 
-                <button
 
-                        class="btn btn-danger btn-lg"
-                       style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold; background-color:lightgray;color:black;display:inline;'
-                       v-on:click="showFilePicker=false"
-                       >
+                <div>
+                    <button
 
-                        <img    src='/driver_icons/cancel.svg'
-                                style='position:relative;max-width: 70px; bottom:0px; left: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
-                                >
-                        </img>
+                            class="btn btn-danger btn-lg"
+                           style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold; background-color:lightgray;color:black;display:inline;'
+                           v-on:click="loadPilotFile();"
+                           >
 
-                    Cancel
-                </button>
+                            <img    src='/driver_icons/start.svg'
+                                    style='position:relative;max-width: 70px; bottom:0px; left: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
+                                    >
+                            </img>
+
+                        Run
+                    </button>
+
+                    <button
+
+                            class="btn btn-danger btn-lg"
+                           style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold; background-color:lightgray;color:black;display:inline;'
+                           v-on:click="loadPilotFile();"
+                           >
+
+                            <img    src='/driver_icons/edit.svg'
+                                    style='position:relative;max-width: 70px; bottom:0px; left: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
+                                    >
+                            </img>
+
+                        Edit
+                    </button>
+
+
+                    <button
+
+                            class="btn btn-danger btn-lg"
+                           style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold; background-color:lightgray;color:black;display:inline;'
+                           v-on:click="showFilePicker=false"
+                           >
+
+                            <img    src='/driver_icons/cancel.svg'
+                                    style='position:relative;max-width: 70px; bottom:0px; left: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
+                                    >
+                            </img>
+
+                        Cancel
+                    </button>
+                </div>
 
 
             </div>
