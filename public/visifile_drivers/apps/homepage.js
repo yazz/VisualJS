@@ -168,7 +168,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     >
             Choose a .pilot file
 
-                <div style="width:80vw;height:5vh; background-color: darkgray;color:white;">PATH</div>
+                <div style="width:80vw;height:5vh; background-color: darkgray;color:white;">
+                    {{open_file_path}}
+                </div>
 
                 <div style="width:80vw;height:50vh; background-color: lightgray;"></div>
 
@@ -378,7 +380,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     refresh:        0,
                     edit_app:       null,
                     app_logos:    new Object(),
-                    showFilePicker: false
+                    showFilePicker: false,
+                    open_file_path: "/",
+                    open_file_path_dirs: ["/"]
                 }},
 
     mounted: async function() {
