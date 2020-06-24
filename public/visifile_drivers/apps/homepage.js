@@ -165,8 +165,57 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
             <div    v-if="showFilePicker"
                     style="position: fixed;left:10vw;top:10vh;width:80vw;height:80vh; z-index: 200000;opacity:1;background-color: white;"
-                    v-on:click="showFilePicker=false">
-            File picker
+                    >
+            Choose a .pilot file
+
+                <div></div>
+                <button
+
+                        class="btn btn-danger btn-lg"
+                       style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold; background-color:lightgray;color:black;display:inline;'
+                       v-on:click="loadPilotFile();"
+                       >
+
+                        <img    src='/driver_icons/import.png'
+                                style='position:relative;max-width: 70px; bottom:0px; left: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
+                                >
+                        </img>
+
+                    Load
+                </button>
+
+                <button
+
+                        class="btn btn-danger btn-lg"
+                       style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold; background-color:lightgray;color:black;display:inline;'
+                       v-on:click="loadPilotFile();"
+                       >
+
+                        <img    src='/driver_icons/import.png'
+                                style='position:relative;max-width: 70px; bottom:0px; left: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
+                                >
+                        </img>
+
+                    Edit
+                </button>
+
+
+                <button
+
+                        class="btn btn-danger btn-lg"
+                       style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold; background-color:lightgray;color:black;display:inline;'
+                       v-on:click="showFilePicker=false"
+                       >
+
+                        <img    src='/driver_icons/cancel.svg'
+                                style='position:relative;max-width: 70px; bottom:0px; left: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
+                                >
+                        </img>
+
+                    Cancel
+                </button>
+
+
             </div>
 
 
@@ -382,7 +431,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
         })
 
-//zzz
+
          globalEventBus.$on('new-appshare-app-uploaded',
             async function(data) {
                 await mm.addLogoForApp(data)
@@ -550,7 +599,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               if (event) {
                   event.stopPropagation()
               }
-              //zzz
+
               if (!component_loaded[item]) {
                  await loadV2([item])
               }
