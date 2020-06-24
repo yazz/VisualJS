@@ -168,7 +168,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     >
             Choose a .pilot file
 
-                <div></div>
+                <div style="position:absolute;left: 100px; top: 30vh;width:80vw;height:60vh; background-color: lightgray;"></div>
+
                 <button
 
                         class="btn btn-danger btn-lg"
