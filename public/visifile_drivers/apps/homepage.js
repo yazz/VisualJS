@@ -173,7 +173,14 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 </div>
 
                 <pre style="width:80vw;height:50vh; background-color: lightgray;">
-                    {{open_file_list}}
+                    <div    v-for="(file_or_folder_item, index) in open_file_list"
+                            v-bind:refresh='refresh'
+                            v-bind:style='"background-color: " + (file_or_folder_item.type == "file"?"lightgray":"darkgray") + "; margin:2px;height:30px;"'
+                            >
+                            <div >
+                                {{file_or_folder_item.name}}
+                            </div>
+                    </div>
                 </pre>
 
 

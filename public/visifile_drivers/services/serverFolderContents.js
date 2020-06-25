@@ -13,8 +13,16 @@ console.log(JSON.stringify(args,null,2))
           return fs.statSync(args.path+'/'+file).isFile();
         }
 
-        var nert =  fs.readdirSync(args.path).filter(filterFileFn);
-        returnfn(nert)
+        var nert =  fs.readdirSync(args.path);
+        let rettt=[]
+        for (var ty=0;ty<nert.length;ty++) {
+            if (filterFileFn(nert[ty])) {
+                rettt.push({name: nert[ty], type: "file"})
+            } else {
+                rettt.push({name: nert[ty], type: "folder"})
+            }
+        }
+        returnfn(rettt)
 
     })
     var ret = await promise
