@@ -177,7 +177,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                             v-bind:refresh='refresh'
                             v-bind:style='"background-color: " + (file_or_folder_item.type == "file"?"lightgray":"darkgray") + "; margin:2px;height:30px;"'
                             >
-                            <div >
+                            <div v-on:click='selectOpenFileOrFolder(file_or_folder_item)'>
                                 {{file_or_folder_item.name}}
                             </div>
                     </div>
@@ -492,6 +492,28 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         //zzz
             //
          },
+         selectOpenFileOrFolder: async function(fileorFolder) {
+             //alert(1)
+            //document.getElementById("openfilefromhomepage").click();
+            if (fileorFolder.type == "folder") {
+                this.open_file_path += "/" + fileorFolder.name
+               var result2 = await callFunction(
+                                   {
+                                       driver_name: "serverFolderContents",
+                                       method_name: "serverFolderContents"  }
+                                       ,{
+                                               path: this.open_file_path
+                                       })
+              if (result2) {
+                  this.open_file_list = result2
+              }
+            }
+                       //zzz
+           //
+        },
+
+
+
          importApp: function() {
              //alert(1)
             document.getElementById("uploadfilefromhomepage").click();
