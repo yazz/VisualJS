@@ -164,12 +164,24 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             </form>
 
             <div    v-if="showFilePicker"
-                    style="position: fixed;left:10vw;top:5vh;width:80vw;height:80vh; z-index: 200000;opacity:1;background-color: white;font-size: 20px;"
-                    >
-            Choose a .pilot file
+                    style="position: fixed;left:10vw;top:5vh;width:80vw;height:80vh; z-index: 200000;opacity:1;background-color: white;font-size: 20px;">
 
-                <div style="width:80vw;height:5vh; background-color: darkgray;color:white;">
+                    <div    style="font-size: 40px;"
+                            >
+                            Choose a .pilot file
+                    </div>
+
+                <div style="width:80vw;height:5vh; background-color: darkgray;color:white;font-size: 30px;">
                     {{open_file_path}}
+                    <button
+
+                            class="btn btn-danger btn-lg"
+                           style=''
+                           v-on:click="chosenFolderUp();"
+                           >
+
+                        Up
+                    </button>
                 </div>
 
                 <pre style="width:80vw;height:50vh; background-color: lightgray;">
@@ -511,6 +523,24 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                        //zzz
            //
         },
+        chosenFolderUp:  async function() {
+            //alert(1)
+           //document.getElementById("openfilefromhomepage").click();
+           let lastFolderIndex = this.open_file_path.lastIndexOf("/")
+           this.open_file_path = this.open_file_path.substring(0,lastFolderIndex)
+              var result2 = await callFunction(
+                                  {
+                                      driver_name: "serverFolderContents",
+                                      method_name: "serverFolderContents"  }
+                                      ,{
+                                              path: this.open_file_path
+                                      })
+             if (result2) {
+                 this.open_file_list = result2
+             }
+
+
+       },
 
 
 
