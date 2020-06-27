@@ -17,7 +17,9 @@ console.log(JSON.stringify(args,null,2))
         let rettt=[]
         for (var ty=0;ty<nert.length;ty++) {
             if (filterFileFn(nert[ty])) {
-                rettt.push({name: nert[ty], type: "file"})
+                if ((nert[ty].indexOf(".js") != -1 ) || (nert[ty].indexOf(".pilot") != -1 )) {
+                    rettt.push({name: nert[ty], type: "file"})
+                }
             } else {
                 rettt.push({name: nert[ty], type: "folder"})
             }
