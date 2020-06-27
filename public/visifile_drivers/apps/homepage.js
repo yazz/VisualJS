@@ -171,25 +171,25 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                             Choose a .pilot file
                     </div>
 
-                <div style="width:80vw;height:5vh; background-color: darkgray;color:white;font-size: 30px;">
-                    {{open_file_path}}
-                    <button
-
-                            class="btn btn-danger btn-lg"
-                           style=''
-                           v-on:click="chosenFolderUp();"
+                <div style="width:80vw;height:5vh; background-color: black;color:white;font-size: 30px;" class="text-left">
+                    <button     class="btn btn"
+                                style='margin:2px;margin-right:50px;background-color: darkgray;'
+                                v-on:click="chosenFolderUp();"
                            >
 
                         Up
                     </button>
+
+                    {{open_file_path}}
                 </div>
 
-                <pre style="width:80vw;height:50vh; background-color: lightgray;">
+                <pre style="width:80vw;height:50vh; background-color: white;">
                     <div    v-for="(file_or_folder_item, index) in open_file_list"
                             v-bind:refresh='refresh'
                             v-bind:style='"background-color: " + (file_or_folder_item.type == "file"?"lightgray":"darkgray") + "; margin:2px;height:30px;"'
+                            v-on:click='selectOpenFileOrFolder(file_or_folder_item)'
                             >
-                            <div v-on:click='selectOpenFileOrFolder(file_or_folder_item)'>
+                            <div    class="text-left">
                                 {{file_or_folder_item.name}}
                             </div>
                     </div>
