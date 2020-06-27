@@ -500,6 +500,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           // otherwise if this is a file
           //
           } else {
+              this.showFilePicker=false
               this.open_file_name = this.open_file_path + "/" + fileorFolder.name
               //alert(this.open_file_name)
               saveCodeToFile = this.open_file_name
