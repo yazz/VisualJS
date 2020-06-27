@@ -183,17 +183,18 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     {{open_file_path}}
                 </div>
 
-                <pre style="width:80vw;height:50vh; background-color: white;">
+                <div    style="width:80vw;height:50vh; background-color: white; overflow:scroll;"
+                        class="text-left">
+
                     <div    v-for="(file_or_folder_item, index) in open_file_list"
                             v-bind:refresh='refresh'
-                            v-bind:style='"background-color: " + (file_or_folder_item.type == "file"?"lightgray":"darkgray") + "; margin:2px;height:30px;"'
+                            v-bind:style='"background-color: " + (file_or_folder_item.type == "folder"?"darkgray":"lightgray") + "; margin:0px;height:auto;"'
                             v-on:click='selectOpenFileOrFolder(file_or_folder_item)'
+                            class="text-left"
                             >
-                            <div    class="text-left">
                                 {{file_or_folder_item.name}}
-                            </div>
                     </div>
-                </pre>
+                </div>
 
 
 
@@ -404,7 +405,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     showFilePicker: false,
                     open_file_path: "/",
                     open_file_path_dirs: ["/"],
-                    open_file_list: []
+                    open_file_list: [],
+                    open_file_name: ""
                 }},
 
     mounted: async function() {
@@ -505,8 +507,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             //
          },
          selectOpenFileOrFolder: async function(fileorFolder) {
-             //alert(1)
-            //document.getElementById("openfilefromhomepage").click();
+            //
+            // if this is a folder
+            //
             if (fileorFolder.type == "folder") {
                 this.open_file_path += "/" + fileorFolder.name
                var result2 = await callFunction(
@@ -519,7 +522,16 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               if (result2) {
                   this.open_file_list = result2
               }
-            }
+
+
+          //
+          // otherwise if this is a file
+          //
+          } else {
+              this.open_file_name = this.open_file_path + "/" + fileorFolder.name
+              alert(this.open_file_name)
+
+          }
                        //zzz
            //
         },
