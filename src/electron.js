@@ -2509,6 +2509,19 @@ function file_uploadFn(req, res, next) {
 
 };
 
+
+
+
+
+function file_name_load(req, res, next) {
+      //console.log("params: " + JSON.stringify(req.query,null,2))
+      loadAppFromFile(  req.query.file_name_load,
+                        req.query.client_file_upload_id)
+};
+
+
+
+
 function loadAppFromFile(localp,client_file_upload_id) {
     var readIn = fs.readFileSync(localp).toString()
     var bci = saveHelper.getValueOfCodeString(readIn, "base_component_id")
@@ -2778,7 +2791,13 @@ async function startServices() {
             res.end("Done");
         });
 
+        app.get('/file_name_load', function (req, res, next) {
+            //console.log("Hit file_name_load")
+            file_name_load(req, res);
 
+            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+            res.end("Done");
+        });
 
 
         app.get('/lock', function (req, res) {

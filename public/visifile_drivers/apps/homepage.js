@@ -199,35 +199,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
                 <div>
-                    <button
 
-                            class="btn btn-danger btn-lg"
-                           style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold; background-color:lightgray;color:black;display:inline;'
-                           v-on:click="loadPilotFile();"
-                           >
-
-                            <img    src='/driver_icons/start.svg'
-                                    style='position:relative;max-width: 70px; bottom:0px; left: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
-                                    >
-                            </img>
-
-                        Run
-                    </button>
-
-                    <button
-
-                            class="btn btn-danger btn-lg"
-                           style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold; background-color:lightgray;color:black;display:inline;'
-                           v-on:click="loadPilotFile();"
-                           >
-
-                            <img    src='/driver_icons/edit.svg'
-                                    style='position:relative;max-width: 70px; bottom:0px; left: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
-                                    >
-                            </img>
-
-                        Edit
-                    </button>
 
 
                     <button
@@ -503,7 +475,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
            if (result2) {
                this.open_file_list = result2
            }
-                        //zzz
+
             //
          },
          selectOpenFileOrFolder: async function(fileorFolder) {
@@ -531,9 +503,17 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               this.open_file_name = this.open_file_path + "/" + fileorFolder.name
               //alert(this.open_file_name)
               saveCodeToFile = this.open_file_name
+              //zzz
+              file_upload_uuid = uuidv4()
+              let openfileurl = "/file_name_load?file_name_load=" + encodeURI(saveCodeToFile) + "&client_file_upload_id=" + encodeURI(file_upload_uuid)
+              //console.log("openfileurl:= " + openfileurl)
+              callAjax( openfileurl,
+                  function(res) {
+                      console.log(res)
+                  })
 
           }
-                       //zzz
+
            //
         },
         chosenFolderUp:  async function() {
