@@ -2499,21 +2499,7 @@ function file_uploadFn(req, res, next) {
                   localp2 =  path.join(userData,  'uploads/' + ifile.filename);
                   var localp = localp2 + '.' + ext;
                   fs.renameSync(localp2, localp);
-                  var readIn = fs.readFileSync(localp).toString()
-                  var bci = saveHelper.getValueOfCodeString(readIn, "base_component_id")
-
-
-
-                    forkedProcesses["forked"].send({
-                                                        message_type:           "save_code_from_upload",
-                                                        base_component_id:      bci,
-                                                        parent_hash:            null,
-                                                        code:                   readIn,
-                                                        client_file_upload_id:  client_file_upload_id,
-                                                        options:                {save_html: true, fast_forward_database_to_latest_revision: false},
-                                                        sqlite_data:            ""
-                                                   });
-
+                  loadAppFromFile(localp,client_file_upload_id)
           } else {
             outputDebug('Ignoring file ');
 
@@ -2522,6 +2508,24 @@ function file_uploadFn(req, res, next) {
     }
 
 };
+
+function loadAppFromFile(localp,client_file_upload_id) {
+    var readIn = fs.readFileSync(localp).toString()
+    var bci = saveHelper.getValueOfCodeString(readIn, "base_component_id")
+
+
+
+      forkedProcesses["forked"].send({
+                                          message_type:           "save_code_from_upload",
+                                          base_component_id:      bci,
+                                          parent_hash:            null,
+                                          code:                   readIn,
+                                          client_file_upload_id:  client_file_upload_id,
+                                          options:                {save_html: true, fast_forward_database_to_latest_revision: false},
+                                          sqlite_data:            ""
+                                     });
+
+}
 
 
 
