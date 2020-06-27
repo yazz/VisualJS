@@ -1458,6 +1458,16 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
                                         });
 
+
+
+                                    if (isValidObject(options) && options.save_code_to_file) {
+                                        console.log("Saving to file: " + options.save_code_to_file)
+    		                            fs.writeFileSync( options.save_code_to_file,  code.toString() )
+                                    }
+
+
+
+
                                     if (isValidObject(options) && options.save_html) {
                                         //
                                         // create the static HTML file to link to on the web/intranet
