@@ -27,7 +27,7 @@ objects:
         spec:
           containers:
           - name: "pilot"
-            image: "yazzcorp/pilot:2.4"
+            image: "yazzcorp/pilot:2.5"
             ports:
             - containerPort: 3000
               protocol: "TCP"
