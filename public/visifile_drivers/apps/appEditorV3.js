@@ -1123,7 +1123,7 @@ load_once_from_file(true)
                 setTimeout(function(){
                     console.log("appClearIntervals()")
                     appClearIntervals()
-                },1300)
+                },2500)
             },
 
 
