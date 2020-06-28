@@ -1234,8 +1234,12 @@ load_once_from_file(true)
             }
             ,
             checkSavedFile: function() {
+                let mm = this
                 if (saveCodeToFile) {
                     this.file_save_state = "Saved " + saveCodeToFile
+                    setTimeout(function(){
+                        mm.file_save_state = ""
+                    },1000)
                 } else {
                     this.file_save_state = ""
                 }
@@ -1583,11 +1587,13 @@ load_once_from_file(true)
                         mm.info_text = message.text
                     } else if (message.type == "saving") {
                         mm.save_state = "saving"
+                        mm.file_save_state = ""
                     } else if (message.type == "pending") {
                         mm.save_state = "pending"
+                        mm.file_save_state = ""
                     } else if (message.type == "saved") {
                         mm.save_state = "saved"
-                        this.checkSavedFile()
+                        mm.checkSavedFile()
                     }
 
 
