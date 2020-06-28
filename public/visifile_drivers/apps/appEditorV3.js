@@ -266,15 +266,21 @@ load_once_from_file(true)
 
 
 
-                    <a   style='text-decoration:underline;cursor: pointer;flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
+                    <div  style='display: inline-block;'>
+                        <a   style='text-decoration:underline;cursor: pointer;flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
 
-                          v-on:click='var win = window.open(location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
+                              v-on:click='var win = window.open(location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
 
-                          v-if="code_shown && (!app_shown)">
+                              v-if="code_shown && (!app_shown)">
 
-                          {{location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"}}
-                    </a>
+                              {{location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"}}
+                        </a>
 
+
+                        <div>
+                        {{file_save_state}}
+                        </div>
+                    </div>
 
 
                 </div>
@@ -656,7 +662,7 @@ load_once_from_file(true)
        ,
        data: function() {
            return {
-
+               file_save_state:     "",
                info_text:           "",
                refresh:             0,
                editor_loaded:       false,
@@ -1227,6 +1233,13 @@ load_once_from_file(true)
                 this.mode = "embed"
             }
             ,
+            checkSavedFile: function() {
+                if (saveCodeToFile) {
+                    this.file_save_state = "Saved " + saveCodeToFile
+                } else {
+                    this.file_save_state = ""
+                }
+            },
 
             copyAppMethod: async function( appId , newAppId) {
                 var mm = this
@@ -1317,9 +1330,13 @@ load_once_from_file(true)
                 }
                 hideProgressBar()
                 this.save_state = "saved"
+                this.checkSavedFile()
+
             } catch (e) {
                 hideProgressBar()
                 this.save_state = "saved"
+                this.checkSavedFile()
+
             }
 
            },
@@ -1570,6 +1587,7 @@ load_once_from_file(true)
                         mm.save_state = "pending"
                     } else if (message.type == "saved") {
                         mm.save_state = "saved"
+                        this.checkSavedFile()
                     }
 
 
