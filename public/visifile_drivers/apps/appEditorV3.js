@@ -1114,6 +1114,10 @@ load_once_from_file(true)
                     this.timeline_editor.destroy()
                     this.timeline_editor = null
                 }
+                setTimeout(function(){
+                    console.log("appClearIntervals()")
+                    appClearIntervals()
+                },1300)
             },
 
 
