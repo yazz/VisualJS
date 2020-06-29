@@ -1330,7 +1330,9 @@ load_once_from_file(true)
                     this.is_server_app = false
                 }
                 if (!mm.is_server_app) {
-                    await mm.load_app( mm.base_component_id )
+                    if (this.app_shown) {
+                        await mm.load_app( mm.base_component_id )
+                    }
                 }
                 hideProgressBar()
                 this.save_state = "saved"
