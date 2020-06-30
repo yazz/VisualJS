@@ -18,7 +18,7 @@ module.exports = {
                 startIndexOfComment = code.toString().indexOf("/*")
             }
             code = code.toString().substring(0,startIndexOfComment + 3) +
-                            "" + st + "(" + JSON.stringify(vall,null,2) + endIndicator + "\n" +
+                            "" + st + "(" + JSON.stringify(vall,null,2).replace(new RegExp("\\*\\/", 'g'), "*\\/") + endIndicator + "\n" +
                             code.toString().substring(startIndexOfComment + 3)
 
         }
