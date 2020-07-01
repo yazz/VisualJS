@@ -9175,9 +9175,11 @@ function getDebugCode(blockName,  trcode2 , args) {
                                     //alert(`var ${node.declarations[0].id.name} = ${node.declarations[0].init.value}`)
                                     var varNameToUse = node.declarations[0].id.name
 
-                                    var newLine = "logVarBefore('" + blockName + "', " + node.loc.start.line +",'" +
-                                        varNameToUse + "', " + varNameToUse  + ");"
-                                    var newNode = esprima.parse(newLine)
+                                    if (node.kind == "var") {
+                                        var newLine = "logVarBefore('" + blockName + "', " + node.loc.start.line +",'" +
+                                            varNameToUse + "', " + varNameToUse  + ");"
+                                        var newNode = esprima.parse(newLine)
+                                    }
                                     varsToAdd[varNameToUse] = {}
 
                                     var newLineAfter = "logVarAfter('" + blockName + "', " + node.loc.start.line +",'" +
