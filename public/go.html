@@ -31,6 +31,8 @@
     var uiDebuggerOn = false
     var saveCodeToFile = null
 
+    var isWin = null
+
     var executionCode       = new Object()
     var currentTimelineLogPoint = 0
     var maxTimelineLogPoint = 0
@@ -8758,6 +8760,17 @@ function setupWebSocket(host, port)
 
 
 
+
+    // ----------------------------------------------------------------------------------------------
+    //
+    //
+    //
+    // ----------------------------------------------------------------------------------------------
+    socket.on('send_is_win',function(data) {
+        //console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
+
+        isWin = data.value
+    });
 
 
 

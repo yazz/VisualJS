@@ -2101,6 +2101,10 @@ function websocketFn(ws) {
                           type:   "network_ip_address_intranet",
                           value:   hostaddressintranet
                           });
+    sendOverWebSockets({
+                        type:   "send_is_win",
+                        value:   isWin
+                        });
 
     ws.on('message', function(msg) {
         var receivedMessage = eval("(" + msg + ")");
