@@ -529,6 +529,14 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
            let lastFolderIndex = null
            if (isWin) {
                lastFolderIndex = this.open_file_path.lastIndexOf("\\")
+
+               //
+               // if we have gone all the way up to c: then we may not find a
+               // final backslash (\) symbol
+               //
+               if (lastFolderIndex == -1) {
+                   lastFolderIndex = 2
+               }
            } else {
                lastFolderIndex = this.open_file_path.lastIndexOf("/")
            }
