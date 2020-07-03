@@ -527,14 +527,19 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             //alert(1)
            //document.getElementById("openfilefromhomepage").click();
            let lastFolderIndex = null
+           debugger
+
            if (isWin) {
                lastFolderIndex = this.open_file_path.lastIndexOf("\\")
+               if (lastFolderIndex == (this.open_file_path.length - 1)) {
+                   this.open_file_path = this.open_file_path.substring(0,this.open_file_path.length - 1)
+                   lastFolderIndex = this.open_file_path.lastIndexOf("\\")
+               }
 
                //
                // if we have gone all the way up to c: then we may not find a
                // final backslash (\) symbol
                //
-               debugger
                if (lastFolderIndex == -1) {
                    this.open_file_path = this.open_file_path.substring(0,2) + "\\"
 
