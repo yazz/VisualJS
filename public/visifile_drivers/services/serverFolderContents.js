@@ -10,7 +10,11 @@ console.log(JSON.stringify(args,null,2))
     var promise = new Promise(async function(returnfn) {
 
         var filterFileFn = function (file) {
-          return fs.statSync(args.path+'/'+file).isFile();
+            try {
+                return fs.statSync(args.path+'/'+file).isFile();
+            } catch (statErr) {
+                return true
+            }
         }
 
         var nert =  fs.readdirSync(args.path);
