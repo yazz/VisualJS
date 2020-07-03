@@ -527,7 +527,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             //alert(1)
            //document.getElementById("openfilefromhomepage").click();
            let lastFolderIndex = null
-           debugger
+           //debugger
 
            if (isWin) {
                lastFolderIndex = this.open_file_path.lastIndexOf("\\")
