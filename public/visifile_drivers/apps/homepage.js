@@ -545,7 +545,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
                } else {
-                   this.open_file_path = this.open_file_path.substring(0,lastFolderIndex) + "\\"
+                   this.open_file_path = this.open_file_path.substring(0,lastFolderIndex) 
                }
            } else {
                lastFolderIndex = this.open_file_path.lastIndexOf("/")
