@@ -483,7 +483,11 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             // if this is a folder
             //
             if (fileorFolder.type == "folder") {
-                this.open_file_path += "/" + fileorFolder.name
+                if (isWin) {
+                    this.open_file_path += "\\" + fileorFolder.name
+                } else {
+                    this.open_file_path += "/" + fileorFolder.name
+                }
                var result2 = await callFunction(
                                    {
                                        driver_name: "serverFolderContents",
@@ -502,6 +506,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           } else {
               this.showFilePicker=false
               this.open_file_name = this.open_file_path + "/" + fileorFolder.name
+
+
               //alert(this.open_file_name)
               saveCodeToFile = this.open_file_name
               //zzz
@@ -520,7 +526,13 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         chosenFolderUp:  async function() {
             //alert(1)
            //document.getElementById("openfilefromhomepage").click();
-           let lastFolderIndex = this.open_file_path.lastIndexOf("/")
+           let lastFolderIndex = null
+           if (isWin) {
+               lastFolderIndex = this.open_file_path.lastIndexOf("\\")
+           } else {
+               lastFolderIndex = this.open_file_path.lastIndexOf("/")
+           }
+
            this.open_file_path = this.open_file_path.substring(0,lastFolderIndex)
               var result2 = await callFunction(
                                   {
