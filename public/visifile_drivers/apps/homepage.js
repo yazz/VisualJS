@@ -535,13 +535,17 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                // final backslash (\) symbol
                //
                if (lastFolderIndex == -1) {
-                   lastFolderIndex = 2
+                   this.open_file_path = this.open_file_path.substring(0,2) + "\\"
+
+               } else {
+                   this.open_file_path = this.open_file_path.substring(0,lastFolderIndex)
                }
            } else {
                lastFolderIndex = this.open_file_path.lastIndexOf("/")
+               this.open_file_path = this.open_file_path.substring(0,lastFolderIndex)
            }
 
-           this.open_file_path = this.open_file_path.substring(0,lastFolderIndex)
+
               var result2 = await callFunction(
                                   {
                                       driver_name: "serverFolderContents",
