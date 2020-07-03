@@ -534,8 +534,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                // if we have gone all the way up to c: then we may not find a
                // final backslash (\) symbol
                //
+               debugger
                if (lastFolderIndex == -1) {
                    this.open_file_path = this.open_file_path.substring(0,2) + "\\"
+
 
                } else {
                    this.open_file_path = this.open_file_path.substring(0,lastFolderIndex)
