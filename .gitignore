@@ -40,6 +40,13 @@
 go/pkg
 
 
+
+!/docs/
+!/docs/*
+!/docs/*/*
+!/docs/*/*/*
+/docs/*/*.html
+
 !/cli/
 !/cli/*.js
 !/cli/*.json
