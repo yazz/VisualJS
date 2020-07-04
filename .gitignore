@@ -40,6 +40,9 @@
 go/pkg
 
 
+!/homebrew/
+!/homebrew/*
+
 
 !/docs/
 !/docs/*
