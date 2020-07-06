@@ -142,6 +142,7 @@ go/pkg
 !/public/*/*/*/*/*
 !/public/*/*/*/*/*/*
 !/public/*/*/*/*/*/*/*
+/public/*.zip
 
 /public/visifile/docs
 /public/visifile/docs/*
