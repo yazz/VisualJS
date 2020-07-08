@@ -11,6 +11,6 @@ LicenseUrl: https://github.com/zubairq/pilot/blob/master/LICENSE
 InstallerType: exe
 Installers:
   - Arch: x64
-    Url: http://yazz.com/visifile/bin/nsis-3.05-setup.exe
+    Url: https://yazz.com/visifile/bin/nsis-3.05-setup.exe
     Sha256: 1a3cc9401667547b9b9327a177b13485f7c59c2303d4b6183e7bc9e6c8d6bfdb
 ManifestVersion: 0.1.0
