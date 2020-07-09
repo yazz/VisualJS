@@ -1,5 +1,6 @@
-= Yazz Pilot
+= The Yazz Pilot Bible
 
 
 
-Welcome to yazz Pilot
+include::chapters/intro/welcome.adoc[leveloffset=+3]
+

@@ -168,6 +168,20 @@ go/pkg
 
 
 
+!/docs/
+!/docs/*
+!/docs/*/*
+!/docs/*/*/*
+!/docs/*/*/*/*
+!/docs/*/*/*/*/*
+!/docs/*/*/*/*/*/*
+
+/docs/*.html
+/docs/*/*.html
+/docs/*/*/*.html
+/docs/*/*/*/*.html
+/docs/*/*/*/*/*.html
+/docs/*/*/*/*/*/*.html
 
 
 
