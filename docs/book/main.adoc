@@ -1,6 +1,12 @@
 = The Yazz Pilot Bible
 
 
+include::preface.adoc[leveloffset=+3]
 
-include::chapters/intro/welcome.adoc[leveloffset=+3]
+== Chapter 1
 
+=== Introduction
+include::chapters/intro/introduction.adoc[leveloffset=+3]
+
+=== History
+include::chapters/intro/history.adoc[leveloffset=+3]
