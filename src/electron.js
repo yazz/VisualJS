@@ -328,7 +328,7 @@ if (process.argv.length > 1) {
       .option('-g, --cacert2 [cacert2]', 'Public HTTPS CA certificate 2 [cacert2]', null)
       .option('-h, --loadjsfile [loadjsfile]', 'Load the following JS from a file (default not set) [loadjsfile]', null)
       .option('-i, --cacert3 [cacert3]', 'Public HTTPS CA certificate 3 [cacert3]', null)
-      .option('-j, --host [host]', 'Server address of the central host (default yazz.com) [host]', 'yazz.com')
+      .option('-j, --host [host]', 'Server address of the central host (default yazz.com) [host]', 'appshare.co')
       .option('-k, --statsinterval [statsinterval]', 'Allow to show debug info every x seconds (default 10 seconds) [statsinterval]', 10)
       .option('-l, --showstats [showstats]', 'Allow to show stats debug info (default false) [showstats]', 'false')
       .option('-m, --showprogress [showprogress]', 'Allow to show progress when starting Pilot (default false) [showprogress]', 'false')
@@ -347,7 +347,7 @@ if (process.argv.length > 1) {
       .option('-z, --loadjscode [loadjscode]', 'Load the following JS from the command line (default not set) [loadjscode]', null)
       .parse(process.argv);
 } else {
-    program.host = 'yazz.com'
+    program.host = 'appshare.co'
     program.locked = 'true'
     program.debug = 'false'
     program.deleteonexit = 'true'
@@ -1935,7 +1935,7 @@ function getRoot(req, res, next) {
 	//console.log("Full URL: " + req.protocol + '://' + req.get('host') + req.originalUrl);
 
     var homepage = path.join(__dirname, '../public/go.html')
-    var homepageUrl = serverProtocol + '://yazz.com/visifile/index.html?time=' + new Date().getTime()
+    var homepageUrl = serverProtocol + '://appshare.co/visifile/index.html?time=' + new Date().getTime()
 	if (req.headers.host) {
         if (req.query.goto) {
             outputDebug("*** FOUND goto")
