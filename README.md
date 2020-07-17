@@ -5,9 +5,9 @@
 ## Low-code development for OpenShift
 Yazz Pilot is a Low-code development tool for OpenShift. It can connect to 3Scale, Rest APIs, Postgres, and other stuff. JavaScript is used for scripting events and writing code. There is a demo which works on desktop web browsers here:
 
-Demo: https://yazz.com/app/homepage.html
+Demo: https://appshare.co/app/homepage.html
 <br/><br/>
-Link to PDF docs: https://yazz.com/visifile/docs/yazz_march_2020.pdf
+Link to PDF docs: https://appshare.co/visifile/docs/yazz_march_2020.pdf
 <br/><br/>
 Link to Hacker News Post: https://news.ycombinator.com/item?id=21734845
 <br/><br/><br/>
@@ -212,7 +212,7 @@ Yazz breaks down all problems into single function components. A component can c
 
 
 ### Is Yazz Production ready?
-Yes, Yazz Pilot is production ready. Yazz.com itself runs on Yazz
+Yes, Yazz Pilot is production ready. AppShare itself runs on Yazz
 
 
 
@@ -283,7 +283,7 @@ When we say Self Service we mean that Yazz can be used by people who are not Pro
 
 
 ### Is there commercial support for Pilot?
-If you require commercial support then please go to https://yazz.com
+If you require commercial support then please go to https://appshare.co
 
 
 

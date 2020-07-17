@@ -1,16 +1,16 @@
-Id: yazz.pilot
-Publisher: Yazz
-Name: Yazz Pilot
+Id: appshare
+Publisher: AppShare
+Name: AppShare
 Version: 2.8
 AppMoniker: pilot
 MinOSVersion: 10.0.0.0
 Description: Quick UI Builder
-Homepage: https://yazz.com/
+Homepage: https://appshare.co/
 License: MIT
-LicenseUrl: https://github.com/zubairq/pilot/blob/master/LICENSE
+LicenseUrl: https://github.com/zubairq/appshare/blob/master/LICENSE
 InstallerType: exe
 Installers:
   - Arch: x64
-    Url: https://yazz.com/visifile/bin/nsis-3.05-setup.exe
+    Url: https://appshare.co/visifile/bin/nsis-3.05-setup.exe
     Sha256: 1a3cc9401667547b9b9327a177b13485f7c59c2303d4b6183e7bc9e6c8d6bfdb
 ManifestVersion: 0.1.0

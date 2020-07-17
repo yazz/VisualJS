@@ -2,7 +2,7 @@ require "language/node"
 
 class Pilot < Formula
   desc "The flexible, powerful and beautiful programming language"
-  homepage "https://yazz.com"
+  homepage "https://appshare.co"
   url "http://0.0.0.0/yazz.zip"
   sha256 ""
 
