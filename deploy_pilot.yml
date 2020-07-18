@@ -27,7 +27,7 @@ objects:
         spec:
           containers:
           - name: "pilot"
-            image: "appshareco/appshare:3.0"
+            image: "appshareco/appshare:3.1"
             ports:
             - containerPort: 3000
               protocol: "TCP"
