@@ -2,7 +2,7 @@ Id: appshare
 Publisher: AppShare
 Name: AppShare
 Version: 2.8
-AppMoniker: pilot
+AppMoniker: appshare
 MinOSVersion: 10.0.0.0
 Description: Quick UI Builder
 Homepage: https://appshare.co/

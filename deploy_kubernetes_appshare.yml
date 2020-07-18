@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pilot-deployment
+  name: appshare-deployment
   labels:
-    app: pilot
+    app: appshare
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: pilot
+      app: appshare
   template:
     metadata:
       labels:
-        app: pilot
+        app: appshare
     spec:
       containers:
-      - name: pilot
+      - name: appshare
         image: appshareco/appshare:3.1
         ports:
         - containerPort: 3000
@@ -24,8 +24,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: pilot
-  name: pilot-deployment
+    app: appshare
+  name: appshare-deployment
 spec:
   externalTrafficPolicy: Cluster
   ports:
@@ -33,7 +33,7 @@ spec:
     port: 3000
     protocol: TCP
   selector:
-    app: pilot
+    app: appshare
   sessionAffinity: None
   type: LoadBalancer
 status:
