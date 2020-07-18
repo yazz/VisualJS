@@ -749,7 +749,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
     //------------------------------------------------------------------------------
     //
-    // This is the last thing that happens when Yazz Pilot is started
+    // This is the last thing that happens when AppShare is started
     //
     //
     //
@@ -1360,8 +1360,8 @@ function getPort () {
 //
 //                                          checkForJSLoaded
 //
-// This checks to see if Yazz Pilot is started with custom code. This code is
-// then loaded into Yazz Pilot either as a web app or it is run as a UI app
+// This checks to see if AppShare is started with custom code. This code is
+// then loaded into AppShare either as a web app or it is run as a UI app
 //
 //
 //
@@ -1566,8 +1566,8 @@ async function checkForJSLoaded() {
 //
 //                                          checkForJSLoaded
 //
-// This checks to see if Yazz Pilot is started with custom code. This code is
-// then loaded into Yazz Pilot either as a web app or it is run as a UI app
+// This checks to see if AppShare is started with custom code. This code is
+// then loaded into AppShare either as a web app or it is run as a UI app
 //
 //
 //
@@ -2907,47 +2907,22 @@ async function finalizeYazzLoading() {
 
     if (!isCodeTtyCode) {
         console.log(`
-
-YYYYYYY       YYYYYYY
-Y:::::Y       Y:::::Y
-Y:::::Y       Y:::::Y
-Y::::::Y     Y::::::Y
-YYY:::::Y   Y:::::YYY  aaaaaaaaaaaaa   zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
-Y:::::Y Y:::::Y     a::::::::::::a  z:::::::::::::::zz:::::::::::::::z
-Y:::::Y:::::Y      aaaaaaaaa:::::a z::::::::::::::z z::::::::::::::z
-Y:::::::::Y                a::::a zzzzzzzz::::::z  zzzzzzzz::::::z
-Y:::::::Y          aaaaaaa:::::a       z::::::z         z::::::z
-Y:::::Y         aa::::::::::::a      z::::::z         z::::::z
-Y:::::Y        a::::aaaa::::::a     z::::::z         z::::::z
-Y:::::Y       a::::a    a:::::a    z::::::z         z::::::z
-Y:::::Y       a::::a    a:::::a   z::::::zzzzzzzz  z::::::zzzzzzzz
-YYYY:::::YYYY    a:::::aaaa::::::a  z::::::::::::::z z::::::::::::::z
-Y:::::::::::Y     a::::::::::aa:::az:::::::::::::::zz:::::::::::::::z
-YYYYYYYYYYYYY      aaaaaaaaaa  aaaazzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
-
-
-
-PPPPPPPPPPPPPPPPP     iiii  lllllll                           tttt
-P::::::::::::::::P   i::::i l:::::l                        ttt:::t
-P::::::PPPPPP:::::P   iiii  l:::::l                        t:::::t
-PP:::::P     P:::::P        l:::::l                        t:::::t
-P::::P     P:::::Piiiiiii  l::::l    ooooooooooo   ttttttt:::::ttttttt
-P::::P     P:::::Pi:::::i  l::::l  oo:::::::::::oo t:::::::::::::::::t
-P::::PPPPPP:::::P  i::::i  l::::l o:::::::::::::::ot:::::::::::::::::t
-P:::::::::::::PP   i::::i  l::::l o:::::ooooo:::::otttttt:::::::tttttt
-P::::PPPPPPPPP     i::::i  l::::l o::::o     o::::o      t:::::t
-P::::P             i::::i  l::::l o::::o     o::::o      t:::::t
-P::::P             i::::i  l::::l o::::o     o::::o      t:::::t
-P::::P             i::::i  l::::l o::::o     o::::o      t:::::t    tttttt
-PP::::::PP          i::::::il::::::lo:::::ooooo:::::o      t::::::tttt:::::t
-P::::::::P          i::::::il::::::lo:::::::::::::::o      tt::::::::::::::t
-P::::::::P          i::::::il::::::l oo:::::::::::oo         tt:::::::::::tt
-PPPPPPPPPP          iiiiiiiillllllll   ooooooooooo             ttttttttttt
+          d8888                    .d8888b.  888
+         d88888                   d88P  Y88b 888
+        d88P888                   Y88b.      888
+       d88P 888 88888b.  88888b.   "Y888b.   88888b.   8888b.  888d888 .d88b.
+      d88P  888 888 "88b 888 "88b     "Y88b. 888 "88b     "88b 888P"  d8P  Y8b
+     d88P   888 888  888 888  888       "888 888  888 .d888888 888    88888888
+    d8888888888 888 d88P 888 d88P Y88b  d88P 888  888 888  888 888    Y8b.
+   d88P     888 88888P"  88888P"   "Y8888P"  888  888 "Y888888 888     "Y8888
+                888      888
+                888      888
+                888      888
 `)
 
-console.log("\nYazz Pilot Instance ID: " + yazzInstanceId );
+console.log("\nAppShare Instance ID: " + yazzInstanceId );
 console.log("\nRunning " + executionProcessCount + " virtual processors");
-console.log("\nYazz Pilot started on:");
+console.log("\nAppShare started on:");
 console.log("Network Host Address: " + hostaddressintranet)
 console.log("Local Machine Address: " + serverProtocol + "://" + hostaddress + ':' + port);
 } else {
