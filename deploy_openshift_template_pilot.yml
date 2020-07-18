@@ -1,14 +1,14 @@
 apiVersion: template.openshift.io/v1
 kind: Template
-message: Installing Kubernetes Pilot
+message: Installing Kubernetes AppShare
 metadata:
   annotations:
-    description: Pilot Installer 5
-    openshift.io/display-name: Pilot Installer 5
-    openshift.io/provider-display-name: Pilot
+    description: AppShare Installer 5
+    openshift.io/display-name: AppShare Installer 5
+    openshift.io/provider-display-name: AppShare
     tags: integration, api management, javascript
   creationTimestamp: null
-  name: pilot-installer-5
+  name: appshare-installer-5
 
 
 
@@ -17,15 +17,15 @@ objects:
   - apiVersion: "v1"
     kind: "DeploymentConfig"
     metadata:
-      name: "pilot"
+      name: "appshare"
     spec:
       template:
         metadata:
           labels:
-            name: "pilot"
+            name: "appshare"
         spec:
           containers:
-          - name: "pilot"
+          - name: "appshare"
             image: "appshareco/appshare:3.1"
             ports:
             - containerPort: 3000
@@ -57,31 +57,31 @@ objects:
                 memory:	512Mi
       replicas: 1
       selector:
-        name: "pilot"
+        name: "appshare"
 
 
 
   - apiVersion: v1
     kind: Service
     metadata:
-      name: pilot
+      name: appshare
     spec:
       ports:
         - port: 3000
           protocol: TCP
           targetPort: 3000
       selector:
-        deploymentconfig: pilot
+        deploymentconfig: appshare
 
 
 
   - apiVersion: v1
     kind: Route
     metadata:
-        name: pilot-route
+        name: appshare-route
     spec:
       to:
         kind: Service
-        name: pilot
+        name: appshare
     labels:
-      app: pilot
+      app: appshare

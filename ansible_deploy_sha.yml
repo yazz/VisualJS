@@ -18,7 +18,7 @@
 
     - name: install the latest version of Yazz
       git:
-        repo: 'https://github.com/zubairq/pilot.git'
+        repo: 'https://github.com/zubairq/appshare.git'
         dest: /root/visifile
         version: "{{ sha }}"
 
