@@ -331,7 +331,7 @@ if (process.argv.length > 1) {
       .option('-j, --host [host]', 'Server address of the central host (default appshare.co) [host]', 'appshare.co')
       .option('-k, --statsinterval [statsinterval]', 'Allow to show debug info every x seconds (default 10 seconds) [statsinterval]', 10)
       .option('-l, --showstats [showstats]', 'Allow to show stats debug info (default false) [showstats]', 'false')
-      .option('-m, --showprogress [showprogress]', 'Allow to show progress when starting Pilot (default false) [showprogress]', 'false')
+      .option('-m, --showprogress [showprogress]', 'Allow to show progress when starting AppShare (default false) [showprogress]', 'false')
       .option('-n, --locked [locked]', 'Allow server to be locked/unlocked on start up (default true) [locked]', 'true')
       .option('-o, --maxprocessesretry [maxprocessesretry]', 'Number of processes to retry when all cores are busy (default 10 processes) [maxprocessesretry]', 10)
       .option('-p, --maxJobProcessDurationMs [maxJobProcessDurationMs]', 'Maximum time to wait for a job to complete (default 10000 ms) [maxJobProcessDurationMs]', 10000)
@@ -2394,7 +2394,7 @@ function file_uploadSingleFn(req, res) {
                                                 sqlite_data:            sqlitedatafromupload
                                            });
           }
-      } else if ((ext == "js") || (ext == "yazz") || (ext == "pilot"))  {
+      } else if ((ext == "js") || (ext == "yazz") || (ext == "pilot") || (ext == "appshare"))  {
               var localp2;
               localp2 =  path.join(userData,  'uploads/' + ifile.filename);
               var localp = localp2 + '.' + ext;
@@ -2498,7 +2498,7 @@ function file_uploadFn(req, res, next) {
                                                     sqlite_data:            sqlitedatafromupload
                                                });
               }
-          } else if ((ext == "js") || (ext == "yazz") || (ext == "pilot"))  {
+          } else if ((ext == "js") || (ext == "yazz") || (ext == "pilot") || (ext == "appshare"))  {
                   var localp2;
                   localp2 =  path.join(userData,  'uploads/' + ifile.filename);
                   var localp = localp2 + '.' + ext;
