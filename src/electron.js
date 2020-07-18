@@ -1393,7 +1393,7 @@ async function checkForJSLoaded() {
                 }
             }
 
-        } else if ((process.argv[2]) && (process.argv[2].endsWith(".js") || process.argv[2].endsWith(".pilot") )) {
+        } else if ((process.argv[2]) && (process.argv[2].endsWith(".js") || process.argv[2].endsWith(".pilot") || process.argv[2].endsWith(".appshare") )) {
             loadjsfile = process.argv[2]
             if ((!inputStdin) || (inputStdin.length == 0)) {
                 if ((process.argv[3]) && (!process.argv[3].startsWith("--"))) {
@@ -1593,7 +1593,7 @@ async function isTtyCode() {
         if ((process.argv[2]) && (process.argv[2].startsWith("http://") || process.argv[2].startsWith("https://") )) {
             loadjsurl = process.argv[2]
 
-        } else if ((process.argv[2]) && (process.argv[2].endsWith(".js") || process.argv[2].endsWith(".pilot") )) {
+        } else if ((process.argv[2]) && (process.argv[2].endsWith(".js") || process.argv[2].endsWith(".pilot") || process.argv[2].endsWith(".appshare") )) {
             loadjsfile = process.argv[2]
 
         } else if ((process.argv[2]) && (!process.argv[2].startsWith("--"))) {
