@@ -5,6 +5,8 @@ let dbFileName = process.argv[2]
 
 console.log("importing MDB: " + dbFileName )
 
+var offset = 0
+var tempoffset
 
 
 var stats = fs.statSync(dbFileName)
@@ -74,10 +76,25 @@ function find(offset, length , typeob) {
 
 
 
+function getVar(params) {
+    if (params.useJetVersion) {
+        if (headerJetVersion != params.useJetVersion) {
+            console.log("Skipping " + params.name)
+            return null
+        }
+    }
+    let retvalue = find(tempoffset , params.length, params.type)
+    show(params.name, retvalue, params.showas)
+    tempoffset = tempoffset + params.length
+    return retvalue
+}
 
 
 
-let offset = 0
+
+
+
+
 console.log("")
 console.log("")
 console.log("")
@@ -122,7 +139,6 @@ let headerJetVersion = 4
 
 
 
-let tempoffset = offset + 0x14 + 4
 console.log("")
 console.log("")
 console.log("")
@@ -130,6 +146,7 @@ console.log("-------------------------------------------------------------------
 console.log("------                                       HEADER  EXTRA                                            ----------")
 console.log("----------------------------------------------------------------------------------------------------------------")
 
+tempoffset = offset + 0x14 + 4
 if (headerJetVersion == 3) {
 
     let SystemCollation = find(tempoffset + 0x22, 2)
@@ -190,8 +207,59 @@ tempoffset = tempoffset + 12
 let Autonumber = find(tempoffset, 4, "number")
 show("Autonumber", Autonumber)
 
-if (headerJetVersion == 4) {
-    tempoffset = tempoffset + 4
-    let AutonumberIncrement = find(tempoffset , 4, "number")
-    show("Autonumber Increment", AutonumberIncrement)
-}
+
+
+tempoffset = tempoffset + 4
+
+let AutonumberIncrement = getVar({
+    useJetVersion: 4,
+    length: 4,
+    name: "Autonumber Increment",
+    type: "number"
+})
+
+
+getVar({
+    useJetVersion: 4,
+    length: 4,
+    name: "Complex Autonumber",
+    showas: "number"
+})
+
+getVar({
+    useJetVersion: 4,
+    length: 4,
+    name: "Unknown"
+})
+
+getVar({
+    useJetVersion: 4,
+    length: 4,
+    name: "Unknown"
+})
+
+getVar({
+    length: 1,
+    name: "Table Type / Flags?",
+    type: "number",
+    showas: "number"
+})
+
+
+
+
+
+
+
+console.log("")
+console.log("")
+console.log("")
+console.log("")
+console.log("")
+console.log("")
+console.log("")
+console.log("")
+console.log("")
+console.log("")
+console.log("")
+console.log("")
