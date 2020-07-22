@@ -84,7 +84,10 @@ function getVar(params) {
         }
     }
     let retvalue = find(tempoffset , params.length, params.type)
-    show(params.name, retvalue, params.showas)
+    if (params.show) {
+        show(params.name, retvalue, params.showas)
+
+    }
     tempoffset = tempoffset + params.length
     return retvalue
 }
@@ -259,7 +262,7 @@ getVar({
 })
 
 
-getVar({
+let colCount = getVar({
     length: 2,
     name: "Column Count",
     type: "number"
@@ -271,7 +274,7 @@ getVar({
     name: "Index Count",
     type: "number"
 })
-getVar({
+let RealIndexCount = getVar({
     length: 4,
     name: "Real Index Count",
     type: "number"
@@ -289,6 +292,102 @@ getVar({
     type: "number"
 })
 
+//skip indexes
+tempoffset = tempoffset + (12 * RealIndexCount)
+
+
+for (var x=0; x< colCount; x++) {
+    getVar({
+        length: 1,
+        name: "col Type",
+        type: "number"
+        ,
+        show: false
+    })
+    getVar({
+        useJetVersion: 4,
+        length: 4,
+        name: "Unknown"
+        ,
+        show: false
+    })
+    getVar({
+        length: 2,
+        name: "Col ID",
+        type: "number"
+        ,
+        show: true
+    })
+    getVar({
+        length: 2,
+        name: "Variable Column Number",
+        type: "number"
+        ,
+        show: false
+    })
+    getVar({
+        length: 2,
+        name: "Column Index",
+        type: "number"
+        ,
+        show: false
+    })
+    getVar({
+        useJetVersion: 4,
+        length: 4,
+        name: "Various"
+        ,
+        show: false
+        //showas: "hex"
+    })
+    getVar({
+        useJetVersion: 4,
+        length: 2,
+        name: "Col Flags"
+        ,
+        show: false
+        //showas: "hex"
+    })
+    getVar({
+        useJetVersion: 4,
+        length: 4,
+        name: "Unknown"
+        ,
+        show: false
+    })
+    getVar({
+        length: 2,
+        name: "Fixed offset",
+        type: "number"
+        ,
+        show: false
+    })
+    getVar({
+        length: 2,
+        name: "Length",
+        type: "number"
+        ,
+        show: false
+    })
+}
+for (var x=0; x< colCount; x++) {
+    getVar({
+        length: 2,
+        name: "col length",
+        type: "number"
+        ,
+        show: true
+    })
+}
+for (var x=0; x< RealIndexCount; x++) {
+    getVar({
+        length: 4,
+        name: "unknown",
+        type: "number"
+        ,
+        show: true
+    })
+}
 
 
 console.log("")
