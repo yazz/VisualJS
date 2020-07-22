@@ -409,7 +409,7 @@ for (var x=0; x< indexCount; x++) {
         show: false
     })
 }
-indexCount
+
 for (var x=0; x< indexCount; x++) {
     let colLen = getVar({
         length: 2,
@@ -425,6 +425,59 @@ for (var x=0; x< indexCount; x++) {
         show: true
     })
 }
+
+
+
+console.log("")
+console.log("")
+console.log("")
+console.log("")
+console.log("")
+console.log("")
+console.log("")
+
+
+
+let col_num = getVar({
+    length: 2,
+    name: "col_num",
+    type: "number"
+    , show: true
+})
+let used_pages = getVar({
+    length: 4,
+    name: "used_pages",
+    type: "number"
+    , show: true
+})
+let free_pages = getVar({
+    length: 4,
+    name: "free_pages",
+    type: "number"
+    , show: true
+})
+ while (col_num != 0xffff  ) {
+      col_num = getVar({
+         length: 2,
+         name: "col_num",
+         type: "number"
+         , show: true
+     })
+      used_pages = getVar({
+         length: 4,
+         name: "used_pages",
+         type: "number"
+         , show: true
+     })
+      free_pages = getVar({
+         length: 4,
+         name: "free_pages",
+         type: "number"
+         , show: true
+     })
+ }
+
+
 
 
 
