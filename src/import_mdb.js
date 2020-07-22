@@ -172,13 +172,16 @@ if (headerJetVersion == 3) {
 
 
 
-for (var tt=0;tt<20;tt++){
+for (var tt=0;tt<50;tt++){
 let PageSignature = find(offset + 0, 2, "number")
 while (PageSignature != 0x102) {
     if (headerJetVersion == 3) {
         offset = offset + 2048
     } else if (headerJetVersion == 4) {
         offset = offset + 4096
+        if (offset > fileSizeInBytes) {
+            process.exit()
+        }
     } else {
         //offset = offset + 2048
     }
