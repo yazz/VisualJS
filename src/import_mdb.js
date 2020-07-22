@@ -97,6 +97,7 @@ console.log("")
 console.log("")
 console.log("----------------------------------------------------------------------------------------------------------------")
 console.log("------                                            HEADER                                              ----------")
+console.log("------                                            offset: " + offset + "                               ")
 console.log("----------------------------------------------------------------------------------------------------------------")
 
 let headerMagicNumber = find(offset + 0, 4)
@@ -118,7 +119,7 @@ show("jetVersion", headerJetVersion)
 
 
 
-offset = offset + 0x14 + 4
+let tempoffset = offset + 0x14 + 4
 console.log("")
 console.log("")
 console.log("")
@@ -128,7 +129,7 @@ console.log("-------------------------------------------------------------------
 
 if (headerJetVersion == 3) {
 
-    let SystemCollation = find(offset + 0x22, 2)
+    let SystemCollation = find(tempoffset + 0x22, 2)
     show("System Collation", SystemCollation, "number")
 
 }
@@ -138,15 +139,31 @@ if (headerJetVersion == 3) {
 
 
 
-
 if (headerJetVersion == 3) {
-    offset = offset + 126
+    offset = offset + 2048
 } else if (headerJetVersion == 4) {
-    offset = offset + 128
+    offset = offset + 4096
+} else {
+    offset = offset + 2048
 }
 console.log("")
 console.log("")
 console.log("")
 console.log("----------------------------------------------------------------------------------------------------------------")
-console.log("------                                    TABLE DEFNS                                                 ----------")
+console.log("------                                    TABLE DEFNS PAGE HEADER                                     ----------")
+console.log("------                                    offset: " + offset + "                               ")
+console.log("----------------------------------------------------------------------------------------------------------------")
+let PageSignature = find(offset + 0, 2, "number")
+show("Page Signature", PageSignature)
+
+
+
+
+
+offset = offset + 8
+console.log("")
+console.log("")
+console.log("")
+console.log("----------------------------------------------------------------------------------------------------------------")
+console.log("------                                    TABLE DEFNS DATA                                            ----------")
 console.log("----------------------------------------------------------------------------------------------------------------")
