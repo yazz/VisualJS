@@ -173,10 +173,12 @@ show("Page Signature", PageSignature, "hex")
 
 
 
-offset = offset + 8
+tempoffset = offset + 8
 console.log("")
 console.log("")
 console.log("")
 console.log("----------------------------------------------------------------------------------------------------------------")
 console.log("------                                    TABLE DEFNS DATA                                            ----------")
 console.log("----------------------------------------------------------------------------------------------------------------")
+let TableDefinitionLength = find(tempoffset, 4, "number")
+show("Table Definition Length", TableDefinitionLength)
