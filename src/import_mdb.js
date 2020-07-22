@@ -182,3 +182,6 @@ console.log("------                                    TABLE DEFNS DATA         
 console.log("----------------------------------------------------------------------------------------------------------------")
 let TableDefinitionLength = find(tempoffset, 4, "number")
 show("Table Definition Length", TableDefinitionLength)
+
+let Numberofrows = find(tempoffset + 8, 4, "number")
+show("Number of rows", Numberofrows)
