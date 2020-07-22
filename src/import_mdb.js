@@ -113,10 +113,10 @@ let headerFileFormatID = find(offset + 4, 16)
 show("file format ID", headerFileFormatID)
 
 
-let headerJetVersion = find(offset + 0x14, 4, "number")
-show("jetVersion", headerJetVersion)
+let headerJetFileVersion = find(offset + 0x14, 4, "number")
+show("headerJetFileVersion", headerJetFileVersion)
 
-
+let headerJetVersion = 4
 
 
 
@@ -149,6 +149,17 @@ if (headerJetVersion == 3) {
 } else {
     //offset = offset + 2048
 }
+let PageSignature = find(offset + 0, 2, "number")
+while (PageSignature != 0x102) {
+    if (headerJetVersion == 3) {
+        offset = offset + 2048
+    } else if (headerJetVersion == 4) {
+        offset = offset + 4096
+    } else {
+        //offset = offset + 2048
+    }
+    PageSignature = find(offset + 0, 2, "number")
+}
 console.log("")
 console.log("")
 console.log("")
@@ -156,8 +167,7 @@ console.log("-------------------------------------------------------------------
 console.log("------                                    TABLE DEFNS PAGE HEADER                                     ----------")
 console.log("------                                    offset: " + offset + "                               ")
 console.log("----------------------------------------------------------------------------------------------------------------")
-let PageSignature = find(offset + 0, 2, "number")
-show("Page Signature", PageSignature)
+show("Page Signature", PageSignature, "hex")
 
 
 
