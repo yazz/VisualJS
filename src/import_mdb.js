@@ -241,12 +241,22 @@ getVar({
 getVar({
     length: 1,
     name: "Table Type / Flags?",
-    type: "number",
-    showas: "number"
+    type: "number"
 })
 
 
+getVar({
+    length: 2,
+    name: "Next Column Id",
+    type: "number"
+})
 
+
+getVar({
+    length: 2,
+    name: "Variable columns",
+    type: "number"
+})
 
 
 
