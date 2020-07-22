@@ -185,3 +185,13 @@ show("Table Definition Length", TableDefinitionLength)
 
 let Numberofrows = find(tempoffset + 8, 4, "number")
 show("Number of rows", Numberofrows)
+
+tempoffset = tempoffset + 12
+let Autonumber = find(tempoffset, 4, "number")
+show("Autonumber", Autonumber)
+
+if (headerJetVersion == 4) {
+    tempoffset = tempoffset + 4
+    let AutonumberIncrement = find(tempoffset , 4, "number")
+    show("Autonumber Increment", AutonumberIncrement)
+}
