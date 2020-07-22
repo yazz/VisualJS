@@ -254,7 +254,9 @@ getVar({
 getVar({
     length: 1,
     name: "Table Type / Flags?",
-    type: "number"
+    type: "number",
+    showas: "hex",
+    show: true
 })
 
 
