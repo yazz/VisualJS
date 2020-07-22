@@ -72,11 +72,29 @@ function find(offset, length ) {
 
 
 
+console.log("")
+console.log("")
+console.log("")
+console.log("")
+console.log("")
+console.log("")
+console.log("")
+console.log("")
+console.log("")
+console.log("")
+console.log("")
+console.log("")
+console.log("----------------------------------------------------------------------------------------------------------------")
+console.log("---------------                              " + dbFileName)
+console.log("----------------------------------------------------------------------------------------------------------------")
 
-console.log("----------------------------------------------------------------------------------------------------------------")
-console.log("----------------------------------------------------------------------------------------------------------------")
-console.log("----------------------------------------------------------------------------------------------------------------")
 
+console.log("")
+console.log("")
+console.log("")
+console.log("----------------------------------------------------------------------------------------------------------------")
+console.log("------                                            HEADER                                              ----------")
+console.log("----------------------------------------------------------------------------------------------------------------")
 
 let headerMagicNumber = find(0, 4)
 show("magic number", headerMagicNumber, "number")
@@ -84,9 +102,19 @@ show("magic number", headerMagicNumber, "number")
 
 
 
-let fileFormatID = find(4, 16)
-show("file format ID", fileFormatID)
+let headerFileFormatID = find(4, 16)
+show("file format ID", headerFileFormatID)
 
 
-let jetVersion = find(0x14, 4)
-show("jetVersion", jetVersion, "number")
+let headerJetVersion = find(0x14, 4)
+show("jetVersion", headerJetVersion, "number")
+
+
+
+
+console.log("")
+console.log("")
+console.log("")
+console.log("----------------------------------------------------------------------------------------------------------------")
+console.log("------                                       HEADER  EXTRA                                            ----------")
+console.log("----------------------------------------------------------------------------------------------------------------")
