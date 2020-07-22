@@ -316,7 +316,7 @@ for (var x=0; x< colCount; x++) {
         name: "Col ID",
         type: "number"
         ,
-        show: true
+        show: false
     })
     getVar({
         length: 2,
@@ -371,10 +371,16 @@ for (var x=0; x< colCount; x++) {
     })
 }
 for (var x=0; x< colCount; x++) {
-    getVar({
+    let colLen = getVar({
         length: 2,
         name: "col length",
         type: "number"
+        ,
+        show: false
+    })
+    getVar({
+        length: colLen,
+        name: "col name"
         ,
         show: true
     })
