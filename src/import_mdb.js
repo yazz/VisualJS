@@ -259,6 +259,36 @@ getVar({
 })
 
 
+getVar({
+    length: 2,
+    name: "Column Count",
+    type: "number"
+})
+
+
+getVar({
+    length: 4,
+    name: "Index Count",
+    type: "number"
+})
+getVar({
+    length: 4,
+    name: "Real Index Count",
+    type: "number"
+})
+
+getVar({
+    length: 4,
+    name: "Row Page Map",
+    type: "number"
+})
+
+getVar({
+    length: 4,
+    name: "Free Space Page Map",
+    type: "number"
+})
+
 
 
 console.log("")
