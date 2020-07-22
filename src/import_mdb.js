@@ -269,7 +269,7 @@ let colCount = getVar({
 })
 
 
-getVar({
+let indexCount = getVar({
     length: 4,
     name: "Index Count",
     type: "number"
@@ -400,6 +400,32 @@ for (var x=0; x< RealIndexCount; x++) {
         show: false
     })
 }
+for (var x=0; x< indexCount; x++) {
+
+    getVar({
+        length: 28,
+        name: "unknown"
+        ,
+        show: false
+    })
+}
+indexCount
+for (var x=0; x< indexCount; x++) {
+    let colLen = getVar({
+        length: 2,
+        name: "index length",
+        type: "number"
+        ,
+        show: false
+    })
+    getVar({
+        length: colLen,
+        name: "index name"
+        ,
+        show: true
+    })
+}
+
 
 
 console.log("")
