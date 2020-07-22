@@ -169,6 +169,10 @@ if (headerJetVersion == 3) {
 } else {
     //offset = offset + 2048
 }
+
+
+
+for (var tt=0;tt<20;tt++){
 let PageSignature = find(offset + 0, 2, "number")
 while (PageSignature != 0x102) {
     if (headerJetVersion == 3) {
@@ -194,6 +198,9 @@ show("Page Signature", PageSignature, "hex")
 
 
 tempoffset = offset + 8
+
+
+
 console.log("")
 console.log("")
 console.log("")
@@ -476,7 +483,8 @@ let free_pages = getVar({
          , show: true
      })
  }
-
+ offset = offset +  4096
+}
 
 
 
