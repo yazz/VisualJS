@@ -55,6 +55,9 @@ function show(title, value, typeshow ) {
     } else if (typeshow == "integer") {
         console.log(title + ": " + intFromBytes(value))
 
+    } else if (typeshow == "hex") {
+        console.log(title + ": 0x" + value.toString(16))
+
     } else {
         console.log(title + ": " + value)
 
@@ -100,8 +103,8 @@ console.log("------                                            HEADER           
 console.log("------                                            offset: " + offset + "                               ")
 console.log("----------------------------------------------------------------------------------------------------------------")
 
-let headerMagicNumber = find(offset + 0, 4)
-show("magic number", headerMagicNumber, "number")
+let headerMagicNumber = find(offset + 0, 4, "number")
+show("magic number", headerMagicNumber, "hex")
 
 
 
@@ -144,7 +147,7 @@ if (headerJetVersion == 3) {
 } else if (headerJetVersion == 4) {
     offset = offset + 4096
 } else {
-    offset = offset + 2048
+    //offset = offset + 2048
 }
 console.log("")
 console.log("")
