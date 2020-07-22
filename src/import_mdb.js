@@ -132,3 +132,21 @@ if (headerJetVersion == 3) {
     show("System Collation", SystemCollation, "number")
 
 }
+
+
+
+
+
+
+
+if (headerJetVersion == 3) {
+    offset = offset + 126
+} else if (headerJetVersion == 4) {
+    offset = offset + 128
+}
+console.log("")
+console.log("")
+console.log("")
+console.log("----------------------------------------------------------------------------------------------------------------")
+console.log("------                                    TABLE DEFNS                                                 ----------")
+console.log("----------------------------------------------------------------------------------------------------------------")
