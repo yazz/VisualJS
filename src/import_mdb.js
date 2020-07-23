@@ -311,14 +311,16 @@ getVar({
 getVar({
     length: 2,
     name: "Variable columns",
-    type: "number"
+    type: "number",
+    show: true
 })
 
 
 let colCount = getVar({
     length: 2,
     name: "Column Count",
-    type: "number"
+    type: "number",
+    show: true
 })
 
 
@@ -460,20 +462,14 @@ for (var x=0; x< colCount; x++) {
       return result;
     }
 
-    console.log("colname: " + colname)
-    console.log("columns[" + x + "]: " + columns[x])
+    //console.log("colname: " + colname)
+    //console.log("columns[" + x + "]: " + columns[x])
     columnNames[colname] = columns[x]
     columnNames[colname].length = colLen
 }
 
 
 
-let listOfColNames = Object.keys(columnNames)
-console.log("listOfColNames: " + listOfColNames)
-for (var x=0; x < listOfColNames.length; x++) {
-    let colName = listOfColNames[x]
-    console.log(colName + ": " + JSON.stringify(columnNames[colName]))
-}
 
 
 for (var x=0; x< RealIndexCount; x++) {
@@ -621,6 +617,14 @@ let RecordCount = getVar({
    type: "number"
    , show: true
 })
+
+let listOfColNames = Object.keys(columnNames)
+console.log("listOfColNames: " + listOfColNames)
+for (var x=0; x < listOfColNames.length; x++) {
+    let colName = listOfColNames[x]
+    console.log(colName + ": " + JSON.stringify(columnNames[colName]))
+}
+let dataRecordOffsets = []
 for (var x=0; x< RecordCount; x++) {
     let RecordOffset = getVar({
        length: 2,
@@ -629,8 +633,25 @@ for (var x=0; x< RecordCount; x++) {
        //,showas: "hex"
        , show: true
     })
-
+    dataRecordOffsets.push(RecordOffset)
 }
+console.log("")
+
+let dataOffset = (RowPageMapPage * 4096) //+ (2 * RecordCount)
+for (var x=0; x< dataRecordOffsets.length; x++) {
+    tempoffset = dataOffset + dataRecordOffsets[x]
+    console.log(tempoffset)
+    getVar({
+       length: 2,
+       name: "Num cols",
+       type: "number"
+       //,showas: "hex"
+       , show: true
+    })
+}
+
+
+
 
 }
 
