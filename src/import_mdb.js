@@ -428,13 +428,14 @@ for (var x=0; x< colCount; x++) {
         ,
         show: false
     })
-    getVar({
+    let colDataLen = getVar({
         length: 2,
         name: "Length",
         type: "number"
         ,
         show: false
     })
+    newColumn.length = colDataLen
 }
 console.log(" ")
 console.log(" ")
@@ -454,18 +455,11 @@ for (var x=0; x< colCount; x++) {
         show: false
     })
 
-    function bin2String(array) {
-      var result = "";
-      for (var i = 0; i < array.length; i++) {
-        result += String.fromCharCode(parseInt(array[i], 2));
-      }
-      return result;
-    }
 
     //console.log("colname: " + colname)
     //console.log("columns[" + x + "]: " + columns[x])
     columnNames[colname] = columns[x]
-    columnNames[colname].length = colLen
+
 }
 
 
@@ -637,7 +631,7 @@ console.log("")
 
 let dataOffset = (RowPageMapPage * 4096) //+ (2 * RecordCount)
 for (var x=0; x< dataRecordOffsets.length; x++) {
-    tempoffset = dataOffset + dataRecordOffsets[x] 
+    tempoffset = dataOffset + dataRecordOffsets[x]
 
     let rty=tempoffset
     //console.log(tempoffset)
