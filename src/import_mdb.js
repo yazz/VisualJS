@@ -215,6 +215,8 @@ for (var tt=0;tt<1;tt++){
     let columns = {}
     let columnNames = {}
 let PageSignature = find(offset + 0, 2, "number")
+let VC = find(offset + 2, 2, "number")
+let NextPage = find(offset + 4, 4, "number")
 while (PageSignature != 0x102) {
     if (headerJetVersion == 3) {
         offset = offset + 2048
@@ -227,6 +229,9 @@ while (PageSignature != 0x102) {
         //offset = offset + 2048
     }
     PageSignature = find(offset + 0, 2, "number")
+    VC = find(offset + 2, 2, "number")
+    NextPage = find(offset + 4, 4, "number")
+
 }
 console.log("")
 console.log("")
@@ -236,7 +241,8 @@ console.log("------                                    TABLE DEFNS PAGE HEADER  
 console.log("------                                    offset: " + offset + "                               ")
 console.log("----------------------------------------------------------------------------------------------------------------")
 show("Page Signature", PageSignature, "hex")
-
+show("VC", VC)
+show("NextPage", NextPage)
 
 
 
