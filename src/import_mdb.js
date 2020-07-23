@@ -637,14 +637,16 @@ console.log("")
 
 let dataOffset = (RowPageMapPage * 4096) //+ (2 * RecordCount)
 for (var x=0; x< dataRecordOffsets.length; x++) {
-    tempoffset = dataOffset + dataRecordOffsets[x]
+    tempoffset = dataOffset + dataRecordOffsets[x] 
+
+    let rty=tempoffset
     //console.log(tempoffset)
     let numCols = getVar({
        length: 2,
        name: "Num cols",
        type: "number"
     })
-    console.log(dataOffset + " + " + dataRecordOffsets[x] + " = " +  numCols + " cols")
+    console.log(dataOffset + " + " + dataRecordOffsets[x] + " = " +  rty + ", "+ numCols + " cols")
 }
 
 
