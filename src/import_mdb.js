@@ -533,7 +533,7 @@ let free_pages = getVar({
 })
 getVar({
    length: 4,
-   name: "Owner",
+   name: "tdef_pg",
    type: "number"
    , show: true
 })
@@ -554,6 +554,7 @@ for (var x=0; x< RecordCount; x++) {
        length: 2,
        name: "Record Offset",
        type: "number"
+       //,showas: "hex"
        , show: true
     })
 
