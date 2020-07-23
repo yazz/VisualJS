@@ -355,9 +355,16 @@ let RowPageMapPage = getVar({
 })
 
 getVar({
-    length: 4,
-    name: "Free Space Page Map",
-    type: "number"
+    length: 1,
+    name: "Free Space Page Map Record",
+    type: "number",
+    show: true
+})
+getVar({
+    length: 3,
+    name: "Free Space Page Map Page",
+    type: "number",
+    show: true
 })
 
 //skip indexes
@@ -427,7 +434,7 @@ for (var x=0; x< colCount; x++) {
         ,
         show: false
     })
-    getVar({
+    let FixedOffset = getVar({
         length: 2,
         name: "Fixed offset",
         type: "number"
@@ -442,6 +449,7 @@ for (var x=0; x< colCount; x++) {
         show: false
     })
     newColumn.length = colDataLen
+    newColumn.FixedOffset = FixedOffset
 }
 console.log(" ")
 console.log(" ")
