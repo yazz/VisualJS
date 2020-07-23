@@ -172,7 +172,7 @@ if (headerJetVersion == 3) {
 
 
 
-for (var tt=0;tt<50;tt++){
+for (var tt=0;tt<1;tt++){
 let PageSignature = find(offset + 0, 2, "number")
 while (PageSignature != 0x102) {
     if (headerJetVersion == 3) {
@@ -293,9 +293,16 @@ let RealIndexCount = getVar({
 })
 
 getVar({
-    length: 4,
-    name: "Row Page Map",
-    type: "number"
+    length: 1,
+    name: "Row Page Map record",
+    type: "number",
+    show: true
+})
+let RowPageMapPage = getVar({
+    length: 3,
+    name: "Row Page Map Page",
+    type: "number",
+    show: true
 })
 
 getVar({
@@ -489,6 +496,61 @@ let free_pages = getVar({
      })
  }
  offset = offset +  4096
+
+
+
+
+
+
+
+
+
+
+
+
+ console.log("")
+ console.log("")
+ console.log("")
+ console.log("----------------------------------------------------------------------------------------------------------------")
+ console.log("------                                    TABLE DATA                                            ----------")
+ console.log("----------------------------------------------------------------------------------------------------------------")
+  tempoffset = RowPageMapPage * 4096
+ console.log( "dataOffset: " + offset)
+ //let DataPageSignature = find(offset + 0, 2, "number")
+ let DataPageSignature = getVar({
+    length: 2,
+    name: "DataPageSignature",
+    type: "number",
+    showas: "hex"
+    , show: true
+})
+
+ getVar({
+    length: 2,
+    name: "Free Space",
+    type: "number"
+    , show: true
+})
+getVar({
+   length: 4,
+   name: "Owner",
+   type: "number"
+   , show: true
+})
+getVar({
+   length: 4,
+   name: "Unknown",
+   type: "number"
+   , show: true
+})
+getVar({
+   length: 2,
+   name: "Record Count",
+   type: "number"
+   , show: true
+})
+
+
 }
 
 
