@@ -630,8 +630,6 @@ for (var x=0; x< RecordCount; x++) {
        length: 2,
        name: "Record Offset",
        type: "number"
-       //,showas: "hex"
-       , show: true
     })
     dataRecordOffsets.push(RecordOffset)
 }
@@ -640,14 +638,13 @@ console.log("")
 let dataOffset = (RowPageMapPage * 4096) //+ (2 * RecordCount)
 for (var x=0; x< dataRecordOffsets.length; x++) {
     tempoffset = dataOffset + dataRecordOffsets[x]
-    console.log(tempoffset)
-    getVar({
+    //console.log(tempoffset)
+    let numCols = getVar({
        length: 2,
        name: "Num cols",
        type: "number"
-       //,showas: "hex"
-       , show: true
     })
+    console.log(dataOffset + " + " + dataRecordOffsets[x] + " = " +  numCols + " cols")
 }
 
 
