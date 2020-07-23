@@ -576,6 +576,12 @@ let free_pages = getVar({
  }
  offset = offset +  4096
 
+ let listOfColNames = Object.keys(columnNames)
+ //console.log("listOfColNames: " + listOfColNames)
+ for (var x=0; x < listOfColNames.length; x++) {
+     let colName = listOfColNames[x]
+     console.log(colName + ": " + JSON.stringify(columnNames[colName]))
+ }
 
 
 
@@ -635,12 +641,6 @@ let RecordCount = getVar({
    , show: true
 })
 
-let listOfColNames = Object.keys(columnNames)
-console.log("listOfColNames: " + listOfColNames)
-for (var x=0; x < listOfColNames.length; x++) {
-    let colName = listOfColNames[x]
-    console.log(colName + ": " + JSON.stringify(columnNames[colName]))
-}
 let dataRecordOffsets = []
 for (var x=0; x< RecordCount; x++) {
     let RecordOffset = getVar({
