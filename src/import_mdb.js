@@ -173,6 +173,7 @@ if (headerJetVersion == 3) {
 
 
 for (var tt=0;tt<1;tt++){
+    let columns = {}
 let PageSignature = find(offset + 0, 2, "number")
 while (PageSignature != 0x102) {
     if (headerJetVersion == 3) {
@@ -389,6 +390,9 @@ for (var x=0; x< colCount; x++) {
         show: false
     })
 }
+console.log(" ")
+console.log(" ")
+console.log(" ")
 for (var x=0; x< colCount; x++) {
     let colLen = getVar({
         length: 2,
@@ -397,12 +401,13 @@ for (var x=0; x< colCount; x++) {
         ,
         show: false
     })
-    getVar({
+    let colname = getVar({
         length: colLen,
         name: "col name"
         ,
-        show: true
+        show: false
     })
+    console.log(colname + ": " + colLen)
 }
 for (var x=0; x< RealIndexCount; x++) {
     getVar({
@@ -410,7 +415,7 @@ for (var x=0; x< RealIndexCount; x++) {
         name: "unknown",
         type: "number"
         ,
-        show: true
+        show: false
     })
     getVar({
         length: 48,
@@ -441,7 +446,7 @@ for (var x=0; x< indexCount; x++) {
         length: colLen,
         name: "index name"
         ,
-        show: true
+        show: false
     })
 }
 
@@ -461,38 +466,38 @@ let col_num = getVar({
     length: 2,
     name: "col_num",
     type: "number"
-    , show: true
+    , show: false
 })
 let used_pages = getVar({
     length: 4,
     name: "used_pages",
     type: "number"
-    , show: true
+    , show: false
 })
 let free_pages = getVar({
     length: 4,
     name: "free_pages",
     type: "number"
-    , show: true
+    , show: false
 })
  while (col_num != 0xffff  ) {
       col_num = getVar({
          length: 2,
          name: "col_num",
          type: "number"
-         , show: true
+         , show: false
      })
       used_pages = getVar({
          length: 4,
          name: "used_pages",
          type: "number"
-         , show: true
+         , show: false
      })
       free_pages = getVar({
          length: 4,
          name: "free_pages",
          type: "number"
-         , show: true
+         , show: false
      })
  }
  offset = offset +  4096
