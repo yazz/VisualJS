@@ -70,6 +70,9 @@ function find(offset, length , typeob) {
     let value = binary.slice(offset, offset + length)
     if (typeob=="number") {
         return byteArrayToLong(value)
+    } else if (typeob == "littleendian")  {
+        value = [value[2],value[1],value[0]]
+        return byteArrayToLong(value)
     }
     return value
 }
@@ -350,7 +353,7 @@ getVar({
 let RowPageMapPage = getVar({
     length: 3,
     name: "Row Page Map Page",
-    type: "number",
+    type: "littleendian",
     show: true
 })
 
@@ -363,7 +366,7 @@ getVar({
 getVar({
     length: 3,
     name: "Free Space Page Map Page",
-    type: "number",
+    type: "littleendian",
     show: true
 })
 
@@ -590,7 +593,7 @@ let free_pages = getVar({
  console.log("----------------------------------------------------------------------------------------------------------------")
  console.log("------                                    TABLE DATA                                            ----------")
  console.log("----------------------------------------------------------------------------------------------------------------")
-  tempoffset = RowPageMapPage * 4096
+  tempoffset = RowPageMapPage //* 4096
  console.log( "dataOffset: " + offset)
  //let DataPageSignature = find(offset + 0, 2, "number")
  let DataPageSignature = getVar({
@@ -643,7 +646,7 @@ for (var x=0; x< RecordCount; x++) {
 }
 console.log("")
 
-let dataOffset = (RowPageMapPage * 4096) //+ (2 * RecordCount)
+let dataOffset = RowPageMapPage//(RowPageMapPage * 4096) //+ (2 * RecordCount)
 for (var x=0; x< dataRecordOffsets.length; x++) {
     tempoffset = dataOffset + dataRecordOffsets[x]
 
