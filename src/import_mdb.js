@@ -543,13 +543,21 @@ getVar({
    type: "number"
    , show: true
 })
-getVar({
+let RecordCount = getVar({
    length: 2,
    name: "Record Count",
    type: "number"
    , show: true
 })
+for (var x=0; x< RecordCount; x++) {
+    let RecordOffset = getVar({
+       length: 2,
+       name: "Record Offset",
+       type: "number"
+       , show: true
+    })
 
+}
 
 }
 
