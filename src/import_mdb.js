@@ -353,7 +353,7 @@ getVar({
 let RowPageMapPage = getVar({
     length: 3,
     name: "Row Page Map Page",
-    type: "littleendian",
+    type: "number",
     show: true
 })
 
@@ -366,7 +366,7 @@ getVar({
 getVar({
     length: 3,
     name: "Free Space Page Map Page",
-    type: "littleendian",
+    type: "number",
     show: true
 })
 
@@ -599,15 +599,20 @@ let free_pages = getVar({
  console.log("----------------------------------------------------------------------------------------------------------------")
  console.log("------                                    TABLE DATA                                            ----------")
  console.log("----------------------------------------------------------------------------------------------------------------")
-  tempoffset = RowPageMapPage //* 4096
+  tempoffset = RowPageMapPage * 4096
  console.log( "dataOffset: " + tempoffset)
  //let DataPageSignature = find(offset + 0, 2, "number")
  let DataPageSignature = getVar({
-    length: 2,
+    length: 1,
     name: "DataPageSignature",
     type: "number",
     showas: "hex"
     , show: true
+})
+getVar({
+   length: 1,
+   name: "Unknown",
+   type: "number"
 })
 
  getVar({
@@ -625,7 +630,7 @@ getVar({
 getVar({
    length: 3,
    name: "tdef_pg",
-   type: "littleendian"
+   type: "number"
    , show: true
 })
 getVar({
@@ -654,7 +659,7 @@ for (var x=0; x< RecordCount; x++) {
 }
 console.log("")
 
-let dataOffset = RowPageMapPage//(RowPageMapPage * 4096) //+ (2 * RecordCount)
+let dataOffset = RowPageMapPage * 4096//(RowPageMapPage * 4096) //+ (2 * RecordCount)
 for (var x=0; x< dataRecordOffsets.length; x++) {
     tempoffset = dataOffset + dataRecordOffsets[x]
 
