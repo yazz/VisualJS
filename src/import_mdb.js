@@ -89,12 +89,51 @@ function getVar(params) {
 
     }
     tempoffset = tempoffset + params.length
+    if (params.type == "string") {
+        retvalue = retvalue
+    }
     return retvalue
 }
 
 
-
-
+function getColumnType(colType) {
+    switch(colType) {
+        case 1:
+            return "Boolean"
+        case 2:
+            return "Integer, 8 bit"
+        case 3:
+            return "Integer, 16 bit"
+        case 4:
+            return "Integer, 32 bit"
+        case 5:
+            return "Fixed Point Number, 64 bit (Money / Currency)"
+        case 6:
+            return "Floating Point Number, 32 bit (single)"
+        case 7:
+            return "Floating Point Number, 64 bit (double)"
+        case 8:
+            return "Date/Time, 64 bit, (stored as double)"
+        case 9:
+            return "Binary (up to 255 bytes)"
+        case 10:
+            return "Text (up to 255 characters)"
+        case 11:
+            return "OLE (long binary)"
+        case 12:
+            return "Memo (long Text)"
+        case 15:
+            return "GUID (global unique identifier)"
+        case 16:
+            return "Fixed Point, 96 bit, stored in 17 bytes"
+        case 18:
+            return "Complex field (32 bit integer key)"
+            break;
+      default:
+        return "Unknown"
+        // code block
+    }
+}
 
 
 
@@ -174,6 +213,7 @@ if (headerJetVersion == 3) {
 
 for (var tt=0;tt<1;tt++){
     let columns = {}
+    let columnNames = {}
 let PageSignature = find(offset + 0, 2, "number")
 while (PageSignature != 0x102) {
     if (headerJetVersion == 3) {
@@ -317,13 +357,17 @@ tempoffset = tempoffset + (12 * RealIndexCount)
 
 
 for (var x=0; x< colCount; x++) {
-    getVar({
+    let newColumn = new Object()
+    let colType = getVar({
         length: 1,
         name: "col Type",
         type: "number"
         ,
         show: false
     })
+    newColumn.colType = getColumnType(colType)
+    //console.log("Col type: " + getColumnType(colType))
+    columns[x] = newColumn
     getVar({
         useJetVersion: 4,
         length: 4,
@@ -404,11 +448,34 @@ for (var x=0; x< colCount; x++) {
     let colname = getVar({
         length: colLen,
         name: "col name"
-        ,
+        ,type: "string",
         show: false
     })
-    console.log(colname + ": " + colLen)
+
+    function bin2String(array) {
+      var result = "";
+      for (var i = 0; i < array.length; i++) {
+        result += String.fromCharCode(parseInt(array[i], 2));
+      }
+      return result;
+    }
+
+    console.log("colname: " + colname)
+    console.log("columns[" + x + "]: " + columns[x])
+    columnNames[colname] = columns[x]
+    columnNames[colname].length = colLen
 }
+
+
+
+let listOfColNames = Object.keys(columnNames)
+console.log("listOfColNames: " + listOfColNames)
+for (var x=0; x < listOfColNames.length; x++) {
+    let colName = listOfColNames[x]
+    console.log(colName + ": " + JSON.stringify(columnNames[colName]))
+}
+
+
 for (var x=0; x< RealIndexCount; x++) {
     getVar({
         length: 4,
