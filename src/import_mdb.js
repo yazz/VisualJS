@@ -161,7 +161,7 @@ console.log("")
 console.log("")
 console.log("")
 console.log("----------------------------------------------------------------------------------------------------------------")
-console.log("------                                            HEADER                                              ----------")
+console.log("------                                          MAIN HEADER                                           ----------")
 console.log("------                                            offset: " + offset + "                               ")
 console.log("----------------------------------------------------------------------------------------------------------------")
 
@@ -183,13 +183,6 @@ let headerJetVersion = 4
 
 
 
-
-console.log("")
-console.log("")
-console.log("")
-console.log("----------------------------------------------------------------------------------------------------------------")
-console.log("------                                       HEADER  EXTRA                                            ----------")
-console.log("----------------------------------------------------------------------------------------------------------------")
 
 tempoffset = offset + 0x14 + 4
 if (headerJetVersion == 3) {
@@ -253,13 +246,6 @@ show("NextPage", NextPage)
 tempoffset = offset + 8
 
 
-
-console.log("")
-console.log("")
-console.log("")
-console.log("----------------------------------------------------------------------------------------------------------------")
-console.log("------                                    TABLE DEFNS DATA                                            ----------")
-console.log("----------------------------------------------------------------------------------------------------------------")
 let TableDefinitionLength = find(tempoffset, 4, "number")
 show("Table Definition Length", TableDefinitionLength)
 
@@ -526,13 +512,6 @@ for (var x=0; x< indexCount; x++) {
 
 
 
-console.log("")
-console.log("")
-console.log("")
-console.log("")
-console.log("")
-console.log("")
-console.log("")
 
 
 
