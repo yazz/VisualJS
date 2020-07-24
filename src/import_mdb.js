@@ -350,7 +350,7 @@ getVar({
     type: "number",
     show: true
 })
-let RowPageMapPage = getVar({
+var RowPageMapPage = getVar({
     length: 3,
     name: "Row Page Map Page",
     type: "number",
@@ -587,92 +587,104 @@ let free_pages = getVar({
 
 
 
+let numPages = fileSizeInBytes /4096
+console.log("numPages: " + numPages)
 
+ for (var RowPageMapPage=0; RowPageMapPage < numPages; RowPageMapPage++){
 
-
-
-
-
- console.log("")
- console.log("")
- console.log("")
- console.log("----------------------------------------------------------------------------------------------------------------")
- console.log("------                                    TABLE DATA                                            ----------")
- console.log("----------------------------------------------------------------------------------------------------------------")
-  tempoffset = RowPageMapPage * 4096
- console.log( "dataOffset: " + tempoffset)
- //let DataPageSignature = find(offset + 0, 2, "number")
- let DataPageSignature = getVar({
-    length: 1,
-    name: "DataPageSignature",
-    type: "number",
-    showas: "hex"
-    , show: true
-})
-getVar({
-   length: 1,
-   name: "Unknown",
-   type: "number"
-})
-
- getVar({
-    length: 2,
-    name: "Free Space",
-    type: "number"
-    , show: true
-})
-getVar({
-   length: 1,
-   name: "tdef_pg record",
-   type: "number"
-   , show: true
-})
-getVar({
-   length: 3,
-   name: "tdef_pg",
-   type: "number"
-   , show: true
-})
-getVar({
-   length: 4,
-   name: "Unknown",
-   type: "number"
-   , show: true
-})
-let RecordCount = getVar({
-   length: 2,
-   name: "Record Count",
-   type: "number"
-   , show: true
-})
-
-let dataRecordOffsets = []
-for (var x=0; x< RecordCount; x++) {
-    let RecordOffset = getVar({
-       length: 2,
-       name: "Record Offset",
+      tempoffset = RowPageMapPage * 4096
+     //let DataPageSignature = find(offset + 0, 2, "number")
+     let DataPageSignature = getVar({
+        length: 1,
+        name: "DataPageSignature",
+        type: "number",
+        showas: "hex"
+        , show: false
+    })
+    if (DataPageSignature != 0x01) {
+        continue;
+    }
+    getVar({
+       length: 1,
+       name: "Unknown",
        type: "number"
     })
-    if (RecordOffset != 0) {
-        dataRecordOffsets.push(RecordOffset)
+
+     getVar({
+        length: 2,
+        name: "Free Space",
+        type: "number"
+        , show: false
+    })
+    let tdef_pg = getVar({
+       length: 3,
+       name: "tdef_pg",
+       type: "number"
+       , show: false
+    })
+    let pgr = getVar({
+       length: 1,
+       name: "tdef_pg record",
+       type: "number"
+       , show: false
+    })
+    //console.log( "tdef_pg: " + tdef_pg)
+    if (tdef_pg != 2) {
+        continue;
+    }
+    console.log("")
+    console.log("")
+    console.log("")
+    console.log("----------------------------------------------------------------------------------------------------------------")
+    console.log("------                                    TABLE DATA  for page              " + RowPageMapPage)
+    console.log("----------------------------------------------------------------------------------------------------------------")
+    console.log( "dataOffset: " + tempoffset)
+    console.log( "tdef_pg: " + tdef_pg)
+    console.log( "tdef_pg record: " + pgr)
+//continue;
+
+
+
+    getVar({
+       length: 4,
+       name: "Unknown",
+       type: "number"
+       , show: true
+    })
+    let RecordCount = getVar({
+       length: 2,
+       name: "Record Count",
+       type: "number"
+       , show: true
+    })
+
+    let dataRecordOffsets = []
+    for (var x=0; x< RecordCount; x++) {
+        let RecordOffset = getVar({
+           length: 2,
+           name: "Record Offset",
+           type: "number"
+        })
+        if (RecordOffset != 0) {
+            dataRecordOffsets.push(RecordOffset)
+        }
+    }
+    console.log("")
+
+    let dataOffset = RowPageMapPage * 4096//(RowPageMapPage * 4096) //+ (2 * RecordCount)
+    for (var x=0; x< dataRecordOffsets.length; x++) {
+        tempoffset = dataOffset + dataRecordOffsets[x]
+
+        let rty=tempoffset
+        //console.log(tempoffset)
+        let numCols = getVar({
+           length: 2,
+           name: "Num cols",
+           type: "number"
+        })
+        console.log(dataOffset + " + " + dataRecordOffsets[x] + " = " +  rty + ", "+ numCols + " cols")
     }
 }
-console.log("")
-
-let dataOffset = RowPageMapPage * 4096//(RowPageMapPage * 4096) //+ (2 * RecordCount)
-for (var x=0; x< dataRecordOffsets.length; x++) {
-    tempoffset = dataOffset + dataRecordOffsets[x]
-
-    let rty=tempoffset
-    //console.log(tempoffset)
-    let numCols = getVar({
-       length: 2,
-       name: "Num cols",
-       type: "number"
-    })
-    console.log(dataOffset + " + " + dataRecordOffsets[x] + " = " +  rty + ", "+ numCols + " cols")
-}
-
 
 
 
