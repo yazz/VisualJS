@@ -1,4 +1,4 @@
-
+let headerJetVersion = 4
 var fs = require("fs");
 
 let dbFileName = process.argv[2]
@@ -139,7 +139,7 @@ function getColumnType(colType) {
 }
 
 
-
+function doStuff(){
 console.log("")
 console.log("")
 console.log("")
@@ -178,7 +178,7 @@ show("file format ID", headerFileFormatID)
 let headerJetFileVersion = find(offset + 0x14, 4, "number")
 show("headerJetFileVersion", headerJetFileVersion)
 
-let headerJetVersion = 4
+
 
 
 
@@ -718,3 +718,5 @@ console.log("")
 console.log("")
 console.log("")
 console.log("")
+}
+doStuff()
