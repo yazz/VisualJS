@@ -242,7 +242,6 @@ show("NextPage", NextPage)
 
 
 
-
 tempoffset = offset + 8
 
 
@@ -632,8 +631,11 @@ console.log("total num Pages: " + numPages)
        , show: false
     })
     //console.log( "tdef_pg: " + tdef_pg)
-    if (tdef_pg != 2) {
+    let skip = false
+    if (tdef_pg != 120) {
+        if (!skip){
         continue;
+    }
     }
     console.log("")
     console.log("")
@@ -645,6 +647,10 @@ console.log("total num Pages: " + numPages)
     console.log( "tdef_pg: " + tdef_pg)
     console.log( "tdef_pg record: " + pgr)
 //continue;
+if (skip){
+    continue
+
+}
 
 
 
