@@ -11,7 +11,7 @@ var tempoffset
 
 var stats = fs.statSync(dbFileName)
 var fileSizeInBytes = stats["size"]
-
+let numPages = (fileSizeInBytes / 4096) + 1
 
 console.log("fileSizeInBytes: " + fileSizeInBytes )
 
@@ -589,7 +589,7 @@ console.log("")
 console.log("")
 console.log("")
 console.log("")
-let numPages = (fileSizeInBytes / 4096) + 1
+
 console.log("total num Pages: " + numPages)
 
  for (var RowPageMapPage=0; RowPageMapPage < numPages; RowPageMapPage++){
@@ -719,4 +719,39 @@ console.log("")
 console.log("")
 console.log("")
 }
-doStuff()
+//doStuff()
+
+function getListOfTableDefPages() {
+    let listOfTableDefPages = {}
+    for (let currentPage = 0 ; currentPage < numPages ; currentPage++){
+        tempoffset = 4096 * currentPage
+        let PageSignature = getVar({
+              length: 1,
+              name: "Page Type",
+              type: "number"
+           })
+        if (PageSignature == 0x01) {
+           getVar({
+              length: 1,
+              name: "Unknown",
+              type: "number"
+           })
+
+            getVar({
+               length: 2,
+               name: "Free Space",
+               type: "number"
+           })
+           let tdef_pg = getVar({
+              length: 3,
+              name: "tdef_pg",
+              type: "number"
+           })
+           listOfTableDefPages[tdef_pg] = {}
+        }
+    }
+    return listOfTableDefPages
+}
+
+let ty = getListOfTableDefPages()
+console.log("Data pages: " + JSON.stringify(ty,null,2))
