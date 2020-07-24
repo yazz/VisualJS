@@ -747,11 +747,22 @@ function getListOfTableDefPages() {
               name: "tdef_pg",
               type: "number"
            })
-           listOfTableDefPages[tdef_pg] = {}
+           if (!listOfTableDefPages[tdef_pg]) {
+               listOfTableDefPages[tdef_pg] = {
+                   pages: [currentPage]
+               }
+
+           } else {
+               listOfTableDefPages[tdef_pg].pages.push(currentPage)
+           }
         }
     }
     return listOfTableDefPages
 }
 
 let ty = getListOfTableDefPages()
-console.log("Data pages: " + JSON.stringify(ty,null,2))
+let listDefns = Object.keys(ty)
+for (let currentTableDefn = 0 ; currentTableDefn < listDefns.length ; currentTableDefn++){
+    let defnPage = listDefns[currentTableDefn]
+    console.log("Data defn: " + defnPage + " = " + JSON.stringify(ty[defnPage]))
+}
