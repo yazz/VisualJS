@@ -379,22 +379,22 @@ for (var x=0; x< colCount; x++) {
         ,
         show: false
     })
-    getVar({
+    let ColID = getVar({
         length: 2,
         name: "Col ID",
         type: "number"
         ,
         show: false
     })
-    getVar({
+    let VariableColumnNumber = getVar({
         length: 2,
         name: "Variable Column Number",
         type: "number"
         ,
         show: false
     })
-    getVar({
-        length: 2,
+let ColumnIndex =     getVar({
+         length: 2,
         name: "Column Index",
         type: "number"
         ,
@@ -408,7 +408,7 @@ for (var x=0; x< colCount; x++) {
         show: false
         //showas: "hex"
     })
-    getVar({
+    let ColFlags = getVar({
         useJetVersion: 4,
         length: 2,
         name: "Col Flags"
@@ -416,6 +416,21 @@ for (var x=0; x< colCount; x++) {
         show: false
         //showas: "hex"
     })
+    let fixedLength = false
+    if (ColFlags & 0x0001) {
+        fixedLength = true
+    }
+
+    let canBeNull = false
+    if (ColFlags & 0x0002) {
+        canBeNull = true
+    }
+
+    let autonumber = false
+    if (ColFlags & 0x0004 ) {
+        autonumber = true
+    }
+
     getVar({
         useJetVersion: 4,
         length: 4,
@@ -439,6 +454,12 @@ for (var x=0; x< colCount; x++) {
     })
     newColumn.length = colDataLen
     newColumn.FixedOffset = FixedOffset
+    newColumn.ColumnIndex = ColumnIndex
+    newColumn.VariableColumnNumber = VariableColumnNumber
+    newColumn.ColID = ColID
+    newColumn.fixedLength = fixedLength
+    newColumn.canBeNull = canBeNull
+    newColumn.autonumber = autonumber
 }
 console.log(" ")
 console.log(" ")
@@ -559,15 +580,18 @@ let free_pages = getVar({
  //console.log("listOfColNames: " + listOfColNames)
  for (var x=0; x < listOfColNames.length; x++) {
      let colName = listOfColNames[x]
-     console.log(colName + ": " + JSON.stringify(columnNames[colName]))
+     console.log(colName + ": " + JSON.stringify(columnNames[colName],null,2))
  }
 
 
 
 
-
-let numPages = fileSizeInBytes /4096
-console.log("numPages: " + numPages)
+console.log("")
+console.log("")
+console.log("")
+console.log("")
+let numPages = (fileSizeInBytes / 4096) + 1
+console.log("total num Pages: " + numPages)
 
  for (var RowPageMapPage=0; RowPageMapPage < numPages; RowPageMapPage++){
 
