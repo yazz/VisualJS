@@ -665,7 +665,11 @@ console.log("numPages: " + numPages)
            name: "Record Offset",
            type: "number"
         })
-        if (RecordOffset != 0) {
+        if (RecordOffset & 0x4000) {
+            console.log("lookupflag record:")
+        } else if (RecordOffset & 0x8000) {
+            console.log("Deleted record:")
+        } else {
             dataRecordOffsets.push(RecordOffset)
         }
     }
