@@ -406,17 +406,12 @@ let ColumnIndex =     getVar({
         useJetVersion: 4,
         length: 4,
         name: "Various"
-        ,
-        show: false
-        //showas: "hex"
     })
     let ColFlags = getVar({
         useJetVersion: 4,
         length: 2,
-        name: "Col Flags"
-        ,
-        show: false
-        //showas: "hex"
+        name: "Col Flags",
+        type: "number"
     })
     let fixedLength = false
     if (ColFlags & 0x0001) {
@@ -1048,6 +1043,7 @@ function getTableDefinitionForPage(listOfTableDefPages, pageNum) {
         newColumn.fixedLength = fixedLength
         newColumn.canBeNull = canBeNull
         newColumn.autonumber = autonumber
+        newColumn.ColFlags = "0x" + ColFlags[0].toString(16) + ":0x" + ColFlags[1].toString(16)
     }
     console.log(" ")
     console.log(" ")
