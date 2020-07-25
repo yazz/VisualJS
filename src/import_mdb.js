@@ -96,7 +96,7 @@ function getVar(params) {
     }
     tempoffset = tempoffset + params.length
     if (params.type == "string") {
-        retvalue = retvalue
+        retvalue = retvalue.toString()
     }
     return retvalue
 }
@@ -1063,14 +1063,14 @@ function getTableDefinitionForPage(listOfTableDefPages, pageNum) {
         let colname = getVar({
             length: colLen,
             name: "col name"
-            ,type: "string",
-            show: false
         })
+
+        let tttt=toUTF8Array(colname)
 
 
         //console.log("colname: " + colname)
         //console.log("columns[" + x + "]: " + columns[x])
-        columnNames[colname] = columns[x]
+        columnNames[tttt] = columns[x]
 
 
     }
@@ -1078,12 +1078,13 @@ function getTableDefinitionForPage(listOfTableDefPages, pageNum) {
 
 }
 
-
-
-
-
-
-
+function toUTF8Array(input) {
+    let s=""
+    for (let x=0;x<input.length;x=x+2){
+        s=s + String.fromCharCode(input[x])
+    }
+    return s
+}
 
 
 let ty = getListOfTableDefPages()
