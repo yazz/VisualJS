@@ -875,7 +875,7 @@ function getTableDefinitionForPage(listOfTableDefPages, pageNum) {
         name: "Variable columns",
         type: "number"
     })
-    listOfTableDefPages[pageNum].VariableColumns = VariableColumns
+    listOfTableDefPages[pageNum].__VariableColumns = VariableColumns
 
 
     let colCount = getVar({
@@ -884,7 +884,7 @@ function getTableDefinitionForPage(listOfTableDefPages, pageNum) {
         type: "number",
         show: true
     })
-    listOfTableDefPages[pageNum].colCount = colCount
+    listOfTableDefPages[pageNum].__colCount = colCount
 
 
     let indexCount = getVar({
