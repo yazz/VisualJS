@@ -1000,17 +1000,17 @@ function getTableDefinitionForPage(listOfTableDefPages, pageNum) {
             //showas: "hex"
         })
         let fixedLength = false
-        if (ColFlags & 0x0001) {
+        if (ColFlags[0] & 0x01) {
             fixedLength = true
         }
 
         let canBeNull = false
-        if (ColFlags & 0x0002) {
+        if (ColFlags[0] & 0x02) {
             canBeNull = true
         }
 
         let autonumber = false
-        if (ColFlags & 0x0004 ) {
+        if (ColFlags[0] & 0x04 ) {
             autonumber = true
         }
 
