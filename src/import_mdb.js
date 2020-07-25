@@ -449,11 +449,11 @@ let ColumnIndex =     getVar({
         ,
         show: false
     })
+    newColumn.ColID = ColID
+    newColumn.VariableColumnNumber = VariableColumnNumber
+    newColumn.ColumnIndex = ColumnIndex
     newColumn.length = colDataLen
     newColumn.FixedOffset = FixedOffset
-    newColumn.ColumnIndex = ColumnIndex
-    newColumn.VariableColumnNumber = VariableColumnNumber
-    newColumn.ColID = ColID
     newColumn.fixedLength = fixedLength
     newColumn.canBeNull = canBeNull
     newColumn.autonumber = autonumber
@@ -1090,7 +1090,7 @@ for (let currentTableDefn = 0 ; currentTableDefn < listDefns.length ; currentTab
     let defnPage = listDefns[currentTableDefn]
     console.log("------------------------------------------------------------------------------------------")
     getTableDefinitionForPage(ty,defnPage)
-    console.log("Data defn: " + defnPage + " = " + JSON.stringify(ty[defnPage],null,2))
+    console.log("Table defn: " + defnPage + " = " + JSON.stringify(ty[defnPage],null,2))
     console.log("")
     console.log("")
     console.log("")
