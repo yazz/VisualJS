@@ -1043,7 +1043,7 @@ function getTableDefinitionForPage(listOfTableDefPages, pageNum) {
         newColumn.fixedLength = fixedLength
         newColumn.canBeNull = canBeNull
         newColumn.autonumber = autonumber
-        newColumn.ColFlags = "0x" + ColFlags[0].toString(16) + ":0x" + ColFlags[1].toString(16)
+        newColumn.ColFlags = "0x" + ColFlags[1].toString(16) + ":0x" + ColFlags[0].toString(16)
     }
     console.log(" ")
     console.log(" ")
