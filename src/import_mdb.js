@@ -944,52 +944,137 @@ function getTableDefinitionForPage(listOfTableDefPages, pageNum) {
     tempoffset = tempoffset + (12 * RealIndexCount)
 
 
-    getVar({
-       length: 4,
-       name: "Unknown",
-       type: "number"
-       //, show: true
-    })
-    let RecordCount = getVar({
-       length: 2,
-       name: "Record Count",
-       type: "number"
-       , show: true
-    })
-    listOfTableDefPages[pageNum].RecordCount = RecordCount
-        /*
 
-        let dataRecordOffsets = []
-        for (var x=0; x< RecordCount; x++) {
-            let RecordOffset = getVar({
-               length: 2,
-               name: "Record Offset",
-               type: "number"
-            })
-            if (RecordOffset & 0x4000) {
-                console.log("lookupflag record:")
-            } else if (RecordOffset & 0x8000) {
-                console.log("Deleted record:")
-            } else {
-                dataRecordOffsets.push(RecordOffset)
-            }
+    let columns = {}
+    let columnNames = {}
+
+    for (var x=0; x< colCount; x++) {
+        let newColumn = new Object()
+        let colType = getVar({
+            length: 1,
+            name: "col Type",
+            type: "number"
+            ,
+            show: false
+        })
+        newColumn.colType = getColumnType(colType)
+        //console.log("Col type: " + getColumnType(colType))
+        columns[x] = newColumn
+        getVar({
+            useJetVersion: 4,
+            length: 4,
+            name: "Unknown"
+            ,
+            show: false
+        })
+        let ColID = getVar({
+            length: 2,
+            name: "Col ID",
+            type: "number"
+            ,
+            show: false
+        })
+        let VariableColumnNumber = getVar({
+            length: 2,
+            name: "Variable Column Number",
+            type: "number"
+            ,
+            show: false
+        })
+    let ColumnIndex =     getVar({
+             length: 2,
+            name: "Column Index",
+            type: "number"
+            ,
+            show: false
+        })
+        getVar({
+            useJetVersion: 4,
+            length: 4,
+            name: "Various"
+            ,
+            show: false
+            //showas: "hex"
+        })
+        let ColFlags = getVar({
+            useJetVersion: 4,
+            length: 2,
+            name: "Col Flags"
+            ,
+            show: false
+            //showas: "hex"
+        })
+        let fixedLength = false
+        if (ColFlags & 0x0001) {
+            fixedLength = true
         }
-        console.log("")
 
-        let dataOffset = RowPageMapPage * 4096//(RowPageMapPage * 4096) //+ (2 * RecordCount)
-        for (var x=0; x< dataRecordOffsets.length; x++) {
-            tempoffset = dataOffset + dataRecordOffsets[x]
-
-            let rty=tempoffset
-            //console.log(tempoffset)
-            let numCols = getVar({
-               length: 2,
-               name: "Num cols",
-               type: "number"
-            })
-            console.log(dataOffset + " + " + dataRecordOffsets[x] + " = " +  rty + ", "+ numCols + " cols")
+        let canBeNull = false
+        if (ColFlags & 0x0002) {
+            canBeNull = true
         }
-*/
+
+        let autonumber = false
+        if (ColFlags & 0x0004 ) {
+            autonumber = true
+        }
+
+        getVar({
+            useJetVersion: 4,
+            length: 4,
+            name: "Unknown"
+            ,
+            show: false
+        })
+        let FixedOffset = getVar({
+            length: 2,
+            name: "Fixed offset",
+            type: "number"
+            ,
+            show: false
+        })
+        let colDataLen = getVar({
+            length: 2,
+            name: "Length",
+            type: "number"
+            ,
+            show: false
+        })
+        newColumn.length = colDataLen
+        newColumn.FixedOffset = FixedOffset
+        newColumn.ColumnIndex = ColumnIndex
+        newColumn.VariableColumnNumber = VariableColumnNumber
+        newColumn.ColID = ColID
+        newColumn.fixedLength = fixedLength
+        newColumn.canBeNull = canBeNull
+        newColumn.autonumber = autonumber
+    }
+    console.log(" ")
+    console.log(" ")
+    console.log(" ")
+    for (var x=0; x< colCount; x++) {
+        let colLen = getVar({
+            length: 2,
+            name: "col length",
+            type: "number"
+            ,
+            show: false
+        })
+        let colname = getVar({
+            length: colLen,
+            name: "col name"
+            ,type: "string",
+            show: false
+        })
+
+
+        //console.log("colname: " + colname)
+        //console.log("columns[" + x + "]: " + columns[x])
+        columnNames[colname] = columns[x]
+
+
+    }
+    listOfTableDefPages[pageNum].columnNames = columnNames
 
 }
 
