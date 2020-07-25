@@ -788,7 +788,9 @@ function getTableDefinitionForPage(listOfTableDefPages, pageNum) {
     PageSignature = find(tempoffset, 2, "number")
     listOfTableDefPages[pageNum].PageSignature = PageSignature
     VC = find(tempoffset + 2, 2, "number")
+    listOfTableDefPages[pageNum].VC = VC
     NextPage = find(tempoffset + 4, 4, "number")
+    listOfTableDefPages[pageNum].NextPage = NextPage
 
 
     if (showDebug){
@@ -801,17 +803,20 @@ function getTableDefinitionForPage(listOfTableDefPages, pageNum) {
 
     //zzz
     let TableDefinitionLength = find(tempoffset, 4, "number")
+    listOfTableDefPages[pageNum].TableDefinitionLength = TableDefinitionLength
     if (showDebug){
         show("Table Definition Length", TableDefinitionLength)
     }
 
     let Numberofrows = find(tempoffset + 8, 4, "number")
+    listOfTableDefPages[pageNum].Numberofrows = Numberofrows
     if (showDebug){
         show("Number of rows", Numberofrows)
     }
 
     tempoffset = tempoffset + 12
     let Autonumber = find(tempoffset, 4, "number")
+    listOfTableDefPages[pageNum].Autonumber = Autonumber
     if (showDebug){
         show("Autonumber", Autonumber)
     }
@@ -826,6 +831,7 @@ function getTableDefinitionForPage(listOfTableDefPages, pageNum) {
         name: "Autonumber Increment",
         type: "number"
     })
+    listOfTableDefPages[pageNum].Autonumber = Autonumber
 
 
     getVar({
@@ -847,28 +853,29 @@ function getTableDefinitionForPage(listOfTableDefPages, pageNum) {
         name: "Unknown"
     })
 
-    getVar({
+    let Flags = getVar({
         length: 1,
         name: "Table Type / Flags?",
         type: "number",
-        showas: "hex",
-        show: true
+        showas: "hex"
     })
+    listOfTableDefPages[pageNum].Flags = Flags
 
 
-    getVar({
+    let NextColumnId = getVar({
         length: 2,
         name: "Next Column Id",
         type: "number"
     })
+    listOfTableDefPages[pageNum].NextColumnId = NextColumnId
 
 
-    getVar({
+    let VariableColumns = getVar({
         length: 2,
         name: "Variable columns",
-        type: "number",
-        show: true
+        type: "number"
     })
+    listOfTableDefPages[pageNum].VariableColumns = VariableColumns
 
 
     let colCount = getVar({
@@ -877,6 +884,7 @@ function getTableDefinitionForPage(listOfTableDefPages, pageNum) {
         type: "number",
         show: true
     })
+    listOfTableDefPages[pageNum].colCount = colCount
 
 
     let indexCount = getVar({
@@ -884,37 +892,46 @@ function getTableDefinitionForPage(listOfTableDefPages, pageNum) {
         name: "Index Count",
         type: "number"
     })
+    listOfTableDefPages[pageNum].indexCount = indexCount
+
     let RealIndexCount = getVar({
         length: 4,
         name: "Real Index Count",
         type: "number"
     })
+    listOfTableDefPages[pageNum].RealIndexCount = RealIndexCount
 
-    getVar({
+    let RowPageMapRecord = getVar({
         length: 1,
         name: "Row Page Map record",
         type: "number",
         show: true
     })
+    listOfTableDefPages[pageNum].RowPageMapRecord = RowPageMapRecord
+
     var RowPageMapPage = getVar({
         length: 3,
         name: "Row Page Map Page",
         type: "number",
         show: true
     })
+    listOfTableDefPages[pageNum].RowPageMapPage = RowPageMapPage
 
-    getVar({
+    let FreeSpacePageMapRecord = getVar({
         length: 1,
         name: "Free Space Page Map Record",
         type: "number",
         show: true
     })
-    getVar({
+    listOfTableDefPages[pageNum].FreeSpacePageMapRecord = FreeSpacePageMapRecord
+
+    let FreeSpacePageMapPage = getVar({
         length: 3,
         name: "Free Space Page Map Page",
         type: "number",
         show: true
     })
+    listOfTableDefPages[pageNum].FreeSpacePageMapPage = FreeSpacePageMapPage
 
     //skip indexes
     tempoffset = tempoffset + (12 * RealIndexCount)
@@ -937,7 +954,11 @@ getTableDefinitionForPage(ty,3)
 let listDefns = Object.keys(ty)
 for (let currentTableDefn = 0 ; currentTableDefn < listDefns.length ; currentTableDefn++){
     let defnPage = listDefns[currentTableDefn]
-    console.log("Data defn: " + defnPage + " = " + JSON.stringify(ty[defnPage]))
+    console.log("------------------------------------------------------------------------------------------")
+    console.log("Data defn: " + defnPage + " = " + JSON.stringify(ty[defnPage],null,2))
+    console.log("")
+    console.log("")
+    console.log("")
 }
 
 
