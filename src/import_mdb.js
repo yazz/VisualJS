@@ -788,7 +788,122 @@ function showTableDefinitionForPage(pageNum) {
     show("VC", VC)
     show("NextPage", NextPage)
 
-    tempoffset = offset + 8
+    tempoffset = tempoffset + 8
+
+    //zzz
+    let TableDefinitionLength = find(tempoffset, 4, "number")
+    show("Table Definition Length", TableDefinitionLength)
+
+    let Numberofrows = find(tempoffset + 8, 4, "number")
+    show("Number of rows", Numberofrows)
+
+    tempoffset = tempoffset + 12
+    let Autonumber = find(tempoffset, 4, "number")
+    show("Autonumber", Autonumber)
+
+
+
+    tempoffset = tempoffset + 4
+
+    let AutonumberIncrement = getVar({
+        useJetVersion: 4,
+        length: 4,
+        name: "Autonumber Increment",
+        type: "number"
+    })
+
+
+    getVar({
+        useJetVersion: 4,
+        length: 4,
+        name: "Complex Autonumber",
+        showas: "number"
+    })
+
+    getVar({
+        useJetVersion: 4,
+        length: 4,
+        name: "Unknown"
+    })
+
+    getVar({
+        useJetVersion: 4,
+        length: 4,
+        name: "Unknown"
+    })
+
+    getVar({
+        length: 1,
+        name: "Table Type / Flags?",
+        type: "number",
+        showas: "hex",
+        show: true
+    })
+
+
+    getVar({
+        length: 2,
+        name: "Next Column Id",
+        type: "number"
+    })
+
+
+    getVar({
+        length: 2,
+        name: "Variable columns",
+        type: "number",
+        show: true
+    })
+
+
+    let colCount = getVar({
+        length: 2,
+        name: "Column Count",
+        type: "number",
+        show: true
+    })
+
+
+    let indexCount = getVar({
+        length: 4,
+        name: "Index Count",
+        type: "number"
+    })
+    let RealIndexCount = getVar({
+        length: 4,
+        name: "Real Index Count",
+        type: "number"
+    })
+
+    getVar({
+        length: 1,
+        name: "Row Page Map record",
+        type: "number",
+        show: true
+    })
+    var RowPageMapPage = getVar({
+        length: 3,
+        name: "Row Page Map Page",
+        type: "number",
+        show: true
+    })
+
+    getVar({
+        length: 1,
+        name: "Free Space Page Map Record",
+        type: "number",
+        show: true
+    })
+    getVar({
+        length: 3,
+        name: "Free Space Page Map Page",
+        type: "number",
+        show: true
+    })
+
+    //skip indexes
+    tempoffset = tempoffset + (12 * RealIndexCount)
+
 
 }
 
@@ -804,3 +919,20 @@ for (let currentTableDefn = 0 ; currentTableDefn < listDefns.length ; currentTab
 }
 
 showTableDefinitionForPage(2)
+showTableDefinitionForPage(3)
+
+
+
+
+
+
+
+
+
+
+
+
+console.log("")
+console.log("")
+console.log("")
+console.log("")
