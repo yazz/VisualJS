@@ -244,7 +244,7 @@ show("NextPage", NextPage)
 
 tempoffset = offset + 8
 
-
+//zzz
 let TableDefinitionLength = find(tempoffset, 4, "number")
 show("Table Definition Length", TableDefinitionLength)
 
@@ -765,9 +765,42 @@ function getListOfTableDefPages() {
     return listOfTableDefPages
 }
 
+
+
+
+
+function showTableDefinitionForPage(pageNum) {
+    tempoffset = 4096 * pageNum
+    console.log("")
+    console.log("")
+    console.log("")
+    console.log("----------------------------------------------------------------------------------------------------------------")
+    console.log("------                                    TABLE DEFNS PAGE HEADER                                     ----------")
+    console.log("------                                    offset: " + tempoffset + "                               ")
+    console.log("----------------------------------------------------------------------------------------------------------------")
+
+    PageSignature = find(tempoffset, 2, "number")
+    VC = find(tempoffset + 2, 2, "number")
+    NextPage = find(tempoffset + 4, 4, "number")
+
+
+    show("Page Signature", PageSignature, "hex")
+    show("VC", VC)
+    show("NextPage", NextPage)
+
+    tempoffset = offset + 8
+
+}
+
+
+
+
+
 let ty = getListOfTableDefPages()
 let listDefns = Object.keys(ty)
 for (let currentTableDefn = 0 ; currentTableDefn < listDefns.length ; currentTableDefn++){
     let defnPage = listDefns[currentTableDefn]
     console.log("Data defn: " + defnPage + " = " + JSON.stringify(ty[defnPage]))
 }
+
+showTableDefinitionForPage(2)
