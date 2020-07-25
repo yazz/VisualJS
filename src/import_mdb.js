@@ -933,9 +933,63 @@ function getTableDefinitionForPage(listOfTableDefPages, pageNum) {
     })
     listOfTableDefPages[pageNum].FreeSpacePageMapPage = FreeSpacePageMapPage
 
-    //skip indexes
+    //
+    // skip indexes
+    // for every real index :
+    //
+    // Unknown A1	4 bytes	???
+    // Index Row Count	4 bytes	UINT 32 LE	Unknown
+    // Unknown A2	4 bytes	???	Jet 4 only, always 0
+    //
     tempoffset = tempoffset + (12 * RealIndexCount)
 
+
+    getVar({
+       length: 4,
+       name: "Unknown",
+       type: "number"
+       //, show: true
+    })
+    let RecordCount = getVar({
+       length: 2,
+       name: "Record Count",
+       type: "number"
+       , show: true
+    })
+    listOfTableDefPages[pageNum].RecordCount = RecordCount
+        /*
+
+        let dataRecordOffsets = []
+        for (var x=0; x< RecordCount; x++) {
+            let RecordOffset = getVar({
+               length: 2,
+               name: "Record Offset",
+               type: "number"
+            })
+            if (RecordOffset & 0x4000) {
+                console.log("lookupflag record:")
+            } else if (RecordOffset & 0x8000) {
+                console.log("Deleted record:")
+            } else {
+                dataRecordOffsets.push(RecordOffset)
+            }
+        }
+        console.log("")
+
+        let dataOffset = RowPageMapPage * 4096//(RowPageMapPage * 4096) //+ (2 * RecordCount)
+        for (var x=0; x< dataRecordOffsets.length; x++) {
+            tempoffset = dataOffset + dataRecordOffsets[x]
+
+            let rty=tempoffset
+            //console.log(tempoffset)
+            let numCols = getVar({
+               length: 2,
+               name: "Num cols",
+               type: "number"
+            })
+            console.log(dataOffset + " + " + dataRecordOffsets[x] + " = " +  rty + ", "+ numCols + " cols")
+        }
+*/
 
 }
 
@@ -948,13 +1002,12 @@ function getTableDefinitionForPage(listOfTableDefPages, pageNum) {
 
 
 let ty = getListOfTableDefPages()
-getTableDefinitionForPage(ty,2)
-getTableDefinitionForPage(ty,3)
 
 let listDefns = Object.keys(ty)
 for (let currentTableDefn = 0 ; currentTableDefn < listDefns.length ; currentTableDefn++){
     let defnPage = listDefns[currentTableDefn]
     console.log("------------------------------------------------------------------------------------------")
+    getTableDefinitionForPage(ty,defnPage)
     console.log("Data defn: " + defnPage + " = " + JSON.stringify(ty[defnPage],null,2))
     console.log("")
     console.log("")
