@@ -1,6 +1,6 @@
 let headerJetVersion = 4
 var fs = require("fs");
-
+let showDebug = false
 let dbFileName = process.argv[2]
 
 console.log("importing MDB: " + dbFileName )
@@ -14,6 +14,8 @@ var fileSizeInBytes = stats["size"]
 let numPages = (fileSizeInBytes / 4096) + 1
 
 console.log("fileSizeInBytes: " + fileSizeInBytes )
+console.log("")
+console.log("")
 
 var binary = fs.readFileSync(dbFileName);
 
@@ -88,8 +90,9 @@ function getVar(params) {
     }
     let retvalue = find(tempoffset , params.length, params.type)
     if (params.show) {
-        show(params.name, retvalue, params.showas)
-
+        if (showDebug){
+            show(params.name, retvalue, params.showas)
+        }
     }
     tempoffset = tempoffset + params.length
     if (params.type == "string") {
@@ -769,37 +772,49 @@ function getListOfTableDefPages() {
 
 
 
-function showTableDefinitionForPage(pageNum) {
+function getTableDefinitionForPage(listOfTableDefPages, pageNum) {
     tempoffset = 4096 * pageNum
-    console.log("")
-    console.log("")
-    console.log("")
-    console.log("----------------------------------------------------------------------------------------------------------------")
-    console.log("------                                    TABLE DEFNS PAGE HEADER                                     ----------")
-    console.log("------                                    offset: " + tempoffset + "                               ")
-    console.log("----------------------------------------------------------------------------------------------------------------")
+    if (showDebug){
+        console.log("")
+        console.log("")
+        console.log("")
+        console.log("----------------------------------------------------------------------------------------------------------------")
+        console.log("------                                    TABLE DEFNS PAGE HEADER                                     ----------")
+        console.log("------                                    offset: " + tempoffset + "                               ")
+        console.log("----------------------------------------------------------------------------------------------------------------")
+    }
+
 
     PageSignature = find(tempoffset, 2, "number")
+    listOfTableDefPages[pageNum].PageSignature = PageSignature
     VC = find(tempoffset + 2, 2, "number")
     NextPage = find(tempoffset + 4, 4, "number")
 
 
-    show("Page Signature", PageSignature, "hex")
-    show("VC", VC)
-    show("NextPage", NextPage)
+    if (showDebug){
+        show("Page Signature", PageSignature, "hex")
+        show("VC", VC)
+        show("NextPage", NextPage)
+    }
 
     tempoffset = tempoffset + 8
 
     //zzz
     let TableDefinitionLength = find(tempoffset, 4, "number")
-    show("Table Definition Length", TableDefinitionLength)
+    if (showDebug){
+        show("Table Definition Length", TableDefinitionLength)
+    }
 
     let Numberofrows = find(tempoffset + 8, 4, "number")
-    show("Number of rows", Numberofrows)
+    if (showDebug){
+        show("Number of rows", Numberofrows)
+    }
 
     tempoffset = tempoffset + 12
     let Autonumber = find(tempoffset, 4, "number")
-    show("Autonumber", Autonumber)
+    if (showDebug){
+        show("Autonumber", Autonumber)
+    }
 
 
 
@@ -911,18 +926,19 @@ function showTableDefinitionForPage(pageNum) {
 
 
 
+
+
+
+
 let ty = getListOfTableDefPages()
+getTableDefinitionForPage(ty,2)
+getTableDefinitionForPage(ty,3)
+
 let listDefns = Object.keys(ty)
 for (let currentTableDefn = 0 ; currentTableDefn < listDefns.length ; currentTableDefn++){
     let defnPage = listDefns[currentTableDefn]
     console.log("Data defn: " + defnPage + " = " + JSON.stringify(ty[defnPage]))
 }
-
-showTableDefinitionForPage(2)
-showTableDefinitionForPage(3)
-
-
-
 
 
 
