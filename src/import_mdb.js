@@ -723,7 +723,7 @@ console.log("")
 
 function getListOfTableDefPages() {
     let listOfTableDefPages = {}
-    for (let currentPage = 0 ; currentPage < numPages ; currentPage++){
+    for (let currentPage = 0 ; currentPage < numPages; currentPage++){
         tempoffset = 4096 * currentPage
         let PageSignature = getVar({
               length: 1,
@@ -747,7 +747,12 @@ function getListOfTableDefPages() {
               name: "tdef_pg",
               type: "number"
            })
-           if (!listOfTableDefPages[tdef_pg]) {
+
+           if (tdef_pg < 2) {
+
+           } else if (tdef_pg > 10000) {
+
+           } else if (!listOfTableDefPages[tdef_pg]) {
                listOfTableDefPages[tdef_pg] = {
                    pages: [currentPage]
                }
