@@ -1035,11 +1035,11 @@ function getTableDefinitionForPage(listOfTableDefPages, pageNum) {
             ,
             show: false
         })
+        newColumn.ColID = ColID
         newColumn.length = colDataLen
         newColumn.FixedOffset = FixedOffset
         newColumn.ColumnIndex = ColumnIndex
         newColumn.VariableColumnNumber = VariableColumnNumber
-        newColumn.ColID = ColID
         newColumn.fixedLength = fixedLength
         newColumn.canBeNull = canBeNull
         newColumn.autonumber = autonumber
@@ -1048,7 +1048,10 @@ function getTableDefinitionForPage(listOfTableDefPages, pageNum) {
     console.log(" ")
     console.log(" ")
     console.log(" ")
+
+    listOfTableDefPages[pageNum].colsInOrder = {}
     for (var x=0; x< colCount; x++) {
+
         let colLen = getVar({
             length: 2,
             name: "col length",
@@ -1056,6 +1059,7 @@ function getTableDefinitionForPage(listOfTableDefPages, pageNum) {
             ,
             show: false
         })
+
         let colname = getVar({
             length: colLen,
             name: "col name"
@@ -1066,13 +1070,17 @@ function getTableDefinitionForPage(listOfTableDefPages, pageNum) {
 
         //console.log("colname: " + colname)
         //console.log("columns[" + x + "]: " + columns[x])
+
+        columns[x].name =  tttt
         columnNames[tttt] = columns[x]
-
-
+        listOfTableDefPages[pageNum].colsInOrder[x] = columns[x]
     }
     listOfTableDefPages[pageNum].columnNames = columnNames
-
 }
+
+
+
+
 
 function toUTF8Array(input) {
     let s=""
@@ -1159,6 +1167,19 @@ function getDataForTableOnPage(pageNum, pageDefns) {
            , show: true
         })
 
+
+
+        let NumCols = Object.keys(pageDefns[pageNum].colsInOrder).length
+        console.log(pageDefns[pageNum].colsInOrder)
+        let numFixed = pageDefns[pageNum].__colCount - pageDefns[pageNum].__VariableColumns
+        console.log("numFixed: " + numFixed)
+
+        let fixedCount = 0
+        for (let yy=0;yy < pageDefns[pageNum].__colCount; yy++){
+            if (pageDefns[pageNum].colsInOrder[yy].fixedLength) {
+                console.log("Fixed col: " + pageDefns[pageNum].colsInOrder[yy].name)
+            }
+        }
     }
 }
 
