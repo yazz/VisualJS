@@ -1170,15 +1170,21 @@ function getDataForTableOnPage(pageNum, pageDefns) {
 
 
         let NumCols = Object.keys(pageDefns[pageNum].colsInOrder).length
-        console.log(pageDefns[pageNum].colsInOrder)
+        //console.log(pageDefns[pageNum].colsInOrder)
         let numFixed = pageDefns[pageNum].__colCount - pageDefns[pageNum].__VariableColumns
         console.log("numFixed: " + numFixed)
 
         let fixedCount = 0
         for (let yy=0;yy < pageDefns[pageNum].__colCount; yy++){
             if (pageDefns[pageNum].colsInOrder[yy].fixedLength) {
-                console.log("Fixed col: " + pageDefns[pageNum].colsInOrder[yy].name)
+                console.log("Fixed col: " + pageDefns[pageNum].colsInOrder[yy].name + " = " + pageDefns[pageNum].colsInOrder[yy].length + " bytes")
             }
+            let colVal = getVar({
+               length: pageDefns[pageNum].colsInOrder[yy].length,
+               name: pageDefns[pageNum].colsInOrder[yy].name,
+               type: "number"
+               , show: true
+            })
         }
     }
 }
