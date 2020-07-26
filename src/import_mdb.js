@@ -1083,6 +1083,27 @@ function toUTF8Array(input) {
 }
 
 
+
+function getDataForTableOnPage(pageNum, pageDefns) {
+    showDebug=true
+    if (showDebug){
+        console.log("")
+        console.log("")
+        console.log("")
+        console.log("----------------------------------------------------------------------------------------------------------------")
+        console.log("------                                    DATA FOR TABLE                                    ----------")
+        console.log("------                                    page: " + pageNum + "                               ")
+        console.log("----------------------------------------------------------------------------------------------------------------")
+    }
+
+    let listOfPages = pageDefns[pageNum]
+
+    console.log("Table defn: " + pageNum + " = " + JSON.stringify(listOfPages.pages,null,2))
+    tempoffset = 4096 * pageNum
+
+}
+
+
 let ty = getListOfTableDefPages()
 
 let listDefns = Object.keys(ty)
@@ -1108,3 +1129,8 @@ console.log("")
 console.log("")
 console.log("")
 console.log("")
+
+
+
+
+let data = getDataForTableOnPage(2,ty)
