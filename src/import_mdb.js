@@ -1098,12 +1098,79 @@ function getDataForTableOnPage(pageNum, pageDefns) {
 
     let listOfPages = pageDefns[pageNum]
 
-    console.log("Table defn: " + pageNum + " = " + JSON.stringify(listOfPages.pages,null,2))
-    tempoffset = 4096 * pageNum
 
+
+    console.log("Table defn: " + pageNum + " has data pages " + JSON.stringify(listOfPages.pages,null,2))
+
+    for (let dataOffset = 0;dataOffset< listOfPages.pages.length;dataOffset++) {
+        console.log("")
+        console.log("")
+        console.log("dataOffset: " + dataOffset )
+        let dataPageNum = listOfPages.pages[dataOffset]
+        console.log("data page: " + dataPageNum )
+        tempoffset = 4096 * dataPageNum
+
+
+
+        let DataPageSignature = getVar({
+           length: 1,
+           name: "DataPageSignature",
+           type: "number",
+           showas: "hex"
+           , show: true})
+
+           getVar({
+           length: 1,
+           name: "Unknown",
+           type: "number"
+           , show: true
+        })
+
+         getVar({
+            length: 2,
+            name: "Free Space",
+            type: "number"
+            , show: true
+        })
+        let tdef_pg = getVar({
+           length: 3,
+           name: "tdef_pg",
+           type: "number"
+           , show: true
+        })
+        let pgr = getVar({
+           length: 1,
+           name: "tdef_pg record",
+           type: "number"
+           , show: true
+        })
+
+
+
+    }
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+//
+//
+//
+// do stuff with the functions
+//
+//
+//
+//
 let ty = getListOfTableDefPages()
 
 let listDefns = Object.keys(ty)
