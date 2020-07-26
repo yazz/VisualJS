@@ -1119,33 +1119,45 @@ function getDataForTableOnPage(pageNum, pageDefns) {
            showas: "hex"
            , show: true})
 
-           getVar({
+        getVar({
            length: 1,
            name: "Unknown",
            type: "number"
            , show: true
         })
 
-         getVar({
+        getVar({
             length: 2,
             name: "Free Space",
             type: "number"
             , show: true
         })
+
         let tdef_pg = getVar({
            length: 3,
            name: "tdef_pg",
            type: "number"
            , show: true
         })
+
         let pgr = getVar({
            length: 1,
            name: "tdef_pg record",
            type: "number"
            , show: true
         })
-
-
+        getVar({
+           length: 4,
+           name: "Unknown",
+           type: "number"
+           , show: true
+        })
+        let RecordCount = getVar({
+           length: 2,
+           name: "RecordCount",
+           type: "number"
+           , show: true
+        })
 
     }
 }
@@ -1201,3 +1213,17 @@ console.log("")
 
 
 let data = getDataForTableOnPage(2,ty)
+
+
+
+
+
+console.log("")
+console.log("")
+console.log("")
+console.log("")
+
+console.log("")
+console.log("")
+console.log("")
+console.log("")
