@@ -641,9 +641,9 @@ console.log("total num Pages: " + numPages)
     console.log("----------------------------------------------------------------------------------------------------------------")
     console.log("------                                    TABLE DATA  for page              " + RowPageMapPage)
     console.log("----------------------------------------------------------------------------------------------------------------")
-    console.log( "dataOffset: " + tempoffset)
-    console.log( "tdef_pg: " + tdef_pg)
-    console.log( "tdef_pg record: " + pgr)
+    //console.log( "dataOffset: " + tempoffset)
+    //console.log( "tdef_pg: " + tdef_pg)
+    //console.log( "tdef_pg record: " + pgr)
 //continue;
 if (skip){
     continue
@@ -656,13 +656,13 @@ if (skip){
        length: 4,
        name: "Unknown",
        type: "number"
-       , show: true
+       , show: false
     })
     let RecordCount = getVar({
        length: 2,
        name: "Record Count",
        type: "number"
-       , show: true
+       , show: false
     })
 
     let dataRecordOffsets = []
@@ -693,7 +693,7 @@ if (skip){
            name: "Num cols",
            type: "number"
         })
-        console.log(dataOffset + " + " + dataRecordOffsets[x] + " = " +  rty + ", "+ numCols + " cols")
+        //console.log(dataOffset + " + " + dataRecordOffsets[x] + " = " +  rty + ", "+ numCols + " cols")
     }
 }
 
@@ -1113,9 +1113,9 @@ function getDataForTableOnPage(pageNum, pageDefns) {
     for (let dataOffset = 0;dataOffset< listOfPages.pages.length;dataOffset++) {
         console.log("")
         console.log("")
-        console.log("dataOffset: " + dataOffset )
+        //console.log("dataOffset: " + dataOffset )
         let dataPageNum = listOfPages.pages[dataOffset]
-        console.log("data page: " + dataPageNum )
+        //console.log("data page: " + dataPageNum )
         tempoffset = 4096 * dataPageNum
 
 
@@ -1125,40 +1125,40 @@ function getDataForTableOnPage(pageNum, pageDefns) {
            name: "DataPageSignature",
            type: "number",
            showas: "hex"
-           , show: true})
+           , show: false})
 
         getVar({
            length: 1,
            name: "Unknown",
            type: "number"
-           , show: true
+           , show: false
         })
 
         getVar({
             length: 2,
             name: "Free Space",
             type: "number"
-            , show: true
+            , show: false
         })
 
         let tdef_pg = getVar({
            length: 3,
            name: "tdef_pg",
            type: "number"
-           , show: true
+           , show: false
         })
 
         let pgr = getVar({
            length: 1,
            name: "tdef_pg record",
            type: "number"
-           , show: true
+           , show: false
         })
         getVar({
            length: 4,
            name: "Unknown",
            type: "number"
-           , show: true
+           , show: false
         })
         let RecordCount = getVar({
            length: 2,
@@ -1166,7 +1166,8 @@ function getDataForTableOnPage(pageNum, pageDefns) {
            type: "number"
            , show: true
         })
-
+        console.log("")
+        console.log("")
 
 
         let NumCols = Object.keys(pageDefns[pageNum].colsInOrder).length
@@ -1175,17 +1176,19 @@ function getDataForTableOnPage(pageNum, pageDefns) {
         console.log("numFixed: " + numFixed)
 
         let fixedCount = 0
-        for (let yy=0;yy < pageDefns[pageNum].__colCount; yy++){
-            if (pageDefns[pageNum].colsInOrder[yy].fixedLength) {
-                console.log("Fixed col: " + pageDefns[pageNum].colsInOrder[yy].name + " = " + pageDefns[pageNum].colsInOrder[yy].length + " bytes")
+        //for (let rowIndex=0;rowIndex < RowCount; rowIndex++){
+            for (let yy=0;yy < pageDefns[pageNum].__colCount; yy++){
+                if (pageDefns[pageNum].colsInOrder[yy].fixedLength) {
+                    //console.log("Fixed col: " + pageDefns[pageNum].colsInOrder[yy].name + " = " + pageDefns[pageNum].colsInOrder[yy].length + " bytes")
+                    let colVal = getVar({
+                       length: pageDefns[pageNum].colsInOrder[yy].length,
+                       name: pageDefns[pageNum].colsInOrder[yy].name,
+                       type: "number"
+                       , show: true
+                    })
+                }
             }
-            let colVal = getVar({
-               length: pageDefns[pageNum].colsInOrder[yy].length,
-               name: pageDefns[pageNum].colsInOrder[yy].name,
-               type: "number"
-               , show: true
-            })
-        }
+        //}
     }
 }
 
