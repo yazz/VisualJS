@@ -1115,7 +1115,9 @@ function getDataForTableOnPage(pageNum, pageDefns) {
         console.log("")
         //console.log("dataOffset: " + dataOffset )
         let dataPageNum = listOfPages.pages[dataOffset]
-        //console.log("data page: " + dataPageNum )
+        console.log( "/------------------------------\\")
+        console.log( "| data page: " + dataPageNum )
+        console.log( "\\------------------------------/")
         tempoffset = 4096 * dataPageNum
 
 
@@ -1166,19 +1168,17 @@ function getDataForTableOnPage(pageNum, pageDefns) {
            type: "number"
         })
 
-        console.log("RecordCount: " + RecordCount)
-
-
         let NumCols = Object.keys(pageDefns[pageNum].colsInOrder).length
         //console.log(pageDefns[pageNum].colsInOrder)
         let numFixed = pageDefns[pageNum].__colCount - pageDefns[pageNum].__VariableColumns
-        console.log("numFixed: " + numFixed)
-        console.log("numVariable: " + pageDefns[pageNum].__VariableColumns)
+        console.log(numFixed + " Fixed + " + pageDefns[pageNum].__VariableColumns + " Variable  = " + pageDefns[pageNum].__colCount + " cols")
         let fixedCount = 0
-        console.log("..RecordCount: " + RecordCount)
+        console.log("RecordCount: " + RecordCount)
         console.log("")
         console.log("")
 
+        console.log("Fixed:")
+        console.log("------")
         //for (let rowIndex=0;rowIndex < RowCount; rowIndex++){
             for (let yy=0;yy < pageDefns[pageNum].__colCount; yy++){
                 if (pageDefns[pageNum].colsInOrder[yy].fixedLength) {
@@ -1192,6 +1192,12 @@ function getDataForTableOnPage(pageNum, pageDefns) {
                 }
             }
         //}
+        console.log("")
+        console.log("")
+        console.log("")
+        console.log("")
+        console.log("")
+        console.log("")
     }
 }
 
@@ -1245,9 +1251,9 @@ console.log("")
 
 
 
-//let data = getDataForTableOnPage(2,ty)
+let data = getDataForTableOnPage(2,ty)
 //4, 5, 18, 42
-let data = getDataForTableOnPage(42,ty)
+//let data = getDataForTableOnPage(42,ty)
 
 
 
