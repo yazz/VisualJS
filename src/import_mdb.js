@@ -1164,18 +1164,21 @@ function getDataForTableOnPage(pageNum, pageDefns) {
            length: 2,
            name: "RecordCount",
            type: "number"
-           , show: true
         })
-        console.log("")
-        console.log("")
+
+        console.log("RecordCount: " + RecordCount)
 
 
         let NumCols = Object.keys(pageDefns[pageNum].colsInOrder).length
         //console.log(pageDefns[pageNum].colsInOrder)
         let numFixed = pageDefns[pageNum].__colCount - pageDefns[pageNum].__VariableColumns
         console.log("numFixed: " + numFixed)
-
+        console.log("numVariable: " + pageDefns[pageNum].__VariableColumns)
         let fixedCount = 0
+        console.log("..RecordCount: " + RecordCount)
+        console.log("")
+        console.log("")
+
         //for (let rowIndex=0;rowIndex < RowCount; rowIndex++){
             for (let yy=0;yy < pageDefns[pageNum].__colCount; yy++){
                 if (pageDefns[pageNum].colsInOrder[yy].fixedLength) {
@@ -1242,8 +1245,9 @@ console.log("")
 
 
 
-let data = getDataForTableOnPage(2,ty)
-
+//let data = getDataForTableOnPage(2,ty)
+//4, 5, 18, 42
+let data = getDataForTableOnPage(42,ty)
 
 
 
