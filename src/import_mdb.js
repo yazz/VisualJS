@@ -247,7 +247,7 @@ show("NextPage", NextPage)
 
 tempoffset = offset + 8
 
-//zzz
+
 let TableDefinitionLength = find(tempoffset, 4, "number")
 show("Table Definition Length", TableDefinitionLength)
 
@@ -796,7 +796,7 @@ function getTableDefinitionForPage(listOfTableDefPages, pageNum) {
 
     tempoffset = tempoffset + 8
 
-    //zzz
+
     let TableDefinitionLength = find(tempoffset, 4, "number")
     listOfTableDefPages[pageNum].TableDefinitionLength = TableDefinitionLength
     if (showDebug){
@@ -1076,6 +1076,29 @@ function getTableDefinitionForPage(listOfTableDefPages, pageNum) {
         listOfTableDefPages[pageNum].colsInOrder[x] = columns[x]
     }
     listOfTableDefPages[pageNum].columnNames = columnNames
+
+
+
+    //
+    //
+    //
+    //zzz
+    console.log("...............")
+    console.log("")
+    tempoffset = (RowPageMapPage * 4096) + (64 * RowPageMapRecord)//(RowPageMapPage * 4096) //+ (2 * RecordCount)
+    console.log("RowPageMapPage: " + RowPageMapPage)
+    console.log("RowPageMapRecord: " + RowPageMapRecord)
+    console.log("offset: " + tempoffset)
+    let mapType = getVar({
+        length: 1,
+        name: "mapType",
+        type: "number"
+    })
+    console.log("mapType: " + mapType)
+
+    console.log("")
+    console.log("...............")
+
 }
 
 
@@ -1225,15 +1248,16 @@ function getDataForTableOnPage(pageNum, pageDefns) {
 let ty = getListOfTableDefPages()
 
 let listDefns = Object.keys(ty)
-for (let currentTableDefn = 0 ; currentTableDefn < listDefns.length ; currentTableDefn++){
-    let defnPage = listDefns[currentTableDefn]
+//for (let currentTableDefn = 0 ; currentTableDefn < listDefns.length ; currentTableDefn++){
+let defnPage = 2
+    //let defnPage = listDefns[currentTableDefn]
     console.log("------------------------------------------------------------------------------------------")
     getTableDefinitionForPage(ty,defnPage)
     console.log("Table defn: " + defnPage + " = " + JSON.stringify(ty[defnPage],null,2))
     console.log("")
     console.log("")
     console.log("")
-}
+//}
 
 
 
