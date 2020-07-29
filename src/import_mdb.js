@@ -1100,13 +1100,20 @@ function getTableDefinitionForPage(listOfTableDefPages, pageNum) {
 
     for (let rt=0;rt<17;rt++) {
 
+        var PageUsageMapRecord = getVar({
+            length: 0,
+            name: "Page Usage Map Record",
+            type: "number",
+            show: true
+        })
+
         var PageUsageMapPage = getVar({
             length: 4,
             name: "Page Usage Map Page",
             type: "number",
             show: true
         })
-        console.log("PageUsageMapPage: " + PageUsageMapPage)
+        console.log("PageUsageMapPage: " + PageUsageMapPage + ":" + PageUsageMapRecord)
 
 
     }
