@@ -1231,38 +1231,41 @@ function getDataForTableOnPage(pageNum, pageDefns) {
                name: "RecordOffset",
                type: "number"
             })
-            let readRecord=true
-            if (RecordOffset & 0x4000) {
-                    RecordOffset = RecordOffset - 0x4000
-                    readRecord=false
-            }
+            if (RecordOffset > 0) {
+                let readRecord=true
+                if (RecordOffset & 0x4000) {
+                        RecordOffset = RecordOffset - 0x4000
+                        readRecord=false
+                }
 
-            if (RecordOffset & 0x8000) {
-                    RecordOffset = RecordOffset - 0x8000
-                    readRecord=false
-            }
-            console.log("RecordOffset: " + RecordOffset)
-            tempoffset = (4096 * dataPageNum) + RecordOffset
-            console.log("tempoffset: " + tempoffset)
+                if (RecordOffset & 0x8000) {
+                        RecordOffset = RecordOffset - 0x8000
+                        readRecord=false
+                }
+                console.log("RecordOffset: " + RecordOffset)
+                tempoffset = (4096 * dataPageNum) + RecordOffset
+                console.log("tempoffset: " + tempoffset)
 
-            if (readRecord) {
-                console.log("Fixed col data:")
-                console.log("------")
-                //for (let rowIndex=0;rowIndex < RowCount; rowIndex++){
-                    for (let yy=0;yy < pageDefns[pageNum].__colCount; yy++){
-                        if (pageDefns[pageNum].colsInOrder[yy].fixedLength) {
-                            //console.log("Fixed col: " + pageDefns[pageNum].colsInOrder[yy].name + " = " + pageDefns[pageNum].colsInOrder[yy].length + " bytes")
-                            let colVal = getVar({
-                               length: pageDefns[pageNum].colsInOrder[yy].length,
-                               name: pageDefns[pageNum].colsInOrder[yy].name,
-                               type: "number"
-                               , show: true
-                            })
+                if (readRecord) {
+                    console.log("Fixed col data:")
+                    console.log("------")
+                    //for (let rowIndex=0;rowIndex < RowCount; rowIndex++){
+                        for (let yy=0;yy < pageDefns[pageNum].__colCount; yy++){
+                            if (pageDefns[pageNum].colsInOrder[yy].fixedLength) {
+                                //console.log("Fixed col: " + pageDefns[pageNum].colsInOrder[yy].name + " = " + pageDefns[pageNum].colsInOrder[yy].length + " bytes")
+                                let colVal = getVar({
+                                   length: pageDefns[pageNum].colsInOrder[yy].length,
+                                   name: pageDefns[pageNum].colsInOrder[yy].name,
+                                   type: "number"
+                                   , show: true
+                                })
+                            }
                         }
-                    }
 
+                }
+                //}                
             }
-            //}
+
             console.log("")
             console.log("")
             console.log("")
