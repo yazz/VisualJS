@@ -1181,7 +1181,7 @@ function getDataForTableOnPage(pageNum, pageDefns) {
            , show: false
         })
 
-        getVar({
+        let FreeSpace = getVar({
             length: 2,
             name: "Free Space",
             type: "number"
@@ -1201,7 +1201,7 @@ function getDataForTableOnPage(pageNum, pageDefns) {
            type: "number"
            , show: false
         })
-        getVar({
+        let Owner = getVar({
            length: 4,
            name: "Unknown",
            type: "number"
@@ -1213,36 +1213,67 @@ function getDataForTableOnPage(pageNum, pageDefns) {
            type: "number"
         })
 
+
+
         let NumCols = Object.keys(pageDefns[pageNum].colsInOrder).length
         //console.log(pageDefns[pageNum].colsInOrder)
         let numFixed = pageDefns[pageNum].__colCount - pageDefns[pageNum].__VariableColumns
         console.log(numFixed + " Fixed + " + pageDefns[pageNum].__VariableColumns + " Variable  = " + pageDefns[pageNum].__colCount + " cols")
         let fixedCount = 0
         console.log("RecordCount: " + RecordCount)
+        console.log("FreeSpace: " + FreeSpace)
+        console.log("Table defn page: " + tdef_pg)
+        console.log("Owner: " + Owner)
+        for (let rc = 0;rc < RecordCount; rc ++) {
+            console.log("RecordID: " + rc)
+            let RecordOffset = getVar({
+               length: 2,
+               name: "RecordOffset",
+               type: "number"
+            })
+            let readRecord=true
+            if (RecordOffset & 0x4000) {
+                    RecordOffset = RecordOffset - 0x4000
+                    readRecord=false
+            }
+
+            if (RecordOffset & 0x8000) {
+                    RecordOffset = RecordOffset - 0x8000
+                    readRecord=false
+            }
+            console.log("RecordOffset: " + RecordOffset)
+            tempoffset = (4096 * dataPageNum) + RecordOffset
+            console.log("tempoffset: " + tempoffset)
+
+            if (readRecord) {
+                console.log("Fixed col data:")
+                console.log("------")
+                //for (let rowIndex=0;rowIndex < RowCount; rowIndex++){
+                    for (let yy=0;yy < pageDefns[pageNum].__colCount; yy++){
+                        if (pageDefns[pageNum].colsInOrder[yy].fixedLength) {
+                            //console.log("Fixed col: " + pageDefns[pageNum].colsInOrder[yy].name + " = " + pageDefns[pageNum].colsInOrder[yy].length + " bytes")
+                            let colVal = getVar({
+                               length: pageDefns[pageNum].colsInOrder[yy].length,
+                               name: pageDefns[pageNum].colsInOrder[yy].name,
+                               type: "number"
+                               , show: true
+                            })
+                        }
+                    }
+
+            }
+            //}
+            console.log("")
+            console.log("")
+            console.log("")
+            console.log("")
+            console.log("")
+            console.log("")
+        }
         console.log("")
         console.log("")
 
-        console.log("Fixed:")
-        console.log("------")
-        //for (let rowIndex=0;rowIndex < RowCount; rowIndex++){
-            for (let yy=0;yy < pageDefns[pageNum].__colCount; yy++){
-                if (pageDefns[pageNum].colsInOrder[yy].fixedLength) {
-                    //console.log("Fixed col: " + pageDefns[pageNum].colsInOrder[yy].name + " = " + pageDefns[pageNum].colsInOrder[yy].length + " bytes")
-                    let colVal = getVar({
-                       length: pageDefns[pageNum].colsInOrder[yy].length,
-                       name: pageDefns[pageNum].colsInOrder[yy].name,
-                       type: "number"
-                       , show: true
-                    })
-                }
-            }
-        //}
-        console.log("")
-        console.log("")
-        console.log("")
-        console.log("")
-        console.log("")
-        console.log("")
+
     }
 }
 
