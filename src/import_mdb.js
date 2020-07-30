@@ -1160,9 +1160,10 @@ function getDataForTableOnPage(pageNum, pageDefns) {
         console.log("")
         //console.log("dataOffset: " + dataOffset )
         let dataPageNum = listOfPages.pages[dataOffset]
-        console.log( "/------------------------------\\")
-        console.log( "| data page: " + dataPageNum )
-        console.log( "\\------------------------------/")
+        console.log( "                           /------------------------------\\")
+        console.log( "                           | data page: " + dataPageNum )
+        console.log( "                           \\------------------------------/")
+        console.log( "")
         tempoffset = 4096 * dataPageNum
 
 
@@ -1218,12 +1219,13 @@ function getDataForTableOnPage(pageNum, pageDefns) {
         let NumCols = Object.keys(pageDefns[pageNum].colsInOrder).length
         //console.log(pageDefns[pageNum].colsInOrder)
         let numFixed = pageDefns[pageNum].__colCount - pageDefns[pageNum].__VariableColumns
-        console.log(numFixed + " Fixed + " + pageDefns[pageNum].__VariableColumns + " Variable  = " + pageDefns[pageNum].__colCount + " cols")
+        console.log("                           " +
+            numFixed + " Fixed + " + pageDefns[pageNum].__VariableColumns + " Variable  = " + pageDefns[pageNum].__colCount + " cols")
         let fixedCount = 0
-        console.log("RecordCount: " + RecordCount)
-        console.log("FreeSpace: " + FreeSpace)
-        console.log("Table defn page: " + tdef_pg)
-        console.log("Owner: " + Owner)
+        console.log("                           RecordCount: " + RecordCount)
+        console.log("                           FreeSpace: " + FreeSpace)
+        console.log("                           Table defn page: " + tdef_pg)
+        console.log("                           Owner: " + Owner)
         console.log("")
         console.log("")
         console.log("")
