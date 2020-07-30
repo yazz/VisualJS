@@ -1225,13 +1225,13 @@ function getDataForTableOnPage(pageNum, pageDefns) {
         console.log("Table defn page: " + tdef_pg)
         console.log("Owner: " + Owner)
         for (let rc = 0;rc < RecordCount; rc ++) {
-            console.log("RecordID: " + rc)
             let RecordOffset = getVar({
                length: 2,
                name: "RecordOffset",
                type: "number"
             })
             if (RecordOffset > 0) {
+                console.log("RecordID: " + rc)
                 let readRecord=true
                 if (RecordOffset & 0x4000) {
                         RecordOffset = RecordOffset - 0x4000
@@ -1242,11 +1242,12 @@ function getDataForTableOnPage(pageNum, pageDefns) {
                         RecordOffset = RecordOffset - 0x8000
                         readRecord=false
                 }
-                console.log("RecordOffset: " + RecordOffset)
-                tempoffset = (4096 * dataPageNum) + RecordOffset
-                console.log("tempoffset: " + tempoffset)
 
                 if (readRecord) {
+                    console.log("RecordOffset: " + RecordOffset)
+                    tempoffset = (4096 * dataPageNum) + RecordOffset
+                    console.log("tempoffset: " + tempoffset)
+
                     console.log("Fixed col data:")
                     console.log("------")
                     //for (let rowIndex=0;rowIndex < RowCount; rowIndex++){
@@ -1261,17 +1262,18 @@ function getDataForTableOnPage(pageNum, pageDefns) {
                                 })
                             }
                         }
-
+                        console.log("")
+                        console.log("")
+                        console.log("")
+                        console.log("")
+                        console.log("")
+                        console.log("")
                 }
-                //}                
+                //}
+
             }
 
-            console.log("")
-            console.log("")
-            console.log("")
-            console.log("")
-            console.log("")
-            console.log("")
+
         }
         console.log("")
         console.log("")
