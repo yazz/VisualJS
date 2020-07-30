@@ -1144,7 +1144,7 @@ function getDataForTableOnPage(pageNum, pageDefns) {
         console.log("")
         console.log("")
         console.log("----------------------------------------------------------------------------------------------------------------")
-        console.log("------                                    DATA FOR TABLE                                    ----------")
+        console.log("------                                    DATA FOR TABLE                                    ")
         console.log("------                                    page: " + pageNum + "                               ")
         console.log("----------------------------------------------------------------------------------------------------------------")
     }
@@ -1224,6 +1224,14 @@ function getDataForTableOnPage(pageNum, pageDefns) {
         console.log("FreeSpace: " + FreeSpace)
         console.log("Table defn page: " + tdef_pg)
         console.log("Owner: " + Owner)
+        console.log("")
+        console.log("")
+        console.log("")
+        console.log("")
+        console.log("")
+        console.log("")
+
+        let endRecord = tempoffset = (4096 * dataPageNum) + 4096 - 1
         for (let rc = 0;rc < RecordCount; rc ++) {
             let RecordOffset = getVar({
                length: 2,
@@ -1231,11 +1239,10 @@ function getDataForTableOnPage(pageNum, pageDefns) {
                type: "number"
             })
             if (RecordOffset > 0) {
-                console.log("RecordID: " + rc)
                 let readRecord=true
                 if (RecordOffset & 0x4000) {
                         RecordOffset = RecordOffset - 0x4000
-                        readRecord=false
+                        //readRecord=false
                 }
 
                 if (RecordOffset & 0x8000) {
@@ -1244,9 +1251,12 @@ function getDataForTableOnPage(pageNum, pageDefns) {
                 }
 
                 if (readRecord) {
-                    console.log("RecordOffset: " + RecordOffset)
+                    console.log("RecordID: " + rc)
                     tempoffset = (4096 * dataPageNum) + RecordOffset
+                    relen = endRecord - tempoffset
+                    console.log("RecordOffset:= " + tempoffset + " - " + endRecord + " = " + relen + " bytes")
                     console.log("tempoffset: " + tempoffset)
+                    endRecord = tempoffset - 1
 
                     console.log("Fixed col data:")
                     console.log("------")
