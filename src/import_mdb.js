@@ -1240,22 +1240,28 @@ function getDataForTableOnPage(pageNum, pageDefns) {
             })
             if (RecordOffset > 0) {
                 let readRecord=true
+                let deletedRecord=false
+                let overflowRecord=false
                 if (RecordOffset & 0x4000) {
-                        RecordOffset = RecordOffset - 0x4000
-                        //readRecord=false
+                    RecordOffset = RecordOffset - 0x4000
+                    //readRecord=false
+                    overflowRecord=true
                 }
 
                 if (RecordOffset & 0x8000) {
-                        RecordOffset = RecordOffset - 0x8000
-                        readRecord=false
+                    RecordOffset = RecordOffset - 0x8000
+                    readRecord=false
+                    deletedRecord=true
                 }
 
                 if (readRecord) {
-                    console.log("RecordID: " + rc)
                     tempoffset = (4096 * dataPageNum) + RecordOffset
                     relen = endRecord - tempoffset
-                    console.log("RecordOffset:= " + tempoffset + " - " + endRecord + " = " + relen + " bytes")
-                    console.log("tempoffset: " + tempoffset)
+                    console.log("RecordID: " + rc + " *** " + RecordOffset + " *** " +
+                    (deletedRecord?"DELETED ":"") +
+                    (overflowRecord?"OVERFLOW ":"") +
+                            (!overflowRecord?tempoffset + " - " + endRecord + " = " + relen + " bytes":""))
+
                     endRecord = tempoffset - 1
 
                     console.log("Fixed col data:")
