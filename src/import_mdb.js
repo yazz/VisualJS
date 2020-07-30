@@ -1264,6 +1264,7 @@ function getDataForTableOnPage(pageNum, pageDefns) {
                     (overflowRecord?"OVERFLOW ":"") +
                             (!overflowRecord?tempoffset + " - " + endRecord + " = " + relen + " bytes":""))
 
+
                     endRecord = tempoffset - 1
 
                     console.log("Fixed col data:")
@@ -1280,13 +1281,21 @@ function getDataForTableOnPage(pageNum, pageDefns) {
                                 })
                             }
                         }
+
+                        console.log("")
+                        tempoffset = relen
+                        let varCount = getVar({
+                           length: 2,
+                           name: "varcount",
+                           type: "number"
+                        })
+                        console.log("varCount:" + varCount)
                         console.log("")
                         console.log("")
                         console.log("")
                         console.log("")
                         console.log("")
-                        console.log("")
-                }
+                        console.log("")                }
                 //}
 
             }
