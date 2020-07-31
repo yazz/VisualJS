@@ -1213,6 +1213,7 @@ function getDataForTableOnPage(pageNum, pageDefns) {
            name: "RecordCount",
            type: "number"
         })
+        let NullFieldBitmapLength = Math.floor((pageDefns[pageNum].__colCount + 7) / 8)
 
 
         let offsetList = []
@@ -1310,6 +1311,10 @@ function getDataForTableOnPage(pageNum, pageDefns) {
                     //   type: "number"
                     //})
                     //console.log("varCount:" + varCount)
+
+                    //tempoffset = relen
+                    console.log("NullFieldBitmapLength: " + NullFieldBitmapLength)
+
 
             //}
 
