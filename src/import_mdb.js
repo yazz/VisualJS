@@ -1226,19 +1226,7 @@ function getDataForTableOnPage(pageNum, pageDefns) {
             let newRecordMetaData = {
                 RawRecordOffset:    RawRecordOffset
                 ,
-                RealOffset:         null
-                ,
                 valid:              true
-                ,
-                deleted:            false
-                ,
-                overflow:           false
-                ,
-                length:             null
-                ,
-                start:              null
-                ,
-                end:                null
             }
             if (RawRecordOffset == 0) {
                 newRecordMetaData.valid = false
@@ -1256,15 +1244,15 @@ function getDataForTableOnPage(pageNum, pageDefns) {
                 newRecordMetaData.RealOffset = RawRecordOffset
 
             }
-
-            newRecordMetaData.start = (4096 * dataPageNum) + newRecordMetaData.RealOffset 
+            newRecordMetaData.start = (4096 * dataPageNum) + newRecordMetaData.RealOffset
             newRecordMetaData.end = lastEnd
+            newRecordMetaData.length = (newRecordMetaData.end - newRecordMetaData.start) + 1
             lastEnd = newRecordMetaData.start - 1
 
 
             offsetList.push( newRecordMetaData )
 
-            console.log("RecordOffset: " + JSON.stringify(newRecordMetaData,null,2))
+            console.log("Record: " + recIndex + ": " + JSON.stringify(newRecordMetaData,null,2))
 
         }
 
