@@ -1252,7 +1252,7 @@ function getDataForTableOnPage(pageNum, pageDefns) {
 
             offsetList.push( newRecordMetaData )
 
-            console.log("Record: " + recIndex + ": " + JSON.stringify(newRecordMetaData,null,2))
+            //console.log("Record: " + recIndex + ": " + JSON.stringify(newRecordMetaData,null,2))
 
         }
 
@@ -1275,74 +1275,53 @@ function getDataForTableOnPage(pageNum, pageDefns) {
         console.log("")
         console.log("")
 
-        let endRecord = tempoffset = (4096 * dataPageNum) + 4096 - 1
         for (let rc = 0;rc < RecordCount; rc ++) {
-            let RecordOffset = getVar({
-               length: 2,
-               name: "RecordOffset",
-               type: "number"
-            })
-            if (RecordOffset > 0) {
-                let readRecord=true
-                let deletedRecord=false
-                let overflowRecord=false
-                if (RecordOffset & 0x4000) {
-                    RecordOffset = RecordOffset - 0x4000
-                    //readRecord=false
-                    overflowRecord=true
-                }
+            console.log("RecordID: " + rc)
+            if (offsetList[rc].valid) {
+                console.log( offsetList[rc].RealOffset + " - " + (offsetList[rc].RealOffset + offsetList[rc].length - 1))
+                tempoffset = offsetList[rc].start
+                let NumCols = getVar({
+                    length: 2,
+                    name: "NumCols",
+                    type: "number"
+                })
+                console.log("NumCols: " + NumCols)
 
-                if (RecordOffset & 0x8000) {
-                    RecordOffset = RecordOffset - 0x8000
-                    readRecord=false
-                    deletedRecord=true
-                }
-
-                if (readRecord) {
-                    tempoffset = (4096 * dataPageNum) + RecordOffset
-                    relen = endRecord - tempoffset
-                    console.log("RecordID: " + rc + " *** " + RecordOffset + " *** " +
-                    (deletedRecord?"DELETED ":"") +
-                    (overflowRecord?"OVERFLOW ":"") +
-                            (!overflowRecord?tempoffset + " - " + endRecord + " = " + relen + " bytes":""))
-
-
-                    endRecord = tempoffset - 1
-
-                    console.log("Fixed col data:")
-                    console.log("------")
-                    //for (let rowIndex=0;rowIndex < RowCount; rowIndex++){
-                        for (let yy=0;yy < pageDefns[pageNum].__colCount; yy++){
-                            if (pageDefns[pageNum].colsInOrder[yy].fixedLength) {
-                                //console.log("Fixed col: " + pageDefns[pageNum].colsInOrder[yy].name + " = " + pageDefns[pageNum].colsInOrder[yy].length + " bytes")
-                                let colVal = getVar({
-                                   length: pageDefns[pageNum].colsInOrder[yy].length,
-                                   name: pageDefns[pageNum].colsInOrder[yy].name,
-                                   type: "number"
-                                   , show: true
-                                })
-                            }
+                console.log("Fixed col data:")
+                console.log("------")
+                //for (let rowIndex=0;rowIndex < RowCount; rowIndex++){
+                    for (let yy=0;yy < pageDefns[pageNum].__colCount; yy++){
+                        if (pageDefns[pageNum].colsInOrder[yy].fixedLength) {
+                            //console.log("Fixed col: " + pageDefns[pageNum].colsInOrder[yy].name + " = " + pageDefns[pageNum].colsInOrder[yy].length + " bytes")
+                            let colVal = getVar({
+                               length: pageDefns[pageNum].colsInOrder[yy].length,
+                               name: pageDefns[pageNum].colsInOrder[yy].name,
+                               type: "number"
+                               , show: true
+                            })
                         }
+                    }
 
-                        console.log("")
-                        //tempoffset = relen
-                        //let varCount = getVar({
-                        //   length: 2,
-                        //   name: "varcount",
-                        //   type: "number"
-                        //})
-                        //console.log("varCount:" + varCount)
-                        console.log("")
-                        console.log("")
-                        console.log("")
-                        console.log("")
-                        console.log("")
-                        console.log("")                }
-                //}
+                    console.log("")
+                    //tempoffset = relen
+                    //let varCount = getVar({
+                    //   length: 2,
+                    //   name: "varcount",
+                    //   type: "number"
+                    //})
+                    //console.log("varCount:" + varCount)
+
+            //}
+
 
             }
 
-
+            console.log("")
+            console.log("")
+            console.log("")
+            console.log("")
+            console.log("")
+            console.log("")
         }
         console.log("")
         console.log("")
