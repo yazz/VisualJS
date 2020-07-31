@@ -1215,6 +1215,60 @@ function getDataForTableOnPage(pageNum, pageDefns) {
         })
 
 
+        let offsetList = []
+        let lastEnd = (4096 * dataPageNum) + 4096 - 1
+        for (let recIndex = 0 ; recIndex < RecordCount; recIndex++) {
+            let RawRecordOffset = getVar({
+               length: 2,
+               name: "RecordOffset",
+               type: "number"
+            })
+            let newRecordMetaData = {
+                RawRecordOffset:    RawRecordOffset
+                ,
+                RealOffset:         null
+                ,
+                valid:              true
+                ,
+                deleted:            false
+                ,
+                overflow:           false
+                ,
+                length:             null
+                ,
+                start:              null
+                ,
+                end:                null
+            }
+            if (RawRecordOffset == 0) {
+                newRecordMetaData.valid = false
+
+            } else if (RawRecordOffset & 0x4000) {
+                newRecordMetaData.valid = false
+                newRecordMetaData.overflow = true
+                newRecordMetaData.RealOffset = RawRecordOffset - 0x4000
+
+            } else if (RawRecordOffset & 0x8000) {
+                newRecordMetaData.deleted = true
+                newRecordMetaData.valid = false
+                newRecordMetaData.RealOffset = RawRecordOffset - 0x8000
+            } else {
+                newRecordMetaData.RealOffset = RawRecordOffset
+
+            }
+
+            newRecordMetaData.start = (4096 * dataPageNum) + newRecordMetaData.RealOffset 
+            newRecordMetaData.end = lastEnd
+            lastEnd = newRecordMetaData.start - 1
+
+
+            offsetList.push( newRecordMetaData )
+
+            console.log("RecordOffset: " + JSON.stringify(newRecordMetaData,null,2))
+
+        }
+
+
 
         let NumCols = Object.keys(pageDefns[pageNum].colsInOrder).length
         //console.log(pageDefns[pageNum].colsInOrder)
