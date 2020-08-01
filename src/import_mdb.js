@@ -1346,6 +1346,16 @@ function getDataForTableOnPage(pageNum, pageDefns) {
                     console.log("Variable fields:" + JSON.stringify(listOfOffsets,null,2))
             //}
 
+                for (let varIndex=0; varIndex < listOfOffsets.length;varIndex++){
+
+                    tempoffset = listOfOffsets[varIndex].start
+                    let VariableLengthFieldOffset = getVar({
+                       length: listOfOffsets[varIndex].length,
+                       name: "VariableLengthFieldOffset",
+                       type: "string"
+                    })
+                    console.log("Val:" + VariableLengthFieldOffset)
+                }
 
             }
 
