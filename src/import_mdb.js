@@ -1320,6 +1320,8 @@ function getDataForTableOnPage(pageNum, pageDefns) {
                     console.log("")
 
 
+                    let listOfOffsets = []
+                    let listOfOffsetsRaw = []
                     for (let varIndex=0; varIndex < VariableLengthFieldCount;varIndex++){
 
                         tempoffset = lastOffset - 2
@@ -1329,7 +1331,11 @@ function getDataForTableOnPage(pageNum, pageDefns) {
                            name: "VariableLengthFieldOffset",
                            type: "number"
                         })
-                        console.log("VariableLengthFieldOffset:" + VariableLengthFieldOffset)
+                        listOfOffsetsRaw.push(VariableLengthFieldOffset)
+                        if ((varIndex == 0 ) || (listOfOffsetsRaw[varIndex] != listOfOffsetsRaw[varIndex - 1])) {
+                            listOfOffsets.push(VariableLengthFieldOffset)
+                            console.log("VariableLengthFieldOffset:" + VariableLengthFieldOffset)
+                        }
 
                     }
 
