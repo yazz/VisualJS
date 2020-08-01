@@ -1305,15 +1305,33 @@ function getDataForTableOnPage(pageNum, pageDefns) {
 
                     console.log("")
 
-
                     console.log("NullFieldBitmapLength: " + NullFieldBitmapLength)
                     tempoffset = offsetList[rc].end - NullFieldBitmapLength - 1
-                    VariableLengthFieldCount = getVar({
+                    let lastOffset = tempoffset
+                    let VariableLengthFieldCount = getVar({
                        length: 2,
                        name: "VariableLengthFieldCount",
                        type: "number"
                     })
                     console.log("VariableLengthFieldCount:" + VariableLengthFieldCount)
+
+                    console.log("")
+                    console.log("")
+                    console.log("")
+
+
+                    for (let varIndex=0; varIndex < VariableLengthFieldCount;varIndex++){
+
+                        tempoffset = lastOffset - 2
+                        lastOffset = tempoffset
+                        let VariableLengthFieldOffset = getVar({
+                           length: 2,
+                           name: "VariableLengthFieldOffset",
+                           type: "number"
+                        })
+                        console.log("VariableLengthFieldOffset:" + VariableLengthFieldOffset)
+
+                    }
 
             //}
 
