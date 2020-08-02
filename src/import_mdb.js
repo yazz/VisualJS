@@ -1,5 +1,5 @@
 //2,4, 5, 18, 42
-let defnPage = 42
+let defnPage =42
 
 let headerJetVersion = 4
 var fs = require("fs");
@@ -762,11 +762,19 @@ function getDataForTableOnPage(pageNum, pageDefns) {
                         listOfOffsetsRaw.push(VariableLengthFieldOffset)
                         if ((varIndex == 0 ) || (listOfOffsetsRaw[varIndex] != listOfOffsetsRaw[varIndex - 1])) {
                             listOfOffsets.push({relative_offset: VariableLengthFieldOffset,
-                                                length: endRec - (offsetList[rc].start + VariableLengthFieldOffset),
-                                                start: offsetList[rc].start + VariableLengthFieldOffset,
-                                                end: endRec})
+                                                start: offsetList[rc].start + VariableLengthFieldOffset})
                             console.log("VariableLengthFieldOffset:" + VariableLengthFieldOffset)
-                            //endRec = offsetList[rc].start + VariableLengthFieldOffset - 1
+                        }
+                    }
+                    for (let varIndex=0; varIndex < listOfOffsets.length;varIndex++) {
+
+                        if (varIndex == (listOfOffsets.length - 1) ) {
+
+                        } else {
+                            let varColData = listOfOffsets[ varIndex ]
+                            let nextColData = listOfOffsets[ varIndex + 1 ]
+                            varColData.length = nextColData.relative_offset - varColData.relative_offset
+                            varColData.end = nextColData.start - 1
                         }
 
                     }
