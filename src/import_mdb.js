@@ -1,5 +1,5 @@
 //2,4, 5, 18, 42
-let defnPage =42
+let defnPage =2
 
 let headerJetVersion = 4
 var fs = require("fs");
@@ -797,7 +797,7 @@ function getDataForTableOnPage(pageNum, pageDefns) {
 
                     tempoffset = listOfOffsets[varIndex].start
                     let VariableLengthFieldOffset = getVar({
-                       length: listOfOffsets[varIndex].length,
+                       length: listOfOffsets[varIndex].length ,
                        name: "VariableLengthFieldOffset"
                     })
                     //console.log("Val:" + toUTF8Array(VariableLengthFieldOffset))
