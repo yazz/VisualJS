@@ -1344,6 +1344,14 @@ function getDataForTableOnPage(pageNum, pageDefns) {
 
                     }
                     console.log("Variable fields:" + JSON.stringify(listOfOffsets,null,2))
+
+                    tempoffset = lastOffset - 2
+                    let Eod = getVar({
+                       length: 2,
+                       name: "Eod",
+                       type: "number"
+                    })
+                    console.log("Eod:" + Eod)
             //}
 
                 for (let varIndex=0; varIndex < listOfOffsets.length;varIndex++){
