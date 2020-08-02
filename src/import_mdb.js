@@ -1082,7 +1082,7 @@ function getTableDefinitionForPage(listOfTableDefPages, pageNum) {
     //
     //
     //
-    //zzz
+
     console.log("...............")
     console.log("")
     tempoffset = (RowPageMapPage * 4096) + (64 * RowPageMapRecord)//(RowPageMapPage * 4096) //+ (2 * RecordCount)
@@ -1095,7 +1095,7 @@ function getTableDefinitionForPage(listOfTableDefPages, pageNum) {
         name: "mapType",
         type: "number"
     })
-    //zzz
+
     console.log("mapType: " + mapType)
 
     for (let rt=0;rt<17;rt++) {
@@ -1345,13 +1345,17 @@ function getDataForTableOnPage(pageNum, pageDefns) {
                     }
                     console.log("Variable fields:" + JSON.stringify(listOfOffsets,null,2))
 
-                    tempoffset = lastOffset - 2
-                    let Eod = getVar({
-                       length: 2,
-                       name: "Eod",
-                       type: "number"
-                    })
-                    console.log("Eod:" + Eod)
+                    for (let i=0;i<20;i++){
+                        tempoffset = lastOffset - 2
+                        lastOffset = tempoffset
+                        let Eod = getVar({
+                           length: 2,
+                           name: "Eod",
+                           type: "number"
+                        })
+                        console.log("Eod:" + Eod)
+                    }
+                    console.log("")
             //}
 
                 for (let varIndex=0; varIndex < listOfOffsets.length;varIndex++){
@@ -1359,10 +1363,10 @@ function getDataForTableOnPage(pageNum, pageDefns) {
                     tempoffset = listOfOffsets[varIndex].start
                     let VariableLengthFieldOffset = getVar({
                        length: listOfOffsets[varIndex].length,
-                       name: "VariableLengthFieldOffset",
-                       type: "string"
+                       name: "VariableLengthFieldOffset"
                     })
-                    console.log("Val:" + VariableLengthFieldOffset)
+                    console.log("Val:" + toUTF8Array(VariableLengthFieldOffset))
+                    //zzz
                 }
 
             }
