@@ -1,3 +1,6 @@
+//2,4, 5, 18, 42
+let defnPage = 42
+
 let headerJetVersion = 4
 var fs = require("fs");
 let showDebug = false
@@ -789,7 +792,8 @@ function getDataForTableOnPage(pageNum, pageDefns) {
                        length: listOfOffsets[varIndex].length,
                        name: "VariableLengthFieldOffset"
                     })
-                    console.log("Val:" + toUTF8Array(VariableLengthFieldOffset))
+                    //console.log("Val:" + toUTF8Array(VariableLengthFieldOffset))
+                    console.log("Val:" + VariableLengthFieldOffset)
                     //zzz
                 }
 
@@ -834,7 +838,6 @@ let ty = getListOfTableDefPages()
 
 let listDefns = Object.keys(ty)
 //for (let currentTableDefn = 0 ; currentTableDefn < listDefns.length ; currentTableDefn++){
-let defnPage = 2
     //let defnPage = listDefns[currentTableDefn]
     console.log("------------------------------------------------------------------------------------------")
     getTableDefinitionForPage(ty,defnPage)
@@ -860,8 +863,7 @@ console.log("")
 
 
 
-let data = getDataForTableOnPage(2,ty)
-//2,4, 5, 18, 42
+let data = getDataForTableOnPage(defnPage,ty)
 //let data = getDataForTableOnPage(42,ty)
 
 
