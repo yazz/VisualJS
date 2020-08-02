@@ -769,7 +769,9 @@ function getDataForTableOnPage(pageNum, pageDefns) {
                     for (let varIndex=0; varIndex < listOfOffsets.length;varIndex++) {
 
                         if (varIndex == (listOfOffsets.length - 1) ) {
-
+                            let varColData = listOfOffsets[ varIndex ]
+                            varColData.length = 2
+                            varColData.end = varColData.start + 2
                         } else {
                             let varColData = listOfOffsets[ varIndex ]
                             let nextColData = listOfOffsets[ varIndex + 1 ]
@@ -796,12 +798,23 @@ function getDataForTableOnPage(pageNum, pageDefns) {
                 for (let varIndex=0; varIndex < listOfOffsets.length;varIndex++){
 
                     tempoffset = listOfOffsets[varIndex].start
-                    let VariableLengthFieldOffset = getVar({
-                       length: listOfOffsets[varIndex].length ,
-                       name: "VariableLengthFieldOffset"
-                    })
-                    //console.log("Val:" + toUTF8Array(VariableLengthFieldOffset))
-                    console.log("Val:" + VariableLengthFieldOffset)
+                    if (listOfOffsets[varIndex].length  == 2) {
+                        let VariableLengthFieldOffset = getVar({
+                           length: listOfOffsets[varIndex].length ,
+                           name: "VariableLengthFieldOffset",
+                           type: "number"
+                        })
+                        //console.log("Val:" + toUTF8Array(VariableLengthFieldOffset))
+                        console.log("Val:" + VariableLengthFieldOffset)
+
+                    } else {
+                        let VariableLengthFieldOffset = getVar({
+                           length: listOfOffsets[varIndex].length ,
+                           name: "VariableLengthFieldOffset"
+                        })
+                        //console.log("Val:" + toUTF8Array(VariableLengthFieldOffset))
+                        console.log("Val:" + VariableLengthFieldOffset)
+                    }
                     //zzz
                 }
 
