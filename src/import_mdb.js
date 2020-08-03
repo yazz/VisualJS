@@ -918,3 +918,11 @@ function findTypeOfPage(pageType) {
 
 
 //findTypeOfPage(1)
+
+
+
+
+var noaccess = require("@zubairq/noaccess");
+
+let rtv =noaccess.printMsg()
+console.log("rtv: " + JSON.stringify(rtv,null,2))

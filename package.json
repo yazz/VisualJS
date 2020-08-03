@@ -12,6 +12,7 @@
     "pilot": "./src/electron.js"
   },
   "dependencies": {
+    "@zubairq/noaccess": "github:zubairq/noaccess",
     "async": "^2.6.0",
     "body-parser": "^1.19.0",
     "commander": "^2.20.0",
