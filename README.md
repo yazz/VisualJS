@@ -160,7 +160,7 @@ http://localhost:3000
 
 
 <br/><br/><br/>
-### Build a command line exexutablel for MacOS
+### Build a command line exexutable for MacOS
     nexe src/electron.js -r public/ -r src/ -r package.json -r node_sqlite3.node  -o appshare
 
 
