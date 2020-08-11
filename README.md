@@ -2,14 +2,14 @@
 # AppShare
 
 
-## Low-code development for OpenShift
-AppShare is a Low-code development tool for OpenShift. It can connect to 3Scale, Rest APIs, Postgres, and other stuff. JavaScript is used for scripting events and writing code. There is a demo which works on desktop web browsers here:
+## Build and share internal database apps
+AppShare is a web based tool used to build and share internal database apps fast. There is a demo which works on desktop web browsers here:
 
 Demo: https://appshare.co/app/homepage.html
 <br/><br/>
-Link to PDF docs: https://appshare.co/visifile/docs/yazz_march_2020.pdf
+Link to PDF docs (still using the old name Yazz Pilot): https://appshare.co/visifile/docs/yazz_march_2020.pdf
 <br/><br/>
-Link to Hacker News Post: https://news.ycombinator.com/item?id=21734845
+Link to Hacker News Post (when it was known as Yazz Pilot): https://news.ycombinator.com/item?id=21734845
 <br/><br/><br/>
 
 
@@ -160,7 +160,7 @@ http://localhost:3000
 
 
 <br/><br/><br/>
-### Build a command line exexutablel for MacOS
+### Build a command line exexutable for MacOS
     nexe src/electron.js -r public/ -r src/ -r package.json -r node_sqlite3.node  -o appshare
 
 
