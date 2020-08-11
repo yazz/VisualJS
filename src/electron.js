@@ -2394,7 +2394,7 @@ function file_uploadSingleFn(req, res) {
                                                 sqlite_data:            sqlitedatafromupload
                                            });
           }
-      } else if ((ext == "js") || (ext == "yazz") || (ext == "pilot") || (ext == "appshare"))  {
+      } else if ((ext == "js") || (ext == "yazz") || (ext == "pilot") || (ext == "jsa"))  {
               var localp2;
               localp2 =  path.join(userData,  'uploads/' + ifile.filename);
               var localp = localp2 + '.' + ext;
@@ -2498,7 +2498,7 @@ function file_uploadFn(req, res, next) {
                                                     sqlite_data:            sqlitedatafromupload
                                                });
               }
-          } else if ((ext == "js") || (ext == "yazz") || (ext == "pilot") || (ext == "appshare"))  {
+          } else if ((ext == "js") || (ext == "yazz") || (ext == "pilot") || (ext == "jsa"))  {
                   var localp2;
                   localp2 =  path.join(userData,  'uploads/' + ifile.filename);
                   var localp = localp2 + '.' + ext;
