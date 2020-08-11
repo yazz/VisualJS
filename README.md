@@ -7,7 +7,7 @@ AppShare is a web based tool used to build and share internal database apps fast
 
 Demo: https://appshare.co/app/homepage.html
 <br/><br/>
-Link to PDF docs (still using the old name Yazz Pilot): https://appshare.co/visifile/docs/yazz_march_2020.pdf
+Link to PDF docs (still using the old name Yazz Pilot): https://appshare.co/visifile/docs/appshare_march_2020.pdf
 <br/><br/>
 Link to Hacker News Post (when it was known as Yazz Pilot): https://news.ycombinator.com/item?id=21734845
 <br/><br/><br/>
