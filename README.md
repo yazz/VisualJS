@@ -38,11 +38,11 @@ Link to Hacker News Post (when it was known as Yazz Pilot): https://news.ycombin
 - Open source MIT license
 - Can run in Docker, Kubernetes, or OpenShift, as a Snap package, or locally on Mac, Windows, Linux, Raspberry PI using NodeJS
 - Can build Microservices
-- All apps can be saved as a single .appshare file
+- All source code for apps can be saved as a single .jsa file
 - Apps can be saved as a single HTML file and sent by email (Even SQlite based apps)
 - All code is stored as immuntable, and identified by a SHA256 hash
 - The AppShare editor and output programs can work offline without internet connectivity
-- Extra UI or server components can be build as plugins (as .appshare files)
+- Extra UI or server components can be build as plugins (as .jsa files)
 - The AppShare extensible IDE allows you to build new ways of editing code. Currently a text editor and a Visual Basic style editor are included
 <br/><br/><br/>
 
@@ -248,7 +248,7 @@ Using IPC (Inter Process Communication)
 
 
 ### What is the basic Unit of code in AppShare?
-A component is the basic unit of code in AppShare, represented as a function in a .appshare text file.
+A component is the basic unit of code in AppShare, represented as a function in a .jsa text file.
 
 
 
@@ -339,7 +339,7 @@ They have their reasons. Plus, they HATE Javascript. They much prefer .NET, Dart
 
 
 ### Every time I restart AppShare I can't see my apps. How to I save them?
-You need to save the apps that you wish to keep by pessing the button "Save as .appshare file" fro the editor.
+You need to save the apps that you wish to keep by pessing the button "Save as .jsa file" fro the editor.
 
 
 ### I’m already invested in my favorite text editor. Can I keep using it with AppShare?
@@ -468,7 +468,7 @@ You can join us here http://AppShare-workspace.slack.com
 
 
 ### What is the extension for all AppShare apps?
-The extension is ".appshare" but you can also use the ".js" extension for loading some simple Javascript apps
+The extension is ".jsa" but you can also use the ".js" extension for loading some simple Javascript apps
 
 
 

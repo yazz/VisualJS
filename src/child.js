@@ -1476,7 +1476,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                         var newStaticFilePath = path.join( userData, 'apps/' + baseComponentId + '.html' )
                                         var newLocalStaticFilePath = path.join( userData, 'apps/yazz_' + baseComponentId + '.html' )
                                         var newLocalJSPath = path.join( userData, 'apps/yazz_' + baseComponentId + '.js' )
-                                        var newLocalYazzPath = path.join( userData, 'apps/yazz_' + baseComponentId + '.appshare' )
+                                        var newLocalYazzPath = path.join( userData, 'apps/yazz_' + baseComponentId + '.jsa' )
 
                                         var newStaticFileContent = fs.readFileSync( origFilePath )
 
