@@ -53,6 +53,10 @@ var stmtUpdateLatestAppDDLRevision;
 var stmtInsertIntoAppRegistry
 var stmtUpdateAppRegistry
 
+var stmtDeleteLabelsForComponent;
+var stmtInsertLabelsForComponent;
+
+
 var copyMigration;
 var stmtInsertNewCode
 var stmtDeprecateOldCode
@@ -152,6 +156,17 @@ function setUpSql() {
 
     stmtDeleteDependencies = dbsearch.prepare(" delete from  app_dependencies   where   code_id = ?");
 
+
+    //zzz
+    stmtDeleteLabelsForComponent = dbsearch.prepare(" delete from  labels   where   label_owner_type = 'VB'  and  label_owner_type_2 = 'PROPERTY' and label_owner_name = ?");
+
+    stmtInsertLabelsForComponent = dbsearch.prepare(`insert or ignore
+                                                    into
+                                               labels
+                                                    (label_owner_type, label_owner_type_2)
+                                               values (?,?)`)
+
+    "CREATE TABLE IF NOT EXISTS labels (id TEXT, label_owner_type TEXT, label_name TEXT, label_value TEXT);",
 
 
      stmtInsertAppDDLRevision = dbsearch.prepare(  " insert into app_db_latest_ddl_revisions " +
@@ -875,7 +890,7 @@ function shutdownExeProcess(err) {
 //
 //------------------------------------------------------------------------------
 function updateRegistry(options, sha1sum) {
-//zzz
+
     if (!options.username || !options.reponame) {
         return
     }
@@ -1328,6 +1343,8 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                             let prop = properties2[rttte]
                                             if (prop.labels) {
                                                 console.log("    " + prop.id + " = " +  JSON.stringify(prop.labels))
+                                                stmtInsertLabelsForComponent.run(baseComponentId,baseComponentId)
+                                                //zzz
                                             }
                                         }
                                     }
