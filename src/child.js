@@ -1319,6 +1319,20 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                 if (properties) {
                                     properties = JSON.stringify(properties,null,2)
                                 }
+                                if (controlType == "VB") {
+                                    console.log("VB: " + baseComponentId)
+                                    let properties2 = saveHelper.getValueOfCodeString(code,"properties",")//properties")
+                                    if (properties2) {
+                                        //console.log("     properties: " + properties2.length)
+                                        for (let rttte = 0; rttte < properties2.length ; rttte++ ) {
+                                            let prop = properties2[rttte]
+                                            if (prop.labels) {
+                                                console.log("    " + prop.id + " = " +  JSON.stringify(prop.labels))
+                                            }
+                                        }
+                                    }
+
+                                }
 
 
 
