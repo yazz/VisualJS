@@ -31,7 +31,8 @@ properties(
         {
             id:     "value",
             name:   "Value",
-            type:   "String"
+            type:   "String",
+            labels: {text: true}
         }
         ,
 
