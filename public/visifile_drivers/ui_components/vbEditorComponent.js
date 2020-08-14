@@ -411,28 +411,27 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
 
-
-
-<ul class="nav nav-tabs" id="myTab" role="tablist">
+<ul class="nav nav-tabs" id="myTab" role="tablist"
+    v-bind:refresh='refresh'>
   <li class="nav-item">
     <a  v-bind:class='"nav-link " + (  design_mode_pane.links_type == "form"?"active":""  )'
         id="links-form-tab"
-        v-on:click='design_mode_pane.links_type = "form"'
-        data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Form</a>
+        v-on:click='design_mode_pane.links_type = "form";refresh++;'
+        data-toggle="tab" role="tab" aria-controls="home" aria-selected="true">Form</a>
   </li>
 
   <li class="nav-item">
     <a  v-bind:class='"nav-link " + (  design_mode_pane.links_type == "find"?"active":""  )'
         id="links-find-tab"
-        v-on:click='design_mode_pane.links_type = "find"'
-        data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Find</a>
+        v-on:click='design_mode_pane.links_type = "find";refresh++;'
+        data-toggle="tab" role="tab" aria-controls="profile" aria-selected="false">Find</a>
   </li>
 
   <li class="nav-item">
     <a  v-bind:class='"nav-link " + (  design_mode_pane.links_type == "manual"?"active":""  )'
         id="contact-tab"
-        v-on:click='design_mode_pane.links_type = "manual"'
-        data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Manual</a>
+        v-on:click='design_mode_pane.links_type = "manual";refresh++;'
+        data-toggle="tab" role="tab" aria-controls="contact" aria-selected="false">Manual</a>
   </li>
 </ul>
 <div class="tab-content" id="myTabContent">
