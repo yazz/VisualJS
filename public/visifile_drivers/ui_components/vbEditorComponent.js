@@ -652,10 +652,6 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
 
-
-
-
-
    <!--
 
            FORM LINKS START HERE
@@ -670,8 +666,10 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
 
-             <td style='vertical-align: top; width: 50%;'>
-                 <div    style="margin:5px;height:150px;">
+             <td    style='vertical-align: top; width: 50%;'>
+                 <div  style="margin:5px;height:150px;"
+                       v-if='component_properties_links_incoming[model.forms[active_form].components[active_component_index].base_component_id]'
+                       >
                      <div    style="width:40%;font-weight:bold;margin:7px;">From</div>
                      <select  @change='setWatchComponent($event)'  style='margin:7px;'>
                          <option     value=""
