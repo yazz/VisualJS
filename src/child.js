@@ -54,7 +54,9 @@ var stmtInsertIntoAppRegistry
 var stmtUpdateAppRegistry
 
 var stmtDeleteTypesForComponentProperty;
-var stmtInserttypesForComponentProperty;
+var stmtDeleteAcceptTypesForComponentProperty;
+var stmtInsertTypesForComponentProperty;
+var stmtInsertAcceptTypesForComponentProperty;
 
 
 var copyMigration;
@@ -159,11 +161,18 @@ function setUpSql() {
 
     //zzz
     stmtDeleteTypesForComponentProperty = dbsearch.prepare(" delete from  component_property_types   where   component_name = ?");
+    stmtDeleteAcceptTypesForComponentProperty = dbsearch.prepare(" delete from  component_property_accept_types   where   component_name = ?");
 
-    stmtInserttypesForComponentProperty = dbsearch.prepare(`insert or ignore
+    stmtInsertTypesForComponentProperty = dbsearch.prepare(`insert or ignore
                                                     into
                                                component_property_types
                                                     (component_name, property_name , type_name, type_value )
+                                               values ( ?,?,?,?)`)
+
+    stmtInsertAcceptTypesForComponentProperty = dbsearch.prepare(`insert or ignore
+                                                    into
+                                               component_property_accept_types
+                                                    (component_name, property_name , accept_type_name , accept_type_value )
                                                values ( ?,?,?,?)`)
 
 
@@ -1336,6 +1345,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                     //console.log("VB: " + baseComponentId)
                                     let properties2 = saveHelper.getValueOfCodeString(code,"properties",")//properties")
                                     stmtDeleteTypesForComponentProperty.run(baseComponentId)
+                                    stmtDeleteAcceptTypesForComponentProperty.run(baseComponentId)
                                     if (properties2) {
                                         //console.log("     properties: " + properties2.length)
                                         for (let rttte = 0; rttte < properties2.length ; rttte++ ) {
@@ -1345,9 +1355,22 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                 for (let rttte2 = 0; rttte2 < labelKeys.length ; rttte2++ ) {
                                                     let prop2 = prop.types[labelKeys[rttte2]]
                                                     //console.log("    " + prop.id + " = " +  JSON.stringify(prop.labels))
-                                                    stmtInserttypesForComponentProperty.run(baseComponentId, prop.id, labelKeys[rttte2],prop2)
+                                                    stmtInsertTypesForComponentProperty.run(baseComponentId, prop.id, labelKeys[rttte2],prop2)
                                                 //zzz
+                                                }
                                             }
+                                            if (prop.accept_types) {
+                                                let labelKeys = Object.keys(prop.accept_types)
+                                                for (let rttte2 = 0; rttte2 < labelKeys.length ; rttte2++ ) {
+                                                    let prop2 = prop.accept_types[labelKeys[rttte2]]
+                                                    //console.log("    " + prop.id + " = " +  JSON.stringify(prop.labels))
+                                                    stmtInsertAcceptTypesForComponentProperty.run(
+                                                            baseComponentId,
+                                                            prop.id,
+                                                            labelKeys[rttte2],
+                                                            prop2)
+                                                //zzz
+                                                }
                                             }
                                         }
                                     }
