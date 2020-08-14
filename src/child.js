@@ -163,8 +163,8 @@ function setUpSql() {
     stmtInsertLabelsForComponentProperty = dbsearch.prepare(`insert or ignore
                                                     into
                                                labels
-                                                    (label_owner_type, label_owner_type_2,label_owner_type_3,label_owner_name,label_owner_name_2)
-                                               values ("COMPONENT","VB","PROPERTY", ?,?)`)
+                                                    (label_owner_type, label_owner_type_2,label_owner_type_3,label_owner_name,label_owner_name_2,label_name , label_value )
+                                               values ("COMPONENT","VB","PROPERTY", ?,?,?,?)`)
 
     "CREATE TABLE IF NOT EXISTS labels (id TEXT, label_owner_type TEXT, label_name TEXT, label_value TEXT);",
 
@@ -1343,9 +1343,13 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                         for (let rttte = 0; rttte < properties2.length ; rttte++ ) {
                                             let prop = properties2[rttte]
                                             if (prop.labels) {
-                                                console.log("    " + prop.id + " = " +  JSON.stringify(prop.labels))
-                                                stmtInsertLabelsForComponentProperty.run(baseComponentId, prop.id)
+                                                let labelKeys = Object.keys(prop.labels)
+                                                for (let rttte2 = 0; rttte2 < labelKeys.length ; rttte2++ ) {
+                                                    let prop2 = prop.labels[labelKeys[rttte2]]
+                                                    console.log("    " + prop.id + " = " +  JSON.stringify(prop.labels))
+                                                    stmtInsertLabelsForComponentProperty.run(baseComponentId, prop.id, labelKeys[rttte2],prop2)
                                                 //zzz
+                                            }
                                             }
                                         }
                                     }
