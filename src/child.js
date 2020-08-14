@@ -1335,7 +1335,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                     properties = JSON.stringify(properties,null,2)
                                 }
                                 if (controlType == "VB") {
-                                    console.log("VB: " + baseComponentId)
+                                    //console.log("VB: " + baseComponentId)
                                     let properties2 = saveHelper.getValueOfCodeString(code,"properties",")//properties")
                                     stmtDeleteLabelsForComponent.run(baseComponentId)
                                     if (properties2) {
@@ -1346,7 +1346,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                 let labelKeys = Object.keys(prop.labels)
                                                 for (let rttte2 = 0; rttte2 < labelKeys.length ; rttte2++ ) {
                                                     let prop2 = prop.labels[labelKeys[rttte2]]
-                                                    console.log("    " + prop.id + " = " +  JSON.stringify(prop.labels))
+                                                    //console.log("    " + prop.id + " = " +  JSON.stringify(prop.labels))
                                                     stmtInsertLabelsForComponentProperty.run(baseComponentId, prop.id, labelKeys[rttte2],prop2)
                                                 //zzz
                                             }
