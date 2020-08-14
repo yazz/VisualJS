@@ -413,21 +413,21 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 <ul class="nav nav-tabs" id="myTab" role="tablist"
     v-bind:refresh='refresh'>
-  <li class="nav-item">
+  <li class="nav-item" style="width:30%">
     <a  v-bind:class='"nav-link " + (  design_mode_pane.links_type == "form"?"active":""  )'
         id="links-form-tab"
         v-on:click='design_mode_pane.links_type = "form";refresh++;'
         data-toggle="tab" role="tab" aria-controls="home" aria-selected="true">Form</a>
   </li>
 
-  <li class="nav-item">
+  <li class="nav-item"  style="width:30%">
     <a  v-bind:class='"nav-link " + (  design_mode_pane.links_type == "find"?"active":""  )'
         id="links-find-tab"
         v-on:click='design_mode_pane.links_type = "find";refresh++;'
         data-toggle="tab" role="tab" aria-controls="profile" aria-selected="false">Find</a>
   </li>
 
-  <li class="nav-item">
+  <li class="nav-item"  style="width:30%">
     <a  v-bind:class='"nav-link " + (  design_mode_pane.links_type == "manual"?"active":""  )'
         id="contact-tab"
         v-on:click='design_mode_pane.links_type = "manual";refresh++;'
