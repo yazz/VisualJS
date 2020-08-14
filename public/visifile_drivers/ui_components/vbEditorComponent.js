@@ -415,25 +415,30 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
   <li class="nav-item">
-    <a  class="nav-link active"
+    <a  v-bind:class='"nav-link " + (  design_mode_pane.links_type == "form"?"active":""  )'
         id="links-form-tab"
+        v-on:click='design_mode_pane.links_type = "form"'
         data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Form</a>
   </li>
 
   <li class="nav-item">
-    <a  class="nav-link"
+    <a  v-bind:class='"nav-link " + (  design_mode_pane.links_type == "find"?"active":""  )'
         id="links-find-tab"
+        v-on:click='design_mode_pane.links_type = "find"'
         data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Find</a>
   </li>
 
   <li class="nav-item">
-    <a  class="nav-link"
+    <a  v-bind:class='"nav-link " + (  design_mode_pane.links_type == "manual"?"active":""  )'
         id="contact-tab"
+        v-on:click='design_mode_pane.links_type = "manual"'
         data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Manual</a>
   </li>
 </ul>
 <div class="tab-content" id="myTabContent">
-  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="links-form-tab">
+  <div  class="tab-pane fade show active"
+        id="home" role="tabpanel" aria-labelledby="links-form-tab"
+        v-if='design_mode_pane.links_type == "manual"'>
       <table style="width:100%;border: 3px solid black;" class="table">
       <tr style=''
           v-if="(design_mode_pane.direction == 'incoming')">
@@ -2565,7 +2570,7 @@ ${origCode}
         addControl: async function(controlDetails) {
             var mm = this
 
-              //zzz
+
               await mm.addComponent(   10,
                                        10,
                                        {
@@ -4419,6 +4424,7 @@ ${eventMessage.code}
            var mm = this
            mm.design_mode_pane.type = "control_links_editor"
            mm.design_mode_pane.direction = diretionOfLinks
+           mm.design_mode_pane.links_type = "manual"
 
            this.active_component_links_index = index;
            this.active_component_links_name = this.model.forms[this.active_form].components[index].name;
