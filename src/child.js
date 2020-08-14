@@ -53,8 +53,8 @@ var stmtUpdateLatestAppDDLRevision;
 var stmtInsertIntoAppRegistry
 var stmtUpdateAppRegistry
 
-var stmtDeleteLabelsForComponent;
-var stmtInsertLabelsForComponentProperty;
+var stmtDeleteTypesForComponentProperty;
+var stmtInserttypesForComponentProperty;
 
 
 var copyMigration;
@@ -158,15 +158,13 @@ function setUpSql() {
 
 
     //zzz
-    stmtDeleteLabelsForComponent = dbsearch.prepare(" delete from  labels   where   label_owner_type = 'COMPONENT' and label_owner_type_2 = 'VB'  and  label_owner_type_3 = 'PROPERTY' and label_owner_name = ?");
+    stmtDeleteTypesForComponentProperty = dbsearch.prepare(" delete from  component_property_types   where   component_name = ?");
 
-    stmtInsertLabelsForComponentProperty = dbsearch.prepare(`insert or ignore
+    stmtInserttypesForComponentProperty = dbsearch.prepare(`insert or ignore
                                                     into
-                                               labels
-                                                    (label_owner_type, label_owner_type_2,label_owner_type_3,label_owner_name,label_owner_name_2,label_name , label_value )
-                                               values ("COMPONENT","VB","PROPERTY", ?,?,?,?)`)
-
-    "CREATE TABLE IF NOT EXISTS labels (id TEXT, label_owner_type TEXT, label_name TEXT, label_value TEXT);",
+                                               component_property_types
+                                                    (component_name, property_name , type_name, type_value )
+                                               values ( ?,?,?,?)`)
 
 
      stmtInsertAppDDLRevision = dbsearch.prepare(  " insert into app_db_latest_ddl_revisions " +
@@ -1337,17 +1335,17 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                 if (controlType == "VB") {
                                     //console.log("VB: " + baseComponentId)
                                     let properties2 = saveHelper.getValueOfCodeString(code,"properties",")//properties")
-                                    stmtDeleteLabelsForComponent.run(baseComponentId)
+                                    stmtDeleteTypesForComponentProperty.run(baseComponentId)
                                     if (properties2) {
                                         //console.log("     properties: " + properties2.length)
                                         for (let rttte = 0; rttte < properties2.length ; rttte++ ) {
                                             let prop = properties2[rttte]
-                                            if (prop.labels) {
-                                                let labelKeys = Object.keys(prop.labels)
+                                            if (prop.types) {
+                                                let labelKeys = Object.keys(prop.types)
                                                 for (let rttte2 = 0; rttte2 < labelKeys.length ; rttte2++ ) {
-                                                    let prop2 = prop.labels[labelKeys[rttte2]]
+                                                    let prop2 = prop.types[labelKeys[rttte2]]
                                                     //console.log("    " + prop.id + " = " +  JSON.stringify(prop.labels))
-                                                    stmtInsertLabelsForComponentProperty.run(baseComponentId, prop.id, labelKeys[rttte2],prop2)
+                                                    stmtInserttypesForComponentProperty.run(baseComponentId, prop.id, labelKeys[rttte2],prop2)
                                                 //zzz
                                             }
                                             }

@@ -21,7 +21,8 @@ module.exports = {
             "CREATE INDEX IF NOT EXISTS app_registry_username_reponame_idx ON app_registry (username,reponame);",
             "CREATE INDEX IF NOT EXISTS app_registry_username_reponame_version_idx ON app_registry (username,reponame,version);",
 
-            "CREATE TABLE IF NOT EXISTS labels (id TEXT, label_owner_type TEXT, label_owner_type_2 TEXT, label_owner_type_3 TEXT,  label_owner_name TEXT,label_owner_name_2 TEXT,  label_name TEXT, label_value TEXT);",
+            "CREATE TABLE IF NOT EXISTS component_property_types (component_name TEXT, property_name TEXT,  type_name TEXT, type_value TEXT);",
+            "CREATE TABLE IF NOT EXISTS component_property_accept_types (component_name TEXT, property_name TEXT,  accept_type_name TEXT);",
 
 
             "CREATE TABLE IF NOT EXISTS component_usage (base_component_id TEXT, child_component_id, UNIQUE(base_component_id, child_component_id));",

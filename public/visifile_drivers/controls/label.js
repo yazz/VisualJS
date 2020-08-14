@@ -14,7 +14,8 @@ properties(
             id:     "text",
             name:   "Text",
             type:   "String",
-            labels: {text: true},
+            types: {text: true},
+            accept_types: {canConvertToString: true},
             textarea: true,
             help:       `<div>Help text for
                             <b>text</b> property
@@ -24,7 +25,7 @@ properties(
         {
             id:     "background_color",
             name:   "Background color",
-            labels: {text: true},
+            types: {text: true},
             type:   "String"
         }
         ,

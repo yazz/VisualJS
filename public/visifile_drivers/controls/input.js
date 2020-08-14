@@ -32,7 +32,7 @@ properties(
             id:     "value",
             name:   "Value",
             type:   "String",
-            labels: {text: true}
+            types: {text: true}
         }
         ,
 
