@@ -660,26 +660,33 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
      <div  class="tab-pane fade show active"
            id="home" role="tabpanel" aria-labelledby="links-form-tab"
            v-if='design_mode_pane.links_type == "form"'>
+
          <table style="width:100%;border: 3px solid black;" class="table">
-         <tr style=''
-             v-if="(design_mode_pane.direction == 'incoming')">
 
+             <tr style=''
+                 v-if="(design_mode_pane.direction == 'incoming')">
 
+                 <td    style='vertical-align: top; width: 50%;'>
 
-             <td    style='vertical-align: top; width: 50%;'>
-                 <div  style="margin:5px;height:150px;"
-                       v-if='component_properties_links_incoming[model.forms[active_form].components[active_component_index].base_component_id]'
-                       >
-                     <div    style="width:40%;font-weight:bold;margin:7px;">From</div>
-                     <select  @change='setWatchComponent($event)'  style='margin:7px;'>
-                         <option     value=""
-                                     selected="true">
-                         </option>
-                         <option     v-for="watchComp in model.forms[active_form].components"
-                                     v-bind:value="watchComp.uuid"
-                                     v-bind:selected="selectedWatchComponentUuid == watchComp.uuid">
+                     <div  style="margin:5px;height:150px;"
+                           v-if='component_properties_links_incoming[model.forms[active_form].components[active_component_index].base_component_id]'>
+
+                         <div    style="width:40%;font-weight:bold;margin:7px;">From</div>
+
+                             <select    @change='setWatchComponent($event)'  style='margin:7px;'>
+
+                                 <option     value=""
+                                             selected="true">
+                                 </option>
+
+                                 <option     v-for="watchComp in model.forms[active_form].components"
+                                             v-if='component_properties_links_incoming_components[model.forms[active_form].components[active_component_index].base_component_id][watchComp.base_component_id]'
+
+                                             v-bind:value="watchComp.uuid"
+                                             v-bind:selected="selectedWatchComponentUuid == watchComp.uuid">
+
                                          {{watchComp.name}}
-                         </option>
+                                 </option>
                      </select>
 
 
@@ -4660,7 +4667,7 @@ ${eventMessage.code}
            var mm = this
            mm.design_mode_pane.type = "control_links_editor"
            mm.design_mode_pane.direction = diretionOfLinks
-           mm.design_mode_pane.links_type = "manual"
+           mm.design_mode_pane.links_type = "form"
 
            this.active_component_links_index = index;
            this.active_component_links_name = this.model.forms[this.active_form].components[index].name;
