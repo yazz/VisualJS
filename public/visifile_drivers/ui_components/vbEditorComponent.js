@@ -408,17 +408,21 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 <br/><br/>
 <b>Add new link</b>
+UNDER CONSTRUCTION: {{linkSideSelected}}
 
 
 
 <ul class="nav nav-tabs" id="myTab" role="tablist"
     v-bind:refresh='refresh'>
+
+
   <li class="nav-item" style="width:30%">
     <a  v-bind:class='"nav-link " + (  design_mode_pane.links_type == "form"?"active":""  )'
         id="links-form-tab"
         v-on:click='design_mode_pane.links_type = "form";refresh++;'
         data-toggle="tab" role="tab" aria-controls="home" aria-selected="true">Form</a>
   </li>
+
 
   <li class="nav-item"  style="width:30%">
     <a  v-bind:class='"nav-link " + (  design_mode_pane.links_type == "find"?"active":""  )'
@@ -427,12 +431,15 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
         data-toggle="tab" role="tab" aria-controls="profile" aria-selected="false">Find</a>
   </li>
 
+
   <li class="nav-item"  style="width:30%">
     <a  v-bind:class='"nav-link " + (  design_mode_pane.links_type == "manual"?"active":""  )'
         id="manual-links-tab"
         v-on:click='design_mode_pane.links_type = "manual";refresh++;'
         data-toggle="tab" role="tab" aria-controls="manual" aria-selected="false">Manual</a>
   </li>
+
+
 </ul>
 <div class="tab-content" id="myTabContent">
 
@@ -465,7 +472,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
                      <!--
 
-                             Incoming form link from other component
+                             Incoming form link "from" other component
 
                       -->
                      <div  style="margin:5px;height:150px;"
@@ -473,7 +480,8 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
                          <div    style="width:40%;font-weight:bold;margin:7px;">From</div>
 
-                             <select    @change='setWatchComponent($event)'  style='margin:7px;'>
+                             <select    @change='setWatchComponent($event); linkSideSelected = "from";'
+                                         style='margin:7px;'>
 
                                  <option     value=""
                                              selected="true">
@@ -481,7 +489,6 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
                                  <option     v-for="watchComp in model.forms[active_form].components"
                                              v-if='component_properties_links_incoming_components[model.forms[active_form].components[active_component_index].base_component_id][watchComp.base_component_id]'
-
                                              v-bind:value="watchComp.uuid"
                                              v-bind:selected="selectedWatchComponentUuid == watchComp.uuid">
 
@@ -491,13 +498,13 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
 
-                     <select @change='setWatchFromProperty($event)'  style='margin:7px;'>
+                     <select    @change='setWatchFromProperty($event);linkSideSelected = "from";'
+                                 style='margin:7px;'>
                          <option value=""
                                  selected="true">
                          </option>
                          <option     v-for="watchFromProp in selectedWatchFromProperties"
                                      v-if='selectedWatchComponentUuid && component_properties_links_incoming_components[model.forms[active_form].components[active_component_index].base_component_id][form_runtime_info[active_form].component_lookup_by_uuid[selectedWatchComponentUuid].base_component_id][watchFromProp]'
-
 
                                      v-bind:value="watchFromProp"
                                      v-bind:selected="selectedWatchFromProperty == watchFromProp">
@@ -512,7 +519,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
              <!--
 
-                     Incoming form link to this component
+                     Incoming form link "to" this component
 
               -->
              <td style='vertical-align: top;border: 1px solid lightgray;margin:5px;'>
@@ -526,7 +533,8 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
 
-                     <select @change='setWatchToProperty($event)'  style='margin:7px;'>
+                     <select   @change='setWatchToProperty($event);linkSideSelected = "to";'
+                                style='margin:7px;'>
                          <option value=""
                                  selected="true">
                          </option>
