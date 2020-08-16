@@ -488,7 +488,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                                  selected="true">
                          </option>
                          <option     v-for="watchFromProp in selectedWatchFromProperties"
-                                     v-if='component_properties_links_incoming_components[model.forms[active_form].components[active_component_index].base_component_id][form_runtime_info[active_form].component_lookup_by_uuid[selectedWatchComponentUuid].base_component_id][watchFromProp]'
+                                     v-if='selectedWatchComponentUuid && component_properties_links_incoming_components[model.forms[active_form].components[active_component_index].base_component_id][form_runtime_info[active_form].component_lookup_by_uuid[selectedWatchComponentUuid].base_component_id][watchFromProp]'
 
 
                                      v-bind:value="watchFromProp"
