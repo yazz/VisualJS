@@ -408,7 +408,6 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 <br/><br/>
 <b>Add new link</b>
-UNDER CONSTRUCTION: {{linkSideSelected}}
 
 
 
@@ -488,7 +487,6 @@ UNDER CONSTRUCTION: {{linkSideSelected}}
                                  </option>
 
                                  <option     v-for="watchComp in model.forms[active_form].components"
-                                             v-if='component_properties_links_incoming_components[model.forms[active_form].components[active_component_index].base_component_id][watchComp.base_component_id]'
                                              v-bind:value="watchComp.uuid"
                                              v-bind:selected="selectedWatchComponentUuid == watchComp.uuid">
 
@@ -504,7 +502,6 @@ UNDER CONSTRUCTION: {{linkSideSelected}}
                                  selected="true">
                          </option>
                          <option     v-for="watchFromProp in selectedWatchFromProperties"
-                                     v-if='selectedWatchComponentUuid && component_properties_links_incoming_components[model.forms[active_form].components[active_component_index].base_component_id][form_runtime_info[active_form].component_lookup_by_uuid[selectedWatchComponentUuid].base_component_id][watchFromProp]'
 
                                      v-bind:value="watchFromProp"
                                      v-bind:selected="selectedWatchFromProperty == watchFromProp">
@@ -544,11 +541,8 @@ UNDER CONSTRUCTION: {{linkSideSelected}}
 
                          <option     v-for="watchToProp in selectedWatchToProperties"
                                      v-bind:value="watchToProp"
-                                     v-if='component_properties_links_incoming[model.forms[active_form].components[active_component_links_index].base_component_id][watchToProp]'
                                      v-bind:selected="selectedWatchToProperty == watchToProp">
-                                            {{watchToProp}} ***
-                                            {{component_properties_links_incoming[model.forms[active_form].components[active_component_links_index].base_component_id][watchToProp]}} ***
-                                            {{model.forms[active_form].components[active_component_index].base_component_id}}:{{selectedWatchFromProperty}}
+                                            {{watchToProp}}
                          </option>
                      </select>
 
