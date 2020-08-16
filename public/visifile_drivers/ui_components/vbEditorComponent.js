@@ -453,7 +453,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
    <!--
    --------------------------------------------
 
-           FORM LINKS START HERE
+           FORM LINKS START
 
     --------------------------------------------
      -->
@@ -470,12 +470,12 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
                      <!--
-
+                     --------------------------------------------
+                     FORM LINKS
                              Incoming form link "from" other component
-
+                     --------------------------------------------
                       -->
-                     <div  style="margin:5px;height:150px;"
-                           v-if='component_properties_links_incoming[model.forms[active_form].components[active_component_index].base_component_id]'>
+                     <div  style="margin:5px;height:150px;">
 
                          <div    style="width:40%;font-weight:bold;margin:7px;">From</div>
 
@@ -486,7 +486,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                                              selected="true">
                                  </option>
 
-                                 <option     v-for="watchComp in model.forms[active_form].components"
+                                 <option     v-for="watchComp   in   model.forms[active_form].components"
                                              v-bind:value="watchComp.uuid"
                                              v-bind:selected="selectedWatchComponentUuid == watchComp.uuid">
 
