@@ -5741,6 +5741,7 @@ return {}
            selectedWatchToProperty:      null,
            selectedWatchFromProperties:      [],
            selectedWatchToProperties:      [],
+           linkSideSelected:      "none",
 
            selectedPushComponentUuid:      null,
            selectedPushFromProperty:      null,
