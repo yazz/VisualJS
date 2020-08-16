@@ -525,6 +525,8 @@ UNDER CONSTRUCTION: {{linkSideSelected}}
              <td style='vertical-align: top;border: 1px solid lightgray;margin:5px;'>
                  <div    style="width:50%;">
                      <div    style="margin:7px;font-weight:bold;">To</div>
+
+
                      <div style='margin:7px;'>
                          {{model.forms[active_form].components[active_component_links_index].name}}
                      </div>
@@ -535,16 +537,22 @@ UNDER CONSTRUCTION: {{linkSideSelected}}
 
                      <select   @change='setWatchToProperty($event);linkSideSelected = "to";'
                                 style='margin:7px;'>
+
                          <option value=""
                                  selected="true">
                          </option>
+
                          <option     v-for="watchToProp in selectedWatchToProperties"
                                      v-bind:value="watchToProp"
                                      v-if='component_properties_links_incoming[model.forms[active_form].components[active_component_links_index].base_component_id][watchToProp]'
                                      v-bind:selected="selectedWatchToProperty == watchToProp">
-                                            {{watchToProp}}
+                                            {{watchToProp}} ***
+                                            {{component_properties_links_incoming[model.forms[active_form].components[active_component_links_index].base_component_id][watchToProp]}} ***
+                                            {{model.forms[active_form].components[active_component_index].base_component_id}}:{{selectedWatchFromProperty}}
                          </option>
                      </select>
+
+
                  </div>
              </td>
          </tr>
