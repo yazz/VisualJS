@@ -445,10 +445,12 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
    <!--
+   --------------------------------------------
 
            FORM LINKS START HERE
 
-    -->
+    --------------------------------------------
+     -->
      <div  class="tab-pane fade show active"
            id="home" role="tabpanel" aria-labelledby="links-form-tab"
            v-if='design_mode_pane.links_type == "form"'>
@@ -460,6 +462,12 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
                  <td    style='vertical-align: top; width: 50%;'>
 
+
+                     <!--
+
+                             Incoming form link from other component
+
+                      -->
                      <div  style="margin:5px;height:150px;"
                            v-if='component_properties_links_incoming[model.forms[active_form].components[active_component_index].base_component_id]'>
 
@@ -502,6 +510,11 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
              </td>
 
 
+             <!--
+
+                     Incoming form link to this component
+
+              -->
              <td style='vertical-align: top;border: 1px solid lightgray;margin:5px;'>
                  <div    style="width:50%;">
                      <div    style="margin:7px;font-weight:bold;">To</div>
@@ -519,8 +532,9 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                          </option>
                          <option     v-for="watchToProp in selectedWatchToProperties"
                                      v-bind:value="watchToProp"
+                                     v-if='component_properties_links_incoming[model.forms[active_form].components[active_component_links_index].base_component_id][watchToProp]'
                                      v-bind:selected="selectedWatchToProperty == watchToProp">
-                                         {{watchToProp}}
+                                            {{watchToProp}}
                          </option>
                      </select>
                  </div>
