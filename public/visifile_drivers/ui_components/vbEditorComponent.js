@@ -408,7 +408,8 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 <br/><br/>
 <b>Add new link</b>
-
+<div v-bind:refresh='refresh'>type: {{selected_link_component_type}}</div>
+<div v-bind:refresh='refresh'> Incoming objects: {{incoming_link_objects}}</div>
 
 
 <ul class="nav nav-tabs" id="myTab" role="tablist"
@@ -4729,10 +4730,37 @@ ${eventMessage.code}
                this.selectedPushFromProperties.push(ccomkeys2[aaa])
            }
 
+//zzz
+            mm.selected_link_component_type = mm.model.forms[mm.active_form].components[mm.active_component_index].base_component_id
+            await mm.recalcComponentLinks()
+           //alert()
+
            setTimeout(function() {
                mm.refresh ++
                mm.$forceUpdate();
            },400)
+        },
+
+        recalcComponentLinks: async function() {
+            let mm = this
+
+            mm.incoming_link_objects = []
+
+            var ccc = mm.model.forms[mm.active_form].components
+            for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
+                var component = ccc[ytr]
+                let foundComponentType = component.base_component_id
+                let foundComponentIncomingTree = linked_properties[mm.selected_link_component_type][foundComponentType]
+                if (foundComponentIncomingTree) {
+                    let incomingCount = Object.keys(foundComponentIncomingTree).length
+                    if (incomingCount > 0) {
+                        mm.incoming_link_objects.push({name: component.name, type: foundComponentType})
+                    }
+                }
+            }
+
+
+            mm.refresh++
         },
 
 
@@ -5145,7 +5173,7 @@ ${eventMessage.code}
          select_app: function() {
             var mm = this
 
-            this.active_component_index   = null
+            this.active_component_index         = null
             this.model.app_selected             = true
             this.active_property_index          = null
 
@@ -5752,6 +5780,10 @@ return {}
            selectedWatchFromProperties:      [],
            selectedWatchToProperties:      [],
            linkSideSelected:      "none",
+
+           selected_link_component_type: null,
+           incoming_link_objects: [],
+
 
            selectedPushComponentUuid:      null,
            selectedPushFromProperty:      null,
