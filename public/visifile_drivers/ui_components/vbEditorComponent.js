@@ -4743,18 +4743,22 @@ ${eventMessage.code}
 
         recalcComponentLinks: async function() {
             let mm = this
-
+debugger
             mm.incoming_link_objects = []
 
             var ccc = mm.model.forms[mm.active_form].components
             for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
                 var component = ccc[ytr]
                 let foundComponentType = component.base_component_id
-                let foundComponentIncomingTree = linked_properties[mm.selected_link_component_type][foundComponentType]
-                if (foundComponentIncomingTree) {
-                    let incomingCount = Object.keys(foundComponentIncomingTree).length
-                    if (incomingCount > 0) {
-                        mm.incoming_link_objects.push({name: component.name, type: foundComponentType})
+                if (linked_properties[mm.selected_link_component_type]) {
+                    if (linked_properties[mm.selected_link_component_type].incoming) {
+                        let foundComponentIncomingTree = linked_properties[mm.selected_link_component_type].incoming[foundComponentType]
+                        if (foundComponentIncomingTree) {
+                            let incomingCount = Object.keys(foundComponentIncomingTree).length
+                            if (incomingCount > 0) {
+                                mm.incoming_link_objects.push({name: component.name, type: foundComponentType})
+                            }
+                        }
                     }
                 }
             }
