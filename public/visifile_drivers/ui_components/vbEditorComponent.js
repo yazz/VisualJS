@@ -4751,8 +4751,8 @@ debugger
                 var component = ccc[ytr]
                 let foundComponentType = component.base_component_id
                 if (linked_properties[mm.selected_link_component_type]) {
-                    if (linked_properties[mm.selected_link_component_type].incoming) {
-                        let foundComponentIncomingTree = linked_properties[mm.selected_link_component_type].incoming[foundComponentType]
+                    if (linked_properties[mm.selected_link_component_type].fromThem) {
+                        let foundComponentIncomingTree = linked_properties[mm.selected_link_component_type].fromThem[foundComponentType]
                         if (foundComponentIncomingTree) {
                             let incomingCount = Object.keys(foundComponentIncomingTree).length
                             if (incomingCount > 0) {
