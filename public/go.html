@@ -22,20 +22,39 @@
     var linked_properties  = new Object()
     linked_properties = {
         label_control: {
-            
-            fromMe: {
-                x: {
-                    horiz_scroll_control: {value: true}
+
+            outgoing: {
+                me: {
+                    x: {
+                        horiz_scroll_control: {value: true}
+                    },
+                    y: {
+                        horiz_scroll_control: {value: true}
+                    }
                 },
-                y: {
-                    horiz_scroll_control: {value: true}
+                them: {
+                    horiz_scroll_control: {
+                       value: {text: true, x: true, y: true}
+                   }
+
                 }
             }
             ,
-            fromThem: {
-                horiz_scroll_control: {
-                   value: {text: true, x: true, y: true}
-               }
+            incoming: {
+                me: {
+                    x: {
+                        horiz_scroll_control: {value: true}
+                    },
+                    y: {
+                        horiz_scroll_control: {value: true}
+                    }
+                },
+                them: {
+                    horiz_scroll_control: {
+                       value: {text: true, x: true, y: true}
+                   }
+
+                }
             }
 
         }
