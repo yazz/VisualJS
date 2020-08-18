@@ -577,6 +577,12 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                  </button>
 
 
+                  <button type=button class='btn btn-sm btn-warning'
+                          v-bind:style='""'
+                          v-on:click='$event.stopPropagation(); clear();'  >
+                       Clear
+                  </button>
+
              </td>
          </tr>
 
