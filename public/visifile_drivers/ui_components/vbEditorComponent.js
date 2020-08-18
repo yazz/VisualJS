@@ -579,7 +579,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
                   <button type=button class='btn btn-sm btn-warning'
                           v-bind:style='""'
-                          v-on:click='$event.stopPropagation(); clear();'  >
+                          v-on:click='$event.stopPropagation(); clearLinks();'  >
                        Clear
                   </button>
 
@@ -2289,7 +2289,12 @@ Pushlist
 
            }
            ,
-
+          clearLinks: function() {
+              let mm = this
+              mm.selectedWatchComponentUuid = null
+              mm.selectedWatchFromProperty = null
+          }
+          ,
           addWatch: function() {
               //debugger
               var mm = this
