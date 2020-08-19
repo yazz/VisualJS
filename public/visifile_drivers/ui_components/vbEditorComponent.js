@@ -480,7 +480,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
                          <div    style="width:40%;font-weight:bold;margin:7px;">From</div>
 
-                             <select    @change='setIncomingFormWatchComponent($event); linkSideSelected = "from";'
+                             <select    @change='linkSideSelected = "from";setIncomingFormWatchComponent($event); '
                                          style='margin:7px;'>
 
                                  <option     value=""
@@ -497,7 +497,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
 
-                     <select    @change='setWatchFromProperty($event);linkSideSelected = "from";'
+                     <select    @change='linkSideSelected = "from";setWatchFromProperty($event);'
                                  style='margin:7px;'>
                          <option value=""
                                  selected="true">
@@ -534,7 +534,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
 
-                     <select   @change='setWatchToProperty($event);linkSideSelected = "to";'
+                     <select   @change='linkSideSelected = "to";setWatchToProperty($event);'
                                 style='margin:7px;'>
 
                          <option value=""
@@ -2385,7 +2385,37 @@ Pushlist
             //-------------------------------------------------------------------
             setWatchToProperty: function(event) {
             //-------------------------------------------------------------------
-               this.selectedWatchToProperty = event.target.value
+                let mm = this
+                this.selectedWatchToProperty = event.target.value
+
+                //zzz
+                debugger
+                if (mm.design_mode_pane.links_type == "form") {
+                    if (mm.linkSideSelected == "to") {
+                        mm.incoming_link_objects = []
+
+                        var ccc = mm.model.forms[mm.active_form].components
+                        for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
+                            var component = ccc[ytr]
+                            let foundComponentType = component.base_component_id
+                            if (linked_properties[mm.selected_link_component_type]) {
+                                if (linked_properties[mm.selected_link_component_type].incoming.me) {
+                                   if (linked_properties[mm.selected_link_component_type].incoming.me[this.selectedWatchToProperty]) {
+                                       let foundComponentIncomingTree = linked_properties[mm.selected_link_component_type].incoming.me[this.selectedWatchToProperty][foundComponentType]
+
+                                       if (foundComponentIncomingTree) {
+                                           let incomingCount = Object.keys(foundComponentIncomingTree).length
+                                           if (incomingCount > 0) {
+                                               //mm.incoming_link_objects.push({name: component.name, type: foundComponentType})
+                                           }
+                                       }
+                                   }
+                               }
+                           }
+                       }
+
+                   }
+               }
            }
            ,
 
@@ -4744,7 +4774,7 @@ ${eventMessage.code}
 
             //zzz
             if (mm.design_mode_pane.links_type == "form") {
-                debugger
+
                 var ccomp2 =  mm.model.forms[mm.active_form].components[mm.active_component_index]
                 let activeComponenttype = ccomp2.base_component_id
                 if (  linked_properties[  activeComponenttype  ]  ) {
@@ -4801,7 +4831,7 @@ ${eventMessage.code}
 
         recalcComponentLinks: async function() {
             let mm = this
-debugger
+//debugger
             mm.incoming_link_objects = []
 
             var ccc = mm.model.forms[mm.active_form].components
