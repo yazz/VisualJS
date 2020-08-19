@@ -516,9 +516,10 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
              <!--
-
+             --------------------------------------------
+             FORM LINKS
                      Incoming form link "to" this component
-
+             --------------------------------------------
               -->
              <td style='vertical-align: top;border: 1px solid lightgray;margin:5px;'>
                  <div    style="width:50%;">
@@ -2293,6 +2294,7 @@ Pushlist
               let mm = this
               mm.selectedWatchComponentUuid = null
               mm.selectedWatchFromProperty = null
+              mm.selectedWatchToProperty = null
           }
           ,
           addWatch: function() {
