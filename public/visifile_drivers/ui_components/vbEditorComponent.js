@@ -4744,12 +4744,20 @@ ${eventMessage.code}
 
             //zzz
             if (mm.design_mode_pane.links_type == "form") {
+                debugger
                 var ccomp2 =  mm.model.forms[mm.active_form].components[mm.active_component_index]
-                var ccomkeys2 = Object.keys(ccomp2)
-                for (var aaa =0; aaa<ccomkeys2.length;aaa++) {
-                    this.selectedWatchToProperties.push(ccomkeys2[aaa])
+                let activeComponenttype = ccomp2.base_component_id
+                if (  linked_properties[  activeComponenttype  ]  ) {
+                    if (  linked_properties[  activeComponenttype  ].incoming  ) {
+                        if (  linked_properties[  activeComponenttype  ].incoming.me  ) {
+                            var ccomkeys2 = Object.keys(linked_properties[  activeComponenttype  ].incoming.me )
+
+                            for (var aaa =0; aaa<ccomkeys2.length;aaa++) {
+                                this.selectedWatchToProperties.push(ccomkeys2[aaa])
+                            }
+                        }
+                    }
                 }
-                this.selectedWatchToProperties.push("Monkey")
 
             } else {
                 var ccomp2 =  mm.model.forms[mm.active_form].components[mm.active_component_index]
