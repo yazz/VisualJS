@@ -4738,7 +4738,16 @@ ${eventMessage.code}
         },
 
 
+        clearAllToProperties: async function() {
+            var mm = this
+            this.selectedWatchToProperties = []
+            var ccomp2 =  mm.model.forms[mm.active_form].components[mm.active_component_index]
+            var ccomkeys2 = Object.keys(ccomp2)
+            for (var aaa =0; aaa<ccomkeys2.length;aaa++) {
+                this.selectedWatchToProperties.push(ccomkeys2[aaa])
+            }
 
+        },
         showComponentLinks: async function(index,diretionOfLinks) {
            var mm = this
            mm.design_mode_pane.type = "control_links_editor"
@@ -4748,12 +4757,7 @@ ${eventMessage.code}
            this.active_component_links_index = index;
            this.active_component_links_name = this.model.forms[this.active_form].components[index].name;
 
-           this.selectedWatchToProperties = []
-           var ccomp2 =  mm.model.forms[mm.active_form].components[mm.active_component_index]
-           var ccomkeys2 = Object.keys(ccomp2)
-           for (var aaa =0; aaa<ccomkeys2.length;aaa++) {
-               this.selectedWatchToProperties.push(ccomkeys2[aaa])
-           }
+           mm.clearAllToProperties()
 
            this.selectedPushFromProperties = []
            var ccomp2 =  mm.model.forms[mm.active_form].components[mm.active_component_index]
