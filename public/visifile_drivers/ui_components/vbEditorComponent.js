@@ -411,6 +411,8 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 <div v-bind:refresh='refresh'>link side selected: {{linkSideSelected}}</div>
 <div v-bind:refresh='refresh'>type: {{selected_link_component_type}}</div>
 <div v-bind:refresh='refresh'> Incoming objects: {{incoming_link_objects}}</div>
+<div v-bind:refresh='refresh'> Incoming properties: {{selectedWatchFromProperties}}</div>
+
 
 
 
@@ -478,6 +480,11 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                              Incoming form link "from" other component
                      --------------------------------------------
                       -->
+
+                      <!--
+                               COMPONENT NAMES ON THIS FORM
+                       -->
+
                      <div  style="margin:5px;height:150px;">
 
                          <div    style="width:40%;font-weight:bold;margin:7px;">From</div>
@@ -498,6 +505,10 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                      </select>
 
 
+
+                     <!--
+                              PROPERTIES FOR SELECTED COMPONENT ON THIS FORM
+                      -->
 
                      <select    @change='linkSideSelected = "from";setWatchFromProperty($event);'
                                  style='margin:7px;'>
@@ -2380,13 +2391,17 @@ Pushlist
             var type    = null
 
 //debugger
+//zzz
             this.selectedWatchComponentUuid = event.target.value
             this.selectedWatchFromProperties = []
             var ccomp =  this.form_runtime_info[mm.active_form].component_lookup_by_uuid[this.selectedWatchComponentUuid]
-            var ccomkeys = Object.keys(ccomp)
+            let Acttyoe = mm.model.forms[mm.active_form].components[mm.active_component_index].base_component_id
+            var ccomkeys = Object.keys(linked_properties[Acttyoe].incoming.them[ccomp.base_component_id])
             for (var aaa =0; aaa<ccomkeys.length;aaa++) {
                 this.selectedWatchFromProperties.push(ccomkeys[aaa])
             }
+
+
         }
         ,
 
@@ -2397,7 +2412,7 @@ Pushlist
                 let mm = this
                 this.selectedWatchToProperty = event.target.value
 
-                //zzz
+
                 debugger
                 if (mm.design_mode_pane.links_type == "form") {
                     if (mm.linkSideSelected == "to") {
@@ -4783,7 +4798,7 @@ ${eventMessage.code}
             var mm = this
             this.selectedWatchToProperties = []
 
-            //zzz
+
             if (mm.design_mode_pane.links_type == "form") {
 
                 var ccomp2 =  mm.model.forms[mm.active_form].components[mm.active_component_index]
@@ -4829,7 +4844,7 @@ ${eventMessage.code}
                this.selectedPushFromProperties.push(ccomkeys2[aaa])
            }
 
-//zzz
+
             mm.selected_link_component_type = mm.model.forms[mm.active_form].components[mm.active_component_index].base_component_id
             await mm.recalcComponentLinks()
            //alert()
