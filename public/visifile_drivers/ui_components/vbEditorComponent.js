@@ -482,8 +482,10 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                       -->
 
                       <!--
+                      ----------------
                                COMPONENT NAMES ON THIS FORM
-                       -->
+                      ----------------
+                      -->
 
                      <div  style="margin:5px;height:150px;">
 
@@ -507,8 +509,10 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
                      <!--
+                     ----------------
                               PROPERTIES FOR SELECTED COMPONENT ON THIS FORM
-                      -->
+                     ----------------
+                     -->
 
                      <select    @change='linkSideSelected = "from";setWatchFromProperty($event);'
                                  style='margin:7px;'>
@@ -539,9 +543,11 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
              <td style='vertical-align: top;border: 1px solid lightgray;margin:5px;'>
                  <div    style="width:50%;">
 
-                 <!--
-                          ACTIVE COMPONENT NAME ON THIS FORM
-                  -->
+                     <!--
+                     ----------------
+                              ACTIVE COMPONENT NAME ON THIS FORM
+                     ----------------
+                     -->
 
 
                      <div    style="margin:7px;font-weight:bold;">To</div>
@@ -554,8 +560,10 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
                      <!--
+                     ----------------
                               ACTIVE COMPONENT PROPERTIES ON THIS FORM
-                      -->
+                     ----------------
+                     -->
 
 
                      <select   @change='linkSideSelected = "to";setWatchToProperty($event);'
@@ -600,12 +608,25 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                      <a href="#"  v-on:click="show_advanced_transform=true;">Show advanced</a>
                  </div>
 
+
+                 <!--
+                 ----------------
+                          Add a watch link
+                 ----------------
+                 -->
+
                  <button type=button class='btn btn-sm btn-info'
                          v-bind:style='""'
                          v-on:click='$event.stopPropagation(); addWatch();'  >
                       Add
                  </button>
 
+
+                 <!--
+                 ----------------
+                          Clear the link fields
+                 ----------------
+                 -->
 
                   <button type=button class='btn btn-sm btn-warning'
                           v-bind:style='""'
@@ -2357,6 +2378,8 @@ Pushlist
               mm.updateAllFormCaches()
               mm.showSaveButton()
 
+              mm.clearLinks()
+
           }
           ,
 
@@ -2401,7 +2424,7 @@ Pushlist
             var val     = null
             var type    = null
 
-debugger
+
             //
             // if nothing is selected then set it all up
             //
