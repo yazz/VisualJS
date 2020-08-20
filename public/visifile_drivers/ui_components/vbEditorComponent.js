@@ -413,6 +413,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 <div v-bind:refresh='refresh'> Incoming objects: {{incoming_link_objects}}</div>
 
 
+
 <ul class="nav nav-tabs" id="myTab" role="tablist"
     v-bind:refresh='refresh'>
 
@@ -488,7 +489,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                                              selected="true">
                                  </option>
 
-                                 <option     v-for="watchComp   in   model.forms[active_form].components"
+                                 <option     v-for="watchComp   in   incoming_link_objects"
                                              v-bind:value="watchComp.uuid"
                                              v-bind:selected="selectedWatchComponentUuid == watchComp.uuid">
 
@@ -2296,14 +2297,14 @@ Pushlist
 
            }
            ,
-          clearLinks: function() {
+          clearLinks: async function() {
               let mm = this
               mm.selectedWatchComponentUuid = null
               mm.selectedWatchFromProperty = null
               mm.selectedWatchToProperty = null
               mm.selectedWatchFromProperties = []
               mm.linkSideSelected = "none"
-              mm.recalcComponentLinks()
+              await mm.recalcComponentLinks()
           }
           ,
           addWatch: function() {
@@ -2414,7 +2415,9 @@ Pushlist
                                        if (foundComponentIncomingTree) {
                                            let incomingCount = Object.keys(foundComponentIncomingTree).length
                                            if (incomingCount > 0) {
-                                               mm.incoming_link_objects.push({name: component.name, type: foundComponentType})
+                                               mm.incoming_link_objects.push(
+                                                   {name: component.name, type: foundComponentType, uuid: component.uuid}
+                                               )
                                            }
                                        }
                                    }
@@ -4853,7 +4856,9 @@ ${eventMessage.code}
                             if (foundComponentIncomingTree) {
                                 let incomingCount = Object.keys(foundComponentIncomingTree).length
                                 if (incomingCount > 0) {
-                                    mm.incoming_link_objects.push({name: component.name, type: foundComponentType})
+                                    mm.incoming_link_objects.push(
+                                        {name: component.name, type: foundComponentType, uuid: component.uuid}
+                                    )
                                 }
                             }
                         }
