@@ -408,6 +408,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 <br/><br/>
 <b>Add new link</b>
+<div v-bind:refresh='refresh'>link side selected: {{linkSideSelected}}</div>
 <div v-bind:refresh='refresh'>type: {{selected_link_component_type}}</div>
 <div v-bind:refresh='refresh'> Incoming objects: {{incoming_link_objects}}</div>
 
@@ -535,6 +536,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
                      <select   @change='linkSideSelected = "to";setWatchToProperty($event);'
+                                v-if='linkSideSelected == "none"'
                                 style='margin:7px;'>
 
                          <option value=""
@@ -547,6 +549,10 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                                             {{watchToProp}}
                          </option>
                      </select>
+                     <div   style='margin:7px;'
+                            v-if='linkSideSelected == "to"'>
+                         {{selectedWatchToProperty}}
+                     </div>
 
 
                  </div>
@@ -2296,6 +2302,7 @@ Pushlist
               mm.selectedWatchFromProperty = null
               mm.selectedWatchToProperty = null
               mm.selectedWatchFromProperties = []
+              mm.linkSideSelected = "none"
           }
           ,
           addWatch: function() {
