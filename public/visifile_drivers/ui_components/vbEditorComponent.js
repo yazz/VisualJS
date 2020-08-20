@@ -2406,7 +2406,7 @@ Pushlist
                                        if (foundComponentIncomingTree) {
                                            let incomingCount = Object.keys(foundComponentIncomingTree).length
                                            if (incomingCount > 0) {
-                                               //mm.incoming_link_objects.push({name: component.name, type: foundComponentType})
+                                               mm.incoming_link_objects.push({name: component.name, type: foundComponentType})
                                            }
                                        }
                                    }
