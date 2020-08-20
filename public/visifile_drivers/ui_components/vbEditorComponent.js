@@ -492,6 +492,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                          <div    style="width:40%;font-weight:bold;margin:7px;">From</div>
 
                              <select    @change='setIncomingFormWatchComponent($event); '
+                                         v-if='!selectedWatchComponentUuid'
                                          style='margin:7px;'>
 
                                  <option     value=""
@@ -504,7 +505,15 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
                                          {{watchComp.name}}
                                  </option>
-                     </select>
+                             </select>
+
+
+
+                             <div
+                                v-if='selectedWatchComponentUuid'
+                             >
+                                {{form_runtime_info[active_form].component_lookup_by_uuid[selectedWatchComponentUuid].name}}
+                             </div>
 
 
 
@@ -515,6 +524,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                      -->
 
                      <select    @change='linkSideSelected = "from";setWatchFromProperty($event);'
+                                 v-if="!selectedWatchFromProperty"
                                  style='margin:7px;'>
                          <option value=""
                                  selected="true">
@@ -526,6 +536,15 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                                          {{watchFromProp}}
                          </option>
                      </select>
+
+
+                     <div    v-if="selectedWatchFromProperty"
+                             style='margin:7px;'>
+                             {{selectedWatchFromProperty}}
+                     </div>
+
+
+
 
 
                  </div>
