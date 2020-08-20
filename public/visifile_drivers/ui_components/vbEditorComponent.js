@@ -489,7 +489,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
                          <div    style="width:40%;font-weight:bold;margin:7px;">From</div>
 
-                             <select    @change='linkSideSelected = "from";setIncomingFormWatchComponent($event); '
+                             <select    @change='setIncomingFormWatchComponent($event); '
                                          style='margin:7px;'>
 
                                  <option     value=""
@@ -534,8 +534,16 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                      Incoming form link "to" this component
              --------------------------------------------
               -->
+
+
              <td style='vertical-align: top;border: 1px solid lightgray;margin:5px;'>
                  <div    style="width:50%;">
+
+                 <!--
+                          ACTIVE COMPONENT NAME ON THIS FORM
+                  -->
+
+
                      <div    style="margin:7px;font-weight:bold;">To</div>
 
 
@@ -545,6 +553,9 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
 
+                     <!--
+                              ACTIVE COMPONENT PROPERTIES ON THIS FORM
+                      -->
 
 
                      <select   @change='linkSideSelected = "to";setWatchToProperty($event);'
@@ -2390,8 +2401,16 @@ Pushlist
             var val     = null
             var type    = null
 
-//debugger
-//zzz
+debugger
+            //
+            // if nothing is selected then set it all up
+            //
+            if (mm.linkSideSelected == "none") {
+                mm.linkSideSelected = "from";
+
+            } else {
+
+            }
             this.selectedWatchComponentUuid = event.target.value
             this.selectedWatchFromProperties = []
             var ccomp =  this.form_runtime_info[mm.active_form].component_lookup_by_uuid[this.selectedWatchComponentUuid]
@@ -2400,6 +2419,9 @@ Pushlist
             for (var aaa =0; aaa<ccomkeys.length;aaa++) {
                 this.selectedWatchFromProperties.push(ccomkeys[aaa])
             }
+
+//debugger
+//zzz
 
 
         }
