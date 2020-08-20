@@ -2303,6 +2303,7 @@ Pushlist
               mm.selectedWatchToProperty = null
               mm.selectedWatchFromProperties = []
               mm.linkSideSelected = "none"
+              mm.recalcComponentLinks()
           }
           ,
           addWatch: function() {
