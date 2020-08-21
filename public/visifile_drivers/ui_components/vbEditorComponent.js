@@ -523,7 +523,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                      ----------------
                      -->
 
-                     <select    @change='linkSideSelected = "from";setWatchFromProperty($event);'
+                     <select    @change='setWatchFromProperty($event);'
                                  v-if="!selectedWatchFromProperty"
                                  style='margin:7px;'>
                          <option value=""
