@@ -723,7 +723,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                          <option     value=""
                                      selected="true">
                          </option>
-                         <option     v-for="pushComp in model.forms[active_form].components"
+                         <option     v-for="pushComp  in  outgoing_link_objects"
                                      v-bind:value="pushComp.uuid"
                                      v-bind:selected="selectedPushComponentUuid == pushComp.uuid">
                                          {{pushComp.name}}
@@ -4997,6 +4997,32 @@ ${eventMessage.code}
 
 
 debugger
+            mm.outgoing_link_objects = []
+
+            var ccc = mm.model.forms[mm.active_form].components
+            for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
+                var component = ccc[ytr]
+                let foundComponentType = component.base_component_id
+                if (linked_properties[mm.selected_link_component_type]) {
+                    if (linked_properties[mm.selected_link_component_type].outgoing) {
+                        if (linked_properties[mm.selected_link_component_type].outgoing.them) {
+                            let foundComponentIncomingTree = linked_properties[mm.selected_link_component_type].outgoing.them[foundComponentType]
+                            if (foundComponentIncomingTree) {
+                                let outgoingCount = Object.keys(foundComponentIncomingTree).length
+                                if (outgoingCount > 0) {
+                                    mm.outgoing_link_objects.push(
+                                        {name: component.name, type: foundComponentType, uuid: component.uuid}
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+
+
+
 //zzz
             mm.selectedPushFromProperties = []
             if (mm.design_mode_pane.links_type == "form") {
