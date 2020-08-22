@@ -585,8 +585,8 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                      -->
 
 
-                     <select   @change='linkSideSelected = "to";setWatchToProperty($event);'
-                                v-if='linkSideSelected == "none"'
+                     <select   @change='setWatchToProperty($event);'
+                                v-if='(linkSideSelected == "none") || fromLinkPropertySelected'
                                 style='margin:7px;'>
 
                          <option value=""
@@ -2475,6 +2475,7 @@ Pushlist
             //-------------------------------------------------------------------
                 let mm = this
                 this.selectedWatchToProperty = event.target.value
+                this.toLinkPropertySelected = true
 
 
                 debugger
@@ -2526,6 +2527,7 @@ Pushlist
            setWatchFromProperty: function(event) {
            //-------------------------------------------------------------------
               this.selectedWatchFromProperty = event.target.value
+              this.fromLinkPropertySelected = true
           }
           ,
 
@@ -4861,6 +4863,9 @@ ${eventMessage.code}
         clearLinkToProperties: async function() {
             var mm = this
             this.selectedWatchToProperties = []
+            this.fromLinkPropertySelected = false
+            this.toLinkPropertySelected = false
+
 
 
             if (mm.design_mode_pane.links_type == "form") {
@@ -5966,6 +5971,8 @@ return {}
            selectedWatchFromProperties:      [],
            selectedWatchToProperties:      [],
            linkSideSelected:      "none",
+           fromLinkPropertySelected:    false,
+           toLinkPropertySelected: false,
 
            selected_link_component_type: null,
            incoming_link_objects: [],
