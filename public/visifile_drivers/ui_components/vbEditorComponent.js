@@ -473,7 +473,11 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
                  <td    style='vertical-align: top; width: 50%;'>
 
-
+ <!--
+ ------------------------------------------------------------------------------------------------
+       INCOMING
+ ------------------------------------------------------------------------------------------------
+ -->
                      <!--
                      --------------------------------------------
                      FORM LINKS
@@ -661,6 +665,13 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
 
+<!--
+------------------------------------------------------------------------------------------------
+      OUTGOING
+------------------------------------------------------------------------------------------------
+-->
+
+
          <!--
          --------------------------------------------
          FORM LINKS
@@ -692,7 +703,8 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
 
-                     <select @change='setPushFromProperty($event)' style='margin:7px;'>
+                     <select @change='setPushFromProperty($event)'
+                              style='margin:7px;'>
                          <option value=""
                                  selected="true">
                          </option>
@@ -749,6 +761,14 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
          </tr>
 
 
+
+
+
+<!--
+------------------------------------------------------------------------------------------------
+     FORM OUTGOING LINKS TRANSFORM
+------------------------------------------------------------------------------------------------
+-->
          <tr style=''
              v-if="(design_mode_pane.direction == 'outgoing')">
 
@@ -785,13 +805,15 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
          </table>
 
      </div>
-     <!--
-
-             FORM LINKS END HERE
-
-      -->
 
 
+
+
+ <!--
+ ------------------------------------------------------------------------------------------------
+         FORM LINKS END HERE
+ ------------------------------------------------------------------------------------------------
+ -->
 
 
 
@@ -2591,20 +2613,30 @@ Pushlist
           setPushComponent: function(event) {
           //-------------------------------------------------------------------
 
+
              var mm      = this
              var val     = null
              var type    = null
 
-//debugger
-             this.selectedPushComponentUuid = event.target.value
-             this.selectedPushToProperties = []
-             var ccomp =  this.form_runtime_info[mm.active_form].component_lookup_by_uuid[this.selectedPushComponentUuid]
-             var ccomkeys = Object.keys(ccomp)
-             for (var aaa =0; aaa<ccomkeys.length;aaa++) {
-                 this.selectedPushToProperties.push(ccomkeys[aaa])
+             //zzz
+             if (mm.design_mode_pane.links_type == "form") {
+
+                 if (mm.linkSideSelected == "from") {
+                 } else {
+
+                 }
+
+             } else {
+                 this.selectedPushComponentUuid = event.target.value
+                 this.selectedPushToProperties = []
+                 var ccomp =  this.form_runtime_info[mm.active_form].component_lookup_by_uuid[this.selectedPushComponentUuid]
+                 var ccomkeys = Object.keys(ccomp)
+                 for (var aaa =0; aaa<ccomkeys.length;aaa++) {
+                     this.selectedPushToProperties.push(ccomkeys[aaa])
+                 }
+
              }
-
-
+//debugger
          }
          ,
 
@@ -2622,6 +2654,7 @@ Pushlist
            setPushFromProperty: function(event) {
            //-------------------------------------------------------------------
               this.selectedPushFromProperty = event.target.value
+              this.linkSideSelected = "from"
           }
           ,
 
