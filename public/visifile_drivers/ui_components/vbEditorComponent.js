@@ -410,8 +410,8 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 <b>Add new link</b>
 <div v-bind:refresh='refresh'>link side selected: {{linkSideSelected}}</div>
 <div v-bind:refresh='refresh'>type: {{selected_link_component_type}}</div>
-<div v-bind:refresh='refresh'> Incoming objects: {{incoming_link_objects}}</div>
-<div v-bind:refresh='refresh'> Incoming properties: {{selectedWatchFromProperties}}</div>
+<div v-bind:refresh='refresh'> selectedWatchFromProperties: {{selectedWatchFromProperties}}</div>
+<div v-bind:refresh='refresh'> selectedWatchToProperties: {{selectedWatchToProperties}}</div>
 
 
 
@@ -2526,11 +2526,11 @@ Pushlist
            //-------------------------------------------------------------------
            setWatchFromProperty: function(event) {
            //-------------------------------------------------------------------
-           debugger
+
               let mm = this
               this.selectedWatchFromProperty = event.target.value
               this.fromLinkPropertySelected = true
-              //zzz
+              
 
               if (mm.design_mode_pane.links_type == "form") {
 
