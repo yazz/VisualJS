@@ -477,7 +477,8 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                      <!--
                      --------------------------------------------
                      FORM LINKS
-                             Incoming form link "from" other component
+                             Incoming form link "from" another component (part 1)
+                             zzz
                      --------------------------------------------
                       -->
 
@@ -554,7 +555,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
              <!--
              --------------------------------------------
              FORM LINKS
-                     Incoming form link "to" this component
+                     Incoming form link "to" selected component (part 2)
              --------------------------------------------
               -->
 
@@ -658,9 +659,13 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
 
-
-
-
+         <!--
+         --------------------------------------------
+         FORM LINKS
+                 Outgoing form link "from" selected component
+                 zzz
+         --------------------------------------------
+          -->
 
 
          <tr style=''
@@ -671,6 +676,13 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
                      <div    style="width:40%;font-weight:bold;margin:7px;">From</div>
 
+                     <!--
+                     --------------------------------------------
+                     FORM LINKS
+                             Outgoing form link "from" selected component (part 1)
+                             zzz
+                     --------------------------------------------
+                      -->
 
                      <div    style="width:40%;margin:7px;">
                          {{model.forms[active_form].components[active_component_links_index].name}}
@@ -693,6 +705,15 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                  </div>
              </td>
              <td style='vertical-align: top; width: 50%;'>
+
+             <!--
+             --------------------------------------------
+             FORM LINKS
+                     Outgoing form link "to" another component (part 2)
+             --------------------------------------------
+              -->
+
+
                  <div    style="border: 1px solid lightgray;margin:5px;height:150px;">
                      <div    style="margin:7px;width:40%;font-weight:bold;">To</div>
 
@@ -2530,7 +2551,7 @@ Pushlist
               let mm = this
               this.selectedWatchFromProperty = event.target.value
               this.fromLinkPropertySelected = true
-              
+
 
               if (mm.design_mode_pane.links_type == "form") {
 
