@@ -2463,7 +2463,7 @@ Pushlist
             }
 
 //debugger
-//zzz
+
 
 
         }
@@ -2526,8 +2526,37 @@ Pushlist
            //-------------------------------------------------------------------
            setWatchFromProperty: function(event) {
            //-------------------------------------------------------------------
+           debugger
+              let mm = this
               this.selectedWatchFromProperty = event.target.value
               this.fromLinkPropertySelected = true
+              //zzz
+
+              if (mm.design_mode_pane.links_type == "form") {
+
+                  if (mm.linkSideSelected == "from") {
+                      this.selectedWatchToProperties = []
+                      var ccomp2 =  mm.model.forms[mm.active_form].components[mm.active_component_index]
+                      let activeComponenttype = ccomp2.base_component_id
+                      if (  linked_properties[  activeComponenttype  ]  ) {
+                          if (  linked_properties[  activeComponenttype  ].incoming  ) {
+                              if (  linked_properties[  activeComponenttype  ].incoming.them  ) {
+                                  let them =  this.form_runtime_info[mm.active_form].component_lookup_by_uuid[this.selectedWatchComponentUuid]
+                                  if (  linked_properties[  activeComponenttype  ].incoming.them[  them.base_component_id  ]  ) {
+                                      var ccomkeys2 = Object.keys(linked_properties[  activeComponenttype  ].incoming.them[  them.base_component_id  ][mm.selectedWatchFromProperty] )
+
+                                      for (var aaa =0; aaa<ccomkeys2.length;aaa++) {
+                                          this.selectedWatchToProperties.push(ccomkeys2[aaa])
+                                      }
+                                  }
+                              }
+                          }
+                      }
+
+                  }
+
+
+              }
           }
           ,
 
