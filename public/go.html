@@ -21,6 +21,21 @@
     var component_cache  = new Object()
     var linked_properties  = new Object()
     linked_properties = {
+        input_control: {
+            outgoing: {
+                me: {
+                    value: {
+                        label_control: {text: true}
+                    }
+                },
+                them: {
+                    label_control: {
+                       text: {value: true}
+                   }
+                }
+            }
+        }
+        ,
         label_control: {
 
             outgoing: {

@@ -477,7 +477,8 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                      <!--
                      --------------------------------------------
                      FORM LINKS
-                             Incoming form link "from" another component (part 1)
+                             Incoming form link "to" selected component
+                             (part 1 - where is the link coming from?)
                              zzz
                      --------------------------------------------
                       -->
@@ -555,7 +556,8 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
              <!--
              --------------------------------------------
              FORM LINKS
-                     Incoming form link "to" selected component (part 2)
+                     Incoming form link "to" selected component
+                     (part 2 - which property on the selected component to send the link to)
              --------------------------------------------
               -->
 
@@ -565,7 +567,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
                      <!--
                      ----------------
-                              ACTIVE COMPONENT NAME ON THIS FORM
+                              SELECTED COMPONENT NAME ON THIS FORM
                      ----------------
                      -->
 
@@ -581,7 +583,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
                      <!--
                      ----------------
-                              ACTIVE COMPONENT PROPERTIES ON THIS FORM
+                              CHOOSE A PROPERTY ON THE SELECTED COMPONENT
                      ----------------
                      -->
 
@@ -680,7 +682,6 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                      --------------------------------------------
                      FORM LINKS
                              Outgoing form link "from" selected component (part 1)
-                             zzz
                      --------------------------------------------
                       -->
 
@@ -6026,6 +6027,7 @@ return {}
 
            selected_link_component_type: null,
            incoming_link_objects: [],
+           outgoing_link_objects: [],
 
 
            selectedPushComponentUuid:      null,
