@@ -681,7 +681,8 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                      <!--
                      --------------------------------------------
                      FORM LINKS
-                             Outgoing form link "from" selected component (part 1)
+                             Outgoing form link "from" selected component
+                             (part 1 - Show the selected component)
                      --------------------------------------------
                       -->
 
@@ -4957,13 +4958,6 @@ ${eventMessage.code}
 
            mm.clearLinkToProperties()
 
-           this.selectedPushFromProperties = []
-           var ccomp2 =  mm.model.forms[mm.active_form].components[mm.active_component_index]
-           var ccomkeys2 = Object.keys(ccomp2)
-           for (var aaa =0; aaa<ccomkeys2.length;aaa++) {
-               this.selectedPushFromProperties.push(ccomkeys2[aaa])
-           }
-
 
             mm.selected_link_component_type = mm.model.forms[mm.active_form].components[mm.active_component_index].base_component_id
             await mm.recalcComponentLinks()
@@ -4985,8 +4979,8 @@ ${eventMessage.code}
                 var component = ccc[ytr]
                 let foundComponentType = component.base_component_id
                 if (linked_properties[mm.selected_link_component_type]) {
-                    if (linked_properties[mm.selected_link_component_type].incoming.them) {
-                        if (linked_properties[mm.selected_link_component_type].incoming) {
+                    if (linked_properties[mm.selected_link_component_type].incoming) {
+                        if (linked_properties[mm.selected_link_component_type].incoming.them) {
                             let foundComponentIncomingTree = linked_properties[mm.selected_link_component_type].incoming.them[foundComponentType]
                             if (foundComponentIncomingTree) {
                                 let incomingCount = Object.keys(foundComponentIncomingTree).length
@@ -5000,6 +4994,16 @@ ${eventMessage.code}
                     }
                 }
             }
+
+
+debugger
+            mm.selectedPushFromProperties = []
+            var ccomp2 =  mm.model.forms[mm.active_form].components[mm.active_component_index]
+            var ccomkeys2 = Object.keys(ccomp2)
+            for (var aaa =0; aaa<ccomkeys2.length;aaa++) {
+                mm.selectedPushFromProperties.push(ccomkeys2[aaa])
+            }
+
 
 
             mm.refresh++
