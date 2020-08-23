@@ -891,7 +891,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
                       <div  style="margin:5px;height:150px;">
 
-                          <div    style="width:40%;font-weight:bold;margin:7px;">From</div>
+                          <div    style="width:40%;font-weight:bold;margin:7px;">From (New Component)</div>
 
                               <select    @change='setIncomingFormWatchComponent($event); '
                                           v-if='!selectedWatchComponentUuid'
@@ -1125,7 +1125,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
                   <div    style="border: 1px solid lightgray;margin:5px;height:150px;">
-                      <div    style="margin:7px;width:40%;font-weight:bold;">To</div>
+                      <div    style="margin:7px;width:40%;font-weight:bold;">To (New Component)</div>
 
                       <select  @change='setPushComponent($event)'    style='margin:7px;'>
                           <option     value=""
