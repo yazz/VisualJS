@@ -408,12 +408,6 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 <br/><br/>
 <b>Add new link</b>
-<div v-bind:refresh='refresh'>link side selected: {{linkSideSelected}}</div>
-<div v-bind:refresh='refresh'>type: {{selected_link_component_type}}</div>
-<div v-bind:refresh='refresh'> selectedWatchFromProperties: {{selectedWatchFromProperties}}</div>
-<div v-bind:refresh='refresh'> selectedWatchToProperties: {{selectedWatchToProperties}}</div>
-
-
 
 
 <ul class="nav nav-tabs" id="myTab" role="tablist"
