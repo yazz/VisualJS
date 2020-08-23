@@ -2523,7 +2523,7 @@ Pushlist
                 this.toLinkPropertySelected = true
 
 
-                debugger
+                //debugger
                 if (mm.design_mode_pane.links_type == "form") {
                     if (mm.linkSideSelected == "to") {
                         mm.incoming_link_objects = []
@@ -2617,10 +2617,12 @@ debugger
              var val     = null
              var type    = null
 
+
              this.selectedPushComponentUuid = event.target.value
              var ccomp =  this.form_runtime_info[mm.active_form].component_lookup_by_uuid[this.selectedPushComponentUuid]
              let activecomp = mm.model.forms[mm.active_form].components[mm.active_component_index]
              this.selectedPushToProperties = []
+             mm.linkSideSelected = "to"
 
              //zzz
              if (mm.design_mode_pane.links_type == "form") {
@@ -2630,8 +2632,8 @@ debugger
                          if (linked_properties[activecomp.base_component_id]){
                              if (linked_properties[activecomp.base_component_id].outgoing){
                                  if (linked_properties[activecomp.base_component_id].outgoing.me){
-                                     if (linked_properties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty]){
-                                         if (linked_properties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty][ccomp.base_component_id]){
+                                     if (linked_properties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty] ) {
+                                         if (linked_properties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty][ccomp.base_component_id]) {
                                              var ccomkeys = Object.keys(linked_properties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty][ccomp.base_component_id])
                                              for (var aaa =0; aaa<ccomkeys.length;aaa++) {
                                                  this.selectedPushToProperties.push(ccomkeys[aaa])
@@ -2643,8 +2645,22 @@ debugger
                              }
                          }
                      }
-                 } else {
+                 } else if (mm.linkSideSelected == "to") {
+                     if (linked_properties){
+                         if (linked_properties[activecomp.base_component_id]){
+                             if (linked_properties[activecomp.base_component_id].outgoing){
+                                 if (linked_properties[activecomp.base_component_id].outgoing.them){
+                                     if (linked_properties[activecomp.base_component_id].outgoing.them[ccomp.base_component_id]){
+                                         var ccomkeys = Object.keys(linked_properties[activecomp.base_component_id].outgoing.them[ccomp.base_component_id])
+                                         for (var aaa =0; aaa<ccomkeys.length;aaa++) {
+                                             this.selectedPushToProperties.push(ccomkeys[aaa])
+                                         }
+                                     }
+                                 }
 
+                             }
+                         }
+                     }
                  }
 
 
