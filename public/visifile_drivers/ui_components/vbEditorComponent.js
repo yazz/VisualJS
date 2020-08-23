@@ -782,6 +782,12 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                  </div>
 
 
+                 <!--
+                 ----------------
+                          Add a watch link
+                 ----------------
+                 -->
+
                  <button type=button class='btn btn-sm btn-info'
                          v-bind:style='""'
                          v-on:click='$event.stopPropagation(); addPush();'  >
@@ -789,6 +795,19 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                       Add
 
                  </button>
+
+                 <!--
+                 ----------------
+                          Clear the link fields
+                 ----------------
+                 -->
+
+                  <button type=button class='btn btn-sm btn-warning'
+                          v-bind:style='""'
+                          v-on:click='$event.stopPropagation(); clearLinks();'  >
+                       Clear
+                  </button>
+
 
              </td>
          </tr>
@@ -2405,6 +2424,10 @@ Pushlist
               mm.selectedWatchToProperty = null
               mm.selectedWatchFromProperties = []
               mm.linkSideSelected = "none"
+              mm.selectedPushComponentUuid     = null
+              mm.selectedPushFromProperty      = null
+              mm.selectedPushToProperty        = null
+              mm.selectedPushTransformFn        = null
               await mm.recalcComponentLinks()
           }
           ,
