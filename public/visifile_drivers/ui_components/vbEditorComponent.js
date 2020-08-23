@@ -876,7 +876,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
   -->
                       <!--
                       --------------------------------------------
-                      FORM LINKS
+                      CREATE NEW COMPONENT LINKS
                               Incoming form link "to" selected component
                               (part 1 - where is the link coming from?)
                               zzz
@@ -955,7 +955,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
               <!--
               --------------------------------------------
-              FORM LINKS
+              CREATE NEW COMPONENT  LINKS
                       Incoming form link "to" selected component
                       (part 2 - which property on the selected component to send the link to)
               --------------------------------------------
@@ -1070,8 +1070,8 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
           <!--
           --------------------------------------------
-          FORM LINKS
-                  Outgoing form link "from" selected component
+          CREATE NEW COMPONENT  LINKS
+                  Outgoing CREATE NEW COMPONENT  link "from" selected component
                   zzz
           --------------------------------------------
            -->
@@ -1118,8 +1118,8 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
               <!--
               --------------------------------------------
-              FORM LINKS
-                      Outgoing form link "to" another component (part 2)
+              CREATE NEW COMPONENT  LINKS
+                      Outgoing CREATE NEW COMPONENT  link "to" another component (part 2)
               --------------------------------------------
                -->
 
@@ -1140,15 +1140,19 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
 
-                  <select @change='setPushToProperty($event)'     style='margin:7px;'>
+                  <select   @change='setPushToProperty($event)'
+                             style='margin:7px;'>
+
                       <option value=""
                               selected="true">
                       </option>
+
                       <option     v-for="pushToProp in selectedPushToProperties"
                                   v-bind:value="pushToProp"
                                   v-bind:selected="selectedPushToProperty == pushToProp">
                                       {{pushToProp}}
                       </option>
+
                   </select>
 
 
@@ -1162,7 +1166,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
  <!--
  ------------------------------------------------------------------------------------------------
-      FORM OUTGOING LINKS TRANSFORM
+      setPushToProperty OUTGOING LINKS TRANSFORM
  ------------------------------------------------------------------------------------------------
  -->
           <tr style=''
