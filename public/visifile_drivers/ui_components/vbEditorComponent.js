@@ -2612,7 +2612,7 @@ Pushlist
           //-------------------------------------------------------------------
           setPushComponent: function(event) {
           //-------------------------------------------------------------------
-
+debugger
              var mm      = this
              var val     = null
              var type    = null
@@ -2628,11 +2628,11 @@ Pushlist
                  if (mm.linkSideSelected == "from") {
                      if (linked_properties){
                          if (linked_properties[activecomp.base_component_id]){
-                             if (linked_properties[ccomp.base_component_id].outgoing){
-                                 if (linked_properties[ccomp.base_component_id].outgoing.them){
-                                     if (linked_properties[ccomp.base_component_id].outgoing.them[ccomp.base_component_id]){
-                                         if (linked_properties[ccomp.base_component_id].outgoing.them[ccomp.base_component_id][mm.selectedPushFromProperty]){
-                                             var ccomkeys = Object.keys(linked_properties[ccomp.base_component_id].outgoing.them[ccomp.base_component_id][mm.selectedPushFromProperty])
+                             if (linked_properties[activecomp.base_component_id].outgoing){
+                                 if (linked_properties[activecomp.base_component_id].outgoing.me){
+                                     if (linked_properties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty]){
+                                         if (linked_properties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty][ccomp.base_component_id]){
+                                             var ccomkeys = Object.keys(linked_properties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty][ccomp.base_component_id])
                                              for (var aaa =0; aaa<ccomkeys.length;aaa++) {
                                                  this.selectedPushToProperties.push(ccomkeys[aaa])
                                              }
