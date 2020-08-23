@@ -423,10 +423,10 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
   <li class="nav-item"  style="width:30%">
-    <a  v-bind:class='"nav-link " + (  design_mode_pane.links_type == "find"?"active":""  )'
-        id="links-find-tab"
-        v-on:click='design_mode_pane.links_type = "find";refresh++;'
-        data-toggle="tab" role="tab" aria-controls="profile" aria-selected="false">Create Component</a>
+    <a  v-bind:class='"nav-link " + (  design_mode_pane.links_type == "create_new_component"?"active":""  )'
+        id="links-create-new-component-tab"
+        v-on:click='design_mode_pane.links_type = "create_new_component";refresh++;'
+        data-toggle="tab" role="tab" aria-controls="profile" aria-selected="false">Create New Component</a>
   </li>
 
 
@@ -440,6 +440,10 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 </ul>
 <div class="tab-content" id="myTabContent">
+
+
+
+
 
 
 
@@ -842,16 +846,21 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
 
+
+
+
+
+
     <!--
     --------------------------------------------
 
-            FIND COMPONENT LINKS START
+            CREATE NEW COMPONENT LINKS START
 
      --------------------------------------------
       -->
       <div  class="tab-pane fade show active"
             id="home" role="tabpanel" aria-labelledby="links-form-tab"
-            v-if='design_mode_pane.links_type == "find"'>
+            v-if='design_mode_pane.links_type == "create_new_component"'>
 
           <table style="width:100%;border: 3px solid black;" class="table">
 
@@ -1217,7 +1226,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
   <!--
   ------------------------------------------------------------------------------------------------
-          FIND COMPONENT LINKS END HERE
+          CREATE NEW COMPONENT LINKS END HERE
   ------------------------------------------------------------------------------------------------
   -->
 
@@ -1460,7 +1469,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
 
-  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="links-find-tab">...</div>
+  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="create-new-component-tab">...</div>
   <div class="tab-pane fade" id="manual" role="tabpanel" aria-labelledby="manual-links-tab">...</div>
 </div>
 
