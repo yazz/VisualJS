@@ -1131,10 +1131,10 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                           <option     value=""
                                       selected="true">
                           </option>
-                          <option     v-for="pushComp  in  outgoing_link_objects"
-                                      v-bind:value="pushComp.uuid"
-                                      v-bind:selected="selectedPushComponentUuid == pushComp.uuid">
-                                          {{pushComp.name}}
+                          <option     v-for="pushComp  in  outgoing_link_component_types"
+                                      v-bind:value="pushComp"
+                                      v-bind:selected="selectedPushComponentType == pushComp">
+                                          {{pushComp}}
                           </option>
                       </select>
 
@@ -3039,13 +3039,18 @@ Pushlist
           ,
 
 
+          //-------------------------------------------------------------------
+          setPushComponentType: function(event) {
+          //-------------------------------------------------------------------
+debugger
 
-
+          }
+          ,
 
           //-------------------------------------------------------------------
           setPushComponent: function(event) {
           //-------------------------------------------------------------------
-debugger
+//debugger
              var mm      = this
              var val     = null
              var type    = null
@@ -6617,7 +6622,10 @@ return {}
            incoming_link_objects: [],
            outgoing_link_objects: [],
 
+           incoming_link_component_types: [],
+           outgoing_link_component_types: [],
 
+           selectedPushComponentType:      null,
            selectedPushComponentUuid:      null,
            selectedPushFromProperty:      null,
            selectedPushTransformFn: null,
