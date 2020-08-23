@@ -1127,7 +1127,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                   <div    style="border: 1px solid lightgray;margin:5px;height:150px;">
                       <div    style="margin:7px;width:40%;font-weight:bold;">To (New Component)</div>
 
-                      <select  @change='setPushComponent($event)'    style='margin:7px;'>
+                      <select  @change='setPushComponentType($event)'    style='margin:7px;'>
                           <option     value=""
                                       selected="true">
                           </option>
@@ -3043,6 +3043,7 @@ Pushlist
           setPushComponentType: function(event) {
           //-------------------------------------------------------------------
 debugger
+            var mm      = this
 
           }
           ,
@@ -3128,8 +3129,28 @@ debugger
            //-------------------------------------------------------------------
            setPushFromProperty: function(event) {
            //-------------------------------------------------------------------
+              let mm = this
               this.selectedPushFromProperty = event.target.value
               this.linkSideSelected = "from"
+
+//zzz
+              if (this.design_mode_pane.links_type == "create_new_component") {
+                  debugger
+                  this.outgoing_link_component_types = []
+                  let selectedObject = mm.model.forms[mm.active_form].components[mm.active_component_index]
+                  if (linked_properties) {
+                      if (linked_properties[selectedObject.base_component_id]) {
+                          let outTypes = linked_properties[selectedObject.base_component_id].outgoing.them
+                          if (outTypes) {
+                              let ooo = Object.keys(outTypes)
+                              for (let ooobb in ooo) {
+                                  outgoing_link_component_types.push(ooobb)
+                              }
+
+                          }
+                      }
+                  }
+              }
           }
           ,
 
