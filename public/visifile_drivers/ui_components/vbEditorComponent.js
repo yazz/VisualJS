@@ -417,7 +417,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
   <li class="nav-item" style="width:30%">
     <a  v-bind:class='"nav-link " + (  design_mode_pane.links_type == "form"?"active":""  )'
         id="links-form-tab"
-        v-on:click='design_mode_pane.links_type = "form";refresh++;'
+        v-on:click='design_mode_pane.links_type = "form";clearLinks();refresh++;'
         data-toggle="tab" role="tab" aria-controls="home" aria-selected="true">Form</a>
   </li>
 
@@ -425,7 +425,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
   <li class="nav-item"  style="width:30%">
     <a  v-bind:class='"nav-link " + (  design_mode_pane.links_type == "create_new_component"?"active":""  )'
         id="links-create-new-component-tab"
-        v-on:click='design_mode_pane.links_type = "create_new_component";refresh++;'
+        v-on:click='design_mode_pane.links_type = "create_new_component";clearLinks();refresh++;'
         data-toggle="tab" role="tab" aria-controls="profile" aria-selected="false">Create New Component</a>
   </li>
 
@@ -433,7 +433,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
   <li class="nav-item"  style="width:30%">
     <a  v-bind:class='"nav-link " + (  design_mode_pane.links_type == "manual"?"active":""  )'
         id="manual-links-tab"
-        v-on:click='design_mode_pane.links_type = "manual";refresh++;'
+        v-on:click='design_mode_pane.links_type = "manual";clearLinks();refresh++;'
         data-toggle="tab" role="tab" aria-controls="manual" aria-selected="false">Manual</a>
   </li>
 
@@ -5455,6 +5455,7 @@ ${eventMessage.code}
            mm.design_mode_pane.type = "control_links_editor"
            mm.design_mode_pane.direction = diretionOfLinks
            mm.design_mode_pane.links_type = "form"
+           mm.clearLinks();
 
            this.active_component_links_index = index;
            this.active_component_links_name = this.model.forms[this.active_form].components[index].name;
