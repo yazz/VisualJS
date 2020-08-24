@@ -3135,16 +3135,16 @@ debugger
 
 //zzz
               if (this.design_mode_pane.links_type == "create_new_component") {
-                  debugger
                   this.outgoing_link_component_types = []
                   let selectedObject = mm.model.forms[mm.active_form].components[mm.active_component_index]
                   if (linked_properties) {
                       if (linked_properties[selectedObject.base_component_id]) {
                           let outTypes = linked_properties[selectedObject.base_component_id].outgoing.them
+                          debugger
                           if (outTypes) {
                               let ooo = Object.keys(outTypes)
-                              for (let ooobb in ooo) {
-                                  outgoing_link_component_types.push(ooobb)
+                              for (let ooobb of ooo) {
+                                  mm.outgoing_link_component_types.push(ooobb)
                               }
 
                           }
@@ -5561,7 +5561,7 @@ ${eventMessage.code}
                     if (linked_properties[typeSelected].outgoing) {
                         if (linked_properties[typeSelected].outgoing.me) {
                             if (linked_properties[typeSelected].outgoing.me) {
-                                debugger
+                                //debugger
                                 var ccomp2 =  linked_properties[typeSelected].outgoing.me
                                 var ccomkeys2 = Object.keys(ccomp2)
                                 for (var aaa =0; aaa<ccomkeys2.length;aaa++) {
