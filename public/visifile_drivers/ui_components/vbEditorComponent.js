@@ -408,6 +408,8 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 <br/><br/>
 <b>Add new link</b>
+linkSideSelected: {{linkSideSelected}}<br>
+selectedPushFromProperty: {{selectedPushFromProperty}}
 
 
 <ul class="nav nav-tabs" id="myTab" role="tablist"
@@ -3046,7 +3048,30 @@ debugger
             var mm      = this
 
             let ComponentType = event.target.value
-            mm.selectedPushToProperties = ["12","34",ComponentType]
+            mm.selectedPushToProperties = []
+            //zzz
+            let activecomp = mm.model.forms[mm.active_form].components[mm.active_component_index]
+
+
+            if (mm.linkSideSelected == "from") {
+                if (linked_properties){
+                    if (linked_properties[activecomp.base_component_id]){
+                        if (linked_properties[activecomp.base_component_id].outgoing){
+                            if (linked_properties[activecomp.base_component_id].outgoing.me){
+                                if (linked_properties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty] ) {
+                                    if (linked_properties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty][ComponentType]) {
+                                        var ccomkeys = Object.keys(linked_properties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty][ComponentType])
+                                        for (var aaa =0; aaa<ccomkeys.length;aaa++) {
+                                            this.selectedPushToProperties.push(ccomkeys[aaa])
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
 
           }
           ,
