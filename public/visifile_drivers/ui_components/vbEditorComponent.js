@@ -5529,7 +5529,7 @@ ${eventMessage.code}
 
         recalcComponentLinks: async function() {
             let mm = this
-//debugger
+debugger
             mm.incoming_link_objects = []
 
             var ccc = mm.model.forms[mm.active_form].components
@@ -5584,37 +5584,40 @@ ${eventMessage.code}
 //zzz
             mm.selectedPushFromProperties = []
             if (mm.design_mode_pane.links_type == "form") {
-                let typeSelected = this.model.forms[this.active_form].components[this.active_component_links_index].base_component_id
-                if (linked_properties[typeSelected]) {
-                    if (linked_properties[typeSelected].outgoing) {
-                        if (linked_properties[typeSelected].outgoing.me) {
+                if (mm.model.forms[mm.active_form].components[mm.active_component_links_index]) {
+                    let typeSelected = mm.model.forms[mm.active_form].components[mm.active_component_links_index].base_component_id
+                    if (linked_properties[typeSelected]) {
+                        if (linked_properties[typeSelected].outgoing) {
                             if (linked_properties[typeSelected].outgoing.me) {
-                                //debugger
-                                var ccomp2 =  linked_properties[typeSelected].outgoing.me
-                                var ccomkeys2 = Object.keys(ccomp2)
-                                for (var aaa =0; aaa<ccomkeys2.length;aaa++) {
-                                    let typeExists = false
+                                if (linked_properties[typeSelected].outgoing.me) {
+                                    //debugger
+                                    var ccomp2 =  linked_properties[typeSelected].outgoing.me
+                                    var ccomkeys2 = Object.keys(ccomp2)
+                                    for (var aaa =0; aaa<ccomkeys2.length;aaa++) {
+                                        let typeExists = false
 
-                                    let ccc = mm.model.forms[mm.active_form].components
-                                    for (   let ytr =  0;    ytr < ccc.length;    ytr++   ) {
-                                        let component = ccc[ytr]
-                                        if (linked_properties[typeSelected].outgoing.them[component.base_component_id]) {
-                                            typeExists = true
-                                            break;
+                                        let ccc = mm.model.forms[mm.active_form].components
+                                        for (   let ytr =  0;    ytr < ccc.length;    ytr++   ) {
+                                            let component = ccc[ytr]
+                                            if (linked_properties[typeSelected].outgoing.them[component.base_component_id]) {
+                                                typeExists = true
+                                                break;
+                                            }
+                                        }
+
+                                        if (typeExists) {
+                                            mm.selectedPushFromProperties.push(ccomkeys2[aaa])
                                         }
                                     }
 
-                                    if (typeExists) {
-                                        mm.selectedPushFromProperties.push(ccomkeys2[aaa])
-                                    }
                                 }
-
                             }
+
                         }
 
-                    }
-
+                    }                    
                 }
+
             } else if (mm.design_mode_pane.links_type == "create_new_component") {
                 let typeSelected = this.model.forms[this.active_form].components[this.active_component_links_index].base_component_id
                 if (linked_properties[typeSelected]) {
