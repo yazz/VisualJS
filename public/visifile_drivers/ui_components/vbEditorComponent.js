@@ -409,7 +409,8 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 <br/><br/>
 <b>Add new link</b>
 linkSideSelected: {{linkSideSelected}}<br>
-selectedPushFromProperty: {{selectedPushFromProperty}}
+selectedPushFromProperty: {{selectedPushFromProperty}}<br>
+selectedPushComponentType: {{selectedPushComponentType}}
 
 
 <ul class="nav nav-tabs" id="myTab" role="tablist"
@@ -2846,6 +2847,7 @@ Pushlist
               mm.selectedPushFromProperty      = null
               mm.selectedPushToProperty        = null
               mm.selectedPushTransformFn        = null
+              mm.selectedPushComponentType = null
               await mm.recalcComponentLinks()
           }
           ,
@@ -3049,6 +3051,7 @@ debugger
 
             let ComponentType = event.target.value
             mm.selectedPushToProperties = []
+            mm.selectedPushComponentType = ComponentType
             //zzz
             let activecomp = mm.model.forms[mm.active_form].components[mm.active_component_index]
 
@@ -5615,7 +5618,7 @@ debugger
 
                         }
 
-                    }                    
+                    }
                 }
 
             } else if (mm.design_mode_pane.links_type == "create_new_component") {
