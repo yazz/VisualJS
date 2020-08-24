@@ -2883,34 +2883,31 @@ Pushlist
 
           }
           ,
-          addNewComponentPush: function() {
+          addNewComponentPush: async function() {
               debugger
               //debugger
               var mm = this
 
-              if ( mm.selectedPushComponentUuid == null) {
-                  return
-              }
-              mm.old_model = JSON.parse(JSON.stringify( mm.model ));
-              if (! mm.model.forms[mm.active_form].components[mm.active_component_index].push) {
-                   mm.model.forms[mm.active_form].components[mm.active_component_index].push = []
-              }
-              mm.model.forms[mm.active_form].components[mm.active_component_index].push.push(
-                  {
-                    "uuid": mm.selectedPushComponentUuid,
-                    "property": mm.selectedPushFromProperty,
-                    "send_to": mm.selectedPushToProperty,
-                    "transform_fn": mm.selectedPushTransformFn
-                  }
-              )
-              mm.selectedPushComponentUuid     = null
-              mm.selectedPushFromProperty      = null
-              mm.selectedPushToProperty        = null
-              mm.selectedPushTransformFn        = null
+//zzz
+              let componentToCreateType = mm.selectedPushComponentType
 
-              mm.refresh ++
-              mm.updateAllFormCaches()
-              mm.showSaveButton()
+              //
+              // create the component
+              //
+              await mm.meta.getEditor().addControl(
+                  {
+                            "leftX": 10,
+                            "topY": 10,
+                            "name": newName,
+                            "base_component_id": "rest_control",
+                            "text": "REST API Call",
+
+                            "callApiOnStartup": "False"
+                          }
+
+                          )
+
+
 
           }
           ,
