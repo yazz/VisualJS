@@ -1199,7 +1199,7 @@ selectedPushComponentType: {{selectedPushComponentType}}
 
                   <button type=button class='btn btn-sm btn-info'
                           v-bind:style='""'
-                          v-on:click='$event.stopPropagation(); addPush();'  >
+                          v-on:click='$event.stopPropagation(); addNewComponentPush();'  >
 
                        Add
 
@@ -2883,7 +2883,37 @@ Pushlist
 
           }
           ,
+          addNewComponentPush: function() {
+              debugger
+              //debugger
+              var mm = this
 
+              if ( mm.selectedPushComponentUuid == null) {
+                  return
+              }
+              mm.old_model = JSON.parse(JSON.stringify( mm.model ));
+              if (! mm.model.forms[mm.active_form].components[mm.active_component_index].push) {
+                   mm.model.forms[mm.active_form].components[mm.active_component_index].push = []
+              }
+              mm.model.forms[mm.active_form].components[mm.active_component_index].push.push(
+                  {
+                    "uuid": mm.selectedPushComponentUuid,
+                    "property": mm.selectedPushFromProperty,
+                    "send_to": mm.selectedPushToProperty,
+                    "transform_fn": mm.selectedPushTransformFn
+                  }
+              )
+              mm.selectedPushComponentUuid     = null
+              mm.selectedPushFromProperty      = null
+              mm.selectedPushToProperty        = null
+              mm.selectedPushTransformFn        = null
+
+              mm.refresh ++
+              mm.updateAllFormCaches()
+              mm.showSaveButton()
+
+          }
+          ,
 
 
 
@@ -3046,7 +3076,7 @@ Pushlist
           //-------------------------------------------------------------------
           setPushComponentType: function(event) {
           //-------------------------------------------------------------------
-debugger
+//debugger
             var mm      = this
 
             let ComponentType = event.target.value
@@ -3171,7 +3201,7 @@ debugger
                   if (linked_properties) {
                       if (linked_properties[selectedObject.base_component_id]) {
                           let outTypes = linked_properties[selectedObject.base_component_id].outgoing.them
-                          debugger
+                          //debugger
                           if (outTypes) {
                               let ooo = Object.keys(outTypes)
                               for (let ooobb of ooo) {
@@ -5532,7 +5562,7 @@ ${eventMessage.code}
 
         recalcComponentLinks: async function() {
             let mm = this
-debugger
+//debugger
             mm.incoming_link_objects = []
 
             var ccc = mm.model.forms[mm.active_form].components
