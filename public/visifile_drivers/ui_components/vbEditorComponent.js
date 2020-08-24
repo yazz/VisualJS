@@ -3045,6 +3045,9 @@ Pushlist
 debugger
             var mm      = this
 
+            let ComponentType = event.target.value
+            mm.selectedPushToProperties = ["12","34",ComponentType]
+
           }
           ,
 
