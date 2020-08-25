@@ -2892,7 +2892,7 @@ Pushlist
               let componentToCreateType = mm.selectedPushComponentType
 
 
-              let newName = "Paul"
+              let newName = componentToCreateType + "_" + this.model.next_component_id++
               //
               // create the component
               //
@@ -2901,8 +2901,7 @@ Pushlist
                             "leftX": 310,
                             "topY": 10,
                             "name": newName,
-                            "base_component_id": "label_control",
-                            "text": ""
+                            "base_component_id": componentToCreateType
                           }
 
                           )
