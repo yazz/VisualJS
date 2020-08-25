@@ -2891,19 +2891,23 @@ Pushlist
 //zzz
               let componentToCreateType = mm.selectedPushComponentType
 
+
+              let newName = "Paul"
               //
               // create the component
               //
               await mm.addControl(
                   {
-                            "leftX": 10,
+                            "leftX": 310,
                             "topY": 10,
-                            "name": "testcontrol",
+                            "name": newName,
                             "base_component_id": "label_control",
                             "text": ""
                           }
 
                           )
+               mm.gotoDragDropEditor()
+               mm.selectComponentByName(newName)
 
 
 
