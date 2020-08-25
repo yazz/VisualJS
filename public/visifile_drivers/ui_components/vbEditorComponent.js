@@ -2894,15 +2894,13 @@ Pushlist
               //
               // create the component
               //
-              await mm.meta.getEditor().addControl(
+              await mm.addControl(
                   {
                             "leftX": 10,
                             "topY": 10,
-                            "name": newName,
-                            "base_component_id": "rest_control",
-                            "text": "REST API Call",
-
-                            "callApiOnStartup": "False"
+                            "name": "testcontrol",
+                            "base_component_id": "label_control",
+                            "text": ""
                           }
 
                           )
