@@ -485,7 +485,7 @@ selectedPushToProperty: {{selectedPushToProperty}}
                      FORM LINKS
                              Incoming form link "to" selected component
                              (part 1 - where is the link coming from?)
-                             zzz
+
                      --------------------------------------------
                       -->
 
@@ -678,7 +678,7 @@ selectedPushToProperty: {{selectedPushToProperty}}
          --------------------------------------------
          FORM LINKS
                  Outgoing form link "from" selected component
-                 zzz
+
          --------------------------------------------
           -->
 
@@ -2910,11 +2910,13 @@ Pushlist
                mm.selectComponentByName(newName)
 
                mm.linkComponents({
+                   link_type:          "outgoing",
+
                    from_component:      activeComponent.name,
                    from_property:       mm.selectedPushFromProperty,
 
                    to_component:        newName,
-                   to_property:       mm.selectedPushToProperty
+                   to_property:         mm.selectedPushToProperty
 
                })
 
@@ -3088,7 +3090,7 @@ Pushlist
             let ComponentType = event.target.value
             mm.selectedPushToProperties = []
             mm.selectedPushComponentType = ComponentType
-            //zzz
+            //
             let activecomp = mm.model.forms[mm.active_form].components[mm.active_component_index]
 
 
@@ -3130,7 +3132,7 @@ Pushlist
              this.selectedPushToProperties = []
              mm.linkSideSelected = "to"
 
-             //zzz
+             //
              if (mm.design_mode_pane.links_type == "form") {
 
                  if (mm.linkSideSelected == "from") {
@@ -3191,66 +3193,39 @@ Pushlist
            //-------------------------------------------------------------------
  //debugger
               var mm      = this
-              var val     = null
-              var type    = null
-alert(JSON.stringify(options,null,2))
+              //alert(JSON.stringify(options,null,2))
 
-              this.selectedPushComponentUuid = event.target.value
-              var ccomp =  this.form_runtime_info[mm.active_form].component_lookup_by_uuid[this.selectedPushComponentUuid]
-              let activecomp = mm.model.forms[mm.active_form].components[mm.active_component_index]
-              this.selectedPushToProperties = []
-              mm.linkSideSelected = "to"
+              debugger
 
-              //zzz
-              if (mm.design_mode_pane.links_type == "form") {
+              if (options.link_type == "outgoing") {
+                  let fromComponent =   mm.form_runtime_info[mm.active_form].component_lookup_by_name[options.from_component]
+                  let toComponent =     mm.form_runtime_info[mm.active_form].component_lookup_by_name[options.to_component]
 
-                  if (mm.linkSideSelected == "from") {
-                      if (linked_properties){
-                          if (linked_properties[activecomp.base_component_id]){
-                              if (linked_properties[activecomp.base_component_id].outgoing){
-                                  if (linked_properties[activecomp.base_component_id].outgoing.me){
-                                      if (linked_properties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty] ) {
-                                          if (linked_properties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty][ccomp.base_component_id]) {
-                                              var ccomkeys = Object.keys(linked_properties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty][ccomp.base_component_id])
-                                              for (var aaa =0; aaa<ccomkeys.length;aaa++) {
-                                                  this.selectedPushToProperties.push(ccomkeys[aaa])
-                                              }
-                                          }
-                                      }
-                                  }
-
-                              }
-                          }
-                      }
-                  } else if (mm.linkSideSelected == "to") {
-                      if (linked_properties){
-                          if (linked_properties[activecomp.base_component_id]){
-                              if (linked_properties[activecomp.base_component_id].outgoing){
-                                  if (linked_properties[activecomp.base_component_id].outgoing.them){
-                                      if (linked_properties[activecomp.base_component_id].outgoing.them[ccomp.base_component_id]){
-                                          var ccomkeys = Object.keys(linked_properties[activecomp.base_component_id].outgoing.them[ccomp.base_component_id])
-                                          for (var aaa =0; aaa<ccomkeys.length;aaa++) {
-                                              this.selectedPushToProperties.push(ccomkeys[aaa])
-                                          }
-                                      }
-                                  }
-
-                              }
-                          }
-                      }
+                  mm.old_model = JSON.parse(JSON.stringify( mm.model ));
+                  if (! fromComponent.push) {
+                       fromComponent.push = []
                   }
+                  fromComponent.push.push(
+                      {
+                        "uuid": toComponent.uuid,
+                        "property": options.from_property,
+                        "send_to": options.to_property,
+                        "transform_fn": null
+                      }
+                  )
+                  mm.selectedPushComponentUuid     = null
+                  mm.selectedPushFromProperty      = null
+                  mm.selectedPushToProperty        = null
+                  mm.selectedPushTransformFn        = null
 
-
-              // else just get all the components on the form
-              } else {
-
-                  var ccomkeys = Object.keys(ccomp)
-                  for (var aaa =0; aaa<ccomkeys.length;aaa++) {
-                      this.selectedPushToProperties.push(ccomkeys[aaa])
-                  }
+                  mm.refresh ++
+                  mm.updateAllFormCaches()
+                  mm.showSaveButton()
 
               }
- //debugger
+
+
+
           }
           ,
 
@@ -3271,7 +3246,7 @@ alert(JSON.stringify(options,null,2))
               this.selectedPushFromProperty = event.target.value
               this.linkSideSelected = "from"
 
-//zzz
+//
               if (this.design_mode_pane.links_type == "create_new_component") {
                   this.outgoing_link_component_types = []
                   let selectedObject = mm.model.forms[mm.active_form].components[mm.active_component_index]
@@ -5691,7 +5666,7 @@ ${eventMessage.code}
 
 
 
-//zzz
+
             mm.selectedPushFromProperties = []
             if (mm.design_mode_pane.links_type == "form") {
                 if (mm.model.forms[mm.active_form].components[mm.active_component_links_index]) {
