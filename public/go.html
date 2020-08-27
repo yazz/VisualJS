@@ -9494,6 +9494,9 @@ async function callCodeV2(componentRecord,args, seq_no) {
             (component_type != "VB"))
         {
             trcode2 = getDebugCode(componentRecord.base_component_id,  trcode2)
+        } else if (component_type == "VB") {
+            //zzz
+            console.log("Component to index: " + componentRecord.base_component_id)
         }
 
 
@@ -9596,7 +9599,7 @@ async function callCodeV2(componentRecord,args, seq_no) {
 
     } catch (err) {
         alert(err)
-        //zzz
+
         hideProgressBar()
     }
 }
@@ -9699,7 +9702,7 @@ async function callDriverMethod(findComponentArgs, args, callbackFn) {
 
 
 async function loadV2( baseComponentIds, args ) {
-    //console.log("loadV2: 1")
+    //console.log("loadV2: 1: " + baseComponentIds)
     if (!Array.isArray(baseComponentIds)) {
         baseComponentIds = [baseComponentIds]
     }
