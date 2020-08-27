@@ -408,10 +408,6 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 <br/><br/>
 <b>Add new link</b>
-linkSideSelected: {{linkSideSelected}}<br>
-selectedPushFromProperty: {{selectedPushFromProperty}}<br>
-selectedPushComponentType: {{selectedPushComponentType}}<br>
-selectedPushToProperty: {{selectedPushToProperty}}
 
 
 <ul class="nav nav-tabs" id="myTab" role="tablist"
@@ -5593,7 +5589,7 @@ ${eventMessage.code}
            var mm = this
            mm.design_mode_pane.type = "control_links_editor"
            mm.design_mode_pane.direction = diretionOfLinks
-           mm.design_mode_pane.links_type = "form"
+           mm.design_mode_pane.links_type = "create_new_component"
            mm.clearLinks();
 
            this.active_component_links_index = index;
