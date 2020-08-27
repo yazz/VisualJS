@@ -1140,7 +1140,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
 
-                  <select   @change='setPushToProperty($event)'
+                  <select   @change='setPushToProperty($event);addNewComponentPush();'
                              style='margin:7px;'>
 
                       <option value=""
@@ -2902,8 +2902,8 @@ Pushlist
                           }
 
                           )
-               mm.gotoDragDropEditor()
-               mm.selectComponentByName(newName)
+               //mm.gotoDragDropEditor()
+               //mm.selectComponentByName(newName)
 
                mm.linkComponents({
                    link_type:          "outgoing",
