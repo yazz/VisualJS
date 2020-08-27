@@ -2432,6 +2432,13 @@ Pushlist
                var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
                    {   sql: sql  })
                mm.available_components = results
+               let itemsToLoad = []
+               for (let thiscc of results) {
+                   let cbase = thiscc.base_component_id
+                   //console.log("Component: " + JSON.stringify(cbase))
+                   itemsToLoad.push(cbase)
+               }
+               await loadV2(itemsToLoad)
                //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
            }
 
