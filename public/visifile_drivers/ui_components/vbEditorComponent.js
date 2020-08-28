@@ -2888,7 +2888,7 @@ Pushlist
           }
           ,
           addNewComponentPush: async function() {
-              debugger
+              //debugger
               //debugger
               var mm = this
               let activeComponent = mm.model.forms[mm.active_form].components[mm.active_component_index]
@@ -3198,7 +3198,7 @@ Pushlist
               var mm      = this
               //alert(JSON.stringify(options,null,2))
 
-              debugger
+              //debugger
 
               if (options.link_type == "outgoing") {
                   let fromComponent =   mm.form_runtime_info[mm.active_form].component_lookup_by_name[options.from_component]
