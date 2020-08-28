@@ -15,7 +15,7 @@ properties(
             name:   "Text",
             type:   "String",
             types: {text: true},
-            accept_types: {canConvertToString: true},
+            accept_types: {canConvertToString: true, text: true},
             textarea: true,
             help:       `<div>Help text for
                             <b>text</b> property
