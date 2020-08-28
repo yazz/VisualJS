@@ -9606,14 +9606,28 @@ async function callCodeV2(componentRecord,args, seq_no) {
     }
 }
 function indexComponent(typeName){
+    //return
     linked_properties2[typeName] = {
         incoming: {
+            me: {
+
+            },
+            them: {
+
+            }
 
         },
         outgoing: {
+            me: {
 
+            },
+            them: {
+
+            }
         }
     }
+    //zzz
+
     for (let oneProperty of component_cache[typeName].properties) {
         let propertyName = oneProperty.name
         if (propertyName) {
@@ -9621,7 +9635,27 @@ function indexComponent(typeName){
                 let acceptTypes = Object.keys(oneProperty.accept_types)
                 for (let acceptType of acceptTypes) {
                     console.log("    " + acceptType)
-                    
+                    for (let otherComponentName of Object.keys(component_cache)){
+                        //debugger
+                        if (component_cache[otherComponentName]) {
+                            if (component_cache[otherComponentName].properties) {
+                                let otherProperties = component_cache[otherComponentName].properties
+                                for (let otherProperty of otherProperties){
+                                    if (otherProperty.types) {
+                                        for (let otherPropertyType of Object.keys(otherProperty.types)){
+                                            if (otherPropertyType == acceptType) {
+                                                console.log("        Found Match for " + acceptType)
+                                                linked_properties2[typeName].incoming.them[otherComponentName]={}
+                                                linked_properties2[typeName].incoming.them[otherComponentName][otherProperty.name] = {}
+                                                linked_properties2[typeName].incoming.them[otherComponentName][otherProperty.name][oneProperty.name] = true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                 }
             }
         }
