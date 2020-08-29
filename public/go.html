@@ -9628,7 +9628,7 @@ function indexComponent(typeName){
     }
     //zzz
     if (typeName == "horiz_scroll_control") {
-        debugger
+        //debugger
 
     }
 
@@ -9637,15 +9637,15 @@ function indexComponent(typeName){
         if (propertyName) {
 
             //
-            // match my ACCEPT TYPES with TYPES from other components
+            // match my ACCEPT TYPES with TYPES from other components (INCOMING)
             //
             if (oneProperty.accept_types) {
                 let acceptTypes = Object.keys(oneProperty.accept_types)
                 for (let acceptType of acceptTypes) {
-                    console.log("    " + acceptType)
+                    //console.log("    " + acceptType)
                     for (let otherComponentName of Object.keys(component_cache)){
                         if (otherComponentName == "label_control") {
-                            debugger
+                            //debugger
 
                         }
                         if (otherComponentName != typeName) {
@@ -9656,11 +9656,16 @@ function indexComponent(typeName){
                                         if (otherProperty.types) {
                                             for (let otherPropertyType of Object.keys(otherProperty.types)){
                                                 if (otherPropertyType == acceptType) {
-                                                    debugger
-                                                    console.log("        Found Match for " + acceptType)
+                                                    //debugger
+                                                    //console.log("        Found Match for " + acceptType)
                                                     linked_properties[typeName].incoming.them[otherComponentName]={}
                                                     linked_properties[typeName].incoming.them[otherComponentName][otherProperty.id] = {}
                                                     linked_properties[typeName].incoming.them[otherComponentName][otherProperty.id][oneProperty.id] = true
+
+                                                    linked_properties[typeName].incoming.me[typeName]={}
+                                                    linked_properties[typeName].incoming.me[typeName][oneProperty.id]={}
+                                                    linked_properties[typeName].incoming.me[typeName][oneProperty.id][otherProperty.id] = true
+
                                                 }
                                             }
                                         }
@@ -9683,7 +9688,7 @@ function indexComponent(typeName){
             if (oneProperty.types) {
                 let types = Object.keys(oneProperty.types)
                 for (let myType of types) {
-                    console.log("    " + myType)
+                    //console.log("    " + myType)
                     for (let otherComponentName of Object.keys(component_cache)){
                         if (otherComponentName == "label_control") {
                             //debugger
@@ -9697,8 +9702,8 @@ function indexComponent(typeName){
                                         if (otherProperty.accept_types) {
                                             for (let otherPropertyAcceptType of Object.keys(otherProperty.accept_types)){
                                                 if (otherPropertyAcceptType == myType) {
-                                                    debugger
-                                                    console.log("        Found Match for " + myType)
+                                                    //debugger
+                                                    //console.log("        Found Match for " + myType)
                                                     linked_properties[typeName].outgoing.them[otherComponentName]={}
                                                     linked_properties[typeName].outgoing.them[otherComponentName][otherProperty.id] = {}
                                                     linked_properties[typeName].outgoing.them[otherComponentName][otherProperty.id][oneProperty.id] = true
