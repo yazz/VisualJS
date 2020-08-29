@@ -9635,6 +9635,10 @@ function indexComponent(typeName){
     for (let oneProperty of component_cache[typeName].properties) {
         let propertyName = oneProperty.name
         if (propertyName) {
+
+            //
+            // match my ACCEPT TYPES with TYPES from other components
+            //
             if (oneProperty.accept_types) {
                 let acceptTypes = Object.keys(oneProperty.accept_types)
                 for (let acceptType of acceptTypes) {
@@ -9669,6 +9673,50 @@ function indexComponent(typeName){
 
                 }
             }
+
+
+
+
+            //
+            // match my TYPES with ACCEPT_TYPES from other components
+            //
+            if (oneProperty.types) {
+                let types = Object.keys(oneProperty.types)
+                for (let myType of types) {
+                    console.log("    " + myType)
+                    for (let otherComponentName of Object.keys(component_cache)){
+                        if (otherComponentName == "label_control") {
+                            //debugger
+
+                        }
+                        if (otherComponentName != typeName) {
+                            if (component_cache[otherComponentName]) {
+                                if (component_cache[otherComponentName].properties) {
+                                    let otherProperties = component_cache[otherComponentName].properties
+                                    for (let otherProperty of otherProperties){
+                                        if (otherProperty.accept_types) {
+                                            for (let otherPropertyAcceptType of Object.keys(otherProperty.accept_types)){
+                                                if (otherPropertyAcceptType == myType) {
+                                                    debugger
+                                                    console.log("        Found Match for " + myType)
+                                                    linked_properties2[typeName].outgoing.them[otherComponentName]={}
+                                                    linked_properties2[typeName].outgoing.them[otherComponentName][otherProperty.id] = {}
+                                                    linked_properties2[typeName].outgoing.them[otherComponentName][otherProperty.id][oneProperty.id] = true
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+
+                }
+            }
+
+
+
         }
     }
 
