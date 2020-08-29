@@ -20,102 +20,6 @@
     var component_loaded = new Object()
     var component_cache  = new Object()
     var linked_properties  = new Object()
-    var linked_properties2  = new Object()
-    linked_properties2 = {
-        horiz_scroll_control: {
-            outgoing: {
-                me: {
-                    value: {
-                        label_control: {text: true}
-                    }
-                },
-                them: {
-                    label_control: {
-                       text: {value: true}
-                   }
-                }
-            }
-
-        }
-        ,
-        input_control: {
-            outgoing: {
-                me: {
-                    value: {
-                        label_control: {text: true}
-                    }
-                },
-                them: {
-                    label_control: {
-                       text: {value: true}
-                   }
-                }
-            }
-        }
-        ,
-        label_control: {
-
-            outgoing: {
-                me: {
-                    leftX: {
-                        horiz_scroll_control: {value: true}
-                    },
-                    topY: {
-                        horiz_scroll_control: {value: true}
-                    },
-                    text: {
-                        input_control: {value: true}
-                    }
-                },
-                them: {
-                    horiz_scroll_control: {
-                       value: {text: true, leftX: true, topY: true}
-                   },
-                   input_control: {
-                       value: {text: true}
-                   },
-                   timer_control: {
-                       counter: {
-                           text: true, leftX: true, topY: true
-                       }
-                   }
-
-                }
-            }
-            ,
-            incoming: {
-                me: {
-                    leftX: {
-                        horiz_scroll_control: {value: true}
-                    },
-                    topY: {
-                        horiz_scroll_control: {value: true}
-                    },
-                    text: {
-                        input_control: {value: true},
-                        timer_control: {counter: true}
-                    }
-
-                },
-                them: {
-                    horiz_scroll_control: {
-                       value: {text: true, leftX: true, topY: true}
-                   },
-                   input_control: {
-                       value: {text: true}
-                   },
-                   timer_control: {
-                       counter: {
-                           text: true, leftX: true, topY: true
-                       }
-                   }
-
-
-                }
-            }
-
-        }
-    }
 
 
     var online           = false
@@ -9605,6 +9509,112 @@ async function callCodeV2(componentRecord,args, seq_no) {
         hideProgressBar()
     }
 }
+
+
+
+
+
+
+/*
+creates the following:
+
+linked_properties = {
+    horiz_scroll_control: {
+        outgoing: {
+            me: {
+                value: {
+                    label_control: {text: true}
+                }
+            },
+            them: {
+                label_control: {
+                   text: {value: true}
+               }
+            }
+        }
+
+    }
+    ,
+    input_control: {
+        outgoing: {
+            me: {
+                value: {
+                    label_control: {text: true}
+                }
+            },
+            them: {
+                label_control: {
+                   text: {value: true}
+               }
+            }
+        }
+    }
+    ,
+    label_control: {
+
+        outgoing: {
+            me: {
+                leftX: {
+                    horiz_scroll_control: {value: true}
+                },
+                topY: {
+                    horiz_scroll_control: {value: true}
+                },
+                text: {
+                    input_control: {value: true}
+                }
+            },
+            them: {
+                horiz_scroll_control: {
+                   value: {text: true, leftX: true, topY: true}
+               },
+               input_control: {
+                   value: {text: true}
+               },
+               timer_control: {
+                   counter: {
+                       text: true, leftX: true, topY: true
+                   }
+               }
+
+            }
+        }
+        ,
+        incoming: {
+            me: {
+                leftX: {
+                    horiz_scroll_control: {value: true}
+                },
+                topY: {
+                    horiz_scroll_control: {value: true}
+                },
+                text: {
+                    input_control: {value: true},
+                    timer_control: {counter: true}
+                }
+
+            },
+            them: {
+                horiz_scroll_control: {
+                   value: {text: true, leftX: true, topY: true}
+               },
+               input_control: {
+                   value: {text: true}
+               },
+               timer_control: {
+                   counter: {
+                       text: true, leftX: true, topY: true
+                   }
+               }
+
+
+            }
+        }
+
+    }
+}
+
+*/
 function indexComponent(typeName){
     //return
     linked_properties[typeName] = {
