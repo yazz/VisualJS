@@ -9707,6 +9707,11 @@ function indexComponent(typeName){
                                                     linked_properties[typeName].outgoing.them[otherComponentName]={}
                                                     linked_properties[typeName].outgoing.them[otherComponentName][otherProperty.id] = {}
                                                     linked_properties[typeName].outgoing.them[otherComponentName][otherProperty.id][oneProperty.id] = true
+
+                                                    linked_properties[typeName].outgoing.me = {}
+                                                    linked_properties[typeName].outgoing.me[oneProperty.id] = {}
+                                                    linked_properties[typeName].outgoing.me[oneProperty.id][otherComponentName] = {}
+                                                    linked_properties[typeName].outgoing.me[oneProperty.id][otherComponentName][otherProperty.id] = true
                                                 }
                                             }
                                         }
