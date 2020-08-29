@@ -21,7 +21,7 @@
     var component_cache  = new Object()
     var linked_properties  = new Object()
     var linked_properties2  = new Object()
-    linked_properties = {
+    linked_properties2 = {
         horiz_scroll_control: {
             outgoing: {
                 me: {
@@ -9607,7 +9607,7 @@ async function callCodeV2(componentRecord,args, seq_no) {
 }
 function indexComponent(typeName){
     //return
-    linked_properties2[typeName] = {
+    linked_properties[typeName] = {
         incoming: {
             me: {
 
@@ -9658,9 +9658,9 @@ function indexComponent(typeName){
                                                 if (otherPropertyType == acceptType) {
                                                     debugger
                                                     console.log("        Found Match for " + acceptType)
-                                                    linked_properties2[typeName].incoming.them[otherComponentName]={}
-                                                    linked_properties2[typeName].incoming.them[otherComponentName][otherProperty.id] = {}
-                                                    linked_properties2[typeName].incoming.them[otherComponentName][otherProperty.id][oneProperty.id] = true
+                                                    linked_properties[typeName].incoming.them[otherComponentName]={}
+                                                    linked_properties[typeName].incoming.them[otherComponentName][otherProperty.id] = {}
+                                                    linked_properties[typeName].incoming.them[otherComponentName][otherProperty.id][oneProperty.id] = true
                                                 }
                                             }
                                         }
@@ -9699,9 +9699,9 @@ function indexComponent(typeName){
                                                 if (otherPropertyAcceptType == myType) {
                                                     debugger
                                                     console.log("        Found Match for " + myType)
-                                                    linked_properties2[typeName].outgoing.them[otherComponentName]={}
-                                                    linked_properties2[typeName].outgoing.them[otherComponentName][otherProperty.id] = {}
-                                                    linked_properties2[typeName].outgoing.them[otherComponentName][otherProperty.id][oneProperty.id] = true
+                                                    linked_properties[typeName].outgoing.them[otherComponentName]={}
+                                                    linked_properties[typeName].outgoing.them[otherComponentName][otherProperty.id] = {}
+                                                    linked_properties[typeName].outgoing.them[otherComponentName][otherProperty.id][oneProperty.id] = true
                                                 }
                                             }
                                         }
