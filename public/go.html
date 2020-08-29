@@ -9627,6 +9627,10 @@ function indexComponent(typeName){
         }
     }
     //zzz
+    if (typeName == "horiz_scroll_control") {
+        debugger
+
+    }
 
     for (let oneProperty of component_cache[typeName].properties) {
         let propertyName = oneProperty.name
@@ -9636,23 +9640,30 @@ function indexComponent(typeName){
                 for (let acceptType of acceptTypes) {
                     console.log("    " + acceptType)
                     for (let otherComponentName of Object.keys(component_cache)){
-                        //debugger
-                        if (component_cache[otherComponentName]) {
-                            if (component_cache[otherComponentName].properties) {
-                                let otherProperties = component_cache[otherComponentName].properties
-                                for (let otherProperty of otherProperties){
-                                    if (otherProperty.types) {
-                                        for (let otherPropertyType of Object.keys(otherProperty.types)){
-                                            if (otherPropertyType == acceptType) {
-                                                console.log("        Found Match for " + acceptType)
-                                                linked_properties2[typeName].incoming.them[otherComponentName]={}
-                                                linked_properties2[typeName].incoming.them[otherComponentName][otherProperty.name] = {}
-                                                linked_properties2[typeName].incoming.them[otherComponentName][otherProperty.name][oneProperty.name] = true
+                        if (otherComponentName == "label_control") {
+                            debugger
+
+                        }
+                        if (otherComponentName != typeName) {
+                            if (component_cache[otherComponentName]) {
+                                if (component_cache[otherComponentName].properties) {
+                                    let otherProperties = component_cache[otherComponentName].properties
+                                    for (let otherProperty of otherProperties){
+                                        if (otherProperty.types) {
+                                            for (let otherPropertyType of Object.keys(otherProperty.types)){
+                                                if (otherPropertyType == acceptType) {
+                                                    debugger
+                                                    console.log("        Found Match for " + acceptType)
+                                                    linked_properties2[typeName].incoming.them[otherComponentName]={}
+                                                    linked_properties2[typeName].incoming.them[otherComponentName][otherProperty.id] = {}
+                                                    linked_properties2[typeName].incoming.them[otherComponentName][otherProperty.id][oneProperty.id] = true
+                                                }
                                             }
                                         }
                                     }
                                 }
                             }
+
                         }
                     }
 
