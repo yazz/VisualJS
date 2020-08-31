@@ -9668,12 +9668,21 @@ function indexComponent(typeName){
                                                 if (otherPropertyType == acceptType) {
                                                     //debugger
                                                     //console.log("        Found Match for " + acceptType)
-                                                    linked_properties[typeName].incoming.them[otherComponentName]={}
-                                                    linked_properties[typeName].incoming.them[otherComponentName][otherProperty.id] = {}
+                                                    if (!linked_properties[typeName].incoming.them[otherComponentName]) {
+                                                        linked_properties[typeName].incoming.them[otherComponentName]={}
+                                                    }
+                                                    if (! linked_properties[typeName].incoming.them[otherComponentName][otherProperty.id] ) {
+                                                        linked_properties[typeName].incoming.them[otherComponentName][otherProperty.id] = {}
+                                                    }
                                                     linked_properties[typeName].incoming.them[otherComponentName][otherProperty.id][oneProperty.id] = true
 
-                                                    linked_properties[typeName].incoming.me[typeName]={}
-                                                    linked_properties[typeName].incoming.me[typeName][oneProperty.id]={}
+                                                    if (!linked_properties[typeName].incoming.me[typeName]) {
+                                                        linked_properties[typeName].incoming.me[typeName]={}
+                                                    }
+                                                    if (!linked_properties[typeName].incoming.me[typeName][oneProperty.id]) {
+                                                        linked_properties[typeName].incoming.me[typeName][oneProperty.id]={}
+                                                    }
+
                                                     linked_properties[typeName].incoming.me[typeName][oneProperty.id][otherProperty.id] = true
 
                                                 }
@@ -9693,7 +9702,7 @@ function indexComponent(typeName){
 
 
             //
-            // match my TYPES with ACCEPT_TYPES from other components
+            // match my TYPES with ACCEPT_TYPES from other components (OUTGOING)
             //
             if (oneProperty.types) {
                 let types = Object.keys(oneProperty.types)
@@ -9714,13 +9723,24 @@ function indexComponent(typeName){
                                                 if (otherPropertyAcceptType == myType) {
                                                     //debugger
                                                     //console.log("        Found Match for " + myType)
-                                                    linked_properties[typeName].outgoing.them[otherComponentName]={}
-                                                    linked_properties[typeName].outgoing.them[otherComponentName][otherProperty.id] = {}
+                                                    if (!linked_properties[typeName].outgoing.them[otherComponentName]) {
+                                                        linked_properties[typeName].outgoing.them[otherComponentName]={}
+                                                    }
+                                                    if (!linked_properties[typeName].outgoing.them[otherComponentName][otherProperty.id]) {
+                                                        linked_properties[typeName].outgoing.them[otherComponentName][otherProperty.id] = {}
+                                                    }
                                                     linked_properties[typeName].outgoing.them[otherComponentName][otherProperty.id][oneProperty.id] = true
 
-                                                    linked_properties[typeName].outgoing.me = {}
-                                                    linked_properties[typeName].outgoing.me[oneProperty.id] = {}
-                                                    linked_properties[typeName].outgoing.me[oneProperty.id][otherComponentName] = {}
+                                                    if (!linked_properties[typeName].outgoing.me) {
+                                                        linked_properties[typeName].outgoing.me = {}
+                                                    }
+                                                    if (!linked_properties[typeName].outgoing.me[oneProperty.id]) {
+                                                        linked_properties[typeName].outgoing.me[oneProperty.id] = {}
+                                                    }
+
+                                                    if (!linked_properties[typeName].outgoing.me[oneProperty.id][otherComponentName]) {
+                                                        linked_properties[typeName].outgoing.me[oneProperty.id][otherComponentName] = {}
+                                                    }
                                                     linked_properties[typeName].outgoing.me[oneProperty.id][otherComponentName][otherProperty.id] = true
                                                 }
                                             }
