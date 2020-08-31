@@ -9647,7 +9647,7 @@ function indexComponent(typeName){
         if (propertyName) {
 
             //
-            // match my ACCEPT TYPES with TYPES from other components (INCOMING)
+            // match my ACCEPT TYPES with TYPES coming from other components
             //
             if (oneProperty.accept_types) {
                 let acceptTypes = Object.keys(oneProperty.accept_types)
@@ -9685,6 +9685,25 @@ function indexComponent(typeName){
 
                                                     linked_properties[typeName].incoming.me[typeName][oneProperty.id][otherProperty.id] = true
 
+
+
+
+
+
+
+
+
+
+                                                    if (!linked_properties[otherComponentName].outgoing.them[typeName]) {
+                                                        linked_properties[otherComponentName].outgoing.them[typeName] = {}
+                                                    }
+                                                    if (!linked_properties[otherComponentName].outgoing.them[typeName][oneProperty.id]) {
+                                                        linked_properties[otherComponentName].outgoing.them[typeName][oneProperty.id] = {}
+                                                    }
+                                                    if (!linked_properties[otherComponentName].outgoing.them[typeName][oneProperty.id][otherProperty.id]) {
+                                                        linked_properties[otherComponentName].outgoing.them[typeName][oneProperty.id][otherProperty.id] = true
+                                                    }
+
                                                 }
                                             }
                                         }
@@ -9702,7 +9721,7 @@ function indexComponent(typeName){
 
 
             //
-            // match my TYPES with ACCEPT_TYPES from other components (OUTGOING)
+            // match my TYPES with ACCEPT_TYPES to other components
             //
             if (oneProperty.types) {
                 let types = Object.keys(oneProperty.types)
@@ -9742,6 +9761,11 @@ function indexComponent(typeName){
                                                         linked_properties[typeName].outgoing.me[oneProperty.id][otherComponentName] = {}
                                                     }
                                                     linked_properties[typeName].outgoing.me[oneProperty.id][otherComponentName][otherProperty.id] = true
+
+
+
+
+
                                                 }
                                             }
                                         }
