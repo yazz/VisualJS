@@ -112,7 +112,8 @@ properties(
             name:       "Filtered Production Response",
             default:    null,
             hidden:     true,
-            type:       "Object"
+            type:       "Object",
+            types:      {canConvertToString: true}
         }
         ,
         {
