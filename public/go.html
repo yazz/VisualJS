@@ -9786,8 +9786,25 @@ function indexComponent(typeName){
                                                         linked_properties[otherComponentName].incoming.them[typeName][oneProperty.id]={}
                                                     }
                                                     if (!linked_properties[otherComponentName].incoming.them[typeName][oneProperty.id][otherProperty.id]) {
-                                                       linked_properties[otherComponentName].incoming.them[typeName][oneProperty.id][otherProperty.id] = true 
+                                                       linked_properties[otherComponentName].incoming.them[typeName][oneProperty.id][otherProperty.id] = true
                                                     }
+
+
+
+
+                                                    if (!linked_properties[otherComponentName].incoming.me) {
+                                                        linked_properties[otherComponentName].incoming.me={}
+                                                    }
+                                                    if (!linked_properties[otherComponentName].incoming.me[otherProperty.id]) {
+                                                        linked_properties[otherComponentName].incoming.me[otherProperty.id]={}
+                                                    }
+                                                    if (!linked_properties[otherComponentName].incoming.me[otherProperty.id][typeName]) {
+                                                       linked_properties[otherComponentName].incoming.me[otherProperty.id][typeName] = {}
+                                                    }
+                                                    if (!linked_properties[otherComponentName].incoming.me[otherProperty.id][typeName][oneProperty.id]) {
+                                                       linked_properties[otherComponentName].incoming.me[otherProperty.id][typeName][oneProperty.id] = true
+                                                    }
+
 
                                                 }
                                             }
