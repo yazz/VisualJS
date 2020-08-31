@@ -9704,6 +9704,20 @@ function indexComponent(typeName){
                                                         linked_properties[otherComponentName].outgoing.them[typeName][oneProperty.id][otherProperty.id] = true
                                                     }
 
+
+
+                                                    if (!linked_properties[otherComponentName].outgoing.me) {
+                                                        linked_properties[otherComponentName].outgoing.me = {}
+                                                    }
+                                                    if (!linked_properties[otherComponentName].outgoing.me[otherProperty.id]) {
+                                                        linked_properties[otherComponentName].outgoing.me[otherProperty.id] = {}
+                                                    }
+                                                    if (!linked_properties[otherComponentName].outgoing.me[otherProperty.id][oneProperty.id]) {
+                                                        linked_properties[otherComponentName].outgoing.me[otherProperty.id][oneProperty.id] = {}
+                                                    }
+
+
+
                                                 }
                                             }
                                         }
