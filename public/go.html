@@ -9713,7 +9713,7 @@ function indexComponent(typeName){
                                                         linked_properties[otherComponentName].outgoing.me[otherProperty.id] = {}
                                                     }
                                                     if (!linked_properties[otherComponentName].outgoing.me[otherProperty.id][oneProperty.id]) {
-                                                        linked_properties[otherComponentName].outgoing.me[otherProperty.id][oneProperty.id] = {}
+                                                        linked_properties[otherComponentName].outgoing.me[otherProperty.id][oneProperty.id] = true
                                                     }
 
 
@@ -9779,6 +9779,15 @@ function indexComponent(typeName){
 
 
 
+                                                    if (!linked_properties[otherComponentName].incoming.them[typeName]) {
+                                                        linked_properties[otherComponentName].incoming.them[typeName]={}
+                                                    }
+                                                    if (!linked_properties[otherComponentName].incoming.them[typeName][oneProperty.id]) {
+                                                        linked_properties[otherComponentName].incoming.them[typeName][oneProperty.id]={}
+                                                    }
+                                                    if (!linked_properties[otherComponentName].incoming.them[typeName][oneProperty.id][otherProperty.id]) {
+                                                       linked_properties[otherComponentName].incoming.them[typeName][oneProperty.id][otherProperty.id] = true 
+                                                    }
 
                                                 }
                                             }
