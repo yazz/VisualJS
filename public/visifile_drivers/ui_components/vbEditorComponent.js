@@ -885,7 +885,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
                        <!--
                        ----------------
-                                COMPONENT NAMES ON THIS FORM
+                                COMPONENT TYPES FOR AVAILABLE COMPONENTS TO CREATE
                        ----------------
                        -->
 
@@ -921,7 +921,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
                       <!--
                       ----------------
-                               PROPERTIES FOR SELECTED COMPONENT ON THIS FORM
+                               PROPERTIES FOR SELECTED COMPONENT TO CREATE
                       ----------------
                       -->
 
