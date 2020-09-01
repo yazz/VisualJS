@@ -965,15 +965,11 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
               <td style='vertical-align: top;border: 1px solid lightgray;margin:5px;'>
                   <div    style="width:50%;">
 
-                      <!--
-                      ----------------
-                               SELECTED COMPONENT NAME ON THIS FORM
-                      ----------------
-                      -->
-
+                      <!-- --------------------------------------------
+                      Show the selected component name
+                      --------------------------------------------  -->
 
                       <div    style="margin:7px;font-weight:bold;">To</div>
-
 
                       <div style='margin:7px;'>
                           {{model.forms[active_form].components[active_component_links_index].name}}
@@ -981,12 +977,9 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
 
-                      <!--
-                      ----------------
-                               CHOOSE A PROPERTY ON THE SELECTED COMPONENT
-                      ----------------
-                      -->
-
+                      <!-- --------------------------------------------
+                      Allow the user to choose the selected component property
+                      --------------------------------------------  -->
 
                       <select   @change='setWatchToProperty($event);'
                                  v-if='(linkSideSelected == "none") || fromLinkPropertySelected'
@@ -1071,6 +1064,8 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
           <!--
           --------------------------------------------
           CREATE NEW COMPONENT  LINKS
+
+
                   Outgoing CREATE NEW COMPONENT  link "from" selected component
                   zzz
           --------------------------------------------
@@ -1085,13 +1080,9 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
                       <div    style="width:40%;font-weight:bold;margin:7px;">From</div>
 
-                      <!--
-                      --------------------------------------------
-                      FORM LINKS
-                              Outgoing form link "from" selected component
-                              (part 1 - Show the selected component)
-                      --------------------------------------------
-                       -->
+                      <!-- --------------------------------------------
+                      Show the selected component name
+                      --------------------------------------------  -->
 
                       <div    style="width:40%;margin:7px;">
                           {{model.forms[active_form].components[active_component_links_index].name}}
@@ -1099,6 +1090,9 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
 
+                      <!-- --------------------------------------------
+                      Allow the user to choose the selected component property
+                      --------------------------------------------  -->
                       <select @change='setPushFromProperty($event)'
                                style='margin:7px;'>
                           <option value=""
@@ -1118,8 +1112,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
               <!--
               --------------------------------------------
-              CREATE NEW COMPONENT  LINKS
-                      Outgoing CREATE NEW COMPONENT  link "to" another component (part 2)
+              Outgoing CREATE NEW COMPONENT  link "to" another component (part 2)
               --------------------------------------------
                -->
 
