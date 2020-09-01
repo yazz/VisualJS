@@ -979,6 +979,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
                       <!-- --------------------------------------------
                       Allow the user to choose the selected component property
+                      zzzz
                       --------------------------------------------  -->
 
                       <select   @change='setWatchToProperty($event);'
@@ -5700,23 +5701,28 @@ ${eventMessage.code}
                 }
 
             } else if (mm.design_mode_pane.links_type == "create_new_component") {
-                let typeSelected = this.model.forms[this.active_form].components[this.active_component_links_index].base_component_id
-                if (linked_properties[typeSelected]) {
-                    if (linked_properties[typeSelected].outgoing) {
-                        if (linked_properties[typeSelected].outgoing.me) {
+                if (mm.design_mode_pane.direction=="outgoing") {
+                    let typeSelected = this.model.forms[this.active_form].components[this.active_component_links_index].base_component_id
+                    if (linked_properties[typeSelected]) {
+                        if (linked_properties[typeSelected].outgoing) {
                             if (linked_properties[typeSelected].outgoing.me) {
-                                var ccomp2 =  linked_properties[typeSelected].outgoing.me
-                                var ccomkeys2 = Object.keys(ccomp2)
-                                for (var aaa =0; aaa<ccomkeys2.length;aaa++) {
-                                    mm.selectedPushFromProperties.push(ccomkeys2[aaa])
-                                }
+                                if (linked_properties[typeSelected].outgoing.me) {
+                                    var ccomp2 =  linked_properties[typeSelected].outgoing.me
+                                    var ccomkeys2 = Object.keys(ccomp2)
+                                    for (var aaa =0; aaa<ccomkeys2.length;aaa++) {
+                                        mm.selectedPushFromProperties.push(ccomkeys2[aaa])
+                                    }
 
+                                }
                             }
+
                         }
 
                     }
-
                 }
+
+
+                //selectedWatchToProperties
             } else if (mm.design_mode_pane.links_type == "manual") {
 
                 var ccomp2 =  mm.model.forms[mm.active_form].components[mm.active_component_index]
