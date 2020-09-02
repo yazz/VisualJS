@@ -925,7 +925,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                       ----------------
                       -->
 
-                      <select    @change='setWatchFromProperty($event);'
+                      <select    @change='setWatchFromProperty($event);addNewComponentWatch();'
                                   v-if="!selectedWatchFromProperty"
                                   style='margin:7px;'>
                           <option value=""
@@ -1002,6 +1002,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                       </div>
 
 
+
                   </div>
               </td>
           </tr>
@@ -1033,7 +1034,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
                   <button type=button class='btn btn-sm btn-info'
                           v-bind:style='""'
-                          v-on:click='$event.stopPropagation(); addWatch();'  >
+                          v-on:click='$event.stopPropagation(); addNewComponentWatch();'  >
                        Add
                   </button>
 
@@ -2919,7 +2920,44 @@ Pushlist
 
           }
           ,
+          addNewComponentWatch: async function() {
+              //debugger
+              debugger
+              var mm = this
+              let activeComponent = mm.model.forms[mm.active_form].components[mm.active_component_index]
+//zzz
+              let componentToCreateType = mm.selectedWatchComponentType
 
+
+              let newName = componentToCreateType + "_" + this.model.next_component_id++
+              //
+              // create the component
+              //
+              await mm.addControl(
+                  {
+                            "leftX": 310,
+                            "topY": 10,
+                            "name": newName,
+                            "base_component_id": componentToCreateType
+                          }
+
+                          )
+               //mm.gotoDragDropEditor()
+               //mm.selectComponentByName(newName)
+
+               mm.linkComponents({
+                   link_type:          "outgoing",
+
+                   from_component:      activeComponent.name,
+                   from_property:       mm.selectedWatchFromProperty,
+
+                   to_component:        newName,
+                   to_property:         mm.selectedWatchToProperty
+
+               })
+
+          }
+          ,
 
 
           //-------------------------------------------------------------------
@@ -3074,10 +3112,10 @@ Pushlist
 
               let mm = this
               this.selectedWatchFromProperty = event.target.value
-              this.fromLinkPropertySelected = true
 
 
               if (mm.design_mode_pane.links_type == "form") {
+                  this.fromLinkPropertySelected = true
 
                   if (mm.linkSideSelected == "from") {
                       this.selectedWatchToProperties = []
@@ -3147,7 +3185,7 @@ Pushlist
             //-------------------------------------------------------------------
             setWatchComponentType: function(event) {
             //-------------------------------------------------------------------
-    debugger
+    //debugger
               var mm      = this
 
               let ComponentType = event.target.value
