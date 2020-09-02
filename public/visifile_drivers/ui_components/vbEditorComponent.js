@@ -901,11 +901,11 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                                               selected="true">
                                   </option>
 
-                                  <option     v-for="watchComp   in   incoming_link_objects"
-                                              v-bind:value="watchComp.uuid"
-                                              v-bind:selected="selectedWatchComponentUuid == watchComp.uuid">
+                                  <option     v-for="watchComp   in   incoming_link_component_types"
+                                              v-bind:value="watchComp"
+                                              v-bind:selected="selectedWatchComponentType == watchComp">
 
-                                          {{watchComp.name}}
+                                          {{watchComp}}
                                   </option>
                               </select>
 
@@ -2994,10 +2994,17 @@ Pushlist
                 this.selectedWatchToProperty = event.target.value
                 this.toLinkPropertySelected = true
 
+                if (mm.linkSideSelected == "none") {
+                    mm.linkSideSelected = "to";
+
+                } else {
+
+                }
 
                 //debugger
                 if (mm.design_mode_pane.links_type == "form") {
                     if (mm.linkSideSelected == "to") {
+
                         mm.incoming_link_objects = []
 
                         var ccc = mm.model.forms[mm.active_form].components
@@ -3023,6 +3030,27 @@ Pushlist
                        }
 
                    }
+               } else if (mm.design_mode_pane.links_type == "create_new_component") {
+debugger
+//zzzz
+                   if (mm.linkSideSelected == "to") {
+                       mm.incoming_link_component_types = []
+                       let selectedObject = mm.model.forms[mm.active_form].components[mm.active_component_index]
+                       let inTypes = linked_properties[selectedObject.base_component_id].incoming.them
+                       //debugger
+                       if (inTypes) {
+                           let ooo = Object.keys(inTypes)
+                           for (let ooobb of ooo) {
+
+                               mm.incoming_link_component_types.push(ooobb)
+                           }
+
+                       }
+
+
+
+
+                  }
                }
            }
            ,
@@ -5611,7 +5639,7 @@ ${eventMessage.code}
 
         recalcComponentLinks: async function() {
             let mm = this
-//debugger
+debugger
             mm.incoming_link_objects = []
 
             var ccc = mm.model.forms[mm.active_form].components
@@ -6781,6 +6809,7 @@ return {}
 
            incoming_link_component_types: [],
            outgoing_link_component_types: [],
+           selectedWatchComponentType:      null,
 
            selectedPushComponentType:      null,
            selectedPushComponentUuid:      null,
