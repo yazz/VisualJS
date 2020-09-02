@@ -5719,7 +5719,25 @@ ${eventMessage.code}
                         }
 
                     }
+                } else if (mm.design_mode_pane.direction=="incoming") {
+                    mm.selectedWatchToProperties = []
+                    let typeSelected = this.model.forms[this.active_form].components[this.active_component_links_index].base_component_id
+                    if (linked_properties[typeSelected]) {
+                        if (linked_properties[typeSelected].incoming) {
+                            if (linked_properties[typeSelected].incoming.me) {
+                                var ccomp2 =  linked_properties[typeSelected].incoming.me
+                                var ccomkeys2 = Object.keys(ccomp2)
+                                for (var aaa =0; aaa<ccomkeys2.length;aaa++) {
+                                    mm.selectedWatchToProperties.push(ccomkeys2[aaa])
+                                }
+
+                            }
+                        }
+
+                    }
+//zzz
                 }
+
 
 
                 //selectedWatchToProperties
