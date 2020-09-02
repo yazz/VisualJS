@@ -2946,12 +2946,12 @@ Pushlist
                //mm.selectComponentByName(newName)
 
                mm.linkComponents({
-                   link_type:          "outgoing",
+                   link_type:          "incoming",
 
-                   from_component:      activeComponent.name,
+                   from_component:      newName,
                    from_property:       mm.selectedWatchFromProperty,
 
-                   to_component:        newName,
+                   to_component:        activeComponent.name,
                    to_property:         mm.selectedWatchToProperty
 
                })
@@ -3310,6 +3310,32 @@ Pushlist
                   fromComponent.push.push(
                       {
                         "uuid": toComponent.uuid,
+                        "property": options.from_property,
+                        "send_to": options.to_property,
+                        "transform_fn": null
+                      }
+                  )
+                  mm.selectedPushComponentUuid     = null
+                  mm.selectedPushFromProperty      = null
+                  mm.selectedPushToProperty        = null
+                  mm.selectedPushTransformFn        = null
+
+                  mm.refresh ++
+                  mm.updateAllFormCaches()
+                  mm.showSaveButton()
+
+              } else if (options.link_type == "incoming") {
+                  debugger
+                  let fromComponent =   mm.form_runtime_info[mm.active_form].component_lookup_by_name[options.from_component]
+                  let toComponent =     mm.form_runtime_info[mm.active_form].component_lookup_by_name[options.to_component]
+
+                  mm.old_model = JSON.parse(JSON.stringify( mm.model ));
+                  if (! toComponent.watch) {
+                       toComponent.watch = []
+                  }
+                  toComponent.watch.push(
+                      {
+                        "uuid": fromComponent.uuid,
                         "property": options.from_property,
                         "send_to": options.to_property,
                         "transform_fn": null
