@@ -893,7 +893,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
                           <div    style="width:40%;font-weight:bold;margin:7px;">From (New Component)</div>
 
-                              <select    @change='setIncomingFormWatchComponent($event); '
+                              <select    @change='setWatchComponentType($event); '
                                           v-if='!selectedWatchComponentUuid'
                                           style='margin:7px;'>
 
@@ -3031,7 +3031,7 @@ Pushlist
 
                    }
                } else if (mm.design_mode_pane.links_type == "create_new_component") {
-debugger
+//debugger
 //zzzz
                    if (mm.linkSideSelected == "to") {
                        mm.incoming_link_component_types = []
@@ -3141,6 +3141,45 @@ debugger
 
           }
           ,
+
+
+
+            //-------------------------------------------------------------------
+            setWatchComponentType: function(event) {
+            //-------------------------------------------------------------------
+    debugger
+              var mm      = this
+
+              let ComponentType = event.target.value
+              mm.selectedWatchFromProperties = []
+              mm.selectedWatchComponentType = ComponentType
+              //
+              let activecomp = mm.model.forms[mm.active_form].components[mm.active_component_index]
+
+
+              if (mm.linkSideSelected == "to") {
+                  if (linked_properties){
+                      if (linked_properties[activecomp.base_component_id]){
+                          if (linked_properties[activecomp.base_component_id].incoming){
+                              if (linked_properties[activecomp.base_component_id].incoming.me){
+                                  if (linked_properties[activecomp.base_component_id].incoming.me[mm.selectedWatchToProperty] ) {
+                                      if (linked_properties[activecomp.base_component_id].incoming.me[mm.selectedWatchToProperty][ComponentType]) {
+                                          var ccomkeys = Object.keys(linked_properties[activecomp.base_component_id].incoming.me[mm.selectedWatchToProperty][ComponentType])
+                                          for (var aaa =0; aaa<ccomkeys.length;aaa++) {
+                                              this.selectedWatchFromProperties.push(ccomkeys[aaa])
+                                          }
+                                      }
+                                  }
+                              }
+
+                          }
+                      }
+                  }
+              }
+
+            }
+            ,
+
 
           //-------------------------------------------------------------------
           setPushComponent: function(event) {
@@ -5639,7 +5678,7 @@ ${eventMessage.code}
 
         recalcComponentLinks: async function() {
             let mm = this
-debugger
+//debugger
             mm.incoming_link_objects = []
 
             var ccc = mm.model.forms[mm.active_form].components
