@@ -886,6 +886,8 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                        <!--
                        ----------------
                                 COMPONENT TYPES FOR AVAILABLE COMPONENTS TO CREATE
+                                //aaa
+                                //zzz
                        ----------------
                        -->
 
@@ -3345,6 +3347,15 @@ Pushlist
                   mm.selectedPushFromProperty      = null
                   mm.selectedPushToProperty        = null
                   mm.selectedPushTransformFn        = null
+                  mm.incoming_link_component_types = []
+                  mm.selectedWatchComponentUuid = null
+                  mm.selectedWatchFromProperty = null
+                  mm.selectedWatchFromProperties = []
+                  mm.selectedWatchToProperty = null
+                  mm.linkSideSelected = "none"
+
+                  //aaa
+                  //zzz
 
                   mm.refresh ++
                   mm.updateAllFormCaches()
