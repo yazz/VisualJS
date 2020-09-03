@@ -874,6 +874,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
         INCOMING
   ------------------------------------------------------------------------------------------------
   -->
+
                       <!--
                       --------------------------------------------
                       CREATE NEW COMPONENT LINKS
@@ -897,6 +898,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
                               <select    @change='setWatchComponentType($event); '
                                           v-if='!selectedWatchComponentUuid'
+                                          v-bind:refresh='refresh'
                                           style='margin:7px;'>
 
                                   <option     value=""
@@ -2889,6 +2891,8 @@ Pushlist
               //debugger
               var mm = this
               let activeComponent = mm.model.forms[mm.active_form].components[mm.active_component_index]
+              let old_active_component_index = mm.active_component_index
+
 //zzz
               let componentToCreateType = mm.selectedPushComponentType
 
@@ -2919,6 +2923,7 @@ Pushlist
                    to_property:         mm.selectedPushToProperty
 
                })
+               mm.selectComponent(old_active_component_index, true)
 
           }
           ,
@@ -2927,6 +2932,8 @@ Pushlist
               debugger
               var mm = this
               let activeComponent = mm.model.forms[mm.active_form].components[mm.active_component_index]
+              let old_active_component_index = mm.active_component_index
+//bbb
 //zzz
               let componentToCreateType = mm.selectedWatchComponentType
 
@@ -2957,6 +2964,7 @@ Pushlist
                    to_property:         mm.selectedWatchToProperty
 
                })
+               mm.selectComponent(old_active_component_index, true)
 
           }
           ,
@@ -3327,7 +3335,7 @@ Pushlist
                   mm.showSaveButton()
 
               } else if (options.link_type == "incoming") {
-                  debugger
+                  //debugger
                   let fromComponent =   mm.form_runtime_info[mm.active_form].component_lookup_by_name[options.from_component]
                   let toComponent =     mm.form_runtime_info[mm.active_form].component_lookup_by_name[options.to_component]
 
@@ -3353,6 +3361,8 @@ Pushlist
                   mm.selectedWatchFromProperties = []
                   mm.selectedWatchToProperty = null
                   mm.linkSideSelected = "none"
+                  mm.selectedWatchComponentType = null
+
 
                   //aaa
                   //zzz
