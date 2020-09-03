@@ -160,6 +160,17 @@ properties(
             default:    []
         }
         ,
+
+        {
+            id:      "data",
+            name:    "data",
+            type:    "Array",
+            hidden:  true,
+            default:  []
+        }
+        ,
+
+
         {
             id:     "dataWindowColumnsMax",
             name:   "dataWindowColumnsMax",
@@ -628,8 +639,6 @@ logo_url("/driver_icons/data_window.png")
          ,
          columnDefinitions:  [ ]
          ,
-         data:               [ ]
-         ,
          tables:             [ ]
 
 
@@ -667,7 +676,7 @@ logo_url("/driver_icons/data_window.png")
                     ,
                     tables:                    []
                     ,
-                    data:                      this.data
+                    data:                      this.args.data
                     ,
                 	layout:                    "fitColumns"
                     ,
@@ -771,7 +780,7 @@ logo_url("/driver_icons/data_window.png")
             }
             ,
             setData: async function(data) {
-                this.data = data
+                this.args.data = data
                 this.table.setData(data)
 
                 var keysOfData = new Object()

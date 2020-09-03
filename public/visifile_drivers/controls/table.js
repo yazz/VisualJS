@@ -54,7 +54,8 @@ properties(
             name:       "Data",
             type:       "Array",
             default:    [],
-            editor:     "detail_editor"
+            editor:     "detail_editor",
+            accept_types: {table_data: true}
         }
         ,
 
