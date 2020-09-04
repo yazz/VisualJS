@@ -9676,14 +9676,14 @@ function indexComponent(typeName){
                                                     }
                                                     linked_properties[typeName].incoming.them[otherComponentName][otherProperty.id][oneProperty.id] = true
 
-                                                    if (!linked_properties[typeName].incoming.me[typeName]) {
-                                                        linked_properties[typeName].incoming.me[typeName]={}
+                                                    if (!linked_properties[typeName].incoming.me[oneProperty.id]) {
+                                                        linked_properties[typeName].incoming.me[oneProperty.id]={}
                                                     }
-                                                    if (!linked_properties[typeName].incoming.me[typeName][oneProperty.id]) {
-                                                        linked_properties[typeName].incoming.me[typeName][oneProperty.id]={}
+                                                    if (!linked_properties[typeName].incoming.me[oneProperty.id][otherComponentName]) {
+                                                        linked_properties[typeName].incoming.me[oneProperty.id][otherComponentName]={}
                                                     }
 
-                                                    linked_properties[typeName].incoming.me[typeName][oneProperty.id][otherProperty.id] = true
+                                                    linked_properties[typeName].incoming.me[oneProperty.id][otherComponentName][otherProperty.id] = true
 
 
 
