@@ -166,7 +166,8 @@ properties(
             name:    "data",
             type:    "Array",
             hidden:  true,
-            default:  []
+            default:  [],
+            types: {table_data: true}
         }
         ,
 
