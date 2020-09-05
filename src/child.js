@@ -56,6 +56,7 @@ var stmtUpdateAppRegistry
 var stmtDeleteTypesForComponentProperty;
 var stmtDeleteAcceptTypesForComponentProperty;
 var stmtInsertTypesForComponentProperty;
+var stmtInsertComponentProperty;
 var stmtInsertAcceptTypesForComponentProperty;
 
 
@@ -162,6 +163,14 @@ function setUpSql() {
     //zzz
     stmtDeleteTypesForComponentProperty = dbsearch.prepare(" delete from  component_property_types   where   component_name = ?");
     stmtDeleteAcceptTypesForComponentProperty = dbsearch.prepare(" delete from  component_property_accept_types   where   component_name = ?");
+
+
+    //select name from (select distinct(name) ,count(name) cn from test  where value in (1,2,3)  group by name) where cn = 3
+    stmtInsertComponentProperty = dbsearch.prepare(`insert or ignore
+                                                    into
+                                               component_properties
+                                                    (component_name, property_name )
+                                               values ( ?,?)`)
 
     stmtInsertTypesForComponentProperty = dbsearch.prepare(`insert or ignore
                                                     into
@@ -1350,6 +1359,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                         //console.log("     properties: " + properties2.length)
                                         for (let rttte = 0; rttte < properties2.length ; rttte++ ) {
                                             let prop = properties2[rttte]
+                                            stmtInsertComponentProperty.run(baseComponentId, prop.id)
                                             if (prop.types) {
                                                 let labelKeys = Object.keys(prop.types)
                                                 for (let rttte2 = 0; rttte2 < labelKeys.length ; rttte2++ ) {
