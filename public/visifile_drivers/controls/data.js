@@ -2,8 +2,8 @@ function(args) {
 /*
 is_app(true)
 component_type("VB")
-display_name("Data Window control")
-description("This will return the data window control")
+display_name("Data control")
+description("This will return the data control")
 base_component_id("data_control")
 load_once_from_file(true)
 visibility("PRIVATE")
@@ -293,7 +293,7 @@ properties(
         }
         ]
 )//properties
-logo_url("/driver_icons/data_window.png")
+logo_url("/driver_icons/data_control.png")
 */
 
     Vue.component("data_control",{
