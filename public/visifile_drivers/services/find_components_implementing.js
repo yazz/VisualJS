@@ -9,7 +9,9 @@ only_run_on_server(true)
             dbsearch.serialize(
                 function() {
                     dbsearch.all(
-                        "SELECT  base_component_id, display_name  FROM system_code where code_tag = 'LATEST' and base_component_id in (select cn from (select distinct(component_name) cn ,count(component_name) ccn from component_properties  where property_name in ('background_color')  group by component_name ) where ccn = 1);"
+                        "SELECT  base_component_id, display_name  FROM system_code where code_tag = 'LATEST' and base_component_id in (select cn from (select distinct(component_name) cn ,count(component_name) ccn from component_properties  where property_name in (?)  group by component_name ) where ccn = 1);"
+                        ,
+                        args.properties
                         ,
 
                         function(err, results)

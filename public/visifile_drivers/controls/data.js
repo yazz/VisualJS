@@ -666,7 +666,7 @@ logo_url("/driver_icons/data_control.png")
      mounted: async function() {
          registerComponent(this)
 
-         let listLL = await findComponentsImplementing([""])
+         let listLL = await findComponentsImplementing(["background_color"])
          alert(JSON.stringify(listLL,null,2))
 
          if (isValidObject(this.args)) {
