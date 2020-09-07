@@ -44,6 +44,13 @@ properties(
             name:   "Changed event",
             type:   "Event"
         }
+        ,
+        {
+            id:     "default_value",
+            name:   "Default",
+            type:   "String",
+            default: ""
+        }
     ]
 )//properties
 logo_url("/driver_icons/dropdown.png")
@@ -142,11 +149,13 @@ logo_url("/driver_icons/dropdown.png")
                        "background-color: "+    args["background_color"]  +  ";"'
          v-else>
 
+         {{args.text?args.text:""}}
+
         <select
-            v-on:change='changedFn();runEventHandler()'
-            v-model='value'>
+            v-on:change='changedFn();runEventHandler()'>
 
             <option v-for='opt in args.items'
+                    v-bind:selected='args.default_value == opt.value'
                     v-bind:value='opt.value'>
                 {{opt.text}}
             </option>
