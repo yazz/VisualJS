@@ -347,11 +347,11 @@ logo_url("/driver_icons/data_control.png")
                 Connection
 
                 <select  @change='alert($event)'>
-                      <option   v-for='propVal in ["postgres","mysql"]'
-                                v-bind:value="propVal"
-                                v-bind:selected='(propVal == "postgres")'>
+                      <option   v-for='propVal in data_sources'
+                                v-bind:value="propVal.base_component_id"
+                                v-bind:selected='(propVal.base_component_id == "postgres")'>
 
-                            {{propVal}}
+                            {{propVal.display_name}}
 
                       </option>
                 </select>
@@ -641,6 +641,8 @@ logo_url("/driver_icons/data_control.png")
          columnDefinitions:  [ ]
          ,
          tables:             [ ]
+         ,
+         data_sources: []
 
 
          ,
@@ -667,7 +669,9 @@ logo_url("/driver_icons/data_control.png")
          registerComponent(this)
 
          let listLL = await findComponentsImplementing(["addColumn", "source_type"])
-         alert(JSON.stringify(listLL,null,2))
+         //aaa
+         //alert(JSON.stringify(listLL,null,2))
+         this.data_sources = listLL.values
 
          if (isValidObject(this.args)) {
          }
