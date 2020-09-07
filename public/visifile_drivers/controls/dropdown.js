@@ -46,8 +46,8 @@ properties(
         }
         ,
         {
-            id:     "default_value",
-            name:   "Default",
+            id:     "default_selection",
+            name:   "Default Selection",
             type:   "String",
             default: ""
         }
@@ -155,7 +155,7 @@ logo_url("/driver_icons/dropdown.png")
             v-on:change='changedFn();runEventHandler()'>
 
             <option v-for='opt in args.items'
-                    v-bind:selected='args.default_value == opt.value'
+                    v-bind:selected='args.default_selection == opt.value'
                     v-bind:value='opt.value'>
                 {{opt.text}}
             </option>
