@@ -346,10 +346,13 @@ logo_url("/driver_icons/data_control.png")
             <div v-if='designDetailTab == "connection"'  >
                 Connection
 
-                <select  @change='alert($event)'>
+                <select  @change='chooseSource($event)'>
+                      <option   value=""
+                              selected='true'>
+                      </option>
                       <option   v-for='propVal in data_sources'
                                 v-bind:value="propVal.base_component_id"
-                                v-bind:selected='(propVal.base_component_id == "postgres")'>
+                                v-bind:selected2='(propVal.base_component_id == "postgres")'>
 
                             {{propVal.display_name}}
 
@@ -738,7 +741,10 @@ logo_url("/driver_icons/data_control.png")
 
 
       methods: {
-
+          chooseSource: async function(event) {
+              alert(event.target.value)
+          }
+          ,
 
 
 
