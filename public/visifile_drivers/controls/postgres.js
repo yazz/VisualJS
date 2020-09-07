@@ -87,6 +87,18 @@ properties(
                             <div>The SQL is store in the "sql" property</div>
                          </div>`
         }
+        ,
+
+        {
+            id:         "getSchema",
+            pre_snippet: `await `,
+            snippet:    `getSchema()`,
+            name:       "getSchema",
+            type:       "Action",
+            help:       `<div>Help text for
+                            <b>getSchema</b> function
+                         </div>`
+        }
     ]
 )//properties
 logo_url("/driver_icons/postgres.jpg")
@@ -127,6 +139,10 @@ logo_url("/driver_icons/postgres.jpg")
         }
         ,
         methods: {
+            getSchema: async function() {
+                return null
+            }
+            ,
             executeSql: async function() {
                 if (!this.design_mode) {
                     var result = await callFunction(

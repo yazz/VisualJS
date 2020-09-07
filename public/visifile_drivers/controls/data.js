@@ -668,7 +668,7 @@ logo_url("/driver_icons/data_control.png")
      mounted: async function() {
          registerComponent(this)
 
-         let listLL = await findComponentsImplementing(["addColumn", "source_type"])
+         let listLL = await findComponentsImplementing(["getSchema"])
          //aaa
          //alert(JSON.stringify(listLL,null,2))
          this.data_sources = listLL.values
