@@ -51,6 +51,15 @@ properties(
             type:   "String",
             default: ""
         }
+        ,
+        {
+            id:     "mainData",
+            name:   "Data",
+            type:   "String",
+            textarea: true,
+            default: ""
+        }
+
     ]
 )//properties
 logo_url("/driver_icons/chart.png")
@@ -169,9 +178,7 @@ logo_url("/driver_icons/chart.png")
          items:             [],
          new_value:         "",
          new_text:          "",
-         canvasId:           uuidv4(),
-         mainData: null,
-         mainOptions: null
+         canvasId:           uuidv4()
        }
      }
      ,
@@ -195,8 +202,13 @@ logo_url("/driver_icons/chart.png")
                 this.value = this.args.value
              }
          }
-         var ctx = document.getElementById(this.canvasId).getContext('2d');
-         var myChart = new Chart(ctx, this.mainData,this.mainOptions);
+         if (document.getElementById(this.canvasId)) {
+             var ctx = document.getElementById(this.canvasId).getContext('2d');
+
+             if (this.args.mainData.length > 0 ) {
+                 let myChart = new Chart(ctx,   eval("(" + this.args.mainData + ")"));
+             }
+         }
       }
       ,
       methods: {
