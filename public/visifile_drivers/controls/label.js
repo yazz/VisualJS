@@ -91,6 +91,23 @@ properties(
             default:    100,
             type:       "Number"
         }
+        ,
+        {
+            id:         "font_size_units",
+            name:       "Font size units",
+            type:       "Select",
+            default:     "px",
+            values:     [
+                            {display: "Pixels",   value: "px"}
+                        ]
+        }
+        ,
+        {
+            id:         "font_size",
+            name:       "Font Size",
+            default:    16,
+            type:       "Number"
+        }
     ]
 )//properties
 logo_url("/driver_icons/text_control.png")
@@ -101,6 +118,7 @@ logo_url("/driver_icons/text_control.png")
         ,
         template: `<div v-bind:style='"white-space:normal;height:100%;width:100%; " +
                                         "color: "              +     args["color"]  + ";" +
+                                        (args["font_size"]?"font-size: " + args["font_size"] + args["font_size_units"]:"") + ";" +
                                         "border-color: "       +     args["border_color"]  + ";" +
                                         "border: "             +    (design_mode?0:args["border_width_px"])  + "px;" +
                                         "background-color: "   +     args["background_color"]  + ";" +
