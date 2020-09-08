@@ -118,10 +118,10 @@ logo_url("/driver_icons/text_control.png")
         ,
         template: `<div v-bind:style='"white-space:normal;height:100%;width:100%; " +
                                         "color: "              +     args["color"]  + ";" +
-                                        (args["font_size"]?"font-size: " + args["font_size"] + args["font_size_units"]:"") + ";" +
                                         "border-color: "       +     args["border_color"]  + ";" +
                                         "border: "             +    (design_mode?0:args["border_width_px"])  + "px;" +
                                         "background-color: "   +     args["background_color"]  + ";" +
+                                        "font-size: "   +     ((args["font_size"]?args["font_size"]:16)  + (args["font_size_units"]?args["font_size_units"]:"px")+";") +
                                         "padding: "            +     args["padding_px"]  + ";" +
                                         "border-style: solid;" +
                                     "overflow: auto;"'>
