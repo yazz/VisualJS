@@ -57,7 +57,7 @@ logo_url("/driver_icons/chart.png")
 */
 
     Vue.component("chart_control",{
-      props: ["args","refresh","design_mode"]
+      props: ["meta","name","args","refresh","design_mode"]
       ,
       template:
 `<div   v-bind:style='"width:100%;overflow-y:auto;height:100%"
@@ -149,7 +149,9 @@ logo_url("/driver_icons/chart.png")
                        "background-color: "+    args["background_color"]  +  ";"'
          v-else>
 
-         <canvas id="myChart" width="400" height="400"></canvas>
+         <canvas    id="myChart" width="400" height="400"
+                    v-if='!design_mode'>
+         </canvas>
     </div>
 
 
@@ -179,6 +181,8 @@ logo_url("/driver_icons/chart.png")
      }
      ,
      mounted: function() {
+         registerComponent(this)
+
          if (isValidObject(this.args)) {
              this.items = this.args.items
              if (isValidObject(this.args.value)) {
