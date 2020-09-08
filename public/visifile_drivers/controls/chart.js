@@ -56,6 +56,8 @@ properties(
 logo_url("/driver_icons/chart.png")
 */
 
+
+
     Vue.component("chart_control",{
       props: ["meta","name","args","refresh","design_mode"]
       ,
@@ -149,7 +151,8 @@ logo_url("/driver_icons/chart.png")
                        "background-color: "+    args["background_color"]  +  ";"'
          v-else>
 
-         <canvas    id="myChart" width="400" height="400"
+         <canvas    v-bind:id='canvasId'
+                    width="400" height="400"
                     v-if='!design_mode'>
          </canvas>
     </div>
@@ -165,7 +168,8 @@ logo_url("/driver_icons/chart.png")
          selected_index:    null,
          items:             [],
          new_value:         "",
-         new_text:          ""
+         new_text:          "",
+         canvasId:           uuidv4()
        }
      }
      ,
@@ -189,7 +193,7 @@ logo_url("/driver_icons/chart.png")
                 this.value = this.args.value
              }
          }
-         var ctx = document.getElementById('myChart').getContext('2d');
+         var ctx = document.getElementById(this.canvasId).getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
