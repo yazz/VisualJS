@@ -3493,30 +3493,74 @@ Pushlist
             let mm = this
             let methodId = componentDefn.id
             let methodFn = componentDefn.fn
-            return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
-                let me = componentDetails
-                let parent = null
-                if (me.parent) {
-                    parent = mm.form_runtime_info[mm.active_form].component_lookup_by_name[me.parent]
+            let fnDetailsTemp       = null
+            let isAsync = true
+
+            try {
+                if (!isValidObject(methodFn)) {
+                     let controlDetailsTemp = globalControl[componentDetails.name]
+                     if (controlDetailsTemp) {
+                         fnDetailsTemp = controlDetailsTemp[methodId]
+                         if (fnDetailsTemp) {
+                             isAsync = fnDetailsTemp.constructor.name === "AsyncFunction";
+                         }
+                     }
                 }
+            }catch(err){
+                debugger
+                console.log(err)
+            }
+            //   async
+            if (isAsync || isValidObject(methodFn)){
 
-                let fnDetails       = null
-                if (isValidObject(methodFn)) {
-                    let thecode =
-`(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
-${methodFn}
-})`
+                            return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+                                let me = componentDetails
+                                let parent = null
+                                if (me.parent) {
+                                    parent = mm.form_runtime_info[mm.active_form].component_lookup_by_name[me.parent]
+                                }
 
-                    fnDetails = eval(thecode)
+                                let fnDetails       = null
+                                if (isValidObject(methodFn)) {
+                                    let thecode =
+                `(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+                ${methodFn}
+                })`
 
-                } else {
-                     let controlDetails = globalControl[componentDetails.name]
-                     fnDetails = controlDetails[methodId]
-                }
-                let retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
+                                    fnDetails = eval(thecode)
+
+                                } else {
+                                     let controlDetails = globalControl[componentDetails.name]
+                                     fnDetails = controlDetails[methodId]
+                                }
+                                let retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
 
 
-                return retv
+                                return retv
+                            }
+
+            //   NOT async
+            } else {
+
+
+                            return function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+                                let me = componentDetails
+                                let parent = null
+                                if (me.parent) {
+                                    parent = mm.form_runtime_info[mm.active_form].component_lookup_by_name[me.parent]
+                                }
+
+                                let retv =  null
+                                let fnDetails       = null
+                                let controlDetails = globalControl[componentDetails.name]
+                                fnDetails = controlDetails[methodId]
+                                retv =  fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
+
+
+                                return retv
+                            }
+
+
             }
 
          }
