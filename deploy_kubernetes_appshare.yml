@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: appshare
-        image: appshareco/appshare:3.2
+        image: appshareco/appshare:3.3
         ports:
         - containerPort: 3000
 ---
