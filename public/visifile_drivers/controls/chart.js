@@ -53,8 +53,8 @@ properties(
         }
         ,
         {
-            id:     "mainData",
-            name:   "JSON",
+            id:     "jsonConfig",
+            name:   "JSON Config",
             type:   "String",
             textarea: true,
             default: ""
@@ -92,7 +92,7 @@ logo_url("/driver_icons/chart.png")
 
          <label for="usr">Data:</label>
          <textarea style="font-family:monospace; height:80%"
-                   v-model="args.mainData"
+                   v-model="args.jsonConfig"
                    type="" class="form-control" id="usr"
                    cols="50"
 
@@ -159,8 +159,8 @@ logo_url("/driver_icons/chart.png")
          if (document.getElementById(this.canvasId)) {
              var ctx = document.getElementById(this.canvasId).getContext('2d');
 
-             if (this.args.mainData.length > 0 ) {
-                 this.myChart = new Chart(ctx,   eval("(" + this.args.mainData + ")"));
+             if (this.args.jsonConfig.length > 0 ) {
+                 this.myChart = new Chart(ctx,   eval("(" + this.args.jsonConfig + ")"));
              }
          }
       }
