@@ -54,10 +54,22 @@ properties(
         ,
         {
             id:     "mainData",
-            name:   "Data",
+            name:   "JSON",
             type:   "String",
             textarea: true,
             default: ""
+        }
+        ,
+        {
+            id:     "getData",
+            name:   "Get Data",
+            type:   "Action"
+        }
+        ,
+        {
+            id:     "update",
+            name:   "Update",
+            type:   "Action"
         }
 
     ]
@@ -119,7 +131,8 @@ logo_url("/driver_icons/chart.png")
          items:             [],
          new_value:         "",
          new_text:          "",
-         canvasId:           uuidv4()
+         canvasId:           uuidv4(),
+         myChart:           null,
        }
      }
      ,
@@ -147,12 +160,26 @@ logo_url("/driver_icons/chart.png")
              var ctx = document.getElementById(this.canvasId).getContext('2d');
 
              if (this.args.mainData.length > 0 ) {
-                 let myChart = new Chart(ctx,   eval("(" + this.args.mainData + ")"));
+                 this.myChart = new Chart(ctx,   eval("(" + this.args.mainData + ")"));
              }
          }
       }
       ,
       methods: {
+            getData: async function() {
+                if (this.myChart) {
+                    return this.myChart.data
+                } else {
+                    return null
+                }
+            }
+            ,
+            update: async function() {
+                if (this.myChart) {
+                    this.myChart.update()
+                }
+            }
+            ,
             changedFn: function() {
                 if (isValidObject(this.args)) {
                     this.args.value = this.value
