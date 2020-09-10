@@ -121,28 +121,32 @@ properties(
             id:         "moveRight",
             snippet:    `moveRight(1)`,
             name:       "Move Right()",
-            type:       "Action"
+            type:       "Action",
+            async:       true
         }
         ,
         {
             id:         "moveUp",
             snippet:    `moveUp(1)`,
             name:       "Move Up()",
-            type:       "Action"
+            type:       "Action",
+            async:       true
         }
         ,
         {
             id:         "moveLeft",
             snippet:    `moveLeft(1)`,
             name:       "Move Left()",
-            type:       "Action"
+            type:       "Action",
+            async:       true
         }
         ,
         {
             id:         "moveDown",
             snippet:    `moveDown(1)`,
             name:       "Move Down()",
-            type:       "Action"
+            type:       "Action",
+            async:       true
         }
         ,
         {
