@@ -61,9 +61,9 @@ properties(
         }
         ,
         {
-            id:     "getData",
-            name:   "Get Data",
-            type:   "Action"
+            id:        "getData",
+            name:      "Get Data",
+            type:      "Action"
         }
         ,
         {

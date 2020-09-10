@@ -3496,20 +3496,22 @@ Pushlist
             let fnDetailsTemp       = null
             let isAsync = true
 
-            try {
-                if (!isValidObject(methodFn)) {
-                     let controlDetailsTemp = globalControl[componentDetails.name]
-                     if (controlDetailsTemp) {
-                         fnDetailsTemp = controlDetailsTemp[methodId]
-                         if (fnDetailsTemp) {
-                             isAsync = fnDetailsTemp.constructor.name === "AsyncFunction";
-                         }
-                     }
+            if (!isValidObject(methodFn)) {
+                let allProps = component_cache[componentDetails.base_component_id].properties
+                if (allProps) {
+                    for (let i=0;i<allProps.length;i++) {
+                        let thisProp = allProps[i]
+                        if (thisProp.id == methodId) {
+                            if (thisProp.async) {
+                                isAsync = true
+                            } else {
+                                isAsync = false
+                            }
+                        }
+                    }
                 }
-            }catch(err){
-                debugger
-                console.log(err)
             }
+
             //   async
             if (isAsync || isValidObject(methodFn)){
 
