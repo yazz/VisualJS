@@ -3490,19 +3490,19 @@ Pushlist
 
 
          getControlMethod: function(componentDefn,componentDetails) {
-            var mm = this
-            var methodId = componentDefn.id
-            var methodFn = componentDefn.fn
+            let mm = this
+            let methodId = componentDefn.id
+            let methodFn = componentDefn.fn
             return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
-                var me = componentDetails
-                var parent = null
+                let me = componentDetails
+                let parent = null
                 if (me.parent) {
                     parent = mm.form_runtime_info[mm.active_form].component_lookup_by_name[me.parent]
                 }
 
-                var fnDetails       = null
+                let fnDetails       = null
                 if (isValidObject(methodFn)) {
-                    var thecode =
+                    let thecode =
 `(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
 ${methodFn}
 })`
@@ -3510,10 +3510,10 @@ ${methodFn}
                     fnDetails = eval(thecode)
 
                 } else {
-                     var controlDetails = globalControl[componentDetails.name]
+                     let controlDetails = globalControl[componentDetails.name]
                      fnDetails = controlDetails[methodId]
                 }
-                var retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
+                let retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
 
 
                 return retv

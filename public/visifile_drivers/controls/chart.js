@@ -166,7 +166,7 @@ logo_url("/driver_icons/chart.png")
       }
       ,
       methods: {
-            getData: async function() {
+            getData: function() {
                 if (this.myChart) {
                     return this.myChart.data
                 } else {
