@@ -2886,6 +2886,10 @@ Pushlist
 
           }
           ,
+          getNextComponentid: function() {
+              return this.model.next_component_id++
+          }
+          ,
           addNewComponentPush: async function() {
               //debugger
               //debugger

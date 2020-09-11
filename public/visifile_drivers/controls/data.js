@@ -742,7 +742,19 @@ logo_url("/driver_icons/data_control.png")
 
       methods: {
           chooseSource: async function(event) {
-              alert(event.target.value)
+              //debugger
+              let typeName = event.target.value
+              await loadV2([typeName])
+              var newName = typeName + "_" + this.meta.getEditor().getNextComponentid()
+              await this.meta.getEditor().addControl(
+                  {
+                            "leftX": 10,
+                            "topY": 10,
+                            "name": newName,
+                            "base_component_id": typeName
+                          }
+
+                          )
           }
           ,
 
