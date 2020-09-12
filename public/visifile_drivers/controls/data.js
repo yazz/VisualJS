@@ -368,6 +368,13 @@ logo_url("/driver_icons/data_control.png")
                       </option>
                 </select>
 
+                <div v-if='children && children[0]'>
+                pre
+                    <slot v-bind:refresh='refresh'>
+                    </slot>
+                    post
+                </div>
+
 
                 <div    v-bind:style='"border:1px solid gray; padding: 10px;display:flex;" + ((selected_index==index)?"background-color: lightgray;":"")'
                         v-bind:refresh='refresh'
@@ -637,7 +644,7 @@ logo_url("/driver_icons/data_control.png")
                            "background-color: "+    args["background_color"]  +  ";"'
              v-if='design_mode == false'>
 
-            
+
 
 
         </div>
