@@ -297,7 +297,7 @@ logo_url("/driver_icons/data_control.png")
 */
 
     Vue.component("data_control",{
-      props: ["meta","name","args","refresh","design_mode"]
+      props: ["meta","name","args","refresh","design_mode", "children"]
       ,
       template:
 `<div   v-bind:style='"width:100%;overflow-y:auto;height:100%;color:black;"
@@ -359,6 +359,24 @@ logo_url("/driver_icons/data_control.png")
                       </option>
                 </select>
 
+
+                <div    v-bind:style='"border:1px solid gray; padding: 10px;display:flex;" + ((selected_index==index)?"background-color: lightgray;":"")'
+                        v-bind:refresh='refresh'
+                        v-on:click='$event.stopPropagation();selected_index=index;select_design_time_component(child_item.index_in_parent_array)'
+                        v-for='(child_item,index)  in  children'>
+
+                    <div    v-if='child_item'
+                            v-bind:refresh='refresh'>
+
+                        <div    v-bind:style='"display:inline-block;"'
+                                v-if='isValidObject(child_item)'
+                                v-bind:refresh='refresh'>{{child_item.name}}</div>
+                    </div>
+                </div>
+
+                <div v-if='children && children[0]'>
+                    CHILD
+                </div>
 
             </div>
 
