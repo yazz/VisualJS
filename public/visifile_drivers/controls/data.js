@@ -743,6 +743,7 @@ logo_url("/driver_icons/data_control.png")
       methods: {
           chooseSource: async function(event) {
               //debugger
+              let mm = this
               let typeName = event.target.value
               await loadV2([typeName])
               var newName = typeName + "_" + this.meta.getEditor().getNextComponentid()
@@ -751,7 +752,9 @@ logo_url("/driver_icons/data_control.png")
                             "leftX": 10,
                             "topY": 10,
                             "name": newName,
-                            "base_component_id": typeName
+                            "base_component_id": typeName,
+                            parent_base_component_id: mm.args.base_component_id,
+                            parent_name: mm.args.name,
                           }
 
                           )

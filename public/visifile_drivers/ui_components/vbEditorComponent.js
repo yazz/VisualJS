@@ -3912,8 +3912,8 @@ ${origCode}
                                               ,
                                               control: controlDetails
                                         },
-                                        null,
-                                        null,
+                                        controlDetails.parent_base_component_id,
+                                        controlDetails.parent_name,
                                         null,
                                         null,
                                         [])
