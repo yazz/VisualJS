@@ -3655,7 +3655,7 @@ ${origCode}
                      var rrr = event.target.getBoundingClientRect()
                      var offsetX = (event.clientX - rrr.left )
                      var offsetY = (event.clientY - rrr.top )
-                     var parentId = null
+                     var parentType = null
                      var parentName = null
                      var parentOffsetX = 0
                      var parentOffsetY = 0
@@ -3671,7 +3671,7 @@ ${origCode}
                      if (parentContainer) {
                          parentOffsetX = parentContainer.x
                          parentOffsetY = parentContainer.y
-                         parentId      = parentContainer.base_component_id
+                         parentType      = parentContainer.base_component_id
                          parentName    = parentContainer.name
                      }
 
@@ -3679,7 +3679,7 @@ ${origCode}
                      await this.addComponent(  offsetX,
                                          offsetY,
                                          data,
-                                         parentId,
+                                         parentType,
                                          parentName,
                                          parentOffsetX,
                                          parentOffsetY,
@@ -3717,13 +3717,13 @@ ${origCode}
          return null
      }
      ,
-        addComponent: async function(leftX,topY,data, parentId, parentName, parentOffsetX, parentOffsetY,defProps) {
+        addComponent: async function(leftX,topY,data, parentType, parentName, parentOffsetX, parentOffsetY,defProps) {
             var mm = this
             //alert(JSON.stringify(data,null,2))
 
             var newItem = new Object()
 
-            //alert(parentId +": = (" + parentOffsetX + "," + parentOffsetY + ")")
+            //alert(parentType +": = (" + parentOffsetX + "," + parentOffsetY + ")")
             newItem.leftX = Math.floor(leftX)
             newItem.topY = Math.floor(topY)
             if (newItem.leftX < 0) {
@@ -3734,7 +3734,7 @@ ${origCode}
             }
             //alert(`(${newItem.leftX},${newItem.topY})`)
 
-            if (parentId) {
+            if (parentType) {
                //alert(`${baseId}:(${x1},${y1}) - (${x2},${y2})`)
                newItem.parent = parentName
             }
@@ -6053,7 +6053,7 @@ ${eventMessage.code}
              newItem2.leftX = (ev.clientX  - rrr2.left)  - data.offsetX;
              newItem2.topY = (ev.clientY  - rrr2.top)   - data.offsetY;
 
-             var parentId = null
+             var parentType = null
              var parentName = null
              var parentOffsetX = 0
              var parentOffsetY = 0
@@ -6063,7 +6063,7 @@ ${eventMessage.code}
              if (parentContainer) {
                  parentOffsetX = parentContainer.x
                  parentOffsetY = parentContainer.y
-                 parentId      = parentContainer.base_component_id
+                 parentType      = parentContainer.base_component_id
                  parentName    = parentContainer.name
              }
 
@@ -6072,7 +6072,7 @@ ${eventMessage.code}
                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
                  var xx = ((ev.clientX  - rrr.left)  - data.offsetX) - parentOffsetX  - 10;
                  var yy = ((ev.clientY  - rrr.top)   - data.offsetY) - parentOffsetY - 10;
-                 await mm.addComponent(xx,yy,data, parentId, parentName, parentOffsetX, parentOffsetY,[])
+                 await mm.addComponent(xx,yy,data, parentType, parentName, parentOffsetX, parentOffsetY,[])
                  this.highlighted_control = null
 
              } else if (data.type == "move_component") {
@@ -6082,7 +6082,7 @@ ${eventMessage.code}
                 var newTopY = (ev.clientY  - rrr.top) - data.offsetY;
 
                 if (!this.model.forms[this.active_form].components[data.index].is_container) {
-                    if (parentId) {
+                    if (parentType) {
                        this.model.forms[this.active_form].components[data.index].parent = parentName
                        newLeftX = newLeftX - parentOffsetX
                        newTopY = newTopY - parentOffsetY
@@ -6120,7 +6120,7 @@ ${eventMessage.code}
                  var newTopY = ev.clientY  + 2 - rrr.top ;
 
                  if (!this.model.forms[this.active_form].components[data.index].is_container) {
-                     if (parentId) {
+                     if (parentType) {
                         this.model.forms[this.active_form].components[data.index].parent = parentName
                         newLeftX = newLeftX - parentOffsetX
                         newTopY = newTopY - parentOffsetY
@@ -6153,7 +6153,7 @@ ${eventMessage.code}
 
 
                  if (!this.model.forms[this.active_form].components[data.index].is_container) {
-                     if (parentId) {
+                     if (parentType) {
                         this.model.forms[this.active_form].components[data.index].parent = parentName
                         newLeftX = newLeftX - parentOffsetX
                         newTopY = newTopY - parentOffsetY
@@ -6182,7 +6182,7 @@ ${eventMessage.code}
                  var newTopY = ev.clientY  + 2 - rrr.top ;
 
                  if (!this.model.forms[this.active_form].components[data.index].is_container) {
-                     if (parentId) {
+                     if (parentType) {
                         this.model.forms[this.active_form].components[data.index].parent = parentName
                         newLeftX = newLeftX - parentOffsetX
                         newTopY = newTopY - parentOffsetY
@@ -6209,7 +6209,7 @@ ${eventMessage.code}
                  var newY = ev.clientY + 2 - rrr.top;
 
                  if (!this.model.forms[this.active_form].components[data.index].is_container) {
-                     if (parentId) {
+                     if (parentType) {
                         this.model.forms[this.active_form].components[data.index].parent = parentName
                         newX = newX - parentOffsetX
                         newY = newY - parentOffsetY
@@ -6235,7 +6235,7 @@ ${eventMessage.code}
                  var newY = ev.clientY - 12 - rrr.top ;
 
                  if (!this.model.forms[this.active_form].components[data.index].is_container) {
-                     if (parentId) {
+                     if (parentType) {
                         this.model.forms[this.active_form].components[data.index].parent = parentName
                         newX = newX - parentOffsetX
                         newY = newY - parentOffsetY
@@ -6258,7 +6258,7 @@ ${eventMessage.code}
                  var newX = ev.clientX  - rrr.left - 10;
 
                  if (!this.model.forms[this.active_form].components[data.index].is_container) {
-                     if (parentId) {
+                     if (parentType) {
                         this.model.forms[this.active_form].components[data.index].parent = parentName
                         newX = newX - parentOffsetX
                      } else {
@@ -6280,7 +6280,7 @@ ${eventMessage.code}
                  var newY = ev.clientY - rrr.top - 12;
 
                  if (!this.model.forms[this.active_form].components[data.index].is_container) {
-                     if (parentId) {
+                     if (parentType) {
                         this.model.forms[this.active_form].components[data.index].parent = parentName
                         newX = newX - parentOffsetX
                         newY = newY - parentOffsetY
@@ -6303,7 +6303,7 @@ ${eventMessage.code}
                  var newY = ev.clientY - rrr.top - 12;
 
                  if (!this.model.forms[this.active_form].components[data.index].is_container) {
-                     if (parentId) {
+                     if (parentType) {
                         this.model.forms[this.active_form].components[data.index].parent = parentName
                         newY = newY - parentOffsetY
                      } else {
