@@ -113,6 +113,10 @@ logo_url("/driver_icons/postgres.jpg")
                                     Postgres:
                                                 {{design_time_text}}
                                     </div>
+                                    <div v-else>
+                                    Postgres:
+                                                POSTGRES LIVE
+                                    </div>
                  </div>`
         ,
         data: function() {

@@ -291,6 +291,15 @@ properties(
                             <div>The SQL is store in the "sql" property</div>
                          </div>`
         }
+        ,
+        {
+            id:         "is_container",
+            name:       "Is Container?",
+            type:       "Boolean",
+            default:    true,
+            hidden:     true
+        }
+
         ]
 )//properties
 logo_url("/driver_icons/data_control.png")
@@ -628,7 +637,7 @@ logo_url("/driver_icons/data_control.png")
                            "background-color: "+    args["background_color"]  +  ";"'
              v-if='design_mode == false'>
 
-             <div    ref="exampletable"></div>
+            
 
 
         </div>
@@ -697,7 +706,7 @@ logo_url("/driver_icons/data_control.png")
          if (isValidObject(this.args)) {
          }
 
-         if (this.design_mode == false) {
+         if (this.design_mode == "never") {
              this.table = new Tabulator(this.$refs.exampletable, {
                     width:                    this.args.width
                     ,
@@ -751,7 +760,7 @@ logo_url("/driver_icons/data_control.png")
 
              var results = await this.executeSql()
              //alert(JSON.stringify(results,null,2))
-             await this.setData(results)
+             //await this.setData(results)
          }
 
       }
