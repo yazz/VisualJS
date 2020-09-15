@@ -3676,13 +3676,11 @@ ${origCode}
                      }
 
 
-                     await this.addComponent(  offsetX,
+                     await this.addComponentV2(  offsetX,
                                          offsetY,
                                          data,
                                          parentType,
                                          parentName,
-                                         parentOffsetX,
-                                         parentOffsetY,
                                          [])
 
                       this.highlighted_control = null
@@ -3718,7 +3716,7 @@ ${origCode}
      }
      ,
         addComponent: async function(leftX,topY,data, parentType, parentName, parentOffsetX, parentOffsetY,defProps) {
-            await this.addComponentV2(leftX,topY,data, parentType, parentName, defProps) 
+            await this.addComponentV2(leftX,topY,data, parentType, parentName, defProps)
         }
         ,
         addComponentV2: async function(leftX,topY,data, parentType, parentName, defProps) {
@@ -3829,13 +3827,11 @@ ${origCode}
 
                     var childBaseId = childrenCode[ee].base_component_id
                     var childDefProps = childrenCode[ee].properties
-                    await this.addComponent(    0 ,
+                    await this.addComponentV2(    0 ,
                                                 0 ,
                                                 {base_component_id: childBaseId} ,
                                                 newItem.base_component_id ,
                                                 newItem.name ,
-                                                0 ,
-                                                0 ,
                                                 childDefProps )
                 }
             }
@@ -3909,7 +3905,7 @@ ${origCode}
             var mm = this
 
 
-              await mm.addComponent(   10,
+              await mm.addComponentV2(   10,
                                        10,
                                        {
                                               base_component_id: controlDetails.base_component_id
@@ -3918,8 +3914,6 @@ ${origCode}
                                         },
                                         controlDetails.parent_base_component_id,
                                         controlDetails.parent_name,
-                                        null,
-                                        null,
                                         [])
               mm.highlighted_control = null
               mm.updateAllFormCaches()
@@ -6076,7 +6070,7 @@ ${eventMessage.code}
                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
                  var xx = ((ev.clientX  - rrr.left)  - data.offsetX) - parentOffsetX  - 10;
                  var yy = ((ev.clientY  - rrr.top)   - data.offsetY) - parentOffsetY - 10;
-                 await mm.addComponent(xx,yy,data, parentType, parentName, parentOffsetX, parentOffsetY,[])
+                 await mm.addComponentV2(xx,yy,data, parentType, parentName, [])
                  this.highlighted_control = null
 
              } else if (data.type == "move_component") {
