@@ -3718,6 +3718,10 @@ ${origCode}
      }
      ,
         addComponent: async function(leftX,topY,data, parentType, parentName, parentOffsetX, parentOffsetY,defProps) {
+            await this.addComponentV2(leftX,topY,data, parentType, parentName, defProps) 
+        }
+        ,
+        addComponentV2: async function(leftX,topY,data, parentType, parentName, defProps) {
             var mm = this
             //alert(JSON.stringify(data,null,2))
 
