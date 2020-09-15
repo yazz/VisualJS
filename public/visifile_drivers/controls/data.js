@@ -354,6 +354,7 @@ logo_url("/driver_icons/data_control.png")
 
             <div v-if='designDetailTab == "connection"'  >
                 Connection
+                :: {{dynamic}} ::
 
                 <select  @change='chooseSource($event)'>
                       <option   value=""
@@ -684,6 +685,8 @@ logo_url("/driver_icons/data_control.png")
 
          ,
          designDetailTab:     "connection"
+         ,
+         dynamic: "No dynamic"
        }
      }
      ,
@@ -791,7 +794,14 @@ logo_url("/driver_icons/data_control.png")
                             parent_name: mm.args.name,
                           }
 
-                          )
+              )
+              setTimeout(function(){
+                  debugger
+                  let newcontrol =  mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name[newName]
+                  mm.dynamic = newcontrol.getDynamic()
+              },1000)
+              //zzz
+
           }
           ,
 

@@ -99,6 +99,19 @@ properties(
                             <b>getSchema</b> function
                          </div>`
         }
+        ,
+
+        {
+            id:         "getDynamic",
+            pre_snippet: `await `,
+            snippet:    `getDynamic()`,
+            name:       "getDynamic",
+            type:       "Action",
+            help:       `<div>Help text for
+                            <b>getDynamic</b> function
+                         </div>`
+        }
+
     ]
 )//properties
 logo_url("/driver_icons/postgres.jpg")
@@ -183,6 +196,15 @@ logo_url("/driver_icons/postgres.jpg")
                     //this.args.text = this.text
                 }
             }
+
+
+            ,
+            getDynamic: function() {
+                debugger
+                return "dynamic return for pg"
+            }
+
+
         }
     })
 }
