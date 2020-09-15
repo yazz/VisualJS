@@ -243,7 +243,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                                 v-bind:meta='{form: active_form,name: child_item.name + (design_mode?"_design":""),getEditor: getEditor}'
                                                 v-bind:form="active_form"
                                                 v-bind:refresh='refresh'
-                                                v-bind:style='"z-index:100000;position: absolute; top: " + child_item.topY + "px; left: " + child_item.leftX + "px;height:" + child_item.height + "px;width:" + child_item.width + "px;overflow:auto;"'
+                                                v-bind:style='"z-index:100000;position: relative; top: " + child_item.topY + "px; left: " + child_item.leftX + "px;height:" + child_item.height + "px;width:" + child_item.width + "px;overflow:auto;"'
                                                 v-bind:id='active_form + "_" + model.forms[active_form].components[child_item.index_in_parent_array].name + (design_mode?"_design":"")'
                                                 v-on:send="processControlEvent"
                                                 v-bind:is='child_item.base_component_id'
