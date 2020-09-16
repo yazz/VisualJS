@@ -880,15 +880,15 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                       CREATE NEW COMPONENT LINKS
                               Incoming form link "to" selected component
                               (part 1 - where is the link coming from?)
-                              zzz
+
                       --------------------------------------------
                        -->
 
                        <!--
                        ----------------
                                 COMPONENT TYPES FOR AVAILABLE COMPONENTS TO CREATE
-                                //aaa
-                                //zzz
+
+
                        ----------------
                        -->
 
@@ -983,7 +983,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
                       <!-- --------------------------------------------
                       Allow the user to choose the selected component property
-                      zzzz
+
                       --------------------------------------------  -->
 
                       <select   @change='setWatchToProperty($event);'
@@ -1073,7 +1073,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
                   Outgoing CREATE NEW COMPONENT  link "from" selected component
-                  zzz
+
           --------------------------------------------
            -->
 
@@ -2897,7 +2897,7 @@ Pushlist
               let activeComponent = mm.model.forms[mm.active_form].components[mm.active_component_index]
               let old_active_component_index = mm.active_component_index
 
-//zzz
+
               let componentToCreateType = mm.selectedPushComponentType
 
 
@@ -2937,8 +2937,6 @@ Pushlist
               var mm = this
               let activeComponent = mm.model.forms[mm.active_form].components[mm.active_component_index]
               let old_active_component_index = mm.active_component_index
-//bbb
-//zzz
               let componentToCreateType = mm.selectedWatchComponentType
 
 
@@ -3084,7 +3082,7 @@ Pushlist
                    }
                } else if (mm.design_mode_pane.links_type == "create_new_component") {
 //debugger
-//zzzz
+
                    if (mm.linkSideSelected == "to") {
                        mm.incoming_link_component_types = []
                        let selectedObject = mm.model.forms[mm.active_form].components[mm.active_component_index]
@@ -3368,8 +3366,6 @@ Pushlist
                   mm.selectedWatchComponentType = null
 
 
-                  //aaa
-                  //zzz
 
                   mm.refresh ++
                   mm.updateAllFormCaches()
@@ -5935,7 +5931,7 @@ ${eventMessage.code}
                         }
 
                     }
-//zzz
+
                 }
 
 
