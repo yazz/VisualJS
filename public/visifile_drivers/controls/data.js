@@ -299,6 +299,14 @@ properties(
             default:    true,
             hidden:     true
         }
+        ,
+        {
+            id:         "test",
+            pre_snippet: ` `,
+            snippet:    `test()`,
+            name:       "test",
+            type:       "Action"
+        }
 
         ]
 )//properties
@@ -797,14 +805,25 @@ logo_url("/driver_icons/data_control.png")
               )
               setTimeout(function(){
                   debugger
-                  let newcontrol =  mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name[newName]
-                  mm.dynamic = newcontrol.getDynamic()
+                  //let newcontrol =  mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name[newName]
+                  //mm.dynamic = newcontrol.getDynamic()
+                  let newcontrol =  mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name["aaa"]
+                  //mm.dynamic = newcontrol.getDynamic()
+                  newcontrol.setText("helo duck")
               },1000)
               //zzz
 
           }
           ,
-
+          test: function() {
+              debugger
+              let mm = this
+              //let newcontrol =  mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name[newName]
+              let newcontrol =  mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name["aaa"]
+              //mm.dynamic = newcontrol.getDynamic()
+              newcontrol.setText("helo duck")
+          }
+          ,
 
 
             setSql: function() {
