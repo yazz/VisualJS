@@ -7760,7 +7760,11 @@ function registerComponent(vueComponentObject) {
 
         if (isValidObject(usePropVar)) {
             if (isValidObject(usePropVar.name)) {
-                globalControl[usePropVar.name] =  vueComponentObject
+                if (vueComponentObject.design_mode) {
+                    globalControlDesignMode[usePropVar.name] =  vueComponentObject
+                } else {
+                    globalControl[usePropVar.name] =  vueComponentObject
+                }
             }
 
             if (isValidObject(usePropVar.load) && isValidObject(vueComponentObject.meta) ) {
@@ -7783,6 +7787,7 @@ function registerComponent(vueComponentObject) {
 }
 
 function unregisterComponent(componentName) {
+    globalControlDesignMode[componentName] = null
     globalControl[componentName] = null
 }
 
