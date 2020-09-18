@@ -3532,7 +3532,12 @@ Pushlist
                                     fnDetails = eval(thecode)
 
                                 } else {
-                                     let controlDetails = globalControl[componentDetails.name]
+                                    let controlDetails = null
+                                    if (mm.design_mode) {
+                                        controlDetails = globalControlDesignMode[componentDetails.name]
+                                    } else {
+                                        controlDetails = globalControl[componentDetails.name]
+                                    }
                                      fnDetails = controlDetails[methodId]
                                 }
                                 let retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
@@ -3554,7 +3559,12 @@ Pushlist
 
                                 let retv =  null
                                 let fnDetails       = null
-                                let controlDetails = globalControl[componentDetails.name]
+                                let controlDetails = null
+                                if (mm.design_mode) {
+                                    controlDetails = globalControlDesignMode[componentDetails.name]
+                                } else {
+                                    controlDetails = globalControl[componentDetails.name]
+                                }
                                 fnDetails = controlDetails[methodId]
                                 retv =  fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
 
