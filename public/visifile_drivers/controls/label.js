@@ -69,12 +69,12 @@ properties(
         }
         ,
         {
-            id:         "setText",
-            snippet:    `setText("")`,
-            name:       "setText",
+            id:         "setText2",
+            snippet:    `setText2("")`,
+            name:       "setText2",
             type:       "Action",
             help:       `<div>Help text for
-                            <b>setText</b> function
+                            <b>setText2</b> function
                          </div>`
         }
         ,
@@ -162,7 +162,7 @@ logo_url("/driver_icons/text_control.png")
         }
         ,
         methods: {
-            setText: function(newtext) {
+            setText2: function(newtext) {
                 this.text = newtext
                 this.changedFn()
             }

@@ -809,7 +809,7 @@ logo_url("/driver_icons/data_control.png")
                   //mm.dynamic = newcontrol.getDynamic()
                   let newcontrol =  mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name["aaa"]
                   //mm.dynamic = newcontrol.getDynamic()
-                  newcontrol.setText("helo duck")
+                  newcontrol.setText2("helo duck")
               },1000)
               //zzz
 
@@ -821,7 +821,7 @@ logo_url("/driver_icons/data_control.png")
               //let newcontrol =  mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name[newName]
               let newcontrol =  mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name["aaa"]
               //mm.dynamic = newcontrol.getDynamic()
-              newcontrol.setText("helo duck")
+              newcontrol.setText2("helo duck")
           }
           ,
 
