@@ -2287,6 +2287,7 @@ Pushlist
             // ---------------------------------------------------------
 
 
+            await mm.updateComponentMethods()
             // ---------------------------------------------------------
             // For each form ...
             // ---------------------------------------------------------
@@ -2708,6 +2709,11 @@ Pushlist
 
 
      methods: {
+
+         updateComponentMethods: async function() {
+             let mm = this
+         }
+         ,
          getIncomingToPropertyName: function(currentWatch) {
              var ret
              if (this.model.forms[this.active_form].components[this.active_component_links_index]) {
