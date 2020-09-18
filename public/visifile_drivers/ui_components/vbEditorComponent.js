@@ -3495,6 +3495,7 @@ Pushlist
             let methodFn = componentDefn.fn
             let fnDetailsTemp       = null
             let isAsync = true
+            let isComponentInDesignMode = mm.design_mode
 
             if (!isValidObject(methodFn)) {
                 let allProps = component_cache[componentDetails.base_component_id].properties
@@ -3533,7 +3534,7 @@ Pushlist
 
                                 } else {
                                     let controlDetails = null
-                                    if (mm.design_mode) {
+                                    if (isComponentInDesignMode) {
                                         controlDetails = globalControlDesignMode[componentDetails.name]
                                     } else {
                                         controlDetails = globalControl[componentDetails.name]
@@ -3560,7 +3561,7 @@ Pushlist
                                 let retv =  null
                                 let fnDetails       = null
                                 let controlDetails = null
-                                if (mm.design_mode) {
+                                if (isComponentInDesignMode) {
                                     controlDetails = globalControlDesignMode[componentDetails.name]
                                 } else {
                                     controlDetails = globalControl[componentDetails.name]
