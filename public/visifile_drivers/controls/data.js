@@ -803,14 +803,14 @@ logo_url("/driver_icons/data_control.png")
                           }
 
               )
-              setTimeout(function(){
-                  //debugger
-                  //let newcontrol =  mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name[newName]
-                  //mm.dynamic = newcontrol.getDynamic()
-                  let newcontrol =  mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name["aaa"]
-                  //mm.dynamic = newcontrol.getDynamic()
-                  newcontrol.setText2("helo duck")
-              },1000)
+              debugger
+              await mm.meta.getEditor().updateComponentMethods()
+              let newcontrol =  mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name[newName]
+              let retttq = newcontrol.getDynamic()
+              mm.dynamic = retttq
+
+              //let newcontrol =  mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name["aaa"]
+              //newcontrol.setText2("helo duck")
               //zzz
 
           }
