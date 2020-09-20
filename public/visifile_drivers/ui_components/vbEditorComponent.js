@@ -3855,7 +3855,7 @@ ${origCode}
             }
 
 
-            setTimeout(function() {
+            setTimeout(async function() {
 
             mm.updateAllFormCaches()
                 var selectParent = false
@@ -3876,6 +3876,8 @@ ${origCode}
                         }
                     }
                 }
+
+                await mm.updateComponentMethods()
 
                 if (selectParent) {
                     mm.selectComponent(parentItemIndex, true)
