@@ -2291,132 +2291,7 @@ Pushlist
             // ---------------------------------------------------------
             // For each form ...
             // ---------------------------------------------------------
-            var forms = this.getForms()
-            for (var formIndex = 0; formIndex < forms.length; formIndex ++) {
-                var formName = forms[formIndex].name
 
-
-
-                var formProps = mm.getFormProperties()
-                for (var cpp = 0 ; cpp < formProps.length; cpp ++) {
-                    var formprop = formProps[cpp]
-                    var propname = formprop.name
-                    var formDef = this.model.forms[formName]
-                    if (formprop.type == "Action") {
-                        formDef[formprop.id] =
-                            mm.getFormMethod(   formName,
-                                                formprop)
-
-                    } else if (!isValidObject(formprop)){
-                        formDef[formprop.id] = ""
-                    }
-                }
-
-
-
-
-                // ---------------------------------------------------------
-                // ... load the component definitions for all components in
-                //     the form
-                // ---------------------------------------------------------
-
-                var compsToLoad = []
-                for (var compenentInFormIndex = 0; compenentInFormIndex < mm.model.forms[formName].components.length ; compenentInFormIndex++ )
-                {
-                    var newItem = mm.model.forms[formName].components[compenentInFormIndex]
-                    if (!component_loaded[newItem.base_component_id]) {
-                        compsToLoad.push(newItem.base_component_id)
-                    }
-                }
-                await loadV2(compsToLoad)
-
-
-
-                // ---------------------------------------------------------
-                // For each app property
-                // ---------------------------------------------------------
-
-
-                var appProps = mm.getAllAppPropeties()
-                for (var appPropIndex = 0 ; appPropIndex < appProps.length ; appPropIndex ++ ) {
-                    var propDetails = appProps[appPropIndex]
-                    if (propDetails.type == "Action") {
-                        mm.model[propDetails.id] = mm.getAppMethod(propDetails.id)
-                    } else if (!isValidObject(mm.model[propDetails.id])){
-                        if (isValidObject(propDetails.default)){
-                            mm.model[propDetails.id] = propDetails.default
-                        } else if (isValidObject(propDetails.default_expression)){
-                            mm.model[propDetails.id] = eval("(" + propDetails.default_expression + ")")
-                        }
-                    }
-
-                }
-
-                // ---------------------------------------------------------
-                // For each component in the form ...
-                // ---------------------------------------------------------
-
-                for (var compenentInFormIndex = 0; compenentInFormIndex < mm.model.forms[formName].components.length ; compenentInFormIndex++ )
-                {
-
-                    // ---------------------------------------------------------
-                    // ... Make sure that the component is added as a
-                    //     dependency of this app (Useful for
-                    //     when we compile the app as standalone HTML)
-                    // ---------------------------------------------------------
-
-                    var componentConfig = mm.model.forms[formName].components[compenentInFormIndex]
-                    if (mm.edited_app_component_id) {
-                        mm.component_usage[  componentConfig.base_component_id  ] = true
-                    }
-
-
-
-
-
-                    // ---------------------------------------------------------
-                    // ...
-                    //
-                    //
-                    // ---------------------------------------------------------
-
-                    var componentId = this.model.forms[formName].components[compenentInFormIndex].base_component_id
-                    var cachedComponentDefinition = component_cache[componentId]
-
-                    if (isValidObject(cachedComponentDefinition)) {
-                        var cachedComponentPropertiesDefinition = this.getControlProperties(this.model.forms[formName].components[compenentInFormIndex].base_component_id)
-                        if (isValidObject(cachedComponentPropertiesDefinition)) {
-                            for (var cpp = 0 ; cpp< cachedComponentPropertiesDefinition.length; cpp ++) {
-                                var prop = cachedComponentPropertiesDefinition[cpp].id
-                                var compId = this.model.forms[formName].components[compenentInFormIndex].base_component_id
-
-                                if (cachedComponentPropertiesDefinition[cpp].type == "Action") {
-                                    this.model.forms[formName].components[compenentInFormIndex][prop] =
-                                        mm.getControlMethod(cachedComponentPropertiesDefinition[cpp],
-                                                            mm.model.forms[formName].components[compenentInFormIndex])
-
-                                } else if (!isValidObject(this.model.forms[formName].components[compenentInFormIndex][prop])){
-                                    this.model.forms[formName].components[compenentInFormIndex][prop] = ""
-                                }
-                            }
-                        }
-                    }
-
-
-                }
-
-
-                //call the load event on each component
-                for (var compenentInFormIndex = 0; compenentInFormIndex < mm.model.forms[formName].components.length ; compenentInFormIndex++ )
-                {
-                    var componentConfig = mm.model.forms[formName].components[compenentInFormIndex]
-                    if (isValidObject(componentConfig.load)) {
-                        //alert("Load event :" + formName + " : " + componentConfig.name)
-                    }
-                }
-
-
-           }
 
            //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
 
@@ -2712,6 +2587,136 @@ Pushlist
 
          updateComponentMethods: async function() {
              let mm = this
+
+
+             var forms = this.getForms()
+             for (var formIndex = 0; formIndex < forms.length; formIndex ++) {
+                 var formName = forms[formIndex].name
+
+
+
+                 var formProps = mm.getFormProperties()
+                 for (var cpp = 0 ; cpp < formProps.length; cpp ++) {
+                     var formprop = formProps[cpp]
+                     var propname = formprop.name
+                     var formDef = this.model.forms[formName]
+                     if (formprop.type == "Action") {
+                         formDef[formprop.id] =
+                             mm.getFormMethod(   formName,
+                                                 formprop)
+
+                     } else if (!isValidObject(formprop)){
+                         formDef[formprop.id] = ""
+                     }
+                 }
+
+
+
+
+                 // ---------------------------------------------------------
+                 // ... load the component definitions for all components in
+                 //     the form
+                 // ---------------------------------------------------------
+
+                 var compsToLoad = []
+                 for (var compenentInFormIndex = 0; compenentInFormIndex < mm.model.forms[formName].components.length ; compenentInFormIndex++ )
+                 {
+                     var newItem = mm.model.forms[formName].components[compenentInFormIndex]
+                     if (!component_loaded[newItem.base_component_id]) {
+                         compsToLoad.push(newItem.base_component_id)
+                     }
+                 }
+                 await loadV2(compsToLoad)
+
+
+
+                 // ---------------------------------------------------------
+                 // For each app property
+                 // ---------------------------------------------------------
+
+
+                 var appProps = mm.getAllAppPropeties()
+                 for (var appPropIndex = 0 ; appPropIndex < appProps.length ; appPropIndex ++ ) {
+                     var propDetails = appProps[appPropIndex]
+                     if (propDetails.type == "Action") {
+                         mm.model[propDetails.id] = mm.getAppMethod(propDetails.id)
+                     } else if (!isValidObject(mm.model[propDetails.id])){
+                         if (isValidObject(propDetails.default)){
+                             mm.model[propDetails.id] = propDetails.default
+                         } else if (isValidObject(propDetails.default_expression)){
+                             mm.model[propDetails.id] = eval("(" + propDetails.default_expression + ")")
+                         }
+                     }
+
+                 }
+
+                 // ---------------------------------------------------------
+                 // For each component in the form ...
+                 // ---------------------------------------------------------
+
+                 for (var compenentInFormIndex = 0; compenentInFormIndex < mm.model.forms[formName].components.length ; compenentInFormIndex++ )
+                 {
+
+                     // ---------------------------------------------------------
+                     // ... Make sure that the component is added as a
+                     //     dependency of this app (Useful for
+                     //     when we compile the app as standalone HTML)
+                     // ---------------------------------------------------------
+
+                     var componentConfig = mm.model.forms[formName].components[compenentInFormIndex]
+                     if (mm.edited_app_component_id) {
+                         mm.component_usage[  componentConfig.base_component_id  ] = true
+                     }
+
+
+
+
+
+                     // ---------------------------------------------------------
+                     // ...
+                     //
+                     //
+                     // ---------------------------------------------------------
+
+                     var componentId = this.model.forms[formName].components[compenentInFormIndex].base_component_id
+                     var cachedComponentDefinition = component_cache[componentId]
+
+                     if (isValidObject(cachedComponentDefinition)) {
+                         var cachedComponentPropertiesDefinition = this.getControlProperties(this.model.forms[formName].components[compenentInFormIndex].base_component_id)
+                         if (isValidObject(cachedComponentPropertiesDefinition)) {
+                             for (var cpp = 0 ; cpp< cachedComponentPropertiesDefinition.length; cpp ++) {
+                                 var prop = cachedComponentPropertiesDefinition[cpp].id
+                                 var compId = this.model.forms[formName].components[compenentInFormIndex].base_component_id
+
+                                 if (cachedComponentPropertiesDefinition[cpp].type == "Action") {
+                                     this.model.forms[formName].components[compenentInFormIndex][prop] =
+                                         mm.getControlMethod(cachedComponentPropertiesDefinition[cpp],
+                                                             mm.model.forms[formName].components[compenentInFormIndex])
+
+                                 } else if (!isValidObject(this.model.forms[formName].components[compenentInFormIndex][prop])){
+                                     this.model.forms[formName].components[compenentInFormIndex][prop] = ""
+                                 }
+                             }
+                         }
+                     }
+
+
+                 }
+
+
+                 //call the load event on each component
+                 for (var compenentInFormIndex = 0; compenentInFormIndex < mm.model.forms[formName].components.length ; compenentInFormIndex++ )
+                 {
+                     var componentConfig = mm.model.forms[formName].components[compenentInFormIndex]
+                     if (isValidObject(componentConfig.load)) {
+                         //alert("Load event :" + formName + " : " + componentConfig.name)
+                     }
+                 }
+
+
+            }
+
+
          }
          ,
          getIncomingToPropertyName: function(currentWatch) {
