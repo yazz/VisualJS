@@ -5837,22 +5837,30 @@ ${eventMessage.code}
             var ccc = mm.model.forms[mm.active_form].components
             for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
                 var component = ccc[ytr]
-                let foundComponentType = component.base_component_id
-                if (linked_properties[mm.selected_link_component_type]) {
-                    if (linked_properties[mm.selected_link_component_type].incoming) {
-                        if (linked_properties[mm.selected_link_component_type].incoming.them) {
-                            let foundComponentIncomingTree = linked_properties[mm.selected_link_component_type].incoming.them[foundComponentType]
-                            if (foundComponentIncomingTree) {
-                                let incomingCount = Object.keys(foundComponentIncomingTree).length
-                                if (incomingCount > 0) {
-                                    mm.incoming_link_objects.push(
-                                        {name: component.name, type: foundComponentType, uuid: component.uuid}
-                                    )
+                if (component) {
+                    let foundComponentType = component.base_component_id
+                    if (foundComponentType) {
+
+                        if (linked_properties[mm.selected_link_component_type]) {
+                            if (linked_properties[mm.selected_link_component_type].incoming) {
+                                if (linked_properties[mm.selected_link_component_type].incoming.them) {
+                                    let foundComponentIncomingTree = linked_properties[mm.selected_link_component_type].incoming.them[foundComponentType]
+                                    if (foundComponentIncomingTree) {
+                                        let incomingCount = Object.keys(foundComponentIncomingTree).length
+                                        if (incomingCount > 0) {
+                                            mm.incoming_link_objects.push(
+                                                {name: component.name, type: foundComponentType, uuid: component.uuid}
+                                            )
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
+
                 }
+
+
             }
 
 
@@ -5862,22 +5870,25 @@ ${eventMessage.code}
             var ccc = mm.model.forms[mm.active_form].components
             for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
                 var component = ccc[ytr]
-                let foundComponentType = component.base_component_id
-                if (linked_properties[mm.selected_link_component_type]) {
-                    if (linked_properties[mm.selected_link_component_type].outgoing) {
-                        if (linked_properties[mm.selected_link_component_type].outgoing.them) {
-                            let foundComponentIncomingTree = linked_properties[mm.selected_link_component_type].outgoing.them[foundComponentType]
-                            if (foundComponentIncomingTree) {
-                                let outgoingCount = Object.keys(foundComponentIncomingTree).length
-                                if (outgoingCount > 0) {
-                                    mm.outgoing_link_objects.push(
-                                        {name: component.name, type: foundComponentType, uuid: component.uuid}
-                                    )
+                if (component) {
+                    let foundComponentType = component.base_component_id
+                    if (linked_properties[mm.selected_link_component_type]) {
+                        if (linked_properties[mm.selected_link_component_type].outgoing) {
+                            if (linked_properties[mm.selected_link_component_type].outgoing.them) {
+                                let foundComponentIncomingTree = linked_properties[mm.selected_link_component_type].outgoing.them[foundComponentType]
+                                if (foundComponentIncomingTree) {
+                                    let outgoingCount = Object.keys(foundComponentIncomingTree).length
+                                    if (outgoingCount > 0) {
+                                        mm.outgoing_link_objects.push(
+                                            {name: component.name, type: foundComponentType, uuid: component.uuid}
+                                        )
+                                    }
                                 }
                             }
                         }
                     }
                 }
+
             }
 
 
@@ -5901,9 +5912,11 @@ ${eventMessage.code}
                                         let ccc = mm.model.forms[mm.active_form].components
                                         for (   let ytr =  0;    ytr < ccc.length;    ytr++   ) {
                                             let component = ccc[ytr]
-                                            if (linked_properties[typeSelected].outgoing.them[component.base_component_id]) {
-                                                typeExists = true
-                                                break;
+                                            if (component) {
+                                                if (linked_properties[typeSelected].outgoing.them[component.base_component_id]) {
+                                                    typeExists = true
+                                                    break;
+                                                }
                                             }
                                         }
 
@@ -5922,23 +5935,26 @@ ${eventMessage.code}
 
             } else if (mm.design_mode_pane.links_type == "create_new_component") {
                 if (mm.design_mode_pane.direction=="outgoing") {
-                    let typeSelected = this.model.forms[this.active_form].components[this.active_component_links_index].base_component_id
-                    if (linked_properties[typeSelected]) {
-                        if (linked_properties[typeSelected].outgoing) {
-                            if (linked_properties[typeSelected].outgoing.me) {
+                    if (this.model.forms[this.active_form].components[this.active_component_links_index]) {
+                        let typeSelected = this.model.forms[this.active_form].components[this.active_component_links_index].base_component_id
+                        if (linked_properties[typeSelected]) {
+                            if (linked_properties[typeSelected].outgoing) {
                                 if (linked_properties[typeSelected].outgoing.me) {
-                                    var ccomp2 =  linked_properties[typeSelected].outgoing.me
-                                    var ccomkeys2 = Object.keys(ccomp2)
-                                    for (var aaa =0; aaa<ccomkeys2.length;aaa++) {
-                                        mm.selectedPushFromProperties.push(ccomkeys2[aaa])
-                                    }
+                                    if (linked_properties[typeSelected].outgoing.me) {
+                                        var ccomp2 =  linked_properties[typeSelected].outgoing.me
+                                        var ccomkeys2 = Object.keys(ccomp2)
+                                        for (var aaa =0; aaa<ccomkeys2.length;aaa++) {
+                                            mm.selectedPushFromProperties.push(ccomkeys2[aaa])
+                                        }
 
+                                    }
                                 }
+
                             }
 
-                        }
-
+                        }                        
                     }
+
                 } else if (mm.design_mode_pane.direction=="incoming") {
                     mm.selectedWatchToProperties = []
                     let typeSelected = this.model.forms[this.active_form].components[this.active_component_links_index].base_component_id

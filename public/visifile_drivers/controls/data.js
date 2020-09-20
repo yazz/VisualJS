@@ -804,7 +804,7 @@ logo_url("/driver_icons/data_control.png")
 
               )
               setTimeout(function(){
-                  debugger
+                  //debugger
                   //let newcontrol =  mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name[newName]
                   //mm.dynamic = newcontrol.getDynamic()
                   let newcontrol =  mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name["aaa"]
@@ -816,7 +816,7 @@ logo_url("/driver_icons/data_control.png")
           }
           ,
           test: function() {
-              debugger
+              //debugger
               let mm = this
               //let newcontrol =  mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name[newName]
               let newcontrol =  mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name["aaa"]

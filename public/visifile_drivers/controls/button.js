@@ -71,7 +71,7 @@ logo_url("/driver_icons/button_control.png")
 */
 
     Vue.component("button_control",{
-      props: [ "meta", "form",  "name", "properties" ]
+      props: [ "meta",  "name",  "refresh",  "design_mode"   ,"properties" ]
       ,
       template: `<button    type=button
       v-bind:class='"btn btn-info " + (((properties.button_size=="large") || (!properties.button_size))?"btn-lg ":"")  + (properties.button_size=="small"?"btn-sm ":"") '
@@ -97,6 +97,7 @@ logo_url("/driver_icons/button_control.png")
         event_callback: function() {
             console.log("----- button_control, event_callback: function() = " + this.name)
             //eval("(function(){" + this.properties.click_event + "})")()
+            console.log("     design mode = " + this.design_mode)
 
             this.$emit('send', {
                                             type:               "subcomponent_event",
