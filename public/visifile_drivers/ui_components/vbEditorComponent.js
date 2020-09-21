@@ -2677,23 +2677,23 @@ Pushlist
                      //
                      // ---------------------------------------------------------
 
-                     let componentId = this.model.forms[formName].components[compenentInFormIndex].base_component_id
+                     let componentId = mm.model.forms[formName].components[compenentInFormIndex].base_component_id
                      let cachedComponentDefinition = component_cache[componentId]
 
                      if (isValidObject(cachedComponentDefinition)) {
-                         let cachedComponentPropertiesDefinition = this.getControlProperties(this.model.forms[formName].components[compenentInFormIndex].base_component_id)
+                         let cachedComponentPropertiesDefinition = mm.getControlProperties(mm.model.forms[formName].components[compenentInFormIndex].base_component_id)
                          if (isValidObject(cachedComponentPropertiesDefinition)) {
                              for (let cpp = 0 ; cpp< cachedComponentPropertiesDefinition.length; cpp ++) {
                                  let prop = cachedComponentPropertiesDefinition[cpp].id
-                                 let compId = this.model.forms[formName].components[compenentInFormIndex].base_component_id
+                                 let compId = mm.model.forms[formName].components[compenentInFormIndex].base_component_id
 
                                  if (cachedComponentPropertiesDefinition[cpp].type == "Action") {
-                                     this.model.forms[formName].components[compenentInFormIndex][prop] =
+                                     mm.model.forms[formName].components[compenentInFormIndex][prop] =
                                          mm.getControlMethod(cachedComponentPropertiesDefinition[cpp],
                                                              mm.model.forms[formName].components[compenentInFormIndex])
 
-                                 } else if (!isValidObject(this.model.forms[formName].components[compenentInFormIndex][prop])){
-                                     this.model.forms[formName].components[compenentInFormIndex][prop] = ""
+                                 } else if (!isValidObject(mm.model.forms[formName].components[compenentInFormIndex][prop])){
+                                     mm.model.forms[formName].components[compenentInFormIndex][prop] = ""
                                  }
                              }
                          }
