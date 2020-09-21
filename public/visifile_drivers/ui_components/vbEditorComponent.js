@@ -2589,15 +2589,19 @@ Pushlist
              let mm = this
 //zzz
 
+
+            // ---------------------------------------------------------
+            // ... Set up all the form methods
+            // ---------------------------------------------------------
              let forms = mm.getForms()
              for (let formIndex = 0; formIndex < forms.length; formIndex ++) {
                  let formName = forms[formIndex].name
 
                  let formProps = mm.getFormProperties()
-                 for (var cpp = 0 ; cpp < formProps.length; cpp ++) {
-                     var formprop = formProps[cpp]
-                     var propname = formprop.name
-                     var formDef = this.model.forms[formName]
+                 for (let cpp = 0 ; cpp < formProps.length; cpp ++) {
+                     let formprop = formProps[cpp]
+                     let propname = formprop.name
+                     let formDef = mm.model.forms[formName]
                      if (formprop.type == "Action") {
                          formDef[formprop.id] =
                              mm.getFormMethod(   formName,
@@ -2612,14 +2616,14 @@ Pushlist
 
 
                  // ---------------------------------------------------------
-                 // ... load the component definitions for all components in
-                 //     the form
+                 // Load the component definitions for all components on
+                 // this form
                  // ---------------------------------------------------------
 
-                 var compsToLoad = []
-                 for (var compenentInFormIndex = 0; compenentInFormIndex < mm.model.forms[formName].components.length ; compenentInFormIndex++ )
+                 let compsToLoad = []
+                 for (let compenentInFormIndex = 0; compenentInFormIndex < mm.model.forms[formName].components.length ; compenentInFormIndex++ )
                  {
-                     var newItem = mm.model.forms[formName].components[compenentInFormIndex]
+                     let newItem = mm.model.forms[formName].components[compenentInFormIndex]
                      if (!component_loaded[newItem.base_component_id]) {
                          compsToLoad.push(newItem.base_component_id)
                      }
@@ -2631,11 +2635,9 @@ Pushlist
                  // ---------------------------------------------------------
                  // For each app property
                  // ---------------------------------------------------------
-
-
-                 var appProps = mm.getAllAppPropeties()
-                 for (var appPropIndex = 0 ; appPropIndex < appProps.length ; appPropIndex ++ ) {
-                     var propDetails = appProps[appPropIndex]
+                 let appProps = mm.getAllAppPropeties()
+                 for (let appPropIndex = 0 ; appPropIndex < appProps.length ; appPropIndex ++ ) {
+                     let propDetails = appProps[appPropIndex]
                      if (propDetails.type == "Action") {
                          mm.model[propDetails.id] = mm.getAppMethod(propDetails.id)
                      } else if (!isValidObject(mm.model[propDetails.id])){
@@ -2645,23 +2647,22 @@ Pushlist
                              mm.model[propDetails.id] = eval("(" + propDetails.default_expression + ")")
                          }
                      }
-
                  }
+
+
 
                  // ---------------------------------------------------------
                  // For each component in the form ...
                  // ---------------------------------------------------------
-
-                 for (var compenentInFormIndex = 0; compenentInFormIndex < mm.model.forms[formName].components.length ; compenentInFormIndex++ )
+                 for (let compenentInFormIndex = 0; compenentInFormIndex < mm.model.forms[formName].components.length ; compenentInFormIndex++ )
                  {
-
                      // ---------------------------------------------------------
                      // ... Make sure that the component is added as a
                      //     dependency of this app (Useful for
                      //     when we compile the app as standalone HTML)
                      // ---------------------------------------------------------
 
-                     var componentConfig = mm.model.forms[formName].components[compenentInFormIndex]
+                     let componentConfig = mm.model.forms[formName].components[compenentInFormIndex]
                      if (mm.edited_app_component_id) {
                          mm.component_usage[  componentConfig.base_component_id  ] = true
                      }
@@ -2676,15 +2677,15 @@ Pushlist
                      //
                      // ---------------------------------------------------------
 
-                     var componentId = this.model.forms[formName].components[compenentInFormIndex].base_component_id
-                     var cachedComponentDefinition = component_cache[componentId]
+                     let componentId = this.model.forms[formName].components[compenentInFormIndex].base_component_id
+                     let cachedComponentDefinition = component_cache[componentId]
 
                      if (isValidObject(cachedComponentDefinition)) {
-                         var cachedComponentPropertiesDefinition = this.getControlProperties(this.model.forms[formName].components[compenentInFormIndex].base_component_id)
+                         let cachedComponentPropertiesDefinition = this.getControlProperties(this.model.forms[formName].components[compenentInFormIndex].base_component_id)
                          if (isValidObject(cachedComponentPropertiesDefinition)) {
-                             for (var cpp = 0 ; cpp< cachedComponentPropertiesDefinition.length; cpp ++) {
-                                 var prop = cachedComponentPropertiesDefinition[cpp].id
-                                 var compId = this.model.forms[formName].components[compenentInFormIndex].base_component_id
+                             for (let cpp = 0 ; cpp< cachedComponentPropertiesDefinition.length; cpp ++) {
+                                 let prop = cachedComponentPropertiesDefinition[cpp].id
+                                 let compId = this.model.forms[formName].components[compenentInFormIndex].base_component_id
 
                                  if (cachedComponentPropertiesDefinition[cpp].type == "Action") {
                                      this.model.forms[formName].components[compenentInFormIndex][prop] =
@@ -2703,9 +2704,9 @@ Pushlist
 
 
                  //call the load event on each component
-                 for (var compenentInFormIndex = 0; compenentInFormIndex < mm.model.forms[formName].components.length ; compenentInFormIndex++ )
+                 for (let compenentInFormIndex = 0; compenentInFormIndex < mm.model.forms[formName].components.length ; compenentInFormIndex++ )
                  {
-                     var componentConfig = mm.model.forms[formName].components[compenentInFormIndex]
+                     let componentConfig = mm.model.forms[formName].components[compenentInFormIndex]
                      if (isValidObject(componentConfig.load)) {
                          //alert("Load event :" + formName + " : " + componentConfig.name)
                      }
@@ -2718,7 +2719,7 @@ Pushlist
          }
          ,
          getIncomingToPropertyName: function(currentWatch) {
-             var ret
+             let ret
              if (this.model.forms[this.active_form].components[this.active_component_links_index]) {
                  ret = this.model.forms[this.active_form].components[this.active_component_links_index].name
                  +
@@ -2739,7 +2740,7 @@ Pushlist
 
 
          getIncomingFromPropertyName: function(currentWatch) {
-             var ret
+             let ret
              if (this.form_runtime_info[this.active_form].component_lookup_by_uuid[currentWatch.from_component_uuid]) {
                  ret = this.form_runtime_info[this.active_form].component_lookup_by_uuid[currentWatch.from_component_uuid].name
                  +
@@ -2757,7 +2758,7 @@ Pushlist
 
 
          getIncomingTransformFn: function(currentWatch) {
-             var ret
+             let ret
              //debugger
              if (currentWatch.transform_fn && (currentWatch.transform_fn.length > 0)) {
                  ret = currentWatch.transform_fn
@@ -2769,7 +2770,7 @@ Pushlist
          }
          ,
          getOutgoingTransformFn: function(currentPush) {
-             var ret
+             let ret
              //debugger
              if (currentPush.transform_fn && (currentPush.transform_fn.length > 0)) {
                  ret = currentPush.transform_fn
@@ -2784,7 +2785,7 @@ Pushlist
 
 
          getOutgoingFromPropertyName: function(currentPush) {
-             var ret
+             let ret
              if (this.form_runtime_info[this.active_form].component_lookup_by_uuid[currentPush.from_component_uuid]) {
                  ret = this.form_runtime_info[this.active_form].component_lookup_by_uuid[currentPush.from_component_uuid].name
                      +
@@ -2800,7 +2801,7 @@ Pushlist
          ,
 
          getOutgoingToPropertyName: function(currentPush) {
-             var ret
+             let ret
              if (this.form_runtime_info[this.active_form].component_lookup_by_uuid[currentPush.to_component_uuid]) {
                  ret = this.form_runtime_info[this.active_form].component_lookup_by_uuid[currentPush.to_component_uuid].name
                  +
@@ -2818,7 +2819,7 @@ Pushlist
 
            addPush: function() {
                //debugger
-               var mm = this
+               let mm = this
 
                if ( mm.selectedPushComponentUuid == null) {
                    return
