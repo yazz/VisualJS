@@ -124,7 +124,27 @@ logo_url("/driver_icons/postgres.jpg")
                                     "background-color: "+    args["background_color"]  +  ";"'>
                                     <div v-if="design_mode">
                                     Postgres:
-                                                {{design_time_text}}
+
+                                    <div class="form-group">
+
+
+                                      <label for="col_input_user_name">Title</label>
+                                      <input  type=text
+                                              class="form-control"
+                                              style="margin-bottom: 30px;"
+                                              id=col_input_user_name
+                                              name="col_input_user_name"
+                                              required
+                                              v-bind:value='args.user'
+                                              v-on:change=""
+                                              >
+                                      </input>
+
+
+
+                                  </div>
+
+
                                     </div>
                                     <div v-else>
                                     Postgres:
@@ -134,7 +154,8 @@ logo_url("/driver_icons/postgres.jpg")
         ,
         data: function() {
             return {
-                design_time_text: ""
+                design_time_text:   "",
+                design_detail_tab:  "connection"
             }
         }
         ,
