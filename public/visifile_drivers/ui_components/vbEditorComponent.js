@@ -221,7 +221,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                 v-bind:refresh='refresh'
                                 design_mode='detail_editor'
 
-                                v-bind:meta='{form: active_form,name: model.forms[active_form].components[active_component_detail_index].name + (design_mode?"_design":"") ,getEditor: getEditor }'
+                                v-bind:meta='{form: active_form,name: model.forms[active_form].components[active_component_detail_index].name + (design_mode?"_design":"") ,getEditor: getEditor , lookupComponent: lookupComponent}'
 
                                 v-bind:form="active_form"
                                 v-bind:delete_design_time_component='childDeleteComponent'
@@ -240,7 +240,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
                                     <component  v-for='child_item  in  getChildren(model.forms[active_form].components[active_component_detail_index].name)'
                                                 v-bind:design_mode='design_mode'
-                                                v-bind:meta='{form: active_form,name: child_item.name + (design_mode?"_design":""),getEditor: getEditor}'
+                                                v-bind:meta='{form: active_form,name: child_item.name + (design_mode?"_design":""),getEditor: getEditor, lookupComponent: lookupComponent}'
                                                 v-bind:form="active_form"
                                                 v-bind:refresh='refresh'
                                                 v-bind:style='"z-index:100000;position: relative; top: " + child_item.topY + "px; left: " + child_item.leftX + "px;height:" + child_item.height + "px;width:" + child_item.width + "px;overflow:auto;"'
@@ -1810,7 +1810,7 @@ Pushlist
                                      v-bind:style='"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:hidden;"'>
                                     <component  v-bind:id='active_form + "_" + model.forms[active_form].components[index].name + (design_mode?"_design":"")'
                                                 v-bind:refresh='refresh'
-                                                v-bind:meta='{form: active_form,name: item.name + (design_mode?"_design":""),getEditor: getEditor}'
+                                                v-bind:meta='{form: active_form,name: item.name + (design_mode?"_design":""),getEditor: getEditor, lookupComponent: lookupComponent}'
                                                 v-bind:form="active_form"
                                                 v-bind:design_mode='design_mode'
                                                 v-bind:children='getChildren(item.name)'
@@ -1829,7 +1829,7 @@ Pushlist
                                             <component  v-for='child_item  in  getChildren(item.name)'
                                                         v-bind:design_mode='design_mode'
                                                         v-bind:refresh='refresh'
-                                                        v-bind:meta='{form: active_form,name: child_item.name + (design_mode?"_design":""),getEditor: getEditor}'
+                                                        v-bind:meta='{form: active_form,name: child_item.name + (design_mode?"_design":""),getEditor: getEditor, lookupComponent: lookupComponent}'
                                                         v-bind:form="active_form"
                                                         v-bind:style='"z-index:100000;position: absolute; top: " + child_item.topY + "px; left: " + child_item.leftX + "px;height:" + child_item.height + "px;width:" + child_item.width + "px;overflow:auto;"'
                                                         v-bind:id='active_form + "_" + model.forms[active_form].components[child_item.index_in_parent_array].name + (design_mode?"_design":"")'
@@ -2732,6 +2732,24 @@ Pushlist
              return this
          }
          ,
+         lookupComponent: function(componentName) {
+             let component  = null
+             let mm         = this
+
+             if (mm.form_runtime_info) {
+                 if (mm.form_runtime_info[mm.active_form]) {
+                     if (mm.form_runtime_info[mm.active_form].component_lookup_by_name) {
+                         if (mm.form_runtime_info[mm.active_form].component_lookup_by_name[componentName]) {
+                             component = mm.form_runtime_info[mm.active_form].component_lookup_by_name[componentName]
+                         }
+                     }
+                 }
+             }
+
+             return component
+         }
+         ,
+
 
 
          getIncomingFromPropertyName: function(currentWatch) {

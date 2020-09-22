@@ -805,7 +805,7 @@ logo_url("/driver_icons/data_control.png")
               )
               debugger
               //await mm.meta.getEditor().updateComponentMethods()
-              let newcontrol =  mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name[newName]
+              let newcontrol =  mm.meta.lookupComponent(newName)
               let retttq = newcontrol.getDynamic()
               mm.dynamic = retttq
 
