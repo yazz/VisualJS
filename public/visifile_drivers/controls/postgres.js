@@ -142,17 +142,33 @@ logo_url("/driver_icons/postgres.jpg")
                                       </input>
 
 
-                                        <label for="col_input_port">Postgres Port</label>
+                                      <label for="col_input_port">Postgres Port</label>
+                                      <input  type=text
+                                              class="form-control"
+                                              style="margin-bottom: 30px;"
+                                              id=col_input_port
+                                              name="col_input_port"
+                                              required
+                                              v-model:value='args.port'
+                                              v-on:change="args.port = document.getElementById('col_input_port').value;"
+                                              >
+                                      </input>
+
+
+
+                                        <label for="col_input_port">Postgres Database</label>
                                         <input  type=text
                                                 class="form-control"
                                                 style="margin-bottom: 30px;"
-                                                id=col_input_port
-                                                name="col_input_port"
+                                                id=col_input_database
+                                                name="col_input_database"
                                                 required
-                                                v-model:value='args.port'
-                                                v-on:change="args.port = document.getElementById('col_input_port').value;"
+                                                v-model:value='args.database'
+                                                v-on:change="args.database = document.getElementById('col_input_database').value;"
                                                 >
                                         </input>
+
+
 
 
                                       <label for="col_input_user_name">Postgres Username</label>
