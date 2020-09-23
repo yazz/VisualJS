@@ -378,30 +378,13 @@ logo_url("/driver_icons/data_control.png")
                 </select>
 
                 <div v-if='children && children[0]'>
-                pre
+
                     <slot v-bind:refresh='refresh'>
                     </slot>
-                    post
+
                 </div>
 
 
-                <div    v-bind:style='"border:1px solid gray; padding: 10px;display:flex;" + ((selected_index==index)?"background-color: lightgray;":"")'
-                        v-bind:refresh='refresh'
-                        v-on:click='$event.stopPropagation();selected_index=index;select_design_time_component(child_item.index_in_parent_array)'
-                        v-for='(child_item,index)  in  children'>
-
-                    <div    v-if='child_item'
-                            v-bind:refresh='refresh'>
-
-                        <div    v-bind:style='"display:inline-block;"'
-                                v-if='isValidObject(child_item)'
-                                v-bind:refresh='refresh'>{{child_item.name}}</div>
-                    </div>
-                </div>
-
-                <div v-if='children && children[0]'>
-                    CHILD
-                </div>
 
             </div>
 
@@ -799,7 +782,7 @@ logo_url("/driver_icons/data_control.png")
                             "name": newName,
                             "base_component_id": typeName,
                             parent_base_component_id: mm.args.base_component_id,
-                            parent_name: mm.args.name,
+                            parent_name: mm.args.name
                           }
 
               )
@@ -808,6 +791,8 @@ logo_url("/driver_icons/data_control.png")
               let newcontrol =  mm.meta.lookupComponent(newName)
               let retttq = newcontrol.getDynamic()
               mm.dynamic = retttq
+              newcontrol.width = 300
+              newcontrol.height = 300
 
               //let newcontrol =  mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name["aaa"]
               //newcontrol.setText2("helo duck")

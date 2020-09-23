@@ -128,7 +128,34 @@ logo_url("/driver_icons/postgres.jpg")
                                     <div class="form-group">
 
 
-                                      <label for="col_input_user_name">Title</label>
+
+                                      <label for="col_input_host">Postgres Host</label>
+                                      <input  type=text
+                                              class="form-control"
+                                              style="margin-bottom: 30px;"
+                                              id=col_input_host
+                                              name="col_input_host"
+                                              required
+                                              v-model:value='args.host'
+                                              v-on:change="args.host = document.getElementById('col_input_host').value;"
+                                              >
+                                      </input>
+
+
+                                        <label for="col_input_port">Postgres Port</label>
+                                        <input  type=text
+                                                class="form-control"
+                                                style="margin-bottom: 30px;"
+                                                id=col_input_port
+                                                name="col_input_port"
+                                                required
+                                                v-model:value='args.port'
+                                                v-on:change="args.port = document.getElementById('col_input_port').value;"
+                                                >
+                                        </input>
+
+
+                                      <label for="col_input_user_name">Postgres Username</label>
                                       <input  type=text
                                               class="form-control"
                                               style="margin-bottom: 30px;"
@@ -140,6 +167,19 @@ logo_url("/driver_icons/postgres.jpg")
                                               >
                                       </input>
 
+
+
+                                      <label for="col_input_password">Postgres password</label>
+                                      <input  type=password
+                                              class="form-control"
+                                              style="margin-bottom: 30px;"
+                                              id=col_input_password
+                                              name="col_input_password"
+                                              required
+                                              v-model:value='args.password'
+                                              v-on:change="args.password = document.getElementById('col_input_password').value;"
+                                              >
+                                      </input>
 
 
                                   </div>
