@@ -623,8 +623,6 @@ async function setUpComponentsLocally() {
 
     await evalLocalSystemDriver('data_window_control',   path.join(__dirname, '../public/visifile_drivers/controls/data_window.js'),{username: "default", reponame: "data_window_control", version: "latest"})
 
-    await evalLocalSystemDriver('data_control',   path.join(__dirname, '../public/visifile_drivers/controls/data.js'),{username: "default", reponame: "data_control", version: "latest"})
-
     await evalLocalSystemDriver('ace_editor',   path.join(__dirname, '../public/visifile_drivers/controls/ace_editor.js'),{username: "default", reponame: "ace_editor", version: "latest"})
 
 

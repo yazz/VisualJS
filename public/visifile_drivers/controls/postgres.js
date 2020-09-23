@@ -135,8 +135,8 @@ logo_url("/driver_icons/postgres.jpg")
                                               id=col_input_user_name
                                               name="col_input_user_name"
                                               required
-                                              v-bind:value='args.user'
-                                              v-on:change=""
+                                              v-model:value='args.user'
+                                              v-on:change="args.user = document.getElementById('col_input_user_name').value;"
                                               >
                                       </input>
 
