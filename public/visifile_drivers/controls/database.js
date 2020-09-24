@@ -67,6 +67,14 @@ properties(
         }
         ,
         {
+            id:         "hide_children",
+            name:       "Hide Children?",
+            type:       "Boolean",
+            default:    true,
+            hidden:     true
+        }        
+        ,
+        {
             id:         "design_mode_table",
             name:       "Design Table",
             type:       "String",
