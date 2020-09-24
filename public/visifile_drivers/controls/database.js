@@ -17,6 +17,12 @@ properties(
         }
         ,
         {
+            id:     "sourceControlName",
+            name:   "sourceControlName",
+            type:   "String"
+        }
+        ,
+        {
             id:         "width",
             name:       "Width",
             default:    150,
@@ -72,7 +78,7 @@ properties(
             type:       "Boolean",
             default:    true,
             hidden:     true
-        }        
+        }
         ,
         {
             id:         "design_mode_table",
@@ -389,6 +395,13 @@ logo_url("/driver_icons/data_control.png")
 
                     <slot v-bind:refresh='refresh'>
                     </slot>
+
+                    <button    class="btn btn-primary"
+                            v-on:click="connect">
+
+                          Connect
+
+                    </button>
 
                 </div>
 
@@ -782,12 +795,12 @@ logo_url("/driver_icons/data_control.png")
               let mm = this
               let typeName = event.target.value
               await loadV2([typeName])
-              var newName = typeName + "_" + this.meta.getEditor().getNextComponentid()
+              mm.args.sourceControlName = typeName + "_" + this.meta.getEditor().getNextComponentid()
               await this.meta.getEditor().addControl(
                   {
                             "leftX": 10,
                             "topY": 10,
-                            "name": newName,
+                            "name": mm.args.sourceControlName,
                             "base_component_id": typeName,
                             parent_base_component_id: mm.args.base_component_id,
                             parent_name: mm.args.name
@@ -796,11 +809,11 @@ logo_url("/driver_icons/data_control.png")
               )
               debugger
               //await mm.meta.getEditor().updateComponentMethods()
-              let newcontrol =  mm.meta.lookupComponent(newName)
+              let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
               let retttq = newcontrol.getDynamic()
               mm.dynamic = retttq
               newcontrol.width = 300
-              newcontrol.height = 300
+              newcontrol.height = 500
 
               //let newcontrol =  mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name["aaa"]
               //newcontrol.setText2("helo duck")
@@ -812,12 +825,22 @@ logo_url("/driver_icons/data_control.png")
               //debugger
               let mm = this
               //let newcontrol =  mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name[newName]
-              let newcontrol =  mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name["aaa"]
+              let newcontrol = mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name["aaa"]
               //mm.dynamic = newcontrol.getDynamic()
               newcontrol.setText2("helo duck")
           }
           ,
+          connect: async function() {
+              //zzz
+             //alert(1)
+             debugger
+             let mm = this
+             let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
+             let retttq = await newcontrol.executeSql()
+             mm.dynamic = newcontrol.result
 
+          }
+          ,
 
             setSql: function() {
                 var colSql = "*"

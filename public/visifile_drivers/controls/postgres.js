@@ -11,13 +11,6 @@ read_only(true)
 properties(
     [
         {
-            id:     "sql",
-            name:   "SQL",
-            type:   "String",
-            default: "SELECT * FROM pg_catalog.pg_tables;"
-        }
-        ,
-        {
             id:      "user",
             name:    "USER",
             type:    "String",
@@ -111,7 +104,20 @@ properties(
                             <b>getDynamic</b> function
                          </div>`
         }
-
+        ,
+        {
+            id:     "limit",
+            name:   "Limit",
+            type:   "Number",
+            default_expression: "(typeof $RETURNED_ROWS_LIMIT !== 'undefined')?eval('$RETURNED_ROWS_LIMIT'):100",
+        }
+        ,
+        {
+            id:     "sql",
+            name:   "SQL",
+            type:   "String",
+            default: "SELECT * FROM pg_catalog.pg_tables;"
+        }
     ]
 )//properties
 logo_url("/driver_icons/postgres.jpg")
@@ -278,9 +284,43 @@ logo_url("/driver_icons/postgres.jpg")
             ,
             getDynamic: function() {
                 debugger
-                return "dynamic return for pg"
+                this.args.executeSql()
+                return "dynamic return for pg: "
             }
+            ,
 
+            executeSql: async function() {
+                //if (!this.design_mode) {
+                    var result = await callFunction(
+                                        {
+                                            driver_name: "postgres_server",
+                                            method_name: "postgres_sql"  }
+                                            ,{
+                                                sql:             this.args.sql,
+                                                user:            this.args.user,
+                                                password:        this.args.password,
+                                                database:        this.args.database,
+                                                host:            this.args.host,
+                                                port:            this.args.port,
+                                                limit:           this.args.limit
+                                             })
+
+
+                   //debugger
+                   //alert("executeSql: " + JSON.stringify(result,null,2))
+                   console.log(JSON.stringify(result,null,2))
+                   if (result) {
+                        this.args.result = result
+
+                        return result
+                   }
+
+
+               //}
+                this.args.result = []
+                //this.changedFn()
+                return {}
+            }
 
         }
     })
