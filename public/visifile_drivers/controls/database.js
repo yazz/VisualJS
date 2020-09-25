@@ -807,7 +807,7 @@ logo_url("/driver_icons/data_control.png")
                           }
 
               )
-              debugger
+              //debugger
               //await mm.meta.getEditor().updateComponentMethods()
               let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
               let retttq = newcontrol.getDynamic()
@@ -833,7 +833,7 @@ logo_url("/driver_icons/data_control.png")
           connect: async function() {
               //zzz
              //alert(1)
-             debugger
+             //debugger
              let mm = this
              let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
              let retttq = await newcontrol.executeSql()
@@ -841,6 +841,7 @@ logo_url("/driver_icons/data_control.png")
                   mm.dynamic = "Failed: " + JSON.stringify(newcontrol.result.failed.routine,null,2)
              } else {
                     mm.dynamic = "Connected"
+                    mm.getTables()
              }
 
 
@@ -946,21 +947,15 @@ logo_url("/driver_icons/data_control.png")
 
             getTables: async function() {
                 console.log("In getTables")
+                //debugger
 
                 if (this.design_mode) {
+                    //debugger
+                    let mm = this
+                    let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
+                    let result = await newcontrol.getTables()
 
-                    var result = await callFunction(
-                                        {
-                                            driver_name: "postgres_server",
-                                            method_name: "postgres_sql"  }
-                                            ,{
-                                                user:            this.args.user,
-                                                password:        this.args.password,
-                                                database:        this.args.database,
-                                                host:            this.args.host,
-                                                port:            this.args.port,
-                                                get_tables:      true
-                                             })
+
 
 
                    //alert("executeSql: " + JSON.stringify(result,null,2))

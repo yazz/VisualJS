@@ -118,6 +118,13 @@ properties(
             type:   "String",
             default: "SELECT * FROM pg_catalog.pg_tables;"
         }
+        ,
+
+        {
+            id:     "getTables",
+            name:   "getTables",
+            type:   "Action"
+        }
     ]
 )//properties
 logo_url("/driver_icons/postgres.jpg")
@@ -218,6 +225,9 @@ logo_url("/driver_icons/postgres.jpg")
             return {
                 design_time_text:   "",
                 design_detail_tab:  "connection"
+                ,
+
+                tables:             [ ]
             }
         }
         ,
@@ -320,6 +330,44 @@ logo_url("/driver_icons/postgres.jpg")
                 this.args.result = []
                 //this.changedFn()
                 return {}
+            }
+
+
+            ,
+            getTables: async function() {
+                debugger
+                console.log("In getTables")
+
+                if (this.design_mode) {
+
+                    var result = await callFunction(
+                                        {
+                                            driver_name: "postgres_server",
+                                            method_name: "postgres_sql"  }
+                                            ,{
+                                                user:            this.args.user,
+                                                password:        this.args.password,
+                                                database:        this.args.database,
+                                                host:            this.args.host,
+                                                port:            this.args.port,
+                                                get_tables:      true
+                                             })
+
+
+                   //alert("executeSql: " + JSON.stringify(result,null,2))
+                   console.log(JSON.stringify(result,null,2))
+                   if (result) {
+                       this.tables = []
+                       //alert(JSON.stringify(result,null,2))
+                       for (var i=0;i<result.length;i++) {
+                           this.tables.push(result[i].name)
+
+                       }
+                   }
+                   return result
+
+
+                }
             }
 
         }
