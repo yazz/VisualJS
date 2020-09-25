@@ -837,7 +837,12 @@ logo_url("/driver_icons/data_control.png")
              let mm = this
              let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
              let retttq = await newcontrol.executeSql()
-             mm.dynamic = newcontrol.result
+             if (newcontrol.result && newcontrol.result.failed) {
+                  mm.dynamic = "Failed: " + JSON.stringify(newcontrol.result.failed.routine,null,2)
+             } else {
+                    mm.dynamic = "Connected"
+             }
+
 
           }
           ,
