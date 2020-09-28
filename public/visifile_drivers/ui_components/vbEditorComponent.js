@@ -3965,7 +3965,8 @@ ${origCode}
         ,
 
          refreshControlIndexes: function() {
-            if (this.active_component_detail_name) {
+             let mm = this
+            if (mm.active_component_detail_name) {
 
                 var ccc = mm.model.forms[this.active_form].components
                 for (var ytr = 0;ytr < ccc.length;ytr++) {
@@ -6034,6 +6035,7 @@ ${eventMessage.code}
          },
          deleteComponentByName: async function(thisComponentName) {
             var mm = this
+            debugger
 
             var promise = new Promise(async function(returnfn) {
 
