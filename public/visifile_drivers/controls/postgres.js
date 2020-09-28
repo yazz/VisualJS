@@ -136,79 +136,80 @@ logo_url("/driver_icons/postgres.jpg")
         template: `<div v-bind:style='"white-space:normal;height:100%;width:100%; border: 0px;" +
                                     "background-color: "+    args["background_color"]  +  ";"'>
                                     <div v-if="design_mode">
-                                    Postgres:
 
                                     <div class="form-group">
 
 
-
-                                      <label for="col_input_host">Postgres Host</label>
-                                      <input  type=text
-                                              class="form-control"
-                                              style="margin-bottom: 30px;"
-                                              id=col_input_host
-                                              name="col_input_host"
-                                              required
-                                              v-model:value='args.host'
-                                              v-on:change="args.host = document.getElementById('col_input_host').value;"
-                                              >
-                                      </input>
-
-
-                                      <label for="col_input_port">Postgres Port</label>
-                                      <input  type=text
-                                              class="form-control"
-                                              style="margin-bottom: 30px;"
-                                              id=col_input_port
-                                              name="col_input_port"
-                                              required
-                                              v-model:value='args.port'
-                                              v-on:change="args.port = document.getElementById('col_input_port').value;"
-                                              >
-                                      </input>
+                                    <div class="form-group row">
+                                          <label for="col_input_host"    class="col-sm-3"  >Host</label>
+                                          <input  type=text
+                                                  class="form-control  col-sm-9"
+                                                  id=col_input_host
+                                                  name="col_input_host"
+                                                  required
+                                                  v-model:value='args.host'
+                                                  v-on:change="args.host = document.getElementById('col_input_host').value;"
+                                                  >
+                                          </input>
+                                     </div>
 
 
-
-                                        <label for="col_input_port">Postgres Database</label>
-                                        <input  type=text
-                                                class="form-control"
-                                                style="margin-bottom: 30px;"
-                                                id=col_input_database
-                                                name="col_input_database"
-                                                required
-                                                v-model:value='args.database'
-                                                v-on:change="args.database = document.getElementById('col_input_database').value;"
-                                                >
-                                        </input>
+                                     <div class="form-group row">
+                                          <label for="col_input_port"    class="col-sm-3"  >Port</label>
+                                          <input  type=text
+                                                  class="form-control  col-sm-9"
+                                                  id=col_input_port
+                                                  name="col_input_port"
+                                                  required
+                                                  v-model:value='args.port'
+                                                  v-on:change="args.port = document.getElementById('col_input_port').value;"
+                                                  >
+                                          </input>
+                                      </div>
 
 
 
+                                      <div class="form-group row">
+                                            <label for="col_input_port"    class="col-sm-3"  >Database</label>
+                                            <input  type=text
+                                                    class="form-control  col-sm-9"
+                                                    id=col_input_database
+                                                    name="col_input_database"
+                                                    required
+                                                    v-model:value='args.database'
+                                                    v-on:change="args.database = document.getElementById('col_input_database').value;"
+                                                    >
+                                            </input>
+                                        </div>
 
-                                      <label for="col_input_user_name">Postgres Username</label>
-                                      <input  type=text
-                                              class="form-control"
-                                              style="margin-bottom: 30px;"
-                                              id=col_input_user_name
-                                              name="col_input_user_name"
-                                              required
-                                              v-model:value='args.user'
-                                              v-on:change="args.user = document.getElementById('col_input_user_name').value;"
-                                              >
-                                      </input>
 
 
+                                        <div class="form-group row">
+                                          <label for="col_input_user_name"  class="col-sm-3"  >Username</label>
+                                          <input  type=text
+                                                  class="form-control  col-sm-9"
+                                                  id=col_input_user_name
+                                                  name="col_input_user_name"
+                                                  required
+                                                  v-model:value='args.user'
+                                                  v-on:change="args.user = document.getElementById('col_input_user_name').value;"
+                                                  >
+                                          </input>
+                                        </div>
 
-                                      <label for="col_input_password">Postgres password</label>
-                                      <input  type=password
-                                              class="form-control"
-                                              style="margin-bottom: 30px;"
-                                              id=col_input_password
-                                              name="col_input_password"
-                                              required
-                                              v-model:value='args.password'
-                                              v-on:change="args.password = document.getElementById('col_input_password').value;"
-                                              >
-                                      </input>
+
+                                        <div class="form-group row">
+                                          <label for="col_input_password"  class="col-sm-3">Password</label>
+                                          <input  type=password
+                                                  class="form-control  col-sm-9"
+                                                  id=col_input_password
+                                                  name="col_input_password"
+                                                  required
+                                                  v-model:value='args.password'
+                                                  v-on:change="args.password = document.getElementById('col_input_password').value;"
+                                                  >
+                                          </input>
+                                        </div>
 
 
                                   </div>
@@ -335,7 +336,7 @@ logo_url("/driver_icons/postgres.jpg")
 
             ,
             getTables: async function() {
-                debugger
+                //debugger
                 console.log("In getTables")
 
                 if (this.design_mode) {

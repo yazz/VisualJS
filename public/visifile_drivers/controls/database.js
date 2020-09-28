@@ -17,6 +17,20 @@ properties(
         }
         ,
         {
+            id:         "connect_status",
+            name:       "Connect Status",
+            type:       "String",
+            default:    "not_connected"
+        }
+        ,
+        {
+            id:         "connect_error",
+            name:       "Connect Error",
+            type:       "String",
+            default:    ""
+        }
+        ,
+        {
             id:     "sourceControlName",
             name:   "sourceControlName",
             type:   "String"
@@ -328,7 +342,7 @@ logo_url("/driver_icons/data_control.png")
 */
 
     Vue.component("database_control",{
-      props: ["meta","name","args","refresh","design_mode", "children"]
+      props: ["meta","name","args","refresh","design_mode", "children", "properties"]
       ,
       template:
 `<div   v-bind:style='"width:100%;overflow-y:auto;height:100%;color:black;"
@@ -376,9 +390,15 @@ logo_url("/driver_icons/data_control.png")
 
             <div v-if='designDetailTab == "connection"'  >
                 Connection
-                :: {{dynamic}} ::
+                <div   v-if='properties.connect_status == "connected"'   style="background-color: green; color: white;padding:10px;">
+                    Connected
+                </div>
 
-                <select  @change='chooseSource($event)'>
+                <div   v-if='properties.connect_status == "not_connected"'   style="background-color: red; color: white;padding:10px;">
+                    Not Connected: {{properties.connect_error}}
+                </div>
+
+                <select  @change='chooseSource($event)' style="margin-top: 5px;">
                       <option   value=""
                               selected='true'>
                       </option>
@@ -392,6 +412,14 @@ logo_url("/driver_icons/data_control.png")
                 </select>
 
                 <div v-if='children && children[0]'>
+
+                    <button     class="btn btn-primary"
+                                style="margin-top: 5px;"
+                                v-on:click="connect">
+
+                          Connect
+
+                    </button>
 
                     <slot v-bind:refresh='refresh'>
                     </slot>
@@ -697,8 +725,6 @@ logo_url("/driver_icons/data_control.png")
 
          ,
          designDetailTab:     "connection"
-         ,
-         dynamic: "No dynamic"
        }
      }
      ,
@@ -811,9 +837,9 @@ logo_url("/driver_icons/data_control.png")
               //await mm.meta.getEditor().updateComponentMethods()
               let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
               let retttq = newcontrol.getDynamic()
-              mm.dynamic = retttq
-              newcontrol.width = 300
-              newcontrol.height = 500
+              //mm.properties.connect_error = retttq
+              newcontrol.width = 500
+              newcontrol.height = 700
 
               //let newcontrol =  mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name["aaa"]
               //newcontrol.setText2("helo duck")
@@ -838,10 +864,12 @@ logo_url("/driver_icons/data_control.png")
              let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
              let retttq = await newcontrol.executeSql()
              if (newcontrol.result && newcontrol.result.failed) {
-                  mm.dynamic = "Failed: " + JSON.stringify(newcontrol.result.failed.routine,null,2)
+                  mm.properties.connect_error = JSON.stringify(newcontrol.result.failed.routine,null,2)
+                  mm.properties.connect_status = "not_connected"
              } else {
-                    mm.dynamic = "Connected"
+                    mm.properties.connect_error = ""
                     mm.getTables()
+                    mm.properties.connect_status = "connected"
              }
 
 
