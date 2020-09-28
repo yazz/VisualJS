@@ -37,6 +37,14 @@ properties(
         }
         ,
         {
+            id:     "sourceComponentType",
+            name:   "sourceComponentType",
+            type:   "String",
+            default: ""
+        }
+        ,
+
+        {
             id:         "width",
             name:       "Width",
             default:    150,
@@ -398,7 +406,10 @@ logo_url("/driver_icons/data_control.png")
                     Not Connected: {{properties.connect_error}}
                 </div>
 
-                <select  @change='chooseSource($event)' style="margin-top: 5px;">
+                <select  @change='chooseSource($event)'
+                          style="margin-top: 5px;"
+                          v-if="  properties.sourceComponentType == ''  ">
+
                       <option   value=""
                               selected='true'>
                       </option>
@@ -413,23 +424,34 @@ logo_url("/driver_icons/data_control.png")
 
                 <div v-if='children && children[0]'>
 
+
                     <button     class="btn btn-primary"
                                 style="margin-top: 5px;"
                                 v-on:click="connect">
-
                           Connect
-
                     </button>
+                    <button     class="btn btn-danger"
+                                style="margin-top: 5px;"
+                                v-on:click="disconnect">
+                          Remove
+                    </button>
+
+
 
                     <slot v-bind:refresh='refresh'>
                     </slot>
 
+
+
                     <button    class="btn btn-primary"
                             v-on:click="connect">
-
                           Connect
-
                     </button>
+                    <button    class="btn btn-danger"
+                               v-on:click="disconnect">
+                          Remove
+                    </button>
+
 
                 </div>
 
@@ -822,6 +844,7 @@ logo_url("/driver_icons/data_control.png")
               let typeName = event.target.value
               await loadV2([typeName])
               mm.args.sourceControlName = typeName + "_" + this.meta.getEditor().getNextComponentid()
+              mm.properties.sourceComponentType = typeName
               await this.meta.getEditor().addControl(
                   {
                             "leftX": 10,
@@ -875,6 +898,22 @@ logo_url("/driver_icons/data_control.png")
 
           }
           ,
+          disconnect: async function() {
+              //zzz
+             //alert(1)
+             //debugger
+             let mm = this
+             mm.properties.connect_status = "not_connected"
+             mm.properties.connect_error = ""
+             //let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
+             await this.meta.getEditor().deleteComponentByName(mm.properties.sourceControlName)
+             mm.properties.sourceControlName == ""
+             mm.properties.sourceComponentType = ""
+          }
+          ,
+
+
+
 
             setSql: function() {
                 var colSql = "*"
