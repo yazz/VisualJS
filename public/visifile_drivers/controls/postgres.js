@@ -143,7 +143,7 @@ logo_url("/driver_icons/postgres.jpg")
                                     <div class="form-group row">
                                           <label for="col_input_host"    class="col-sm-3"  >Host</label>
                                           <input  type=text
-                                                  class="form-control  col-sm-9"
+                                                  class="form-control  col-sm-8"
                                                   id=col_input_host
                                                   name="col_input_host"
                                                   required
@@ -157,7 +157,7 @@ logo_url("/driver_icons/postgres.jpg")
                                      <div class="form-group row">
                                           <label for="col_input_port"    class="col-sm-3"  >Port</label>
                                           <input  type=text
-                                                  class="form-control  col-sm-9"
+                                                  class="form-control  col-sm-8"
                                                   id=col_input_port
                                                   name="col_input_port"
                                                   required
@@ -172,7 +172,7 @@ logo_url("/driver_icons/postgres.jpg")
                                       <div class="form-group row">
                                             <label for="col_input_port"    class="col-sm-3"  >Database</label>
                                             <input  type=text
-                                                    class="form-control  col-sm-9"
+                                                    class="form-control  col-sm-8"
                                                     id=col_input_database
                                                     name="col_input_database"
                                                     required
@@ -187,7 +187,7 @@ logo_url("/driver_icons/postgres.jpg")
                                         <div class="form-group row">
                                           <label for="col_input_user_name"  class="col-sm-3"  >Username</label>
                                           <input  type=text
-                                                  class="form-control  col-sm-9"
+                                                  class="form-control  col-sm-8"
                                                   id=col_input_user_name
                                                   name="col_input_user_name"
                                                   required
@@ -201,7 +201,7 @@ logo_url("/driver_icons/postgres.jpg")
                                         <div class="form-group row">
                                           <label for="col_input_password"  class="col-sm-3">Password</label>
                                           <input  type=password
-                                                  class="form-control  col-sm-9"
+                                                  class="form-control  col-sm-8"
                                                   id=col_input_password
                                                   name="col_input_password"
                                                   required

@@ -861,7 +861,7 @@ logo_url("/driver_icons/data_control.png")
               let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
               let retttq = newcontrol.getDynamic()
               //mm.properties.connect_error = retttq
-              newcontrol.width = 500
+              newcontrol.width = 600
               newcontrol.height = 700
 
               //let newcontrol =  mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name["aaa"]
