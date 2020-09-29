@@ -1059,6 +1059,7 @@ logo_url("/driver_icons/data_control.png")
                     //debugger
                     let mm = this
                     let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
+                    newcontrol.design_mode_table = mm.properties.design_mode_table
                     let result = await newcontrol.getColumns()
                     this.properties.columns = result
 
