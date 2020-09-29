@@ -125,6 +125,13 @@ properties(
             name:   "getTables",
             type:   "Action"
         }
+        ,
+
+        {
+            id:     "getColumns",
+            name:   "getColumns",
+            type:   "Action"
+        }
     ]
 )//properties
 logo_url("/driver_icons/postgres.jpg")
@@ -370,6 +377,50 @@ logo_url("/driver_icons/postgres.jpg")
 
                 }
             }
+            ,
+
+
+
+
+
+                        getColumns: async function() {
+                            console.log("In getColumns")
+                            debugger
+
+                            if (this.design_mode) {
+                                var result = await callFunction(
+                                                    {
+                                                        driver_name: "postgres_server",
+                                                        method_name: "postgres_sql"  }
+                                                        ,{
+                                                            user:            this.args.user,
+                                                            password:        this.args.password,
+                                                            database:        this.args.database,
+                                                            host:            this.args.host,
+                                                            port:            this.args.port,
+                                                            get_columns:      true,
+                                                            table:           this.args.design_mode_table
+                                                         })
+
+
+                               //alert("executeSql: " + JSON.stringify(result,null,2))
+                               console.log(JSON.stringify(result,null,2))
+                               if (result) {
+                                   this.args.columns = []
+                                   //alert(JSON.stringify(result,null,2))
+                                   for (var i=0;i<result.length;i++) {
+                                       this.args.columns.push(result[i].name)
+
+                                   }
+                               }
+
+                               return this.args.columns
+                            }
+                        }
+
+
+
+
 
         }
     })
