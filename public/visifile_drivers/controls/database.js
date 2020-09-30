@@ -1081,36 +1081,19 @@ logo_url("/driver_icons/data_control.png")
 
 
             executeSql: async function() {
-                if (!this.design_mode) {
-                    var result = await callFunction(
-                                        {
-                                            driver_name: "postgres_server",
-                                            method_name: "postgres_sql"  }
-                                            ,{
-                                                sql:             this.args.sql,
-                                                user:            this.args.user,
-                                                password:        this.args.password,
-                                                database:        this.args.database,
-                                                host:            this.args.host,
-                                                port:            this.args.port,
-                                                limit:           this.args.limit
-                                             })
+                console.log("In executeSql")
+                //debugger
+
+                //if (this.design_mode) {
+                    //debugger
+                    let mm = this
+                    let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
+                    let result = await newcontrol.executeSql()
+                    this.properties.result = result
 
 
-                   //debugger
-                   //alert("executeSql: " + JSON.stringify(result,null,2))
-                   console.log(JSON.stringify(result,null,2))
-                   if (result) {
-                        this.args.result = result
 
-                        return result
-                   }
-
-
-               }
-                this.args.result = []
-                //this.changedFn()
-                return {}
+                //}
             }
 
 
