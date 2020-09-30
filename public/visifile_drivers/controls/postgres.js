@@ -72,6 +72,7 @@ properties(
         {
             id:         "executeSql",
             pre_snippet: `await `,
+            async:        true,
             snippet:    `executeSql()`,
             name:       "executeSql",
             type:       "Action",
@@ -271,6 +272,7 @@ logo_url("/driver_icons/postgres.jpg")
             }
             ,
             executeSql: async function() {
+                debugger
                 if (!this.design_mode) {
                     var result = await callFunction(
                                         {
@@ -316,41 +318,7 @@ logo_url("/driver_icons/postgres.jpg")
             }
             ,
 
-            executeSql: async function() {
-                //if (!this.design_mode) {
-                    var result = await callFunction(
-                                        {
-                                            driver_name: "postgres_server",
-                                            method_name: "postgres_sql"  }
-                                            ,{
-                                                sql:             this.args.sql,
-                                                user:            this.args.user,
-                                                password:        this.args.password,
-                                                database:        this.args.database,
-                                                host:            this.args.host,
-                                                port:            this.args.port,
-                                                limit:           this.args.limit
-                                             })
 
-
-                   //debugger
-                   //alert("executeSql: " + JSON.stringify(result,null,2))
-                   console.log(JSON.stringify(result,null,2))
-                   if (result) {
-                        this.args.result = result
-
-                        return result
-                   }
-
-
-               //}
-                this.args.result = []
-                //this.changedFn()
-                return {}
-            }
-
-
-            ,
             getTables: async function() {
                 //debugger
                 console.log("In getTables")
@@ -432,8 +400,9 @@ logo_url("/driver_icons/postgres.jpg")
                 ,
 
 
+
                 executeSql: async function() {
-                    if (!this.design_mode) {
+                    //if (!this.design_mode) {
                         var result = await callFunction(
                                             {
                                                 driver_name: "postgres_server",
@@ -459,11 +428,12 @@ logo_url("/driver_icons/postgres.jpg")
                        }
 
 
-                   }
+                   //}
                     this.args.result = []
                     //this.changedFn()
                     return {}
                 }
+
 
 
 
