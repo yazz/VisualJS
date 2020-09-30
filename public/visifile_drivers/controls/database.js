@@ -1090,6 +1090,7 @@ logo_url("/driver_icons/data_control.png")
                     let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
                     let result = await newcontrol.executeSql()
                     this.properties.result = result
+                    return this.properties.result
 
 
 

@@ -134,13 +134,7 @@ properties(
             type:   "Action"
         }
 
-        ,
 
-        {
-            id:     "executeSql",
-            name:   "executeSql",
-            type:   "Action"
-        }
 
     ]
 )//properties
@@ -303,6 +297,12 @@ logo_url("/driver_icons/postgres.jpg")
                 return {}
             }
             ,
+
+
+
+
+
+
             changedFn: function() {
                 if (isValidObject(this.args)) {
                     //this.args.text = this.text
@@ -313,7 +313,7 @@ logo_url("/driver_icons/postgres.jpg")
             ,
             getDynamic: function() {
                 debugger
-                this.args.executeSql()
+                //this.args.executeSql()
                 return "dynamic return for pg: "
             }
             ,
@@ -401,38 +401,6 @@ logo_url("/driver_icons/postgres.jpg")
 
 
 
-                executeSql: async function() {
-                    //if (!this.design_mode) {
-                        var result = await callFunction(
-                                            {
-                                                driver_name: "postgres_server",
-                                                method_name: "postgres_sql"  }
-                                                ,{
-                                                    sql:             this.args.sql,
-                                                    user:            this.args.user,
-                                                    password:        this.args.password,
-                                                    database:        this.args.database,
-                                                    host:            this.args.host,
-                                                    port:            this.args.port,
-                                                    limit:           this.args.limit
-                                                 })
-
-
-                       //debugger
-                       //alert("executeSql: " + JSON.stringify(result,null,2))
-                       console.log(JSON.stringify(result,null,2))
-                       if (result) {
-                            this.args.result = result
-
-                            return result
-                       }
-
-
-                   //}
-                    this.args.result = []
-                    //this.changedFn()
-                    return {}
-                }
 
 
 
