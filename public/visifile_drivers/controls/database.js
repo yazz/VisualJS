@@ -758,7 +758,7 @@ logo_url("/driver_icons/data_control.png")
        refresh: function(newValue, oldValue) {
            //console.log("refresh: " + this.args.text)
            if (isValidObject(this.args)) {
-               this.getTables()
+               //this.getTables()
                //alert(JSON.stringify(this.tables,null,2))
            }
        }
@@ -823,13 +823,13 @@ logo_url("/driver_icons/data_control.png")
 
          }
          if (this.design_mode) {
-             await this.getTables()
+             //await this.getTables()
 
          }
 
          if (!this.design_mode) {
 
-             var results = await this.executeSql()
+             //var results = await this.executeSql()
              //alert(JSON.stringify(results,null,2))
              //await this.setData(results)
          }
