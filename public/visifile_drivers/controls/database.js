@@ -319,6 +319,7 @@ properties(
         {
             id:         "executeSql",
             pre_snippet: `await `,
+            async: true,
             snippet:    `executeSql()`,
             name:       "executeSql",
             type:       "Action",
