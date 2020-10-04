@@ -694,7 +694,13 @@ logo_url("/driver_icons/data_control.png")
              v-if='design_mode == false'>
 
 
+             <div    v-if='children && children[0]'
+                     v-bind:refresh='refresh'
+                     hidden>
 
+                 <slot v-bind:refresh='refresh'>
+                 </slot>
+             </div>
 
         </div>
 
