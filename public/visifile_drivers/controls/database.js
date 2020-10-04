@@ -321,14 +321,7 @@ properties(
                          </div>`
         }
         ,
-        {
-            id:         "is_container",
-            name:       "Is Container?",
-            type:       "Boolean",
-            default:    true,
-            hidden:     true
-        }
-        ,
+
         {
             id:         "test",
             pre_snippet: ` `,
