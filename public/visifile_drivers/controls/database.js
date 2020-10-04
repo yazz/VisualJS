@@ -1074,7 +1074,7 @@ logo_url("/driver_icons/data_control.png")
 
             executeSql: async function() {
                 console.log("In executeSql")
-                debugger
+                //debugger
 
                 //if (this.design_mode) {
                     //debugger

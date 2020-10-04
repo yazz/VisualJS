@@ -285,7 +285,7 @@ logo_url("/driver_icons/postgres.jpg")
                    //alert("executeSql: " + JSON.stringify(result,null,2))
                    console.log(JSON.stringify(result,null,2))
                    if (result) {
-                        this.args.result = result.result
+                        this.args.result = result
 
                         return result
                    }
@@ -312,7 +312,7 @@ logo_url("/driver_icons/postgres.jpg")
 
             ,
             getDynamic: function() {
-                debugger
+                //debugger
                 //this.args.executeSql()
                 return "dynamic return for pg: "
             }
@@ -362,7 +362,7 @@ logo_url("/driver_icons/postgres.jpg")
 
             getColumns: async function() {
                 console.log("In getColumns")
-                debugger
+                //debugger
 
                 if (this.design_mode) {
                     var result = await callFunction(
