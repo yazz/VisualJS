@@ -111,14 +111,6 @@ properties(
         }
         ,
         {
-            id:         "hide_children",
-            name:       "Hide Children?",
-            type:       "Boolean",
-            default:    false,
-            hidden:     true
-        }
-        ,
-        {
             id:         "setData",
             snippet:    `setData([{a: 1, b: "c"},{a: 2, b: "d"}])`,
             name:       "setData",
