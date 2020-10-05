@@ -142,7 +142,7 @@ logo_url("/driver_icons/postgres.jpg")
 */
 
     Vue.component("postgres_client_component",{
-        props: ["meta","args", "name","refresh", "design_mode"]
+        props: ["meta","properties","args", "name","refresh", "design_mode"]
         ,
         template: `<div v-bind:style='"white-space:normal;height:100%;width:100%; border: 0px;" +
                                     "background-color: "+    args["background_color"]  +  ";"'>

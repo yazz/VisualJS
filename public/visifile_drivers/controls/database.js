@@ -336,7 +336,7 @@ logo_url("/driver_icons/data_control.png")
 */
 
     Vue.component("database_control",{
-      props: ["meta","name","args","refresh","design_mode", "children", "properties"]
+      props: ["meta","name","properties","args","refresh","design_mode", "children", "properties"]
       ,
       template:
 `<div   v-bind:style='"width:100%;overflow-y:auto;height:100%;color:black;"
@@ -1077,12 +1077,13 @@ logo_url("/driver_icons/data_control.png")
                 //debugger
 
                 //if (this.design_mode) {
-                    //debugger
-                    let mm = this
-                    let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
-                    let result = await newcontrol.executeSql()
-                    this.properties.result = result
-                    return this.properties.result
+                  debugger
+                  let mm = this
+                  let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
+                  newcontrol.sql = mm.properties.sql
+                  let result = await newcontrol.executeSql()
+                  this.properties.result = result
+                  return this.properties.result
 
 
 
