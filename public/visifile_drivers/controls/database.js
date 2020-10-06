@@ -1083,6 +1083,7 @@ logo_url("/driver_icons/data_control.png")
                   newcontrol.sql = mm.properties.sql
                   let result = await newcontrol.executeSql()
                   this.properties.result = result
+                  this.properties.data = result
                   return this.properties.result
 
 
