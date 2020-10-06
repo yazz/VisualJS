@@ -9688,7 +9688,7 @@ function indexComponent(typeName){
                 for (let acceptType of acceptTypes) {
                     //console.log("    " + acceptType)
                     for (let otherComponentName of Object.keys(component_cache)){
-                        if (otherComponentName == "label_control") {
+                        if (otherComponentName == "database_control") {
                             //debugger
 
                         }
@@ -9746,8 +9746,11 @@ function indexComponent(typeName){
                                                     if (!linked_properties[otherComponentName].outgoing.me[otherProperty.id]) {
                                                         linked_properties[otherComponentName].outgoing.me[otherProperty.id] = {}
                                                     }
-                                                    if (!linked_properties[otherComponentName].outgoing.me[otherProperty.id][oneProperty.id]) {
-                                                        linked_properties[otherComponentName].outgoing.me[otherProperty.id][oneProperty.id] = true
+                                                    if (!linked_properties[otherComponentName].outgoing.me[otherProperty.id][typeName]) {
+                                                        linked_properties[otherComponentName].outgoing.me[otherProperty.id][typeName] = {}
+                                                    }
+                                                    if (!linked_properties[otherComponentName].outgoing.me[otherProperty.id][typeName][oneProperty.id]) {
+                                                        linked_properties[otherComponentName].outgoing.me[otherProperty.id][typeName][oneProperty.id] = true
                                                     }
 
 
@@ -9776,9 +9779,8 @@ function indexComponent(typeName){
                 for (let myType of types) {
                     //console.log("    " + myType)
                     for (let otherComponentName of Object.keys(component_cache)){
-                        if (otherComponentName == "label_control") {
+                        if (otherComponentName == "table_control") {
                             //debugger
-
                         }
                         if (otherComponentName != typeName) {
                             if (component_cache[otherComponentName]) {
