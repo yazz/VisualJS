@@ -767,6 +767,7 @@ logo_url("/driver_icons/data_control.png")
 
      mounted: async function() {
          registerComponent(this)
+         let mm = this
 
          let listLL = await findComponentsImplementing(["getSchema"])
          //aaa
@@ -829,8 +830,16 @@ logo_url("/driver_icons/data_control.png")
          if (!this.design_mode) {
 
            //zzz
-           await this.connect()
-             await this.executeSql()
+           //debugger
+
+           //hack city!!!! This should not be done via timeout, but via some
+           // sort of callback. The reason a timeout is needed here is because
+           // other uninitialised (as of yet) controls on the same form are
+           // referenced
+           setTimeout(async function(){
+             await mm.connect()
+             await mm.executeSql()
+           },300)
              //alert(JSON.stringify(results,null,2))
              //await this.setData(results)
          }
