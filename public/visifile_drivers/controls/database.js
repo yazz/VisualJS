@@ -144,6 +144,16 @@ properties(
             default: "SELECT * FROM pg_catalog.pg_tables;"
         }
         ,
+
+        {
+            id:     "tables",
+            name:   "Tables",
+            type:   "Array",
+            hidden: true,
+            default:    []
+        }
+        ,
+
         {
             id:      "user",
             name:    "USER",
@@ -452,7 +462,7 @@ logo_url("/driver_icons/data_control.png")
                Database tables for schema &#34;{{args.database}}&#34;
                <div style="height:70%;width:100%; overflow-y: scroll;border: 1px solid lightgray;">
 
-                   <div   v-for='table in tables'
+                   <div   v-for='table in properties.tables'
                           v-on:click="args.sql = 'select * from ' + table; args.design_mode_table = table;getColumns();args.dataWindowColumns=[];"
                           v-bind:style='"padding: 5px; " + ((args.design_mode_table == table)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
 
@@ -732,8 +742,6 @@ logo_url("/driver_icons/data_control.png")
          ,
          columnDefinitions:  [ ]
          ,
-         tables:             [ ]
-         ,
          data_sources: []
 
 
@@ -820,7 +828,9 @@ logo_url("/driver_icons/data_control.png")
 
          if (!this.design_mode) {
 
-             //var results = await this.executeSql()
+           //zzz
+           await this.connect()
+             await this.executeSql()
              //alert(JSON.stringify(results,null,2))
              //await this.setData(results)
          }
@@ -858,7 +868,7 @@ logo_url("/driver_icons/data_control.png")
 
               //let newcontrol =  mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name["aaa"]
               //newcontrol.setText2("helo duck")
-              //zzz
+
 
           }
           ,
@@ -872,7 +882,7 @@ logo_url("/driver_icons/data_control.png")
           }
           ,
           connect: async function() {
-              //zzz
+
              //alert(1)
              //debugger
              let mm = this
@@ -891,7 +901,7 @@ logo_url("/driver_icons/data_control.png")
           }
           ,
           disconnect: async function() {
-              //zzz
+
              //alert(1)
              //debugger
              let mm = this
@@ -1020,10 +1030,10 @@ logo_url("/driver_icons/data_control.png")
                    //alert("executeSql: " + JSON.stringify(result,null,2))
                    console.log(JSON.stringify(result,null,2))
                    if (result) {
-                       this.tables = []
+                       this.properties.tables = []
                        //alert(JSON.stringify(result,null,2))
                        for (var i=0;i<result.length;i++) {
-                           this.tables.push(result[i].name)
+                           this.properties.tables.push(result[i].name)
 
                        }
                    }
