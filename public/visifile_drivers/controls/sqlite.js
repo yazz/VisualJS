@@ -11,6 +11,12 @@ read_only(true)
 properties(
     [
         {
+            id:     "sqlite_file",
+            name:   "Sqlite file",
+            type:   "File"
+        }
+        ,
+        {
             id:     "sql",
             name:   "SQL",
             type:   "String",

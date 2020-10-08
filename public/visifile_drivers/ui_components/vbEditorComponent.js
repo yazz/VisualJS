@@ -2082,6 +2082,12 @@ Pushlist
                                                    @change="previewUpload(property)">
                                             </input>
                                         </div>
+                                        <div    v-if="(property.type  == 'File') ">
+                                            <input type="file"
+                                                   id="upload_file"
+                                                   @change="previewFileUpload(property)">
+                                            </input>
+                                        </div>
 
                                         <div    v-if="(property.type  == 'Event') || ((property.type  == 'Action_old') && isValidObject(property.fn)) "
                                                 style="width:100%">
@@ -4092,6 +4098,22 @@ ${origCode}
         ,
         previewUpload: function(property) {
             var mm = this;
+            var file    = document.getElementById('upload_file').files[0];
+            var reader  = new FileReader();
+
+            reader.addEventListener("load", function () {
+                mm.model.forms[mm.active_form].components[mm.active_component_index][property.id] = reader.result
+                mm.refresh ++
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+        ,
+
+        previewFileUpload: function(property) {
+            var mm = this;
             var file    = document.getElementById('image_file').files[0];
             var reader  = new FileReader();
 
@@ -4105,6 +4127,8 @@ ${origCode}
             }
         }
         ,
+
+
          showHelp: async function(aa) {
             var mm = this
 
