@@ -4098,7 +4098,7 @@ ${origCode}
         ,
         previewUpload: function(property) {
             var mm = this;
-            var file    = document.getElementById('upload_file').files[0];
+            var file    = document.getElementById('image_file').files[0];
             var reader  = new FileReader();
 
             reader.addEventListener("load", function () {
@@ -4114,7 +4114,7 @@ ${origCode}
 
         previewFileUpload: function(property) {
             var mm = this;
-            var file    = document.getElementById('image_file').files[0];
+            var file    = document.getElementById('upload_file').files[0];
             var reader  = new FileReader();
 
             reader.addEventListener("load", function () {
