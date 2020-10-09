@@ -170,7 +170,8 @@ logo_url("/driver_icons/sqlite.jpg")
         ,
         methods: {
             getTables: async function() {
-              this.tables =  ["fdfd","fdfd","fdsfd","dfsfd","df"]
+              this.tables =  [{name: "fdfd"},{name: "fdfdsffdsd"},
+                              {name: "fdssdfdffd"},{name: "fff"},{name: "fgg"}]
               return this.tables
                 //debugger
               }
