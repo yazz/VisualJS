@@ -117,7 +117,13 @@ properties(
             help:       `<div>Help text for
                             <b>getDynamic</b> function
                          </div>`
+        },
+        {
+            id:     "getTables",
+            name:   "getTables",
+            type:   "Action"
         }
+
     ]
 )//properties
 logo_url("/driver_icons/sqlite.jpg")
@@ -140,7 +146,8 @@ logo_url("/driver_icons/sqlite.jpg")
         ,
         data: function() {
             return {
-                design_time_text: ""
+                design_time_text: "",
+                tables:             [ ]
             }
         }
         ,
@@ -162,6 +169,12 @@ logo_url("/driver_icons/sqlite.jpg")
         }
         ,
         methods: {
+            getTables: async function() {
+              this.tables =  ["fdfd","fdfd","fdsfd","dfsfd","df"]
+              return this.tables
+                //debugger
+              }
+              ,
             getSchema: async function() {
                 return null
             }
