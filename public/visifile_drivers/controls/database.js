@@ -133,8 +133,7 @@ properties(
         {
             id:     "source_type",
             name:   "Data Source Type",
-            type:   "String",
-            default: "postgres"
+            type:   "String"
         }
         ,
         {
@@ -459,7 +458,7 @@ logo_url("/driver_icons/data_control.png")
 
 
             <div v-if='designDetailTab == "schema"'  >
-               Database tables for schema &#34;{{args.database}}&#34;
+               Database tables for schema &#34;{{args.sourceComponentType}}&#34;
                <div style="height:70%;width:100%; overflow-y: scroll;border: 1px solid lightgray;">
 
                    <div   v-for='table in properties.tables'

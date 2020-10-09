@@ -11,9 +11,10 @@ read_only(true)
 properties(
     [
         {
-            id:     "sqlite_file",
-            name:   "Sqlite file",
-            type:   "File"
+            id:     "sqlite_file_path",
+            name:   "Sqlite file path",
+            //type:   "File",
+            type:   "String"
         }
         ,
         {
@@ -133,7 +134,7 @@ logo_url("/driver_icons/sqlite.jpg")
                                     </div>
                                     <div v-else>
                                     sqlite:
-                                                POSTGRES LIVE
+                                                SQLITE LIVE
                                     </div>
                  </div>`
         ,
