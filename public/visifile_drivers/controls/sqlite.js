@@ -170,9 +170,40 @@ logo_url("/driver_icons/sqlite.jpg")
         ,
         methods: {
             getTables: async function() {
-              this.tables =  [{name: "fdfd"},{name: "fdfdsffdsd"},
-                              {name: "fdssdfdffd"},{name: "fff"},{name: "fgg"}]
-              return this.tables
+              console.log("In getTables")
+
+              if (this.design_mode) {
+
+                  var result = await callFunction(
+                                      {
+                                          driver_name: "sqlite_server",
+                                          method_name: "postgres_sql"  }
+                                          ,{
+                                              user:            this.args.user,
+                                              password:        this.args.password,
+                                              database:        this.args.database,
+                                              host:            this.args.host,
+                                              port:            this.args.port,
+                                              get_tables:      true
+                                           })
+
+
+                 //alert("executeSql: " + JSON.stringify(result,null,2))
+                 console.log(JSON.stringify(result,null,2))
+                 if (result) {
+                     this.tables = []
+                     //alert(JSON.stringify(result,null,2))
+                     for (var i=0;i<result.length;i++) {
+                         this.tables.push(result[i].name)
+
+                     }
+                 }
+                 return result
+
+
+              }
+
+
                 //debugger
               }
               ,
