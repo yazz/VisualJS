@@ -7,7 +7,7 @@ only_run_on_server(true)
 */
     let dbsearch = new sqlite3.Database(args.path);
     dbsearch.run("PRAGMA journal_mode=WAL;")
-    console.log("sqlite table name: " + args.table_name)
+    console.log("sqlite table name: " + args.table)
     var promise = new Promise(async function(returnFn) {
 
         //
@@ -43,7 +43,7 @@ only_run_on_server(true)
                 function() {
                     var stmt = dbsearch.all(
                         "PRAGMA table_info(" +
-                            args.table_name +
+                            args.table +
                         ")"
                         ,
                         []
