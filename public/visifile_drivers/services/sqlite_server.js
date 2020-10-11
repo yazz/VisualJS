@@ -5,7 +5,7 @@ base_component_id("sqlite_server")
 load_once_from_file(true)
 only_run_on_server(true)
 */
-  let dbsearch = new sqlite3.Database("/Users/faroukzquraishi/Yazz/node.visi");
+  let dbsearch = new sqlite3.Database(args.path);
   dbsearch.run("PRAGMA journal_mode=WAL;")
 console.log(1)
   var promise = new Promise(async function(returnFn) {

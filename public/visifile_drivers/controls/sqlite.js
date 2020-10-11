@@ -130,7 +130,7 @@ logo_url("/driver_icons/sqlite.jpg")
 */
 
     Vue.component("sqlite_client_component",{
-        props: ["meta","args", "name","refresh", "design_mode"]
+        props: [  "meta",  "args",  "properties",  "name",  "refresh",  "design_mode"  ]
         ,
         template: `<div v-bind:style='"white-space:normal;height:100%;width:100%; border: 0px;" +
                                     "background-color: "+    args["background_color"]  +  ";"'>
@@ -177,14 +177,15 @@ logo_url("/driver_icons/sqlite.jpg")
                   var result = await callFunction(
                                       {
                                           driver_name: "sqlite_server",
-                                          method_name: "postgres_sql"  }
+                                          method_name: "sqlite_sql"  }
                                           ,{
                                               user:            this.args.user,
                                               password:        this.args.password,
                                               database:        this.args.database,
                                               host:            this.args.host,
                                               port:            this.args.port,
-                                              get_tables:      true
+                                              get_tables:      true,
+                                              path:            this.properties.sqlite_file_path
                                            })
 
 
@@ -223,7 +224,8 @@ logo_url("/driver_icons/sqlite.jpg")
                                                 password:        this.args.password,
                                                 database:        this.args.database,
                                                 host:            this.args.host,
-                                                port:            this.args.port
+                                                port:            this.args.port,
+                                                path:            this.properties.sqlite_file_path
                                              })
 
 
