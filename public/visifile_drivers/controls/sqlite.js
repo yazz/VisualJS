@@ -123,6 +123,22 @@ properties(
             name:   "getTables",
             type:   "Action"
         }
+        ,
+
+        {
+            id:     "getColumns",
+            name:   "getColumns",
+            type:   "Action"
+        }
+        ,
+        
+        {
+            id:         "design_mode_table",
+            name:       "Design Table",
+            type:       "String",
+            default:    "",
+            hidden:     true
+        }
 
     ]
 )//properties
@@ -169,6 +185,9 @@ logo_url("/driver_icons/sqlite.jpg")
         }
         ,
         methods: {
+
+
+
             getTables: async function() {
               console.log("In getTables")
 
@@ -206,8 +225,61 @@ logo_url("/driver_icons/sqlite.jpg")
 
 
                 //debugger
-              }
-              ,
+            }
+            ,
+
+
+
+
+
+
+            getColumns: async function() {
+                console.log("In getColumns")
+                //debugger
+
+                if (this.design_mode) {
+                    var result = await callFunction(
+                                        {
+                                            driver_name: "sqlite_server",
+                                            method_name: "sqlite_sql"  }
+                                            ,{
+                                                user:            this.args.user,
+                                                password:        this.args.password,
+                                                database:        this.args.database,
+                                                host:            this.args.host,
+                                                port:            this.args.port,
+                                                path:            this.properties.sqlite_file_path,
+                                                get_columns:      true,
+                                                table:           this.args.design_mode_table
+                                             })
+
+
+
+                   //alert("executeSql: " + JSON.stringify(result,null,2))
+                   console.log(JSON.stringify(result,null,2))
+                   if (result) {
+                       this.args.columns = []
+                       //alert(JSON.stringify(result,null,2))
+                       for (var i=0;i<result.length;i++) {
+                           this.args.columns.push(result[i].name)
+
+                       }
+                   }
+
+                   return this.args.columns
+                }
+            }
+            ,
+
+
+
+
+
+
+
+
+
+
             getSchema: async function() {
                 return null
             }

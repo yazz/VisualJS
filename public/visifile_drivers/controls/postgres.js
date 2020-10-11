@@ -135,6 +135,17 @@ properties(
         }
 
 
+        ,
+        {
+            id:         "design_mode_table",
+            name:       "Design Table",
+            type:       "String",
+            default:    "",
+            hidden:     true
+        }
+
+
+
 
     ]
 )//properties
