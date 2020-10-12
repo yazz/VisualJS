@@ -773,6 +773,8 @@ load_once_from_file(true)
 
 
                   await mm.load_new_app( this.base_component_id )
+                  //zzz
+
               }
               ,
 
@@ -784,6 +786,9 @@ load_once_from_file(true)
 
 
                await mm.load_new_app( this.base_component_id )
+               mm.$root.$emit('message', {
+                   type:   "pending"
+               })
            }
            ,
 
