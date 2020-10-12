@@ -408,10 +408,6 @@ logo_url("/driver_icons/postgres.jpg")
 
 
 
-                ,
-
-
-
 
 
 
