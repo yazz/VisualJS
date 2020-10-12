@@ -54,7 +54,36 @@ only_run_on_server(true)
                         }
                     )}, sqlite3.OPEN_READONLY)
 
+
+
+
+
+
+        //
+        // execute SQL
+        //
+        } else {
+            dbsearch.serialize(
+                function() {
+                    var stmt = dbsearch.all(
+                        args.sql
+                        ,
+                        []
+                        ,
+                        function(err, results2)
+                        {
+                            returnFn(results2)
+                        }
+                    )}, sqlite3.OPEN_READONLY)
+
         }
+
+
+
+
+
+
+
     })
 
     var ret = await promise
