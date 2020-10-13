@@ -51,15 +51,24 @@ Vue.component("todo", {
  allowAccessToAppBaseComponentIds([""])
  allowAccessToAppTypes(["database_reader"])
  sqlite(
- [
-     "Create the initial item table",
-     ["CREATE TABLE items (id	TEXT, name	TEXT);",
-      "alter TABLE items add column time INTEGER;"]
+ {
+  migrations:
+  [
+      {
+        name: "Create the initial item table"
+        ,
+        up: ["CREATE TABLE items (id	TEXT, name	TEXT);",
+             "alter TABLE items add column time INTEGER;"]
+      }
       ,
-      "Add a column for the user name",
-     ["alter TABLE items add column user TEXT;"]
-
- ])//sqlite
+      {
+        name: "Add a column for the user name"
+        ,
+        up: ["alter TABLE items add column user TEXT;"]
+      }
+  ]
+ }
+ )//sqlite
 grant_full_db_access_to(["todo_app_reader"])
 */
 }

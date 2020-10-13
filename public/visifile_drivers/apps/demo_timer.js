@@ -5238,16 +5238,7 @@ return {}
 /*
 allowAccessToAppBaseComponentIds([""])
 allowAccessToAppTypes(["database_reader"])
-sqlite(
-[
-  "Create the initial item table",
-  ["CREATE TABLE items (id	TEXT, name	TEXT);",
-   "alter TABLE items add column time INTEGER;"]
-   ,
-   "Add a column for the user name",
-  ["alter TABLE items add column user TEXT;"]
-
-])//sqlite
+sqlite({})//sqlite
 grant_full_db_access_to(["todo_app_reader"])
 */
 }

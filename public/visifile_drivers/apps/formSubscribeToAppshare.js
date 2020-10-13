@@ -67,13 +67,18 @@ formEditor(
 
     /*
     sqlite(
-    [
-        "Create the initial users table to store the email addresses",
-        [
-            "CREATE TABLE users (id	TEXT, email	TEXT, when_created INTEGER);"
-        ]
-
-    ])//sqlite
+    {
+      migrations: [
+        {
+          name:    "Create the initial users table to store the email addresses"
+          ,
+          up:
+          [
+              "CREATE TABLE users (id	TEXT, email	TEXT, when_created INTEGER);"
+          ]
+        }
+    ]
+    })//sqlite
 
    */
 }

@@ -1002,21 +1002,25 @@ function updateRevisions(sqlite, baseComponentId) {
                                 appDb.run("begin exclusive transaction");
                                 var newLatestRev = null
                                 var readIn = false
-                                for (var i=0; i < sqlite.length; i+=2) {
-                                    var sqlStKey = sqlite[i]
+                                if (sqlite.migrations) {
+                                  for (var i=0; i < sqlite.migrations.length; i+=2) {
+                                      var sqlStKey = sqlite.migrations[i].name
 
-                                    for (var j = 0  ;  j < sqlite[i + 1].length  ;  j++ ) {
-                                        if ((latestRevision == null) || readIn) {
-                                            var sqlSt = sqlite[i + 1][j]
-                                            //console.log("sqlSt: = " + sqlSt)
-                                            appDb.run(sqlSt);
-                                            newLatestRev = sqlStKey
-                                        }
-                                        if (latestRevision == sqlStKey) {
-                                            readIn = true
-                                        }
-                                    }
+                                      for (var j = 0  ;  j < sqlite.migrations[i].up.length  ;  j++ ) {
+                                          if ((latestRevision == null) || readIn) {
+                                              var sqlSt = sqlite.migrations[i].up[j]
+                                              //console.log("sqlSt: = " + sqlSt)
+                                              appDb.run(sqlSt);
+                                              newLatestRev = sqlStKey
+                                          }
+                                          if (latestRevision == sqlStKey) {
+                                              readIn = true
+                                          }
+                                      }
+                                  }
+
                                 }
+
                                 appDb.run("commit");
                                 //appDb.run("PRAGMA wal_checkpoint;")
 
@@ -1083,12 +1087,12 @@ function fastForwardToLatestRevision(sqlite, baseComponentId) {
                         }
                         var newLatestRev = null
                         var readIn = false
-                        for (var i=0; i < sqlite.length; i+=2) {
-                            var sqlStKey = sqlite[i]
+                        for (var i=0; i < sqlite.migrations.length; i+=2) {
+                            var sqlStKey = sqlite.migrations[i].name
 
-                            for (var j = 0  ;  j < sqlite[i + 1].length  ;  j++ ) {
+                            for (var j = 0  ;  j < sqlite[i + 1].migrations.length  ;  j++ ) {
                                 if ((latestRevision == null) || readIn) {
-                                    var sqlSt = sqlite[i + 1][j]
+                                    var sqlSt = sqlite.migrations[i + 1].name
                                     newLatestRev = sqlStKey
                                 }
                                 if (latestRevision == sqlStKey) {
