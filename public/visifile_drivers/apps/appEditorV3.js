@@ -753,12 +753,12 @@ load_once_from_file(true)
 
 
            closeSqliteSchema: async function() {
-               var mm                           = this
+               let mm                           = this
                this.editor_overloaded           = false
                override_app_editor              = null
-               this.editor_text                 = await this.$refs.editor_component_ref.getText()
+               this.editor_text                 = await mm.$refs.editor_component_ref.getText()
 
-               await mm.load_new_app( this.base_component_id )
+               await mm.load_new_app( mm.base_component_id )
            }
            ,
 
@@ -786,9 +786,6 @@ load_once_from_file(true)
 
 
                await mm.load_new_app( this.base_component_id )
-               mm.$root.$emit('message', {
-                   type:   "pending"
-               })
            }
            ,
 

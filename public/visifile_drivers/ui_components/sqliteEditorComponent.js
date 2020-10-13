@@ -16,7 +16,7 @@ load_once_from_file(true)
             read_only:      false,
             editorDomId:    editorDomId,
             errors:         null,
-            sqlText:        "[]",
+            sqlText:        "{}",
         }
       },
       template: `<div style='background-color:white; ' >
@@ -44,7 +44,7 @@ load_once_from_file(true)
      ,
 
      mounted: function() {
-         var thisVueInstance = this
+         let thisVueInstance = this
          args.text           = null
 
          ace.config.set('basePath', '/');
@@ -85,6 +85,10 @@ load_once_from_file(true)
 
 
          editor.getSession().on('change', function() {
+            let haveIChangedtext = false
+            if (thisVueInstance.sqlText != editor.getSession().getValue()) {
+              haveIChangedtext = true
+            }
             thisVueInstance.sqlText = editor.getSession().getValue();
             thisVueInstance.errors = null
             if (!isValidObject(thisVueInstance.sqlText)) {
@@ -100,11 +104,16 @@ load_once_from_file(true)
                if (thisVueInstance.errors) {
                     if (thisVueInstance.errors.length == 0) {
                         thisVueInstance.errors = null
+                        if (haveIChangedtext) {
+                          thisVueInstance.$root.$emit(
+                            'message', {
+                                            type:   "pending"
+                                       })
+                        }
                     } else {
                         thisVueInstance.errors = thisVueInstance.errors[0]
                     }
                }
-
             } catch(e) {
                //alert(JSON.stringify(e, null, 2))
                thisVueInstance.errors = e
