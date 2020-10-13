@@ -1003,7 +1003,7 @@ function updateRevisions(sqlite, baseComponentId) {
                                 var newLatestRev = null
                                 var readIn = false
                                 if (sqlite.migrations) {
-                                  for (var i=0; i < sqlite.migrations.length; i+=2) {
+                                  for (var i=0; i < sqlite.migrations.length; i++) {
                                       var sqlStKey = sqlite.migrations[i].name
 
                                       for (var j = 0  ;  j < sqlite.migrations[i].up.length  ;  j++ ) {
@@ -1090,9 +1090,9 @@ function fastForwardToLatestRevision(sqlite, baseComponentId) {
                         for (var i=0; i < sqlite.migrations.length; i+=2) {
                             var sqlStKey = sqlite.migrations[i].name
 
-                            for (var j = 0  ;  j < sqlite[i + 1].migrations.length  ;  j++ ) {
+                            for (var j = 0  ;  j < sqlite.migrations[i].up.length  ;  j++ ) {
                                 if ((latestRevision == null) || readIn) {
-                                    var sqlSt = sqlite.migrations[i + 1].name
+                                    var sqlSt = sqlite.migrations[i].name
                                     newLatestRev = sqlStKey
                                 }
                                 if (latestRevision == sqlStKey) {
