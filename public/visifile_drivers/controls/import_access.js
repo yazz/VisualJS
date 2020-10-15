@@ -11,7 +11,7 @@ read_only(true)
 properties(
     [
         {
-            id:     "sqlite_file_path",
+            id:     "access_file_path",
             name:   "msaccess file path",
             //type:   "File",
             type:   "String"
@@ -195,8 +195,8 @@ logo_url("/driver_icons/import_access.png")
 
                   var result = await callFunction(
                                       {
-                                          driver_name: "sqlite_server",
-                                          method_name: "sqlite_sql"  }
+                                          driver_name: "access_server",
+                                          method_name: "access_sql"  }
                                           ,{
                                               user:            this.args.user,
                                               password:        this.args.password,
@@ -204,21 +204,22 @@ logo_url("/driver_icons/import_access.png")
                                               host:            this.args.host,
                                               port:            this.args.port,
                                               get_tables:      true,
-                                              path:            this.properties.sqlite_file_path
+                                              path:            this.properties.access_file_path
                                            })
-
+                 //debugger
 
                  //alert("executeSql: " + JSON.stringify(result,null,2))
                  console.log(JSON.stringify(result,null,2))
+                 let retTables = []
                  if (result) {
                      this.tables = []
                      //alert(JSON.stringify(result,null,2))
                      for (var i=0;i<result.length;i++) {
-                         this.tables.push(result[i].name)
-
+                         this.tables.push(result[i])
+                         retTables.push({name: result[i]})
                      }
                  }
-                 return result
+                 return retTables
 
 
               }
@@ -240,15 +241,15 @@ logo_url("/driver_icons/import_access.png")
                 if (this.design_mode) {
                     var result = await callFunction(
                                         {
-                                            driver_name: "sqlite_server",
-                                            method_name: "sqlite_sql"  }
+                                            driver_name: "access_server",
+                                            method_name: "access_sql"  }
                                             ,{
                                                 user:            this.args.user,
                                                 password:        this.args.password,
                                                 database:        this.args.database,
                                                 host:            this.args.host,
                                                 port:            this.args.port,
-                                                path:            this.properties.sqlite_file_path,
+                                                path:            this.properties.access_file_path,
                                                 get_columns:      true,
                                                 table:           this.args.design_mode_table
                                              })
@@ -288,8 +289,8 @@ logo_url("/driver_icons/import_access.png")
                 if (!this.design_mode) {
                     var result = await callFunction(
                                         {
-                                            driver_name: "sqlite_server",
-                                            method_name: "sqlite_sql"  }
+                                            driver_name: "access_server",
+                                            method_name: "access_sql"  }
                                             ,{
                                                 sql:             this.args.sql,
                                                 user:            this.args.user,
@@ -297,7 +298,7 @@ logo_url("/driver_icons/import_access.png")
                                                 database:        this.args.database,
                                                 host:            this.args.host,
                                                 port:            this.args.port,
-                                                path:            this.properties.sqlite_file_path
+                                                path:            this.properties.access_file_path
                                              })
 
 
@@ -325,7 +326,7 @@ logo_url("/driver_icons/import_access.png")
             ,
             getDynamic: function() {
                 debugger
-                return "dynamic return for nsqlite"
+                return "dynamic return for naccess"
             }
         }
     })
