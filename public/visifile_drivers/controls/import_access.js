@@ -11,6 +11,12 @@ read_only(true)
 properties(
     [
         {
+            id:     "filename",
+            name:   "File Name",
+            type:   "String"
+        }
+        ,
+        {
             id:     "text",
             name:   "Text",
             type:   "String"
