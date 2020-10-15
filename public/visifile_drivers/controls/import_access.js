@@ -236,7 +236,7 @@ logo_url("/driver_icons/import_access.png")
 
             getColumns: async function() {
                 console.log("In getColumns")
-                //debugger
+                debugger
 
                 if (this.design_mode) {
                     var result = await callFunction(
@@ -258,16 +258,18 @@ logo_url("/driver_icons/import_access.png")
 
                    //alert("executeSql: " + JSON.stringify(result,null,2))
                    console.log(JSON.stringify(result,null,2))
+                   let retTables = []
                    if (result) {
                        this.args.columns = []
                        //alert(JSON.stringify(result,null,2))
                        for (var i=0;i<result.length;i++) {
-                           this.args.columns.push(result[i].name)
+                           this.args.columns.push(result[i])
+                           retTables.push({name: result[i]})
 
                        }
                    }
 
-                   return this.args.columns
+                   return retTables
                 }
             }
             ,
