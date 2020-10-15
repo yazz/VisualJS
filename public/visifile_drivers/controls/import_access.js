@@ -264,7 +264,7 @@ logo_url("/driver_icons/import_access.png")
                        //alert(JSON.stringify(result,null,2))
                        for (var i=0;i<result.length;i++) {
                            this.args.columns.push(result[i])
-                           retTables.push({name: result[i]})
+                           retTables.push(result[i])
 
                        }
                    }
