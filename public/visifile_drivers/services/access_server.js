@@ -26,7 +26,7 @@ only_run_on_server(true)
         //
         } else if (args.get_columns) {
 
-            let ret = noaccess.getTables()
+            let ret = noaccess.getColumns(args.table)
             returnFn(ret)
 
 
