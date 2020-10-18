@@ -8969,6 +8969,16 @@ var dataIds = new Object()
 
 }
 
+function getNetworkHostName() {
+    let networkHostName = location.hostname
+    if (networkHostName == "127.0.0.1") {
+        networkHostName = networkIntranetIpAddress
+    }
+    if (networkHostName == "0.0.0.0") {
+        networkHostName = networkIntranetIpAddress
+    }
+    return networkHostName
+}
 
 
 async function scriptTag(src, callback) {

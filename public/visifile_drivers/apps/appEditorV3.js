@@ -156,7 +156,7 @@ load_once_from_file(true)
 
 
                     <a   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                              v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppId + ".jsa"'
+                              v-bind:href='location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/yazz_" + editingAppId + ".jsa"'
                               download
                             v-if="!editor_overloaded"
                               v-on:mouseenter='setInfo("Edit the SQlite schema for this app")'
@@ -269,11 +269,11 @@ load_once_from_file(true)
                     <div  style='display: inline-block;'>
                         <a   style='text-decoration:underline;cursor: pointer;flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
 
-                              v-on:click='var win = window.open(location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
+                              v-on:click='var win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
 
                               v-if="code_shown && (!app_shown)">
 
-                              {{location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"}}
+                              {{location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html"}}
                         </a>
 
 
@@ -296,13 +296,13 @@ load_once_from_file(true)
 
 
 
-            <div    v-on:click='var win = window.open(location.protocol + "//" + location.hostname + ":" + location.port + "/" + rest_api_base_url + "", "_blank"); win.focus();'
+            <div    v-on:click='var win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/" + rest_api_base_url + "", "_blank"); win.focus();'
                     v-if='app_loaded && (is_server_app)'
                     v-bind:style="'display:flex;text-decoration: underline;color:blue;padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;'">
 
                 Shareable link:<input   readonly
                                         style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
-                                        v-bind:value='location.protocol + "//" + location.hostname + ":" + location.port + "/" + rest_api_base_url + ""'>
+                                        v-bind:value='location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/" + rest_api_base_url + ""'>
                 </input>
 
             </div>
@@ -312,7 +312,7 @@ load_once_from_file(true)
             <div    v-if='app_loaded && (!is_server_app)'
                     v-bind:style="'display:flex;text-decoration: underline;color:blue;padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;'">
 
-                <div v-on:click='var win = window.open(location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'>Shareable link:</div>
+                <div v-on:click='var win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'>Shareable link:</div>
 
                 <button   v-on:click='setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null)},100)'
                           type="button"
@@ -329,8 +329,8 @@ load_once_from_file(true)
 
                 <input   readonly
                                         style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
-                                        v-on:click='var win = window.open(location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
-                                        v-bind:value='location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'>
+                                        v-on:click='var win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
+                                        v-bind:value='location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html"'>
                 </input>
 
 
@@ -365,7 +365,7 @@ load_once_from_file(true)
                   <div  v-if='app_loaded && (!is_ui_app) && (is_server_app) && (is_rest_app)'
                       style='padding: 10px;background-color: white; height: 100%;'>
                          Yazz Rest API Tester:<div></div>
-                         <span style="height:40px;margin-bottom:10px;">{{location.protocol + "//" + location.hostname + ":" + location.port + "/" + rest_api_base_url + ""}}</span>
+                         <span style="height:40px;margin-bottom:10px;">{{location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/" + rest_api_base_url + ""}}</span>
 
                          <span>
                              ?
@@ -387,7 +387,7 @@ load_once_from_file(true)
                              </div>
 
                          </div>
-                         <div style="margin-top:10px;height:auto; border: 3px solid black; padding: 8px;">{{location.protocol + "//" + location.hostname + ":" + location.port + "/" + rest_api_base_url + "/" + rest_api_url_2 + "?"  + getRestParams() }}
+                         <div style="margin-top:10px;height:auto; border: 3px solid black; padding: 8px;">{{location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/" + rest_api_base_url + "/" + rest_api_url_2 + "?"  + getRestParams() }}
                          </div>
                          <button    style="margin-top:6px;"
                                     type=button class=' btn btn-info btn-lg'
@@ -732,7 +732,7 @@ load_once_from_file(true)
            },
            callRestApi:  async function() {
                var mm                           = this
-               var newrestUrl = location.protocol + "//" + location.hostname + ":" + location.port + "/" + mm.rest_api_base_url + "/" +
+               var newrestUrl = location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/" + mm.rest_api_base_url + "/" +
                                 mm.rest_api_url_2 + "?"  + mm.getRestParams()
                 mm.rest_api_return_value = ""
 
