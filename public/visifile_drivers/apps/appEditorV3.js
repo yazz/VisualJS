@@ -156,7 +156,7 @@ load_once_from_file(true)
 
 
                     <a   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                              v-bind:href='location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/yazz_" + editingAppId + ".jsa"'
+                              v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppId + ".jsa"'
                               download
                             v-if="!editor_overloaded"
                               v-on:mouseenter='setInfo("Edit the SQlite schema for this app")'
