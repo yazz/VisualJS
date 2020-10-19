@@ -2780,7 +2780,7 @@ async function startServices() {
 
 
         app.use("/files",   express.static(path.join(userData, '/files/')));
-
+        app.use("/weights",   express.static(path.join(userData, '/weights/')));
 
         function getAppNameFromHtml() {
 
