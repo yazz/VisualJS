@@ -18,6 +18,7 @@ var username                            = "Unknown user";
 var isDocker        = require('is-docker');
 var ls = require('ls-sync');
 var rimraf = require("rimraf");
+let forge = require('node-forge');
 
 var pidusage        = require("pidusage");
 var fs              = require('fs');
@@ -345,6 +346,7 @@ if (process.argv.length > 1) {
       .option('-x, --private [private]', 'Private HTTPS key [private]', null)
       .option('-y, --showdebug [showdebug]', 'Allow to show debug info (default false) [showdebug]', 'false')
       .option('-z, --loadjscode [loadjscode]', 'Load the following JS from the command line (default not set) [loadjscode]', null)
+      .option('-lh, --useselfsignedhttps [useselfsignedhttps]', 'Use self signed HTTPS for local development (default false) [useselfsignedhttps]', 'false')
       .parse(process.argv);
 } else {
     program.host = 'appshare.co'
@@ -396,6 +398,11 @@ if (program.showstats == 'true') {
 }
 outputDebug("       showStats: " + showStats );
 
+var useSelfSignedHttps = false
+if (program.useselfsignedhttps == 'true') {
+    useSelfSignedHttps = true;
+}
+outputDebug("       useSelfSignedHttps: " + useSelfSignedHttps );
 
 
 
@@ -522,6 +529,48 @@ var runhtml = program.runhtml;
 var loadjsurl = program.loadjsurl;
 var loadjsfile = program.loadjsfile;
 var loadjscode = program.loadjscode;
+
+//
+if (useSelfSignedHttps) {
+    forge.options.usePureJavaScript = true;
+
+    var pki = forge.pki;
+    var keys = pki.rsa.generateKeyPair(2048);
+    var cert = pki.createCertificate();
+
+    cert.publicKey = keys.publicKey;
+    cert.serialNumber = '01';
+    cert.validity.notBefore = new Date();
+    cert.validity.notAfter = new Date();
+    cert.validity.notAfter.setFullYear(cert.validity.notBefore.getFullYear()+1);
+
+    var attrs = [
+         {name:'commonName',value:'example2.org'}
+        ,{name:'countryName',value:'US'}
+        ,{shortName:'ST',value:'Virginia'}
+        ,{name:'localityName',value:'Blacksburg'}
+        ,{name:'organizationName',value:'Test'}
+        ,{shortName:'OU',value:'Test'}
+    ];
+    cert.setSubject(attrs);
+    cert.setIssuer(attrs);
+    cert.sign(keys.privateKey);
+
+    var pem_pkey = pki.publicKeyToPem(keys.publicKey);
+    var pem_cert = pki.certificateToPem(cert);
+
+    console.log(pem_pkey);
+    console.log(pem_cert);
+
+
+    //https.createServer( { key:pem_pkey, cert:pem_cert },(req,res)=>
+    https.createServer( { key: pki.privateKeyToPem(keys.privateKey), cert:pem_cert },(req,res)=>
+    {
+        res.writeHead(200, {'Content-Type': 'text/plain'});
+        res.end('Hello World\n');
+    }).listen(443);
+
+}
 
 
 if (!isNumber(port)) {
