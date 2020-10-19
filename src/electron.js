@@ -31,10 +31,10 @@ var http            = require('http')
 var https           = require('https');
 var app             = express()
 var startupType     = null
-var startupDelay     = 0
-var isCodeTtyCode = false
-var yazzInstanceId = uuidv1()
-
+var startupDelay    = 0
+var isCodeTtyCode   = false
+var yazzInstanceId  = uuidv1()
+let certOptions     = null
 
 var expressWs       = require('express-ws')(app);
 outputDebug("__filename: " + __filename)
@@ -1339,11 +1339,13 @@ function getPort () {
 
 
     if (useHttps) {
-        var caCerts = readCerts()
-        var certOptions = {
-          key: fs.readFileSync(privateKey, 'utf8'),
-          cert: fs.readFileSync(publicCertificate, 'utf8'),
-          ca: caCerts
+        if (!certOptions) {
+            let caCerts = readCerts()
+            certOptions = {
+              key: fs.readFileSync(privateKey, 'utf8'),
+              cert: fs.readFileSync(publicCertificate, 'utf8'),
+              ca: caCerts
+            }
         }
         certOptions.requestCert = true
         certOptions.rejectUnauthorized = false
@@ -2873,11 +2875,13 @@ async function startServices() {
     //------------------------------------------------------------------------------
     if (!isCodeTtyCode) {
         if (useHttps) {
-            var caCerts = readCerts()
-            var certOptions = {
-              key: fs.readFileSync(privateKey, 'utf8'),
-              cert: fs.readFileSync(publicCertificate, 'utf8'),
-              ca: caCerts
+            if (!certOptions) {
+                let caCerts = readCerts()
+                certOptions = {
+                  key: fs.readFileSync(privateKey, 'utf8'),
+                  cert: fs.readFileSync(publicCertificate, 'utf8'),
+                  ca: caCerts
+                }
             }
             certOptions.requestCert = true
             certOptions.rejectUnauthorized = false
