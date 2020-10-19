@@ -530,7 +530,7 @@ var loadjsurl = program.loadjsurl;
 var loadjsfile = program.loadjsfile;
 var loadjscode = program.loadjscode;
 
-//
+//zzz
 if (useSelfSignedHttps) {
     forge.options.usePureJavaScript = true;
 
@@ -545,7 +545,7 @@ if (useSelfSignedHttps) {
     cert.validity.notAfter.setFullYear(cert.validity.notBefore.getFullYear()+1);
 
     var attrs = [
-         {name:'commonName',value:'example2.org'}
+         {name:'commonName',value:'appshare.co_' + uuidv1() }
         ,{name:'countryName',value:'US'}
         ,{shortName:'ST',value:'Virginia'}
         ,{name:'localityName',value:'Blacksburg'}
