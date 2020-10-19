@@ -564,12 +564,18 @@ if (useSelfSignedHttps) {
 
 
     //https.createServer( { key:pem_pkey, cert:pem_cert },(req,res)=>
-    https.createServer( { key: pki.privateKeyToPem(keys.privateKey), cert:pem_cert },(req,res)=>
-    {
-        res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.end('Hello World\n');
-    }).listen(443);
+    //https.createServer( { key: pki.privateKeyToPem(keys.privateKey), cert:pem_cert },(req,res)=>
+    //{
+    //  res.writeHead(200, {'Content-Type': 'text/plain'});
+    //  res.end('Hello World\n');
+    //}).listen(443);
 
+    certOptions = {
+                      key: pki.privateKeyToPem(keys.privateKey)
+                      ,
+                      cert:pem_cert
+                  }
+    useHttps = true
 }
 
 
