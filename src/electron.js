@@ -505,30 +505,10 @@ outputDebug("deleteOnStartup: " + deleteOnStartup)
 locked = (program.locked == 'true');
 
 useHttps = (program.https == 'true');
-if (useHttps) {
-    serverProtocol = "https"
-}
-outputDebug("useHttps: " + useHttps)
-privateKey = program.private;
-publicCertificate = program.public;
-caCertificate1 = program.cacert1;
-caCertificate2 = program.cacert2;
-caCertificate3 = program.cacert3;
-var useHost = program.usehost;
-
-if (useHost) {
-    hostaddress = useHost
-    outputDebug("USE Host: " + useHost)
-}
 
 
-port = program.port;
-outputDebug("port: " + port)
-var runapp = program.runapp;
-var runhtml = program.runhtml;
-var loadjsurl = program.loadjsurl;
-var loadjsfile = program.loadjsfile;
-var loadjscode = program.loadjscode;
+
+
 
 //zzz
 if (useSelfSignedHttps) {
@@ -577,6 +557,33 @@ if (useSelfSignedHttps) {
                   }
     useHttps = true
 }
+
+if (useHttps) {
+    serverProtocol = "https"
+}
+outputDebug("useHttps: " + useHttps)
+privateKey = program.private;
+publicCertificate = program.public;
+caCertificate1 = program.cacert1;
+caCertificate2 = program.cacert2;
+caCertificate3 = program.cacert3;
+var useHost = program.usehost;
+
+if (useHost) {
+    hostaddress = useHost
+    outputDebug("USE Host: " + useHost)
+}
+
+
+port = program.port;
+outputDebug("port: " + port)
+var runapp = program.runapp;
+var runhtml = program.runhtml;
+var loadjsurl = program.loadjsurl;
+var loadjsfile = program.loadjsfile;
+var loadjscode = program.loadjscode;
+
+
 
 
 if (!isNumber(port)) {
