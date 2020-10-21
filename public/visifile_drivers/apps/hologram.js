@@ -17,51 +17,50 @@ logo_url("/driver_icons/hologram.png")
                 <div>({{x}},{{y}}) . ({{width}},{{height}}) , {{view_y}}
 
                 </div>
-                          <a-scene  physics-world=""
-                      physics="debug: false"
-                      cursor="rayOrigin: mouse"
-                      style='width: 80%; height: 80%;'
 
-                      embedded>
+<a-scene
+    cursor="rayOrigin: mouse"
+    style='width: 50%; height: 50%;'
+    embedded>
 
-    <a-entity
-    position="0 0 -3"
-    v-bind:rotation='"0 "  + view_y + "  0"'>
-                <a-entity   id="laser"
-                            laser-controls="hand: right"
-                            raycaster="hand: right;model: true;"
-                            line="opacity:1.0;">
+    <a-entity   position="0 0 -3"
+                v-bind:rotation='view_y + " "  + view_x + "  0"'>
+
+        <a-entity   id="laser"
+                    laser-controls="hand: right"
+                    raycaster="hand: right;model: true;"
+                    line="opacity:1.0;">
+        </a-entity>
+
+        <a-box    id="interact_box_three"
+                  position="-1 1 0"
+                  rotation="0 0 0"
+                  color="#4CC3D9">
+        </a-box>
+
+        <a-sphere   position="0 1.25 -2" radius="1.25" color="#EF2D5E">
+        </a-sphere>
+
+
+        <a-cylinder position="1 0.75 0" radius="0.5" height="1.5" color="gray">
+                <a-entity position="2 2 1"  v-bind:text='"width:10;value: " + msg + ";color:gray;"'>
                 </a-entity>
-                <a-box    id="interact_box_three"
-                          position="-1 1 0"
-                          body="shape: box; mass: 2"
-                          rotation="0 45 0"
-                          color="#4CC3D9">
-                </a-box>
+        </a-cylinder>
 
-                <a-sphere body="shape: box; mass: 2"
-                          position="0 1.25 -2" radius="1.25" color="#EF2D5E">
-                </a-sphere>
+        <a-plane  static-body
+                  position="0 0 -1"
+                  rotation="-90 0 0" width="4" height="4"
+                  color="#7BC8A4">
+        </a-plane>
 
-
-                <a-cylinder position="1 0.75 0" radius="0.5" height="1.5" color="gray">
-                    <a-entity position="2 2 1"  v-bind:text='"width:10;value: " + msg + ";color:gray;"'>
-                    </a-entity>
-                </a-cylinder>
-
-                <a-plane  static-body
-                          position="0 0 -1"
-                          rotation="-90 0 0" width="4" height="4"
-                          color="#7BC8A4">
-                </a-plane>
-                <a-sky color="#ECECEC"></a-sky>
-                </a-entity>
-              </a-scene>
+        <a-sky color="#ECECEC"></a-sky>
+    </a-entity>
+</a-scene>
 
 
               <div style="position: relative" class="margin">
                   <video
-                      style="position: absolute;width:100%;height;100%;"
+                      style="position: absolute;width:50%;height;50%;"
                       v-on:play="onPlay"
                       id="inputVideo"
                       autoplay
@@ -69,7 +68,7 @@ logo_url("/driver_icons/hologram.png")
                  </video>
 
                   <canvas  id="overlay"
-                            style="position: absolute;;width:100%;height;100%;"
+                            style="position: absolute;;width:50%;height;50%;"
                   />
             </div>
 
@@ -86,8 +85,8 @@ logo_url("/driver_icons/hologram.png")
               width: -1,
               height: -1
               ,
-              view_x: -90,
-              view_y: 3
+              view_x: 0,
+              view_y: 0
           }
       }
       ,
@@ -139,8 +138,9 @@ logo_url("/driver_icons/hologram.png")
                     mm.width = Math.floor(detections._box._width)
                     mm.height = Math.floor(detections._box._height)
 
-                    mm.view_y = -25 + ((1 / mm.width) * mm.x * 30)
-                    console.log(JSON.stringify(mm.view_y,null,2))
+                    mm.view_x = -35 + ((1 / mm.width) * mm.x * 30)
+                    //mm.view_y = -35 + ((1 / mm.height) * mm.y * 30)
+                    //console.log(JSON.stringify(mm.view_y,null,2))
 
                 }
                 //console.log(mm.car++)
@@ -150,7 +150,7 @@ logo_url("/driver_icons/hologram.png")
 
             }
 
-            setTimeout(() => mm.onPlay(),500)
+            setTimeout(() => mm.onPlay(),100)
         }
 
       }
