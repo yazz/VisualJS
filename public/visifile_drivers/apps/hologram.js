@@ -138,7 +138,7 @@ logo_url("/driver_icons/hologram.png")
                     mm.width = Math.floor(detections._box._width)
                     mm.height = Math.floor(detections._box._height)
 
-                    mm.view_x = -35 + ((1 / mm.width) * mm.x * 30)
+                    mm.view_x = -14 + ((1 / mm.width) * mm.x * 15)
                     //mm.view_y = -35 + ((1 / mm.height) * mm.y * 30)
                     //console.log(JSON.stringify(mm.view_y,null,2))
 
@@ -150,7 +150,7 @@ logo_url("/driver_icons/hologram.png")
 
             }
 
-            setTimeout(() => mm.onPlay(),100)
+            setTimeout(() => mm.onPlay())
         }
 
       }
