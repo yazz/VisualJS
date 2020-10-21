@@ -1,6 +1,5 @@
 async function hologram_app(args) {
 /*
-parent_hash("0bdecc91678f1cb9870dc8a6b14f97dc84dbab2e99f826e3a856de077dbd6ffc")
 visibility("PUBLIC")
 base_component_id("hologram")
 created_timestamp(-1)
@@ -56,7 +55,7 @@ logo_url("/driver_icons/hologram.png")
 
         <a-plane  static-body
                   position="0 0 -1"
-                  rotation="-90 0 0" width="4" height="4"
+                  rotation="-90 0 0" width="20" height="20"
                   color="#7BC8A4">
         </a-plane>
 
@@ -105,7 +104,7 @@ logo_url("/driver_icons/hologram.png")
         await faceapi.loadMtcnnModel('/weights')
         await faceapi.loadFaceRecognitionModel('/weights')
         await faceapi.nets.faceLandmark68Net.loadFromUri('/weights')
-          await faceapi.nets.tinyFaceDetector.loadFromUri('/weights' );
+        await faceapi.nets.tinyFaceDetector.loadFromUri('/weights' );
 
 
             // Grab elements, create settings, etc.
@@ -134,9 +133,11 @@ logo_url("/driver_icons/hologram.png")
                 }
 
                 const detections = await faceapi.detectSingleFace(
-                                        document.getElementById('inputVideo'))
+                                        document.getElementById('inputVideo')
+                                        ,
+                                        new faceapi.TinyFaceDetectorOptions())
 
-                const mtcnnResults = await faceapi.mtcnn(document.getElementById('inputVideo'), mtcnnForwardParams)
+                //const mtcnnResults = await faceapi.mtcnn(document.getElementById('inputVideo'), mtcnnForwardParams)
 
                 //faceapi.draw.drawDetections(document.getElementById('overlay'), detections);
                 if (detections) {
@@ -161,7 +162,7 @@ logo_url("/driver_icons/hologram.png")
 
             }
 
-            setTimeout(() => mm.onPlay())
+            setTimeout(() => mm.onPlay(),100)
         }
         ,
 
