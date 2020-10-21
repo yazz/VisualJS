@@ -1,5 +1,6 @@
 async function hologram_app(args) {
 /*
+parent_hash("0bdecc91678f1cb9870dc8a6b14f97dc84dbab2e99f826e3a856de077dbd6ffc")
 visibility("PUBLIC")
 base_component_id("hologram")
 created_timestamp(-1)
@@ -14,7 +15,7 @@ logo_url("/driver_icons/hologram.png")
     Vue.component('hologram',{
       template: `<div id="app2" style='padding: 20px;'>
 
-                <div>({{x}},{{y}}) . ({{width}},{{height}}) , {{view_y}}
+                <div>({{x}},{{y}}) . ({{width}},{{height}}) ,  {{view_x}}, {{view_y}}, {{videoWidth}}
 
                 </div>
 
@@ -46,6 +47,12 @@ logo_url("/driver_icons/hologram.png")
                 <a-entity position="2 2 1"  v-bind:text='"width:10;value: " + msg + ";color:gray;"'>
                 </a-entity>
         </a-cylinder>
+
+        <a-box    id="interact_box_three2"
+                  position="1 2 0"
+                  rotation="0 0 0"
+                  color="#4CC3D9">
+        </a-box>
 
         <a-plane  static-body
                   position="0 0 -1"
@@ -86,7 +93,8 @@ logo_url("/driver_icons/hologram.png")
               height: -1
               ,
               view_x: 0,
-              view_y: 0
+              view_y: 0,
+              videoWidth: 0
           }
       }
       ,
@@ -138,7 +146,10 @@ logo_url("/driver_icons/hologram.png")
                     mm.width = Math.floor(detections._box._width)
                     mm.height = Math.floor(detections._box._height)
 
-                    mm.view_x = -14 + ((1 / mm.width) * mm.x * 15)
+
+                    mm.videoWidth = mm.getInnerWidth(document.getElementById("inputVideo"))
+
+                    mm.view_x = -30 + ((1 / mm.videoWidth) * mm.x * 120)
                     //mm.view_y = -35 + ((1 / mm.height) * mm.y * 30)
                     //console.log(JSON.stringify(mm.view_y,null,2))
 
@@ -151,6 +162,12 @@ logo_url("/driver_icons/hologram.png")
             }
 
             setTimeout(() => mm.onPlay())
+        }
+        ,
+
+
+        getInnerWidth: function(elem) {
+            return elem.getBoundingClientRect().width
         }
 
       }
