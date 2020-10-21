@@ -135,7 +135,10 @@ logo_url("/driver_icons/hologram.png")
                 const detections = await faceapi.detectSingleFace(
                                         document.getElementById('inputVideo')
                                         ,
-                                        new faceapi.TinyFaceDetectorOptions())
+                                        new faceapi.TinyFaceDetectorOptions()
+                                        ,
+                                        mtcnnForwardParams
+                                        )
 
                 //const mtcnnResults = await faceapi.mtcnn(document.getElementById('inputVideo'), mtcnnForwardParams)
 
@@ -162,7 +165,7 @@ logo_url("/driver_icons/hologram.png")
 
             }
 
-            setTimeout(() => mm.onPlay(),100)
+            setTimeout(() => mm.onPlay())
         }
         ,
 
