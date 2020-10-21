@@ -135,7 +135,7 @@ logo_url("/driver_icons/hologram.png")
                 const detections = await faceapi.detectSingleFace(
                                         document.getElementById('inputVideo')
                                         ,
-                                        new faceapi.TinyFaceDetectorOptions()
+                                        new faceapi.TinyFaceDetectorOptions({scoreThreshold: .1,inputSize: 128})
                                         ,
                                         mtcnnForwardParams
                                         )
