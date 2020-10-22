@@ -1,6 +1,5 @@
 async function hologram_app(args) {
 /*
-parent_hash("8638cb9c331c8f30ff92eb870eef990ee9bd2d602e2e6462adf8bb5098ca4be1")
 visibility("PUBLIC")
 base_component_id("hologram")
 created_timestamp(-1)
@@ -24,12 +23,8 @@ logo_url("/driver_icons/hologram.png")
     style='width: 50%; height: 50%;'
     embedded>
 
-    <a-entity camera look-controls v-bind:position='view_x + " 1.6 0"'></a-entity>
-
-
     <a-entity   position="0 0 -3"
-                v-bind:rotation='"0  0  0"'>
-
+                v-bind:rotation='view_y + " "  + view_x + "  0"'>
 
         <a-entity   id="laser"
                     laser-controls="hand: right"
@@ -158,7 +153,7 @@ logo_url("/driver_icons/hologram.png")
 
                     mm.videoWidth = mm.getInnerWidth(document.getElementById("inputVideo"))
 
-                    mm.view_x =  1 + (parseFloat((1 / mm.videoWidth).toFixed(3)) * mm.x * -3)
+                    mm.view_x = -30 + ((1 / mm.videoWidth) * mm.x * 120)
                     //mm.view_y = -35 + ((1 / mm.height) * mm.y * 30)
                     //console.log(JSON.stringify(mm.view_y,null,2))
 
