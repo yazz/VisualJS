@@ -64,7 +64,7 @@ logo_url("/driver_icons/hologram.png")
 </a-scene>
 
 
-              <div style="position: relative" class="margin">
+              <div style="position: relative;visibility: hidden;" class="margin">
                   <video
                       style="position: absolute;width:50%;height;50%;"
                       v-on:play="onPlay"
