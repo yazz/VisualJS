@@ -104,13 +104,13 @@ properties(
             hidden:     true
         }
         ,
-        {
-            id:         "setData",
-            snippet:    `setData([{a: 1, b: "c"},{a: 2, b: "d"}])`,
-            name:       "setData",
-            type:       "Action"
-        }
-        ,
+        //{
+        //    id:         "setData",
+        //    snippet:    `setData([{a: 1, b: "c"},{a: 2, b: "d"}])`,
+        //    name:       "setData",
+        //    type:       "Action"
+        //}
+        //,
         {
             id:         "resetColumns",
             snippet:    `resetColumns()`,
@@ -964,6 +964,7 @@ logo_url("/driver_icons/data_control.png")
                                             })
             }
             ,
+            /*
             setData: async function(data) {
                 this.args.data = data
                 this.table.setData(data)
@@ -999,6 +1000,7 @@ logo_url("/driver_icons/data_control.png")
 
             }
             ,
+            */
 
 
 
