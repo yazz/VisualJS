@@ -2,8 +2,8 @@ function(args) {
 /*
 is_app(true)
 component_type("VB")
-display_name("Red Hat AMQ control")
-description("This will return the AMQ control")
+display_name("Red Hat Decision Manager control")
+description("This will return the Decision Manager control")
 base_component_id("rhdm_control")
 load_once_from_file(true)
 visibility("PRIVATE")
@@ -47,13 +47,6 @@ properties(
 
 
 
-        {
-            id:      "destination",
-            name:    "Destination",
-            type:    "String",
-            default: "/queue/test"
-        }
-        ,
 
 
         {
@@ -73,11 +66,11 @@ properties(
 
         ,
         {
-            id:         "testAMQ",
-            name:       "test AMQ()",
+            id:         "testDecisionManager",
+            name:       "testDecisionManager()",
             type:       "Action",
             pre_snippet:    `await `,
-            snippet:    `testAMQ()`
+            snippet:    `testDecisionManager()`
         }
 
 
@@ -136,12 +129,12 @@ logo_url("/driver_icons/rhdm.png")
 
         methods: {
 
-            testAMQ: async function() {
+            testDecisionManager: async function() {
                 var mm = this
                 var result = await callFunction(
                     {
-                        driver_name: "activemq_service",
-                        method_name: "activemq_service"
+                        driver_name: "rh_dm_service",
+                        method_name: "rh_dm_service"
                     }
                     ,
                     {
@@ -149,8 +142,6 @@ logo_url("/driver_icons/rhdm.png")
                         ,
                         //brokers: mm.args.brokers
                         port: mm.args.port
-                        ,
-                        destination: mm.args.destination
                         ,
                         username: mm.args.username
                         ,
