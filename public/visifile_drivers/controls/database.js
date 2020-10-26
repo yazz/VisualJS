@@ -11,12 +11,6 @@ read_only(true)
 properties(
     [
         {
-            id:     "text",
-            name:   "Text",
-            type:   "String"
-        }
-        ,
-        {
             id:         "connect_status",
             name:       "Connect Status",
             type:       "String",
