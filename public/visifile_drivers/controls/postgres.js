@@ -334,7 +334,7 @@ logo_url("/driver_icons/postgres.jpg")
                         if (this.properties.select_columns.length > 0) {
                             colSql = ""
                             for (var coli=0; coli < this.properties.select_columns.length; coli ++) {
-                                colSql += this.properties.select_columns[coli].value
+                                colSql += "\"" + this.properties.select_columns[coli].value + "\""
                                 if (coli< (this.properties.select_columns.length - 1)) {
                                     colSql += ","
                                 }
