@@ -125,10 +125,17 @@ properties(
         }
         ,
         {
-            id:         "selectCols",
-            name:       "Select cols",
+            id:         "select_columns",
+            name:       "Select columns",
             type:       "Array",
             default:     []
+        }
+        ,
+        {
+            id:         "select_table",
+            name:       "Select table",
+            type:       "String",
+            default:    ""
         }
         ,
         {
@@ -322,7 +329,35 @@ logo_url("/driver_icons/postgres.jpg")
                 try {
                     let result = null
 
-                    if (this.properties.fddfs) {
+                    if (this.properties.select_columns) {
+                        let colSql = "*"
+                        if (this.properties.select_columns.length > 0) {
+                            colSql = ""
+                            for (var coli=0; coli < this.properties.select_columns.length; coli ++) {
+                                colSql += this.properties.select_columns[coli].value
+                                if (coli< (this.properties.select_columns.length - 1)) {
+                                    colSql += ","
+                                }
+                            }
+                        }
+                        let sql = "select " + colSql + " from " + this.properties.select_table
+
+                        //if (this.args.where_clause && (this.args.where_clause.length > 0)) {
+                        //    this.args.sql += " where " + this.args.where_clause
+                        //}
+                        result = await callFunction(
+                                            {
+                                                driver_name: "postgres_server",
+                                                method_name: "postgres_sql"  }
+                                                ,{
+                                                    sql:             sql,
+                                                    user:            this.args.user,
+                                                    password:        this.args.password,
+                                                    database:        this.args.database,
+                                                    host:            this.args.host,
+                                                    port:            this.args.port
+                                                 })
+
                     } else if (this.properties.sql) {
                         result = await callFunction(
                                             {
