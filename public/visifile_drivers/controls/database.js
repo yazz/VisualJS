@@ -105,13 +105,6 @@ properties(
         }
         ,
         {
-            id:         "setData",
-            snippet:    `setData([{a: 1, b: "c"},{a: 2, b: "d"}])`,
-            name:       "setData",
-            type:       "Action"
-        }
-        ,
-        {
             id:         "resetColumns",
             snippet:    `resetColumns()`,
             name:       "resetColumns",
@@ -834,7 +827,6 @@ logo_url("/driver_icons/data_control.png")
              await mm.executeSql()
            },300)
              //alert(JSON.stringify(results,null,2))
-             //await this.setData(results)
          }
 
       }
@@ -962,41 +954,6 @@ logo_url("/driver_icons/data_control.png")
                                                 sub_type:           "changed",
                                                 code:                this.args.changed_event
                                             })
-            }
-            ,
-            setData: async function(data) {
-                this.args.data = data
-                this.table.setData(data)
-
-                var keysOfData = new Object()
-                if ((this.columnDefinitions == null)  || (this.columnDefinitions.length == 0)) {
-                    for (var rr = 0 ; rr < data.length; rr ++) {
-                        var dfg = Object.keys(data[rr])
-                        for (var qq = 0 ; qq < dfg.length; qq ++) {
-                            keysOfData[dfg[qq]] = true
-                        }
-                    }
-                }
-
-                if (this.args.dataWindowColumns.length == 0) {
-                    var dfg2 = Object.keys(keysOfData)
-                    for (var qq2 = 0 ; qq2 < dfg2.length; qq2 ++) {
-                        this.addColumn({title:dfg2[qq2], field:dfg2[qq2]})
-                    }
-
-                } else {
-                    for (var coli = this.args.dataWindowColumns.length - 1; coli >= 0; coli --) {
-                        var colDefn = {title:this.args.dataWindowColumns[coli].name,
-                                        field:this.args.dataWindowColumns[coli].value
-                                    }
-                        if (this.args.dataWindowColumns[coli].width) {
-                            colDefn.width = parseInt(this.args.dataWindowColumns[coli].width)
-                        }
-
-                        this.addColumn(colDefn)
-                    }
-                }
-
             }
             ,
 
