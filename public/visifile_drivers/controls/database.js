@@ -1025,6 +1025,7 @@ logo_url("/driver_icons/data_control.png")
                 let mm = this
                 let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
                 newcontrol.sql = mm.properties.sql
+                newcontrol.selectCols = mm.properties.dataWindowColumns
                 let result = await newcontrol.executeSql()
                 this.properties.result = result
                 this.properties.data = result

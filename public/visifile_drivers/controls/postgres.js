@@ -124,7 +124,13 @@ properties(
             default: "SELECT * FROM pg_catalog.pg_tables;"
         }
         ,
-
+        {
+            id:         "selectCols",
+            name:       "Select cols",
+            type:       "Array",
+            default:     []
+        }
+        ,
         {
             id:     "getTables",
             name:   "getTables",
