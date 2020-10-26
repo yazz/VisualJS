@@ -84,13 +84,13 @@ properties(
         }
         ,
         {
-            id:         "executeSql",
+            id:         "runQuery",
             pre_snippet: `await `,
-            snippet:    `executeSql()`,
-            name:       "executeSql",
+            snippet:    `runQuery()`,
+            name:       "runQuery",
             type:       "Action",
             help:       `<div>Help text for
-                            <b>executeSql</b> function
+                            <b>runQuery</b> function
                             <div>The SQL is store in the "sql" property</div>
                          </div>`
         }
@@ -208,7 +208,7 @@ logo_url("/driver_icons/import_access.png")
                                            })
                  //debugger
 
-                 //alert("executeSql: " + JSON.stringify(result,null,2))
+                 //alert("runQuery: " + JSON.stringify(result,null,2))
                  console.log(JSON.stringify(result,null,2))
                  let retTables = []
                  if (result) {
@@ -256,7 +256,7 @@ logo_url("/driver_icons/import_access.png")
 
 
 
-                   //alert("executeSql: " + JSON.stringify(result,null,2))
+                   //alert("runQuery: " + JSON.stringify(result,null,2))
                    console.log(JSON.stringify(result,null,2))
                    let retTables = []
                    if (result) {
@@ -287,7 +287,7 @@ logo_url("/driver_icons/import_access.png")
                 return null
             }
             ,
-            executeSql: async function() {
+            runQuery: async function() {
                 if (!this.design_mode) {
                     var result = await callFunction(
                                         {
@@ -304,7 +304,7 @@ logo_url("/driver_icons/import_access.png")
                                              })
 
 
-                   //alert("executeSql: " + JSON.stringify(result,null,2))
+                   //alert("runQuery: " + JSON.stringify(result,null,2))
                    console.log(JSON.stringify(result,null,2))
                    if (result) {
                         this.args.result = result.result

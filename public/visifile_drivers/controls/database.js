@@ -312,14 +312,14 @@ properties(
         }
         ,
         {
-            id:         "executeSql",
+            id:         "runQuery",
             pre_snippet: `await `,
             async: true,
-            snippet:    `executeSql()`,
-            name:       "executeSql",
+            snippet:    `runQuery()`,
+            name:       "runQuery",
             type:       "Action",
             help:       `<div>Help text for
-                            <b>executeSql</b> function
+                            <b>runQuery</b> function
                             <div>The SQL is store in the "sql" property</div>
                          </div>`
         }
@@ -819,7 +819,7 @@ logo_url("/driver_icons/data_control.png")
            // referenced
            setTimeout(async function(){
              await mm.connect()
-             await mm.executeSql()
+             await mm.runQuery()
            },300)
              //alert(JSON.stringify(results,null,2))
          }
@@ -966,7 +966,7 @@ logo_url("/driver_icons/data_control.png")
 
 
 
-                   //alert("executeSql: " + JSON.stringify(result,null,2))
+                   //alert("runQuery: " + JSON.stringify(result,null,2))
                    console.log(JSON.stringify(result,null,2))
                    if (result) {
                        this.properties.tables = []
@@ -1021,12 +1021,12 @@ logo_url("/driver_icons/data_control.png")
 
 
 
-            executeSql: async function() {
+            runQuery: async function() {
                 let mm = this
                 let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
                 newcontrol.sql = mm.properties.sql
                 newcontrol.selectCols = mm.properties.dataWindowColumns
-                let result = await newcontrol.executeSql()
+                let result = await newcontrol.runQuery()
                 this.properties.result = result
                 this.properties.data = result
                 return this.properties.result

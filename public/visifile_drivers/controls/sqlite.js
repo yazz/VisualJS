@@ -48,13 +48,13 @@ properties(
         }
         ,
         {
-            id:         "executeSql",
+            id:         "runQuery",
             pre_snippet: `await `,
-            snippet:    `executeSql()`,
-            name:       "executeSql",
+            snippet:    `runQuery()`,
+            name:       "runQuery",
             type:       "Action",
             help:       `<div>Help text for
-                            <b>executeSql</b> function
+                            <b>runQuery</b> function
                             <div>The SQL is store in the "sql" property</div>
                          </div>`
         }
@@ -169,7 +169,7 @@ logo_url("/driver_icons/sqlite.jpg")
                                            })
 
 
-                 //alert("executeSql: " + JSON.stringify(result,null,2))
+                 //alert("runQuery: " + JSON.stringify(result,null,2))
                  console.log(JSON.stringify(result,null,2))
                  if (result) {
                      this.tables = []
@@ -201,7 +201,7 @@ logo_url("/driver_icons/sqlite.jpg")
                                              })
 
 
-                   //alert("executeSql: " + JSON.stringify(result,null,2))
+                   //alert("runQuery: " + JSON.stringify(result,null,2))
                    console.log(JSON.stringify(result,null,2))
                    if (result.error) {
                        return false
@@ -237,7 +237,7 @@ logo_url("/driver_icons/sqlite.jpg")
 
 
 
-                   //alert("executeSql: " + JSON.stringify(result,null,2))
+                   //alert("runQuery: " + JSON.stringify(result,null,2))
                    console.log(JSON.stringify(result,null,2))
                    if (result) {
                        this.args.columns = []
@@ -266,7 +266,7 @@ logo_url("/driver_icons/sqlite.jpg")
                 return null
             }
             ,
-            executeSql: async function() {
+            runQuery: async function() {
                 if (!this.design_mode) {
                     var result = await callFunction(
                                         {
@@ -278,7 +278,7 @@ logo_url("/driver_icons/sqlite.jpg")
                                              })
 
 
-                   //alert("executeSql: " + JSON.stringify(result,null,2))
+                   //alert("runQuery: " + JSON.stringify(result,null,2))
                    console.log(JSON.stringify(result,null,2))
                    if (result) {
                         this.args.result = result.result
