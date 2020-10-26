@@ -117,10 +117,17 @@ properties(
             help:       `<div>Help text for
                             <b>getDynamic</b> function
                          </div>`
-        },
+        }
+        ,
         {
             id:     "getTables",
             name:   "getTables",
+            type:   "Action"
+        }
+        ,
+        {
+            id:     "connect",
+            name:   "connect",
             type:   "Action"
         }
         ,
@@ -276,7 +283,26 @@ logo_url("/driver_icons/import_access.png")
 
 
 
-
+            connect: async function() {
+                try {
+                    var result = await callFunction(
+                                        {
+                                            driver_name: "access_server",
+                                            method_name: "access_sql"  }
+                                            ,{
+                                                connect:         true,
+                                                path:            this.properties.access_file_path
+                                             })
+                    if (result.err) {
+                        return false
+                    } else {
+                        return true
+                    }
+                } catch (catchErr) {
+                    return false
+                }
+            }
+            ,
 
 
 
