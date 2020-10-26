@@ -205,11 +205,6 @@ logo_url("/driver_icons/import_access.png")
                                           driver_name: "access_server",
                                           method_name: "access_sql"  }
                                           ,{
-                                              user:            this.args.user,
-                                              password:        this.args.password,
-                                              database:        this.args.database,
-                                              host:            this.args.host,
-                                              port:            this.args.port,
                                               get_tables:      true,
                                               path:            this.properties.access_file_path
                                            })
@@ -243,7 +238,6 @@ logo_url("/driver_icons/import_access.png")
 
             getColumns: async function() {
                 console.log("In getColumns")
-                debugger
 
                 if (this.design_mode) {
                     var result = await callFunction(
@@ -251,13 +245,8 @@ logo_url("/driver_icons/import_access.png")
                                             driver_name: "access_server",
                                             method_name: "access_sql"  }
                                             ,{
-                                                user:            this.args.user,
-                                                password:        this.args.password,
-                                                database:        this.args.database,
-                                                host:            this.args.host,
-                                                port:            this.args.port,
                                                 path:            this.properties.access_file_path,
-                                                get_columns:      true,
+                                                get_columns:     true,
                                                 table:           this.args.design_mode_table
                                              })
 
@@ -314,18 +303,15 @@ logo_url("/driver_icons/import_access.png")
             }
             ,
             runQuery: async function() {
+                debugger
                 if (!this.design_mode) {
                     var result = await callFunction(
                                         {
                                             driver_name: "access_server",
                                             method_name: "access_sql"  }
                                             ,{
-                                                sql:             this.args.sql,
-                                                user:            this.args.user,
-                                                password:        this.args.password,
-                                                database:        this.args.database,
-                                                host:            this.args.host,
-                                                port:            this.args.port,
+                                                get_data:        true,
+                                                table:           this.properties.select_table,
                                                 path:            this.properties.access_file_path
                                              })
 
@@ -349,12 +335,6 @@ logo_url("/driver_icons/import_access.png")
                 if (isValidObject(this.args)) {
                     //this.args.text = this.text
                 }
-            }
-
-            ,
-            getDynamic: function() {
-                debugger
-                return "dynamic return for naccess"
             }
         }
     })

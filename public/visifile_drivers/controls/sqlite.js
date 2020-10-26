@@ -266,6 +266,13 @@ logo_url("/driver_icons/sqlite.jpg")
                 return null
             }
             ,
+
+
+
+
+
+
+            
             runQuery: async function() {
                 if (!this.design_mode) {
                     var result = await callFunction(

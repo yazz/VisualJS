@@ -20,6 +20,20 @@ only_run_on_server(true)
 
                 let ret = noaccess.getTables()
                 returnFn(ret)
+
+
+
+
+            //
+            // get columns
+            //
+            } else if (args.get_data) {
+
+                let ret = noaccess.getTableData(args.table)
+                returnFn(ret)
+
+
+
             //
             // get columns
             //
