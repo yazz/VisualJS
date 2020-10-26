@@ -316,15 +316,6 @@ properties(
                             <div>The SQL is store in the "sql" property</div>
                          </div>`
         }
-        ,
-
-        {
-            id:         "test",
-            pre_snippet: ` `,
-            snippet:    `test()`,
-            name:       "test",
-            type:       "Action"
-        }
 
         ]
 )//properties
@@ -855,24 +846,10 @@ logo_url("/driver_icons/data_control.png")
               //debugger
               //await mm.meta.getEditor().updateComponentMethods()
               let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
-              let retttq = newcontrol.getDynamic()
-              //mm.properties.connect_error = retttq
               newcontrol.width = 600
               newcontrol.height = 700
 
-              //let newcontrol =  mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name["aaa"]
-              //newcontrol.setText2("helo duck")
 
-
-          }
-          ,
-          test: function() {
-              //debugger
-              let mm = this
-              //let newcontrol =  mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name[newName]
-              let newcontrol = mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name["aaa"]
-              //mm.dynamic = newcontrol.getDynamic()
-              newcontrol.setText2("helo duck")
           }
           ,
           connect: async function() {

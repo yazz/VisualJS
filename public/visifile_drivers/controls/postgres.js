@@ -111,17 +111,6 @@ properties(
 
 
         {
-            id:         "getDynamic",
-            pre_snippet: `await `,
-            snippet:    `getDynamic()`,
-            name:       "getDynamic",
-            type:       "Action",
-            help:       `<div>Help text for
-                            <b>getDynamic</b> function
-                         </div>`
-        }
-        ,
-        {
             id:     "limit",
             name:   "Limit",
             type:   "Number",
@@ -373,12 +362,6 @@ logo_url("/driver_icons/postgres.jpg")
             }
 
 
-            ,
-            getDynamic: function() {
-                //debugger
-                //this.args.executeSql()
-                return "dynamic return for pg: "
-            }
             ,
 
 

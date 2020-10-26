@@ -109,16 +109,6 @@ properties(
         ,
 
         {
-            id:         "getDynamic",
-            pre_snippet: `await `,
-            snippet:    `getDynamic()`,
-            name:       "getDynamic",
-            type:       "Action",
-            help:       `<div>Help text for
-                            <b>getDynamic</b> function
-                         </div>`
-        },
-        {
             id:     "getTables",
             name:   "getTables",
             type:   "Action"
@@ -131,7 +121,7 @@ properties(
             type:   "Action"
         }
         ,
-        
+
         {
             id:         "design_mode_table",
             name:       "Design Table",
@@ -139,6 +129,18 @@ properties(
             default:    "",
             hidden:     true
         }
+        ,
+        {
+            id:         "connect",
+            pre_snippet: `await `,
+            snippet:    `connect()`,
+            name:       "connect",
+            type:       "Action",
+            help:       `<div>Help text for
+                            <b>connect</b> function
+                         </div>`
+        }
+
 
     ]
 )//properties
@@ -225,6 +227,29 @@ logo_url("/driver_icons/sqlite.jpg")
 
 
                 //debugger
+            }
+            ,
+            connect: async function() {
+                try {
+                    var result = await callFunction(
+                                        {
+                                            driver_name: "sqlite_server",
+                                            method_name: "sqlite_sql"  }
+                                            ,{
+                                                get_tables:      true,
+                                                path:            this.properties.sqlite_file_path
+                                             })
+
+
+                   //alert("executeSql: " + JSON.stringify(result,null,2))
+                   console.log(JSON.stringify(result,null,2))
+                   if (result) {
+                       return true
+                   }
+                } catch (catchErr) {
+
+                }
+                return false
             }
             ,
 
@@ -322,11 +347,6 @@ logo_url("/driver_icons/sqlite.jpg")
                 }
             }
 
-            ,
-            getDynamic: function() {
-                debugger
-                return "dynamic return for nsqlite"
-            }
         }
     })
 }
