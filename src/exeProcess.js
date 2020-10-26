@@ -396,7 +396,7 @@ process.on('uncaughtException', function (err) {
                   driver_name:         currentDriver,
                   method_name:         currentEvent,
                   callback_index:      currentCallbackIndex,
-                  result:              {error: "" + err},
+                  result:              {error: err},
                   called_call_id:      currentCallId
                   });
   inUseIndex --

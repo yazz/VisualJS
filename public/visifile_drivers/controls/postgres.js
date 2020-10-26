@@ -325,28 +325,33 @@ logo_url("/driver_icons/postgres.jpg")
 
             executeSql: async function() {
                 if (!this.design_mode) {
-                    var result = await callFunction(
-                                        {
-                                            driver_name: "postgres_server",
-                                            method_name: "postgres_sql"  }
-                                            ,{
-                                                sql:             this.args.sql,
-                                                user:            this.args.user,
-                                                password:        this.args.password,
-                                                database:        this.args.database,
-                                                host:            this.args.host,
-                                                port:            this.args.port
-                                             })
-                                             debugger
+                    try {
+                        var result = await callFunction(
+                                            {
+                                                driver_name: "postgres_server",
+                                                method_name: "postgres_sql"  }
+                                                ,{
+                                                    sql:             this.args.sql,
+                                                    user:            this.args.user,
+                                                    password:        this.args.password,
+                                                    database:        this.args.database,
+                                                    host:            this.args.host,
+                                                    port:            this.args.port
+                                                 })
+                                                 debugger
 
 
-                   //alert("executeSql: " + JSON.stringify(result,null,2))
-                   console.log(JSON.stringify(result,null,2))
-                   if (result) {
-                        this.args.result = result
+                       //alert("executeSql: " + JSON.stringify(result,null,2))
+                       console.log(JSON.stringify(result,null,2))
+                       if (result) {
+                            this.args.result = result
 
-                        return result
-                   }
+                            return result
+                       }
+                    } catch (catchErr) {
+                       debugger
+                       console.log(JSON.stringify(catchErr,null,2))
+                    }
 
 
                }
