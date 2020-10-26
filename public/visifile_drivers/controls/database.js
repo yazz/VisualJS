@@ -260,18 +260,25 @@ properties(
             hidden: true,
             default:    false
         }
-
-
-
-
-
         ,
+
+
+
+
         {
-            id:     "columns",
-            name:   "columns",
+            id:     "columnNames",
+            name:   "DB Column Names",
             type:   "Array",
             hidden: true,
             default:    []
+        }
+        ,
+        {
+            id:     "databaseColumnDefitions",
+            name:   "databaseColumnDefitions",
+            type:   "Object",
+            hidden: true,
+            default:    {}
         }
 
 
@@ -459,7 +466,7 @@ logo_url("/driver_icons/data_control.png")
                     <div style="height:70%;width:30%; overflow-y: scroll;display:inline-block;vertical-align:top; border: 2px solid gray;">
 
 
-                        <div   v-for='column in args.columns'
+                        <div   v-for='column in args.columnNames'
                                v-on:click="args.selected_column = column;"
                                v-bind:style='"padding: 5px; " + ((args.selected_column == column)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
 
@@ -717,8 +724,6 @@ logo_url("/driver_icons/data_control.png")
        return {
          selected_index:      null
          ,
-         columnDefinitions:  [ ]
-         ,
          data_sources: []
 
 
@@ -794,8 +799,7 @@ logo_url("/driver_icons/data_control.png")
                 	initialSort:                [
                                             	]
                     ,
-
-                	columns:                    this.columnDefinitions
+                    columns:                []
                 });
 
          }
@@ -998,7 +1002,7 @@ logo_url("/driver_icons/data_control.png")
                     let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
                     newcontrol.design_mode_table = mm.properties.design_mode_table
                     let result = await newcontrol.getColumns()
-                    this.properties.columns = result
+                    this.properties.columnNames = result
 
 
 
