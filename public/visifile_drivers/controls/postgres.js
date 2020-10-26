@@ -23,7 +23,7 @@ properties(
             name:   "Password",
             password: true,
             type:   "String",
-            default_expression: "(typeof $POSTGRES_PASSWORD !== 'undefined')?eval('$POSTGRES_PASSWORD'):'password'",
+            default_expression: "(typeof $POSTGRES_PASSWORD !== 'undefined')?eval('$POSTGRES_PASSWORD'):'docker'",
         }
         ,
         {
