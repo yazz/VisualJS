@@ -97,6 +97,20 @@ properties(
         ,
 
         {
+            id:         "connect",
+            pre_snippet: `await `,
+            snippet:    `connect()`,
+            name:       "connect",
+            type:       "Action",
+            help:       `<div>Help text for
+                            <b>connect</b> function
+                         </div>`
+        }
+        ,
+
+
+
+        {
             id:         "getDynamic",
             pre_snippet: `await `,
             snippet:    `getDynamic()`,
@@ -277,6 +291,41 @@ logo_url("/driver_icons/postgres.jpg")
                 return null
             }
             ,
+
+
+            connect: async function() {
+                debugger
+                var result = await callFunction(
+                                    {
+                                        driver_name: "postgres_server",
+                                        method_name: "postgres_sql"  }
+                                        ,{
+                                            sql:             "SELECT * FROM pg_catalog.pg_tables;",
+                                            user:            this.args.user,
+                                            password:        this.args.password,
+                                            database:        this.args.database,
+                                            host:            this.args.host,
+                                            port:            this.args.port
+                                         })
+
+
+               //alert("executeSql: " + JSON.stringify(result,null,2))
+               console.log(JSON.stringify(result,null,2))
+               if (result && result.failed) {
+                    return false
+               }
+
+               return true
+            }
+            ,
+
+
+
+
+
+
+
+
             executeSql: async function() {
                 debugger
                 if (!this.design_mode) {
