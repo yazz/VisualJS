@@ -319,37 +319,39 @@ logo_url("/driver_icons/postgres.jpg")
 
 
             runQuery: async function() {
-                if (!this.design_mode) {
-                    try {
-                        var result = await callFunction(
+                try {
+                    let result = null
+
+                    if (this.properties.fddfs) {
+                    } else if (this.properties.sql) {
+                        result = await callFunction(
                                             {
                                                 driver_name: "postgres_server",
                                                 method_name: "postgres_sql"  }
                                                 ,{
-                                                    sql:             this.args.sql,
+                                                    sql:             this.properties.sql,
                                                     user:            this.args.user,
                                                     password:        this.args.password,
                                                     database:        this.args.database,
                                                     host:            this.args.host,
                                                     port:            this.args.port
                                                  })
-
-
-
-                       //alert("runQuery: " + JSON.stringify(result,null,2))
-                       console.log(JSON.stringify(result,null,2))
-                       if (result) {
-                            this.args.result = result
-
-                            return result
-                       }
-                    } catch (catchErr) {
-                       debugger
-                       console.log(JSON.stringify(catchErr,null,2))
                     }
 
 
-               }
+
+                    //alert("runQuery: " + JSON.stringify(result,null,2))
+                    console.log(JSON.stringify(result,null,2))
+                    if (result) {
+                        this.args.result = result
+
+                        return result
+                    }
+                } catch (catchErr) {
+                   debugger
+                   console.log(JSON.stringify(catchErr,null,2))
+                }
+
                 this.args.result = []
                 //this.changedFn()
                 return {}
