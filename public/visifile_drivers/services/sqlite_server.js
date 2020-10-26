@@ -5,7 +5,9 @@ base_component_id("sqlite_server")
 load_once_from_file(true)
 only_run_on_server(true)
 */
+    console.log("args.path: " + args.path)
     let dbsearch = new sqlite3.Database(args.path);
+    console.log("dbsearch: " + JSON.stringify(dbsearch, null,2))
     dbsearch.run("PRAGMA journal_mode=WAL;")
     console.log("sqlite table name: " + args.table)
     var promise = new Promise(async function(returnFn) {
@@ -29,6 +31,7 @@ only_run_on_server(true)
                         ,
                         function(err, results2)
                         {
+                            console.log("err: " + err)
                             returnFn(results2)
                         }
                     )}, sqlite3.OPEN_READONLY)
@@ -54,6 +57,40 @@ only_run_on_server(true)
                         }
                     )}, sqlite3.OPEN_READONLY)
 
+
+
+
+
+                //
+                // connect
+                //
+                } else if (args.connect) {
+                    try {
+                        dbsearch.serialize(
+                            function() {
+                                var stmt = dbsearch.all(
+                                    "pragma schema_version;"
+                                    ,
+                                    []
+                                    ,
+                                    function(err, results2)
+                                    {
+                                        console.log("err: " + err)
+                                        console.log("results2: " + JSON.stringify(results2,null,2))
+                                        console.log("results2[0].schema_version: " + JSON.stringify(results2[0].schema_version,null,2))
+
+                                        if (results2[0].schema_version > 0) {
+                                            returnFn({connected: true})
+                                        } else {
+                                            returnFn({error: "Not a db"})
+                                        }
+                                    }
+                                )}, sqlite3.OPEN_READONLY)
+
+                     } catch(catchErr) {
+                         returnFn({error: catchErr})
+
+                    }
 
 
 

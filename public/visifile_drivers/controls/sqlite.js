@@ -25,42 +25,6 @@ properties(
         }
         ,
         {
-            id:      "user",
-            name:    "USER",
-            type:    "String",
-            default_expression: "(typeof $POSTGRES_USER !== 'undefined')?eval('$POSTGRES_USER'):'postgres'"
-        }
-        ,
-        {
-            id:     "password",
-            name:   "Password",
-            password: true,
-            type:   "String",
-            default_expression: "(typeof $POSTGRES_PASSWORD !== 'undefined')?eval('$POSTGRES_PASSWORD'):'password'",
-        }
-        ,
-        {
-            id:     "database",
-            name:   "Database",
-            type:   "String",
-            default_expression: "(typeof $POSTGRES_DATABASE !== 'undefined')?eval('$POSTGRES_DATABASE'):'postgres'",
-        }
-        ,
-        {
-            id:     "port",
-            name:   "Port",
-            type:   "Number",
-            default_expression: "(typeof $POSTGRES_PORT !== 'undefined')?eval('$POSTGRES_PORT'):5432",
-        }
-        ,
-        {
-            id:     "host",
-            name:   "Host",
-            type:   "String",
-            default_expression: "(typeof $POSTGRES_HOST !== 'undefined')?$POSTGRES_HOST:'localhost'",
-        }
-        ,
-        {
             id:     "design_time_text",
             name:   "Design Time Text",
             type:   "String",
@@ -200,11 +164,6 @@ logo_url("/driver_icons/sqlite.jpg")
                                           driver_name: "sqlite_server",
                                           method_name: "sqlite_sql"  }
                                           ,{
-                                              user:            this.args.user,
-                                              password:        this.args.password,
-                                              database:        this.args.database,
-                                              host:            this.args.host,
-                                              port:            this.args.port,
                                               get_tables:      true,
                                               path:            this.properties.sqlite_file_path
                                            })
@@ -230,20 +189,23 @@ logo_url("/driver_icons/sqlite.jpg")
             }
             ,
             connect: async function() {
+                debugger
                 try {
                     var result = await callFunction(
                                         {
                                             driver_name: "sqlite_server",
                                             method_name: "sqlite_sql"  }
                                             ,{
-                                                get_tables:      true,
+                                                connect:         true,
                                                 path:            this.properties.sqlite_file_path
                                              })
 
 
                    //alert("executeSql: " + JSON.stringify(result,null,2))
                    console.log(JSON.stringify(result,null,2))
-                   if (result) {
+                   if (result.error) {
+                       return false
+                   } else {
                        return true
                    }
                 } catch (catchErr) {
@@ -268,11 +230,6 @@ logo_url("/driver_icons/sqlite.jpg")
                                             driver_name: "sqlite_server",
                                             method_name: "sqlite_sql"  }
                                             ,{
-                                                user:            this.args.user,
-                                                password:        this.args.password,
-                                                database:        this.args.database,
-                                                host:            this.args.host,
-                                                port:            this.args.port,
                                                 path:            this.properties.sqlite_file_path,
                                                 get_columns:      true,
                                                 table:           this.args.design_mode_table
@@ -317,11 +274,6 @@ logo_url("/driver_icons/sqlite.jpg")
                                             method_name: "sqlite_sql"  }
                                             ,{
                                                 sql:             this.args.sql,
-                                                user:            this.args.user,
-                                                password:        this.args.password,
-                                                database:        this.args.database,
-                                                host:            this.args.host,
-                                                port:            this.args.port,
                                                 path:            this.properties.sqlite_file_path
                                              })
 

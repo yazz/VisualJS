@@ -853,9 +853,6 @@ logo_url("/driver_icons/data_control.png")
           }
           ,
           connect: async function() {
-
-             //alert(1)
-             //debugger
              let mm = this
              let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
              let connected = await newcontrol.connect()
@@ -871,10 +868,12 @@ logo_url("/driver_icons/data_control.png")
 
           }
           ,
-          disconnect: async function() {
 
-             //alert(1)
-             //debugger
+
+
+
+          
+          disconnect: async function() {
              let mm = this
              mm.properties.connect_status = "not_connected"
              mm.properties.connect_error = ""
