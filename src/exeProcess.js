@@ -390,7 +390,7 @@ function executeCode(callId, codeId, args, on_condition,  base_component_id) {
 
 process.on('uncaughtException', function (err) {
   console.log("\n\n *****uncaughtException:");
-  console.log("    Err: " + err);
+  console.log("    Err: " + JSON.stringify(err,null,2));
   process.send({  message_type:       "function_call_response" ,
                   child_process_name:  childProcessName,
                   driver_name:         currentDriver,
