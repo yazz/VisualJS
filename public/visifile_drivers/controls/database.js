@@ -440,7 +440,7 @@ logo_url("/driver_icons/data_control.png")
                <div style="height:70%;width:100%; overflow-y: scroll;border: 1px solid lightgray;">
 
                    <div   v-for='table in properties.tables'
-                          v-on:click="args.sql = 'select * from ' + table; args.design_mode_table = table;getColumns();args.dataWindowColumns=[];"
+                          v-on:click="args.sql = 'select * from ' + table; args.design_mode_table = table;generateColumns();args.dataWindowColumns=[];"
                           v-bind:style='"padding: 5px; " + ((args.design_mode_table == table)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
 
                          {{table}}
@@ -872,7 +872,7 @@ logo_url("/driver_icons/data_control.png")
 
 
 
-          
+
           disconnect: async function() {
              let mm = this
              mm.properties.connect_status = "not_connected"
@@ -988,8 +988,8 @@ logo_url("/driver_icons/data_control.png")
 
 
 
-            getColumns: async function() {
-                console.log("In getColumns")
+            generateColumns: async function() {
+                console.log("In generateColumns")
                 //debugger
 
                 if (this.design_mode) {
