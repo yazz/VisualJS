@@ -1042,22 +1042,13 @@ logo_url("/driver_icons/data_control.png")
 
 
             executeSql: async function() {
-                console.log("In executeSql")
-                //debugger
-
-                //if (this.design_mode) {
-                  debugger
-                  let mm = this
-                  let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
-                  newcontrol.sql = mm.properties.sql
-                  let result = await newcontrol.executeSql()
-                  this.properties.result = result
-                  this.properties.data = result
-                  return this.properties.result
-
-
-
-                //}
+                let mm = this
+                let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
+                newcontrol.sql = mm.properties.sql
+                let result = await newcontrol.executeSql()
+                this.properties.result = result
+                this.properties.data = result
+                return this.properties.result
             }
 
 

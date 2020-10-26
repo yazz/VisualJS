@@ -294,7 +294,6 @@ logo_url("/driver_icons/postgres.jpg")
 
 
             connect: async function() {
-                debugger
                 var result = await callFunction(
                                     {
                                         driver_name: "postgres_server",
@@ -309,8 +308,6 @@ logo_url("/driver_icons/postgres.jpg")
                                          })
 
 
-               //alert("executeSql: " + JSON.stringify(result,null,2))
-               console.log(JSON.stringify(result,null,2))
                if (result && result.failed) {
                     return false
                }
@@ -327,7 +324,6 @@ logo_url("/driver_icons/postgres.jpg")
 
 
             executeSql: async function() {
-                debugger
                 if (!this.design_mode) {
                     var result = await callFunction(
                                         {
@@ -341,6 +337,7 @@ logo_url("/driver_icons/postgres.jpg")
                                                 host:            this.args.host,
                                                 port:            this.args.port
                                              })
+                                             debugger
 
 
                    //alert("executeSql: " + JSON.stringify(result,null,2))
