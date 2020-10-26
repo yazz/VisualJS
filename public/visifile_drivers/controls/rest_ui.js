@@ -332,6 +332,7 @@ logo_url("/driver_icons/rest.png")
                     v-bind:selected="jsonRoot == args.productionRoot"
                         >{{jsonRoot}}</option>
             </select>
+            <div v-if='args.error && (args.error.length > 0)'><span style="font-weight: bold;">Error: </span><span>{{args.error}}</span></div>
 
 
             <div style="padding-top:20px;font-weight: bold;">List of Paths</div>
