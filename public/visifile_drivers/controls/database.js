@@ -266,7 +266,7 @@ properties(
 
 
         {
-            id:     "columnNames",
+            id:     "tableColumnNames",
             name:   "DB Column Names",
             type:   "Array",
             hidden: true,
@@ -466,7 +466,7 @@ logo_url("/driver_icons/data_control.png")
                     <div style="height:70%;width:30%; overflow-y: scroll;display:inline-block;vertical-align:top; border: 2px solid gray;">
 
 
-                        <div   v-for='column in args.columnNames'
+                        <div   v-for='column in args.tableColumnNames'
                                v-on:click="args.selected_column = column;"
                                v-bind:style='"padding: 5px; " + ((args.selected_column == column)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
 
@@ -1002,7 +1002,7 @@ logo_url("/driver_icons/data_control.png")
                     let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
                     newcontrol.design_mode_table = mm.properties.design_mode_table
                     let result = await newcontrol.getColumns()
-                    this.properties.columnNames = result
+                    this.properties.tableColumnNames = result
 
 
 
