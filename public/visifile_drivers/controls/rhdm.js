@@ -26,15 +26,15 @@ properties(
         ,
         {
             id:         "port",
-            name:       "Port",
-            default:    61613,
+            name:       "DM Port",
+            default:    8080,
             type:       "Number"
         }
         ,
         {
             id:      "host",
-            name:    "Host",
-            default: "localhost",
+            name:    "DM Host",
+            default: "http://localhost",
             type:    "String"
         }
         ,
@@ -53,7 +53,7 @@ properties(
             id:      "username",
             name:    "Username",
             type:    "String",
-            default: "admin"
+            default: "pamAdmin"
         }
         ,
         {
@@ -61,7 +61,7 @@ properties(
             name:   "Password",
             password: true,
             type:   "String",
-            default: "admin"
+            default: ""
         }
 
         ,
@@ -82,7 +82,7 @@ logo_url("/driver_icons/rhdm.png")
 
     Vue.component("rhdm_control",{
 
-        props: ["meta", "args","design_mode","refresh", "children"]
+        props: ["meta", "args","properties","design_mode","refresh", "children"]
 
         ,
 
@@ -138,15 +138,17 @@ logo_url("/driver_icons/rhdm.png")
                 }
                 ,
                 {
-                    URL:    "http://localhost:8080/decision-central/rest/controller/management/servers",
-                    filter: {"server-template-list":true,"server-template-list.server-template":true,"server-template-list.server-template.server-id":true,"server-template-list.server-template.server-name":true,"server-template-list.server-template.container-specs":true,"server-template-list.server-template.container-specs.[]":true,"server-template-list.server-template.container-specs.[].container-id":true,"server-template-list.server-template.container-specs.[].container-name":true,"server-template-list.server-template.container-specs.[].server-template-key":true,"server-template-list.server-template.container-specs.[].server-template-key.server-id":true,"server-template-list.server-template.container-specs.[].server-template-key.server-name":true,"server-template-list.server-template.container-specs.[].release-id":true,"server-template-list.server-template.container-specs.[].release-id.artifact-id":true,"server-template-list.server-template.container-specs.[].release-id.group-id":true,"server-template-list.server-template.container-specs.[].release-id.version":true,"server-template-list.server-template.container-specs.[].configs":true,"server-template-list.server-template.container-specs.[].configs.entry":true,"server-template-list.server-template.container-specs.[].configs.entry.key":true,"server-template-list.server-template.container-specs.[].configs.entry.value":true,"server-template-list.server-template.container-specs.[].configs.entry.value.$":true,"server-template-list.server-template.container-specs.[].configs.entry.value.$.xsi:type":true,"server-template-list.server-template.container-specs.[].configs.entry.value.$.xmlns:xsi":true,"server-template-list.server-template.container-specs.[].configs.entry.value.scannerStatus":true,"server-template-list.server-template.container-specs.[].status":true,"server-template-list.server-template.configs":true,"server-template-list.server-template.server-instances":true,"server-template-list.server-template.server-instances.server-instance-id":true,"server-template-list.server-template.server-instances.server-name":true,"server-template-list.server-template.server-instances.server-template-id":true,"server-template-list.server-template.server-instances.server-url":true,"server-template-list.server-template.capabilities":true,"server-template-list.server-template.capabilities.[]":true,"server-template-list.server-template.mode":true},
-                    root:   ""
+                    URL:       mm.properties.host + ":" +  mm.properties.port + "/decision-central/rest/controller/management/servers",
+                    filter:    {"server-template-list":true,"server-template-list.server-template":true,"server-template-list.server-template.server-id":true,"server-template-list.server-template.server-name":true,"server-template-list.server-template.container-specs":true,"server-template-list.server-template.container-specs.[]":true,"server-template-list.server-template.container-specs.[].container-id":true,"server-template-list.server-template.container-specs.[].container-name":true,"server-template-list.server-template.container-specs.[].server-template-key":true,"server-template-list.server-template.container-specs.[].server-template-key.server-id":true,"server-template-list.server-template.container-specs.[].server-template-key.server-name":true,"server-template-list.server-template.container-specs.[].release-id":true,"server-template-list.server-template.container-specs.[].release-id.artifact-id":true,"server-template-list.server-template.container-specs.[].release-id.group-id":true,"server-template-list.server-template.container-specs.[].release-id.version":true,"server-template-list.server-template.container-specs.[].configs":true,"server-template-list.server-template.container-specs.[].configs.entry":true,"server-template-list.server-template.container-specs.[].configs.entry.key":true,"server-template-list.server-template.container-specs.[].configs.entry.value":true,"server-template-list.server-template.container-specs.[].configs.entry.value.$":true,"server-template-list.server-template.container-specs.[].configs.entry.value.$.xsi:type":true,"server-template-list.server-template.container-specs.[].configs.entry.value.$.xmlns:xsi":true,"server-template-list.server-template.container-specs.[].configs.entry.value.scannerStatus":true,"server-template-list.server-template.container-specs.[].status":true,"server-template-list.server-template.configs":true,"server-template-list.server-template.server-instances":true,"server-template-list.server-template.server-instances.server-instance-id":true,"server-template-list.server-template.server-instances.server-name":true,"server-template-list.server-template.server-instances.server-template-id":true,"server-template-list.server-template.server-instances.server-url":true,"server-template-list.server-template.capabilities":true,"server-template-list.server-template.capabilities.[]":true,"server-template-list.server-template.mode":true},
+                    root:      ""
+                    ,username: mm.properties.username
+                    ,password: mm.properties.password
                 })
 
                 console.log(JSON.stringify(result,null,2))
                 return result
             }
-            ,
+
 
         }
 
