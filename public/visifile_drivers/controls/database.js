@@ -2,6 +2,7 @@ function(args) {
 /*
 is_app(true)
 component_type("VB")
+framework("vue2")
 display_name("Data control")
 description("This will return the data control")
 base_component_id("database_control")
@@ -338,7 +339,8 @@ logo_url("/driver_icons/data_control.png")
 
 
     <div v-bind:style='"height:100%;width:100%; border: 0px;color:black;padding: 10px;"'
-         v-if='design_mode == "detail_editor"'>
+         v-if='design_mode == "detail_editor"'
+          >
 
         <div v-bind:style='"height:100%;width:100%; overflow: none;"'>
 
@@ -376,7 +378,8 @@ logo_url("/driver_icons/data_control.png")
                 </li>
             </ul>
 
-            <div v-if='designDetailTab == "connection"'  >
+            <div v-if='designDetailTab == "connection"'
+                 v-observe-visibility="{callback: visibilityChanged, throttle: 0,intersection: {threshold: 0}}">
                 Connection
                 <div   v-if='properties.connect_status == "connected"'   style="background-color: green; color: white;padding:10px;">
                     Connected
@@ -1038,8 +1041,12 @@ logo_url("/driver_icons/data_control.png")
 
 
 
-
-
+            ,
+            visibilityChanged: function (isVisible, entry) {
+                  //this.isVisible = isVisible
+                  //console.log(Math.round(entry.intersectionRatio * 100) + '%')
+                  console.log("isVisible: " + isVisible)
+                }
 
 
 
