@@ -226,7 +226,6 @@ logo_url("/driver_icons/import_access.png")
 
 
             runQuery: async function() {
-                debugger
                 if (!this.design_mode) {
                     var result = await callFunction(
                                         {
@@ -242,9 +241,25 @@ logo_url("/driver_icons/import_access.png")
                    //alert("runQuery: " + JSON.stringify(result,null,2))
                    console.log(JSON.stringify(result,null,2))
                    if (result) {
-                        this.args.result = result.result
 
-                        return result
+                        //select_columns
+                        this.args.result  = []
+                        for (let rownum=0; rownum<result.length; rownum++) {
+                            let origrow = result[rownum]
+                            let outputRow = {}
+                            //debugger
+                            if (this.properties.select_columns && (this.properties.select_columns.length  >  0)) {
+                                for (let i = 0; i < this.properties.select_columns.length; i++) {
+                                    let thisColName = this.properties.select_columns[i].name
+                                    outputRow[  thisColName  ] = origrow[  thisColName  ]
+                                  }
+                            } else {
+                                outputRow = origrow
+                            }
+                                this.args.result.push(  outputRow  )
+                        }
+
+                        return this.args.result
                    }
 
 
