@@ -378,9 +378,11 @@ logo_url("/driver_icons/data_control.png")
                 </li>
             </ul>
 
-            <div v-if='designDetailTab == "connection"'
-                 v-observe-visibility="{callback: visibilityChanged, throttle: 0,intersection: {threshold: 0}}">
+            <div v-bind:style='((designDetailTab == "connection")?"visibility:visible;":"visibility:hidden;display: none;")'
+                 v-observe-visibility="visibilityChanged">
+
                 Connection
+
                 <div   v-if='properties.connect_status == "connected"'   style="background-color: green; color: white;padding:10px;">
                     Connected
                 </div>
