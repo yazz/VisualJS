@@ -18,49 +18,6 @@ properties(
         }
         ,
         {
-            id:     "sql",
-            name:   "SQL",
-            type:   "String",
-            default: "SELECT * FROM pg_catalog.pg_tables;"
-        }
-        ,
-        {
-            id:      "user",
-            name:    "USER",
-            type:    "String",
-            default_expression: "(typeof $POSTGRES_USER !== 'undefined')?eval('$POSTGRES_USER'):'postgres'"
-        }
-        ,
-        {
-            id:     "password",
-            name:   "Password",
-            password: true,
-            type:   "String",
-            default_expression: "(typeof $POSTGRES_PASSWORD !== 'undefined')?eval('$POSTGRES_PASSWORD'):'password'",
-        }
-        ,
-        {
-            id:     "database",
-            name:   "Database",
-            type:   "String",
-            default_expression: "(typeof $POSTGRES_DATABASE !== 'undefined')?eval('$POSTGRES_DATABASE'):'postgres'",
-        }
-        ,
-        {
-            id:     "port",
-            name:   "Port",
-            type:   "Number",
-            default_expression: "(typeof $POSTGRES_PORT !== 'undefined')?eval('$POSTGRES_PORT'):5432",
-        }
-        ,
-        {
-            id:     "host",
-            name:   "Host",
-            type:   "String",
-            default_expression: "(typeof $POSTGRES_HOST !== 'undefined')?$POSTGRES_HOST:'localhost'",
-        }
-        ,
-        {
             id:     "design_time_text",
             name:   "Design Time Text",
             type:   "String",
@@ -78,12 +35,6 @@ properties(
         }
         ,
         {
-            id:     "background_color",
-            name:   "Background color",
-            type:   "String"
-        }
-        ,
-        {
             id:         "runQuery",
             pre_snippet: `await `,
             snippet:    `runQuery()`,
@@ -96,29 +47,6 @@ properties(
         }
         ,
 
-        {
-            id:         "getSchema",
-            pre_snippet: `await `,
-            snippet:    `getSchema()`,
-            name:       "getSchema",
-            type:       "Action",
-            help:       `<div>Help text for
-                            <b>getSchema</b> function
-                         </div>`
-        }
-        ,
-
-        {
-            id:         "getDynamic",
-            pre_snippet: `await `,
-            snippet:    `getDynamic()`,
-            name:       "getDynamic",
-            type:       "Action",
-            help:       `<div>Help text for
-                            <b>getDynamic</b> function
-                         </div>`
-        }
-        ,
         {
             id:     "getTables",
             name:   "getTables",
@@ -155,8 +83,7 @@ logo_url("/driver_icons/import_access.png")
     Vue.component("import_access_control",{
         props: [  "meta",  "args",  "properties",  "name",  "refresh",  "design_mode"  ]
         ,
-        template: `<div v-bind:style='"white-space:normal;height:100%;width:100%; border: 0px;" +
-                                    "background-color: "+    args["background_color"]  +  ";"'>
+        template: `<div v-bind:style='"white-space:normal;height:100%;width:100%; border: 0px;" '>
                                     <div v-if="design_mode">
                                     msaccess:
                                                 {{design_time_text}}
@@ -298,10 +225,6 @@ logo_url("/driver_icons/import_access.png")
 
 
 
-            getSchema: async function() {
-                return null
-            }
-            ,
             runQuery: async function() {
                 debugger
                 if (!this.design_mode) {

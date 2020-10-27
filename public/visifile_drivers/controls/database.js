@@ -751,7 +751,7 @@ logo_url("/driver_icons/data_control.png")
          registerComponent(this)
          let mm = this
 
-         let listLL = await findComponentsImplementing(["getSchema"])
+         let listLL = await findComponentsImplementing(["runQuery","connect"])
          //aaa
          //alert(JSON.stringify(listLL,null,2))
          this.data_sources = listLL.values
