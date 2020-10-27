@@ -379,6 +379,7 @@ logo_url("/driver_icons/data_control.png")
             </ul>
 
             <div v-bind:style='((designDetailTab == "connection")?"visibility:visible;":"visibility:hidden;display: none;")'
+                 v-bind:refresh='refresh'
                  v-observe-visibility="visibilityChanged">
 
                 Connection
@@ -751,8 +752,12 @@ logo_url("/driver_icons/data_control.png")
      }
      ,
 
-
+     beforeDestroy: async function() {
+         console.log('beforeDestroy');
+         await this.minimizeChildren()
+     },
      mounted: async function() {
+         console.log("mounted: async function() {")
          registerComponent(this)
          let mm = this
 
@@ -1048,7 +1053,39 @@ logo_url("/driver_icons/data_control.png")
                   //this.isVisible = isVisible
                   //console.log(Math.round(entry.intersectionRatio * 100) + '%')
                   console.log("isVisible: " + isVisible)
+                  if (isVisible) {
+                      this.maximizeChildren()
+                  } else {
+                      this.minimizeChildren()
+                  }
+            }
+            ,
+            minimizeChildren: async function() {
+                console.log('minimizeChildren');
+                let mm = this
+                if (mm.args.sourceControlName) {
+                    let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
+                    if (newcontrol) {
+                        newcontrol.width = 10
+                        newcontrol.height = 10
+                    }
+
                 }
+
+            }
+            ,
+            maximizeChildren: async function() {
+                console.log('maximizeChildren');
+                let mm = this
+                if (mm.args.sourceControlName) {
+                    let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
+                    if (newcontrol) {
+                        newcontrol.width = 600
+                        newcontrol.height = 600
+                    }
+
+                }
+            }
 
 
 
