@@ -368,9 +368,11 @@ var result = await callFunction(
 }
 ,
 {
-    URL:    {{JSON.stringify(args.URL)}},
-    filter: {{JSON.stringify(args.productionFilter)}},
-    root:   {{JSON.stringify(args.productionRoot)}}
+    URL:       {{JSON.stringify(args.URL)}},
+    filter:    {{JSON.stringify(args.productionFilter)}},
+    root:      {{JSON.stringify(args.productionRoot)}}
+    {{(args.username && args.username.length > 0)?",username: " + JSON.stringify(args.username):""}}
+    {{(args.username && args.username.length > 0)?",password: " + JSON.stringify(args.password):""}}
 })
 
 
