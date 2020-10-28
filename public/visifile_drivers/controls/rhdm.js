@@ -72,8 +72,30 @@ properties(
             pre_snippet:    `await `,
             snippet:    `testDecisionManager()`
         }
-
-
+        ,
+        {
+            id:         "connect",
+            pre_snippet: `await `,
+            snippet:    `connect()`,
+            name:       "connect",
+            type:       "Action",
+            help:       `<div>Help text for
+                            <b>connect</b> function
+                         </div>`
+        }
+        ,
+        {
+            id:         "runQuery",
+            pre_snippet: `await `,
+            async:        true,
+            snippet:    `runQuery()`,
+            name:       "runQuery",
+            type:       "Action",
+            help:       `<div>Help text for
+                            <b>runQuery</b> function
+                            <div>The SQL is store in the "sql" property</div>
+                         </div>`
+        }
     ]
 )//properties
 
@@ -148,6 +170,18 @@ logo_url("/driver_icons/rhdm.png")
                 console.log(JSON.stringify(result,null,2))
                 return result
             }
+
+            ,
+
+            connect: async function() {
+                return true
+            }
+            ,
+
+            runQuery: async function() {
+                return [{a: 1, b: 2}]
+            }
+
 
 
         }
