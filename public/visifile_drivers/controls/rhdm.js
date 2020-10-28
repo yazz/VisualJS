@@ -174,7 +174,30 @@ logo_url("/driver_icons/rhdm.png")
             ,
 
             connect: async function() {
-                return true
+                try {
+
+                    var mm = this
+                    var result = await callFunction(
+                    {
+                        driver_name: "rest_call_service_v2",
+                        method_name: "rest_call_service_v2"
+                    }
+                    ,
+                    {
+                        URL:       mm.properties.host + ":" +  mm.properties.port + "/decision-central/rest/controller/management/servers",
+                        filter:    {},
+                        root:      ""
+                        ,username: mm.properties.username
+                        ,password: mm.properties.password
+                    })
+
+                    console.log(JSON.stringify(result,null,2))
+                    return true
+
+                } catch(catchError){
+                    return false
+
+                }
             }
             ,
 
