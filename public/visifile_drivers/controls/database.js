@@ -873,14 +873,19 @@ logo_url("/driver_icons/data_control.png")
              let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
              let connected = await newcontrol.connect()
              if (connected == false) {
+                 
                  if (newcontrol &&
                      newcontrol.result &&
                      newcontrol.result.failed &&
                      newcontrol.result.failed.routine) {
-                         
+
                          mm.properties.connect_error = JSON.stringify(newcontrol.result.failed.routine,null,2)
-                         mm.properties.connect_status = "not_connected"
+
+
+                 } else if (newcontrol && newcontrol.error) {
+                     mm.properties.connect_error = newcontrol.error
                  }
+                 mm.properties.connect_status = "not_connected"
 
              } else {
                     mm.properties.connect_error = ""

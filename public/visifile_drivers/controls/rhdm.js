@@ -63,6 +63,15 @@ properties(
             type:   "String",
             default: ""
         }
+        ,
+        {
+            id:     "error",
+            name:   "Error",
+            type:   "String",
+            default: ""
+        }
+
+
 
         ,
         {
@@ -177,6 +186,7 @@ logo_url("/driver_icons/rhdm.png")
                 try {
 
                     var mm = this
+                    mm.properties.error = ""
                     var result = await callFunction(
                     {
                         driver_name: "rest_call_service_v2",
@@ -191,10 +201,10 @@ logo_url("/driver_icons/rhdm.png")
                         ,password: mm.properties.password
                     })
 
-                    console.log(JSON.stringify(result,null,2))
                     return true
 
-                } catch(catchError){
+                } catch( catchError ){
+                    mm.properties.error = catchError
                     return false
 
                 }
