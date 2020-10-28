@@ -427,6 +427,8 @@ logo_url("/driver_icons/data_control.png")
                     <slot v-bind:refresh='refresh'>
                     </slot>
 
+                    <div style='height:50px;'></div>
+
 
 
                     <button    class="btn btn-primary"
@@ -871,8 +873,15 @@ logo_url("/driver_icons/data_control.png")
              let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
              let connected = await newcontrol.connect()
              if (connected == false) {
-                  mm.properties.connect_error = JSON.stringify(newcontrol.result.failed.routine,null,2)
-                  mm.properties.connect_status = "not_connected"
+                 if (newcontrol &&
+                     newcontrol.result &&
+                     newcontrol.result.failed &&
+                     newcontrol.result.failed.routine) {
+                         
+                         mm.properties.connect_error = JSON.stringify(newcontrol.result.failed.routine,null,2)
+                         mm.properties.connect_status = "not_connected"
+                 }
+
              } else {
                     mm.properties.connect_error = ""
                     mm.getTables()

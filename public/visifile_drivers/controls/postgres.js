@@ -383,7 +383,7 @@ logo_url("/driver_icons/postgres.jpg")
                         return result
                     }
                 } catch (catchErr) {
-                   debugger
+                   //debugger
                    console.log(JSON.stringify(catchErr,null,2))
                 }
 
