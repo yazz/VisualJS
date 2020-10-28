@@ -115,7 +115,7 @@ logo_url("/driver_icons/rhdm.png")
 `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
     "background-color: "+    args["background_color"]  +  ";"'>
 
-    <div v-if="design_mode && (children.length == 0)" style="margin: 10px;">
+    <div v-if="design_mode" style="margin: 10px;">
         <img src="/driver_icons/rhdm.png" width=100px></src>
         <h3 class="text-center" >Red Hat Decision Manager</h3>
         The Red Hat Decision Manager can be used to call Decision Manager  Business rules
