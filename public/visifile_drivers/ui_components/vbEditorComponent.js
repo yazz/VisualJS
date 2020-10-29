@@ -4933,6 +4933,24 @@ ${origCode}
                       indexActionSelector++
 
 
+                      methodListForSelector.push(
+                          {
+                              value:              "" + indexActionSelector,
+                              app:                null,
+                              form:               mm.active_form,
+                              component:          ccc.name,
+                              action_id:          "on_property_changed",
+                              action_name:        "On Property Changed",
+                              action_type:        "Event",
+                              action_index:       ere
+                          })
+                      if ( property_id == "on_property_changed" ) {
+                          selectedCodeAction = indexActionSelector
+                      }
+                      indexActionSelector++
+
+
+
 
                   // get the actions for the forms
                   } else if (  isValidObject(mm.active_form)  ) {
@@ -6687,8 +6705,18 @@ ${eventMessage.code}
              if (!this.existsProp(compEvaled,"on_property_changed")) {
                  properties.push({   id:     "on_property_changed",
                                      name:   "On Property Changed",
-                                     type:   "Event"
-                                     //,default: "//source_control_name"
+                                     type:   "Event",
+                                     help:
+`
+<pre>
+Vars to use:
+    source_name
+    source_property_name
+    property_name
+    before_value
+    after_value
+</pre>
+`
                                  })
              }
 
