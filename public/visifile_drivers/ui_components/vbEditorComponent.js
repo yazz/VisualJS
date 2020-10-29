@@ -6684,6 +6684,13 @@ ${eventMessage.code}
              if (!this.existsProp(compEvaled,"load")) {
                  properties.push({   id:     "load",   name:   "Load Event",   type:   "Event"    })
              }
+             if (!this.existsProp(compEvaled,"on_property_changed")) {
+                 properties.push({   id:     "on_property_changed",
+                                     name:   "On Property Changed",
+                                     type:   "Event"
+                                     //,default: "//source_control_name"
+                                 })
+             }
 
             properties.push({   id:     "clone",   name:   "Clone",   type:   "Action"  ,
                                 pre_snippet: `await `,
