@@ -65,6 +65,15 @@ properties(
         }
         ,
         {
+            id:     "tree_data",
+            name:   "Tree Data",
+            type:   "Object",
+            default: "",
+            types: {tree_data: true, canConvertToString: true}
+        }
+
+        ,
+        {
             id:     "error",
             name:   "Error",
             type:   "String",
@@ -297,6 +306,7 @@ logo_url("/driver_icons/rhdm.png")
                 })
 
                 console.log(JSON.stringify(result,null,2))
+                mm.properties.tree_data = result
                 return result
             }
             ,
