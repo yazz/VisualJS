@@ -140,12 +140,6 @@ logo_url("/driver_icons/rhdm.png")
         The Red Hat Decision Manager can be used to call Decision Manager  Business rules
     </div>
 
-    <div v-bind:style='"position:relative;width:100%;height:100%;border: 0px solid gray;background-color: "+    args["background_color"]  +  ";"'>
-        <div style="position:absolute;top:0px">
-            <slot v-bind:refresh='refresh'>
-            </slot>
-        </div>
-    </div>
 </div>`
 
         ,
