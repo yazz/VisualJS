@@ -71,7 +71,14 @@ properties(
             default: ""
         }
 
-
+        ,
+        {
+            id:         "getServices",
+            name:       "getServices()",
+            type:       "Action",
+            pre_snippet:    `await `,
+            snippet:    `getServices()`
+        }
 
         ,
         {
@@ -167,7 +174,11 @@ logo_url("/driver_icons/rhdm.png")
 
         <div style="padding:10px;">
             Password
-            <input v-model="args.password"  size=60 @change="changeConnection()"></input>
+            <input  v-model="args.password"
+                    size=60
+                    type="password"
+                    @change="changeConnection()">
+            </input>
         </div>
 
 
@@ -246,12 +257,12 @@ logo_url("/driver_icons/rhdm.png")
                         ,password: mm.properties.password
                     })
 
-                    mm.isDecisionManagerAvailable = "True"
+                    mm.properties.isDecisionManagerAvailable = "True"
                     mm.refresh++
                     return true
 
                 } catch( catchError ){
-                    mm.isDecisionManagerAvailable = "False"
+                    mm.properties.isDecisionManagerAvailable = "False"
                     mm.properties.error = catchError
                     return false
 
@@ -268,6 +279,27 @@ logo_url("/driver_icons/rhdm.png")
             changeConnection: async function() {
                 this.connect()
             }
+            ,
+            getServices: async function() {
+                var mm = this
+                var result = await callFunction(
+                {
+                    driver_name: "rest_call_service_v2",
+                    method_name: "rest_call_service_v2"
+                }
+                ,
+                {
+                    URL:       mm.properties.host + ":" +  mm.properties.port + "/decision-central/rest/spacesScreen/spaces",
+                    filter:    {},
+                    root:      ""
+                    ,username: mm.properties.username
+                    ,password: mm.properties.password
+                })
+
+                console.log(JSON.stringify(result,null,2))
+                return result
+            }
+            ,
 
 
 
