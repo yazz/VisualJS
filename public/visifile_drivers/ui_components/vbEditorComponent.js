@@ -3011,7 +3011,6 @@ Pushlist
           ,
           addNewComponentWatch: async function() {
               //debugger
-              debugger
               var mm = this
               let activeComponent = mm.model.forms[mm.active_form].components[mm.active_component_index]
               let old_active_component_index = mm.active_component_index
@@ -5654,7 +5653,7 @@ return {}
 
 
                 if (eventMessage.type == "subcomponent_event") {
-                    debugger
+                    //debugger
                     if ((eventMessage.code == null) || (eventMessage.code == "")) {
                         return
                     }

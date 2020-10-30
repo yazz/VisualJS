@@ -113,7 +113,17 @@ properties(
             default:    true,
             hidden:     true
         }
-
+        ,
+        {
+            id:         "isDecisionManagerAvailable",
+            name:       "Is Decision Manager Available?",
+            type:       "Select",
+            default:    "False",
+            values:     [
+                            {display: "True",   value: "True"},
+                            {display: "False",  value: "False"}
+                        ]
+        }
 
     ]
 )//properties
@@ -139,6 +149,37 @@ logo_url("/driver_icons/rhdm.png")
         <h3 class="text-center" >Red Hat Decision Manager</h3>
         The Red Hat Decision Manager can be used to call Decision Manager  Business rules
     </div>
+
+
+
+
+
+    <div v-if="design_mode && (design_mode == 'detail_editor')" style="margin: 10px;">
+        <div style="padding:10px;">
+            Decision Manager Admin Host
+            <input v-model="args.host" size=60 @change="changeConnection()"></input>
+        </div>
+
+        <div style="padding:10px;">
+            Username
+            <input v-model="args.username"  size=60 @change="changeConnection()"></input>
+        </div>
+
+        <div style="padding:10px;">
+            Password
+            <input v-model="args.password"  size=60 @change="changeConnection()"></input>
+        </div>
+
+
+        <div    v-bind:style='"background-color: " + (args.isDecisionManagerAvailable == "True"?"green":"red" ) +";color: white;padding:10px;"'
+                v-bind:refresh='refresh'
+        >
+            {{(args.isDecisionManagerAvailable == "True"?"Available":"Not available" )}}
+        </div>
+    </div>
+
+
+
 
 </div>`
 
@@ -205,9 +246,12 @@ logo_url("/driver_icons/rhdm.png")
                         ,password: mm.properties.password
                     })
 
+                    mm.isDecisionManagerAvailable = "True"
+                    mm.refresh++
                     return true
 
                 } catch( catchError ){
+                    mm.isDecisionManagerAvailable = "False"
                     mm.properties.error = catchError
                     return false
 
@@ -217,6 +261,12 @@ logo_url("/driver_icons/rhdm.png")
 
             runQuery: async function() {
                 return [{a: 1, b: 2}]
+            }
+
+
+            ,
+            changeConnection: async function() {
+                this.connect()
             }
 
 
