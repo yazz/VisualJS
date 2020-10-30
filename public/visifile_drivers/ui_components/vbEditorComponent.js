@@ -2645,7 +2645,7 @@ Pushlist
                                              toc[ww.to_component_property_name] = toValue
                                              //console.log(toValue)
 
-                                             debugger
+                                             //debugger
                                               mm.processControlEvent(
                                               {
                                                           type:               "subcomponent_event",
@@ -5654,6 +5654,7 @@ return {}
 
 
                 if (eventMessage.type == "subcomponent_event") {
+                    debugger
                     if ((eventMessage.code == null) || (eventMessage.code == "")) {
                         return
                     }
@@ -6126,7 +6127,7 @@ ${eventMessage.code}
          },
          deleteComponentByName: async function(thisComponentName) {
             var mm = this
-            debugger
+            //debugger
 
             var promise = new Promise(async function(returnfn) {
 
