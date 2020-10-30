@@ -338,6 +338,16 @@ properties(
             name:       "test",
             type:       "Action"
         }
+        ,
+
+
+        {
+            id:         "on_property_in",
+            name:       "on_property_in",
+            type:       "event",
+            default:    "alert(JSON.stringify(to_value),null,2)"
+        }
+
 
         ]
 )//properties
