@@ -2470,7 +2470,7 @@ Pushlist
                                }
                                let oldValue = toc[ww.to_component_property_name]
                                toc[ww.to_component_property_name] = toValue
-                               debugger
+                               //debugger
                                mm.processControlEvent(
                                {
                                            type:               "subcomponent_event",
@@ -2480,13 +2480,15 @@ Pushlist
                                            code:                toc.on_property_in,
                                            args:               {
                                                from_form:           mm.active_form,
-                                               from_name:           fromc.name,
+                                               from_component:      fromc.name,
                                                from_property:       ww.from_component_property_name,
+                                               from_value:          toValue,
                                                to_form:             mm.active_form,
-                                               name:                toc.name,
+                                               to_component:        toc.name,
                                                to_property:         ww.to_component_property_name,
-                                               before_value:        oldValue,
-                                               after_value:         toValue
+                                               to_value:            toValue,
+                                               to_old_value:        oldValue,
+                                               to_new_value:        toValue
                                            }
                                 })
                        }
@@ -2653,13 +2655,15 @@ Pushlist
                                                           code:                toc.on_property_in,
                                                           args:               {
                                                               from_form:            mm.active_form,
-                                                              from_name:            fromc.name,
-                                                              from_property_name:   ww.from_component_property_name,
+                                                              from_component:       fromc.name,
+                                                              from_property:        ww.from_component_property_name,
+                                                              from_value:           toValue,
                                                               to_form:              mm.active_form,
-                                                              to_name:              toc.name,
-                                                              to_property_name:     ww.to_component_property_name,
-                                                              before_value:         oldValue,
-                                                              after_value:          toValue
+                                                              to_component:         toc.name,
+                                                              to_property:          ww.to_component_property_name,
+                                                              to_value:             toValue,
+                                                              to_old_value:         oldValue,
+                                                              to_new_value:         toValue
                                                           }
                                                })
                                          }
