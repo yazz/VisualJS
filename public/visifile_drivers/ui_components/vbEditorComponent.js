@@ -2468,9 +2468,27 @@ Pushlist
                                        console.log(err)
                                    }
                                }
+                               let oldValue = toc[ww.to_component_property_name]
                                toc[ww.to_component_property_name] = toValue
-
-
+                               debugger
+                               mm.processControlEvent(
+                               {
+                                           type:               "subcomponent_event",
+                                           form_name:           mm.active_form,
+                                           control_name:        toc.name,
+                                           sub_type:           "on_property_in",
+                                           code:                toc.on_property_in,
+                                           args:               {
+                                               from_form:           mm.active_form,
+                                               from_name:           fromc.name,
+                                               from_property:       ww.from_component_property_name,
+                                               to_form:             mm.active_form,
+                                               name:                toc.name,
+                                               to_property:         ww.to_component_property_name,
+                                               before_value:        oldValue,
+                                               after_value:         toValue
+                                           }
+                                })
                        }
                    }
                }
@@ -2634,11 +2652,12 @@ Pushlist
                                                           sub_type:           "on_property_in",
                                                           code:                toc.on_property_in,
                                                           args:               {
-                                                              source_form:          mm.active_form,
-                                                              source_name:          fromc.name,
-                                                              source_property_name: ww.from_component_property_name,
-                                                              form:                 mm.active_form,
-                                                              property_name:        ww.to_component_property_name,
+                                                              from_form:            mm.active_form,
+                                                              from_name:            fromc.name,
+                                                              from_property_name:   ww.from_component_property_name,
+                                                              to_form:              mm.active_form,
+                                                              to_name:              toc.name,
+                                                              to_property_name:     ww.to_component_property_name,
                                                               before_value:         oldValue,
                                                               after_value:          toValue
                                                           }
@@ -6736,11 +6755,12 @@ ${eventMessage.code}
 `
 <pre>
 Vars to use:
-    source_form
-    source_name
-    source_property_name
-    form
-    property_name
+    from_form
+    from_name
+    from_property
+    to_form
+    to_name
+    to_property
     before_value
     after_value
 </pre>
