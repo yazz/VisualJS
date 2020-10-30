@@ -2495,7 +2495,7 @@ Pushlist
          {
              handler:
                  function() {
-                     var mm                  = this
+                     var mm  =  this
 
                      if (!mm) {
                          return
@@ -2580,14 +2580,19 @@ Pushlist
                              //
                              //
                              //debugger
-                             for (var componentIndex = 0; componentIndex < mm.model.forms[this.active_form].components.length; componentIndex++){
-                                 var thisComponent = mm.model.forms[this.active_form].components[componentIndex]
-                                 var uuid = thisComponent.uuid
+                             for (      let componentIndex = 0;
+                                        componentIndex < mm.model.forms[this.active_form].components.length;
+                                        componentIndex++)  {
+
+                                 let thisComponent  = mm.model.forms[this.active_form].components[componentIndex]
+                                 let uuid           = thisComponent.uuid
+                                 let ww2            = this.watchList
+
                                  //console.log("UUID: " + JSON.stringify(uuid,null,2))
                                  //console.log(this.watchList[uuid])
-                                 var ww2 = this.watchList
-                                 for (var aaq=0;aaq<ww2.length;aaq++) {
-                                     var ww = ww2[aaq]
+                                 for (  let aaq = 0  ;  aaq < ww2.length  ;  aaq++  ) {
+                                     let ww = ww2[ aaq ]
+
                                  if (ww) {
                                      if (ww.from_component_uuid == uuid) {
                                          if (changedUuids[uuid]) {
@@ -2616,7 +2621,28 @@ Pushlist
                                                      console.log(err)
                                                  }
                                              }
+                                             let oldValue = toc[ww.to_component_property_name]
                                              toc[ww.to_component_property_name] = toValue
+                                             //console.log(toValue)
+
+                                             debugger
+                                              mm.processControlEvent(
+                                              {
+                                                          type:               "subcomponent_event",
+                                                          form_name:           mm.active_form,
+                                                          control_name:        toc.name,
+                                                          sub_type:           "on_property_in",
+                                                          code:                toc.on_property_in,
+                                                          args:               {
+                                                              source_form:          mm.active_form,
+                                                              source_name:          fromc.name,
+                                                              source_property_name: ww.from_component_property_name,
+                                                              form:                 mm.active_form,
+                                                              property_name:        ww.to_component_property_name,
+                                                              before_value:         oldValue,
+                                                              after_value:          toValue
+                                                          }
+                                               })
                                          }
 
                                      }
@@ -4939,12 +4965,12 @@ ${origCode}
                               app:                null,
                               form:               mm.active_form,
                               component:          ccc.name,
-                              action_id:          "on_property_changed",
-                              action_name:        "On Property Changed",
+                              action_id:          "on_property_in",
+                              action_name:        "On Property In",
                               action_type:        "Event",
                               action_index:       ere
                           })
-                      if ( property_id == "on_property_changed" ) {
+                      if ( property_id == "on_property_in" ) {
                           selectedCodeAction = indexActionSelector
                       }
                       indexActionSelector++
@@ -5543,8 +5569,8 @@ return {}
              }
 
              mm.refresh ++
-         },
-
+         }
+         ,
 
 
 
@@ -6702,16 +6728,18 @@ ${eventMessage.code}
              if (!this.existsProp(compEvaled,"load")) {
                  properties.push({   id:     "load",   name:   "Load Event",   type:   "Event"    })
              }
-             if (!this.existsProp(compEvaled,"on_property_changed")) {
-                 properties.push({   id:     "on_property_changed",
-                                     name:   "On Property Changed",
+             if (!this.existsProp(compEvaled,"on_property_in")) {
+                 properties.push({   id:     "on_property_in",
+                                     name:   "On Property In",
                                      type:   "Event",
                                      help:
 `
 <pre>
 Vars to use:
+    source_form
     source_name
     source_property_name
+    form
     property_name
     before_value
     after_value
