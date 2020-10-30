@@ -105,6 +105,16 @@ properties(
                             <div>The SQL is store in the "sql" property</div>
                          </div>`
         }
+        ,
+        {
+            id:         "has_details_ui",
+            name:       "Has details UI?",
+            type:       "Boolean",
+            default:    true,
+            hidden:     true
+        }
+
+
     ]
 )//properties
 
