@@ -8476,17 +8476,32 @@ window.IntersectionObserverEntry = IntersectionObserverEntry;
 <script>
 function registerComponent(vueComponentObject) {
     if (vueComponentObject) {
-        vueComponentObject.$watch('args.text', function(newValue, oldValue) {
-            debugger
-            let args = vueComponentObject.args
-            if (vueComponentObject.properties) {
-                args = vueComponentObject.properties
-            }
-            if (args && args.name) {
+        let args = vueComponentObject.args
+        if (vueComponentObject.properties) {
+            args = vueComponentObject.properties
+        }
+        let componentName = args.name
+        debugger
+        console.log(args.name)
+    }
+
+    if (vueComponentObject) {
+        let argsPrefix="args"
+        let args = vueComponentObject.args
+        if (vueComponentObject.properties) {
+            args = vueComponentObject.properties
+            argsPrefix = "properties"
+        }
+        if (args && args.name) {
+            //debugger
+            let cccname = args.name
+            console.log(args.name );
+            let thisComponent22 = vueComponentObject
+            thisComponent22.$watch(argsPrefix + '.text', function(newValue, oldValue) {
                 //debugger
-                console.log(args.name + '.. Text changed from ' + oldValue + ' to ' + newValue + '!');
-            }
-        });
+                    console.log(cccname + '.. Text changed from ' + oldValue + ' to ' + newValue );
+            });
+        }
 
     }
 
