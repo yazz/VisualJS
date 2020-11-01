@@ -5000,6 +5000,25 @@ ${origCode}
 
 
 
+                      methodListForSelector.push(
+                          {
+                              value:              "" + indexActionSelector,
+                              app:                null,
+                              form:               mm.active_form,
+                              component:          ccc.name,
+                              action_id:          "on_property_out",
+                              action_name:        "On Property Out",
+                              action_type:        "Event",
+                              action_index:       ere
+                          })
+                      if ( property_id == "on_property_out" ) {
+                          selectedCodeAction = indexActionSelector
+                      }
+                      indexActionSelector++
+
+
+
+
                   // get the actions for the forms
                   } else if (  isValidObject(mm.active_form)  ) {
                       var ccc        = mm.model.forms[mm.active_form]
@@ -6751,6 +6770,13 @@ ${eventMessage.code}
              if (!this.existsProp(compEvaled,"load")) {
                  properties.push({   id:     "load",   name:   "Load Event",   type:   "Event"    })
              }
+
+
+
+
+             properties = properties.concat(compEvaled)
+
+
              if (!this.existsProp(compEvaled,"on_property_in")) {
                  properties.push({   id:     "on_property_in",
                                      name:   "On Property In",
@@ -6771,6 +6797,33 @@ Vars to use:
 `
                                  })
              }
+
+
+
+
+
+             if (!this.existsProp(compEvaled,"on_property_out")) {
+                 properties.push({   id:     "on_property_out",
+                                     name:   "On Property Out",
+                                     type:   "Event",
+                                     help:
+`
+<pre>
+Vars to use:
+    from_form
+    from_name
+    from_property
+    to_form
+    to_name
+    to_property
+    before_value
+    after_value
+</pre>
+`
+                                 })
+             }
+
+
 
             properties.push({   id:     "clone",   name:   "Clone",   type:   "Action"  ,
                                 pre_snippet: `await `,
@@ -6810,11 +6863,6 @@ return {}
             })
 
 
-
-
-
-
-             properties = properties.concat(compEvaled)
              return properties
          }
          //-------------------------------------------------------------------
