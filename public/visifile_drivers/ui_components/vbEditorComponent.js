@@ -5000,6 +5000,27 @@ ${origCode}
 
 
 
+
+
+                        methodListForSelector.push(
+                            {
+                                value:              "" + indexActionSelector,
+                                app:                null,
+                                form:               mm.active_form,
+                                component:          ccc.name,
+                                action_id:          "on_property_change",
+                                action_name:        "On Property Change",
+                                action_type:        "Event",
+                                action_index:       ere
+                            })
+                        if ( property_id == "on_property_change" ) {
+                            selectedCodeAction = indexActionSelector
+                        }
+                        indexActionSelector++
+
+
+
+
                       methodListForSelector.push(
                           {
                               value:              "" + indexActionSelector,
@@ -6822,6 +6843,40 @@ Vars to use:
 `
                                  })
              }
+
+
+
+
+
+
+
+
+
+
+
+              if (!this.existsProp(compEvaled,"on_property_change")) {
+                  properties.push({   id:     "on_property_change",
+                                      name:   "On Property Change",
+                                      type:   "Event",
+                                      help:
+             `
+             <pre>
+             Vars to use:
+                 form
+                 name
+                 property
+                 value
+                 before_value
+                 after_value
+             </pre>
+             `
+                                              })
+                          }
+
+
+
+
+
 
 
 
