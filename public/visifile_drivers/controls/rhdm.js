@@ -138,7 +138,8 @@ properties(
             values:     [
                             {display: "True",   value: "True"},
                             {display: "False",  value: "False"}
-                        ]
+                        ],
+            design_time_only_events: true
         }
 
     ]

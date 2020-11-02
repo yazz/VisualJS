@@ -5644,7 +5644,19 @@ return {}
 
         processControlEvent: async function(  eventMessage  ) {
             var mm = this
+
+            let shallIProcessThisEvent = false
             if ((!mm.design_mode) && (mm.model)) {
+                shallIProcessThisEvent = true
+            }
+            if (eventMessage.design_time_only_events && (mm.design_mode) && (mm.model)) {
+                shallIProcessThisEvent = true
+            }
+            if (eventMessage.design_time_only_events && (!mm.design_mode)) {
+                shallIProcessThisEvent = false
+            }
+
+            if (shallIProcessThisEvent) {
                 this.updateAllFormCaches()
 
                 //

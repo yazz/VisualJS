@@ -8503,13 +8503,18 @@ function registerComponent(vueComponentObject) {
                 thisComponent22.$watch(argsPrefix + '.' + propNamee, function(newValue, oldValue) {
                     //debugger
                         console.log(cccname + '.' + propNamee + ' = ' + oldValue + ' to ' + newValue );
+                        let designTimeOnlyEvents = false
+                        if (thisComponent22[  argsPrefix  ].design_time_only_events) {
+                            designTimeOnlyEvents = true
+                        }
                         thisComponent22.meta.getEditor().processControlEvent(
                         {
-                                    type:               "subcomponent_event",
-                                    form_name:           thisComponent22.meta.getEditor().active_form,
-                                    control_name:        thisComponent22[  argsPrefix  ].name,
-                                    sub_type:           "on_property_changed",
-                                    code:                thisComponent22[  argsPrefix  ].on_property_changed,
+                                    type:                       "subcomponent_event",
+                                    form_name:                   thisComponent22.meta.getEditor().active_form,
+                                    control_name:                thisComponent22[  argsPrefix  ].name,
+                                    sub_type:                   "on_property_changed",
+                                    code:                        thisComponent22[  argsPrefix  ].on_property_changed,
+                                    design_time_only_events:     designTimeOnlyEvents,
 
                                     args:               {
                                         form:           thisComponent22.meta.getEditor().active_form,
