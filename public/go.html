@@ -8502,7 +8502,7 @@ function registerComponent(vueComponentObject) {
                 let propNamee=listOfProperties[dfs]
                 thisComponent22.$watch(argsPrefix + '.' + propNamee, function(newValue, oldValue) {
                     //debugger
-                        console.log(cccname + '.. Text changed from ' + oldValue + ' to ' + newValue );
+                        console.log(cccname + '.' + propNamee + ' = ' + oldValue + ' to ' + newValue );
                         thisComponent22.meta.getEditor().processControlEvent(
                         {
                                     type:               "subcomponent_event",
