@@ -5008,12 +5008,12 @@ ${origCode}
                                 app:                null,
                                 form:               mm.active_form,
                                 component:          ccc.name,
-                                action_id:          "on_property_change",
-                                action_name:        "On Property Change",
+                                action_id:          "on_property_changed",
+                                action_name:        "On Property Changed",
                                 action_type:        "Event",
                                 action_index:       ere
                             })
-                        if ( property_id == "on_property_change" ) {
+                        if ( property_id == "on_property_changed" ) {
                             selectedCodeAction = indexActionSelector
                         }
                         indexActionSelector++
@@ -6854,9 +6854,9 @@ Vars to use:
 
 
 
-              if (!this.existsProp(compEvaled,"on_property_change")) {
-                  properties.push({   id:     "on_property_change",
-                                      name:   "On Property Change",
+              if (!this.existsProp(compEvaled,"on_property_changef")) {
+                  properties.push({   id:     "on_property_changed",
+                                      name:   "On Property Changed",
                                       type:   "Event",
                                       help:
              `

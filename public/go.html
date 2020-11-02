@@ -8481,7 +8481,7 @@ function registerComponent(vueComponentObject) {
             args = vueComponentObject.properties
         }
         let componentName = args.name
-        debugger
+        //debugger
         console.log(args.name)
     }
 
@@ -8493,13 +8493,30 @@ function registerComponent(vueComponentObject) {
             argsPrefix = "properties"
         }
         if (args && args.name) {
-            //debugger
+            debugger
             let cccname = args.name
             console.log(args.name );
             let thisComponent22 = vueComponentObject
             thisComponent22.$watch(argsPrefix + '.text', function(newValue, oldValue) {
                 //debugger
                     console.log(cccname + '.. Text changed from ' + oldValue + ' to ' + newValue );
+                    thisComponent22.meta.getEditor().processControlEvent(
+                    {
+                                type:               "subcomponent_event",
+                                form_name:           thisComponent22.meta.getEditor().active_form,
+                                control_name:        thisComponent22[  argsPrefix  ].name,
+                                sub_type:           "on_property_changed",
+                                code:                thisComponent22[  argsPrefix  ].on_property_changed,
+
+                                args:               {
+                                    form:           thisComponent22.meta.getEditor().active_form,
+                                    component:      thisComponent22[  argsPrefix  ].name,
+                                    property:       "text"                                 ,
+                                    value:          oldValue,
+                                    old_value:      oldValue,
+                                    new_value:      newValue
+                                }
+                     })
             });
         }
 
