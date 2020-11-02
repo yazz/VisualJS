@@ -6854,7 +6854,7 @@ Vars to use:
 
 
 
-              if (!this.existsProp(compEvaled,"on_property_changef")) {
+              if (!this.existsProp(compEvaled,"on_property_changed")) {
                   properties.push({   id:     "on_property_changed",
                                       name:   "On Property Changed",
                                       type:   "Event",

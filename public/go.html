@@ -8493,31 +8493,36 @@ function registerComponent(vueComponentObject) {
             argsPrefix = "properties"
         }
         if (args && args.name) {
-            debugger
             let cccname = args.name
             console.log(args.name );
             let thisComponent22 = vueComponentObject
-            thisComponent22.$watch(argsPrefix + '.text', function(newValue, oldValue) {
-                //debugger
-                    console.log(cccname + '.. Text changed from ' + oldValue + ' to ' + newValue );
-                    thisComponent22.meta.getEditor().processControlEvent(
-                    {
-                                type:               "subcomponent_event",
-                                form_name:           thisComponent22.meta.getEditor().active_form,
-                                control_name:        thisComponent22[  argsPrefix  ].name,
-                                sub_type:           "on_property_changed",
-                                code:                thisComponent22[  argsPrefix  ].on_property_changed,
+            let listOfProperties = Object.keys(thisComponent22[  argsPrefix  ])
 
-                                args:               {
-                                    form:           thisComponent22.meta.getEditor().active_form,
-                                    component:      thisComponent22[  argsPrefix  ].name,
-                                    property:       "text"                                 ,
-                                    value:          oldValue,
-                                    old_value:      oldValue,
-                                    new_value:      newValue
-                                }
-                     })
-            });
+            for (let dfs=0; dfs<listOfProperties.length;dfs++) {
+                let propNamee=listOfProperties[dfs]
+                thisComponent22.$watch(argsPrefix + '.' + propNamee, function(newValue, oldValue) {
+                    //debugger
+                        console.log(cccname + '.. Text changed from ' + oldValue + ' to ' + newValue );
+                        thisComponent22.meta.getEditor().processControlEvent(
+                        {
+                                    type:               "subcomponent_event",
+                                    form_name:           thisComponent22.meta.getEditor().active_form,
+                                    control_name:        thisComponent22[  argsPrefix  ].name,
+                                    sub_type:           "on_property_changed",
+                                    code:                thisComponent22[  argsPrefix  ].on_property_changed,
+
+                                    args:               {
+                                        form:           thisComponent22.meta.getEditor().active_form,
+                                        component:      thisComponent22[  argsPrefix  ].name,
+                                        property:       propNamee,
+                                        value:          oldValue,
+                                        old_value:      oldValue,
+                                        new_value:      newValue
+                                    }
+                         })
+                });
+
+            }
         }
 
     }
