@@ -8498,35 +8498,39 @@ function registerComponent(vueComponentObject) {
             let thisComponent22 = vueComponentObject
             let listOfProperties = Object.keys(thisComponent22[  argsPrefix  ])
 
-            for (let dfs=0; dfs<listOfProperties.length;dfs++) {
-                let propNamee=listOfProperties[dfs]
-                thisComponent22.$watch(argsPrefix + '.' + propNamee, function(newValue, oldValue) {
-                    //debugger
-                        console.log(cccname + '.' + propNamee + ' = ' + oldValue + ' to ' + newValue );
-                        let designTimeOnlyEvents = false
-                        if (thisComponent22[  argsPrefix  ].design_time_only_events) {
-                            designTimeOnlyEvents = true
-                        }
-                        thisComponent22.meta.getEditor().processControlEvent(
-                        {
-                                    type:                       "subcomponent_event",
-                                    form_name:                   thisComponent22.meta.getEditor().active_form,
-                                    control_name:                thisComponent22[  argsPrefix  ].name,
-                                    sub_type:                   "on_property_changed",
-                                    code:                        thisComponent22[  argsPrefix  ].on_property_changed,
-                                    design_time_only_events:     designTimeOnlyEvents,
+            for (let oneProperty of component_cache[vueComponentObject.args.base_component_id].properties) {
+                let propNamee = oneProperty.id
+                if (propNamee) {
+                    thisComponent22.$watch(argsPrefix + '.' + propNamee, function(newValue, oldValue) {
+                        //debugger
+                            console.log(cccname + '.' + propNamee + ' = ' + oldValue + ' to ' + newValue );
+                            let designTimeOnlyEvents = false
+                            // get this from the component defn
+                            debugger
+                            ///zzz
+                            if (oneProperty.design_time_only_events) {
+                                designTimeOnlyEvents = true
+                            }
+                            thisComponent22.meta.getEditor().processControlEvent(
+                            {
+                                        type:                       "subcomponent_event",
+                                        form_name:                   thisComponent22.meta.getEditor().active_form,
+                                        control_name:                thisComponent22[  argsPrefix  ].name,
+                                        sub_type:                   "on_property_changed",
+                                        code:                        thisComponent22[  argsPrefix  ].on_property_changed,
+                                        design_time_only_events:     designTimeOnlyEvents,
 
-                                    args:               {
-                                        form:           thisComponent22.meta.getEditor().active_form,
-                                        component:      thisComponent22[  argsPrefix  ].name,
-                                        property:       propNamee,
-                                        value:          oldValue,
-                                        old_value:      oldValue,
-                                        new_value:      newValue
-                                    }
-                         })
-                });
-
+                                        args:               {
+                                            form:           thisComponent22.meta.getEditor().active_form,
+                                            component:      thisComponent22[  argsPrefix  ].name,
+                                            property:       propNamee,
+                                            value:          oldValue,
+                                            old_value:      oldValue,
+                                            new_value:      newValue
+                                        }
+                             })
+                    });
+                }
             }
         }
 
@@ -10217,7 +10221,7 @@ async function callCodeV2(componentRecord,args, seq_no) {
         {
             trcode2 = getDebugCode(componentRecord.base_component_id,  trcode2)
         } else if (component_type == "VB") {
-            //zzz
+
             console.log("Component to index: " + componentRecord.base_component_id)
             indexComponent(  componentRecord.base_component_id  )
         }
@@ -10467,7 +10471,7 @@ function indexComponent(typeName){
             }
         }
     }
-    //zzz
+
     if (typeName == "horiz_scroll_control") {
         //debugger
 
