@@ -2701,7 +2701,7 @@ Pushlist
 
          updateComponentMethods: function() {
              let mm = this
-//zzz
+
 
 
             // ---------------------------------------------------------
@@ -2802,6 +2802,45 @@ Pushlist
              }
 
              return component
+         }
+         ,
+         lookupComponentOnForm: function(lookupArgs)
+         {
+             let component  = null
+             let mm         = this
+
+             if (lookupArgs.componentName) {
+                 let componentName = lookupArgs.componentName
+                 if (mm.form_runtime_info) {
+                     if (mm.form_runtime_info[mm.active_form]) {
+                         if (mm.form_runtime_info[mm.active_form].component_lookup_by_name) {
+                             if (mm.form_runtime_info[mm.active_form].component_lookup_by_name[componentName]) {
+                                 component = mm.form_runtime_info[mm.active_form].component_lookup_by_name[componentName]
+                             }
+                         }
+                     }
+                 }
+
+                 return component
+
+
+             } else if (lookupArgs.base_component_id && lookupArgs.first_only) {
+//zzz
+                 let base_component_id = lookupArgs.base_component_id
+                 if (mm.model.forms[mm.active_form].components) {
+                     var ccc = mm.model.forms[formName].components
+                     for (var ytr = 0;ytr < ccc.length;ytr++) {
+                        if (ccc[ytr].base_component_id == base_component_id) {
+                            return ccc[ytr]
+                        }
+                     }
+                 }
+
+                 return component
+
+             }
+             return null
+
          }
          ,
 
