@@ -88,7 +88,14 @@ properties(
             pre_snippet:    `await `,
             snippet:    `getServices()`
         }
-
+        ,
+        {
+            id:         "addParent",
+            name:       "addParent()",
+            type:       "Action",
+            pre_snippet:    `await `,
+            snippet:    `addParent()`
+        }
         ,
         {
             id:         "testDecisionManager",
@@ -150,7 +157,7 @@ properties(
                             <b>click_event</b> event
                          </div>`,
             default: `
-alert(value);
+me.addParent();
 `
         }
     ]
@@ -323,6 +330,9 @@ logo_url("/driver_icons/rhdm.png")
             }
             ,
 
+            addParent: async function() {
+                alert("called addParent")
+            }
 
 
         }
