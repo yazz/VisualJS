@@ -90,6 +90,8 @@ only_run_on_server(true)
                 //console.log("Body: "     + JSON.stringify(body,null,2));
                 if (res && (res.statusCode) && (res.statusCode >= 400)) {
                     throw ("HTTP error: " + res.statusCode + ": "+ res.body)
+                } else if (error && error.errno) {
+                        throw ("Error: " + res.statusCode + ": "+ errno)
                 } else {
 
                     try {
