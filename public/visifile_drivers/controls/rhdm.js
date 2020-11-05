@@ -338,6 +338,17 @@ logo_url("/driver_icons/rhdm.png")
                     base_component_id:      "database_control"   ,
                     first_only: true
                 })
+                if (newcontrol == null) {
+                    await this.meta.getEditor().addControl(
+                        {
+                                  "leftX": 10,
+                                  "topY": 10,
+                                  "name": mm.args.name + "_parent",
+                                  "base_component_id": "database_control"
+                                }
+
+                    )
+                }
                 alert(JSON.stringify(newcontrol,null,2))
             }
 
