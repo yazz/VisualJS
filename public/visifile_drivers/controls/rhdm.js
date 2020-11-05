@@ -331,7 +331,14 @@ logo_url("/driver_icons/rhdm.png")
             ,
 
             addParent: async function() {
-                alert("called addParent")
+                let mm = this
+                //alert("called addParent")
+                //debugger
+                let newcontrol =  mm.meta.lookupComponentOnForm({
+                    base_component_id:      "database_control"   ,
+                    first_only: true
+                })
+                alert(JSON.stringify(newcontrol,null,2))
             }
 
 
