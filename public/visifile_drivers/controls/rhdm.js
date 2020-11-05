@@ -141,7 +141,18 @@ properties(
                         ],
             design_time_only_events: true
         }
-
+        ,
+        {
+            id:     "on_property_changed",
+            name:   "on_property_changed",
+            type:   "Event",
+            help:       `<div>Help text for
+                            <b>click_event</b> event
+                         </div>`,
+            default: `
+alert(value);
+`
+        }
     ]
 )//properties
 
