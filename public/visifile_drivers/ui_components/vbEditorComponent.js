@@ -2826,7 +2826,7 @@ Pushlist
 
 
              } else if (lookupArgs.base_component_id && lookupArgs.first_only) {
-//zzz
+
                  let base_component_id = lookupArgs.base_component_id
                  if (mm.model.forms[mm.active_form].components) {
                      var ccc = mm.model.forms[mm.active_form].components
@@ -3844,155 +3844,165 @@ ${origCode}
         }
         ,
         addComponentV2: async function(leftX,topY,data, parentType, parentName, defProps) {
+            //zzz
             var mm = this
             //alert(JSON.stringify(data,null,2))
 
-            var newItem = new Object()
 
-            //alert(parentType +": = (" + parentOffsetX + "," + parentOffsetY + ")")
-            newItem.leftX = Math.floor(leftX)
-            newItem.topY = Math.floor(topY)
-            if (newItem.leftX < 0) {
-               newItem.leftX = 0
-            }
-            if (newItem.topY < 0) {
-               newItem.topY = 0
-            }
-            //alert(`(${newItem.leftX},${newItem.topY})`)
+            var promise = new Promise(async function(returnfn) {
+                var newItem = new Object()
 
-            if (parentType) {
-               //alert(`${baseId}:(${x1},${y1}) - (${x2},${y2})`)
-               newItem.parent = parentName
-            }
+                //alert(parentType +": = (" + parentOffsetX + "," + parentOffsetY + ")")
+                newItem.leftX = Math.floor(leftX)
+                newItem.topY = Math.floor(topY)
+                if (newItem.leftX < 0) {
+                   newItem.leftX = 0
+                }
+                if (newItem.topY < 0) {
+                   newItem.topY = 0
+                }
+                //alert(`(${newItem.leftX},${newItem.topY})`)
 
-            if (data.control) {
-                newItem.name = data.control.name
+                if (parentType) {
+                   //alert(`${baseId}:(${x1},${y1}) - (${x2},${y2})`)
+                   newItem.parent = parentName
+                }
 
-            } else {
-                newItem.name = data.base_component_id + "_" + this.model.next_component_id++
-            }
-            newItem.base_component_id = data.base_component_id
+                if (data.control) {
+                    newItem.name = data.control.name
+
+                } else {
+                    newItem.name = data.base_component_id + "_" + mm.model.next_component_id++
+                }
+                newItem.base_component_id = data.base_component_id
 
 
 
-            this.refresh++
-            if (!component_loaded[newItem.base_component_id]) {
-               await loadV2([newItem.base_component_id])
-               this.component_usage[newItem.base_component_id] = true
-            }
+                mm.refresh++
+                if (!component_loaded[newItem.base_component_id]) {
+                   await loadV2([newItem.base_component_id])
+                   mm.component_usage[newItem.base_component_id] = true
+                }
 
-            var compEvaled1 = component_cache[newItem.base_component_id]
-            if (isValidObject(compEvaled1)) {
-                   var compEvaled = compEvaled1.properties
-                   if (isValidObject(compEvaled)) {
-                       for (var cpp = 0 ; cpp < compEvaled.length; cpp ++){
-                           var prop = compEvaled[cpp].id
+                var compEvaled1 = component_cache[newItem.base_component_id]
+                if (isValidObject(compEvaled1)) {
+                       var compEvaled = compEvaled1.properties
+                       if (isValidObject(compEvaled)) {
+                           for (var cpp = 0 ; cpp < compEvaled.length; cpp ++){
+                               var prop = compEvaled[cpp].id
 
-                           if (!isValidObject(newItem[prop])){
-                               if (isValidObject(compEvaled[cpp].default)) {
-                                   newItem[prop] = JSON.parse(JSON.stringify(compEvaled[cpp].default))
-                               } else if (isValidObject(compEvaled[cpp].default_expression)){
-                                   newItem[prop]  = eval("(" + compEvaled[cpp].default_expression + ")")
-                               } else {
-                                   newItem[prop] = ""
+                               if (!isValidObject(newItem[prop])){
+                                   if (isValidObject(compEvaled[cpp].default)) {
+                                       newItem[prop] = JSON.parse(JSON.stringify(compEvaled[cpp].default))
+                                   } else if (isValidObject(compEvaled[cpp].default_expression)){
+                                       newItem[prop]  = eval("(" + compEvaled[cpp].default_expression + ")")
+                                   } else {
+                                       newItem[prop] = ""
+                                   }
                                }
                            }
                        }
-                   }
-            }
-
-
-            if (data.control) {
-                var allKeys = Object.keys(data.control)
-                for (var tt=0;tt<allKeys.length;tt++) {
-                    var propName  = allKeys[tt]
-                    var propValue = data.control[propName]
-                    newItem[propName] = propValue
                 }
-            }
 
 
-
-            if (!isValidObject(newItem.width)) {
-                newItem.width = 100
-            }
-            if (!isValidObject(newItem.height)) {
-                newItem.height = 100
-            }
-
-            if ((newItem.leftX + newItem.width)
-                    > this.model.forms[this.active_form].width) {
-                newItem.leftX = Math.floor(this.model.forms[this.active_form].width - newItem.width)
-            }
-            if ((newItem.topY + newItem.height)
-                    > this.model.forms[this.active_form].height) {
-                newItem.topY = Math.floor(this.model.forms[this.active_form].height - newItem.height)
-            }
-
-
-            if (isValidObject(   defProps   )) {
-                var oo = Object.keys(defProps)
-                for (  var ee = 0  ;  ee < oo.length ;  ee++  ) {
-                    var propName = oo[ee]
-                    var propValue = defProps[propName]
-                    newItem[propName] = propValue
-                }
-            }
-
-            this.model.forms[this.active_form].components.push(newItem)
-            this.active_component_index = this.model.forms[this.active_form].components.length - 1
-
-
-            var compCode = component_cache[newItem.base_component_id].code
-            var childrenCode  = saveHelper.getValueOfCodeString(compCode, "children",")//children")
-            if (isValidObject(childrenCode)) {
-                for (  var ee = 0  ;  ee < childrenCode.length ;  ee++  ) {
-                    //alert(JSON.stringify(childrenCode[ee],null,2))
-
-                    var childBaseId = childrenCode[ee].base_component_id
-                    var childDefProps = childrenCode[ee].properties
-                    await this.addComponentV2(    0 ,
-                                                0 ,
-                                                {base_component_id: childBaseId} ,
-                                                newItem.base_component_id ,
-                                                newItem.name ,
-                                                childDefProps )
-                }
-            }
-
-
-            setTimeout(async function() {
-
-            mm.updateAllFormCaches()
-                var selectParent = false
-                var parentItemIndex = null
-                if (isValidObject(newItem.parent)) {
-                    var parentItem = mm.form_runtime_info[mm.active_form].component_lookup_by_name[newItem.parent]
-
-                    if (isValidObject(parentItem.select_parent_when_child_added) &&
-                            (parentItem.select_parent_when_child_added == true)) {
-
-                        selectParent = true
-                        var ccc = mm.model.forms[mm.active_form].components
-                        for (var ytr = 0;ytr < ccc.length;ytr++) {
-                           if (parentItem.name == ccc[ytr].name) {
-                               parentItemIndex = ytr
-                               break
-                           }
-                        }
+                if (data.control) {
+                    var allKeys = Object.keys(data.control)
+                    for (var tt=0;tt<allKeys.length;tt++) {
+                        var propName  = allKeys[tt]
+                        var propValue = data.control[propName]
+                        newItem[propName] = propValue
                     }
                 }
 
 
 
-                if (selectParent) {
-                    mm.selectComponent(parentItemIndex, true)
-                } else {
-                    mm.selectComponent(mm.active_component_index, true)
+                if (!isValidObject(newItem.width)) {
+                    newItem.width = 100
                 }
-                mm.refresh ++
-            },100)
+                if (!isValidObject(newItem.height)) {
+                    newItem.height = 100
+                }
 
+                if ((newItem.leftX + newItem.width)
+                        > mm.model.forms[mm.active_form].width) {
+                    newItem.leftX = Math.floor(mm.model.forms[mm.active_form].width - newItem.width)
+                }
+                if ((newItem.topY + newItem.height)
+                        > mm.model.forms[mm.active_form].height) {
+                    newItem.topY = Math.floor(mm.model.forms[mm.active_form].height - newItem.height)
+                }
+
+
+                if (isValidObject(   defProps   )) {
+                    var oo = Object.keys(defProps)
+                    for (  var ee = 0  ;  ee < oo.length ;  ee++  ) {
+                        var propName = oo[ee]
+                        var propValue = defProps[propName]
+                        newItem[propName] = propValue
+                    }
+                }
+
+                mm.model.forms[mm.active_form].components.push(newItem)
+                mm.active_component_index = mm.model.forms[mm.active_form].components.length - 1
+
+
+                var compCode = component_cache[newItem.base_component_id].code
+                var childrenCode  = saveHelper.getValueOfCodeString(compCode, "children",")//children")
+                if (isValidObject(childrenCode)) {
+                    for (  var ee = 0  ;  ee < childrenCode.length ;  ee++  ) {
+                        //alert(JSON.stringify(childrenCode[ee],null,2))
+
+                        var childBaseId = childrenCode[ee].base_component_id
+                        var childDefProps = childrenCode[ee].properties
+                        await mm.addComponentV2(    0 ,
+                                                    0 ,
+                                                    {base_component_id: childBaseId} ,
+                                                    newItem.base_component_id ,
+                                                    newItem.name ,
+                                                    childDefProps )
+                    }
+                }
+
+
+                setTimeout(async function() {
+
+                mm.updateAllFormCaches()
+                    var selectParent = false
+                    var parentItemIndex = null
+                    if (isValidObject(newItem.parent)) {
+                        var parentItem = mm.form_runtime_info[mm.active_form].component_lookup_by_name[newItem.parent]
+
+                        if (isValidObject(parentItem.select_parent_when_child_added) &&
+                                (parentItem.select_parent_when_child_added == true)) {
+
+                            selectParent = true
+                            var ccc = mm.model.forms[mm.active_form].components
+                            for (var ytr = 0;ytr < ccc.length;ytr++) {
+                               if (parentItem.name == ccc[ytr].name) {
+                                   parentItemIndex = ytr
+                                   break
+                               }
+                            }
+                        }
+                    }
+
+
+
+                    if (selectParent) {
+                        mm.selectComponent(parentItemIndex, true)
+                    } else {
+                        mm.selectComponent(mm.active_component_index, true)
+                    }
+                    mm.refresh ++
+
+                    //let newComponent = await mm.lookupComponentOnForm({componentName: childDefProps.id})
+                    //returnFn(newComponent)
+                    returnfn(null)
+                },100)
+
+            })
+            var ret = await promise
+            return ret
         }
         ,
         selectComponentByName: function(compName) {

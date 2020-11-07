@@ -345,13 +345,14 @@ logo_url("/driver_icons/rhdm.png")
                 })
                 if (newcontrol == null) {
                     let parentName = mm.args.name + "_parent"
-                    await this.meta.getEditor().addControl(
+                    let parentComponent = await this.meta.getEditor().addControl(
                         {
                                   "leftX":              10,
                                   "topY":               10,
                                   "name":               parentName,
                                   "base_component_id":  "database_control"
                         })
+                    //parentComponent.sourceControlName = mm.args.name
                     mm.properties.parent = parentName
                     mm.properties.leftX  = 0
                     mm.properties.topY   = 0
