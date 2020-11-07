@@ -160,6 +160,13 @@ properties(
 me.addParent();
 `
         }
+        ,
+        {
+            id:     "getTables",
+            name:   "getTables",
+            type:   "Action"
+        }
+
     ]
 )//properties
 
@@ -330,7 +337,11 @@ logo_url("/driver_icons/rhdm.png")
             }
             ,
 
-
+            getTables: async function()
+            {
+                return [{name: "dmn"},{name: "drl"}];
+            }
+            ,
 
 
 
