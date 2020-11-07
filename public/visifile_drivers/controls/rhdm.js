@@ -330,6 +330,11 @@ logo_url("/driver_icons/rhdm.png")
             }
             ,
 
+
+
+
+
+
             addParent: async function() {
                 let mm = this
                 //alert("called addParent")
@@ -339,17 +344,19 @@ logo_url("/driver_icons/rhdm.png")
                     first_only: true
                 })
                 if (newcontrol == null) {
+                    let parentName = mm.args.name + "_parent"
                     await this.meta.getEditor().addControl(
                         {
-                                  "leftX": 10,
-                                  "topY": 10,
-                                  "name": mm.args.name + "_parent",
-                                  "base_component_id": "database_control"
-                                }
-
-                    )
+                                  "leftX":              10,
+                                  "topY":               10,
+                                  "name":               parentName,
+                                  "base_component_id":  "database_control"
+                        })
+                    mm.properties.parent = parentName
+                    mm.properties.leftX  = 0
+                    mm.properties.topY   = 0
                 }
-                alert(JSON.stringify(newcontrol,null,2))
+                //alert(JSON.stringify(newcontrol,null,2))
             }
 
 
