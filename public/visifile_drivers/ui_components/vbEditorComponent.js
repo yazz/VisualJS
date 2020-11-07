@@ -3995,9 +3995,10 @@ ${origCode}
                     }
                     mm.refresh ++
 
-                    //let newComponent = await mm.lookupComponentOnForm({componentName: childDefProps.id})
-                    //returnFn(newComponent)
-                    returnfn(null)
+//debugger
+                    let newComponent = await mm.lookupComponentOnForm({componentName: newItem.name})
+                    returnfn(newComponent)
+                    //returnfn(null)
                 },100)
 
             })
@@ -4037,25 +4038,36 @@ ${origCode}
             return yy
         }
         ,
+
+
+
+
         addControl: async function(controlDetails) {
             var mm = this
 
 
-              await mm.addComponentV2(   10,
-                                       10,
-                                       {
-                                              base_component_id: controlDetails.base_component_id
-                                              ,
-                                              control: controlDetails
-                                        },
-                                        controlDetails.parent_base_component_id,
-                                        controlDetails.parent_name,
-                                        [])
-              mm.highlighted_control = null
-              mm.updateAllFormCaches()
-              mm.refresh ++
+            let newControl = await mm.addComponentV2( 10,
+                                                      10,
+                                                      {
+                                                          base_component_id: controlDetails.base_component_id
+                                                          ,
+                                                          control: controlDetails
+                                                      },
+                                                      controlDetails.parent_base_component_id,
+                                                      controlDetails.parent_name,
+                                                      [])
+            mm.highlighted_control = null
+            mm.updateAllFormCaches()
+            mm.refresh ++
+
+            return newControl
         }
         ,
+
+
+
+
+        
         getControlByName: function(controlName) {
             var mm = this
             var control = mm.model.forms.Form_1.components[controlName]

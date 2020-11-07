@@ -352,7 +352,9 @@ logo_url("/driver_icons/rhdm.png")
                                   "name":               parentName,
                                   "base_component_id":  "database_control"
                         })
-                    //parentComponent.sourceControlName = mm.args.name
+                        //debugger
+                    parentComponent.sourceComponentType = mm.properties.base_component_id
+                    parentComponent.sourceControlName = mm.properties.name
                     mm.properties.parent = parentName
                     mm.properties.leftX  = 0
                     mm.properties.topY   = 0
