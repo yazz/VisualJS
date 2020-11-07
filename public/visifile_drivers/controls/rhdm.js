@@ -373,6 +373,8 @@ logo_url("/driver_icons/rhdm.png")
                     parentComponent.height = mm.properties.height
                     mm.properties.leftX  = 0
                     mm.properties.topY   = 0
+                    mm.meta.getEditor().selectComponentByName(parentName)
+                    mm.meta.getEditor().showComponentDetailedDesignUiByName(parentName)
                 }
                 //alert(JSON.stringify(newcontrol,null,2))
             }
