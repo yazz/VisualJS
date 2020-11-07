@@ -356,6 +356,10 @@ logo_url("/driver_icons/rhdm.png")
                     parentComponent.sourceComponentType = mm.properties.base_component_id
                     parentComponent.sourceControlName = mm.properties.name
                     mm.properties.parent = parentName
+                    parentComponent.leftX = mm.properties.leftX
+                    parentComponent.topY = mm.properties.topY
+                    parentComponent.width = mm.properties.width
+                    parentComponent.height = mm.properties.height
                     mm.properties.leftX  = 0
                     mm.properties.topY   = 0
                 }
