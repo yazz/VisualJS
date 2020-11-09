@@ -119,6 +119,14 @@ properties(
         }
         ,
         {
+            id:     "connect",
+            pre_snippet:    `await `,
+            snippet:        `connect()`,
+            name:   "connect",
+            type:   "Action"
+        }
+        ,
+        {
             id:     "source_type",
             name:   "Data Source Type",
             type:   "String"
@@ -873,7 +881,7 @@ logo_url("/driver_icons/data_control.png")
              let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
              let connected = await newcontrol.connect()
              if (connected == false) {
-                 
+
                  if (newcontrol &&
                      newcontrol.result &&
                      newcontrol.result.failed &&

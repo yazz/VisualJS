@@ -375,6 +375,9 @@ logo_url("/driver_icons/rhdm.png")
                     mm.properties.topY   = 0
                     mm.meta.getEditor().selectComponentByName(parentName)
                     mm.meta.getEditor().showComponentDetailedDesignUiByName(parentName)
+                    setTimeout(function(){
+                        parentComponent.connect()                        
+                    },100)
                 }
                 //alert(JSON.stringify(newcontrol,null,2))
             }
