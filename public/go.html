@@ -8498,7 +8498,7 @@ function registerComponent(vueComponentObject) {
             let thisComponent22 = vueComponentObject
             let listOfProperties = Object.keys(thisComponent22[  argsPrefix  ])
 
-            for (let oneProperty of component_cache[vueComponentObject.args.base_component_id].properties) {
+            for (let oneProperty of component_cache[args.base_component_id].properties) {
                 let propNamee = oneProperty.id
                 if (propNamee) {
                     thisComponent22.$watch(argsPrefix + '.' + propNamee, function(newValue, oldValue) {
