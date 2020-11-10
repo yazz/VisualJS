@@ -74,7 +74,26 @@ properties(
             default:    "",
             hidden:     true
         }
-
+        ,
+        {
+            id:     "on_property_changed",
+            name:   "on_property_changed",
+            type:   "Event",
+            help:       `<div>Help text for
+                            <b>click_event</b> event
+                         </div>`,
+            default: `
+me.addParent();
+`
+        }
+        ,
+        {
+            id:         "addParent",
+            name:       "addParent()",
+            type:       "Action",
+            pre_snippet:    `await `,
+            snippet:    `addParent()`
+        }
     ]
 )//properties
 logo_url("/driver_icons/import_access.png")
@@ -200,6 +219,7 @@ logo_url("/driver_icons/import_access.png")
 
 
             connect: async function() {
+                debugger
                 try {
                     var result = await callFunction(
                                         {
@@ -274,6 +294,54 @@ logo_url("/driver_icons/import_access.png")
                     //this.args.text = this.text
                 }
             }
+            ,
+
+            addParent: async function() {
+                debugger
+                let mm = this
+                //alert("called addParent")
+                //debugger
+                let newcontrol =  mm.meta.lookupComponentOnForm({
+                    base_component_id:      "database_control"   ,
+                    first_only: true
+                })
+                if (newcontrol == null) {
+                    let parentName = mm.args.name + "_parent"
+                    let parentComponent = await this.meta.getEditor().addControl(
+                        {
+                                  "leftX":              10,
+                                  "topY":               10,
+                                  "name":               parentName,
+                                  "base_component_id":  "database_control"
+                        })
+                        //debugger
+                    parentComponent.sourceComponentType = mm.properties.base_component_id
+                    parentComponent.sourceControlName = mm.properties.name
+                    mm.properties.parent_name = parentName
+                    mm.properties.parent = parentName
+                    mm.properties.parent_base_component_id = "database_control"
+                    parentComponent.leftX = mm.properties.leftX
+                    parentComponent.topY = mm.properties.topY
+                    parentComponent.width = mm.properties.width
+                    parentComponent.height = mm.properties.height
+                    mm.properties.leftX  = 0
+                    mm.properties.topY   = 0
+                    mm.meta.getEditor().selectComponentByName(parentName)
+                    mm.meta.getEditor().showComponentDetailedDesignUiByName(parentName)
+                    setTimeout(function(){
+                        parentComponent.connect()
+                    },100)
+                }
+                //alert(JSON.stringify(newcontrol,null,2))
+            }
+
+
+
+
+
+
+
+
         }
     })
 }
