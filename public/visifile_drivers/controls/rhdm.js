@@ -366,7 +366,9 @@ logo_url("/driver_icons/rhdm.png")
                         //debugger
                     parentComponent.sourceComponentType = mm.properties.base_component_id
                     parentComponent.sourceControlName = mm.properties.name
+                    mm.properties.parent_name = parentName
                     mm.properties.parent = parentName
+                    mm.properties.parent_base_component_id = "database_control"
                     parentComponent.leftX = mm.properties.leftX
                     parentComponent.topY = mm.properties.topY
                     parentComponent.width = mm.properties.width
@@ -376,7 +378,7 @@ logo_url("/driver_icons/rhdm.png")
                     mm.meta.getEditor().selectComponentByName(parentName)
                     mm.meta.getEditor().showComponentDetailedDesignUiByName(parentName)
                     setTimeout(function(){
-                        parentComponent.connect()                        
+                        parentComponent.connect()
                     },100)
                 }
                 //alert(JSON.stringify(newcontrol,null,2))
