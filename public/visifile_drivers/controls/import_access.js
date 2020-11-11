@@ -13,6 +13,7 @@ properties(
         {
             id:     "access_file_path",
             name:   "msaccess file path",
+            design_time_only_events: true,
             //type:   "File",
             type:   "String"
         }
@@ -94,6 +95,19 @@ me.addParent();
             pre_snippet:    `await `,
             snippet:    `addParent()`
         }
+        ,
+        {
+            id:         "isAccessAvailable",
+            name:       "Is Access Available?",
+            type:       "Select",
+            default:    "False",
+            values:     [
+                            {display: "True",   value: "True"},
+                            {display: "False",  value: "False"}
+                        ],
+            design_time_only_events: true
+        }
+
     ]
 )//properties
 logo_url("/driver_icons/import_access.png")
@@ -230,11 +244,14 @@ logo_url("/driver_icons/import_access.png")
                                                 path:            this.properties.access_file_path
                                              })
                     if (result.err) {
+                        mm.properties.isAccessAvailable = "False"
                         return false
                     } else {
+                        mm.properties.isAccessAvailable = "True"
                         return true
                     }
                 } catch (catchErr) {
+                    mm.properties.isAccessAvailable = "False"
                     return false
                 }
             }
