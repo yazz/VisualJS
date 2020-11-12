@@ -233,7 +233,7 @@ logo_url("/driver_icons/import_access.png")
 
 
             connect: async function() {
-                debugger
+                let mm = this
                 try {
                     var result = await callFunction(
                                         {
