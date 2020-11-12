@@ -347,6 +347,27 @@ properties(
             type:       "event",
             default:    "alert(JSON.stringify(to_value),null,2)"
         }
+        ,
+
+        {
+            id:         "data1",
+            name:       "Data 1",
+            type:       "Array",
+            default:    [],
+            editor:     "detail_editor",
+            accept_types: {table_data: true}
+        }
+
+        ,
+
+        {
+            id:         "data2",
+            name:       "Data 2",
+            type:       "Array",
+            default:    [],
+            editor:     "detail_editor",
+            accept_types: {table_data: true}
+        }
 
 
         ]
