@@ -1,10 +1,11 @@
 function(args) {
 /*
+/Users/fquraish/yazz/a.accdb
 is_app(true)
 component_type("VB")
 display_name("msaccess client control")
 description("This will return the msaccess control")
-base_component_id("import_access_control")
+base_component_id("ms_access_control")
 load_once_from_file(true)
 visibility("PRIVATE")
 read_only(true)
@@ -113,7 +114,7 @@ me.addParent();
 logo_url("/driver_icons/import_access.png")
 */
 
-    Vue.component("import_access_control",{
+    Vue.component("ms_access_control",{
         props: [  "meta",  "args",  "properties",  "name",  "refresh",  "design_mode"  ]
         ,
         template: `<div v-bind:style='"white-space:normal;height:100%;width:100%; border: 0px;" '>
