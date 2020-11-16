@@ -10,7 +10,7 @@ only_run_on_server(true)
     var promise = new Promise(async function(returnFn) {
 
         try {
-            console.log("Loading Excel :" + args.path)
+            //console.log("Loading Excel :" + args.path)
 
             let workbook = noexcel.readFile(args.path)
 
@@ -32,7 +32,9 @@ only_run_on_server(true)
             //
             } else if (args.get_data) {
 
-                let ret = noexcel.getTableData(args.table)
+                console.log("SHEET: " + args.table)
+                let ret = workbook.Sheets[args.table]
+                console.log("ret: " + JSON.stringify(ret,null,2))
                 returnFn(ret)
 
 
