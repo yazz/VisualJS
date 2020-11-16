@@ -29,7 +29,7 @@ only_run_on_server(true)
       try {
              //console.log("*) var list2 = await getAppsList() ");
              var list2 = await getAppsList
-             console.log("*) returning list: " + JSON.stringify(list2,null,2));
+             //console.log("*) returning list: " + JSON.stringify(list2,null,2));
              return list2
       } catch(err) {
           console.log("*) Error: " + JSON.stringify(err,null,2));
