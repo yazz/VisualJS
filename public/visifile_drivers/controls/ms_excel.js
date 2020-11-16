@@ -108,12 +108,17 @@ me.addParent();
                         ],
             design_time_only_events: true
         }
+        ,
 
+        {
+            id:     "getSheet",
+            name:   "getSheet",
+            type:   "Action"
+        }
     ]
 )//properties
 logo_url("/driver_icons/excel.png")
 */
-
     Vue.component("ms_excel_control",{
         props: [  "meta",  "args",  "properties",  "name",  "refresh",  "design_mode"  ]
         ,
@@ -234,6 +239,7 @@ logo_url("/driver_icons/excel.png")
 
 
             connect: async function() {
+                debugger //   /Users/fquraish/Downloads/vcd.xlsx
                 let mm = this
                 try {
                     var result = await callFunction(
@@ -352,7 +358,33 @@ logo_url("/driver_icons/excel.png")
                 }
                 //alert(JSON.stringify(newcontrol,null,2))
             }
+            ,
+            getSheet: async function() {
+                var result = await callFunction(
+                                    {
+                                        driver_name: "excel_server",
+                                        method_name: "excel_sql"  }
+                                        ,{
+                                            get_data:        true,
+                                            table:           this.properties.select_table,
+                                            path:            this.properties.excel_file_path
+                                         })
 
+
+               //alert("runQuery: " + JSON.stringify(result,null,2))
+               console.log(JSON.stringify(result,null,2))
+               if (result) {
+
+                    //select_columns
+                    this.args.result  = result
+                    return this.args.result
+               }
+
+
+                this.args.result = []
+                this.changedFn()
+                return {}
+            }
 
 
 
