@@ -239,7 +239,6 @@ logo_url("/driver_icons/excel.png")
 
 
             connect: async function() {
-                debugger //   /Users/fquraish/Downloads/vcd.xlsx
                 let mm = this
                 try {
                     var result = await callFunction(
@@ -360,6 +359,7 @@ logo_url("/driver_icons/excel.png")
             }
             ,
             getSheet: async function() {
+                debugger
                 var result = await callFunction(
                                     {
                                         driver_name: "excel_server",
