@@ -50,8 +50,8 @@ properties(
         ,
 
         {
-            id:     "getTables",
-            name:   "getTables",
+            id:     "getSheets",
+            name:   "getSheets",
             type:   "Action"
         }
         ,
@@ -153,39 +153,31 @@ logo_url("/driver_icons/excel.png")
 
 
 
-            getTables: async function() {
-              console.log("In getTables")
+            getSheets: async function() {
+              console.log("In getSheets")
 
-              if (this.design_mode) {
+              var result = await callFunction(
+                                  {
+                                      driver_name: "excel_server",
+                                      method_name: "excel_sql"  }
+                                      ,{
+                                          get_tables:      true,
+                                          path:            this.properties.excel_file_path
+                                       })
+             //debugger
 
-                  var result = await callFunction(
-                                      {
-                                          driver_name: "excel_server",
-                                          method_name: "excel_sql"  }
-                                          ,{
-                                              get_tables:      true,
-                                              path:            this.properties.excel_file_path
-                                           })
-                 //debugger
-
-                 //alert("runQuery: " + JSON.stringify(result,null,2))
-                 console.log(JSON.stringify(result,null,2))
-                 let retTables = []
-                 if (result) {
-                     this.tables = []
-                     //alert(JSON.stringify(result,null,2))
-                     for (var i=0;i<result.length;i++) {
-                         this.tables.push(result[i])
-                         retTables.push({name: result[i]})
-                     }
+             //alert("runQuery: " + JSON.stringify(result,null,2))
+             console.log(JSON.stringify(result,null,2))
+             let retTables = []
+             if (result) {
+                 this.tables = []
+                 //alert(JSON.stringify(result,null,2))
+                 for (var i=0;i<result.length;i++) {
+                     this.tables.push(result[i])
+                     retTables.push({name: result[i]})
                  }
-                 return retTables
-
-
-              }
-
-
-                //debugger
+             }
+             return retTables
             }
             ,
 
