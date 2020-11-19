@@ -51,7 +51,14 @@ properties(
 
         {
             id:     "getSheets",
+            pre_snippet: `await `,
             name:   "getSheets",
+            type:   "Action"
+        }
+        ,
+        {
+            id:     "getSheetDetails",
+            name:   "getSheetDetails('SHEET_NAME')",
             type:   "Action"
         }
         ,
@@ -127,8 +134,9 @@ logo_url("/driver_icons/excel.png")
         ,
         data: function() {
             return {
-                design_time_text: "",
-                tables:             [ ]
+                design_time_text:           "",
+                sheetDetails:              { },
+                sheetNames:                [ ]
             }
         }
         ,
@@ -170,14 +178,24 @@ logo_url("/driver_icons/excel.png")
              console.log(JSON.stringify(result,null,2))
              let retTables = []
              if (result) {
-                 this.tables = []
+                 this.sheetNames   = []
+                 this.sheetDetails = {}
                  //alert(JSON.stringify(result,null,2))
                  for (var i=0;i<result.length;i++) {
-                     this.tables.push(result[i])
-                     retTables.push({name: result[i]})
+                     this.sheetNames.push(result[i])
+                     this.sheetDetails[result[i]] = {name: result[i]}
                  }
              }
-             return retTables
+             return this.sheetNames
+            }
+            ,
+
+
+
+
+            getSheetDetails: function(sheetName)
+            {
+                return this.sheetDetails[sheetName]
             }
             ,
 
