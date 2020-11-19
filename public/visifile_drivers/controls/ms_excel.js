@@ -64,7 +64,15 @@ properties(
         ,
         {
             id:     "connect",
+            pre_snippet: `await `,
             name:   "connect",
+            type:   "Action"
+        }
+        ,
+        {
+            id:     "getWorkbook",
+            pre_snippet: `await `,
+            name:   "getWorkbook",
             type:   "Action"
         }
         ,
@@ -265,6 +273,30 @@ logo_url("/driver_icons/excel.png")
             }
             ,
 
+            getWorkbook: async function() {
+                let mm = this
+                try {
+                    var result = await callFunction(
+                                        {
+                                            driver_name: "excel_server",
+                                            method_name: "excel_sql"  }
+                                            ,{
+                                                get_workbook:     true,
+                                                path:             this.properties.excel_file_path
+                                             })
+                    if (result.err) {
+                        mm.properties.isExcelAvailable = "False"
+                        return {error: true}
+                    } else {
+                        mm.properties.isExcelAvailable = "True"
+                        return result.value
+                    }
+                } catch (catchErr) {
+                    mm.properties.isExcelAvailable = "False"
+                    return {error: true}
+                }
+            }
+            ,
 
 
 

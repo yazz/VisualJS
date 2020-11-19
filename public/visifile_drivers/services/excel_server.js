@@ -24,6 +24,14 @@ only_run_on_server(true)
                 let ret = workbook.SheetNames
                 returnFn(ret)
 
+            //
+            // get workbook
+            //
+            } else if (args.get_workbook) {
+
+                console.log("SHEET: " + JSON.stringify(workbook,null,2))
+                let ret = workbook
+                returnFn({value: ret})
 
 
 
@@ -34,7 +42,6 @@ only_run_on_server(true)
 
                 console.log("SHEET: " + args.table)
                 let ret = workbook.Sheets[args.table]
-                console.log("ret: " + JSON.stringify(ret,null,2))
                 returnFn(ret)
 
 
