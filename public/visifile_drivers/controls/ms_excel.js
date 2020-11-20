@@ -278,7 +278,7 @@ logo_url("/driver_icons/excel.png")
 
             getWorkbook: async function() {
                 let mm = this
-                debugger
+
                 try {
                     var result = await callFunction(
                                         {
@@ -292,9 +292,15 @@ logo_url("/driver_icons/excel.png")
                         mm.properties.isExcelAvailable = "False"
                         return {error: true}
                     } else {
-
+                        debugger
                         mm.properties.isExcelAvailable = "True"
-                        mm.workbook = XLSX.read(result.value)
+                        mm.workbook = XLSX.utils.book_new();
+                        let sheetNames = Object.keys(result.value)
+                        for (let sheetIndex=0 ; sheetIndex < sheetNames.length; sheetIndex++) {
+                            let sheetName = sheetNames[sheetIndex]
+                            const ws = XLSX.utils.json_to_sheet(result.value[sheetName]);
+                            XLSX.utils.book_append_sheet(mm.workbook, ws, sheetName);
+                        }
 
                         return result.value
                     }
