@@ -19,7 +19,7 @@ only_run_on_server(true)
             //
             // get tables
             //
-            if (args.get_tables) {
+            if (args.get_sheets) {
 
                 let ret = workbook.SheetNames
                 returnFn(ret)

@@ -53,6 +53,7 @@ properties(
             id:     "getSheets",
             pre_snippet: `await `,
             name:   "getSheets()",
+            snippet:    `getSheets()`,
             type:   "Action"
         }
         ,
@@ -101,9 +102,7 @@ properties(
                             <b>click_event</b> event
                          </div>`,
             default: `
-            if (me.isExcelAvailable == "False") {
                 await me.connect();
-            }
 `
         }
         ,
@@ -181,13 +180,13 @@ logo_url("/driver_icons/excel.png")
                                       driver_name: "excel_server",
                                       method_name: "excel_sql"  }
                                       ,{
-                                          get_tables:      true,
+                                          get_sheets:      true,
                                           path:            this.properties.excel_file_path
                                        })
              //debugger
 
              //alert("runQuery: " + JSON.stringify(result,null,2))
-             console.log(JSON.stringify(result,null,2))
+             //console.log(JSON.stringify(result,null,2))
              let retTables = []
              if (result) {
                  this.sheetNames   = []
