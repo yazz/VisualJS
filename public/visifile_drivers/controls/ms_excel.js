@@ -52,7 +52,7 @@ properties(
         {
             id:     "getSheets",
             pre_snippet: `await `,
-            name:   "getSheets",
+            name:   "getSheets()",
             type:   "Action"
         }
         ,
@@ -72,7 +72,8 @@ properties(
         {
             id:     "getWorkbook",
             pre_snippet: `await `,
-            name:   "getWorkbook",
+            name:   "getWorkbook()",
+            snippet:    `getWorkbook()`,
             type:   "Action"
         }
         ,
@@ -100,7 +101,9 @@ properties(
                             <b>click_event</b> event
                          </div>`,
             default: `
-me.connect();
+            if (me.isExcelAvailable == "False") {
+                await me.connect();
+            }
 `
         }
         ,
@@ -144,7 +147,8 @@ logo_url("/driver_icons/excel.png")
             return {
                 design_time_text:           "",
                 sheetDetails:              { },
-                sheetNames:                [ ]
+                sheetNames:                [ ],
+                workbook: null
             }
         }
         ,
@@ -275,6 +279,7 @@ logo_url("/driver_icons/excel.png")
 
             getWorkbook: async function() {
                 let mm = this
+                debugger
                 try {
                     var result = await callFunction(
                                         {
@@ -289,6 +294,8 @@ logo_url("/driver_icons/excel.png")
                         return {error: true}
                     } else {
                         mm.properties.isExcelAvailable = "True"
+                        mm.workbook = XLSX.read(result.value)
+
                         return result.value
                     }
                 } catch (catchErr) {
