@@ -292,6 +292,7 @@ logo_url("/driver_icons/excel.png")
                         mm.properties.isExcelAvailable = "False"
                         return {error: true}
                     } else {
+
                         mm.properties.isExcelAvailable = "True"
                         mm.workbook = XLSX.read(result.value)
 

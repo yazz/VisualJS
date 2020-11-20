@@ -29,8 +29,13 @@ only_run_on_server(true)
             //
             } else if (args.get_workbook) {
 
-                console.log("SHEET: " + JSON.stringify(workbook,null,2))
-                let ret = workbook
+                //console.log("SHEET: " + JSON.stringify(workbook,null,2))
+                console.log("workbook.SheetNames.length: " + JSON.stringify(workbook.SheetNames.length,null,2))
+                let ret = {}
+                for (let sheetIndex = 0; sheetIndex < workbook.SheetNames.length; sheetIndex ++ ) {
+                    let sheetName = workbook.SheetNames[sheetIndex]
+                    ret[sheetName] = noexcel.utils.sheet_to_json( workbook.Sheets[sheetName])
+                }
                 returnFn({value: ret})
 
 
