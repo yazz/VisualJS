@@ -124,6 +124,14 @@ properties(
             name:   "getSheet",
             type:   "Action"
         }
+        ,
+        {
+            id:         "has_details_ui",
+            name:       "Has details UI?",
+            type:       "Boolean",
+            default:    true,
+            hidden:     true
+        }        
     ]
 )//properties
 logo_url("/driver_icons/excel.png")
