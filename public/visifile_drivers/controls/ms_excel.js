@@ -23,6 +23,7 @@ properties(
             id:     "design_time_text",
             name:   "Design Time Text",
             type:   "String",
+            default: "Microsoft Excel control",
             help:       `<div>Help text for
                             <b>text</b> property
                          </div>`
@@ -132,6 +133,13 @@ properties(
             default:    true,
             hidden:     true
         }
+        ,
+
+        {
+            id:     "sheet",
+            name:   "Sheet",
+            type:   "String"
+        }
     ]
 )//properties
 logo_url("/driver_icons/excel.png")
@@ -140,13 +148,8 @@ logo_url("/driver_icons/excel.png")
         props: [  "meta",  "args",  "properties",  "name",  "refresh",  "design_mode"  ]
         ,
         template: `<div v-bind:style='"white-space:normal;height:100%;width:100%; border: 0px;" '>
-                                    <div v-if="design_mode">
-                                    ms_excel:
-                                                {{design_time_text}}
-                                    </div>
-                                    <div v-else>
-                                    ms_excel:
-                                                ms_excel LIVE
+                                    <div v-if="design_mode  && (!(design_mode == 'detail_editor')) ">
+                                                {{properties.design_time_text}}
                                     </div>
 
                                     <div v-bind:style='"height:100%;width:100%; border: 0px;color:black;padding: 10px;"'
@@ -168,6 +171,12 @@ logo_url("/driver_icons/excel.png")
                                                     <a    v-bind:class='"nav-link " + ((designDetailTab == "Sheets")?"active":"")'
                                                           v-on:click="designDetailTab = 'Sheets';"
                                                           href="#">Sheets</a>
+                                                </li>
+
+                                                <li class="nav-item" style="width:20%;">
+                                                    <a    v-bind:class='"nav-link " + ((designDetailTab == "Cells")?"active":"")'
+                                                          v-on:click="designDetailTab = 'Cells';"
+                                                          href="#">Cells</a>
                                                 </li>
 
                                             </ul>
@@ -192,6 +201,25 @@ logo_url("/driver_icons/excel.png")
 
 
 
+
+                                            <div v-bind:style='((designDetailTab == "sheets")?"visibility:visible;":"visibility:hidden;display: none;")'
+                                                 v-bind:refresh='refresh'>
+
+                                                Sheets
+                                            </div>
+
+
+
+
+
+
+                                            <div v-bind:style='((designDetailTab == "cells")?"visibility:visible;":"visibility:hidden;display: none;")'
+                                                 v-bind:refresh='refresh'>
+
+                                                Cells
+                                            </div>
+
+
                                         </div>
                                     </div>
 
@@ -201,7 +229,6 @@ logo_url("/driver_icons/excel.png")
         ,
         data: function() {
             return {
-                design_time_text:           "",
                 sheetDetails:              { },
                 sheetNames:                [ ],
                 workbook:                   null,
@@ -213,7 +240,7 @@ logo_url("/driver_icons/excel.png")
           // This would be called anytime the value of the input changes
           refresh(newValue, oldValue) {
               if (isValidObject(this.args)) {
-                  this.design_time_text = this.args.design_time_text
+                  //this.design_time_text = this.args.design_time_text
               }
           }
         },
