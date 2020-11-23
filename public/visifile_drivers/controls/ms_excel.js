@@ -131,7 +131,7 @@ properties(
             type:       "Boolean",
             default:    true,
             hidden:     true
-        }        
+        }
     ]
 )//properties
 logo_url("/driver_icons/excel.png")
@@ -148,6 +148,55 @@ logo_url("/driver_icons/excel.png")
                                     ms_excel:
                                                 ms_excel LIVE
                                     </div>
+
+                                    <div v-bind:style='"height:100%;width:100%; border: 0px;color:black;padding: 10px;"'
+                                         v-if='design_mode == "detail_editor"'
+                                          >
+
+                                        <div v-bind:style='"height:100%;width:100%; overflow: none;"'>
+
+                                            <ul class="nav nav-pills" v-bind:style='"height:20%;width:100%; overflow: none;"'>
+                                                <li class="nav-item" style="width:20%;">
+                                                    <a  v-bind:class='"nav-link " + ((designDetailTab == "connection")?"active":"")'
+                                                        v-on:click="designDetailTab = 'connection';"
+                                                        href="#">
+                                                        Data source connection
+                                                    </a>
+                                                </li>
+
+                                                <li class="nav-item" style="width:20%;">
+                                                    <a    v-bind:class='"nav-link " + ((designDetailTab == "Sheets")?"active":"")'
+                                                          v-on:click="designDetailTab = 'Sheets';"
+                                                          href="#">Sheets</a>
+                                                </li>
+
+                                            </ul>
+
+                                            <div v-bind:style='((designDetailTab == "connection")?"visibility:visible;":"visibility:hidden;display: none;")'
+                                                 v-bind:refresh='refresh'>
+
+                                                Connection
+
+                                                <div   v-if='properties.isExcelAvailable == "True"'
+                                                       style="background-color: green; color: white;padding:10px;">
+                                                    Connected
+                                                </div>
+
+                                                <div   v-if='!(properties.isExcelAvailable == "True")'
+                                                       style="background-color: red; color: white;padding:10px;">
+                                                    Not Connected
+                                                </div>
+                                            </div>
+
+
+
+
+
+                                        </div>
+                                    </div>
+
+
+
                  </div>`
         ,
         data: function() {
@@ -155,7 +204,8 @@ logo_url("/driver_icons/excel.png")
                 design_time_text:           "",
                 sheetDetails:              { },
                 sheetNames:                [ ],
-                workbook: null
+                workbook:                   null,
+                designDetailTab:           "connection"
             }
         }
         ,
