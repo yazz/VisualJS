@@ -103,7 +103,9 @@ properties(
                             <b>click_event</b> event
                          </div>`,
             default: `
-                await me.connect();
+                if (property == "isExcelAvailable") {
+                  await me.connect();
+              }
 `
         }
         ,
@@ -115,7 +117,8 @@ properties(
             values:     [
                             {display: "True",   value: "True"},
                             {display: "False",  value: "False"}
-                        ],
+                        ]
+                        ,
             design_time_only_events: true
         }
         ,
@@ -249,7 +252,8 @@ logo_url("/driver_icons/excel.png")
 
             if (this.design_mode) {
             } else {
-
+              await this.connect()
+              await this.getWorkbook()
             }
         }
         ,
@@ -258,16 +262,12 @@ logo_url("/driver_icons/excel.png")
 
 
             getSheets: async function() {
+              let mm = this
               console.log("In getSheets")
 
-              var result = await callFunction(
-                                  {
-                                      driver_name: "excel_server",
-                                      method_name: "excel_sql"  }
-                                      ,{
-                                          get_sheets:      true,
-                                          path:            this.properties.excel_file_path
-                                       })
+              let result=null
+
+              result = mm.workbook.SheetNames
              //debugger
 
              //alert("runQuery: " + JSON.stringify(result,null,2))
@@ -364,34 +364,36 @@ logo_url("/driver_icons/excel.png")
             getWorkbook: async function() {
                 let mm = this
 
-                try {
-                    var result = await callFunction(
-                                        {
-                                            driver_name: "excel_server",
-                                            method_name: "excel_sql"  }
-                                            ,{
-                                                get_workbook:     true,
-                                                path:             this.properties.excel_file_path
-                                             })
-                    if (result.err) {
-                        mm.properties.isExcelAvailable = "False"
-                        return {error: true}
-                    } else {
-                        debugger
-                        mm.properties.isExcelAvailable = "True"
-                        mm.workbook = XLSX.utils.book_new();
-                        let sheetNames = Object.keys(result.value)
-                        for (let sheetIndex=0 ; sheetIndex < sheetNames.length; sheetIndex++) {
-                            let sheetName = sheetNames[sheetIndex]
-                            const ws = XLSX.utils.json_to_sheet(result.value[sheetName]);
-                            XLSX.utils.book_append_sheet(mm.workbook, ws, sheetName);
-                        }
+                if (mm.properties.isExcelAvailable == "True") {
+                  try {
+                      var result = await callFunction(
+                                          {
+                                              driver_name: "excel_server",
+                                              method_name: "excel_sql"  }
+                                              ,{
+                                                  get_workbook:     true,
+                                                  path:             this.properties.excel_file_path
+                                               })
+                      if (result.err) {
+                          mm.properties.isExcelAvailable = "False"
+                          return {error: true}
+                      } else {
+                          mm.properties.isExcelAvailable = "True"
+                          mm.workbook = XLSX.utils.book_new();
+                          let sheetNames = Object.keys(result.value)
+                          for (let sheetIndex=0 ; sheetIndex < sheetNames.length; sheetIndex++) {
+                              let sheetName = sheetNames[sheetIndex]
+                              const ws = XLSX.utils.json_to_sheet(result.value[sheetName]);
+                              XLSX.utils.book_append_sheet(mm.workbook, ws, sheetName);
+                          }
 
-                        return result.value
-                    }
-                } catch (catchErr) {
-                    mm.properties.isExcelAvailable = "False"
-                    return {error: true}
+                          return result.value
+                      }
+                  } catch (catchErr) {
+                      mm.properties.isExcelAvailable = "False"
+                      return {error: true}
+                  }
+
                 }
             }
             ,
@@ -447,12 +449,12 @@ logo_url("/driver_icons/excel.png")
             changedFn: function() {
                 if (isValidObject(this.args)) {
                     //this.args.text = this.text
+
                 }
             }
             ,
 
             getSheet: async function() {
-                debugger
                 var result = await callFunction(
                                     {
                                         driver_name: "excel_server",
