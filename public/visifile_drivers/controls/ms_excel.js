@@ -103,7 +103,7 @@ properties(
                             <b>click_event</b> event
                          </div>`,
             default: `
-                if (property == "isExcelAvailable") {
+                if (property == "excel_file_path") {
                   await me.connect();
               }
 `
