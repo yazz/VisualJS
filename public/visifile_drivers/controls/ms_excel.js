@@ -171,14 +171,14 @@ logo_url("/driver_icons/excel.png")
                                                 </li>
 
                                                 <li class="nav-item" style="width:20%;">
-                                                    <a    v-bind:class='"nav-link " + ((designDetailTab == "Sheets")?"active":"")'
-                                                          v-on:click="designDetailTab = 'Sheets';"
+                                                    <a    v-bind:class='"nav-link " + ((designDetailTab == "sheets")?"active":"")'
+                                                          v-on:click="designDetailTab = 'sheets';"
                                                           href="#">Sheets</a>
                                                 </li>
 
                                                 <li class="nav-item" style="width:20%;">
-                                                    <a    v-bind:class='"nav-link " + ((designDetailTab == "Cells")?"active":"")'
-                                                          v-on:click="designDetailTab = 'Cells';"
+                                                    <a    v-bind:class='"nav-link " + ((designDetailTab == "cells")?"active":"")'
+                                                          v-on:click="designDetailTab = 'cells';"
                                                           href="#">Cells</a>
                                                 </li>
 
@@ -209,6 +209,14 @@ logo_url("/driver_icons/excel.png")
                                                  v-bind:refresh='refresh'>
 
                                                 Sheets
+                                                <div   v-for='thisSheetName in sheetNames'
+                                                       v-on:click="alert(thisSheetName);sheetName = thisSheetName;"
+                                                       v-bind:style='"padding: 5px; " + ((sheetName == thisSheetName)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
+
+                                                      {{thisSheetName}}
+
+                                                </div>
+
                                             </div>
 
 
@@ -234,6 +242,7 @@ logo_url("/driver_icons/excel.png")
             return {
                 sheetDetails:              { },
                 sheetNames:                [ ],
+                sheetName:                  null,
                 workbook:                   null,
                 designDetailTab:           "connection"
             }
@@ -361,6 +370,11 @@ logo_url("/driver_icons/excel.png")
             }
             ,
 
+
+
+
+
+
             getWorkbook: async function() {
                 let mm = this
 
@@ -397,6 +411,8 @@ logo_url("/driver_icons/excel.png")
                 }
             }
             ,
+
+
 
 
 
