@@ -208,7 +208,6 @@ logo_url("/driver_icons/excel.png")
                                             <div v-bind:style='((designDetailTab == "sheets")?"visibility:visible;":"visibility:hidden;display: none;")'
                                                  v-bind:refresh='refresh'>
 
-                                                Sheets
                                                 <div   v-for='thisSheetName in sheetNames'
                                                        v-on:click="alert(thisSheetName);sheetName = thisSheetName;"
                                                        v-bind:style='"padding: 5px; " + ((sheetName == thisSheetName)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
@@ -259,11 +258,9 @@ logo_url("/driver_icons/excel.png")
         mounted: async function() {
             registerComponent(this)
 
-            if (this.design_mode) {
-            } else {
               await this.connect()
               await this.getWorkbook()
-            }
+              await this.getSheets()
         }
         ,
         methods: {
@@ -291,6 +288,7 @@ logo_url("/driver_icons/excel.png")
                      this.sheetDetails[result[i]] = {name: result[i]}
                  }
              }
+             //debugger
              return this.sheetNames
             }
             ,
