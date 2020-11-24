@@ -209,7 +209,7 @@ logo_url("/driver_icons/excel.png")
                                                  v-bind:refresh='refresh'>
 
                                                 <div   v-for='thisSheetName in sheetNames'
-                                                       v-on:click="alert(thisSheetName);sheetName = thisSheetName;"
+                                                       v-on:click="sheetName = thisSheetName;selectSheet(sheetName)"
                                                        v-bind:style='"padding: 5px; " + ((sheetName == thisSheetName)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
 
                                                       {{thisSheetName}}
@@ -226,7 +226,7 @@ logo_url("/driver_icons/excel.png")
                                             <div v-bind:style='((designDetailTab == "cells")?"visibility:visible;":"visibility:hidden;display: none;")'
                                                  v-bind:refresh='refresh'>
 
-                                                Cells
+                                                Sheet "{{sheetName}}"
                                             </div>
 
 
@@ -494,10 +494,20 @@ logo_url("/driver_icons/excel.png")
                 this.changedFn()
                 return {}
             }
+            ,
 
 
 
 
+
+
+
+
+            selectSheet(aSheet) {
+              let mm = this
+              debugger
+
+            }
 
 
 
