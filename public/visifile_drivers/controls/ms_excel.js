@@ -177,9 +177,9 @@ logo_url("/driver_icons/excel.png")
                                                 </li>
 
                                                 <li class="nav-item" style="width:20%;">
-                                                    <a    v-bind:class='"nav-link " + ((designDetailTab == "cells")?"active":"")'
-                                                          v-on:click="designDetailTab = 'cells';"
-                                                          href="#">Cells</a>
+                                                    <a    v-bind:class='"nav-link " + ((designDetailTab == "tabular_data")?"active":"")'
+                                                          v-on:click="designDetailTab = 'tabular_data';"
+                                                          href="#">Find table data</a>
                                                 </li>
 
                                             </ul>
@@ -223,7 +223,7 @@ logo_url("/driver_icons/excel.png")
 
 
 
-                                            <div v-bind:style='((designDetailTab == "cells")?"visibility:visible;":"visibility:hidden;display: none;")'
+                                            <div v-bind:style='((designDetailTab == "tabular_data")?"visibility:visible;":"visibility:hidden;display: none;")'
                                                  v-bind:refresh='refresh'>
 
                                                 Sheet "{{sheetName}}"
