@@ -143,6 +143,20 @@ properties(
             name:   "Sheet",
             type:   "String"
         }
+        ,
+
+        {
+            id:     "rowCount",
+            name:   "Row Count",
+            type:   "Number"
+        }
+        ,
+
+        {
+            id:     "colCount",
+            name:   "Column Count",
+            type:   "Number"
+        }
     ]
 )//properties
 logo_url("/driver_icons/excel.png")
@@ -226,7 +240,19 @@ logo_url("/driver_icons/excel.png")
                                             <div v-bind:style='((designDetailTab == "tabular_data")?"visibility:visible;":"visibility:hidden;display: none;")'
                                                  v-bind:refresh='refresh'>
 
-                                                Sheet "{{sheetName}}"
+                                                Sheet "{{sheetName}}" ({{properties.colCount}} cols, {{properties.rowCount}} rows)
+                                                <div   v-for='rowIndex in Array.from(Array(30).keys())'
+                                                      >
+
+                                                    <span   v-for='colIndex in Array.from(Array(properties.colCount).keys())'
+                                                          >
+
+                                                        {{sheetData[getColRowString(colIndex,rowIndex)]?sheetData[getColRowString(colIndex,rowIndex)].v:""}},
+
+                                                    </span>
+
+
+                                                </div>
                                             </div>
 
 
@@ -239,6 +265,7 @@ logo_url("/driver_icons/excel.png")
         ,
         data: function() {
             return {
+                sheetData:                 { },
                 sheetDetails:              { },
                 sheetNames:                [ ],
                 sheetName:                  null,
@@ -505,7 +532,19 @@ logo_url("/driver_icons/excel.png")
 
             selectSheet(aSheet) {
               let mm = this
+              mm.sheetData = mm.workbook.Sheets[aSheet]
+              let range = XLSX.utils.decode_range(mm.sheetData['!ref']);
+              mm.properties.rowCount = range.e.r
+              mm.properties.colCount = range.e.c
               debugger
+            }
+            ,
+            getColRowString(col, row) {
+                      let startColNumber = "A".charCodeAt(0);
+                      let colCharNumber = startColNumber + col
+                      let colChar = String.fromCharCode(colCharNumber)
+                      let result = "" + colChar + (row  + 1)
+                      return result
 
             }
 
