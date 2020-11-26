@@ -241,18 +241,27 @@ logo_url("/driver_icons/excel.png")
                                                  v-bind:refresh='refresh'>
 
                                                 Sheet "{{sheetName}}" ({{properties.colCount}} cols, {{properties.rowCount}} rows)
-                                                <div   v-for='rowIndex in Array.from(Array(30).keys())'
-                                                      >
+                                                <table>
+                                                    <thead>
+                                                    </thead>
 
-                                                    <span   v-for='colIndex in Array.from(Array(properties.colCount).keys())'
-                                                          >
+                                                    <tbody>
+                                                      <tr   v-for='rowIndex in Array.from(Array(30).keys())'
+                                                            >
 
-                                                        {{sheetData[getColRowString(colIndex,rowIndex)]?sheetData[getColRowString(colIndex,rowIndex)].v:""}},
+                                                          <td   v-for='colIndex in Array.from(Array(properties.colCount).keys())'
+                                                                  style=''
+                                                                >
 
-                                                    </span>
+                                                              {{getCellValue(colIndex,rowIndex)}}
+
+                                                          </td>
 
 
-                                                </div>
+                                                      </tr>
+                                                    </tbody>
+                                                </table>
+
                                             </div>
 
 
@@ -539,7 +548,7 @@ logo_url("/driver_icons/excel.png")
               debugger
             }
             ,
-            getColRowString(col, row) {
+            getColRowId(col, row) {
                       let startColNumber = "A".charCodeAt(0);
                       let colCharNumber = startColNumber + col
                       let colChar = String.fromCharCode(colCharNumber)
@@ -547,6 +556,23 @@ logo_url("/driver_icons/excel.png")
                       return result
 
             }
+            ,
+
+            getCellValue(colIndex,rowIndex) {
+              let mm = this
+                let returnCellValue = ""
+                let colRowId = mm.getColRowId(colIndex,rowIndex)
+                let cellObject = mm.sheetData[ colRowId ]
+                if (cellObject) {
+                  returnCellValue = cellObject.v
+                  if (("" + returnCellValue).startsWith("__EMPTY")) {
+                    returnCellValue = ""
+                  }
+
+                }
+                return returnCellValue
+            }
+            ,
 
 
 
