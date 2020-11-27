@@ -240,7 +240,13 @@ logo_url("/driver_icons/excel.png")
                                             <div v-bind:style='((designDetailTab == "tabular_data")?"visibility:visible;":"visibility:hidden;display: none;")'
                                                  v-bind:refresh='refresh'>
 
-                                                Sheet "{{sheetName}}" ({{properties.colCount}} cols, {{properties.rowCount}} rows)
+                                                <div>Sheet "{{sheetName}}" ({{properties.colCount}} cols, {{properties.rowCount}} rows)
+                                                Selected</div>
+
+
+                                                <span v-if='partialRangeSelected'>{{getColRowId(startCellColIndex,startCellRowIndex)}} -&gt; </span>
+                                                <span v-if='rangeSelected'>{{getColRowId(endCellColIndex,endCellRowIndex)}}</span>
+
                                                 <table>
                                                     <thead>
                                                       <tr>
@@ -257,6 +263,7 @@ logo_url("/driver_icons/excel.png")
 
                                                           <td   v-for='colIndex in Array.from(Array(properties.colCount).keys())'
                                                                   style='padding:5px;'
+                                                                  v-on:click='clickCell(colIndex,rowIndex)'
                                                                 >
 
                                                               {{getCellValue(colIndex,rowIndex)}}
@@ -285,7 +292,14 @@ logo_url("/driver_icons/excel.png")
                 sheetNames:                [ ],
                 sheetName:                  null,
                 workbook:                   null,
-                designDetailTab:           "connection"
+                designDetailTab:           "connection",
+                startCellColIndex:              null,
+                startCellRowIndex:              null,
+                endCellColIndex:                null,
+                endCellRowIndex:                null,
+                firstCellAlreadyClicked:          false,
+                partialRangeSelected:          false,
+                rangeSelected:          false
             }
         }
         ,
@@ -576,8 +590,12 @@ logo_url("/driver_icons/excel.png")
             }
             ,
 
+
+
+
+
             getCellValue(colIndex,rowIndex) {
-              let mm = this
+                let mm = this
                 let returnCellValue = ""
                 let colRowId = mm.getColRowId(colIndex,rowIndex)
                 let cellObject = mm.sheetData[ colRowId ]
@@ -591,6 +609,28 @@ logo_url("/driver_icons/excel.png")
                 return returnCellValue
             }
             ,
+
+
+
+
+
+            clickCell(colIndex,rowIndex) {
+                let mm = this
+                if (mm.firstCellAlreadyClicked == false) {
+                    mm.firstCellAlreadyClicked = true
+                    mm.startCellColIndex = colIndex
+                    mm.startCellRowIndex = rowIndex
+                    mm.endCellColIndex = null
+                    mm.endCellRowIndex = null
+                    mm.partialRangeSelected = true
+                    mm.rangeSelected = false
+                } else {
+                  mm.endCellColIndex = colIndex
+                  mm.endCellRowIndex = rowIndex
+                  mm.rangeSelected = true
+                  mm.firstCellAlreadyClicked = false
+                }
+            }
 
 
 
