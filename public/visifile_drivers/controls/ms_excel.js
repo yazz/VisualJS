@@ -243,14 +243,20 @@ logo_url("/driver_icons/excel.png")
                                                 Sheet "{{sheetName}}" ({{properties.colCount}} cols, {{properties.rowCount}} rows)
                                                 <table>
                                                     <thead>
+                                                      <tr>
+                                                        <th v-for='colHeaderIndex in Array.from(Array(properties.colCount).keys())'>
+                                                            {{getColHeaderOneBased(colHeaderIndex)}}
+                                                        </th>
+                                                      </tr>
                                                     </thead>
 
                                                     <tbody>
                                                       <tr   v-for='rowIndex in Array.from(Array(30).keys())'
                                                             >
+                                                          <th>{{rowIndex + 1}}</th>
 
                                                           <td   v-for='colIndex in Array.from(Array(properties.colCount).keys())'
-                                                                  style=''
+                                                                  style='padding:5px;'
                                                                 >
 
                                                               {{getCellValue(colIndex,rowIndex)}}
@@ -549,11 +555,23 @@ logo_url("/driver_icons/excel.png")
             }
             ,
             getColRowId(col, row) {
-                      let startColNumber = "A".charCodeAt(0);
-                      let colCharNumber = startColNumber + col
-                      let colChar = String.fromCharCode(colCharNumber)
-                      let result = "" + colChar + (row  + 1)
-                      return result
+                let startColNumber = "A".charCodeAt(0);
+                let colCharNumber = startColNumber + col
+                let colChar = String.fromCharCode(colCharNumber)
+                let result = "" + colChar + (row  + 1)
+                return result
+
+            }
+            ,
+            getColHeaderOneBased(index) {
+              if (index == 0) {
+                return ""
+              }
+              let startColNumber = "A".charCodeAt(0);
+              let colCharNumber = startColNumber + index - 1
+              let colChar = String.fromCharCode(colCharNumber)
+              let result = "" + colChar
+              return result
 
             }
             ,
