@@ -262,7 +262,7 @@ logo_url("/driver_icons/excel.png")
                                                           <th>{{rowIndex + 1}}</th>
 
                                                           <td   v-for='colIndex in Array.from(Array(properties.colCount).keys())'
-                                                                  style='padding:5px;'
+                                                                  v-bind:style='"padding:5px;" + (cellInSelectedRange(colIndex,rowIndex)?"background-color: lightgray;":"background-color: white;")'
                                                                   v-on:click='clickCell(colIndex,rowIndex)'
                                                                 >
 
@@ -623,8 +623,18 @@ logo_url("/driver_icons/excel.png")
                     mm.endCellRowIndex = rowIndex
                     mm.rangeSelected = true
                 } else {
-                  mm.endCellColIndex = colIndex
-                  mm.endCellRowIndex = rowIndex
+                  if ( colIndex < mm.startCellColIndex ) {
+                    mm.endCellColIndex = mm.startCellColIndex
+                    mm.startCellColIndex = colIndex
+                  } else {
+                    mm.endCellColIndex = colIndex
+                  }
+                  if ( rowIndex < mm.startCellRowIndex ) {
+                    mm.endCellRowIndex = mm.startCellRowIndex
+                    mm.startCellRowIndex = rowIndex
+                  } else {
+                    mm.endCellRowIndex = rowIndex
+                  }
                   mm.rangeSelected = true
                   mm.firstCellAlreadyClicked = false
                 }
