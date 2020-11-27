@@ -244,7 +244,7 @@ logo_url("/driver_icons/excel.png")
                                                 Selected</div>
 
 
-                                                <span v-if='partialRangeSelected'>{{getColRowId(startCellColIndex,startCellRowIndex)}} -&gt; </span>
+                                                <span v-if='rangeSelected'>{{getColRowId(startCellColIndex,startCellRowIndex)}} -&gt; </span>
                                                 <span v-if='rangeSelected'>{{getColRowId(endCellColIndex,endCellRowIndex)}}</span>
 
                                                 <table>
@@ -298,7 +298,6 @@ logo_url("/driver_icons/excel.png")
                 endCellColIndex:                null,
                 endCellRowIndex:                null,
                 firstCellAlreadyClicked:          false,
-                partialRangeSelected:          false,
                 rangeSelected:          false
             }
         }
@@ -620,16 +619,30 @@ logo_url("/driver_icons/excel.png")
                     mm.firstCellAlreadyClicked = true
                     mm.startCellColIndex = colIndex
                     mm.startCellRowIndex = rowIndex
-                    mm.endCellColIndex = null
-                    mm.endCellRowIndex = null
-                    mm.partialRangeSelected = true
-                    mm.rangeSelected = false
+                    mm.endCellColIndex = colIndex
+                    mm.endCellRowIndex = rowIndex
+                    mm.rangeSelected = true
                 } else {
                   mm.endCellColIndex = colIndex
                   mm.endCellRowIndex = rowIndex
                   mm.rangeSelected = true
                   mm.firstCellAlreadyClicked = false
                 }
+            }
+            ,
+            cellInSelectedRange(colIndex,rowIndex) {
+                let mm = this
+                let selected = false
+                if (mm.rangeSelected) {
+                    if ((mm.startCellColIndex <= colIndex) && (colIndex <= mm.endCellColIndex)) {
+                        if ((mm.startCellRowIndex <= rowIndex) && (rowIndex <= mm.endCellRowIndex)) {
+                            selected = true
+
+                        }
+
+                    }
+                }
+                return selected
             }
 
 
