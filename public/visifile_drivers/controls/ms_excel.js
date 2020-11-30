@@ -241,11 +241,16 @@ logo_url("/driver_icons/excel.png")
                                                  v-bind:refresh='refresh'>
 
                                                 <div>Sheet "{{sheetName}}" ({{properties.colCount}} cols, {{properties.rowCount}} rows)
-                                                Selected</div>
+                                                Total</div>
 
 
                                                 <span v-if='rangeSelected'>{{getColRowId(startCellColIndex,startCellRowIndex)}} -&gt; </span>
-                                                <span v-if='rangeSelected'>{{getColRowId(endCellColIndex,endCellRowIndex)}}</span>
+                                                <span v-if='rangeSelected'>{{getColRowId(endCellColIndex,endCellRowIndex)}} - </span>
+
+
+                                                <span v-if='rangeSelected'>({{ 1 + endCellColIndex - startCellColIndex  }} X </span>
+                                                <span v-if='rangeSelected'>{{  1 + endCellRowIndex - startCellRowIndex }})</span>
+
 
                                                 <table>
                                                     <thead>
