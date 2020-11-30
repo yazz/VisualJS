@@ -23,6 +23,20 @@ properties(
         }
         ,
 
+
+
+        {
+            id:      "data",
+            name:    "data",
+            type:    "Array",
+            hidden:  true,
+            default:  [],
+            types: {table_data: true}
+        }
+        ,
+
+
+
         {
             id:     "excel_file_path",
             name:   "ms_excel file path",
@@ -588,7 +602,6 @@ logo_url("/driver_icons/excel.png")
               let range = XLSX.utils.decode_range(mm.sheetData['!ref']);
               mm.properties.rowCount = range.e.r
               mm.properties.colCount = range.e.c
-              debugger
             }
             ,
             getColRowId(col, row) {
@@ -661,6 +674,30 @@ logo_url("/driver_icons/excel.png")
                   }
                   mm.rangeSelected = true
                   mm.firstCellAlreadyClicked = false
+
+debugger
+                  let colCount = 1 + mm.endCellColIndex - mm.startCellColIndex
+                  let colHeaders = {}
+                  if (mm.properties.headersAsColNames == "True") {
+                      for (let colIndex = 0; colIndex < colCount; colIndex ++ ) {
+                          colHeaders[colIndex] = mm.getCellValue( mm.startCellColIndex + colIndex, mm.startCellRowIndex)
+                      }
+                  } else {
+
+                  }
+
+                  let outputData = []
+                  let rowCount = 1 + mm.endCellRowIndex - mm.startCellRowIndex
+                  for (let rowIndex = 0; rowIndex < rowCount; rowIndex ++ ) {
+                      let row = {}
+                      for (let colIndex = 0; colIndex < colCount; colIndex ++ ) {
+                          row[colHeaders[colIndex]] = mm.getCellValue( mm.startCellColIndex + colIndex, mm.startCellRowIndex + rowIndex)
+                      }
+                      outputData.push(row)
+                  }
+
+                  mm.properties.data = outputData
+
                 }
             }
             ,
