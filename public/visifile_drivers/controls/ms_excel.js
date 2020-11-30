@@ -12,8 +12,8 @@ read_only(true)
 properties(
     [
         {
-            id:         "includeHeaders",
-            name:       "Include Headers",
+            id:         "headersAsColNames",
+            name:       "Headers as Col Names",
             type:       "Select",
             default:    "True",
             values:     [
@@ -266,8 +266,8 @@ logo_url("/driver_icons/excel.png")
                                                 <span v-if='rangeSelected' style='margin-left: 100px;'>
                                                     Use headers as col names
                                                     <input  type="checkbox"
-                                                            v-on:change='includeHeadersChanged(event)'
-                                                            v-bind:checked='(args.includeHeaders=="True")?"True":""'>
+                                                            v-on:change='headersAsColNamesChanged(event)'
+                                                            v-bind:checked='(args.headersAsColNames=="True")?"True":""'>
                                                     </input>
                                                 </span>
 
@@ -680,11 +680,11 @@ logo_url("/driver_icons/excel.png")
             }
             ,
 
-            includeHeadersChanged: function(e) {
+            headersAsColNamesChanged: function(e) {
                 if(e.target.checked) {
-                    this.args.includeHeaders="True"
+                    this.args.headersAsColNames="True"
                 } else {
-                    this.args.includeHeaders="False"
+                    this.args.headersAsColNames="False"
                 }
             }
 
