@@ -613,6 +613,15 @@ logo_url("/driver_icons/excel.png")
 
             }
             ,
+            getColId(col) {
+                let startColNumber = "A".charCodeAt(0);
+                let colCharNumber = startColNumber + col
+                let colChar = String.fromCharCode(colCharNumber)
+                let result = "" + colChar
+                return result
+
+            }
+            ,
             getColHeaderOneBased(index) {
               if (index == 0) {
                 return ""
@@ -683,12 +692,20 @@ debugger
                           colHeaders[colIndex] = mm.getCellValue( mm.startCellColIndex + colIndex, mm.startCellRowIndex)
                       }
                   } else {
+                      for (let colIndex = 0; colIndex < colCount; colIndex ++ ) {
+                          colHeaders[colIndex] = mm.getColId(mm.startCellColIndex + colIndex)
+                      }
 
                   }
 
                   let outputData = []
+                  let rowIndexStart = 0
+                  if (mm.properties.headersAsColNames == "True") {
+                      rowIndexStart = 1
+                  }
+
                   let rowCount = 1 + mm.endCellRowIndex - mm.startCellRowIndex
-                  for (let rowIndex = 0; rowIndex < rowCount; rowIndex ++ ) {
+                  for (let rowIndex = rowIndexStart; rowIndex < rowCount; rowIndex ++ ) {
                       let row = {}
                       for (let colIndex = 0; colIndex < colCount; colIndex ++ ) {
                           row[colHeaders[colIndex]] = mm.getCellValue( mm.startCellColIndex + colIndex, mm.startCellRowIndex + rowIndex)
