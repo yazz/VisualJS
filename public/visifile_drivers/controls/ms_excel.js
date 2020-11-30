@@ -12,6 +12,18 @@ read_only(true)
 properties(
     [
         {
+            id:         "includeHeaders",
+            name:       "Include Headers",
+            type:       "Select",
+            default:    "True",
+            values:     [
+                            {display: "True",   value: "True"},
+                            {display: "False",  value: "False"}
+                        ]
+        }
+        ,
+
+        {
             id:     "excel_file_path",
             name:   "ms_excel file path",
             design_time_only_events: true,
@@ -251,6 +263,13 @@ logo_url("/driver_icons/excel.png")
                                                 <span v-if='rangeSelected'>({{ 1 + endCellColIndex - startCellColIndex  }} X </span>
                                                 <span v-if='rangeSelected'>{{  1 + endCellRowIndex - startCellRowIndex }})</span>
 
+                                                <span v-if='rangeSelected' style='margin-left: 100px;'>
+                                                    Use headers as col names
+                                                    <input  type="checkbox"
+                                                            v-on:change='includeHeadersChanged(event)'
+                                                            v-bind:checked='(args.includeHeaders=="True")?"True":""'>
+                                                    </input>
+                                                </span>
 
                                                 <table>
                                                     <thead>
@@ -659,6 +678,16 @@ logo_url("/driver_icons/excel.png")
                 }
                 return selected
             }
+            ,
+
+            includeHeadersChanged: function(e) {
+                if(e.target.checked) {
+                    this.args.includeHeaders="True"
+                } else {
+                    this.args.includeHeaders="False"
+                }
+            }
+
 
 
 
