@@ -2910,7 +2910,7 @@ async function startServices() {
 
                 outputDebug("****HOST=" + hostaddress + "HOST****\n");
                 outputDebug("****PORT=" + port+ "PORT****\n");
-                outputDebug(' Started on port ' + port + ' with local folder at ' + process.cwd() + ' and __dirname = ' + __dirname+ "\n");
+                outputDebug('Started on port ' + port + ' with local folder at ' + process.cwd() + ' and __dirname = ' + __dirname+ "\n");
 
 
 
