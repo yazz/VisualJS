@@ -383,6 +383,7 @@ if (jaegercollector) {
 
 }
 if (jaegercollector) {
+    console.log("Trying to connect to Jaeger at " + jaegercollector)
     const jaegerOptions = { };
     const tracer = initJaegerTracer(jaegerConfig, jaegerOptions);
     let span=tracer.startSpan("mymethod")
