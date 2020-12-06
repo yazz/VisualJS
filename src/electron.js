@@ -2790,9 +2790,11 @@ async function startServices() {
 
         app.get('/', function (req, res, next) {
             console.log("calling main page")
-            let span=tracer.startSpan("main")
-            span.setTag("call", "some-params")
-            span.finish()
+            if (jaegercollector) {
+                let span=tracer.startSpan("main")
+                span.setTag("call", "some-params")
+                span.finish()
+            }
             return getRoot(req, res, next);
         })
 
