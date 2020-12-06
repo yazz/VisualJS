@@ -347,6 +347,7 @@ if (process.argv.length > 1) {
       .option('-y, --showdebug [showdebug]', 'Allow to show debug info (default false) [showdebug]', 'false')
       .option('-z, --loadjscode [loadjscode]', 'Load the following JS from the command line (default not set) [loadjscode]', null)
       .option('-lh, --useselfsignedhttps [useselfsignedhttps]', 'Use self signed HTTPS for local development (default false) [useselfsignedhttps]', 'false')
+      .option('-jc, --jaegercollector [jaegercollector]', 'jaeger collector endpoint (default not set) eg: http://localhost:14268/api/traces [jaegercollector]', null)
       .parse(process.argv);
 } else {
     program.host = 'appshare.co'
@@ -362,6 +363,40 @@ if (process.argv.length > 1) {
     program.usehost = null
 }
 var semver = require('semver')
+const initJaegerTracer = require("jaeger-client").initTracer;
+
+let jaegerConfig = null
+var jaegercollector = program.jaegercollector;
+
+if (jaegercollector) {
+    jaegerConfig = {
+        serviceName: "myservice3",
+        sampler: {
+            type: "const",
+            param: 1
+        },
+        reporter: {
+            collectorEndpoint: jaegercollector,
+            logSpans: true
+        }
+    }
+
+}
+if (jaegercollector) {
+    const jaegerOptions = { };
+    const tracer = initJaegerTracer(jaegerConfig, jaegerOptions);
+    let span=tracer.startSpan("mymethod")
+    span.setTag("mymethod", "some-message")
+    span.finish()
+
+    const childSpn = tracer.startSpan("another-method",{childOf: span})
+
+
+    let ctx = { span }
+    ctx = {
+        span: tracer.startSpan("mymethod", {childOf: ctx.span})
+    }
+}
 
 
 
