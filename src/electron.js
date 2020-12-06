@@ -368,6 +368,7 @@ const initJaegerTracer = require("jaeger-client").initTracer;
 let jaegerConfig = null
 var jaegercollector = program.jaegercollector;
 
+let tracer = null
 if (jaegercollector) {
     jaegerConfig = {
         serviceName: "myservice3",
@@ -380,23 +381,15 @@ if (jaegercollector) {
             logSpans: true
         }
     }
-
-}
-if (jaegercollector) {
     console.log("Trying to connect to Jaeger at " + jaegercollector)
     const jaegerOptions = { };
-    const tracer = initJaegerTracer(jaegerConfig, jaegerOptions);
+    tracer = initJaegerTracer(jaegerConfig, jaegerOptions);
+}
+
+if (jaegercollector) {
     let span=tracer.startSpan("mymethod")
     span.setTag("mymethod", "some-message")
     span.finish()
-
-    const childSpn = tracer.startSpan("another-method",{childOf: span})
-
-
-    let ctx = { span }
-    ctx = {
-        span: tracer.startSpan("mymethod", {childOf: ctx.span})
-    }
 }
 
 
@@ -2796,11 +2789,16 @@ async function startServices() {
 
 
         app.get('/', function (req, res, next) {
+            console.log("calling main page")
+            let span=tracer.startSpan("main")
+            span.setTag("call", "some-params")
+            span.finish()
             return getRoot(req, res, next);
         })
 
 
         app.get('/live-check',(req,res)=> {
+
            outputDebug("Live check passed")
            res.send ("Live check passed");
         });
