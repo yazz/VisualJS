@@ -369,9 +369,10 @@ let jaegerConfig = null
 var jaegercollector = program.jaegercollector;
 
 let tracer = null
+const jaegerOptions = { };
 if (jaegercollector) {
     jaegerConfig = {
-        serviceName: "myservice3",
+        serviceName: "myservice_9",
         sampler: {
             type: "const",
             param: 1
@@ -382,14 +383,18 @@ if (jaegercollector) {
         }
     }
     console.log("Trying to connect to Jaeger at " + jaegercollector)
-    const jaegerOptions = { };
-    tracer = initJaegerTracer(jaegerConfig, jaegerOptions);
 }
 
 if (jaegercollector) {
-    let span=tracer.startSpan("mymethod")
-    span.setTag("mymethod", "some-message")
+    tracer = initJaegerTracer(jaegerConfig, jaegerOptions);
+    let span=tracer.startSpan("mymethodxx")
+    span.setTag("mymethodxx", "some-message")
     span.finish()
+    let ctx = { span }
+    ctx = {
+        span: tracer.startSpan("mymethod", {childOf: ctx.span})
+    }
+    tracer.close()
 }
 
 
@@ -2791,9 +2796,11 @@ async function startServices() {
         app.get('/', function (req, res, next) {
             console.log("calling main page")
             if (jaegercollector) {
+                tracer = initJaegerTracer(jaegerConfig, jaegerOptions);
                 let span=tracer.startSpan("main")
                 span.setTag("call", "some-params")
                 span.finish()
+                tracer.close()
             }
             return getRoot(req, res, next);
         })
