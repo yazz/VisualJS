@@ -11,8 +11,7 @@ Link to PDF docs (still using the old name Yazz Pilot): https://appshare.co/visi
 <br/><br/>
 Link to Hacker News Post (when it was known as Yazz Pilot): https://news.ycombinator.com/item?id=21734845
 <br/><br/><br/>
-
-
+Link to Kubernetes Operator https://github.com/leskil/appshare-operator<br/><br/><br/>
 
 
 
