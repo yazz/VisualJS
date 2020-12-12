@@ -20,6 +20,7 @@
     var component_loaded = new Object()
     var component_cache  = new Object()
     var linked_properties  = new Object()
+    var advancedAlreadyLoaded=false
 
 
     var online           = false
@@ -8507,7 +8508,7 @@ function registerComponent(vueComponentObject) {
                             let designTimeOnlyEvents = false
                             // get this from the component defn
                             //debugger
-                            ///zzz
+
                             if (oneProperty.design_time_only_events) {
                                 designTimeOnlyEvents = true
                             }
@@ -9805,13 +9806,17 @@ async function checkLibs(data){
 
                     var oldConsole = console.log
                     console.log = function(){}
-                    await scriptTag(
-                        `/js_libs/advanced_js_bundle.js`
-                        ,
-                        async function() {
-                            console.log = oldConsole
-                            await callCodeV2(data.value,  callDriverMethodArgs[data.seq_num],  data.seq_num)
-                    })
+                    if (advancedAlreadyLoaded) {
+                    } else {
+                        advancedAlreadyLoaded = true
+                        await scriptTag(
+                            `/js_libs/advanced_js_bundle.js`
+                            ,
+                            async function() {
+                                console.log = oldConsole
+                                await callCodeV2(data.value,  callDriverMethodArgs[data.seq_num],  data.seq_num)
+                        })
+                    }
                 }
 
             //
@@ -9919,7 +9924,7 @@ function logExecutionPoint(codeBlockName, line, node) {
     }
 }
 
-
+//zzz
 
 async function checkLibsV2(componentRecord,args){
     //console.log("CheckLibsV2: ")
@@ -9934,13 +9939,17 @@ async function checkLibsV2(componentRecord,args){
 
                     var oldConsole = console.log
                     console.log = function(){}
-                    await scriptTag(
-                        `/js_libs/advanced_js_bundle.js`
-                        ,
-                        async function() {
-                            console.log = oldConsole
-                            await callCodeV2(componentRecord,args)
-                    })
+                    if (advancedAlreadyLoaded) {
+                    } else {
+                        advancedAlreadyLoaded = true
+                        await scriptTag(
+                            `/js_libs/advanced_js_bundle.js`
+                            ,
+                            async function() {
+                                console.log = oldConsole
+                                await callCodeV2(componentRecord,args)
+                        })
+                    }
                 }
 
             //
