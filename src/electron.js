@@ -563,10 +563,10 @@ if (useSelfSignedHttps) {
 
     var attrs = [
          {name:'commonName',value:'appshare.co_' + uuidv1() }
-        ,{name:'countryName',value:'US'}
-        ,{shortName:'ST',value:'Virginia'}
-        ,{name:'localityName',value:'Blacksburg'}
-        ,{name:'organizationName',value:'Test'}
+        ,{name:'countryName',value:'UK'}
+        ,{shortName:'ST',value:'Surrey'}
+        ,{name:'localityName',value:'Redhill'}
+        ,{name:'organizationName',value:'AppShare'}
         ,{shortName:'OU',value:'Test'}
     ];
     cert.setSubject(attrs);
