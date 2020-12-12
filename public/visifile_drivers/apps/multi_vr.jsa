@@ -1,0 +1,137 @@
+async function(args) {
+/*
+base_component_id("multi_vr")
+is_app(true)
+description('Multi VR app, this will return a multiple user VR app')
+load_once_from_file(true)
+visibility("PUBLIC")
+display_name("Multi VR")
+uses_javascript_librararies(["advanced_bundle"])
+description("This will create a multi VR app")
+logo_url("/driver_icons/multi.jpg")
+read_only(true)
+*/
+Vue.component('multi_vr', {
+    template: `<div style='width:100%;height:100%;padding:20px;background-color:white;'>
+                <a-scene
+                        cursor="rayOrigin: mouse"
+                        style='width: 80%; height: 40%;'
+                        embedded>
+                <a-box    v-bind:id='item.x + "_" + item.y + "_" + item.z '
+                          v-for="item in objects"
+                          v-bind:position='"" + item.x + " " + item.y + " " + (item.z - 10) + ""'
+                          rotation='0 0 0'
+                          v-bind:highlighted='"x: " + item.x + "; " '
+                          v-bind:color='(item.color?item.color:"#4CC3D9")'>
+                </a-box>
+
+                <a-box    v-for="(item2,index2) in items"
+                          v-bind:id='"todo_" + index2 '
+                          v-bind:position='"0 " + index2 + " -10"'
+                          rotation='0 0 0'
+                          v-bind:color='"#4CC3D9"'
+                          >
+                          <a-text v-bind:value='item2.name + ":" + maxid'
+                                  color="black"
+                                  v-bind:position='"0 0 1"'
+                                  ></a-text>
+                </a-box>
+
+
+
+
+                <a-sky color="#ECECEC"></a-sky>
+
+              </a-scene>
+         Todo List {{maxid}}<br>
+          <li v-for='item in items'>
+              <button v-on:click='delete_item(item.id)'>x</button> {{item.name}}
+          </li>
+          <input id=add v-model="new_item"></input>
+          <button v-on:click='add_item(new_item)'>Add</button>
+    </div>
+     `
+    ,
+    data: function() {
+        return {
+            items: [],
+            new_item: "",
+            maxid: -1,
+                         msg: ""
+              ,
+              objects: [
+                    {x: 0,y: 0, z:0}
+                    ,
+                    {x: 1,y: 0, z:0}
+                    ,
+                    {x: 2,y: 1, z:0, color: "blue"}
+                    ,
+                    {x: 2,y: 0, z:1}
+                    ,
+                    {x: 2,y: 0, z:2}
+
+                  ]
+        }
+    }
+,
+    mounted: async function() {
+        this.items = sql("select id,name from items")
+        //alert(JSON.stringify(this.items,null,2))
+        let mm= this
+        appSetInterval(async function(){
+            let ret1 = sql("select max(id) as max from events")
+            if (mm.maxid != ret1[0].max) {
+                mm.maxid = ret1[0].max
+                mm.items = sql("select id,name from items")
+            }
+
+        },300)
+    },
+    methods: {
+        add_item: async function(x) {
+             sql("insert into items (id,name) values (" + new Date().getTime() + " ,'" + x + "')")
+             sql("insert into events (name) values ('todo')")
+             this.items = sql("select id,name from items")
+             this.new_item = ""
+        }
+        ,
+        delete_item: async function(x) {
+             sql("delete from items where id = ?",[x] )
+             sql("insert into events (name) values ('todo del')")
+             this.items = sql("select id,name from items")
+        }
+
+    }
+ })
+
+ /*
+ allowAccessToAppBaseComponentIds([""])
+ allowAccessToAppTypes(["database_reader"])
+ sqlite(
+ {
+  migrations:
+  [
+      {
+        name: "Create the initial item table"
+        ,
+        up: ["CREATE TABLE items (id	TEXT, name	TEXT);",
+             "alter TABLE items add column time INTEGER;"]
+      }
+      ,
+      {
+        name: "Add a column for the user name"
+        ,
+        up: ["alter TABLE items add column user TEXT;"]
+      }
+            ,
+      {
+        name: "Add an events table"
+        ,
+        up: ["CREATE TABLE events (id INTEGER PRIMARY KEY AUTOINCREMENT, name	TEXT)"]
+      }
+  ]
+ }
+ )//sqlite
+grant_full_db_access_to(["todo_app_reader"])
+*/
+}
