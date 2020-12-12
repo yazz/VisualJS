@@ -547,7 +547,6 @@ useHttps = (program.https == 'true');
 
 
 
-//zzz
 if (useSelfSignedHttps) {
     forge.options.usePureJavaScript = true;
 
@@ -1342,19 +1341,23 @@ function deleteYazzDataWindows(dddd) {
 
 
 function deleteYazzDataV2(dddd) {
-    outputDebug("----------------------------------")
-    outputDebug("Before delete :" + ls(dddd))
-    outputDebug("----------------------------------")
 
-    rimraf.sync(path.join(dddd,  'uploads/'));
-    rimraf.sync(path.join(dddd,  'files/'));
-    rimraf.sync(path.join(dddd,  'apps/'));
-    rimraf.sync(path.join(dddd,  'app_dbs/'));
-    rimraf.sync(path.join(dddd,  '*.visi'));
-    rimraf.sync(path.join(dddd,  '*.visi*'));
+//zzz
+    if ( fs.existsSync( dddd ) ) {
+        outputDebug("----------------------------------")
+        outputDebug("Before delete :" + ls(dddd))
+        outputDebug("----------------------------------")
+
+        rimraf.sync(path.join(dddd,  'uploads/'));
+        rimraf.sync(path.join(dddd,  'files/'));
+        rimraf.sync(path.join(dddd,  'apps/'));
+        rimraf.sync(path.join(dddd,  'app_dbs/'));
+        rimraf.sync(path.join(dddd,  '*.visi'));
+        rimraf.sync(path.join(dddd,  '*.visi*'));
+    }
 
     outputDebug("----------------------------------")
-    outputDebug("After delete :" + ls(dddd))
+    outputDebug("After delete" )
     outputDebug("----------------------------------")
 }
 
@@ -1409,7 +1412,7 @@ function getPort () {
 
 
 
-//zzz
+
     httpServer.listen(port, hostaddress, function (err) {
 
         outputDebug('trying port: ' + port + ' ')
