@@ -1,5 +1,5 @@
 ---
-- name: This is used to deploy the latest version of Yazz publicly
+- name: This is used to deploy the latest version of Appshare publicly
   hosts: webservers
   vars:
     PROCESS: node
@@ -16,13 +16,13 @@
         chdir: /root/visifile
 
 
-    - name: install the latest version of Yazz
+    - name: install the latest version of Appshare
       git:
         repo: 'https://github.com/zubairq/appshare.git'
         dest: /root/visifile
 
 
-    - name: Start Yazz
+    - name: Start Appshare
       shell:
           cmd:  node src/electron.js --port 443 --public {{ ssl_private }} --private {{ ssl_key }} --usehost {{ use_host }} --https true --cacert1 {{ ssl_cacert1 }} --cacert2 {{ ssl_cacert2 }} --cacert3 {{ ssl_cacert3 }} --showdebug true > nohup.out &
       async: 10
