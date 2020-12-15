@@ -2801,6 +2801,7 @@ async function startServices() {
 
         app.get('/', function (req, res, next) {
             console.log("calling main page")
+            console.log("jaeger: " + jaegercollector)
             if (jaegercollector) {
                 console.log("calling jaeger...")
                 try {
@@ -2811,7 +2812,7 @@ async function startServices() {
                     tracer.close()
                     console.log("...called jaeger")
                 } catch(err){
-                    console.log("Error calling jaeger: " + err)   
+                    console.log("Error calling jaeger: " + err)
                 }
             }
             return getRoot(req, res, next);
