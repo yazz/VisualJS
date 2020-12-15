@@ -366,44 +366,6 @@ var semver = require('semver')
 const initJaegerTracer = require("jaeger-client").initTracer;
 const {Tags, FORMAT_HTTP_HEADERS} = require('opentracing')
 
-let jaegerConfig = null
-var jaegercollector = program.jaegercollector;
-if (isValidObject(envVars.jaegercollector)) {
-    jaegercollector = envVars.jaegercollector
-}
-
-
-let tracer = null
-const jaegerOptions = { };
-if (jaegercollector) {
-    jaegerConfig = {
-        serviceName: "myservice_9",
-        sampler: {
-            type: "const",
-            param: 1
-        },
-        reporter: {
-            collectorEndpoint: jaegercollector,
-            logSpans: true
-        }
-    }
-    console.log("Trying to connect to Jaeger at " + jaegercollector)
-}
-
-if (jaegercollector) {
-    tracer = initJaegerTracer(jaegerConfig, jaegerOptions);
-    let span=tracer.startSpan("mymethodxx")
-    const headers = { }
-    span.setTag("mymethodxx", "some-message")
-    span.finish()
-    let ctx = { span }
-    ctx = {
-        span: tracer.startSpan("mymethod", {childOf: ctx.span})
-    }
-    tracer.inject(span, FORMAT_HTTP_HEADERS, headers)
-    tracer.close()
-}
-
 
 
 
@@ -494,6 +456,44 @@ if (isValidObject(envVars.virtualprocessors)) {
 }
 
 envVars.IP_ADDRESS = ip.address()
+
+let jaegerConfig = null
+var jaegercollector = program.jaegercollector;
+if (isValidObject(envVars.jaegercollector)) {
+    jaegercollector = envVars.jaegercollector
+}
+
+
+let tracer = null
+const jaegerOptions = { };
+if (jaegercollector) {
+    jaegerConfig = {
+        serviceName: "myservice_9",
+        sampler: {
+            type: "const",
+            param: 1
+        },
+        reporter: {
+            collectorEndpoint: jaegercollector,
+            logSpans: true
+        }
+    }
+    console.log("Trying to connect to Jaeger at " + jaegercollector)
+}
+
+if (jaegercollector) {
+    tracer = initJaegerTracer(jaegerConfig, jaegerOptions);
+    let span=tracer.startSpan("mymethodxx")
+    const headers = { }
+    span.setTag("mymethodxx", "some-message")
+    span.finish()
+    let ctx = { span }
+    ctx = {
+        span: tracer.startSpan("mymethod", {childOf: ctx.span})
+    }
+    tracer.inject(span, FORMAT_HTTP_HEADERS, headers)
+    tracer.close()
+}
 
 
 
