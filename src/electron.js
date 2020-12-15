@@ -2802,11 +2802,17 @@ async function startServices() {
         app.get('/', function (req, res, next) {
             console.log("calling main page")
             if (jaegercollector) {
-                tracer = initJaegerTracer(jaegerConfig, jaegerOptions);
-                let span=tracer.startSpan("main")
-                span.setTag("call", "some-params")
-                span.finish()
-                tracer.close()
+                console.log("calling jaeger...")
+                try {
+                    tracer = initJaegerTracer(jaegerConfig, jaegerOptions);
+                    let span=tracer.startSpan("main")
+                    span.setTag("call", "some-params")
+                    span.finish()
+                    tracer.close()
+                    console.log("...called jaeger")
+                } catch(err){
+                    console.log("Error calling jaeger: " + err)   
+                }
             }
             return getRoot(req, res, next);
         })
