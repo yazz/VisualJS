@@ -368,6 +368,10 @@ const {Tags, FORMAT_HTTP_HEADERS} = require('opentracing')
 
 let jaegerConfig = null
 var jaegercollector = program.jaegercollector;
+if (isValidObject(envVars.jaegercollector)) {
+    jaegercollector = envVars.jaegercollector
+}
+
 
 let tracer = null
 const jaegerOptions = { };
