@@ -468,7 +468,7 @@ let tracer = null
 const jaegerOptions = { };
 if (jaegercollector) {
     jaegerConfig = {
-        serviceName: "myservice_9",
+        serviceName: "AppShare",
         sampler: {
             type: "const",
             param: 1
@@ -480,22 +480,6 @@ if (jaegercollector) {
     }
     console.log("Trying to connect to Jaeger at " + jaegercollector)
 }
-
-if (jaegercollector) {
-    tracer = initJaegerTracer(jaegerConfig, jaegerOptions);
-    let span=tracer.startSpan("mymethodxx")
-    const headers = { }
-    span.setTag("mymethodxx", "some-message")
-    span.finish()
-    let ctx = { span }
-    ctx = {
-        span: tracer.startSpan("mymethod", {childOf: ctx.span})
-    }
-    tracer.inject(span, FORMAT_HTTP_HEADERS, headers)
-    tracer.close()
-}
-
-
 
 
 
@@ -768,12 +752,19 @@ function setUpChildListeners(processName, fileName, debugPort) {
                     res.end(JSON.stringify(
                         ret.value
                     ));
-                    tracer = initJaegerTracer(jaegerConfig, jaegerOptions);
-                    let span=tracer.startSpan("RestCall")
-                    const headers = { }
-                    span.setTag(url, "")
-                    span.finish()
-                    tracer.close()
+                    if (jaegercollector) {
+                        console.log("calling jaeger...")
+                        try {
+                            tracer = initJaegerTracer(jaegerConfig, jaegerOptions);
+                            let span=tracer.startSpan(url)
+                            span.setTag("call", "some-params")
+                            span.finish()
+                            tracer.close()
+                            console.log("...called jaeger")
+                        } catch(err){
+                            console.log("Error calling jaeger: " + err)
+                        }
+                    }
                 } else if (ret.error) {
                     res.writeHead(200, {'Content-Type': 'application/json'});
                     res.end(JSON.stringify(
@@ -2812,19 +2803,6 @@ async function startServices() {
         app.get('/', function (req, res, next) {
             console.log("calling main page")
             console.log("jaeger: " + jaegercollector)
-            if (jaegercollector) {
-                console.log("calling jaeger...")
-                try {
-                    tracer = initJaegerTracer(jaegerConfig, jaegerOptions);
-                    let span=tracer.startSpan("main")
-                    span.setTag("call", "some-params")
-                    span.finish()
-                    tracer.close()
-                    console.log("...called jaeger")
-                } catch(err){
-                    console.log("Error calling jaeger: " + err)
-                }
-            }
             return getRoot(req, res, next);
         })
 
