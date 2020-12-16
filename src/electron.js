@@ -768,6 +768,12 @@ function setUpChildListeners(processName, fileName, debugPort) {
                     res.end(JSON.stringify(
                         ret.value
                     ));
+                    tracer = initJaegerTracer(jaegerConfig, jaegerOptions);
+                    let span=tracer.startSpan("RestCall")
+                    const headers = { }
+                    span.setTag(url, "")
+                    span.finish()
+                    tracer.close()
                 } else if (ret.error) {
                     res.writeHead(200, {'Content-Type': 'application/json'});
                     res.end(JSON.stringify(
