@@ -585,3 +585,22 @@ function shutdownExeProcess(err) {
 
 
 var saveHelper = require('./save_helpers')
+
+
+
+
+function trace(spanText,tag,params) {
+    if (jaegercollector) {
+        console.log("calling jaeger(" + spanText + ")...")
+        try {
+            tracer = initJaegerTracer(jaegerConfig, jaegerOptions);
+            let span=tracer.startSpan(spanText)
+            span.setTag(tag, params)
+            span.finish()
+            tracer.close()
+            console.log("...called jaeger")
+        } catch(err){
+            console.log("Error calling jaeger: " + err)
+        }
+    }
+}
