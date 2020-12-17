@@ -10921,6 +10921,14 @@ function created_timestamp(d) {
 
 }
 
+// this is a server side call but for some reason it gets evaluated
+// when open a microservice which contains the "trace" function (Which
+// is used for Jaeger OpenTracing)
+function trace() {
+
+}
+
+
 async function rxsql(code_id,base_component_id, sqlcode, params) {
     if (localAppshareApp) {
         var results = localSql(sqlcode,params)
