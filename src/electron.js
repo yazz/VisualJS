@@ -1154,7 +1154,8 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
                                                  child_process_name: "forked",
                                                  show_debug: showDebug,
                                                  show_progress: showProgress,
-                                                 yazz_instance_id: yazzInstanceId
+                                                 yazz_instance_id: yazzInstanceId,
+                                                 jaeger_collector: jaegercollector
 
                                               });
 
@@ -1173,8 +1174,8 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
                                                       max_job_process_duration_ms: maxJobProcessDurationMs,
                                                       show_debug: showDebug,
                                                       show_progress: showProgress,
-                                                      yazz_instance_id: yazzInstanceId
-
+                                                      yazz_instance_id: yazzInstanceId,
+                                                      jaeger_collector: jaegercollector
                                               });
     }
 
@@ -1187,8 +1188,8 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
                                                  child_process_name: exeProcName,
                                                  show_debug: showDebug,
                                                  show_progress: showProgress,
-                                                 yazz_instance_id: yazzInstanceId
-
+                                                 yazz_instance_id: yazzInstanceId,
+                                                 jaeger_collector: jaegercollector
                                               });
 
       }

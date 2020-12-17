@@ -20,6 +20,13 @@ var userData
 var childProcessName
 var ip = require('ip');
 var yazzInstanceId = null
+const initJaegerTracer = require("jaeger-client").initTracer;
+const {Tags, FORMAT_HTTP_HEADERS} = require('opentracing')
+let jaegerConfig = null
+let tracer = null
+const jaegerOptions = { };
+let jaegercollector = null
+
 
 var isWin                               = /^win/.test(process.platform);
 var stmtInsertRowFullTextSearch                               = null;
@@ -96,9 +103,28 @@ function processMessagesFromMainProcess() {
         userData            = msg.user_data_path
         childProcessName    = msg.child_process_name
         yazzInstanceId      = msg.yazz_instance_id
+        jaegercollector     = msg.jaeger_collector
 
         //console.log("  Child recieved user data path: " + userData)
         var dbPath = path.join(userData, username + '.visi')
+
+
+        if (jaegercollector) {
+            jaegerConfig = {
+                serviceName: "AppShare",
+                sampler: {
+                    type: "const",
+                    param: 1
+                },
+                reporter: {
+                    collectorEndpoint: jaegercollector,
+                    logSpans: true
+                }
+            }
+            console.log("Trying to connect to Jaeger at " + jaegercollector)
+        }
+
+
 
         //console.log("  DB path: " + dbPath)
         dbsearch = new sqlite3.Database(dbPath);
