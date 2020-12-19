@@ -10272,6 +10272,8 @@ async function callCodeV2(componentRecord,args, seq_no) {
                 queuedResponses[seq_no] = null
             }
             queuedResponses[seq_no]     = null
+            
+        } else if (trcode2.toString().includes("only_run_on_server(true)")) {
 
         } else if ( (componentRecord.base_component_id == base_component_id) && (!trcode2.toString().includes("Vue."))) {
             mainMoonApp.console_output = ""
