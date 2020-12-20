@@ -43,6 +43,10 @@ Vue.component('multi_vr', {
                 <a-sky color="#ECECEC"></a-sky>
 
               </a-scene>
+              Session ID: {{session_id}}<br>
+          Your name<input id=your_name v-model="your_name"></input>
+
+          <br><br>
          Todo List {{maxid}}<br>
           <li v-for='item in items'>
               <button v-on:click='delete_item(item.id)'>x</button> {{item.name}}
@@ -55,7 +59,9 @@ Vue.component('multi_vr', {
     data: function() {
         return {
             items: [],
+            session_id: uuidv4(),
             new_item: "",
+            your_name: "",
             maxid: -1,
                          msg: ""
               ,
@@ -78,6 +84,7 @@ Vue.component('multi_vr', {
         this.items = sql("select id,name from items")
         //alert(JSON.stringify(this.items,null,2))
         let mm= this
+        sql("insert into sessions (session_id) values (?)",[this.session_id])
         appSetInterval(async function(){
             let ret1 = sql("select max(id) as max from events")
             if (mm.maxid != ret1[0].max) {
@@ -128,6 +135,12 @@ Vue.component('multi_vr', {
         name: "Add an events table"
         ,
         up: ["CREATE TABLE events (id INTEGER PRIMARY KEY AUTOINCREMENT, name	TEXT)"]
+      }
+            ,
+      {
+        name: "Add a session table"
+        ,
+        up: ["CREATE TABLE sessions (session_id TEXT, user_name	TEXT, x_pos INTEGER, y_pos INTEGER,z_pos INTEGER)"]
       }
   ]
  }
