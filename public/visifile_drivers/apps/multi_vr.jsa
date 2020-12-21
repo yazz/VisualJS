@@ -44,7 +44,7 @@ Vue.component('multi_vr', {
 
               </a-scene>
               Session ID: {{session_id}}<br>
-          Your name<input id=your_name v-model="your_name"></input>
+          Your name<input   id=your_name v-model="your_name" ></input>
 
           <br><br>
          Todo List {{maxid}}<br>
@@ -86,11 +86,13 @@ Vue.component('multi_vr', {
         let mm= this
         sql("insert into sessions (session_id) values (?)",[this.session_id])
         appSetInterval(async function(){
+            console.log(1)
             let ret1 = sql("select max(id) as max from events")
             if (mm.maxid != ret1[0].max) {
                 mm.maxid = ret1[0].max
                 mm.items = sql("select id,name from items")
             }
+            mm.changedName()
 
         },300)
     },
@@ -106,6 +108,10 @@ Vue.component('multi_vr', {
              sql("delete from items where id = ?",[x] )
              sql("insert into events (name) values ('todo del')")
              this.items = sql("select id,name from items")
+        },
+        changedName: async function(){
+            sql("update sessions set user_name = ? where session_id = ?",
+                [this.your_name,this.session_id])
         }
 
     }
