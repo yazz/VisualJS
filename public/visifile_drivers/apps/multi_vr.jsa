@@ -41,14 +41,18 @@ template: `<div style='width:100%;height:100%;padding:20px;background-color:whit
                               ></a-text>
             </a-box>
 
-            <a-box    v-bind:id='player.session'
+            <a-box    v-bind:id='player.session_id'
                       v-for="player in players"
                       v-bind:position='"" + player.x_pos + " " + player.y_pos + " " + player.z_pos + ""'
                       v-bind:rotation='"" + player.x_rotation + " " + player.y_rotation + " " + player.z_rotation + ""'
                       v-bind:color='"white"'>
-                      <a-text v-bind:value='player.user_name'
+                      <a-text v-bind:value='((player.session_id != session_id)?player.user_name:"")'
                               color="black"
-                              v-bind:position='"0 0 1"'
+                              v-bind:position='".5 0 .8"'
+                              ></a-text>
+                      <a-text v-bind:value='((player.session_id != session_id)?player.user_name:"")'
+                              color="black"
+                              v-bind:position='".5 0 -.8"'
                               ></a-text>
             </a-box>
 
@@ -109,7 +113,8 @@ mounted: async function() {
             mm.items = sql("select id,name from items")
         }
         mm.changedName()
-        mm.players = sql("select * from sessions")
+        mm.players = sql("select * from sessions where last_updated_utc_ms > ?",
+                        [Date.now() - 10000])
 
 
     },300)
@@ -132,7 +137,7 @@ methods: {
          var pos = document.querySelector('#camera').getAttribute('position');
          var rotation = document.querySelector('#camera').getAttribute('rotation');
 
-        sql("update sessions set user_name = ?, x_pos=?, y_pos=?, z_pos=?, x_rotation=?, y_rotation=?, z_rotation=? where session_id = ?",
+        sql("update sessions set user_name = ?, x_pos=?, y_pos=?, z_pos=?, x_rotation=?, y_rotation=?, z_rotation=?, last_updated_utc_ms=? where session_id = ?",
             [   this.your_name,
                 pos.x,
                 pos.y,
@@ -140,6 +145,7 @@ methods: {
                 rotation.x,
                 rotation.y,
                 rotation.z,
+                Date.now(),
                 this.session_id])
     }
 
@@ -177,7 +183,8 @@ migrations:
     ,
     up: ["CREATE TABLE sessions (session_id TEXT, user_name	TEXT, " +
             " x_pos INTEGER, y_pos INTEGER,z_pos INTEGER," +
-            " x_rotation INTEGER, y_rotation INTEGER,z_rotation INTEGER" +
+            " x_rotation INTEGER, y_rotation INTEGER,z_rotation INTEGER, " +
+            " last_updated_utc_ms INTEGER" +
             ")"
             ]
   }
