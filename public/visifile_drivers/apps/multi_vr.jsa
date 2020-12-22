@@ -12,163 +12,178 @@ logo_url("/driver_icons/multi.jpg")
 read_only(true)
 */
 Vue.component('multi_vr', {
-    template: `<div style='width:100%;height:100%;padding:20px;background-color:white;'>
-                <a-scene
-                        cursor="rayOrigin: mouse"
+template: `<div style='width:100%;height:100%;padding:20px;background-color:white;'>
+            <a-scene
+                    cursor="rayOrigin: mouse"
 
 
-                        style='width: 80%; height: 40%;'
-                        embedded>
-                          <a-camera id='camera' position="0 0 -3"></a-camera>
+                    style='width: 80%; height: 40%;'
+                    embedded>
+                      <a-camera id='camera' position="0 0 -3"></a-camera>
 
-                <a-box    v-bind:id='item.x + "_" + item.y + "_" + item.z '
-                          v-for="item in objects"
-                          v-bind:position='"" + item.x + " " + item.y + " " + (item.z - 10) + ""'
-                          rotation='0 0 0'
-                          v-bind:highlighted='"x: " + item.x + "; " '
-                          v-bind:color='(item.color?item.color:"#4CC3D9")'>
-                </a-box>
+            <a-box    v-bind:id='item.x + "_" + item.y + "_" + item.z '
+                      v-for="item in objects"
+                      v-bind:position='"" + item.x + " " + item.y + " " + (item.z - 10) + ""'
+                      rotation='0 0 0'
+                      v-bind:highlighted='"x: " + item.x + "; " '
+                      v-bind:color='(item.color?item.color:"#4CC3D9")'>
+            </a-box>
 
-                <a-box    v-for="(item2,index2) in items"
-                          v-bind:id='"todo_" + index2 '
-                          v-bind:position='"0 " + index2 + " -10"'
-                          rotation='0 0 0'
-                          v-bind:color='"#4CC3D9"'
-                          >
-                          <a-text v-bind:value='item2.name + ":" + maxid'
-                                  color="black"
-                                  v-bind:position='"0 0 1"'
-                                  ></a-text>
-                </a-box>
+            <a-box    v-for="(item2,index2) in items"
+                      v-bind:id='"todo_" + index2 '
+                      v-bind:position='"0 " + index2 + " -10"'
+                      rotation='0 0 0'
+                      v-bind:color='"#4CC3D9"'
+                      >
+                      <a-text v-bind:value='item2.name + ":" + maxid'
+                              color="black"
+                              v-bind:position='"0 0 1"'
+                              ></a-text>
+            </a-box>
+
+            <a-box    v-bind:id='player.session'
+                      v-for="player in players"
+                      v-bind:position='"" + player.x_pos + " " + player.y_pos + " " + player.z_pos + ""'
+                      v-bind:rotation='"" + player.x_rotation + " " + player.y_rotation + " " + player.z_rotation + ""'
+                      v-bind:color='"white"'>
+                      <a-text v-bind:value='player.user_name'
+                              color="black"
+                              v-bind:position='"0 0 1"'
+                              ></a-text>
+            </a-box>
 
 
+            <a-sky color="#ECECEC"></a-sky>
 
+          </a-scene>
+          Session ID: {{session_id}}<br>
+      Your name<input   id=your_name v-model="your_name" ></input>
 
-                <a-sky color="#ECECEC"></a-sky>
-
-              </a-scene>
-              Session ID: {{session_id}}<br>
-          Your name<input   id=your_name v-model="your_name" ></input>
-
-          <br><br>
-         Todo List {{maxid}}<br>
-          <li v-for='item in items'>
-              <button v-on:click='delete_item(item.id)'>x</button> {{item.name}}
-          </li>
-          <input id=add v-model="new_item"></input>
-          <button v-on:click='add_item(new_item)'>Add</button>
-    </div>
-     `
-    ,
-    data: function() {
-        return {
-            items: [],
-            session_id: uuidv4(),
-            new_item: "",
-            your_name: "",
-            maxid: -1,
-                         msg: ""
-              ,
-              objects: [
-                    {x: 0,y: 0, z:0}
-                    ,
-                    {x: 1,y: 0, z:0}
-                    ,
-                    {x: 2,y: 1, z:0, color: "blue"}
-                    ,
-                    {x: 2,y: 0, z:1}
-                    ,
-                    {x: 2,y: 0, z:2}
-
-                  ]
-        }
-    }
+      <br><br>
+     Todo List {{maxid}}<br>
+      <li v-for='item in items'>
+          <button v-on:click='delete_item(item.id)'>x</button> {{item.name}}
+      </li>
+      <input id=add v-model="new_item"></input>
+      <button v-on:click='add_item(new_item)'>Add</button>
+</div>
+ `
 ,
-    mounted: async function() {
-        this.items = sql("select id,name from items")
-        //alert(JSON.stringify(this.items,null,2))
-        let mm= this
-        sql("insert into sessions (session_id) values (?)",[this.session_id])
-        appSetInterval(async function(){
-            console.log(1)
-            let ret1 = sql("select max(id) as max from events")
-            if (mm.maxid != ret1[0].max) {
-                mm.maxid = ret1[0].max
-                mm.items = sql("select id,name from items")
-            }
-            mm.changedName()
+data: function() {
+    return {
+        items: [],
+        session_id: uuidv4(),
+        new_item: "",
+        your_name: "",
+        maxid: -1,
+                     msg: ""
+          ,
+          objects: [
+                {x: 0,y: 0, z:0}
+                ,
+                {x: 1,y: 0, z:0}
+                ,
+                {x: 2,y: 1, z:0, color: "blue"}
+                ,
+                {x: 2,y: 0, z:1}
+                ,
+                {x: 2,y: 0, z:2}
 
-        },300)
-    },
-    methods: {
-        add_item: async function(x) {
-             sql("insert into items (id,name) values (" + new Date().getTime() + " ,'" + x + "')")
-             sql("insert into events (name) values ('todo')")
-             this.items = sql("select id,name from items")
-             this.new_item = ""
-        }
-        ,
-        delete_item: async function(x) {
-             sql("delete from items where id = ?",[x] )
-             sql("insert into events (name) values ('todo del')")
-             this.items = sql("select id,name from items")
-        },
-        changedName: async function(){
-             var pos = document.querySelector('#camera').getAttribute('position');
-             var rotation = document.querySelector('#camera').getAttribute('rotation');
-
-            sql("update sessions set user_name = ?, x_pos=?, y_pos=?, z_pos=?, x_rotation=?, y_rotation=?, z_rotation=? where session_id = ?",
-                [   this.your_name,
-                    pos.x,
-                    pos.y,
-                    pos.z,
-                    rotation.x,
-                    rotation.y,
-                    rotation.z,
-                    this.session_id])
-        }
-
+              ]
+          ,
+        players: [
+              ]
     }
- })
+}
+,
+mounted: async function() {
+    this.items = sql("select id,name from items")
+    //alert(JSON.stringify(this.items,null,2))
+    let mm= this
+    sql("insert into sessions (session_id) values (?)",[this.session_id])
+    appSetInterval(async function(){
+        console.log(1)
+        let ret1 = sql("select max(id) as max from events")
+        if (mm.maxid != ret1[0].max) {
+            mm.maxid = ret1[0].max
+            mm.items = sql("select id,name from items")
+        }
+        mm.changedName()
+        mm.players = sql("select * from sessions")
 
- /*
- allowAccessToAppBaseComponentIds([""])
- allowAccessToAppTypes(["database_reader"])
- sqlite(
- {
-  migrations:
-  [
-      {
-        name: "Create the initial item table"
+
+    },300)
+},
+methods: {
+    add_item: async function(x) {
+         sql("insert into items (id,name) values (" + new Date().getTime() + " ,'" + x + "')")
+         sql("insert into events (name) values ('todo')")
+         this.items = sql("select id,name from items")
+         this.new_item = ""
+         alert(JSON.stringify(this.players))
+    }
+    ,
+    delete_item: async function(x) {
+         sql("delete from items where id = ?",[x] )
+         sql("insert into events (name) values ('todo del')")
+         this.items = sql("select id,name from items")
+    },
+    changedName: async function(){
+         var pos = document.querySelector('#camera').getAttribute('position');
+         var rotation = document.querySelector('#camera').getAttribute('rotation');
+
+        sql("update sessions set user_name = ?, x_pos=?, y_pos=?, z_pos=?, x_rotation=?, y_rotation=?, z_rotation=? where session_id = ?",
+            [   this.your_name,
+                pos.x,
+                pos.y,
+                pos.z,
+                rotation.x,
+                rotation.y,
+                rotation.z,
+                this.session_id])
+    }
+
+}
+})
+
+/*
+allowAccessToAppBaseComponentIds([""])
+allowAccessToAppTypes(["database_reader"])
+sqlite(
+{
+migrations:
+[
+  {
+    name: "Create the initial item table"
+    ,
+    up: ["CREATE TABLE items (id	TEXT, name	TEXT);",
+         "alter TABLE items add column time INTEGER;"]
+  }
+  ,
+  {
+    name: "Add a column for the user name"
+    ,
+    up: ["alter TABLE items add column user TEXT;"]
+  }
         ,
-        up: ["CREATE TABLE items (id	TEXT, name	TEXT);",
-             "alter TABLE items add column time INTEGER;"]
-      }
-      ,
-      {
-        name: "Add a column for the user name"
+  {
+    name: "Add an events table"
+    ,
+    up: ["CREATE TABLE events (id INTEGER PRIMARY KEY AUTOINCREMENT, name	TEXT)"]
+  }
         ,
-        up: ["alter TABLE items add column user TEXT;"]
-      }
-            ,
-      {
-        name: "Add an events table"
-        ,
-        up: ["CREATE TABLE events (id INTEGER PRIMARY KEY AUTOINCREMENT, name	TEXT)"]
-      }
-            ,
-      {
-        name: "Add a session table"
-        ,
-        up: ["CREATE TABLE sessions (session_id TEXT, user_name	TEXT, " +
-                " x_pos INTEGER, y_pos INTEGER,z_pos INTEGER," +
-                " x_rotation INTEGER, y_rotation INTEGER,z_rotation INTEGER" +
-                ")"
-                ]
-      }
-  ]
- }
- )//sqlite
+  {
+    name: "Add a session table"
+    ,
+    up: ["CREATE TABLE sessions (session_id TEXT, user_name	TEXT, " +
+            " x_pos INTEGER, y_pos INTEGER,z_pos INTEGER," +
+            " x_rotation INTEGER, y_rotation INTEGER,z_rotation INTEGER" +
+            ")"
+            ]
+  }
+]
+}
+)//sqlite
 grant_full_db_access_to(["todo_app_reader"])
 */
 }
