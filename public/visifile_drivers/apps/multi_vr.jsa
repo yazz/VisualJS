@@ -15,8 +15,12 @@ Vue.component('multi_vr', {
     template: `<div style='width:100%;height:100%;padding:20px;background-color:white;'>
                 <a-scene
                         cursor="rayOrigin: mouse"
+
+
                         style='width: 80%; height: 40%;'
                         embedded>
+                          <a-camera id='camera' position="0 0 -3"></a-camera>
+
                 <a-box    v-bind:id='item.x + "_" + item.y + "_" + item.z '
                           v-for="item in objects"
                           v-bind:position='"" + item.x + " " + item.y + " " + (item.z - 10) + ""'
@@ -110,8 +114,18 @@ Vue.component('multi_vr', {
              this.items = sql("select id,name from items")
         },
         changedName: async function(){
-            sql("update sessions set user_name = ? where session_id = ?",
-                [this.your_name,this.session_id])
+             var pos = document.querySelector('#camera').getAttribute('position');
+             var rotation = document.querySelector('#camera').getAttribute('rotation');
+
+            sql("update sessions set user_name = ?, x_pos=?, y_pos=?, z_pos=?, x_rotation=?, y_rotation=?, z_rotation=? where session_id = ?",
+                [   this.your_name,
+                    pos.x,
+                    pos.y,
+                    pos.z,
+                    rotation.x,
+                    rotation.y,
+                    rotation.z,
+                    this.session_id])
         }
 
     }
@@ -146,7 +160,11 @@ Vue.component('multi_vr', {
       {
         name: "Add a session table"
         ,
-        up: ["CREATE TABLE sessions (session_id TEXT, user_name	TEXT, x_pos INTEGER, y_pos INTEGER,z_pos INTEGER)"]
+        up: ["CREATE TABLE sessions (session_id TEXT, user_name	TEXT, " +
+                " x_pos INTEGER, y_pos INTEGER,z_pos INTEGER," +
+                " x_rotation INTEGER, y_rotation INTEGER,z_rotation INTEGER" +
+                ")"
+                ]
       }
   ]
  }
