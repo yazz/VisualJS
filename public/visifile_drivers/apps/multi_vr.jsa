@@ -46,13 +46,23 @@ template: `<div style='width:100%;height:100%;padding:20px;background-color:whit
                       v-bind:position='"" + player.x_pos + " " + player.y_pos + " " + player.z_pos + ""'
                       v-bind:rotation='"" + player.x_rotation + " " + player.y_rotation + " " + player.z_rotation + ""'
                       v-bind:color='"white"'>
-                      <a-text v-bind:value='((player.session_id != session_id)?player.user_name:"")'
+                      <a-text v-bind:value='player.user_name'
                               color="black"
-                              v-bind:position='".5 0 .8"'
+                              v-bind:position='"-.5 0 .8"'
                               ></a-text>
-                      <a-text v-bind:value='((player.session_id != session_id)?player.user_name:"")'
+                      <a-text v-bind:value='player.user_name'
                               color="black"
-                              v-bind:position='".5 0 -.8"'
+                              v-bind:position='"-.5 0 -.8"'
+                              ></a-text>
+                      <a-text v-bind:value='player.user_name'
+                              color="black"
+                              v-bind:rotation='"0 90 0"'
+                              v-bind:position='"0 1 0"'
+                              ></a-text>
+                      <a-text v-bind:value='player.user_name'
+                              color="black"
+                              v-bind:rotation='"0 90 0"'
+                              v-bind:position='"0 -1 0"'
                               ></a-text>
             </a-box>
 
@@ -61,7 +71,8 @@ template: `<div style='width:100%;height:100%;padding:20px;background-color:whit
 
           </a-scene>
           Session ID: {{session_id}}<br>
-      Your name<input   id=your_name v-model="your_name" ></input>
+      Your name<input   id=your_name v-model="your_name" ></input><br>
+          Players: <pre>{{players}}</pre><br>
 
       <br><br>
      Todo List {{maxid}}<br>
@@ -113,7 +124,11 @@ mounted: async function() {
             mm.items = sql("select id,name from items")
         }
         mm.changedName()
-        mm.players = sql("select * from sessions where last_updated_utc_ms > ?",
+        mm.players = sql("select * from sessions where last_updated_utc_ms > ? and session_id != ?",
+                        [Date.now() - 10000, mm.session_id])
+        sql("update sessions set status = 'ACTIVE' where last_updated_utc_ms > ?",
+                        [Date.now() - 10000])
+        sql("update sessions set status = null where last_updated_utc_ms <= ?",
                         [Date.now() - 10000])
 
 
@@ -125,7 +140,6 @@ methods: {
          sql("insert into events (name) values ('todo')")
          this.items = sql("select id,name from items")
          this.new_item = ""
-         alert(JSON.stringify(this.players))
     }
     ,
     delete_item: async function(x) {
@@ -184,7 +198,7 @@ migrations:
     up: ["CREATE TABLE sessions (session_id TEXT, user_name	TEXT, " +
             " x_pos INTEGER, y_pos INTEGER,z_pos INTEGER," +
             " x_rotation INTEGER, y_rotation INTEGER,z_rotation INTEGER, " +
-            " last_updated_utc_ms INTEGER" +
+            " last_updated_utc_ms INTEGER, status TEXT" +
             ")"
             ]
   }
