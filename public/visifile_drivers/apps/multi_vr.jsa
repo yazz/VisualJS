@@ -48,21 +48,9 @@ template: `<div style='width:100%;height:100%;padding:20px;background-color:whit
                       v-bind:color='"white"'>
                       <a-text v-bind:value='player.user_name'
                               color="black"
-                              v-bind:position='"-.5 0 .8"'
-                              ></a-text>
-                      <a-text v-bind:value='player.user_name'
-                              color="black"
-                              v-bind:position='"-.5 0 -.8"'
-                              ></a-text>
-                      <a-text v-bind:value='player.user_name'
-                              color="black"
+                              look-at="#camera"
                               v-bind:rotation='"0 90 0"'
                               v-bind:position='"0 1 0"'
-                              ></a-text>
-                      <a-text v-bind:value='player.user_name'
-                              color="black"
-                              v-bind:rotation='"0 90 0"'
-                              v-bind:position='"0 -1 0"'
                               ></a-text>
             </a-box>
 
