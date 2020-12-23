@@ -3352,6 +3352,7 @@ async function executeSqliteForApp( args ) {
         let appDb = null
         if (appDbs[args.base_component_id]) {
             appDb = appDbs[args.base_component_id]
+            console.log("Using cached db " + args.base_component_id)
         } else {
             let dbPath = path.join(userData, 'app_dbs/' + args.base_component_id + '.visi')
             appDb = new sqlite3.Database(dbPath);
