@@ -3338,6 +3338,7 @@ async function executeSqliteForApp( args ) {
         //console.log("dbPath: " + JSON.stringify(dbPath,null,2))
         //console.log("args: " + JSON.stringify(args,null,2))
         var appDb = new sqlite3.Database(dbPath);
+        appDb.run("PRAGMA journal_mode=WAL;")
 
         appDb.serialize(
             function() {
@@ -3351,7 +3352,7 @@ async function executeSqliteForApp( args ) {
                     function(err, results)
                     {
                         appDb.run("commit");
-                        //appDb.run("PRAGMA wal_checkpoint;")
+                        appDb.run("PRAGMA wal_checkpoint;")
                         appDb.close(function(err){
                             //console.log("Results: " + JSON.stringify(results,null,2))
                             //console.log("...database closed")
