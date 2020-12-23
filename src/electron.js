@@ -3361,6 +3361,7 @@ async function executeSqliteForApp( args ) {
         }
 
         if (args.sql.toLocaleLowerCase().trim().startsWith("select")) {
+            console.log("Read only query " + args.sql)
             appDb.serialize(
                 function() {
                     appDb.all(
