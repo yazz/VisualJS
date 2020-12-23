@@ -1342,9 +1342,14 @@ function deleteYazzDataWindows(dddd) {
   }
 
 
+
+
+
+
+
+
 function deleteYazzDataV2(dddd) {
 
-//zzz
     if ( fs.existsSync( dddd ) ) {
         outputDebug("----------------------------------")
         outputDebug("Before delete :" + ls(dddd))
@@ -2212,7 +2217,7 @@ function websocketFn(ws) {
                         value:   isWin
                         });
 
-    ws.on('message', function(msg) {
+    ws.on('message', async function(msg) {
         var receivedMessage = eval("(" + msg + ")");
         //console.log(" 1- Server recieved message: " + JSON.stringify(receivedMessage));
 
@@ -2416,14 +2421,29 @@ function websocketFn(ws) {
 
 
             //console.log(" .......1 Electron callDriverMethod: " + JSON.stringify(receivedMessage,null,2));
-            forkedProcesses["forked"].send({
-                            message_type:          "callDriverMethod",
-                            find_component:         receivedMessage.find_component,
-                            args:                   receivedMessage.args,
-                            seq_num_parent:         seqNum,
-                            seq_num_browser:        receivedMessage.seqNum
-                        });
+            if (receivedMessage.find_component && receivedMessage.find_component.driver_name == "systemFunctionAppSql") {
+                //zzz
+                let resultOfSql = await executeSqliteForApp(  receivedMessage.args  )
+                sendToBrowserViaWebSocket(
+                                             ws
+                                             ,
+                                             {
+                                                type:            "ws_to_browser_callDriverMethod_results",
+                                                value:            resultOfSql,
+                                                seq_num:          receivedMessage.seqNum
+                                             });
 
+
+
+            } else {
+                forkedProcesses["forked"].send({
+                                message_type:          "callDriverMethod",
+                                find_component:         receivedMessage.find_component,
+                                args:                   receivedMessage.args,
+                                seq_num_parent:         seqNum,
+                                seq_num_browser:        receivedMessage.seqNum
+                            });
+            }
 
         }
     });
@@ -3311,7 +3331,42 @@ outputDebug("process.env keys: " + Object.keys(process.env))
 dbsearch = new sqlite3.Database(dbPath);
 dbsearch.run("PRAGMA journal_mode=WAL;")
 
+//zzz
+async function executeSqliteForApp( args ) {
+    var getSqlResults = new Promise(returnResult => {
+        var dbPath = path.join(userData, 'app_dbs/' + args.base_component_id + '.visi')
+        //console.log("dbPath: " + JSON.stringify(dbPath,null,2))
+        //console.log("args: " + JSON.stringify(args,null,2))
+        var appDb = new sqlite3.Database(dbPath);
 
+        appDb.serialize(
+            function() {
+                appDb.run("begin exclusive transaction");
+                appDb.all(
+                    args.sql
+                    ,
+                    args.params
+                    ,
+
+                    function(err, results)
+                    {
+                        appDb.run("commit");
+                        appDb.run("PRAGMA wal_checkpoint;")
+                        appDb.close(function(err){
+                            //console.log("Results: " + JSON.stringify(results,null,2))
+                            //console.log("...database closed")
+                            returnResult(results)
+
+                        })
+
+                    })
+         })
+    })
+
+
+    var res = await getSqlResults
+    return res
+}
 
 
 
