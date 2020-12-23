@@ -3370,7 +3370,6 @@ async function executeSqliteForApp( args ) {
 
                         function(err, results)
                         {
-                            appDb.run("commit");
                             returnResult(results)
                         })
              }, sqlite3.OPEN_READONLY)
