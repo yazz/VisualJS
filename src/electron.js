@@ -3352,7 +3352,7 @@ async function executeSqliteForApp( args ) {
                     function(err, results)
                     {
                         appDb.run("commit");
-                        appDb.run("PRAGMA wal_checkpoint;")
+                        //appDb.run("PRAGMA wal_checkpoint;")
                         appDb.close(function(err){
                             //console.log("Results: " + JSON.stringify(results,null,2))
                             //console.log("...database closed")
