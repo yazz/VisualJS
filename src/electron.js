@@ -223,6 +223,7 @@ var dbPath = null
 
 var dbsearch = null
 var userData = null
+let appDbs = {}
 
 var port;
 var hostaddress;
@@ -1279,12 +1280,21 @@ function shutDown() {
     outputDebug(" shutDown() called")
     if (!shuttingDown) {
         shuttingDown = true;
-
+//zzz
         if (dbsearch) {
             outputDebug("Database closing...")
             dbsearch.run("PRAGMA wal_checkpoint;")
             dbsearch.close(function(err){
                 outputDebug("...database closed")
+
+            })
+        }
+        let appDbNames = Object.keys(appDbs)
+        for (let appDbIndex = 0; appDbIndex < appDbNames.length; appDbIndex ++) {
+            let thisAppDb = appDbs[appDbNames[appDbIndex]]
+            thisAppDb.run("PRAGMA wal_checkpoint;")
+            thisAppDb.close(function(err){
+                outputDebug("... " + appDbNames[appDbIndex] + " database closed")
 
             })
         }
@@ -3334,11 +3344,17 @@ dbsearch.run("PRAGMA journal_mode=WAL;")
 //zzz
 async function executeSqliteForApp( args ) {
     var getSqlResults = new Promise(returnResult => {
-        var dbPath = path.join(userData, 'app_dbs/' + args.base_component_id + '.visi')
         //console.log("dbPath: " + JSON.stringify(dbPath,null,2))
         //console.log("args: " + JSON.stringify(args,null,2))
-        var appDb = new sqlite3.Database(dbPath);
-        appDb.run("PRAGMA journal_mode=WAL;")
+        let appDb = null
+        if (appDbs[args.base_component_id]) {
+            appDb = appDbs[args.base_component_id]
+        } else {
+            let dbPath = path.join(userData, 'app_dbs/' + args.base_component_id + '.visi')
+            appDb = new sqlite3.Database(dbPath);
+            appDb.run("PRAGMA journal_mode=WAL;")
+        }
+
 
         appDb.serialize(
             function() {
@@ -3352,15 +3368,7 @@ async function executeSqliteForApp( args ) {
                     function(err, results)
                     {
                         appDb.run("commit");
-                        //appDb.run("PRAGMA wal_checkpoint;")
                         returnResult(results)
-                        //appDb.close(function(err){
-                            //console.log("Results: " + JSON.stringify(results,null,2))
-                            //console.log("...database closed")
-                          //  returnResult(results)
-
-                        //})
-
                     })
          })
     })
