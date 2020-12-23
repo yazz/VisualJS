@@ -3353,6 +3353,7 @@ async function executeSqliteForApp( args ) {
             let dbPath = path.join(userData, 'app_dbs/' + args.base_component_id + '.visi')
             appDb = new sqlite3.Database(dbPath);
             appDb.run("PRAGMA journal_mode=WAL;")
+            appDbs[args.base_component_id] = appDb
         }
 
 
