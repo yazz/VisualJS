@@ -3353,12 +3353,13 @@ async function executeSqliteForApp( args ) {
                     {
                         appDb.run("commit");
                         //appDb.run("PRAGMA wal_checkpoint;")
-                        appDb.close(function(err){
+                        returnResult(results)
+                        //appDb.close(function(err){
                             //console.log("Results: " + JSON.stringify(results,null,2))
                             //console.log("...database closed")
-                            returnResult(results)
+                          //  returnResult(results)
 
-                        })
+                        //})
 
                     })
          })
