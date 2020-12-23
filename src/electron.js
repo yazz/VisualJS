@@ -3343,6 +3343,9 @@ dbsearch.run("PRAGMA journal_mode=WAL;")
 
 //zzz
 async function executeSqliteForApp( args ) {
+    if (!args.sql) {
+        return []
+    }
     var getSqlResults = new Promise(returnResult => {
         //console.log("dbPath: " + JSON.stringify(dbPath,null,2))
         //console.log("args: " + JSON.stringify(args,null,2))
@@ -3356,22 +3359,38 @@ async function executeSqliteForApp( args ) {
             appDbs[args.base_component_id] = appDb
         }
 
+        if (args.sql.toLocaleLowerCase().trim().startsWith("select")) {
+            appDb.serialize(
+                function() {
+                    appDb.all(
+                        args.sql
+                        ,
+                        args.params
+                        ,
 
-        appDb.serialize(
-            function() {
-                appDb.run("begin deferred transaction");
-                appDb.all(
-                    args.sql
-                    ,
-                    args.params
-                    ,
+                        function(err, results)
+                        {
+                            appDb.run("commit");
+                            returnResult(results)
+                        })
+             }, sqlite3.OPEN_READONLY)
+        } else {
+            appDb.serialize(
+                function() {
+                    appDb.run("begin exclusive transaction");
+                    appDb.all(
+                        args.sql
+                        ,
+                        args.params
+                        ,
 
-                    function(err, results)
-                    {
-                        appDb.run("commit");
-                        returnResult(results)
-                    })
-         })
+                        function(err, results)
+                        {
+                            appDb.run("commit");
+                            returnResult(results)
+                        })
+             })
+        }
     })
 
 
