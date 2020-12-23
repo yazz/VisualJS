@@ -3376,7 +3376,7 @@ async function executeSqliteForApp( args ) {
         } else {
             appDb.serialize(
                 function() {
-                    appDb.run("begin exclusive transaction");
+                    appDb.run("begin deferred transaction");
                     appDb.all(
                         args.sql
                         ,
