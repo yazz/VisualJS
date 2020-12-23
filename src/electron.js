@@ -3379,17 +3379,9 @@ async function executeSqliteForApp( args ) {
             appDb.serialize(
                 function() {
                     appDb.run("begin deferred transaction");
-                    appDb.all(
-                        args.sql
-                        ,
-                        args.params
-                        ,
-
-                        function(err, results)
-                        {
-                            appDb.run("commit");
-                            returnResult(results)
-                        })
+                    appDb.run(args.sql, args.params)
+                    appDb.run("commit");
+                    returnResult([])
              })
         }
     })
