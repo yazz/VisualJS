@@ -19,7 +19,19 @@ template: `<div style='width:100%;height:100%;padding:20px;background-color:whit
 
                     style='width: 80%; height: 40%;'
                     embedded>
-                      <a-camera id='camera' position="0 0 -3"></a-camera>
+                      <a-camera id='camera' position="0 0 -3">
+                            <a-entity geometry="primitive: plane; height: 0.5; width: 0.5"
+                                position="-.85 -.6 -1"
+                                material="color: gray; opacity: 0.5">
+                                    <a-box    id='up_control'
+                                              v-bind:position='"0.08 .18 0.1"'
+                                              rotation='0 0 0'
+                                              onclick="alert(1)"
+                                              geometry="primitive: plane; height: 0.1; width: 0.1"
+                                              color="blue">
+                                    </a-box>
+                            </a-entity>
+                      </a-camera>
 
             <a-box    v-bind:id='item.x + "_" + item.y + "_" + item.z '
                       v-for="item in objects"
