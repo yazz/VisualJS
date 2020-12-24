@@ -2099,7 +2099,7 @@ Pushlist
                                                             active_component_index: active_component_index,
                                                             property_id:            property.id
                                                         })'  >
-                                                JavaScript
+                                                JS
                                             </div>
                                         </div>
 
@@ -4067,7 +4067,7 @@ ${origCode}
 
 
 
-        
+
         getControlByName: function(controlName) {
             var mm = this
             var control = mm.model.forms.Form_1.components[controlName]
