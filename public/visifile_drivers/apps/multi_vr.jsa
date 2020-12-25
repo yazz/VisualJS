@@ -19,7 +19,7 @@ template: `<div style='width:100%;height:100%;padding:20px;background-color:whit
 
                     style='width: 80%; height: 40%;'
                     embedded>
-                      <a-camera id='camera' position="0 0 -3">
+                      <a-camera id='camera' position="0 1 -3">
                             <a-entity geometry="primitive: plane; height: 0.5; width: 0.5"
                                 position="-.85 -.6 -1"
                                 material="color: gray; opacity: 0.5">
@@ -32,6 +32,7 @@ template: `<div style='width:100%;height:100%;padding:20px;background-color:whit
                                     </a-box>
                             </a-entity>
                       </a-camera>
+                      <a-entity environment='grid: none,gridColor:#ccc'></a-entity>
 
             <a-box    v-bind:id='item.x + "_" + item.y + "_" + item.z '
                       v-for="item in objects"
@@ -55,14 +56,14 @@ template: `<div style='width:100%;height:100%;padding:20px;background-color:whit
 
             <a-box    v-bind:id='player.session_id'
                       v-for="player in players"
-                      v-bind:position='"" + player.x_pos + " " + player.y_pos + " " + player.z_pos + ""'
+                      v-bind:position='"" + player.x_pos + " " + (player.y_pos - .5) + " " + player.z_pos + ""'
                       v-bind:rotation='"" + player.x_rotation + " " + player.y_rotation + " " + player.z_rotation + ""'
                       v-bind:color='"white"'>
                       <a-text v-bind:value='player.user_name'
                               color="black"
                               look-at="#camera"
-                              v-bind:rotation='"0 90 0"'
-                              v-bind:position='"0 1 0"'
+                              v-bind:rotation3='"0 90 0"'
+                              v-bind:position='"0 .7 0"'
                               ></a-text>
             </a-box>
 
