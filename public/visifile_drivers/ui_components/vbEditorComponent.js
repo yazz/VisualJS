@@ -2095,7 +2095,7 @@ Pushlist
                                             </img>
 
                                             <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;'
-                                                        v-on:click='$event.stopPropagation();editAsCode({
+                                                        v-on:click='$event.stopPropagation();selectFilePath({
                                                             app_selected:           model.app_selected,
                                                             active_form:            active_form,
                                                             active_component_index: active_component_index,
@@ -4283,6 +4283,51 @@ ${origCode}
                 mm.refresh++
             },200)
         }
+        ,
+
+
+        // -----------------------------------------------------
+        //                     selectFilePath
+        //
+        // This is called when the "..." button is pressed for
+        // a File Path property in the property inspector
+        //
+        // -----------------------------------------------------
+        selectFilePath: async function(aa) {
+
+            //
+            // if the code editor is already open then close it
+            //
+
+            var mm = this
+            if (mm.ui_code_editor) {
+                if (mm.ui_code_editor.completer) {
+                    mm.ui_code_editor.completer.detach()
+                }
+                mm.ui_code_editor.destroy()
+                mm.ui_code_editor = null
+            }
+
+
+
+
+            //
+            // Set up the new code editor
+            //
+
+            setTimeout(function(){
+                mm.design_mode_pane.type                   = "file_path_selector"
+                mm.design_mode_pane.app_selected           = aa.app_selected
+                mm.design_mode_pane.active_form            = aa.active_form
+                mm.design_mode_pane.active_component_index = aa.active_component_index
+                mm.design_mode_pane.property_id            = aa.property_id
+
+                setTimeout(function(){
+                },100)
+            },100)
+
+
+         }
         ,
 
 
