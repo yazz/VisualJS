@@ -138,14 +138,60 @@ uses_javascript_librararies(["advanced_bundle"])
                             <button  type=button class=' btn btn-danger btn-sm'
                                      style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 4px;"
                                      v-on:click='gotoDragDropEditor()' >x</button>
+
+
+
+                                     <div style="width:80vw;height:5vh; background-color: black;color:white;font-size: 30px;" class="text-left">
+                                         <button     class="btn btn"
+                                                     style='margin:2px;margin-right:50px;background-color: darkgray;'
+                                                     v-on:click="chosenFolderUp();"
+                                                >
+
+                                             Up
+                                         </button>
+
+                                         {{open_file_path}}
+                                     </div>
+
+                                     <div    style="width:80vw;height:50vh; background-color: white; overflow:scroll;"
+                                             class="text-left">
+
+                                         <div    v-for="(file_or_folder_item, index) in open_file_list"
+                                                 v-bind:refresh='refresh'
+                                                 v-bind:style='"background-color: " + (file_or_folder_item.type == "folder"?"darkgray":"lightgray") + "; margin:0px;height:auto;"'
+                                                 v-on:click='selectOpenFileOrFolder(file_or_folder_item)'
+                                                 class="text-left"
+                                                 >
+                                                     {{file_or_folder_item.name}}
+                                         </div>
+                                     </div>
+
+
+
+                                     <div>
+
+                                         <button
+
+                                                 class="btn btn-danger btn-lg"
+                                                style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold; background-color:lightgray;color:black;display:inline;'
+                                                v-on:click="showFilePicker=false"
+                                                >
+
+                                                 <img    src='/driver_icons/cancel.svg'
+                                                         style='position:relative;max-width: 70px; bottom:0px; left: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
+                                                         >
+                                                 </img>
+
+                                             Cancel
+                                         </button>
+                                     </div>
+
+
                         </div>
 
 
-                        <div    id='show_help' style="background-color:white;color:black;font-family:helvetica,verdana;font-size: 16px;">
-                            <div    style="font-weight:normal;padding:7px;height:100%;"
-                                    v-html="design_mode_pane.help"></div>
-                        </div>
                     </div>
+
 
 
 
@@ -4364,6 +4410,7 @@ ${origCode}
                 mm.design_mode_pane.property_id            = aa.property_id
 
                 setTimeout(function(){
+                    mm.openFile()
                 },100)
             },100)
 
@@ -7402,12 +7449,128 @@ return {}
             return
             }
         }
+        ,
+        openFile: async function() {
+            //alert(1)
+           //document.getElementById("openfilefromhomepage").click();
+           this.showFilePicker = true
+           var result = await callFunction(
+                               {
+                                   driver_name: "serverGetHomeDir",
+                                   method_name: "serverGetHomeDir"  }
+                                   ,{ })
+          if (result) {
+              this.open_file_path = result.value
+          }
+          var result2 = await callFunction(
+                              {
+                                  driver_name: "serverFolderContents",
+                                  method_name: "serverFolderContents"  }
+                                  ,{
+                                          path: this.open_file_path
+                                  })
+         if (result2) {
+             this.open_file_list = result2
+         }
+
+          //
+       },
+       selectOpenFileOrFolder: async function(fileorFolder) {
+          //
+          // if this is a folder
+          //
+          if (fileorFolder.type == "folder") {
+              if (isWin) {
+                  this.open_file_path += "\\" + fileorFolder.name
+              } else {
+                  this.open_file_path += "/" + fileorFolder.name
+              }
+             var result2 = await callFunction(
+                                 {
+                                     driver_name: "serverFolderContents",
+                                     method_name: "serverFolderContents"  }
+                                     ,{
+                                             path: this.open_file_path
+                                     })
+            if (result2) {
+                this.open_file_list = result2
+            }
+
+
+        //
+        // otherwise if this is a file
+        //
+        } else {
+            this.showFilePicker=false
+            this.open_file_name = this.open_file_path + "/" + fileorFolder.name
+
+
+            //alert(this.open_file_name)
+            saveCodeToFile = this.open_file_name
+            //zzz
+            file_upload_uuid = uuidv4()
+            let openfileurl = "/file_name_load?file_name_load=" + encodeURI(saveCodeToFile) + "&client_file_upload_id=" + encodeURI(file_upload_uuid)
+            //console.log("openfileurl:= " + openfileurl)
+            callAjax( openfileurl,
+                function(res) {
+                    console.log(res)
+                })
+
+        }
+
+         //
+      },
+      chosenFolderUp:  async function() {
+          //alert(1)
+         //document.getElementById("openfilefromhomepage").click();
+         let lastFolderIndex = null
+         //debugger
+
+         if (isWin) {
+             lastFolderIndex = this.open_file_path.lastIndexOf("\\")
+             if (lastFolderIndex == (this.open_file_path.length - 1)) {
+                 this.open_file_path = this.open_file_path.substring(0,this.open_file_path.length - 1)
+                 lastFolderIndex = this.open_file_path.lastIndexOf("\\")
+             }
+
+             //
+             // if we have gone all the way up to c: then we may not find a
+             // final backslash (\) symbol
+             //
+             if (lastFolderIndex == -1) {
+                 this.open_file_path = this.open_file_path.substring(0,2) + "\\"
+
+
+             } else {
+                 this.open_file_path = this.open_file_path.substring(0,lastFolderIndex) + "\\"
+             }
+         } else {
+             lastFolderIndex = this.open_file_path.lastIndexOf("/")
+             this.open_file_path = this.open_file_path.substring(0,lastFolderIndex)
+         }
+
+
+            var result2 = await callFunction(
+                                {
+                                    driver_name: "serverFolderContents",
+                                    method_name: "serverFolderContents"  }
+                                    ,{
+                                            path: this.open_file_path
+                                    })
+           if (result2) {
+               this.open_file_list = result2
+           }
+
+
+     }
+
 
      }
      //*** COPY_END ***//
      ,
      data: function () {
        return {
+           showFilePicker: false,
            open_file_path: "/",
            open_file_path_dirs: ["/"],
            open_file_list: [],
