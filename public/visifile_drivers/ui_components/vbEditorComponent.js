@@ -2088,6 +2088,22 @@ Pushlist
                                                    @change="previewFileUpload(property)">
                                             </input>
                                         </div>
+                                        <div    v-if="(property.type  == 'FilePath') ">
+                                            <img    src='/driver_icons/fileopen.png'
+                                                    style='height: 50%;'
+                                                    class='img-fluid'>
+                                            </img>
+
+                                            <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;'
+                                                        v-on:click='$event.stopPropagation();editAsCode({
+                                                            app_selected:           model.app_selected,
+                                                            active_form:            active_form,
+                                                            active_component_index: active_component_index,
+                                                            property_id:            property.id
+                                                        })'  >
+                                                Open file
+                                            </div>
+                                        </div>
 
                                         <div    v-if="(property.type  == 'Event') || ((property.type  == 'Action_old') && isValidObject(property.fn)) "
                                                 style="width:100%">
@@ -3844,7 +3860,7 @@ ${origCode}
         }
         ,
         addComponentV2: async function(leftX,topY,data, parentType, parentName, defProps) {
-            //zzz
+
             var mm = this
             //alert(JSON.stringify(data,null,2))
 
