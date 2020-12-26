@@ -7526,7 +7526,14 @@ return {}
             this.showFilePicker=false
             this.open_file_name = this.open_file_path + "/" + fileorFolder.name
             //zzz
-            mm.model.forms[mm.design_mode_pane.active_form].components[mm.design_mode_pane.active_component_index][mm.design_mode_pane.property_id] = this.open_file_name
+            let propertyType = null
+            for (  var ere = 0;  ere < mm.properties.length;  ere++  ) {
+                var property = mm.properties[ ere ]
+                if (property.id == mm.design_mode_pane.property_id) {
+                    propertyType = property
+                }
+            }
+            mm.setVBEditorPropertyValue(propertyType,this.open_file_name)
             mm.gotoDragDropEditor()
         }
 
