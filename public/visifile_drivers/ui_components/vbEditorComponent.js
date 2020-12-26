@@ -179,7 +179,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
                                             class="btn btn-danger btn-lg"
                                            style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:5px;font-size:16px;font-weight: bold; background-color:lightgray;color:black;display:inline;'
-                                           v-on:click="showFilePicker=false"
+                                           v-on:click="gotoDragDropEditor();"
                                            >
 
                                             <img    src='/driver_icons/cancel.svg'
@@ -7508,6 +7508,7 @@ return {}
                                      })
             if (result2) {
                 this.open_file_list = result2
+                //zzz
             }
 
 
