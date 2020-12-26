@@ -139,6 +139,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                      style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 4px;"
                                      v-on:click='gotoDragDropEditor()' >x</button>
 
+                             <div    style='font-family:verdana,helvetica;font-size: 13px;font-weight:bold;border-radius: 0px;background-color:lightgray; color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
 
 
                                      <div style="width:100%;height:5vh; background-color: black;color:white;font-size: 30px;" class="text-left">
@@ -185,6 +186,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                              Cancel
                                          </button>
                                      </div>
+                                 </div>
 
 
                         </div>
