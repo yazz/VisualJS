@@ -21,9 +21,9 @@ console.log(JSON.stringify(args,null,2))
         let rettt=[]
         for (var ty=0;ty<nert.length;ty++) {
             if (filterFileFn(nert[ty])) {
-                if (args.filterFileExtsList) {
-                    for (let fileExtIndex = 0 ; fileExtIndex < args.filterFileExtsList.length ; fileExtIndex ++ ) {
-                        let thisFileExt = args.filterFileExtsList[fileExtIndex]
+                if (args.filter_file_exts_list) {
+                    for (let fileExtIndex = 0 ; fileExtIndex < args.filter_file_exts_list.length ; fileExtIndex ++ ) {
+                        let thisFileExt = args.filter_file_exts_list[fileExtIndex]
                         if (nert[ty].indexOf("." + thisFileExt) != -1 )  {
                             rettt.push({name: nert[ty], type: "file"})
                             break;

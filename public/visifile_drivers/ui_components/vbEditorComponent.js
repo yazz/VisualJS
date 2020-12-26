@@ -7503,7 +7503,8 @@ return {}
                                      driver_name: "serverFolderContentsV2",
                                      method_name: "serverFolderContentsV2"  }
                                      ,{
-                                             path: this.open_file_path
+                                             path:                      this.open_file_path,
+                                             filter_file_exts_list:     ["accdb"]
                                      })
             if (result2) {
                 this.open_file_list = result2
@@ -7518,17 +7519,7 @@ return {}
             this.open_file_name = this.open_file_path + "/" + fileorFolder.name
 
 
-            //alert(this.open_file_name)
-            saveCodeToFile = this.open_file_name
-            //zzz
-            file_upload_uuid = uuidv4()
-            let openfileurl = "/file_name_load?file_name_load=" + encodeURI(saveCodeToFile) + "&client_file_upload_id=" + encodeURI(file_upload_uuid)
-            //console.log("openfileurl:= " + openfileurl)
-            callAjax( openfileurl,
-                function(res) {
-                    console.log(res)
-                })
-
+            alert(this.open_file_name)
         }
 
          //
