@@ -5608,7 +5608,7 @@ return {}
 
 
          //-------------------------------------------------------------------
-         setVBEditorPropertyValue: function(val, property) {
+         setVBEditorPropertyValue: function(property, val ) {
          //-------------------------------------------------------------------
             var mm      = this
             var type    = null
@@ -5699,7 +5699,7 @@ return {}
             } else {
                 val     = event.target.value
             }
-            mm.setVBEditorPropertyValue(val,property)
+            mm.setVBEditorPropertyValue(property, val)
          },
 
          //-------------------------------------------------------------------
