@@ -2188,7 +2188,7 @@ Pushlist
                                         </div>
                                         <div    v-if="(property.type  == 'FilePath') ">
                                             <img    src='/driver_icons/fileopen.png'
-                                                    style='height: 50%;'
+                                                    style='height: 16px;'
                                                     class='img-fluid'>
                                             </img>
 
@@ -2201,6 +2201,7 @@ Pushlist
                                                         })'  >
                                                 Open file
                                             </div>
+                                            {{model.forms[active_form].components[active_component_index][property.id]}}
                                         </div>
 
                                         <div    v-if="(property.type  == 'Event') || ((property.type  == 'Action_old') && isValidObject(property.fn)) "
@@ -7508,7 +7509,6 @@ return {}
                                      })
             if (result2) {
                 this.open_file_list = result2
-                //zzz
             }
 
 
@@ -7516,11 +7516,12 @@ return {}
         // otherwise if this is a file
         //
         } else {
+            let mm=this
             this.showFilePicker=false
             this.open_file_name = this.open_file_path + "/" + fileorFolder.name
-
-
-            alert(this.open_file_name)
+            //zzz
+            mm.model.forms[mm.design_mode_pane.active_form].components[mm.design_mode_pane.active_component_index][mm.design_mode_pane.property_id] = this.open_file_name
+            mm.gotoDragDropEditor()
         }
 
          //
