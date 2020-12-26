@@ -7500,8 +7500,8 @@ return {}
               }
              var result2 = await callFunction(
                                  {
-                                     driver_name: "serverFolderContents",
-                                     method_name: "serverFolderContents"  }
+                                     driver_name: "serverFolderContentsV2",
+                                     method_name: "serverFolderContentsV2"  }
                                      ,{
                                              path: this.open_file_path
                                      })
