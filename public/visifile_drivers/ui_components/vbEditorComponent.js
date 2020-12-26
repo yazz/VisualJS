@@ -142,8 +142,8 @@ uses_javascript_librararies(["advanced_bundle"])
                              <div    style='font-family:verdana,helvetica;font-size: 13px;font-weight:bold;border-radius: 0px;background-color:lightgray; color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
 
 
-                                     <div style="width:100%;height:5vh; background-color: black;color:white;font-size: 30px;" class="text-left">
-                                         <button     class="btn btn"
+                                     <div style="width:100%;height:5vh; background-color: black;color:white;font-size: 16px;" class="text-left">
+                                         <button     class="btn btn-sm"
                                                      style='margin:2px;margin-right:50px;background-color: darkgray;'
                                                      v-on:click="chosenFolderUp();"
                                                 >
@@ -174,12 +174,12 @@ uses_javascript_librararies(["advanced_bundle"])
                                          <button
 
                                                  class="btn btn-danger btn-lg"
-                                                style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold; background-color:lightgray;color:black;display:inline;'
+                                                style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:5px;font-size:16px;font-weight: bold; background-color:lightgray;color:black;display:inline;'
                                                 v-on:click="showFilePicker=false"
                                                 >
 
                                                  <img    src='/driver_icons/cancel.svg'
-                                                         style='position:relative;max-width: 70px; bottom:0px; left: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
+                                                         style='position:relative;max-width: 40px; bottom:0px; left: 0px;max-height: 16px;margin-left: auto;margin-right: auto;display: inline-block;'
                                                          >
                                                  </img>
 
