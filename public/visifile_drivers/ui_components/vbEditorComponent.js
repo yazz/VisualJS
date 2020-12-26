@@ -5607,22 +5607,13 @@ return {}
          ,
 
 
-
          //-------------------------------------------------------------------
-         setVBEditorProperty: function(event, property) {
+         setVBEditorPropertyValue: function(val, property) {
          //-------------------------------------------------------------------
             var mm      = this
-            var val     = null
             var type    = null
 
             mm.showSaveButton()
-
-
-            if (property.type == "Number") {
-                val     = JSON.parse(event.target.value)
-            } else {
-                val     = event.target.value
-            }
 
 
             //
@@ -5694,6 +5685,21 @@ return {}
                 this.model[property.id] = val
             }
 
+         },
+
+         //-------------------------------------------------------------------
+         setVBEditorProperty: function(event, property) {
+         //-------------------------------------------------------------------
+
+            var mm      = this
+            var val     = null
+
+            if (property.type == "Number") {
+                val     = JSON.parse(event.target.value)
+            } else {
+                val     = event.target.value
+            }
+            mm.setVBEditorPropertyValue(val,property)
          },
 
          //-------------------------------------------------------------------
