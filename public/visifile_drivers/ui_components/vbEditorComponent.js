@@ -141,7 +141,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
 
-                                     <div style="width:80vw;height:5vh; background-color: black;color:white;font-size: 30px;" class="text-left">
+                                     <div style="width:100%;height:5vh; background-color: black;color:white;font-size: 30px;" class="text-left">
                                          <button     class="btn btn"
                                                      style='margin:2px;margin-right:50px;background-color: darkgray;'
                                                      v-on:click="chosenFolderUp();"
@@ -153,7 +153,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                          {{open_file_path}}
                                      </div>
 
-                                     <div    style="width:80vw;height:50vh; background-color: white; overflow:scroll;"
+                                     <div    style="width:100%;height:50vh; background-color: white; overflow:scroll;"
                                              class="text-left">
 
                                          <div    v-for="(file_or_folder_item, index) in open_file_list"
