@@ -4387,6 +4387,8 @@ ${origCode}
             //
 
             var mm = this
+            mm.gotoDragDropEditor()
+
             if (mm.ui_code_editor) {
                 if (mm.ui_code_editor.completer) {
                     mm.ui_code_editor.completer.detach()
