@@ -15,7 +15,7 @@ properties(
             id:     "access_file_path",
             name:   "msaccess file path",
             design_time_only_events: true,
-            type:   "FilePath",
+            type:   "FilePath"
             //type:   "String"
         }
         ,
