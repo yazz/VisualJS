@@ -2163,6 +2163,36 @@ Pushlist
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'>
                                             </textarea>
                                         </div>
+
+
+
+
+
+                                        <div    v-if="(property.type  == 'FilePath') ">
+                                            <img    src='/driver_icons/fileopen.png'
+                                                    style='height: 16px;'
+                                                    class='img-fluid'>
+                                            </img>
+
+                                            <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;'
+                                                        v-on:click='$event.stopPropagation();selectFilePath({
+                                                            app_selected:           model.app_selected,
+                                                            active_form:            active_form,
+                                                            active_component_index: active_component_index,
+                                                            property_id:            property.id
+                                                        })'  >
+                                                Open file
+                                            </div>
+                                            {{model.forms[active_form].components[active_component_index][property.id]}}
+                                        </div>
+
+
+
+
+
+
+
+
                                         <div    v-if="(property.type  == 'Select')  ">
                                             <select  @change='setVBEditorProperty($event, property)'>
                                                   <option   v-for="propVal in property.values"
@@ -2186,23 +2216,9 @@ Pushlist
                                                    @change="previewFileUpload(property)">
                                             </input>
                                         </div>
-                                        <div    v-if="(property.type  == 'FilePath') ">
-                                            <img    src='/driver_icons/fileopen.png'
-                                                    style='height: 16px;'
-                                                    class='img-fluid'>
-                                            </img>
 
-                                            <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;'
-                                                        v-on:click='$event.stopPropagation();selectFilePath({
-                                                            app_selected:           model.app_selected,
-                                                            active_form:            active_form,
-                                                            active_component_index: active_component_index,
-                                                            property_id:            property.id
-                                                        })'  >
-                                                Open file
-                                            </div>
-                                            {{model.forms[active_form].components[active_component_index][property.id]}}
-                                        </div>
+
+
 
                                         <div    v-if="(property.type  == 'Event') || ((property.type  == 'Action_old') && isValidObject(property.fn)) "
                                                 style="width:100%">
@@ -7533,8 +7549,16 @@ return {}
                     propertyType = property
                 }
             }
-            mm.setVBEditorPropertyValue(propertyType,this.open_file_name)
+
+            //hack city!!!!
+            // why do we need a timeout so that the FilePath property gets
+            // handled properly??
+            let fileNameToLoad = this.open_file_name
             mm.gotoDragDropEditor()
+            setTimeout(function() {
+                //debugger
+                mm.setVBEditorPropertyValue(propertyType,fileNameToLoad)
+            },300)
         }
 
          //
