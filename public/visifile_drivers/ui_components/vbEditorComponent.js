@@ -5648,6 +5648,9 @@ return {}
                 var componentTochange = mm.model.forms[this.active_form].components[this.active_component_index]
                 var oldContainerName = componentTochange.name
 
+                //hack city!!!!
+                // why do we need a timeout just so that the FilePath property gets
+                // handled properly??
                 setTimeout(function() {
                     componentTochange[property.id]  = val
 
@@ -7552,9 +7555,6 @@ return {}
                 }
             }
 
-            //hack city!!!!
-            // why do we need a timeout so that the FilePath property gets
-            // handled properly??
             let fileNameToLoad = this.open_file_name
             mm.setVBEditorPropertyValue(propertyType,fileNameToLoad)
             mm.gotoDragDropEditor()
