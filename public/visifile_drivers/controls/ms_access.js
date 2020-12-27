@@ -16,7 +16,6 @@ properties(
             name:   "msaccess file path",
             design_time_only_events: true,
             type:   "FilePath"
-            //type:   "String"
         }
         ,
         {
@@ -315,7 +314,7 @@ logo_url("/driver_icons/import_access.png")
             ,
 
             addParent: async function() {
-                debugger
+                //debugger
                 let mm = this
                 //alert("called addParent")
                 //debugger

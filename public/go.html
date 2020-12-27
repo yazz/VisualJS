@@ -8501,10 +8501,14 @@ function registerComponent(vueComponentObject) {
 
             for (let oneProperty of component_cache[args.base_component_id].properties) {
                 let propNamee = oneProperty.id
+                let propType = oneProperty.type
                 if (propNamee) {
                     thisComponent22.$watch(argsPrefix + '.' + propNamee, function(newValue, oldValue) {
                         //debugger
-                            console.log(cccname + '.' + propNamee + ' = ' + oldValue + ' to ' + newValue );
+                            if (propType != "Action") {
+                                console.log(cccname + '.' + propNamee + ' = ' + oldValue + ' to ' + newValue );                                
+                            }
+                            //console.log(cccname + '.' + propType );
                             let designTimeOnlyEvents = false
                             // get this from the component defn
                             //debugger
