@@ -5645,25 +5645,27 @@ return {}
 
 
             if (type == 'component') {
-                var componentTochange           = this.model.forms[this.active_form].components[this.active_component_index]
+                var componentTochange = mm.model.forms[this.active_form].components[this.active_component_index]
                 var oldContainerName = componentTochange.name
 
-                componentTochange[property.id]  = val
+                setTimeout(function() {
+                    componentTochange[property.id]  = val
 
-                if ((property.id == "name") && (componentTochange.is_container == true)) {
-                    //alert("renaming container")
+                    if ((property.id == "name") && (componentTochange.is_container == true)) {
+                        //alert("renaming container")
 
-                    var allC = this.model.forms[this.active_form].components
-                    for (var xi =0; xi< allC.length ; xi ++) {
-                         var comp = allC[xi]
-                         if (comp.parent == oldContainerName) {
-                            comp.parent = componentTochange.name
-                         }
+                        var allC = mm.model.forms[mm.active_form].components
+                        for (var xi =0; xi< allC.length ; xi ++) {
+                             var comp = allC[xi]
+                             if (comp.parent == oldContainerName) {
+                                comp.parent = componentTochange.name
+                             }
+                        }
                     }
-                }
-                //this.generateCodeFromModel(   )
-                this.refresh ++
+                    //this.generateCodeFromModel(   )
+                    mm.refresh ++
 
+                },100)
 
             } else if (type == 'form') {
                 if (property.id == "name" ) {
@@ -7554,11 +7556,8 @@ return {}
             // why do we need a timeout so that the FilePath property gets
             // handled properly??
             let fileNameToLoad = this.open_file_name
+            mm.setVBEditorPropertyValue(propertyType,fileNameToLoad)
             mm.gotoDragDropEditor()
-            setTimeout(function() {
-                //debugger
-                mm.setVBEditorPropertyValue(propertyType,fileNameToLoad)
-            },300)
         }
 
          //
