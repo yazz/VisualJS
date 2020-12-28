@@ -330,7 +330,7 @@ if (process.argv.length > 1) {
       .option('-g, --cacert2 [cacert2]', 'Public HTTPS CA certificate 2 [cacert2]', null)
       .option('-h, --loadjsfile [loadjsfile]', 'Load the following JS from a file (default not set) [loadjsfile]', null)
       .option('-i, --cacert3 [cacert3]', 'Public HTTPS CA certificate 3 [cacert3]', null)
-      .option('-j, --host [host]', 'Server address of the central host (default appshare.co) [host]', 'appshare.co')
+      .option('-j, --host [host]', 'Server address of the central host (default yazz.com) [host]', 'yazz.com')
       .option('-k, --statsinterval [statsinterval]', 'Allow to show debug info every x seconds (default 10 seconds) [statsinterval]', 10)
       .option('-l, --showstats [showstats]', 'Allow to show stats debug info (default false) [showstats]', 'false')
       .option('-m, --showprogress [showprogress]', 'Allow to show progress when starting AppShare (default false) [showprogress]', 'false')
@@ -351,7 +351,7 @@ if (process.argv.length > 1) {
       .option('-jc, --jaegercollector [jaegercollector]', 'jaeger collector endpoint (default not set) eg: http://localhost:14268/api/traces [jaegercollector]', null)
       .parse(process.argv);
 } else {
-    program.host = 'appshare.co'
+    program.host = 'yazz.com'
     program.locked = 'true'
     program.debug = 'false'
     program.deleteonexit = 'true'
@@ -550,7 +550,7 @@ if (useSelfSignedHttps) {
     cert.validity.notAfter.setFullYear(cert.validity.notBefore.getFullYear()+1);
 
     var attrs = [
-         {name:'commonName',value:'appshare.co_' + uuidv1() }
+         {name:'commonName',value:'yazz.com_' + uuidv1() }
         ,{name:'countryName',value:'UK'}
         ,{shortName:'ST',value:'Surrey'}
         ,{name:'localityName',value:'Redhill'}
@@ -2056,7 +2056,7 @@ function getRoot(req, res, next) {
 	//console.log("Full URL: " + req.protocol + '://' + req.get('host') + req.originalUrl);
 
     var homepage = path.join(__dirname, '../public/go.html')
-    var homepageUrl = serverProtocol + '://appshare.co/visifile/index.html?time=' + new Date().getTime()
+    var homepageUrl = serverProtocol + '://yazz.com/visifile/index.html?time=' + new Date().getTime()
 	if (req.headers.host) {
         if (req.query.goto) {
             outputDebug("*** FOUND goto")

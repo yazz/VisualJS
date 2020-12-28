@@ -5,9 +5,9 @@
 ## Build and share internal database apps
 AppShare is a web based tool used to build and share internal database apps fast. There is a demo which works on desktop web browsers here:
 
-Demo: https://appshare.co/app/homepage.html
+Demo: https://yazz.com/app/homepage.html
 <br/><br/>
-Link to PDF docs (still using the old name Yazz Pilot): https://appshare.co/visifile/docs/appshare_march_2020.pdf
+Link to PDF docs: https://yazz.com/visifile/docs/appshare_march_2020.pdf
 <br/><br/>
 Link to Hacker News Post (when it was known as Yazz Pilot): https://news.ycombinator.com/item?id=21734845
 <br/><br/><br/>
@@ -282,7 +282,7 @@ When we say Self Service we mean that AppShare can be used by people who are not
 
 
 ### Is there commercial support for AppShare?
-If you require commercial support then please go to https://appshare.co
+If you require commercial support then please go to https://yazz.com
 
 
 
