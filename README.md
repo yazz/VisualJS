@@ -7,7 +7,7 @@ Visual Javascript is a web based tool used to build and share internal database 
 
 Demo: https://yazz.com/app/homepage.html
 <br/><br/>
-Link to PDF docs: https://yazz.com/visifile/docs/appshare_march_2020.pdf
+Link to PDF docs: https://yazz.com/visifile/docs/yazz_march_2020.pdf
 <br/><br/>
 Link to Hacker News Post (when it was known as Yazz Pilot): https://news.ycombinator.com/item?id=21734845
 <br/><br/><br/>
