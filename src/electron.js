@@ -333,7 +333,7 @@ if (process.argv.length > 1) {
       .option('-j, --host [host]', 'Server address of the central host (default yazz.com) [host]', 'yazz.com')
       .option('-k, --statsinterval [statsinterval]', 'Allow to show debug info every x seconds (default 10 seconds) [statsinterval]', 10)
       .option('-l, --showstats [showstats]', 'Allow to show stats debug info (default false) [showstats]', 'false')
-      .option('-m, --showprogress [showprogress]', 'Allow to show progress when starting AppShare (default false) [showprogress]', 'false')
+      .option('-m, --showprogress [showprogress]', 'Show progress when starting Visual Javascript (default false) [showprogress]', 'false')
       .option('-n, --locked [locked]', 'Allow server to be locked/unlocked on start up (default true) [locked]', 'true')
       .option('-o, --maxprocessesretry [maxprocessesretry]', 'Number of processes to retry when all cores are busy (default 10 processes) [maxprocessesretry]', 10)
       .option('-p, --maxJobProcessDurationMs [maxJobProcessDurationMs]', 'Maximum time to wait for a job to complete (default 10000 ms) [maxJobProcessDurationMs]', 10000)
@@ -469,7 +469,7 @@ let tracer = null
 const jaegerOptions = { };
 if (jaegercollector) {
     jaegerConfig = {
-        serviceName: "AppShare",
+        serviceName: "Visual_Javascript",
         sampler: {
             type: "const",
             param: 1
