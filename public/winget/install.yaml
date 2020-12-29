@@ -7,7 +7,7 @@ MinOSVersion: 10.0.0.0
 Description: Quick UI Builder
 Homepage: https://yazz.com/
 License: MIT
-LicenseUrl: https://github.com/zubairq/appshare/blob/master/LICENSE
+LicenseUrl: https://github.com/zubairq/visualjavascript/blob/master/LICENSE
 InstallerType: exe
 Installers:
   - Arch: x64
