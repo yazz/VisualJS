@@ -15,6 +15,7 @@
 !/package.json
 !/forge.config.js
 !/package.json
+!/package-lock.json
 
 !/*.sh
 !/*.bat
