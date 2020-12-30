@@ -26,7 +26,7 @@ objects:
         spec:
           containers:
           - name: "appshare"
-            image: "appshareco/appshare:3.3"
+            image: "yazzcom/visualjavascript:2021"
             ports:
             - containerPort: 3000
               protocol: "TCP"
