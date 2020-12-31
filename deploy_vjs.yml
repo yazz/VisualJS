@@ -1,14 +1,15 @@
 apiVersion: template.openshift.io/v1
 kind: Template
-message: Installing Kubernetes AppShare
+message: Installing Kubernetes vjs
 metadata:
   annotations:
-    description: AppShare Installer 5
-    openshift.io/display-name: AppShare Installer 5
-    openshift.io/provider-display-name: AppShare
+    description: vjs Installer 4
+    iconClass: icon-3scale
+    openshift.io/display-name: vjs Installer 4
+    openshift.io/provider-display-name: vjs
     tags: integration, api management, javascript
   creationTimestamp: null
-  name: appshare-installer-5
+  name: vjs-installer-4
 
 
 
@@ -17,15 +18,15 @@ objects:
   - apiVersion: "v1"
     kind: "DeploymentConfig"
     metadata:
-      name: "appshare"
+      name: "vjs"
     spec:
       template:
         metadata:
           labels:
-            name: "appshare"
+            name: "vjs"
         spec:
           containers:
-          - name: "appshare"
+          - name: "vjs"
             image: "yazzcom/visualjavascript:2021"
             ports:
             - containerPort: 3000
@@ -50,38 +51,34 @@ objects:
                         timeoutSeconds: 1
             resources:
               limits:
-                cpu:	4000m
-                memory:	4096Mi
-              requests:
-                cpu:	500m
-                memory:	512Mi
+                memory: 512Mi
       replicas: 1
       selector:
-        name: "appshare"
+        name: "vjs"
 
 
 
   - apiVersion: v1
     kind: Service
     metadata:
-      name: appshare
+      name: vjs-service
     spec:
       ports:
         - port: 3000
           protocol: TCP
           targetPort: 3000
       selector:
-        deploymentconfig: appshare
+        deploymentconfig: vjs
 
 
 
   - apiVersion: v1
     kind: Route
     metadata:
-        name: appshare-route
+        name: vjs-route
     spec:
       to:
         kind: Service
-        name: appshare
+        name: vjs-service
     labels:
-      app: appshare
+      app: vjs

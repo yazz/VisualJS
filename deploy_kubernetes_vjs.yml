@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: appshare-deployment
+  name: vjs-deployment
   labels:
-    app: appshare
+    app: vjs
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: appshare
+      app: vjs
   template:
     metadata:
       labels:
-        app: appshare
+        app: vjs
     spec:
       containers:
-      - name: appshare
+      - name: vjs
         image: yazzcom/visualjavascript:2021
         ports:
         - containerPort: 3000
@@ -24,8 +24,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: appshare
-  name: appshare-deployment
+    app: vjs
+  name: vjs-deployment
 spec:
   externalTrafficPolicy: Cluster
   ports:
@@ -33,7 +33,7 @@ spec:
     port: 3000
     protocol: TCP
   selector:
-    app: appshare
+    app: vjs
   sessionAffinity: None
   type: LoadBalancer
 status:
