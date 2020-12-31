@@ -1514,7 +1514,7 @@ async function checkForJSLoaded() {
                 }
             }
 
-        } else if ((process.argv[2]) && (process.argv[2].endsWith(".js") || process.argv[2].endsWith(".pilot") || process.argv[2].endsWith(".jsa") )) {
+        } else if ((process.argv[2]) && (process.argv[2].endsWith(".js") || process.argv[2].endsWith(".pilot") || process.argv[2].endsWith(".jsa") || process.argv[2].endsWith(".vjs") )) {
             loadjsfile = process.argv[2]
             if ((!inputStdin) || (inputStdin.length == 0)) {
                 if ((process.argv[3]) && (!process.argv[3].startsWith("--"))) {
@@ -1714,7 +1714,7 @@ async function isTtyCode() {
         if ((process.argv[2]) && (process.argv[2].startsWith("http://") || process.argv[2].startsWith("https://") )) {
             loadjsurl = process.argv[2]
 
-        } else if ((process.argv[2]) && (process.argv[2].endsWith(".js") || process.argv[2].endsWith(".pilot") || process.argv[2].endsWith(".jsa") )) {
+        } else if ((process.argv[2]) && (process.argv[2].endsWith(".js") || process.argv[2].endsWith(".pilot") || process.argv[2].endsWith(".jsa") || process.argv[2].endsWith(".vjs") )) {
             loadjsfile = process.argv[2]
 
         } else if ((process.argv[2]) && (!process.argv[2].startsWith("--"))) {
@@ -2530,7 +2530,7 @@ function file_uploadSingleFn(req, res) {
                                                 sqlite_data:            sqlitedatafromupload
                                            });
           }
-      } else if ((ext == "js") || (ext == "yazz") || (ext == "pilot") || (ext == "jsa"))  {
+      } else if ((ext == "js") || (ext == "yazz") || (ext == "pilot") || (ext == "jsa") || (ext == "vjs") )  {
               var localp2;
               localp2 =  path.join(userData,  'uploads/' + ifile.filename);
               var localp = localp2 + '.' + ext;
@@ -2634,7 +2634,7 @@ function file_uploadFn(req, res, next) {
                                                     sqlite_data:            sqlitedatafromupload
                                                });
               }
-          } else if ((ext == "js") || (ext == "yazz") || (ext == "pilot") || (ext == "jsa"))  {
+          } else if ((ext == "js") || (ext == "yazz") || (ext == "pilot") || (ext == "jsa") || (ext == "vjs"))  {
                   var localp2;
                   localp2 =  path.join(userData,  'uploads/' + ifile.filename);
                   var localp = localp2 + '.' + ext;

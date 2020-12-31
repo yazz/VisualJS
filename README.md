@@ -37,11 +37,11 @@ Link to Kubernetes Operator https://github.com/leskil/appshare-operator<br/><br/
 - Open source MIT license
 - Can run in Docker, Kubernetes, or OpenShift, as a Snap package, or locally on Mac, Windows, Linux, Raspberry PI using NodeJS
 - Can build Microservices
-- All source code for apps can be saved as a single .jsa file
+- All source code for apps can be saved as a single .vjs file
 - Apps can be saved as a single HTML file and sent by email (Even SQlite based apps)
 - All code is stored as immuntable, and identified by a SHA256 hash
 - The Visual Javascript editor and output programs can work offline without internet connectivity
-- Extra UI or server components can be build as plugins (as .jsa files)
+- Extra UI or server components can be build as plugins (as .vjs files)
 - The Visual Javascript extensible IDE allows you to build new ways of editing code. Currently a text editor and a Visual Basic style editor are included
 <br/><br/><br/>
 
@@ -247,7 +247,7 @@ Using IPC (Inter Process Communication)
 
 
 ### What is the basic Unit of code in Visual Javascript?
-A component is the basic unit of code in Visual Javascript, represented as a function in a .jsa text file.
+A component is the basic unit of code in Visual Javascript, represented as a function in a .vjs text file.
 
 
 
@@ -338,7 +338,7 @@ They have their reasons. Plus, they HATE Javascript. They much prefer .NET, Dart
 
 
 ### Every time I restart Visual Javascript I can't see my apps. How to I save them?
-You need to save the apps that you wish to keep by pessing the button "Save as .jsa file" fro the editor.
+You need to save the apps that you wish to keep by pessing the button "Save as .vjs file" fro the editor.
 
 
 ### I’m already invested in my favorite text editor. Can I keep using it with Visual Javascript?
@@ -467,7 +467,7 @@ You can join us here http://Visual Javascript-workspace.slack.com
 
 
 ### What is the extension for all Visual Javascript apps?
-The extension is ".jsa" but you can also use the ".js" extension for loading some simple Javascript apps
+The extension is ".vjs" but you can also use the ".js" extension for loading some simple Javascript apps
 
 
 

@@ -716,7 +716,7 @@ async function setUpComponentsLocally() {
     await evalLocalSystemDriver('test',   path.join(__dirname, '../public/visifile_drivers/apps/test.js'),{save_html: true, username: "default", reponame: "test", version: "latest"})
     await evalLocalSystemDriver('oculus_go',   path.join(__dirname, '../public/visifile_drivers/apps/oculus_go.js'),{save_html: true, username: "default", reponame: "oculus_go", version: "latest"})
     await evalLocalSystemDriver('game',   path.join(__dirname, '../public/visifile_drivers/apps/game.js'),{save_html: true, username: "default", reponame: "game", version: "latest"})
-    await evalLocalSystemDriver('multi_vr',   path.join(__dirname, '../public/visifile_drivers/apps/multi_vr.jsa'),{save_html: true, username: "default", reponame: "multi_vr", version: "latest"})
+    await evalLocalSystemDriver('multi_vr',   path.join(__dirname, '../public/visifile_drivers/apps/multi_vr.vjs'),{save_html: true, username: "default", reponame: "multi_vr", version: "latest"})
     await evalLocalSystemDriver('hologram',   path.join(__dirname, '../public/visifile_drivers/apps/hologram.js'),{save_html: true, username: "default", reponame: "hologram", version: "latest"})
     //await evalLocalSystemDriver('kinetic',   path.join(__dirname, '../public/visifile_drivers/apps/kinetic.js'),{save_html: true, username: "default", reponame: "", version: "latest"})
     await evalLocalSystemDriver('intro_logo_3d',   path.join(__dirname, '../public/visifile_drivers/apps/intro_logo_3d.js'),{save_html: true, username: "default", reponame: "intro_logo_3d", version: "latest"})
@@ -1569,8 +1569,8 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                         var origFilePath = path.join(__dirname, '../public/go.html')
                                         var newStaticFilePath = path.join( userData, 'apps/' + baseComponentId + '.html' )
                                         var newLocalStaticFilePath = path.join( userData, 'apps/yazz_' + baseComponentId + '.html' )
-                                        var newLocalJSPath = path.join( userData, 'apps/yazz_' + baseComponentId + '.jsa' )
-                                        var newLocalYazzPath = path.join( userData, 'apps/yazz_' + baseComponentId + '.jsa' )
+                                        var newLocalJSPath = path.join( userData, 'apps/yazz_' + baseComponentId + '.vjs' )
+                                        var newLocalYazzPath = path.join( userData, 'apps/yazz_' + baseComponentId + '.vjs' )
 
                                         var newStaticFileContent = fs.readFileSync( origFilePath )
 
