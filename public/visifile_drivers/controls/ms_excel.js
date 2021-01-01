@@ -41,8 +41,8 @@ properties(
             id:     "excel_file_path",
             name:   "ms_excel file path",
             design_time_only_events: true,
-            //type:   "File",
-            type:   "String"
+            file_types: ["xls","xlsx"],
+            type:   "FilePath"
         }
         ,
         {

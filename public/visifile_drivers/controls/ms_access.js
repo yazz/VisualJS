@@ -15,6 +15,7 @@ properties(
             id:     "access_file_path",
             name:   "msaccess file path",
             design_time_only_events: true,
+            file_types: ["accdb"],
             type:   "FilePath"
         }
         ,
