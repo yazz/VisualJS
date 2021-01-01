@@ -28,7 +28,7 @@
     "express-ws": "^4.0.0",
     "fd-diskspace": "^1.0.0",
     "http": "0.0.0",
-    "ip": "^1.1.4",
+    "ip": "^1.1.5",
     "is-docker": "^2.0.0",
     "jaeger-client": "^3.18.1",
     "kafkajs": "^1.12.0",
