@@ -53,7 +53,7 @@
     "rmdir-sync": "^1.0.1",
     "semver": "^7.3.4",
     "socket.io": "^2.2.0",
-    "sqlite3": "^4.1.1",
+    "sqlite3": "^5.0.0",
     "stomp-client": "^0.9.0",
     "stompit": "^1.0.0",
     "tar-stream": "^2.0.1",
