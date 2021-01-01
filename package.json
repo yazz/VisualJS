@@ -36,7 +36,7 @@
     "ls-sync": "^0.3.0",
     "mkdirp": "^1.0.4",
     "multer": "^1.4.2",
-    "mysql": "^2.13.0",
+    "mysql": "^2.18.1",
     "net": "^1.0.2",
     "node-disk-info": "^1.0.4",
     "node-forge": "^0.10.0",
