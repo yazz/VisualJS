@@ -29,7 +29,7 @@
     "fd-diskspace": "^1.0.0",
     "http": "0.0.0",
     "ip": "^1.1.5",
-    "is-docker": "^2.0.0",
+    "is-docker": "^2.1.1",
     "jaeger-client": "^3.18.1",
     "kafkajs": "^1.12.0",
     "keycloak-connect": "^7.0.0",
