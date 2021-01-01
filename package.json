@@ -31,7 +31,7 @@
     "ip": "^1.1.5",
     "is-docker": "^2.1.1",
     "jaeger-client": "^3.18.1",
-    "kafkajs": "^1.12.0",
+    "kafkajs": "^1.15.0",
     "keycloak-connect": "^7.0.0",
     "ls-sync": "^0.3.0",
     "mkdirp": "^0.5.1",
