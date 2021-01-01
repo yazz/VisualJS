@@ -164,7 +164,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                     <div    v-for="(file_or_folder_item, index) in open_file_list"
                                             v-bind:refresh='refresh'
                                             v-bind:style='"background-color: " + (file_or_folder_item.type == "folder"?"darkgray":"lightgray") + "; margin:0px;height:auto;"'
-                                            v-on:click='selectOpenFileOrFolder(file_or_folder_item)'
+                                            v-on:click='selectOpenFileOrFolder(file_or_folder_item, file_exts)'
                                             class="text-left"
                                             >
                                                 {{file_or_folder_item.name}}
@@ -2179,7 +2179,8 @@ Pushlist
                                                             app_selected:           model.app_selected,
                                                             active_form:            active_form,
                                                             active_component_index: active_component_index,
-                                                            property_id:            property.id
+                                                            property_id:            property.id,
+                                                            file_exts:              property.file_exts
                                                         })'  >
                                                 Open file
                                             </div>
@@ -4438,6 +4439,7 @@ ${origCode}
                 mm.design_mode_pane.active_form            = aa.active_form
                 mm.design_mode_pane.active_component_index = aa.active_component_index
                 mm.design_mode_pane.property_id            = aa.property_id
+                mm.file_exts                               = aa.file_exts
 
                 setTimeout(function(){
                     mm.openFile()
@@ -7516,7 +7518,7 @@ return {}
 
           //
        },
-       selectOpenFileOrFolder: async function(fileorFolder) {
+       selectOpenFileOrFolder: async function(fileorFolder, fileExts) {
           //
           // if this is a folder
           //
@@ -7526,13 +7528,14 @@ return {}
               } else {
                   this.open_file_path += "/" + fileorFolder.name
               }
+              //alert(JSON.stringify(fileExts,null,2))
              var result2 = await callFunction(
                                  {
                                      driver_name: "serverFolderContentsV2",
                                      method_name: "serverFolderContentsV2"  }
                                      ,{
                                              path:                      this.open_file_path,
-                                             filter_file_exts_list:     ["accdb"]
+                                             filter_file_exts_list:     fileExts
                                      })
             if (result2) {
                 this.open_file_list = result2
@@ -7617,6 +7620,7 @@ return {}
            open_file_path_dirs: ["/"],
            open_file_list: [],
            open_file_name: "",
+           file_exts: [],
 
 
            errors: null,
