@@ -34,7 +34,7 @@
     "kafkajs": "^1.15.0",
     "keycloak-connect": "^12.0.1",
     "ls-sync": "^0.3.0",
-    "mkdirp": "^0.5.1",
+    "mkdirp": "^1.0.4",
     "multer": "^1.3.0",
     "mysql": "^2.13.0",
     "net": "^1.0.2",
