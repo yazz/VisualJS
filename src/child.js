@@ -1,5 +1,3 @@
-'use strict';
-
 var fs                          = require('fs');
 var path                        = require('path');
 var mkdirp                      = require('mkdirp')
@@ -497,7 +495,7 @@ async function evalLocalSystemDriver(driverName, location, options) {
         var evalDriver = fs.readFileSync(location);
     	await addOrUpdateDriver(driverName, evalDriver,options)
     } catch (error) {
-        outputDebug(error)        
+        outputDebug(error)
     }
 
 }

@@ -1,5 +1,3 @@
-'use strict';
-
 var fs                          = require('fs');
 var path                        = require('path');
 const uuidv1                    = require('uuid/v1');

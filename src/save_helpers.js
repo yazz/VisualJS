@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports = {
 
      insertCodeString: function(code,st, vall ,optionalEnd) {
