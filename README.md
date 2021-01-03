@@ -1,6 +1,6 @@
 
 # Visual Javascript
-<img width="200" alt="portfolio_view" src="https://raw.githubusercontent.com/zubairq/visualjavascript/master/public/driver_icons/visualjavascript.jpg"></img>
+<img width="350" alt="portfolio_view" src="https://raw.githubusercontent.com/zubairq/visualjavascript/master/public/driver_icons/visualjavascript.jpg"></img>
 
 
 ## Build and share internal database apps
