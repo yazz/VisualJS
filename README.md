@@ -13,7 +13,7 @@ Link to Hacker News Post (when it was known as Yazz Pilot): https://news.ycombin
 <br/><br/><br/>
 Link to Kubernetes Operator https://github.com/leskil/appshare-operator<br/><br/><br/>
 
-<img width="200" alt="portfolio_view" src="https://github.com/zubairq/visualjavascript/public/driver_icons/visualjavascript.jpg"></img>
+<img width="200" alt="portfolio_view" src="https://raw.githubusercontent.com/zubairq/visualjavascript/master/public/driver_icons/visualjavascript.jpg"></img>
 
 ## Benefits
 
