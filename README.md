@@ -1,8 +1,8 @@
 
 # Visual Javascript
+<img width="350" alt="portfolio_view" src="https://raw.githubusercontent.com/zubairq/visualjavascript/master/public/driver_icons/visualjavascript.jpg"></img>
 
-
-## Build and share internal database apps
+## Visual Basic + MS Access + Javascript = Visual Javascript
 Visual Javascript is a web based tool used to build and share internal database apps fast. There is a demo which works on desktop web browsers here:
 
 Demo: https://yazz.com/app/homepage.html
@@ -12,9 +12,6 @@ Link to PDF docs: https://yazz.com/visifile/docs/yazz_march_2020.pdf
 Link to Hacker News Post (when it was known as Yazz Pilot): https://news.ycombinator.com/item?id=21734845
 <br/><br/><br/>
 Link to Kubernetes Operator https://github.com/leskil/appshare-operator<br/><br/><br/>
-
-
-![alt text](public/driver_icons/visualjavascript.jpg)
 
 
 ## Benefits
