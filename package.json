@@ -1,15 +1,15 @@
 {
-  "name": "pilot",
-  "description": "Yazz Pilot",
-  "version": "3.0.10",
+  "name": "vjs",
+  "description": "Yazz Visual Javascript",
+  "version": "2021",
   "author": "Zubair Quraishi",
   "private": true,
   "scripts": {
-    "start": "node src/electron.js"
+    "start": "node --use_strict src/electron.js"
   },
   "main": "src/electron.js",
   "bin": {
-    "pilot": "./src/electron.js"
+    "vjs": "./src/electron.js"
   },
   "dependencies": {
     "@zubairq/noaccess": "github:zubairq/noaccess",
