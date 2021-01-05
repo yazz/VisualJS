@@ -11,6 +11,22 @@
   "bin": {
     "vjs": "./src/electron.js"
   },
+  "nexe": {
+    "input": "./bin/nexe",
+    "output": "nexe^$",
+    "temp": "src",
+    "browserify": {
+        "requires": [],
+        "excludes": [],
+        "paths": []
+    },
+    "runtime": {
+        "framework": "node",
+        "version": "10.23.0",
+        "js-flags": "--use_strict",
+        "ignoreFlags": true
+    }
+  },
   "dependencies": {
     "@zubairq/noaccess": "github:zubairq/noaccess",
     "async": "^3.2.0",
