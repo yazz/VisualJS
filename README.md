@@ -1,6 +1,6 @@
 
 # Visual Javascript
-<img width="350" alt="portfolio_view" src="https://raw.githubusercontent.com/zubairq/visualjavascript/master/public/driver_icons/visualjavascript.jpg"></img>
+<img width="350" alt="portfolio_view" src="https://raw.githubusercontent.com/yazz/visualjavascript/master/public/driver_icons/visualjavascript.jpg"></img>
 
 ## Visual Basic + MS Access + Javascript = Visual Javascript
 Visual Javascript is a web based tool used to build and share internal database apps fast. There is a demo which works on desktop web browsers here:
@@ -63,7 +63,7 @@ Link to Kubernetes Operator https://github.com/leskil/appshare-operator<br/><br/
 
 First you need to run Visual Javascript, assuming you have Docker installed:
 
-> &gt; docker run -p 80:3000 -d zubairq/appshare
+> &gt; docker run -p 80:3000 -d yazzcom/visualjavascript
 
 ```
 ......................................................................................................
@@ -100,7 +100,7 @@ Finally browse to the following URL in your browser to see the microservice runn
 
 ### Run from docker:
 
-    docker run -p 80:3000 -d zubairq/appshare
+    docker run -p 80:3000 -d yazzcom/visualjavascript
 
 ```
 ......................................................................................................
@@ -127,7 +127,7 @@ http://localhost:3000
 ##### 2) Expose the Docker REST api on port 1234 with:
     docker run -d -v /var/run/docker.sock:/var/run/docker.sock -p 127.0.0.1:1234:1234 bobrik/socat TCP-LISTEN:1234,fork UNIX-CONNECT:/var/run/docker.sock
 ##### 3) Install and run the Visual Javascript IDE with:
-    docker run -p 80:3000 -d zubairq/appshare
+    docker run -p 80:3000 -d yazzcom/visualjavascript
 
 ##### 4) Go to a browser and view AppShare:
     http://localhost
@@ -142,7 +142,7 @@ http://localhost:3000
 ##### 1) Install GIT from https://git-scm.com/downloads
 ##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
 ##### 3) From the command line get the Git repository
-    git clone https://github.com/zubairq/visualjavascript.git
+    git clone https://github.com/yazz/visualjavascript.git
 ##### 4) Go to the "appshare" directory
     cd appshare
 ##### 5) Install the NodeJS modules
