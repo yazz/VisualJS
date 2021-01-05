@@ -41,7 +41,7 @@ only_run_on_server(true)
     if (args.create) {
         //await dockerEngine.commit({
                           //      change: 'CMD ["node",  "src/electron.js",   "--runapp",   "homapage",   "--nogui",   "true",   "--deleteonstartup",   "true",   "--locked",    "false"]'
-                          //   }) --= e3b1bd7239df zubairq/yazz2
+                          //   }) --= e3b1bd7239df yazz/yazz2
 
         try {
             var runningContainers               = await dockerEngine.listContainers()
@@ -52,7 +52,7 @@ only_run_on_server(true)
 
             msg("Checking running containers")
             for (var ewr=0;ewr < runningContainers.length;ewr ++) {
-                if (runningContainers[ewr].Image == "zubairq/yazz") {
+                if (runningContainers[ewr].Image == "yazz/visualjavascript") {
                     yazzRunningContainerDetails = runningContainers[ewr]
                 }
                 if (runningContainers[ewr].Image == args.image_name) {
@@ -75,7 +75,7 @@ only_run_on_server(true)
             } else {
                 msg("Yazz container NOT found.")
                 msg("Creating ...")
-                var cc = await dockerEngine.run(     "zubairq/yazz")
+                var cc = await dockerEngine.run(     "yazz/visualjavascript")
                 yazzRunningContainerId = cc.Id
                 msg("Created with ID " + yazzRunningContainerId + " ...")
             }

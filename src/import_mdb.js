@@ -922,7 +922,7 @@ function findTypeOfPage(pageType) {
 
 
 
-var noaccess = require("@zubairq/noaccess");
+var noaccess = require("@yazz/noaccess");
 
 let rtv =noaccess.printMsg()
 console.log("rtv: " + JSON.stringify(rtv,null,2))

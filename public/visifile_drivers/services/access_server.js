@@ -5,7 +5,7 @@ base_component_id("access_server")
 load_once_from_file(true)
 only_run_on_server(true)
 */
-    var noaccess = require("@zubairq/noaccess");
+    var noaccess = require("@yazz/noaccess");
 
     var promise = new Promise(async function(returnFn) {
 
