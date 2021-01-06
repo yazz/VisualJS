@@ -1,7 +1,7 @@
 {
   "name": "vjs",
   "description": "Yazz Visual Javascript",
-  "version": "2021",
+  "version": "2021.0.0",
   "author": "Zubair Quraishi",
   "private": true,
   "scripts": {
