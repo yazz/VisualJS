@@ -22,7 +22,7 @@
     },
     "runtime": {
       "framework": "node",
-      "version": "10.23.0",
+      "version": "12.13.0",
       "js-flags": "--use_strict",
       "ignoreFlags": false
     }
