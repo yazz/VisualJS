@@ -18,14 +18,12 @@
 - Demo which works on desktop web browsers here: https://yazz.com/app/homepage.html
 - Link to PDF docs: https://yazz.com/visifile/docs/yazz_march_2020.pdf
 - Link to Hacker News Post (when it was known as Yazz Pilot): https://news.ycombinator.com/item?id=21734845
-- Link to Kubernetes Operator https://github.com/leskil/appshare-operator<br/><br/><br/>
+- Link to Kubernetes Operator https://github.com/leskil/appshare-operator
 <br/><br/><br/>
 
 
 
-
 ## Current Features
-
 - Drag and drop UI interface
 - Code business logic in Javascript
 - Each app has a built in SQLite database
