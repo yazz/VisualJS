@@ -3,20 +3,22 @@
 ### A Javascript Development tool similar to Visual Basic
 <img width="350" alt="portfolio_view" src="https://raw.githubusercontent.com/yazz/visualjavascript/master/public/driver_icons/visualjavascript.jpg"></img>
 
-Visual Javascript is a web based tool used to build and share internal database apps fast. Some useful links are:
-- Demo which works on desktop web browsers here: https://yazz.com/app/homepage.html
-- Link to PDF docs: https://yazz.com/visifile/docs/yazz_march_2020.pdf
-- Link to Hacker News Post (when it was known as Yazz Pilot): https://news.ycombinator.com/item?id=21734845
-- Link to Kubernetes Operator https://github.com/leskil/appshare-operator<br/><br/><br/>
 
 
 ## Benefits
 
 - Build apps apps in minutes using drag and drop UI
-- Fast to deploy on Docker or any Kubernetes cluster
-- Can run with NodeJS
-- Reuse via pre built components such as buttons, text boxes, and data access components to talk to Postgres, Mysql, or REST APIs
-- Can automatically pipe changes from one UI component to another
+- Works with NodeJS, Docker, Kubernetes, Windows, Linux, Mac, Raspberry PI
+- Use pre built components such as buttons, text boxes, and data access components to talk to Postgres, Mysql, or REST APIs
+<br/><br/><br/>
+
+
+
+## Some useful links:
+- Demo which works on desktop web browsers here: https://yazz.com/app/homepage.html
+- Link to PDF docs: https://yazz.com/visifile/docs/yazz_march_2020.pdf
+- Link to Hacker News Post (when it was known as Yazz Pilot): https://news.ycombinator.com/item?id=21734845
+- Link to Kubernetes Operator https://github.com/leskil/appshare-operator<br/><br/><br/>
 <br/><br/><br/>
 
 
