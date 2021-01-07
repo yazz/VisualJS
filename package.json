@@ -11,25 +11,6 @@
   "bin": {
     "vjs": "./src/electron.js"
   },
-  "resolutions": {
-    "nexe/fuse-box": "3.1.0"
-  },
-  "nexe": {
-    "input": "./bin/nexe",
-    "output": "nexe^$",
-    "temp": "src",
-    "browserify": {
-      "requires": [],
-      "excludes": [],
-      "paths": []
-    },
-    "runtime": {
-      "framework": "node",
-      "version": "12.13.0",
-      "js-flags": "--use_strict",
-      "ignoreFlags": false
-    }
-  },
   "dependencies": {
     "@yazz/noaccess": "^2.0.0",
     "async": "^3.2.0",
