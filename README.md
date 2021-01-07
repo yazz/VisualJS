@@ -1,6 +1,6 @@
 
 # Visual Javascript 2021
-### A Javascript Development tool modelled on Visual Basic
+### A Javascript Development tool similar to Visual Basic
 <img width="350" alt="portfolio_view" src="https://raw.githubusercontent.com/yazz/visualjavascript/master/public/driver_icons/visualjavascript.jpg"></img>
 
 Visual Javascript is a web based tool used to build and share internal database apps fast. Some useful links are:
