@@ -1,6 +1,6 @@
 
 # Visual Javascript 2021
-### Visual Basic + MS Access + Javascript
+### A Visual Basic/MS Access type system using Javascript
 <img width="350" alt="portfolio_view" src="https://raw.githubusercontent.com/yazz/visualjavascript/master/public/driver_icons/visualjavascript.jpg"></img>
 
 Visual Javascript is a web based tool used to build and share internal database apps fast. There is a demo which works on desktop web browsers here:
