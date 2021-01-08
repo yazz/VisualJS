@@ -3,9 +3,9 @@
 
 const path = require("path");
 const url = require('url');
-var fork            = require('child_process');
-var fs = require('fs');
-var ip = require('ip');
+var fork            = require2('child_process');
+var fs = require2('fs');
+var ip = require2('ip');
 var isWin         = /^win/.test(process.platform);
 var isLinux       = /^linux/.test(process.platform);
 var isMac       = /^darwin/.test(process.platform);
@@ -15,20 +15,20 @@ var envVars = new Object()
 var systemReady = false;
 var httpServer = null;
 var username                            = "Unknown user";
-var isDocker        = require('is-docker');
-var ls = require('ls-sync');
-var rimraf = require("rimraf");
-let forge = require('node-forge');
+var isDocker        = require2('is-docker');
+var ls = require2('ls-sync');
+var rimraf = require2("rimraf");
+let forge = require2('node-forge');
 
-var pidusage        = require("pidusage");
-var fs              = require('fs');
-var mkdirp          = require('mkdirp')
-var rmdir           = require('rmdir-sync');
-var uuidv1          = require('uuid/v1');
-var fork            = require('child_process');
-var express         = require('express')
-var http            = require('http')
-var https           = require('https');
+var pidusage        = require2("pidusage");
+var fs              = require2('fs');
+var mkdirp          = require2('mkdirp')
+var rmdir           = require2('rmdir-sync');
+var uuidv1          = require2('uuid/v1');
+var fork            = require2('child_process');
+var express         = require2('express')
+var http            = require2('http')
+var https           = require2('https');
 var app             = express()
 var startupType     = null
 var startupDelay    = 0
@@ -36,7 +36,7 @@ var isCodeTtyCode   = false
 var yazzInstanceId  = uuidv1()
 let certOptions     = null
 
-var expressWs       = require('express-ws')(app);
+var expressWs       = require2('express-ws')(app);
 outputDebug("__filename: " + __filename)
 outputDebug("__dirname: " + __dirname)
 
@@ -83,7 +83,7 @@ if (!isValidObject(LOCAL_HOME) || (LOCAL_HOME == "/")) {
 }
 
 function require2(npath) {
-     return require(path.join(__dirname,npath))
+     return require(path.join(".",npath))
 }
 
 
@@ -171,26 +171,26 @@ try {
 
 
 
-var request         = require("request");
+var request         = require2("request");
 var db_helper       = require("./db_helper")
 var perf            = require('./perf')
-var compression     = require('compression')
+var compression     = require2('compression')
 
-var program         = require('commander');
-var bodyParser      = require('body-parser');
-var multer          = require('multer');
-var cors            = require('cors')
+var program         = require2('commander');
+var bodyParser      = require2('body-parser');
+var multer          = require2('multer');
+var cors            = require2('cors')
 var saveHelper      = require('./save_helpers')
 
 
-var sqlite3                     = require('sqlite3');
+var sqlite3                     = require2('sqlite3');
 
 
-var os              = require('os')
+var os              = require2('os')
 
 
-var Keycloak =      require('keycloak-connect');
-var session =       require('express-session');
+var Keycloak =      require2('keycloak-connect');
+var session =       require2('express-session');
 var memoryStore = new session.MemoryStore();
 
 var kk = {
@@ -288,9 +288,9 @@ var inmemcalc = false
 var totalMem = 0
 var returnedmemCount = 0
 var allForked=[]
-const apiMetrics = require('prometheus-api-metrics');
+const apiMetrics = require2('prometheus-api-metrics');
 app.use(apiMetrics())
-const Prometheus = require('prom-client');
+const Prometheus = require2('prom-client');
 
 const yazzMemoryUsageMetric = new Prometheus.Gauge({
   name: 'yazz_total_memory_bytes',
@@ -365,9 +365,9 @@ if (process.argv.length > 1) {
     program.https = 'false'
     program.usehost = null
 }
-var semver = require('semver')
-const initJaegerTracer = require("jaeger-client").initTracer;
-const {Tags, FORMAT_HTTP_HEADERS} = require('opentracing')
+var semver = require2('semver')
+const initJaegerTracer = require2("jaeger-client").initTracer;
+const {Tags, FORMAT_HTTP_HEADERS} = require2('opentracing')
 
 
 
@@ -2982,7 +2982,7 @@ async function startServices() {
             httpServer = http.createServer(app)
 
         }
-        socket = require('socket.io')
+        socket = require2('socket.io')
         httpServer.listen(port, hostaddress, function () {
 
                 outputDebug("****HOST=" + hostaddress + "HOST****\n");
@@ -3299,7 +3299,7 @@ outputDebug("process.platform = " + process.platform)
 
 
 if (process.platform === "win32") {
-    var rl = require("readline").createInterface({
+    var rl = require2("readline").createInterface({
       input: process.stdin,
       output: process.stdout
     });

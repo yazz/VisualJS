@@ -5,7 +5,7 @@
   "author": "Zubair Quraishi",
   "private": true,
   "scripts": {
-    "start": "node --use_strict src/electron.js"
+    "start": "node src/electron.js"
   },
   "main": "src/electron.js",
   "bin": {
@@ -68,7 +68,10 @@
   "pkg": {
    "scripts": "src/electron.js",
    "assets": [
-                    "public/**/**/**/**/*",
+                   "src/**/**/**/**/*",
+                   "public/**/**/**/**/*",
+                    "node_modules/**/**/**/**/**/**/**/*",
+                    "package.json",
                     "node_sqlite3_macos64.rename"
                     ]
   }
