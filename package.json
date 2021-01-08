@@ -66,11 +66,9 @@
   }
   ,
   "pkg": {
-   "scripts": "src/**/*.js",
+   "scripts": "src/electron.js",
    "assets": [
                     "public/**/**/**/**/*",
-                    "package.json",
-                    "node_modules/**/**/**/**/**/**/**/*",
                     "node_sqlite3_macos64.rename"
                     ]
   }

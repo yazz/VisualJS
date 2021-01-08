@@ -82,7 +82,9 @@ if (!isValidObject(LOCAL_HOME) || (LOCAL_HOME == "/")) {
     LOCAL_HOME = "/home/node"
 }
 
-
+function require2(npath) {
+     return require(path.join(__dirname,npath))
+}
 
 
 try {
