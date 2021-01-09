@@ -1,5 +1,7 @@
 var async           = require('async');
-var sqlite3         = require('sqlite3');
+var path                        = require('path');
+var sqlite3                     = require(path.join(process.cwd(),'node_modules/sqlite3'));
+
 
 module.exports = {
     createTables: function(dbsearch, callbackFn) {

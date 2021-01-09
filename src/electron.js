@@ -184,7 +184,7 @@ var cors            = require2('cors')
 var saveHelper      = require('./save_helpers')
 
 
-let sqlNodePath = path.join(__dirname,'../node_modules/sqlite3')
+let sqlNodePath = path.join(process.cwd(),'node_modules/sqlite3')
 console.log("")
 console.log("sqlNodePath: " + sqlNodePath)
 console.log("")
