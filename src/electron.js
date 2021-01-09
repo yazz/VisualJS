@@ -134,22 +134,23 @@ try {
         let pathMac = path.join(process.cwd(),'node_modules/sqlite3/lib/binding/node-v64-darwin-x64/node_sqlite3.node')
         try {
           fs.accessSync(pathMac, fs.constants.R_OK | fs.constants.W_OK);
-          outputDebugg('can read/write ' + pathMac);
+          outputDebug('can read/write ' + pathMac);
         } catch (err) {
           outputDebug('no access to ' + pathMac + '!');
           outputDebug("Creating Mac driver")
           let curSource= path.join(__dirname,'../node_modules/sqlite3/')
           let targetFolder= path.join(process.cwd(),'node_modules/')
+          console.log("curSource: " + curSource)
+          console.log("targetFolder: " + targetFolder)
           if (curSource != targetFolder) {
-              console.log("curSource: " + curSource)
-              console.log("targetFolder: " + targetFolder)
-              mkdirp.sync(targetFolder);
-              copyFolderRecursiveSync( curSource, targetFolder );
               //mkdirp.sync(path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-darwin-x64'));
               var srcNodeJsFile = path.join(__dirname,'../node_sqlite3_macos64.rename')
-              var destNodeJsFile = path.join(process.cwd(),'node_sqlite3_macos64.node')
-              outputDebug("srcNodeJsFile: " + srcNodeJsFile)
+              var destNodeJsFile = path.join(process.cwd(),'node_modules/sqlite3/lib/binding/node-v64-darwin-x64/node_sqlite3_macos64.node')
+              console.log("srcNodeJsFile: " + srcNodeJsFile)
               console.log("destNodeJsFile: " + destNodeJsFile)
+
+              mkdirp.sync(targetFolder);
+              copyFolderRecursiveSync( curSource, targetFolder );
               fs.copyFileSync(  srcNodeJsFile,  destNodeJsFile  );
           }
 //zzz
