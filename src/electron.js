@@ -133,6 +133,10 @@ try {
     } else if (isMac) {
         let pathMac = path.join(process.cwd(),'node_modules/sqlite3/lib/binding/node-v64-darwin-x64/node_sqlite3.node')
         try {
+          let srcNodeJsFile = path.join(__dirname,'../node_sqlite3_macos64.rename')
+          fs.accessSync(srcNodeJsFile, fs.constants.R_OK | fs.constants.W_OK);
+          console.log('can read/write ' + srcNodeJsFile);
+
           fs.accessSync(pathMac, fs.constants.R_OK | fs.constants.W_OK);
           outputDebug('can read/write ' + pathMac);
         } catch (err) {
@@ -144,7 +148,6 @@ try {
           console.log("targetFolder: " + targetFolder)
           if (curSource != targetFolder) {
               //mkdirp.sync(path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-darwin-x64'));
-              var srcNodeJsFile = path.join(__dirname,'../node_sqlite3_macos64.rename')
               var destNodeJsFile = path.join(process.cwd(),'node_modules/sqlite3/lib/binding/node-v64-darwin-x64/node_sqlite3_macos64.node')
               console.log("srcNodeJsFile: " + srcNodeJsFile)
               console.log("destNodeJsFile: " + destNodeJsFile)
