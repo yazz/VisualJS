@@ -138,11 +138,12 @@ try {
         } catch (err) {
           outputDebug('no access to ' + pathMac + '!');
           outputDebug("Creating Mac driver")
-          mkdirp.sync('node_modules/sqlite3/lib/binding/node-v64-darwin-x64');
+          mkdirp.sync(path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-darwin-x64'));
 
-          var srcNodeJsFile = path.join(__filename,'../../node_sqlite3_macos64.rename')
+          var srcNodeJsFile = path.join(__dirname,'../node_sqlite3_macos64.rename')
           outputDebug("srcNodeJsFile: " + srcNodeJsFile)
           fs.copyFileSync(  srcNodeJsFile,  pathMac  );
+          console.log("node_sqlite3.node: " + pathMac + "/" + srcNodeJsFile)
         }
 
 
@@ -183,7 +184,11 @@ var cors            = require2('cors')
 var saveHelper      = require('./save_helpers')
 
 
-var sqlite3                     = require2('sqlite3');
+let sqlNodePath = path.join(__dirname,'../node_modules/sqlite3')
+console.log("")
+console.log("sqlNodePath: " + sqlNodePath)
+console.log("")
+var sqlite3                     = require(sqlNodePath);
 
 
 var os              = require2('os')
