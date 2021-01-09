@@ -131,19 +131,28 @@ try {
 
 
     } else if (isMac) {
-        let pathMac = path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-darwin-x64/node_sqlite3.node')
+        let pathMac = path.join(process.cwd(),'node_modules/sqlite3/lib/binding/node-v64-darwin-x64/node_sqlite3.node')
         try {
           fs.accessSync(pathMac, fs.constants.R_OK | fs.constants.W_OK);
           outputDebugg('can read/write ' + pathMac);
         } catch (err) {
           outputDebug('no access to ' + pathMac + '!');
           outputDebug("Creating Mac driver")
-          mkdirp.sync(path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-darwin-x64'));
-
-          var srcNodeJsFile = path.join(__dirname,'../node_sqlite3_macos64.rename')
-          outputDebug("srcNodeJsFile: " + srcNodeJsFile)
-          fs.copyFileSync(  srcNodeJsFile,  pathMac  );
-          console.log("node_sqlite3.node: " + pathMac + "/" + srcNodeJsFile)
+          let curSource= path.join(__dirname,'../node_modules/sqlite3/')
+          let targetFolder= path.join(process.cwd(),'node_modules/sqlite3/')
+          if (curSource != targetFolder) {
+              console.log("curSource: " + curSource)
+              console.log("targetFolder: " + targetFolder)
+              mkdirp.sync(targetFolder);
+              copyFolderRecursiveSync( curSource, targetFolder );
+              //mkdirp.sync(path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-darwin-x64'));
+              var srcNodeJsFile = path.join(__dirname,'../node_sqlite3_macos64.rename')
+              var destNodeJsFile = path.join(process.cwd(),'node_sqlite3_macos64.node')
+              outputDebug("srcNodeJsFile: " + srcNodeJsFile)
+              console.log("destNodeJsFile: " + destNodeJsFile)
+              fs.copyFileSync(  srcNodeJsFile,  destNodeJsFile  );
+          }
+//zzz
         }
 
 
@@ -1287,7 +1296,7 @@ function shutDown() {
     outputDebug(" shutDown() called")
     if (!shuttingDown) {
         shuttingDown = true;
-//zzz
+
         if (dbsearch) {
             outputDebug("Database closing...")
             dbsearch.run("PRAGMA wal_checkpoint;")
@@ -2439,7 +2448,7 @@ function websocketFn(ws) {
 
             //console.log(" .......1 Electron callDriverMethod: " + JSON.stringify(receivedMessage,null,2));
             if (receivedMessage.find_component && receivedMessage.find_component.driver_name == "systemFunctionAppSql") {
-                //zzz
+
                 let resultOfSql = await executeSqliteForApp(  receivedMessage.args  )
                 sendToBrowserViaWebSocket(
                                              ws
@@ -3370,7 +3379,7 @@ outputDebug("process.env keys: " + Object.keys(process.env))
 dbsearch = new sqlite3.Database(dbPath);
 dbsearch.run("PRAGMA journal_mode=WAL;")
 
-//zzz
+
 async function executeSqliteForApp( args ) {
     if (!args.sql) {
         return []
