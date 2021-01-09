@@ -139,7 +139,7 @@ try {
           outputDebug('no access to ' + pathMac + '!');
           outputDebug("Creating Mac driver")
           let curSource= path.join(__dirname,'../node_modules/sqlite3/')
-          let targetFolder= path.join(process.cwd(),'node_modules/sqlite3/')
+          let targetFolder= path.join(process.cwd(),'node_modules/')
           if (curSource != targetFolder) {
               console.log("curSource: " + curSource)
               console.log("targetFolder: " + targetFolder)
