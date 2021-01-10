@@ -148,7 +148,7 @@ try {
           console.log("targetFolder: " + targetFolder)
           if (curSource != targetFolder) {
               //mkdirp.sync(path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-darwin-x64'));
-              var destNodeJsFile = path.join(process.cwd(),'node_modules/sqlite3/lib/binding/node-v64-darwin-x64/node_sqlite3_macos64.node')
+              var destNodeJsFile = path.join(process.cwd(),'node_modules/sqlite3/lib/binding/node-v64-darwin-x64/node_sqlite3.node')
               console.log("srcNodeJsFile: " + srcNodeJsFile)
               console.log("destNodeJsFile: " + destNodeJsFile)
 
