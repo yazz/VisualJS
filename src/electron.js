@@ -135,7 +135,7 @@ try {
         let srcNodeJsFile = path.join(__dirname,'../node_sqlite3_macos64.rename')
         try {
           fs.accessSync(srcNodeJsFile, fs.constants.R_OK | fs.constants.W_OK);
-          console.log('can read/write ' + srcNodeJsFile);
+          //console.log('can read/write ' + srcNodeJsFile);
 
           fs.accessSync(pathMac, fs.constants.R_OK | fs.constants.W_OK);
           outputDebug('can read/write ' + pathMac);
@@ -144,13 +144,13 @@ try {
           outputDebug("Creating Mac driver")
           let curSource= path.join(__dirname,'../node_modules/')
           let targetFolder= path.join(process.cwd(),'')
-          console.log("curSource: " + curSource)
-          console.log("targetFolder: " + targetFolder)
+          //console.log("curSource: " + curSource)
+          //console.log("targetFolder: " + targetFolder)
           if (curSource != targetFolder) {
               //mkdirp.sync(path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-darwin-x64'));
               var destNodeJsFile = path.join(process.cwd(),'node_modules/sqlite3/lib/binding/node-v64-darwin-x64/node_sqlite3.node')
-              console.log("srcNodeJsFile: " + srcNodeJsFile)
-              console.log("destNodeJsFile: " + destNodeJsFile)
+              //console.log("srcNodeJsFile: " + srcNodeJsFile)
+              //console.log("destNodeJsFile: " + destNodeJsFile)
 
               mkdirp.sync(targetFolder);
               copyFolderRecursiveSync( curSource, targetFolder );
@@ -198,9 +198,9 @@ var saveHelper      = require('./save_helpers')
 
 
 let sqlNodePath = path.join(process.cwd(),'node_modules/sqlite3')
-console.log("")
-console.log("sqlNodePath: " + sqlNodePath)
-console.log("")
+//console.log("")
+//console.log("sqlNodePath: " + sqlNodePath)
+//console.log("")
 var sqlite3                     = require(sqlNodePath);
 
 
@@ -1876,20 +1876,20 @@ function copyFolderRecursiveSync( source, target ) {
                     try {
                         copyFolderRecursiveSync( curSource, targetFolder );
                     } catch(err) {
-                        console.log(err)
+                        outputDebug(err)
                     }
                 } else {
                     try {
                         copyFileSync( curSource, targetFolder );
         				//console.log('copying:  ' + targetFolder);
                     } catch(err) {
-                        console.log(err)
+                        outputDebug(err)
                     }
                 }
             } );
 
         } catch(err) {
-            console.log(err)
+            outputDebug(err)
         }
     }
 }
