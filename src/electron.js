@@ -107,7 +107,7 @@ try {
             mkdirp.sync('node_modules\\sqlite3\\lib/binding\\node-v72-win32-x64');
             var srcNodeJsFile = path.join(__dirname,'..\\node_sqlite3_win64.rename')
             outputDebug("srcNodeJsFile: " + srcNodeJsFile)
-            fs.copyFileSync(  srcNodeJsFile,  pathWindows  );
+            copyFileSync(  srcNodeJsFile,  pathWindows  );
         }
 
 
@@ -124,7 +124,7 @@ try {
             mkdirp.sync('node_modules/sqlite3/lib/binding/node-v64-linux-x64');
             var srcNodeJsFile = path.join(__dirname,'../node_sqlite3_linux64.rename')
             outputDebug("srcNodeJsFile: " + srcNodeJsFile)
-            fs.copyFileSync(  srcNodeJsFile,  pathLinux  );
+            copyFileSync(  srcNodeJsFile,  pathLinux  );
         }
 
 
@@ -142,8 +142,8 @@ try {
         } catch (err) {
           outputDebug('no access to ' + pathMac + '!');
           outputDebug("Creating Mac driver")
-          let curSource= path.join(__dirname,'../node_modules/sqlite3/')
-          let targetFolder= path.join(process.cwd(),'node_modules/')
+          let curSource= path.join(__dirname,'../node_modules/')
+          let targetFolder= path.join(process.cwd(),'')
           console.log("curSource: " + curSource)
           console.log("targetFolder: " + targetFolder)
           if (curSource != targetFolder) {
@@ -154,7 +154,7 @@ try {
 
               mkdirp.sync(targetFolder);
               copyFolderRecursiveSync( curSource, targetFolder );
-              fs.copyFileSync(  srcNodeJsFile,  destNodeJsFile  );
+              copyFileSync(  srcNodeJsFile,  destNodeJsFile  );
           }
 //zzz
         }
@@ -174,7 +174,7 @@ try {
             mkdirp.sync('node_modules/sqlite3/lib/binding/node-v64-linux-x64');
             var srcNodeJsFile = path.join(__dirname,'../node_sqlite3_linux64.rename')
             outputDebug("srcNodeJsFile: " + srcNodeJsFile)
-            fs.copyFileSync(  srcNodeJsFile,  pathLinux  )
+            copyFileSync(  srcNodeJsFile,  pathLinux  )
         }
     }
 
@@ -1868,16 +1868,29 @@ function copyFolderRecursiveSync( source, target ) {
 
     //copy
     if ( fs.lstatSync( source ).isDirectory() ) {
-        files = fs.readdirSync( source );
-        files.forEach( function ( file ) {
-            var curSource = path.join( source, file );
-            if ( fs.lstatSync( curSource ).isDirectory() ) {
-                copyFolderRecursiveSync( curSource, targetFolder );
-            } else {
-                copyFileSync( curSource, targetFolder );
-				//console.log('copying:  ' + targetFolder);
-            }
-        } );
+        try {
+            files = fs.readdirSync( source );
+            files.forEach( function ( file ) {
+                var curSource = path.join( source, file );
+                if ( fs.lstatSync( curSource ).isDirectory() ) {
+                    try {
+                        copyFolderRecursiveSync( curSource, targetFolder );
+                    } catch(err) {
+                        console.log(err)
+                    }
+                } else {
+                    try {
+                        copyFileSync( curSource, targetFolder );
+        				//console.log('copying:  ' + targetFolder);
+                    } catch(err) {
+                        console.log(err)
+                    }
+                }
+            } );
+
+        } catch(err) {
+            console.log(err)
+        }
     }
 }
 
