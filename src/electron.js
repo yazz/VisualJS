@@ -196,11 +196,18 @@ var multer          = require2('multer');
 var cors            = require2('cors')
 var saveHelper      = require('./save_helpers')
 
+let nodeModulesPath = process.cwd()
+if (process.execPath && process.execPath.endsWith("vjs")) {
+    nodeModulesPath = process.execPath.substring(0, process.execPath.length-3);
+}
+console.log("")
+console.log("nodeModulesPath: " + nodeModulesPath)
+console.log("")
 
-let sqlNodePath = path.join(process.cwd(),'node_modules/sqlite3')
-//console.log("")
-//console.log("sqlNodePath: " + sqlNodePath)
-//console.log("")
+
+
+
+let sqlNodePath = path.join(nodeModulesPath,'node_modules/sqlite3')
 var sqlite3                     = require(sqlNodePath);
 
 
