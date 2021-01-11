@@ -40,6 +40,14 @@ var expressWs       = require2('express-ws')(app);
 outputDebug("__filename: " + __filename)
 outputDebug("__dirname: " + __dirname)
 
+let nodeModulesPath = process.cwd()
+if (process.execPath && process.execPath.endsWith("vjs")) {
+    nodeModulesPath = process.execPath.substring(0, process.execPath.length-3);
+}
+//console.log("")
+//console.log("nodeModulesPath: " + nodeModulesPath)
+//console.log("")
+
 
 outputDebug("Platform: " + process.platform)
 
@@ -131,7 +139,7 @@ try {
 
 
     } else if (isMac) {
-        let pathMac = path.join(process.cwd(),'node_modules/sqlite3/lib/binding/node-v64-darwin-x64/node_sqlite3.node')
+        let pathMac = path.join(nodeModulesPath,'node_modules/sqlite3/lib/binding/node-v64-darwin-x64/node_sqlite3.node')
         let srcNodeJsFile = path.join(__dirname,'../node_sqlite3_macos64.rename')
         try {
           fs.accessSync(srcNodeJsFile, fs.constants.R_OK | fs.constants.W_OK);
@@ -143,12 +151,12 @@ try {
           outputDebug('no access to ' + pathMac + '!');
           outputDebug("Creating Mac driver")
           let curSource= path.join(__dirname,'../node_modules/')
-          let targetFolder= path.join(process.cwd(),'')
+          let targetFolder= path.join(nodeModulesPath,'')
           //console.log("curSource: " + curSource)
           //console.log("targetFolder: " + targetFolder)
           if (curSource != targetFolder) {
               //mkdirp.sync(path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-darwin-x64'));
-              var destNodeJsFile = path.join(process.cwd(),'node_modules/sqlite3/lib/binding/node-v64-darwin-x64/node_sqlite3.node')
+              var destNodeJsFile = path.join(nodeModulesPath,'node_modules/sqlite3/lib/binding/node-v64-darwin-x64/node_sqlite3.node')
               //console.log("srcNodeJsFile: " + srcNodeJsFile)
               //console.log("destNodeJsFile: " + destNodeJsFile)
 
@@ -196,13 +204,6 @@ var multer          = require2('multer');
 var cors            = require2('cors')
 var saveHelper      = require('./save_helpers')
 
-let nodeModulesPath = process.cwd()
-if (process.execPath && process.execPath.endsWith("vjs")) {
-    nodeModulesPath = process.execPath.substring(0, process.execPath.length-3);
-}
-console.log("")
-console.log("nodeModulesPath: " + nodeModulesPath)
-console.log("")
 
 
 

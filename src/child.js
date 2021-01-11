@@ -5,7 +5,12 @@ var postgresdb                  = require('pg');
 var mysql                       = require('mysql');
 const uuidv1                    = require('uuid/v1');
 var crypto                      = require('crypto');
-var sqlite3                     = require(path.join(process.cwd(),'node_modules/sqlite3'));
+let nodeModulesPath = process.cwd()
+if (process.execPath && process.execPath.endsWith("vjs")) {
+    nodeModulesPath = process.execPath.substring(0, process.execPath.length-3);
+}
+
+var sqlite3                     = require(path.join(nodeModulesPath,'node_modules/sqlite3'));
 var os                          = require('os')
 var perf                        = require('./perf')
 var db_helper                   = require("./db_helper")

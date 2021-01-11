@@ -1,6 +1,11 @@
 var async           = require('async');
 var path                        = require('path');
-var sqlite3                     = require(path.join(process.cwd(),'node_modules/sqlite3'));
+let nodeModulesPath = process.cwd()
+if (process.execPath && process.execPath.endsWith("vjs")) {
+    nodeModulesPath = process.execPath.substring(0, process.execPath.length-3);
+}
+
+var sqlite3                     = require(path.join(nodeModulesPath,'node_modules/sqlite3'));
 
 
 module.exports = {
