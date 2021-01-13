@@ -1,7 +1,7 @@
 
 # Visual Javascript 2021
-### A Visual Javascript Development tool for building internal applications
-(similar to Visual Basic)
+### A Visual Drag and Drop Low Code tool for building internal applications
+(similar to Visual Basic, but using Javascript instead of Basic)
 
 <img width="350" alt="portfolio_view" src="https://raw.githubusercontent.com/yazz/visualjavascript/master/public/driver_icons/visualjavascript.jpg"></img>
 
