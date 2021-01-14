@@ -5,6 +5,15 @@
 
 <img width="350" alt="portfolio_view" src="https://raw.githubusercontent.com/yazz/visualjavascript/master/public/driver_icons/visualjavascript.jpg"></img>
 
+## Quick start with Docker
+
+> &gt;  docker run -p 80:80  yazzcom/visualjavascript:2021
+
+Browse to the following URL in your browser:
+
+    http://0.0.0.0:3000
+<br/><br/><br/>
+
 
 
 ## Benefits
@@ -84,7 +93,7 @@ function(args) {
 }
 ```
 
-> &gt; curl -F 'file=@a.js' http://localhost:3000/file_upload
+> &gt; curl -F 'file=@a.js' http://0.0.0.0:80/file_upload
 
 Finally browse to the following URL in your browser to see the microservice running:
 
