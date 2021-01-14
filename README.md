@@ -62,12 +62,12 @@
 
 First you need to run Visual Javascript, assuming you have Docker installed:
 
-> &gt; docker run -p 80:3000 -d yazzcom/visualjavascript
+> &gt;  docker run -p 80:80  yazzcom/visualjavascript:2021
 
 ```
 ......................................................................................................
 Visual Javascript started on:
-http://0.0.0.0:3000
+http://0.0.0.0:80
 ```
 
 Upload a micro-service:
