@@ -7,7 +7,7 @@
 
 ## Quick start with Docker
 
-> &gt;  docker run -p 80:80  yazzcom/visualjavascript:2021
+>  docker run -p 80:80  yazzcom/visualjavascript:2021
 
 Browse to the following URL in your browser:
 
