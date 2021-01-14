@@ -9,7 +9,7 @@
 
 ## Benefits
 
-- Build apps in minutes using drag and drop UI
+- Build apps in minutes using a drag and drop UI
 - Works with NodeJS, Docker, Kubernetes, Windows, Linux, Mac, Raspberry PI
 - Talk to Postgres, Mysql, or REST APIs using pre built components
 - Build web interfaces with common UI components such as buttons, text boxes
