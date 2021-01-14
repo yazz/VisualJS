@@ -12,7 +12,7 @@
 - Build apps in minutes using a drag and drop UI
 - Works with Windows, Linux, Mac, Raspberry PI, NodeJS, Docker, and Kubernetes
 - Talk to Postgres, Mysql, or REST APIs using pre built components
-- Build web interfaces with common UI components such as buttons, text boxes
+- Build web interfaces with common UI components such as buttons, grids, and text boxes
 <br/><br/><br/>
 
 
