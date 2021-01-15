@@ -3021,7 +3021,7 @@ async function startServices() {
             httpServer = http.createServer(app)
 
         }
-        socket = require2('socket.io')
+        socket = require2('socket.io')(http)
         httpServer.listen(port, hostaddress, function () {
 
                 outputDebug("****HOST=" + hostaddress + "HOST****\n");
