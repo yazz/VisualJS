@@ -11,7 +11,7 @@ Enter the following at the command line:
 
 >  docker run -p 80:80  yazzcom/visualjavascript:2021
 
-Then browse to the following URL in your browser:
+Then enter the following URL in your web browser:
 
     http://0.0.0.0:3000
 <br/><br/><br/>
