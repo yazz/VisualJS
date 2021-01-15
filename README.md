@@ -13,7 +13,7 @@ Enter the following at the command line:
 
 Then enter the following URL in your web browser:
 
-    http://0.0.0.0:3000
+    http://0.0.0.0:80
 <br/><br/><br/>
 
 
@@ -99,7 +99,7 @@ function(args) {
 
 Finally browse to the following URL in your browser to see the microservice running:
 
-    http://0.0.0.0:3000/test3
+    http://0.0.0.0:80/test3
 
 
 
@@ -110,12 +110,12 @@ Finally browse to the following URL in your browser to see the microservice runn
 
 ### Run from docker:
 
-    docker run -p 80:3000 -d yazzcom/visualjavascript
+    docker run -p 80:80 -d yazzcom/visualjavascript:2021
 
 ```
 ......................................................................................................
 Visual Javascript started on:
-http://localhost:3000
+http://localhost:80
 ```
 
 <br/><br/><br/>
