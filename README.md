@@ -9,7 +9,7 @@
 
 Enter the following at the command line:
 
->  docker run -p 80:80  yazzcom/visualjavascript:2021
+>  docker  run  -p 80:80  yazzcom/visualjavascript:2021
 
 Then enter the following URL in your web browser:
 
