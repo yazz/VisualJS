@@ -41,8 +41,12 @@ outputDebug("__filename: " + __filename)
 outputDebug("__dirname: " + __dirname)
 
 let nodeModulesPath = process.cwd()
-if (process.execPath && process.execPath.endsWith("vjs")) {
-    nodeModulesPath = process.execPath.substring(0, process.execPath.length-3);
+if (process.execPath) {
+    let vjsPos = process.execPath.indexOf("vjs")
+    if (vjsPos != -1) {
+        let vjsLen = process.execPath.length - vjsPos
+        nodeModulesPath = process.execPath.substring(0, process.execPath.length - vjsLen);
+    }
 }
 //console.log("")
 //console.log("nodeModulesPath: " + nodeModulesPath)
