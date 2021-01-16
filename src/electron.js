@@ -109,10 +109,13 @@ try {
 
 
     } else if (isWin)  {
-        let pathWindows = path.join(__dirname,'..\\node_modules\\sqlite3\\lib\\binding\\node-v72-win32-x64\\node_sqlite3.node')
+        let pathWindows = path.join(nodeModulesPath,'node_modules\\sqlite3\\lib\\binding\\node-v72-win32-x64\\node_sqlite3.node')
+        let srcNodeJsFile = path.join(__dirname,'../node_sqlite3_win64.rename')
         try {
+            fs.accessSync(srcNodeJsFile, fs.constants.R_OK | fs.constants.W_OK);
+            //console.log('can read/write ' + srcNodeJsFile);
+
             fs.accessSync(pathWindows, fs.constants.R_OK | fs.constants.W_OK);
-            outputDebug('can read/write ' + pathWindows);
         } catch (err) {
             outputDebug('no access to ' + pathWindows + '!');
             outputDebug("Creating Windows driver")
