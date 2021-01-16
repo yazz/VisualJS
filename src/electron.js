@@ -119,27 +119,18 @@ try {
         } catch (err) {
             outputDebug('no access to ' + pathWindows + '!');
             outputDebug("Creating Windows driver")
-            mkdirp.sync('node_modules\\sqlite3\\lib/binding\\node-v72-win32-x64');
-            var srcNodeJsFile = path.join(__dirname,'..\\node_sqlite3_win64.rename')
-            outputDebug("srcNodeJsFile: " + srcNodeJsFile)
-            copyFileSync(  srcNodeJsFile,  pathWindows  );
-        }
+            let curSource= path.join(__dirname,'../node_modules/')
+            let targetFolder= path.join(nodeModulesPath,'')
+            if (curSource != targetFolder) {
+                var destNodeJsFile = path.join(nodeModulesPath,'node_modules\\sqlite3\\lib/binding\\node-v72-win32-x64\\node_sqlite3.node')
+                //console.log("srcNodeJsFile: " + srcNodeJsFile)
+                //console.log("destNodeJsFile: " + destNodeJsFile)
 
+                mkdirp.sync(targetFolder);
+                copyFolderRecursiveSync( curSource, targetFolder );
+                copyFileSync(  srcNodeJsFile,  destNodeJsFile  );
 
-
-
-    } else if (isLinux) {
-        let pathLinux = path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-linux-x64/node_sqlite3.node')
-        try {
-            fs.accessSync(pathLinux, fs.constants.R_OK | fs.constants.W_OK);
-            outputDebug('can read/write ' + pathLinux);
-        } catch (err) {
-            outputDebug('no access to ' + pathLinux + '!');
-            outputDebug("Creating Linux driver")
-            mkdirp.sync('node_modules/sqlite3/lib/binding/node-v64-linux-x64');
-            var srcNodeJsFile = path.join(__dirname,'../node_sqlite3_linux64.rename')
-            outputDebug("srcNodeJsFile: " + srcNodeJsFile)
-            copyFileSync(  srcNodeJsFile,  pathLinux  );
+            }
         }
 
 
@@ -173,6 +164,25 @@ try {
           }
 //zzz
         }
+
+
+
+    } else if (isLinux) {
+        let pathLinux = path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-linux-x64/node_sqlite3.node')
+        try {
+            fs.accessSync(pathLinux, fs.constants.R_OK | fs.constants.W_OK);
+            outputDebug('can read/write ' + pathLinux);
+        } catch (err) {
+            outputDebug('no access to ' + pathLinux + '!');
+            outputDebug("Creating Linux driver")
+            mkdirp.sync('node_modules/sqlite3/lib/binding/node-v64-linux-x64');
+            var srcNodeJsFile = path.join(__dirname,'../node_sqlite3_linux64.rename')
+            outputDebug("srcNodeJsFile: " + srcNodeJsFile)
+            copyFileSync(  srcNodeJsFile,  pathLinux  );
+        }
+
+
+
 
 
 
