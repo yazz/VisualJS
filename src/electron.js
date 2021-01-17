@@ -41,12 +41,15 @@ outputDebug("__filename: " + __filename)
 outputDebug("__dirname: " + __dirname)
 
 let nodeModulesPath = process.cwd()
+console.log("nodeModulesPath: " + nodeModulesPath)
+console.log("process.execPath: " + process.execPath)
+
 if (process.execPath) {
     let vjsPos = process.execPath.indexOf("vjs")
     if (vjsPos != -1) {
         let vjsLen = process.execPath.length - vjsPos
         nodeModulesPath = process.execPath.substring(0, process.execPath.length - vjsLen);
-        //console.log("nodeModulesPath: " + nodeModulesPath)
+        console.log("nodeModulesPath: " + nodeModulesPath)
     }
 }
 //console.log("")
@@ -126,11 +129,11 @@ try {
             if (curSource != targetFolder) {
                 let destNodeJsFile = path.join(nodeModulesPath,'node_modules\\sqlite3\\lib/binding\\node-v64-win32-x64\\node_sqlite3.node')
                 let destNodeJsFolder = path.join(nodeModulesPath,'node_modules\\sqlite3\\lib/binding\\node-v64-win32-x64\\')
-                console.log("srcNodeJsFile: " + srcNodeJsFile)
-                console.log("destNodeJsFile: " + destNodeJsFile)
-                console.log("curSource: " + curSource)
-                console.log("targetFolder: " + targetFolder)
-                console.log("destNodeJsFolder: " + destNodeJsFolder)
+                //console.log("srcNodeJsFile: " + srcNodeJsFile)
+                //console.log("destNodeJsFile: " + destNodeJsFile)
+                //console.log("curSource: " + curSource)
+                //console.log("targetFolder: " + targetFolder)
+                //console.log("destNodeJsFolder: " + destNodeJsFolder)
 
                 mkdirp.sync(targetFolder);
                 copyFolderRecursiveSync( curSource, targetFolder );
