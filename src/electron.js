@@ -46,6 +46,7 @@ if (process.execPath) {
     if (vjsPos != -1) {
         let vjsLen = process.execPath.length - vjsPos
         nodeModulesPath = process.execPath.substring(0, process.execPath.length - vjsLen);
+        console.log("nodeModulesPath: " + nodeModulesPath)
     }
 }
 //console.log("")
