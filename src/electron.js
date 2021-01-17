@@ -118,6 +118,7 @@ try {
 
             fs.accessSync(pathWindows, fs.constants.R_OK | fs.constants.W_OK);
         } catch (err) {
+            //zzz
             outputDebug('no access to ' + pathWindows + '!');
             outputDebug("Creating Windows driver")
             let curSource= path.join(__dirname,'..\\node_modules\\')
@@ -126,6 +127,8 @@ try {
                 let destNodeJsFile = path.join(nodeModulesPath,'node_modules\\sqlite3\\lib/binding\\node-v64-win32-x64\\node_sqlite3.node')
                 console.log("srcNodeJsFile: " + srcNodeJsFile)
                 console.log("destNodeJsFile: " + destNodeJsFile)
+                console.log("curSource: " + curSource)
+                console.log("targetFolder: " + targetFolder)
 
                 mkdirp.sync(targetFolder);
                 copyFolderRecursiveSync( curSource, targetFolder );
@@ -163,7 +166,7 @@ try {
               copyFolderRecursiveSync( curSource, targetFolder );
               copyFileSync(  srcNodeJsFile,  destNodeJsFile  );
           }
-//zzz
+
         }
 
 
