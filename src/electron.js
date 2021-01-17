@@ -124,8 +124,8 @@ try {
             let targetFolder= path.join(nodeModulesPath,'')
             if (curSource != targetFolder) {
                 let destNodeJsFile = path.join(nodeModulesPath,'node_modules\\sqlite3\\lib/binding\\node-v64-win32-x64\\node_sqlite3.node')
-                //console.log("srcNodeJsFile: " + srcNodeJsFile)
-                //console.log("destNodeJsFile: " + destNodeJsFile)
+                console.log("srcNodeJsFile: " + srcNodeJsFile)
+                console.log("destNodeJsFile: " + destNodeJsFile)
 
                 mkdirp.sync(targetFolder);
                 copyFolderRecursiveSync( curSource, targetFolder );
