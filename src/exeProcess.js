@@ -4,10 +4,17 @@ var mkdirp                      = require('mkdirp')
 var postgresdb                  = require('pg');
 var mysql                       = require('mysql');
 const uuidv1                    = require('uuid/v1');
+
+
 let nodeModulesPath = process.cwd()
-if (process.execPath && process.execPath.endsWith("vjs")) {
-    nodeModulesPath = process.execPath.substring(0, process.execPath.length-3);
+if (process.execPath) {
+    let vjsPos = process.execPath.indexOf("vjs")
+    if (vjsPos != -1) {
+        let vjsLen = process.execPath.length - vjsPos
+        nodeModulesPath = process.execPath.substring(0, process.execPath.length - vjsLen);
+    }
 }
+
 
 var sqlite3                     = require(path.join(nodeModulesPath,'node_modules/sqlite3'));
 var os                          = require('os')

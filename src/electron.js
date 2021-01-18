@@ -41,7 +41,6 @@ outputDebug("__filename: " + __filename)
 outputDebug("__dirname: " + __dirname)
 
 let nodeModulesPath = process.cwd()
-
 if (process.execPath) {
     let vjsPos = process.execPath.indexOf("vjs")
     if (vjsPos != -1) {
@@ -49,9 +48,9 @@ if (process.execPath) {
         nodeModulesPath = process.execPath.substring(0, process.execPath.length - vjsLen);
     }
 }
-console.log("process.cwd(): " + process.cwd())
-console.log("nodeModulesPath: " + nodeModulesPath)
-console.log("process.execPath: " + process.execPath)
+//console.log("process.cwd(): " + process.cwd())
+//console.log("nodeModulesPath: " + nodeModulesPath)
+//console.log("process.execPath: " + process.execPath)
 //console.log("")
 //console.log("nodeModulesPath: " + nodeModulesPath)
 //console.log("")
@@ -236,7 +235,7 @@ var saveHelper      = require('./save_helpers')
 
 
 let sqlNodePath = path.join(nodeModulesPath,'node_modules/sqlite3')
-console.log("sqlNodePath: " + sqlNodePath)
+//console.log("sqlNodePath: " + sqlNodePath)
 var sqlite3                     = require(sqlNodePath);
 
 
