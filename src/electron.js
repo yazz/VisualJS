@@ -893,6 +893,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
                 if (isCodeTtyCode) {
                     await startServices()
                 } else {
+                    console.log("isCodeTtyCode:= " + isCodeTtyCode)
                     getPort()
 
 
