@@ -893,7 +893,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
                 if (isCodeTtyCode) {
                     await startServices()
                 } else {
-                    console.log("isCodeTtyCode:= " + isCodeTtyCode)
+                    console.log("Loading Visual Javascript. Please wait a few minutes ... ")
                     getPort()
 
 
@@ -1484,7 +1484,7 @@ function getPort () {
     }
 
 
-
+    console.log("... ")
 
     httpServer.listen(port, hostaddress, function (err) {
 
