@@ -121,6 +121,7 @@ try {
             fs.accessSync(pathWindows, fs.constants.R_OK | fs.constants.W_OK);
         } catch (err) {
             //zzz
+            console.log("Setting up Visual Javascript to run for the first time. Please wait a few minutes...")
             outputDebug('no access to ' + pathWindows + '!');
             outputDebug("Creating Windows driver")
             let curSource= path.join(__dirname,'..\\node_modules\\')
@@ -155,6 +156,7 @@ try {
           fs.accessSync(pathMac, fs.constants.R_OK | fs.constants.W_OK);
           outputDebug('can read/write ' + pathMac);
         } catch (err) {
+          console.log("Setting up Visual Javascript to run for the first time. Please wait a few minutes...")
           outputDebug('no access to ' + pathMac + '!');
           outputDebug("Creating Mac driver")
           let curSource= path.join(__dirname,'../node_modules/')
@@ -182,6 +184,7 @@ try {
             fs.accessSync(pathLinux, fs.constants.R_OK | fs.constants.W_OK);
             outputDebug('can read/write ' + pathLinux);
         } catch (err) {
+            console.log("Setting up Visual Javascript to run for the first time. Please wait a few minutes...")
             outputDebug('no access to ' + pathLinux + '!');
             outputDebug("Creating Linux driver")
             mkdirp.sync('node_modules/sqlite3/lib/binding/node-v64-linux-x64');
@@ -202,6 +205,7 @@ try {
           fs.accessSync(pathLinux, fs.constants.R_OK | fs.constants.W_OK);
           outputDebug('can read/write ' + pathLinux);
         } catch (err) {
+            console.log("Setting up Visual Javascript to run for the first time. Please wait a few minutes...")
             outputDebug('no access to ' + pathLinux + '!');
             outputDebug("Error, unsupported platform: " + process.platform + ".. trying Linuxs")
             outputDebug("Creating Linux driver")
@@ -1483,8 +1487,6 @@ function getPort () {
 
     }
 
-
-    console.log("... ")
 
     httpServer.listen(port, hostaddress, function (err) {
 
