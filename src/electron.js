@@ -177,8 +177,8 @@ try {
         }
 
 
-
-    } else if (isLinux) {
+    // otherwise assume that this is linux 64 bit
+    } else {
         let pathLinux = path.join(nodeModulesPath,'node_modules/sqlite3/lib/binding/node-v64-linux-x64/node_sqlite3.node')
         let srcNodeJsFile = path.join(__dirname,'../node_sqlite3_linux64.rename')
         try {
@@ -212,21 +212,6 @@ try {
 
 
 
-    } else {
-        let pathLinux = path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-linux-x64/node_sqlite3.node')
-        try {
-          fs.accessSync(pathLinux, fs.constants.R_OK | fs.constants.W_OK);
-          outputDebug('can read/write ' + pathLinux);
-        } catch (err) {
-            console.log("Setting up Visual Javascript to run for the first time. Please wait a few minutes...")
-            outputDebug('no access to ' + pathLinux + '!');
-            outputDebug("Error, unsupported platform: " + process.platform + ".. trying Linuxs")
-            outputDebug("Creating Linux driver")
-            mkdirp.sync('node_modules/sqlite3/lib/binding/node-v64-linux-x64');
-            var srcNodeJsFile = path.join(__dirname,'../node_sqlite3_linux64.rename')
-            outputDebug("srcNodeJsFile: " + srcNodeJsFile)
-            copyFileSync(  srcNodeJsFile,  pathLinux  )
-        }
     }
 
 } catch(err){
