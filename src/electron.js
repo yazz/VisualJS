@@ -179,6 +179,7 @@ try {
 
 
     } else if (isLinux) {
+        console.log("lunus")
         let pathLinux = path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-linux-x64/node_sqlite3.node')
         try {
             fs.accessSync(pathLinux, fs.constants.R_OK | fs.constants.W_OK);
