@@ -54,13 +54,16 @@ Then enter the following URL in your web browser:
 ## Roadmap
 
 - **2013 - Now** Developerment 
-- **2013 - Now** Developerment 
-- An App Store so that Enterprise users and third party ISVs can discover, create, buy, and sell Visual Javascript components and apps
-- A VR/AR editor
-- Paid for hosting options
-- Support for Istio, Rancher, KNative, OpenWhisk, OpenFaas, AWS
-- Machine Learning and vision components
-- Enterprise connectivity via Red Hat, IBM, Salesforce, SAP, Oracle, Stripe, and other enterprise components
+- **2021** Enterprise App Store for ISVs to discover, create, buy, and sell Visual Javascript components and apps to enterprises
+- **2021** Support for Istio, Rancher, KNative, OpenWhisk, OpenFaas, AWS
+- **2021** Enterprise connectivity via Red Hat, IBM, Salesforce, SAP, Oracle, Stripe, and other enterprise components
+- **2021** Desktop version in Mac app store 
+- **2021** Paid for hosting options
+- **2022** An editor to make programs in VR/AR editor
+- **2025** Machine Learning and vision components
+- **2027** Miniature thumbnail size version
+- **2030** Dust based version
+- **2032** Dust based version with internal camera for medical diagnoses applications
 <br/><br/><br/>
 
 
