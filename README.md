@@ -121,15 +121,6 @@ Visual Javascript started on:
 http://localhost:80
 ```
 
-<br/><br/><br/>
-### Run as a Snap package on Linux
-
-    snap install --devmode --edge appshare
-
-    appshare
-
-[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/appshare)
-
 
 
 
@@ -156,7 +147,7 @@ http://localhost:80
 ##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
 ##### 3) From the command line get the Git repository
     git clone https://github.com/yazz/visualjavascript.git
-##### 4) Go to the "appshare" directory
+##### 4) Go to the "visualjavascript" directory
     cd appshare
 ##### 5) Install the NodeJS modules
     sudo npm install
@@ -170,7 +161,7 @@ http://localhost:80
 
 <br/><br/><br/>
 ### Build a command line exexutable for MacOS
-    nexe src/electron.js -r public/ -r src/ -r package.json -r node_sqlite3.node  -o appshare
+    pkg .  --output vjs
 
 
 
