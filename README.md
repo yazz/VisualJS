@@ -25,7 +25,7 @@ Then enter the following URL in your web browser:
 - Talk to Postgres, Mysql, or REST APIs using pre built components
 - Build web interfaces with common UI components such as buttons, grids, and text boxes
 
-## Current Features
+### Current Features
 - Drag and drop UI interface
 - Code business logic in Javascript
 - Each app has a built in SQLite database
