@@ -25,7 +25,7 @@ Then enter the following URL in your web browser:
 - Talk to Postgres, Mysql, or REST APIs using pre built components
 - Build web interfaces with common UI components such as buttons, grids, and text boxes
 
-### Current Features
+### Features
 - Drag and drop UI interface
 - Code business logic in Javascript
 - Each app has a built in SQLite database
@@ -34,7 +34,7 @@ Then enter the following URL in your web browser:
 - Can build Microservices
 - All source code for apps can be saved as a single .vjs file
 - Apps can be saved as a single HTML file and sent by email (Even SQlite based apps)
-- All code is stored as immuntable, and identified by a SHA256 hash
+- All code is stored as immutable, and identified by a SHA256 hash
 - The Visual Javascript editor and output programs can work offline without internet connectivity
 - Extra UI or server components can be build as plugins (as .vjs files)
 - The Visual Javascript extensible IDE allows you to build new ways of editing code. Currently a text editor and a Visual Basic style editor are included
