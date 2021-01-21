@@ -14,28 +14,16 @@ Enter the following at the command line:
 Then enter the following URL in your web browser:
 
     http://0.0.0.0:80
-<br/><br/><br/>
+<br/><br/>
 
 
 
-## Benefits
-
+## Highlights
+### Benefits
+- Works on Windows, Linux, Mac, Raspberry PI, NodeJS, Docker, and Kubernetes, OpenShift, Istio
 - Build apps in minutes using a drag and drop UI
-- Works with Windows, Linux, Mac, Raspberry PI, NodeJS, Docker, and Kubernetes
 - Talk to Postgres, Mysql, or REST APIs using pre built components
 - Build web interfaces with common UI components such as buttons, grids, and text boxes
-<br/><br/><br/>
-
-
-
-## Some useful links:
-- Demo which works on desktop web browsers here: https://yazz.com/app/homepage.html
-- Link to PDF docs: https://yazz.com/visifile/docs/yazz_march_2020.pdf
-- Link to Hacker News Post (when it was known as Yazz Pilot): https://news.ycombinator.com/item?id=21734845
-- Link to Kubernetes Operator https://github.com/leskil/appshare-operator
-<br/><br/><br/>
-
-
 
 ## Current Features
 - Drag and drop UI interface
@@ -50,6 +38,16 @@ Then enter the following URL in your web browser:
 - The Visual Javascript editor and output programs can work offline without internet connectivity
 - Extra UI or server components can be build as plugins (as .vjs files)
 - The Visual Javascript extensible IDE allows you to build new ways of editing code. Currently a text editor and a Visual Basic style editor are included
+
+
+### Useful links:
+- Demo which works on desktop web browsers here: https://yazz.com/app/homepage.html
+- Link to PDF docs: https://yazz.com/visifile/docs/yazz_march_2020.pdf
+- Link to Hacker News Post (when it was known as Yazz Pilot): https://news.ycombinator.com/item?id=21734845
+- Link to Kubernetes Operator https://github.com/leskil/appshare-operator
+
+
+
 <br/><br/><br/>
 
 
