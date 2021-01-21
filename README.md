@@ -51,8 +51,10 @@ Then enter the following URL in your web browser:
 <br/><br/><br/>
 
 
-## Future Features
+## Roadmap
 
+- **2013 - Now** Developerment 
+- **2013 - Now** Developerment 
 - An App Store so that Enterprise users and third party ISVs can discover, create, buy, and sell Visual Javascript components and apps
 - A VR/AR editor
 - Paid for hosting options
