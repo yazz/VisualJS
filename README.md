@@ -5,15 +5,7 @@
 
 <img width="350" alt="portfolio_view" src="https://raw.githubusercontent.com/yazz/visualjavascript/master/public/driver_icons/visualjavascript.jpg"></img>
 
-## Quick start with Docker
-
-Enter the following at the command line:
-
->  docker  run  -p 80:80  yazzcom/visualjavascript:2021
-
-Then enter the following URL in your web browser:
-
-    http://0.0.0.0:80
+- **Docker** - docker  run  -p 80:80  yazzcom/visualjavascript:2021       , Browse to http://0.0.0.0:80
 <br/><br/>
 
 
