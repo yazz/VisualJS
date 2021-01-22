@@ -5,25 +5,25 @@
 
 <img width="350" alt="portfolio_view" src="https://raw.githubusercontent.com/yazz/visualjavascript/master/public/driver_icons/visualjavascript.jpg"></img>
 
-- **Docker**
-<pre style="display:inline;">docker  run  -p 80:80  yazzcom/visualjavascript:2021
+### Docker
+<pre style="display:inline;">&gt; docker  run  -p 80:80  yazzcom/visualjavascript:2021
 Browse to http://0.0.0.0:80</pre>
 
-- **Windows**
+### Windows
 <pre style="display:inline;">Download https://yazz.com/visifile/bin/vjs.exe
-vjs.exe
+&gt; vjs.exe
 Browse to http://0.0.0.0:80</pre>
 
-- **Mac**
-<pre style="display:inline;">curl https://yazz.com/visifile/bin/mac/vjs -o ./vjs
-chmod +x ./vjs
-./vjs
+### Mac
+<pre style="display:inline;">&gt; curl https://yazz.com/visifile/bin/mac/vjs -o ./vjs
+&gt; chmod +x ./vjs
+&gt; ./vjs
 Browse to http://0.0.0.0:80</pre>
 
-- **Linux**
-<pre style="display:inline;">wget https://yazz.com/visifile/bin/vjs
-chmod +x ./vjs
-./vjs
+### Linux
+<pre style="display:inline;">&gt; wget https://yazz.com/visifile/bin/vjs
+&gt; chmod +x ./vjs
+&gt; ./vjs
 Browse to http://0.0.0.0:80</pre>
 
 ## Highlights
