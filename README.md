@@ -5,8 +5,14 @@
 
 <img width="350" alt="portfolio_view" src="https://raw.githubusercontent.com/yazz/visualjavascript/master/public/driver_icons/visualjavascript.jpg"></img>
 
-- **Docker** <pre style="display:inline;">docker  run  -p 80:80  yazzcom/visualjavascript:2021</pre>Browse to http://0.0.0.0:80
-- **Windows** Downloadn https://yazz.com/visifile/bin/vjs.exe<pre style="display:inline;">vjs.exe</pre>Browse to http://0.0.0.0:80
+- **Docker**
+<pre style="display:inline;">docker  run  -p 80:80  yazzcom/visualjavascript:2021
+Browse to http://0.0.0.0:80</pre>
+
+- **Windows**
+<pre style="display:inline;">Download https://yazz.com/visifile/bin/vjs.exe
+vjs.exe
+Browse to http://0.0.0.0:80</pre>
 
 
 
