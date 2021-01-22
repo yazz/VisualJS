@@ -26,7 +26,7 @@ Browse to http://0.0.0.0:80</pre>
 &gt; ./vjs
 Browse to http://0.0.0.0:80</pre>
 
-## Highlights
+
 ### Benefits
 - Works on Windows, Linux, Mac, Raspberry PI, NodeJS, Docker, and Kubernetes, OpenShift, Istio
 - Build apps in minutes using a drag and drop UI
