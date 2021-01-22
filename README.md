@@ -14,8 +14,17 @@ Browse to http://0.0.0.0:80</pre>
 vjs.exe
 Browse to http://0.0.0.0:80</pre>
 
+- **Mac**
+<pre style="display:inline;">curl https://yazz.com/visifile/bin/mac/vjs -o ./vjs
+chmod +x ./vjs
+./vjs
+Browse to http://0.0.0.0:80</pre>
 
-
+- **Linux**
+<pre style="display:inline;">wget https://yazz.com/visifile/bin/vjs
+chmod +x ./vjs
+./vjs
+Browse to http://0.0.0.0:80</pre>
 
 ## Highlights
 ### Benefits
