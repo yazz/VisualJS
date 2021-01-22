@@ -5,7 +5,7 @@
 
 <img width="350" alt="portfolio_view" src="https://raw.githubusercontent.com/yazz/visualjavascript/master/public/driver_icons/visualjavascript.jpg"></img>
 
-- **Docker** - <pre>docker  run  -p 80:80  yazzcom/visualjavascript:2021</pre>       , Browse to http://0.0.0.0:80
+- **Docker** - <pre style="display:inline;">docker  run  -p 80:80  yazzcom/visualjavascript:2021</pre>       , Browse to http://0.0.0.0:80
 <br/><br/>
 
 
