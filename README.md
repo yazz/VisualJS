@@ -5,8 +5,9 @@
 
 <img width="350" alt="portfolio_view" src="https://raw.githubusercontent.com/yazz/visualjavascript/master/public/driver_icons/visualjavascript.jpg"></img>
 
-- **Docker** - <pre style="display:inline;">docker  run  -p 80:80  yazzcom/visualjavascript:2021</pre>       , Browse to http://0.0.0.0:80
-<br/><br/>
+- **Docker** <pre style="display:inline;">docker  run  -p 80:80  yazzcom/visualjavascript:2021</pre>Browse to http://0.0.0.0:80
+- **Windows** Downloadn https://yazz.com/visifile/bin/vjs.exe<pre style="display:inline;">vjs.exe</pre>Browse to http://0.0.0.0:80
+
 
 
 
@@ -54,8 +55,8 @@
 - **2022** An editor to make programs in VR/AR editor
 - **2025** Machine Learning and vision components
 - **2027** Miniature thumbnail size version
-- **2030** Dust based version
-- **2032** Dust based version with internal camera for medical diagnoses applications
+- **2030** Dust sized version
+- **2032** Dust sized version with internal camera for medical diagnoses applications
 <br/><br/><br/>
 
 
