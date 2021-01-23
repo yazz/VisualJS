@@ -5,6 +5,13 @@
 
 <img width="350" alt="portfolio_view" src="https://raw.githubusercontent.com/yazz/visualjavascript/master/public/driver_icons/visualjavascript.jpg"></img>
 
+### NodeJS
+<pre style="display:inline;">&gt; git clone https://github.com/yazz/visualjavascript.git
+&gt; cd visualjavascript
+&gt; npm install
+&gt; npm start
+Browse to http://0.0.0.0:80</pre>
+
 ### Docker
 <pre style="display:inline;">&gt; docker  run  -p 80:80  yazzcom/visualjavascript:2021
 Browse to http://0.0.0.0:80</pre>
