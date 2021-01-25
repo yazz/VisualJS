@@ -20,6 +20,7 @@
     "cors": "^2.8.5",
     "diskspace": "^2.0.0",
     "dockerode": "^3.2.1",
+    "electron-rebuild": "^2.3.4",
     "escodegen": "^2.0.0",
     "esprima": "^4.0.1",
     "estraverse": "^5.2.0",
