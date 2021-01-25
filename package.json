@@ -75,5 +75,8 @@
       "node_sqlite3_win64.rename",
       "node_sqlite3_linux64.rename"
     ]
+  },
+  "devDependencies": {
+    "electron": "^11.2.1"
   }
 }
