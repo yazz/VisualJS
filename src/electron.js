@@ -4,11 +4,6 @@
 const electron = require('electron')
 const electronApp = electron.app
 const BrowserWindow = electron.BrowserWindow
-if ( electronApp ) {
-    console.log("Running in Electron")
-} else {
-    console.log("Running in NodeJS")
-}
 
 
 const path = require("path");
@@ -116,6 +111,15 @@ try {
 
     if (isDocker()) {
 
+    } else if (electronApp){
+        console.log("Running in Electron")
+
+        let srcElectronDriver = path.join(nodeModulesPath,'node_modules/sqlite3/lib/binding/electron-v11.2-darwin-x64/node_sqlite3.node')
+        let destElectronPath = path.join(nodeModulesPath,'node_modules/sqlite3/lib/binding/electron-v11.1-darwin-x64/')
+        let destElectronDriver = path.join(nodeModulesPath,'node_modules/sqlite3/lib/binding/electron-v11.1-darwin-x64/node_sqlite3.node')
+        mkdirp.sync(    destElectronPath   );
+        copyFileSync( srcElectronDriver , destElectronDriver   );
+
 
     } else if (process.env["KUBERNETES_SERVICE_HOST"]) {
 
@@ -185,7 +189,6 @@ try {
           }
 
         }
-
 
     // otherwise assume that this is linux 64 bit
     } else {
