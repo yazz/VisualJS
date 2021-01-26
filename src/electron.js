@@ -1,6 +1,16 @@
 #!/usr/bin/env node
 
 
+const electron = require('electron')
+const electronApp = electron.app
+const BrowserWindow = electron.BrowserWindow
+if ( electronApp ) {
+    console.log("Running in Electron")
+} else {
+    console.log("Running in NodeJS")
+}
+
+
 const path = require("path");
 const url = require('url');
 var fork            = require2('child_process');
