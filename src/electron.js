@@ -87,19 +87,43 @@ if (electronApp) {
 
     electronApp.on('ready', function() {
 
-    visifile = new BrowserWindow({
-                                width: 800,
-                                height: 600,
-                                webPreferences: {
-                                    nodeIntegration: false
+        visifile = new BrowserWindow({
+                                    width: 800,
+                                    height: 600,
+                                    webPreferences: {
+                                        nodeIntegration: false
 
-                                },
-                                icon:'public/VisiFileColor.png'
-                            })
+                                    },
+                                    icon:'public/VisiFileColor.png'
+                                })
+
+        visifile.loadURL(url.format({
+            pathname: path.join(__dirname, 'loading.html'),
+            protocol: 'file:',
+            slashes: true
+          }))
+
+        outputToBrowser("Hello Electron")
 
 
     })
 }
+
+function outputToBrowser(txt) {
+    //var line = txt.toString().replace(/\'|\"|\n|\r"/g , "").toString()
+    let line = txt.toString().replace(/\'/g , "").toString()
+    let jsc = "document.write('<br>" + "" + line + " ')"
+    //console.log(line);
+    if (visifile) {
+        if (visifile.webContents) {
+            visifile.webContents.executeJavaScript(jsc);
+        }
+    } else {
+        console.log(txt)
+    }
+
+}
+
 
 
 
