@@ -83,6 +83,26 @@ outputDebug('LOCAL_HOME:' + LOCAL_HOME);
 
 
 
+if (electronApp) {
+
+    electronApp.on('ready', function() {
+
+    visifile = new BrowserWindow({
+                                width: 800,
+                                height: 600,
+                                webPreferences: {
+                                    nodeIntegration: false
+
+                                },
+                                icon:'public/VisiFileColor.png'
+                            })
+
+
+    })
+}
+
+
+
 //
 // We set the HOME environment variable if we are running in OpenShift
 //
@@ -672,7 +692,11 @@ if (useHost) {
 
 port = program.port;
 outputDebug("port: " + port)
-var runapp = program.runapp;
+var runapp = program.runapp
+if ( electronApp ) {
+    runapp = "homepage"
+};
+
 var runhtml = program.runhtml;
 var loadjsurl = program.loadjsurl;
 var loadjsfile = program.loadjsfile;
