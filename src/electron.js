@@ -96,6 +96,7 @@ if (electronApp) {
                                     },
                                     icon:'public/VisiFileColor.png'
                                 })
+        visifile.maximize()
 
         visifile.loadURL(url.format({
             pathname: path.join(__dirname, 'loading.html'),
@@ -103,7 +104,7 @@ if (electronApp) {
             slashes: true
           }))
 
-        outputToBrowser("Hello Electron")
+        outputToBrowser("Loading Yazz Visual Javascript ... ")
 
 
     })
