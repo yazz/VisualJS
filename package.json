@@ -78,6 +78,7 @@
     ]
   },
   "devDependencies": {
+    "electron-installer-dmg": "^3.0.0",
     "electron-rebuild": "^2.3.4"
   }
 }
