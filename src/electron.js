@@ -3217,7 +3217,12 @@ console.log("\nAppShare Instance ID: " + yazzInstanceId );
 console.log("\nRunning " + executionProcessCount + " virtual processors");
 console.log("\nAppShare started on:");
 console.log("Network Host Address: " + hostaddressintranet)
-console.log("Local Machine Address: " + serverProtocol + "://" + hostaddress + ':' + port);
+let localAddress = serverProtocol + "://" + hostaddress + ':' + port
+console.log("Local Machine Address: " + localAddress);
+if (electronApp) {
+    visifile.loadURL(localAddress)
+}
+
 } else {
 
 
