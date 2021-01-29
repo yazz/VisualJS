@@ -5,7 +5,8 @@
   "author": "Zubair Quraishi",
   "private": true,
   "scripts": {
-    "start": "node src/electron.js"
+    "start": "node src/electron.js",
+    "build": "electron-packager . --overwrite"
   },
   "main": "src/electron.js",
   "bin": {
