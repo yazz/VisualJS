@@ -5,7 +5,7 @@ const electron = require('electron')
 const electronApp = electron.app
 const BrowserWindow = electron.BrowserWindow
 
-
+let visifile = null
 const path = require("path");
 const url = require('url');
 var fork            = require2('child_process');
