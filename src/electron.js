@@ -3221,10 +3221,7 @@ console.log("Network Host Address: " + hostaddressintranet)
 let localAddress = serverProtocol + "://" + hostaddress + ':' + port
 console.log("Local Machine Address: " + localAddress);
 if (electronApp) {
-    setTimeout(function(){
-        visifile.loadURL(localAddress)
-    },5000)
-
+    visifile.loadURL(localAddress)
 }
 
 } else {
