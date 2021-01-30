@@ -93,8 +93,7 @@ if (electronApp) {
                                     webPreferences: {
                                         nodeIntegration: false
 
-                                    },
-                                    icon:'public/VisiFileColor.png'
+                                    }
                                 })
         visifile.maximize()
 
