@@ -84,7 +84,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             <a      href="https://yazz.com"
                     target=new
                     v-bind:refresh='refresh'
-                    style="border:0px; padding: 0px; margin: 0px;padding-left:15px;font-family: Helvetica;color: darkgray;font-weight: bold;letter-spacing: 0px;font-size: 15px;line-height: 1;display: inline-block;top:5px;position:fixed;right:10px;">
+                    style="border:0px; padding: 0px; margin: 0px;padding-left:15px;font-family: Helvetica;color: darkgray;font-weight: bold;letter-spacing: 0px;font-size: 15px;line-height: 1;display: inline-block;top:5px;position:fixed;right:40px;">
                  Supported by Yazz.com
             </a>
 
