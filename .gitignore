@@ -145,8 +145,9 @@ go/pkg
 !/public/*/*/*/*/*/*/*
 /public/*.zip
 
-/public/visifile/docs
-/public/visifile/docs/*
+!/public/visifile/docs
+!/public/visifile/docs/*
+/public/visifile/docs/book/*.html
 
 /visifile/public/dist/build.js.map
 /visifile/public/index.js
