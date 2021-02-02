@@ -21,10 +21,12 @@
         repo: 'https://github.com/yazz/visualjavascript.git'
         dest: /root/visifile
 
+
     - name: build docs
       shell:
           cmd: asciidoc  main.adoc
-          dest: /root/visifile/public/visifile/docs/book/
+      args:
+          chdir: /root/visifile/public/visifile/docs/book/
 
 
 
