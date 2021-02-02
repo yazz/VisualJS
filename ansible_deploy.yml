@@ -23,7 +23,7 @@
 
     - name: build docs
       shell:
-          cmd: asciidoctor  main.adoc
+          cmd: asciidoc  main.adoc
           dest: /root/visifile/public/visifile/docs/book/
 
 
