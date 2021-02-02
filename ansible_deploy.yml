@@ -21,6 +21,12 @@
         repo: 'https://github.com/yazz/visualjavascript.git'
         dest: /root/visifile
 
+    - name: build docs
+      shell:
+          cmd: asciidoctor  main.adoc
+          dest: /root/visifile/public/visifile/docs/book/
+
+
 
     - name: Start Visual Javascript
       shell:
