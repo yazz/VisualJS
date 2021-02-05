@@ -1,7 +1,7 @@
 = Visual Javascript 2021
 
 
-include::preface.adoc[leveloffset=+3]
+
 
 == Chapter 1
 

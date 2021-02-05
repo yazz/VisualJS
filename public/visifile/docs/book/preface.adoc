@@ -1,1 +1,0 @@
-This is a book that has been in the works for a long time. In its current form the Visual Javascript product has been around since 2018, but has never had a useful guide.
