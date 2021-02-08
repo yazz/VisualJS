@@ -1,12 +1,14 @@
 = Visual Javascript 2021
 
-
+== Forward
+=== Preface
+include::chapters/intro/0001_preface.adoc[leveloffset=+3]
 
 
 == Chapter 1
 
 === Introduction
-include::chapters/intro/0001_introduction.adoc[leveloffset=+3]
+include::chapters/intro/0002_introduction.adoc[leveloffset=+3]
 
 
 === What is Visual Javascript?

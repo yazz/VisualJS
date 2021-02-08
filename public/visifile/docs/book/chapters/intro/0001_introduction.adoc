@@ -1,1 +1,0 @@
-Welcome to the Visual Javascript 2021 guide. This guide is meant to explain the history and background of Visual Javascript.
