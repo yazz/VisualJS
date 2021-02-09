@@ -13,7 +13,3 @@ include::chapters/intro/0002_introduction.adoc[leveloffset=+3]
 
 === What is Visual Javascript?
 include::chapters/intro/0003_what_is_vjs.adoc[leveloffset=+3]
-
-
-=== History
-include::chapters/intro/0005_history.adoc[leveloffset=+3]

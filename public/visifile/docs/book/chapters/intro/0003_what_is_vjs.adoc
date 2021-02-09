@@ -1,1 +1,1 @@
-Visual Javascript is a tool for building internal business application. It uses a drag and drop UI builder and Javascript as a scripting language. It can be thought of as a very lightweight version of Visual Basic.
+Visual Javascript is a tool for building internal business application. It has a drag and drop UI builder and uses Javascript as a scripting language. In some ways Visual Javascript can be thought of as a very lightweight version of Visual Basic.
