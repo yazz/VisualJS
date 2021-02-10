@@ -13,3 +13,14 @@ include::chapters/intro/0002_introduction.adoc[leveloffset=+3]
 
 === What is Visual Javascript?
 include::chapters/intro/0003_what_is_vjs.adoc[leveloffset=+3]
+
+
+
+=== What can Visual Javascript be used for?
+include::chapters/intro/0004_what_can_it_be_used_for.adoc[leveloffset=+3]
+
+
+
+
+=== What is the future of Visual Javascript?
+include::chapters/intro/0005_what_is_the_future.adoc[leveloffset=+3]
