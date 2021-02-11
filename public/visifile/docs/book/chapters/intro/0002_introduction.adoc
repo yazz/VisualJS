@@ -1,1 +1,1 @@
-This guide attempts to explain the history and background of Visual Javascript 2021. 
+This guide attempts to explain how you can use the Visual Javascript product to perform everyday automation tasks. 
