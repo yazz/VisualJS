@@ -23,7 +23,15 @@ include::chapters/0100_intro//0004_what_can_it_be_used_for.adoc[leveloffset=+3]
 include::chapters/0100_intro//0006_who_is_vjs_for.adoc[leveloffset=+3]
 
 
-
-
 === What is the future of Visual Javascript?
 include::chapters/0100_intro//0005_what_is_the_future.adoc[leveloffset=+3]
+
+
+
+
+
+
+== Chapter 2
+
+=== Alternatives to Visual Javascript
+include::chapters/0200_alternatives//0205_alternatives.adoc[leveloffset=+3]

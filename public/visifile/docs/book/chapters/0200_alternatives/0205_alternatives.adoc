@@ -1,5 +1,40 @@
-The company behind the Visual Javascript product is Yazz. They coined the phrase of "Self Service Apps Without the IT Department", and they always talk about the coming "No IT" revolution. But isn't the world moving in the opposite direction where IT and technology is everywhere in our daily lives? Well, IT generally is used to mean technologies are still visible. For example, your phone contains a lot of technology but we don't call it an IT system like a PC from the 1990's, we just call it a phone (even then word "smart" has been dropped from smart phone these days). At Yazz they believe that   which means that they believe that the real power of technology for your business will happen when it fades into the background and becomes invisible, meaning that the people making your systems will see be all around you , and a separate IT departments will not be needed anymore.
+There are many alternatives to Visual Javascript, but they must be divided into categories:
 
-The history of Visual Javascript is a long and varied one. The founder first thought about building a web based development tool since he was at University where he built a Hypercard style development tool called OpenPage (using C++ on Solaris) as his final year Computer Science project at Manchester University. The second version was written in Java, but this didn't go anywhere. The third version was developed in Javascript, Ruby and Sintra in 2007, but was too simplistic. Also, in 2008 a fourth attempt was made in Erlang. A fifth attempt was built a Clojure/Clojurescript based tool called Clojure on Coils, which the author thought was pretty cool since it has front end SQL and a time travelling debugger, but most people in the community thought that it was a joke. Eventually after a couple of years the founder outsourced the problem by investing in a project by Chris Granger and Rob Attori, called LightTable/Eve. They tried to solve the problem of building a usable development system until 2018.
+- Open source desktop products
+- Paid desktop products
+- Paid SAAS products
 
-After 2018 the founder took a step back and realised that he had a lot of knowledge about the subject, but needed to find a way to build something that can be commercially viable, as this is a problem that 10,000s of companies have tackled unsuccessfully (just pick up a 1980s edition of Personal Computer to see many companies attempting the same thing). So for a seventh attempt, the author tried to create a tool for enterprise users to build small webapps which can integrate with other systems, based on the look and feel of Visual Basic 6. The product is called Visual Javascript, and has a simple VB style editor, and allows you to build GUI apps, and micro-services. It uses a simple component model based on a single Javascript function per component, for both server side and front end components. It uses NodeJS, SQLite, and VueJS. It can also run as an Electron desktop app. It can run on Docker, Kubernetes, and OpenShift.
+
+
+= Open source desktop products
+
+Lazarus https://www.lazarus-ide.org
+
+
+
+
+= Paid desktop products
+
+- Xojo
+- Mendix
+- Outsystems
+
+
+
+
+
+
+
+= Paid SAAS products
+
+- Retool https://www.retool.io
+- https://bubble.io
+
+
+
+
+
+
+= Other
+
+- Oracle Apex
