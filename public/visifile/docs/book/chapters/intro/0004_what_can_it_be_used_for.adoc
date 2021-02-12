@@ -1,3 +1,0 @@
-Visual Javascript can be used for many things such as:
-
-- internal business apps 

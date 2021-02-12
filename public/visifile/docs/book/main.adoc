@@ -2,28 +2,28 @@
 
 == Forward
 === Preface
-include::chapters/intro/0001_preface.adoc[leveloffset=+3]
+include::chapters/0100_intro//0001_preface.adoc[leveloffset=+3]
 
 
 == Chapter 1
 
 === Introduction
-include::chapters/intro/0002_introduction.adoc[leveloffset=+3]
+include::chapters/0100_intro//0002_introduction.adoc[leveloffset=+3]
 
 
 === What is Visual Javascript?
-include::chapters/intro/0003_what_is_vjs.adoc[leveloffset=+3]
+include::chapters/0100_intro//0003_what_is_vjs.adoc[leveloffset=+3]
 
 
 
 === What can Visual Javascript be used for?
-include::chapters/intro/0004_what_can_it_be_used_for.adoc[leveloffset=+3]
+include::chapters/0100_intro//0004_what_can_it_be_used_for.adoc[leveloffset=+3]
 
 === Who is Visual Javascript for?
-include::chapters/intro/0006_who_is_vjs_for.adoc[leveloffset=+3]
+include::chapters/0100_intro//0006_who_is_vjs_for.adoc[leveloffset=+3]
 
 
 
 
 === What is the future of Visual Javascript?
-include::chapters/intro/0005_what_is_the_future.adoc[leveloffset=+3]
+include::chapters/0100_intro//0005_what_is_the_future.adoc[leveloffset=+3]

@@ -1,1 +1,0 @@
-This guide attempts to explain how you can use the Visual Javascript product to perform everyday automation tasks. 
