@@ -1,0 +1,40 @@
+There are many alternatives to Visual Javascript, but they must be divided into categories:
+
+- Open source desktop products
+- Paid desktop products
+- Paid SAAS products
+
+
+
+= Open source desktop products
+
+Lazarus https://www.lazarus-ide.org
+
+
+
+
+= Paid desktop products
+
+- Xojo
+- Mendix
+- Outsystems
+- Microsoft Access
+
+
+
+
+
+
+= Paid SAAS products
+
+- Retool - https://www.retool.io
+- https://bubble.io
+
+
+
+
+
+
+= Other
+
+- Oracle Apex

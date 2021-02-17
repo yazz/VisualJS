@@ -1,0 +1,8 @@
+There are many categories, both tech and process:
+
+- No code
+- Low code
+- Devops
+- Traditional languages
+- Excel
+- SAAS
