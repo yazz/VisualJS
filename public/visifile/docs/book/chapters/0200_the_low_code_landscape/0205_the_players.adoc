@@ -1,19 +1,21 @@
 There are many alternatives to Visual Javascript, but they must be divided into categories:
 
-- Open source desktop products
-- Paid desktop products
-- Paid SAAS products
+- No code
+- Low code
+- Devops
+- Traditional languages
+- Excel
+- SAAS
+- Other
 
+= No code
 
-
-= Open source desktop products
 
 Lazarus https://www.lazarus-ide.org
 
 
 
-
-= Paid desktop products
+= Low code
 
 - Xojo
 - Mendix
@@ -35,6 +37,26 @@ Lazarus https://www.lazarus-ide.org
 
 
 
+= Devops
+
+
+
+= Traditional languages
+
+
+
+= Excel
+
+
+
+
+= SAAS
+
+
+
+
 = Other
 
-- Oracle Apex
+== Oracle Apex
+
+Oracle Apex has been around for about 20 years and even though it's not so well known is actually very powerful tool it's a web-based drag and drop application builder which runs on top of the Oracle database. One of the unique things is that it is written in PLsql which is Oracle version of SQL. It is used a lot in many Enterprise companies but it isn't very well known.
