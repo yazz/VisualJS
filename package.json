@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "start": "node src/electron.js",
-    "build": "electron-packager  .  --ignore=node_modules/electron-*  --overwrite  --icon=icon.icns"
+    "build": "electron-packager  .  --ignore=node_modules/electron-*  --overwrite  --icon=icon.icns --asar"
   },
   "main": "src/electron.js",
   "bin": {
