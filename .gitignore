@@ -13,6 +13,7 @@
 
 !/.babelrc
 !/package.json
+!/deploy_mac_app_store
 !/forge.config.js
 !/package.json
 !/package-lock.json

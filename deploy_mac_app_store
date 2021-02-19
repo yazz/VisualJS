@@ -1,0 +1,1 @@
+electron-packager  .  --ignore=node_modules/electron-*  --overwrite  --icon=icon.icns --asar
