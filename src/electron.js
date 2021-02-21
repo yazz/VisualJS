@@ -147,7 +147,10 @@ if (!isValidObject(LOCAL_HOME) || (LOCAL_HOME == "/")) {
 }
 
 function require2(npath) {
-     return require(path.join(".",npath))
+    if (electronApp){
+        return require(npath)
+    }
+    return require(path.join(".",npath))
 }
 
 
@@ -295,7 +298,12 @@ var saveHelper      = require('./save_helpers')
 
 let sqlNodePath = path.join(nodeModulesPath,'node_modules/sqlite3')
 //console.log("sqlNodePath: " + sqlNodePath)
-var sqlite3                     = require(sqlNodePath);
+var sqlite3                     = null
+if (electronApp){
+    sqlite3                     = require("sqlite3");
+} else {
+    sqlite3                     = require(sqlNodePath);
+}
 
 
 var os              = require2('os')

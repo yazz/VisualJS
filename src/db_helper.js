@@ -1,6 +1,7 @@
 var async           = require('async');
 var path                        = require('path');
-
+const electron = require('electron')
+const electronApp = true
 
 
 let nodeModulesPath = process.cwd()
@@ -15,7 +16,14 @@ if (process.execPath) {
 
 
 
-var sqlite3                     = require(path.join(nodeModulesPath,'node_modules/sqlite3'));
+let sqlNodePath = path.join(nodeModulesPath,'node_modules/sqlite3')
+//console.log("sqlNodePath: " + sqlNodePath)
+var sqlite3                     = null
+if (electronApp){
+    sqlite3                     = require("sqlite3");
+} else {
+    sqlite3                     = require(sqlNodePath);
+}
 
 
 module.exports = {
