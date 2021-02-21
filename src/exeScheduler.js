@@ -1,7 +1,7 @@
 var fs                          = require('fs');
 var path                        = require('path');
 const uuidv1                    = require('uuid/v1');
-console.log("***: " + process.env.electron)
+console.log("ex***: " + process.env.electron)
 let electronApp = false
 if (process.env.electron && (process.env.electron == "TRUE")) {
     electronApp = true

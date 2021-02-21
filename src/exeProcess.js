@@ -5,7 +5,7 @@ var postgresdb                  = require('pg');
 var mysql                       = require('mysql');
 const uuidv1                    = require('uuid/v1');
 
-console.log("***: " + process.env.electron)
+console.log("e***: " + process.env.electron)
 let electronApp = false
 if (process.env.electron && (process.env.electron == "TRUE")) {
     electronApp = true

@@ -282,7 +282,6 @@ try {
 
 
 var request         = require2("request");
-var db_helper       = require("./db_helper")
 var perf            = require('./perf')
 var compression     = require2('compression')
 

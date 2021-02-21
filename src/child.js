@@ -5,7 +5,7 @@ var postgresdb                  = require('pg');
 var mysql                       = require('mysql');
 const uuidv1                    = require('uuid/v1');
 var crypto                      = require('crypto');
-console.log("***: " + process.env.electron)
+console.log("c***: " + process.env.electron)
 let electronApp = false
 if (process.env.electron && (process.env.electron == "TRUE")) {
     electronApp = true
@@ -441,6 +441,7 @@ function processMessagesFromMainProcess() {
 
         outputDebug("**** createTables");
 
+        db_helper.setElectron(electronApp)
         db_helper.createTables(dbsearch,
             function() {
                 outputDebug("");
