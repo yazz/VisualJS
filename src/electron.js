@@ -162,8 +162,8 @@ try {
         console.log("Running in Electron")
 
         let srcElectronDriver = path.join(nodeModulesPath,'node_modules/sqlite3/lib/binding/electron-v11.2-darwin-x64/node_sqlite3.node')
-        let destElectronPath = path.join(nodeModulesPath,'node_modules/sqlite3/lib/binding/electron-v11.1-darwin-x64/')
-        let destElectronDriver = path.join(nodeModulesPath,'node_modules/sqlite3/lib/binding/electron-v11.1-darwin-x64/node_sqlite3.node')
+        let destElectronPath = path.join(nodeModulesPath,'node_modules/sqlite3/lib/binding/electron-v11.3-darwin-x64/')
+        let destElectronDriver = path.join(nodeModulesPath,'node_modules/sqlite3/lib/binding/electron-v11.3-darwin-x64/node_sqlite3.node')
         mkdirp.sync(    destElectronPath   );
         copyFileSync( srcElectronDriver , destElectronDriver   );
 
@@ -1253,9 +1253,12 @@ function setUpChildListeners(processName, fileName, debugPort) {
 //------------------------------------------------------------------------------
 function setupForkedProcess(  processName,  fileName,  debugPort  ) {
     var debugArgs = [];
-    let useElectron = null
+    let useElectron = ""
     if (electronApp) {
         useElectron = "TRUE"
+        console.log("***** Run all in electron, useElectron = TRUE")
+    } else {
+        console.log("***** NOT run in electron, useElectron = ")
     }
     if (debug) {
         if (semver.gte(process.versions.node, '6.9.0')) {
