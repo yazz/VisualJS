@@ -5,7 +5,6 @@ var postgresdb                  = require('pg');
 var mysql                       = require('mysql');
 const uuidv1                    = require('uuid/v1');
 var crypto                      = require('crypto');
-const electron = require('electron')
 const electronApp = true
 
 let nodeModulesPath = process.cwd()

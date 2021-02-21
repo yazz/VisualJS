@@ -1,7 +1,6 @@
 var fs                          = require('fs');
 var path                        = require('path');
 const uuidv1                    = require('uuid/v1');
-const electron = require('electron')
 const electronApp = true
 
 let nodeModulesPath = process.cwd()

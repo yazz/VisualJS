@@ -1,6 +1,5 @@
 var async           = require('async');
 var path                        = require('path');
-const electron = require('electron')
 const electronApp = true
 
 
