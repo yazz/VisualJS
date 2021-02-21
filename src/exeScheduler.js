@@ -1,7 +1,11 @@
 var fs                          = require('fs');
 var path                        = require('path');
 const uuidv1                    = require('uuid/v1');
-const electronApp = true
+console.log("***: " + process.env.electron)
+let electronApp = false
+if (process.env.electron && (process.env.electron == "TRUE")) {
+    electronApp = true
+}
 
 let nodeModulesPath = process.cwd()
 if (process.execPath) {

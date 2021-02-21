@@ -1252,7 +1252,11 @@ function setUpChildListeners(processName, fileName, debugPort) {
 //
 //------------------------------------------------------------------------------
 function setupForkedProcess(  processName,  fileName,  debugPort  ) {
-    var debugArgs =[];
+    var debugArgs = [];
+    let useElectron = null
+    if (electronApp) {
+        useElectron = "TRUE"
+    }
     if (debug) {
         if (semver.gte(process.versions.node, '6.9.0')) {
             debugArgs = ['--inspect=' + debugPort];
@@ -1267,7 +1271,8 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
     } else {
         forkedProcessPath = path.join(__dirname, '../src/' + fileName)
     }
-    forkedProcesses[  processName  ] = fork.fork(forkedProcessPath, [], {execArgv: debugArgs});
+    forkedProcesses[  processName  ] = fork.fork(forkedProcessPath, [], {execArgv: debugArgs,
+    env: {electron: useElectron }});
 
 
 

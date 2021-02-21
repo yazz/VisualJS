@@ -5,7 +5,12 @@ var postgresdb                  = require('pg');
 var mysql                       = require('mysql');
 const uuidv1                    = require('uuid/v1');
 var crypto                      = require('crypto');
-const electronApp = true
+console.log("***: " + process.env.electron)
+let electronApp = false
+if (process.env.electron && (process.env.electron == "TRUE")) {
+    electronApp = true
+}
+
 
 let nodeModulesPath = process.cwd()
 if (process.execPath) {

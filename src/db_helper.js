@@ -1,6 +1,10 @@
 var async           = require('async');
 var path                        = require('path');
-const electronApp = true
+console.log("***: " + process.env.electron)
+let electronApp = false
+if (process.env.electron && (process.env.electron == "TRUE")) {
+    electronApp = true
+}
 
 
 let nodeModulesPath = process.cwd()
