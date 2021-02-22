@@ -1,1 +1,1 @@
-electron-packager  .  --ignore=node_modules/electron-*  --overwrite  --icon=icon.icns  --asar  --platform=mas  --app-bundle-id=com.yazz.vjs  --app-version=2021.0.0  --build-version="1.0.0"   --arch=x64  --out=appstore_mac  
+electron-packager  .  --ignore=node_modules/electron-*  --overwrite  --icon=icon.icns  --asar  --platform=mas  --app-bundle-id=com.yazz.vjs  --app-version=2021.0.0  --build-version="1.0.0"   --arch=x64  --out=appstore_mac  --extend-info=../mac_app_store/info.plist
