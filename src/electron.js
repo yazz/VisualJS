@@ -3469,6 +3469,12 @@ if (isWin) {
     outputDebug("Running as Linux/Mac")
 	userData =  path.join(LOCAL_HOME, 'Yazz')
 }
+
+findSystemDataDirectoryAndStart()
+
+
+
+function findSystemDataDirectoryAndStart() {
 dbPath = path.join(userData, username + '.visi')
 
 
@@ -3512,7 +3518,7 @@ outputDebug("process.env keys: " + Object.keys(process.env))
 
 dbsearch = new sqlite3.Database(dbPath);
 dbsearch.run("PRAGMA journal_mode=WAL;")
-
+}
 
 async function executeSqliteForApp( args ) {
     if (!args.sql) {
