@@ -3501,49 +3501,49 @@ if (electronApp) {
 function findSystemDataDirectoryAndStart() {
     console.log("userData : " + userData)
     console.log("username : " + username)
-dbPath = path.join(userData, username + '.visi')
+    dbPath = path.join(userData, username + '.visi')
 
 
-if (deleteOnStartup) {
-    outputDebug("deleting dir :" + userData)
-    if (userData.length > 6) {
-            deleteYazzDataV2(userData)
+    if (deleteOnStartup) {
+        outputDebug("deleting dir :" + userData)
+        if (userData.length > 6) {
+                deleteYazzDataV2(userData)
+        }
     }
-}
-var uploadPath = path.join(userData,  'uploads/')
+    var uploadPath = path.join(userData,  'uploads/')
 
-outputDebug("LOCAL_HOME: " + LOCAL_HOME)
-outputDebug("userData: " + userData)
-outputDebug("uploadPath: " + uploadPath)
+    outputDebug("LOCAL_HOME: " + LOCAL_HOME)
+    outputDebug("userData: " + userData)
+    outputDebug("uploadPath: " + uploadPath)
 
-upload = multer( { dest: uploadPath});
-
-
-
-if (!fs.existsSync( path.join(userData,  'uploads') )) {
-    mkdirp.sync(path.join(userData,  'uploads'));
-}
-if (!fs.existsSync( path.join(userData,  'files') )) {
-    mkdirp.sync(path.join(userData,  'files'));
-}
-if (!fs.existsSync( path.join(userData,  'apps') )) {
-    mkdirp.sync(path.join(userData,  'apps'));
-}
-if (!fs.existsSync( path.join(userData,  'app_dbs') )) {
-    mkdirp.sync(path.join(userData,  'app_dbs'));
-}
-
-
-outputDebug('process.env.LOCALAPPDATA: ' + JSON.stringify(localappdata ,null,2))
-outputDebug("Local home data path: " + LOCAL_HOME)
-outputDebug("userData: " + JSON.stringify(userData ,null,2))
-outputDebug("process.env keys: " + Object.keys(process.env))
+    upload = multer( { dest: uploadPath});
 
 
 
+    if (!fs.existsSync( path.join(userData,  'uploads') )) {
+        mkdirp.sync(path.join(userData,  'uploads'));
+    }
+    if (!fs.existsSync( path.join(userData,  'files') )) {
+        mkdirp.sync(path.join(userData,  'files'));
+    }
+    if (!fs.existsSync( path.join(userData,  'apps') )) {
+        mkdirp.sync(path.join(userData,  'apps'));
+    }
+    if (!fs.existsSync( path.join(userData,  'app_dbs') )) {
+        mkdirp.sync(path.join(userData,  'app_dbs'));
+    }
 
-dbsearch = new sqlite3.Database(dbPath);
-dbsearch.run("PRAGMA journal_mode=WAL;")
+
+    outputDebug('process.env.LOCALAPPDATA: ' + JSON.stringify(localappdata ,null,2))
+    outputDebug("Local home data path: " + LOCAL_HOME)
+    outputDebug("userData: " + JSON.stringify(userData ,null,2))
+    outputDebug("process.env keys: " + Object.keys(process.env))
+
+
+
+
+    dbsearch = new sqlite3.Database(dbPath);
+    dbsearch.run("PRAGMA journal_mode=WAL;")
 }
 
 async function executeSqliteForApp( args ) {
