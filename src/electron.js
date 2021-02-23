@@ -83,31 +83,7 @@ outputDebug('LOCAL_HOME:' + LOCAL_HOME);
 
 
 
-if (electronApp) {
 
-    electronApp.on('ready', function() {
-
-        visifile = new BrowserWindow({
-                                    width: 800,
-                                    height: 600,
-                                    webPreferences: {
-                                        nodeIntegration: false
-
-                                    }
-                                })
-        visifile.maximize()
-
-        visifile.loadURL(url.format({
-            pathname: path.join(__dirname, 'loading.html'),
-            protocol: 'file:',
-            slashes: true
-          }))
-
-        outputToBrowser("Loading Yazz Visual Javascript ... ")
-
-
-    })
-}
 
 function outputToBrowser(txt) {
     //var line = txt.toString().replace(/\'|\"|\n|\r"/g , "").toString()
@@ -181,7 +157,7 @@ try {
 
             fs.accessSync(pathWindows, fs.constants.R_OK | fs.constants.W_OK);
         } catch (err) {
-            //zzz
+
             console.log("Setting up Visual Javascript to run for the first time. Please wait a few minutes...")
             outputDebug('no access to ' + pathWindows + '!');
             outputDebug("Creating Windows driver")
@@ -3442,7 +3418,7 @@ function readCerts() {
 
 
 setupVisifileParams();
-
+if (!electronApp) {
 outputDebug("process.platform = " + process.platform)
 
 
@@ -3469,12 +3445,59 @@ if (isWin) {
     outputDebug("Running as Linux/Mac")
 	userData =  path.join(LOCAL_HOME, 'Yazz')
 }
+}
 
 findSystemDataDirectoryAndStart()
 
 
 
+
+
+
+if (electronApp) {
+
+    electronApp.on('ready', function() {
+
+        visifile = new BrowserWindow({
+                                    width: 800,
+                                    height: 600,
+                                    webPreferences: {
+                                        nodeIntegration: false
+
+                                    }
+                                })
+        visifile.maximize()
+
+        visifile.loadURL(url.format({
+            pathname: path.join(__dirname, 'loading.html'),
+            protocol: 'file:',
+            slashes: true
+          }))
+
+        outputToBrowser("Loading Yazz Visual Javascript ... ")
+
+        if (isWin) {
+            var localappdata  = process.env.LOCALAPPDATA
+            userData = path.join(localappdata, '/Visifile/')
+        } else {
+            userData = electronApp.getPath('userData')
+            console.log("read userData : " + userData)
+        }
+        //zzz
+        findSystemDataDirectoryAndStart()
+
+    })
+}
+
+
+
+
+
+
+
 function findSystemDataDirectoryAndStart() {
+    console.log("userData : " + userData)
+    console.log("username : " + username)
 dbPath = path.join(userData, username + '.visi')
 
 
