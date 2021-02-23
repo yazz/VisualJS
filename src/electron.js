@@ -3449,7 +3449,7 @@ if (electronApp) {
         }
         //zzz
         findSystemDataDirectoryAndStart()
-
+        finishInit()
     })
 
 
@@ -3483,6 +3483,7 @@ if (electronApp) {
     	userData =  path.join(LOCAL_HOME, 'Yazz')
     }
     findSystemDataDirectoryAndStart()
+    finishInit() 
 }
 
 
@@ -3600,24 +3601,26 @@ async function executeSqliteForApp( args ) {
 
 
 
+
 var shuttingDown = false;
-process.on('exit', function() {
-    shutDown();
-  });
-process.on('quit', function() {
-  shutDown();
-});
-process.on("SIGINT", function () {
-    shutDown();
-    process.exit()
-});
 
 
 
 
 
+function finishInit() {
 
 
+    process.on('exit', function() {
+        shutDown();
+      });
+    process.on('quit', function() {
+      shutDown();
+    });
+    process.on("SIGINT", function () {
+        shutDown();
+        process.exit()
+    });
 
     setupMainChildProcess();
 
@@ -3652,3 +3655,5 @@ process.on("SIGINT", function () {
             }
         },(statsInterval * 1000))
     }
+
+}
