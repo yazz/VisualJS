@@ -3451,6 +3451,10 @@ if (electronApp) {
         findSystemDataDirectoryAndStart()
 
     })
+
+
+
+// if not an electron app
 } else {
     outputDebug("process.platform = " + process.platform)
 
