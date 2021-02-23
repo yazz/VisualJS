@@ -3418,42 +3418,6 @@ function readCerts() {
 
 
 setupVisifileParams();
-if (!electronApp) {
-outputDebug("process.platform = " + process.platform)
-
-
-if (process.platform === "win32") {
-    var rl = require2("readline").createInterface({
-      input: process.stdin,
-      output: process.stdout
-    });
-
-    rl.on("SIGINT", function () {
-        shutDown();
-        process.exit();
-    });
-}
-
-
-
-if (isWin) {
-    outputDebug("Running as Windows")
-	var localappdata  = process.env.LOCALAPPDATA
-	userData = path.join(localappdata, '/Yazz/')
-} else {
-
-    outputDebug("Running as Linux/Mac")
-	userData =  path.join(LOCAL_HOME, 'Yazz')
-}
-}
-
-findSystemDataDirectoryAndStart()
-
-
-
-
-
-
 if (electronApp) {
 
     electronApp.on('ready', function() {
@@ -3487,7 +3451,42 @@ if (electronApp) {
         findSystemDataDirectoryAndStart()
 
     })
+} else {
+    outputDebug("process.platform = " + process.platform)
+
+
+    if (process.platform === "win32") {
+        var rl = require2("readline").createInterface({
+          input: process.stdin,
+          output: process.stdout
+        });
+
+        rl.on("SIGINT", function () {
+            shutDown();
+            process.exit();
+        });
+    }
+
+
+
+    if (isWin) {
+        outputDebug("Running as Windows")
+    	var localappdata  = process.env.LOCALAPPDATA
+    	userData = path.join(localappdata, '/Yazz/')
+    } else {
+
+        outputDebug("Running as Linux/Mac")
+    	userData =  path.join(LOCAL_HOME, 'Yazz')
+    }
+    findSystemDataDirectoryAndStart()
 }
+
+
+
+
+
+
+
 
 
 
