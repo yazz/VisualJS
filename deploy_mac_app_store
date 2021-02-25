@@ -5,10 +5,8 @@ electron-packager  .  --ignore=node_modules/electron-*  --overwrite  --icon=icon
 
 APP_PATH="./appstore_mac/$APP-mas-x64/$APP.app"
 RESULT_PATH="./appstore_mac/$APP.pkg"
-APP_KEY="3rd Party Mac Developer Application:
- Yazz (4H9Q732XXV)"
-INSTALLER_KEY="3rd Party Mac Developer Installer:
- Yazz (4H9Q732XXV)"
+APP_KEY="3rd Party Mac Developer Application: F Quraishi (4H9Q732XXV)"
+INSTALLER_KEY="3rd Party Mac Developer Installer: F Quraishi (4H9Q732XXV)"
 FRAMEWORKS_PATH="$APP_PATH/Contents/Frameworks"
 CHILD_PLIST="../mac_app_store/child.plist"
 PARENT_PLIST="../mac_app_store/parent.plist"
