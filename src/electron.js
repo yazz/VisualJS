@@ -1249,6 +1249,7 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
     } else {
         forkedProcessPath = path.join(__dirname, '../src/' + fileName)
     }
+    console.log("forkedProcessPath: " + forkedProcessPath)
     forkedProcesses[  processName  ] = fork.fork(forkedProcessPath, [], {execArgv: debugArgs,
     env: {electron: useElectron }});
 
@@ -3426,7 +3427,8 @@ if (electronApp) {
                                     width: 800,
                                     height: 600,
                                     webPreferences: {
-                                        nodeIntegration: false
+                                        nodeIntegration: false,
+                                        enableRemoteModule: true
 
                                     }
                                 })
@@ -3483,7 +3485,7 @@ if (electronApp) {
     	userData =  path.join(LOCAL_HOME, 'Yazz')
     }
     findSystemDataDirectoryAndStart()
-    finishInit() 
+    finishInit()
 }
 
 
