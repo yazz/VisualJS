@@ -1,6 +1,6 @@
 
 # Visual Javascript 2021
-### A Visual Low Code tool for building internal applications
+### A visual Low Code tool for building internal applications
 (similar to Visual Basic, but using Javascript as the scripting language)
 
 <img width="350" alt="portfolio_view" src="https://raw.githubusercontent.com/yazz/visualjavascript/master/public/driver_icons/visualjavascript.jpg"></img>
