@@ -59,7 +59,7 @@ Browse to http://0.0.0.0:80</pre>
 
 
 
-### Useful links:
+## Useful links:
 - Demo which works on desktop web browsers here: https://yazz.com/app/homepage.html
 - Link to PDF docs: https://yazz.com/visifile/docs/yazz_march_2020.pdf
 - Link to Hacker News Post (when it was known as Yazz Pilot): https://news.ycombinator.com/item?id=21734845
@@ -67,12 +67,18 @@ Browse to http://0.0.0.0:80</pre>
 
 
 
-<br/><br/><br/>
 
 
 ## Roadmap
 
-- **2013 - Now** Developerment 
+- **2013** Started developement in Clojure/Clojurescript
+- **2014** Called Clojure on Coils
+- **2015** Development slow, as most work being done in Light Table / Eve project
+- **2016** Clojure development stopped as Eve making good progress. 
+- **2016** Started Development of Visifile in Javascript, an internal search engine for enterprises
+- **2018** Eve project shuts down
+- **2018** Visifile launches but finds out the problem is too difficult to solve. Pivots the product to a low code tool
+- **2019** Visifile code removed from codebase
 - **2021** Enterprise App Store for ISVs to discover, create, buy, and sell Visual Javascript components and apps to enterprises
 - **2021** Support for Istio, Rancher, KNative, OpenWhisk, OpenFaas, AWS
 - **2021** Enterprise connectivity via Red Hat, IBM, Salesforce, SAP, Oracle, Stripe, and other enterprise components
