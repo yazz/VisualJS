@@ -1,9 +1,32 @@
 
 # Visual Javascript 2021
-### A visual Low Code tool for building internal applications
+## A visual Low Code tool for building internal applications
 (similar to Visual Basic, but using Javascript as the scripting language)
 
 <img width="350" alt="portfolio_view" src="https://raw.githubusercontent.com/yazz/visualjavascript/master/public/driver_icons/visualjavascript.jpg"></img>
+
+
+## Benefits
+- Works on Windows, Linux, Mac, Raspberry PI, NodeJS, Docker, and Kubernetes, OpenShift, Istio
+- Build apps in minutes using a drag and drop UI
+- Talk to Postgres, Mysql, or REST APIs using pre built components
+- Build web interfaces with common UI components such as buttons, grids, and text boxes
+
+## Features
+- Drag and drop UI interface
+- Code business logic in Javascript
+- Each app has a built in SQLite database
+- Open source MIT license
+- Can run in Docker, Kubernetes, or OpenShift, as a Snap package, or locally on Mac, Windows, Linux, Raspberry PI using NodeJS
+- Can build Microservices
+- All source code for apps can be saved as a single .vjs file
+- Apps can be saved as a single HTML file and sent by email (Even SQlite based apps)
+- All code is stored as immutable, and identified by a SHA256 hash
+- The Visual Javascript editor and output programs can work offline without internet connectivity
+- Extra UI or server components can be build as plugins (as .vjs files)
+- The Visual Javascript extensible IDE allows you to build new ways of editing code. Currently a text editor and a Visual Basic style editor are included
+
+## Quick Install Guide
 
 ### NodeJS
 <pre style="display:inline;">&gt; git clone https://github.com/yazz/visualjavascript.git
@@ -34,25 +57,6 @@ Browse to http://0.0.0.0:80</pre>
 Browse to http://0.0.0.0:80</pre>
 
 
-### Benefits
-- Works on Windows, Linux, Mac, Raspberry PI, NodeJS, Docker, and Kubernetes, OpenShift, Istio
-- Build apps in minutes using a drag and drop UI
-- Talk to Postgres, Mysql, or REST APIs using pre built components
-- Build web interfaces with common UI components such as buttons, grids, and text boxes
-
-### Features
-- Drag and drop UI interface
-- Code business logic in Javascript
-- Each app has a built in SQLite database
-- Open source MIT license
-- Can run in Docker, Kubernetes, or OpenShift, as a Snap package, or locally on Mac, Windows, Linux, Raspberry PI using NodeJS
-- Can build Microservices
-- All source code for apps can be saved as a single .vjs file
-- Apps can be saved as a single HTML file and sent by email (Even SQlite based apps)
-- All code is stored as immutable, and identified by a SHA256 hash
-- The Visual Javascript editor and output programs can work offline without internet connectivity
-- Extra UI or server components can be build as plugins (as .vjs files)
-- The Visual Javascript extensible IDE allows you to build new ways of editing code. Currently a text editor and a Visual Basic style editor are included
 
 
 ### Useful links:
