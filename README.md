@@ -1,7 +1,6 @@
 
 # Visual Javascript 2021
 ## A visual Low Code tool for building internal applications
-(similar to Visual Basic, but using Javascript as the scripting language)
 
 <img width="350" alt="portfolio_view" src="https://raw.githubusercontent.com/yazz/visualjavascript/master/public/driver_icons/visualjavascript.jpg"></img>
 
@@ -13,6 +12,7 @@
 - Build web interfaces with common UI components such as buttons, grids, and text boxes
 
 ## Features
+- similar to Visual Basic, but using Javascript as the scripting language
 - Drag and drop UI interface
 - Code business logic in Javascript
 - Each app has a built in SQLite database
