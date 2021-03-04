@@ -4,7 +4,7 @@
 
 <img width="350" alt="portfolio_view" src="https://raw.githubusercontent.com/yazz/visualjavascript/master/public/driver_icons/visualjavascript.jpg"></img>
 
-## What is it
+## What is Visual Javascript
 Visual Javascript is a development tool and runtime environment integrated into one tool. You can run it either on a server or on your desktop. It is very portable and runs almost anywhere, from Kubernetes to Raspberry PI. To develop apps you literally start up the server, connect to the build in drag and drop editor and run your apps. Overall it is probably not suitable for building the next great operating system, but it is ideal for small GUI apps or microservices. Many demo apps can be found here at yazz.com, the parent company that sponsors development of the tool.
 
 ## Benefits
@@ -19,7 +19,7 @@ Visual Javascript is a development tool and runtime environment integrated into 
 - Code business logic in Javascript
 - Each app has a built in SQLite database
 - Open source MIT license
-- Can run in Docker, Kubernetes, or OpenShift, as a Snap package, or locally on Mac, Windows, Linux, Raspberry PI using NodeJS
+- Can run in Docker, Kubernetes, or OpenShift, locally on Mac, Windows, Linux, Raspberry PI using NodeJS
 - Can build Microservices
 - All source code for apps can be saved as a single .vjs file
 - Apps can be saved as a single HTML file and sent by email (Even SQlite based apps)
