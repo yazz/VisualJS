@@ -73,7 +73,7 @@ Browse to http://0.0.0.0:80</pre>
 
 - **2013** Started developement in Clojure/Clojurescript
 - **2014** Called Clojure on Coils
-- **2015** Development slow, as most work being done in Light Table / Eve project
+- **2015** Development slows, as work moved to Light Table / Eve project
 - **2016** Clojure development stopped as Eve making good progress. 
 - **2016** Started Development of Visifile in Javascript, an internal search engine for enterprises
 - **2018** Eve project shuts down
