@@ -12,7 +12,7 @@ EXPOSE 3000
 
 LABEL io.k8s.description            The Yazz Visual Javascript system
 LABEL io.openshift.expose-services  3000:http
-LABEL io.openshift.non-scalable     false
+LABEL io.openshift.non-scalable     true
 LABEL io.openshift.min-memory       1Gi
 LABEL io.openshift.min-cpu          4
 
