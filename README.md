@@ -14,7 +14,7 @@ Visual Javascript is a Low code tool and runtime environment integrated into one
 - Build web interfaces with common UI components such as buttons, grids, and text boxes
 
 ## Features
-- similar to Visual Basic, but using Javascript as the scripting language
+- Similar to Visual Basic, but using Javascript as the scripting language
 - Drag and drop UI interface
 - Code business logic in Javascript
 - Each app has a built in SQLite database
