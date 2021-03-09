@@ -8,24 +8,23 @@
 Visual Javascript is a Low code tool and runtime environment integrated into one package. You can run Visual Javascript either on a server or on your desktop. It is very portable and runs almost anywhere, from Kubernetes to Raspberry PI. To develop apps you start up the server, create the app in your web browser, and share the URL. Overall it is probably not suitable for building the next great operating system, but it is ideal for small GUI apps or microservices. Many demo apps can be found at https://yazz.com, the parent company that sponsors development of the tool.
 
 ## Benefits
+- Easy to use like Visual Basic, but using Javascript as the scripting language
 - Works on Windows, Linux, Mac, Raspberry PI, NodeJS, Docker, and Kubernetes, OpenShift, Istio
 - Build apps in minutes using a drag and drop UI
 - Talk to Postgres, Mysql, or REST APIs using pre built components
 - Build web interfaces with common UI components such as buttons, grids, and text boxes
-- No runtime needed for built apps. Apps can be compiled to a single HTML file and sent by email
+- Can build Microservices for more complex use cases
+- No runtime needed for built apps. Apps can be compiled to a single HTML file and sent by email (Even Sqlite based apps)
+- Visual Javascript editor can work offline without internet connectivity on your laptop
 
 ## Features
-- Similar to Visual Basic, but using Javascript as the scripting language
-- Drag and drop UI interface
+- Drag and drop user interface
 - Code business logic in Javascript
 - Each app has a built in SQLite database
 - Open source MIT license
 - Can run in Docker, Kubernetes, or OpenShift, locally on Mac, Windows, Linux, Raspberry PI using NodeJS
-- Can build Microservices
 - All source code for apps can be saved as a single .vjs file
-- Apps can be saved as a single HTML file and sent by email (Even SQlite based apps)
 - All code is stored as immutable, and identified by a SHA256 hash
-- The Visual Javascript editor and output programs can work offline without internet connectivity
 - Extra UI or server components can be build as plugins (as .vjs files)
 - The Visual Javascript extensible IDE allows you to build new ways of editing code. Currently a text editor and a Visual Basic style editor are included
 
