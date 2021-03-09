@@ -79,7 +79,7 @@ Browse to http://0.0.0.0:80</pre>
 - **2016** Clojure development stopped as Eve making good progress. 
 - **2016** Started Development of Visifile in Javascript, an search engine for internal enterprise data
 - **2018** Eve project shuts down
-- **2018** Visifile launches but finds out the problem is too difficult to solve. Pivots the product to a low code tool
+- **2018** Visifile launches but finds out the problem is too difficult to solve. Pivots the product to a low code tool (also because Eve has been shut down)
 - **2019** Visifile code removed from codebase
 - **2021** Enterprise App Store for ISVs to discover, create, buy, and sell Visual Javascript components and apps to enterprises
 - **2021** Support for Istio, Rancher, KNative, OpenWhisk, OpenFaas, AWS
