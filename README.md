@@ -5,7 +5,7 @@
 <img width="350" alt="portfolio_view" src="https://raw.githubusercontent.com/yazz/visualjavascript/master/public/driver_icons/visualjavascript.jpg"></img>
 
 ## What is Visual Javascript?
-Visual Javascript is a bundled Low Code tool and runtime environment for building internal web apps. You can run Visual Javascript either on your desktop PC or on a server. It is very portable and runs almost anywhere, from Kubernetes to Raspberry PI. To develop apps, you start up the server, create the app in your web browser, and share the URL. However, it is probably not suitable for building the next great operating system. It sweet spot is for building small GUI apps or microservices. Many demo apps can be found at https://yazz.com, the parent company that sponsors development of the tool.
+Visual Javascript is a bundled Low Code tool and runtime environment for building internal web apps. You can run Visual Javascript either on your desktop PC or on a server. It is very portable and runs almost anywhere, from Kubernetes to Raspberry PI. To develop apps, you start up the server, create the app in your web browser, and share the URL. However, it is probably not suitable for building the next great operating system. It sweet spot is for building small GUI apps or microservices. Many demo apps can be found at https://yazz.com (Yazz is the parent company that sponsors development of the tool).
 
 ## Benefits
 - Easy to use like Visual Basic, but using Javascript as the scripting language
