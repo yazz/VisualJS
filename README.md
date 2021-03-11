@@ -12,10 +12,11 @@ Visual Javascript is a Low Code tool for building internal web apps. You can run
 - Drag and drop user interface
 - Works everywhere, Windows, Linux, Mac, Raspberry PI, NodeJS, Docker, and Kubernetes, OpenShift, Istio
 - No runtime needed for built apps. Apps can be compiled to a single HTML file and sent by email (Even Sqlite database apps)
-- Visual Javascript editor can work offline without internet connectivity on your laptop
+- Editor works locally and offline without internet connectivity on your laptop
 
 ## Features
 - Connect to Postgres, Mysql, or REST APIs using pre built components
+- Suitable for desktop apps
 - Build web interfaces with common UI components such as buttons, grids, and text boxes
 - Can build Microservices for more complex use cases
 - Code business logic in Javascript
@@ -26,6 +27,11 @@ Visual Javascript is a Low Code tool for building internal web apps. You can run
 - All code is stored as immutable, and identified by a SHA256 hash
 - Extra UI or server components can be build as plugins (as .vjs files)
 - The Visual Javascript extensible IDE allows you to build new ways of editing code. Currently a text editor and a Visual Basic style editor are included
+
+## What it can't do
+- Build amazing UIs for public facing websites
+- Build mobile apps
+- Build self contained executables (need to pass in .vjs files)
 
 ## Quick Install Guide
 
