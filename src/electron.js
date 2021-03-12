@@ -3278,7 +3278,7 @@ if (electronApp) {
                 }
 
                 //shutDown();
-                process.exit();
+                //process.exit();
             })()
     }
 
@@ -3469,7 +3469,7 @@ if (electronApp) {
 
         rl.on("SIGINT", function () {
             shutDown();
-            process.exit();
+            //process.exit();
         });
     }
 
@@ -3621,7 +3621,7 @@ function finishInit() {
     });
     process.on("SIGINT", function () {
         shutDown();
-        process.exit()
+        //process.exit()
     });
 
     setupMainChildProcess();
