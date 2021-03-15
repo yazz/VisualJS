@@ -10,7 +10,7 @@ Visual Javascript is a Low Code tool for building internal web apps. It can run 
 ## Benefits
 - Easy to use like Visual Basic, but using Javascript as the scripting language
 - Drag and drop user interface
-- Works everywhere, Windows, Linux, Mac, Raspberry PI, NodeJS, Docker, and Kubernetes, OpenShift, Istio
+- Works everywhere, Windows, Linux, Mac, Raspberry PI, NodeJS, Docker, Kubernetes, OpenShift, Istio
 - No runtime needed for built apps. Apps can be compiled to a single HTML file and sent by email (Even Sqlite database apps)
 - Editor works locally and offline without internet connectivity on your laptop
 
