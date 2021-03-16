@@ -5,7 +5,7 @@
 <img width="350" alt="portfolio_view" src="https://raw.githubusercontent.com/yazz/visualjavascript/master/public/driver_icons/visualjavascript.jpg"></img>
 
 ## What is Visual Javascript?
-Visual Javascript is a Low Code tool for building internal web apps. It runs on PC/Mac using Docker or NodeJS, or on a Linux/Windows server with Docker, Kubernetes or NodeJS. To develop apps you start Visual Javascript, create an app in your web browser, and share the URL with other people. However, it is probably not suitable for building the next great operating system. The sweet spot is for building small GUI apps or microservices. Many demo apps can be found at https://yazz.com (Yazz sponsors development of the tool).
+Visual Javascript is a Low Code tool for building internal web apps. It runs on PC/Mac using Docker or NodeJS, or on a Linux/Windows server with Docker, Kubernetes or NodeJS. To develop an app, you simply start Visual Javascript, create the app in your web browser, and share the app with others by sending them the app URL. However, it is probably not suitable for building the next great operating system. The sweet spot is for building small GUI apps or microservices. Many demo apps can be found at https://yazz.com (Yazz sponsors development of the tool).
 
 ## Benefits
 - Easy to use like Visual Basic, but using Javascript as the scripting language
