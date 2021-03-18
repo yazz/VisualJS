@@ -14,10 +14,10 @@ Visual Javascript is a tool for building webapps on your intranet. It runs on PC
 Visual Javascript is perfect for small web apps or microservices, but not suitable for high performance apps or low level systems. Some demo apps can be found at https://yazz.com (Yazz sponsors development of the tool).
 
 ## Benefits
-- Easy to use like Visual Basic, but using Javascript as the scripting language
-- Drag and drop user interface
-- Works everywhere, Windows, Linux, Mac, Raspberry PI, NodeJS, Docker, Kubernetes, OpenShift, Istio
+- Easy drag and drop to build a UI (like Visual Basic, but using Javascript as the scripting language)
+- Open source MIT license so you can use it wherever you like
 - No runtime needed for built apps. Apps can be compiled to a single HTML file and sent by email (Even Sqlite database apps)
+- Works everywhere, Windows, Linux, Mac, Raspberry PI, NodeJS, Docker, Kubernetes, OpenShift, Istio
 - Editor works locally and offline without internet connectivity on your laptop
 
 ## Features
