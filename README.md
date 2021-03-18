@@ -19,6 +19,7 @@ Visual Javascript is perfect for small web apps or microservices, but not suitab
 - No runtime needed for built apps. Apps can be compiled to a single HTML file and sent by email (Even Sqlite database apps)
 - Works everywhere, Windows, Linux, Mac, Raspberry PI, NodeJS, Docker, Kubernetes, OpenShift, Istio
 - Editor works locally and offline without internet connectivity on your laptop
+- Can read MS Access databases, even on Linux or Mac to migrate off Access!
 
 ## Features
 - Connect to Postgres, Mysql, or REST APIs using pre built components
