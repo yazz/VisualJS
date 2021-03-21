@@ -24,7 +24,7 @@
 
     - name: build docs
       shell:
-          cmd: asciidoc  main.adoc
+          cmd: asciidoc   -d book   main.adoc
       args:
           chdir: /root/visifile/public/visifile/docs/book/
 
