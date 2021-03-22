@@ -137,7 +137,7 @@ try {
     } else if (electronApp){
         console.log("Running in Electron")
 
-        let srcElectronDriver = path.join(nodeModulesPath,'node_modules/sqlite3/lib/binding/electron-v11.2-darwin-x64/node_sqlite3.node')
+        let srcElectronDriver = path.join(nodeModulesPath,'node_modules/sqlite3/lib/binding/electron-v11.3-darwin-x64/node_sqlite3.node')
 
         let destElectronPath = path.join(nodeModulesPath, 'node_modules/sqlite3/lib/binding/electron-v12.0-darwin-x64/')
         let destElectronDriver = path.join(nodeModulesPath, 'node_modules/sqlite3/lib/binding/electron-v12.0-darwin-x64/node_sqlite3.node')
