@@ -141,13 +141,13 @@ try {
 
         let destElectronPath = path.join(nodeModulesPath, 'node_modules/sqlite3/lib/binding/electron-v12.0-darwin-x64/')
         let destElectronDriver = path.join(nodeModulesPath, 'node_modules/sqlite3/lib/binding/electron-v12.0-darwin-x64/node_sqlite3.node')
-        mkdirp.sync(    destElectronPath   );
-        copyFileSync( srcElectronDriver , destElectronDriver   );
+        //mkdirp.sync(    destElectronPath   );
+        //copyFileSync( srcElectronDriver , destElectronDriver   );
 
         destElectronPath = path.join(nodeModulesPath, 'node_modules/sqlite3/lib/binding/electron-v12.0-darwin-x64/')
         destElectronDriver = path.join(nodeModulesPath, 'node_modules/sqlite3/lib/binding/electron-v12.0-darwin-x64/node_sqlite3.node')
-        mkdirp.sync(    destElectronPath   );
-        copyFileSync( srcElectronDriver , destElectronDriver   );
+        //mkdirp.sync(    destElectronPath   );
+        //copyFileSync( srcElectronDriver , destElectronDriver   );
 
 
 
