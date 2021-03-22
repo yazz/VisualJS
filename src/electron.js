@@ -138,10 +138,18 @@ try {
         console.log("Running in Electron")
 
         let srcElectronDriver = path.join(nodeModulesPath,'node_modules/sqlite3/lib/binding/electron-v11.2-darwin-x64/node_sqlite3.node')
-        let destElectronPath = path.join(nodeModulesPath,'node_modules/sqlite3/lib/binding/electron-v11.3-darwin-x64/')
-        let destElectronDriver = path.join(nodeModulesPath,'node_modules/sqlite3/lib/binding/electron-v11.3-darwin-x64/node_sqlite3.node')
-        //mkdirp.sync(    destElectronPath   );
-        //copyFileSync( srcElectronDriver , destElectronDriver   );
+
+        let destElectronPath = path.join(nodeModulesPath, 'node_modules/sqlite3/lib/binding/electron-v12.0-darwin-x64/')
+        let destElectronDriver = path.join(nodeModulesPath, 'node_modules/sqlite3/lib/binding/electron-v12.0-darwin-x64/node_sqlite3.node')
+        mkdirp.sync(    destElectronPath   );
+        copyFileSync( srcElectronDriver , destElectronDriver   );
+
+        destElectronPath = path.join(nodeModulesPath, 'node_modules/sqlite3/lib/binding/electron-v12.0-darwin-x64/')
+        destElectronDriver = path.join(nodeModulesPath, 'node_modules/sqlite3/lib/binding/electron-v12.0-darwin-x64/node_sqlite3.node')
+        mkdirp.sync(    destElectronPath   );
+        copyFileSync( srcElectronDriver , destElectronDriver   );
+
+
 
 
     } else if (process.env["KUBERNETES_SERVICE_HOST"]) {
