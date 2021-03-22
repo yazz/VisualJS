@@ -8,7 +8,7 @@
     "start": "node src/electron.js",
     "build": "electron-packager  .  --ignore=node_modules/electron-*  --overwrite  --icon=icon.icns",
     "version": "echo $npm_package_version",
-    "postinstall": "electron-rebuild"
+    "postinstall": "electron-rebuild -f -w sqlite3"
   },
   "main": "src/electron.js",
   "bin": {
@@ -57,7 +57,7 @@
     "rmdir-sync": "^1.0.1",
     "semver": "^7.3.4",
     "socket.io": "^3.0.5",
-    "sqlite3": "^4.1.1",
+    "sqlite3": "4.1.1",
     "stomp-client": "^0.9.0",
     "stompit": "^1.0.0",
     "tar-stream": "^2.2.0",
@@ -83,6 +83,6 @@
   "devDependencies": {
     "asar": "^3.0.3",
     "electron-packager": "^15.2.0",
-    "electron-rebuild": "^2.3.5"
+    "electron-rebuild": "^2.3.4"
   }
 }
