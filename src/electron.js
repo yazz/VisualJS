@@ -3550,6 +3550,16 @@ if (electronApp) {
             role: 'help',
             submenu: [
               {
+                  label: 'Docs',
+                  click: async () => {
+                    const { shell } = require('electron')
+                    await shell.openExternal('https://yazz.com/visifile/docs/yazz_march_2020.pdf')
+                }
+            },
+            {
+
+
+
                 label: 'Learn More',
                 click: async () => {
                   const { shell } = require('electron')
