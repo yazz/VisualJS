@@ -42,6 +42,9 @@ Visual Javascript is perfect for small web apps or microservices, but not suitab
 
 ## Quick Install Guide
 
+### Mac App Store
+https://apps.apple.com/gb/app/visual-javascript/id1551448939?mt=12
+
 ### NodeJS
 <pre style="display:inline;">&gt; git clone https://github.com/yazz/visualjavascript.git
 &gt; cd visualjavascript
