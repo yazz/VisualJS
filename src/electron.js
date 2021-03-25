@@ -3,7 +3,12 @@
 
 const electron = require('electron')
 const electronApp = electron.app
-let Menu = electron.Menu
+let Menu = null
+let dialog = null
+if (electron) {
+    Menu = electron.Menu
+    dialog = electron.dialog
+}
 const BrowserWindow = electron.BrowserWindow
 
 let visifile = null
@@ -3459,6 +3464,21 @@ if (electronApp) {
             console.log("read userData : " + userData)
         }
         //zzz
+        const getFileFromUser = function() {
+            let filesq = dialog.showOpenDialog(
+                {
+                    properties: [
+                        'openFile'
+                    ]
+                }
+            )
+        }
+        getFileFromUser()
+
+
+
+
+
         findSystemDataDirectoryAndStart()
         finishInit()
 
