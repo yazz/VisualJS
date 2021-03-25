@@ -10,6 +10,7 @@ if (electron) {
     dialog = electron.dialog
 }
 const BrowserWindow = electron.BrowserWindow
+let getFileFromUser = null
 
 let visifile = null
 const path = require("path");
@@ -3464,7 +3465,7 @@ if (electronApp) {
             console.log("read userData : " + userData)
         }
         //zzz
-        const getFileFromUser = function() {
+        getFileFromUser = function() {
             let filesq = dialog.showOpenDialog(
                 {
                     properties: [
@@ -3473,7 +3474,7 @@ if (electronApp) {
                 }
             )
         }
-        getFileFromUser()
+        //getFileFromUser()
 
 
 
