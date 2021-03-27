@@ -29,9 +29,9 @@ Visual Javascript is perfect for small web apps or microservices, but not suitab
 - Code business logic in Javascript
 - Each app has a built in SQLite database
 - Open source MIT license
-- Can run in Docker, Kubernetes, or OpenShift, locally on Mac, Windows, Linux, Raspberry PI using NodeJS
-- All source code for apps can be saved as a single .vjs file
-- All code is stored as immutable, and identified by a SHA256 hash
+- Can run in Docker, Kubernetes, or OpenShift, OsX, Windows, Linux, Raspberry PI
+- App source code saved as a single .vjs file
+- All aplications identified as an immutable SHA256 hash of the source code
 - Extra UI or server components can be build as plugins (as .vjs files)
 - The Visual Javascript extensible IDE allows you to build new ways of editing code. Currently a text editor and a Visual Basic style editor are included
 
