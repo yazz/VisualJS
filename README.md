@@ -43,6 +43,7 @@ Visual Javascript is perfect for small web apps or microservices, but not suitab
 https://apps.apple.com/gb/app/visual-javascript/id1551448939?mt=12
 
 ### NodeJS
+At the command line enter:
 <pre style="display:inline;">&gt; git clone https://github.com/yazz/visualjavascript.git
 
 &gt; cd visualjavascript
@@ -51,7 +52,7 @@ https://apps.apple.com/gb/app/visual-javascript/id1551448939?mt=12
 
 &gt; npm start</pre>
 
-Browse to http://0.0.0.0:80
+And finally browse to http://0.0.0.0:80 to access the editor
 
 ### Docker
 <pre style="display:inline;">&gt; docker  run  -p 80:80  yazzcom/visualjavascript:2021
