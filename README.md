@@ -22,21 +22,18 @@ Visual Javascript is perfect for small web apps or microservices, but not suitab
 - Can read MS Access databases (even Linux or Mac can read MS Access files)
 
 ## Features
-- Connect to Postgres, Mysql, or REST APIs using pre built components
-- Suitable for desktop apps
-- Build web interfaces with common UI components such as buttons, grids, and text boxes
-- Can build Microservices for more complex use cases
+- Set of simple UI components, Buttons, images, input fields
 - Code business logic in Javascript
+- Connect to Postgres, Mysql, or REST APIs using pre built components
+- Can build Microservices 
 - Each app has a built in SQLite database
-- Open source MIT license
 - Can run in Docker, Kubernetes, or OpenShift, OsX, Windows, Linux, Raspberry PI
 - App source code saved as a single .vjs file
 - All aplications identified as an immutable SHA256 hash of the source code
-- Extra UI or server components can be build as plugins (as .vjs files)
-- The Visual Javascript extensible IDE allows you to build new ways of editing code. Currently a text editor and a Visual Basic style editor are included
+- Extra UI or server components can be build as plugins (as .vjs files). Currently a text editor and a Visual Basic style editor are included
 
 ## What it can't do
-- Build amazing UIs for public facing websites
+- Build slick UIs for public facing websites
 - Build mobile apps
 - Build self contained executables (need to pass in .vjs files)
 
