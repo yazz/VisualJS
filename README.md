@@ -47,6 +47,7 @@ https://apps.apple.com/gb/app/visual-javascript/id1551448939?mt=12
 &gt; cd visualjavascript
 &gt; npm install
 &gt; npm start
+
 Browse to http://0.0.0.0:80</pre>
 
 ### Docker
