@@ -43,7 +43,7 @@ Visual Javascript is perfect for small web apps or microservices, but not suitab
 https://apps.apple.com/gb/app/visual-javascript/id1551448939?mt=12
 
 ### NodeJS
-Assuming that you have NodeJS, NPM, and Git installed, enter at the command line:
+Assuming that you have NodeJS, NPM, and Git installed, enter the following commands at the command line:
 <pre style="display:inline;">&gt; git clone https://github.com/yazz/visualjavascript.git
 
 &gt; cd visualjavascript
