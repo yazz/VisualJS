@@ -5,7 +5,7 @@
 <img width="350" alt="portfolio_view" src="https://raw.githubusercontent.com/yazz/visualjavascript/master/public/driver_icons/visualjavascript.jpg"></img>
 
 ## What is Visual Javascript?
-Visual Javascript is a tool for building webapps on your intranet. It runs on PC/Mac (desktop application or NodeJS), or on a Linux/Windows server (Docker, Kubernetes or NodeJS). To develop an app:
+Visual Javascript is a tool for building webapps on your intranet. It runs on PC/Mac (desktop application or NodeJS), or Linux/Windows servers (Docker, Kubernetes or NodeJS). To develop an app:
 
 - Start Visual Javascript
 - Create the app in your web browser
