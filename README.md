@@ -77,16 +77,23 @@ Finally browse to http://0.0.0.0:80
 
 
 ### Mac
+Run:
 <pre style="display:inline;">&gt; curl https://yazz.com/visifile/bin/mac/vjs -o ./vjs
 &gt; chmod +x ./vjs
 &gt; ./vjs
-Browse to http://0.0.0.0:80</pre>
+</pre>
+
+Finally browse to http://0.0.0.0:80
+
+
 
 ### Linux
+Run:
 <pre style="display:inline;">&gt; wget https://yazz.com/visifile/bin/vjs
 &gt; chmod +x ./vjs
 &gt; ./vjs
-Browse to http://0.0.0.0:80</pre>
+</pre>
+Finally browse to http://0.0.0.0:80
 
 
 
