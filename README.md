@@ -54,6 +54,8 @@ Assuming that you have NodeJS, NPM, and Git installed, enter the following comma
 
 And finally browse to http://0.0.0.0:80 to access the editor
 
+
+
 ### Docker
 Make sure that you have Docker installed. Then: 
 
@@ -62,10 +64,17 @@ Make sure that you have Docker installed. Then:
 
 And finally browse to http://0.0.0.0:80
 
+
+
 ### Windows
-<pre style="display:inline;">Download https://yazz.com/visifile/bin/vjs.exe
+Download **https://yazz.com/visifile/bin/vjs.exe** and then run:
+
+<pre style="display:inline;">
 &gt; vjs.exe
-Browse to http://0.0.0.0:80</pre>
+</pre>
+Finally browse to http://0.0.0.0:80
+
+
 
 ### Mac
 <pre style="display:inline;">&gt; curl https://yazz.com/visifile/bin/mac/vjs -o ./vjs
