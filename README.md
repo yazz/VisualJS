@@ -55,8 +55,12 @@ Assuming that you have NodeJS, NPM, and Git installed, enter the following comma
 And finally browse to http://0.0.0.0:80 to access the editor
 
 ### Docker
+Make sure that you have Docker installed. Then: 
+
 <pre style="display:inline;">&gt; docker  run  -p 80:80  yazzcom/visualjavascript:2021
-Browse to http://0.0.0.0:80</pre>
+</pre>
+
+And finally browse to http://0.0.0.0:80
 
 ### Windows
 <pre style="display:inline;">Download https://yazz.com/visifile/bin/vjs.exe
