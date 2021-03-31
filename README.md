@@ -146,18 +146,45 @@ https://yazz.com/visifile/docs/yazz_march_2020.pdf
 <br/><br/><br/>
 ## Command line options:
 
-    --help                 output usage information
-    --version              output the version number
-    --port                 Which port should I listen on? Default 80 or 3000 (if not run as sudo)
-    --host                 Server address of the central host (default is local machine IP address)
-    --locked               Allow server to be locked/unlocked on start up to other machines in intranet (default true)
-    --deleteonexit         Delete database files on exit (default false)
-    --deleteonstartup      Delete database files on startup (default false)
-    --runapp               Run using a local app on startup (default not set). "homepage" often used
-    --https                Run using a HTTPS (default is false)
-    --private              Private HTTPS key location
-    --public               Public HTTPS certificate location
-
+    --help                        output usage information
+    --version                     output the version number
+    --port                        Which port should I listen on? Default 80 or 3000 (if not run as sudo)
+    --host                        Server address of the central host (default is local machine IP address)
+    --locked                      Allow server to be locked/unlocked on start up to other machines in intranet (default true)
+    --deleteonexit                Delete database files on exit (default false)
+    --deleteonstartup             Delete database files on startup (default false)
+    --runapp                      Run using a local app on startup (default not set). "homepage" often used
+    --https                       Run using a HTTPS (default is false)
+    --private                     Private HTTPS key location
+    --public                      Public HTTPS certificate location
+    --runapp                      Run the app with ID as the homepage (default not set) 
+    --virtualprocessors           How many virtual processors to run (default 6 processors) 
+    --runhtml                     Run using a local HTML page as the homepage (default not set) 
+    --deleteonexit                Delete database files on exit (default true) 
+    --debug                       Allow to run NodeJS in debug mode (default false) 
+    --cacert1                     Public HTTPS CA certificate 1 
+    --cacert2                     Public HTTPS CA certificate 2 
+    --loadjsfile                  Load the following JS from a file (default not set) 
+    --cacert3                     Public HTTPS CA certificate 3
+    --host                        Server address of the central host (default yazz.com) 
+    --statsinterval               Allow to show debug info every x seconds (default 10 seconds) 
+    --showstats                   Allow to show stats debug info (default false) 
+    --showprogress                Show progress when starting Visual Javascript (default false)
+    --maxJobProcessDurationMs     Maximum time to wait for a job to complete (default 10000 ms) 
+    --locked                      Allow server to be locked/unlocked on start up (default true) 
+    --maxprocessesretry           Number of processes to retry when all cores are busy (default 10 processes) 
+    --public                      Public HTTPS certificate 
+    --port                        Which port should I listen on? (default 80) 
+    --https                       Run using a HTTPS (default is http) 
+    --hostport                    Server port of the central host (default 80) 
+    --usehost                     Use host name [usehost]
+    --loadjsurl                   Load the following JS from a URL (default not set) 
+    --deleteonstartup             Delete database files on startup (default false) 
+    --private                     Private HTTPS key 
+    --showdebug                   Allow to show debug info (default false)
+    --loadjscode                  Load the following JS from the command line (default not set)
+    --useselfsignedhttps          Use self signed HTTPS for local development (default false) 
+    --jaegercollector             jaeger collector endpoint (default not set) eg: http://localhost:14268/api/traces
 
 
 
