@@ -21,6 +21,42 @@ Visual Javascript is perfect for small web apps or microservices, but not suitab
 - Editor works locally and offline without internet connectivity on your laptop
 - Can read MS Access databases (even Linux or Mac can read MS Access files)
 
+
+
+## Roadmap
+
+- **2013** Started developement in Clojure/Clojurescript
+- **2014** Named Clojure on Coils
+- **2015** Development slows, as focus moved to Light Table / Eve project
+- **2016** Clojure development stopped as Eve making good progress. 
+- **2016** Started Development of Visifile in Javascript, an search engine for internal enterprise data
+- **2018** Eve project shuts down
+- **2018** Visifile launches but finds out the problem is too difficult to solve. Pivots the product to a low code tool (also because Eve has been shut down)
+- **2019** Visifile code removed from codebase
+- **2021** Enterprise App Store for ISVs to discover, create, buy, and sell Visual Javascript components and apps to enterprises
+- **2021** Support for Istio, Rancher, KNative, OpenWhisk, OpenFaas, AWS
+- **2021** Enterprise connectivity via Red Hat, IBM, Salesforce, SAP, Oracle, Stripe, and other enterprise components
+- **2021** Desktop version in Mac app store 
+- **2021** Paid for hosting options
+- **2022** An editor to make programs in VR/AR editor
+- **2025** Machine Learning and vision components
+- **2027** Miniature thumbnail size version
+- **2030** Dust sized version
+- **2032** Dust sized version with internal camera for medical diagnoses applications
+<br/><br/><br/>
+
+
+
+
+
+
+## Manual
+
+https://yazz.com/visifile/docs/yazz_march_2020.pdf
+
+<br/><br/><br/>
+
+
 ## Features
 - Set of simple UI components, Buttons, images, input fields
 - Code business logic in Javascript
@@ -107,39 +143,6 @@ Finally browse to http://0.0.0.0:80
 
 
 
-
-## Roadmap
-
-- **2013** Started developement in Clojure/Clojurescript
-- **2014** Named Clojure on Coils
-- **2015** Development slows, as focus moved to Light Table / Eve project
-- **2016** Clojure development stopped as Eve making good progress. 
-- **2016** Started Development of Visifile in Javascript, an search engine for internal enterprise data
-- **2018** Eve project shuts down
-- **2018** Visifile launches but finds out the problem is too difficult to solve. Pivots the product to a low code tool (also because Eve has been shut down)
-- **2019** Visifile code removed from codebase
-- **2021** Enterprise App Store for ISVs to discover, create, buy, and sell Visual Javascript components and apps to enterprises
-- **2021** Support for Istio, Rancher, KNative, OpenWhisk, OpenFaas, AWS
-- **2021** Enterprise connectivity via Red Hat, IBM, Salesforce, SAP, Oracle, Stripe, and other enterprise components
-- **2021** Desktop version in Mac app store 
-- **2021** Paid for hosting options
-- **2022** An editor to make programs in VR/AR editor
-- **2025** Machine Learning and vision components
-- **2027** Miniature thumbnail size version
-- **2030** Dust sized version
-- **2032** Dust sized version with internal camera for medical diagnoses applications
-<br/><br/><br/>
-
-
-
-
-
-
-## Manual
-
-https://yazz.com/visifile/docs/yazz_march_2020.pdf
-
-<br/><br/><br/>
 
 
 
