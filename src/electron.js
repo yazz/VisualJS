@@ -3436,7 +3436,7 @@ function readCerts() {
 setupVisifileParams();
 if (electronApp) {
 
-    electronApp.on('ready', function() {
+    electronApp.on('ready', async function() {
 
         visifile = new BrowserWindow({
                                     width: 800,
@@ -3465,16 +3465,20 @@ if (electronApp) {
             console.log("read userData : " + userData)
         }
         //zzz
-        getFileFromUser = function() {
-            let filesq = dialog.showOpenDialog(
-                {
-                    properties: [
-                        'openFile'
-                    ]
-                }
-            )
-        }
-        //getFileFromUser()
+        getFileFromUser = (async function() {
+            dialog.showOpenDialog(visifile, {
+              properties: ['openFile', 'openDirectory']
+            }).then(result => {
+              console.log(result.canceled)
+              console.log(result.filePaths)
+
+              console.log("********** load file........... ")
+            }).catch(err => {
+              console.log(err)
+            })
+
+        })
+        await getFileFromUser()
 
 
 
