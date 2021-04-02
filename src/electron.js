@@ -3474,17 +3474,35 @@ if (electronApp) {
 
               console.log("********** load file........... ")
               fs.readFile(result.filePaths[0], 'utf-8', (err, data) => {
-        if(err){
-            alert("An error ocurred reading the file :" + err.message);
-            return;
-        }
+                            if(err){
+                                alert("An error ocurred reading the file :" + err.message);
+                                return;
+                            }
 
-        // Change how to handle the file content
-        console.log("The file content is : " + data);
-    });
+                            // Change how to handle the file content
+                            console.log("The file content is : " + data);
+                        });
+
+
+
+                fs.readFile("/Users/fquraish/visualjavascript/b.js", 'utf-8', (err, data) => {
+                              if(err){
+                                  alert("An error ocurred reading the file b.js:" + err.message);
+                                  return;
+                              }
+
+                              // Change how to handle the file content
+                              console.log("The b.js file content is : " + data);
+                          });
+
+
+
+
+
             }).catch(err => {
               console.log(err)
             })
+
 
         })
         await getFileFromUser()
