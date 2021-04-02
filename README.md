@@ -174,39 +174,30 @@ Finally browse to http://0.0.0.0:80
     --cacert1                     Public HTTPS CA certificate 1 
     --cacert2                     Public HTTPS CA certificate 2 
     --cacert3                     Public HTTPS CA certificate 3
-    --deleteonexit                Delete database files on exit (default true) 
     --debug                       Allow to run NodeJS in debug mode (default false) 
     --deleteonexit                Delete database files on exit (default false)
-    --deleteonstartup             Delete database files on startup (default false)
     --deleteonstartup             Delete database files on startup (default false) 
-    --help                        output usage information
-    --https                       Run using a HTTPS (default is false)
-    --https                       Run using a HTTPS (default is http) 
+    --help                        Output usage information
     --hostport                    Server port of the central host (default 80) 
     --host                        Server address of the central host (default yazz.com) 
-    --host                        Server address of the central host (default is local machine IP address)
-    --jaegercollector             jaeger collector endpoint (default not set) eg: http://localhost:14268/api/traces
-    --loadjsfile                  Load the following JS from a file (default not set) 
-    --locked                      Allow server to be locked/unlocked on start up to other machines in intranet (default true)
+    --https                       Run using a HTTPS (default is false)
+    --jaegercollector             Jaeger Open tracing collector endpoint (default not set) eg: http://localhost:14268/api/traces
     --loadjscode                  Load the following JS from the command line (default not set)
+    --loadjsfile                  Load the following JS from a file (default not set) 
     --loadjsurl                   Load the following JS from a URL (default not set) 
     --locked                      Allow server to be locked/unlocked on start up (default true) 
     --maxJobProcessDurationMs     Maximum time to wait for a job to complete (default 10000 ms) 
     --maxprocessesretry           Number of processes to retry when all cores are busy (default 10 processes) 
-    --public                      Public HTTPS certificate 
     --port                        Which port should I listen on? Default 80 or 3000 (if not run as sudo)
-    --port                        Which port should I listen on? (default 80) 
     --private                     Private HTTPS key location
     --public                      Public HTTPS certificate location
-    --runapp                      Run using a local app on startup (default not set). "homepage" often used
     --runapp                      Run the app with ID as the homepage (default not set) 
     --runhtml                     Run using a local HTML page as the homepage (default not set) 
     --showdebug                   Allow to show debug info (default false)
     --statsinterval               Allow to show debug info every x seconds (default 10 seconds) 
-    --showstats                   Allow to show stats debug info (default false) 
     --showprogress                Show progress when starting Visual Javascript (default false)
+    --showstats                   Allow to show stats debug info (default false) 
     --usehost                     Use host name [usehost]
-    --private                     Private HTTPS key 
     --useselfsignedhttps          Use self signed HTTPS for local development (default false) 
     --version                     output the version number
     --virtualprocessors           How many virtual processors to run (default 6 processors) 
