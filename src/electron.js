@@ -3473,6 +3473,15 @@ if (electronApp) {
               console.log(result.filePaths)
 
               console.log("********** load file........... ")
+              fs.readFile(result.filePaths[0], 'utf-8', (err, data) => {
+        if(err){
+            alert("An error ocurred reading the file :" + err.message);
+            return;
+        }
+
+        // Change how to handle the file content
+        console.log("The file content is : " + data);
+    });
             }).catch(err => {
               console.log(err)
             })
