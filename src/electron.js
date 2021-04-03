@@ -2807,6 +2807,7 @@ function file_name_load(req, res, next) {
 
 
 function loadAppFromFile(localp,client_file_upload_id) {
+    console.log("loadAppFromFile(" + localp + "," + client_file_upload_id + ")")
     var readIn = fs.readFileSync(localp).toString()
     var bci = saveHelper.getValueOfCodeString(readIn, "base_component_id")
 
@@ -3485,7 +3486,9 @@ if (electronApp) {
               console.log(result.filePaths)
 
               console.log("********** load file........... ")
-              fs.readFile(result.filePaths[0], 'utf-8', (err, data) => {
+              loadAppFromFile( result.filePaths[0],
+                               uuidv1())
+              /*fs.readFile(result.filePaths[0], 'utf-8', (err, data) => {
                             if(err){
                                 alert("An error ocurred reading the file :" + err.message);
                                 return;
@@ -3493,9 +3496,8 @@ if (electronApp) {
 
                             // Change how to handle the file content
                             console.log("The file content is : " + data);
-                        });
-                loadAppFromFile( result.filePaths[0],
-                                 uuidv1())
+                        });*/
+
 
             }).catch(err => {
               console.log(err)
