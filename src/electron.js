@@ -2,7 +2,11 @@
 
 
 const electron = require('electron')
-const electronApp = electron.app
+let electronApp = null
+if (electron) {
+     electronApp = electron.app
+}
+
 let Menu = null
 let dialog = null
 if (electron) {
@@ -569,6 +573,9 @@ if (isValidObject(envVars.virtualprocessors)) {
 }
 
 envVars.IP_ADDRESS = ip.address()
+if (electron.app) {
+    envVars.RUNNING_IN_ELECTRON = true
+}
 
 let jaegerConfig = null
 var jaegercollector = program.jaegercollector;
