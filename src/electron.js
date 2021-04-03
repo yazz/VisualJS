@@ -3086,6 +3086,11 @@ async function startServices() {
             res.end("Done");
         });
 
+        app.get('/electron_file_open', async function (req, res, next) {
+            await getFileFromUser()
+            //zzz
+        });
+
 
         app.get('/lock', function (req, res) {
             return lockFn(req, res);
@@ -3489,30 +3494,17 @@ if (electronApp) {
                             // Change how to handle the file content
                             console.log("The file content is : " + data);
                         });
-
-
-
-                fs.readFile("/Users/fquraish/visualjavascript/b.js", 'utf-8', (err, data) => {
-                              if(err){
-                                  alert("An error ocurred reading the file b.js:" + err.message);
-                                  return;
-                              }
-
-                              // Change how to handle the file content
-                              console.log("The b.js file content is : " + data);
-                          });
-
-
-
-
+                loadAppFromFile( result.filePaths[0],
+                                 uuidv1())
 
             }).catch(err => {
               console.log(err)
             })
+            //zzz
 
 
         })
-        await getFileFromUser()
+
 
 
 

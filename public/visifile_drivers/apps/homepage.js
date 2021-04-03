@@ -240,7 +240,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             <button
                    class="btn btn-danger btn-lg"
                    style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold; background-color:lightgray;color:black;'
-                   v-on:click="if (electron) {} else {openFile();}"
+                   v-on:click="if (electron) {openFileElectron();} else {openFile();}"
                    >
 
                     <img    src='/driver_icons/fileopen.png'
@@ -480,6 +480,18 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
             //
          },
+         openFileElectron() {
+
+                //let openfileurl = "/file_name_load?file_name_load=" + encodeURI(saveCodeToFile) + "&client_file_upload_id=" + encodeURI(file_upload_uuid)
+                let openfileurl = "/electron_file_open"
+
+                //console.log("openfileurl:= " + openfileurl)
+                callAjax( openfileurl,
+                    function(res) {
+                        console.log(res)
+                    })
+         }
+         ,
          selectOpenFileOrFolder: async function(fileorFolder) {
             //
             // if this is a folder
