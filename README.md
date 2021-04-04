@@ -222,7 +222,7 @@ Visual Javascript's killer feature is being able to build simple applications in
 
 
 ### What is Visual Javascript's long term vision?
-Visual Javascript's long term vision is to be a system for embedded computing, personal automation and medical applications. An example of a medical device would be something that can be inserted into blood stream and using TensorFlow and tiny cameras for detection detect and destroy dangerous cells. In the short term we are developing an app store, and initial versions of Visual Javascript are building UIs for internal enterprise apps, but we also believe that we should support systems which do not require apps, as some systems can use autodiscovery of components to each other to work. As an example, if a particular cell type is found by computer vision which is not recognised, Visual Javascript could go out to the network to see if this cell is recognized somewhere else
+Visual Javascript's long term vision is to be a system for embedded computing, personal automation and medical applications. An example of a medical device is a tiny device that would be injected into the blood stream and detection detect and destroy dangerous cells (using tiny cameras and Tensorflow). In the short term we are developing an app store, and initial versions of Visual Javascript are building UIs for internal enterprise apps, but we also believe that we should support systems which do not require apps, as some systems can use autodiscovery of components to each other to work. As an example, if a particular cell type is found by computer vision which is not recognised, Visual Javascript could go out to the network to see if this cell is recognized somewhere else
 
 
 
