@@ -3089,7 +3089,7 @@ async function startServices() {
 
         app.get('/electron_file_open', async function (req, res, next) {
             await getFileFromUser()
-            //zzz
+
         });
 
 
@@ -3477,7 +3477,7 @@ if (electronApp) {
             userData = electronApp.getPath('userData')
             console.log("read userData : " + userData)
         }
-        //zzz
+
         getFileFromUser = (async function() {
             dialog.showOpenDialog(visifile, {
               properties: ['openFile', 'openDirectory']
@@ -3486,8 +3486,15 @@ if (electronApp) {
               console.log(result.filePaths)
 
               console.log("********** load file........... ")
+              let sd= uuidv1()
+              sendOverWebSockets({
+                                    type:               "set_file_upload_uuid",
+                                    file_upload_uuid:   sd
+                                    });
+              //zzz
+
               loadAppFromFile( result.filePaths[0],
-                               uuidv1())
+                               sd)
               /*fs.readFile(result.filePaths[0], 'utf-8', (err, data) => {
                             if(err){
                                 alert("An error ocurred reading the file :" + err.message);
@@ -3502,7 +3509,7 @@ if (electronApp) {
             }).catch(err => {
               console.log(err)
             })
-            //zzz
+
 
 
         })

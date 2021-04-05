@@ -9495,6 +9495,10 @@ function setupWebSocket(host, port)
     },3000);
     });
 
+    socket.on('set_file_upload_uuid',async function(data) {
+        debugger
+        file_upload_uuid = data.file_upload_uuid
+    })
 
 
     socket.on('uploaded_app_as_file_from_server',async function(data) {
