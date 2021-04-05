@@ -9496,8 +9496,10 @@ function setupWebSocket(host, port)
     });
 
     socket.on('set_file_upload_uuid',async function(data) {
-        debugger
         file_upload_uuid = data.file_upload_uuid
+    })
+    socket.on('set_saveCodeToFile',async function(data) {
+        saveCodeToFile = data.saveCodeToFile
     })
 
 

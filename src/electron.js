@@ -3491,6 +3491,11 @@ if (electronApp) {
                                     type:               "set_file_upload_uuid",
                                     file_upload_uuid:   sd
                                     });
+              sendOverWebSockets({
+                                    type:               "set_saveCodeToFile",
+                                    saveCodeToFile:   result.filePaths[0]
+                                  });
+
               //zzz
 
               loadAppFromFile( result.filePaths[0],
