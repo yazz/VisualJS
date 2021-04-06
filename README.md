@@ -232,7 +232,7 @@ Visual Javascript breaks down all problems into single function components. Howe
 
 
 ### Is Visual Javascript Production ready?
-Yes, Visual Javascript is production ready. Visual Javascript itself runs on Visual Javascript
+Yes, Visual Javascript is production ready and has been used in many enterprise environments
 
 
 
@@ -252,12 +252,12 @@ Anyone who wants to build small web apps for internal use on their intranet
 
 
 ### How does Visual Javascript relate to Visual Basic?
-The author is a huge fan opf Visual Basic 6 and earlier, and the VBX/OCX component ecosystems that existed in the 1990s, so the author of Visual Javascript is trying to recreate the Visual Basic 6 ecosystem from the 1990s, but in Javascript and for the modern intranets
+The author is a huge fan opf Visual Basic 6 and earlier, and the VBX/OCX component ecosystems that existed in the 1990s, therefore Visual Javascript is trying to recreate the Visual Basic 6 ecosystem from the 1990s, but in Javascript and for the modern intranets
 
 
 
 ### What does the Visual Javascript Scheduler do?
-The Scheduler is a NodeJS process which decides which worker processes to send server tasks to
+The Scheduler is a NodeJS process which decides which worker process to send a server task to
 
 
 
