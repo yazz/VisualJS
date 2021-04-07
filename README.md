@@ -481,34 +481,29 @@ Delphi was a desktop IDE from the 1990s using Pascal as the programming language
 
 
 ### Do Visual Basic apps run on Visual Javascript?
-No
-
+No. Visual Javascript apps are written as .vjs files
 
 
 
 ### Can I use my VBX/OLE controls in a Visual Javascript app?
-No
-
-
-### Is it true that Visual Javascript switched from Clojure to Javascript, even though the creator publicly spoke out against Javscript once?
-Yes, I was wrong... Earlier I was against Javascript
-
+No. Visual Javascript apps can have custom controls as .vjs components
 
 
 
 ### Why did Visual Javascript switch to Javascript from Clojure/Clojurescript?
-We were limiting ourselves to a very small subset of developers by being in Clojure/Clojurescript, whereas Javascript has a much larger developer reach
+Earlier I was against Javascript. But, with Clojure/Clojurescript we were limiting ourselves to a very small subset of developers, whereas Javascript has a much larger developer pool, so we switched
 
 
 
 ### Where can I find the app store for Visual Javascript?
-It is under development
-
+It is under development at the moment, but the code is here in this Git Repository for components
 
 
 
 ### Does Visual Javascript work offline?
-Yes! One of the great things about Visual Javascript is that it can be run offline in your own datacenter, or on your own PC, totally disconnected from the internet. We have even seen Visual Javascript running on a standalone disconnected Raspberry PI
+Yes! One of the great things about Visual Javascript is that it works offline without an internet connection
+
+
 
 
 ### How does Visual Javascript compare to Bubble.io?
