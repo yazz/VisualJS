@@ -60,9 +60,18 @@ Visual Javascript is perfect for small web apps or microservices, but not suitab
 
 
 
-## Manual
+
+## Beta Docs
+
+https://yazz.com/visifile/docs/book/main.html
+
+
+
+
+## PDF of last physical magazine (March 2020)
 
 https://yazz.com/visifile/docs/yazz_march_2020.pdf
+
 
 <br/><br/><br/>
 
