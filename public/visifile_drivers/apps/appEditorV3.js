@@ -168,7 +168,7 @@ load_once_from_file(true)
                                   style='height:35px; margin-right: 10px;'
                                   class='img-fluid'>
                               </img>
-                             Export .vjs file to PC
+                             {{($RUNNING_IN_ELECTRON?"Save as":"Export .vjs file to PC")}}
 
                     </a>
 
@@ -662,7 +662,7 @@ load_once_from_file(true)
        ,
        data: function() {
            return {
-               file_save_state:     "",
+               file_save_state:    (saveCodeToFile?saveCodeToFile:""),
                info_text:           "",
                refresh:             0,
                editor_loaded:       false,
@@ -773,7 +773,7 @@ load_once_from_file(true)
 
 
                   await mm.load_new_app( this.base_component_id )
-                  //zzz
+
 
               }
               ,
@@ -1240,7 +1240,7 @@ load_once_from_file(true)
                 if (saveCodeToFile) {
                     this.file_save_state = "Saved " + saveCodeToFile
                     setTimeout(function(){
-                        mm.file_save_state = ""
+                        mm.file_save_state = saveCodeToFile
                     },1000)
                 } else {
                     this.file_save_state = ""
@@ -1594,7 +1594,7 @@ load_once_from_file(true)
                         mm.file_save_state = ""
                     } else if (message.type == "pending") {
                         mm.save_state = "pending"
-                        mm.file_save_state = ""
+                        mm.file_save_state = (saveCodeToFile?saveCodeToFile:"")
                     } else if (message.type == "saved") {
                         mm.save_state = "saved"
                         mm.checkSavedFile()
