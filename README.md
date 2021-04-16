@@ -21,7 +21,7 @@ https://yazz.com/visifile/docs/yazz_march_2020.pdf
 
 
 ## What is Visual Javascript?
-Visual Javascript is a tool for building webapps on your intranet. It can be run on PC/Mac (desktop application or NodeJS), directly on a Linux/Windows server (NodeJS), or as a container (Docker, Kubernetes). To develop an app:
+Visual Javascript is a tool for building webapps on your intranet. It runs on PC/Mac (desktop application or NodeJS), directly on a Linux/Windows server (NodeJS), or as a container (Docker, Kubernetes). To develop an app:
 
 - Start Visual Javascript
 - Create the app in your web browser
@@ -234,7 +234,7 @@ Visual Javascript's killer feature is being able to build simple applications in
 
 
 ### What is Visual Javascript's long term vision?
-Visual Javascript's long term vision is to be a system for embedded computing, personal automation and medical applications. An example of a medical device is a tiny device that would be injected into the blood stream and detection detect and destroy dangerous cells (using tiny cameras and Tensorflow). In the short term we are developing an app store, and initial versions of Visual Javascript are building UIs for internal enterprise apps, but we also believe that we should support systems which do not require apps, as some systems can use autodiscovery of components to each other to work. As an example, if a particular cell type is found by computer vision which is not recognised, Visual Javascript could go out to the network to see if this cell is recognized somewhere else
+Visual Javascript's long term vision is to be a system for embedded computing, personal automation and medical applications. An example of a medical device is a tiny device that would be injected into the blood stream to detect and destroy dangerous cells (using tiny cameras and Tensorflow). In the short term we are developing an app store, and initial versions of Visual Javascript are building UIs for internal enterprise apps, but we also believe that we should support autonomous systems which use autodiscovery of components which can be loaded on demand. As an example, if an unrecognised cell type in the human body is found by computer vision, Visual Javascript could go out to the network to see if this cell is recognized somewhere else and download the particular code related to that cell type
 
 
 
