@@ -36,12 +36,12 @@ Visual Javascript is perfect for small web apps or microservices, but not suitab
 
 
 ## Benefits
-- Easy drag and drop interface (like Visual Basic, except it uses Javascript as the scripting language)
-- Permissive license: Open source MIT license so you can use it wherever you like
-- Easy to distribute apps. Apps can be compiled to a single HTML file and sent by email (even SQLite database apps)
-- Works almost anywhere: Windows, Linux, Mac, Raspberry PI, NodeJS, Docker, Kubernetes, OpenShift, Istio
-- Works offline: Editor works locally and offline without internet connectivity on your laptop
-- Can read MS Access databases (even Linux or Mac can read MS Access files)
+- **Easy to use:** Drag and drop interface (like Visual Basic, except it uses Javascript as the scripting language)
+- **Permissive license:** Open source MIT license so you can use it wherever you like
+- **Easy to distribute apps:** Apps can be compiled to a single HTML file and sent by email (even SQLite database apps)
+- **Works almost anywhere:** Windows, Linux, Mac, Raspberry PI, NodeJS, Docker, Kubernetes, OpenShift, Istio
+- **Works offline:** Editor works locally and offline without internet connectivity on your laptop
+- **Reuse existing databases:** Can read MS Access databases (even Linux or Mac can read MS Access files)
 <br/><br/><br/>
 
 
