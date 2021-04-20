@@ -37,10 +37,10 @@ Visual Javascript is perfect for small web apps or microservices, but not suitab
 
 ## Benefits
 - Easy drag and drop interface (like Visual Basic, except it uses Javascript as the scripting language)
-- Open source MIT license so you can use it wherever you like
+- Permissive license: Open source MIT license so you can use it wherever you like
 - Easy to distribute apps. Apps can be compiled to a single HTML file and sent by email (even SQLite database apps)
-- Works almost everywhere: Windows, Linux, Mac, Raspberry PI, NodeJS, Docker, Kubernetes, OpenShift, Istio
-- Editor works locally and offline without internet connectivity on your laptop
+- Works almost anywhere: Windows, Linux, Mac, Raspberry PI, NodeJS, Docker, Kubernetes, OpenShift, Istio
+- Works offline: Editor works locally and offline without internet connectivity on your laptop
 - Can read MS Access databases (even Linux or Mac can read MS Access files)
 <br/><br/><br/>
 
@@ -57,7 +57,7 @@ Visual Javascript is perfect for small web apps or microservices, but not suitab
 - Connect to Postgres, Mysql, or REST APIs using pre built components
 - Can build Microservices 
 - Each app has a built in SQLite database
-- Can run in Docker, Kubernetes, or OpenShift, OsX, Windows, Linux, Raspberry PI
+- Cross platform: Runs in Docker, Kubernetes, OpenShift, OsX, Windows, Linux, Raspberry PI
 - App source code saved as a single .vjs file
 - All aplications identified as an immutable SHA256 hash of the source code
 - Extra UI or server components can be build as plugins (as .vjs files). Currently a text editor and a Visual Basic style editor are included
