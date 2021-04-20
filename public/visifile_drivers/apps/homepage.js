@@ -382,9 +382,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
     mounted: async function() {
         mm = this
-        if ($RUNNING_IN_ELECTRON) {
-            this.electron = true
-        }
+        //if ($RUNNING_IN_ELECTRON) {
+        //    this.electron = true
+        //}
 
 
        //
