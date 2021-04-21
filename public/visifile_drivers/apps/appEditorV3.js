@@ -168,7 +168,7 @@ load_once_from_file(true)
                                   style='height:35px; margin-right: 10px;'
                                   class='img-fluid'>
                               </img>
-                             {{($RUNNING_IN_ELECTRON?"Save as":"Export .vjs file to PC")}}
+                             {{(((typeof($RUNNING_IN_ELECTRON) !== 'undefined')  && $RUNNING_IN_ELECTRON)?"Save as":"Export .vjs file to PC")}}
 
                     </a>
 
