@@ -24,7 +24,7 @@ https://yazz.com/visifile/docs/yazz_march_2020.pdf
 Visual Javascript is a tool for building webapps on your intranet. It runs on PC/Mac (desktop application or NodeJS), on Linux/Windows servers (via NodeJS), or as a container (Docker, Kubernetes). To develop an app:
 
 - Start Visual Javascript
-- Create the app in your web browser
+- Create an app in your web browser
 - Share the app with others by sending them the app URL
  
 Visual Javascript is perfect for small web apps or microservices, but not suitable for high performance apps or low level systems. Some demo apps can be found at https://yazz.com (Yazz sponsors development of the tool).
