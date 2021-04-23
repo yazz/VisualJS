@@ -52,15 +52,13 @@ Visual Javascript is perfect for small web apps or microservices, but not suitab
 
 
 ## Features
-- Set of simple UI components, Buttons, images, input fields
-- Code business logic in Javascript
+- Build desktop apps as a series of forms
+- Add components to the forms, such as Buttons, images, input fields
+- Code events in Javascript
 - Connect to Postgres, Mysql, or REST APIs using pre built components
-- Can build Microservices 
+- Build Microservices 
 - Each app has a built in SQLite database
-- Cross platform: Runs in Docker, Kubernetes, OpenShift, OsX, Windows, Linux, Raspberry PI
 - App source code saved as a single .vjs file
-- All aplications identified as an immutable SHA256 hash of the source code
-- Extra UI or server components can be build as plugins (as .vjs files). Currently a text editor and a Visual Basic style editor are included
 <br/><br/><br/>
 
 
