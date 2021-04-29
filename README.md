@@ -1,6 +1,6 @@
 
 # Visual Javascript 2021
-## A tool for building webapps on your intranet
+## Building internal webapps
 
 <img width="350" alt="portfolio_view" src="https://raw.githubusercontent.com/yazz/visualjavascript/master/public/driver_icons/visualjavascript.jpg"></img>
 
