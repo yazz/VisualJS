@@ -1,6 +1,6 @@
 
 # Visual Javascript 2021
-## Building internal webapps
+## Build internal webapps
 
 <img width="350" alt="portfolio_view" src="https://raw.githubusercontent.com/yazz/visualjavascript/master/public/driver_icons/visualjavascript.jpg"></img>
 
