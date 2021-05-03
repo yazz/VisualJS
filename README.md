@@ -26,8 +26,8 @@ Visual Javascript is a tool for building webapps on your intranet. It runs on PC
 - Start Visual Javascript
 - Create an app in your web browser
 - Share the app with others by sending them the app URL
- 
-Visual Javascript is perfect for small web apps or microservices, but not suitable for high performance apps or low level systems. Some demo apps can be found at https://yazz.com (Yazz sponsors development of the tool).
+
+Visual Javascript is perfect for small internal web apps or microservices, but not so suitable for high performance apps or low level systems. Some demo apps can be found at https://yazz.com (Yazz sponsors development of the tool).
 <br/><br/><br/>
 
 
@@ -36,8 +36,8 @@ Visual Javascript is perfect for small web apps or microservices, but not suitab
 
 
 ## Benefits
-- **Easy to use:** Drag and drop interface (like Visual Basic, except it uses Javascript as the scripting language)
-- **Permissive license:** Open source MIT license so you can use it however you like
+- **Easy to use:** Drag and drop interface (like Visual Basic, but Javascript instead of Basic for scripting)
+- **Permissive license:** Open source MIT license so you can do what you want with it
 - **Easy to distribute apps:** Apps can be compiled to a single HTML file and sent by email (even SQLite database apps)
 - **Works almost anywhere:** Windows, Linux, Mac, Raspberry PI, NodeJS, Docker, Kubernetes, OpenShift, Istio
 - **Works offline:** Editor works both locally and offline without internet connectivity on your laptop
@@ -54,9 +54,9 @@ Visual Javascript is perfect for small web apps or microservices, but not suitab
 ## Features
 - Build desktop apps as a series of forms
 - Add components to the forms, such as Buttons, images, input fields
-- Code events in Javascript
-- Connect to Postgres, Mysql, or REST APIs using pre built components
-- Build Microservices 
+- Script in Javascript
+- Connect to Postgres, Mysql, or REST APIs using pre-built components
+- Build Microservices
 - Each app has a built in SQLite database
 - App source code saved as a single .vjs file
 <br/><br/><br/>
@@ -94,7 +94,7 @@ And finally browse to http://0.0.0.0:80 to access the editor
 
 
 ### Docker
-Make sure that you have Docker installed. Then: 
+Make sure that you have Docker installed. Then:
 
 <pre style="display:inline;">&gt; docker  run  -p 80:80  yazzcom/visualjavascript:2021
 </pre>
@@ -153,36 +153,36 @@ Finally browse to http://0.0.0.0:80
 
 ## Command line options:
 
-    --cacert1                     Public HTTPS CA certificate 1 
-    --cacert2                     Public HTTPS CA certificate 2 
+    --cacert1                     Public HTTPS CA certificate 1
+    --cacert2                     Public HTTPS CA certificate 2
     --cacert3                     Public HTTPS CA certificate 3
-    --debug                       Allow to run NodeJS in debug mode (default false) 
+    --debug                       Allow to run NodeJS in debug mode (default false)
     --deleteonexit                Delete database files on exit (default false)
-    --deleteonstartup             Delete database files on startup (default false) 
+    --deleteonstartup             Delete database files on startup (default false)
     --help                        Output usage information
-    --hostport                    Server port of the central host (default 80) 
-    --host                        Server address of the central host (default yazz.com) 
+    --hostport                    Server port of the central host (default 80)
+    --host                        Server address of the central host (default yazz.com)
     --https                       Run using a HTTPS (default is false)
     --jaegercollector             Jaeger Open tracing collector endpoint (default not set) eg: http://localhost:14268/api/traces
     --loadjscode                  Load the following JS from the command line (default not set)
-    --loadjsfile                  Load the following JS from a file (default not set) 
-    --loadjsurl                   Load the following JS from a URL (default not set) 
-    --locked                      Allow server to be locked/unlocked on start up (default true) 
-    --maxJobProcessDurationMs     Maximum time to wait for a job to complete (default 10000 ms) 
-    --maxprocessesretry           Number of processes to retry when all cores are busy (default 10 processes) 
+    --loadjsfile                  Load the following JS from a file (default not set)
+    --loadjsurl                   Load the following JS from a URL (default not set)
+    --locked                      Allow server to be locked/unlocked on start up (default true)
+    --maxJobProcessDurationMs     Maximum time to wait for a job to complete (default 10000 ms)
+    --maxprocessesretry           Number of processes to retry when all cores are busy (default 10 processes)
     --port                        Which port should I listen on? Default 80 or 3000 (if not run as sudo)
     --private                     Private HTTPS key location
     --public                      Public HTTPS certificate location
-    --runapp                      Run the app with ID as the homepage (default not set) 
-    --runhtml                     Run using a local HTML page as the homepage (default not set) 
+    --runapp                      Run the app with ID as the homepage (default not set)
+    --runhtml                     Run using a local HTML page as the homepage (default not set)
     --showdebug                   Allow to show debug info (default false)
-    --statsinterval               Allow to show debug info every x seconds (default 10 seconds) 
+    --statsinterval               Allow to show debug info every x seconds (default 10 seconds)
     --showprogress                Show progress when starting Visual Javascript (default false)
-    --showstats                   Allow to show stats debug info (default false) 
+    --showstats                   Allow to show stats debug info (default false)
     --usehost                     Use host name [usehost]
-    --useselfsignedhttps          Use self signed HTTPS for local development (default false) 
+    --useselfsignedhttps          Use self signed HTTPS for local development (default false)
     --version                     output the version number
-    --virtualprocessors           How many virtual processors to run (default 6 processors) 
+    --virtualprocessors           How many virtual processors to run (default 6 processors)
 <br/><br/><br/>
 
 
@@ -197,7 +197,7 @@ Finally browse to http://0.0.0.0:80
 - **2013** Started developement in Clojure/Clojurescript
 - **2014** Named Clojure on Coils
 - **2015** Development slows, as focus moved to Light Table / Eve project
-- **2016** Clojure development stopped as Eve making good progress. 
+- **2016** Clojure development stopped as Eve making good progress.
 - **2016** Started Development of Visifile in Javascript, an search engine for internal enterprise data
 - **2018** Eve project shuts down
 - **2018** Visifile launches but finds out the problem is too difficult to solve. Pivots the product to a low code tool (also because Eve has been shut down)
@@ -205,7 +205,7 @@ Finally browse to http://0.0.0.0:80
 - **2021** Enterprise App Store for ISVs to discover, create, buy, and sell Visual Javascript components and apps to enterprises
 - **2021** Support for Istio, Rancher, KNative, OpenWhisk, OpenFaas, AWS
 - **2021** Enterprise connectivity via Red Hat, IBM, Salesforce, SAP, Oracle, Stripe, and other enterprise components
-- **2021** Desktop version in Mac app store 
+- **2021** Desktop version in Mac app store
 - **2021** Paid for hosting options
 - **2022** An editor to make programs in VR/AR editor
 - **2025** Machine Learning and vision components
