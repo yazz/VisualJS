@@ -37,7 +37,7 @@ Visual Javascript is perfect for small internal web apps or microservices, but n
 
 ## Benefits
 - **Easy to use:** Drag and drop interface (like Visual Basic, but using Javascript instead of Basic for scripting)
-- **Permissive license:** Open source MIT license so you can do what you want with it
+- **Permissive license:** Open source MIT license so you can do whatever you want with it
 - **Easy to distribute apps:** Apps can be compiled to a single HTML file and sent by email (even SQLite database apps)
 - **Works almost anywhere:** Windows, Linux, Mac, Raspberry PI, NodeJS, Docker, Kubernetes, OpenShift, Istio
 - **Works offline:** Editor works both locally and offline without internet connectivity on your laptop
