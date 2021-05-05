@@ -1259,9 +1259,11 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
     }
     if (debug) {
         if (semver.gte(process.versions.node, '6.9.0')) {
-            debugArgs = ['--inspect=' + debugPort];
+            //debugArgs = ['--inspect=' + debugPort];
+            debugArgs = [];
         } else {
-            debugArgs = ['--debug=' + debugPort];
+            //debugArgs = ['--debug=' + debugPort];
+            debugArgs = [];
         };
     };
     var forkedProcessPath
