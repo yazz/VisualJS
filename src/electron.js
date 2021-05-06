@@ -3486,6 +3486,9 @@ if (electronApp) {
             }).then(result => {
               console.log(result.canceled)
               console.log(result.filePaths)
+              if (result.canceled) {
+                  return
+              }
 
               console.log("********** load file........... ")
               let sd= uuidv1()
