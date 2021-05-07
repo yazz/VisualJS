@@ -27,7 +27,7 @@ Visual Javascript is a tool for building webapps on your intranet. It runs on PC
 - Create an app in your web browser
 - Share the app with others by sending them the app URL
 
-Visual Javascript is perfect for small internal web apps or microservices, but not so suitable for high performance apps or low level systems. Some demo apps can be found at https://yazz.com (Yazz sponsors development of the tool).
+Visual Javascript is perfect for small internal web apps or microservices. Some demo apps can be found at https://yazz.com (Yazz sponsors development of the tool).
 <br/><br/><br/>
 
 
@@ -70,6 +70,8 @@ Visual Javascript is perfect for small internal web apps or microservices, but n
 - Build slick UIs for public facing websites
 - Build mobile apps
 - Build self contained executables (need to pass in .vjs files)
+- High performance apps
+- Low level systems
 <br/><br/><br/>
 
 
