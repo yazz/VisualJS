@@ -37,8 +37,8 @@ Visual Javascript is perfect for small internal web apps or microservices. Some 
 
 ## Benefits
 - **Easy to use:** Drag and drop interface (like Visual Basic, except it uses Javascript instead of Basic for scripting)
-- **Permissive license:** Open source MIT license so you can do whatever you like with it
-- **Easy to distribute apps:** Apps can be compiled to a single HTML file and sent by email (even SQLite database apps)
+- **Permissive license:** Open source MIT license so you can do whatever you want with it
+- **Easy to distribute apps:** Apps can be exported to a single HTML file and sent by email (even SQLite database apps)
 - **Works almost anywhere:** Windows, Linux, Mac, Raspberry PI, NodeJS, Docker, Kubernetes, OpenShift, Istio
 - **Works offline:** Editor works both locally and offline
 - **Reuse existing databases:** Can read MS Access databases (even Linux or Mac can read MS Access files)
@@ -53,11 +53,11 @@ Visual Javascript is perfect for small internal web apps or microservices. Some 
 
 ## Features
 - Build desktop apps as a series of forms
-- Add components to the forms, such as buttons, images, input fields
+- Add components to a form, such as buttons, images, input fields
 - Add interactivity using Javascript
 - Connect to databases such as Postgres, Mysql
 - Connect to REST APIs 
-- Connect the outputs of one component to the inputs of another with ease
+- Connect the outputs of one component to the inputs of another
 - Build Microservices
 - Each app has a built in SQLite database
 - App source code saved as a single .vjs file
@@ -69,7 +69,7 @@ Visual Javascript is perfect for small internal web apps or microservices. Some 
 ## What it can't do
 - Build slick UIs for public facing websites
 - Build mobile apps
-- Build self contained executables (need to pass in .vjs files)
+- Build self contained executables (need to pass in a .vjs file)
 - High performance apps
 - Low level systems
 <br/><br/><br/>
