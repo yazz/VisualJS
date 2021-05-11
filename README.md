@@ -259,11 +259,11 @@ No
 
 
 ###  Does Visual Javascript work with VMWare PKS or other versions of Kubernetes?
-Visual Javascript has been tested with standard Kubernetes, Open Shift, and Docker. We will test with more versions, including Rancher as time goes by
+Visual Javascript has been tested with standard Kubernetes, OpenShift, and Docker. We will test with more versions, including Rancher as time goes by, but it should work fine with VMWare PKS
 
 
 ###  Who should use Visual Javascript today?
-Anyone who wants to build small web apps for internal use on their intranet
+Anyone who wants to build small web apps for internal intranet use
 
 
 
