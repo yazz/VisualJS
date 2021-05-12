@@ -242,13 +242,15 @@ Visual Javascript's long term vision is to make personal automation and embedded
 
 
 
-### Why doesn't Visual Javascript let me edit mutliple files as a tree like a traditional IDE?
-Visual Javascript breaks down all problems into single function components. However, a component can call other components as well if needed
-
-
 
 ### Is Visual Javascript Production ready?
 Yes, Visual Javascript is production ready and has been used in many enterprise environments
+
+
+
+
+### Why doesn't Visual Javascript let me edit mutliple files as a tree like a traditional IDE?
+Visual Javascript breaks down all problems into single files, each of which contains a single Javascript function, which acts as a component. A component can call other components as well if needed to form larger programs
 
 
 
