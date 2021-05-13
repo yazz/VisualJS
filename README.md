@@ -236,6 +236,10 @@ Visual Javascript's killer feature is being able to build simple applications in
 
 
 
+###  Who should use Visual Javascript today?
+Anyone who wants to build small web apps for internal intranet use
+
+
 
 ### What is Visual Javascript's long term vision?
 Visual Javascript's long term vision is to make personal automation and embedded medical applications easy to build. An example of a medical device is a tiny device that is injected into the blood stream to detect and destroy dangerous cells (using tiny cameras and Tensorflow). To get to this long term goal we need to take many tiny steps on the way. First with an app store, initial versions of Visual Javascript are building UIs for internal enterprise apps, also with support for autonomous systems which use autodiscovery of components which can be loaded on demand. As an example, if an unrecognised cell type in the human body is found by computer vision, Visual Javascript could go out to the network to see if this cell is recognized somewhere else and download the particular code related to that cell type
@@ -261,11 +265,9 @@ No
 
 
 ###  Does Visual Javascript work with VMWare PKS or other versions of Kubernetes?
-Visual Javascript has been tested with standard Kubernetes, OpenShift, and Docker. We will test with more versions, including Rancher as time goes by, but it should work fine with VMWare PKS
+Visual Javascript has been tested with Kubernetes, OpenShift, and Docker. We will test with more versions, including Rancher as time goes by, but it should work fine with VMWare PKS, GCP, and other Kubernetes distributions
 
 
-###  Who should use Visual Javascript today?
-Anyone who wants to build small web apps for internal intranet use
 
 
 
