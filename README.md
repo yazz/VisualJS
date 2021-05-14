@@ -260,7 +260,7 @@ Visual Javascript breaks down all problems into single files, each of which cont
 
 
 ### Is Visual Javascript looking for investment
-No
+No, we don't need money as Yazz has been sponsoring the development of the Visual Javascript tool. We would only consider investment from the outside if it was a very long term play as Yazz is expecting to be unprofitable for many years to come. We have been approached by many investors to invest in us, but we would only consider long term investors who would also bring some strategic value to Yazz/Visual Javascript.
 
 
 
@@ -271,8 +271,6 @@ Visual Javascript has been tested with Kubernetes, OpenShift, and Docker. We wil
 
 
 
-### How does Visual Javascript relate to Visual Basic?
-The author is a huge fan opf Visual Basic 6 and earlier, and the VBX/OCX component ecosystems that existed in the 1990s, therefore Visual Javascript is trying to recreate the Visual Basic 6 ecosystem from the 1990s, but in Javascript and for the modern intranets
 
 
 
@@ -294,8 +292,10 @@ A component is the basic unit of code in Visual Javascript, represented as a fun
 
 
 
-### How does Visual Javascript differ from Visual Basic?
-Visual Javascript does not use Basic. It uses Javascript as the scripting language. Also, the Editor is not the main part of Visual javascript. in fact the Visual Javascript editor is just a component with the environment. Other development paradigms can also be built in, with a VR/AR development environment planned for the future using Oculus Quest and WebXR
+### How does Visual Javascript relate to Visual Basic?
+The author of Visual Javascript is a huge fan of Visual Basic 6 and earlier, and the VBX/OCX component ecosystems that existed in the 1990s, therefore Visual Javascript is trying to recreate the Visual Basic 6 ecosystem from the 1990s, but in Javascript and for the modern intranets
+
+However, Visual Javascript does not use Basic. It uses Javascript as the scripting language. Also, unlike Visual Basic, the Visual Javascript Editor is just a component within the runtime environment. Other development paradigms can also be built in, with a VR/AR development environment planned for the future using Oculus Quest and WebXR
 
 
 
