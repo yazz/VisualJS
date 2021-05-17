@@ -241,6 +241,21 @@ Anyone who wants to build small web apps for internal intranet use
 
 
 
+
+### What does Visual Javascript mean by Self Service?
+When we say Self Service we mean that Visual Javascript can be used by people who are not Professional programmers
+
+
+
+
+
+
+### How much will Visual Javascript cost?
+Visual Javascript is free to download and use. We will be releasing a paid hosted version at some point
+
+
+
+
 ### What is Visual Javascript's long term vision?
 Visual Javascript's long term vision is to make personal automation and embedded medical applications easy to build. An example of a medical device is a tiny device that is injected into the blood stream to detect and destroy dangerous cells (using tiny cameras and Tensorflow). To get to this long term goal we need to take many tiny steps on the way. First with an app store, initial versions of Visual Javascript are building UIs for internal enterprise apps, also with support for autonomous systems which use autodiscovery of components which can be loaded on demand. As an example, if an unrecognised cell type in the human body is found by computer vision, Visual Javascript could go out to the network to see if this cell is recognized somewhere else and download the particular code related to that cell type
 
@@ -249,6 +264,8 @@ Visual Javascript's long term vision is to make personal automation and embedded
 
 ### Is Visual Javascript Production ready?
 Yes, Visual Javascript is production ready and has been used in many enterprise environments
+
+
 
 
 
@@ -285,7 +302,7 @@ Using IPC (Inter Process Communication)
 
 
 
-### What is the basic Unit of code in Visual Javascript?
+### What is the basic unit of code in Visual Javascript?
 A component is the basic unit of code in Visual Javascript, represented as a function in a .vjs text file
 
 
@@ -300,29 +317,19 @@ However, Visual Javascript does not use Basic. It uses Javascript as the scripti
 
 
 
-### How much will Visual Javascript cost?
-Visual Javascript is free to download and use. We will be releasing a paid hosted version at some point
 
 
 
-
-
-
-### If Visual Javascript is privately funded then why are you not all working full time?
-We could work full time on Visual Javascript but we made a conscious decision to work part time on it until we know we have product market fit. This is so that we make sure that we are solving problems that people have in the real world. We are scared that if we went full time then we would lose touch with reality, as seems to happen with so many startups in this space. Of course, being part time is much harder, as things move much more slowly with regard to developing the product, but we expect that we will be more efficient since we won't be building stuff that isn't needed
+### If Visual Javascript is privately funded then why are we not all working full time?
+We could work full time on Visual Javascript but we made a conscious decision to work part time on it until we know we have product market fit. This is so that we make sure that we are solving problems that people have in the real world. If we go full time too soon then we could lose touch with reality, as seems to happen with so many startups in this space. Of course, being part time is much harder, as things move much more slowly with regard to developing the product, but we expect that we will be more efficient since we won't be building stuff that isn't needed
 
 
 
 
 
 ### Does Visual Javascript use AI?
-Not yet, but AI is planned in the future for machine vision and learning algorithms. Also AI may be used to match component inputs and outputs and for intelligent code completion in the IDE
+No deep AI yet, but AI is planned for machine vision and learning algorithms. Also AI may be used to match component inputs and outputs and for intelligent code completion in the IDE. We do currently use TensorFlow for computer vision but we don't consider this real AI
 
-
-
-
-### What does Visual Javascript mean by Self Service?
-When we say Self Service we mean that Visual Javascript can be used by people who are not Professional programmers
 
 
 
@@ -405,14 +412,14 @@ They have their reasons. Plus, they HATE Javascript. They much prefer .NET, Rust
 
 
 
-### Every time I restart Visual Javascript I can't see my apps. How to I save them?
+### Every time I restart Visual Javascript I can't see my apps. How do I save them?
 You need to save the apps that you wish to keep by pessing the button "Save as .vjs file" in the editor
 
 
 
 
 ### I’m already invested in my favorite text editor. Can I keep using it with Visual Javascript?
-Visual Javascript's basic file format is text, so you can use any editor
+Visual Javascript's basic file format is text, so you can use any editor, but your programs will have to be imported into Visual Javascript if you wish to use the interactive editor
 
 
 
@@ -422,7 +429,7 @@ As of March 2021 AnyType is still closed source. Anytype does use IPFS for stora
 
 
 ### How does Visual Javascript compare to Retool?
-As of March 2021 Retool is a great SAAS offering
+As of May 2021 Retool is a great paid SAAS offering 
 
 
 
