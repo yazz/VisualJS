@@ -276,10 +276,6 @@ Visual Javascript breaks down all problems into single files, each of which cont
 
 
 
-### Is Visual Javascript looking for investment
-No, we don't need money as Yazz has been sponsoring the development of the Visual Javascript tool. We would only consider investment from the outside if it was a very long term play as Yazz is expecting to be unprofitable for many years to come. We have been approached by many investors to invest in us, but we would only consider long term investors who would also bring some strategic value to Yazz/Visual Javascript.
-
-
 
 ###  Does Visual Javascript work with VMWare PKS or other versions of Kubernetes?
 Visual Javascript has been tested with Kubernetes, OpenShift, and Docker. We will test with more versions, including Rancher as time goes by, but it should work fine with VMWare PKS, GCP, and other Kubernetes distributions
@@ -503,22 +499,26 @@ Stdlib is great cross platform event handler
 
 
 ### How does Visual Javascript compare to Delphi
-Delphi was a desktop IDE from the 1990s using Pascal as the programming language, and had a great set of controls and was even VBX (Visual Basic Custom Controls) comptible. Not many people use Deplhi today a it is mostly used for desktop Windows apps
+Delphi was a desktop IDE from the 1990s using Pascal as the programming language, and had a great set of controls and was even VBX (Visual Basic Custom Controls) compatible. Some people use Deplhi today for desktop Windows apps, and it is definitely one of the inspirations for Visual Javascript
+
+
+### How does Visual Javascript compare to Dynamic Land
+Dynamic Land has been aninspiration for Visual Javascript in that we think that computing will be spatial in the future, hence the built in VR
 
 
 
 ### Do Visual Basic apps run on Visual Javascript?
-No. Visual Javascript apps are written as .vjs files
+No. Visual Javascript only run apps written in Visual Javascript itself as .vjs files
 
 
 
 ### Can I use my VBX/OLE controls in a Visual Javascript app?
-No. Visual Javascript apps can have custom controls as .vjs components
+No. Visual Javascript apps can only use .vjs components
 
 
 
 ### Why did Visual Javascript switch to Javascript from Clojure/Clojurescript?
-Earlier I was against Javascript. But, with Clojure/Clojurescript we were limiting ourselves to a very small subset of developers, whereas Javascript has a much larger developer pool, so we switched
+Earlier the main developer was against Javascript. But, with Clojure/Clojurescript he saw that the product was limiting itself to a very small subset of developers, whereas Javascript has a much larger developer pool
 
 
 
@@ -534,13 +534,19 @@ Yes! One of the great things about Visual Javascript is that it works offline wi
 
 
 ### How does Visual Javascript compare to Bubble.io?
-As of March 2021 Bubble is a hosted web app builder, one of the first great online CRUD app builders
+As of May 2021 Bubble is a paid hosted web app builder and is good for building a public facing website
 
 
 
 
 ### Is there community for Visual Javascript?
 You can join us here https://join.slack.com/t/slack-lww3757/shared_invite/zt-oncgz9v8-2kgZPQhPp0kxBJUE~kPBaw
+
+
+
+### Is Visual Javascript looking for investment
+No, we don't need money as Yazz has been sponsoring the development of the Visual Javascript tool. We would only consider investment from the outside if it was a very long term play as Yazz is expecting to be unprofitable for many years to come. We have been approached by many investors to invest in us, but we would only consider long term investors who would also bring some strategic value to Yazz/Visual Javascript.
+
 
 
 
