@@ -358,6 +358,13 @@ Visual Javascript runs all server components in their own child NodeJS process, 
 
 
 
+### Does Visual Javascript work offline?
+Yes! One of the great things about Visual Javascript is that it works offline without an internet connection
+
+
+
+
+
 ### How does version control work in Visual Javascript?
 Visual Javascript removes the complexity of separate version control systems like git. Changes to your code are structured using distributed diff algorithms
 
@@ -527,20 +534,10 @@ It is under development at the moment, but the code is here in this Git Reposito
 
 
 
-### Does Visual Javascript work offline?
-Yes! One of the great things about Visual Javascript is that it works offline without an internet connection
-
-
 
 
 ### How does Visual Javascript compare to Bubble.io?
 As of May 2021 Bubble is a paid hosted web app builder and is good for building a public facing website
-
-
-
-
-### Is there community for Visual Javascript?
-You can join us here https://join.slack.com/t/slack-lww3757/shared_invite/zt-oncgz9v8-2kgZPQhPp0kxBJUE~kPBaw
 
 
 
@@ -557,4 +554,4 @@ The extension is ".vjs" but you can also use the ".js" extension for loading som
 
 <br/><br/><br/>
 ## Join our Slack group
-https://join.slack.com/t/slack-lww3757/shared_invite/zt-oncgz9v8-2kgZPQhPp0kxBJUE~kPBaw
+https://visualjavascript.slack.com
