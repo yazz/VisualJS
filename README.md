@@ -228,57 +228,31 @@ Finally browse to http://0.0.0.0:80
 
 
 <br/><br/><br/>
-## FAQ
-
+## FAQ - High Level Questions
 
 ### What is Visual Javascript's killer feature?
 Visual Javascript's killer feature is being able to build simple applications in minutes
 
-
-
 ###  Who should use Visual Javascript today?
 Anyone who wants to build small web apps for internal intranet use
-
-
-
 
 ### What does Visual Javascript mean by Self Service?
 When we say Self Service we mean that Visual Javascript can be used by people who are not Professional programmers
 
-
-
-
-
-
 ### How much will Visual Javascript cost?
 Visual Javascript is free to download and use. We will be releasing a paid hosted version at some point
-
-
-
 
 ### What is Visual Javascript's long term vision?
 Visual Javascript's long term vision is to make personal automation and embedded medical applications easy to build. An example of a medical device is a tiny device that is injected into the blood stream to detect and destroy dangerous cells (using tiny cameras and Tensorflow). To get to this long term goal we need to take many tiny steps on the way. First with an app store, initial versions of Visual Javascript are building UIs for internal enterprise apps, also with support for autonomous systems which use autodiscovery of components which can be loaded on demand. As an example, if an unrecognised cell type in the human body is found by computer vision, Visual Javascript could go out to the network to see if this cell is recognized somewhere else and download the particular code related to that cell type
 
-
-
-
 ### Is Visual Javascript Production ready?
 Yes, Visual Javascript is production ready and has been used in many enterprise environments
 
+### Is there commercial support for Visual Javascript?
+If you require commercial support then please go to https://yazz.com
 
-
-
-
-
-### Why doesn't Visual Javascript let me edit mutliple files as a tree like a traditional IDE?
-Visual Javascript breaks down all problems into single files, each of which contains a single Javascript function, which acts as a component. A component can call other components as well if needed to form larger programs
-
-
-
-
-
-###  Does Visual Javascript work with VMWare PKS or other versions of Kubernetes?
-Visual Javascript has been tested with Kubernetes, OpenShift, and Docker. We will test with more versions, including Rancher as time goes by, but it should work fine with VMWare PKS, GCP, and other Kubernetes distributions
+### I'm worried about vendor lock-in - what happens if Visual Javascript goes out of business?
+Visual Javascript is Open Source so you can download the opensource repo or fork the Github repo. Visual Javascript is also based on VueJS, HTML, and Javascript so you can slowly migrate to similar technologies in the ecosystem
 
 
 
@@ -287,259 +261,162 @@ Visual Javascript has been tested with Kubernetes, OpenShift, and Docker. We wil
 
 
 
-### What does the Visual Javascript Scheduler do?
-The Scheduler is a NodeJS process which decides which worker process to send a server task to
 
 
 
-### How do Visual Javascript processes communicate with each other?
-Using IPC (Inter Process Communication)
-
-
-
-
-### What is the basic unit of code in Visual Javascript?
-A component is the basic unit of code in Visual Javascript, represented as a function in a .vjs text file
-
-
-
-
+## FAQ - Comparison to other products
 
 ### How does Visual Javascript relate to Visual Basic?
 The author of Visual Javascript is a huge fan of Visual Basic 6 and earlier, and the VBX/OCX component ecosystems that existed in the 1990s, therefore Visual Javascript is trying to recreate the Visual Basic 6 ecosystem from the 1990s, but in Javascript and for the modern intranets
 
 However, Visual Javascript does not use Basic. It uses Javascript as the scripting language. Also, unlike Visual Basic, the Visual Javascript Editor is just a component within the runtime environment. Other development paradigms can also be built in, with a VR/AR development environment planned for the future using Oculus Quest and WebXR
 
-
-
-
-
-
-
-### If Visual Javascript is privately funded then why are we not all working full time?
-We could work full time on Visual Javascript but we made a conscious decision to work part time on it until we know we have product market fit. This is so that we make sure that we are solving problems that people have in the real world. If we go full time too soon then we could lose touch with reality, as seems to happen with so many startups in this space. Of course, being part time is much harder, as things move much more slowly with regard to developing the product, but we expect that we will be more efficient since we won't be building stuff that isn't needed
-
-
-
-
-
-### Does Visual Javascript use AI?
-No deep AI yet, but AI is planned for machine vision and learning algorithms. Also AI may be used to match component inputs and outputs and for intelligent code completion in the IDE. We do currently use TensorFlow for computer vision but we don't consider this real AI
-
-
-
-
-### Is there commercial support for Visual Javascript?
-If you require commercial support then please go to https://yazz.com
-
-
-
-
-### I'm worried about vendor lock-in - what happens if Visual Javascript goes out of business?
-Visual Javascript is Open Source so you can download the opensource repo or fork the Github repo
-
-
-
-
-### I'm worried about vendor lock-in - what happens if Visual Javascript stays in business but I still need to move off?
-Visual Javascript is based on VueJS, HTML, and Javascript so you can slowly migrate to similar technologies in the ecosystem
-
-
-
-### I want to write libraries for Visual Javascript - how can I take part in the Visual Javascript community/ecosystem?
-We will be releasing our dev guidelines soon
-
-
-
-### What happens if a server side component goes bad in Visual Javascript?
-Visual Javascript runs all server components in their own child NodeJS process, so if a component goes bad then Visual Javascript will restart kill the NodeJS process, restart a new NodeJS process, and return an error code to the caller
-
-
-
-
-
-### Does Visual Javascript work offline?
-Yes! One of the great things about Visual Javascript is that it works offline without an internet connection
-
-
-
-
-
-### How does version control work in Visual Javascript?
-Visual Javascript removes the complexity of separate version control systems like git. Changes to your code are structured using distributed diff algorithms
-
-
-
-
-
 ### How does Visual Javascript relate to Unison language
 Unison is an exellent language for distributed computing. There is no relation except that both Unison and Visual Javascript are based on the principal of immutable code where code is addressed by the SHA256 of the source code
-
-
-
-
 
 ### How does Visual Javascript relate to StoryScript language
 StoryScript is a Glue code for multiple languages, whereas Visual Javascript is only one dialect of Javascript
 
-
-
-
-
 ### How does Visual Javascript relate to Eve?
 Some concepts of universality are taken from Eve. Full disclosure, the creator of Visual Javascript was the initial angel investor in Eve
-
-
-
-
-
-
-### How does Visual Javascript relate to Microsoft?
-One of the developers works at Microsoft full time
-
-
-
-
-
-### How does Visual Javascript relate to Google?
-One of the developers works at Google full time working on new Operating System concepts and Fuchsia related things
-
-
-
-
-
-
-### Why don't Google or Microsoft developers commit to the GitHub repo directly?
-They have their reasons. Plus, they HATE Javascript. They much prefer .NET, Rust, Dart, Go, Typescript, and other cool stuff for their day jobs!
-
-
-
-
-### Every time I restart Visual Javascript I can't see my apps. How do I save them?
-You need to save the apps that you wish to keep by pessing the button "Save as .vjs file" in the editor
-
-
-
-
-### I’m already invested in my favorite text editor. Can I keep using it with Visual Javascript?
-Visual Javascript's basic file format is text, so you can use any editor, but your programs will have to be imported into Visual Javascript if you wish to use the interactive editor
-
-
 
 ### How does Visual Javascript compare to https://www.anytype.io/?
 As of March 2021 AnyType is still closed source. Anytype does use IPFS for storage which is a technology, along with QRI that Visual Javascript is considering for data storage.
 
-
-
 ### How does Visual Javascript compare to Retool?
 As of May 2021 Retool is a great paid SAAS offering 
-
-
 
 ### How does Visual Javascript compare to Javascript frameworks like VueJS, React , and Angular?
 First off, Visual Javascript, uses VueJS under the hood to  build UI components. Visual Javascript is very different to all those frameworks as Visual Javascript does not require deep coding skills or knowledge of HTML. You do need to know some Javascript to use Visual Javascript though
 
-
-
-
-
-### Is it planned to support other languages than Javascript in Visual Javascript?
-No
-
-
-
-
-
-
 ### How does Visual Javascript compare to Airtable?
 It doesn't. Well, Airtable is a database tool which can have apps built on top of as well, whereas Visual Javascript really is to build apps on top of enterprise APIs and databases
-
-
 
 ### How does Visual Javascript compare to Anvil?
 Anvil uses Python to build apps whereas Visual Javascript uses Javascript. But Anvil is very good, and supports Javascript now, so try it!
 
-
-
-
-
 ### How does Visual Javascript compare to Mendix?
 Mendix is a commercial low code product owned by Siemens, and is a very different thing since it is closed source
-
-
-
-
 
 ### How does Visual Javascript compare to Outsystems?
 Outsystems is a commercial low code product and is a very different thing since it is closed source
 
-
-
 ### How does Visual Javascript compare to Node Red?
 Node Red is a very intuitive system to process events and actions by linking nodes together. It has a different use case than Visual Javascript
-
-
-
-
 
 ### How does Visual Javascript compare to Huginn
 Huginn is a very intuitive personal task handler
 
-
-
-
 ### How does Visual Javascript compare to IFTTT
 IFTTT is a web only SAAS task automator
-
-
-
 
 ### How does Visual Javascript compare to Zapier
 Zapier is a web only SAAS task automator
 
-
-
-
 ### How does Visual Javascript compare to Stdlib
 Stdlib is great cross platform event handler
-
-
 
 ### How does Visual Javascript compare to Delphi
 Delphi was a desktop IDE from the 1990s using Pascal as the programming language, and had a great set of controls and was even VBX (Visual Basic Custom Controls) compatible. Some people use Deplhi today for desktop Windows apps, and it is definitely one of the inspirations for Visual Javascript
 
-
 ### How does Visual Javascript compare to Dynamic Land
 Dynamic Land has been aninspiration for Visual Javascript in that we think that computing will be spatial in the future, hence the built in VR
-
-
-
-### Do Visual Basic apps run on Visual Javascript?
-No. Visual Javascript only run apps written in Visual Javascript itself as .vjs files
-
-
-
-### Can I use my VBX/OLE controls in a Visual Javascript app?
-No. Visual Javascript apps can only use .vjs components
-
-
-
-### Why did Visual Javascript switch to Javascript from Clojure/Clojurescript?
-Earlier the main developer was against Javascript. But, with Clojure/Clojurescript he saw that the product was limiting itself to a very small subset of developers, whereas Javascript has a much larger developer pool
-
-
-
-### Where can I find the app store for Visual Javascript?
-It is under development at the moment, but the code is here in this Git Repository for components
-
-
-
-
 
 ### How does Visual Javascript compare to Bubble.io?
 As of May 2021 Bubble is a paid hosted web app builder and is good for building a public facing website
 
 
+
+
+
+
+
+
+
+
+
+
+
+## FAQ - Features and compatibility
+
+### Why doesn't Visual Javascript let me edit mutliple files as a tree like a traditional IDE?
+Visual Javascript breaks down all problems into single files, each of which contains a single Javascript function, which acts as a component. A component can call other components as well if needed to form larger programs
+
+###  Does Visual Javascript work with VMWare PKS or other versions of Kubernetes?
+Visual Javascript has been tested with Kubernetes, OpenShift, and Docker. We will test with more versions, including Rancher as time goes by, but it should work fine with VMWare PKS, GCP, and other Kubernetes distributions
+
+### What does the Visual Javascript Scheduler do?
+The Scheduler is a NodeJS process which decides which worker process to send a server task to
+
+### How do Visual Javascript processes communicate with each other?
+Using IPC (Inter Process Communication)
+
+### What is the basic unit of code in Visual Javascript?
+A component is the basic unit of code in Visual Javascript, represented as a function in a .vjs text file
+
+### Does Visual Javascript use AI?
+No deep AI yet, but AI is planned for machine vision and learning algorithms. Also AI may be used to match component inputs and outputs and for intelligent code completion in the IDE. We do currently use TensorFlow for computer vision but we don't consider this real AI
+
+### What happens if a server side component goes bad in Visual Javascript?
+Visual Javascript runs all server components in their own child NodeJS process, so if a component goes bad then Visual Javascript will restart kill the NodeJS process, restart a new NodeJS process, and return an error code to the caller
+
+### Does Visual Javascript work offline?
+Yes! One of the great things about Visual Javascript is that it works offline without an internet connection
+
+### How does version control work in Visual Javascript?
+Visual Javascript removes the complexity of separate version control systems like git. Changes to your code are structured using distributed diff algorithms
+
+### Every time I restart Visual Javascript I can't see my apps. How do I save them?
+You need to save the apps that you wish to keep by pessing the button "Save as .vjs file" in the editor
+
+### I’m already invested in my favorite text editor. Can I keep using it with Visual Javascript?
+Visual Javascript's basic file format is text, so you can use any editor, but your programs will have to be imported into Visual Javascript if you wish to use the interactive editor
+
+### Is it planned to support other languages than Javascript in Visual Javascript?
+No
+
+### Do Visual Basic apps run on Visual Javascript?
+No. Visual Javascript only run apps written in Visual Javascript itself as .vjs files
+
+### Can I use my VBX/OLE controls in a Visual Javascript app?
+No. Visual Javascript apps can only use .vjs components
+
+### Where can I find the app store for Visual Javascript?
+It is under development at the moment, but the code is here in this Git Repository for components
+
+### What is the extension for all Visual Javascript apps?
+The extension is ".vjs" but you can also use the ".js" extension for loading some simple Javascript apps
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## FAQ - Company and team related questions
+
+### If Visual Javascript is privately funded then why are we not all working full time?
+We could work full time on Visual Javascript but we made a conscious decision to work part time on it until we know we have product market fit. This is so that we make sure that we are solving problems that people have in the real world. If we go full time too soon then we could lose touch with reality, as seems to happen with so many startups in this space. Of course, being part time is much harder, as things move much more slowly with regard to developing the product, but we expect that we will be more efficient since we won't be building stuff that isn't needed
+
+### How does Visual Javascript relate to Microsoft?
+One of the developers works at Microsoft full time
+
+### How does Visual Javascript relate to Google?
+One of the developers works at Google full time working on new Operating System concepts and Fuchsia related things
+
+### Why don't Google or Microsoft developers commit to the GitHub repo directly?
+They have their reasons. Plus, they HATE Javascript. They much prefer .NET, Rust, Dart, Go, Typescript, and other cool stuff for their day jobs!
+
+### Why did Visual Javascript switch to Javascript from Clojure/Clojurescript?
+Earlier the main developer was against Javascript. But, with Clojure/Clojurescript he saw that the product was limiting itself to a very small subset of developers, whereas Javascript has a much larger developer pool
 
 ### Is Visual Javascript looking for investment
 No, we don't need money as Yazz has been sponsoring the development of the Visual Javascript tool. We would only consider investment from the outside if it was a very long term play as Yazz is expecting to be unprofitable for many years to come. We have been approached by many investors to invest in us, but we would only consider long term investors who would also bring some strategic value to Yazz/Visual Javascript.
@@ -547,11 +424,26 @@ No, we don't need money as Yazz has been sponsoring the development of the Visua
 
 
 
-### What is the extension for all Visual Javascript apps?
-The extension is ".vjs" but you can also use the ".js" extension for loading some simple Javascript apps
 
 
 
-<br/><br/><br/>
-## Join our Slack group
+
+
+
+
+
+
+## FAQ - Getting involved yourself
+
+### I want to write libraries for Visual Javascript - how can I take part in the Visual Javascript community/ecosystem?
+We will be releasing our dev guidelines soon
+
+### Is there a community that I can join to find out more? - yes, join our Slack group at
 https://visualjavascript.slack.com
+
+
+
+
+
+
+
