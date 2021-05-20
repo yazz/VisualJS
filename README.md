@@ -263,7 +263,7 @@ Visual Javascript is Open Source so you can download the opensource repo or fork
 
 
 
-
+<br/><br/><br/>
 ## FAQ - Comparison to other products
 
 ### How does Visual Javascript relate to Visual Basic?
@@ -336,7 +336,7 @@ As of May 2021 Bubble is a paid hosted web app builder and is good for building 
 
 
 
-
+<br/><br/><br/>
 ## FAQ - Features and compatibility
 
 ### Why doesn't Visual Javascript let me edit mutliple files as a tree like a traditional IDE?
@@ -400,7 +400,7 @@ The extension is ".vjs" but you can also use the ".js" extension for loading som
 
 
 
-
+<br/><br/><br/>
 ## FAQ - Company and team related questions
 
 ### If Visual Javascript is privately funded then why are we not all working full time?
@@ -432,8 +432,8 @@ No, we don't need money as Yazz has been sponsoring the development of the Visua
 
 
 
-
-## FAQ - Getting involved yourself
+<br/><br/><br/>
+## FAQ - Getting involved 
 
 ### I want to write libraries for Visual Javascript - how can I take part in the Visual Javascript community/ecosystem?
 We will be releasing our dev guidelines soon
