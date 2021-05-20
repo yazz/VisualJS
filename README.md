@@ -436,7 +436,7 @@ No, we don't need money as Yazz has been sponsoring the development of the Visua
 ## FAQ - Getting involved 
 
 ### I want to write libraries for Visual Javascript - how can I take part in the Visual Javascript community/ecosystem?
-We will be releasing our dev guidelines soon
+We will be releasing developer guidelines soon
 
 ### Is there a community that I can join to find out more? - yes, join our Slack group at
 https://visualjavascript.slack.com
