@@ -224,14 +224,20 @@ Finally browse to http://0.0.0.0:80
 
 
 
-
+# FAQ 
 
 
 <br/><br/><br/>
-## FAQ - High Level Questions
+## High Level Questions
+
+### What is Visual Javascript?
+Visual Javascript is a tool to build simple applications in minutes
 
 ### What is Visual Javascript's killer feature?
-Visual Javascript's killer feature is being able to build simple applications in minutes
+Visual Javascript's killer feature is that is simple to build an application fast
+
+### What is Visual Javascript's Unique Selling Point compared to other builder tools?
+Visual Javascript's killer feature is that is is simple to setup and run almost anywhere. You can treat it like you treat Emacs or Notepad++, a tool that runs almost anywhere
 
 ###  Who should use Visual Javascript today?
 Anyone who wants to build small web apps for internal intranet use
@@ -264,7 +270,7 @@ Visual Javascript is Open Source so you can download the opensource repo or fork
 
 
 <br/><br/><br/>
-## FAQ - Comparison to other products
+## Comparison to other products
 
 ### How does Visual Javascript relate to Visual Basic?
 The author of Visual Javascript is a huge fan of Visual Basic 6 and earlier, and the VBX/OCX component ecosystems that existed in the 1990s, therefore Visual Javascript is trying to recreate the Visual Basic 6 ecosystem from the 1990s, but in Javascript and for the modern intranets
@@ -337,7 +343,7 @@ As of May 2021 Bubble is a paid hosted web app builder and is good for building 
 
 
 <br/><br/><br/>
-## FAQ - Features and compatibility
+## Features and compatibility
 
 ### Why doesn't Visual Javascript let me edit mutliple files as a tree like a traditional IDE?
 Visual Javascript breaks down all problems into single files, each of which contains a single Javascript function, which acts as a component. A component can call other components as well if needed to form larger programs
@@ -401,7 +407,7 @@ The extension is ".vjs" but you can also use the ".js" extension for loading som
 
 
 <br/><br/><br/>
-## FAQ - Company and team related questions
+## Company and team related questions
 
 ### If Visual Javascript is privately funded then why are we not all working full time?
 We could work full time on Visual Javascript but we made a conscious decision to work part time on it until we know we have product market fit. This is so that we make sure that we are solving problems that people have in the real world. If we go full time too soon then we could lose touch with reality, as seems to happen with so many startups in this space. Of course, being part time is much harder, as things move much more slowly with regard to developing the product, but we expect that we will be more efficient since we won't be building stuff that isn't needed
@@ -433,7 +439,7 @@ No, we don't need money as Yazz has been sponsoring the development of the Visua
 
 
 <br/><br/><br/>
-## FAQ - Getting involved 
+## Getting involved 
 
 ### I want to write libraries for Visual Javascript - how can I take part in the Visual Javascript community/ecosystem?
 We will be releasing developer guidelines soon
