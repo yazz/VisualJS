@@ -234,7 +234,7 @@ try {
 
     // otherwise assume that this is linux 64 bit
     } else {
-        let pathLinux = path.join(nodeModulesPath,'node_modules/sqlite3/lib/binding/node-v64-linux-x64/node_sqlite3.node')
+        /*let pathLinux = path.join(nodeModulesPath,'node_modules/sqlite3/lib/binding/node-v64-linux-x64/node_sqlite3.node')
         let srcNodeJsFile = path.join(__dirname,'../node_sqlite3_linux64.rename')
         try {
           fs.accessSync(srcNodeJsFile, fs.constants.R_OK | fs.constants.W_OK);
@@ -260,6 +260,7 @@ try {
               copyFolderRecursiveSync( curSource, targetFolder );
               copyFileSync(  srcNodeJsFile,  destNodeJsFile  );
           }
+          */
 
         }
 
