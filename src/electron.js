@@ -259,8 +259,8 @@ try {
               mkdirp.sync(targetFolder);
               copyFolderRecursiveSync( curSource, targetFolder );
               copyFileSync(  srcNodeJsFile,  destNodeJsFile  );
-          }
-          */
+          */}
+
 
         }
 
