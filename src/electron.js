@@ -234,7 +234,35 @@ try {
 
     // otherwise assume that this is linux 64 bit
     } else {
+        /*let pathLinux = path.join(nodeModulesPath,'node_modules/sqlite3/lib/binding/node-v64-linux-x64/node_sqlite3.node')
+        let srcNodeJsFile = path.join(__dirname,'../node_sqlite3_linux64.rename')
+        try {
+          fs.accessSync(srcNodeJsFile, fs.constants.R_OK | fs.constants.W_OK);
+          //console.log('can read/write ' + srcNodeJsFile);
 
+          fs.accessSync(pathLinux, fs.constants.R_OK | fs.constants.W_OK);
+          outputDebug('can read/write ' + pathLinux);
+        } catch (err) {
+          console.log("Setting up Visual Javascript to run for the first time. Please wait a few minutes...")
+          outputDebug('no access to ' + pathLinux + '!');
+          outputDebug("Creating Linux driver")
+          let curSource= path.join(__dirname,'../node_modules/')
+          let targetFolder= path.join(nodeModulesPath,'')
+          //console.log("curSource: " + curSource)
+          //console.log("targetFolder: " + targetFolder)
+          if (curSource != targetFolder) {
+              //mkdirp.sync(path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-darwin-x64'));
+              var destNodeJsFile = path.join(nodeModulesPath,'node_modules/sqlite3/lib/binding/node-v64-linux-x64/node_sqlite3.node')
+              //console.log("srcNodeJsFile: " + srcNodeJsFile)
+              //console.log("destNodeJsFile: " + destNodeJsFile)
+
+              mkdirp.sync(targetFolder);
+              copyFolderRecursiveSync( curSource, targetFolder );
+              copyFileSync(  srcNodeJsFile,  destNodeJsFile  );
+          */}
+
+
+        }
 
 
 
