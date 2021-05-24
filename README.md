@@ -231,19 +231,16 @@ Finally browse to http://0.0.0.0:80
 ## High Level Questions
 
 ### What is Visual Javascript?
-Visual Javascript is a tool to build simple applications in minutes
+Visual Javascript is a desktop tool to build internal web based applications using pre-build components, with glue code written in Javascript
 
 ### What is Visual Javascript's killer feature?
-Visual Javascript's killer feature is that is simple to build an application fast
-
-### What is Visual Javascript's Unique Selling Point compared to other builder tools?
-Visual Javascript's killer feature is that is is simple to setup and run almost anywhere. You can treat it like you treat Emacs or Notepad++, a tool that runs almost anywhere
+Visual Javascript's killer feature is that simple webapps can be built extremely fast
 
 ###  Who should use Visual Javascript today?
 Anyone who wants to build small web apps for internal intranet use
 
 ### What does Visual Javascript mean by Self Service?
-When we say Self Service we mean that Visual Javascript can be used by people who are not Professional programmers
+When we say Self Service we mean that Visual Javascript can be used by people who are not professional programmers. This is possible because it has a drag and drop user interface which makes it easy for "non technies" to design and build applications
 
 ### How much will Visual Javascript cost?
 Visual Javascript is free to download and use. We will be releasing a paid hosted version at some point
@@ -271,6 +268,11 @@ Visual Javascript is Open Source so you can download the opensource repo or fork
 
 <br/><br/><br/>
 ## Comparison to other products
+
+
+### What is Visual Javascript's Unique Selling Point compared to other builder tools?
+There are many tools in the low code space. Most of them are either paid SAAS products, or free products that are complicated to setup locally. Visual Javascript's is not the most feature complete of all these products but is one of the easiest to use, is free and open source, super easy to setup locally or as a SAAS server, and is multiplatform. You can treat it like you treat Emacs or Notepad++, a tool that runs almost anywhere!
+
 
 ### How does Visual Javascript relate to Visual Basic?
 The author of Visual Javascript is a huge fan of Visual Basic 6 and earlier, and the VBX/OCX component ecosystems that existed in the 1990s, therefore Visual Javascript is trying to recreate the Visual Basic 6 ecosystem from the 1990s, but in Javascript and for the modern intranets
