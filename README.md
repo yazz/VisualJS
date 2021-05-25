@@ -226,9 +226,8 @@ Finally browse to http://0.0.0.0:80
 
 # FAQ 
 
-
 <br/><br/><br/>
-## High Level Questions
+# High Level Questions (FAQ)
 
 ### What is Visual Javascript?
 Visual Javascript is a universal tool to build internal web applications. These applications use pre-built UI and server side components, with glue code written in Javascript. The product itself runs almost anywhere, from servers to desktop PCs to Kubernetes and Docker containers. It can build small pieces of server side code or UIs, and each application includes a full Sqlite database 
