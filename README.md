@@ -231,19 +231,19 @@ Finally browse to http://0.0.0.0:80
 ## High Level Questions
 
 ### What is Visual Javascript?
-Visual Javascript is a desktop tool to build internal web based applications using pre-build components, with glue code written in Javascript
+Visual Javascript is a universal tool to build internal web applications. These applications use pre-built UI and server side components, with glue code written in Javascript. The product itself runs almost anywhere, from servers to desktop PCs to Kubernetes and Docker containers. It can build small pieces of server side code or UIs, and each application includes a full Sqlite database 
 
 ### What is Visual Javascript's killer feature?
-Visual Javascript's killer feature is that simple webapps can be built extremely fast
+Visual Javascript's killer feature is that simple webapps extremely fast. While other tools can also do this, the benefit of Visual Javascript is that it is MIT open source, so there is no SAAS signup, no license fees, and applications can just be built and run
 
 ###  Who should use Visual Javascript today?
-Anyone who wants to build small web apps for internal intranet use
+An ideal user for Visual Javascript is someone who wants to build small web apps for internal use (such as demos), or do small data processing for themselves . So far there have been many independent people who have used Visual Javascript, and many large enterprises have used it for building demos.
 
 ### What does Visual Javascript mean by Self Service?
 When we say Self Service we mean that Visual Javascript can be used by people who are not professional programmers. This is possible because it has a drag and drop user interface which makes it easy for "non technies" to design and build applications
 
 ### How much will Visual Javascript cost?
-Visual Javascript is free to download and use. We will be releasing a paid hosted version at some point
+Visual Javascript is free to download and use. It uses the MIT license so you are free to copy and distribute Visual Javascript applications that you build with your own systems. We will be releasing a paid hosted version at some point which will most likely be a web based service (like hosted Wordpress).
 
 ### What is Visual Javascript's long term vision?
 Visual Javascript's long term vision is to make personal automation and embedded medical applications easy to build. An example of a medical device is a tiny device that is injected into the blood stream to detect and destroy dangerous cells (using tiny cameras and Tensorflow). To get to this long term goal we need to take many tiny steps on the way. First with an app store, initial versions of Visual Javascript are building UIs for internal enterprise apps, also with support for autonomous systems which use autodiscovery of components which can be loaded on demand. As an example, if an unrecognised cell type in the human body is found by computer vision, Visual Javascript could go out to the network to see if this cell is recognized somewhere else and download the particular code related to that cell type
@@ -252,7 +252,7 @@ Visual Javascript's long term vision is to make personal automation and embedded
 Yes, Visual Javascript is production ready and has been used in many enterprise environments
 
 ### Is there commercial support for Visual Javascript?
-If you require commercial support then please go to https://yazz.com
+If you require commercial support then please go to https://yazz.com. If you want a consulting assignment with Visual Javascript our email is contact@yazz.com
 
 ### I'm worried about vendor lock-in - what happens if Visual Javascript goes out of business?
 Visual Javascript is Open Source so you can download the opensource repo or fork the Github repo. Visual Javascript is also based on VueJS, HTML, and Javascript so you can slowly migrate to similar technologies in the ecosystem
