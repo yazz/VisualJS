@@ -283,7 +283,7 @@ Beads is a very interesting product known to the author of Visual Javascript as 
 https://news.ycombinator.com/item?id=27287989
 
 ### How does Visual Javascript relate to Unison language
-Unison is an exellent language for distributed computing. There is no relation except that both Unison and Visual Javascript are based on the principal of immutable code where code is addressed by the SHA256 of the source code
+Unison is an exellent language for distributed computing. There is no relation except that both Unison and Visual Javascript are based on the principal of immutable code where code is addressed by the SHA256 of the source code. I have enormous respect for the creator of Unison.
 
 ### How does Visual Javascript relate to StoryScript language
 StoryScript is a Glue code for multiple languages, whereas Visual Javascript is only one dialect of Javascript
@@ -337,6 +337,8 @@ Dynamic Land has been aninspiration for Visual Javascript in that we think that 
 As of May 2021 Bubble is a paid hosted web app builder and is good for building a public facing website
 
 
+### How does Visual Javascript compare to DeFi?
+DeFi is more a market on many products than a single product, but Visual Javascript takes many inspirations from Blockchain and DeFi projects.
 
 
 
