@@ -269,13 +269,18 @@ Visual Javascript's long term vision is to make personal automation and embedded
 
 
 ### What is Visual Javascript's Unique Selling Point compared to other builder tools?
-There are many tools in the low code space. Most of them are either paid SAAS products, or free products that are complicated to setup locally. Visual Javascript's is not the most feature complete of all these products but is one of the easiest to use, is free and open source, super easy to setup locally or as a SAAS server, and is multiplatform. You can treat it like you treat Emacs or Notepad++, a tool that runs almost anywhere!
+There are many tools in the low code space. Most of them are either paid SAAS products, or free products that can be complicated to setup on a local machine. Visual Javascript is not the most feature complete of all these products but is one of the easiest to install and use. Think of Visual Javascript as a bit of a Swiss Army Knife tool. It is a good general purpose tool for quick tasks, but not meant for heavy duty specialist work.
 
 
 ### How does Visual Javascript relate to Visual Basic?
-The author of Visual Javascript is a huge fan of Visual Basic 6 and earlier, and the VBX/OCX component ecosystems that existed in the 1990s, therefore Visual Javascript is trying to recreate the Visual Basic 6 ecosystem from the 1990s, but in Javascript and for the modern intranets
+The author of Visual Javascript is a huge fan of the Visual Basic ecosystem from the 1990s, and the VBX/OCX component ecosystems that existed around that time. Visual Javascript is trying to recreate this Visual Basic style ecosystem from the 1990s, but in Javascript and for the modern intranets.
 
-However, Visual Javascript does not use Basic. It uses Javascript as the scripting language. Also, unlike Visual Basic, the Visual Javascript Editor is just a component within the runtime environment. Other development paradigms can also be built in, with a VR/AR development environment planned for the future using Oculus Quest and WebXR
+However, Visual Javascript does not use Basic. It uses Javascript as the scripting language. Also, unlike Visual Basic, the Visual Javascript Editor is just a component within the Visual Javascript runtime environment. Other development paradigms can also be built in, with a VR/AR development environment planned for the future using Oculus Quest and WebXR
+
+
+### How does Visual Javascript compare to Beads
+Beads is a very interesting product known to the author of Visual Javascript as it has many features which have commonality and many which are totally opposite, but definitely there are inspirations from Beads:
+https://news.ycombinator.com/item?id=27287989
 
 ### How does Visual Javascript relate to Unison language
 Unison is an exellent language for distributed computing. There is no relation except that both Unison and Visual Javascript are based on the principal of immutable code where code is addressed by the SHA256 of the source code
