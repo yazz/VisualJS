@@ -316,29 +316,29 @@ Outsystems is a commercial low code product and is a very different thing since 
 Node Red is a very intuitive system to process events and actions by linking nodes together. It has a different use case than Visual Javascript
 
 ### How does Visual Javascript compare to Huginn
-Huginn is a very intuitive personal task handler
+Huginn is a very intuitive personal task handler. Visual Javascript is more for applications that need user interaction.
 
 ### How does Visual Javascript compare to IFTTT
-IFTTT is a web only SAAS task automator
+IFTTT is a web only SAAS task automator. Visual Javascript is more for applications that need user interaction.
 
 ### How does Visual Javascript compare to Zapier
-Zapier is a web only SAAS task automator
+Zapier is a web only SAAS task automator. Visual Javascript is more for applications that need user interaction.
 
-### How does Visual Javascript compare to Stdlib
-Stdlib is great cross platform event handler
+### How does Visual Javascript compare to Autocode
+Autocode is great cross platform event handler. It is very text based and aims to link systems together. Visual Javascript is more for applications that need user interaction.
 
 ### How does Visual Javascript compare to Delphi
-Delphi was a desktop IDE from the 1990s using Pascal as the programming language, and had a great set of controls and was even VBX (Visual Basic Custom Controls) compatible. Some people use Deplhi today for desktop Windows apps, and it is definitely one of the inspirations for Visual Javascript
+Delphi was a desktop IDE from the 1990s using Pascal as the programming language, and had a great set of controls and was even VBX (Visual Basic Custom Controls) compatible. Some people use Deplhi today for desktop Windows apps, and it is definitely one of the inspirations for Visual Javascript. Delphi used Pascal as the language and Visual Javascript uses Javascript.
 
 ### How does Visual Javascript compare to Dynamic Land
-Dynamic Land has been aninspiration for Visual Javascript in that we think that computing will be spatial in the future, hence the built in VR
+Dynamic Land has been aninspiration for Visual Javascript in that we think that computing will be spatial in the future, hence the built in VR. We do see a future where the Visual Javascript editor could be used in a spatial way with VR to build programs.
 
 ### How does Visual Javascript compare to Bubble.io?
-As of May 2021 Bubble is a paid hosted web app builder and is good for building a public facing website
+As of May 2021 Bubble is a paid hosted web app builder and is good for building a public facing website. Bubble is excellenet for build your low code startup's public facing site, so it is a different market space than Visual Javascript.
 
 
 ### How does Visual Javascript compare to DeFi?
-DeFi is more a market on many products than a single product, but Visual Javascript takes many inspirations from Blockchain and DeFi projects.
+DeFi is more a market on many products than a single product, but Visual Javascript takes many inspirations from Blockchain and DeFi projects. We have considered how we could run Visual Javascript as a series of nodes, much like DFinity and Internet Computer.
 
 
 
