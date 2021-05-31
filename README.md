@@ -352,6 +352,9 @@ DeFi is more a market on many products than a single product, but Visual Javascr
 <br/><br/><br/>
 # FAQ - Features and compatibility
 
+### Does Visual Javascript us native libraries?
+Yes, but only one. SQlite native module is used. Everything else is pure Javascript. The reason for this is that Sqlite works almost everywhere. For all other components we like to keep everything as pure Javascript. This often means that we limit ourselves to which third party libraries that we can use.
+
 ### Why doesn't Visual Javascript let me edit mutliple files as a tree like a traditional IDE?
 Visual Javascript breaks down all problems into single files, each of which contains a single Javascript function, which acts as a component. A component can call other components as well if needed to form larger programs
 
@@ -359,10 +362,10 @@ Visual Javascript breaks down all problems into single files, each of which cont
 Visual Javascript has been tested with Kubernetes, OpenShift, and Docker. We will test with more versions, including Rancher as time goes by, but it should work fine with VMWare PKS, GCP, and other Kubernetes distributions
 
 ### What does the Visual Javascript Scheduler do?
-The Scheduler is a NodeJS process which decides which worker process to send a server task to
+The Scheduler is a NodeJS process which decides which worker process to send a server task to. Each process takes about 40MB of RAM and the default number of these "virtual processors" is 6.
 
 ### How do Visual Javascript processes communicate with each other?
-Using IPC (Inter Process Communication)
+Using IPC (Inter Process Communication) via NodeJS
 
 ### What is the basic unit of code in Visual Javascript?
 A component is the basic unit of code in Visual Javascript, represented as a function in a .vjs text file
@@ -419,14 +422,8 @@ The extension is ".vjs" but you can also use the ".js" extension for loading som
 ### If Visual Javascript is privately funded then why are we not all working full time?
 We could work full time on Visual Javascript but we made a conscious decision to work part time on it until we know we have product market fit. This is so that we make sure that we are solving problems that people have in the real world. If we go full time too soon then we could lose touch with reality, as seems to happen with so many startups in this space. Of course, being part time is much harder, as things move much more slowly with regard to developing the product, but we expect that we will be more efficient since we won't be building stuff that isn't needed
 
-### How does Visual Javascript relate to Microsoft?
-One of the developers works at Microsoft full time
-
-### How does Visual Javascript relate to Google?
-One of the developers works at Google full time working on new Operating System concepts and Fuchsia related things
-
-### Why don't Google or Microsoft developers commit to the GitHub repo directly?
-They have their reasons. Plus, they HATE Javascript. They much prefer .NET, Rust, Dart, Go, Typescript, and other cool stuff for their day jobs!
+### Who is involved with Yazz.
+Zubair Quraishi is the main developer. There are other people who also help out from timt to time, including people from Google and Microsoft, amongst other places.
 
 ### Why did Visual Javascript switch to Javascript from Clojure/Clojurescript?
 Earlier the main developer was against Javascript. But, with Clojure/Clojurescript he saw that the product was limiting itself to a very small subset of developers, whereas Javascript has a much larger developer pool
