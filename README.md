@@ -424,17 +424,17 @@ The extension is ".vjs" but you can also use the ".js" extension for loading som
 <br/><br/><br/>
 # FAQ - Company and team related questions
 
-### If Visual Javascript is privately funded then why are we not all working full time?
-We could work full time on Visual Javascript but we made a conscious decision to work part time on it until we know we have product market fit. This is so that we make sure that we are solving problems that people have in the real world. If we go full time too soon then we could lose touch with reality, as seems to happen with so many startups in this space. Of course, being part time is much harder, as things move much more slowly with regard to developing the product, but we expect that we will be more efficient since we won't be building stuff that isn't needed
+### If Visual Javascript is privately funded then why are we not all working on it full time?
+We could work full time on Visual Javascript but we have made a conscious decision to work part time on it until we know that we have product market fit. This is so that we make sure that we are solving real problems that people have in their daily work. If we go full time too soon then we could lose touch with reality, as seems to happen with so many startups in this space. Of course, being part time is much harder, as things move much more slowly with regard to developing the product, but we expect that we will be more efficient since we won't be building stuff that isn't needed.
 
 ### Who is involved with Yazz.
-Zubair Quraishi is the main developer. There are other people who also help out from timt to time, including people from Google and Microsoft, amongst other places.
+Zubair Quraishi is the main developer. There are also other people who also help out from time to time, including people from Google and Microsoft, amongst other places.
 
 ### Why did Visual Javascript switch to Javascript from Clojure/Clojurescript?
-Earlier the main developer was against Javascript. But, with Clojure/Clojurescript he saw that the product was limiting itself to a very small subset of developers, whereas Javascript has a much larger developer pool
+For the first 3 years Zubair was against Javascript and chose Clojure/Clojurescript for the development of Visual Javascript. But, with Clojure/Clojurescript he saw that the product was limiting itself to a very small subset of developers, whereas Javascript has a much larger developer pool
 
 ### Is Visual Javascript looking for investment
-No, we don't need money as Yazz has been sponsoring the development of the Visual Javascript tool. We would only consider investment from the outside if it was a very long term play as Yazz is expecting to be unprofitable for many years to come. We have been approached by many investors to invest in us, but we would only consider long term investors who would also bring some strategic value to Yazz/Visual Javascript.
+No, we don't need money as Yazz has been sponsoring the development of the Visual Javascript tool. We would only consider investment from the outside if it was a very long term partnership, as Yazz is expecting to be unprofitable for many years to come. We have been approached by many investors to invest in us, but we would only consider long term investors who would also bring some strategic value to Yazz/Visual Javascript.
 
 
 
