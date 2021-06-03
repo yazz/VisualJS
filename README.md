@@ -268,48 +268,52 @@ Visual Javascript's long term vision is to make personal automation and embedded
 # FAQ - Comparison to other products
 
 
-### What is Visual Javascript's Unique Selling Point compared to other builder tools?
-Think of Visual Javascript as a Swiss Army Knife tool for building low code applications. It is a good general purpose tool for quick tasks, but not meant for heavy duty specialist work. While there are many tools in the low code space, most of them are either paid SAAS products, or developer focused open source products with complex installation procedures. Visual Javascript is both open source and easy to install. 
+### What is Visual Javascript's unique selling point compared to other low code tools?
+Think of Visual Javascript as a Swiss Army Knife tool for building small internal applications. It is a good general purpose tool for quick and dirty tasks such as calculating a few numbers, or visualising an API, but it not meant for heavy duty specialist work such as responsive websites, or internet commerce websites. While there are many existing tools in the low code space, most of them are either paid SAAS products, or developer focused open source products, often with complex installation procedures. This is another unique point of Visual Javascript since it is both open source and easy to install. 
 
 
-### How does Visual Javascript relate to Visual Basic?
-The author of Visual Javascript is a huge fan of the Visual Basic ecosystem from the 1990s. Visual Javascript is trying to recreate this Visual Basic style component ecosystem from the 1990s, but in Javascript.
+### How does Visual Javascript compare to Visual Basic?
+The author of Visual Javascript is a huge fan of the Visual Basic ecosystem from the 1990s. Visual Javascript is trying to recreate the same type of Visual Basic = component ecosystem from the 1990s, but in Javascript. Also, since Visual Javascript uses Javascript as the scripting language instead of Basic there is zero compatibility with Visual Basic. 
 
-Since Visual Javascript uses Javascript as the scripting language instead of Basic there is zero compatibility with Visual basic. 
-
-Also, unlike Visual Basic, where the editor is a key part of the product, the Visual Javascript editor is just a component within the Visual Javascript runtime environment and can be replaced. Other development paradigms such as a VR/AR development environment are planned for the future using Oculus Quest and WebXR.
+In Visual Basic the VBA language has been embedded in many other languages, such as Excel, but Visual Javascript is a bit different. The runtime is meant to be used standalone and connect to other systems such as Excel via components. In fact everything in Visual javascript is just a component, including the Visual Javascript drag and drop editor, which can also be replaced. For example, planned for the future is to offer other development paradigms such as a VR/AR editor using Oculus Quest and WebXR.
 
 
 ### How does Visual Javascript compare to Beads
-Beads is a very interesting product which has some things in common with Visual Javascript such as the debugger, but some other things are totally opposite like Beads using it's own language. However, Fisual Javascript definitely takes some inspiration from Beads. Here is a recent thread on Beads on Hacker News to find out more about it:
+Beads is a very interesting product which has some things in common with Visual Javascript such as the debugger, but some other things are totally opposite like Beads has invented their own language and syntax. However, Visual Javascript definitely takes some inspiration from Beads. Here is a recent thread on Beads on Hacker News to find out more about it:
 https://news.ycombinator.com/item?id=27287989
 
 
 ### How does Visual Javascript relate to Unison language
-Unison is an exellent language for distributed computing. There is no relation except that both Unison and Visual Javascript are based on the principal of immutable code where code is addressed by the SHA256 of the source code which Visual Javascript uses as well.
+Unison is an exellent language for distributed computing. There is no relation except that both Unison and Visual Javascript are based on the principal of immutable code where code is addressed by the SHA256 of the source code which means that the Visual Javascript internally identifies all code as the SHA256 hash of the source code.
 
 
 ### How does Visual Javascript relate to StoryScript language
-StoryScript is a Glue code for multiple languages using AI to interact with them, whereas Visual Javascript is only one dialect of Javascript.
+There is no real relation as StoryScript is a Glue code for multiple languages using AI and plain English language to interact with them, whereas Visual Javascript is more where the user has to drag and drop components onto a form and connect them together using links and Javascript.
 
 
 ### How does Visual Javascript relate to Eve?
 Full disclosure, the creator of Visual Javascript was the initial angel investor in Eve. Some concepts of universality are taken from Eve. Eve invented a new language to build systems using reactive concepts, but Visual Javascript uses it's own language and is not as reactive.
 
+
 ### How does Visual Javascript compare to https://www.anytype.io/?
-As of March 2021 AnyType is still closed source. Anytype does use IPFS for storage which is a technology, along with QRI that Visual Javascript is considering for data storage.
+Anytype is more of an internet operating system. As of June 2021 AnyType is still closed source. Anytype does use IPFS for storage which is a technology, along with QRI that Visual Javascript is considering for data storage.
+
 
 ### How does Visual Javascript compare to Retool?
-As of May 2021 Retool is a great paid SAAS offering 
+As of May 2021 Retool is a great paid SAAS offering. We can recommend Retool for anyone who wants a paid SAAS offering with great support.
+
 
 ### How does Visual Javascript compare to Javascript frameworks like VueJS, React , and Angular?
 First off, Visual Javascript, uses VueJS under the hood to  build UI components. Visual Javascript is very different to all those frameworks as Visual Javascript does not require deep coding skills or knowledge of HTML. You do need to know some Javascript to use Visual Javascript though
 
+
 ### How does Visual Javascript compare to Airtable?
 It doesn't. Well, Airtable is a database tool which can have apps built on top of as well, whereas Visual Javascript really is to build apps on top of enterprise APIs and databases
 
+
 ### How does Visual Javascript compare to Anvil?
 Anvil uses Python to build apps whereas Visual Javascript uses Javascript. But Anvil is very good, and supports Javascript now, so try it!
+
 
 ### How does Visual Javascript compare to Mendix?
 Mendix is a commercial low code product owned by Siemens, and is a very different thing since it is closed source
