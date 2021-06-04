@@ -233,7 +233,7 @@ Finally browse to http://0.0.0.0:80
 Visual Javascript is a tool to build internal web applications. Applications are built using pre-built graphical and server side components, with glue code written in Javascript. It can run on PC, Mac (via the Mac App store), and Kubernetes and Docker containers. Ideally it is used only for small throwaway or demo apps, but can be expanded to larger apps over time as it also contains an embedded SQLite database.
 
 ### What is Visual Javascript's killer feature?
-Visual Javascript's killer feature is that it allows simple webapps to be created extremely fast. While other tools can also do this, the benefit of Visual Javascript is that it is open source, so there is no SAAS signup, no license fees, and applications can just be built, distributed and run.
+Visual Javascript's killer feature is the ability to create simple database backed webapps extremely fast, on almost any platform, with no licensing or troublesome installation procedures. The created database application can then be distributed as a single HTML file WITHOUT even needing the original Visual Javascript runtime.
 
 ###  Who should use Visual Javascript today?
 An ideal user for Visual Javascript is someone who wants to build small web apps for internal use (such as demos), or someone who wants to do small data processing tasks for themselves. So far there have been many independent people who have used Visual Javascript for small data processing tasks. Also, many large enterprises have used Visual Javascript for building demos.
@@ -304,11 +304,11 @@ As of May 2021 Retool is a great paid SAAS offering. We can recommend Retool for
 
 
 ### How does Visual Javascript compare to Javascript frameworks like VueJS, React , and Angular?
-First off, Visual Javascript, uses VueJS under the hood to  build UI components. Visual Javascript is very different to all those frameworks as Visual Javascript does not require deep coding skills or knowledge of HTML. You do need to know some Javascript to use Visual Javascript though
+First off, Visual Javascript, uses VueJS under the hood to  build UI components. Visual Javascript is very different to all those frameworks as Visual Javascript does not require deep coding skills or knowledge of HTML. You do need to know some Javascript to use Visual Javascript though.
 
 
 ### How does Visual Javascript compare to Airtable?
-It doesn't. Well, Airtable is a database tool which can have apps built on top of as well, whereas Visual Javascript really is to build apps on top of enterprise APIs and databases
+It doesn't. Well, Airtable is a database tool which can have apps built on top of as well, whereas Visual Javascript really is to build apps on top of enterprise APIs and databases. It must be noted that every Visual Javascript application does have a built in SQLite database as well.
 
 
 ### How does Visual Javascript compare to Anvil?
