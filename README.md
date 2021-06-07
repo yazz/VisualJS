@@ -342,13 +342,17 @@ Delphi was a desktop IDE from the 1990s using Pascal as the programming language
 ### How does Visual Javascript compare to Dynamic Land
 Dynamic Land has been aninspiration for Visual Javascript in that we think that computing will be spatial in the future, hence the built in VR. We do see a future where the Visual Javascript editor could be used in a spatial way with VR to build programs.
 
+
 ### How does Visual Javascript compare to Bubble.io?
 As of June 2021 Bubble is a paid hosted web app builder and is good for building a public facing website. Bubble is excellenet for build your low code startup's public facing site, so it is a different market space than Visual Javascript.
 
 
 ### How does Visual Javascript compare to DeFi?
-DeFi is more a market on many products than a single product, but Visual Javascript takes many inspirations from Blockchain and DeFi projects. We have considered how we could run Visual Javascript as a series of nodes, much like DFinity and the Internet Computer.
+DeFi is more a concept than a single product, but Visual Javascript takes many inspirations from Blockchain and DeFi projects. We have considered how we could run Visual Javascript as a series of nodes, much like DFinity and the Internet Computer.
 
+
+### Why did Visual Javascript switch to Javascript from Clojure/Clojurescript?
+For the first 3 years Zubair used Clojure/Clojurescript for the development of Visual Javascript. But in 2016 Zubair switched from Clojure/Clojurescript as he thought that the product was limiting itself to a very small subset of developers, whereas Javascript has a much larger developer pool.
 
 
 
@@ -428,14 +432,8 @@ The extension is ".vjs" but you can also use the ".js" extension for loading som
 <br/><br/><br/>
 # FAQ - Company and team related questions
 
-### If Visual Javascript is privately funded then why are we not all working on it full time?
-We could work full time on Visual Javascript but we have made a conscious decision to work part time on it until we know that we have product market fit. This is so that we make sure that we are solving real problems that people have in their daily work. If we go full time too soon then we could lose touch with reality, as seems to happen with so many startups in this space. Of course, being part time is much harder, as things move much more slowly with regard to developing the product, but we expect that we will be more efficient since we won't be building stuff that isn't needed.
-
 ### Who is involved with Yazz.
 Zubair Quraishi is the main developer. There are also other people who also help out from time to time, including people from Google and Microsoft, amongst other places.
-
-### Why did Visual Javascript switch to Javascript from Clojure/Clojurescript?
-For the first 3 years Zubair was against Javascript and chose Clojure/Clojurescript for the development of Visual Javascript. But, with Clojure/Clojurescript he saw that the product was limiting itself to a very small subset of developers, whereas Javascript has a much larger developer pool
 
 ### Is Visual Javascript looking for investment
 No, we don't need money as Yazz has been sponsoring the development of the Visual Javascript tool. We would only consider investment from the outside if it was a very long term partnership, as Yazz is expecting to be unprofitable for many years to come. We have been approached by many investors to invest in us, but we would only consider long term investors who would also bring some strategic value to Yazz/Visual Javascript.
