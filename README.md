@@ -257,6 +257,8 @@ Visual Javascript is Open Source so you can download the opensource repo or fork
 Visual Javascript's long term vision is to make personal automation and embedded medical applications easy to build. An example of a medical device is a tiny device that is injected into the blood stream to detect and destroy dangerous cells (using tiny cameras and Tensorflow). To get to this long term goal we need to take many tiny steps on the way. First we need to succeed with desktop web applications, and to create an app store for internal enterprise apps and components. Next we need to start to miniturise the system to work in embedded and internal environments, and finally we need support for autonomous systems which use autodiscovery of components which can be loaded on demand. As an example of why autodiscovery is important is for a medical application where an unrecognised cell type in the human body is found by computer vision, Visual Javascript could go out to the network to see if this cell is recognized somewhere else and download the particular code related to that cell type to detect if it is dangerous or not.
 
 
+### Why did Visual Javascript switch to Javascript from Clojure/Clojurescript?
+For the first 3 years Zubair used Clojure/Clojurescript for the development of Visual Javascript. But in 2016 Zubair switched from Clojure/Clojurescript as he thought that the product was limiting itself to a very small subset of developers, whereas Javascript has a much larger developer pool.
 
 
 
@@ -340,7 +342,7 @@ Autocode is great cross platform event handler. It is very text based and aims t
 Delphi was a desktop IDE from the 1990s using Pascal as the programming language, and had a great set of controls and was even VBX (Visual Basic Custom Controls) compatible. Some people use Deplhi today for desktop Windows apps, and it is definitely one of the inspirations for Visual Javascript. Delphi used Pascal as the language and Visual Javascript uses Javascript.
 
 ### How does Visual Javascript compare to Dynamic Land
-Dynamic Land has been aninspiration for Visual Javascript in that we think that computing will be spatial in the future, hence the built in VR. We do see a future where the Visual Javascript editor could be used in a spatial way with VR to build programs.
+Dynamic Land has been a big inspiration for Visual Javascript in that we think that the model Dynamic Land uses, of spatial computing will be the future, hence the built-in VR in Visual Javascript. We see a future where the Visual Javascript editor could be used in a spatial way with VR to build programs.
 
 
 ### How does Visual Javascript compare to Bubble.io?
@@ -351,8 +353,6 @@ As of June 2021 Bubble is a paid hosted web app builder and is good for building
 DeFi is more a concept than a single product, but Visual Javascript takes many inspirations from Blockchain and DeFi projects. We have considered how we could run Visual Javascript as a series of nodes, much like DFinity and the Internet Computer.
 
 
-### Why did Visual Javascript switch to Javascript from Clojure/Clojurescript?
-For the first 3 years Zubair used Clojure/Clojurescript for the development of Visual Javascript. But in 2016 Zubair switched from Clojure/Clojurescript as he thought that the product was limiting itself to a very small subset of developers, whereas Javascript has a much larger developer pool.
 
 
 
