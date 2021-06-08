@@ -365,11 +365,11 @@ For the first 3 years Zubair used Clojure/Clojurescript for the development of V
 <br/><br/><br/>
 # FAQ - Features and compatibility
 
-### Does Visual Javascript us native libraries?
-Yes, but only one. SQlite native module is used. Everything else is pure Javascript. The reason for this is that Sqlite works almost everywhere. For all other components we like to keep everything as pure Javascript. This often means that we limit ourselves to which third party libraries that we can use.
+### Does Visual Javascript use native libraries?
+Yes, but only one. A SQlite native module is used. Everything else is pure Javascript. The reason for this is that Sqlite works almost everywhere. For all other components we like to keep everything as pure Javascript. This often means that we limit ourselves to which third party libraries that we can use. When exporting a Viual Javascript application as a HTML file we use SQLite compiled to Webassembly/Javascript so no native modules are needed.
 
 ### Why doesn't Visual Javascript let me edit mutliple files as a tree like a traditional IDE?
-Visual Javascript breaks down all problems into single files, each of which contains a single Javascript function, which acts as a component. A component can call other components as well if needed to form larger programs
+Visual Javascript breaks down all problems into single files, each of which contains a single Javascript function, which acts as a component. A component can call other components as well if needed to form larger programs.
 
 ###  Does Visual Javascript work with VMWare PKS or other versions of Kubernetes?
 Visual Javascript has been tested with Kubernetes, OpenShift, and Docker. We will test with more versions, including Rancher as time goes by, but it should work fine with VMWare PKS, GCP, and other Kubernetes distributions
@@ -378,7 +378,7 @@ Visual Javascript has been tested with Kubernetes, OpenShift, and Docker. We wil
 The Scheduler is a NodeJS process which decides which worker process to send a server task to. Each process takes about 40MB of RAM and the default number of these "virtual processors" is 6.
 
 ### How do Visual Javascript processes communicate with each other?
-Using IPC (Inter Process Communication) via NodeJS
+Visual Javascript processes communicate using IPC (Inter Process Communication) via NodeJS
 
 ### What is the basic unit of code in Visual Javascript?
 A component is the basic unit of code in Visual Javascript, represented as a function in a .vjs text file
@@ -433,7 +433,7 @@ The extension is ".vjs" but you can also use the ".js" extension for loading som
 # FAQ - Company and team related questions
 
 ### Who is involved with Yazz.
-Zubair Quraishi is the main developer. There are also other people who also help out from time to time, including people from Google and Microsoft, amongst other places.
+Zubair Quraishi is the main developer. There are also other people who also help out from time to time, including people from Google, Microsoft, and other companies.
 
 ### Is Visual Javascript looking for investment
 No, we don't need money as Yazz has been sponsoring the development of the Visual Javascript tool. We would only consider investment from the outside if it was a very long term partnership, as Yazz is expecting to be unprofitable for many years to come. We have been approached by many investors to invest in us, but we would only consider long term investors who would also bring some strategic value to Yazz/Visual Javascript.
