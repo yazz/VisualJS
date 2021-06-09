@@ -230,19 +230,19 @@ Finally browse to http://0.0.0.0:80
 # FAQ - High Level Questions
 
 ### What is Visual Javascript?
-Visual Javascript is a tool to build internal web applications. Applications are built using pre-built graphical and server side components, with glue code written in Javascript. It can run on PC, Mac (via the Mac App store), and Kubernetes and Docker containers. Ideally it is used only for small throwaway or demo apps, but can be expanded to larger apps over time as it also contains an embedded SQLite database.
+Visual Javascript is a tool to build internal web applications. Applications are built using pre-built graphical and server side components, with glue code written in Javascript. Visual Javascript can run on Windows, OsX (via the Mac App store), and Kubernetes and Docker containers. Ideally Visual Javascript is used for small throwaway or demo apps, but can also be used for more complex apps since it also contains an embedded SQLite database.
 
 ### What is Visual Javascript's killer feature?
-Visual Javascript's killer feature is the ability to create simple database backed webapps extremely fast, on almost any platform, with no licensing or troublesome installation procedures. The created database application can then be distributed as a single HTML file WITHOUT even needing the original Visual Javascript runtime.
+Visual Javascript's killer feature is the ability to create simple webapps extremely fast, on almost any platform, with no licensing or troublesome installation procedures. The application can then be distributed as a single HTML file WITHOUT even needing the original Visual Javascript runtime.
 
 ###  Who should use Visual Javascript today?
-An ideal user for Visual Javascript is someone who wants to build small web apps for internal use (such as demos), or someone who wants to do small data processing tasks for themselves. So far there have been many independent people who have used Visual Javascript for small data processing tasks. Also, many large enterprises have used Visual Javascript for building demos.
+An ideal user for Visual Javascript is someone who wants to build small web apps for internal use (such as demos), or someone who wants to do small data processing tasks. So far there have been independant people and large enterprises have used Visual Javascript for building demos and for small data processing tasks.
 
 ### What does Visual Javascript mean by Self Service?
-When we say Self Service we mean that Visual Javascript can be used by people who are not professional programmers. This is possible because Visual Javascript has a drag and drop user interface which makes it easy for "non technies" to design and build applications. Also, most of the components included in Visual Javascript have built in design time graphical editors which make it easy to configure them.
+When we say Self Service we mean that Visual Javascript can be used by people who are not professional programmers. This is possible because Visual Javascript has a drag and drop user interface which makes it easy for "non techies" to design and build applications. Also, many components included in Visual Javascript have a custom design time graphical editor which make it easy to configure them.
 
 ### How much will Visual Javascript cost?
-Visual Javascript is free to download and use. It uses the MIT license so you are free to copy and distribute Visual Javascript applications that you build with your own systems. Yazz, the company behind Visual Javascript may release a paid hosted version at some point which will most likely be a web based service (like hosted Wordpress).
+Visual Javascript is free to download and use. It uses the MIT license so you are free to copy and distribute Visual Javascript applications that you build. Yazz, the company behind Visual Javascript may release a paid hosted version at some point which will most likely be a web based service (like hosted Wordpress).
 
 ### Is Visual Javascript Production ready?
 Yes, Visual Javascript is production ready and has been used in many enterprise environments.
@@ -254,11 +254,11 @@ If you require commercial support then please go to https://yazz.com. If you wan
 Visual Javascript is Open Source so you can download the opensource repo or fork the Github repo. Visual Javascript is also based on VueJS, HTML, and Javascript so you can slowly migrate applications off Visual Javascript to similar technologies in the Javascript ecosystem if needed.
 
 ### What is Visual Javascript's long term vision?
-Visual Javascript's long term vision is to make personal automation and embedded medical applications easy to build. An example of a medical device is a tiny device that is injected into the blood stream to detect and destroy dangerous cells (using tiny cameras and Tensorflow). To get to this long term goal we need to take many tiny steps on the way. First we need to succeed with desktop web applications, and to create an app store for internal enterprise apps and components. Next we need to start to miniturise the system to work in embedded and internal environments, and finally we need support for autonomous systems which use autodiscovery of components which can be loaded on demand. As an example of why autodiscovery is important is for a medical application where an unrecognised cell type in the human body is found by computer vision, Visual Javascript could go out to the network to see if this cell is recognized somewhere else and download the particular code related to that cell type to detect if it is dangerous or not.
+Visual Javascript's long term vision is to make personal automation and embedded medical applications easy to build. An example of a medical device is a tiny device that is injected into the blood stream to detect and destroy dangerous cells (using tiny cameras and Tensorflow). To get to this long term goal we need to take many tiny steps on the way. First we need to succeed with desktop web applications, and to create an app store for internal enterprise apps and components. Next we need to miniturise the system to work in embedded and internal environments, and finally we need support for autonomous systems which use autodiscovery of components which can be loaded on demand. As an example of why autodiscovery is important is for a medical application where an unrecognised cell type in the human body is found by computer vision, Visual Javascript could go out to the network to see if this cell is recognized somewhere else and download the particular code related to that cell type to detect if it is dangerous or not.
 
 
 ### Why did Visual Javascript switch to Javascript from Clojure/Clojurescript?
-For the first 3 years Zubair used Clojure/Clojurescript for the development of Visual Javascript. But in 2016 Zubair switched from Clojure/Clojurescript as he thought that the product was limiting itself to a very small subset of developers, whereas Javascript has a much larger developer pool.
+For the first 3 years the author, Zubair used Clojure/Clojurescript for the development of Visual Javascript. But in 2016 Zubair switched from Clojure/Clojurescript as he thought that the product was limiting itself to a very small subset of developers, whereas Javascript has a much larger developer pool.
 
 
 
