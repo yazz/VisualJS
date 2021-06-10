@@ -7,7 +7,7 @@
 
 
 
-## Beta Docs
+## Docs (in progress)
 https://yazz.com/visifile/docs/book/main.html
 <br/><br/><br/>
 
