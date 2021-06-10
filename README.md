@@ -93,7 +93,7 @@ Assuming that you have NodeJS, NPM, and Git installed, enter the following comma
 
 &gt; npm start</pre>
 
-And finally browse to http://0.0.0.0:80 to access the editor
+Browse to http://0.0.0.0:80 to open Visual Javascript
 
 
 
@@ -103,7 +103,7 @@ Make sure that you have Docker installed. Then:
 <pre style="display:inline;">&gt; docker  run  -p 80:80  yazzcom/visualjavascript:2021
 </pre>
 
-And finally browse to http://0.0.0.0:80
+Browse to http://0.0.0.0:80 to open Visual Javascript
 
 
 
@@ -113,7 +113,7 @@ Download **https://yazz.com/visifile/bin/vjs.exe** and then run:
 <pre style="display:inline;">
 &gt; vjs.exe
 </pre>
-Finally browse to http://0.0.0.0:80
+Browse to http://0.0.0.0:80 to open Visual Javascript
 
 
 
@@ -124,7 +124,7 @@ Run:
 &gt; ./vjs
 </pre>
 
-Finally browse to http://0.0.0.0:80
+Browse to http://0.0.0.0:80 to open Visual Javascript
 
 
 
@@ -134,7 +134,7 @@ Run:
 &gt; chmod +x ./vjs
 &gt; ./vjs
 </pre>
-Finally browse to http://0.0.0.0:80
+Browse to http://0.0.0.0:80 to open Visual Javascript
 <br/><br/><br/>
 
 
@@ -256,12 +256,11 @@ Visual Javascript is Open Source so you can download the opensource repo or fork
 ### What is Visual Javascript's long term vision?
 Visual Javascript's long term vision is to make personal automation and embedded medical applications easy to build. An example of a medical device is a tiny device that is injected into the blood stream to detect and destroy dangerous cells (using tiny cameras and Tensorflow). To get to this long term goal we need to take many tiny steps on the way. First we need to succeed with desktop web applications, and to create an app store for internal enterprise apps and components. Next we need to miniturise the system to work in embedded and internal environments, and finally we need support for autonomous systems which use autodiscovery of components which can be loaded on demand. As an example of why autodiscovery is important is for a medical application where an unrecognised cell type in the human body is found by computer vision, Visual Javascript could go out to the network to see if this cell is recognized somewhere else and download the particular code related to that cell type to detect if it is dangerous or not.
 
-
 ### Why did Visual Javascript switch to Javascript from Clojure/Clojurescript?
 For the first 3 years the author, Zubair used Clojure/Clojurescript for the development of Visual Javascript. But in 2016 Zubair switched from Clojure/Clojurescript as he thought that the product was limiting itself to a very small subset of developers, whereas Javascript has a much larger developer pool.
 
-
-
+### Is Visual Javascript compatible with Visual Basic?
+No. Since Visual Javascript uses Javascript as the scripting language instead of Basic there is zero compatibility with Visual Basic. 
 
 
 
@@ -271,11 +270,11 @@ For the first 3 years the author, Zubair used Clojure/Clojurescript for the deve
 
 
 ### What is Visual Javascript's unique selling point compared to other low code tools?
-Think of Visual Javascript as a Swiss Army Knife tool for building small internal applications. It is a good general purpose tool for quick and dirty tasks such as calculating a few numbers, or visualising an API, but it not meant for heavy duty specialist work such as responsive websites, or internet commerce websites. While there are many existing tools in the low code space, most of them are either paid SAAS products, or developer focused open source products, often with complex installation procedures. This is another unique point of Visual Javascript since it is both open source and easy to install. 
+Think of Visual Javascript as a Swiss Army Knife tool for building small internal applications. It is a good general purpose tool for quick and dirty tasks such as calculating a few numbers, or visualising an API, but not meant for heavy duty specialist work such as responsive websites, or internet commerce websites. While there are many existing tools in the low code space, most of them are either paid SAAS products, or developer focused open source products, often with complex installation procedures. Unlike many other tools Visual Javascript is both open source and easy to install. 
 
 
 ### How does Visual Javascript compare to Visual Basic?
-The author of Visual Javascript is a huge fan of the Visual Basic ecosystem from the 1990s. Visual Javascript is trying to recreate the same type of Visual Basic = component ecosystem from the 1990s, but in Javascript. Also, since Visual Javascript uses Javascript as the scripting language instead of Basic there is zero compatibility with Visual Basic. 
+The author of Visual Javascript is a huge fan of Visual Basics. Visual Javascript is trying to recreate the essence of the Visual Basic component ecosystem from the 1990s, but in Javascript. 
 
 In Visual Basic the VBA language has been embedded in many other languages, such as Excel, but Visual Javascript is a bit different. The runtime is meant to be used standalone and connect to other systems such as Excel via components. In fact everything in Visual javascript is just a component, including the Visual Javascript drag and drop editor, which can also be replaced. For example, planned for the future is to offer other development paradigms such as a VR/AR editor using Oculus Quest and WebXR.
 
@@ -285,12 +284,12 @@ Beads is a very interesting product which has some things in common with Visual 
 https://news.ycombinator.com/item?id=27287989
 
 
-### How does Visual Javascript relate to Unison language
+### How does Visual Javascript relate to the Unison language
 Unison is an exellent language for distributed computing. There is no relation except that both Unison and Visual Javascript are based on the principal of immutable code where code is addressed by the SHA256 of the source code which means that the Visual Javascript internally identifies all code as the SHA256 hash of the source code.
 
 
 ### How does Visual Javascript relate to StoryScript language
-There is no real relation as StoryScript is a Glue code for multiple languages using AI and plain English language to interact with them, whereas Visual Javascript is more where the user has to drag and drop components onto a form and connect them together using links and Javascript.
+There is no real relation as StoryScript is a Glue code for multiple languages using AI and plain English language to interact with them, whereas Visual Javascript is more where the user has be very intentional and choose which components to interact with by to dragging and dropping components onto a form and connecting them together using links and Javascript.
 
 
 ### How does Visual Javascript relate to Eve?
