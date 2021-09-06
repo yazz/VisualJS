@@ -19,7 +19,7 @@ read_only(true)
 
 
             <a-scene  physics-world=""
-                      physics="debug: false"
+                      physics="debug: false;driver: ammo;debugDrawMode: 1;"
                       cursor="rayOrigin: mouse"
                       style='width: 80%; height: 80%;'
                       embedded>
@@ -30,7 +30,8 @@ read_only(true)
                 </a-entity>
                 <a-box    id="interact_box_three"
                           position="-1 1 -3"
-                          body="shape: box; mass: 2"
+                          ammo-body="type: static"
+                          ammo-shape="type: box"
                           rotation="0 45 0"
                           color="#4CC3D9">
                 </a-box>
