@@ -71,19 +71,24 @@ read_only(true)
             var scene = document.querySelector('a-scene');
 
             var box = document.getElementById('interact_box_three');
-        box.addEventListener('click', function () {
-            var impulse = { x: 0, y: 5, z: 0 };
-            var point = { x: 0.5, y: 0, z: 0 };
-            box['body'].applyImpulse(impulse, point);
-        });
+            box.addEventListener('click', function () {
+                mm.msg = "clicked box"
+                const impulse = new Ammo.btVector3(0, 15, 0);
+                const pos = new Ammo.btVector3(0, 0, 0);
+                box.body.applyImpulse(impulse, pos);
+                Ammo.destroy(impulse);
+                Ammo.destroy(pos);
+            });
 
-          var sphere = document.querySelector('a-sphere');
-        sphere.addEventListener('click', function () {
-            mm.msg = "clicked sphere"
-            var impulse = { x: 0, y: 5, z: 0 };
-            var point = { x: 0.5, y: 0, z: 0 };
-            sphere['body'].applyImpulse(impulse, point);
-        });
+            var sphere = document.querySelector('a-sphere');
+            sphere.addEventListener('click', function () {
+                mm.msg = "clicked sphere"
+                const impulse = new Ammo.btVector3(0, 5, 0);
+                const pos = new Ammo.btVector3(0, 0, 0);
+                sphere.body.applyImpulse(impulse, pos);
+                Ammo.destroy(impulse);
+                Ammo.destroy(pos);
+            });
 
 
 
