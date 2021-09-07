@@ -18,7 +18,7 @@ read_only(true)
               <input type="text" v-model="msg"/>
 
 
-              <a-scene  physics="debug: true;driver: ammo;debugDrawMode: 1;"
+              <a-scene  physics="debug: false;driver: ammo;debugDrawMode: 0;"
                         cursor="rayOrigin: mouse"
                         style='width: 80%; height: 80%;'
                         embedded>
@@ -28,7 +28,7 @@ read_only(true)
                               line="opacity:1.0;">
                   </a-entity>
                   <a-box    id="interact_box_three"
-                            position="-1 2 -3"
+                            position="-1 2 -2"
                             ammo-body="type: dynamic;gravity: -.000000000000001;mass: 2;"
                             ammo-shape="type: box"
                             rotation="0 45 0"
