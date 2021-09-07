@@ -230,7 +230,8 @@ logo_url("/driver_icons/threedee_control.png")
                                   v-bind:geometry='"primitive: box; depth: " + args.boxDepth + "; height: " + args.boxHeight + "; width: " + args.boxWidth + ";"'
                                   v-bind:material='"color: " + args.backgroundColor + "; side: double; "'
                                   v-bind:refresh='refresh'
-                                  v-bind:body='(args.usePhysics == "true")?("mass: " + args.mass + "; boundingBox: " + args.boundingBox + "; shape: box;"):false'
+                                  v-bind:ammo-body='(args.usePhysics == "true")?("type: dynamic; mass: " + args.mass + "; boundingBox: " + args.boundingBox + "; "):false'
+                                  v-bind:ammo-shape='(args.usePhysics == "true")?("type: box; "):false'
                                   v-bind:position='args.x + " " + args.y + " " + args.z'>
 
 
@@ -383,9 +384,13 @@ logo_url("/driver_icons/threedee_control.png")
                 ,
                 applyImpulse: async function(opts) {
                     var object3d = document.querySelector("#" + this.name)
-                    var impulse = { x: 0, y: 50, z: 0 };
-                    var point = { x: 0.5, y: 0, z: 0 };
-                    object3d['body'].applyImpulse(impulse, point);
+
+                    let impulse = new Ammo.btVector3(0, 50, 0);
+                    let pos = new Ammo.btVector3(0, 0, 0);
+
+                    object3d.body.applyImpulse(impulse, pos);
+                    Ammo.destroy(impulse);
+                    Ammo.destroy(pos);
                 }
 
 

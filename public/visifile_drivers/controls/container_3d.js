@@ -270,9 +270,8 @@ logo_url("/driver_icons/threedee_item.png")
 
         <a-scene    v-bind:id='(design_mode?"design_scene":"scene")'
                     v-bind:ref='(design_mode?"design_scene":"scene")'
-                    physics-world=""
                     v-if='design_mode == false'
-                    physics="debug: false"
+                    physics="debug: false;driver: ammo;"
                     cursor="rayOrigin: mouse"
                     style='width: 80%; height: 80%;'
                     embedded
@@ -282,11 +281,12 @@ logo_url("/driver_icons/threedee_item.png")
 
 
 
-            <a-entity   geometry="primitive: box; depth: 50; height: 0.1; width: 50"
+            <a-entity   geometry="primitive: box; depth: 50; height: 0.5; width: 50"
                         material="color: #2E3837"
                         v-bind:refresh='refresh'
-                        static-body
-                        physics-body="mass: 0; boundingBox: 50 0.1 50" position="0 0 -10">
+                        ammo-body="type: static" 
+                        ammo-shape="type: box"
+                        position="0 0 -10">
             </a-entity>
 
 
