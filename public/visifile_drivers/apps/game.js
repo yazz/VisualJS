@@ -27,26 +27,90 @@ read_only(true)
                               raycaster="hand: right;model: true;"
                               line="opacity:1.0;">
                   </a-entity>
-                  <a-box    id="interact_box_three"
-                            position="-1 2 -2"
+
+
+
+
+
+
+                  <a-box    id="tl"
+                            position="-1 19 -3"
                             ammo-body="type: dynamic;gravity: -.000000000000001;mass: 2;"
                             ammo-shape="type: box"
-                            rotation="0 45 0"
-                            color="#4CC3D9">
+                            rotation="0 0 0"
+                            color="red">
+                  </a-box>
+                  <a-box    id="tm"
+                            position="0 19 -3"
+                            ammo-body="type: dynamic;gravity: -.000000000000001;mass: 2;"
+                            ammo-shape="type: box"
+                            rotation="0 0 0"
+                            color="white">
+                  </a-box>
+                   <a-box    id="tr"
+                        position="1 19 -3"
+                        ammo-body="type: dynamic;gravity: -.000000000000001;mass: 2;"
+                        ammo-shape="type: box"
+                        rotation="0 0 0"
+                        color="red">
                   </a-box>
 
-                  <a-sphere body="shape: box; mass: 2"
+
+
+
+                  <a-box    id="ml"
+                            position="-1 9 -3"
                             ammo-body="type: dynamic;gravity: -.000000000000001;mass: 2;"
                             ammo-shape="type: box"
+                            rotation="0 0 0"
+                            color="white">
+                  </a-box>
+                  <a-box    id="mm"
+                            position="0 9 -3"
+                            ammo-body="type: dynamic;gravity: -.000000000000001;mass: 2;"
+                            ammo-shape="type: box"
+                            rotation="0 0 0"
+                            color="red">
+                  </a-box>
+                   <a-box    id="mr"
+                        position="1 9 -3"
+                        ammo-body="type: dynamic;gravity: -.000000000000001;mass: 2;"
+                        ammo-shape="type: box"
+                        rotation="0 0 0"
+                        color="white">
+                  </a-box>
 
-                            position="0 5.25 -5" radius="1.25" color="#EF2D5E">
-                  </a-sphere>
 
 
-                  <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="gray">
-                      <a-entity position="2 2 1"  v-bind:text='"width:10;value: " + msg + ";color:gray;"'>
-                      </a-entity>
-                  </a-cylinder>
+
+
+
+
+                  <a-box    id="bl"
+                            position="-1 6 -3"
+                            ammo-body="type: dynamic;gravity: -.000000000000001;mass: 2;"
+                            ammo-shape="type: box"
+                            rotation="0 0 0"
+                            color="red">
+                  </a-box>
+                  <a-box    id="bm"
+                            position="0 6 -3"
+                            ammo-body="type: dynamic;gravity: -.000000000000001;mass: 2;"
+                            ammo-shape="type: box"
+                            rotation="0 0 0"
+                            color="white">
+                  </a-box>
+                   <a-box    id="br"
+                        position="1 6 -3"
+                        ammo-body="type: dynamic;gravity: -.000000000000001;mass: 2;"
+                        ammo-shape="type: box"
+                        rotation="0 0 0"
+                        color="white">
+                  </a-box>
+
+
+
+
 
                   <a-plane
                             ammo-body="type: static"
@@ -67,54 +131,47 @@ read_only(true)
         }
         ,
         mounted: function() {
-            var mm = this
-            var scene = document.querySelector('a-scene');
+            let mm = this
+            mm.addPush('tl');
+            mm.addPush('tl');
+            mm.addPush('tm');
+            mm.addPush('tr');
+            mm.addPush('ml');
+            mm.addPush('mm');
+            mm.addPush('mr');
+            mm.addPush('bl');
+            mm.addPush('bm');
+            mm.addPush('br');
 
-            var box = document.getElementById('interact_box_three');
-            box.addEventListener('click', function () {
-                mm.msg = "clicked box"
-                const impulse = new Ammo.btVector3(0, 15, 0);
+        }
+        ,
+
+        methods: {
+        addPush: function(el3d) {
+            let mm = this
+            let box = document.getElementById(el3d);
+            box.addEventListener('click', mm.clicked(el3d));
+
+        }
+        ,
+
+
+        clicked: function (el3d) {
+            let mm = this
+            return function() {
+                let box = document.getElementById(el3d);
+                mm.msg = "clicked " + el3d
+                const impulse = new Ammo.btVector3(0, 0, -5);
                 const pos = new Ammo.btVector3(0, 0, 0);
                 box.body.applyImpulse(impulse, pos);
                 Ammo.destroy(impulse);
                 Ammo.destroy(pos);
-            });
-
-            var sphere = document.querySelector('a-sphere');
-            sphere.addEventListener('click', function () {
-                mm.msg = "clicked sphere"
-                const impulse = new Ammo.btVector3(0, 5, 0);
-                const pos = new Ammo.btVector3(0, 0, 0);
-                sphere.body.applyImpulse(impulse, pos);
-                Ammo.destroy(impulse);
-                Ammo.destroy(pos);
-            });
-
-
-
-            var laser = document.querySelector('#laser');
-            laser.addEventListener('trackpaddown', function (ee) {
-                  mm.msg = "trackpaddown"
-            });
-            laser.addEventListener('trackpadup', function (ee) {
-                  mm.msg = "trackpadup"
-            });
-            laser.addEventListener('trackpadtouchstart', function (ee) {
-                  mm.msg = "trackpadtouchstart"
-            });
-            laser.addEventListener('trackpadtouchend', function (ee) {
-                  mm.msg = "trackpadtouchend"
-            });
-            laser.addEventListener('triggerchanged', function (ee) {
-                  mm.msg = "triggerchanged"
-            });
-            laser.addEventListener('triggerdown', function (ee) {
-                  mm.msg = "triggerdown"
-            });
-            laser.addEventListener('triggerup', function (ee) {
-                  mm.msg = "triggerup"
-            });
+            }
         }
 
+        }
+
+
+
       })
-  }
+}
