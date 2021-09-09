@@ -3091,12 +3091,17 @@ async function startServices() {
         });
 
         app.get('/electron_file_open', async function (req, res, next) {
+            console.log('/electron_file_open')
+            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+            res.end("Done");
             await getFileFromUser()
 
         });
 
 
         app.get('/lock', function (req, res) {
+            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+            res.end("Done");
             return lockFn(req, res);
         })
     }
