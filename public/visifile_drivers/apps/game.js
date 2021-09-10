@@ -34,21 +34,21 @@ read_only(true)
 
 
                   <a-box    id="tl"
-                            position="-1 19 -3"
+                            position="-1 2.5 -3"
                             ammo-body="type: dynamic;gravity: -.000000000000001;mass: 2;"
                             ammo-shape="type: box"
                             rotation="0 0 0"
                             color="red">
                   </a-box>
                   <a-box    id="tm"
-                            position="0 19 -3"
+                            position="0 2.5 -3"
                             ammo-body="type: dynamic;gravity: -.000000000000001;mass: 2;"
                             ammo-shape="type: box"
                             rotation="0 0 0"
                             color="white">
                   </a-box>
                    <a-box    id="tr"
-                        position="1 19 -3"
+                        position="1 2.5 -3"
                         ammo-body="type: dynamic;gravity: -.000000000000001;mass: 2;"
                         ammo-shape="type: box"
                         rotation="0 0 0"
@@ -59,21 +59,21 @@ read_only(true)
 
 
                   <a-box    id="ml"
-                            position="-1 9 -3"
+                            position="-1 1.5 -3"
                             ammo-body="type: dynamic;gravity: -.000000000000001;mass: 2;"
                             ammo-shape="type: box"
                             rotation="0 0 0"
                             color="white">
                   </a-box>
                   <a-box    id="mm"
-                            position="0 9 -3"
+                            position="0 1.5 -3"
                             ammo-body="type: dynamic;gravity: -.000000000000001;mass: 2;"
                             ammo-shape="type: box"
                             rotation="0 0 0"
                             color="red">
                   </a-box>
                    <a-box    id="mr"
-                        position="1 9 -3"
+                        position="1 1.5 -3"
                         ammo-body="type: dynamic;gravity: -.000000000000001;mass: 2;"
                         ammo-shape="type: box"
                         rotation="0 0 0"
@@ -87,21 +87,21 @@ read_only(true)
 
 
                   <a-box    id="bl"
-                            position="-1 6 -3"
+                            position="-1 0.5 -3"
                             ammo-body="type: dynamic;gravity: -.000000000000001;mass: 2;"
                             ammo-shape="type: box"
                             rotation="0 0 0"
                             color="red">
                   </a-box>
                   <a-box    id="bm"
-                            position="0 6 -3"
+                            position="0 0.5 -3"
                             ammo-body="type: dynamic;gravity: -.000000000000001;mass: 2;"
                             ammo-shape="type: box"
                             rotation="0 0 0"
                             color="white">
                   </a-box>
                    <a-box    id="br"
-                        position="1 6 -3"
+                        position="1 0.5 -3"
                         ammo-body="type: dynamic;gravity: -.000000000000001;mass: 2;"
                         ammo-shape="type: box"
                         rotation="0 0 0"
@@ -163,7 +163,7 @@ read_only(true)
             return function() {
                 let box = document.getElementById(el3d);
                 mm.msg = "clicked " + el3d
-                const impulse = new Ammo.btVector3(0, 0, -5);
+                const impulse = new Ammo.btVector3(0, 10, 0);
                 const pos = new Ammo.btVector3(0, 0, 0);
                 box.body.applyImpulse(impulse, pos);
                 Ammo.destroy(impulse);
