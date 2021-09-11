@@ -247,9 +247,9 @@ logo_url("/driver_icons/threedee_control.png")
             ,
 
             mounted: function() {
-                var mm = this
+                let mm = this
                 registerComponent(this)
-                var dd = document.getElementById(this.name)
+                let dd = document.getElementById(this.name)
                 dd.addEventListener('click', function() {
                     mm.event_callback()
                 });
@@ -325,17 +325,17 @@ logo_url("/driver_icons/threedee_control.png")
                 ,
                 moveTo: async function(opts) {
 
-                    var mm          = this
-                    var animationId = "animation_" + this.name
-                    var dd          =  document.querySelector("#" + this.name)
-                    var loop        = "0"
-                    var direction   = "normal"
-                    var duration    = 500
-                    var bounce      = false
+                    let mm          = this
+                    let animationId = "animation_" + this.name
+                    let dd          =  document.querySelector("#" + this.name)
+                    let loop        = "0"
+                    let direction   = "normal"
+                    let duration    = 500
+                    let bounce      = false
 
-                    var newX = this.args.x
-                    var newY = this.args.y
-                    var newZ = this.args.z
+                    let newX = this.args.x
+                    let newY = this.args.y
+                    let newZ = this.args.z
                     if (isValidObject(opts.x)) {
                         newX = opts.x
                     }
@@ -345,7 +345,7 @@ logo_url("/driver_icons/threedee_control.png")
                     if (isValidObject(opts.z)) {
                         newZ = opts.z
                     }
-                    var newPosition = newX + " " + newY + " " + newZ
+                    let newPosition = newX + " " + newY + " " + newZ
 
                     if (isValidObject(opts.loop)) {
                         loop = opts.loop
@@ -383,7 +383,7 @@ logo_url("/driver_icons/threedee_control.png")
                 }
                 ,
                 applyImpulse: async function(opts) {
-                    var object3d = document.querySelector("#" + this.name)
+                    let object3d = document.querySelector("#" + this.name)
 
                     let impulse = new Ammo.btVector3(0, 50, 0);
                     let pos = new Ammo.btVector3(0, 0, 0);

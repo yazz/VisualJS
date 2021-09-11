@@ -284,7 +284,7 @@ logo_url("/driver_icons/threedee_item.png")
             <a-entity   geometry="primitive: box; depth: 50; height: 0.5; width: 50"
                         material="color: #2E3837"
                         v-bind:refresh='refresh'
-                        ammo-body="type: static" 
+                        ammo-body="type: static"
                         ammo-shape="type: box"
                         position="0 0 -10">
             </a-entity>
@@ -320,26 +320,26 @@ logo_url("/driver_icons/threedee_item.png")
 
 
         mounted: function() {
-            var mm = this
+            let mm = this
             registerComponent(this)
 
             if (!this.design_mode) {
-                //var scene = document.querySelector('a-scene');
+                //let scene = document.querySelector('a-scene');
                 //if (isValidObject(scene)) {
                     //scene.addEventListener('click', function () {
 
                         // Apply impulse;
                         //setTimeout(function () {
-                            //var box = document.getElementById('left-box');
-                            //var impulse = { x: 0, y: 10, z: 0 };
-                            //var point = { x: 0.5, y: 0, z: 0 };
+                            //let box = document.getElementById('left-box');
+                            //let impulse = { x: 0, y: 10, z: 0 };
+                            //let point = { x: 0.5, y: 0, z: 0 };
                             //box['physics-body'].applyImpulse(impulse, point);
                         //}, 25);
                     //});
                 //}
 
 
-                var scene = document.querySelector('a-scene');
+                let scene = document.querySelector('a-scene');
                 scene.addEventListener('enter-vr', function() {
                     mm.inVRMode = true
                     mm.keyboardEnabled = true
@@ -361,7 +361,7 @@ logo_url("/driver_icons/threedee_item.png")
                 if (!isValidObject(window.vrKeyPressEventLisener)) {
                     window.vrKeyPressEventLisener = document.addEventListener('keypress', function(kevent) {
                         if(mm.keyboardEnabled) {
-                            var keynum
+                            let keynum
                             if(window.event) { // IE
                                keynum = kevent.keyCode;
                              } else if(kevent.which){ // Netscape/Firefox/Opera
@@ -377,7 +377,7 @@ logo_url("/driver_icons/threedee_item.png")
                 if (!isValidObject(window.vrKeyDownEventLisener)) {
                     window.vrKeyDownEventLisener = document.addEventListener('keydown', function(kevent) {
                         if(mm.keyboardEnabled) {
-                            var keynum
+                            let keynum
                             if(window.event) { // IE
                                keynum = kevent.keyCode;
                              } else if(kevent.which){ // Netscape/Firefox/Opera
@@ -463,16 +463,16 @@ logo_url("/driver_icons/threedee_item.png")
           ,
           cameraTo: async function(opts) {
 
-              var mm          = this
-              var dd          =  document.querySelector("#camera_rig_3d" )
-              var loop        = "0"
-              var direction   = "normal"
-              var duration    = 2000
-              var bounce      = false
+              let mm          = this
+              let dd          =  document.querySelector("#camera_rig_3d" )
+              let loop        = "0"
+              let direction   = "normal"
+              let duration    = 2000
+              let bounce      = false
 
-              var newX = this.args.x
-              var newY = this.args.y
-              var newZ = this.args.z
+              let newX = this.args.x
+              let newY = this.args.y
+              let newZ = this.args.z
               if (isValidObject(opts.x)) {
                   newX = opts.x
               }
@@ -482,7 +482,7 @@ logo_url("/driver_icons/threedee_item.png")
               if (isValidObject(opts.z)) {
                   newZ = opts.z
               }
-              var newPosition = newX + " " + newY + " " + newZ
+              let newPosition = newX + " " + newY + " " + newZ
 
               if (isValidObject(opts.loop)) {
                   loop = opts.loop
@@ -522,12 +522,12 @@ logo_url("/driver_icons/threedee_item.png")
           }
           ,
           enterVR: async function() {
-            var scene = document.querySelector('#scene');
+            let scene = document.querySelector('#scene');
             scene.enterVR()
           }
           ,
           exitVR: async function() {
-              var scene = document.querySelector('#scene');
+              let scene = document.querySelector('#scene');
               scene.exitVR()
           }
           ,
