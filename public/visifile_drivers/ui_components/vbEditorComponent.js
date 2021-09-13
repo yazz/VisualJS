@@ -508,7 +508,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 <b>Add new link</b>
 
 
-<ul class="nav nav-tabs" id="myTab" role="tablist"
+<ul class="nav nav-pills" id="myTab" role="tablist"
     v-bind:refresh='refresh'>
 
 
@@ -524,7 +524,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
     <a  v-bind:class='"nav-link " + (  design_mode_pane.links_type == "create_new_component"?"active":""  )'
         id="links-create-new-component-tab"
         v-on:click='design_mode_pane.links_type = "create_new_component";clearLinks();refresh++;'
-        data-toggle="tab" role="tab" aria-controls="profile" aria-selected="false">Create New Component</a>
+        data-toggle="tab" role="tab" aria-controls="profile" aria-selected="false">Create New</a>
   </li>
 
 
@@ -562,7 +562,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
            id="home" role="tabpanel" aria-labelledby="links-form-tab"
            v-if='design_mode_pane.links_type == "form"'>
 
-         <table style="width:100%;border: 3px solid black;" class="table">
+         <table style="width:100%;border: 2px solid lightgray;" class="table">
 
              <tr style=''
                  v-if="(design_mode_pane.direction == 'incoming')">
@@ -6229,7 +6229,7 @@ ${eventMessage.code}
            var mm = this
            mm.design_mode_pane.type = "control_links_editor"
            mm.design_mode_pane.direction = diretionOfLinks
-           mm.design_mode_pane.links_type = "create_new_component"
+           mm.design_mode_pane.links_type = "form"
            mm.clearLinks();
 
            this.active_component_links_index = index;
