@@ -233,7 +233,7 @@ properties(
             id:         "send_immediately",
             name:       "Send Immediately",
             type:       "Select",
-            default:    "False",
+            default:    "True",
             values:     [
                             {display: "True",   value: "True"},
                             {display: "False",  value: "False"}
@@ -455,7 +455,7 @@ var result = await callFunction(
         methods: {
             // ----------------------------------------------------------------
             //
-            //                        callRestApiInternal
+            //                        changeURL
             //
             //
             //
@@ -663,8 +663,10 @@ var result = await callFunction(
 
             callDefaultRestApi: async function() {
 
-                var qwe = await this.callRestApiInternal(this.args.URL)
-                return qwe
+                let jsonResponse = await this.callRestApiInternal(this.args.URL)
+                this.args.productionResponse   = jsonResponse
+                this.args.filteredProductionResponse = JSON.parse(JSON.stringify(this.args.productionResponse))
+                return jsonResponse
             }
             ,
 
@@ -687,7 +689,7 @@ var result = await callFunction(
 
             callRestApi: async function(urlToCall, options) {
 
-                var mm = this
+                let mm = this
                 if (!urlToCall) {
                     urlToCall = mm.args.URL
                 }
@@ -701,7 +703,7 @@ var result = await callFunction(
                     }
                 }
 
-                var qwe = await this.callRestApiInternal(urlToCall)
+                let qwe = await this.callRestApiInternal(urlToCall)
                 return qwe
             }
             ,
