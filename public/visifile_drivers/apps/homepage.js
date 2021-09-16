@@ -707,6 +707,13 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           },
           copyAndEditApp: async function(event,  baseComponentId ) {
               var mm = this
+
+              this.open_file_name = ""
+              this.open_file_path = "/"
+              saveCodeToFile = null
+
+
+
               var result = await callApp(
                                 {
                                     driver_name: "copyApp",

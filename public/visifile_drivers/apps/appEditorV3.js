@@ -226,7 +226,7 @@ load_once_from_file(true)
                                   src='/driver_icons/save.png'
                                   style='height:35px; margin-right: 10px;'
                                   class='img-fluid'>
-                              </img>Pending changes.. update
+                              </img>{{saveCodeToFile?"Save .vjs":"Pending changes.. update"}}
 
                     </button>
 
@@ -239,7 +239,7 @@ load_once_from_file(true)
                             v-bind:disabled='read_only?"":false'
                             v-bind:style="'padding:10px;;display: inline-block;width: 200px;margin-left:200px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
                     >
-                    App preview up to date
+                    {{saveCodeToFile?"Save .vjs":"App preview up to date"}}
                     </div>
 
                     <div    v-if="!read_only && (save_state == 'saving')"
