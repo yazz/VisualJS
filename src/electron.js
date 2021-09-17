@@ -439,7 +439,7 @@ if (process.argv.length > 1) {
     program
       .version('2021.0.1')
       .option('-a, --runapp [runapp]', 'Run the app with ID as the homepage (default not set) [runapp]', null)
-      .option('-b, --virtualprocessors [virtualprocessors]', 'How many virtual processors to run (default 6 processors) [virtualprocessors]', 6)
+      .option('-b, --virtualprocessors [virtualprocessors]', 'How many virtual processors to run (default 8 processors) [virtualprocessors]', 8)
       .option('-c, --runhtml [runhtml]', 'Run using a local HTML page as the homepage (default not set) [runhtml]', null)
       .option('-de, --deleteonexit [deleteonexit]', 'Delete database files on exit (default true) [deleteonexit]', 'false')
       .option('-e, --debug [debug]', 'Allow to run NodeJS in debug mode (default false) [debug]', 'false')
