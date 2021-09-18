@@ -82,6 +82,8 @@ Visual Javascript is perfect for small internal web apps or microservices. Some 
 
 ### Mac App Store
 https://apps.apple.com/gb/app/visual-javascript/id1551448939?mt=12
+<br/><br/>
+
 
 ### NodeJS
 Assuming that you have NodeJS, NPM, and Git installed, enter the following commands at the command line:
