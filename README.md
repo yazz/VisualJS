@@ -94,7 +94,7 @@ Assuming that you have NodeJS, NPM, and Git installed, enter the following comma
 &gt; npm start</pre>
 
 Browse to http://0.0.0.0:80 to open Visual Javascript
-
+<br/><br/>
 
 
 ### Docker
@@ -104,7 +104,7 @@ Make sure that you have Docker installed. Then:
 </pre>
 
 Browse to http://0.0.0.0:80 to open Visual Javascript
-
+<br/><br/>
 
 
 ### Windows
@@ -114,7 +114,7 @@ Download **https://yazz.com/visifile/bin/vjs.exe** and then run:
 &gt; vjs.exe
 </pre>
 Browse to http://0.0.0.0:80 to open Visual Javascript
-
+<br/><br/>
 
 
 ### Mac
@@ -125,7 +125,7 @@ Run:
 </pre>
 
 Browse to http://0.0.0.0:80 to open Visual Javascript
-
+<br/><br/>
 
 
 ### Linux
