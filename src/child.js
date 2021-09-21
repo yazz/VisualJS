@@ -218,7 +218,7 @@ function setUpSql() {
                                                           "     base_component_id =  ? ;");
 
       stmtInsertNewCode = dbsearch.prepare(
-          " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_scope,display_name, creation_timestamp,component_options, logo_url, visibility, interfaces,use_db, editors, read_write_status,properties, component_type, control_sub_type) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+          " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_scope,display_name, creation_timestamp,component_options, logo_url, visibility, interfaces,use_db, editors, read_write_status,properties, component_type, control_sub_type, edit_file_path) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
       stmtDeprecateOldCode = dbsearch.prepare(
           " update system_code  set code_tag = NULL where base_component_id = ? and id != ?");
 
@@ -1480,7 +1480,10 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
                                 //console.log("Saving in Sqlite: " + parentHash)
                                 //console.log("Saving in Sqlite: " + code)
-
+                                let save_code_to_file = null
+                                if (options) {
+                                    save_code_to_file = options.save_code_to_file
+                                }
                                 dbsearch.serialize(async function() {
                                     dbsearch.run("begin exclusive transaction");
                                     stmtInsertNewCode.run(
@@ -1504,7 +1507,8 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                           readWriteStatus,
                                           properties,
                                           controlType,
-                                          controlSubType
+                                          controlSubType,
+                                          save_code_to_file
                                           )
                                     stmtDeprecateOldCode.run(
                                         baseComponentId,
