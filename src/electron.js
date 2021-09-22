@@ -460,7 +460,7 @@ if (process.argv.length > 1) {
       .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
       .option('-t, --usehost [usehost]', 'Use host name [usehost]', null)
       .option('-u, --loadjsurl [loadjsurl]', 'Load the following JS from a URL (default not set) [loadjsurl]', null)
-      .option('-w, --deleteonstartup [deleteonstartup]', 'Delete database files on startup (default false) [deleteonstartup]', 'false')
+      .option('-w, --deleteonstartup [deleteonstartup]', 'Delete database files on startup (default true) [deleteonstartup]', 'true')
       .option('-x, --private [private]', 'Private HTTPS key [private]', null)
       .option('-y, --showdebug [showdebug]', 'Allow to show debug info (default false) [showdebug]', 'false')
       .option('-z, --loadjscode [loadjscode]', 'Load the following JS from the command line (default not set) [loadjscode]', null)
