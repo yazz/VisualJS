@@ -39,6 +39,7 @@ Lazarus https://www.lazarus-ide.org
 
 = Devops
 
+- Kubernetes
 
 
 = Traditional languages
