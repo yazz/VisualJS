@@ -436,6 +436,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
             if (text.type == "close_app") {
                 mm.edit_app = null;
+                mm.open_file_name = ""
+                mm.open_file_path = "/"
+                saveCodeToFile = null
+
                 mm.refresh++
             }
 
