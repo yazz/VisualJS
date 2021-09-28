@@ -2822,8 +2822,11 @@ function loadAppFromFile(localp,client_file_upload_id) {
                                           parent_hash:            null,
                                           code:                   readIn,
                                           client_file_upload_id:  client_file_upload_id,
-                                          options:                {save_html: true, fast_forward_database_to_latest_revision: false},
-                                          sqlite_data:            ""
+                                          options:                {
+                                              save_html: true,
+                                              fast_forward_database_to_latest_revision: false,
+                                              save_code_to_file: localp
+                                          },                                          sqlite_data:            ""
                                      });
 
 }
