@@ -168,7 +168,28 @@ load_once_from_file(true)
                                   style='height:35px; margin-right: 10px;'
                                   class='img-fluid'>
                               </img>
-                             {{(((typeof($RUNNING_IN_ELECTRON) !== 'undefined')  && $RUNNING_IN_ELECTRON)?"Save as .vjs":"Export .vjs file to PC")}}
+                             Download .vjs file
+
+                    </a>
+
+
+
+
+
+                    <a   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                              v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppId + ".vjs"'
+                              download
+                            v-if="show_filename_save"
+                              v-on:mouseenter='setInfo("Edit the SQlite schema for this app")'
+                              v-on:mouseleave='setInfo(null)'
+                              type="button" class="btn btn-light ">
+
+                              <img
+                                  src='/driver_icons/js_export.png'
+                                  style='height:35px; margin-right: 10px;'
+                                  class='img-fluid'>
+                              </img>
+                             Save as .vjs
 
                     </a>
 
