@@ -1610,7 +1610,7 @@ load_once_from_file(true)
 
                 override_app_editor = null
 
-                if ((($RUNNING_IN_ELECTRON) !== 'undefined')  && $RUNNING_IN_ELECTRON) {
+                if ((typeof($RUNNING_IN_ELECTRON) !== 'undefined')  && $RUNNING_IN_ELECTRON) {
                     this.in_electron_app =  true
                 }
                 if (this.in_electron_app) {
