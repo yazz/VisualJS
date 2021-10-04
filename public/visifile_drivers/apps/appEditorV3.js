@@ -158,7 +158,7 @@ load_once_from_file(true)
                     <a   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                               v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppId + ".vjs"'
                               download
-                            v-if="!editor_overloaded"
+                            v-if="show_download_save"
                               v-on:mouseenter='setInfo("Edit the SQlite schema for this app")'
                               v-on:mouseleave='setInfo(null)'
                               type="button" class="btn btn-light ">
@@ -676,6 +676,9 @@ load_once_from_file(true)
                rest_api_base_url:    "",
                rest_api_return_value: "",
                editor_overloaded:       false,
+               in_electron_app:       false,
+               show_download_save:       false,
+               show_filename_save:       false,
                editor_component:    null,
                right_mode:          "scope",
                selected_pane:       "scope",
@@ -755,6 +758,14 @@ load_once_from_file(true)
            closeSqliteSchema: async function() {
                let mm                           = this
                this.editor_overloaded           = false
+               if (this.in_electron_app) {
+                   this.show_download_save = false
+                   this.show_filename_save = true
+               } else {
+                   this.show_download_save = true
+                   this.show_filename_save = false
+               }
+
                override_app_editor              = null
                this.editor_text                 = await mm.$refs.editor_component_ref.getText()
 
@@ -769,6 +780,9 @@ load_once_from_file(true)
                   var mm = this
 
                   this.editor_overloaded = true
+                  this.show_download_save = false
+                  this.show_filename_save = false
+
                   override_app_editor = "export_editor_component"
 
 
@@ -782,6 +796,9 @@ load_once_from_file(true)
                var mm = this
 
                this.editor_overloaded = true
+               this.show_download_save = false
+               this.show_filename_save = false
+
                override_app_editor = "sqlite_editor_component"
 
 
@@ -795,6 +812,9 @@ load_once_from_file(true)
                var mm = this
 
                this.editor_overloaded = true
+               this.show_download_save = false
+               this.show_filename_save = false
+
                override_app_editor = "keycloak_editor_component"
 
 
@@ -1568,6 +1588,18 @@ load_once_from_file(true)
                 uiDebuggerOn = true
 
                 override_app_editor = null
+
+                if ((($RUNNING_IN_ELECTRON) !== 'undefined')  && $RUNNING_IN_ELECTRON) {
+                    this.in_electron_app =  true
+                }
+                if (this.in_electron_app) {
+                    this.show_download_save = false
+                    this.show_filename_save = true
+                } else {
+                    this.show_download_save = true
+                    this.show_filename_save = false
+                }
+
 
                 this.execution_timeline   = executionTimeline
                 this.execution_code       = executionCode
