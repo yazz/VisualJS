@@ -1391,7 +1391,15 @@ load_once_from_file(true)
            },
 
            saveAsFileElectron(filePath) {
-               alert("Called save electron file as: " + filePath)
+               //alert("Called save electron file as: " + filePath)
+               let openfileurl = "/electron_file_save_as"
+
+               //console.log("openfileurl:= " + openfileurl)
+               callAjax( openfileurl,
+                   function(res) {
+                       console.log(res)
+                   })
+
            }
            ,
 

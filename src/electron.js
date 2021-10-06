@@ -15,6 +15,7 @@ if (electron) {
 }
 const BrowserWindow = electron.BrowserWindow
 let getFileFromUser = null
+let saveFileAsForUser = null
 
 let visifile = null
 const path = require("path");
@@ -3102,6 +3103,15 @@ async function startServices() {
         });
 
 
+        app.get('/electron_file_save_as', async function (req, res, next) {
+            console.log('/electron_file_save_as')
+            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+            res.end("Done");
+            await saveFileAsForUser()
+
+        });
+
+
         app.get('/lock', function (req, res) {
             return lockFn(req, res);
         })
@@ -3486,6 +3496,16 @@ if (electronApp) {
             userData = electronApp.getPath('userData')
             console.log("read userData : " + userData)
         }
+
+        saveFileAsForUser = (async function() {
+            dialog.showOpenDialog(visifile, {
+              properties: ['openFile', 'openDirectory']
+            }).then(result => {
+              console.log(result.canceled)
+              console.log(result.filePaths)
+              if (result.canceled) {
+                  return
+              }})})
 
         getFileFromUser = (async function() {
             dialog.showOpenDialog(visifile, {
