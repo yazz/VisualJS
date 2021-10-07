@@ -3498,14 +3498,12 @@ if (electronApp) {
         }
 
         saveFileAsForUser = (async function() {
-            dialog.showOpenDialog(visifile, {
-              properties: ['openFile', 'openDirectory']
-            }).then(result => {
-              console.log(result.canceled)
-              console.log(result.filePaths)
-              if (result.canceled) {
-                  return
-              }})})
+            dialog.showSaveDialog().then(result => {
+                let filePath = result.filePath
+                console.log("Save to: " + JSON.stringify(result,null,2))
+
+                return
+              })})
 
         getFileFromUser = (async function() {
             dialog.showOpenDialog(visifile, {

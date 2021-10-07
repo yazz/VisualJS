@@ -1395,7 +1395,15 @@ load_once_from_file(true)
                let openfileurl = "/electron_file_save_as"
 
                //console.log("openfileurl:= " + openfileurl)
-               callAjax( openfileurl,
+               callAjax2(
+                   openfileurl
+                   ,
+                   {
+                       params: {
+                           filePath: filePath
+                       }
+                   }
+                   ,
                    function(res) {
                        console.log(res)
                    })
