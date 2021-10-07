@@ -3104,11 +3104,13 @@ async function startServices() {
 
 
         app.get('/electron_file_save_as', async function (req, res, next) {
-            console.log('/electron_file_save_as')
+            var params  = req.query;
+            var filePath  = params.filePath
+            console.log('/electron_file_save_as: ' + filePath)
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end("Done");
             await saveFileAsForUser()
-
+//zzz
         });
 
 
@@ -3526,7 +3528,7 @@ if (electronApp) {
                                     saveCodeToFile:   result.filePaths[0]
                                   });
 
-              //zzz
+
 
               loadAppFromFile( result.filePaths[0],
                                sd)

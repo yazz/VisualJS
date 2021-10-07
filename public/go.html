@@ -11133,6 +11133,20 @@ function callAjax(url, callback){
 
 function callAjax2(url, options, callback){
     var xmlhttp;
+    //debugger
+    if (options && options.params) {
+        url += "?"
+        let paramArray = Object.entries(options.params)
+        let ajaxParams = Array.from(paramArray, ([name, value]) => ({ name, value }));
+        ajaxParams.forEach(
+            function myFunction(entry, index, ajaxParams) {
+                //debugger
+              url += entry.name + "=" + encodeURIComponent(entry.value) + "&";
+          });
+    }
+    console.log("callAjax2 url = " + url)
+
+
     // compatible with IE7+, Firefox, Chrome, Opera, Safari
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function(){
