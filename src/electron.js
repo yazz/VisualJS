@@ -3500,7 +3500,24 @@ if (electronApp) {
         }
 
         saveFileAsForUser = (async function() {
-            dialog.showSaveDialog().then(result => {
+            let saveOptions = {
+             //Placeholder 1
+             title: "Save .vjs file",
+
+             //Placeholder 2
+             //defaultPath : "C:\\BrainBell.png",
+
+             //Placeholder 4
+             buttonLabel : "Save As",
+
+             //Placeholder 3
+             filters :[
+              {name: 'Visual Javascript', extensions: ['vjs']},
+              {name: 'Javascript', extensions: ['js']},
+              {name: 'All Files', extensions: ['*']}
+             ]
+            }
+            dialog.showSaveDialog(null, saveOptions).then(result => {
                 let filePath = result.filePath
                 console.log("Save to: " + JSON.stringify(result,null,2))
 
