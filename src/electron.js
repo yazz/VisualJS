@@ -3522,19 +3522,12 @@ if (electronApp) {
                 console.log("Save to: " + JSON.stringify(result,null,2))
 
 
-                let sd= uuidv1()
-                sendOverWebSockets({
-                                      type:               "set_file_upload_uuid",
-                                      file_upload_uuid:   sd
-                                      });
+
                 sendOverWebSockets({
                                       type:               "set_saveCodeToFile",
                                       saveCodeToFile:   filePath
                                     });
 
-
-                loadAppFromFile( filePath,
-                                 sd)
 
 
 
@@ -3561,6 +3554,8 @@ if (electronApp) {
                                     type:               "set_saveCodeToFile",
                                     saveCodeToFile:   result.filePaths[0]
                                   });
+
+              saveCodeToFile = result.filePaths[0]
 
 
 
