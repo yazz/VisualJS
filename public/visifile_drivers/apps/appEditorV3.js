@@ -1395,7 +1395,7 @@ load_once_from_file(true)
                let openfileurl = "/electron_file_save_as"
 
                //console.log("openfileurl:= " + openfileurl)
-               callAjax2(
+               /*callAjax2(
                    openfileurl
                    ,
                    {
@@ -1406,7 +1406,14 @@ load_once_from_file(true)
                    ,
                    function(res) {
                        console.log(res)
-                   })
+                   })*/
+
+               sendToServerViaWebSocket({
+                       message_type: "electron_file_save_as"
+                       ,
+                       filePath: filePath
+                       });
+
 
            }
            ,

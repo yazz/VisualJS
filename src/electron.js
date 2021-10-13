@@ -823,6 +823,12 @@ function setUpChildListeners(processName, fileName, debugPort) {
                                            });
 
 
+
+
+
+
+
+
         //------------------------------------------------------------------------------
         //
         //
@@ -2501,6 +2507,24 @@ function websocketFn(ws) {
                             message_type:   "server_asks_subprocess_for_data",
                             seq_num:         seqNum
                         });
+
+
+
+
+
+            //------------------------------------------------------------------------------
+            //
+            //
+            //
+            //
+            //
+            //------------------------------------------------------------------------------
+            } else if (receivedMessage.message_type == "electron_file_save_as") {
+                //filePath: filePath
+                console.log("I'm here mama!")
+
+                saveFileAsForUser()
+
 
 
 
