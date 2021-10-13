@@ -15,7 +15,6 @@ if (electron) {
 }
 const BrowserWindow = electron.BrowserWindow
 let getFileFromUser = null
-let saveFileAsForUser = null
 
 let visifile = null
 const path = require("path");
@@ -2522,7 +2521,34 @@ function websocketFn(ws) {
             } else if (receivedMessage.message_type == "electron_file_save_as") {
                 //filePath: filePath
 
-                saveFileAsForUser()
+                let saveOptions = {
+                 //Placeholder 1
+                 title: "Save .vjs file",
+
+                 //Placeholder 2
+                 //defaultPath : "C:\\BrainBell.png",
+
+                 //Placeholder 4
+                 buttonLabel : "Save As",
+
+                 //Placeholder 3
+                 filters :[
+                  {name: 'Visual Javascript', extensions: ['vjs']},
+                  {name: 'Javascript', extensions: ['js']},
+                  {name: 'All Files', extensions: ['*']}
+                 ]
+                }
+                dialog.showSaveDialog(null, saveOptions).then(result => {
+                    let filePath = result.filePath
+                    console.log("Save to: " + JSON.stringify(result,null,2))
+
+                    sendOverWebSockets({
+                                          type:               "set_saveCodeToFile_V2",
+                                          saveCodeToFile:   filePath
+                                        });
+
+
+                      })
 
 
 
@@ -3512,40 +3538,6 @@ if (electronApp) {
             console.log("read userData : " + userData)
         }
 
-        saveFileAsForUser = (async function() {
-            let saveOptions = {
-             //Placeholder 1
-             title: "Save .vjs file",
-
-             //Placeholder 2
-             //defaultPath : "C:\\BrainBell.png",
-
-             //Placeholder 4
-             buttonLabel : "Save As",
-
-             //Placeholder 3
-             filters :[
-              {name: 'Visual Javascript', extensions: ['vjs']},
-              {name: 'Javascript', extensions: ['js']},
-              {name: 'All Files', extensions: ['*']}
-             ]
-            }
-            dialog.showSaveDialog(null, saveOptions).then(result => {
-                let filePath = result.filePath
-                console.log("Save to: " + JSON.stringify(result,null,2))
-
-
-
-                sendOverWebSockets({
-                                      type:               "set_saveCodeToFile_V2",
-                                      saveCodeToFile:   filePath
-                                    });
-
-
-
-
-                return
-              })})
 
         getFileFromUser = (async function() {
             dialog.showOpenDialog(visifile, {
