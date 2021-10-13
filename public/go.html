@@ -9527,9 +9527,31 @@ function setupWebSocket(host, port)
     socket.on('set_file_upload_uuid',async function(data) {
         file_upload_uuid = data.file_upload_uuid
     })
+
     socket.on('set_saveCodeToFile',async function(data) {
         saveCodeToFile = data.saveCodeToFile
     })
+
+    socket.on('set_saveCodeToFile_V2',async function(data) {
+        debugger
+        saveCodeToFile = data.saveCodeToFile
+        var results = await callFunction(
+        {
+            driver_name:     "appEditorV2SaveCode",
+            method_name:     "saveCode"
+        },
+            {
+                 base_component_id:      base_component_id,
+                 code_id:                code_id,
+                 code:                   "this.editor_text",
+                 options:                {
+                                             sub_components:         Object.keys(dev_app_component_loaded),
+                                             save_html:              true,
+                                             save_code_to_file:      saveCodeToFile
+                                         }
+            })
+    })
+
 
 
     socket.on('uploaded_app_as_file_from_server',async function(data) {
