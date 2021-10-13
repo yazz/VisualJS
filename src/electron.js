@@ -2521,7 +2521,6 @@ function websocketFn(ws) {
             //------------------------------------------------------------------------------
             } else if (receivedMessage.message_type == "electron_file_save_as") {
                 //filePath: filePath
-                console.log("I'm here mama!")
 
                 saveFileAsForUser()
 
@@ -3126,16 +3125,6 @@ async function startServices() {
 
         });
 
-
-        app.get('/electron_file_save_as', async function (req, res, next) {
-            var params  = req.query;
-            var filePath  = params.filePath
-            console.log('/electron_file_save_as: ' + filePath)
-            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-            res.end("Done");
-            await saveFileAsForUser()
-//zzz
-        });
 
 
         app.get('/lock', function (req, res) {

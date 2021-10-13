@@ -177,7 +177,7 @@ load_once_from_file(true)
 
 
                     <a   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                              v-on:click='saveAsFileElectron(location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppId + ".vjs")'
+                              v-on:click='setTimeout(async function(){appClearIntervals();await saveAsFileElectron(base_component_id, code_id,null)},100)'
                               download
                             v-if="show_filename_save"
                               v-on:mouseenter='setInfo("Edit the SQlite schema for this app")'
@@ -1389,32 +1389,31 @@ load_once_from_file(true)
             }
 
            },
+           saveAsFileElectron: async function( base_component_id, code_id , textIn) {
 
-           saveAsFileElectron(filePath) {
-               //alert("Called save electron file as: " + filePath)
-               let openfileurl = "/electron_file_save_as"
+               try {
+                    if (textIn == null) {
+                         this.editor_text = await this.$refs.editor_component_ref.getText()
+                    } else {
+                         this.editor_text = textIn
+                    }
 
-               //console.log("openfileurl:= " + openfileurl)
-               /*callAjax2(
-                   openfileurl
-                   ,
-                   {
-                       params: {
-                           filePath: filePath
-                       }
-                   }
-                   ,
-                   function(res) {
-                       console.log(res)
-                   })*/
+                   sendToServerViaWebSocket({
+                           message_type: "electron_file_save_as"
+                           ,
+                           base_component_id:      base_component_id
+                           ,
+                           code_id:                code_id
+                           ,
+                           code:                   this.editor_text
+                   });
 
-               sendToServerViaWebSocket({
-                       message_type: "electron_file_save_as"
-                       ,
-                       filePath: filePath
-                       });
+               } catch (e) {
+                   hideProgressBar()
+                   this.save_state = "saved"
+                   this.checkSavedFile()
 
-
+               }
            }
            ,
 
