@@ -2541,7 +2541,10 @@ function websocketFn(ws) {
 
                     sendOverWebSockets({
                                           type:               "set_saveCodeToFile_V2",
-                                          saveCodeToFile:      filePath
+                                          saveCodeToFile:      filePath,
+                                          base_component_id:   receivedMessage.base_component_id,
+                                          code_id:             receivedMessage.code_id,
+                                          code:                receivedMessage.code
                                         });
 
 
