@@ -2519,32 +2519,29 @@ function websocketFn(ws) {
             //
             //------------------------------------------------------------------------------
             } else if (receivedMessage.message_type == "electron_file_save_as") {
-                //filePath: filePath
-
                 let saveOptions = {
-                 //Placeholder 1
-                 title: "Save .vjs file",
 
-                 //Placeholder 2
-                 //defaultPath : "C:\\BrainBell.png",
-
-                 //Placeholder 4
-                 buttonLabel : "Save As",
-
-                 //Placeholder 3
+                 title: "Save .vjs file"
+                 ,
+                 buttonLabel : "Save As"
+                 ,
                  filters :[
                   {name: 'Visual Javascript', extensions: ['vjs']},
                   {name: 'Javascript', extensions: ['js']},
                   {name: 'All Files', extensions: ['*']}
                  ]
+
                 }
+
+
+
                 dialog.showSaveDialog(null, saveOptions).then(result => {
                     let filePath = result.filePath
                     console.log("Save to: " + JSON.stringify(result,null,2))
 
                     sendOverWebSockets({
                                           type:               "set_saveCodeToFile_V2",
-                                          saveCodeToFile:   filePath
+                                          saveCodeToFile:      filePath
                                         });
 
 

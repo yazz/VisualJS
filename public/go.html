@@ -9541,9 +9541,9 @@ function setupWebSocket(host, port)
             method_name:     "saveCode"
         },
             {
-                 base_component_id:      base_component_id,
-                 code_id:                code_id,
-                 code:                   "this.editor_text",
+                 base_component_id:      data.base_component_id,
+                 code_id:                data.code_id,
+                 code:                   data.editor_text,
                  options:                {
                                              sub_components:         Object.keys(dev_app_component_loaded),
                                              save_html:              true,
