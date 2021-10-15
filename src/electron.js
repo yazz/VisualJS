@@ -2548,7 +2548,28 @@ function websocketFn(ws) {
                                         });
 
 
-                      })
+                    setTimeout(function() {
+                        let sd= uuidv1()
+                        sendOverWebSockets({
+                                              type:               "set_file_upload_uuid",
+                                              file_upload_uuid:   sd
+                                              });
+                        sendOverWebSockets({
+                                              type:               "set_saveCodeToFile",
+                                              saveCodeToFile:      filePath
+                                            });
+
+                        saveCodeToFile = filePath
+
+
+
+                        loadAppFromFile( filePath,
+                                         sd)
+                        
+                    },1000)
+
+
+               })
 
 
 
