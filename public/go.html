@@ -9527,9 +9527,31 @@ function setupWebSocket(host, port)
     socket.on('set_file_upload_uuid',async function(data) {
         file_upload_uuid = data.file_upload_uuid
     })
+
     socket.on('set_saveCodeToFile',async function(data) {
         saveCodeToFile = data.saveCodeToFile
     })
+
+    socket.on('set_saveCodeToFile_V2',async function(data) {
+        debugger
+        saveCodeToFile = data.saveCodeToFile
+        var results = await callFunction(
+        {
+            driver_name:     "appEditorV2SaveCode",
+            method_name:     "saveCode"
+        },
+            {
+                 base_component_id:      data.base_component_id,
+                 code_id:                data.code_id,
+                 code:                   data.code,
+                 options:                {
+                                             sub_components:         Object.keys(dev_app_component_loaded),
+                                             save_html:              true,
+                                             save_code_to_file:      saveCodeToFile
+                                         }
+            })
+    })
+
 
 
     socket.on('uploaded_app_as_file_from_server',async function(data) {
@@ -11130,6 +11152,34 @@ function callAjax(url, callback){
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
 }
+
+function callAjax2(url, options, callback){
+    var xmlhttp;
+    //debugger
+    if (options && options.params) {
+        url += "?"
+        let paramArray = Object.entries(options.params)
+        let ajaxParams = Array.from(paramArray, ([name, value]) => ({ name, value }));
+        ajaxParams.forEach(
+            function myFunction(entry, index, ajaxParams) {
+                //debugger
+              url += entry.name + "=" + encodeURIComponent(entry.value) + "&";
+          });
+    }
+    console.log("callAjax2 url = " + url)
+
+
+    // compatible with IE7+, Firefox, Chrome, Opera, Safari
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function(){
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
+            callback(xmlhttp.responseText);
+        }
+    }
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+}
+
 
 </script>
 <script>

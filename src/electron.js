@@ -822,6 +822,12 @@ function setUpChildListeners(processName, fileName, debugPort) {
                                            });
 
 
+
+
+
+
+
+
         //------------------------------------------------------------------------------
         //
         //
@@ -2505,6 +2511,71 @@ function websocketFn(ws) {
 
 
 
+            //------------------------------------------------------------------------------
+            //
+            //
+            //
+            //
+            //
+            //------------------------------------------------------------------------------
+            } else if (receivedMessage.message_type == "electron_file_save_as") {
+                let saveOptions = {
+
+                 title: "Save .vjs file"
+                 ,
+                 buttonLabel : "Save As"
+                 ,
+                 filters :[
+                  {name: 'Visual Javascript', extensions: ['vjs']},
+                  {name: 'Javascript', extensions: ['js']},
+                  {name: 'All Files', extensions: ['*']}
+                 ]
+
+                }
+
+
+
+                dialog.showSaveDialog(null, saveOptions).then(result => {
+                    let filePath = result.filePath
+                    console.log("Save to: " + JSON.stringify(result,null,2))
+
+                    sendOverWebSockets({
+                                          type:               "set_saveCodeToFile_V2",
+                                          saveCodeToFile:      filePath,
+                                          base_component_id:   receivedMessage.base_component_id,
+                                          code_id:             receivedMessage.code_id,
+                                          code:                receivedMessage.code
+                                        });
+
+
+                    setTimeout(function() {
+                        let sd= uuidv1()
+                        sendOverWebSockets({
+                                              type:               "set_file_upload_uuid",
+                                              file_upload_uuid:   sd
+                                              });
+                        sendOverWebSockets({
+                                              type:               "set_saveCodeToFile",
+                                              saveCodeToFile:      filePath
+                                            });
+
+                        saveCodeToFile = filePath
+
+
+
+                        loadAppFromFile( filePath,
+                                         sd)
+                        
+                    },1000)
+
+
+               })
+
+
+
+
+
+
     } else if (receivedMessage.message_type == "browser_asks_server_for_data") {
 
         var seqNum = queuedResponseSeqNum;
@@ -3102,6 +3173,7 @@ async function startServices() {
         });
 
 
+
         app.get('/lock', function (req, res) {
             return lockFn(req, res);
         })
@@ -3487,6 +3559,7 @@ if (electronApp) {
             console.log("read userData : " + userData)
         }
 
+
         getFileFromUser = (async function() {
             dialog.showOpenDialog(visifile, {
               properties: ['openFile', 'openDirectory']
@@ -3508,7 +3581,9 @@ if (electronApp) {
                                     saveCodeToFile:   result.filePaths[0]
                                   });
 
-              //zzz
+              saveCodeToFile = result.filePaths[0]
+
+
 
               loadAppFromFile( result.filePaths[0],
                                sd)
