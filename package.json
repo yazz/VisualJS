@@ -43,7 +43,7 @@
     "mysql": "^2.18.1",
     "net": "^1.0.2",
     "node-disk-info": "^1.1.0",
-    "node-forge": "^0.10.0",
+    "node-forge": "^1.0.0",
     "opentracing": "^0.14.5",
     "os": "^0.1.1",
     "path": "^0.12.7",
