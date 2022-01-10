@@ -7,8 +7,7 @@
   "scripts": {
     "start": "node src/electron.js",
     "build": "electron-packager  .  --ignore=node_modules/electron-*  --overwrite  --icon=icon.icns",
-    "version": "echo $npm_package_version",
-    "postinstall": "install-app-deps"
+    "version": "echo $npm_package_version"
   },
   "main": "src/electron.js",
   "bin": {
