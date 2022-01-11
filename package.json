@@ -22,7 +22,7 @@
     "cors": "^2.8.5",
     "diskspace": "^2.0.0",
     "dockerode": "^3.2.1",
-    "electron": "^11.3.0",
+    "electron": "^16.0.6",
     "escodegen": "^2.0.0",
     "esprima": "^4.0.1",
     "estraverse": "^5.2.0",
@@ -82,7 +82,7 @@
   },
   "devDependencies": {
     "asar": "^3.0.3",
-    "electron-packager": "^15.2.0",
-    "electron-rebuild": "^2.3.4"
+    "electron-packager": "^15.4.0",
+    "electron-rebuild": "^3.2.6"
   }
 }
