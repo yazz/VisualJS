@@ -22,7 +22,7 @@
     "cors": "^2.8.5",
     "diskspace": "^2.0.0",
     "dockerode": "^3.2.1",
-    "electron": "^16.0.6",
+    "electron": "^11.5.0",
     "escodegen": "^2.0.0",
     "esprima": "^4.0.1",
     "estraverse": "^5.2.0",
