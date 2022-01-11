@@ -53,6 +53,7 @@ var yazzInstanceId  = uuidv1()
 let certOptions     = null
 
 var expressWs       = require2('express-ws')(app);
+outputDebug("Electron version: " + process.versions.electron);
 outputDebug("__filename: " + __filename)
 outputDebug("__dirname: " + __dirname)
 
@@ -2565,7 +2566,7 @@ function websocketFn(ws) {
 
                         loadAppFromFile( filePath,
                                          sd)
-                        
+
                     },1000)
 
 
