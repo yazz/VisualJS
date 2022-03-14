@@ -8,7 +8,15 @@
     </script>
 <script lang="javascript" src="/js_libs/xlsx.core.min.js"></script>
 <script src="/js_libs/ammo.wasm.js"></script>
+<script src="/js_libs/web3.min.js"></script>
+
     <script>
+
+    window.ethereum.request({ method: "eth_requestAccounts" });
+
+    web3 = new Web3(window.ethereum);
+
+
     var testObject = null; // Use this to test elements at debug time
     /*use_local_sqlite_start*/var localAppshareApp = false/*use_local_sqlite_end*/
     /*edit_app_share_app_start*/var editAppShareApp = null/*edit_app_share_app_end*/
