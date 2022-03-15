@@ -12,9 +12,14 @@
 
     <script>
 
-    window.ethereum.request({ method: "eth_requestAccounts" });
+    try {
+      window.ethereum.request({ method: "eth_requestAccounts" });
 
-    web3 = new Web3(window.ethereum);
+      web3 = new Web3(window.ethereum);
+      
+    } catch (error) {
+
+    }
 
 
     var testObject = null; // Use this to test elements at debug time
