@@ -7126,15 +7126,15 @@ Vars to use:
                                       type:   "Event",
                                       help:
              `
-             <pre>
-             Vars to use:
-                 form
-                 name
-                 property
-                 value
-                 before_value
-                 after_value
-             </pre>
+<pre>
+Vars to use:
+   form
+   name
+   property
+   value
+   before_value
+   after_value
+</pre>
              `
                                               })
                           }
