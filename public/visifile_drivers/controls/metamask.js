@@ -3,22 +3,13 @@ function(args) {
 is_app(true)
 component_type("VB")
 display_name("Meta control")
-description("This will return the label control")
+description("This will return the metamask control")
 base_component_id("metamask_control")
 load_once_from_file(true)
 visibility("PRIVATE")
 read_only(true)
 properties(
     [
-
-        {
-            id:     "background_color",
-            name:   "Background color",
-            types: {text: true},
-            type:   "String"
-        }
-        ,
-
 
         {
             id:         "width",
@@ -39,26 +30,16 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAoHCBQSEhgSEhU
 */
 
     Vue.component("metamask_control",{
-        props: ["meta","name","args","refresh","design_mode"]
+        props: ["meta","name","args","properties","refresh","design_mode"]
         ,
-        template: `<div v-bind:style='"white-space:normal;height:100%;width:100%; " +
-                                        "color: black;" +
-                                        "border-color: ;" +
-                                        "border: 0px;" +
-                                        "background-color: white";" +
-                                        "font-size: "          +     ((args["font_size"]?args["font_size"]:16)  + (args["font_size_units"]?args["font_size_units"]:"px")+";") +
-                                        "padding: "            +     args["padding_px"]  + ";" +
-                                        "border-style: solid;" +
-                                    "overflow: auto;"'>
+        template: `<div style='white-space:normal;height:100%;width:100%; color: black;
+                                      border: 0px;background-color: white;overflow: auto;'>
 
-<div v-else>
-     {{(design_mode?args["name"]:"")}}
-</div>
+{{(design_mode?properties.name:"")}}
                  </div>`
         ,
         data: function() {
             return {
-                text: ""
             }
         }
         ,
@@ -67,8 +48,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAoHCBQSEhgSEhU
           refresh(newValue, oldValue) {
               //console.log("refresh: " + this.args.text)
               if (isValidObject(this.args)) {
-                  this.text = this.args.text
-                  this.background_color = this.args.background_color
               }          // you can do anything here with the new value or old/previous value
           }
         },
@@ -76,7 +55,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAoHCBQSEhgSEhU
             registerComponent(this)
 
             if (isValidObject(this.args.text)) {
-                this.text = this.args.text
             }
 
             if (isValidObject(this.args.name)) {
