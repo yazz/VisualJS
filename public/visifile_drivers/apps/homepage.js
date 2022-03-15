@@ -72,7 +72,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                             style="border:0px; padding: 0px; margin: 0px;padding-left:15px;font-family: Helvetica;color: darkgray;font-weight: bold;letter-spacing: 0px;font-size: 9px;line-height: 1;display: inline-block;top:0px;position:absolute;left:20px;">
                          <div    v-bind:refresh='refresh'
                                  style="border:0px; padding: 0px; margin: 0px;padding-left:15px;font-family: Helvetica;color: darkgray;font-weight: bold;letter-spacing: 0px;font-size: 16px;line-height: 1;display: inline-block;top:0px;left:-20px;">
-                              Visual Javascript
+                              Yazz
                          </div>
                     </div>
 
@@ -85,7 +85,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     target=new
                     v-bind:refresh='refresh'
                     style="border:0px; padding: 0px; margin: 0px;padding-left:15px;font-family: Helvetica;color: darkgray;font-weight: bold;letter-spacing: 0px;font-size: 15px;line-height: 1;display: inline-block;top:5px;position:fixed;right:40px;">
-                 Yazz.com
+                 
             </a>
 
 
