@@ -1247,7 +1247,6 @@ function isValidObject(variable){
 //
 //------------------------------------------------------------------------------
 async function saveCodeV2( baseComponentId, parentHash, code , options) {
-  let startTime = new Date().getTime()
     if (code) {
         code = code.toString()
     }
@@ -1791,9 +1790,6 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
 
                                     updateRegistry(options, sha1sum)
-                                    let endTime = new Date().getTime()
-                                    console.log("*** Save time: " + (endTime - startTime))
-
                                     returnFn( {
                                                     code:               code.toString(),
                                                     code_id:            sha1sum,
@@ -1827,10 +1823,6 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                 }
 
                                 updateRegistry(options, sha1sum)
-
-                                let endTime = new Date().getTime()
-                                console.log("*** Save time: " + (endTime - startTime))
-
                                 returnFn( {
                                                 code:               code.toString(),
                                                 code_id:            sha1sum,
