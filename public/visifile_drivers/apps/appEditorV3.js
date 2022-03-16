@@ -1325,8 +1325,7 @@ load_once_from_file(true)
            // This is called to save the currently edited code
            // ---------------------------------------------------------------
            save: async function( base_component_id, code_id , textIn) {
-             let startTime
-             let endTime
+
             try {
                 if (textIn == null) {
                      this.editor_text = await this.$refs.editor_component_ref.getText()
@@ -1338,9 +1337,6 @@ load_once_from_file(true)
                 if (mm.read_only) {
                      return
                 }
-                
-                startTime = new Date().getTime()
-
                 showProgressBar()
 
                 var results = await callFunction(
@@ -1382,19 +1378,10 @@ load_once_from_file(true)
                     }
                 }
                 hideProgressBar()
-                endTime = new Date().getTime()
-                let diff = (endTime - startTime)
-                debugger
-                console.log("*** Progress bar on save " + (endTime - startTime))
-
                 this.save_state = "saved"
                 this.checkSavedFile()
 
             } catch (e) {
-              endTime = new Date().getTime()
-              let diff = (endTime - startTime)
-              debugger
-              console.log("*** Progress bar on save " + (endTime - startTime))
                 hideProgressBar()
                 this.save_state = "saved"
                 this.checkSavedFile()
