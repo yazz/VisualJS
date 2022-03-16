@@ -1327,7 +1327,6 @@ load_once_from_file(true)
            save: async function( base_component_id, code_id , textIn) {
              let startTime
              let endTime
-             let diff
             try {
                 if (textIn == null) {
                      this.editor_text = await this.$refs.editor_component_ref.getText()
@@ -1339,7 +1338,7 @@ load_once_from_file(true)
                 if (mm.read_only) {
                      return
                 }
-
+                
                 startTime = new Date().getTime()
 
                 showProgressBar()
@@ -1359,10 +1358,6 @@ load_once_from_file(true)
                                                      save_code_to_file:      saveCodeToFile
                                                  }
                     })
-
-                    endTime = new Date().getTime()
-                    diff = (endTime - startTime)
-                    debugger
 
                 if ((saveHelper.getValueOfCodeString(this.editor_text,"only_run_on_server") == true)
                 ||
@@ -1388,7 +1383,7 @@ load_once_from_file(true)
                 }
                 hideProgressBar()
                 endTime = new Date().getTime()
-                diff = (endTime - startTime)
+                let diff = (endTime - startTime)
                 debugger
                 console.log("*** Progress bar on save " + (endTime - startTime))
 
