@@ -1350,8 +1350,10 @@ load_once_from_file(true)
                          code:                   this.editor_text,
                          options:                {
                                                      sub_components:         Object.keys(dev_app_component_loaded),
-                                                     save_html:              true,
-                                                     save_code_to_file:      saveCodeToFile
+                                                     //save_html:              true,
+                                                     save_html:              false,
+                                                     //save_code_to_file:      saveCodeToFile
+                                                     save_code_to_file:      false
                                                  }
                     })
 
