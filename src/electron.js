@@ -3132,11 +3132,17 @@ async function startServices() {
 
 
 
+        app.post("/testpost" , function (req, res) {
+            console.log("testpost " )
+            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+            res.end()
+        });
+
+
         app.post('/file_open_single', upload.single( 'openfilefromhomepage' ), function (req, res, next) {
             console.log("File open: " + JSON.stringify(req.file.originalname,null,2))
             return file_uploadSingleFn(req, res, next);
         });
-
 
 
 

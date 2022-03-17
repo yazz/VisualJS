@@ -16,7 +16,7 @@
       window.ethereum.request({ method: "eth_requestAccounts" });
 
       web3 = new Web3(window.ethereum);
-      
+
     } catch (error) {
 
     }
@@ -11193,6 +11193,20 @@ function callAjax2(url, options, callback){
     xmlhttp.send();
 }
 
+function callAjaxPost(url, value, callback){
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function(){
+      
+        if (xhr.readyState == 4 && xhr.status == 200){
+            callback(xhr.responseText);
+        }
+    }
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        value: value
+    }));
+}
 
 </script>
 <script>
