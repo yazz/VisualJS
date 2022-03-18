@@ -1339,63 +1339,50 @@ load_once_from_file(true)
                 }
                 showProgressBar()
 
-                var results = await callFunction(
-                {
-                    driver_name:     "appEditorV2SaveCode",
-                    method_name:     "saveCode"
-                },
-                    {
-                         base_component_id:      base_component_id,
-                         code_id:                code_id,
-                         code:                   this.editor_text,
-                         options:                {
-                                                     sub_components:         Object.keys(dev_app_component_loaded),
-                                                     save_html:              true,
-                                                     save_code_to_file:      saveCodeToFile
-                                                 }
-                    })
 
-                     callAjaxPost("/save_code",
-                     {
-                          base_component_id:      base_component_id,
-                          code_id:                code_id,
-                          code:                   this.editor_text,
-                          options:                {
-                                                      sub_components:         Object.keys(dev_app_component_loaded),
-                                                      save_html:              true,
-                                                      save_code_to_file:      saveCodeToFile
-                                                  }
-                     }
-                     ,
-                     function(){
-                         //alert("post")
-                     })
 
-                if ((saveHelper.getValueOfCodeString(this.editor_text,"only_run_on_server") == true)
-                ||
-                    (saveHelper.getValueOfCodeString(this.editor_text,"rest_api"))
-                    ) {
-                    this.is_ui_app = false
-                    this.is_server_app = true
-                    var restApi = saveHelper.getValueOfCodeString(this.editor_text,"rest_api")
-                    if (restApi) {
-                        this.is_rest_app = true
-                        this.rest_api_base_url = restApi
-                    } else {
-                        this.is_rest_app = false
-                    }
-                } else {
-                    this.is_ui_app = false
-                    this.is_server_app = false
-                }
-                if (!mm.is_server_app) {
-                    if (this.app_shown) {
-                        await mm.load_app( mm.base_component_id )
-                    }
-                }
-                hideProgressBar()
-                this.save_state = "saved"
-                this.checkSavedFile()
+                 callAjaxPost("/save_code",
+                 {
+                      base_component_id:      base_component_id,
+                      code_id:                code_id,
+                      code:                   this.editor_text,
+                      options:                {
+                                                  sub_components:         Object.keys(dev_app_component_loaded),
+                                                  save_html:              true,
+                                                  save_code_to_file:      saveCodeToFile
+                                              }
+                 }
+                 ,
+                 async function(){
+                   debugger
+                   if ((saveHelper.getValueOfCodeString(mm.editor_text,"only_run_on_server") == true)
+                   ||
+                       (saveHelper.getValueOfCodeString(mm.editor_text,"rest_api"))
+                       ) {
+                       mm.is_ui_app = false
+                       mm.is_server_app = true
+                       var restApi = saveHelper.getValueOfCodeString(mm.editor_text,"rest_api")
+                       if (restApi) {
+                           mm.is_rest_app = true
+                           mm.rest_api_base_url = restApi
+                       } else {
+                           mm.is_rest_app = false
+                       }
+                   } else {
+                       mm.is_ui_app = false
+                       mm.is_server_app = false
+                   }
+                   if (!mm.is_server_app) {
+                       if (mm.app_shown) {
+                           await mm.load_app( mm.base_component_id )
+                       }
+                   }
+                   hideProgressBar()
+                   mm.save_state = "saved"
+                   mm.checkSavedFile()
+                 })
+
+
 
             } catch (e) {
                 hideProgressBar()
