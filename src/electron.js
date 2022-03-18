@@ -51,6 +51,23 @@ var startupDelay    = 0
 var isCodeTtyCode   = false
 var yazzInstanceId  = uuidv1()
 let certOptions     = null
+var crypto                      = require('crypto');
+
+var stmtInsertDependency;
+var stmtInsertSubComponent;
+var stmtUpdateDriver;
+var stmtDeleteDependencies;
+
+var stmtInsertAppDDLRevision;
+var stmtUpdateLatestAppDDLRevision;
+var stmtInsertIntoAppRegistry
+var stmtUpdateAppRegistry
+
+var stmtDeleteTypesForComponentProperty;
+var stmtDeleteAcceptTypesForComponentProperty;
+var stmtInsertTypesForComponentProperty;
+var stmtInsertComponentProperty;
+var stmtInsertAcceptTypesForComponentProperty;
 
 var expressWs       = require2('express-ws')(app);
 outputDebug("Electron version: " + process.versions.electron);
@@ -950,6 +967,8 @@ function setUpChildListeners(processName, fileName, debugPort) {
         //
         //------------------------------------------------------------------------------
         } else if (msg.message_type == "createdTablesInChild") {
+            setUpSql();
+
             forkedProcesses["forked"].send({         message_type: "setUpSql" });
             forkedProcesses["forked"].send({         message_type: "greeting" , hello: 'world' });
 
@@ -1032,7 +1051,6 @@ function setUpChildListeners(processName, fileName, debugPort) {
         //
         //------------------------------------------------------------------------------
         } else if (msg.message_type == "database_setup_in_child") {
-
 
 
             if (msg.child_process_name == "forkedExeScheduler") {
@@ -3964,7 +3982,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
     }
 
     var promise = new Promise(returnFn => {
-        //console.log(`function saveCodeV2( ${baseComponentId}, ${parentHash} ) {`)
+        console.log(`function saveCodeV2( ${baseComponentId}, ${parentHash} ) {`)
         if (!baseComponentId) {
             baseComponentId = uuidv1()
         }
@@ -3988,6 +4006,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
         }
 
 
+        console.log(`2`)
 
 
 
@@ -4015,6 +4034,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
             code = saveHelper.insertCodeString(code, "created_timestamp", creationTimestamp)
         }
 
+        console.log(`3`)
 
 
         var oncode = "\"app\""
@@ -4045,6 +4065,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
             code = saveHelper.insertCodeString(code, "visibility", newvisibility)
         }
 
+        console.log(`4`)
 
 
         var logoUrl = saveHelper.getValueOfCodeString(code,"logo_url")
@@ -4064,6 +4085,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
             }
         }
 
+        console.log(`5`)
 
 
         rowhash.setEncoding('hex');
@@ -4094,6 +4116,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                     componentOptions = "HIDE_HEADER"
                                 }
 
+                                console.log(`6`)
 
 
                                 var displayName = saveHelper.getValueOfCodeString(code,"display_name")
@@ -4118,11 +4141,15 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                     properties = JSON.stringify(properties,null,2)
                                 }
                                 if (controlType == "VB") {
+                                  console.log(`7`)
+
                                     //console.log("VB: " + baseComponentId)
                                     let properties2 = saveHelper.getValueOfCodeString(code,"properties",")//properties")
                                     stmtDeleteTypesForComponentProperty.run(baseComponentId)
                                     stmtDeleteAcceptTypesForComponentProperty.run(baseComponentId)
                                     if (properties2) {
+                                      console.log(`8`)
+
                                         //console.log("     properties: " + properties2.length)
                                         for (let rttte = 0; rttte < properties2.length ; rttte++ ) {
                                             let prop = properties2[rttte]
@@ -4136,6 +4163,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
                                                 }
                                             }
+                                            console.log(`9`)
                                             if (prop.accept_types) {
                                                 let labelKeys = Object.keys(prop.accept_types)
                                                 for (let rttte2 = 0; rttte2 < labelKeys.length ; rttte2++ ) {
@@ -4197,6 +4225,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                 if (options) {
                                     save_code_to_file = options.save_code_to_file
                                 }
+                                console.log(`10`)
                                 dbsearch.serialize(async function() {
                                     dbsearch.run("begin exclusive transaction");
                                     stmtInsertNewCode.run(
@@ -4244,6 +4273,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                     stmtDeleteDependencies.run(sha1sum)
 
                                     var scriptCode = ""
+                                    console.log(`11`)
                                     var jsLibs = saveHelper.getValueOfCodeString(code, "uses_javascript_librararies")
                                     if (jsLibs) {
                                           //console.log(JSON.stringify(jsLibs,null,2))
@@ -4291,6 +4321,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                             }
                                         }
                                      }
+                                     console.log(`12`)
 
                                     dbsearch.run("commit", async function() {
 
@@ -4307,6 +4338,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
 
                                     if (isValidObject(options) && options.save_html) {
+                                      console.log(`13`)
                                         //
                                         // create the static HTML file to link to on the web/intranet
                                         //
@@ -4351,12 +4383,15 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                         finderToCachedCodeMapping["${baseComponentId}"] = "${sha1sum}"`
 
 
+                                        console.log(`14`)
 
                                         newCode += `
                                             //newcodehere
                                         `
                                         dbsearch.serialize(
                                             async function() {
+                                              console.log(`15.....1`)
+
                                                 var stmt = dbsearch.all(
                                                     `select
                                                         system_code.id as sha1,
@@ -4377,6 +4412,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
                                                 async function(err, results)
                                                 {
+                                                  console.log(`15`)
                                                         for (var i = 0  ;   i < results.length;    i ++ ) {
                                                             var newcodeEs = escape("(" + results[i].code.toString() + ")")
                                                             var newCode2 =  `cachedCode["${results[i].sha1}"] = {
@@ -4398,6 +4434,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                             `
                                                             newCode += newCode2
                                                         }
+                                                        console.log(`15.1`)
                                                         newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_STATIC_CODE", newCode)
 
 
@@ -4411,12 +4448,14 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                         //
                                                         var pos = newStaticFileContent.indexOf("//***ADD_SCRIPT")
                                                         newStaticFileContent = newStaticFileContent.slice(0, pos)  + scriptCode + newStaticFileContent.slice( pos)
+                                                        console.log(`15.2`)
 
 
                                                         //fs.writeFileSync( path.join(__dirname, '../public/sql2.js'),  sqliteCode )
                                                         fs.writeFileSync( newStaticFilePath,  newStaticFileContent )
 
 
+                                                        console.log(`15.3`)
 
                                                         //
                                                         // save the standalone app
@@ -4430,10 +4469,12 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
 
 
+                                                        console.log(`15.4`)
 
                                                         var sqliteAppDbPath = path.join( userData, 'app_dbs/' + baseComponentId + '.visi' )
 
                                                         if (fs.existsSync(sqliteAppDbPath)) {
+                                                          console.log(`15.5`)
                                                             var sqliteAppDbContent = fs.readFileSync( sqliteAppDbPath , 'base64')
                                                             var indexOfSqliteData = newStaticFileContent.indexOf("var sqlitedata = ''")
 
@@ -4443,21 +4484,28 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                                                             newStaticFileContent.substring(indexOfSqliteData + 19)
 
                                                         }
+                                                        console.log(`15.6`)
 
                                                         fs.writeFileSync( newLocalStaticFilePath,  newStaticFileContent )
                                                         fs.writeFileSync( newLocalJSPath,  code )
                                                         fs.writeFileSync( newLocalYazzPath,  code )
+                                                        console.log(`15.7`)
 
                                                         })
+                                                        console.log(`15.....2`)
+
                                            }
                                      , sqlite3.OPEN_READONLY)
+                                     console.log(`15.8`)
                                  }
+                                 console.log(`15.9`)
 
 
 
 
 
 
+                                 console.log(`16`)
 
 
 
@@ -4500,6 +4548,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                     //
 
 
+                                    console.log(`ret 8`)
 
                                     updateRegistry(options, sha1sum)
                                     returnFn( {
@@ -4535,6 +4584,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                 }
 
                                 updateRegistry(options, sha1sum)
+                                console.log(`ret 9`)
                                 returnFn( {
                                                 code:               code.toString(),
                                                 code_id:            sha1sum,
@@ -4547,7 +4597,370 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                     })
         }, sqlite3.OPEN_READONLY)
         })
+      console.log(`ret prom`)
 
     var ret = await promise;
     return ret
+}
+
+
+
+
+
+
+
+
+
+//-----------------------------------------------------------------------------------------//
+//                                                                                         //
+//                                        setUpSql                                         //
+//                                                                                         //
+//   This sets up the SqlLite prepared statements                                          //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//-----------------------------------------------------------------------------------------//
+function setUpSql() {
+    console.log("setUpSql    ")
+    copyMigration = dbsearch.prepare(
+    `                insert into  app_db_latest_ddl_revisions
+                       (base_component_id,latest_revision)
+                    select ?,  latest_revision from app_db_latest_ddl_revisions
+                     where base_component_id=?
+
+    `
+    );
+
+    stmtInsertIntoAppRegistry = dbsearch.prepare(" insert or replace into app_registry " +
+                                "    (id,  username, reponame, version, code_id ) " +
+                                " values " +
+                                "    (?, ?, ?, ?, ? );");
+
+
+    stmtUpdateAppRegistry = dbsearch.prepare(" update app_registry " +
+                                "    set code_id = ? " +
+                                " where " +
+                                "    username = ?  and  reponame = ? and version = ?;");
+
+
+
+    stmtInsertDependency = dbsearch.prepare(" insert or replace into app_dependencies " +
+                                "    (id,  code_id, dependency_type, dependency_name, dependency_version ) " +
+                                " values " +
+                                "    (?, ?, ?, ?, ? );");
+
+    stmtInsertSubComponent = dbsearch.prepare(`insert or ignore
+                                                    into
+                                               component_usage
+                                                    (base_component_id, child_component_id)
+                                               values (?,?)`)
+
+
+
+    stmtDeleteDependencies = dbsearch.prepare(" delete from  app_dependencies   where   code_id = ?");
+
+
+    //zzz
+    stmtDeleteTypesForComponentProperty = dbsearch.prepare(" delete from  component_property_types   where   component_name = ?");
+    stmtDeleteAcceptTypesForComponentProperty = dbsearch.prepare(" delete from  component_property_accept_types   where   component_name = ?");
+
+
+    //select name from (select distinct(name) ,count(name) cn from test  where value in (1,2,3)  group by name) where cn = 3
+    stmtInsertComponentProperty = dbsearch.prepare(`insert or ignore
+                                                    into
+                                               component_properties
+                                                    (component_name, property_name )
+                                               values ( ?,?)`)
+
+    stmtInsertTypesForComponentProperty = dbsearch.prepare(`insert or ignore
+                                                    into
+                                               component_property_types
+                                                    (component_name, property_name , type_name, type_value )
+                                               values ( ?,?,?,?)`)
+
+    stmtInsertAcceptTypesForComponentProperty = dbsearch.prepare(`insert or ignore
+                                                    into
+                                               component_property_accept_types
+                                                    (component_name, property_name , accept_type_name , accept_type_value )
+                                               values ( ?,?,?,?)`)
+
+
+     stmtInsertAppDDLRevision = dbsearch.prepare(  " insert into app_db_latest_ddl_revisions " +
+                                                  "      ( base_component_id,  latest_revision  ) " +
+                                                  " values " +
+                                                  "      ( ?,  ? );");
+
+     stmtUpdateLatestAppDDLRevision = dbsearch.prepare(  " update  app_db_latest_ddl_revisions  " +
+                                                          "     set  latest_revision = ? " +
+                                                          " where " +
+                                                          "     base_component_id =  ? ;");
+
+      stmtInsertNewCode = dbsearch.prepare(
+          " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_scope,display_name, creation_timestamp,component_options, logo_url, visibility, interfaces,use_db, editors, read_write_status,properties, component_type, control_sub_type, edit_file_path) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+      stmtDeprecateOldCode = dbsearch.prepare(
+          " update system_code  set code_tag = NULL where base_component_id = ? and id != ?");
+
+    console.log("setUpSql done   ")
+
+}
+
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
+function updateRegistry(options, sha1sum) {
+
+    if (!options.username || !options.reponame) {
+        return
+    }
+    if (!options.version) {
+        options.version = "latest"
+    }
+    if (!sha1sum) {
+        return
+    }
+    try {
+
+        dbsearch.serialize(
+            function() {
+                dbsearch.all(
+                    "SELECT  *  from  app_registry  where  username = ?  and  reponame = ? and version = ?; "
+                    ,
+                    [options.username  ,  options.reponame  ,  options.version]
+                    ,
+
+                    function(err, results)
+                    {
+
+                        try {
+                            dbsearch.serialize(function() {
+                                dbsearch.run("begin exclusive transaction");
+                                if (results.length == 0) {
+                                    stmtInsertIntoAppRegistry.run(uuidv1(),  options.username  ,  options.reponame  ,  options.version,  sha1sum)
+                                } else {
+                                    stmtUpdateAppRegistry.run(sha1sum, options.username  ,  options.reponame  ,  options.version)
+                                }
+                                dbsearch.run("commit")
+                            })
+                        } catch(er) {
+                            console.log(er)
+                        }
+
+
+                     })
+                 },
+                 sqlite3.OPEN_READONLY)
+
+
+    } catch (ewr) {
+        console.log(ewr)
+    }
+}
+
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
+function copyFile(source, target, cb) {
+  var cbCalled = false;
+
+  var rd = fs.createReadStream(source);
+  rd.on("error", function(err) {
+    done(err);
+  });
+  var wr = fs.createWriteStream(target);
+  wr.on("error", function(err) {
+    done(err);
+  });
+  wr.on("close", function(ex) {
+    done();
+  });
+  rd.pipe(wr);
+
+  function done(err) {
+    if (!cbCalled) {
+      cb(err);
+      cbCalled = true;
+    }
+  }
+}
+
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
+function updateRevisions(sqlite, baseComponentId) {
+    //console.log("updateRevisions    ")
+    try {
+
+        dbsearch.serialize(
+            function() {
+                dbsearch.all(
+                    "SELECT  *  from  app_db_latest_ddl_revisions  where  base_component_id = ? ; "
+                    ,
+                    baseComponentId
+                    ,
+
+                    function(err, results)
+                    {
+                        var latestRevision = null
+                        if (results.length > 0) {
+                            latestRevision = results[0].latest_revision
+                        }
+                        var dbPath = path.join(userData, 'app_dbs/' + baseComponentId + '.visi')
+                        var appDb = new sqlite3.Database(dbPath);
+                        //appDb.run("PRAGMA journal_mode=WAL;")
+
+                        appDb.serialize(
+                            function() {
+                              try {
+                                appDb.run("begin exclusive transaction");
+                                var newLatestRev = null
+                                var readIn = false
+                                if (sqlite.migrations) {
+                                  for (var i=0; i < sqlite.migrations.length; i++) {
+                                      var sqlStKey = sqlite.migrations[i].name
+
+                                      for (var j = 0  ;  j < sqlite.migrations[i].up.length  ;  j++ ) {
+                                          if ((latestRevision == null) || readIn) {
+                                              var sqlSt = sqlite.migrations[i].up[j]
+                                              //console.log("sqlSt: = " + sqlSt)
+                                              appDb.run(sqlSt);
+                                              newLatestRev = sqlStKey
+                                          }
+                                          if (latestRevision == sqlStKey) {
+                                              readIn = true
+                                          }
+                                      }
+                                  }
+
+                                }
+
+                                appDb.run("commit");
+                                //appDb.run("PRAGMA wal_checkpoint;")
+
+                                try {
+                                    dbsearch.serialize(function() {
+                                        dbsearch.run("begin exclusive transaction");
+                                        if (results.length == 0) {
+                                            stmtInsertAppDDLRevision.run(baseComponentId, newLatestRev)
+                                        } else {
+                                            if (newLatestRev) {
+                                                stmtUpdateLatestAppDDLRevision.run(newLatestRev,baseComponentId)
+                                            }
+                                        }
+                                        dbsearch.run("commit")
+                                    })
+                                } catch(er) {
+                                    console.log(er)
+                                }
+
+                          } catch(ewq) {
+                                console.log(ewq)
+                          }
+
+                     })
+                 })
+        }
+        ,
+        sqlite3.OPEN_READONLY)
+    } catch (ewr) {
+        console.log(ewr)
+    }
+}
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
+function fastForwardToLatestRevision(sqlite, baseComponentId) {
+    //console.log("fastForwardToLatestRevision    ")
+    try {
+
+        dbsearch.serialize(
+            function() {
+                dbsearch.all(
+                    "SELECT  *  from  app_db_latest_ddl_revisions  where  base_component_id = ? ; "
+                    ,
+                    baseComponentId
+                    ,
+
+                    function(err, results)
+                    {
+                        var latestRevision = null
+                        if (results.length > 0) {
+                            latestRevision = results[0].latest_revision
+                        }
+                        var newLatestRev = null
+                        var readIn = false
+                        for (var i=0; i < sqlite.migrations.length; i+=2) {
+                            var sqlStKey = sqlite.migrations[i].name
+
+                            for (var j = 0  ;  j < sqlite.migrations[i].up.length  ;  j++ ) {
+                                if ((latestRevision == null) || readIn) {
+                                    var sqlSt = sqlite.migrations[i].name
+                                    newLatestRev = sqlStKey
+                                }
+                                if (latestRevision == sqlStKey) {
+                                    readIn = true
+                                }
+                            }
+                        }
+
+                        dbsearch.serialize(function() {
+                            dbsearch.run("begin exclusive transaction");
+                            if (results.length == 0) {
+                                stmtInsertAppDDLRevision.run(baseComponentId, newLatestRev)
+                            } else {
+                                if (newLatestRev) {
+                                    stmtUpdateLatestAppDDLRevision.run(newLatestRev,baseComponentId)
+                                }
+                            }
+                            dbsearch.run("commit")
+                        })
+
+
+                 })
+        }
+        ,
+        sqlite3.OPEN_READONLY)
+    } catch (ewr) {
+        console.log(ewr)
+    }
 }
