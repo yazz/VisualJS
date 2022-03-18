@@ -392,6 +392,7 @@ var executionProcessCount                       = 6;
 
 app.use(compression())
 app.use(sessObj);
+app.use(express.json({ limit: '200mb' }));
 
 
 app.use(keycloak.middleware({
@@ -3132,8 +3133,10 @@ async function startServices() {
 
 
 
-        app.post("/testpost" , function (req, res) {
-            console.log("testpost " )
+        app.post("/save_code" , function (req, res) {
+            console.log("save_code " )
+            //console.log("    " + JSON.stringify(req,null,2) )
+
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end()
         });

@@ -1355,6 +1355,22 @@ load_once_from_file(true)
                                                  }
                     })
 
+                     callAjaxPost("/save_code",
+                     {
+                          base_component_id:      base_component_id,
+                          code_id:                code_id,
+                          code:                   this.editor_text,
+                          options:                {
+                                                      sub_components:         Object.keys(dev_app_component_loaded),
+                                                      save_html:              true,
+                                                      save_code_to_file:      saveCodeToFile
+                                                  }
+                     }
+                     ,
+                     function(){
+                         //alert("post")
+                     })
+
                 if ((saveHelper.getValueOfCodeString(this.editor_text,"only_run_on_server") == true)
                 ||
                     (saveHelper.getValueOfCodeString(this.editor_text,"rest_api"))
@@ -1397,6 +1413,7 @@ load_once_from_file(true)
                     } else {
                          this.editor_text = textIn
                     }
+
 
                    sendToServerViaWebSocket({
                            message_type: "electron_file_save_as"
