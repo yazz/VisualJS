@@ -967,7 +967,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
         //
         //------------------------------------------------------------------------------
         } else if (msg.message_type == "createdTablesInChild") {
-            setUpSql();
+
 
             forkedProcesses["forked"].send({         message_type: "setUpSql" });
             forkedProcesses["forked"].send({         message_type: "greeting" , hello: 'world' });
@@ -995,6 +995,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
                 }
             }
+
 
 
 
@@ -3312,7 +3313,7 @@ async function startServices() {
 
 
 async function finalizeYazzLoading() {
-
+    setUpSql();
     if (!isCodeTtyCode) {
         console.log(`
 888     888 d8b                            888
@@ -3855,6 +3856,7 @@ function findSystemDataDirectoryAndStart() {
 
     dbsearch = new sqlite3.Database(dbPath);
     dbsearch.run("PRAGMA journal_mode=WAL;")
+
 }
 
 async function executeSqliteForApp( args ) {
