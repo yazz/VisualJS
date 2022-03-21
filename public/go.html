@@ -11336,6 +11336,24 @@ var runLine=2;
     //var rt=esprima.parse(thecode,{tolerant: true , loc:true, range: true, attachComment: false})
     //console.log(JSON.stringify(rt,null,2))
 
+let globalStartTimer = new Date().getTime()
+let globalEndTimer = new Date().getTime()
+let globalTimerCounter = 0
+function resetTimer(messageToStart) {
+  console.log("Starting timer for: " + messageToStart)
+  globalStartTimer = new Date().getTime()
+  globalTimerCounter = 0
+}
+
+function showTimer(optionalMessage) {
+  globalEndTimer = new Date().getTime()
+  globalTimerCounter ++
+  let theTimerText = optionalMessage
+  if (!theTimerText) {
+    theTimerText = "" + globalTimerCounter
+  }
+  console.log("    Elapsed time in milliseconds: " + theTimerText + " : "+ (globalEndTimer - globalStartTimer))
+}
 
 </script>
 </body>

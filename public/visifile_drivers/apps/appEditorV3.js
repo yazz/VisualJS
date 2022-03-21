@@ -1326,19 +1326,22 @@ load_once_from_file(true)
            // ---------------------------------------------------------------
            save: async function( base_component_id, code_id , textIn) {
 
+             resetTimer("save")
+
             try {
                 if (textIn == null) {
                      this.editor_text = await this.$refs.editor_component_ref.getText()
                 } else {
                      this.editor_text = textIn
                 }
-
+showTimer()
                 var mm = this
                 if (mm.read_only) {
                      return
                 }
                 showProgressBar()
 
+                showTimer("before save code")
 
 
                  callAjaxPost("/save_code",
@@ -1354,6 +1357,7 @@ load_once_from_file(true)
                  }
                  ,
                  async function(response){
+                   showTimer("in save code response")
 
                    let responseJson = JSON.parse(response)
                    if ((saveHelper.getValueOfCodeString(mm.editor_text,"only_run_on_server") == true)
@@ -1381,6 +1385,7 @@ load_once_from_file(true)
                    hideProgressBar()
                    mm.save_state = "saved"
                    mm.checkSavedFile()
+                   showTimer("done")
                  })
 
 
@@ -1798,7 +1803,7 @@ load_once_from_file(true)
 
                        }
 
-                                 
+
        },
 
 
