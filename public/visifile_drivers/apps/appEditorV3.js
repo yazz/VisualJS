@@ -1330,7 +1330,9 @@ load_once_from_file(true)
 
             try {
                 if (textIn == null) {
+                     showTimer("before getText")
                      this.editor_text = await this.$refs.editor_component_ref.getText()
+                     showTimer("after getText")
                 } else {
                      this.editor_text = textIn
                 }
