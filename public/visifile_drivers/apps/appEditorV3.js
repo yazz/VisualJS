@@ -1353,8 +1353,9 @@ load_once_from_file(true)
                                               }
                  }
                  ,
-                 async function(){
+                 async function(response){
                    debugger
+                   let responseJson = JSON.parse(response)
                    if ((saveHelper.getValueOfCodeString(mm.editor_text,"only_run_on_server") == true)
                    ||
                        (saveHelper.getValueOfCodeString(mm.editor_text,"rest_api"))

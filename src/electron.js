@@ -3159,13 +3159,13 @@ async function startServices() {
           //console.log("          code :" + JSON.stringify(req.body.value.code ,null,2))
           //console.log("          options :" + JSON.stringify(req.body.value.options ,null,2))
             //console.log("    " + JSON.stringify(req,null,2) )
-            await saveCodeV2(  req.body.value.base_component_id,
-                               req.body.value.code_id  ,
-                               req.body.value.code,
-                               req.body.value.options)
+          let saveResult =await saveCodeV2(  req.body.value.base_component_id,
+                                             req.body.value.code_id  ,
+                                             req.body.value.code,
+                                             req.body.value.options)
 //zzz
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-            res.end()
+            res.end(JSON.stringify(saveResult))
         });
 
 
