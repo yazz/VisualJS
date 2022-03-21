@@ -3975,16 +3975,35 @@ function finishInit() {
 
 
 
+let globalStartTimer = new Date().getTime()
+let globalEndTimer = new Date().getTime()
+let globalTimerCounter = 0
+function resetTimer(messageToStart) {
+  console.log("Starting timer for: " + messageToStart)
+  globalStartTimer = new Date().getTime()
+  globalTimerCounter = 0
+}
+
+function showTimer(optionalMessage) {
+  globalEndTimer = new Date().getTime()
+  globalTimerCounter ++
+  let theTimerText = optionalMessage
+  if (!theTimerText) {
+    theTimerText = "" + globalTimerCounter
+  }
+  console.log("    Elapsed time in milliseconds: " + theTimerText + " : "+ (globalEndTimer - globalStartTimer))
+}
 
 
 
 async function saveCodeV2( baseComponentId, parentHash, code , options) {
+
     if (code) {
         code = code.toString()
     }
 
     var promise = new Promise(returnFn => {
-        console.log(`function saveCodeV2( ${baseComponentId}, ${parentHash} ) {`)
+        resetTimer(`*function saveCodeV2( ${baseComponentId}, ${parentHash} ) {`)
         if (!baseComponentId) {
             baseComponentId = uuidv1()
         }
@@ -4008,7 +4027,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
         }
 
 
-        console.log(`2`)
+        showTimer(`2`)
 
 
 
@@ -4022,7 +4041,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
             code = saveHelper.insertCodeString(code, "base_component_id", baseComponentId)
         }
 
-        //console.log("    baseComponentId := " + baseComponentId)
+        //showTimer("    baseComponentId := " + baseComponentId)
 
 
         var creationTimestamp = new Date().getTime()
@@ -4036,7 +4055,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
             code = saveHelper.insertCodeString(code, "created_timestamp", creationTimestamp)
         }
 
-        console.log(`3`)
+        showTimer(`3`)
 
 
         var oncode = "\"app\""
@@ -4067,7 +4086,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
             code = saveHelper.insertCodeString(code, "visibility", newvisibility)
         }
 
-        console.log(`4`)
+        showTimer(`4`)
 
 
         var logoUrl = saveHelper.getValueOfCodeString(code,"logo_url")
@@ -4087,14 +4106,14 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
             }
         }
 
-        console.log(`5`)
+        showTimer(`5`)
 
 
         rowhash.setEncoding('hex');
         rowhash.write(row);
         rowhash.end();
         var sha1sum = rowhash.read();
-        //console.log("Save sha1 for :" + baseComponentId + ": " + sha1sum)
+        //showTimer("Save sha1 for :" + baseComponentId + ": " + sha1sum)
 
         dbsearch.serialize(
             function() {
@@ -4110,7 +4129,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                     ,
                     function(err, rows) {
                         if (!err) {
-                            //console.log("rows.length:   " + rows.length)
+                            //showTimer("rows.length:   " + rows.length)
                             if (rows.length == 0) {
                                 try {
 
@@ -4118,7 +4137,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                     componentOptions = "HIDE_HEADER"
                                 }
 
-                                console.log(`6`)
+                                showTimer(`6`)
 
 
                                 var displayName = saveHelper.getValueOfCodeString(code,"display_name")
@@ -4143,16 +4162,16 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                     properties = JSON.stringify(properties,null,2)
                                 }
                                 if (controlType == "VB") {
-                                  console.log(`7`)
+                                  showTimer(`7`)
 
-                                    //console.log("VB: " + baseComponentId)
+                                    //showTimer("VB: " + baseComponentId)
                                     let properties2 = saveHelper.getValueOfCodeString(code,"properties",")//properties")
                                     stmtDeleteTypesForComponentProperty.run(baseComponentId)
                                     stmtDeleteAcceptTypesForComponentProperty.run(baseComponentId)
                                     if (properties2) {
-                                      console.log(`8`)
+                                      showTimer(`8`)
 
-                                        //console.log("     properties: " + properties2.length)
+                                        //showTimer("     properties: " + properties2.length)
                                         for (let rttte = 0; rttte < properties2.length ; rttte++ ) {
                                             let prop = properties2[rttte]
                                             stmtInsertComponentProperty.run(baseComponentId, prop.id)
@@ -4160,17 +4179,17 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                 let labelKeys = Object.keys(prop.types)
                                                 for (let rttte2 = 0; rttte2 < labelKeys.length ; rttte2++ ) {
                                                     let prop2 = prop.types[labelKeys[rttte2]]
-                                                    //console.log("    " + prop.id + " = " +  JSON.stringify(prop.labels))
+                                                    //showTimer("    " + prop.id + " = " +  JSON.stringify(prop.labels))
                                                     stmtInsertTypesForComponentProperty.run(baseComponentId, prop.id, labelKeys[rttte2],prop2)
 
                                                 }
                                             }
-                                            console.log(`9`)
+                                            showTimer(`9`)
                                             if (prop.accept_types) {
                                                 let labelKeys = Object.keys(prop.accept_types)
                                                 for (let rttte2 = 0; rttte2 < labelKeys.length ; rttte2++ ) {
                                                     let prop2 = prop.accept_types[labelKeys[rttte2]]
-                                                    //console.log("    " + prop.id + " = " +  JSON.stringify(prop.labels))
+                                                    //showTimer("    " + prop.id + " = " +  JSON.stringify(prop.labels))
                                                     stmtInsertAcceptTypesForComponentProperty.run(
                                                             baseComponentId,
                                                             prop.id,
@@ -4190,7 +4209,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                 //
                                 // 1) call this first
                                 //
-                                //console.log("::::" + baseComponentId)
+                                //showTimer("::::" + baseComponentId)
 
 
                                 function getName(text) {
@@ -4210,7 +4229,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                     eventName = fnName
                                     componentType = "method"
                                 }
-                                //console.log("fnName: " + fnName)
+                                //showTimer("fnName: " + fnName)
 
 
                                 //
@@ -4221,13 +4240,13 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                 }
 
 
-                                //console.log("Saving in Sqlite: " + parentHash)
-                                //console.log("Saving in Sqlite: " + code)
+                                //showTimer("Saving in Sqlite: " + parentHash)
+                                //showTimer("Saving in Sqlite: " + code)
                                 let save_code_to_file = null
                                 if (options) {
                                     save_code_to_file = options.save_code_to_file
                                 }
-                                console.log(`10`)
+                                showTimer(`10`)
                                 dbsearch.serialize(async function() {
                                     dbsearch.run("begin exclusive transaction");
                                     stmtInsertNewCode.run(
@@ -4275,10 +4294,10 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                     stmtDeleteDependencies.run(sha1sum)
 
                                     var scriptCode = ""
-                                    console.log(`11`)
+                                    showTimer(`11`)
                                     var jsLibs = saveHelper.getValueOfCodeString(code, "uses_javascript_librararies")
                                     if (jsLibs) {
-                                          //console.log(JSON.stringify(jsLibs,null,2))
+                                          //showTimer(JSON.stringify(jsLibs,null,2))
                                           for (var tt = 0; tt < jsLibs.length ; tt++) {
                                               scriptCode += `libLoaded[ "${jsLibs[tt]}" ] = true;
                                               `
@@ -4309,12 +4328,12 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                      var sqliteCode = ""
                                      if (isValidObject(options)) {
 
-                                        //console.log(JSON.stringify(options,null,2))
+                                        //showTimer(JSON.stringify(options,null,2))
                                         if (options.sub_components) {
-                                            //console.log("Save options: " + options.sub_components.length)
-                                            //console.log(JSON.stringify(options,null,2))
+                                            //showTimer("Save options: " + options.sub_components.length)
+                                            //showTimer(JSON.stringify(options,null,2))
                                             for (var tew = 0; tew < options.sub_components.length ; tew ++) {
-                                                //console.log("Saving " + options.sub_components[tew])
+                                                //showTimer("Saving " + options.sub_components[tew])
                                                 if (isValidObject(baseComponentId)) {
                                                     stmtInsertSubComponent.run(
                                                         baseComponentId,
@@ -4323,7 +4342,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                             }
                                         }
                                      }
-                                     console.log(`12`)
+                                     showTimer(`12`)
 
                                     dbsearch.run("commit", async function() {
 
@@ -4332,7 +4351,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
 
                                     if (isValidObject(options) && options.save_code_to_file) {
-                                        console.log("Saving to file: " + options.save_code_to_file)
+                                        showTimer("Saving to file: " + options.save_code_to_file)
     		                            fs.writeFileSync( options.save_code_to_file,  code.toString() )
                                     }
 
@@ -4340,7 +4359,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
 
                                     if (isValidObject(options) && options.save_html) {
-                                      console.log(`13`)
+                                      showTimer(`13`)
                                         //
                                         // create the static HTML file to link to on the web/intranet
                                         //
@@ -4385,14 +4404,14 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                         finderToCachedCodeMapping["${baseComponentId}"] = "${sha1sum}"`
 
 
-                                        console.log(`14`)
+                                        showTimer(`14`)
 
                                         newCode += `
                                             //newcodehere
                                         `
                                         dbsearch.serialize(
                                             async function() {
-                                              console.log(`15.....1`)
+                                              showTimer(`15.....1`)
 
                                                 var stmt = dbsearch.all(
                                                     `select
@@ -4414,7 +4433,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
                                                 async function(err, results)
                                                 {
-                                                  console.log(`15`)
+                                                  showTimer(`15`)
                                                         for (var i = 0  ;   i < results.length;    i ++ ) {
                                                             var newcodeEs = escape("(" + results[i].code.toString() + ")")
                                                             var newCode2 =  `cachedCode["${results[i].sha1}"] = {
@@ -4436,7 +4455,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                             `
                                                             newCode += newCode2
                                                         }
-                                                        console.log(`15.1`)
+                                                        showTimer(`15.1`)
                                                         newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_STATIC_CODE", newCode)
 
 
@@ -4450,14 +4469,14 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                         //
                                                         var pos = newStaticFileContent.indexOf("//***ADD_SCRIPT")
                                                         newStaticFileContent = newStaticFileContent.slice(0, pos)  + scriptCode + newStaticFileContent.slice( pos)
-                                                        console.log(`15.2`)
+                                                        showTimer(`15.2`)
 
 
                                                         //fs.writeFileSync( path.join(__dirname, '../public/sql2.js'),  sqliteCode )
                                                         fs.writeFileSync( newStaticFilePath,  newStaticFileContent )
 
 
-                                                        console.log(`15.3`)
+                                                        showTimer(`15.3`)
 
                                                         //
                                                         // save the standalone app
@@ -4471,12 +4490,12 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
 
 
-                                                        console.log(`15.4`)
+                                                        showTimer(`15.4`)
 
                                                         var sqliteAppDbPath = path.join( userData, 'app_dbs/' + baseComponentId + '.visi' )
 
                                                         if (fs.existsSync(sqliteAppDbPath)) {
-                                                          console.log(`15.5`)
+                                                          showTimer(`15.5`)
                                                             var sqliteAppDbContent = fs.readFileSync( sqliteAppDbPath , 'base64')
                                                             var indexOfSqliteData = newStaticFileContent.indexOf("var sqlitedata = ''")
 
@@ -4486,28 +4505,28 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                                                             newStaticFileContent.substring(indexOfSqliteData + 19)
 
                                                         }
-                                                        console.log(`15.6`)
+                                                        showTimer(`15.6`)
 
                                                         fs.writeFileSync( newLocalStaticFilePath,  newStaticFileContent )
                                                         fs.writeFileSync( newLocalJSPath,  code )
                                                         fs.writeFileSync( newLocalYazzPath,  code )
-                                                        console.log(`15.7`)
+                                                        showTimer(`15.7`)
 
                                                         })
-                                                        console.log(`15.....2`)
+                                                        showTimer(`15.....2`)
 
                                            }
                                      , sqlite3.OPEN_READONLY)
-                                     console.log(`15.8`)
+                                     showTimer(`15.8`)
                                  }
-                                 console.log(`15.9`)
+                                 showTimer(`15.9`)
 
 
 
 
 
 
-                                 console.log(`16`)
+                                 showTimer(`16`)
 
 
 
@@ -4524,8 +4543,8 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                             //
                                             var sqliteAppDbPathOld = path.join( userData, 'app_dbs/' + options.copy_db_from + '.visi' )
                                             var sqliteAppDbPathNew = path.join( userData, 'app_dbs/' + newBaseid + '.visi' )
-                                            //console.log("sqliteAppDbPathOld: " + sqliteAppDbPathOld)
-                                            //console.log("sqliteAppDbPathNew: " + sqliteAppDbPathNew)
+                                            //showTimer("sqliteAppDbPathOld: " + sqliteAppDbPathOld)
+                                            //showTimer("sqliteAppDbPathNew: " + sqliteAppDbPathNew)
                                             copyFile(sqliteAppDbPathOld,sqliteAppDbPathNew, async function(){
 
                                             });
@@ -4539,8 +4558,8 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                             fastForwardToLatestRevision(sqlite, baseComponentId)
 
                                         } else {
-                                            //console.log('updateRevisions(sqlite, baseComponentId)')
-                                            //console.log('    ' + JSON.stringify(options,null,2))
+                                            //showTimer('updateRevisions(sqlite, baseComponentId)')
+                                            //showTimer('    ' + JSON.stringify(options,null,2))
                                             updateRevisions(sqlite, baseComponentId)
                                         }
 
@@ -4550,7 +4569,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                     //
 
 
-                                    console.log(`ret 8`)
+                                    showTimer(`ret 8`)
 
                                     updateRegistry(options, sha1sum)
                                     returnFn( {
@@ -4586,7 +4605,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                 }
 
                                 updateRegistry(options, sha1sum)
-                                console.log(`ret 9`)
+                                showTimer(`ret 9`)
                                 returnFn( {
                                                 code:               code.toString(),
                                                 code_id:            sha1sum,
@@ -4599,7 +4618,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                     })
         }, sqlite3.OPEN_READONLY)
         })
-      console.log(`ret prom`)
+      showTimer(`ret prom`)
 
     var ret = await promise;
     return ret
