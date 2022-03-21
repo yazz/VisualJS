@@ -1381,7 +1381,8 @@ showTimer()
                    }
                    if (!mm.is_server_app) {
                        if (mm.app_shown) {
-                           await mm.load_appV2( mm.base_component_id , responseJson.code, responseJson.code_id, mm.editors2)
+                           //await mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
+                           mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
                        }
                    }
                    hideProgressBar()

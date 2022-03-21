@@ -4573,7 +4573,6 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
                                     updateRegistry(options, sha1sum)
                                     returnFn( {
-                                                    code:               code.toString(),
                                                     code_id:            sha1sum,
                                                     base_component_id:  baseComponentId
                                                     })
@@ -4607,7 +4606,6 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                 updateRegistry(options, sha1sum)
                                 showTimer(`ret 9`)
                                 returnFn( {
-                                                code:               code.toString(),
                                                 code_id:            sha1sum,
                                                 base_component_id:  baseComponentId
                                                 })
