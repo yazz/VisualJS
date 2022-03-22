@@ -1,6 +1,5 @@
 
-# Yazz
-## Build Web3 dapps visually
+# Yazz - Build Web3 dapps visually
 
 
 
