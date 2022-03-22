@@ -1,15 +1,7 @@
 #!/usr/bin/env node
 
-
-const electron = null
-let electronApp = null
-
 let Menu = null
 let dialog = null
-if (electron) {
-    Menu = electron.Menu
-    dialog = electron.dialog
-}
 let getFileFromUser = null
 
 let visifile = null
@@ -66,7 +58,6 @@ var stmtInsertComponentProperty;
 var stmtInsertAcceptTypesForComponentProperty;
 
 var expressWs       = require2('express-ws')(app);
-outputDebug("Electron version: " + process.versions.electron);
 outputDebug("__filename: " + __filename)
 outputDebug("__dirname: " + __dirname)
 
@@ -148,9 +139,6 @@ if (!isValidObject(LOCAL_HOME) || (LOCAL_HOME == "/")) {
 }
 
 function require2(npath) {
-    if (electronApp){
-        return require(npath)
-    }
     return require(path.join(".",npath))
 }
 
@@ -173,11 +161,7 @@ var saveHelper      = require('./save_helpers')
 let sqlNodePath = path.join(nodeModulesPath,'node_modules/sqlite3')
 //console.log("sqlNodePath: " + sqlNodePath)
 var sqlite3                     = null
-if (electronApp){
-    sqlite3                     = require("sqlite3");
-} else {
-    sqlite3                     = require(sqlNodePath);
-}
+sqlite3                     = require(sqlNodePath);
 
 
 var os              = require2('os')
@@ -600,10 +584,6 @@ if (useHost) {
 port = program.port;
 outputDebug("port: " + port)
 var runapp = program.runapp
-if ( electronApp ) {
-    runapp = "homepage"
-};
-
 var runhtml = program.runhtml;
 var loadjsurl = program.loadjsurl;
 var loadjsfile = program.loadjsfile;
@@ -1062,7 +1042,6 @@ function setUpChildListeners(processName, fileName, debugPort) {
     //
     //------------------------------------------------------------------------------
       } else if (msg.message_type == "return_response_to_function_caller") {
-          //console.log("*) Electron.js    got response for " + msg.child_process_name);
           //console.log("*) "+ msg.result)
           if (msg.child_process_name) {
               forkedProcesses[msg.child_process_name].send({
@@ -1136,13 +1115,6 @@ function setUpChildListeners(processName, fileName, debugPort) {
 //------------------------------------------------------------------------------
 function setupForkedProcess(  processName,  fileName,  debugPort  ) {
     var debugArgs = [];
-    let useElectron = ""
-    if (electronApp) {
-        useElectron = "TRUE"
-        console.log("***** Run all in electron, useElectron = TRUE")
-    } else {
-        console.log("***** NOT run in electron, useElectron = ")
-    }
     if (debug) {
         if (semver.gte(process.versions.node, '6.9.0')) {
             //debugArgs = ['--inspect=' + debugPort];
@@ -1161,7 +1133,7 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
     }
     console.log("forkedProcessPath: " + forkedProcessPath)
     forkedProcesses[  processName  ] = fork.fork(forkedProcessPath, [], {execArgv: debugArgs,
-    env: {electron: useElectron }});
+    env: {}});
 
 
 
@@ -2390,68 +2362,6 @@ function websocketFn(ws) {
 
 
 
-            //------------------------------------------------------------------------------
-            //
-            //
-            //
-            //
-            //
-            //------------------------------------------------------------------------------
-            } else if (receivedMessage.message_type == "electron_file_save_as") {
-                let saveOptions = {
-
-                 title: "Save .vjs file"
-                 ,
-                 buttonLabel : "Save As"
-                 ,
-                 filters :[
-                  {name: 'Visual Javascript', extensions: ['vjs']},
-                  {name: 'Javascript', extensions: ['js']},
-                  {name: 'All Files', extensions: ['*']}
-                 ]
-
-                }
-
-
-
-                dialog.showSaveDialog(null, saveOptions).then(result => {
-                    let filePath = result.filePath
-                    console.log("Save to: " + JSON.stringify(result,null,2))
-
-                    sendOverWebSockets({
-                                          type:               "set_saveCodeToFile_V2",
-                                          saveCodeToFile:      filePath,
-                                          base_component_id:   receivedMessage.base_component_id,
-                                          code_id:             receivedMessage.code_id,
-                                          code:                receivedMessage.code
-                                        });
-
-
-                    setTimeout(function() {
-                        let sd= uuidv1()
-                        sendOverWebSockets({
-                                              type:               "set_file_upload_uuid",
-                                              file_upload_uuid:   sd
-                                              });
-                        sendOverWebSockets({
-                                              type:               "set_saveCodeToFile",
-                                              saveCodeToFile:      filePath
-                                            });
-
-                        saveCodeToFile = filePath
-
-
-
-                        loadAppFromFile( filePath,
-                                         sd)
-
-                    },1000)
-
-
-               })
-
-
-
 
 
 
@@ -2527,7 +2437,6 @@ function websocketFn(ws) {
             queuedResponses[ seqNum ] = ws;
 
 
-            //console.log(" .......1 Electron callDriverMethod: " + JSON.stringify(receivedMessage,null,2));
             if (receivedMessage.find_component && receivedMessage.find_component.driver_name == "systemFunctionAppSql") {
 
                 let resultOfSql = await executeSqliteForApp(  receivedMessage.args  )
@@ -3059,13 +2968,6 @@ async function startServices() {
             res.end("Done");
         });
 
-        app.get('/electron_file_open', async function (req, res, next) {
-            console.log('/electron_file_open')
-            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-            res.end("Done");
-            await getFileFromUser()
-
-        });
 
 
 
@@ -3218,9 +3120,7 @@ console.log("\nAppShare started on:");
 console.log("Network Host Address: " + hostaddressintranet)
 let localAddress = serverProtocol + "://" + hostaddress + ':' + port
 console.log("Local Machine Address: " + localAddress);
-if (electronApp) {
-    visifile.loadURL(localAddress)
-}
+
 
 } else {
 
