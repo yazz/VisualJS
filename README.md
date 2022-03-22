@@ -2,8 +2,6 @@
 # Yazz
 ## Build Web3 dapps visually
 
-<img width="350" alt="portfolio_view" src="https://raw.githubusercontent.com/yazz/visualjavascript/master/public/driver_icons/visualjavascript.jpg"></img>
-
 
 
 
@@ -13,14 +11,14 @@ https://yazz.com/visifile/docs/book/main.html
 
 
 
-## PDF of last physical magazine (March 2020)
+## PDF of last physical magazine (March 2020 when the product was called Visual Javascript)
 https://yazz.com/visifile/docs/yazz_march_2020.pdf
 <br/><br/><br/>
 
 
 
 
-## What is Visual Javascript?
+## What is Yazz?
 Visual Javascript is a tool for building webapps on your intranet. It runs on PC/Mac (desktop application or NodeJS), Linux/Windows (via NodeJS), or as a container (Docker, Kubernetes). To develop an app:
 
 - Start Visual Javascript
