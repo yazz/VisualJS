@@ -1,11 +1,8 @@
 #!/usr/bin/env node
 
 
-const electron = require('electron')
+const electron = null
 let electronApp = null
-if (electron) {
-     electronApp = electron.app
-}
 
 let Menu = null
 let dialog = null
@@ -13,7 +10,6 @@ if (electron) {
     Menu = electron.Menu
     dialog = electron.dialog
 }
-const BrowserWindow = electron.BrowserWindow
 let getFileFromUser = null
 
 let visifile = null
@@ -593,9 +589,6 @@ if (isValidObject(envVars.virtualprocessors)) {
 }
 
 envVars.IP_ADDRESS = ip.address()
-if (electron.app) {
-    envVars.RUNNING_IN_ELECTRON = true
-}
 
 let jaegerConfig = null
 var jaegercollector = program.jaegercollector;
@@ -3565,208 +3558,7 @@ function readCerts() {
 
 
 setupVisifileParams();
-if (electronApp) {
-
-    electronApp.on('ready', async function() {
-
-        visifile = new BrowserWindow({
-                                    width: 800,
-                                    height: 600,
-                                    webPreferences: {
-                                        nodeIntegration: false,
-                                        enableRemoteModule: true
-
-                                    }
-                                })
-        visifile.maximize()
-
-        visifile.loadURL(url.format({
-            pathname: path.join(__dirname, 'loading.html'),
-            protocol: 'file:',
-            slashes: true
-          }))
-
-        outputToBrowser("Loading Yazz Visual Javascript ... ")
-
-        if (isWin) {
-            var localappdata  = process.env.LOCALAPPDATA
-            userData = path.join(localappdata, '/Visifile/')
-        } else {
-            userData = electronApp.getPath('userData')
-            console.log("read userData : " + userData)
-        }
-
-
-        getFileFromUser = (async function() {
-            dialog.showOpenDialog(visifile, {
-              properties: ['openFile', 'openDirectory']
-            }).then(result => {
-              console.log(result.canceled)
-              console.log(result.filePaths)
-              if (result.canceled) {
-                  return
-              }
-
-              console.log("********** load file........... ")
-              let sd= uuidv1()
-              sendOverWebSockets({
-                                    type:               "set_file_upload_uuid",
-                                    file_upload_uuid:   sd
-                                    });
-              sendOverWebSockets({
-                                    type:               "set_saveCodeToFile",
-                                    saveCodeToFile:   result.filePaths[0]
-                                  });
-
-              saveCodeToFile = result.filePaths[0]
-
-
-
-              loadAppFromFile( result.filePaths[0],
-                               sd)
-              /*fs.readFile(result.filePaths[0], 'utf-8', (err, data) => {
-                            if(err){
-                                alert("An error ocurred reading the file :" + err.message);
-                                return;
-                            }
-
-                            // Change how to handle the file content
-                            console.log("The file content is : " + data);
-                        });*/
-
-
-            }).catch(err => {
-              console.log(err)
-            })
-
-
-
-        })
-
-
-
-
-
-
-        findSystemDataDirectoryAndStart()
-        finishInit()
-
-
-        const template = [
-          // { role: 'appMenu' }
-          ...(isMac ? [{
-            label: app.name,
-            submenu: [
-              { role: 'about' },
-              { type: 'separator' },
-              { role: 'services' },
-              { type: 'separator' },
-              { role: 'hide' },
-              { role: 'hideothers' },
-              { role: 'unhide' },
-              { type: 'separator' },
-              { role: 'quit' }
-            ]
-          }] : []),
-          // { role: 'fileMenu' }
-          {
-            label: 'File',
-            submenu: [
-              isMac ? { role: 'close' } : { role: 'quit' }
-            ]
-          },
-          // { role: 'editMenu' }
-          {
-            label: 'Edit',
-            submenu: [
-              { role: 'undo' },
-              { role: 'redo' },
-              { type: 'separator' },
-              { role: 'cut' },
-              { role: 'copy' },
-              { role: 'paste' },
-              ...(isMac ? [
-                { role: 'pasteAndMatchStyle' },
-                { role: 'delete' },
-                { role: 'selectAll' },
-                { type: 'separator' },
-                {
-                  label: 'Speech',
-                  submenu: [
-                    { role: 'startSpeaking' },
-                    { role: 'stopSpeaking' }
-                  ]
-                }
-              ] : [
-                { role: 'delete' },
-                { type: 'separator' },
-                { role: 'selectAll' }
-              ])
-            ]
-          },
-          // { role: 'viewMenu' }
-          {
-            label: 'View',
-            submenu: [
-              { role: 'reload' },
-              { role: 'forceReload' },
-              { role: 'toggleDevTools' },
-              { type: 'separator' },
-              { role: 'resetZoom' },
-              { role: 'zoomIn' },
-              { role: 'zoomOut' },
-              { type: 'separator' },
-              { role: 'togglefullscreen' }
-            ]
-          },
-          // { role: 'windowMenu' }
-          {
-            label: 'Window',
-            submenu: [
-              { role: 'minimize' },
-              { role: 'zoom' },
-              ...(isMac ? [
-                { type: 'separator' },
-                { role: 'front' },
-                { type: 'separator' },
-                { role: 'window' }
-              ] : [
-                { role: 'close' }
-              ])
-            ]
-          },
-          {
-            role: 'help',
-            submenu: [
-              {
-                  label: 'Docs',
-                  click: async () => {
-                    const { shell } = require('electron')
-                    await shell.openExternal('https://yazz.com/visifile/docs/yazz_march_2020.pdf')
-                }
-            },
-            {
-
-
-
-                label: 'Learn More',
-                click: async () => {
-                  const { shell } = require('electron')
-                  await shell.openExternal('https://yazz.com/visifile/mac_app.html')
-                }
-              }
-            ]
-          }
-        ]
-
-        const menu = Menu.buildFromTemplate(template)
-        Menu.setApplicationMenu(menu)
-    })
-
-
-
-// if not an electron app
-} else {
+{
     outputDebug("process.platform = " + process.platform)
 
 
@@ -3945,7 +3737,7 @@ function finishInit() {
     //
     //
     //------------------------------------------------------------------------------
-    if (!electron) {
+
         if (statsInterval > 0) {
             setInterval(function(){
                 if (!inmemcalc) {
@@ -3968,7 +3760,7 @@ function finishInit() {
                 }
             },(statsInterval * 1000))
         }
-    }
+
 
 
 }

@@ -6,12 +6,10 @@
   "private": true,
   "scripts": {
     "start": "node src/electron.js",
-    "build": "electron-packager  .  --ignore=node_modules/electron-*  --overwrite  --icon=icon.icns",
     "version": "echo $npm_package_version"
   },
   "main": "src/electron.js",
   "bin": {
-    "vjs": "./src/electron.js"
   },
   "dependencies": {
     "@yazz/noaccess": "^2.0.0",
@@ -22,7 +20,6 @@
     "cors": "^2.8.5",
     "diskspace": "^2.0.0",
     "dockerode": "^3.2.1",
-    "electron": "^16.0.6",
     "escodegen": "^2.0.0",
     "esprima": "^4.0.1",
     "estraverse": "^5.2.0",
@@ -68,21 +65,6 @@
     "xlsx": "^0.16.9",
     "xml2js": "^0.4.22"
   },
-  "pkg": {
-    "scripts": "src/electron.js",
-    "assets": [
-      "src/**/**/**/**/*",
-      "public/**/**/**/**/*",
-      "node_modules/**/**/**/**/**/**/**/*",
-      "package.json",
-      "node_sqlite3_macos64.rename",
-      "node_sqlite3_win64.rename",
-      "node_sqlite3_linux64.rename"
-    ]
-  },
   "devDependencies": {
-    "asar": "^3.0.3",
-    "electron-packager": "^15.4.0",
-    "electron-rebuild": "^3.2.6"
   }
 }
