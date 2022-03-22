@@ -155,141 +155,6 @@ function require2(npath) {
 }
 
 
-try {
-
-    if (isDocker()) {
-
-    } else if (electronApp){
-        console.log("Running in Electron")
-
-        let srcElectronDriver = path.join(nodeModulesPath,'node_modules/sqlite3/lib/binding/electron-v11.3-darwin-x64/node_sqlite3.node')
-
-        let destElectronPath = path.join(nodeModulesPath, 'node_modules/sqlite3/lib/binding/electron-v12.0-darwin-x64/')
-        let destElectronDriver = path.join(nodeModulesPath, 'node_modules/sqlite3/lib/binding/electron-v12.0-darwin-x64/node_sqlite3.node')
-        //mkdirp.sync(    destElectronPath   );
-        //copyFileSync( srcElectronDriver , destElectronDriver   );
-
-        destElectronPath = path.join(nodeModulesPath, 'node_modules/sqlite3/lib/binding/electron-v12.0-darwin-x64/')
-        destElectronDriver = path.join(nodeModulesPath, 'node_modules/sqlite3/lib/binding/electron-v12.0-darwin-x64/node_sqlite3.node')
-        //mkdirp.sync(    destElectronPath   );
-        //copyFileSync( srcElectronDriver , destElectronDriver   );
-
-
-
-
-    } else if (process.env["KUBERNETES_SERVICE_HOST"]) {
-
-
-
-    } else if (isWin)  {
-        let pathWindows = path.join(nodeModulesPath,'node_modules\\sqlite3\\lib\\binding\\node-v64-win32-x64\\node_sqlite3.node')
-        let srcNodeJsFile = path.join(__dirname,'../node_sqlite3_win64.rename')
-        try {
-            fs.accessSync(srcNodeJsFile, fs.constants.R_OK | fs.constants.W_OK);
-            //console.log('can read/write ' + srcNodeJsFile);
-
-            fs.accessSync(pathWindows, fs.constants.R_OK | fs.constants.W_OK);
-        } catch (err) {
-
-            console.log("Setting up Visual Javascript to run for the first time. Please wait a few minutes...")
-            outputDebug('no access to ' + pathWindows + '!');
-            outputDebug("Creating Windows driver")
-            let curSource= path.join(__dirname,'..\\node_modules\\')
-            let targetFolder= path.join(nodeModulesPath,'')
-            if (curSource != targetFolder) {
-                let destNodeJsFile = path.join(nodeModulesPath,'node_modules\\sqlite3\\lib/binding\\node-v64-win32-x64\\node_sqlite3.node')
-                let destNodeJsFolder = path.join(nodeModulesPath,'node_modules\\sqlite3\\lib/binding\\node-v64-win32-x64\\')
-                //console.log("srcNodeJsFile: " + srcNodeJsFile)
-                //console.log("destNodeJsFile: " + destNodeJsFile)
-                //console.log("curSource: " + curSource)
-                //console.log("targetFolder: " + targetFolder)
-                //console.log("destNodeJsFolder: " + destNodeJsFolder)
-
-                mkdirp.sync(targetFolder);
-                copyFolderRecursiveSync( curSource, targetFolder );
-                mkdirp.sync(destNodeJsFolder);
-                copyFileSync(  srcNodeJsFile,  destNodeJsFile  );
-
-            }
-        }
-
-
-
-
-    } else if (isMac) {
-        let pathMac = path.join(nodeModulesPath,'node_modules/sqlite3/lib/binding/node-v64-darwin-x64/node_sqlite3.node')
-        let srcNodeJsFile = path.join(__dirname,'../node_sqlite3_macos64.rename')
-        try {
-          fs.accessSync(srcNodeJsFile, fs.constants.R_OK | fs.constants.W_OK);
-          //console.log('can read/write ' + srcNodeJsFile);
-
-          fs.accessSync(pathMac, fs.constants.R_OK | fs.constants.W_OK);
-          outputDebug('can read/write ' + pathMac);
-        } catch (err) {
-          console.log("Setting up Visual Javascript to run for the first time. Please wait a few minutes...")
-          outputDebug('no access to ' + pathMac + '!');
-          outputDebug("Creating Mac driver")
-          let curSource= path.join(__dirname,'../node_modules/')
-          let targetFolder= path.join(nodeModulesPath,'')
-          //console.log("curSource: " + curSource)
-          //console.log("targetFolder: " + targetFolder)
-          if (curSource != targetFolder) {
-              //mkdirp.sync(path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-darwin-x64'));
-              var destNodeJsFile = path.join(nodeModulesPath,'node_modules/sqlite3/lib/binding/node-v64-darwin-x64/node_sqlite3.node')
-              //console.log("srcNodeJsFile: " + srcNodeJsFile)
-              //console.log("destNodeJsFile: " + destNodeJsFile)
-
-              mkdirp.sync(targetFolder);
-              copyFolderRecursiveSync( curSource, targetFolder );
-              copyFileSync(  srcNodeJsFile,  destNodeJsFile  );
-          }
-
-        }
-
-    // otherwise assume that this is linux 64 bit
-    } else {
-        let pathLinux = path.join(nodeModulesPath,'node_modules/sqlite3/lib/binding/node-v64-linux-x64/node_sqlite3.node')
-        let srcNodeJsFile = path.join(__dirname,'../node_sqlite3_linux64.rename')
-        try {
-          fs.accessSync(srcNodeJsFile, fs.constants.R_OK | fs.constants.W_OK);
-          //console.log('can read/write ' + srcNodeJsFile);
-
-          fs.accessSync(pathLinux, fs.constants.R_OK | fs.constants.W_OK);
-          outputDebug('can read/write ' + pathLinux);
-        } catch (err) {
-          console.log("Setting up Visual Javascript to run for the first time. Please wait a few minutes...")
-          outputDebug('no access to ' + pathLinux + '!');
-          outputDebug("Creating Linux driver")
-          let curSource= path.join(__dirname,'../node_modules/')
-          let targetFolder= path.join(nodeModulesPath,'')
-          //console.log("curSource: " + curSource)
-          //console.log("targetFolder: " + targetFolder)
-          if (curSource != targetFolder) {
-              //mkdirp.sync(path.join(__dirname,'../node_modules/sqlite3/lib/binding/node-v64-darwin-x64'));
-              var destNodeJsFile = path.join(nodeModulesPath,'node_modules/sqlite3/lib/binding/node-v64-linux-x64/node_sqlite3.node')
-              //console.log("srcNodeJsFile: " + srcNodeJsFile)
-              //console.log("destNodeJsFile: " + destNodeJsFile)
-
-              mkdirp.sync(targetFolder);
-              copyFolderRecursiveSync( curSource, targetFolder );
-              copyFileSync(  srcNodeJsFile,  destNodeJsFile  );
-          }
-
-
-        }
-
-
-
-
-
-    }
-
-} catch(err){
-    console.log(err)
-}
-
-
-
 
 var request         = require2("request");
 var perf            = require('./perf')
@@ -3309,38 +3174,41 @@ async function finalizeYazzLoading() {
     setUpSql();
     if (!isCodeTtyCode) {
         console.log(`
-888     888 d8b                            888
-888     888 Y8P                            888
-888     888                                888
-Y88b   d88P 888 .d8888b  888  888  8888b.  888
- Y88b d88P  888 88K      888  888     "88b 888
-  Y88o88P   888 "Y8888b. 888  888 .d888888 888
-   Y888P    888      X88 Y88b 888 888  888 888
-    Y8P     888  88888P'  "Y88888 "Y888888 888
-
-  888888                                                      d8b          888
-    "88b                                                      Y8P          888
-     888                                                                   888
-     888  8888b.  888  888  8888b.  .d8888b   .d8888b 888d888 888 88888b.  888888
-     888     "88b 888  888     "88b 88K      d88P"    888P"   888 888 "88b 888
-     888 .d888888 Y88  88P .d888888 "Y8888b. 888      888     888 888  888 888
-     88P 888  888  Y8bd8P  888  888      X88 Y88b.    888     888 888 d88P Y88b.
-     888 "Y888888   Y88P   "Y888888  88888P'  "Y8888P 888     888 88888P"   "Y888
-   .d88P                                                          888
- .d88P"                                                           888
-888P"                                                             888
-
- .d8888b.   .d8888b.   .d8888b.   d888
-d88P  Y88b d88P  Y88b d88P  Y88b d8888
-       888 888    888        888   888
-     .d88P 888    888      .d88P   888
- .od888P"  888    888  .od888P"    888
-d88P"      888    888 d88P"        888
-888"       Y88b  d88P 888"         888
-888888888   "Y8888P"  888888888  8888888
+          YYYYYYY       YYYYYYY
+          Y:::::Y       Y:::::Y
+          Y:::::Y       Y:::::Y
+          Y::::::Y     Y::::::Y
+          YYY:::::Y   Y:::::YYYaaaaaaaaaaaaa   zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
+             Y:::::Y Y:::::Y   a::::::::::::a  z:::::::::::::::zz:::::::::::::::z
+              Y:::::Y:::::Y    aaaaaaaaa:::::a z::::::::::::::z z::::::::::::::z
+               Y:::::::::Y              a::::a zzzzzzzz::::::z  zzzzzzzz::::::z
+                Y:::::::Y        aaaaaaa:::::a       z::::::z         z::::::z
+                 Y:::::Y       aa::::::::::::a      z::::::z         z::::::z
+                 Y:::::Y      a::::aaaa::::::a     z::::::z         z::::::z
+                 Y:::::Y     a::::a    a:::::a    z::::::z         z::::::z
+                 Y:::::Y     a::::a    a:::::a   z::::::zzzzzzzz  z::::::zzzzzzzz
+              YYYY:::::YYYY  a:::::aaaa::::::a  z::::::::::::::z z::::::::::::::z
+              Y:::::::::::Y   a::::::::::aa:::az:::::::::::::::zz:::::::::::::::z
+              YYYYYYYYYYYYY    aaaaaaaaaa  aaaazzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
 
 
 
+           222222222222222         000000000      222222222222222     222222222222222
+          2:::::::::::::::22     00:::::::::00   2:::::::::::::::22  2:::::::::::::::22
+          2::::::222222:::::2  00:::::::::::::00 2::::::222222:::::2 2::::::222222:::::2
+          2222222     2:::::2 0:::::::000:::::::02222222     2:::::2 2222222     2:::::2
+                      2:::::2 0::::::0   0::::::0            2:::::2             2:::::2
+                      2:::::2 0:::::0     0:::::0            2:::::2             2:::::2
+                   2222::::2  0:::::0     0:::::0         2222::::2           2222::::2
+              22222::::::22   0:::::0 000 0:::::0    22222::::::22       22222::::::22
+            22::::::::222     0:::::0 000 0:::::0  22::::::::222       22::::::::222
+           2:::::22222        0:::::0     0:::::0 2:::::22222         2:::::22222
+          2:::::2             0:::::0     0:::::02:::::2             2:::::2
+          2:::::2             0::::::0   0::::::02:::::2             2:::::2
+          2:::::2       2222220:::::::000:::::::02:::::2       2222222:::::2       222222
+          2::::::2222222:::::2 00:::::::::::::00 2::::::2222222:::::22::::::2222222:::::2
+          2::::::::::::::::::2   00:::::::::00   2::::::::::::::::::22::::::::::::::::::2
+          22222222222222222222     000000000     2222222222222222222222222222222222222222
 
 `)
 
