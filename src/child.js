@@ -5,11 +5,6 @@ var postgresdb                  = require('pg');
 var mysql                       = require('mysql');
 const uuidv1                    = require('uuid/v1');
 var crypto                      = require('crypto');
-console.log("c***: " + process.env.electron)
-let electronApp = false
-if (process.env.electron && (process.env.electron == "TRUE")) {
-    electronApp = true
-}
 
 
 let nodeModulesPath = process.cwd()
@@ -24,12 +19,7 @@ if (process.execPath) {
 
 let sqlNodePath = path.join(nodeModulesPath,'node_modules/sqlite3')
 //console.log("sqlNodePath: " + sqlNodePath)
-var sqlite3                     = null
-if (electronApp){
-    sqlite3                     = require("sqlite3");
-} else {
-    sqlite3                     = require(sqlNodePath);
-}
+var sqlite3                     = require(sqlNodePath);
 var os                          = require('os')
 var perf                        = require('./perf')
 var db_helper                   = require("./db_helper")
@@ -441,7 +431,6 @@ function processMessagesFromMainProcess() {
 
         outputDebug("**** createTables");
 
-        db_helper.setElectron(electronApp)
         db_helper.createTables(dbsearch,
             function() {
                 outputDebug("");

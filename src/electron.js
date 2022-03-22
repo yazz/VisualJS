@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-let Menu = null
-let dialog = null
 let getFileFromUser = null
 
 let visifile = null

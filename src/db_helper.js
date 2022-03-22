@@ -1,9 +1,6 @@
 var async           = require('async');
 var path                        = require('path');
 
-let electronApp = false
-
-
 let nodeModulesPath = process.cwd()
 if (process.execPath) {
     let vjsPos = process.execPath.indexOf("vjs")
@@ -18,21 +15,11 @@ if (process.execPath) {
 
 let sqlNodePath = path.join(nodeModulesPath,'node_modules/sqlite3')
 //console.log("sqlNodePath: " + sqlNodePath)
-var sqlite3                     = null
+var sqlite3                  = require(sqlNodePath);
 
 
 
 module.exports = {
-    setElectron: function(elVal) {
-        electronApp = elVal
-        if (electronApp){
-            sqlite3                     = require("sqlite3");
-        } else {
-            sqlite3                     = require(sqlNodePath);
-        }
-        console.log("d***: " + electronApp)
-    }
-    ,
     createTables: function(dbsearch, callbackFn) {
     //console.log("--------------- createTables: function(dbsearch, callbackFn) {");
     async.map([
