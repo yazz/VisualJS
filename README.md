@@ -95,42 +95,11 @@ Browse to http://0.0.0.0:80 to open Yazz
 ### Docker
 Make sure that you have Docker installed. Then:
 
-<pre style="display:inline;">&gt; docker  run  -p 80:80  yazzcom/yazz:2022
+<pre style="display:inline;">&gt; docker  run  -p 80:80  yazzcom/yazz:march2022
 </pre>
 
 Browse to http://0.0.0.0:80 to open Yazz
 <br/><br/>
-
-
-### Windows
-Download **https://yazz.com/visifile/bin/vjs.exe** and then run:
-
-<pre style="display:inline;">
-&gt; vjs.exe
-</pre>
-Browse to http://0.0.0.0:80 to open Yazz
-<br/><br/>
-
-
-### Mac
-Run:
-<pre style="display:inline;">&gt; curl https://yazz.com/visifile/bin/mac/vjs -o ./vjs
-&gt; chmod +x ./vjs
-&gt; ./vjs
-</pre>
-
-Browse to http://0.0.0.0:80 to open Yazz
-<br/><br/>
-
-
-### Linux
-Run:
-<pre style="display:inline;">&gt; wget https://yazz.com/visifile/bin/vjs
-&gt; chmod +x ./vjs
-&gt; ./vjs
-</pre>
-Browse to http://0.0.0.0:80 to open Yazz
-<br/><br/><br/>
 
 
 
@@ -141,7 +110,7 @@ Browse to http://0.0.0.0:80 to open Yazz
 - Demo which works on desktop web browsers here: https://yazz.com/app/homepage.html
 - Link to PDF docs: https://yazz.com/visifile/docs/yazz_march_2020.pdf
 - Link to Hacker News Post (when it was known as Yazz Pilot): https://news.ycombinator.com/item?id=21734845
-- Link to Kubernetes Operator https://github.com/leskil/appshare-operator
+- Link to Kubernetes Operator (Previous name was AppShare) https://github.com/leskil/appshare-operator
 <br/><br/><br/>
 
 
