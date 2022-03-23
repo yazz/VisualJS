@@ -16,9 +16,9 @@ https://yazz.com/visifile/docs/yazz_march_2020.pdf
 
 
 ## What is Yazz?
-Yazz is a tool for building Web3 dapps visually. It runs on the web, on PC/Mac (desktop application or NodeJS), Linux/Windows (via NodeJS), or as a container (Docker, Kubernetes). To develop an app:
+Yazz is a tool for building Web3 dapps visually. It runs on the web, on PC/Mac/Linux (desktop application or NodeJS) or as a container (Docker, Kubernetes). To develop an app:
 
-- Start Yazz
+- Start Yazz web server
 - Create an app in your web browser
 - Share the app with others by sending them the app URL
 
@@ -31,7 +31,9 @@ Yazz is perfect for prototyping dapps. Some demo apps can be found at https://ya
 
 
 ## Benefits
-- **Easy to use:** Drag and drop interface (like Visual Basic, except it uses Javascript instead of Basic for scripting)
+- **Easy to use:** Easy to use drag and drop visual interface  (like Visual Basic)
+- **Supports multiple web wallets:** Currently supports Metamask
+- **Standard scripting language:** Uses Javascript 
 - **Permissive license:** Open source MIT license so you can do whatever you want with it
 - **Easy to distribute apps:** Apps can be exported to a single HTML file and sent by email (even SQLite database apps)
 - **Works almost anywhere:** Windows, Linux, Mac, Raspberry PI, NodeJS, Docker, Kubernetes, OpenShift, Istio
@@ -75,16 +77,12 @@ Yazz is perfect for prototyping dapps. Some demo apps can be found at https://ya
 
 ## Quick Install Guide
 
-### Mac App Store
-https://apps.apple.com/gb/app/visual-javascript/id1551448939?mt=12
-<br/><br/>
-
 
 ### NodeJS
 Assuming that you have NodeJS, NPM, and Git installed, enter the following commands at the command line:
-<pre style="display:inline;">&gt; git clone https://github.com/yazz/visualjavascript.git
+<pre style="display:inline;">&gt; git clone https://github.com/yazz/yazz.git
 
-&gt; cd visualjavascript
+&gt; cd yazz
 
 &gt; npm install
 
