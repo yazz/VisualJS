@@ -13,7 +13,7 @@ formEditor({
   "active_form": "Form_1",
   "default_form": "Form_1",
   "app_selected": false,
-  "id": "vb_blank",
+  "id": "yazz_blank",
   "next_component_id": 114,
   "app_properties": [
     {
@@ -67,7 +67,7 @@ sub_components([
   "horiz_scroll_control",
   "vert_scroll_control"
 ])
-base_component_id("vb_blank")
+base_component_id("yazz_blank")
 visibility("PRIVATE")
 display_name("GUI App")
 editors([
@@ -94,7 +94,7 @@ logo_url("/driver_icons/blocks.png")
                 var texti = null
                 var designMode = false
                 var runtimeMode = true
-                Vue.component('vb_blank', {
+                Vue.component('yazz_blank', {
       props: [ "args"],
       template:
 `<div   v-bind:id='uid2'
@@ -4739,7 +4739,7 @@ return {}
   "active_form": "Form_1",
   "default_form": "Form_1",
   "app_selected": false,
-  "id": "vb_blank",
+  "id": "yazz_blank",
   "next_component_id": 114,
   "app_properties": [
     {
