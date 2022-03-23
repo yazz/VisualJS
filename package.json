@@ -9,8 +9,7 @@
     "version": "echo $npm_package_version"
   },
   "main": "src/electron.js",
-  "bin": {
-  },
+  "bin": {},
   "dependencies": {
     "@yazz/noaccess": "^2.0.0",
     "async": "^3.2.0",
@@ -19,7 +18,7 @@
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "diskspace": "^2.0.0",
-    "dockerode": "^3.2.1",
+    "dockerode": "^3.3.1",
     "escodegen": "^2.0.0",
     "esprima": "^4.0.1",
     "estraverse": "^5.2.0",
@@ -64,7 +63,5 @@
     "web3": "^1.6.1",
     "xlsx": "^0.16.9",
     "xml2js": "^0.4.22"
-  },
-  "devDependencies": {
   }
 }
