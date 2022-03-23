@@ -49,7 +49,7 @@ Yazz is perfect for prototyping dapps. Some demo apps can be found at https://ya
 
 
 ## Features
-- Build desktop apps as a series of forms
+- Build local or online  dApps as a series of forms
 - Add components to a form, such as buttons, images, input fields
 - Add interactivity using Javascript
 - Connect to databases such as Postgres, Mysql
@@ -57,7 +57,7 @@ Yazz is perfect for prototyping dapps. Some demo apps can be found at https://ya
 - Connect the outputs of one component to the inputs of another
 - Build Microservices
 - Each app has a built in SQLite database
-- App source code saved as a single .vjs file
+- App source code saved as a single .yazz file
 <br/><br/><br/>
 
 
@@ -66,7 +66,7 @@ Yazz is perfect for prototyping dapps. Some demo apps can be found at https://ya
 ## What it can't do
 - Build slick UIs for public facing websites
 - Build mobile apps
-- Build self contained executables (need to pass in a .vjs file)
+- Build self contained executables (need to pass in a .yazz file)
 - High performance apps
 - Low level systems
 <br/><br/><br/>
@@ -344,7 +344,7 @@ The Scheduler is a NodeJS process which decides which worker process to send a s
 Yazz processes communicate using IPC (Inter Process Communication) via NodeJS
 
 ### What is the basic unit of code in Yazz?
-A component is the basic unit of code in Yazz, represented as a function in a .vjs text file
+A component is the basic unit of code in Yazz, represented as a function in a .yazz text file
 
 ### Does Yazz use AI?
 No deep AI yet, but AI is planned for machine vision and learning algorithms. Also AI may be used to match component inputs and outputs and for intelligent code completion in the IDE. We do currently use TensorFlow for computer vision but we don't consider this real AI
@@ -359,7 +359,7 @@ Yes! One of the great things about Yazz is that it works offline without an inte
 Yazz removes the complexity of separate version control systems like git. Changes to your code are structured using distributed diff algorithms
 
 ### Every time I restart Yazz I can't see my apps. How do I save them?
-You need to save the apps that you wish to keep by pessing the button "Save as .vjs file" in the editor
+You need to save the apps that you wish to keep by pessing the button "Save as .yazz file" in the editor
 
 ### I’m already invested in my favorite text editor. Can I keep using it with Yazz?
 Yazz's basic file format is text, so you can use any editor, but your programs will have to be imported into Yazz if you wish to use the interactive editor
@@ -368,16 +368,16 @@ Yazz's basic file format is text, so you can use any editor, but your programs w
 No
 
 ### Do Visual Basic apps run on Yazz?
-No. Yazz only run apps written in Yazz itself as .vjs files
+No. Yazz only run apps written in Yazz itself as .yazz files
 
 ### Can I use my VBX/OLE controls in a Yazz app?
-No. Yazz apps can only use .vjs components
+No. Yazz apps can only use .yazz components
 
 ### Where can I find the app store for Yazz?
 It is under development at the moment, but the code is here in this Git Repository for components
 
 ### What is the extension for all Yazz apps?
-The extension is ".vjs" but you can also use the ".js" extension for loading some simple Javascript apps
+The extension is ".yazz" but you can also use the ".js" extension for loading some simple Javascript apps
 
 
 
