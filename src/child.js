@@ -1593,8 +1593,8 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                         var origFilePath = path.join(__dirname, '../public/go.html')
                                         var newStaticFilePath = path.join( userData, 'apps/' + baseComponentId + '.html' )
                                         var newLocalStaticFilePath = path.join( userData, 'apps/yazz_' + baseComponentId + '.html' )
-                                        var newLocalJSPath = path.join( userData, 'apps/yazz_' + baseComponentId + '.vjs' )
-                                        var newLocalYazzPath = path.join( userData, 'apps/yazz_' + baseComponentId + '.vjs' )
+                                        var newLocalJSPath = path.join( userData, 'apps/yazz_' + baseComponentId + '.yazz' )
+                                        var newLocalYazzPath = path.join( userData, 'apps/yazz_' + baseComponentId + '.yazz' )
 
                                         var newStaticFileContent = fs.readFileSync( origFilePath )
 

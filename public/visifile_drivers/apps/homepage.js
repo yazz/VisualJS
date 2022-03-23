@@ -141,7 +141,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                     <div    style="font-size: 40px;"
                             >
-                            Choose a .vjs file
+                            Choose a .yazz file
                     </div>
 
                 <div style="width:80vw;height:5vh; background-color: black;color:white;font-size: 30px;" class="text-left">

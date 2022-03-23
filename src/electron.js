@@ -1503,7 +1503,7 @@ async function checkForJSLoaded() {
                 }
             }
 
-        } else if ((process.argv[2]) && (process.argv[2].endsWith(".js") || process.argv[2].endsWith(".pilot") || process.argv[2].endsWith(".jsa") || process.argv[2].endsWith(".vjs") )) {
+        } else if ((process.argv[2]) && (process.argv[2].endsWith(".js") || process.argv[2].endsWith(".pilot") || process.argv[2].endsWith(".jsa") || process.argv[2].endsWith(".vjs") || process.argv[2].endsWith(".yazz") )) {
             loadjsfile = process.argv[2]
             if ((!inputStdin) || (inputStdin.length == 0)) {
                 if ((process.argv[3]) && (!process.argv[3].startsWith("--"))) {
@@ -1703,7 +1703,7 @@ async function isTtyCode() {
         if ((process.argv[2]) && (process.argv[2].startsWith("http://") || process.argv[2].startsWith("https://") )) {
             loadjsurl = process.argv[2]
 
-        } else if ((process.argv[2]) && (process.argv[2].endsWith(".js") || process.argv[2].endsWith(".pilot") || process.argv[2].endsWith(".jsa") || process.argv[2].endsWith(".vjs") )) {
+        } else if ((process.argv[2]) && (process.argv[2].endsWith(".js") || process.argv[2].endsWith(".pilot") || process.argv[2].endsWith(".jsa") || process.argv[2].endsWith(".vjs") || process.argv[2].endsWith(".yazz"))) {
             loadjsfile = process.argv[2]
 
         } else if ((process.argv[2]) && (!process.argv[2].startsWith("--"))) {
@@ -2534,7 +2534,7 @@ function file_uploadSingleFn(req, res) {
                                                 sqlite_data:            sqlitedatafromupload
                                            });
           }
-      } else if ((ext == "js") || (ext == "yazz") || (ext == "pilot") || (ext == "jsa") || (ext == "vjs") )  {
+      } else if ((ext == "js") || (ext == "yazz") || (ext == "pilot") || (ext == "jsa") || (ext == "vjs") || (ext == "yazz") )  {
               var localp2;
               localp2 =  path.join(userData,  'uploads/' + ifile.filename);
               var localp = localp2 + '.' + ext;
@@ -2638,7 +2638,7 @@ function file_uploadFn(req, res, next) {
                                                     sqlite_data:            sqlitedatafromupload
                                                });
               }
-          } else if ((ext == "js") || (ext == "yazz") || (ext == "pilot") || (ext == "jsa") || (ext == "vjs"))  {
+          } else if ((ext == "js") || (ext == "yazz") || (ext == "pilot") || (ext == "jsa") || (ext == "vjs") || (ext == "yazz")  )  {
                   var localp2;
                   localp2 =  path.join(userData,  'uploads/' + ifile.filename);
                   var localp = localp2 + '.' + ext;
@@ -3924,8 +3924,8 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                         var origFilePath = path.join(__dirname, '../public/go.html')
                                         var newStaticFilePath = path.join( userData, 'apps/' + baseComponentId + '.html' )
                                         var newLocalStaticFilePath = path.join( userData, 'apps/yazz_' + baseComponentId + '.html' )
-                                        var newLocalJSPath = path.join( userData, 'apps/yazz_' + baseComponentId + '.vjs' )
-                                        var newLocalYazzPath = path.join( userData, 'apps/yazz_' + baseComponentId + '.vjs' )
+                                        var newLocalJSPath = path.join( userData, 'apps/yazz_' + baseComponentId + '.yazz' )
+                                        var newLocalYazzPath = path.join( userData, 'apps/yazz_' + baseComponentId + '.yazz' )
 
                                         var newStaticFileContent = fs.readFileSync( origFilePath )
 
