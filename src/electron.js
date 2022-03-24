@@ -852,36 +852,6 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
-
-        //------------------------------------------------------------------------------
-        //
-        //
-        //
-        //
-        //
-        //------------------------------------------------------------------------------
-        } else if (msg.message_type == "ipc_child_returning_uploaded_app_as_file_in_child_response") {
-
-            outputDebug("uploaded_app_as_file_in_child: " + JSON.stringify(msg))
-
-                // ______
-                // Server  --1 data item-->  Browser
-                // ______
-                //
-                sendOverWebSockets({
-                                      type:                 "uploaded_app_as_file_from_server",
-                                      code_id:               msg.code_id,
-                                      base_component_id:     msg.base_component_id,
-                                      client_file_upload_id: msg.client_file_upload_id
-
-                    });
-
-
-
-
-
-
-
         //------------------------------------------------------------------------------
         //
         //
