@@ -668,11 +668,16 @@ function setUpChildListeners(processName, fileName, debugPort) {
         //------------------------------------------------------------------------------
         if (msg.message_type == "save_code") {
 
-          let saveResult =await saveCodeV2(  msg.base_component_id,
-                                             msg.code_id  ,
-                                             msg.code,
-                                             msg.options)
-//zzz
+            forkedProcesses["forked"].send({
+                                                message_type:       "save_code",
+                                                base_component_id:   msg.base_component_id,
+                                                parent_hash:         msg.parent_hash,
+                                                code:                msg.code,
+                                                options:             msg.options
+                                           });
+
+
+
 
 
 
@@ -2923,6 +2928,7 @@ async function startServices() {
                                              req.body.value.code_id  ,
                                              req.body.value.code,
                                              req.body.value.options)
+//zzz
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end(JSON.stringify(saveResult))
         });
@@ -4234,7 +4240,7 @@ function setUpSql() {
     stmtDeleteDependencies = dbsearch.prepare(" delete from  app_dependencies   where   code_id = ?");
 
 
-
+    //zzz
     stmtDeleteTypesForComponentProperty = dbsearch.prepare(" delete from  component_property_types   where   component_name = ?");
     stmtDeleteAcceptTypesForComponentProperty = dbsearch.prepare(" delete from  component_property_accept_types   where   component_name = ?");
 
