@@ -340,12 +340,6 @@ function processMessagesFromMainProcess() {
 
 
 
-      } else if (msg.message_type == "save_code") {
-
-              saveCodeV2(  msg.base_component_id, msg.parent_hash  ,  msg.code  , msg.options);
-
-
-
 
     } else if (msg.message_type == "save_code_from_upload") {
         //console.log(`Entering  save_code_from_upload`)
