@@ -2747,6 +2747,7 @@ function keycloakProtector(params) {
 // This starts all the system services
 //------------------------------------------------------------
 async function startServices() {
+
     if (!isCodeTtyCode) {
         if (useHttps) {
 
@@ -3035,7 +3036,8 @@ async function startServices() {
         if (isCodeTtyCode) {
             await finalizeYazzLoading()
         } else {
-            forkedProcesses["forked"].send({message_type:       'setUpPredefinedComponents'});
+            setUpSql()
+            setUpPredefinedComponents({message_type:       'setUpPredefinedComponents'});
         }
 
 
@@ -3537,7 +3539,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
     }
 
     var promise = new Promise(returnFn => {
-        resetTimer(`*function saveCodeV2( ${baseComponentId}, ${parentHash} ) {`)
+        //resetTimer(`*function saveCodeV2( ${baseComponentId}, ${parentHash} ) {`)
         if (!baseComponentId) {
             baseComponentId = uuidv1()
         }
@@ -3561,7 +3563,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
         }
 
 
-        showTimer(`2`)
+        //showTimer(`2`)
 
 
 
@@ -3589,7 +3591,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
             code = saveHelper.insertCodeString(code, "created_timestamp", creationTimestamp)
         }
 
-        showTimer(`3`)
+        //showTimer(`3`)
 
 
         var oncode = "\"app\""
@@ -3620,7 +3622,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
             code = saveHelper.insertCodeString(code, "visibility", newvisibility)
         }
 
-        showTimer(`4`)
+        //showTimer(`4`)
 
 
         var logoUrl = saveHelper.getValueOfCodeString(code,"logo_url")
@@ -3640,14 +3642,14 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
             }
         }
 
-        showTimer(`5`)
+        //showTimer(`5`)
 
 
         rowhash.setEncoding('hex');
         rowhash.write(row);
         rowhash.end();
         var sha1sum = rowhash.read();
-        //showTimer("Save sha1 for :" + baseComponentId + ": " + sha1sum)
+        ////showTimer("Save sha1 for :" + baseComponentId + ": " + sha1sum)
 
         dbsearch.serialize(
             function() {
@@ -3663,7 +3665,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                     ,
                     function(err, rows) {
                         if (!err) {
-                            //showTimer("rows.length:   " + rows.length)
+                            ////showTimer("rows.length:   " + rows.length)
                             if (rows.length == 0) {
                                 try {
 
@@ -3671,7 +3673,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                     componentOptions = "HIDE_HEADER"
                                 }
 
-                                showTimer(`6`)
+                                //showTimer(`6`)
 
 
                                 var displayName = saveHelper.getValueOfCodeString(code,"display_name")
@@ -3696,16 +3698,16 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                     properties = JSON.stringify(properties,null,2)
                                 }
                                 if (controlType == "VB") {
-                                  showTimer(`7`)
+                                  //showTimer(`7`)
 
-                                    //showTimer("VB: " + baseComponentId)
+                                    ////showTimer("VB: " + baseComponentId)
                                     let properties2 = saveHelper.getValueOfCodeString(code,"properties",")//properties")
                                     stmtDeleteTypesForComponentProperty.run(baseComponentId)
                                     stmtDeleteAcceptTypesForComponentProperty.run(baseComponentId)
                                     if (properties2) {
-                                      showTimer(`8`)
+                                      //showTimer(`8`)
 
-                                        //showTimer("     properties: " + properties2.length)
+                                        ////showTimer("     properties: " + properties2.length)
                                         for (let rttte = 0; rttte < properties2.length ; rttte++ ) {
                                             let prop = properties2[rttte]
                                             stmtInsertComponentProperty.run(baseComponentId, prop.id)
@@ -3713,17 +3715,17 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                 let labelKeys = Object.keys(prop.types)
                                                 for (let rttte2 = 0; rttte2 < labelKeys.length ; rttte2++ ) {
                                                     let prop2 = prop.types[labelKeys[rttte2]]
-                                                    //showTimer("    " + prop.id + " = " +  JSON.stringify(prop.labels))
+                                                    ////showTimer("    " + prop.id + " = " +  JSON.stringify(prop.labels))
                                                     stmtInsertTypesForComponentProperty.run(baseComponentId, prop.id, labelKeys[rttte2],prop2)
 
                                                 }
                                             }
-                                            showTimer(`9`)
+                                            //showTimer(`9`)
                                             if (prop.accept_types) {
                                                 let labelKeys = Object.keys(prop.accept_types)
                                                 for (let rttte2 = 0; rttte2 < labelKeys.length ; rttte2++ ) {
                                                     let prop2 = prop.accept_types[labelKeys[rttte2]]
-                                                    //showTimer("    " + prop.id + " = " +  JSON.stringify(prop.labels))
+                                                    ////showTimer("    " + prop.id + " = " +  JSON.stringify(prop.labels))
                                                     stmtInsertAcceptTypesForComponentProperty.run(
                                                             baseComponentId,
                                                             prop.id,
@@ -3743,7 +3745,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                 //
                                 // 1) call this first
                                 //
-                                //showTimer("::::" + baseComponentId)
+                                ////showTimer("::::" + baseComponentId)
 
 
                                 function getName(text) {
@@ -3763,7 +3765,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                     eventName = fnName
                                     componentType = "method"
                                 }
-                                //showTimer("fnName: " + fnName)
+                                ////showTimer("fnName: " + fnName)
 
 
                                 //
@@ -3774,13 +3776,13 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                 }
 
 
-                                //showTimer("Saving in Sqlite: " + parentHash)
-                                //showTimer("Saving in Sqlite: " + code)
+                                ////showTimer("Saving in Sqlite: " + parentHash)
+                                ////showTimer("Saving in Sqlite: " + code)
                                 let save_code_to_file = null
                                 if (options) {
                                     save_code_to_file = options.save_code_to_file
                                 }
-                                showTimer(`10`)
+                                //showTimer(`10`)
                                 dbsearch.serialize(async function() {
                                     dbsearch.run("begin exclusive transaction");
                                     stmtInsertNewCode.run(
@@ -3828,10 +3830,10 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                     stmtDeleteDependencies.run(sha1sum)
 
                                     var scriptCode = ""
-                                    showTimer(`11`)
+                                    //showTimer(`11`)
                                     var jsLibs = saveHelper.getValueOfCodeString(code, "uses_javascript_librararies")
                                     if (jsLibs) {
-                                          //showTimer(JSON.stringify(jsLibs,null,2))
+                                          ////showTimer(JSON.stringify(jsLibs,null,2))
                                           for (var tt = 0; tt < jsLibs.length ; tt++) {
                                               scriptCode += `libLoaded[ "${jsLibs[tt]}" ] = true;
                                               `
@@ -3862,12 +3864,12 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                      var sqliteCode = ""
                                      if (isValidObject(options)) {
 
-                                        //showTimer(JSON.stringify(options,null,2))
+                                        ////showTimer(JSON.stringify(options,null,2))
                                         if (options.sub_components) {
-                                            //showTimer("Save options: " + options.sub_components.length)
-                                            //showTimer(JSON.stringify(options,null,2))
+                                            ////showTimer("Save options: " + options.sub_components.length)
+                                            ////showTimer(JSON.stringify(options,null,2))
                                             for (var tew = 0; tew < options.sub_components.length ; tew ++) {
-                                                //showTimer("Saving " + options.sub_components[tew])
+                                                ////showTimer("Saving " + options.sub_components[tew])
                                                 if (isValidObject(baseComponentId)) {
                                                     stmtInsertSubComponent.run(
                                                         baseComponentId,
@@ -3876,7 +3878,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                             }
                                         }
                                      }
-                                     showTimer(`12`)
+                                     //showTimer(`12`)
 
                                     dbsearch.run("commit", async function() {
 
@@ -3885,7 +3887,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
 
                                     if (isValidObject(options) && options.save_code_to_file) {
-                                        showTimer("Saving to file: " + options.save_code_to_file)
+                                        //showTimer("Saving to file: " + options.save_code_to_file)
     		                            fs.writeFileSync( options.save_code_to_file,  code.toString() )
                                     }
 
@@ -3893,7 +3895,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
 
                                     if (isValidObject(options) && options.save_html) {
-                                      showTimer(`13`)
+                                      //showTimer(`13`)
                                         //
                                         // create the static HTML file to link to on the web/intranet
                                         //
@@ -3938,14 +3940,14 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                         finderToCachedCodeMapping["${baseComponentId}"] = "${sha1sum}"`
 
 
-                                        showTimer(`14`)
+                                        //showTimer(`14`)
 
                                         newCode += `
                                             //newcodehere
                                         `
                                         dbsearch.serialize(
                                             async function() {
-                                              showTimer(`15.....1`)
+                                              //showTimer(`15.....1`)
 
                                                 var stmt = dbsearch.all(
                                                     `select
@@ -3967,7 +3969,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
                                                 async function(err, results)
                                                 {
-                                                  showTimer(`15`)
+                                                  //showTimer(`15`)
                                                         for (var i = 0  ;   i < results.length;    i ++ ) {
                                                             var newcodeEs = escape("(" + results[i].code.toString() + ")")
                                                             var newCode2 =  `cachedCode["${results[i].sha1}"] = {
@@ -3989,7 +3991,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                             `
                                                             newCode += newCode2
                                                         }
-                                                        showTimer(`15.1`)
+                                                        //showTimer(`15.1`)
                                                         newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_STATIC_CODE", newCode)
 
 
@@ -4003,14 +4005,14 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                         //
                                                         var pos = newStaticFileContent.indexOf("//***ADD_SCRIPT")
                                                         newStaticFileContent = newStaticFileContent.slice(0, pos)  + scriptCode + newStaticFileContent.slice( pos)
-                                                        showTimer(`15.2`)
+                                                        //showTimer(`15.2`)
 
 
                                                         //fs.writeFileSync( path.join(__dirname, '../public/sql2.js'),  sqliteCode )
                                                         fs.writeFileSync( newStaticFilePath,  newStaticFileContent )
 
 
-                                                        showTimer(`15.3`)
+                                                        //showTimer(`15.3`)
 
                                                         //
                                                         // save the standalone app
@@ -4024,12 +4026,12 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
 
 
-                                                        showTimer(`15.4`)
+                                                        //showTimer(`15.4`)
 
                                                         var sqliteAppDbPath = path.join( userData, 'app_dbs/' + baseComponentId + '.visi' )
 
                                                         if (fs.existsSync(sqliteAppDbPath)) {
-                                                          showTimer(`15.5`)
+                                                          //showTimer(`15.5`)
                                                             var sqliteAppDbContent = fs.readFileSync( sqliteAppDbPath , 'base64')
                                                             var indexOfSqliteData = newStaticFileContent.indexOf("var sqlitedata = ''")
 
@@ -4039,28 +4041,28 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                                                             newStaticFileContent.substring(indexOfSqliteData + 19)
 
                                                         }
-                                                        showTimer(`15.6`)
+                                                        //showTimer(`15.6`)
 
                                                         fs.writeFileSync( newLocalStaticFilePath,  newStaticFileContent )
                                                         fs.writeFileSync( newLocalJSPath,  code )
                                                         fs.writeFileSync( newLocalYazzPath,  code )
-                                                        showTimer(`15.7`)
+                                                        //showTimer(`15.7`)
 
                                                         })
-                                                        showTimer(`15.....2`)
+                                                        //showTimer(`15.....2`)
 
                                            }
                                      , sqlite3.OPEN_READONLY)
-                                     showTimer(`15.8`)
+                                     //showTimer(`15.8`)
                                  }
-                                 showTimer(`15.9`)
+                                 //showTimer(`15.9`)
 
 
 
 
 
 
-                                 showTimer(`16`)
+                                 //showTimer(`16`)
 
 
 
@@ -4077,8 +4079,8 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                             //
                                             var sqliteAppDbPathOld = path.join( userData, 'app_dbs/' + options.copy_db_from + '.visi' )
                                             var sqliteAppDbPathNew = path.join( userData, 'app_dbs/' + newBaseid + '.visi' )
-                                            //showTimer("sqliteAppDbPathOld: " + sqliteAppDbPathOld)
-                                            //showTimer("sqliteAppDbPathNew: " + sqliteAppDbPathNew)
+                                            ////showTimer("sqliteAppDbPathOld: " + sqliteAppDbPathOld)
+                                            ////showTimer("sqliteAppDbPathNew: " + sqliteAppDbPathNew)
                                             copyFile(sqliteAppDbPathOld,sqliteAppDbPathNew, async function(){
 
                                             });
@@ -4092,8 +4094,8 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                             fastForwardToLatestRevision(sqlite, baseComponentId)
 
                                         } else {
-                                            //showTimer('updateRevisions(sqlite, baseComponentId)')
-                                            //showTimer('    ' + JSON.stringify(options,null,2))
+                                            ////showTimer('updateRevisions(sqlite, baseComponentId)')
+                                            ////showTimer('    ' + JSON.stringify(options,null,2))
                                             updateRevisions(sqlite, baseComponentId)
                                         }
 
@@ -4103,7 +4105,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                     //
 
 
-                                    showTimer(`ret 8`)
+                                    //showTimer(`ret 8`)
 
                                     updateRegistry(options, sha1sum)
                                     returnFn( {
@@ -4138,7 +4140,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                 }
 
                                 updateRegistry(options, sha1sum)
-                                showTimer(`ret 9`)
+                                //showTimer(`ret 9`)
                                 returnFn( {
                                                 code_id:            sha1sum,
                                                 base_component_id:  baseComponentId
@@ -4150,7 +4152,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                     })
         }, sqlite3.OPEN_READONLY)
         })
-      showTimer(`ret prom`)
+      //showTimer(`ret prom`)
 
     var ret = await promise;
     return ret
@@ -4679,4 +4681,395 @@ function ipc_child_returning_uploaded_app_as_file_in_child_response(msg) {
             restRoutes[msg.route] = newFunction
 
 
+}
+
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
+async function evalLocalSystemDriver(driverName, location, options) {
+    outputDebug("*** Loading driver: *** : " + driverName)
+    try {
+        var evalDriver = fs.readFileSync(location);
+    	await addOrUpdateDriver(driverName, evalDriver,options)
+    } catch (error) {
+        outputDebug(error)
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
+async function addOrUpdateDriver(  name, codeString ,options ) {
+    //console.log('addOrUpdateDriver: ' + name);
+
+    var promise = new Promise(async function(returnfn) {
+
+        dbsearch.serialize(
+            function() {
+                dbsearch.all(
+                    " select  " +
+                    "     base_component_id, code, id " +
+                    " from " +
+                    "     system_code " +
+                    " where " +
+                    "     base_component_id = ? and code_tag = 'LATEST';"
+                    ,
+                    name
+                    ,
+                    async function(err, rows) {
+                        if (!err) {
+                            try {
+                                var parentId = null
+                                if (rows.length > 0) {
+                                    parentId = rows[0].id
+                                }
+
+                                await saveCodeV2(  name, parentId,    codeString  ,options);
+
+
+
+                              } catch(err) {
+                                  console.log(err);
+                                  var stack = new Error().stack
+                                  console.log( stack )
+                              } finally {
+                                returnfn({})
+                              }
+
+                  }
+              }
+          );
+      }, sqlite3.OPEN_READONLY)
+  })
+  var ret = await promise
+  return ret
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
+async function setUpComponentsLocally() {
+    //await evalLocalSystemDriver('glb',                    path.join(__dirname, '../public/visifile_drivers/glb.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver('csv',                    path.join(__dirname, '../public/visifile_drivers/csv.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver('txt',                    path.join(__dirname, '../public/visifile_drivers/glb.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver('excel',                  path.join(__dirname, '../public/visifile_drivers/excel.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver('word',                   path.join(__dirname, '../public/visifile_drivers/word.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver('pdf',                    path.join(__dirname, '../public/visifile_drivers/pdf.js'),{username: "default", reponame: "", version: "latest"})
+
+    //await evalLocalSystemDriver('outlook2012',            path.join(__dirname, '../public/visifile_drivers/outlook2012.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver('outlook2010')
+    //await evalLocalSystemDriver('sqlite',                 path.join(__dirname, '../public/visifile_drivers/sqlite.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver('mysql',                  path.join(__dirname, '../public/visifile_drivers/mysql.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver('oracle',                 path.join(__dirname, '../public/visifile_drivers/oracle.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver('testdriver',             path.join(__dirname, '../public/visifile_drivers/testdriver.js'),{username: "default", reponame: "", version: "latest"})
+
+    //await evalLocalSystemDriver('fileuploader',           path.join(__dirname, '../public/visifile_drivers/file_uploader.js'),{username: "default", reponame: "", version: "latest"})
+
+
+
+    //
+    // services
+    //
+    if (isWin) {
+        //await evalLocalSystemDriver('powershell',         path.join(__dirname, '../public/visifile_drivers/services/powershell.js'),{username: "default", reponame: "", version: "latest"})
+    }
+    await evalLocalSystemDriver('commandLine',              path.join(__dirname, '../public/visifile_drivers/services/commandLine.js'),{username: "default", reponame: "commandLine", version: "latest"})
+    await evalLocalSystemDriver('commandLine2',             path.join(__dirname, '../public/visifile_drivers/services/commandLine2.js'),{username: "default", reponame: "commandLine2", version: "latest"})
+    await evalLocalSystemDriver('copyApp',                  path.join(__dirname, '../public/visifile_drivers/services/copyApp.js'),{username: "default", reponame: "copyApp", version: "latest"})
+    await evalLocalSystemDriver('test_job',                 path.join(__dirname, '../public/visifile_drivers/services/test_job.js'),{username: "default", reponame: "test_job", version: "latest"})
+    await evalLocalSystemDriver('kafka_service',            path.join(__dirname, '../public/visifile_drivers/services/kafka_service.js'),{username: "default", reponame: "kafka_service", version: "latest"})
+
+    await evalLocalSystemDriver('activemq_service',            path.join(__dirname, '../public/visifile_drivers/services/activemq_service.js'),{username: "default", reponame: "activemq_service", version: "latest"})
+
+
+    await evalLocalSystemDriver('findComponentsImplementing',            path.join(__dirname, '../public/visifile_drivers/services/find_components_implementing.js'),{username: "default", reponame: "find_components_implementing", version: "latest"})
+
+
+
+    //await evalLocalSystemDriver('webPreview',             path.join(__dirname, '../public/visifile_drivers/services/web_preview.js'),{username: "default", reponame: "", version: "latest"})
+
+    //await evalLocalSystemDriver('spreahsheetPreview',     path.join(__dirname, '../public/visifile_drivers/services/spreadsheet_preview.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver('csvPreview',             path.join(__dirname, '../public/visifile_drivers/services/csv_preview.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver('docPreview',             path.join(__dirname, '../public/visifile_drivers/services/doc_preview.js'),{username: "default", reponame: "", version: "latest"})
+
+
+
+    await evalLocalSystemDriver('serverDriveList',   path.join(__dirname, '../public/visifile_drivers/services/serverDriveList.js'),{username: "default", reponame: "serverDriveList", version: "latest"})
+    await evalLocalSystemDriver('serverFolderHierarchyList',   path.join(__dirname, '../public/visifile_drivers/services/serverFolderHierarchyList.js'),{username: "default", reponame: "serverFolderHierarchyList", version: "latest"})
+    await evalLocalSystemDriver('serverGetHomeDir',   path.join(__dirname, '../public/visifile_drivers/services/serverGetHomeDir.js'),{username: "default", reponame: "serverGetHomeDir", version: "latest"})
+    await evalLocalSystemDriver('serverFileList',   path.join(__dirname, '../public/visifile_drivers/services/serverFileList.js'),{username: "default", reponame: "serverFileList", version: "latest"})
+    await evalLocalSystemDriver('serverFolderContents',   path.join(__dirname, '../public/visifile_drivers/services/serverFolderContents.js'),{username: "default", reponame: "serverFolderContents", version: "latest"})
+    await evalLocalSystemDriver('serverFolderContentsV2',   path.join(__dirname, '../public/visifile_drivers/services/serverFolderContentsV2.js'),{username: "default", reponame: "serverFolderContentsV2", version: "latest"})
+
+
+    await evalLocalSystemDriver('serverDatabaseStuff',   path.join(__dirname, '../public/visifile_drivers/services/serverDatabaseStuff.js'),{username: "default", reponame: "serverDatabaseStuff", version: "latest"})
+    await evalLocalSystemDriver('serverDockerStuff',   path.join(__dirname, '../public/visifile_drivers/services/serverDockerStuff.js'),{username: "default", reponame: "serverDockerStuff", version: "latest"})
+    await evalLocalSystemDriver('serverTerminalStuff',   path.join(__dirname, '../public/visifile_drivers/services/serverTerminalStuff.js'),{username: "default", reponame: "serverTerminalStuff", version: "latest"})
+
+    await evalLocalSystemDriver('postgres_server',   path.join(__dirname, '../public/visifile_drivers/services/postgres_server.js'),{username: "default", reponame: "postgres_server", version: "latest"})
+
+    await evalLocalSystemDriver('sqlite_server',   path.join(__dirname, '../public/visifile_drivers/services/sqlite_server.js'),{username: "default", reponame: "sqlite_server", version: "latest"})
+
+    await evalLocalSystemDriver('access_server',   path.join(__dirname, '../public/visifile_drivers/services/access_server.js'),{username: "default", reponame: "access_server", version: "latest"})
+    await evalLocalSystemDriver('excel_server',   path.join(__dirname, '../public/visifile_drivers/services/excel_server.js'),{username: "default", reponame: "excel_server", version: "latest"})
+
+    await evalLocalSystemDriver('rest_call_service',   path.join(__dirname, '../public/visifile_drivers/services/rest_call_service.js'),{username: "default", reponame: "rest_call_service", version: "latest"})
+    await evalLocalSystemDriver('rest_call_service_v2',   path.join(__dirname, '../public/visifile_drivers/services/rest_call_service_v2.js'),{username: "default", reponame: "rest_call_service_v2", version: "latest"})
+    await evalLocalSystemDriver('json_traverse_service',   path.join(__dirname, '../public/visifile_drivers/services/json_traverse_service.js'),{username: "default", reponame: "json_traverse_service", version: "latest"})
+    await evalLocalSystemDriver('json_filter_service',   path.join(__dirname, '../public/visifile_drivers/services/json_filter_service.js'),{username: "default", reponame: "json_filter_service", version: "latest"})
+
+
+    //
+    // debug controls
+    //
+    //await evalLocalSystemDriver('bug_vue',   path.join(__dirname, '../public/visifile_drivers/controls/bug_vue.js'),{username: "default", reponame: "bug_vue", version: "latest"})
+
+    //
+    // controls
+    //
+    await evalLocalSystemDriver('chart_control',   path.join(__dirname, '../public/visifile_drivers/controls/chart.js'),{username: "default", reponame: "chart_control", version: "latest"})
+
+    await evalLocalSystemDriver('image_control',   path.join(__dirname, '../public/visifile_drivers/controls/image.js'),{username: "default", reponame: "image_control", version: "latest"})
+
+    await evalLocalSystemDriver('label_control',   path.join(__dirname, '../public/visifile_drivers/controls/label.js'),{username: "default", reponame: "label_control", version: "latest"})
+    await evalLocalSystemDriver('metamask_control',   path.join(__dirname, '../public/visifile_drivers/controls/metamask.js'),{username: "default", reponame: "metamask_control", version: "latest"})
+    await evalLocalSystemDriver('input_control',   path.join(__dirname, '../public/visifile_drivers/controls/input.js'),{username: "default", reponame: "input_control", version: "latest"})
+
+    await evalLocalSystemDriver('group_control',   path.join(__dirname, '../public/visifile_drivers/controls/group.js'),{username: "default", reponame: "group_control", version: "latest"})
+    await evalLocalSystemDriver('button_control',   path.join(__dirname, '../public/visifile_drivers/controls/button.js'),{username: "default", reponame: "button_control", version: "latest"})
+
+    await evalLocalSystemDriver('checkbox_control',   path.join(__dirname, '../public/visifile_drivers/controls/checkbox.js'),{username: "default", reponame: "checkbox_control", version: "latest"})
+    await evalLocalSystemDriver('radio_button_control',   path.join(__dirname, '../public/visifile_drivers/controls/radiobutton.js'),{username: "default", reponame: "radio_button_control", version: "latest"})
+
+    await evalLocalSystemDriver('dropdown_control',   path.join(__dirname, '../public/visifile_drivers/controls/dropdown.js'),{username: "default", reponame: "dropdown_control", version: "latest"})
+    await evalLocalSystemDriver('list_control',   path.join(__dirname, '../public/visifile_drivers/controls/list.js'),{username: "default", reponame: "list_control", version: "latest"})
+
+    await evalLocalSystemDriver('horiz_scroll_control',   path.join(__dirname, '../public/visifile_drivers/controls/horiz_scroll.js'),{username: "default", reponame: "horiz_scroll_control", version: "latest"})
+    await evalLocalSystemDriver('vert_scroll_control',   path.join(__dirname, '../public/visifile_drivers/controls/vert_scroll.js'),{username: "default", reponame: "vert_scroll_control", version: "latest"})
+
+
+    await evalLocalSystemDriver('timer_control',   path.join(__dirname, '../public/visifile_drivers/controls/timer.js'),{username: "default", reponame: "timer_control", version: "latest"})
+    await evalLocalSystemDriver('drive_list_control',   path.join(__dirname, '../public/visifile_drivers/controls/drive_list.js'),{username: "default", reponame: "drive_list_control", version: "latest"})
+
+    await evalLocalSystemDriver('folder_list_control',   path.join(__dirname, '../public/visifile_drivers/controls/folder_list.js'),{username: "default", reponame: "folder_list_control", version: "latest"})
+    await evalLocalSystemDriver('file_list_control',   path.join(__dirname, '../public/visifile_drivers/controls/file_list.js'),{username: "default", reponame: "file_list_control", version: "latest"})
+
+    await evalLocalSystemDriver('shapes_control',   path.join(__dirname, '../public/visifile_drivers/controls/shapes.js'),{username: "default", reponame: "shapes_control", version: "latest"})
+    await evalLocalSystemDriver('line_control',   path.join(__dirname, '../public/visifile_drivers/controls/line.js'),{username: "default", reponame: "line_control", version: "latest"})
+
+    await evalLocalSystemDriver('draw_control',   path.join(__dirname, '../public/visifile_drivers/controls/draw.js'),{username: "default", reponame: "draw_control", version: "latest"})
+    await evalLocalSystemDriver('database_control',   path.join(__dirname, '../public/visifile_drivers/controls/database.js'),{username: "default", reponame: "database_control", version: "latest"})
+    await evalLocalSystemDriver('mixer_control',   path.join(__dirname, '../public/visifile_drivers/controls/mixer.js'),{username: "default", reponame: "mixer_control", version: "latest"})
+
+
+    await evalLocalSystemDriver('ms_access_control',   path.join(__dirname, '../public/visifile_drivers/controls/ms_access.js'),{username: "default", reponame: "ms_access_control", version: "latest"})
+    await evalLocalSystemDriver('ms_excel_control',   path.join(__dirname, '../public/visifile_drivers/controls/ms_excel.js'),{username: "default", reponame: "ms_excel_control", version: "latest"})
+
+
+    await evalLocalSystemDriver('data_window_control',   path.join(__dirname, '../public/visifile_drivers/controls/data_window.js'),{username: "default", reponame: "data_window_control", version: "latest"})
+
+    await evalLocalSystemDriver('ace_editor',   path.join(__dirname, '../public/visifile_drivers/controls/ace_editor.js'),{username: "default", reponame: "ace_editor", version: "latest"})
+
+
+    await evalLocalSystemDriver('container_3d',        path.join(__dirname, '../public/visifile_drivers/controls/container_3d.js'),{username: "default", reponame: "container_3d", version: "latest"})
+    await evalLocalSystemDriver('item_3d',   path.join(__dirname, '../public/visifile_drivers/controls/item_3d.js'),{username: "default", reponame: "item_3d", version: "latest"})
+
+
+    await evalLocalSystemDriver('terminal_control',   path.join(__dirname, '../public/visifile_drivers/controls/terminal_ui.js'),{username: "default", reponame: "terminal_control", version: "latest"})
+    await evalLocalSystemDriver('osquery_control',   path.join(__dirname, '../public/visifile_drivers/controls/osquery_ui.js'),{username: "default", reponame: "osquery_control", version: "latest"})
+    await evalLocalSystemDriver('rest_control',   path.join(__dirname, '../public/visifile_drivers/controls/rest_ui.js'),{username: "default", reponame: "rest_control", version: "latest"})
+    await evalLocalSystemDriver('tree_to_table_control',   path.join(__dirname, '../public/visifile_drivers/controls/tree_to_table.js'),{username: "default", reponame: "tree_to_table_control", version: "latest"})
+    await evalLocalSystemDriver('docker_control',   path.join(__dirname, '../public/visifile_drivers/controls/ducker.js'),{username: "default", reponame: "docker_control", version: "latest"})
+    await evalLocalSystemDriver('table_control',   path.join(__dirname, '../public/visifile_drivers/controls/table.js'),{username: "default", reponame: "table_control", version: "latest"})
+
+
+
+    await evalLocalSystemDriver('rh3scale_control',   path.join(__dirname, '../public/visifile_drivers/controls/rh3scale.js'),{username: "default", reponame: "rh3scale_control", version: "latest"})
+    await evalLocalSystemDriver('kubernetes_control',   path.join(__dirname, '../public/visifile_drivers/controls/kubernetes.js'),{username: "default", reponame: "kubernetes_control", version: "latest"})
+    await evalLocalSystemDriver('kafka_control',   path.join(__dirname, '../public/visifile_drivers/controls/kafka.js'),{username: "default", reponame: "kafka_control", version: "latest"})
+    //await evalLocalSystemDriver('rhfuse_control',   path.join(__dirname, '../public/visifile_drivers/controls/rhfuse.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver('rhamq_control',   path.join(__dirname, '../public/visifile_drivers/controls/rhamq.js'),{username: "default", reponame: "", version: "latest"})
+    await evalLocalSystemDriver('rhdm_control',   path.join(__dirname, '../public/visifile_drivers/controls/rhdm.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver('rhpam_control',   path.join(__dirname, '../public/visifile_drivers/controls/rhpam.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver('rhdata_grid_control',   path.join(__dirname, '../public/visifile_drivers/controls/rhdata_grid.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver('rhopenshift_control',   path.join(__dirname, '../public/visifile_drivers/controls/rhopenshift.js'),{username: "default", reponame: "", version: "latest"})
+
+
+
+
+    //
+    // forms
+    //
+    await evalLocalSystemDriver('form_subscribe_to_appshare',   path.join(__dirname, '../public/visifile_drivers/apps/formSubscribeToAppshare.js'),{username: "default", reponame: "form_subscribe_to_appshare", version: "latest"})
+
+
+
+    //
+    // functions
+    //
+
+    await evalLocalSystemDriver('systemFunctions',   path.join(__dirname, '../public/visifile_drivers/functions/system.js'),{username: "default", reponame: "systemFunctions", version: "latest"})
+    await evalLocalSystemDriver('systemFunctions2',   path.join(__dirname, '../public/visifile_drivers/functions/system2.js'),{username: "default", reponame: "systemFunctions2", version: "latest"})
+    await evalLocalSystemDriver('systemFunctions3',   path.join(__dirname, '../public/visifile_drivers/functions/system3.js'),{username: "default", reponame: "systemFunctions3", version: "latest"})
+    await evalLocalSystemDriver('systemFunctionAppSql',   path.join(__dirname, '../public/visifile_drivers/functions/systemFunctionAppSql.js'),{username: "default", reponame: "systemFunctionAppSql", version: "latest"})
+    await evalLocalSystemDriver('appEditorV2SaveCode',   path.join(__dirname, '../public/visifile_drivers/apps/appEditorV2SaveCode.js'),{username: "default", reponame: "appEditorV2SaveCode", version: "latest"})
+
+    //
+    // UI components
+    //
+    await evalLocalSystemDriver('comp',   path.join(__dirname, '../public/visifile_drivers/ui_components/comp.js'),{username: "default", reponame: "comp", version: "latest"})
+    await evalLocalSystemDriver('editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/editorComponent.js'),{username: "default", reponame: "editor_component", version: "latest"})
+    await evalLocalSystemDriver('sqlite_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/sqliteEditorComponent.js'),{username: "default", reponame: "sqlite_editor_component", version: "latest"})
+    await evalLocalSystemDriver('keycloak_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/keycloakEditorComponent.js'),{username: "default", reponame: "keycloak_editor_component", version: "latest"})
+    await evalLocalSystemDriver('export_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/exportEditorComponent.js'),{username: "default", reponame: "export_editor_component", version: "latest"})
+    await evalLocalSystemDriver('form_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/formEditorComponent.js'),{username: "default", reponame: "form_editor_component", version: "latest"})
+    await evalLocalSystemDriver('simple_display_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/simpleDisplayEditorComponent.js'),{username: "default", reponame: "simple_display_editor_component", version: "latest"})
+    await evalLocalSystemDriver('vb_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/vbEditorComponent.js'),{username: "default", reponame: "vb_editor_component", version: "latest"})
+
+    outputDebug("Loaded all drivers")
+
+
+
+
+
+
+
+    //
+    // apps
+    //
+    await evalLocalSystemDriver('homepage',     path.join(__dirname, '../public/visifile_drivers/apps/homepage.js'),{save_html: true, username: "default", reponame: "homepage", version: "latest"})
+    await evalLocalSystemDriver('appstore',     path.join(__dirname, '../public/visifile_drivers/apps/appstore.js'),{save_html: true, username: "default", reponame: "appstore", version: "latest"})
+    await evalLocalSystemDriver('yazz_blank',   path.join(__dirname, '../public/visifile_drivers/apps/yazz_blank.js'),{username: "default", reponame: "yazz_blank", version: "latest"})
+
+
+
+    await evalLocalSystemDriver('app_editor_3',   path.join(__dirname, '../public/visifile_drivers/apps/appEditorV3.js'),{username: "default", reponame: "app_editor_3", version: "latest"})
+    await evalLocalSystemDriver('appEmbed',   path.join(__dirname, '../public/visifile_drivers/apps/appEmbed.js'),{username: "default", reponame: "appEmbed", version: "latest"})
+    await evalLocalSystemDriver('search',   path.join(__dirname, '../public/visifile_drivers/apps/search.js'),{username: "default", reponame: "search", version: "latest"})
+    await evalLocalSystemDriver('test',   path.join(__dirname, '../public/visifile_drivers/apps/test.js'),{save_html: true, username: "default", reponame: "test", version: "latest"})
+    await evalLocalSystemDriver('oculus_go',   path.join(__dirname, '../public/visifile_drivers/apps/oculus_go.js'),{save_html: true, username: "default", reponame: "oculus_go", version: "latest"})
+
+    await evalLocalSystemDriver('game',           path.join(__dirname, '../public/visifile_drivers/apps/game.js'),        {save_html: true, username: "default", reponame: "game",        version: "latest"})
+    await evalLocalSystemDriver('oldhomepage',    path.join(__dirname, '../public/visifile_drivers/apps/oldhomepage.js'), {save_html: true, username: "default", reponame: "oldhomepage", version: "latest"})
+
+    await evalLocalSystemDriver('multi_vr',   path.join(__dirname, '../public/visifile_drivers/apps/multi_vr.vjs'),{save_html: true, username: "default", reponame: "multi_vr", version: "latest"})
+    await evalLocalSystemDriver('hologram',   path.join(__dirname, '../public/visifile_drivers/apps/hologram.js'),{save_html: true, username: "default", reponame: "hologram", version: "latest"})
+    //await evalLocalSystemDriver('kinetic',   path.join(__dirname, '../public/visifile_drivers/apps/kinetic.js'),{save_html: true, username: "default", reponame: "", version: "latest"})
+    await evalLocalSystemDriver('intro_logo_3d',   path.join(__dirname, '../public/visifile_drivers/apps/intro_logo_3d.js'),{save_html: true, username: "default", reponame: "intro_logo_3d", version: "latest"})
+    await evalLocalSystemDriver('list_apps',   path.join(__dirname, '../public/visifile_drivers/apps/listApps.js'),{username: "default", reponame: "list_apps", version: "latest"})
+    await evalLocalSystemDriver('listPublicApps',   path.join(__dirname, '../public/visifile_drivers/apps/listPublicApps.js'),{username: "default", reponame: "listPublicApps", version: "latest"})
+    await evalLocalSystemDriver('vue',   path.join(__dirname, '../public/visifile_drivers/apps/vue.js'),{username: "default", reponame: "vue", version: "latest"})
+    await evalLocalSystemDriver('bootstrap',   path.join(__dirname, '../public/visifile_drivers/apps/bootstrap.js'),{username: "default", reponame: "bootstrap", version: "latest"})
+    await evalLocalSystemDriver('database_reader',   path.join(__dirname, '../public/visifile_drivers/apps/databaseReader.js'),{username: "default", reponame: "database_reader", version: "latest"})
+    await evalLocalSystemDriver('todo',   path.join(__dirname, '../public/visifile_drivers/apps/todo.js'),{save_html: true, username: "default", reponame: "todo", version: "latest"})
+    await evalLocalSystemDriver('todo_app_reader',   path.join(__dirname, '../public/visifile_drivers/apps/todo_app_reader.js'),{username: "default", reponame: "todo_app_reader", version: "latest"})
+    await evalLocalSystemDriver('newSql',   path.join(__dirname, '../public/visifile_drivers/apps/newSqlApp.js'),{username: "default", reponame: "newSql", version: "latest"})
+    await evalLocalSystemDriver('yazzcraft',   path.join(__dirname, '../public/visifile_drivers/apps/yazzcraft.js'),{save_html: true, username: "default", reponame: "yazzcraft", version: "latest"})
+
+
+//database drivers
+await evalLocalSystemDriver('postgres_client_component', path.join(__dirname, '../public/visifile_drivers/controls/postgres.js'),{username: "default", reponame: "postgres_client_component", version: "latest"})
+await evalLocalSystemDriver('sqlite_client_component', path.join(__dirname, '../public/visifile_drivers/controls/sqlite.js'),{username: "default", reponame: "sqlite_client_component", version: "latest"})
+await evalLocalSystemDriver('mysql_client_component', path.join(__dirname, '../public/visifile_drivers/controls/mysql.js'),{username: "default", reponame: "mysql_client_component", version: "latest"})
+
+
+
+
+
+    var extraFns = fs.readFileSync( path.join(__dirname, '../src/extraFns.js') ).toString()
+    outputDebug("Extra functions code:" )
+
+    await eval("(" + extraFns + "())")
+
+    //
+    // non GUI front end apps
+    //
+    await evalLocalSystemDriver('rh3scale_app',   path.join(__dirname, '../public/visifile_drivers/apps/rh3scale_app.js'),{save_html: true, username: "default", reponame: "rh3scale_app", version: "latest"})
+    await evalLocalSystemDriver('quicksort',  path.join(__dirname, '../public/visifile_drivers/apps/quicksort.js'),{save_html: true, username: "default", reponame: "quicksort", version: "latest"})
+    await evalLocalSystemDriver('bubblesort', path.join(__dirname, '../public/visifile_drivers/apps/bubblesort.js'),{save_html: true, username: "default", reponame: "bubblesort", version: "latest"})
+    await evalLocalSystemDriver('new', path.join(__dirname, '../public/visifile_drivers/apps/blank_app.js'),{save_html: true, username: "default", reponame: "new", version: "latest"})
+    await evalLocalSystemDriver('new_microservice', path.join(__dirname, '../public/visifile_drivers/apps/blank_microservice.js'),{save_html: true, username: "default", reponame: "new_microservice", version: "latest"})
+    await evalLocalSystemDriver('demo_microservice', path.join(__dirname, '../public/visifile_drivers/apps/demo_microservice.js'),{save_html: true, username: "default", reponame: "demo_microservice", version: "latest"})
+    await evalLocalSystemDriver('echo_microservice', path.join(__dirname, '../public/visifile_drivers/apps/echo_microservice.js'),{save_html: true, username: "default", reponame: "echo_microservice", version: "latest"})
+    await evalLocalSystemDriver('call_function_microservice', path.join(__dirname, '../public/visifile_drivers/apps/call_function_microservice.js'),{save_html: true, username: "default", reponame: "call_function_microservice", version: "latest"})
+    await evalLocalSystemDriver('echo_post_microservice', path.join(__dirname, '../public/visifile_drivers/apps/echo_post_microservice.js'),{save_html: true, username: "default", reponame: "echo_post_microservice", version: "latest"})
+    outputDebug("Loaded all apps (may use already loaded drivers)")
+
+
+
+
+
+
+    await drivers_loaded_by_child()
+
+}
+
+
+
+
+
+
+
+function setUpPredefinedComponents() {
+    setUpComponentsLocally();
+}
+
+
+
+
+
+
+
+    //------------------------------------------------------------------------------
+    //
+    // This is the last thing that happens when AppShare is started
+    //
+    //
+    //
+    //------------------------------------------------------------------------------
+async function drivers_loaded_by_child() {
+          await finalizeYazzLoading();
 }
