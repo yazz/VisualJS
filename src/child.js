@@ -341,33 +341,6 @@ function processMessagesFromMainProcess() {
 
 
 
-    } else if (msg.message_type == "save_code_from_upload2") {
-        //console.log(`Entering  save_code_from_upload`)
-
-
-        var asyy = async function() {
-            var ret = await saveCodeV2(  msg.base_component_id, msg.parent_hash  ,  msg.code  , msg.options);
-            var useDb = msg.base_component_id //saveHelper.getValueOfCodeString(msg.code ,"use_db")
-            if (msg.sqlite_data) {
-                    //console.log("msg.sqlite_data: " + msg.sqlite_data)
-                    var b = Buffer.from(msg.sqlite_data, 'base64')
-                    //console.log("use_db: " + useDb)
-                    var sqliteAppDbPath = path.join( userData, 'app_dbs/' + msg.base_component_id + '.visi' )
-                    fs.writeFileSync(sqliteAppDbPath, b);
-
-            }
-
-            process.send(
-                {
-                    message_type:           'ipc_child_returning_uploaded_app_as_file_in_child_response',
-                    code_id:                 ret.code_id,
-                    base_component_id:       ret.base_component_id,
-                    client_file_upload_id:   msg.client_file_upload_id
-                })
-        }
-        asyy()
-
-
 
 
 
