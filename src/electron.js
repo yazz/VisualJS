@@ -1560,7 +1560,7 @@ async function checkForJSLoaded() {
                 }
                 var jsCode = data
                 outputDebug("*********** Trying to load loadjsurl code *************")
-                forkedProcesses["forked"].send({
+                /*forkedProcesses["forked"].send({
                                                     message_type:        "save_code",
                                                     base_component_id:    baseComponentIdForUrl,
                                                     parent_hash:          null,
@@ -1569,7 +1569,17 @@ async function checkForJSLoaded() {
                                                                             make_public: true,
                                                                             save_html:   true
                                                                          }
-                                               });
+                                               });*/
+                 (async function() {await saveCodeV2(  baseComponentIdForUrl,
+                                                    null  ,
+                                                    data,
+                                                    {
+                                                        make_public: true,
+                                                        save_html:   true
+                                                    })} ) ()
+
+                 //async function saveCodeV2( baseComponentId, parentHash, code , options) {
+
                 runapp = baseComponentIdForUrl
                 let frontEndCode = isFrontEndOnlyCode(data)
                 //console.log("frontEndCode: " + frontEndCode)
