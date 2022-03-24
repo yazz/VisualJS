@@ -1612,7 +1612,7 @@ async function checkForJSLoaded() {
 
             //console.log("code from file:" + data2);
             //console.log("*********** Trying to load loadjsfile code *************")
-            forkedProcesses["forked"].send({
+            /*forkedProcesses["forked"].send({
                                                 message_type:        "save_code",
                                                 base_component_id:    baseComponentIdForFile,
                                                 parent_hash:          null,
@@ -1621,7 +1621,16 @@ async function checkForJSLoaded() {
                                                                         make_public: true,
                                                                         save_html:   true
                                                                      }
-                                               });
+                                               });*/
+            (async function() {let saveResult =await saveCodeV2(  baseComponentIdForFile,
+                                                                  null  ,
+                                                                  data2,
+                                                                  {
+                                                                      make_public: true,
+                                                                      save_html:   true
+                                                                   })
+                                                                                })()
+             //async function saveCodeV2( baseComponentId, parentHash, code , options) {
              runapp = baseComponentIdForFile
              let frontEndCode = isFrontEndOnlyCode(data2)
              //console.log("frontEndCode: " + frontEndCode)
