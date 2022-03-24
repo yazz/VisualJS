@@ -67,14 +67,10 @@ var stmtUpdateAppRegistry
 
 var stmtDeleteTypesForComponentProperty;
 var stmtDeleteAcceptTypesForComponentProperty;
-var stmtInsertTypesForComponentProperty;
-var stmtInsertComponentProperty;
-var stmtInsertAcceptTypesForComponentProperty;
 
 
-var copyMigration;
-var stmtInsertNewCode
-var stmtDeprecateOldCode
+
+
 var hostaddress = null
 var port = null
 
@@ -133,15 +129,7 @@ processMessagesFromMainProcess();
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
 function setUpSql() {
-    //console.log("setUpSql    ")
-    copyMigration = dbsearch.prepare(
-    `                insert into  app_db_latest_ddl_revisions
-                       (base_component_id,latest_revision)
-                    select ?,  latest_revision from app_db_latest_ddl_revisions
-                     where base_component_id=?
 
-    `
-    );
 
     stmtInsertIntoAppRegistry = dbsearch.prepare(" insert or replace into app_registry " +
                                 "    (id,  username, reponame, version, code_id ) " +
@@ -177,24 +165,7 @@ function setUpSql() {
     stmtDeleteAcceptTypesForComponentProperty = dbsearch.prepare(" delete from  component_property_accept_types   where   component_name = ?");
 
 
-    //select name from (select distinct(name) ,count(name) cn from test  where value in (1,2,3)  group by name) where cn = 3
-    stmtInsertComponentProperty = dbsearch.prepare(`insert or ignore
-                                                    into
-                                               component_properties
-                                                    (component_name, property_name )
-                                               values ( ?,?)`)
 
-    stmtInsertTypesForComponentProperty = dbsearch.prepare(`insert or ignore
-                                                    into
-                                               component_property_types
-                                                    (component_name, property_name , type_name, type_value )
-                                               values ( ?,?,?,?)`)
-
-    stmtInsertAcceptTypesForComponentProperty = dbsearch.prepare(`insert or ignore
-                                                    into
-                                               component_property_accept_types
-                                                    (component_name, property_name , accept_type_name , accept_type_value )
-                                               values ( ?,?,?,?)`)
 
 
      stmtInsertAppDDLRevision = dbsearch.prepare(  " insert into app_db_latest_ddl_revisions " +
@@ -207,10 +178,6 @@ function setUpSql() {
                                                           " where " +
                                                           "     base_component_id =  ? ;");
 
-      stmtInsertNewCode = dbsearch.prepare(
-          " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_scope,display_name, creation_timestamp,component_options, logo_url, visibility, interfaces,use_db, editors, read_write_status,properties, component_type, control_sub_type, edit_file_path) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-      stmtDeprecateOldCode = dbsearch.prepare(
-          " update system_code  set code_tag = NULL where base_component_id = ? and id != ?");
 
 }
 
@@ -538,229 +505,6 @@ function shutdownExeProcess(err) {
         dbsearch.run("PRAGMA wal_checkpoint;")
     }
 }
-
-
-
-
-
-
-//------------------------------------------------------------------------------
-//
-//
-//
-//
-//
-//------------------------------------------------------------------------------
-function updateRegistry(options, sha1sum) {
-
-    if (!options.username || !options.reponame) {
-        return
-    }
-    if (!options.version) {
-        options.version = "latest"
-    }
-    if (!sha1sum) {
-        return
-    }
-    try {
-
-        dbsearch.serialize(
-            function() {
-                dbsearch.all(
-                    "SELECT  *  from  app_registry  where  username = ?  and  reponame = ? and version = ?; "
-                    ,
-                    [options.username  ,  options.reponame  ,  options.version]
-                    ,
-
-                    function(err, results)
-                    {
-
-                        try {
-                            dbsearch.serialize(function() {
-                                dbsearch.run("begin exclusive transaction");
-                                if (results.length == 0) {
-                                    stmtInsertIntoAppRegistry.run(uuidv1(),  options.username  ,  options.reponame  ,  options.version,  sha1sum)
-                                } else {
-                                    stmtUpdateAppRegistry.run(sha1sum, options.username  ,  options.reponame  ,  options.version)
-                                }
-                                dbsearch.run("commit")
-                            })
-                        } catch(er) {
-                            console.log(er)
-                        }
-
-
-                     })
-                 },
-                 sqlite3.OPEN_READONLY)
-
-
-    } catch (ewr) {
-        console.log(ewr)
-    }
-}
-
-
-
-
-
-//------------------------------------------------------------------------------
-//
-//
-//
-//
-//
-//------------------------------------------------------------------------------
-function updateRevisions(sqlite, baseComponentId) {
-    //console.log("updateRevisions    ")
-    try {
-
-        dbsearch.serialize(
-            function() {
-                dbsearch.all(
-                    "SELECT  *  from  app_db_latest_ddl_revisions  where  base_component_id = ? ; "
-                    ,
-                    baseComponentId
-                    ,
-
-                    function(err, results)
-                    {
-                        var latestRevision = null
-                        if (results.length > 0) {
-                            latestRevision = results[0].latest_revision
-                        }
-                        var dbPath = path.join(userData, 'app_dbs/' + baseComponentId + '.visi')
-                        var appDb = new sqlite3.Database(dbPath);
-                        //appDb.run("PRAGMA journal_mode=WAL;")
-
-                        appDb.serialize(
-                            function() {
-                              try {
-                                appDb.run("begin exclusive transaction");
-                                var newLatestRev = null
-                                var readIn = false
-                                if (sqlite.migrations) {
-                                  for (var i=0; i < sqlite.migrations.length; i++) {
-                                      var sqlStKey = sqlite.migrations[i].name
-
-                                      for (var j = 0  ;  j < sqlite.migrations[i].up.length  ;  j++ ) {
-                                          if ((latestRevision == null) || readIn) {
-                                              var sqlSt = sqlite.migrations[i].up[j]
-                                              //console.log("sqlSt: = " + sqlSt)
-                                              appDb.run(sqlSt);
-                                              newLatestRev = sqlStKey
-                                          }
-                                          if (latestRevision == sqlStKey) {
-                                              readIn = true
-                                          }
-                                      }
-                                  }
-
-                                }
-
-                                appDb.run("commit");
-                                //appDb.run("PRAGMA wal_checkpoint;")
-
-                                try {
-                                    dbsearch.serialize(function() {
-                                        dbsearch.run("begin exclusive transaction");
-                                        if (results.length == 0) {
-                                            stmtInsertAppDDLRevision.run(baseComponentId, newLatestRev)
-                                        } else {
-                                            if (newLatestRev) {
-                                                stmtUpdateLatestAppDDLRevision.run(newLatestRev,baseComponentId)
-                                            }
-                                        }
-                                        dbsearch.run("commit")
-                                    })
-                                } catch(er) {
-                                    console.log(er)
-                                }
-
-                          } catch(ewq) {
-                                console.log(ewq)
-                          }
-
-                     })
-                 })
-        }
-        ,
-        sqlite3.OPEN_READONLY)
-    } catch (ewr) {
-        console.log(ewr)
-    }
-}
-
-
-
-
-
-
-
-//------------------------------------------------------------------------------
-//
-//
-//
-//
-//
-//------------------------------------------------------------------------------
-function fastForwardToLatestRevision(sqlite, baseComponentId) {
-    //console.log("fastForwardToLatestRevision    ")
-    try {
-
-        dbsearch.serialize(
-            function() {
-                dbsearch.all(
-                    "SELECT  *  from  app_db_latest_ddl_revisions  where  base_component_id = ? ; "
-                    ,
-                    baseComponentId
-                    ,
-
-                    function(err, results)
-                    {
-                        var latestRevision = null
-                        if (results.length > 0) {
-                            latestRevision = results[0].latest_revision
-                        }
-                        var newLatestRev = null
-                        var readIn = false
-                        for (var i=0; i < sqlite.migrations.length; i+=2) {
-                            var sqlStKey = sqlite.migrations[i].name
-
-                            for (var j = 0  ;  j < sqlite.migrations[i].up.length  ;  j++ ) {
-                                if ((latestRevision == null) || readIn) {
-                                    var sqlSt = sqlite.migrations[i].name
-                                    newLatestRev = sqlStKey
-                                }
-                                if (latestRevision == sqlStKey) {
-                                    readIn = true
-                                }
-                            }
-                        }
-
-                        dbsearch.serialize(function() {
-                            dbsearch.run("begin exclusive transaction");
-                            if (results.length == 0) {
-                                stmtInsertAppDDLRevision.run(baseComponentId, newLatestRev)
-                            } else {
-                                if (newLatestRev) {
-                                    stmtUpdateLatestAppDDLRevision.run(newLatestRev,baseComponentId)
-                                }
-                            }
-                            dbsearch.run("commit")
-                        })
-
-
-                 })
-        }
-        ,
-        sqlite3.OPEN_READONLY)
-    } catch (ewr) {
-        console.log(ewr)
-    }
-}
-
-
 
 
 
