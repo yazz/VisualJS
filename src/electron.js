@@ -2530,7 +2530,7 @@ function file_uploadSingleFn(req, res) {
                                                                     indexOfSqliteDataEnd)
             }
 
-            save_code_from_upload({
+            forkedProcesses["forked"].send({
                                                 message_type:           "save_code_from_upload",
                                                 base_component_id:      bci,
                                                 parent_hash:            null,

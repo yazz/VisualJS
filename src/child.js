@@ -341,7 +341,7 @@ function processMessagesFromMainProcess() {
 
 
 
-    } else if (msg.message_type == "save_code_from_upload2") {
+    } else if (msg.message_type == "save_code_from_upload") {
         //console.log(`Entering  save_code_from_upload`)
 
 
