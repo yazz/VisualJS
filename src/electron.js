@@ -686,113 +686,6 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
-        //------------------------------------------------------------------------------
-        //
-        //
-        //
-        //
-        //
-        //------------------------------------------------------------------------------
-        } else if (msg.message_type == "add_rest_api") {
-
-            outputDebug("add_rest_api called")
-
-
-            var newFunction = async function (req, res) {
-
-                var params  = req.query;
-                var url     = req.originalUrl;
-                var body    = req.body;
-
-                var promise = new Promise(async function(returnFn) {
-                    var seqNum = queuedResponseSeqNum;
-                    queuedResponseSeqNum ++;
-                    queuedResponses[ seqNum ] = function(value) {
-                        returnFn(value)
-                    }
-
-
-                    outputDebug(" msg.base_component_id: " + msg.base_component_id);
-                    outputDebug(" seqNum: " + seqNum);
-                            forkedProcesses["forked"].send({
-                                            message_type:          "callDriverMethod",
-                                            find_component:         {
-                                                                        method_name: msg.base_component_id,
-                                                                        driver_name: msg.base_component_id
-                                                                    }
-                                                                    ,
-                                            args:                   {
-                                                                        params: params,
-                                                                        body:   body,
-                                                                        url:    url
-                                                                    }
-                                                                    ,
-                                            seq_num_parent:         null,
-                                            seq_num_browser:        null,
-                                            seq_num_local:          seqNum,
-                                        });
-
-
-                })
-                var ret = await promise
-
-                if (ret.value) {
-                    res.writeHead(200, {'Content-Type': 'application/json'});
-                    res.end(JSON.stringify(
-                        ret.value
-                    ));
-                    if (jaegercollector) {
-                        console.log("calling jaeger...")
-                        try {
-                            tracer = initJaegerTracer(jaegerConfig, jaegerOptions);
-                            let span=tracer.startSpan(url)
-                            span.setTag("call", "some-params")
-                            span.finish()
-                            tracer.close()
-                            console.log("...called jaeger")
-                        } catch(err){
-                            console.log("Error calling jaeger: " + err)
-                        }
-                    }
-                } else if (ret.error) {
-                    res.writeHead(200, {'Content-Type': 'application/json'});
-                    res.end(JSON.stringify(
-                        {error: ret.error}
-                    ));
-                } else {
-                    res.writeHead(200, {'Content-Type': 'application/json'});
-                    res.end(JSON.stringify(
-                        {error: "Unknown problem occurred"}
-                    ));
-                }
-            }
-
-            // end of function def for newFunction
-
-
-            if (!isValidObject(restRoutes[msg.route])) {
-                if (msg.rest_method == "POST") {
-                    app.post(  '/' + msg.route + '/*'  , async function(req, res){
-                        await ((restRoutes[msg.route])(req,res))
-                    })
-                    app.post(  '/' + msg.route  , async function(req, res){
-                        await ((restRoutes[msg.route])(req,res))
-                    })
-
-                } else {
-                    app.get(  '/' + msg.route + '/*'  , async function(req, res){
-                        await ((restRoutes[msg.route])(req,res))
-                    })
-                    app.get(  '/' + msg.route  , async function(req, res){
-                        await ((restRoutes[msg.route])(req,res))
-                    })
-                }
-            }
-            restRoutes[msg.route] = newFunction
-
-
-
-
 
 
 
@@ -2314,7 +2207,7 @@ function websocketFn(ws) {
             var code_fn = receivedMessage.code_fn
 
 
-            forkedProcesses["forked"].send({
+            save_code_from_upload({
                     message_type:           "save_code_from_upload",
                     base_component_id:      receivedMessage.base_component_id,
                     parent_hash:            null,
@@ -2531,7 +2424,7 @@ function file_uploadSingleFn(req, res) {
                                                                     indexOfSqliteDataEnd)
             }
 
-            forkedProcesses["forked"].send({
+            save_code_from_upload({
                                                 message_type:           "save_code_from_upload",
                                                 base_component_id:      bci,
                                                 parent_hash:            null,
@@ -2551,7 +2444,7 @@ function file_uploadSingleFn(req, res) {
 
 
 
-                forkedProcesses["forked"].send({
+              save_code_from_upload({
                                                     message_type:           "save_code_from_upload",
                                                     base_component_id:      bci,
                                                     parent_hash:            null,
@@ -2635,7 +2528,7 @@ function file_uploadFn(req, res, next) {
                                                                         indexOfSqliteDataEnd)
                 }
 
-                forkedProcesses["forked"].send({
+                save_code_from_upload({
                                                     message_type:           "save_code_from_upload",
                                                     base_component_id:      bci,
                                                     parent_hash:            null,
@@ -2680,7 +2573,7 @@ function loadAppFromFile(localp,client_file_upload_id) {
 
 
 
-      forkedProcesses["forked"].send({
+    save_code_from_upload({
                                           message_type:           "save_code_from_upload",
                                           base_component_id:      bci,
                                           parent_hash:            null,
@@ -2706,7 +2599,7 @@ function loadAppFromFile(localp,client_file_upload_id) {
 
 function code_uploadFn(req, res) {
 
-        forkedProcesses["forked"].send({
+    save_code_from_upload({
                                             message_type:           "save_code_from_upload",
                                             parent_hash:            null,
                                             code:                   "function(args) {  /* rest_api('test3') */ return {ab: 163}}",
@@ -3847,7 +3740,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                     var restApi = saveHelper.getValueOfCodeString(code, "rest_api")
                                     if (restApi) {
                                         var restMethod = saveHelper.getValueOfCodeString(code, "rest_method")
-                                        process.send({
+                                        add_rest_api({
                                                         message_type:       "add_rest_api",
                                                         route:               restApi,
                                                         base_component_id:   baseComponentId,
@@ -4547,4 +4440,167 @@ function fastForwardToLatestRevision(sqlite, baseComponentId) {
     } catch (ewr) {
         console.log(ewr)
     }
+}
+
+
+
+
+
+async function save_code_from_upload(msg) {
+    //console.log(`Entering  save_code_from_upload`)
+
+
+    var ret = await saveCodeV2(  msg.base_component_id, msg.parent_hash  ,  msg.code  , msg.options);
+    var useDb = msg.base_component_id //saveHelper.getValueOfCodeString(msg.code ,"use_db")
+    if (msg.sqlite_data) {
+            //console.log("msg.sqlite_data: " + msg.sqlite_data)
+            var b = Buffer.from(msg.sqlite_data, 'base64')
+            //console.log("use_db: " + useDb)
+            var sqliteAppDbPath = path.join( userData, 'app_dbs/' + msg.base_component_id + '.visi' )
+            fs.writeFileSync(sqliteAppDbPath, b);
+
+    }
+
+
+    ipc_child_returning_uploaded_app_as_file_in_child_response(
+            {
+                message_type:           'ipc_child_returning_uploaded_app_as_file_in_child_response',
+                code_id:                 ret.code_id,
+                base_component_id:       ret.base_component_id,
+                client_file_upload_id:   msg.client_file_upload_id
+            })
+    }
+
+
+
+
+function ipc_child_returning_uploaded_app_as_file_in_child_response(msg) {
+
+      outputDebug("uploaded_app_as_file_in_child: " + JSON.stringify(msg))
+
+      // ______
+      // Server  --1 data item-->  Browser
+      // ______
+      //
+      sendOverWebSockets({
+                            type:                 "uploaded_app_as_file_from_server",
+                            code_id:               msg.code_id,
+                            base_component_id:     msg.base_component_id,
+                            client_file_upload_id: msg.client_file_upload_id
+
+          });
+}
+
+
+
+
+
+
+
+
+        //------------------------------------------------------------------------------
+        //
+        //
+        //
+        //
+        //
+        //------------------------------------------------------------------------------
+        function add_rest_api(msg)  {
+
+            outputDebug("add_rest_api called")
+
+
+            var newFunction = async function (req, res) {
+
+                var params  = req.query;
+                var url     = req.originalUrl;
+                var body    = req.body;
+
+                var promise = new Promise(async function(returnFn) {
+                    var seqNum = queuedResponseSeqNum;
+                    queuedResponseSeqNum ++;
+                    queuedResponses[ seqNum ] = function(value) {
+                        returnFn(value)
+                    }
+
+
+                    outputDebug(" msg.base_component_id: " + msg.base_component_id);
+                    outputDebug(" seqNum: " + seqNum);
+                            forkedProcesses["forked"].send({
+                                            message_type:          "callDriverMethod",
+                                            find_component:         {
+                                                                        method_name: msg.base_component_id,
+                                                                        driver_name: msg.base_component_id
+                                                                    }
+                                                                    ,
+                                            args:                   {
+                                                                        params: params,
+                                                                        body:   body,
+                                                                        url:    url
+                                                                    }
+                                                                    ,
+                                            seq_num_parent:         null,
+                                            seq_num_browser:        null,
+                                            seq_num_local:          seqNum,
+                                        });
+
+
+                })
+                var ret = await promise
+
+                if (ret.value) {
+                    res.writeHead(200, {'Content-Type': 'application/json'});
+                    res.end(JSON.stringify(
+                        ret.value
+                    ));
+                    if (jaegercollector) {
+                        console.log("calling jaeger...")
+                        try {
+                            tracer = initJaegerTracer(jaegerConfig, jaegerOptions);
+                            let span=tracer.startSpan(url)
+                            span.setTag("call", "some-params")
+                            span.finish()
+                            tracer.close()
+                            console.log("...called jaeger")
+                        } catch(err){
+                            console.log("Error calling jaeger: " + err)
+                        }
+                    }
+                } else if (ret.error) {
+                    res.writeHead(200, {'Content-Type': 'application/json'});
+                    res.end(JSON.stringify(
+                        {error: ret.error}
+                    ));
+                } else {
+                    res.writeHead(200, {'Content-Type': 'application/json'});
+                    res.end(JSON.stringify(
+                        {error: "Unknown problem occurred"}
+                    ));
+                }
+            }
+
+            // end of function def for newFunction
+
+
+            if (!isValidObject(restRoutes[msg.route])) {
+                if (msg.rest_method == "POST") {
+                    app.post(  '/' + msg.route + '/*'  , async function(req, res){
+                        await ((restRoutes[msg.route])(req,res))
+                    })
+                    app.post(  '/' + msg.route  , async function(req, res){
+                        await ((restRoutes[msg.route])(req,res))
+                    })
+
+                } else {
+                    app.get(  '/' + msg.route + '/*'  , async function(req, res){
+                        await ((restRoutes[msg.route])(req,res))
+                    })
+                    app.get(  '/' + msg.route  , async function(req, res){
+                        await ((restRoutes[msg.route])(req,res))
+                    })
+                }
+            }
+            restRoutes[msg.route] = newFunction
+
+
 }
