@@ -668,13 +668,18 @@ function setUpChildListeners(processName, fileName, debugPort) {
         //------------------------------------------------------------------------------
         if (msg.message_type == "save_code") {
 
-            forkedProcesses["forked"].send({
+            /*forkedProcesses["forked"].send({
                                                 message_type:       "save_code",
                                                 base_component_id:   msg.base_component_id,
                                                 parent_hash:         msg.parent_hash,
                                                 code:                msg.code,
                                                 options:             msg.options
-                                           });
+                                           });*/
+             let saveResult =await saveCodeV2(  msg.base_component_id,
+                                                msg.parent_hash  ,
+                                                msg.code,
+                                                msg.options)
+             //async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
 
 
