@@ -55,6 +55,11 @@ var stmtInsertTypesForComponentProperty;
 var stmtInsertComponentProperty;
 var stmtInsertAcceptTypesForComponentProperty;
 
+var copyMigration;
+var stmtInsertNewCode
+var stmtDeprecateOldCode
+
+
 var expressWs       = require2('express-ws')(app);
 outputDebug("__filename: " + __filename)
 outputDebug("__dirname: " + __dirname)
@@ -1646,7 +1651,7 @@ async function checkForJSLoaded() {
 
          } else if (isValidObject(loadjscode)) {
              outputDebug("*********** Using loadjscode ************")
-
+             setUpSql()
              var data2 = loadjscode
              var baseComponentIdForCode = saveHelper.getValueOfCodeString(data2, "base_component_id")
              outputDebug("baseComponentIdForCode:" + baseComponentIdForCode);
@@ -1657,7 +1662,7 @@ async function checkForJSLoaded() {
 
              //console.log("code:" + data2);
              outputDebug("*********** Trying to load loadjscode code *************")
-             forkedProcesses["forked"].send({
+             /*forkedProcesses["forked"].send({
                                                  message_type:        "save_code",
                                                  base_component_id:    baseComponentIdForCode,
                                                  parent_hash:          null,
@@ -1666,7 +1671,22 @@ async function checkForJSLoaded() {
                                                                          make_public: true,
                                                                          save_html:   true
                                                                       }
-                                                });
+                                                });*/
+
+
+              let saveResult =await saveCodeV2(  baseComponentIdForCode,
+                                                 null  ,
+                                                 data2,
+                                                 {
+                                                     make_public: true,
+                                                     save_html:   true
+                                                  })
+              //async function saveCodeV2( baseComponentId, parentHash, code , options) {
+
+
+
+
+
               runapp = baseComponentIdForCode
               //console.log("baseComponentIdForCode: " + baseComponentIdForCode)
               //console.log("runapp: " + runapp)
