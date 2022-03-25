@@ -5379,3 +5379,234 @@ function sendJobToProcessName(id, args, processName, parentCallId, callbackIndex
     }, sqlite3.OPEN_READONLY)
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+//-----------------------------------------------------------------------------------------
+//
+//                                  startNode
+//
+// This is called when a node has been started. Noter that this does not start the
+// NodeJS process, it just updates the Sqlite database to say that the process is
+// ready to accept requests
+//
+//-----------------------------------------------------------------------------------------
+function startNode (msg) {
+
+
+     //console.log(" --- Started Node --- ")
+     //console.log("     Node ID: " + msg.node_id)
+     //console.log("     Process ID: " + msg.child_process_id)
+     //console.log("     Started: " + msg.started)
+     dbsearch.serialize(
+         function() {
+             var stmt = dbsearch.all(
+               "SELECT * FROM system_process_info where  yazz_instance_id = ?  AND  process = ?; "
+               ,
+               [  yazzInstanceId  ,  msg.node_id  ]
+               ,
+
+                 function(err, results)
+                 {
+                     if (results.length == 0)  {
+                         dbsearch.serialize(
+                             function() {
+                                 dbsearch.run("begin exclusive transaction");
+                                 insertIntoProcessTable.run(
+                                     yazzInstanceId,
+                                     msg.node_id,
+                                     msg.child_process_id,
+                                     msg.started,
+                                     "IDLE",
+                                     null
+                                     )
+                                 dbsearch.run("commit", function() {
+                                        processesInUse[msg.node_id] = false
+                                 });
+                         })
+
+                     } else {
+                         dbsearch.serialize(
+                             function() {
+                                 dbsearch.run("begin exclusive transaction");
+                                 updateProcessTable.run(
+                                     msg.child_process_id,
+                                     msg.started,
+                                     "IDLE",
+                                     null,
+                                     yazzInstanceId,
+                                     msg.node_id
+                                 )
+                                 dbsearch.run("commit", function() {
+                                        processesInUse[msg.node_id] = false
+                                 });
+                         })
+                     }
+                 })
+             })
+
+}
+
+
+
+
+
+
+
+
+
+
+//-----------------------------------------------------------------------------------------
+//
+//                                   function_call_request
+//
+// This is called to call code.
+//
+//-----------------------------------------------------------------------------------------
+function function_call_request2 (msg) {
+
+    if (msg.find_component.driver_name && msg.find_component.method_name) {
+        dbsearch.serialize(
+            function() {
+                var stmt = dbsearch.all(
+                  "SELECT * FROM system_code where base_component_id = ? " +
+                    " and code_tag = 'LATEST'; ",
+
+                   msg.find_component.driver_name,
+
+                    function(err, results)
+                    {
+                        if (results && (results.length > 0)) {
+                           scheduleJobWithCodeId(  results[0].id,
+                                                   msg.args,
+                                                   msg.caller_call_id,
+                                                   msg.callback_index)
+                            //callbackFn(results[0].id);
+                        } else {
+                            //callbackFn(null)
+                        }
+
+                    })
+        }, sqlite3.OPEN_READONLY)
+
+
+
+    } else if (msg.find_component.code_id) {
+       scheduleJobWithCodeId(  msg.find_component.code_id,
+                               msg.args,
+                               msg.caller_call_id,
+                               msg.callback_index)
+
+
+
+    } else if (msg.find_component.base_component_id) {
+        //console.log("In msg.find_component.base_component_id")
+        dbsearch.serialize(
+            function() {
+                var stmt = dbsearch.all(
+                  "SELECT id FROM system_code where base_component_id = ? and code_tag = 'LATEST'; ",
+
+                   msg.find_component.base_component_id,
+
+                    function(err, results)
+                    {
+                        if (results && (results.length > 0)) {
+                            //console.log("    msg.find_component.base_component_id: " + msg.find_component.base_component_id  + " = " + results[0].id)
+                           scheduleJobWithCodeId(  results[0].id,
+                                                   msg.args,
+                                                   msg.caller_call_id,
+                                                   msg.callback_index)
+                            //callbackFn(results[0].id);
+                        } else {
+                            console.log("    msg.find_component.base_component_id: Could not find " +   msg.find_component.base_component_id)
+                        }
+
+                    })
+        }, sqlite3.OPEN_READONLY)
+    }
+}
+
+
+
+
+
+
+//-----------------------------------------------------------------------------------------
+//
+//                                   processor_free
+//
+// This is called whenever one of the code processors is free. They should only be allowed
+// to process one thing at a time
+//
+//-----------------------------------------------------------------------------------------
+function processor_free (msg) {
+
+
+    dbsearch.serialize(
+        function() {
+            dbsearch.run("begin exclusive transaction");
+            setProcessToIdle.run(msg.child_process_name, yazzInstanceId)
+
+            dbsearch.run("commit", function() {
+                processesInUse[msg.child_process_name] = false
+            });
+        })
+}
+
+
+
+
+
+
+
+
+
+
+//-----------------------------------------------------------------------------------------
+//
+//                                   function_call_response
+//
+// This is called to return the response of a call
+//
+//-----------------------------------------------------------------------------------------
+function function_call_response (msg) {
+
+   //console.log("*) Response received at Scheduler ")
+   //console.log("*) result generated by call ID: " + msg.called_call_id)
+   var callDetails = callList[msg.called_call_id]
+   //console.log("*) call details: " + JSON.stringify(msg,null,2))
+
+   if (callDetails == null) {
+      console.log("In Scheduler:function_call_response   callList    is not set for : " + JSON.stringify(msg,null,2))
+      return
+   }
+   var parentCallId = callDetails.parent_call_id
+   //console.log("*) parent call ID: " + JSON.stringify(parentCallId,null,2))
+
+   var processName
+   if (parentCallId == -1) {
+       processName = "forked"
+   } else {
+       var parentCallDetails = callList[parentCallId]
+       //console.log("*) parent call details: " + JSON.stringify(parentCallDetails,null,2))
+       //console.log("*) Response: " + JSON.stringify(msg.result,null,2))
+       processName = parentCallDetails.process_name
+   }
+
+   //console.log("msg.callback_index returned: " + msg.callback_index)
+   process.send({     message_type:       "return_response_to_function_caller" ,
+                      child_process_name:  processName,
+                      callback_index:      msg.callback_index,
+                      result:              msg.result
+                  });
+}
