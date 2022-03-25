@@ -2,6 +2,13 @@
 
 let getFileFromUser = null
 
+var childProcessNameInScheduler
+var processesInUse                      = new Object()
+var tryAgain                            = true
+var nextCallId                          = 0
+var callList                            = new Object
+var processesRetryingCount              = 0
+
 let visifile = null
 const path = require("path");
 const url = require('url');
