@@ -736,11 +736,11 @@ function setUpChildListeners(processName, fileName, debugPort) {
                 }
 
             if (msg.child_process_name.startsWith("forkedExeProcess")) {
-
+                setUpSql()
                 forkedProcesses[msg.child_process_name].send({ message_type: "setUpSql" });
 
 
-                forkedProcesses["forkedExeScheduler"].send({    message_type:    "startNode",
+                startNode({    message_type:    "startNode",
                                                                 node_id:          msg.child_process_name,
                                                                 child_process_id: forkedProcesses[msg.child_process_name].pid,
                                                                 started:          new Date()
@@ -789,7 +789,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
         //------------------------------------------------------------------------------
         } else if (msg.message_type == "processor_free") {
 
-            forkedProcesses["forkedExeScheduler"].send({
+            processor_free({
                                                     message_type:         "processor_free",
                                                     child_process_name:    msg.child_process_name
                                                   });
@@ -835,7 +835,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
       //------------------------------------------------------------------------------
       } else if (msg.message_type == "function_call_request") {
 
-              forkedProcesses["forkedExeScheduler"].send({
+              function_call_request({
                                                       message_type:         "function_call_request",
                                                       child_process_name:    msg.child_process_name,
                                                       find_component:        msg.find_component,
@@ -858,7 +858,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
       //------------------------------------------------------------------------------
       } else if (msg.message_type == "function_call_response") {
           //console.log("*** function_call_response: " + JSON.stringify(msg,null,2))
-          forkedProcesses["forkedExeScheduler"].send({
+          function_call_response({
                                                   message_type:         "function_call_response",
                                                   child_process_name:    msg.child_process_name,
                                                   driver_name:           msg.driver_name,
@@ -5076,7 +5076,7 @@ function ipc_child_returning_callDriverMethod_response(msg) {
       var useCallbackIndex = callbackIndex ++
       callbackList[ useCallbackIndex ] = callbackFn
       //console.log("msg.callback_index sent for " + driverName + ":" + methodName + ": " + useCallbackIndex)
-      function_call_request({  message_type:       "function_call_request" ,
+      function_call_requestPart2({  message_type:       "function_call_request" ,
                       find_component:      findComponentArgs,
                       args:                args,
                       callback_index:      useCallbackIndex,
@@ -5100,7 +5100,7 @@ function ipc_child_returning_callDriverMethod_response(msg) {
 //------------------------------------------------------------------------------
 function function_call_request(msg) {
 
-    forkedProcesses["forkedExeScheduler"].send({
+    function_call_requestPart2({
                                             message_type:         "function_call_request",
                                             child_process_name:    msg.child_process_name,
                                             find_component:        msg.find_component,
@@ -5223,7 +5223,7 @@ function killProcess(processName, callbackIndex) {
 
             dbsearch.run("commit", function() {
                 processesInUse[processName] = false
-                process.send({     message_type:       "return_response_to_function_caller" ,
+                return_response_to_function_caller({     message_type:       "return_response_to_function_caller" ,
                                    child_process_name:  processName,
                                    callback_index:      callbackIndex,
                                    result:              {error: {
@@ -5291,7 +5291,7 @@ function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
                     scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex)
                 },2000)
             } else {
-                process.send({     message_type:       "return_response_to_function_caller" ,
+                return_response_to_function_caller({     message_type:       "return_response_to_function_caller" ,
                                    child_process_name:  processName,
                                    callback_index:      callbackIndex,
                                    result:              {error: {
@@ -5332,7 +5332,7 @@ function sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processName  ,  
 
 
             dbsearch.run("commit", function() {
-                process.send({  message_type:       "execute_code_in_exe_child_process" ,
+                execute_code_in_exe_child_process({  message_type:       "execute_code_in_exe_child_process" ,
                                 child_process_name:  processName,
                                 code_id:             id,
                                 args:                args,
@@ -5346,6 +5346,30 @@ function sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processName  ,  
 }
 
 
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
+function execute_code_in_exe_child_process (msg) {
+
+        forkedProcesses[msg.child_process_name].send({
+                                                message_type:       "execute_code",
+                                                code:                msg.code,
+                                                callback_index:      msg.callback_index,
+                                                code_id:             msg.code_id,
+                                                args:                msg.args,
+                                                call_id:             msg.call_id,
+                                                on_condition:        msg.on_condition,
+                                                base_component_id:   msg.base_component_id
+                                              });
+}
 
 
 
@@ -5482,7 +5506,7 @@ function startNode (msg) {
 // This is called to call code.
 //
 //-----------------------------------------------------------------------------------------
-function function_call_request2 (msg) {
+function function_call_requestPart2 (msg) {
 
     if (msg.find_component.driver_name && msg.find_component.method_name) {
         dbsearch.serialize(
@@ -5613,9 +5637,9 @@ function function_call_response (msg) {
    }
 
    //console.log("msg.callback_index returned: " + msg.callback_index)
-   process.send({     message_type:       "return_response_to_function_caller" ,
-                      child_process_name:  processName,
-                      callback_index:      msg.callback_index,
-                      result:              msg.result
-                  });
-}
+   return_response_to_function_caller({     message_type:       "return_response_to_function_caller" ,
+                                            child_process_name:  processName,
+                                            callback_index:      msg.callback_index,
+                                            result:              msg.result
+                                        });
+                      }
