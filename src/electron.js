@@ -4801,11 +4801,14 @@ async function setUpComponentsLocally() {
 
 
 
+    await evalLocalSystemDriver('metamask',           path.join(__dirname, '../public/visifile_drivers/meta.yazz'),        {save_html: true, username: "default", reponame: "metamask",        version: "latest"})
+
     await evalLocalSystemDriver('app_editor_3',   path.join(__dirname, '../public/visifile_drivers/apps/appEditorV3.js'),{username: "default", reponame: "app_editor_3", version: "latest"})
     await evalLocalSystemDriver('appEmbed',   path.join(__dirname, '../public/visifile_drivers/apps/appEmbed.js'),{username: "default", reponame: "appEmbed", version: "latest"})
     await evalLocalSystemDriver('search',   path.join(__dirname, '../public/visifile_drivers/apps/search.js'),{username: "default", reponame: "search", version: "latest"})
     await evalLocalSystemDriver('test',   path.join(__dirname, '../public/visifile_drivers/apps/test.js'),{save_html: true, username: "default", reponame: "test", version: "latest"})
     await evalLocalSystemDriver('oculus_go',   path.join(__dirname, '../public/visifile_drivers/apps/oculus_go.js'),{save_html: true, username: "default", reponame: "oculus_go", version: "latest"})
+
 
     await evalLocalSystemDriver('game',           path.join(__dirname, '../public/visifile_drivers/apps/game.js'),        {save_html: true, username: "default", reponame: "game",        version: "latest"})
     await evalLocalSystemDriver('oldhomepage',    path.join(__dirname, '../public/visifile_drivers/apps/oldhomepage.js'), {save_html: true, username: "default", reponame: "oldhomepage", version: "latest"})
