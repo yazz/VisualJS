@@ -29,7 +29,7 @@ var os                          = require('os')
 var db_helper                   = require("./db_helper")
 var yazzInstanceId = null
 var userData
-var childProcessName
+var childProcessNameInScheduler
 var dbsearch;
 var setProcessToRunning;
 var setProcessToIdle;
@@ -87,7 +87,7 @@ function processMessagesFromMainProcess() {
 
         //console.log('-- Init v3');
         userData                    = msg.user_data_path
-        childProcessName            = msg.child_process_name
+        childProcessNameInScheduler            = msg.child_process_name
         showDebug                   = msg.show_debug
         showProgress                = msg.show_progress
         yazzInstanceId              = msg.yazz_instance_id
@@ -108,7 +108,7 @@ function processMessagesFromMainProcess() {
         dbsearch = new sqlite3.Database(dbPath);
         dbsearch.run("PRAGMA journal_mode=WAL;")
         process.send({  message_type:       "database_setup_in_child" ,
-                        child_process_name:  childProcessName
+                        child_process_name:  childProcessNameInScheduler
                         });
         setUpSql()
 
