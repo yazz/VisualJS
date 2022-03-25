@@ -2713,7 +2713,7 @@ async function startServices() {
                                              req.body.value.code_id  ,
                                              req.body.value.code,
                                              req.body.value.options)
-//zzz
+
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end(JSON.stringify(saveResult))
         });
@@ -4026,7 +4026,7 @@ function setUpSql() {
     stmtDeleteDependencies = dbsearch.prepare(" delete from  app_dependencies   where   code_id = ?");
 
 
-    //zzz
+
     stmtDeleteTypesForComponentProperty = dbsearch.prepare(" delete from  component_property_types   where   component_name = ?");
     stmtDeleteAcceptTypesForComponentProperty = dbsearch.prepare(" delete from  component_property_accept_types   where   component_name = ?");
 
@@ -5113,4 +5113,269 @@ function return_response_to_function_caller(msg) {
        // console.log("*)  callback_index:" + msg.callback_index );
        // console.log("*)  result:        " + msg.result );
         callbackList[ msg.callback_index ](msg.result)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+///zzz
+
+//-----------------------------------------------------------------------------------------//
+//                                                                                         //
+//                          updateRunningTimeForprocess                                    //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//-----------------------------------------------------------------------------------------//
+function updateRunningTimeForprocess() {
+        //console.log("Checking processes")
+
+        dbsearch.serialize(
+            function() {
+                var stmt = dbsearch.all(
+                  "SELECT * FROM system_process_info where  status = 'RUNNING'  AND  yazz_instance_id = ?; "
+                  ,
+                  [  yazzInstanceId  ]
+                  ,
+
+                    function(err, results)
+                    {
+                        if (results) {
+                           var timeNow = new Date().getTime();
+                           dbsearch.run("begin exclusive transaction");
+                           for (var ii = 0 ; ii < results.length ; ii++ ) {
+                               var thisProcess = results[ii]
+                               var startTime = thisProcess.running_start_time_ms
+                               var duration = timeNow - startTime
+                               setProcessRunningDurationMs.run(duration, thisProcess.process, yazzInstanceId)
+                           }
+                           dbsearch.run("commit", function() {
+                           });
+                        }
+
+                    })
+        })
+}
+
+
+//setInterval(updateRunningTimeForprocess,1000)
+//zzz
+
+
+
+
+function findLongRunningProcesses() {
+        console.log("Checking processes")
+
+        dbsearch.serialize(
+            function() {
+                var stmt = dbsearch.all(
+                  "SELECT * FROM system_process_info where  status = 'RUNNING' and event_duration_ms > ?  and  yazz_instance_id = ?; "
+                  ,
+                  [  maxJobProcessDurationMs  ,  yazzInstanceId  ]
+                  ,
+                    function(err, results)
+                    {
+                        if (results) {
+                           dbsearch.run("begin exclusive transaction");
+                           for (var ii = 0 ; ii < results.length ; ii++ ) {
+                               var thisProcess = results[ii]
+                               console.log(thisProcess)
+                               //killProcess(thisProcess.process, thisProcess.callback_index)
+                           }
+                           dbsearch.run("commit", function() {
+                           });
+                        }
+
+                    })
+        })
+}
+
+//setInterval(findLongRunningProcesses,1000)
+
+function killProcess(processName, callbackIndex) {
+    dbsearch.serialize(
+        function() {
+            dbsearch.run("begin exclusive transaction");
+            setProcessToIdle.run(processName, yazzInstanceId)
+
+            dbsearch.run("commit", function() {
+                processesInUse[processName] = false
+                process.send({     message_type:       "return_response_to_function_caller" ,
+                                   child_process_name:  processName,
+                                   callback_index:      callbackIndex,
+                                   result:              {error: {
+                                                            text: "Request timeout",
+                                                            code: 408
+                                   }}
+                               });
+            });
+        })
+}
+
+
+
+//-----------------------------------------------------------------------------------------//
+//                                                                                         //
+//                            scheduleJobWithCodeId                                        //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//-----------------------------------------------------------------------------------------//
+function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
+
+    var processToUse = null
+    var processNames = Object.keys(processesInUse)
+
+    for ( var processNameIndex = 0 ; processNameIndex < processNames.length; processNameIndex ++ ) {
+
+        var actualProcessName   = processNames[ processNameIndex ]
+        var isInUse             = processesInUse[ actualProcessName ]
+
+        //console.log(" select * from system_process_info    ")
+        //console.log("    " + JSON.stringify(results,null,2))
+
+        if ( !isInUse ) {
+            processToUse = actualProcessName
+            processesInUse[actualProcessName] = true
+            outputDebug(" Sending job to process:    " + JSON.stringify(processToUse,null,2))
+            sendJobToProcessName(codeId, args, actualProcessName, parentCallId, callbackIndex)
+            return
+        }
+    }
+    if (!processToUse) {
+        console.log("Could not find a process to use for " + codeId)
+        if (tryAgain) {
+
+
+            var processName
+            if (parentCallId == -1) {
+                processName = "forked"
+            } else {
+                var parentCallDetails = callList[parentCallId]
+                //console.log("*) parent call details: " + JSON.stringify(parentCallDetails,null,2))
+                //console.log("*) Response: " + JSON.stringify(msg.result,null,2))
+                processName = parentCallDetails.process_name
+            }
+
+            //console.log("msg.callback_index returned: " + msg.callback_index)
+            if (processesRetryingCount < maxProcessesCountToRetry) {
+                console.log("Retry in 2 seconds ..." )
+                processesRetryingCount ++
+                console.log("processesRetryingCount: " + processesRetryingCount)
+                setTimeout(function() {
+                    processesRetryingCount --
+                    console.log("processesRetryingCount: " + processesRetryingCount)
+                    scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex)
+                },2000)
+            } else {
+                process.send({     message_type:       "return_response_to_function_caller" ,
+                                   child_process_name:  processName,
+                                   callback_index:      callbackIndex,
+                                   result:              {error: {
+                                                            text: "Yazz Server too busy",
+                                                            code: 503
+                                   }}
+                               });
+            }
+
+
+        }
+    }
+}
+
+
+
+
+
+
+//-----------------------------------------------------------------------------------------//
+//                                                                                         //
+//                                   sendToProcess                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//-----------------------------------------------------------------------------------------//
+function sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processName  ,  base_component_id ,  on_condition  ,  args) {
+
+    var newCallId = nextCallId ++
+
+    callList[  newCallId  ] = {     process_name:       processName,
+                                    parent_call_id:     parentCallId        }
+    dbsearch.serialize(
+        function() {
+            dbsearch.run("begin exclusive transaction");
+            let runningStartTime = new Date().getTime();
+            setProcessToRunning.run( base_component_id, on_condition, runningStartTime, id, callbackIndex, processName, yazzInstanceId )
+
+
+            dbsearch.run("commit", function() {
+                process.send({  message_type:       "execute_code_in_exe_child_process" ,
+                                child_process_name:  processName,
+                                code_id:             id,
+                                args:                args,
+                                call_id:             newCallId,
+                                callback_index:      callbackIndex,
+                                on_condition:        on_condition,
+                                base_component_id:   base_component_id
+                                });
+            });
+        })
+}
+
+
+
+
+
+
+
+//-----------------------------------------------------------------------------------------//
+//                                                                                         //
+//                                   sendJobToProcessName                                  //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//-----------------------------------------------------------------------------------------//
+function sendJobToProcessName(id, args, processName, parentCallId, callbackIndex) {
+
+    dbsearch.serialize(
+        function() {
+            var stmt = dbsearch.all(
+                "SELECT base_component_id, on_condition FROM system_code where id = ? LIMIT 1",
+                id,
+
+                function(err, results)
+                {
+                    if (results) {
+                        if (results.length > 0) {
+
+
+                            sendToProcess(  id,
+                                            parentCallId,
+                                            callbackIndex,
+                                            processName,
+                                            results[0].base_component_id,
+                                            results[0].on_condition,
+                                            args)
+
+
+
+                        }
+                    }
+                })
+    }, sqlite3.OPEN_READONLY)
+
 }
