@@ -731,9 +731,6 @@ function setUpChildListeners(processName, fileName, debugPort) {
         } else if (msg.message_type == "database_setup_in_child") {
 
 
-            if (msg.child_process_name == "forkedExeScheduler") {
-                    forkedProcesses["forkedExeScheduler"].send({ message_type: "setUpSql" });
-                }
 
             if (msg.child_process_name.startsWith("forkedExeProcess")) {
                 setUpSql()
@@ -981,19 +978,6 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
 
 
 
-    if (processName == "forkedExeScheduler") {
-
-        forkedProcesses["forkedExeScheduler"].send({  message_type: "init" ,
-                                                      user_data_path: userData,
-                                                      child_process_name: "forkedExeScheduler",
-                                                      max_processes_count_to_retry: maxProcessesCountToRetry,
-                                                      max_job_process_duration_ms: maxJobProcessDurationMs,
-                                                      show_debug: showDebug,
-                                                      show_progress: showProgress,
-                                                      yazz_instance_id: yazzInstanceId,
-                                                      jaeger_collector: jaegercollector
-                                              });
-    }
 
     for (var i=0;i<executionProcessCount; i++ ) {
         var exeProcName = "forkedExeProcess" + i
@@ -1101,10 +1085,6 @@ function shutDown() {
             })
         }
 
-        if (forkedProcesses["forkedExeScheduler"]) {
-            outputDebug("Killed Exe Scheduler process")
-            forkedProcesses["forkedExeScheduler"].kill();
-        }
 
         for (var i = 0; i < executionProcessCount; i++ ) {
             var exeProcName = "forkedExeProcess" + i
@@ -2823,7 +2803,6 @@ async function startServices() {
 
 //zzz
 
-    setupForkedProcess("forkedExeScheduler", "exeScheduler.js", 40004)
 
     childProcessNameInScheduler            = "forkedExeScheduler"
 
