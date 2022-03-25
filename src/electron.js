@@ -21,6 +21,7 @@ var isDocker        = require2('is-docker');
 var ls = require2('ls-sync');
 var rimraf = require2("rimraf");
 let forge = require2('node-forge');
+var db_helper                   = require("./db_helper")
 
 var pidusage        = require2("pidusage");
 var fs              = require2('fs');
@@ -690,47 +691,6 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
-        //------------------------------------------------------------------------------
-        //
-        //
-        //
-        //
-        //
-        //------------------------------------------------------------------------------
-        } else if (msg.message_type == "createdTablesInChild") {
-
-
-            forkedProcesses["forked"].send({         message_type: "setUpSql" });
-            forkedProcesses["forked"].send({         message_type: "greeting" , hello: 'world' });
-
-            outputDebug("mainNodeProcessStarted: " + mainNodeProcessStarted)
-
-            if (!mainNodeProcessStarted) {
-                mainNodeProcessStarted = true
-                outputDebug("createdTablesInChild")
-
-
-
-
-                isCodeTtyCode = await isTtyCode()
-                //console.log("isCodeTtyCode:= " + isCodeTtyCode)
-
-
-
-                if (isCodeTtyCode) {
-                    await startServices()
-                } else {
-                    console.log("Loading Visual Javascript. Please wait a few minutes ... ")
-                    getPort()
-
-
-                }
-            }
-
-
-
-
-
     //------------------------------------------------------------------------------
     //
     // This is the last thing that happens when AppShare is started
@@ -1016,7 +976,7 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
 
                                               });
 
-        forkedProcesses["forked"].send({         message_type: "createTables" });
+        createTables()
     }
 
 
@@ -4965,4 +4925,56 @@ function setUpPredefinedComponents() {
     //------------------------------------------------------------------------------
 async function drivers_loaded_by_child() {
           await finalizeYazzLoading();
+}
+
+
+
+
+
+function createTables() {
+  db_helper.createTables(dbsearch,
+          createdTablesInChild)
+
+}
+
+
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
+async function createdTablesInChild() {
+
+    outputDebug("mainNodeProcessStarted: " + mainNodeProcessStarted)
+
+    if (!mainNodeProcessStarted) {
+        mainNodeProcessStarted = true
+        outputDebug("createdTablesInChild")
+
+
+
+
+        isCodeTtyCode = await isTtyCode()
+        //console.log("isCodeTtyCode:= " + isCodeTtyCode)
+
+
+
+        if (isCodeTtyCode) {
+            await startServices()
+        } else {
+            console.log("Loading Visual Javascript. Please wait a few minutes ... ")
+            getPort()
+
+
+        }
+    }
 }

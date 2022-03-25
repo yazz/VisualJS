@@ -151,7 +151,7 @@ function processMessagesFromMainProcess() {
 
 
 
-    } else if (msg.message_type == 'createTables') {
+    } else if (msg.message_type == 'createTables2') {
 
         db_helper.createTables(dbsearch,
             function() {
