@@ -35,6 +35,16 @@ properties(
                             {display: "False",  value: "False"}
                         ]
         }
+        ,
+
+        {
+            id:         "defaultAccount",
+            name:       "Default Account",
+            types: {text: true},
+            default:    "",
+            type:       "String"
+        }
+
 
     ]
 )//properties
@@ -79,7 +89,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAoHCBQSEhgSEhU
                 this.properties.connected = "False"
 
               } else {
+                debugger
                 this.properties.connected = "True"
+                let accounts = (await web3.eth.getAccounts())
+                this.properties.defaultAccount = accounts[0]
 
               }
             }
