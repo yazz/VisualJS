@@ -64,6 +64,11 @@ var copyMigration;
 var stmtInsertNewCode
 var stmtDeprecateOldCode
 
+var setProcessToRunning;
+var setProcessToIdle;
+var setProcessRunningDurationMs;
+var insertIntoProcessTable              = null;
+var updateProcessTable                  = null;
 
 var expressWs       = require2('express-ws')(app);
 outputDebug("__filename: " + __filename)
@@ -4053,6 +4058,25 @@ function setUpSql() {
           " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_scope,display_name, creation_timestamp,component_options, logo_url, visibility, interfaces,use_db, editors, read_write_status,properties, component_type, control_sub_type, edit_file_path) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
       stmtDeprecateOldCode = dbsearch.prepare(
           " update system_code  set code_tag = NULL where base_component_id = ? and id != ?");
+
+
+
+          setProcessToRunning = dbsearch.prepare("UPDATE system_process_info SET status = 'RUNNING', last_driver = ?, last_event = ?, running_start_time_ms = ?, event_duration_ms = 0, system_code_id = ?, callback_index = ? WHERE process = ? AND yazz_instance_id = ?");
+
+          setProcessToIdle = dbsearch.prepare("UPDATE system_process_info SET status = 'IDLE' WHERE process = ? AND yazz_instance_id = ?");
+          setProcessRunningDurationMs  = dbsearch.prepare("UPDATE  system_process_info  SET event_duration_ms = ?  WHERE  process = ? AND yazz_instance_id = ?");
+
+          insertIntoProcessTable = dbsearch.prepare(
+              " insert into "+
+              "     system_process_info (yazz_instance_id, process, process_id, running_since, status, job_priority) " +
+              " values " +
+              "     (?,?,?,?,?,?)")
+
+          updateProcessTable = dbsearch.prepare(
+              "UPDATE  system_process_info " +
+              "      SET process_id = ?, running_since = ?, status = ?, job_priority = ? " +
+              "WHERE " +
+              "     yazz_instance_id = ? AND process = ? ")
 
     console.log("setUpSql done   ")
 
