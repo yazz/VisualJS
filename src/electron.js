@@ -968,23 +968,6 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
     setUpChildListeners(processName, fileName, debugPort);
 
 
-    if (processName == "forked") {
-
-        forkedProcesses["forked"].send({         message_type: "init" ,
-                                                 user_data_path: userData,
-                                                 child_process_name: "forked",
-                                                 show_debug: showDebug,
-                                                 show_progress: showProgress,
-                                                 yazz_instance_id: yazzInstanceId,
-                                                 jaeger_collector: jaegercollector
-
-                                              });
-
-        createTables()
-    }
-
-
-
 
     if (processName == "forkedExeScheduler") {
 
@@ -1028,19 +1011,6 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
 
 
 
-
-
-
-//------------------------------------------------------------------------------
-//
-//
-//
-//
-//
-//------------------------------------------------------------------------------
-function setupMainChildProcess() {
-    setupForkedProcess("forked",        "child.js", 40003)
-}
 
 
 
@@ -1119,10 +1089,6 @@ function shutDown() {
             })
         }
 
-        if (forkedProcesses["forked"]) {
-            outputDebug("Killed Process forked")
-            forkedProcesses["forked"].kill();
-        }
         if (forkedProcesses["forkedExeScheduler"]) {
             outputDebug("Killed Exe Scheduler process")
             forkedProcesses["forkedExeScheduler"].kill();
@@ -1275,11 +1241,6 @@ function getPort () {
 
             outputDebug('Can connect on ' + ip.address() +  ':' + port + ' :) ')
 
-            forkedProcesses["forked"].send({         message_type: "host_and_port" ,
-                                                     child_process_name: "forked",
-                                                     ip: hostaddress,
-                                                     port: port
-                                                  });
             await startServices()
 
     })
@@ -2073,11 +2034,6 @@ function websocketFn(ws) {
             queuedResponseSeqNum ++;
             queuedResponses[seqNum] = ws;
 
-            //console.log(" 2 ");
-            forkedProcesses["forked"].send({
-                            message_type:   "get_all_queries",
-                            seq_num:          seqNum
-                        });
 
 
 
@@ -2180,15 +2136,6 @@ function websocketFn(ws) {
             queuedResponseSeqNum ++;
             queuedResponses[seqNum] = ws;
 
-            // ______
-            // Server  --Send me your data-->  Subprocess
-            // ______
-            //
-            forkedProcesses["forked"].send({
-                            message_type:   "server_asks_subprocess_for_data",
-                            seq_num:         seqNum
-                        });
-
 
 
 
@@ -2202,14 +2149,6 @@ function websocketFn(ws) {
         queuedResponseSeqNum ++;
         queuedResponses[seqNum] = ws;
 
-        // ______
-        // Server  --Send me your data-->  Subprocess
-        // ______
-        //
-        forkedProcesses["forked"].send({
-                        message_type:   "server_asks_subprocess_for_data",
-                        seq_num:         seqNum
-                    });
 
 
 
@@ -3327,7 +3266,7 @@ function finishInit() {
         process.exit()
     });
 
-    setupMainChildProcess();
+    createTables()
 
 
 
