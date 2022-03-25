@@ -40,6 +40,10 @@ var yazzInstanceId  = uuidv1()
 let certOptions     = null
 var crypto                      = require('crypto');
 
+var callbackIndex = 0;
+var callbackList = new Object()
+
+
 var stmtInsertDependency;
 var stmtInsertSubComponent;
 var stmtUpdateDriver;
@@ -4977,4 +4981,152 @@ async function createdTablesInChild() {
 
         }
     }
+}
+
+
+
+
+
+
+
+
+
+
+function callDriverMethod(msg) {
+
+    callDriverMethodPart2( msg.find_component, msg.args, function(result) {
+        if (msg.seq_num_local) {
+            return_add_local_driver_results_msg(
+                {
+                    message_type: 'return_add_local_driver_results_msg',
+                    seq_num_local: msg.seq_num_local,
+                    result: result
+                })
+        } else {
+          console.log("** ipc_child_returning_callDriverMethod_response **")
+            ipc_child_returning_callDriverMethod_response(
+                {
+                    message_type: 'ipc_child_returning_callDriverMethod_response',
+                    seq_num_browser: msg.seq_num_browser,
+                    seq_num_parent: msg.seq_num_parent,
+                    result: result
+                })
+        }
+    })
+  }
+
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
+function return_add_local_driver_results_msg(msg) {
+    //console.log("6 - return_get_search_results: " + msg.returned);
+    var rett = eval("(" + msg.success + ")");
+    var newCallbackFn = queuedResponses[ msg.seq_num_local ]
+
+    if (msg.result ) {
+        newCallbackFn(msg.result)
+    } else {
+        newCallbackFn({
+                            error: msg.error
+                        })
+    }
+
+
+    newres = null;
+}
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
+function ipc_child_returning_callDriverMethod_response(msg) {
+
+    //console.log(" .......3: " + JSON.stringify(msg,null,2));
+    //console.log("6: return_query_items_ended")
+    //console.log("6.1: " + msg)
+    var new_ws = queuedResponses[ msg.seq_num_parent ]
+
+    if (msg.result) {
+        if (msg.result.code) {
+            var tr = msg.result.code
+            msg.result.code = tr
+        }
+    }
+    sendToBrowserViaWebSocket(
+                                 new_ws
+                                 ,
+                                 {
+                                    type:            "ws_to_browser_callDriverMethod_results",
+                                    value:            msg.result,
+                                    seq_num:          msg.seq_num_browser
+                                 });
+    //new_ws = null;
+}
+
+
+
+
+
+
+
+
+  //------------------------------------------------------------------------------
+  //
+  //
+  //
+  //
+  //
+  //------------------------------------------------------------------------------
+  function callDriverMethodPart2( findComponentArgs, args, callbackFn ) {
+
+      //console.log("*) called '" + driverName + ":" + methodName + "' with args: " + JSON.stringify(args,null,2))
+      var useCallbackIndex = callbackIndex ++
+      callbackList[ useCallbackIndex ] = callbackFn
+      //console.log("msg.callback_index sent for " + driverName + ":" + methodName + ": " + useCallbackIndex)
+      function_call_request({  message_type:       "function_call_request" ,
+                      find_component:      findComponentArgs,
+                      args:                args,
+                      callback_index:      useCallbackIndex,
+                      caller_call_id:      -1
+                      });
+  }
+
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
+function function_call_request(msg) {
+
+    forkedProcesses["forkedExeScheduler"].send({
+                                            message_type:         "function_call_request",
+                                            child_process_name:    msg.child_process_name,
+                                            find_component:        msg.find_component,
+                                            args:                  msg.args,
+                                            callback_index:        msg.callback_index,
+                                            caller_call_id:        msg.caller_call_id
+                                          });
 }
