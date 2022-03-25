@@ -871,7 +871,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
       } else if (msg.message_type == "return_response_to_function_caller") {
           //console.log("*) "+ msg.result)
           if (msg.child_process_name) {
-              forkedProcesses[msg.child_process_name].send({
+              return_response_to_function_caller({
                                                       message_type:         "return_response_to_function_caller",
                                                       callback_index:        msg.callback_index,
                                                       result:                msg.result
@@ -2283,7 +2283,7 @@ function websocketFn(ws) {
 
 
             } else {
-                forkedProcesses["forked"].send({
+                callDriverMethod({
                                 message_type:          "callDriverMethod",
                                 find_component:         receivedMessage.find_component,
                                 args:                   receivedMessage.args,
@@ -2985,7 +2985,7 @@ console.log("Local Machine Address: " + localAddress);
 
                     if(startupType == "RUN_SERVER_CODE") {
                         setTimeout(function(){
-                            forkedProcesses["forked"].send({
+                            callDriverMethod({
                                             message_type:          "callDriverMethod",
                                             find_component:         {
                                                                         base_component_id: runapp
@@ -4461,7 +4461,7 @@ function ipc_child_returning_uploaded_app_as_file_in_child_response(msg) {
 
                     outputDebug(" msg.base_component_id: " + msg.base_component_id);
                     outputDebug(" seqNum: " + seqNum);
-                            forkedProcesses["forked"].send({
+                            callDriverMethod({
                                             message_type:          "callDriverMethod",
                                             find_component:         {
                                                                         method_name: msg.base_component_id,
@@ -5129,4 +5129,18 @@ function function_call_request(msg) {
                                             callback_index:        msg.callback_index,
                                             caller_call_id:        msg.caller_call_id
                                           });
+}
+
+
+
+
+
+
+function return_response_to_function_caller(msg) {
+
+
+       // console.log("*) result received to caller " );
+       // console.log("*)  callback_index:" + msg.callback_index );
+       // console.log("*)  result:        " + msg.result );
+        callbackList[ msg.callback_index ](msg.result)
 }
