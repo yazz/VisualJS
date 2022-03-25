@@ -38,7 +38,6 @@ var showProgress = false
 
 var isWin                               = /^win/.test(process.platform);
 var username                            = "Unknown user";
-var dbsearch;
 
 
 var hostaddress = null
@@ -89,12 +88,7 @@ function processMessagesFromMainProcess() {
       //console.log('Message from parent:', msg);
 
 
-      if (msg.message_type == 'parent_test') {
-          //console.log('Message from parent:', msg);
-          process.send({send_from_child: "***** Received message from parent"})
-
-
-      } else if (msg.message_type == 'callDriverMethod') {
+      if (msg.message_type == 'callDriverMethod') {
 
           callDriverMethod( msg.find_component, msg.args, function(result) {
               if (msg.seq_num_local) {
@@ -132,34 +126,6 @@ function processMessagesFromMainProcess() {
         showDebug           = msg.show_debug
         showProgress        = msg.show_progress
         yazzInstanceId      = msg.yazz_instance_id
-
-
-        ////console.log("Child recieved user data path: " + userData)
-        var dbPath = path.join(userData, username + '.visi')
-
-        //console.log("DB path: " + dbPath)
-        dbsearch = new sqlite3.Database(dbPath);
-        dbsearch.run("PRAGMA journal_mode=WAL;",function() {
-            setTimeout(function(){
-                process.send({  message_type:       "database_setup_in_child" ,
-                                child_process_name:  childProcessName
-                                });
-            },1000)
-        })
-
-
-
-
-
-    } else if (msg.message_type == 'createTables2') {
-
-        db_helper.createTables(dbsearch,
-            function() {
-                process.send({  message_type:       "createdTablesInChild"  });
-
-            });
-
-
 
 
 
@@ -200,7 +166,4 @@ function shutdownExeProcess(err) {
     }
 
 
-    if (dbsearch) {
-        dbsearch.run("PRAGMA wal_checkpoint;")
-    }
 }
