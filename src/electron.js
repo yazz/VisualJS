@@ -2821,8 +2821,17 @@ async function startServices() {
     }
 
 
+//zzz
 
     setupForkedProcess("forkedExeScheduler", "exeScheduler.js", 40004)
+
+    childProcessNameInScheduler            = "forkedExeScheduler"
+
+
+
+
+
+
     for (var i=0;i<executionProcessCount; i++ ) {
         var exeProcName = "forkedExeProcess" + i
             setupForkedProcess(exeProcName, "exeProcess.js", 40100 + i)
