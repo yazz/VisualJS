@@ -26,6 +26,15 @@ properties(
         }
         ,
         {
+            id:         "accounts",
+            name:       "Accounts",
+            type:       "Array",
+            default:    [],
+            types: {valueTextList: true},
+            editor:     "detail_editor"
+        }
+        ,
+        {
             id:         "connected",
             name:       "Connected?",
             type:       "Select",
@@ -94,6 +103,13 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAoHCBQSEhgSEhU
                 let accounts = (await web3.eth.getAccounts())
                 this.properties.defaultAccount = accounts[0]
 
+                this.properties.accounts = []
+                for ( let i=0 ; i < accounts.length ; i++ ) {
+                  this.properties.accounts.push({ value: accounts[i],
+                                                  text:  accounts[i]
+                                                })
+
+                }
               }
             }
         }

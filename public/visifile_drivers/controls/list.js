@@ -26,6 +26,7 @@ properties(
             id:         "items",
             name:       "Items",
             type:       "Array",
+            accept_types: {valueTextList: true},
             default:    [],
             editor:     "detail_editor"
         }
