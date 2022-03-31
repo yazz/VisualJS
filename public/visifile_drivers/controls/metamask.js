@@ -84,6 +84,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAoHCBQSEhgSEhU
         },
         mounted: async function() {
             registerComponent(this)
+            let mm = this
+
 
             if (isValidObject(this.args.text)) {
             }
@@ -92,30 +94,47 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAoHCBQSEhgSEhU
                 globalControl[this.args.name] =  this
             }
 
-            if (web3 && web3.eth) {
-              let result = await web3.eth.getAccounts()
-              if (result.length == 0) {
-                this.properties.connected = "False"
+            if (!this.design_mode) {
+              await this.updateAccounts()
+              if (window.ethereum) {
+                window.ethereum.on('accountsChanged', async function (accounts) {
+                   //alert('accountsChanges',accounts);
+                   await mm.updateAccounts()
+                 });
 
-              } else {
-                debugger
-                this.properties.connected = "True"
-                let accounts = (await web3.eth.getAccounts())
-                this.properties.defaultAccount = accounts[0]
+              }
 
-                this.properties.accounts = []
-                for ( let i=0 ; i < accounts.length ; i++ ) {
-                  this.properties.accounts.push({ value: accounts[i],
-                                                  text:  accounts[i]
-                                                })
+
+
+            }
+
+        }
+        ,
+        methods: {
+            updateAccounts: async function() {
+              if (web3 && web3.eth) {
+                let result = await web3.eth.getAccounts()
+                if (result.length == 0) {
+                  this.properties.connected = "False"
+
+                } else {
+                  debugger
+                  this.properties.connected = "True"
+                  let accounts = (await web3.eth.getAccounts())
+                  this.properties.defaultAccount = accounts[0]
+
+                  this.properties.accounts = []
+                  for ( let i=0 ; i < accounts.length ; i++ ) {
+                    this.properties.accounts.push({ value: accounts[i],
+                                                    text:  accounts[i]
+                                                  })
+
+                  }
 
                 }
               }
             }
-        }
-        ,
-        methods: {
-
+            ,
 
             changedFn: function() {
                 if (isValidObject(this.args)) {
