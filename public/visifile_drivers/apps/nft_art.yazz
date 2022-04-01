@@ -1,0 +1,232 @@
+function game_app(args) {
+/*
+base_component_id("nft_art")
+created_timestamp(-1)
+display_name("Atnannas NFT Gallery")
+is_app(true)
+visibility("PUBLIC")
+description('NFT Demo art')
+uses_javascript_librararies(["advanced_bundle"])
+logo_url("/driver_icons/game.png")
+
+*/
+
+    Vue.component('nft_art',{
+        template: `<div id="app2" style='padding: 20px;'>
+              <h1>{{msg}}</h1>
+
+
+
+              <a-scene  physics="debug: false;driver: ammo;debugDrawMode: 0;"
+                        cursor="rayOrigin: mouse"
+                        style='width: 80%; height: 80%;'
+                        embedded>
+
+
+                  <a-entity   id="laser"
+                              laser-controls="hand: right"
+                              raycaster="hand: right;model: true;"
+                              position="0 0 -14"
+                              line="opacity:1.0;">
+                              <a-entity
+                                camera
+                                look-controls
+                                wasd-controls="acceleration:100"
+                                position="10 1.6 110">
+
+                              </a-entity>
+                  </a-entity>
+
+
+
+ <a-image
+     width="10"
+     height=25
+      position="0 15 -10"
+      rotation="0 60 0"
+     src="https://lh3.googleusercontent.com/O6vKToCuTAzZvNS6zlHom-P3nbaeKdybcBdtPCCwdSFWKDNtIAALL3QiWYzu64EVim4RMdKyXP_Ut9NXjMS0exS0wdZBp4gXc21WlX4=s0"></a-image>
+
+
+ <a-image
+     width="10"
+     height=25
+      position="-5 15 -0"
+      rotation="0 60 0"
+     src="https://lh3.googleusercontent.com/o4vh1sQCXSSMVQdmTaWxLug0TjdYN3KmpdEeLTlGdnEXIWVrJWaAEcKr2oD3ujnI2oyJYZDwddF9jQJ474tRsgngPie111cQhx-fq2Y=w359"></a-image>
+
+  <a-image
+     width="10"
+     height=25
+      position="-10 15 10"
+      rotation="0 60 0"
+     src="https://lh3.googleusercontent.com/GWXu4VBq-Wp2ui1v3WjZtsl9aIAbm-pjK-qudTKB2XYXwyiHuLnlylV0MmX_tHVwGVhQXxAO-5pqPLuVGhdP_bd3VO2G5JYG7IdjUg=w359"></a-image>
+
+  <a-image
+     width="10"
+     height=25
+      position="-15 15 20"
+      rotation="0 60 0"
+     src="https://lh3.googleusercontent.com/wQTyPWiYPqdNJllzn-WUrEIJKLvG-EZ7xxbtnFs0GPKPqKvnhpp9S_jVToqWPXe022ScMWrhISAhD9PjCxtCN49JQ7ZvxizDJQpZpQ=w359"></a-image>
+
+
+  <a-image
+     width="10"
+     height=25
+      position="-20 15 30"
+      rotation="0 60 0"
+     src="https://lh3.googleusercontent.com/CESqSnOCmAg9kcv4gGGWunab-Xse7eBbFJ7Vyqw_1Z_-Dd9sRHewqF68Ihv_o2eOarkq5P6UXNHtE_p9BV8ddynvpOI1l3DVt2fKtw=w359"></a-image>
+
+
+  <a-image
+     width="10"
+     height=25
+      position="-25 15 40"
+      rotation="0 60 0"
+     src="https://lh3.googleusercontent.com/rkdKuuwSI45e5j_uA1q8NOIs4Ai6nreHBPlIzdvcnk7tvitJavYNTPRAMffsMlZjB3lUVRPXwotBIMmJqXduwu1bQi28GMAZmMhI=w359"></a-image>
+
+
+  <a-image
+     width="10"
+     height=25
+      position="-30 15 50"
+      rotation="0 60 0"
+     src="https://lh3.googleusercontent.com/xQ-aXXathlGNILg_1eB8iXnGLJtmLn5rFgy9abwFqD-86-4UTQe1o6VpcWDGy-V45_fkmgID6UjxcRbhzB7VP3YgBeyrwAu8NB3f=w359"></a-image>
+
+
+  <a-image
+     width="10"
+     height=25
+      position="-35 15 60"
+      rotation="0 60 0"
+     src="https://lh3.googleusercontent.com/V-UrxN3TDBQrTMiJ09iXBqBkFQMrQXzNCAotteaA380sPybWxuREvNG4UiEEVc7jm96-9GK_LeTUsq7KIJ-AoMj2-bio2sVtYJ-o=w359"></a-image>
+
+
+
+
+
+
+ <a-image
+     width="10"
+     height=25
+      position="45 15 -0"
+      rotation="0 -60 0"
+     src="https://lh3.googleusercontent.com/r5jq7ceMc36ISrUOQ6hf6jixsroN_R0QEjB4F_B1wgFzETxo9kr6EmIpjmFDuUmnpM0RQZHch12B0aCr2dpn619Z63waGeI9mLZO=w359"></a-image>
+
+  <a-image
+     width="10"
+     height=25
+      position="50 15 10"
+      rotation="0 -60 0"
+     src="https://lh3.googleusercontent.com/wKkf0XD9_3LQTKp-LiCXMt6-bIf__gKU4IgWBAfDVRz9tp3-gRPkuDt6C84HipuM1JinhQZJF8nj69sKnJIhf_zb3XtIenXIy7JB1VQ=w359"></a-image>
+
+  <a-image
+     width="10"
+     height=25
+      position="55 15 20"
+      rotation="0 -60 0"
+     src="https://lh3.googleusercontent.com/OvQrf0KlpYx91mZNUMF3IQRdaSRepKQzyFo--6hHHVqSxS1TGvRzAmbIia3Er1wkyqzbB9lzVFg5O6nGH-qS3nfCS-K1lVZLupzJ=w359"></a-image>
+
+
+  <a-image
+     width="10"
+     height=25
+      position="60 15 30"
+      rotation="0 -60 0"
+     src="https://lh3.googleusercontent.com/NbPNBMd-9TkzlkPVyKg6XBgYH6wN2ajzkPQ4jzS95TIT84KMn3IurgR93dP3igE6x64Y33S6YU7K3FkxijZUauR88uUK0eYxRSEHXh8=w359"></a-image>
+
+
+  <a-image
+     width="10"
+     height=25
+      position="65 15 40"
+      rotation="0 -60 0"
+     src="https://lh3.googleusercontent.com/cvOQBKFRBb_vu7G7kWtj5zRK00Qf2ENm73OocUDvXuEmr6YamcKtgORlwz5O0OslQunZ5Gq9KG4fchxIb3_VD2GTM67NQ_cnFl4cAw=w359"></a-image>
+
+
+  <a-image
+     width="10"
+     height=25
+      position="70 15 50"
+      rotation="0 -60 0"
+     src="https://lh3.googleusercontent.com/17iWzKDlRcmNeO-0lgf5EQKGIE9gfvD6GQKYde1-f8EcJhml1614eXEN_6CPQOlJnIzMpMm4ULYpNvLjbLnHU9WPDaAFbDUh97Z9fA=w359"></a-image>
+
+
+  <a-image
+     width="10"
+     height=25
+      position="75 15 60"
+      rotation="0 -60 0"
+     src="https://lh3.googleusercontent.com/vGch5WIPpxGHYrpBWBb4QVEXUaRRWk7o7WSu4QXh2D7OsIMsdTx54qmzvhOuzB93Zdy1afEJt4IwXcI0RYm-klMd2pqTN9E7L4DvXwE=w359"></a-image>
+  <a-image
+     width="10"
+     height=25
+      position="80 15 70"
+      rotation="0 -60 0"
+     src="https://lh3.googleusercontent.com/CvONdeLDjyoRRmGg9VmUl5xSTCpji-oeEnhi-dWojawsptSaZ6IyYKfORxHI8_16nf3N7C9WmGueJwiaqT0rPX8CWip5upf5I0DZNA=w359
+"></a-image>
+
+                  <a-plane
+                            ammo-body="type: static"
+                            ammo-shape="type: box"
+                            position="0 0 -14"
+                            rotation="-90 0 0"
+                            width="1180"
+                            height="1180"
+                            color="#7BC8A4">
+                  </a-plane>
+                  <a-sky color="#ECECEC"></a-sky>
+                </a-scene>
+
+         </div>
+        `,
+        data: function() {
+            return {
+                msg: "NFT Art Demo"
+            }
+        }
+        ,
+        mounted: function() {
+            let mm = this
+            mm.addPush('tl');
+            mm.addPush('tl');
+            mm.addPush('tm');
+            mm.addPush('tr');
+            mm.addPush('ml');
+            mm.addPush('mm');
+            mm.addPush('mr');
+            mm.addPush('bl');
+            mm.addPush('bm');
+            mm.addPush('br');
+
+        }
+        ,
+
+        methods: {
+        addPush: function(el3d) {
+            let mm = this
+            let box = document.getElementById(el3d);
+            box.addEventListener('click', mm.clicked(el3d));
+
+        }
+        ,
+
+
+        clicked: function (el3d) {
+            let mm = this
+            return function() {
+                let box = document.getElementById(el3d);
+                mm.msg = "clicked " + el3d
+                const impulse = new Ammo.btVector3(0, 10, 0);
+                const pos = new Ammo.btVector3(0, 0, 0);
+                box.body.applyImpulse(impulse, pos);
+                Ammo.destroy(impulse);
+                Ammo.destroy(pos);
+            }
+        }
+
+        }
+
+
+
+      })
+}

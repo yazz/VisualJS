@@ -4809,6 +4809,7 @@ async function setUpComponentsLocally() {
     await evalLocalSystemDriver('search',   path.join(__dirname, '../public/visifile_drivers/apps/search.js'),{username: "default", reponame: "search", version: "latest"})
     await evalLocalSystemDriver('test',   path.join(__dirname, '../public/visifile_drivers/apps/test.js'),{save_html: true, username: "default", reponame: "test", version: "latest"})
     await evalLocalSystemDriver('oculus_go',   path.join(__dirname, '../public/visifile_drivers/apps/oculus_go.js'),{save_html: true, username: "default", reponame: "oculus_go", version: "latest"})
+    await evalLocalSystemDriver('nft_art',   path.join(__dirname, '../public/visifile_drivers/apps/nft_art.yazz'),{save_html: true, username: "default", reponame: "nft_art", version: "latest"})
 
 
     await evalLocalSystemDriver('game',           path.join(__dirname, '../public/visifile_drivers/apps/game.js'),        {save_html: true, username: "default", reponame: "game",        version: "latest"})
