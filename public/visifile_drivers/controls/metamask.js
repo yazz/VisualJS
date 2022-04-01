@@ -53,6 +53,14 @@ properties(
             default:    "",
             type:       "String"
         }
+        ,
+
+        {
+            id:         "networkId",
+            name:       "Network ID",
+            default:    -1,
+            type:       "Number"
+        }
 
 
     ]
@@ -102,6 +110,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAoHCBQSEhgSEhU
                    await mm.updateAccounts()
                  });
 
+                 window.ethereum.on('networkChanged', async function(networkId){
+                  await mm.updateAccounts()
+                });
+
               }
 
 
@@ -132,10 +144,14 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAoHCBQSEhgSEhU
                   }
 
                 }
+                await this.getNetwork()
               }
             }
             ,
-
+            getNetwork: async function() {
+              this.properties.networkId = await web3.eth.net.getId()
+            }
+            ,
             changedFn: function() {
                 if (isValidObject(this.args)) {
                 }
