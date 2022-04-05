@@ -35,6 +35,18 @@ properties(
         }
         ,
         {
+            id:     "sol",
+            name:   "Solidity",
+            type:   "String",
+            types: {text: true},
+            accept_types: {canConvertToString: true, text: true},
+            textarea: true,
+            help:       `<div>Help text for
+                            <b>code</b> property
+                         </div>`
+        }
+        ,
+        {
             id:         "connected",
             name:       "Connected?",
             type:       "Select",
@@ -45,7 +57,14 @@ properties(
                         ]
         }
         ,
-
+        {
+            id:         "has_details_ui",
+            name:       "Has details UI?",
+            type:       "Boolean",
+            default:    true,
+            hidden:     true
+        }
+        ,
         {
             id:         "defaultAccount",
             name:       "Default Account",
@@ -67,6 +86,17 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                                       border: 0px;background-color: white;overflow: auto;'>
 
 {{(design_mode?properties.name:"")}}
+
+
+
+          <div    v-bind:style='"width:100%;height:40vh;overflow-y:auto;"'
+                  v-bind:refresh='refresh'
+                  v-if='design_mode == "detail_editor"'>
+
+                  Detail editor
+           </div>
+
+
                  </div>`
         ,
         data: function() {
