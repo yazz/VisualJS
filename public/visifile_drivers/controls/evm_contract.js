@@ -99,9 +99,10 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
 
                         Compile solidity:
 
-                        {{compileResult}}
+
 
                   </button>
+                  {{compileResult}}
            </div>
 
 
@@ -155,11 +156,11 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
         ,
         methods: {
             compileCode: async function() {
-              this.compileResult = "compiled"
+
               var result = await callFunction(
               {
-                  driver_name: "compileCode",
-                  method_name: "compileCode"
+                  driver_name: "compile_solidity",
+                  method_name: "compile_solidity"
               }
               ,
               {
@@ -167,7 +168,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
 
 
               })
-
+              this.compileResult = "compiled: " + JSON.stringify(result,null,2)
 
 
             }
