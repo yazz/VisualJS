@@ -94,6 +94,14 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   v-if='design_mode == "detail_editor"'>
 
                   Detail editor
+                  <button    class="btn btn-danger"
+                             v-on:click="compileCode()">
+
+                        Compile solidity:
+
+                        {{compileResult}}
+
+                  </button>
            </div>
 
 
@@ -101,6 +109,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
         ,
         data: function() {
             return {
+              compileResult: ""
             }
         }
         ,
@@ -145,6 +154,24 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
         }
         ,
         methods: {
+            compileCode: async function() {
+              this.compileResult = "compiled"
+              var result = await callFunction(
+              {
+                  driver_name: "compileCode",
+                  method_name: "compileCode"
+              }
+              ,
+              {
+                  text:             "data222",
+
+
+              })
+
+
+
+            }
+            ,
 
 
             changedFn: function() {
