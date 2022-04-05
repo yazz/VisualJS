@@ -35,10 +35,24 @@ properties(
         }
         ,
         {
-            id:     "sol",
+            id:     "code",
             name:   "Solidity",
             type:   "String",
             types: {text: true},
+            default:
+`
+pragma solidity ^0.8.7;
+
+contract Counter {
+    uint256 public count = 1;
+
+    function increment() public {
+        count += 1;
+    }
+}
+
+`
+            ,
             accept_types: {canConvertToString: true, text: true},
             textarea: true,
             help:       `<div>Help text for
@@ -105,7 +119,8 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   <br>
                   <div style="font-family: courier">
 
-                  <textarea rows=10 cols=50 >{{code}}</textarea>
+                  <textarea rows=10 cols=50
+                  v-model='properties.code'></textarea>
 
                   <div style="width: 400px;">
                     <b>ABI</b> {{abi}}
@@ -125,20 +140,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
               abi: null
               ,
               bytecode: null
-              ,
-              code:
-`
-pragma solidity ^0.8.7;
 
-contract Counter {
-    uint256 public count = 1;
-
-    function increment() public {
-        count += 1;
-    }
-}
-
-`
             }
         }
         ,
@@ -192,22 +194,7 @@ contract Counter {
               }
               ,
               {
-                  sol:
-`
-pragma solidity ^0.8.7;
-
-contract Counter {
-    uint256 public count = 1;
-
-    function increment() public {
-        count += 1;
-    }
-}
-
-`
-,
-
-
+                  sol: this.properties.code
               })
               this.compileResult  = "compiled "
               this.abi            = result.abi
