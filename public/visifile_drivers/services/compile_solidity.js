@@ -6,23 +6,27 @@ load_once_from_file(true)
 only_run_on_server(true)
 */
 
-let compiler = require("simple-solc");
-let path = require("path")
-let Web3 = require("web3")
-let fs = require("fs")
-let helloPath = path.resolve(__dirname, "", "Counter.sol")
-let source = fs.readFileSync(helloPath,"UTF-8")
-console.log("0");
-console.log(source)
-console.log("1");
+    let solc = require("solc");
     var promise = new Promise(async function(returnFn) {
 
+      console.log("1");
+      //console.log(args.sol)
       console.log("2");
 
-      let { bytecode, abi } = compiler("Counter", helloPath);
+      let result =  solc.compile(args.sol,1)
+      let mainKeys = Object.keys(result)
+      console.log("mainKeys: " + JSON.stringify(mainKeys,null,2))
+      let contracts = result
+      console.log("contracts: " + JSON.stringify(contracts,null,2))
 
-      console.log(bytecode);
-      console.log(abi);
+      //console.log(JSON.stringify(result.contracts,null,2))
+      //let { bytecode, abi } = result.contracts[":Counter"];
+      let bytecode="1"
+      let abi="2"
+
+
+      //console.log(bytecode);
+      //console.log(abi);
 
                                                     returnFn({
                                                                 abi: abi
