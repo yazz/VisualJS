@@ -105,7 +105,13 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   <br>
                   <div style="font-family: courier">
 
-                  <textarea rows=15 cols=80 v-bind:value=compileResult>{{compileResult}}</textarea>
+                  <textarea rows=10 cols=50 >{{code}}</textarea>
+
+                  <div style="width: 400px;">
+                    <b>ABI</b> {{abi}}
+                    <br>
+                    <b>Bytecode</b> {{bytecode}}
+                    </div>
                   </div>
            </div>
 
@@ -115,6 +121,24 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
         data: function() {
             return {
               compileResult: ""
+              ,
+              abi: null
+              ,
+              bytecode: null
+              ,
+              code:
+`
+pragma solidity ^0.8.7;
+
+contract Counter {
+    uint256 public count = 1;
+
+    function increment() public {
+        count += 1;
+    }
+}
+
+`
             }
         }
         ,
@@ -185,8 +209,9 @@ contract Counter {
 
 
               })
-              this.compileResult = "compiled: " + JSON.stringify(result,null,2)
-
+              this.compileResult  = "compiled "
+              this.abi            = result.abi
+              this.bytecode       = result.bytecode
 
             }
             ,
