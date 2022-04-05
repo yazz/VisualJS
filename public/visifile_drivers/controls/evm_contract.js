@@ -102,7 +102,11 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
 
 
                   </button>
-                  {{compileResult}}
+                  <br>
+                  <div style="font-family: courier">
+
+                  <textarea rows=15 cols=80 v-bind:value=compileResult>{{compileResult}}</textarea>
+                  </div>
            </div>
 
 
@@ -164,7 +168,20 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
               }
               ,
               {
-                  text:             "data222",
+                  sol:
+`
+pragma solidity ^0.8.7;
+
+contract Counter {
+    uint256 public count = 1;
+
+    function increment() public {
+        count += 1;
+    }
+}
+
+`
+,
 
 
               })
