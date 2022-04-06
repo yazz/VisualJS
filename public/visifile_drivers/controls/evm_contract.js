@@ -116,6 +116,14 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
 
 
                   </button>
+
+                  <button    class="btn"
+                             v-on:click="deployCode()">
+
+                        Deploy
+                  </button>
+
+
                   <br>
                   <div style="font-family: courier">
 
@@ -205,6 +213,11 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
               this.abi            = result.abi
               this.bytecode       = result.bytecode
               this.compileErrors  = result.errors
+
+            }
+            ,
+            deployCode: async function() {
+              alert("Deployed")
 
             }
             ,
