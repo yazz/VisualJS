@@ -181,7 +181,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                 this.properties.connected = "False"
 
               } else {
-                debugger
+                //debugger
                 this.properties.connected = "True"
                 let accounts = (await web3.eth.getAccounts())
                 this.properties.defaultAccount = accounts[0]
@@ -217,6 +217,13 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
             }
             ,
             deployCode: async function() {
+              var myContract = new web3.eth.Contract(
+                                                this.abi,
+                                                this.bytecode,
+                                                {
+                                                    from: web3.utils.toChecksumAddress('0x665F6aB2530eE5d2b469849aD4E16ccfF2EE769C'), // default from address
+                                                    gasPrice: '20000000000' // default gas price in wei, 20 gwei in this case
+                                                });
               alert("Deployed")
 
             }
