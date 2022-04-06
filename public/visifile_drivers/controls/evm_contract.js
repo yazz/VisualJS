@@ -217,13 +217,10 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
             }
             ,
             deployCode: async function() {
-              var myContract = new web3.eth.Contract(
-                                                this.abi,
-                                                this.bytecode,
-                                                {
-                                                    from: web3.utils.toChecksumAddress('0x665F6aB2530eE5d2b469849aD4E16ccfF2EE769C'), // default from address
-                                                    gasPrice: '20000000000' // default gas price in wei, 20 gwei in this case
-                                                });
+              debugger
+              let SampleContract = new web3.eth.Contract(this.abi, null, {
+    data: '0x' + this.bytecode
+});
               alert("Deployed")
 
             }
