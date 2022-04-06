@@ -13,7 +13,24 @@ only_run_on_server(true)
       //console.log(args.sol)
       console.log("2");
 
-      let result =  solc.compile(args.sol,1)
+      var input = {
+          language: 'Solidity',
+          sources: {
+              'yazz.sol' : {
+                  content: args.sol
+              }
+          },
+          settings: {
+              outputSelection: {
+                  '*': {
+                      '*': [ '*' ]
+                  }
+              }
+          }
+      };
+      let result =  JSON.parse(solc.compile(JSON.stringify(input)))
+      //console.log(result);
+      //let result =  solc.compile(args.sol,1)
       let mainKeys = Object.keys(result)
       console.log("mainKeys: " + JSON.stringify(mainKeys,null,2))
       let contracts = result
