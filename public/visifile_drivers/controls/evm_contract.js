@@ -103,7 +103,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
 
 
 
-          <div    v-bind:style='"width:100%;height:40vh;overflow-y:auto;"'
+          <div    v-bind:style='"width:100%;height:50vh;overflow-y:auto;"'
                   v-bind:refresh='refresh'
                   v-if='design_mode == "detail_editor"'>
 
@@ -126,6 +126,9 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                     <b>ABI</b> {{abi}}
                     <br>
                     <b>Bytecode</b> {{bytecode}}
+                    <br>
+                    <b>Errors</b> {{compileErrors}}
+
                     </div>
                   </div>
            </div>
@@ -140,6 +143,8 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
               abi: null
               ,
               bytecode: null
+              ,
+              compileErrors: null
 
             }
         }
@@ -199,6 +204,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
               this.compileResult  = "compiled "
               this.abi            = result.abi
               this.bytecode       = result.bytecode
+              this.compileErrors  = result.errors
 
             }
             ,

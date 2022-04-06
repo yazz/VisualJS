@@ -17,6 +17,7 @@ only_run_on_server(true)
       let mainKeys = Object.keys(result)
       console.log("mainKeys: " + JSON.stringify(mainKeys,null,2))
       let contracts = result
+      let errors = result.errors
       console.log("contracts: " + JSON.stringify(contracts,null,2))
 
       //console.log(JSON.stringify(result.contracts,null,2))
@@ -32,6 +33,8 @@ only_run_on_server(true)
                                                                 abi: abi
                                                                 ,
                                                                 bytecode:  bytecode
+                                                                ,
+                                                                errors: errors
                                                               })
 
 
