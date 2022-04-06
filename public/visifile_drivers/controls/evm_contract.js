@@ -218,9 +218,30 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
             ,
             deployCode: async function() {
               debugger
-              let SampleContract = new web3.eth.Contract(this.abi, null, {
-    data: '0x' + this.bytecode
-});
+              let Hello = new web3.eth.Contract(this.abi, null, {
+                  data: '0x' + this.bytecode
+              });
+
+              let gas
+              let gasPrice = '20000000000'
+              Hello.deploy().estimateGas().
+              then((estimatedGas) => {
+              console.log("Estimated gas: " + estimatedGas);
+              gas = estimatedGas;
+              }).
+              catch(console.error);
+
+              Hello.deploy().send({
+                  from: '0x665F6aB2530eE5d2b469849aD4E16ccfF2EE769C',
+                  gasPrice: gasPrice,
+                  gas: gas
+              }).then((instance) => {
+                  console.log("Contract mined at " + instance.options.address);
+                  //helloInstance = instance;
+              });
+
+
+
               alert("Deployed")
 
             }
