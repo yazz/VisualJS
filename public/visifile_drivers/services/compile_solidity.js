@@ -43,7 +43,7 @@ only_run_on_server(true)
       console.log("yazzSolContractKeys: " + JSON.stringify(yazzSolContractKeys,null,2))
 
       //console.log(JSON.stringify(result.contracts,null,2))
-      let { bytecode, abi } = contracts["yazz.sol"].Counter;
+      let { evm, abi } = contracts["yazz.sol"].Counter;
       //let bytecode="1"
       //let abi="2"
 
@@ -54,7 +54,7 @@ only_run_on_server(true)
                                                     returnFn({
                                                                 abi: abi
                                                                 ,
-                                                                bytecode:  bytecode
+                                                                bytecode:  evm.bytecode.object
                                                                 ,
                                                                 errors: errors
                                                               })
