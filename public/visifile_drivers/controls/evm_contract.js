@@ -129,9 +129,9 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
 
                         Deploy
                   </button>
-                  <span>
-                  {{deployingStatus}}
-                  </span>
+                  <span v-if="deployingStatus=='WAITING'" class="badge badge-pill badge-warning"><blink>Deploying ...</blink></span>
+
+                  <span v-if="deployingStatus=='DEPLOYED'" class="badge badge-pill badge-success">{{deployingStatus}}</span>
 
 
                   <br>
