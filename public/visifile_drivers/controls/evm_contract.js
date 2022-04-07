@@ -86,7 +86,14 @@ contract Counter {
             default:    "",
             type:       "String"
         }
-
+        ,
+        {
+            id:         "contractAddress",
+            name:       "Contract Address",
+            types: {text: true},
+            default:    "",
+            type:       "String"
+        }
 
     ]
 )//properties
@@ -218,6 +225,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
             ,
             deployCode: async function() {
               debugger
+              let mm = this
               let Hello = new web3.eth.Contract(this.abi, null, {
                   data: '0x' + this.bytecode
               });
@@ -238,11 +246,13 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
               }).then((instance) => {
                   console.log("Contract mined at " + instance.options.address);
                   //helloInstance = instance;
+                  mm.properties.contractAddress = ".." + instance.options.address
+                  mm.refresh++
               });
 
 
 
-              alert("Deployed")
+
 
             }
             ,
