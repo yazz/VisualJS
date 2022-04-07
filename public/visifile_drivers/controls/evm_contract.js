@@ -129,6 +129,9 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
 
                         Deploy
                   </button>
+                  <span>
+                  {{deployingStatus}}
+                  </span>
 
 
                   <br>
@@ -160,6 +163,8 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
               bytecode: null
               ,
               compileErrors: null
+              ,
+              deployingStatus: ""
 
             }
         }
@@ -239,6 +244,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
               }).
               catch(console.error);
 
+              mm.deployingStatus = "WAITING"
               Hello.deploy().send({
                   from: '0x665F6aB2530eE5d2b469849aD4E16ccfF2EE769C',
                   gasPrice: gasPrice,
@@ -246,8 +252,10 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
               }).then((instance) => {
                   console.log("Contract mined at " + instance.options.address);
                   //helloInstance = instance;
-                  mm.properties.contractAddress = ".." + instance.options.address
-                  mm.refresh++
+                  mm.properties.contractAddress = "" + instance.options.address
+                  //mm.refresh++
+                  mm.deployingStatus = "DEPLOYED"
+
               });
 
 
