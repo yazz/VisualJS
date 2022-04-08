@@ -35,6 +35,20 @@ properties(
         }
         ,
         {
+            id:     "abi",
+            name:   "ABI",
+            type:   "String",
+            types: {text: true},
+            default: null
+            ,
+            accept_types: {canConvertToString: true, text: true},
+            textarea: true,
+            help:       `<div>Help text for
+                            <b>ABI</b> property
+                         </div>`
+        }
+        ,
+        {
             id:     "code",
             name:   "Solidity",
             type:   "String",
@@ -94,6 +108,26 @@ contract Counter {
             default:    "",
             type:       "String"
         }
+        ,
+        {
+            id:         "callMethod",
+            snippet:    `callMethod({method: "getCount", })`,
+            name:       "callMethod",
+            type:       "Action",
+            help:       `<div>Help text for
+                            <b>callMethod</b> function
+                         </div>`
+        }
+        ,
+        {
+            id:         "callMethod2",
+            snippet:    `callMethod2({method: "getCount", })`,
+            name:       "callMethod2",
+            type:       "Action",
+            help:       `<div>Help text for
+                            <b>callMethod2</b> function
+                         </div>`
+        }
 
     ]
 )//properties
@@ -141,7 +175,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   v-model='properties.code'></textarea>
 
                   <div style="width: 400px;">
-                    <b>ABI</b> {{abi}}
+                    <b>ABI</b> {{properties.abi}}
                     <br>
                     <b>Bytecode</b> {{bytecode}}
                     <br>
@@ -158,13 +192,13 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
             return {
               compileResult: ""
               ,
-              abi: null
-              ,
               bytecode: null
               ,
               compileErrors: null
               ,
               deployingStatus: ""
+              ,
+              contractInstance: null
 
             }
         }
@@ -210,6 +244,29 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
         }
         ,
         methods: {
+            callMethod: async function(newtext) {
+              debugger
+                this.refreshContractInstance()
+                //await this.contractInstance.methods.increment()
+                let rettt = (await this.contractInstance.methods.count.call().call())
+                return rettt;
+            }
+            ,
+            callMethod2: async function(newtext) {
+              debugger
+                this.refreshContractInstance()
+                await this.contractInstance.methods.increment().send(
+                  {
+                      from: '0x665F6aB2530eE5d2b469849aD4E16ccfF2EE769C'
+                    })
+.then(function(receipt){
+  debugger
+    // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
+});
+                //let rettt = (await this.contractInstance.methods.count.call().call())
+                //return rettt;
+            }
+            ,
             compileCode: async function() {
 
               var result = await callFunction(
@@ -222,7 +279,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   sol: this.properties.code
               })
               this.compileResult  = "compiled "
-              this.abi            = result.abi
+              this.properties.abi = JSON.stringify(result.abi,null,2)
               this.bytecode       = result.bytecode
               this.compileErrors  = result.errors
 
@@ -231,7 +288,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
             deployCode: async function() {
               debugger
               let mm = this
-              let Hello = new web3.eth.Contract(this.abi, null, {
+              let Hello = new web3.eth.Contract(JSON.parse(this.properties.abi), null, {
                   data: '0x' + this.bytecode
               });
 
@@ -251,7 +308,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   gas: gas
               }).then((instance) => {
                   console.log("Contract mined at " + instance.options.address);
-                  //helloInstance = instance;
+                  mm.contractInstance = instance;
                   mm.properties.contractAddress = "" + instance.options.address
                   //mm.refresh++
                   mm.deployingStatus = "DEPLOYED"
@@ -262,6 +319,15 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
 
 
 
+            }
+            ,
+            refreshContractInstance: function() {
+
+                if (!this.contractInstance) {
+                  this.contractInstance = new web3.eth.Contract(
+                        JSON.parse(this.properties.abi), this.properties.contractAddress);
+
+                }
             }
             ,
 
