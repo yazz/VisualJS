@@ -267,11 +267,11 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                 //return rettt;
             }
             ,
-            
-            callMethodAsync: async function(newtext) {
+
+            callMethodAsync: async function(method, methodArgs) {
               debugger
                 this.refreshContractInstance()
-                await this.contractInstance.methods.increment().send(
+                await this.contractInstance.methods[method]().send(
                   {
                       from: '0x665F6aB2530eE5d2b469849aD4E16ccfF2EE769C'
                     })
@@ -281,6 +281,13 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
 });
                 //let rettt = (await this.contractInstance.methods.count.call().call())
                 //return rettt;
+            }
+            ,
+            GetPropertyAsync: async function(propertyName) {
+              debugger
+                this.refreshContractInstance()
+                let rett = await this.contractInstance.methods[propertyName].call().call()
+                return rettt;
             }
             ,
             compileCode: async function() {
