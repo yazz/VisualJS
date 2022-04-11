@@ -110,22 +110,22 @@ contract Counter {
         }
         ,
         {
-            id:         "callMethod",
-            snippet:    `callMethod({method: "getCount", })`,
-            name:       "callMethod",
+            id:         "callMethodAsync",
+            snippet:    `callMethodAsync("getCount", [])`,
+            name:       "callMethodAsync",
             type:       "Action",
             help:       `<div>Help text for
-                            <b>callMethod</b> function
+                            <b>callMethodAsync</b> function
                          </div>`
         }
         ,
         {
-            id:         "callMethod2",
-            snippet:    `callMethod2({method: "getCount", })`,
-            name:       "callMethod2",
+            id:         "getPropertyAsync",
+            snippet:    `getPropertyAsync("counter")`,
+            name:       "getPropertyAsync",
             type:       "Action",
             help:       `<div>Help text for
-                            <b>callMethod2</b> function
+                            <b>getPropertyAsync</b> function
                          </div>`
         }
 
@@ -244,29 +244,6 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
         }
         ,
         methods: {
-            callMethod: async function(newtext) {
-              debugger
-                this.refreshContractInstance()
-                //await this.contractInstance.methods.increment()
-                let rettt = (await this.contractInstance.methods.count.call().call())
-                return rettt;
-            }
-            ,
-            callMethod2: async function(newtext) {
-              debugger
-                this.refreshContractInstance()
-                await this.contractInstance.methods.increment().send(
-                  {
-                      from: '0x665F6aB2530eE5d2b469849aD4E16ccfF2EE769C'
-                    })
-.then(function(receipt){
-  debugger
-    // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
-});
-                //let rettt = (await this.contractInstance.methods.count.call().call())
-                //return rettt;
-            }
-            ,
 
             callMethodAsync: async function(method, methodArgs) {
               debugger
@@ -283,10 +260,10 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                 //return rettt;
             }
             ,
-            GetPropertyAsync: async function(propertyName) {
+            getPropertyAsync: async function(propertyName) {
               debugger
                 this.refreshContractInstance()
-                let rett = await this.contractInstance.methods[propertyName].call().call()
+                let rettt = (await this.contractInstance.methods[propertyName].call().call())
                 return rettt;
             }
             ,
