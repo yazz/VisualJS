@@ -267,6 +267,22 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                 //return rettt;
             }
             ,
+            
+            callMethodAsync: async function(newtext) {
+              debugger
+                this.refreshContractInstance()
+                await this.contractInstance.methods.increment().send(
+                  {
+                      from: '0x665F6aB2530eE5d2b469849aD4E16ccfF2EE769C'
+                    })
+.then(function(receipt){
+  debugger
+    // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
+});
+                //let rettt = (await this.contractInstance.methods.count.call().call())
+                //return rettt;
+            }
+            ,
             compileCode: async function() {
 
               var result = await callFunction(
