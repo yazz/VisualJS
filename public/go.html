@@ -36,6 +36,18 @@
               console.log(error);
             });
         }
+        debugger
+        const provider = window.ethereum;
+        if(!provider){
+          console.log("Metamask is not installed, please install!");
+        }
+        let chainId = await provider.request({ method: "eth_chainId" });
+        let binanceTestChainId = '0x61'
+        if (chainId === binanceTestChainId) {
+          console.log("Bravo!, you are on the correct network");
+        } else {
+          console.log("oulalal, switch to the correct network")
+        }
       })()
 
     } catch (error) {
