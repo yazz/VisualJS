@@ -61,7 +61,33 @@
            console.log("This network is not available in your metamask, please add it")
           }
           console.log("Failed to switch to the network")
-        }
+          try {
+                await provider.request({
+                  method: 'wallet_addEthereumChain',
+                  params: [
+                            {
+                              chainId: '0x61',
+                              chainName:'Smart Chain - Testnet',
+                              rpcUrls:[
+                                         'https://data-seed-prebsc-1-s1.binance.org:8545'
+                                      ],
+                              blockExplorerUrls:
+                                      [
+                                         'https://testnet.bscscan.com'
+                                      ]
+                              ,
+                              nativeCurrency: {
+                                 symbol:'BNB',
+                                 decimals: 18
+                              }
+                          }
+                 ]
+               });
+              } catch (addError) {
+                 console.log(addError);
+               
+             }
+          }
       })()
 
     } catch (error) {
