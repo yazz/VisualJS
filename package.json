@@ -28,6 +28,7 @@
     "fd-diskspace": "^1.0.0",
     "http": "^0.0.0",
     "ip": "^1.1.5",
+    "ipfs-api": "^26.1.2",
     "is-docker": "^2.2.1",
     "jaeger-client": "^3.19.0",
     "kafkajs": "^1.16.0",

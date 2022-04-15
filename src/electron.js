@@ -1,5 +1,32 @@
 #!/usr/bin/env node
 
+const ipfsAPI = require('ipfs-api');
+const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
+let testBuffer = new Buffer("Testcode2");
+console.log("Starting...")
+    ipfs.files.add(testBuffer, function (err, file) {
+        if (err) {
+          console.log("....................................Err: " + err);
+        }
+        console.log("....................................file: " + JSON.stringify(file,null,2))
+      })
+
+
+      const validCID = "QmcMgTs5owW1fkfzbsFR2KirfzqkK3Xme7smtXyfLgUjbC"
+
+      ipfs.files.get(validCID, function (err, files) {
+          files.forEach((file) => {
+            console.log("....................................file.path: " + file.path)
+            console.log(file.content.toString('utf8'))
+            console.log("....................................file.path: " + file.path)
+          })
+        })
+
+console.log("Done")
+      //process.exit()
+
+
+
 let getFileFromUser = null
 
 var childProcessNameInScheduler
