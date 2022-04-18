@@ -12,18 +12,8 @@
 <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
 
     <script>
-
-    try {
-      window.ethereum.request({ method: "eth_requestAccounts" });
-
-      web3 = new Web3(window.ethereum);
-
-      const serverUrl = "https://cpipp9nsrodb.usemoralis.com:2053/server";
-      const appId = "u6b7qmz53oetoPgFkOQP8Jji0xOzyOlNya94BSNS";
-      Moralis.start({ serverUrl, appId });
-
-      (async function() {
-        let moralisUser = Moralis.User.current();
+    async function switchBlockchainNetwork() {
+        /*let moralisUser = Moralis.User.current();
         if (!moralisUser) {
           moralisUser = await Moralis.authenticate({
             signingMessage: "Log in using Moralis",
@@ -35,7 +25,7 @@
             .catch(function (error) {
               console.log(error);
             });
-        }
+        }*/
         debugger
         const provider = window.ethereum;
         if(!provider){
@@ -85,10 +75,25 @@
                });
               } catch (addError) {
                  console.log(addError);
-               
+
              }
           }
+
+    }
+    try {
+      window.ethereum.request({ method: "eth_requestAccounts" });
+
+      web3 = new Web3(window.ethereum);
+
+      const serverUrl = "https://cpipp9nsrodb.usemoralis.com:2053/server";
+      const appId = "u6b7qmz53oetoPgFkOQP8Jji0xOzyOlNya94BSNS";
+      //Moralis.start({ serverUrl, appId });
+
+      (async function() {
+          
+        await switchBlockchainNetwork()
       })()
+
 
     } catch (error) {
 
@@ -11462,6 +11467,8 @@ function showTimer(optionalMessage) {
   }
   console.log("    Elapsed time in milliseconds: " + theTimerText + " : "+ (globalEndTimer - globalStartTimer))
 }
+
+
 
 </script>
 </body>
