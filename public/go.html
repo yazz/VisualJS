@@ -14,7 +14,7 @@
     <script>
     let blockchainIds = {
     '0': 'kardia',
-    '1': 'ethereum',
+    '1': {chainId: '0x1',chainName:'Ethereum - Mainnet',rpcUrls:['https://mainnet.infura.io/v3/'],blockExplorerUrls:['https://etherscan.io'],nativeCurrency: {symbol:'ETH',decimals: 18}},
     '8': 'ubiq',
     '10': 'optimism',
     '19': 'songbird',
@@ -71,7 +71,7 @@
     '11297108109': 'palm',
     '836542336838601': 'curio'
 }
-    async function switchBlockchainNetwork() {
+    async function switchBlockchainNetwork(blockchainId) {
         /*let moralisUser = Moralis.User.current();
         if (!moralisUser) {
           moralisUser = await Moralis.authenticate({
@@ -91,8 +91,7 @@
           console.log("Metamask is not installed, please install!");
         }
         let chainId = await provider.request({ method: "eth_chainId" });
-        let binanceTestChainId = '0x61'
-        if (chainId === binanceTestChainId) {
+        if (chainId === blockchainIds[blockchainId].chainId) {
           console.log("Bravo!, you are on the correct network");
         } else {
           console.log("oulalal, switch to the correct network")
@@ -101,7 +100,7 @@
         try {
           await provider.request({
             method: "wallet_switchEthereumChain",
-            params: [{ chainId: binanceTestChainId}],
+            params: [{ chainId: blockchainIds[blockchainId].chainId}],
           });
         console.log("You have succefully switched to Binance Test network")
         } catch (switchError) {
@@ -114,22 +113,7 @@
                 await provider.request({
                   method: 'wallet_addEthereumChain',
                   params: [
-                            {
-                              chainId: '0x61',
-                              chainName:'Smart Chain - Testnet',
-                              rpcUrls:[
-                                         'https://data-seed-prebsc-1-s1.binance.org:8545'
-                                      ],
-                              blockExplorerUrls:
-                                      [
-                                         'https://testnet.bscscan.com'
-                                      ]
-                              ,
-                              nativeCurrency: {
-                                 symbol:'BNB',
-                                 decimals: 18
-                              }
-                          }
+                            blockchainIds[blockchainId]
                  ]
                });
               } catch (addError) {
@@ -150,7 +134,8 @@
 
       (async function() {
 
-        await switchBlockchainNetwork('97')
+        //await switchBlockchainNetwork('1')   //eth mainnet
+        await switchBlockchainNetwork('97')   //binance testnet
       })()
 
 
