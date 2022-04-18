@@ -15,6 +15,7 @@
     let blockchainIds = {
     '0': 'kardia',
     '1': {chainId: '0x1',chainName:'Ethereum - Mainnet',rpcUrls:['https://mainnet.infura.io/v3/'],blockExplorerUrls:['https://etherscan.io'],nativeCurrency: {symbol:'ETH',decimals: 18}},
+    '4': {chainId: '0x4',chainName:'Ethereum - Rinkby test net',rpcUrls:['https://rinkeby.infura.io/v3/'],blockExplorerUrls:['https://rinkeby.etherscan.io'],nativeCurrency: {symbol:'ETH',decimals: 18}},
     '8': 'ubiq',
     '10': 'optimism',
     '19': 'songbird',
@@ -135,7 +136,8 @@
       (async function() {
 
         //await switchBlockchainNetwork('1')   //eth mainnet
-        await switchBlockchainNetwork('97')   //binance testnet
+        //await switchBlockchainNetwork('97')   //binance testnet
+        await switchBlockchainNetwork('4')   //eth rinkby
       })()
 
 
