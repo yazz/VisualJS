@@ -158,13 +158,12 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
 
                   </button>
 
-Selected chain: {{selectedBlockchain}}, length: {{selectedBlockchain.length}}
                   <select v-model="selectedBlockchain" @change="changeBlockchainNetwork();" id=changeBlockchain>
                     <option disabled value="">Please select one</option>
                     <option  v-for="blockchainId in Object.keys(window.blockchainIds)"
-                             v-bind:selected="selectedBlockchain.trim() === blockchainId.trim()"
+                             v-bind:selected="selectedBlockchain === blockchainId"
                              v-bind:value="blockchainId"
-                              >{{window.blockchainIds[blockchainId].chainName+":"+ blockchainId+":"+ blockchainId.length}}</option>
+                              >{{window.blockchainIds[blockchainId].chainName}}</option>
                   </select>
 
 
@@ -344,7 +343,13 @@ Selected chain: {{selectedBlockchain}}, length: {{selectedBlockchain.length}}
             }
             ,
             changeBlockchainNetwork: function() {
-              alert("Switch blockchain")
+              debugger
+              console.log(this.selectedBlockchain)
+              let mm = this
+              setTimeout(
+                async function() {
+                  await switchBlockchainNetwork(mm.selectedBlockchain)   //eth rinkby
+                },100)
             }
             ,
 
