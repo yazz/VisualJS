@@ -12,7 +12,7 @@
 <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
 
     <script>
-    let blockchainIds = {
+    window.blockchainIds = {
     '0': 'kardia',
     '1': {chainId: '0x1',chainName:'Ethereum - Mainnet',rpcUrls:['https://mainnet.infura.io/v3/'],blockExplorerUrls:['https://etherscan.io'],nativeCurrency: {symbol:'ETH',decimals: 18}},
     '4': {chainId: '0x4',chainName:'Ethereum - Rinkby test net',rpcUrls:['https://rinkeby.infura.io/v3/'],blockExplorerUrls:['https://rinkeby.etherscan.io'],nativeCurrency: {symbol:'ETH',decimals: 18}, faucet: "https://rinkebyfaucet.com/"},
@@ -92,7 +92,7 @@
           console.log("Metamask is not installed, please install!");
         }
         let chainId = await provider.request({ method: "eth_chainId" });
-        if (chainId === blockchainIds[blockchainId].chainId) {
+        if (chainId === window.blockchainIds[blockchainId].chainId) {
           console.log("Bravo!, you are on the correct network");
         } else {
           console.log("oulalal, switch to the correct network")
@@ -101,7 +101,7 @@
         try {
           await provider.request({
             method: "wallet_switchEthereumChain",
-            params: [{ chainId: blockchainIds[blockchainId].chainId}],
+            params: [{ chainId: window.blockchainIds[blockchainId].chainId}],
           });
         console.log("You have succefully switched to Binance Test network")
         } catch (switchError) {
@@ -114,7 +114,7 @@
                 await provider.request({
                   method: 'wallet_addEthereumChain',
                   params: [
-                            blockchainIds[blockchainId]
+                            window.blockchainIds[blockchainId]
                  ]
                });
               } catch (addError) {

@@ -158,6 +158,15 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
 
                   </button>
 
+
+                  <select v-model="selectedBlockchain" @change="changeBlockchainNetwork();">
+                    <option disabled value="">Please select one</option>
+                    <option  v-for="blockchainId in ['1']"
+                          v-bind:selected="blockchainId == '1'"
+                              >{{window.blockchainIds[blockchainId].chainName}}</option>
+                  </select>
+
+
                   <button    class="btn"
                              v-on:click="deployCode()">
 
@@ -199,6 +208,8 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
               deployingStatus: ""
               ,
               contractInstance: null
+              ,
+              selectedBlockchain: "1"
 
             }
         }
@@ -328,6 +339,10 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                         JSON.parse(this.properties.abi), this.properties.contractAddress);
 
                 }
+            }
+            ,
+            changeBlockchainNetwork: function() {
+              alert("Switch blockchain")
             }
             ,
 
