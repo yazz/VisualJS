@@ -158,12 +158,13 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
 
                   </button>
 
-
-                  <select v-model="selectedBlockchain" @change="changeBlockchainNetwork();">
+Selected chain: {{selectedBlockchain}}, length: {{selectedBlockchain.length}}
+                  <select v-model="selectedBlockchain" @change="changeBlockchainNetwork();" id=changeBlockchain>
                     <option disabled value="">Please select one</option>
-                    <option  v-for="blockchainId in ['1']"
-                          v-bind:selected="blockchainId == '1'"
-                              >{{window.blockchainIds[blockchainId].chainName}}</option>
+                    <option  v-for="blockchainId in Object.keys(window.blockchainIds)"
+                             v-bind:selected="selectedBlockchain.trim() === blockchainId.trim()"
+                             v-bind:value="blockchainId"
+                              >{{window.blockchainIds[blockchainId].chainName+":"+ blockchainId+":"+ blockchainId.length}}</option>
                   </select>
 
 
@@ -209,7 +210,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
               ,
               contractInstance: null
               ,
-              selectedBlockchain: "1"
+              selectedBlockchain: null
 
             }
         }
@@ -224,6 +225,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
         },
         mounted: async function() {
             registerComponent(this)
+            this.selectedBlockchain = window.currentBlockchain
 
             if (isValidObject(this.args.text)) {
             }

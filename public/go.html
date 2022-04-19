@@ -12,6 +12,7 @@
 <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
 
     <script>
+    window.currentBlockchain = "4"
     window.blockchainIds = {
     '0': 'kardia',
     '1': {chainId: '0x1',chainName:'Ethereum - Mainnet',rpcUrls:['https://mainnet.infura.io/v3/'],blockExplorerUrls:['https://etherscan.io'],nativeCurrency: {symbol:'ETH',decimals: 18}},
@@ -137,7 +138,7 @@
 
         //await switchBlockchainNetwork('1')   //eth mainnet
         //await switchBlockchainNetwork('97')   //binance testnet
-        await switchBlockchainNetwork('4')   //eth rinkby
+        await switchBlockchainNetwork(window.currentBlockchain)   //eth rinkby
       })()
 
 
