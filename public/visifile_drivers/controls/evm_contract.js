@@ -148,7 +148,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   v-bind:refresh='refresh'
                   v-if='design_mode == "detail_editor"'>
 
-                  Detail editor
+
                   <button    class="btn btn-danger"
                              v-on:click="compileCode()">
 
@@ -287,6 +287,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
             }
             ,
             compileCode: async function() {
+              debugger
 
               var result = await callFunction(
               {
