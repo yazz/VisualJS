@@ -167,6 +167,10 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                               >{{window.blockchainIds[blockchainId].chainName}}</option>
                   </select>
 
+                  <a v-if="faucet" v-bind:href="faucet" target="_blank">
+                    Faucet
+                  </a>
+
 
                   <button    class="btn"
                              v-on:click="deployCode()">
@@ -211,7 +215,8 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
               contractInstance: null
               ,
               selectedBlockchain: null
-
+              ,
+              faucet: null
             }
         }
         ,
@@ -226,6 +231,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
         mounted: async function() {
             registerComponent(this)
             this.selectedBlockchain = window.currentBlockchain
+            this.faucet = window.blockchainIds[this.selectedBlockchain].faucet
 
             if (isValidObject(this.args.text)) {
             }
@@ -350,6 +356,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
               setTimeout(
                 async function() {
                   await switchBlockchainNetwork(mm.selectedBlockchain)   //eth rinkby
+                  mm.faucet = window.blockchainIds[mm.selectedBlockchain].faucet
                 },100)
             }
             ,
