@@ -181,6 +181,8 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
 
                   <span v-if="deployingStatus=='DEPLOYED'" class="badge badge-pill badge-success">{{deployingStatus}}</span>
 
+                  <span v-if="deployingStatus=='FAILED'" class="badge badge-pill badge-danger">{{deployingStatus}}</span>
+
 
                   <br>
                   <div style="font-family: courier">
@@ -306,7 +308,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
             }
             ,
             deployCode: async function() {
-              debugger
+
               let mm = this
               let Hello = new web3.eth.Contract(JSON.parse(this.properties.abi), null, {
                   data: '0x' + this.bytecode
@@ -327,12 +329,16 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   gasPrice: gasPrice,
                   gas: gas
               }).then((instance) => {
+                debugger
                   console.log("Contract mined at " + instance.options.address);
                   mm.contractInstance = instance;
                   mm.properties.contractAddress = "" + instance.options.address
                   //mm.refresh++
                   mm.deployingStatus = "DEPLOYED"
 
+              }).catch((error ) => {
+                debugger
+                mm.deployingStatus = "FAILED"
               });
 
 
