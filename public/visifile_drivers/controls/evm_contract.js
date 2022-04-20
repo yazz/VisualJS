@@ -161,6 +161,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   <select v-model="selectedBlockchain" @change="changeBlockchainNetwork();" id=changeBlockchain>
                     <option disabled value="">Please select one</option>
                     <option  v-for="blockchainId in Object.keys(window.blockchainIds)"
+                            v-if="window.blockchainIds[blockchainId].chainName"
                              v-bind:selected="selectedBlockchain === blockchainId"
                              v-bind:value="blockchainId"
                               >{{window.blockchainIds[blockchainId].chainName}}</option>
