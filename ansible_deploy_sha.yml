@@ -18,7 +18,7 @@
 
     - name: install the latest version of Visual Javascript
       git:
-        repo: 'https://github.com/yazz/visualjavascript.git'
+        repo: 'https://github.com/yazz/yazz.git'
         dest: /root/visifile
         version: "{{ sha }}"
 
