@@ -336,6 +336,18 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   //mm.refresh++
                   mm.deployingStatus = "DEPLOYED"
 
+                  callAjaxPost("/save_component",
+                  {
+                       base_component_id:      "",
+                  }
+                  ,
+                  async function(response){
+                    showTimer("in 'save_component' response")
+
+                    let responseJson = JSON.parse(response)
+                    alert(response)
+                  })
+
               }).catch((error ) => {
                 debugger
                 mm.deployingStatus = "FAILED"

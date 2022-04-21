@@ -2726,6 +2726,25 @@ async function startServices() {
         });
 
 
+//zzz
+        app.post("/save_component" , async function (req, res) {
+          //console.log("save_code " )
+          //console.log("          base_component_id :" + JSON.stringify(req.body.value.base_component_id ,null,2))
+          //console.log("          code_id :" + JSON.stringify(req.body.value.code_id ,null,2))
+          //console.log("          code :" + JSON.stringify(req.body.value.code ,null,2))
+          //console.log("          options :" + JSON.stringify(req.body.value.options ,null,2))
+            //console.log("    " + JSON.stringify(req,null,2) )
+
+          //await evalLocalSystemDriver('evm_demo_count_contract_control',   path.join(__dirname, '../public/visifile_drivers/controls/evm_demo_count_contract.js'),{username: "default", reponame: "evm_demo_count_contract_control", version: "latest"})
+
+
+            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+            res.end(JSON.stringify({return: "from save component"}))
+        });
+
+
+
+
         app.post('/file_open_single', upload.single( 'openfilefromhomepage' ), function (req, res, next) {
             console.log("File open: " + JSON.stringify(req.file.originalname,null,2))
             return file_uploadSingleFn(req, res, next);
@@ -2828,7 +2847,7 @@ async function startServices() {
     }
 
 
-//zzz
+
 
 
     childProcessNameInScheduler            = "forkedExeScheduler"
@@ -4721,7 +4740,7 @@ async function setUpComponentsLocally() {
     await evalLocalSystemDriver('label_control',   path.join(__dirname, '../public/visifile_drivers/controls/label.js'),{username: "default", reponame: "label_control", version: "latest"})
     await evalLocalSystemDriver('metamask_control',   path.join(__dirname, '../public/visifile_drivers/controls/metamask.js'),{username: "default", reponame: "metamask_control", version: "latest"})
     await evalLocalSystemDriver('evm_contract_control',   path.join(__dirname, '../public/visifile_drivers/controls/evm_contract.js'),{username: "default", reponame: "evm_contract_control", version: "latest"})
-    await evalLocalSystemDriver('evm_demo_count_contract_control',   path.join(__dirname, '../public/visifile_drivers/controls/evm_demo_count_contract.js'),{username: "default", reponame: "evm_demo_count_contract_control", version: "latest"})
+    //
     await evalLocalSystemDriver('input_control',   path.join(__dirname, '../public/visifile_drivers/controls/input.js'),{username: "default", reponame: "input_control", version: "latest"})
 
     await evalLocalSystemDriver('group_control',   path.join(__dirname, '../public/visifile_drivers/controls/group.js'),{username: "default", reponame: "group_control", version: "latest"})
@@ -5154,7 +5173,7 @@ function return_response_to_function_caller(msg) {
 
 
 
-///zzz
+
 
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
@@ -5195,7 +5214,7 @@ function updateRunningTimeForprocess() {
 
 
 //setInterval(updateRunningTimeForprocess,1000)
-//zzz
+
 
 
 
