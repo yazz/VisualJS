@@ -329,7 +329,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   gasPrice: gasPrice,
                   gas: gas
               }).then((instance) => {
-                debugger
+                //debugger
                   console.log("Contract mined at " + instance.options.address);
                   mm.contractInstance = instance;
                   mm.properties.contractAddress = "" + instance.options.address
@@ -343,7 +343,8 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   ,
                   async function(response){
                     showTimer("in 'save_component' response")
-                    alert(response)
+                    //alert(response)
+                    debugger
 
                     let responseJson = JSON.parse(response)
                     mm.$root.$emit('message', {
