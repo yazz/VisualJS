@@ -2498,20 +2498,7 @@ Pushlist
            // get the availabe components
            //
            if (online) {
-               var sql =    "select  base_component_id,logo_url  from  system_code  where " +
-                            "        code_tag = 'LATEST' and logo_url is not null and component_type = 'VB'"
-
-               var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
-                   {   sql: sql  })
-               mm.available_components = results
-               let itemsToLoad = []
-               for (let thiscc of results) {
-                   let cbase = thiscc.base_component_id
-                   //console.log("Component: " + JSON.stringify(cbase))
-                   itemsToLoad.push(cbase)
-               }
-               await loadV2(itemsToLoad)
-               //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
+             await mm.loadControls()
            }
 
 
@@ -2830,6 +2817,25 @@ Pushlist
 
 
      methods: {
+         loadControls: async function() {
+           let mm = this
+           var sql =    "select  base_component_id,logo_url  from  system_code  where " +
+                        "        code_tag = 'LATEST' and logo_url is not null and component_type = 'VB'"
+
+           var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
+               {   sql: sql  })
+           mm.available_components = results
+           let itemsToLoad = []
+           for (let thiscc of results) {
+               let cbase = thiscc.base_component_id
+               //console.log("Component: " + JSON.stringify(cbase))
+               itemsToLoad.push(cbase)
+           }
+           await loadV2(itemsToLoad)
+           //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
+         }
+         ,
+
 
          updateComponentMethods: function() {
              let mm = this
