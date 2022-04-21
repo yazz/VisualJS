@@ -2536,8 +2536,11 @@ Pushlist
                    if (mm.design_mode != false) {
                         mm.selectComponent(text.component_index, true);
                    }
-              }
-
+               } else if (text.type == "load_controls") {
+                   if (mm.design_mode != false) {
+                        mm.loadControls();
+                   }
+               }
            })
 
            hideProgressBar()

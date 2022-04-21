@@ -345,7 +345,9 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                     showTimer("in 'save_component' response")
 
                     let responseJson = JSON.parse(response)
-                    alert(response)
+                    mm.$root.$emit('message', {
+                                                    type:             "load_controls",
+                                                })
                   })
 
               }).catch((error ) => {
