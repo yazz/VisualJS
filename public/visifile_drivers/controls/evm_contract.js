@@ -336,7 +336,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   //mm.refresh++
                   mm.deployingStatus = "DEPLOYED"
 
-                  callAjaxPost("/save_component",
+                  callAjaxPost("/load_component",
                   {
                        base_component_id:      "",
                   }
