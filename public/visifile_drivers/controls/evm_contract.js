@@ -336,13 +336,14 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   //mm.refresh++
                   mm.deployingStatus = "DEPLOYED"
 
-                  callAjaxPost("/load_component",
+                  callAjaxPost("/copy_component",
                   {
                        base_component_id:      "",
                   }
                   ,
                   async function(response){
                     showTimer("in 'save_component' response")
+                    alert(response)
 
                     let responseJson = JSON.parse(response)
                     mm.$root.$emit('message', {

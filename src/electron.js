@@ -2726,14 +2726,8 @@ async function startServices() {
         });
 
 
-//zzz
+
         app.post("/load_component" , async function (req, res) {
-          //console.log("save_code " )
-          //console.log("          base_component_id :" + JSON.stringify(req.body.value.base_component_id ,null,2))
-          //console.log("          code_id :" + JSON.stringify(req.body.value.code_id ,null,2))
-          //console.log("          code :" + JSON.stringify(req.body.value.code ,null,2))
-          //console.log("          options :" + JSON.stringify(req.body.value.options ,null,2))
-            //console.log("    " + JSON.stringify(req,null,2) )
 
           await evalLocalSystemDriver('evm_demo_count_contract_control',   path.join(__dirname, '../public/visifile_drivers/controls/evm_demo_count_contract.js'),{username: "default", reponame: "evm_demo_count_contract_control", version: "latest"})
 
@@ -2743,20 +2737,21 @@ async function startServices() {
         });
 
         app.post("/save_component" , async function (req, res) {
-          //console.log("save_code " )
-          //console.log("          base_component_id :" + JSON.stringify(req.body.value.base_component_id ,null,2))
-          //console.log("          code_id :" + JSON.stringify(req.body.value.code_id ,null,2))
-          //console.log("          code :" + JSON.stringify(req.body.value.code ,null,2))
-          //console.log("          options :" + JSON.stringify(req.body.value.options ,null,2))
-            //console.log("    " + JSON.stringify(req,null,2) )
-
-          //await evalLocalSystemDriver('evm_demo_count_contract_control',   path.join(__dirname, '../public/visifile_drivers/controls/evm_demo_count_contract.js'),{username: "default", reponame: "evm_demo_count_contract_control", version: "latest"})
-
 
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end(JSON.stringify({return: "from save component"}))
         });
 
+        app.post("/copy_component" , async function (req, res) {
+
+          await evalLocalSystemDriver('evm_demo_count_contract_control',   path.join(__dirname, '../public/visifile_drivers/controls/evm_demo_count_contract.js'),{username: "default", reponame: "evm_demo_count_contract_control", version: "latest"})
+          let srcText = fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/controls/evm_demo_count_contract.js'), 'utf8')
+          //zzz
+
+
+            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+            res.end(JSON.stringify({return: srcText}))
+        });
 
 
 
