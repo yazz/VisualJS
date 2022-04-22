@@ -2744,10 +2744,11 @@ async function startServices() {
 
         app.post("/copy_component" , async function (req, res) {
 
-          await evalLocalSystemDriver('evm_demo_count_contract_control',   path.join(__dirname, '../public/visifile_drivers/controls/evm_demo_count_contract.js'),{username: "default", reponame: "evm_demo_count_contract_control", version: "latest"})
-          let srcText = fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/controls/evm_demo_count_contract.js'), 'utf8')
-          //zzz
+            let srcText = fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/controls/evm_contract.js'), 'utf8')
+            srcText = srcText.replaceAll('evm_contract_control', 'zubair_control')
+            //zzz
 
+            await addOrUpdateDriver('zubair_control', srcText ,  {username: "default", reponame: 'zubair_control', version: "latest"})
 
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end(JSON.stringify({return: srcText}))
