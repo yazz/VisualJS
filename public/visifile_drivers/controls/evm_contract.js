@@ -330,7 +330,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
               mm.deployingStatus = "WAITING"
               debugger
               Hello.deploy().send({
-                  from: this.properties.defaultAccount,//'0x665F6aB2530eE5d2b469849aD4E16ccfF2EE769C',
+                  from: this.properties.defaultAccount,
                   gasPrice: gasPrice,
                   gas: gas
               }).then((instance) => {
