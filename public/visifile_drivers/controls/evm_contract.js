@@ -191,6 +191,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   v-model='properties.code'></textarea>
 
                   <div style="width: 400px;">
+                    <div v-if='deployError' style='color:red;'><b>Deploy Error</b> {{deployError}}</div>
                     <b>ABI</b> {{properties.abi}}
                     <br>
                     <b>Bytecode</b> {{bytecode}}
@@ -219,6 +220,8 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
               selectedBlockchain: null
               ,
               faucet: null
+              ,
+              deployError: null
             }
         }
         ,
@@ -310,6 +313,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
             deployCode: async function() {
 
               let mm = this
+              mm.deployError = null
               let Hello = new web3.eth.Contract(JSON.parse(this.properties.abi), null, {
                   data: '0x' + this.bytecode
               });
@@ -325,7 +329,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
 
               mm.deployingStatus = "WAITING"
               Hello.deploy().send({
-                  from: '0x665F6aB2530eE5d2b469849aD4E16ccfF2EE769C',
+                  from: '',//'0x665F6aB2530eE5d2b469849aD4E16ccfF2EE769C',
                   gasPrice: gasPrice,
                   gas: gas
               }).then((instance) => {
@@ -354,6 +358,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
 
               }).catch((error ) => {
                 debugger
+                mm.deployError = error
                 mm.deployingStatus = "FAILED"
               });
 
