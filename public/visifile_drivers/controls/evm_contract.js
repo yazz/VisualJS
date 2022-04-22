@@ -274,10 +274,10 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                 this.refreshContractInstance()
                 await this.contractInstance.methods[method]().send(
                   {
-                      from: '0x665F6aB2530eE5d2b469849aD4E16ccfF2EE769C'
+                      from: this.properties.defaultAccount
                     })
 .then(function(receipt){
-  debugger
+  //debugger
     // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
 });
                 //let rettt = (await this.contractInstance.methods.count.call().call())
@@ -285,14 +285,14 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
             }
             ,
             getPropertyAsync: async function(propertyName) {
-              debugger
+              //debugger
                 this.refreshContractInstance()
                 let rettt = (await this.contractInstance.methods[propertyName].call().call())
                 return rettt;
             }
             ,
             compileCode: async function() {
-              debugger
+              //debugger
 
               var result = await callFunction(
               {
@@ -328,8 +328,9 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
               catch(console.error);
 
               mm.deployingStatus = "WAITING"
+              debugger
               Hello.deploy().send({
-                  from: '',//'0x665F6aB2530eE5d2b469849aD4E16ccfF2EE769C',
+                  from: this.properties.defaultAccount,//'0x665F6aB2530eE5d2b469849aD4E16ccfF2EE769C',
                   gasPrice: gasPrice,
                   gas: gas
               }).then((instance) => {
@@ -357,7 +358,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   })
 
               }).catch((error ) => {
-                debugger
+                //debugger
                 mm.deployError = error
                 mm.deployingStatus = "FAILED"
               });
@@ -378,7 +379,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
             }
             ,
             changeBlockchainNetwork: function() {
-              debugger
+              //debugger
               console.log(this.selectedBlockchain)
               let mm = this
               setTimeout(
