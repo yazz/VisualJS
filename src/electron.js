@@ -2747,6 +2747,11 @@ async function startServices() {
             let srcText = fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/controls/evm_contract.js'), 'utf8')
             srcText = srcText.replaceAll('evm_contract_control', 'zubair_control')
             //zzz
+            var logoValue = saveHelper.getValueOfCodeString(srcText,"logo_url")
+            if (logoValue) {
+                    srcText = saveHelper.deleteCodeString(srcText, "logo_url")
+            }
+            srcText = saveHelper.insertCodeString(srcText, "logo_url", "/driver_icons/blue_eth.png")
 
             await addOrUpdateDriver('zubair_control', srcText ,  {username: "default", reponame: 'zubair_control', version: "latest"})
 
