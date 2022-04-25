@@ -26,9 +26,6 @@ console.log("Done")
       //process.exit()
 
 
-
-let getFileFromUser = null
-
 var childProcessNameInScheduler
 var processesInUse                      = new Object()
 var tryAgain                            = true
