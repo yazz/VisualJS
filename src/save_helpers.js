@@ -75,14 +75,16 @@ module.exports = {
                                         return newString
                                     },
 
-    readPropertyValue: function(code, propertyName) {
-      var properties = saveHelper.getValueOfCodeString(code,"properties",")//properties")
+    replacePropertyValue: function(code, propertyId, propertyValue) {
+      var properties = this.getValueOfCodeString(code,"properties",")//properties")
       if (properties) {
           properties = JSON.stringify(properties,null,2)
           let index =0;
           for (let i=0; i < properties.length; i++) {
             let property = properties[i]
-            //if (property.id = )
+            if (property.id = propertyId) {
+              property.default = propertyValue
+            }
           }
       }
     }

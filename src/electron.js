@@ -2775,14 +2775,12 @@ async function startServices() {
             for (let propertyToChangeIndex = 0; propertyToChangeIndex< propertiesToChange.length;propertyToChangeIndex++){
               let propertyNameToChange = propertiesToChange[propertyToChangeIndex]
               let propertyToChange = default_property_values[propertyNameToChange]
-              console.log(propertyNameToChange + ": " + JSON.stringify(default_property_values[propertyNameToChange],null,2))
+              let propertyValue = default_property_values[propertyNameToChange]
+              console.log(propertyNameToChange + ": " + JSON.stringify(propertyValue,null,2))
+              saveHelper.replacePropertyValue(srcText,propertyNameToChange,propertyValue)
             }
 
 
-            var properties = saveHelper.readPropertyValue(srcText,"abi")
-            if (properties) {
-                properties = JSON.stringify(properties,null,2)
-            }
 
 
             //
