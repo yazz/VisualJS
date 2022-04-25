@@ -73,5 +73,19 @@ module.exports = {
                                         var endIndex = target.indexOf(end)
                                         var newString = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
                                         return newString
-                                    }
+                                    },
+
+    readPropertyValue: function(code, propertyName) {
+      var properties = saveHelper.getValueOfCodeString(code,"properties",")//properties")
+      if (properties) {
+          properties = JSON.stringify(properties,null,2)
+          let index =0;
+          for (let i=0; i < properties.length; i++) {
+            let property = properties[i]
+            //if (property.id = )
+          }
+      }
+    }
+
+
 }

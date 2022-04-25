@@ -344,6 +344,9 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   callAjaxPost("/copy_component",
                   {
                        base_component_id:      "",
+                       default_property_values: {
+                         abi:   mm.properties.abi
+                       }
                   }
                   ,
                   async function(response){

@@ -2743,15 +2743,51 @@ async function startServices() {
 
         app.post("/copy_component" , async function (req, res) {
 
+            //
+            // copy the main EVM control
+            //
             let srcText = fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/controls/evm_contract.js'), 'utf8')
+
+            //
+            // give the new smart contract control a new name
+            //
             srcText = srcText.replaceAll('evm_contract_control', 'zubair_control')
             //zzz
+
+            //
+            // give the new smart contract control a new logo (a blue Ethereum logo)
+            //
             var logoValue = saveHelper.getValueOfCodeString(srcText,"logo_url")
             if (logoValue) {
                     srcText = saveHelper.deleteCodeString(srcText, "logo_url")
             }
             srcText = saveHelper.insertCodeString(srcText, "logo_url", "/driver_icons/blue_eth.png")
 
+
+            //
+            // copy over some properties from the existing EVM smart contract instance to the new
+            // smart contract control (as defaults)
+            //
+            let default_property_values = req.body.value.default_property_values;
+            console.log("default_property_values: " + JSON.stringify(default_property_values,null,2))
+            let propertiesToChange = Object.keys(default_property_values)
+            console.log("propertiesToChange: " + JSON.stringify(propertiesToChange,null,2))
+            for (let propertyToChangeIndex = 0; propertyToChangeIndex< propertiesToChange.length;propertyToChangeIndex++){
+              let propertyNameToChange = propertiesToChange[propertyToChangeIndex]
+              let propertyToChange = default_property_values[propertyNameToChange]
+              console.log(propertyNameToChange + ": " + JSON.stringify(default_property_values[propertyNameToChange],null,2))
+            }
+
+
+            var properties = saveHelper.readPropertyValue(srcText,"abi")
+            if (properties) {
+                properties = JSON.stringify(properties,null,2)
+            }
+
+
+            //
+            // save the new smart contract component
+            //
             await addOrUpdateDriver('zubair_control', srcText ,  {username: "default", reponame: 'zubair_control', version: "latest"})
 
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
