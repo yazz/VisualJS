@@ -76,17 +76,24 @@ module.exports = {
                                     },
 
     replacePropertyValue: function(code, propertyId, propertyValue) {
-      var properties = this.getValueOfCodeString(code,"properties",")//properties")
+      var properties = this.getValueOfCodeString(code,"properties",")//prope" + "rties")
       if (properties) {
-          properties = JSON.stringify(properties,null,2)
           let index =0;
           for (let i=0; i < properties.length; i++) {
             let property = properties[i]
-            if (property.id = propertyId) {
+            if (property.id == propertyId) {
               property.default = propertyValue
             }
           }
+
+          code = this.deleteCodeString(  code, "properties", ")//prope" + "rties")
+
+          code = this.insertCodeString(    code,
+                                                     "properties",
+                                                      properties,
+                                                     ")//prope" + "rties")
       }
+      return code
     }
 
 
