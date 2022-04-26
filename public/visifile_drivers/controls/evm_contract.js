@@ -340,12 +340,14 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   mm.properties.contractAddress = "" + instance.options.address
                   //mm.refresh++
                   mm.deployingStatus = "DEPLOYED"
-
+//zzz
                   callAjaxPost("/copy_component",
                   {
                        base_component_id:      "",
                        default_property_values: {
                          abi:   mm.properties.abi
+                         ,
+                         code: mm.properties.code
                        }
                   }
                   ,
