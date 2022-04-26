@@ -2752,7 +2752,7 @@ async function startServices() {
             //zzz
 
             //
-            // give the new smart contract control a new logo (a blue Ethereum logo)
+            // give the new component a new logo
             //
             var logoValue = saveHelper.getValueOfCodeString(srcText,"logo_url")
             if (logoValue) {
@@ -2775,7 +2775,7 @@ async function startServices() {
 
 
             //
-            // create some new properties in ther new component
+            // create some new properties in the new component
             //
             let newProperties = req.body.value.new_properties;
             for ( let newPropertyIndex = 0 ; newPropertyIndex < newProperties.length ; newPropertyIndex++ ){
@@ -2784,6 +2784,14 @@ async function startServices() {
             }
 
 
+            //
+            // create new methods in the new component
+            //
+            let newMethods = req.body.value.new_methods;
+            for ( let newMethodIndex = 0 ; newMethodIndex < newMethods.length ; newMethodIndex++ ){
+                let newMethod = newMethods[newMethodIndex]
+                srcText = saveHelper.addMethod(srcText,"\n\n\n"+newMethod+"\n,\n\n")
+            }
 
 
 
@@ -2795,6 +2803,9 @@ async function startServices() {
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end(JSON.stringify({return: srcText}))
         });
+
+
+
 
 
 

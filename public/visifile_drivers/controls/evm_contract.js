@@ -268,6 +268,9 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
         }
         ,
         methods: {
+            /*NEW_METHODS_START*/
+            /*NEW_METHODS_END*/
+
 
             callMethodAsync: async function(method, methodArgs) {
               debugger
@@ -364,6 +367,14 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                            }
 
                        ]
+                      ,
+                      new_methods: [
+`count: async function() {
+let sdf = await this.getPropertyAsync("count")
+return sdf
+}
+`
+                      ]
                   }
                   ,
                   async function(response){

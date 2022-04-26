@@ -113,6 +113,18 @@ module.exports = {
         }
         return code
     }
+    ,
+
+    addMethod: function(code, newMethod) {
+        code = this.replaceBetween(
+                        code,
+                        "/*NEW_METHODS_START*/",
+                        "/*NEW_METHODS_END*/",
+                        newMethod)
+
+        return code
+    }
+
 
 
 }
