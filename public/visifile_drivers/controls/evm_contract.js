@@ -351,6 +351,19 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                            ,
                            contractAddress: mm.properties.contractAddress
                        }
+                       ,
+                       new_properties: [
+                           {
+                               id:         "count",
+                               snippet:    `count()`,
+                               name:       "count",
+                               type:       "Action",
+                               help:       `<div>Help text for
+                                                    <b>count</b> function
+                                            </div>`
+                           }
+
+                       ]
                   }
                   ,
                   async function(response){

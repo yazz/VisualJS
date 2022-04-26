@@ -73,7 +73,8 @@ module.exports = {
                                         var endIndex = target.indexOf(end)
                                         var newString = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
                                         return newString
-                                    },
+    }
+    ,
 
     replacePropertyValue: function(code, propertyId, propertyValue) {
       var properties = this.getValueOfCodeString(code,"properties",")//prope" + "rties")
@@ -95,6 +96,22 @@ module.exports = {
                                                      ")//prope" + "rties")
       }
       return code
+    }
+    ,
+
+    addProperty: function(code, newProperty) {
+        var properties = this.getValueOfCodeString(code,"properties",")//prope" + "rties")
+        if (properties) {
+            properties.push(newProperty)
+
+            code = this.deleteCodeString(  code, "properties", ")//prope" + "rties")
+
+            code = this.insertCodeString(    code,
+                "properties",
+                properties,
+                ")//prope" + "rties")
+        }
+        return code
     }
 
 

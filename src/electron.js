@@ -2762,20 +2762,27 @@ async function startServices() {
 
 
             //
-            // copy over some properties from the existing EVM smart contract instance to the new
-            // smart contract control (as defaults)
+            // copy over some properties defaults from the existing component
             //
             let default_property_values = req.body.value.default_property_values;
-            console.log("default_property_values: " + JSON.stringify(default_property_values,null,2))
             let propertiesToChange = Object.keys(default_property_values)
-            console.log("propertiesToChange: " + JSON.stringify(propertiesToChange,null,2))
-            for (let propertyToChangeIndex = 0; propertyToChangeIndex< propertiesToChange.length;propertyToChangeIndex++){
+            for (let propertyToChangeIndex = 0; propertyToChangeIndex < propertiesToChange.length;propertyToChangeIndex++){
                 let propertyNameToChange = propertiesToChange[propertyToChangeIndex]
                 let propertyToChange = default_property_values[propertyNameToChange]
                 let propertyValue = default_property_values[propertyNameToChange]
-                console.log(propertyNameToChange + ": " + JSON.stringify(propertyValue,null,2))
                 srcText = saveHelper.replacePropertyValue(srcText,propertyNameToChange,propertyValue)
             }
+
+
+            //
+            // create some new properties in ther new component
+            //
+            let newProperties = req.body.value.new_properties;
+            for ( let newPropertyIndex = 0 ; newPropertyIndex < newProperties.length ; newPropertyIndex++ ){
+                let newProperty = newProperties[newPropertyIndex]
+                srcText = saveHelper.addProperty(srcText,newProperty)
+            }
+
 
 
 
