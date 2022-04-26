@@ -82,7 +82,8 @@ module.exports = {
           for (let i=0; i < properties.length; i++) {
             let property = properties[i]
             if (property.id == propertyId) {
-              property.default = propertyValue
+                property.default = propertyValue
+                break;
             }
           }
 
