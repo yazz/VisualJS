@@ -334,7 +334,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   gasPrice: gasPrice,
                   gas: gas
               }).then((instance) => {
-                //debugger
+                debugger
                   console.log("Contract mined at " + instance.options.address);
                   mm.contractInstance = instance;
                   mm.properties.contractAddress = "" + instance.options.address
@@ -345,9 +345,11 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   {
                        base_component_id:      "",
                        default_property_values: {
-                         abi:   mm.properties.abi
-                         ,
-                         code: mm.properties.code
+                           abi:   mm.properties.abi
+                           ,
+                           code: mm.properties.code
+                           ,
+                           contractAddress: mm.properties.contractAddress
                        }
                   }
                   ,
