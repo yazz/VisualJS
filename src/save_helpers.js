@@ -75,6 +75,13 @@ module.exports = {
                                         return newString
     }
     ,
+    getBetween: function(target, start, end) {
+        var startIndex = target.indexOf(start) + start.length
+        var endIndex = target.indexOf(end)
+        var newString = target.substring(startIndex,endIndex)
+        return newString
+    }
+    ,
 
     replacePropertyValue: function(code, propertyId, propertyValue) {
       var properties = this.getValueOfCodeString(code,"properties",")//prope" + "rties")
@@ -116,11 +123,16 @@ module.exports = {
     ,
 
     addMethod: function(code, newMethod) {
+         let existingCode = this.getBetween(
+             code,
+             "/*NEW_METHODS_START*/",
+             "/*NEW_METHODS_END*/")
+
         code = this.replaceBetween(
                         code,
                         "/*NEW_METHODS_START*/",
                         "/*NEW_METHODS_END*/",
-                        newMethod)
+            existingCode + newMethod)
 
         return code
     }
