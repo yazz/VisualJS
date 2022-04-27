@@ -344,6 +344,45 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   //mm.refresh++
                   mm.deployingStatus = "DEPLOYED"
 //zzz
+
+                  let smartContractMethods = [
+                      {
+                          id:         "count",
+                          pre_snippet: `await `,
+                          snippet:    `count()`,
+                          name:       "count",
+                          type:       "Action",
+                          help:       `<div>Help text for
+                                                    <b>count</b> function
+                                            </div>`
+                      }
+                      ,
+                      {
+                          id:         "increment",
+                          pre_snippet: `await `,
+                          snippet:    `increment()`,
+                          name:       "increment",
+                          type:       "Action",
+                          help:       `<div>Help text for
+                                                <b>increment</b> function
+                                             </div>`
+                      }
+
+                  ]
+
+                  let smartContractMethodsCode = [
+                      `count: async function() {
+    let sdf = await this.getPropertyAsync("count")
+return sdf
+}
+`
+                      ,
+                      `increment: async function() {
+    await this.callMethodAsync("increment", [])
+}
+`
+                  ]
+
                   callAjaxPost("/copy_component",
                   {
                        base_component_id:      "",
@@ -355,43 +394,9 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                            contractAddress: mm.properties.contractAddress
                        }
                        ,
-                       new_properties: [
-                           {
-                               id:         "count",
-                               pre_snippet: `await `,
-                               snippet:    `count()`,
-                               name:       "count",
-                               type:       "Action",
-                               help:       `<div>Help text for
-                                                    <b>count</b> function
-                                            </div>`
-                           }
-                           ,
-                           {
-                               id:         "increment",
-                               pre_snippet: `await `,
-                               snippet:    `increment()`,
-                               name:       "increment",
-                               type:       "Action",
-                               help:       `<div>Help text for
-                                                <b>increment</b> function
-                                             </div>`
-                           }
-
-                       ]
+                       new_properties: smartContractMethods
                       ,
-                      new_methods: [
-`count: async function() {
-    let sdf = await this.getPropertyAsync("count")
-return sdf
-}
-`
-,
-`increment: async function() {
-    await this.callMethodAsync("increment", [])
-}
-`
-                      ]
+                      new_methods: smartContractMethodsCode
                   }
                   ,
                   async function(response){
