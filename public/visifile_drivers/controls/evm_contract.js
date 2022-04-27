@@ -368,13 +368,14 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                            }
                            ,
                            {
-                               "inputs": [],
+                               id:         "increment",
                                pre_snippet: `await `,
                                snippet:    `increment()`,
-                               "name": "increment",
-                               "outputs": [],
-                               "stateMutability": "nonpayable",
-                               "type": "function"
+                               name:       "increment",
+                               type:       "Action",
+                               help:       `<div>Help text for
+                                                <b>increment</b> function
+                                             </div>`
                            }
 
                        ]
