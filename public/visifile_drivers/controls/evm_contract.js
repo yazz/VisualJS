@@ -358,6 +358,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                        new_properties: [
                            {
                                id:         "count",
+                               pre_snippet: `await `,
                                snippet:    `count()`,
                                name:       "count",
                                type:       "Action",
