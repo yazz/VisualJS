@@ -366,13 +366,28 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                                                     <b>count</b> function
                                             </div>`
                            }
+                           ,
+                           {
+                               "inputs": [],
+                               pre_snippet: `await `,
+                               snippet:    `increment()`,
+                               "name": "increment",
+                               "outputs": [],
+                               "stateMutability": "nonpayable",
+                               "type": "function"
+                           }
 
                        ]
                       ,
                       new_methods: [
 `count: async function() {
-let sdf = await this.getPropertyAsync("count")
+    let sdf = await this.getPropertyAsync("count")
 return sdf
+}
+`
+,
+`increment: async function() {
+    await this.callMethodAsync("increment", [])
 }
 `
                       ]
