@@ -2749,7 +2749,7 @@ async function startServices() {
             // give the new smart contract control a new name
             //
             srcText = srcText.replaceAll('evm_contract_control', 'zubair_control')
-            //zzz
+
 
             //
             // give the new component a new logo
@@ -2792,6 +2792,8 @@ async function startServices() {
                 let newMethod = newMethods[newMethodIndex]
                 srcText = saveHelper.addMethod(srcText,"\n\n\n"+newMethod+"\n,\n\n")
             }
+            //zzz
+            //fs.writeFileSync( "z.txt",  srcText.toString() )
 
 
 
