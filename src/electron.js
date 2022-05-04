@@ -2739,7 +2739,6 @@ async function startServices() {
         });
 
         app.post("/copy_component" , async function (req, res) {
-
             //
             // copy the main EVM control
             //
@@ -2793,7 +2792,7 @@ async function startServices() {
                 srcText = saveHelper.addMethod(srcText,"\n\n\n"+newMethod+"\n,\n\n")
             }
             //zzz
-            //fs.writeFileSync( "z.txt",  srcText.toString() )
+            fs.writeFileSync( "z.txt",  srcText.toString() )
 
 
 
