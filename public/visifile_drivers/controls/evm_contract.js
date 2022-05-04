@@ -351,17 +351,17 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                       let abiEntry = parsedABI[abiIndex]
                       if (abiEntry.stateMutability == "view") {
                           smartContractMethods.push({
-                                                id:         "count",
+                                                id:         abiEntry.name,
                                                 pre_snippet: `await `,
-                                                snippet:    `count()`,
-                                                name:       "count",
+                                                snippet:    `${abiEntry.name}()`,
+                                                name:       abiEntry.name,
                                                 type:       "Action",
                                                 help:       `<div>Help text for
-                                                                <b>count</b> function
+                                                                <b>${abiEntry.name}</b> function
                                                             </div>`})
                           smartContractMethodsCode.push(
-`count: async function() {
-    let sdf = await this.getPropertyAsync("count")
+`${abiEntry.name}: async function() {
+    let sdf = await this.getPropertyAsync("${abiEntry.name}")
 return sdf
 }
 `)
@@ -369,19 +369,19 @@ return sdf
                       } else  if (abiEntry.stateMutability == "nonpayable") {
                           smartContractMethods.push(
                               {
-                                  id:         "increment",
+                                  id:         abiEntry.name,
                                   pre_snippet: `await `,
-                                  snippet:    `increment()`,
-                                  name:       "increment",
+                                  snippet:    `${abiEntry.name}()`,
+                                  name:       abiEntry.name,
                                   type:       "Action",
                                   help:       `<div>Help text for
-                                                <b>increment</b> function
+                                                <b>${abiEntry.name}</b> function
                                              </div>`
                               })
 
                           smartContractMethodsCode.push(
-`increment: async function() {
-    await this.callMethodAsync("increment", [])
+`${abiEntry.name}: async function() {
+    await this.callMethodAsync("${abiEntry.name}", [])
 }
 `)
                       }
