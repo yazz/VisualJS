@@ -41,11 +41,12 @@ only_run_on_server(true)
         console.log("contractKeys: " + JSON.stringify(contractKeys,null,2))
         let yazzSolKeys = Object.keys(contracts["yazz.sol"])
         console.log("yazzSolKeys: " + JSON.stringify(yazzSolKeys,null,2))
-        let yazzSolContractKeys = Object.keys(contracts["yazz.sol"].Counter)
+          let contractName = yazzSolKeys[0]
+        let yazzSolContractKeys = Object.keys(contracts["yazz.sol"][contractName])
         console.log("yazzSolContractKeys: " + JSON.stringify(yazzSolContractKeys,null,2))
 
         //console.log(JSON.stringify(result.contracts,null,2))
-        let { evm, abi } = contracts["yazz.sol"].Counter;
+        let { evm, abi } = contracts["yazz.sol"][contractName];
         //let bytecode="1"
         //let abi="2"
 
@@ -59,6 +60,8 @@ only_run_on_server(true)
                                                                   bytecode:  evm.bytecode.object
                                                                   ,
                                                                   errors: errors
+                                                                  ,
+                                                                  contractName: contractName
                                                                 })
       } catch (compileError) {
         returnFn({

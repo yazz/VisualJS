@@ -216,6 +216,8 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
               deployingStatus: ""
               ,
               contractInstance: null
+                ,
+                compiledContractName: null
               ,
               selectedBlockchain: null
               ,
@@ -306,10 +308,11 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
               {
                   sol: this.properties.code
               })
-              this.compileResult  = "compiled "
-              this.properties.abi = JSON.stringify(result.abi,null,2)
-              this.bytecode       = result.bytecode
-              this.compileErrors  = result.errors
+                this.compileResult          = "compiled "
+                this.properties.abi         = JSON.stringify(result.abi,null,2)
+                this.bytecode               = result.bytecode
+                this.compileErrors          = result.errors
+                this.compiledContractName   = result.contractName
 
             }
             ,
@@ -392,7 +395,7 @@ return sdf
 
                   callAjaxPost("/copy_component",
                   {
-                       base_component_id:      "zubair2_"
+                       base_component_id:      mm.compiledContractName + "_component"
                        ,
                        default_property_values: {
                            abi:   mm.properties.abi
