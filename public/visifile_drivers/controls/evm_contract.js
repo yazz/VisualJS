@@ -392,7 +392,8 @@ return sdf
 
                   callAjaxPost("/copy_component",
                   {
-                       base_component_id:      "",
+                       base_component_id:      "zubair2_"
+                       ,
                        default_property_values: {
                            abi:   mm.properties.abi
                            ,

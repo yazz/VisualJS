@@ -2740,6 +2740,11 @@ async function startServices() {
 
         app.post("/copy_component" , async function (req, res) {
             //
+            // get stuff
+            //
+            let copy_base_component_id = req.body.value.base_component_id;
+
+            //
             // copy the main EVM control
             //
             let srcText = fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/controls/evm_contract.js'), 'utf8')
@@ -2747,7 +2752,7 @@ async function startServices() {
             //
             // give the new smart contract control a new name
             //
-            srcText = srcText.replaceAll('evm_contract_control', 'zubair_control')
+            srcText = srcText.replaceAll('evm_contract_control', copy_base_component_id)
 
 
             //
@@ -2799,7 +2804,7 @@ async function startServices() {
             //
             // save the new smart contract component
             //
-            await addOrUpdateDriver('zubair_control', srcText ,  {username: "default", reponame: 'zubair_control', version: "latest"})
+            await addOrUpdateDriver(copy_base_component_id, srcText ,  {username: "default", reponame: copy_base_component_id, version: "latest"})
 
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end(JSON.stringify({return: srcText}))
