@@ -221,6 +221,8 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
               ,
               selectedBlockchain: null
               ,
+              lastSelectedBlockchain: null
+              ,
               faucet: null
               ,
               deployError: null
@@ -238,6 +240,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
         mounted: async function() {
             registerComponent(this)
             this.selectedBlockchain = window.currentBlockchain
+            this.lastSelectedBlockchain = this.selectedBlockchain
             this.faucet = window.blockchainIds[this.selectedBlockchain].faucet
 
             if (isValidObject(this.args.text)) {
@@ -448,8 +451,13 @@ return sdf
               let mm = this
               setTimeout(
                 async function() {
-                  await switchBlockchainNetwork(mm.selectedBlockchain)   //eth rinkby
-                  mm.faucet = window.blockchainIds[mm.selectedBlockchain].faucet
+                  let switchChain = await switchBlockchainNetwork(mm.selectedBlockchain)   //eth rinkby
+                    if (switchChain) {
+                        mm.lastSelectedBlockchain = mm.selectedBlockchain
+                        mm.faucet = window.blockchainIds[mm.selectedBlockchain].faucet
+                    } else {
+                        mm.selectedBlockchain = mm.lastSelectedBlockchain
+                    }
                 },100)
             }
             ,
