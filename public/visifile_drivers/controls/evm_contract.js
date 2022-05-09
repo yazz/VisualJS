@@ -149,14 +149,16 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   v-if='design_mode == "detail_editor"'>
 
 
-                  <button    class="btn btn-danger"
+                  <button  v-if="compileStatus=='NONE'"  class="btn btn-danger"
                              v-on:click="compileCode()">
-
                         Compile solidity:
-
-
-
                   </button>
+
+                <button   v-if="compileStatus=='COMPILED'"  class="btn btn-secondary"
+                           v-on:click="deployCode()">
+    
+                  Deploy
+                </button>
 
                   <select v-model="selectedBlockchain" @change="changeBlockchainNetwork();" id=changeBlockchain>
                     <option disabled value="">Please select one</option>
@@ -172,11 +174,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   </a>
 
 
-                  <button    class="btn"
-                             v-on:click="deployCode()">
 
-                        Deploy
-                  </button>
                   <span v-if="deployingStatus=='WAITING'" class="badge badge-pill badge-warning"><blink>Deploying ...</blink></span>
 
                   <span v-if="deployingStatus=='DEPLOYED'" class="badge badge-pill badge-success">{{deployingStatus}}</span>
@@ -226,6 +224,8 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
               faucet: null
               ,
               deployError: null
+                ,
+                compileStatus: "NONE"
             }
         }
         ,
@@ -316,7 +316,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                 this.bytecode               = result.bytecode
                 this.compileErrors          = result.errors
                 this.compiledContractName   = result.contractName
-
+                this.compileStatus          = "COMPILED"
             }
             ,
             deployCode: async function() {
@@ -348,6 +348,8 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   mm.properties.contractAddress = "" + instance.options.address
                   //mm.refresh++
                   mm.deployingStatus = "DEPLOYED"
+                  mm.compileStatus   = "NONE"
+
 //zzz
                   debugger
                   let parsedABI = JSON.parse(mm.properties.abi)
