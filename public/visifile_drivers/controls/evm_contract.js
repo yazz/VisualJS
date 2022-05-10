@@ -54,8 +54,7 @@ properties(
             type:   "String",
             types: {text: true},
             default:
-`
-pragma solidity ^0.8.7;
+`pragma solidity ^0.8.7;
 
 contract Counter {
     uint256 public count = 1;
@@ -154,10 +153,10 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                         Compile solidity:
                   </button>
 
-                <button   v-if="compileStatus=='COMPILED'"  class="btn btn-secondary"
+                <button   v-if="compileStatus=='COMPILED'"  class="btn btn-dark"
                            v-on:click="deployCode()">
     
-                  Deploy
+                  Deploy Contract
                 </button>
 
                   <select v-model="selectedBlockchain" @change="changeBlockchainNetwork();" id=changeBlockchain>
@@ -186,6 +185,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   <div style="font-family: courier">
 
                   <textarea rows=10 cols=50
+                            style="margin: 5px;"
                   v-model='properties.code'></textarea>
 
                   <div style="width: 400px;">
