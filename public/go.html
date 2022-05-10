@@ -67,6 +67,8 @@
     '42262': 'oasis',
     '43114': 'avalanche',
     '71394': 'godwoken',
+    '80001': {chainId: '0x80001',chainName:'Mumbai Testnet',rpcUrls:['https://rpc-mumbai.maticvigil.com'],blockExplorerUrls:['https://polygonscan.com'],nativeCurrency: {symbol:'MATIC',decimals: 18},
+        faucet: "https://faucet.polygon.technology"},
     '333999': 'polis',
     '1313161554': 'aurora',
     '1666600000': 'harmony',
@@ -87,7 +89,7 @@
               console.log(error);
             });
         }*/
-        //debugger
+        debugger
         const provider = window.ethereum;
         if(!provider){
           console.log("Metamask is not installed, please install!");
@@ -139,7 +141,9 @@
 
         //await switchBlockchainNetwork('1')   //eth mainnet
         //await switchBlockchainNetwork('97')   //binance testnet
-        await switchBlockchainNetwork(window.currentBlockchain)   //eth rinkby
+        //await switchBlockchainNetwork('80001')   //polygon testnet
+        await switchBlockchainNetwork(window.currentBlockchain)   //polygon testnet
+
       })()
 
 
