@@ -12,6 +12,15 @@
 <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
 
     <script>
+        function filterBlockchainParams(blockchainDetails) {
+            return {
+                chainId: blockchainDetails.chainId,
+                chainName: blockchainDetails.chainName,
+                rpcUrls: blockchainDetails.rpcUrls,
+                blockExplorerUrls: blockchainDetails.blockExplorerUrls,
+                nativeCurrency: blockchainDetails.nativeCurrency
+            }
+        }
     window.currentBlockchain = "4"
     window.blockchainIds = {
     '0': 'kardia',
@@ -34,9 +43,8 @@
             chainName:'rsk - testnet',
             rpcUrls:["https://public-node.testnet.rsk.co"],
             blockExplorerUrls:['https://explorer.testnet.rsk.co'],
-            nativeCurrency: {symbol:'RBTC',decimals: 18}
-            //,
-            //faucet: "https://faucet.rsk.co"
+            nativeCurrency: {symbol:'RBTC',decimals: 18},
+            faucet: "https://faucet.rsk.co"
         },
     '40': {chainId: '0x28',chainName:'telos - mainnet',rpcUrls:['https://mainnet.telos.net/evm'],blockExplorerUrls:['https://teloscan.io'],nativeCurrency: {symbol:'TLOS',decimals: 18},
         faucet: "https://app.telos.net/testnet/developers"},
@@ -141,7 +149,7 @@
                 await provider.request({
                   method: 'wallet_addEthereumChain',
                   params: [
-                            window.blockchainIds[blockchainId]
+                      filterBlockchainParams(window.blockchainIds[blockchainId])
                  ]
                });
               } catch (addError) {
