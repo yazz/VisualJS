@@ -22,7 +22,22 @@
     '19': 'songbird',
     '20': 'elastos',
     '25': 'cronos',
-    '30': 'rsk',
+        '30': {
+            chainId: '0x1e',
+            chainName:'rsk - mainnet',
+            rpcUrls:["https://public-node.rsk.co"],
+            blockExplorerUrls:['https://explorer.rsk.co'],
+            nativeCurrency: {symbol:'RBTC',decimals: 18}
+        },
+        '31': {
+            chainId: '0x1f',
+            chainName:'rsk - testnet',
+            rpcUrls:["https://public-node.testnet.rsk.co"],
+            blockExplorerUrls:['https://explorer.testnet.rsk.co'],
+            nativeCurrency: {symbol:'RBTC',decimals: 18}
+            //,
+            //faucet: "https://faucet.rsk.co"
+        },
     '40': {chainId: '0x28',chainName:'telos - mainnet',rpcUrls:['https://mainnet.telos.net/evm'],blockExplorerUrls:['https://teloscan.io'],nativeCurrency: {symbol:'TLOS',decimals: 18},
         faucet: "https://app.telos.net/testnet/developers"},
     '41': {
