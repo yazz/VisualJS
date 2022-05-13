@@ -85,6 +85,17 @@ contract Counter {
         }
         ,
         {
+            id:         "blockchainId",
+            name:       "Blockchain ID",
+            type:       "Select",
+            default:    "4",
+            values:     [
+                            {display: 'Ethereum - Rinkby test net',   value: "4"},
+                            {display: 'Fantom Opera Mainnet',  value: "250"}
+                        ]
+        }
+        ,
+        {
             id:         "has_details_ui",
             name:       "Has details UI?",
             type:       "Boolean",
@@ -408,6 +419,8 @@ return sdf
                            code: mm.properties.code
                            ,
                            contractAddress: mm.properties.contractAddress
+                           ,
+                           blockchainId: mm.properties.blockchainId
                        }
                        ,
                        new_properties: smartContractMethods
