@@ -170,11 +170,11 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   Deploy Contract
                 </button>
 
-                  <select v-model="selectedBlockchain" @change="changeBlockchainNetwork();" id=changeBlockchain>
+                  <select v-model="properties.blockchainId" @change="changeBlockchainNetwork();" id=changeBlockchain>
                     <option disabled value="">Please select one</option>
                     <option  v-for="blockchainId in Object.keys(window.blockchainIds)"
                             v-if="window.blockchainIds[blockchainId].chainName"
-                             v-bind:selected="selectedBlockchain === blockchainId"
+                             v-bind:selected="properties.blockchainId === blockchainId"
                              v-bind:value="blockchainId"
                               >{{window.blockchainIds[blockchainId].chainName}}</option>
                   </select>
@@ -228,8 +228,6 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                 ,
                 compiledContractName: null
               ,
-              selectedBlockchain: null
-              ,
               lastSelectedBlockchain: null
               ,
               faucet: null
@@ -250,9 +248,8 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
         },
         mounted: async function() {
             registerComponent(this)
-            this.selectedBlockchain = window.currentBlockchain
-            this.lastSelectedBlockchain = this.selectedBlockchain
-            this.faucet = window.blockchainIds[this.selectedBlockchain].faucet
+            this.lastSelectedBlockchain = this.properties.blockchainId
+            this.faucet = window.blockchainIds[this.properties.blockchainId].faucet
 
             if (isValidObject(this.args.text)) {
             }
@@ -462,16 +459,16 @@ return sdf
             ,
             changeBlockchainNetwork: function() {
               //debugger
-              console.log(this.selectedBlockchain)
+              console.log(this.properties.blockchainId)
               let mm = this
               setTimeout(
                 async function() {
-                  let switchChain = await switchBlockchainNetwork(mm.selectedBlockchain)   //eth rinkby
+                  let switchChain = await switchBlockchainNetwork(mm.properties.blockchainId)   //eth rinkby
                     if (switchChain) {
-                        mm.lastSelectedBlockchain = mm.selectedBlockchain
-                        mm.faucet = window.blockchainIds[mm.selectedBlockchain].faucet
+                        mm.lastSelectedBlockchain = mm.properties.blockchainId
+                        mm.faucet = window.blockchainIds[mm.properties.blockchainId].faucet
                     } else {
-                        mm.selectedBlockchain = mm.lastSelectedBlockchain
+                        mm.properties.blockchainId = mm.lastSelectedBlockchain
                     }
                 },100)
             }
