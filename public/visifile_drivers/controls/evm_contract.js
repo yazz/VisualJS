@@ -324,7 +324,9 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                 this.bytecode               = result.bytecode
                 this.compileErrors          = result.errors
                 this.compiledContractName   = result.contractName
-                this.compileStatus          = "COMPILED"
+                if (result.bytecode) {
+                    this.compileStatus          = "COMPILED"
+                }
             }
             ,
             deployCode: async function() {
