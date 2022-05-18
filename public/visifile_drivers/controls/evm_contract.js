@@ -436,6 +436,7 @@ return sdf
                     mm.$root.$emit('message', {
                                                     type:             "load_controls",
                                                 })
+                      mm.meta.getEditor().sayHiFromEditor()
                   })
 
               }).catch((error ) => {

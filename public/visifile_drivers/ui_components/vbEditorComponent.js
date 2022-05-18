@@ -2928,6 +2928,10 @@ Pushlist
              return this
          }
          ,
+         sayHiFromEditor() {
+             alert("Hi from the editor")
+         }
+         ,
          lookupComponent: function(componentName) {
              let component  = null
              let mm         = this
