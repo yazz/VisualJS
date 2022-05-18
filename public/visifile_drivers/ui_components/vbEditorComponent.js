@@ -2930,6 +2930,7 @@ Pushlist
          ,
          sayHiFromEditor() {
              alert("Hi from the editor")
+             //evm_contract_control_114
          }
          ,
          lookupComponent: function(componentName) {
