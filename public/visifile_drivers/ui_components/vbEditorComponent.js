@@ -118,7 +118,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
             <!--
 
-                    File path selector //zzz
+                    File path selector 
 
             -->
 
@@ -2928,9 +2928,11 @@ Pushlist
              return this
          }
          ,
-         sayHiFromEditor() {
-             alert("Hi from the editor")
+         sayHiFromEditor(args) {
+             alert("Hi from the editor" + JSON.stringify(args,null,2))
              //evm_contract_control_114
+             //zzz
+            // replace("evm_contract_control_114", "")
          }
          ,
          lookupComponent: function(componentName) {
@@ -7563,7 +7565,7 @@ return {}
             let mm=this
             this.showFilePicker=false
             this.open_file_name = this.open_file_path + "/" + fileorFolder.name
-            //zzz
+
             let propertyType = null
             for (  var ere = 0;  ere < mm.properties.length;  ere++  ) {
                 var property = mm.properties[ ere ]

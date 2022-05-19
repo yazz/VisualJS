@@ -407,10 +407,10 @@ return sdf
 
 
 
-
+                  let  newComponentName = mm.compiledContractName + "_component"
                   callAjaxPost("/copy_component",
                   {
-                       base_component_id:      mm.compiledContractName + "_component"
+                       base_component_id:      newComponentName
                        ,
                        default_property_values: {
                            abi:   mm.properties.abi
@@ -436,7 +436,10 @@ return sdf
                     mm.$root.$emit('message', {
                                                     type:             "load_controls",
                                                 })
-                      mm.meta.getEditor().sayHiFromEditor()
+                      mm.meta.getEditor().sayHiFromEditor(
+                          {
+                              newComponentName:     newComponentName
+                          })
                   })
 
               }).catch((error ) => {
