@@ -2937,7 +2937,10 @@ Pushlist
              var ccc = mm.model.forms[mm.active_form].components
              for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
                  var component = ccc[ytr]
-                 let fg=component
+                 let fg=component.name
+                 if (fg == 'evm_contract_control_114') {
+                     ccc[ytr].name = args.newComponentName
+                 }
 
              }
              var currentTime = new Date().getTime();
