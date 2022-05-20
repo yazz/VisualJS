@@ -2929,10 +2929,26 @@ Pushlist
          }
          ,
          sayHiFromEditor(args) {
+         let mm = this
              alert("Hi from the editor" + JSON.stringify(args,null,2))
              //evm_contract_control_114
              //zzz
+             debugger
+             var ccc = mm.model.forms[mm.active_form].components
+             for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
+                 var component = ccc[ytr]
+                 let fg=component
+
+             }
+             var currentTime = new Date().getTime();
+             if (mm.model_changed_time != -1) {
+                 mm.model_changed_time = currentTime
+             }
             // replace("evm_contract_control_114", "")
+
+             setTimeout(async function() {
+                 mm.updateAllFormCaches()
+             },100)
          }
          ,
          lookupComponent: function(componentName) {
@@ -3994,11 +4010,13 @@ ${origCode}
         addComponentV2: async function(leftX,topY,data, parentType, parentName, defProps) {
 
             var mm = this
+
             //alert(JSON.stringify(data,null,2))
 
 
             var promise = new Promise(async function(returnfn) {
                 var newItem = new Object()
+
 
                 //alert(parentType +": = (" + parentOffsetX + "," + parentOffsetY + ")")
                 newItem.leftX = Math.floor(leftX)

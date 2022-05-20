@@ -361,7 +361,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   mm.compileStatus   = "NONE"
 
 //zzz
-                  debugger
+                  //debugger
                   let parsedABI = JSON.parse(mm.properties.abi)
                   let smartContractMethods = []
                   let smartContractMethodsCode = []
