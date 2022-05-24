@@ -2930,7 +2930,7 @@ Pushlist
          ,
          sayHiFromEditor(args) {
          let mm = this
-             alert("Hi from the editor" + JSON.stringify(args,null,2))
+             //alert("Hi from the editor" + JSON.stringify(args,null,2))
              //evm_contract_control_114
              //zzz
              debugger
