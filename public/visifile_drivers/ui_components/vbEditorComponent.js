@@ -2939,7 +2939,7 @@ Pushlist
                  var component = ccc[ytr]
                  let fg=component.name
                  if (fg == 'evm_contract_control_114') {
-                     ccc[ytr].name = args.newComponentName
+                     ccc[ytr].base_component_id = args.newComponentType
                  }
 
              }
