@@ -2932,7 +2932,7 @@ Pushlist
          let mm = this
              //alert("Hi from the editor" + JSON.stringify(args,null,2))
              //evm_contract_control_114
-             //zzz
+
              debugger
              var ccc = mm.model.forms[mm.active_form].components
              for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
@@ -2951,6 +2951,10 @@ Pushlist
 
              setTimeout(async function() {
                  mm.updateAllFormCaches()
+                 mm.updatePropertySelector()
+                 mm.refresh ++
+
+                 //zzz
              },100)
          }
          ,
