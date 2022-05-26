@@ -2951,7 +2951,8 @@ Pushlist
 
              setTimeout(async function() {
                  mm.updateAllFormCaches()
-                 mm.updatePropertySelector()
+                 //mm.updatePropertySelector()
+                 mm.selectComponentByName('evm_contract_control_114')
                  mm.refresh ++
 
                  //zzz
