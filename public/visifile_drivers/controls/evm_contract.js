@@ -438,6 +438,7 @@ return sdf
                                                 })
                       mm.meta.getEditor().sayHiFromEditor(
                           {
+                              componentName:        mm.properties.name,
                               newComponentType:     newComponentType
                           })
                   })

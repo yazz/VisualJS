@@ -2938,7 +2938,7 @@ Pushlist
              for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
                  var component = ccc[ytr]
                  let fg=component.name
-                 if (fg == 'evm_contract_control_114') {
+                 if (fg == args.componentName) {
                      ccc[ytr].base_component_id = args.newComponentType
                  }
 
@@ -2952,7 +2952,7 @@ Pushlist
              setTimeout(async function() {
                  mm.updateAllFormCaches()
                  //mm.updatePropertySelector()
-                 mm.selectComponentByName('evm_contract_control_114')
+                 mm.selectComponentByName(args.componentName)
                  mm.refresh ++
 
                  //zzz
