@@ -407,7 +407,8 @@ return sdf
 
 
 
-                  let  newComponentType = mm.compiledContractName + "_component"
+                  //let  newComponentType = mm.compiledContractName + "_component"
+                  let  newComponentType = "sc_" + instance.options.address
                   callAjaxPost("/copy_component",
                   {
                        base_component_id:      newComponentType
