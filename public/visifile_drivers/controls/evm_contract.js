@@ -436,10 +436,10 @@ return sdf
                     mm.$root.$emit('message', {
                                                     type:             "load_controls",
                                                 })
-                      mm.meta.getEditor().sayHiFromEditor(
+                      mm.meta.getEditor().changeComponentBaseId(
                           {
                               componentName:        mm.properties.name,
-                              newComponentType:     newComponentType
+                              newComponentBaseId:     newComponentType
                           })
                   })
 

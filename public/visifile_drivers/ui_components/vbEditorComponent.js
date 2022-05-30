@@ -2928,7 +2928,7 @@ Pushlist
              return this
          }
          ,
-         sayHiFromEditor(args) {
+         changeComponentBaseId(args) {
          let mm = this
              //alert("Hi from the editor" + JSON.stringify(args,null,2))
              //evm_contract_control_114
@@ -2939,7 +2939,7 @@ Pushlist
                  var component = ccc[ytr]
                  let fg=component.name
                  if (fg == args.componentName) {
-                     ccc[ytr].base_component_id = args.newComponentType
+                     ccc[ytr].base_component_id = args.newComponentBaseId
                  }
 
              }
