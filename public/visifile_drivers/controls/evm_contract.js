@@ -408,7 +408,9 @@ return sdf
 
 
                   //let  newComponentType = mm.compiledContractName + "_component"
-                  let  newComponentType = "sc_" + instance.options.address
+                  //let  newComponentType = "sc_" + instance.options.address
+                  let  newComponentType = "sc_" + uuidv4()
+                  debugger
                   callAjaxPost("/copy_component",
                   {
                        base_component_id:      newComponentType
