@@ -93,7 +93,8 @@ contract Counter {
                             {display: 'Ethereum - Rinkby test net',   value: "4"},
                             {display: 'RSK - Main net',   value: "30"},
                             {display: 'RSK - Test net',   value: "31"},
-                            {display: 'Fantom Opera Mainnet',  value: "250"}
+                            {display: 'Fantom Opera Mainnet',  value: "250"},
+                            {display: 'Arbitrum - testnet',  value: "421611"}
                         ]
         }
         ,
