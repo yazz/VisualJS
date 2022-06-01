@@ -141,6 +141,25 @@ contract Counter {
                             <b>getPropertyAsync</b> function
                          </div>`
         }
+        ,
+        {
+            id:         "infoMessage",
+            name:       "infoMessage",
+            type:       "String",
+            hidden:     true,
+            default:    ""
+        }
+        ,
+
+        {
+            id:         "infoColor",
+            name:       "infoColor",
+            type:       "String",
+            hidden:     true,
+            default:    "black"
+        }
+
+
 
     ]
 )//properties
@@ -173,6 +192,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   Deploy Contract
                 </button>
 
+
                   <select v-model="properties.blockchainId" @change="changeBlockchainNetwork();" id=changeBlockchain>
                     <option disabled value="">Please select one</option>
                     <option  v-for="blockchainId in Object.keys(window.blockchainIds)"
@@ -195,8 +215,15 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   <span v-if="deployingStatus=='FAILED'" class="badge badge-pill badge-danger">{{deployingStatus}}</span>
 
 
-                  <br>
-                  <div style="font-family: courier">
+
+            <div v-bind:style='"color: " + properties.infoColor + ";"'>
+              {{ properties.infoMessage }}
+            </div>
+            
+                              <div style="font-family: courier">
+
+
+
 
                   <textarea rows=10 cols=50
                             style="margin: 5px;"
@@ -312,6 +339,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
             ,
             compileCode: async function() {
               //debugger
+              this.infoMessage = ""
 
               var result = await callFunction(
               {
@@ -355,9 +383,12 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   gasPrice: gasPrice,
                   gas: gas
               }).then((instance) => {
-
+debugger
                   console.log("Contract mined at " + instance.options.address);
-                  mm.contractInstance = instance;
+                  mm.properties.infoMessage = "Contract mined at " + instance.options.address;
+                  mm.properties.infoColor = "black"
+
+                      mm.contractInstance = instance;
                   mm.properties.contractAddress = "" + instance.options.address
                   //mm.refresh++
                   mm.deployingStatus = "DEPLOYED"
