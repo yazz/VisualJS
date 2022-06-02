@@ -357,7 +357,13 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                 this.compiledContractName   = result.contractName
                 if (result.bytecode) {
                     this.compileStatus          = "COMPILED"
+                    this.properties.infoMessage = "Contract compiled "
+                    this.properties.infoColor = "green"
+                } else {
+                    this.properties.infoMessage = "Contract compile failed "
+                    this.properties.infoColor = "red"
                 }
+                this.refresh++
             }
             ,
             deployCode: async function() {
