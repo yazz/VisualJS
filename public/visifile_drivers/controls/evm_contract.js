@@ -172,9 +172,6 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
         template: `<div style='white-space:normal;height:100%;width:100%; color: black;
                                       border: 0px;background-color: white;overflow: auto;'>
 
-{{(design_mode?properties.name:"")}}
-
-
 
           <div    v-bind:style='"width:100%;height:50vh;overflow-y:auto;"'
                   v-bind:refresh='refresh'
