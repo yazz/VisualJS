@@ -304,7 +304,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
                         </div>
 
-                        Control details
+                        Control - {{model.forms[active_form].components[active_component_detail_index].name}}
                         <button  type=button class=' btn btn-danger btn-sm'
                                  style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 4px;"
                                  v-on:click='gotoDragDropEditor()' >x</button>
@@ -2955,7 +2955,7 @@ Pushlist
                  mm.selectComponentByName(args.componentName)
                  mm.refresh ++
 
-                 //zzz
+
              },100)
          }
          ,
