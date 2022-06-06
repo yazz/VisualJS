@@ -237,6 +237,13 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                     </div>
                   </div>
            </div>
+           
+           
+           
+           
+           <div  v-if='design_mode && design_mode != "detail_editor"'>
+             {{properties.name}}
+           </div>
 
 
                  </div>`
