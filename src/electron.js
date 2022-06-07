@@ -2,7 +2,7 @@
 
 const ipfsAPI = require('ipfs-api');
 const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
-let testBuffer = new Buffer("Testcode2");
+let testBuffer = new Buffer("Testcode zoo");
 console.log("Starting...")
     ipfs.files.add(testBuffer, function (err, file) {
         if (err) {
@@ -12,7 +12,7 @@ console.log("Starting...")
       })
 
 
-      const validCID = "QmcMgTs5owW1fkfzbsFR2KirfzqkK3Xme7smtXyfLgUjbC"
+      const validCID = "QmdQASbsK8bF5DWUxUJ5tBpJbnUVtKWTsYiK4vzXg5AXPf"
 
       ipfs.files.get(validCID, function (err, files) {
           files.forEach((file) => {
