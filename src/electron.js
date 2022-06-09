@@ -2802,6 +2802,9 @@ async function startServices() {
             //zzz
             fs.writeFileSync( "z.txt",  srcText.toString() )
 
+            let ipfsHash = await saveComponentToIpfs(srcText)
+
+
 
 
             //
@@ -4639,6 +4642,41 @@ async function evalLocalSystemDriver(driverName, location, options) {
 
 }
 
+//zzz
+
+
+
+async function saveComponentToIpfs(srcCode) {
+    outputDebug("*** saveComponentToIpfs: *** : " )
+    var promise = new Promise(async function(returnfn) {
+        try {
+            let testBuffer = new Buffer(srcCode);
+            console.log("Starting...")
+            ipfs.files.add(testBuffer, function (err, file) {
+                if (err) {
+                    console.log("....................................Err: " + err);
+                }
+                console.log("....................................file: " + JSON.stringify(file, null, 2))
+                let thehash = file[0].hash
+                //const validCID = "QmdQASbsK8bF5DWUxUJ5tBpJbnUVtKWTsYiK4vzXg5AXPf"
+                const validCID = thehash
+
+                ipfs.files.get(validCID, function (err, files) {
+                    files.forEach((file) => {
+                        console.log("....................................file.path: " + file.path)
+                        console.log(file.content.toString('utf8'))
+                        console.log("....................................file.path: " + file.path)
+                        returnfn(thehash)
+                    })
+                })
+            })
+        } catch (error) {
+            outputDebug(error)
+        }
+    })
+    var ipfsHash = await promise
+    return ipfsHash
+}
 
 
 
