@@ -2813,7 +2813,10 @@ async function startServices() {
             await addOrUpdateDriver(copy_base_component_id, srcText ,  {username: "default", reponame: copy_base_component_id, version: "latest"})
 
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-            res.end(JSON.stringify({return: srcText}))
+            res.end(JSON.stringify({
+                ipfsHash:   ipfsHash,
+                return:     srcText
+                }))
         });
 
 

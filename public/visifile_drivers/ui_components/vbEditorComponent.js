@@ -2959,6 +2959,37 @@ Pushlist
              },100)
          }
          ,
+         changePropertyValue(args) {
+             let mm = this
+             //alert("Hi from the editor" + JSON.stringify(args,null,2))
+             //evm_contract_control_114
+
+             debugger
+             var ccc = mm.model.forms[mm.active_form].components
+             for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
+                 var component = ccc[ytr]
+                 let fg=component.name
+                 if (fg == args.componentName) {
+                     ccc[ytr][args.propertyName] = args.propertyValue
+                 }
+
+             }
+             var currentTime = new Date().getTime();
+             if (mm.model_changed_time != -1) {
+                 mm.model_changed_time = currentTime
+             }
+             // replace("evm_contract_control_114", "")
+
+             setTimeout(async function() {
+                 mm.updateAllFormCaches()
+                 //mm.updatePropertySelector()
+                 mm.selectComponentByName(args.componentName)
+                 mm.refresh ++
+
+
+             },100)
+         }
+         ,
          lookupComponent: function(componentName) {
              let component  = null
              let mm         = this

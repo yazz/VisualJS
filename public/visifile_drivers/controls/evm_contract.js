@@ -488,6 +488,14 @@ return sdf
                               componentName:        mm.properties.name,
                               newComponentBaseId:     newComponentType
                           })
+
+                      mm.meta.getEditor().changePropertyValue(
+                          {
+                              componentName:          mm.properties.name,
+                              propertyName:          "ipfs_hash_id",
+                              propertyValue:          responseJson.ipfsHash
+                          })
+
                   })
 
               }).catch((error ) => {
