@@ -320,7 +320,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
 
 
             callMethodAsync: async function(method, methodArgs) {
-              debugger
+              //debugger
                 this.refreshContractInstance()
                 await this.contractInstance.methods[method]().send(
                   {
@@ -393,7 +393,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   gasPrice: gasPrice,
                   gas: gas
               }).then((instance) => {
-debugger
+//debugger
                   console.log("Contract mined at " + instance.options.address);
                   mm.properties.infoMessage = "Contract mined at " + instance.options.address;
                   mm.properties.infoColor = "black"
@@ -454,7 +454,7 @@ return sdf
                   //let  newComponentType = mm.compiledContractName + "_component"
                   //let  newComponentType = "sc_" + instance.options.address
                   let  newComponentType = "sc_" + uuidv4()
-                  debugger
+                  //debugger
                   callAjaxPost("/copy_component",
                   {
                        base_component_id:      newComponentType
@@ -477,7 +477,7 @@ return sdf
                   async function(response){
                     showTimer("in 'save_component' response")
                     //alert(response)
-                    debugger
+                    //debugger
 
                     let responseJson = JSON.parse(response)
                     mm.$root.$emit('message', {

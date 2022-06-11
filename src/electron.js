@@ -10,7 +10,7 @@ console.log("Starting...")
         }
         console.log("....................................file: " + JSON.stringify(file,null,2))
         let thehash = file[0].hash
-        //const validCID = "QmdQASbsK8bF5DWUxUJ5tBpJbnUVtKWTsYiK4vzXg5AXPf"
+        //const validCID = "QmRntL1Gam7vDMNSsHbcUrWjueMJdJsBgF1wn1bx5pYcfo"
         const validCID = thehash
 
         ipfs.files.get(validCID, function (err, files) {
