@@ -2933,7 +2933,7 @@ Pushlist
              //alert("Hi from the editor" + JSON.stringify(args,null,2))
              //evm_contract_control_114
 
-             debugger
+             //debugger
              var ccc = mm.model.forms[mm.active_form].components
              for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
                  var component = ccc[ytr]
@@ -2964,7 +2964,7 @@ Pushlist
              //alert("Hi from the editor" + JSON.stringify(args,null,2))
              //evm_contract_control_114
 
-             debugger
+             //debugger
              var ccc = mm.model.forms[mm.active_form].components
              for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
                  var component = ccc[ytr]
