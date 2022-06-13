@@ -2464,7 +2464,7 @@ Pushlist
                      }
                  }
                  debugger
-                 await loadV2(compsToLoad)
+                 await loadV3(compsToLoad)
 
 
 
