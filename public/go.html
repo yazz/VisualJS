@@ -11205,7 +11205,6 @@ async function loadV3( baseComponentItems, args ) {
             componentsItemsToLoadV3.push(componentItem)
         }
     }
-    let baseComponentIds = baseComponentItems
 
     //
     // For static HTML pages (ie: just HTML , with no Yazz engine)
@@ -11213,8 +11212,8 @@ async function loadV3( baseComponentItems, args ) {
     let componentsIdToLoad = []
     let loadedStatic = false
     if (isStaticHtmlPageApp) {
-        for (let tt=0; tt < baseComponentIds.length; tt++) {
-            let componentId = baseComponentIds[tt]
+        for (let tt=0; tt < componentsItemsToLoadV3.length; tt++) {
+            let componentId = componentsItemsToLoadV3[tt].baseComponentId
             dev_app_component_loaded[componentId] = true
             if (isStaticHtmlPageApp && finderToCachedCodeMapping[ componentId ] && (!component_loaded[componentId])) {
                 //console.log("loadV2: 2")
@@ -11242,8 +11241,8 @@ async function loadV3( baseComponentItems, args ) {
     //
     if (!loadedStatic) {
         // Find out which components need to be loaded
-        for (let tt=0; tt < baseComponentIds.length; tt++) {
-            let componentId = baseComponentIds[tt]
+        for (let tt=0; tt < componentsItemsToLoadV3.length; tt++) {
+            let componentId = componentsItemsToLoadV3[tt].baseComponentId
             if (!component_loaded[componentId]) {
                 component_loaded[componentId] = true
                 componentsIdToLoad.push(componentId)
