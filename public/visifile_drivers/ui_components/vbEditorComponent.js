@@ -2463,6 +2463,7 @@ Pushlist
                          compsToLoad.push(newItem.base_component_id)
                      }
                  }
+                 debugger
                  await loadV2(compsToLoad)
 
 
