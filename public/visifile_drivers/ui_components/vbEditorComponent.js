@@ -2460,7 +2460,12 @@ Pushlist
                  {
                      let newItem = mm.model.forms[formName].components[compenentInFormIndex]
                      if (!component_loaded[newItem.base_component_id]) {
-                         compsToLoad.push(newItem.base_component_id)
+                         compsToLoad.push(
+                             {
+                                 baseComponentId:   newItem.base_component_id,
+                                 ipfsHashId:        newItem.ipfs_hash_id
+                             }
+                         )
                      }
                  }
                  debugger
