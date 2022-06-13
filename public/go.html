@@ -11199,6 +11199,11 @@ async function loadV3( baseComponentItems, args ) {
     let componentsItemsToLoadV3 = []
     for (let tt=0; tt < baseComponentItems.length; tt++) {
         let componentItem = baseComponentItems[tt]
+        if (typeof componentItem == 'string') {
+            componentsItemsToLoadV3.push({baseComponentId: componentItem})
+        } else {
+            componentsItemsToLoadV3.push(componentItem)
+        }
     }
     let baseComponentIds = baseComponentItems
 
