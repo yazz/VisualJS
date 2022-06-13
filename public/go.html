@@ -11060,12 +11060,21 @@ async function callDriverMethod(findComponentArgs, args, callbackFn) {
 //------------------------------------------------------------------------------
 //zzz
 async function loadV2( baseComponentIds, args ) {
-    //console.log("loadV2: 1: " + baseComponentIds)
+    //
+    // Always expect a list of "baseComponentIds" which will
+    // be used to identify the type of the components to load.
+    // If we receive only a single "baseComponentId" then turn
+    // it into a list
+    //
     if (!Array.isArray(baseComponentIds)) {
         baseComponentIds = [baseComponentIds]
     }
-    var componentsIdToLoad = []
 
+
+    //
+    // For static HTML pages (ie: just HTML , with no Yazz engine)
+    //
+    var componentsIdToLoad = []
     var loadedStatic = false
     if (isStaticHtmlPageApp) {
         for (var tt=0; tt < baseComponentIds.length; tt++) {
@@ -11092,9 +11101,11 @@ async function loadV2( baseComponentIds, args ) {
         }
     }
 
-
+    //
+    // For Dynamic HTML pages HTML pages (has access to the Yazz engine)
+    //
     if (!loadedStatic) {
-            //console.log("loadV2: 3")
+        // Find out which components need to be loaded
         for (var tt=0; tt < baseComponentIds.length; tt++) {
             var componentId = baseComponentIds[tt]
             if (!component_loaded[componentId]) {
@@ -11103,63 +11114,51 @@ async function loadV2( baseComponentIds, args ) {
             }
         }
 
-            var vcount = 0
-            if (componentsIdToLoad.length > 0) {
-                var promise = new Promise(returnfn => {
-                    //console.log("loadV2: 5")
 
+        var vcount = 0
+        if (componentsIdToLoad.length > 0) {
+            var promise = new Promise(returnfn => {
+                var seqNum = queuedBrowserResponseSeqNum ++;
+                queuedResponses[seqNum] = function(response) {
+                    returnfn({})
+                };
 
-                    var seqNum = queuedBrowserResponseSeqNum ++;
-                    queuedResponses[seqNum] = function(response) {
-
-                        returnfn({})
-                    };
-                    //console.log("loadV2: 4")
-                    //console.log("loadV2: 4:online: " + online)
-                    if (!online) {
-                        setTimeout(function(){
-                            //console.log("loadV2: 4:online: " + online)
-                            sendToServerViaWebSocket({
-                                message_type:    "loadUiComponent",
-                                find_components:  {base_component_ids: componentsIdToLoad},
-                                args:             args,
-                                seq_num:          seqNum
-                            });
-                        },2000)
-                    } else {
+                if (!online) {
+                    setTimeout(function() {
                         sendToServerViaWebSocket({
                             message_type:    "loadUiComponent",
                             find_components:  {base_component_ids: componentsIdToLoad},
                             args:             args,
                             seq_num:          seqNum
                         });
+                    },2000)
+                } else {
+                    sendToServerViaWebSocket({
+                        message_type:    "loadUiComponent",
+                        find_components:  {base_component_ids: componentsIdToLoad},
+                        args:             args,
+                        seq_num:          seqNum
+                    });
+                }
 
-                    }
+                // ****************************************************************************
+                // the following line was removed as it caused "Edit app" to fail. Why? I don't know
+                //setTimeout(
+                //    function() {
+                //        returnfn({})
+                //        },200
+                //    )
+                // ****************************************************************************
 
-                    // ****************************************************************************
-                    // the following line was removed as it caused "Edit app" to fail. Why? I don't know
-                    //setTimeout(
-                    //    function() {
-                    //        returnfn({})
-                    //        },200
-                    //    )
+            })
 
-                    // ****************************************************************************
-
-
-                    //console.log("loadV2: 4")
-                })
-
-                var ret = await promise
-                return ret
-            }
+            var ret = await promise
+            return ret
         }
+    }
 
 
-    //console.log("loadV2: 9")
     return {}
-
-
 }
 
 
