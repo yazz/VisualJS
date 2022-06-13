@@ -11174,16 +11174,17 @@ async function loadV2( baseComponentIds, args ) {
 //
 //------------------------------------------------------------------------------
 //zzz
-async function loadV3( baseComponentIds, args ) {
+async function loadV3( baseComponentItems, args ) {
     //
     // Always expect a list of "baseComponentIds" which will
     // be used to identify the type of the components to load.
     // If we receive only a single "baseComponentId" then turn
     // it into a list
     //
-    if (!Array.isArray(baseComponentIds)) {
-        baseComponentIds = [baseComponentIds]
+    if (!Array.isArray(baseComponentItems)) {
+        baseComponentItems = [baseComponentItems]
     }
+
 
     //
     // Turn the list of "baseComponentIds" which is historically
@@ -11195,26 +11196,28 @@ async function loadV3( baseComponentIds, args ) {
     //
     // [ {baseComponentId: "label"} , {baseComponentId: "button"} , {ipfs: "1f"} ]
     //
-    if (!Array.isArray(baseComponentIds)) {
-        baseComponentIds = [baseComponentIds]
+    let componentsItemsToLoadV3 = []
+    for (let tt=0; tt < baseComponentItems.length; tt++) {
+        let componentItem = baseComponentItems[tt]
     }
+    let baseComponentIds = baseComponentItems
 
     //
     // For static HTML pages (ie: just HTML , with no Yazz engine)
     //
-    var componentsIdToLoad = []
-    var loadedStatic = false
+    let componentsIdToLoad = []
+    let loadedStatic = false
     if (isStaticHtmlPageApp) {
-        for (var tt=0; tt < baseComponentIds.length; tt++) {
-            var componentId = baseComponentIds[tt]
+        for (let tt=0; tt < baseComponentIds.length; tt++) {
+            let componentId = baseComponentIds[tt]
             dev_app_component_loaded[componentId] = true
             if (isStaticHtmlPageApp && finderToCachedCodeMapping[ componentId ] && (!component_loaded[componentId])) {
                 //console.log("loadV2: 2")
                 component_loaded[componentId] = true
                 //alert("Reading app from cache: " + findComponentArgs.base_component_id)
-                var newDataCodeId = finderToCachedCodeMapping[ componentId ]
-                var newData       = cachedCode[ newDataCodeId ]
-                var properties = saveHelper.getValueOfCodeString(newData.value.code, "properties",")//properties")
+                let newDataCodeId = finderToCachedCodeMapping[ componentId ]
+                let newData       = cachedCode[ newDataCodeId ]
+                let properties = saveHelper.getValueOfCodeString(newData.value.code, "properties",")//properties")
                 if (properties) {
                     if (isValidObject(newData.value)) {
                         //alert(properties)
@@ -11234,8 +11237,8 @@ async function loadV3( baseComponentIds, args ) {
     //
     if (!loadedStatic) {
         // Find out which components need to be loaded
-        for (var tt=0; tt < baseComponentIds.length; tt++) {
-            var componentId = baseComponentIds[tt]
+        for (let tt=0; tt < baseComponentIds.length; tt++) {
+            let componentId = baseComponentIds[tt]
             if (!component_loaded[componentId]) {
                 component_loaded[componentId] = true
                 componentsIdToLoad.push(componentId)
@@ -11243,10 +11246,10 @@ async function loadV3( baseComponentIds, args ) {
         }
 
 
-        var vcount = 0
+        let vcount = 0
         if (componentsIdToLoad.length > 0) {
-            var promise = new Promise(returnfn => {
-                var seqNum = queuedBrowserResponseSeqNum ++;
+            let promise = new Promise(returnfn => {
+                let seqNum = queuedBrowserResponseSeqNum ++;
                 queuedResponses[seqNum] = function(response) {
                     returnfn({})
                 };
@@ -11280,7 +11283,7 @@ async function loadV3( baseComponentIds, args ) {
 
             })
 
-            var ret = await promise
+            let ret = await promise
             return ret
         }
     }
