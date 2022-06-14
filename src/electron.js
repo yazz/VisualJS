@@ -2180,43 +2180,45 @@ function websocketFn(ws) {
                     let r =z
                     //zzz
                 }
-                dbsearch.serialize(
-                    function() {
-                        let stmt = dbsearch.all(
-                            "SELECT  *  FROM   system_code   WHERE   base_component_id in " +
-                            "("  + componentHashToIds.map(function(){ return "?" }).join(",") + " )" +
-                            "   and   code_tag = 'LATEST' ",
-                            componentHashToIds
-                            ,
+                setTimeout( function() {
+                    dbsearch.serialize(
+                        function() {
+                            let stmt = dbsearch.all(
+                                "SELECT  *  FROM   system_code   WHERE   base_component_id in " +
+                                "("  + componentHashToIds.map(function(){ return "?" }).join(",") + " )" +
+                                "   and   code_tag = 'LATEST' ",
+                                componentHashToIds
+                                ,
 
-                            function(err, results)
-                            {
-                                if (results) {
-                                    if (results.length > 0) {
-                                        var codeId = results[0].id
-                                        dbsearch.all(
-                                            "SELECT dependency_name FROM app_dependencies where code_id = ?; ",
-                                            codeId,
+                                function(err, results)
+                                {
+                                    if (results) {
+                                        if (results.length > 0) {
+                                            var codeId = results[0].id
+                                            dbsearch.all(
+                                                "SELECT dependency_name FROM app_dependencies where code_id = ?; ",
+                                                codeId,
 
-                                            function(err, results2)
-                                            {
-                                                results[0].libs = results2
-                                                sendToBrowserViaWebSocket(
-                                                    ws,
-                                                    {
-                                                        type:                   "server_returns_loadUiComponent_to_browser",
-                                                        seq_num:                 receivedMessage.seq_num,
-                                                        record:                  JSON.stringify(results,null,2),
-                                                        args:                    JSON.stringify(receivedMessage.args,null,2),
-                                                        test:                   1
-                                                    });
-                                            })
+                                                function(err, results2)
+                                                {
+                                                    results[0].libs = results2
+                                                    sendToBrowserViaWebSocket(
+                                                        ws,
+                                                        {
+                                                            type:                   "server_returns_loadUiComponent_to_browser",
+                                                            seq_num:                 receivedMessage.seq_num,
+                                                            record:                  JSON.stringify(results,null,2),
+                                                            args:                    JSON.stringify(receivedMessage.args,null,2),
+                                                            test:                   1
+                                                        });
+                                                })
+                                        }
+
                                     }
 
-                                }
-
-                            })
-                    }, sqlite3.OPEN_READONLY)
+                                })
+                        }, sqlite3.OPEN_READONLY)
+                },200)
 
 
 

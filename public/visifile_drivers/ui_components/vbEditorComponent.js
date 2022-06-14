@@ -2529,8 +2529,9 @@ Pushlist
 
            texti = null
 
-           setTimeout(function(){
+           setTimeout(async function(){
                 mm.selectForm(mm.model.default_form)
+
            },500)
 
 
@@ -2629,9 +2630,9 @@ Pushlist
            // end of update all watched vars when a form is activated
            //
 
-
-
-
+setTimeout(async function(){
+            await mm.loadControls()
+},1000)
 
 
      }
