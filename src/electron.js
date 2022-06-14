@@ -2111,12 +2111,16 @@ function websocketFn(ws) {
         } else if (receivedMessage.message_type == "loadUiComponentsV2") {
             //console.log("***** } else if (msg.message_type == loadUiComponent) ")
 
-            let componentItems = receivedMessage.find_components
+            let componentItems = receivedMessage.find_components.items
             let componentIds = []
             let componentHashs = []
             for (let indexItems = 0 ; indexItems < componentItems.length ; indexItems ++ ) {
                 let componentItem = componentItems[indexItems]
-                componentIds.push(componentItems.baseComponentId)
+                if (componentItem.ipfsHashId) {
+                    componentHashs.push(componentItem.ipfsHashId)
+                } else {
+                    componentIds.push(componentItem.baseComponentId)
+                }
             }
 
             dbsearch.serialize(
