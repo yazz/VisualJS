@@ -2468,7 +2468,7 @@ Pushlist
                          )
                      }
                  }
-                 debugger
+                 //debugger
                  await loadV3(compsToLoad)
 
 
@@ -2504,6 +2504,7 @@ Pushlist
            // get the availabe components
            //
            if (online) {
+            debugger
              await mm.loadControls()
            }
 
