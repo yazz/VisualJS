@@ -11209,7 +11209,6 @@ async function loadV3( baseComponentItems, args ) {
     //
     // For static HTML pages (ie: just HTML , with no Yazz engine)
     //
-    let componentsIdToLoad = []
     let loadedStatic = false
     if (isStaticHtmlPageApp) {
         for (let tt=0; tt < componentsItemsToLoadV3.length; tt++) {
@@ -11239,19 +11238,24 @@ async function loadV3( baseComponentItems, args ) {
     //
     // For Dynamic HTML pages (which have access to the Yazz engine)
     //
+    let componentsItemsToLoad = []
     if (!loadedStatic) {
+        //
         // Find out which components need to be loaded
+        // in
+        //
         for (let tt=0; tt < componentsItemsToLoadV3.length; tt++) {
             let componentId = componentsItemsToLoadV3[tt].baseComponentId
+            let componentItem = componentsItemsToLoadV3[tt]
             if (!component_loaded[componentId]) {
                 component_loaded[componentId] = true
-                componentsIdToLoad.push(componentId)
+                componentsItemsToLoad.push(componentItem)
             }
         }
 
 
         let vcount = 0
-        if (componentsIdToLoad.length > 0) {
+        if (componentsItemsToLoad.length > 0) {
             let promise = new Promise(returnfn => {
                 let seqNum = queuedBrowserResponseSeqNum ++;
                 queuedResponses[seqNum] = function(response) {
@@ -11261,16 +11265,16 @@ async function loadV3( baseComponentItems, args ) {
                 if (!online) {
                     setTimeout(function() {
                         sendToServerViaWebSocket({
-                            message_type:    "loadUiComponent",
-                            find_components:  {base_component_ids: componentsIdToLoad},
+                            message_type:    "loadUiComponentsV2",
+                            find_components:  {items: componentsItemsToLoad},
                             args:             args,
                             seq_num:          seqNum
                         });
                     },2000)
                 } else {
                     sendToServerViaWebSocket({
-                        message_type:    "loadUiComponent",
-                        find_components:  {base_component_ids: componentsIdToLoad},
+                        message_type:    "loadUiComponentsV2",
+                        find_components:  {items: componentsItemsToLoad},
                         args:             args,
                         seq_num:          seqNum
                     });

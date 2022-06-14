@@ -2105,6 +2105,66 @@ function websocketFn(ws) {
 
 
 
+
+
+
+        } else if (receivedMessage.message_type == "loadUiComponentsV2") {
+            //console.log("***** } else if (msg.message_type == loadUiComponent) ")
+
+            let componentItems = receivedMessage.find_components
+            let componentIds = []
+            let componentHashs = []
+            for (let indexItems = 0 ; indexItems < componentItems.length ; indexItems ++ ) {
+                let componentItem = componentItems[indexItems]
+                componentIds.push(componentItems.baseComponentId)
+            }
+
+            dbsearch.serialize(
+                function() {
+                    let stmt = dbsearch.all(
+                        "SELECT  *  FROM   system_code   WHERE   base_component_id in " +
+                        "("  + componentIds.map(function(){ return "?" }).join(",") + " )" +
+                        "   and   code_tag = 'LATEST' ",
+                        componentIds
+                        ,
+
+                        function(err, results)
+                        {
+                            if (results) {
+                                if (results.length > 0) {
+                                    var codeId = results[0].id
+                                    dbsearch.all(
+                                        "SELECT dependency_name FROM app_dependencies where code_id = ?; ",
+                                        codeId,
+
+                                        function(err, results2)
+                                        {
+                                            results[0].libs = results2
+                                            sendToBrowserViaWebSocket(
+                                                ws,
+                                                {
+                                                    type:                   "server_returns_loadUiComponent_to_browser",
+                                                    seq_num:                 receivedMessage.seq_num,
+                                                    record:                  JSON.stringify(results,null,2),
+                                                    args:                    JSON.stringify(receivedMessage.args,null,2),
+                                                    test:                   1
+                                                });
+                                        })
+                                }
+
+                            }
+
+                        })
+                }, sqlite3.OPEN_READONLY)
+
+
+
+
+
+
+
+
+
         //                                  ______
         // Browser  --Send me your data-->  Server
         //                                  ______
