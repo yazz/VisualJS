@@ -2123,6 +2123,9 @@ function websocketFn(ws) {
                 }
             }
 
+            //
+            // read the database components
+            //
             dbsearch.serialize(
                 function() {
                     let stmt = dbsearch.all(
@@ -2160,6 +2163,21 @@ function websocketFn(ws) {
 
                         })
                 }, sqlite3.OPEN_READONLY)
+
+
+
+
+                //
+                // read the IPFS components
+                //
+                for (let indexItems = 0 ; indexItems < componentHashs.length ; indexItems ++ ) {
+                    let componentHash = componentHashs[indexItems]
+
+                    let ret = await loadComponentFromIpfs(componentHash)
+                    let z = 1
+                    let r =z
+                    //zzz
+                }
 
 
 
@@ -2863,7 +2881,7 @@ async function startServices() {
                 let newMethod = newMethods[newMethodIndex]
                 srcText = saveHelper.addMethod(srcText,"\n\n\n"+newMethod+"\n,\n\n")
             }
-            //zzz
+
             fs.writeFileSync( "z.txt",  srcText.toString() )
 
             let ipfsHash = await saveComponentToIpfs(srcText)
@@ -3516,7 +3534,7 @@ function showTimer(optionalMessage) {
 }
 
 
-
+//zzz
 async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
     if (code) {
@@ -4279,7 +4297,7 @@ function setUpSql() {
 //------------------------------------------------------------------------------
 function updateRegistry(options, sha1sum) {
 
-    if (!options.username || !options.reponame) {
+    if ((!isValidObject(options)) || (!options.username) || (!options.reponame)) {
         return
     }
     if (!options.version) {
@@ -4709,7 +4727,7 @@ async function evalLocalSystemDriver(driverName, location, options) {
 
 }
 
-//zzz
+
 
 
 
@@ -4747,6 +4765,37 @@ async function saveComponentToIpfs(srcCode) {
 
 
 
+
+
+
+
+
+async function loadComponentFromIpfs(ipfsHash) {
+    outputDebug("*** loadComponentFromIpfs: *** : " )
+
+
+    var promise = new Promise(async function(returnfn) {
+        try {
+            ipfs.files.get(ipfsHash, function (err, files) {
+                files.forEach((file) => {
+                    console.log("....................................Loading component fro IPFS: " + file.path)
+                    //console.log(file.content.toString('utf8'))
+                    let srcCode = file.content.toString('utf8')
+                    let baseComponentId = saveHelper.getValueOfCodeString(srcCode,"base_component_id")
+                    saveCodeV2( baseComponentId, null, srcCode , {})
+                    //zzz
+                    console.log("....................................Loading component fro IPFS: " + file.path)
+                })
+                returnfn("Done")
+            })
+
+        } catch (error) {
+            outputDebug(error)
+        }
+    })
+    var ret = await promise
+    return ret
+}
 
 
 
