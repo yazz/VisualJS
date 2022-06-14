@@ -4777,12 +4777,12 @@ async function loadComponentFromIpfs(ipfsHash) {
     var promise = new Promise(async function(returnfn) {
         try {
             ipfs.files.get(ipfsHash, function (err, files) {
-                files.forEach((file) => {
+                files.forEach(async function(file) {
                     console.log("....................................Loading component fro IPFS: " + file.path)
                     //console.log(file.content.toString('utf8'))
                     let srcCode = file.content.toString('utf8')
                     let baseComponentId = saveHelper.getValueOfCodeString(srcCode,"base_component_id")
-                    saveCodeV2( baseComponentId, null, srcCode , {})
+                    await addOrUpdateDriver(baseComponentId, srcCode ,  {username: "default", reponame: baseComponentId, version: "latest"})
                     //zzz
                     console.log("....................................Loading component fro IPFS: " + file.path)
                 })
