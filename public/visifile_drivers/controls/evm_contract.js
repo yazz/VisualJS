@@ -453,7 +453,7 @@ return sdf
 
                   //let  newComponentType = mm.compiledContractName + "_component"
                   //let  newComponentType = "sc_" + instance.options.address
-                  let  newComponentType = "sc_" + uuidv4()
+                  let  newComponentType = "sc_" + ("" + uuidv4()).replaceAll("-","_")
                   //debugger
                   callAjaxPost("/copy_component",
                   {
