@@ -379,7 +379,10 @@ It is under development at the moment, but the code is here in this Git Reposito
 ### What is the extension for all Yazz apps?
 The extension is ".yazz" but you can also use the ".js" extension for loading some simple Javascript apps
 
-
+### How can I work with Yazz offline when developing Ethereum apps?
+You can run yazz using the Docker Eth node:
+    
+    docker run -it -p 30303:30303 ethereum/client-go --syncmode "light"
 
 
 
