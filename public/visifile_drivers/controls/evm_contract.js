@@ -49,6 +49,18 @@ properties(
         }
         ,
         {
+            id:     "ipfs_hash_id",
+            name:   "IPFS Hash ID",
+            type:   "String"
+        }
+        ,
+        {
+            id:     "previous_ipfs_version",
+            name:   "Previous IPFS Version",
+            type:   "String"
+        }
+        ,
+        {
             id:     "code",
             name:   "Solidity",
             type:   "String",
@@ -454,6 +466,7 @@ return sdf
                   //let  newComponentType = mm.compiledContractName + "_component"
                   //let  newComponentType = "sc_" + instance.options.address
                   let  newComponentType = "sc_" + ("" + uuidv4()).replaceAll("-","_")
+                  debugger
                   //debugger
                   callAjaxPost("/copy_component",
                   {
@@ -463,6 +476,8 @@ return sdf
                            abi:   mm.properties.abi
                            ,
                            code: mm.properties.code
+                           ,
+                           previous_ipfs_version: mm.properties.ipfs_hash_id
                            ,
                            contractAddress: mm.properties.contractAddress
                            ,

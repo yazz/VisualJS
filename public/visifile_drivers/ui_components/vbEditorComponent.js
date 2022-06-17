@@ -2504,7 +2504,7 @@ Pushlist
            // get the availabe components
            //
            if (online) {
-            debugger
+            //debugger
              await mm.loadControls()
            }
 
