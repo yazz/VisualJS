@@ -462,7 +462,7 @@ return sdf
                   }
 
 
-
+                  mm.properties.previous_ipfs_version =  mm.properties.ipfs_hash_id
                   //let  newComponentType = mm.compiledContractName + "_component"
                   //let  newComponentType = "sc_" + instance.options.address
                   let  newComponentType = "sc_" + ("" + uuidv4()).replaceAll("-","_")

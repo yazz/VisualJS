@@ -2898,7 +2898,6 @@ async function startServices() {
             let propertiesToChange = Object.keys(default_property_values)
             for (let propertyToChangeIndex = 0; propertyToChangeIndex < propertiesToChange.length;propertyToChangeIndex++){
                 let propertyNameToChange = propertiesToChange[propertyToChangeIndex]
-                let propertyToChange = default_property_values[propertyNameToChange]
                 let propertyValue = default_property_values[propertyNameToChange]
                 srcText = saveHelper.replacePropertyValue(srcText,propertyNameToChange,propertyValue)
             }
