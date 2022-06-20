@@ -2882,7 +2882,8 @@ async function startServices() {
             //
             // give the new smart contract control a new name
             //
-            srcText = srcText.replaceAll('evm_contract_control', copy_base_component_id)
+            let componentToCopyBaseComponentId = saveHelper.getValueOfCodeString(srcText,"base_component_id")
+            srcText = srcText.replaceAll(componentToCopyBaseComponentId, copy_base_component_id)
 
 
             //
