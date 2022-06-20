@@ -5007,6 +5007,7 @@ async function setUpComponentsLocally() {
     await evalLocalSystemDriver('label_control',   path.join(__dirname, '../public/visifile_drivers/controls/label.js'),{username: "default", reponame: "label_control", version: "latest"})
     await evalLocalSystemDriver('metamask_control',   path.join(__dirname, '../public/visifile_drivers/controls/metamask.js'),{username: "default", reponame: "metamask_control", version: "latest"})
     await evalLocalSystemDriver('evm_contract_control',   path.join(__dirname, '../public/visifile_drivers/controls/evm_contract.js'),{username: "default", reponame: "evm_contract_control", version: "latest"})
+    await evalLocalSystemDriver('component_builder_control',   path.join(__dirname, '../public/visifile_drivers/controls/component_builder.js'),{username: "default", reponame: "component_builder_control", version: "latest"})
     await evalLocalSystemDriver('evm_demo_count_contract_control',   path.join(__dirname, '../public/visifile_drivers/controls/evm_demo_count_contract.js'),{username: "default", reponame: "evm_demo_count_contract_control", version: "latest"})
 
     //
