@@ -406,7 +406,9 @@ logo_url("/driver_icons/builder.png")
                   //debugger
                   callAjaxPost("/copy_component",
                   {
-                       base_component_id:      newComponentType
+                      relative_filename_to_copy:    "controls/component_builder.js"
+                      ,
+                      base_component_id:      newComponentType
                        ,
                        default_property_values: {
                            previous_ipfs_version: mm.properties.ipfs_hash_id

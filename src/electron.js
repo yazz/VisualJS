@@ -2873,7 +2873,11 @@ async function startServices() {
             //
             // copy the main EVM control
             //
-            let srcText = fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/controls/evm_contract.js'), 'utf8')
+            let srcText = fs.readFileSync(
+                                    path.join(__dirname,
+                                    '../public/visifile_drivers/' + req.body.value.relative_filename_to_copy)
+                                    ,
+                                    'utf8')
 
             //
             // give the new smart contract control a new name

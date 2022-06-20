@@ -472,6 +472,8 @@ return sdf
                   //debugger
                   callAjaxPost("/copy_component",
                   {
+                       relative_filename_to_copy:    "controls/evm_contract.js"
+                       ,
                        base_component_id:      newComponentType
                        ,
                        default_property_values: {
