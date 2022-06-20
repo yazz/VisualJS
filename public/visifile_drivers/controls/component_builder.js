@@ -183,87 +183,95 @@ logo_url("/driver_icons/builder.png")
     Vue.component("component_builder_control",{
         props: ["meta","name","args","properties","refresh","design_mode"]
         ,
-        template: `<div style='white-space:normal;height:100%;width:100%; color: black;
+        template: `
+          <div style='white-space:normal;height:100%;width:100%; color: black;
                                       border: 0px;background-color: white;overflow: auto;'>
 
+          <div v-bind:style='"width:100%;height:50vh;overflow-y:auto;"'
+               v-bind:refresh='refresh'
+               v-if='(!design_mode) || (design_mode == "") '>
 
-          <div    v-bind:style='"width:100%;height:50vh;overflow-y:auto;"'
-                  v-bind:refresh='refresh'
-                  v-if='design_mode == "detail_editor"'>
+            {{CUSTOM_UI_GOES_HERE}}
+               
+          </div>
 
-
-                  <button  v-if="compileStatus=='NONE'"  class="btn btn-danger"
-                             v-on:click="compileCode()">
-                        Compile solidity:
-                  </button>
-
-                <button   v-if="compileStatus=='COMPILED'"  class="btn btn-dark"
-                           v-on:click="deployCode()">
-    
-                  Deploy Contract
-                </button>
+          <div v-bind:style='"width:100%;height:50vh;overflow-y:auto;"'
+               v-bind:refresh='refresh'
+               v-if='design_mode == "detail_editor"'>
 
 
-                  <select v-model="properties.blockchainId" @change="changeBlockchainNetwork();" id=changeBlockchain>
-                    <option disabled value="">Please select one</option>
-                    <option  v-for="blockchainId in Object.keys(window.blockchainIds)"
-                            v-if="window.blockchainIds[blockchainId].chainName"
-                             v-bind:selected="properties.blockchainId === blockchainId"
-                             v-bind:value="blockchainId"
-                              >{{window.blockchainIds[blockchainId].chainName}}</option>
-                  </select>
+            <button v-if="compileStatus=='NONE'" class="btn btn-danger"
+                    v-on:click="compileCode()">
+              Compile solidity:
+            </button>
 
-                  <a v-if="faucet" v-bind:href="faucet" target="_blank">
-                    Faucet
-                  </a>
+            <button v-if="compileStatus=='COMPILED'" class="btn btn-dark"
+                    v-on:click="deployCode()">
+
+              Deploy Contract
+            </button>
 
 
+            <select v-model="properties.blockchainId" @change="changeBlockchainNetwork();" id=changeBlockchain>
+              <option disabled value="">Please select one</option>
+              <option v-for="blockchainId in Object.keys(window.blockchainIds)"
+                      v-if="window.blockchainIds[blockchainId].chainName"
+                      v-bind:selected="properties.blockchainId === blockchainId"
+                      v-bind:value="blockchainId"
+              >{{ window.blockchainIds[blockchainId].chainName }}
+              </option>
+            </select>
 
-                  <span v-if="deployingStatus=='WAITING'" class="badge badge-pill badge-warning"><blink>Deploying ...</blink></span>
+            <a v-if="faucet" v-bind:href="faucet" target="_blank">
+              Faucet
+            </a>
 
-                  <span v-if="deployingStatus=='DEPLOYED'" class="badge badge-pill badge-success">{{deployingStatus}}</span>
 
-                  <span v-if="deployingStatus=='FAILED'" class="badge badge-pill badge-danger">{{deployingStatus}}</span>
+            <span v-if="deployingStatus=='WAITING'" class="badge badge-pill badge-warning"><blink>Deploying ...</blink></span>
 
+            <span v-if="deployingStatus=='DEPLOYED'" class="badge badge-pill badge-success">{{ deployingStatus }}</span>
+
+            <span v-if="deployingStatus=='FAILED'" class="badge badge-pill badge-danger">{{ deployingStatus }}</span>
 
 
             <div v-bind:style='"color: " + properties.infoColor + ";"'>
               {{ properties.infoMessage }}
             </div>
-            
-                              <div style="font-family: courier">
+
+            <div style="font-family: courier">
 
 
 
 
                   <textarea rows=10 cols=50
                             style="margin: 5px;"
-                  v-model='properties.code'></textarea>
+                            v-model='properties.code'></textarea>
 
-                  <div style="width: 400px;">
-                    <div v-if='deployError' style='color:red;'><b>Deploy Error</b> {{deployError}}</div>
-                    <b>ABI</b> {{properties.abi}}
-                    <br>
-                    <b>Bytecode</b> {{bytecode}}
-                    <br>
-                    <b>Errors</b> {{compileErrors}}
+              <div style="width: 400px;">
+                <div v-if='deployError' style='color:#000000;'><b>Deploy Error</b> {{ deployError }}</div>
+                <b>ABI</b> {{ properties.abi }}
+                <br>
+                <b>Bytecode</b> {{ bytecode }}
+                <br>
+                <b>Errors</b> {{ compileErrors }}
 
-                    </div>
-                  </div>
-           </div>
-           
-           
-           
-           
-           <div  v-if='design_mode && design_mode != "detail_editor"'>
-             {{properties.name}}
-           </div>
+              </div>
+            </div>
+          </div>
 
 
-                 </div>`
+          <div v-if='design_mode && design_mode != "detail_editor"'>
+            {{ properties.name }}
+          </div>
+
+
+          </div>`
         ,
         data: function() {
             return {
+            CUSTOM_UI_GOES_HERE: "zoo"
+            ,
+
               compileResult: ""
               ,
               bytecode: null
@@ -359,109 +367,35 @@ logo_url("/driver_icons/builder.png")
               //debugger
               this.infoMessage = ""
 
-              var result = await callFunction(
-              {
-                  driver_name: "compile_solidity",
-                  method_name: "compile_solidity"
-              }
-              ,
-              {
-                  sol: this.properties.code
-              })
+
+ //               sol = this.properties.code
                 this.compileResult          = "compiled "
-                this.properties.abi         = JSON.stringify(result.abi,null,2)
-                this.bytecode               = result.bytecode
-                this.compileErrors          = result.errors
-                this.compiledContractName   = result.contractName
-                if (result.bytecode) {
                     this.compileStatus          = "COMPILED"
                     this.properties.infoMessage = "Contract compiled "
                     this.properties.infoColor = "green"
-                } else {
-                    this.properties.infoMessage = "Contract compile failed "
-                    this.properties.infoColor = "red"
-                }
+//                } else {
+  //                  this.properties.infoMessage = "Contract compile failed "
+    //                this.properties.infoColor = "red"
+      //          }
                 this.refresh++
+                //{{CUSTOM_UI_GOES_HERE}}
             }
             ,
             deployCode: async function() {
-
-              let mm = this
-              mm.deployError = null
-              let Hello = new web3.eth.Contract(JSON.parse(this.properties.abi), null, {
-                  data: '0x' + this.bytecode
-              });
-
-              let gas
-              let gasPrice = '20000000000'
-              Hello.deploy().estimateGas().
-              then((estimatedGas) => {
-              console.log("Estimated gas: " + estimatedGas);
-              gas = estimatedGas;
-              }).
-              catch(console.error);
-
-              mm.deployingStatus = "WAITING"
-              Hello.deploy().send({
-                  from: this.properties.defaultAccount,
-                  gasPrice: gasPrice,
-                  gas: gas
-              }).then((instance) => {
-//debugger
-                  console.log("Contract mined at " + instance.options.address);
-                  mm.properties.infoMessage = "Contract mined at " + instance.options.address;
+                debugger
+                let mm = this
+                  mm.properties.infoMessage = "Contract mined at "
                   mm.properties.infoColor = "black"
 
-                      mm.contractInstance = instance;
-                  mm.properties.contractAddress = "" + instance.options.address
                   //mm.refresh++
                   mm.deployingStatus = "DEPLOYED"
                   mm.compileStatus   = "NONE"
 
 //zzz
                   //debugger
-                  let parsedABI = JSON.parse(mm.properties.abi)
-                  let smartContractMethods = []
-                  let smartContractMethodsCode = []
-                  for (let abiIndex = 0 ; abiIndex < parsedABI.length ; abiIndex ++ ) {
-                      let abiEntry = parsedABI[abiIndex]
-                      if (abiEntry.stateMutability == "view") {
-                          smartContractMethods.push({
-                                                id:         abiEntry.name,
-                                                pre_snippet: `await `,
-                                                snippet:    `${abiEntry.name}()`,
-                                                name:       abiEntry.name,
-                                                type:       "Action",
-                                                help:       `<div>Help text for
-                                                                <b>${abiEntry.name}</b> function
-                                                            </div>`})
-                          smartContractMethodsCode.push(
-`${abiEntry.name}: async function() {
-    let sdf = await this.getPropertyAsync("${abiEntry.name}")
-return sdf
-}
-`)
 
-                      } else  if (abiEntry.stateMutability == "nonpayable") {
-                          smartContractMethods.push(
-                              {
-                                  id:         abiEntry.name,
-                                  pre_snippet: `await `,
-                                  snippet:    `${abiEntry.name}()`,
-                                  name:       abiEntry.name,
-                                  type:       "Action",
-                                  help:       `<div>Help text for
-                                                <b>${abiEntry.name}</b> function
-                                             </div>`
-                              })
 
-                          smartContractMethodsCode.push(
-`${abiEntry.name}: async function() {
-    await this.callMethodAsync("${abiEntry.name}", [])
-}
-`)
-                      }
-                  }
+
 
 
                   mm.properties.previous_ipfs_version =  mm.properties.ipfs_hash_id
@@ -475,20 +409,13 @@ return sdf
                        base_component_id:      newComponentType
                        ,
                        default_property_values: {
-                           abi:   mm.properties.abi
-                           ,
-                           code: mm.properties.code
-                           ,
                            previous_ipfs_version: mm.properties.ipfs_hash_id
                            ,
-                           contractAddress: mm.properties.contractAddress
-                           ,
-                           blockchainId: mm.properties.blockchainId
                        }
                        ,
-                       new_properties: smartContractMethods
+                       new_properties: []
                       ,
-                      new_methods: smartContractMethodsCode
+                      new_methods: []
                   }
                   ,
                   async function(response){
@@ -514,15 +441,6 @@ return sdf
                           })
 
                   })
-
-              }).catch((error ) => {
-                //debugger
-                mm.deployError = error
-                mm.deployingStatus = "FAILED"
-              });
-
-
-
 
 
             }
