@@ -2889,11 +2889,13 @@ async function startServices() {
             //
             // give the new component a new logo
             //
-            var logoValue = saveHelper.getValueOfCodeString(srcText,"logo_url")
-            if (logoValue) {
+            if (req.body.value.logo_url) {
+                var logoValue = saveHelper.getValueOfCodeString(srcText,"logo_url")
+                if (logoValue) {
                     srcText = saveHelper.deleteCodeString(srcText, "logo_url")
+                }
+                srcText = saveHelper.insertCodeString(srcText, "logo_url", "/driver_icons/blue_eth.png")
             }
-            srcText = saveHelper.insertCodeString(srcText, "logo_url", "/driver_icons/blue_eth.png")
 
 
             //

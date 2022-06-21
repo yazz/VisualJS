@@ -486,6 +486,8 @@ return sdf
                            contractAddress: mm.properties.contractAddress
                            ,
                            blockchainId: mm.properties.blockchainId
+                           ,
+                           logo_url: "/driver_icons/blue_eth.png"
                        }
                        ,
                        new_properties: smartContractMethods
