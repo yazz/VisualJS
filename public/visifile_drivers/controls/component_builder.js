@@ -129,30 +129,12 @@ contract Counter {
         }
         ,
         {
-            id:         "contractAddress",
-            name:       "Contract Address",
-            types: {text: true},
-            default:    "",
-            type:       "String"
-        }
-        ,
-        {
             id:         "callMethodAsync",
             snippet:    `callMethodAsync("getCount", [])`,
             name:       "callMethodAsync",
             type:       "Action",
             help:       `<div>Help text for
                             <b>callMethodAsync</b> function
-                         </div>`
-        }
-        ,
-        {
-            id:         "getPropertyAsync",
-            snippet:    `getPropertyAsync("counter")`,
-            name:       "getPropertyAsync",
-            type:       "Action",
-            help:       `<div>Help text for
-                            <b>getPropertyAsync</b> function
                          </div>`
         }
         ,
@@ -171,6 +153,24 @@ contract Counter {
             type:       "String",
             hidden:     true,
             default:    "black"
+        }
+        ,
+        {
+            id:         "design_time_view",
+            name:       "Design Time View",
+            //hidden:     true
+            type:       "Select",
+            default:    "HOME",
+            values:     [
+                            {display: 'Home',   value: "HOME"},
+                            {display: 'Icon editor',   value: "ICON"},
+                            {display: 'Design time HTML',   value: "DESIGN"},
+                            {display: 'Run time HTML',  value: "RUNTIME"},
+                            {display: 'Properties',  value: "PROPERTIES"},
+                            {display: 'Mounted code',  value: "MOUNTED"},
+                            {display: 'Methods',  value: "METHODS"},
+                            {display: 'Internal properties',  value: "INTERNAL_PROPS"}
+                        ]
         }
 
 
@@ -341,28 +341,6 @@ logo_url("/driver_icons/builder.png")
             /*NEW_METHODS_END*/
 
 
-            callMethodAsync: async function(method, methodArgs) {
-              //debugger
-                this.refreshContractInstance()
-                await this.contractInstance.methods[method]().send(
-                  {
-                      from: this.properties.defaultAccount
-                    })
-.then(function(receipt){
-  //debugger
-    // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
-});
-                //let rettt = (await this.contractInstance.methods.count.call().call())
-                //return rettt;
-            }
-            ,
-            getPropertyAsync: async function(propertyName) {
-              //debugger
-                this.refreshContractInstance()
-                let rettt = (await this.contractInstance.methods[propertyName].call().call())
-                return rettt;
-            }
-            ,
             compileCode: async function() {
               //debugger
               this.infoMessage = ""
@@ -445,15 +423,6 @@ logo_url("/driver_icons/builder.png")
                   })
 
 
-            }
-            ,
-            refreshContractInstance: function() {
-
-                if (!this.contractInstance) {
-                  this.contractInstance = new web3.eth.Contract(
-                        JSON.parse(this.properties.abi), this.properties.contractAddress);
-
-                }
             }
             ,
             changeBlockchainNetwork: function() {
