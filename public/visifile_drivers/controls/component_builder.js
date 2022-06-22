@@ -206,60 +206,68 @@ logo_url("/driver_icons/builder.png")
             <div v-bind:style='"height:100%;width:100%; overflow: none;"'>
 
               <ul class="nav nav-pills" v-bind:style='"height:20%;width:100%; overflow: none;"'>
-                <li class="nav-item" style="width:20%;">
+                <li class="nav-item" style="width:10%;padding:2px;">
                   <a  v-bind:class='"nav-link " + ((properties.design_time_view == "HOME")?"active":"")'
                       v-on:click="properties.design_time_view = 'HOME';"
+                      style="padding:2px;"
                       href="#">
                     Home
                   </a>
                 </li>
-                <li class="nav-item" style="width:20%;">
+                <li class="nav-item" style="width:10%;padding:2px;">
                   <a  v-bind:class='"nav-link " + ((properties.design_time_view == "ICON")?"active":"")'
                       v-on:click="properties.design_time_view = 'ICON';"
+                      style="padding:2px;"
                       href="#">
                     Icon
                   </a>
                 </li>
-                <li class="nav-item" style="width:20%;">
+                <li class="nav-item" style="width:12%;padding:2px;">
                   <a  v-bind:class='"nav-link " + ((properties.design_time_view == "DESIGN")?"active":"")'
                       v-on:click="properties.design_time_view = 'DESIGN';"
+                      style="padding:2px;"
                       href="#">
-                    Icon
+                    Design
                   </a>
                 </li>
-                <li class="nav-item" style="width:20%;">
+                <li class="nav-item" style="width:14%;padding:2px;">
                   <a  v-bind:class='"nav-link " + ((properties.design_time_view == "RUNTIME")?"active":"")'
                       v-on:click="properties.design_time_view = 'RUNTIME';"
+                      style="padding:2px;"
                       href="#">
-                    Icon
+                    Runtime
                   </a>
                 </li>
-                <li class="nav-item" style="width:20%;">
+                <li class="nav-item" style="width:10%;padding:2px;">
                   <a  v-bind:class='"nav-link " + ((properties.design_time_view == "PROPERTIES")?"active":"")'
                       v-on:click="properties.design_time_view = 'PROPERTIES';"
+                      style="padding:2px;"
                       href="#">
-                    Icon
+                    Props
                   </a>
                 </li>
-                <li class="nav-item" style="width:20%;">
+                <li class="nav-item" style="width:14%;padding:2px;">
                   <a  v-bind:class='"nav-link " + ((properties.design_time_view == "MOUNTED")?"active":"")'
                       v-on:click="properties.design_time_view = 'MOUNTED';"
+                      style="padding:2px;"
                       href="#">
-                    Icon
+                    Mounted
                   </a>
                 </li>
-                <li class="nav-item" style="width:20%;">
+                <li class="nav-item" style="width:14%;padding:2px;">
                   <a  v-bind:class='"nav-link " + ((properties.design_time_view == "METHODS")?"active":"")'
                       v-on:click="properties.design_time_view = 'METHODS';"
+                      style="padding:2px;"
                       href="#">
-                    Icon
+                    Methods
                   </a>
                 </li>
-                <li class="nav-item" style="width:20%;">
+                <li class="nav-item" style="width:10%;padding:2px;">
                   <a  v-bind:class='"nav-link " + ((properties.design_time_view == "MEMBER_VARS")?"active":"")'
                       v-on:click="properties.design_time_view = 'MEMBER_VARS';"
+                      style="padding:2px;"
                       href="#">
-                    Icon
+                    Vars
                   </a>
                 </li>
               </ul>
@@ -276,74 +284,61 @@ logo_url("/driver_icons/builder.png")
               <div v-bind:style='((properties.design_time_view == "ICON")?"visibility:visible;":"visibility:hidden;display: none;")'
                    v-bind:refresh='refresh'>
 
-                Icon
+                Component Icon
 
               </div>
-              
-              
-              
-              
-            <button v-if="compileStatus=='NONE'" class="btn btn-danger"
-                    v-on:click="compileCode()">
-              Compile solidity:
-            </button>
 
-            <button v-if="compileStatus=='COMPILED'" class="btn btn-dark"
-                    v-on:click="deployCode()">
+              <div v-bind:style='((properties.design_time_view == "DESIGN")?"visibility:visible;":"visibility:hidden;display: none;")'
+                   v-bind:refresh='refresh'>
 
-              Deploy Contract
-            </button>
-
-
-            <select v-model="properties.blockchainId" @change="changeBlockchainNetwork();" id=changeBlockchain>
-              <option disabled value="">Please select one</option>
-              <option v-for="blockchainId in Object.keys(window.blockchainIds)"
-                      v-if="window.blockchainIds[blockchainId].chainName"
-                      v-bind:selected="properties.blockchainId === blockchainId"
-                      v-bind:value="blockchainId"
-              >{{ window.blockchainIds[blockchainId].chainName }}
-              </option>
-            </select>
-
-
-
-            <span v-if="deployingStatus=='WAITING'" class="badge badge-pill badge-warning"><blink>Deploying ...</blink></span>
-
-            <span v-if="deployingStatus=='DEPLOYED'" class="badge badge-pill badge-success">{{ deployingStatus }}</span>
-
-            <span v-if="deployingStatus=='FAILED'" class="badge badge-pill badge-danger">{{ deployingStatus }}</span>
-
-
-            <div v-bind:style='"color: " + properties.infoColor + ";"'>
-              {{ properties.infoMessage }}
-            </div>
-
-            <div style="font-family: courier">
-
-
-
-
-                  <textarea rows=10 cols=50
-                            style="margin: 5px;"
-                            v-model='properties.code'></textarea>
-
-              <div style="width: 400px;">
-                <div v-if='deployError' style='color:#000000;'><b>Deploy Error</b> {{ deployError }}</div>
-                <b>ABI</b> {{ properties.abi }}
-                <br>
-                <b>Bytecode</b> {{ bytecode }}
-                <br>
-                <b>Errors</b> {{ compileErrors }}
+                Design time HTML
 
               </div>
-            </div>
-          
+
+
+              <div v-bind:style='((properties.design_time_view == "RUNTIME")?"visibility:visible;":"visibility:hidden;display: none;")'
+                   v-bind:refresh='refresh'>
+
+                Runtime time HTML
+
+              </div>
+
+
+              <div v-bind:style='((properties.design_time_view == "PROPERTIES")?"visibility:visible;":"visibility:hidden;display: none;")'
+                   v-bind:refresh='refresh'>
+
+               Component properties
+
+              </div>
+
+
+              <div v-bind:style='((properties.design_time_view == "MOUNTED")?"visibility:visible;":"visibility:hidden;display: none;")'
+                   v-bind:refresh='refresh'>
+
+                Mounted JS code
+
+              </div>
 
 
 
+              <div v-bind:style='((properties.design_time_view == "METHODS")?"visibility:visible;":"visibility:hidden;display: none;")'
+                   v-bind:refresh='refresh'>
+
+                JS Methods 
+
+              </div>
 
 
-          </div>`
+
+              <div v-bind:style='((properties.design_time_view == "MEMBER_VARS")?"visibility:visible;":"visibility:hidden;display: none;")'
+                   v-bind:refresh='refresh'>
+
+                Member vars
+
+              </div>
+
+
+            </div>`
         ,
         data: function() {
             return {
