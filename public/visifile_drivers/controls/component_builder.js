@@ -169,7 +169,7 @@ contract Counter {
                             {display: 'Properties',  value: "PROPERTIES"},
                             {display: 'Mounted code',  value: "MOUNTED"},
                             {display: 'Methods',  value: "METHODS"},
-                            {display: 'Internal properties',  value: "INTERNAL_PROPS"}
+                            {display: 'Member vars',  value: "MEMBER_VARS"}
                         ]
         }
 
@@ -194,12 +194,95 @@ logo_url("/driver_icons/builder.png")
             {{CUSTOM_UI_GOES_HERE}}
                
           </div>
+          <div v-if='design_mode && design_mode != "detail_editor"'>
+            {{ properties.name }}zzz
+          </div>
 
           <div v-bind:style='"width:100%;height:50vh;overflow-y:auto;"'
                v-bind:refresh='refresh'
                v-if='design_mode == "detail_editor"'>
 
 
+            <div v-bind:style='"height:100%;width:100%; overflow: none;"'>
+
+              <ul class="nav nav-pills" v-bind:style='"height:20%;width:100%; overflow: none;"'>
+                <li class="nav-item" style="width:20%;">
+                  <a  v-bind:class='"nav-link " + ((properties.design_time_view == "HOME")?"active":"")'
+                      v-on:click="properties.design_time_view = 'HOME';"
+                      href="#">
+                    Home
+                  </a>
+                </li>
+                <li class="nav-item" style="width:20%;">
+                  <a  v-bind:class='"nav-link " + ((properties.design_time_view == "ICON")?"active":"")'
+                      v-on:click="properties.design_time_view = 'ICON';"
+                      href="#">
+                    Icon
+                  </a>
+                </li>
+                <li class="nav-item" style="width:20%;">
+                  <a  v-bind:class='"nav-link " + ((properties.design_time_view == "DESIGN")?"active":"")'
+                      v-on:click="properties.design_time_view = 'DESIGN';"
+                      href="#">
+                    Icon
+                  </a>
+                </li>
+                <li class="nav-item" style="width:20%;">
+                  <a  v-bind:class='"nav-link " + ((properties.design_time_view == "RUNTIME")?"active":"")'
+                      v-on:click="properties.design_time_view = 'RUNTIME';"
+                      href="#">
+                    Icon
+                  </a>
+                </li>
+                <li class="nav-item" style="width:20%;">
+                  <a  v-bind:class='"nav-link " + ((properties.design_time_view == "PROPERTIES")?"active":"")'
+                      v-on:click="properties.design_time_view = 'PROPERTIES';"
+                      href="#">
+                    Icon
+                  </a>
+                </li>
+                <li class="nav-item" style="width:20%;">
+                  <a  v-bind:class='"nav-link " + ((properties.design_time_view == "MOUNTED")?"active":"")'
+                      v-on:click="properties.design_time_view = 'MOUNTED';"
+                      href="#">
+                    Icon
+                  </a>
+                </li>
+                <li class="nav-item" style="width:20%;">
+                  <a  v-bind:class='"nav-link " + ((properties.design_time_view == "METHODS")?"active":"")'
+                      v-on:click="properties.design_time_view = 'METHODS';"
+                      href="#">
+                    Icon
+                  </a>
+                </li>
+                <li class="nav-item" style="width:20%;">
+                  <a  v-bind:class='"nav-link " + ((properties.design_time_view == "MEMBER_VARS")?"active":"")'
+                      v-on:click="properties.design_time_view = 'MEMBER_VARS';"
+                      href="#">
+                    Icon
+                  </a>
+                </li>
+              </ul>
+
+              <div v-bind:style='((properties.design_time_view == "HOME")?"visibility:visible;":"visibility:hidden;display: none;")'
+                   v-bind:refresh='refresh'>
+
+                Home content
+
+              </div>
+
+
+
+              <div v-bind:style='((properties.design_time_view == "ICON")?"visibility:visible;":"visibility:hidden;display: none;")'
+                   v-bind:refresh='refresh'>
+
+                Icon
+
+              </div>
+              
+              
+              
+              
             <button v-if="compileStatus=='NONE'" class="btn btn-danger"
                     v-on:click="compileCode()">
               Compile solidity:
@@ -222,9 +305,6 @@ logo_url("/driver_icons/builder.png")
               </option>
             </select>
 
-            <a v-if="faucet" v-bind:href="faucet" target="_blank">
-              Faucet
-            </a>
 
 
             <span v-if="deployingStatus=='WAITING'" class="badge badge-pill badge-warning"><blink>Deploying ...</blink></span>
@@ -257,12 +337,10 @@ logo_url("/driver_icons/builder.png")
 
               </div>
             </div>
-          </div>
+          
 
 
-          <div v-if='design_mode && design_mode != "detail_editor"'>
-            {{ properties.name }}
-          </div>
+
 
 
           </div>`
