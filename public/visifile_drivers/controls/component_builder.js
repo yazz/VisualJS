@@ -172,6 +172,43 @@ contract Counter {
                             {display: 'Member vars',  value: "MEMBER_VARS"}
                         ]
         }
+        ,
+
+
+
+
+
+
+
+
+        {
+            id:     "image_data",
+            name:   "Image",
+            type:   "Image"
+        }
+        ,
+
+        {
+            id:     "background_color",
+            name:   "Background color",
+            type:   "String"
+        }
+        ,
+        {
+            id:     "draw_color",
+            name:   "Draw color",
+            default:    "black",
+            type:   "String"
+        }
+        ,
+        {
+            id:     "brush_width",
+            name:   "Brush Width",
+            default:    3,
+            type:   "Number"
+        }
+
+
 
 
 
@@ -285,7 +322,40 @@ logo_url("/driver_icons/builder.png")
                    v-bind:refresh='refresh'>
 
                 Component Icon
+                <br>
 
+
+                <canvas v-if='design_mode == "detail_editor"'
+                        v-bind:id='args.name + "_canvas_" + (design_mode?"_design_mode":"")'
+                        v-bind:refresh='refresh'
+                        style="border: solid black 5px;margin-bottom: 10px;"
+                        v-on:mousemove='if (mousedown) {drawNow($event)}'
+                        v-on:mousedown='mousedown=true'
+                        v-on:mouseup='mousedown=false'
+                        v-bind:height='args.height + "px"'
+                        v-bind:width='args.width + "px"'
+                >
+                </canvas>
+
+                  <div    v-for="color in colors"
+                          v-if='design_mode == "detail_editor"'
+                          v-on:click='args.draw_color = color;'
+                          v-bind:style="'display: inline-block;width:15px;height:15px;background-color: ' + color">
+                  </div>
+                  
+           
+
+             
+
+                  <div    v-for="brush_size in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28]"
+                          v-if='design_mode == "detail_editor"'
+                          v-on:click='args.brush_width = brush_size;'
+                          v-bind:style="'display: inline-block;width:' + brush_size + 'px;height:' + brush_size +
+                                                              'px;background-color: ' + args.draw_color + ';border: black solid 1px ;margin-right: 2px;'">
+                  </div>
+            
+                
+                
               </div>
 
               <div v-bind:style='((properties.design_time_view == "DESIGN")?"visibility:visible;":"visibility:hidden;display: none;")'
@@ -364,6 +434,12 @@ logo_url("/driver_icons/builder.png")
               deployError: null
                 ,
                 compileStatus: "NONE"
+                ,
+                mousedown: false
+                ,
+                colors: [ "blue","green","yellow","orange","black","white","purple","red","violet","blue","gray","pink","orange","lightgray","darkgray",
+                    "cyan","lightblue"
+                ]
             }
         }
         ,
@@ -413,7 +489,23 @@ logo_url("/driver_icons/builder.png")
             /*NEW_METHODS_START*/
             /*NEW_METHODS_END*/
 
+            drawNow: function(event) {
+                var mm= this
+                var el = document.getElementById(mm.args.name + "_canvas_" + (mm.design_mode?"_design_mode":""))
+                if (isValidObject(el)) {
+                    var rect = el.getBoundingClientRect()
+                    var left = event.clientX - rect.left
+                    var right = event.clientY - rect.top
 
+                    var ctx = el.getContext("2d");
+                    ctx.strokeStyle = mm.args.draw_color;
+                    ctx.fillStyle = mm.args.draw_color;
+                    ctx.fillRect(left,right,  mm.args.brush_width,  mm.args.brush_width)
+
+                    this.args.image_data = el.toDataURL()
+                }
+            }
+            ,
             compileCode: async function() {
               //debugger
               this.infoMessage = ""
