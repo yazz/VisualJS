@@ -337,12 +337,12 @@ logo_url("/driver_icons/builder.png")
                 <canvas v-if='design_mode == "detail_editor"'
                         v-bind:id='args.name + "_canvas_" + (design_mode?"_design_mode":"")'
                         v-bind:refresh='refresh'
-                        style="border: solid black 5px;margin-bottom: 10px;"
+                        style="border: solid black 1px;margin-bottom: 10px;"
                         v-on:mousemove='if (mousedown) {drawNow($event)}'
                         v-on:mousedown='mousedown=true'
                         v-on:mouseup='mousedown=false'
-                        v-bind:height='args.height + "px"'
-                        v-bind:width='args.width + "px"'
+                        v-bind:height='iconHeightPixels + "px"'
+                        v-bind:width='iconWidthPixels + "px"'
                 >
                 </canvas>
 
@@ -477,6 +477,10 @@ logo_url("/driver_icons/builder.png")
                 colors: [ "blue","green","yellow","orange","black","white","purple","red","violet","blue","gray","pink","orange","lightgray","darkgray",
                     "cyan","lightblue"
                 ]
+                ,
+                iconHeightPixels: 50
+                ,
+                iconWidthPixels: 50
             }
         }
         ,
@@ -513,8 +517,8 @@ logo_url("/driver_icons/builder.png")
                 var el = document.getElementById(mm.args.name + "_canvas_" + (mm.design_mode?"_design_mode":""))
                 if (isValidObject(el)) {
                     var rect = el.getBoundingClientRect()
-                    var left = (event.clientX - rect.left ) - 8
-                    var right = (event.clientY - rect.top) - 8
+                    var left = (event.clientX - rect.left ) - mm.args.brush_width
+                    var right = (event.clientY - rect.top) - mm.args.brush_width
 
                     var ctx = el.getContext("2d");
                     ctx.strokeStyle = mm.args.draw_color;
