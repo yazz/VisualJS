@@ -434,8 +434,7 @@ logo_url("/driver_icons/builder.png")
               <div v-bind:style='((properties.design_time_view == "SAVE")?"visibility:visible;":"visibility:hidden;display: none;")'
                    v-bind:refresh='refresh'>
 
-                Save
-
+        
                 <button    class="btn btn-dark"
                           v-on:click="save">
 
