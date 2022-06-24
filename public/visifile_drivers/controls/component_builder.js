@@ -169,7 +169,8 @@ contract Counter {
                             {display: 'Properties',  value: "PROPERTIES"},
                             {display: 'Mounted code',  value: "MOUNTED"},
                             {display: 'Methods',  value: "METHODS"},
-                            {display: 'Member vars',  value: "MEMBER_VARS"}
+                            {display: 'Member vars',  value: "MEMBER_VARS"},
+                            {display: 'Save',  value: "SAVE"}
                         ]
         }
         ,
@@ -251,7 +252,7 @@ logo_url("/driver_icons/builder.png")
                     Home
                   </a>
                 </li>
-                <li class="nav-item" style="width:10%;padding:2px;">
+                <li class="nav-item" style="width:8%;padding:2px;">
                   <a  v-bind:class='"nav-link " + ((properties.design_time_view == "ICON")?"active":"")'
                       v-on:click="properties.design_time_view = 'ICON';"
                       style="padding:2px;"
@@ -291,7 +292,7 @@ logo_url("/driver_icons/builder.png")
                     Mounted
                   </a>
                 </li>
-                <li class="nav-item" style="width:14%;padding:2px;">
+                <li class="nav-item" style="width:13%;padding:2px;">
                   <a  v-bind:class='"nav-link " + ((properties.design_time_view == "METHODS")?"active":"")'
                       v-on:click="properties.design_time_view = 'METHODS';"
                       style="padding:2px;"
@@ -299,12 +300,20 @@ logo_url("/driver_icons/builder.png")
                     Methods
                   </a>
                 </li>
-                <li class="nav-item" style="width:10%;padding:2px;">
+                <li class="nav-item" style="width:8%;padding:2px;">
                   <a  v-bind:class='"nav-link " + ((properties.design_time_view == "MEMBER_VARS")?"active":"")'
                       v-on:click="properties.design_time_view = 'MEMBER_VARS';"
                       style="padding:2px;"
                       href="#">
                     Vars
+                  </a>
+                </li>
+                <li class="nav-item" style="width:10%;padding:2px;">
+                  <a  v-bind:class='"nav-link " + ((properties.design_time_view == "SAVE")?"active":"")'
+                      v-on:click="properties.design_time_view = 'SAVE';"
+                      style="padding:2px;"
+                      href="#">
+                    Save
                   </a>
                 </li>
               </ul>
@@ -353,10 +362,24 @@ logo_url("/driver_icons/builder.png")
                           v-bind:style="'display: inline-block;width:' + brush_size + 'px;height:' + brush_size +
                                                               'px;background-color: ' + args.draw_color + ';border: black solid 1px ;margin-right: 2px;'">
                   </div>
-            
-                
+
+                <button     class="btn btn-primary"
+                            style="margin-top: 5px;"
+                            v-on:click="setAsComponentIcon">
+                  Set Icon
+                </button>
                 
               </div>
+
+
+
+
+
+
+
+
+
+
 
               <div v-bind:style='((properties.design_time_view == "DESIGN")?"visibility:visible;":"visibility:hidden;display: none;")'
                    v-bind:refresh='refresh'>
@@ -406,6 +429,16 @@ logo_url("/driver_icons/builder.png")
                 Member vars
 
               </div>
+
+
+              <div v-bind:style='((properties.design_time_view == "SAVE")?"visibility:visible;":"visibility:hidden;display: none;")'
+                   v-bind:refresh='refresh'>
+
+                Save
+
+              </div>
+
+
 
 
             </div>`
@@ -604,6 +637,9 @@ logo_url("/driver_icons/builder.png")
                         //alert(base_image)
                     }
                 }
+            }
+            ,
+            setAsComponentIcon:  function() {
             }
         }
     })
