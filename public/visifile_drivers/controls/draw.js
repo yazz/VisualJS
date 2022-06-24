@@ -156,8 +156,8 @@ logo_url("/driver_icons/draw.png")
           var el = document.getElementById(mm.args.name + "_canvas_" + (mm.design_mode?"_design_mode":""))
               if (isValidObject(el)) {
                var rect = el.getBoundingClientRect()
-               var left = event.clientX - rect.left
-               var right = event.clientY - rect.top
+               var left = (event.clientX - rect.left ) - 8
+               var right = (event.clientY - rect.top) - 8
 
                var ctx = el.getContext("2d");
                ctx.strokeStyle = mm.args.draw_color;
