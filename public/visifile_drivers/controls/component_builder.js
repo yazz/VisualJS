@@ -436,6 +436,11 @@ logo_url("/driver_icons/builder.png")
 
                 Save
 
+                <button    class="btn btn-dark"
+                          v-on:click="save">
+
+                  Save
+                </button>
               </div>
 
 
@@ -539,7 +544,7 @@ logo_url("/driver_icons/builder.png")
                 //{{CUSTOM_UI_GOES_HERE}}
             }
             ,
-            deployCode: async function() {
+            save: async function() {
                 debugger
                 let mm = this
                   mm.properties.infoMessage = "Contract mined at "
