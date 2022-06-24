@@ -330,8 +330,6 @@ logo_url("/driver_icons/builder.png")
               <div v-bind:style='((properties.design_time_view == "ICON")?"visibility:visible;":"visibility:hidden;display: none;")'
                    v-bind:refresh='refresh'>
 
-                Component Icon
-                <br>
 
 
                 <canvas v-if='design_mode == "detail_editor"'
@@ -346,6 +344,7 @@ logo_url("/driver_icons/builder.png")
                 >
                 </canvas>
 
+                <div>
                   <div    v-for="color in colors"
                           v-if='design_mode == "detail_editor"'
                           v-on:click='args.draw_color = color;'
@@ -362,12 +361,8 @@ logo_url("/driver_icons/builder.png")
                           v-bind:style="'display: inline-block;width:' + brush_size + 'px;height:' + brush_size +
                                                               'px;background-color: ' + args.draw_color + ';border: black solid 1px ;margin-right: 2px;'">
                   </div>
+              </div>
 
-                <button     class="btn btn-primary"
-                            style="margin-top: 5px;"
-                            v-on:click="setAsComponentIcon">
-                  Set Icon
-                </button>
                 
               </div>
 
@@ -478,9 +473,10 @@ logo_url("/driver_icons/builder.png")
                     "cyan","lightblue"
                 ]
                 ,
-                iconHeightPixels: 50
+                iconHeightPixels: 200
                 ,
-                iconWidthPixels: 50
+                iconWidthPixels: 200
+
             }
         }
         ,
@@ -647,9 +643,7 @@ logo_url("/driver_icons/builder.png")
                     }
                 }
             }
-            ,
-            setAsComponentIcon:  function() {
-            }
+
         }
     })
 }
