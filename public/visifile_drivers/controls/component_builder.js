@@ -435,6 +435,9 @@ logo_url("/driver_icons/builder.png")
 
                   Create
                 </button>
+                <div>
+                  {{deployingStatus}}
+                </div>
               </div>
 
 
@@ -455,16 +458,6 @@ logo_url("/driver_icons/builder.png")
               ,
               deployingStatus: ""
               ,
-              contractInstance: null
-                ,
-                compiledContractName: null
-              ,
-              lastSelectedBlockchain: null
-              ,
-              faucet: null
-              ,
-              deployError: null
-                ,
                 compileStatus: "NONE"
                 ,
                 mousedown: false
@@ -550,7 +543,7 @@ logo_url("/driver_icons/builder.png")
                   mm.properties.infoColor = "black"
 
                   //mm.refresh++
-                  mm.deployingStatus = "DEPLOYED"
+                  mm.deployingStatus = "Created new component successfully"
                   mm.compileStatus   = "NONE"
 
 //zzz
