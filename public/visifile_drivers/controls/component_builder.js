@@ -170,7 +170,7 @@ contract Counter {
                             {display: 'Mounted code',  value: "MOUNTED"},
                             {display: 'Methods',  value: "METHODS"},
                             {display: 'Member vars',  value: "MEMBER_VARS"},
-                            {display: 'Save',  value: "SAVE"}
+                            {display: 'Create',  value: "`CREATE`"}
                         ]
         }
         ,
@@ -310,10 +310,10 @@ logo_url("/driver_icons/builder.png")
                 </li>
                 <li class="nav-item" style="width:10%;padding:2px;">
                   <a  v-bind:class='"nav-link " + ((properties.design_time_view == "SAVE")?"active":"")'
-                      v-on:click="properties.design_time_view = 'SAVE';"
+                      v-on:click="properties.design_time_view = 'CREATE';"
                       style="padding:2px;"
                       href="#">
-                    Save
+                    Create
                   </a>
                 </li>
               </ul>
@@ -431,14 +431,14 @@ logo_url("/driver_icons/builder.png")
               </div>
 
 
-              <div v-bind:style='((properties.design_time_view == "SAVE")?"visibility:visible;":"visibility:hidden;display: none;")'
+              <div v-bind:style='((properties.design_time_view == "CREATE")?"visibility:visible;":"visibility:hidden;display: none;")'
                    v-bind:refresh='refresh'>
 
         
                 <button    class="btn btn-dark"
-                          v-on:click="save">
+                          v-on:click="createNewComponent">
 
-                  Save
+                  Create
                 </button>
               </div>
 
@@ -543,7 +543,7 @@ logo_url("/driver_icons/builder.png")
                 //{{CUSTOM_UI_GOES_HERE}}
             }
             ,
-            save: async function() {
+            createNewComponent: async function() {
                 debugger
                 let mm = this
                   mm.properties.infoMessage = "Contract mined at "
@@ -572,9 +572,10 @@ logo_url("/driver_icons/builder.png")
                       ,
                       base_component_id:      newComponentType
                        ,
-                       default_property_values: {
+                      image_data:            mm.properties.image_data
+                      ,
+                      default_property_values: {
                            previous_ipfs_version: mm.properties.ipfs_hash_id
-                           ,
                        }
                        ,
                        new_properties: []

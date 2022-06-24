@@ -2869,6 +2869,8 @@ async function startServices() {
             // get stuff
             //
             let copy_base_component_id = req.body.value.base_component_id;
+            let copy_image_data = req.body.value.image_data;
+
 
             //
             // copy the main EVM control
@@ -2884,6 +2886,21 @@ async function startServices() {
             //
             let componentToCopyBaseComponentId = saveHelper.getValueOfCodeString(srcText,"base_component_id")
             srcText = srcText.replaceAll(componentToCopyBaseComponentId, copy_base_component_id)
+
+
+            //
+            // give the new smart contract control a new icon logo
+            //
+            if (copy_image_data) {
+                var logoValue = saveHelper.getValueOfCodeString(srcText,"logo_url")
+                if (logoValue) {
+                    srcText = saveHelper.deleteCodeString(srcText, "logo_url")
+                }
+                srcText = saveHelper.insertCodeString(srcText, "logo_url",copy_image_data)
+            }
+
+
+
 
 
             //
