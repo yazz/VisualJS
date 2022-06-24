@@ -453,8 +453,7 @@ logo_url("/driver_icons/builder.png")
         },
         mounted: async function() {
             registerComponent(this)
-            this.lastSelectedBlockchain = this.properties.blockchainId
-            this.faucet = window.blockchainIds[this.properties.blockchainId].faucet
+
 
             if (isValidObject(this.args.text)) {
             }
@@ -463,26 +462,9 @@ logo_url("/driver_icons/builder.png")
                 globalControl[this.args.name] =  this
             }
 
-            if (web3 && web3.eth) {
-              let result = await web3.eth.getAccounts()
-              if (result.length == 0) {
-                this.properties.connected = "False"
+            this.loadImageToCanvas()
 
-              } else {
-                //debugger
-                this.properties.connected = "True"
-                let accounts = (await web3.eth.getAccounts())
-                this.properties.defaultAccount = accounts[0]
 
-                this.properties.accounts = []
-                for ( let i=0 ; i < accounts.length ; i++ ) {
-                  this.properties.accounts.push({ value: accounts[i],
-                                                  text:  accounts[i]
-                                                })
-
-                }
-              }
-            }
         }
         ,
         methods: {
@@ -494,8 +476,8 @@ logo_url("/driver_icons/builder.png")
                 var el = document.getElementById(mm.args.name + "_canvas_" + (mm.design_mode?"_design_mode":""))
                 if (isValidObject(el)) {
                     var rect = el.getBoundingClientRect()
-                    var left = event.clientX - rect.left
-                    var right = event.clientY - rect.top
+                    var left = (event.clientX - rect.left ) - 8
+                    var right = (event.clientY - rect.top) - 8
 
                     var ctx = el.getContext("2d");
                     ctx.strokeStyle = mm.args.draw_color;
@@ -590,26 +572,37 @@ logo_url("/driver_icons/builder.png")
 
             }
             ,
-            changeBlockchainNetwork: function() {
-              //debugger
-              console.log(this.properties.blockchainId)
-              let mm = this
-              setTimeout(
-                async function() {
-                  let switchChain = await switchBlockchainNetwork(mm.properties.blockchainId)   //eth rinkby
-                    if (switchChain) {
-                        mm.lastSelectedBlockchain = mm.properties.blockchainId
-                        mm.faucet = window.blockchainIds[mm.properties.blockchainId].faucet
-                    } else {
-                        mm.properties.blockchainId = mm.lastSelectedBlockchain
-                    }
-                },100)
-            }
-            ,
+
 
 
             changedFn: function() {
                 if (isValidObject(this.args)) {
+                }
+            }
+            ,
+
+
+
+
+
+            loadImageToCanvas: function() {
+                var mm = this
+                var base_image = new Image();
+                //alert(this.args.image_data)
+                base_image.src = this.args.image_data;
+                base_image.onload = function() {
+                    var el = document.getElementById(mm.args.name + "_canvas_" + (mm.design_mode?"_design_mode":""))
+                    if (isValidObject(el)) {
+                        //alert(el)
+                        var ctx = el.getContext("2d");
+                        ctx.clearRect(0, 0, el.width, el.height);
+                        var hRatio = el.width / base_image.width    ;
+                        var vRatio = el.height / base_image.height  ;
+                        var ratio  = Math.min ( hRatio, vRatio );
+                        ctx.drawImage(base_image,   0, 0, base_image.width,             base_image.height,
+                            0, 0, base_image.width*ratio,       base_image.height*ratio);
+                        //alert(base_image)
+                    }
                 }
             }
         }
