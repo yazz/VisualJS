@@ -205,7 +205,7 @@ contract Counter {
         {
             id:     "brush_width",
             name:   "Brush Width",
-            default:    3,
+            default:    6,
             type:   "Number"
         }
 

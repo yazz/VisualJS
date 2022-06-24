@@ -4845,7 +4845,24 @@ async function loadComponentFromIpfs(ipfsHash) {
                     console.log("....................................Loading component fro IPFS: " + file.path)
                     //console.log(file.content.toString('utf8'))
                     let srcCode = file.content.toString('utf8')
+
+
+
                     let baseComponentId = saveHelper.getValueOfCodeString(srcCode,"base_component_id")
+
+
+
+                    let properties = saveHelper.getValueOfCodeString(srcCode,"properties", ")//prope" + "rties")
+                    srcCode = saveHelper.deleteCodeString(  srcCode, "properties", ")//prope" + "rties")
+
+                    srcCode = saveHelper.insertCodeString(  srcCode,
+                        "properties",
+                        properties,
+                        ")//prope" + "rties")
+
+
+
+
                     await addOrUpdateDriver(baseComponentId, srcCode ,  {username: "default", reponame: baseComponentId, version: "latest"})
                     //zzz
                     console.log("....................................Loading component fro IPFS: " + file.path)
