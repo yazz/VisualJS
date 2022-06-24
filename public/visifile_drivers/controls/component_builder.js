@@ -568,7 +568,9 @@ logo_url("/driver_icons/builder.png")
                       image_data:            mm.properties.image_data
                       ,
                       default_property_values: {
-                           previous_ipfs_version: mm.properties.ipfs_hash_id
+                           previous_ipfs_version:   mm.properties.ipfs_hash_id
+                           ,
+                           image_data:              mm.properties.image_data
                        }
                        ,
                        new_properties: []
