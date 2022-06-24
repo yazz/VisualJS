@@ -4854,6 +4854,12 @@ async function loadComponentFromIpfs(ipfsHash) {
 
                     let properties = saveHelper.getValueOfCodeString(srcCode,"properties", ")//prope" + "rties")
                     srcCode = saveHelper.deleteCodeString(  srcCode, "properties", ")//prope" + "rties")
+                    for (let irte = 0 ; irte < properties.length ; irte++ ) {
+                        let brje = properties[irte]
+                        if (brje.id == "ipfs_hash_id") {
+                            brje.default = ipfsHash
+                        }
+                    }
 
                     srcCode = saveHelper.insertCodeString(  srcCode,
                         "properties",

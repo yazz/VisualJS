@@ -88,31 +88,6 @@ contract Counter {
         }
         ,
         {
-            id:         "connected",
-            name:       "Connected?",
-            type:       "Select",
-            default:    "False",
-            values:     [
-                            {display: "True",   value: "True"},
-                            {display: "False",  value: "False"}
-                        ]
-        }
-        ,
-        {
-            id:         "blockchainId",
-            name:       "Blockchain ID",
-            type:       "Select",
-            default:    "4",
-            values:     [
-                            {display: 'Ethereum - Rinkby test net',   value: "4"},
-                            {display: 'RSK - Main net',   value: "30"},
-                            {display: 'RSK - Test net',   value: "31"},
-                            {display: 'Fantom Opera Mainnet',  value: "250"},
-                            {display: 'Arbitrum - testnet',  value: "421611"}
-                        ]
-        }
-        ,
-        {
             id:         "has_details_ui",
             name:       "Has details UI?",
             type:       "Boolean",
@@ -126,16 +101,6 @@ contract Counter {
             types: {text: true},
             default:    "",
             type:       "String"
-        }
-        ,
-        {
-            id:         "callMethodAsync",
-            snippet:    `callMethodAsync("getCount", [])`,
-            name:       "callMethodAsync",
-            type:       "Action",
-            help:       `<div>Help text for
-                            <b>callMethodAsync</b> function
-                         </div>`
         }
         ,
         {
