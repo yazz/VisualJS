@@ -275,7 +275,7 @@ logo_url("/driver_icons/builder.png")
                 </li>
                 <li class="nav-item" style="width:10%;padding:2px;">
                   <a  v-bind:class='"nav-link " + ((properties.design_time_view == "SAVE")?"active":"")'
-                      v-on:click="properties.design_time_view = 'CREATE';"
+                      v-on:click="properties.design_time_view = 'CREATE'; createNewComponent()"
                       style="padding:2px;"
                       href="#">
                     Create
@@ -396,9 +396,9 @@ logo_url("/driver_icons/builder.png")
 
         
                 <button    class="btn btn-dark"
-                          v-on:click="createNewComponent">
+                          v-on:click="properties.design_time_view = 'HOME';">
 
-                  Create
+                  Go back
                 </button>
                 <div>
                   {{deployingStatus}}
