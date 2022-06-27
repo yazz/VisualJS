@@ -2632,7 +2632,7 @@ Pushlist
 
 setTimeout(async function(){
             await mm.loadControls()
-},1000)
+},2000)
 
 
      }
