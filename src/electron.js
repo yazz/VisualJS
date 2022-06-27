@@ -4872,7 +4872,7 @@ async function loadComponentFromIpfs(ipfsHash) {
 
 
 
-                    await addOrUpdateDriver(baseComponentId, srcCode ,  {username: "default", reponame: baseComponentId, version: "latest"})
+                    await addOrUpdateDriver(baseComponentId, srcCode ,  {username: "default", reponame: baseComponentId, version: "latest", ipfsHashId: ipfsHash})
                     //zzz
                     console.log("....................................Loading component fro IPFS: " + file.path)
                 })
