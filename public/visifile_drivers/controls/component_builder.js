@@ -302,7 +302,7 @@ logo_url("/driver_icons/builder.png")
                         v-bind:refresh='refresh'
                         style="border: solid black 1px;margin-bottom: 10px;"
                         v-on:mousemove='if (mousedown) {drawNow($event)}'
-                        v-on:mousedown='mousedown=true'
+                        v-on:mousedown='mousedown=true;drawNow($event)'
                         v-on:mouseup='mousedown=false'
                         v-bind:height='iconHeightPixels + "px"'
                         v-bind:width='iconWidthPixels + "px"'
