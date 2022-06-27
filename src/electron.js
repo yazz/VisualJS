@@ -2946,9 +2946,53 @@ async function startServices() {
                 srcText = saveHelper.addMethod(srcText,"\n\n\n"+newMethod+"\n,\n\n")
             }
 
+
+
+            //
+            // Delete any IPFS from the component class. Unfortunately this can't be stored in IPFS itself
+            //
+            let properties = saveHelper.getValueOfCodeString(srcText,"properties", ")//prope" + "rties")
+            srcText = saveHelper.deleteCodeString(  srcText, "properties", ")//prope" + "rties")
+            for (let irte = 0 ; irte < properties.length ; irte++ ) {
+                let brje = properties[irte]
+                if (brje.id == "ipfs_hash_id") {
+                    brje.default = ""//ipfsHash
+                }
+            }
+            srcText = saveHelper.insertCodeString(  srcText,
+                "properties",
+                properties,
+                ")//prope" + "rties")
+
+
+
+
             fs.writeFileSync( "z.txt",  srcText.toString() )
 
+
             let ipfsHash = await saveComponentToIpfs(srcText)
+
+
+
+            //
+            // Add an IPFS has ID to the component class. Unfortunately this can't be stored in IPFS itself
+            //
+            properties = saveHelper.getValueOfCodeString(srcText,"properties", ")//prope" + "rties")
+            srcText = saveHelper.deleteCodeString(  srcText, "properties", ")//prope" + "rties")
+            for (let irte = 0 ; irte < properties.length ; irte++ ) {
+                let brje = properties[irte]
+                if (brje.id == "ipfs_hash_id") {
+                    brje.default = ipfsHash
+                }
+            }
+            srcText = saveHelper.insertCodeString(  srcText,
+                "properties",
+                properties,
+                ")//prope" + "rties")
+
+
+
+
 
 
 
