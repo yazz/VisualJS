@@ -2956,7 +2956,7 @@ async function startServices() {
             //
             // save the new smart contract component
             //
-            await addOrUpdateDriver(copy_base_component_id, srcText ,  {username: "default", reponame: copy_base_component_id, version: "latest"})
+            await addOrUpdateDriver(copy_base_component_id, srcText ,  {username: "default", reponame: copy_base_component_id, version: "latest", ipfsHashId:ipfsHash})
 
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end(JSON.stringify({
@@ -3842,12 +3842,14 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                     componentType = "app"
                                 }
 
+                                let ipfsHashId = null
 
                                 ////showTimer("Saving in Sqlite: " + parentHash)
                                 ////showTimer("Saving in Sqlite: " + code)
                                 let save_code_to_file = null
                                 if (options) {
                                     save_code_to_file = options.save_code_to_file
+                                    ipfsHashId = options.ipfsHashId
                                 }
                                 //showTimer(`10`)
                                 dbsearch.serialize(async function() {
@@ -3874,7 +3876,8 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                           properties,
                                           controlType,
                                           controlSubType,
-                                          save_code_to_file
+                                          save_code_to_file,
+                                          ipfsHashId
                                           )
                                     stmtDeprecateOldCode.run(
                                         baseComponentId,
@@ -4321,7 +4324,7 @@ function setUpSql() {
                                                           "     base_component_id =  ? ;");
 
       stmtInsertNewCode = dbsearch.prepare(
-          " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_scope,display_name, creation_timestamp,component_options, logo_url, visibility, interfaces,use_db, editors, read_write_status,properties, component_type, control_sub_type, edit_file_path) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+          " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_scope,display_name, creation_timestamp,component_options, logo_url, visibility, interfaces,use_db, editors, read_write_status,properties, component_type, control_sub_type, edit_file_path, ipfs_hash_id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
       stmtDeprecateOldCode = dbsearch.prepare(
           " update system_code  set code_tag = NULL where base_component_id = ? and id != ?");
 
