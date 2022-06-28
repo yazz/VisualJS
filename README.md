@@ -1,5 +1,5 @@
 
-# Yazz - Build Web3 dapps visually
+# Yazz - A Decentralised App Store
 
 
 ## Docs (in progress)
@@ -16,13 +16,13 @@ https://yazz.com/visifile/docs/yazz_march_2020.pdf
 
 
 ## What is Yazz?
-Yazz is a tool for building Web3 dapps visually. It runs on the web, on PC/Mac/Linux (desktop application or NodeJS) or as a container (Docker, Kubernetes). To develop an app:
+Yazz is a decentralised app store, which allows you to build Web apps visually. It runs on the web, on PC/Mac/Linux (desktop application or NodeJS) or as a container (Docker, Kubernetes). To develop an app:
 
 - Start Yazz web server
 - Create an app in your web browser
 - Share the app with others by sending them the app URL
 
-Yazz is perfect for prototyping dapps. Some demo apps can be found at https://yazz.com
+Yazz is perfect for prototyping apps. Some demo apps can be found at https://yazz.com
 <br/><br/><br/>
 
 
