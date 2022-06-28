@@ -2889,6 +2889,14 @@ async function startServices() {
 
 
             //
+            // design_time_html
+            //
+            let design_time_html = req.body.value.design_time_html
+            srcText = srcText.replaceAll("//**design_time_html**//", design_time_html)
+
+
+
+            //
             // give the new smart contract control a new icon logo
             //
             if (copy_image_data) {

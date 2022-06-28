@@ -18,6 +18,17 @@ properties(
             type:       "Number"
         }
         ,
+                {
+            id:     "design_time_html",
+            name:   "Design Time HTML",
+            type:   "String",
+            types: {text: true},
+            default:
+`<div>Hello </div>
+
+`
+}
+            ,
         {
             id:         "height",
             name:       "Height",
@@ -198,7 +209,9 @@ logo_url("/driver_icons/builder.png")
                
           </div>
           <div v-if='design_mode && design_mode != "detail_editor"'>
-            {{ properties.name }}zzz
+            {{ properties.name }}
+            <br>
+            //**design_time_html**//
           </div>
 
           <div v-bind:style='"width:100%;height:50vh;overflow-y:auto;"'
@@ -346,6 +359,9 @@ logo_url("/driver_icons/builder.png")
 
                 Design time HTML
 
+                <textarea rows=10 cols=50
+                          style="margin: 5px;"
+                          v-model='properties.design_time_html'></textarea>
               </div>
 
 
@@ -531,6 +547,8 @@ logo_url("/driver_icons/builder.png")
                       base_component_id:      newComponentType
                        ,
                       image_data:            mm.properties.image_data
+                      ,
+                      design_time_html:     mm.properties.design_time_html
                       ,
                       default_property_values: {
                            previous_ipfs_version:   mm.properties.ipfs_hash_id
