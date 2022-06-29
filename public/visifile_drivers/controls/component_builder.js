@@ -30,6 +30,18 @@ properties(
 `
 }
             ,
+                {
+            id:     "run_time_html",
+            name:   "Run Time HTML",
+            type:   "String",
+            types: {text: true},
+            textarea: true,
+            default:
+`<div>{{ properties.name }} </div>
+
+`
+}
+            ,
         {
             id:         "height",
             name:       "Height",
@@ -168,7 +180,9 @@ logo_url("/driver_icons/builder.png")
                v-bind:refresh='refresh'
                v-if='(!design_mode) || (design_mode == "") '>
 
-            {{CUSTOM_UI_GOES_HERE}}
+            <!-- run_time_html_start -->
+            {{ properties.name }}
+            <!-- run_time_html_end -->
                
           </div>
           <div v-if='design_mode && design_mode != "detail_editor"'>
@@ -332,7 +346,9 @@ logo_url("/driver_icons/builder.png")
                    v-bind:refresh='refresh'>
 
                 Runtime time HTML
-
+                <textarea rows=10 cols=50
+                          style="margin: 5px;"
+                          v-model='properties.run_time_html'></textarea>
               </div>
 
 
@@ -512,6 +528,8 @@ logo_url("/driver_icons/builder.png")
                       image_data:            mm.properties.image_data
                       ,
                       design_time_html:     mm.properties.design_time_html
+                      ,
+                      run_time_html:     mm.properties.run_time_html
                       ,
                       default_property_values: {
                            previous_ipfs_version:   mm.properties.ipfs_hash_id

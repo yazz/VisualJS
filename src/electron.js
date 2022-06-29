@@ -2894,6 +2894,14 @@ async function startServices() {
             let design_time_html = req.body.value.design_time_html
             srcText = saveHelper.replaceBetween(srcText,"<!-- design_time_html_start -->", "<!-- design_time_html_end -->",design_time_html)
 
+            //
+            // run_time_html
+            //
+            let run_time_html = req.body.value.run_time_html
+            srcText = saveHelper.replaceBetween(srcText,"<!-- run_time_html_start -->", "<!-- run_time_html_end -->",run_time_html)
+
+
+
 
 
 
