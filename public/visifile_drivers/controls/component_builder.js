@@ -23,8 +23,9 @@ properties(
             name:   "Design Time HTML",
             type:   "String",
             types: {text: true},
+            textarea: true,
             default:
-`<div>Hello </div>
+`<div>{{ properties.name }} </div>
 
 `
 }
@@ -46,20 +47,6 @@ properties(
         }
         ,
         {
-            id:     "abi",
-            name:   "ABI",
-            type:   "String",
-            types: {text: true},
-            default: null
-            ,
-            accept_types: {canConvertToString: true, text: true},
-            textarea: true,
-            help:       `<div>Help text for
-                            <b>ABI</b> property
-                         </div>`
-        }
-        ,
-        {
             id:     "ipfs_hash_id",
             name:   "IPFS Hash ID",
             type:   "String",
@@ -73,31 +60,7 @@ properties(
             readonly: true
         }
         ,
-        {
-            id:     "code",
-            name:   "Solidity",
-            type:   "String",
-            types: {text: true},
-            default:
-`pragma solidity ^0.8.7;
 
-contract Counter {
-    uint256 public count = 1;
-
-    function increment() public {
-        count += 1;
-    }
-}
-
-`
-            ,
-            accept_types: {canConvertToString: true, text: true},
-            textarea: true,
-            help:       `<div>Help text for
-                            <b>code</b> property
-                         </div>`
-        }
-        ,
         {
             id:         "has_details_ui",
             name:       "Has details UI?",
@@ -209,9 +172,9 @@ logo_url("/driver_icons/builder.png")
                
           </div>
           <div v-if='design_mode && design_mode != "detail_editor"'>
+            <!-- design_time_html_start -->
             {{ properties.name }}
-            <br>
-            //**design_time_html**//
+            <!-- design_time_html_end -->
           </div>
 
           <div v-bind:style='"width:100%;height:50vh;overflow-y:auto;"'
