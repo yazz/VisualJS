@@ -385,10 +385,67 @@ logo_url("/driver_icons/builder.png")
                    </div>
                
                
-               <div style="display: inline-block;vertical-align:top;">
-               right
-               </div>
+               <div style="display: inline-block;vertical-align:top;width:60%;">
+               //zzz
+                 <div v-if='(propertySelected)' class='row'>
+                 
+                   <div    style='font-family:verdana,helvetica;font-size: 13px;'
+                           class='col-md-4'>
+                     ID
+                   </div>
+
+                   <input  class='col-md-7  small'
+                           placeholder='Background Color'
+                           style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
+                           v-model='propertySelectedId'>
+                   </input>
+                 </div>
+                 
+               
+                 <div v-if='(propertySelected)' class='row'>
+                   <div    style='font-family:verdana,helvetica;font-size: 13px;'
+                           class='col-md-4'>
+                     Name
+                   </div>
+
+                   <input  class='col-md-7 small'
+                           placeholder='Background Color'
+                           style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
+                           v-model='propertySelectedName'>
+                   </input>
+                 </div>
+
+
+                <div v-if='(propertySelected)' class='row'>
+                  <div    style='font-family:verdana,helvetica;font-size: 13px;'
+                          class='col-md-4'>
+                    Type
+                  </div>
+
+                  <input  class='col-md-7 small'
+                          placeholder='Background Color'
+                          style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
+                          v-model='propertySelectedType'>
+                  </input>
+                
+              </div>
+
+              <div v-if='(propertySelected)' class='row'>
+                <div    style='font-family:verdana,helvetica;font-size: 13px;'
+                        class='col-md-4'>
+                  Default value
+                </div>
+
+                <input  class='col-md-7 small'
+                        placeholder='Background Color'
+                        style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
+                        v-model='propertySelectedDefaultValue'>
+                </input>
+              
             </div>
+
+
+          </div>
 
 
 
@@ -444,8 +501,20 @@ logo_url("/driver_icons/builder.png")
         ,
         data: function() {
             return {
-            CUSTOM_UI_GOES_HERE: "zoo"
-            ,
+                CUSTOM_UI_GOES_HERE: "zoo"
+                ,
+                propertySelected: true
+                ,
+                propertySelectedId: "id"
+                ,
+                propertySelectedName: "fdssef"
+                ,
+                propertySelectedType: "typefdssef"
+                ,
+                propertySelectedDefaultValue: "textabcd"
+                ,
+                //zzz
+
 
               compileResult: ""
               ,
@@ -551,7 +620,7 @@ logo_url("/driver_icons/builder.png")
                   mm.deployingStatus = "Created new component successfully"
                   mm.compileStatus   = "NONE"
 
-//zzz
+
                   //debugger
 
 
