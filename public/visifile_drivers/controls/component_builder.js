@@ -50,12 +50,10 @@ properties(
         }
         ,
         {
-            id:         "accounts",
-            name:       "Accounts",
+            id:         "properties",
+            name:       "Properties",
             type:       "Array",
-            default:    [],
-            types: {valueTextList: true},
-            editor:     "detail_editor"
+            default:    []
         }
         ,
         {
@@ -357,6 +355,13 @@ logo_url("/driver_icons/builder.png")
 
                Component properties
 
+                {{properties.properties}}
+
+                <button    class="btn btn-dark"
+                           v-on:click="addProperty">
+
+                  Add
+                </button>
               </div>
 
 
@@ -461,6 +466,14 @@ logo_url("/driver_icons/builder.png")
             /*NEW_METHODS_START*/
             /*NEW_METHODS_END*/
 
+            addProperty: function() {
+                let mm = this
+                mm.properties.properties.push(
+                    {
+                        id: "New"
+                    });
+            }
+            ,
             drawNow: function(event) {
                 var mm= this
                 var el = document.getElementById(mm.args.name + "_canvas_" + (mm.design_mode?"_design_mode":""))
