@@ -275,7 +275,9 @@ logo_url("/driver_icons/builder.png")
                    v-bind:refresh='refresh'>
 
                 Home content
-
+                <div>
+                Property Count: {{properties.properties.length}}
+                </div>
               </div>
 
 
@@ -340,6 +342,11 @@ logo_url("/driver_icons/builder.png")
               </div>
 
 
+
+
+
+
+
               <div v-bind:style='((properties.design_time_view == "RUNTIME")?"visibility:visible;":"visibility:hidden;display: none;")'
                    v-bind:refresh='refresh'>
 
@@ -350,19 +357,40 @@ logo_url("/driver_icons/builder.png")
               </div>
 
 
+
+
+
+
+
+
+
               <div v-bind:style='((properties.design_time_view == "PROPERTIES")?"visibility:visible;":"visibility:hidden;display: none;")'
                    v-bind:refresh='refresh'>
 
                Component properties
 
-                {{properties.properties}}
 
+                <div    v-for='oneProp in properties.properties'>
+                  <div>
+                    {{oneProp}}
+                  </div>                   
+                </div>
+
+                
                 <button    class="btn btn-dark"
                            v-on:click="addProperty">
 
                   Add
                 </button>
               </div>
+
+
+
+
+
+
+
+
 
 
               <div v-bind:style='((properties.design_time_view == "MOUNTED")?"visibility:visible;":"visibility:hidden;display: none;")'
