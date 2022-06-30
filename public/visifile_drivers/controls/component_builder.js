@@ -134,8 +134,8 @@ properties(
 
 
         {
-            id:     "image_data",
-            name:   "Image",
+            id:     "icon_image_data",
+            name:   "Icon",
             type:   "Image"
         }
         ,
