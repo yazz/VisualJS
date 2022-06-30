@@ -367,33 +367,37 @@ logo_url("/driver_icons/builder.png")
               <div v-bind:style='((properties.design_time_view == "PROPERTIES")?"visibility:visible;":"visibility:hidden;display: none;")'
                    v-bind:refresh='refresh'>
 
-               Component properties
+               <div>
+                   <div style="display: inline-block;width:30%">
+
+                         <button    class="btn btn-dark"
+                                    v-on:click="addProperty">
+    
+                           Add
+                         </button>
+                   
+                   
+                       <div    v-for='oneProp in properties.properties'>
+                           <div>
+                               {{oneProp}}
+                           </div>
+                       </div>
+                   </div>
+               
+               
+               <div style="display: inline-block;vertical-align:top;">
+               right
+               </div>
+            </div>
 
 
-                <div    v-for='oneProp in properties.properties'>
-                  <div>
-                    {{oneProp}}
-                  </div>                   
-                </div>
-
-                
-                <button    class="btn btn-dark"
-                           v-on:click="addProperty">
-
-                  Add
-                </button>
-              </div>
 
 
 
 
 
 
-
-
-
-
-              <div v-bind:style='((properties.design_time_view == "MOUNTED")?"visibility:visible;":"visibility:hidden;display: none;")'
+                <div v-bind:style='((properties.design_time_view == "MOUNTED")?"visibility:visible;":"visibility:hidden;display: none;")'
                    v-bind:refresh='refresh'>
 
                 Mounted JS code
