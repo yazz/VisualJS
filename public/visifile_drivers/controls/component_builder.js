@@ -50,6 +50,14 @@ properties(
         }
         ,
         {
+            id:         "lastPropertyId",
+            name:       "Last prop id",
+            default:    1,
+            type:       "Number",
+            hidden:     false
+        }
+        ,
+        {
             id:         "properties",
             name:       "Properties",
             type:       "Array",
@@ -386,7 +394,7 @@ logo_url("/driver_icons/builder.png")
                
                
                <div style="display: inline-block;vertical-align:top;width:60%;">
-               //zzz
+               <div style="color: white;">//zzz</div>
                  <div v-if='(propertySelected)' class='row'>
                  
                    <div    style='font-family:verdana,helvetica;font-size: 13px;'
@@ -503,6 +511,8 @@ logo_url("/driver_icons/builder.png")
             return {
                 CUSTOM_UI_GOES_HERE: "zoo"
                 ,
+                selectedCustomProperty: null
+                ,
                 propertySelected: true
                 ,
                 propertySelectedId: "id"
@@ -569,10 +579,27 @@ logo_url("/driver_icons/builder.png")
 
             addProperty: function() {
                 let mm = this
+                let newPropertyName = "newProp" + mm.properties.lastPropertyId
                 mm.properties.properties.push(
                     {
-                        id: "New"
+                        id: newPropertyName
                     });
+                mm.properties.lastPropertyId ++
+                mm.selectCustomproperty(newPropertyName)
+            }
+            ,
+            selectCustomproperty: function(newPropertyName) {
+            //zzz
+                let mm = this
+                mm.selectedCustomProperty = newPropertyName
+                let allCustomProps = mm.properties.properties
+                for (let dfs=0; dfs < allCustomProps.length; dfs++) {
+                    let currentProp = allCustomProps[dfs]
+                    if (currentProp.id == newPropertyName ) {
+                        mm.propertySelectedId = newPropertyName
+                    }
+                }
+
             }
             ,
             drawNow: function(event) {
