@@ -386,8 +386,9 @@ logo_url("/driver_icons/builder.png")
                    
                    
                        <div    v-for='oneProp in properties.properties'>
-                           <div>
-                               {{oneProp}}
+                           <div v-on:click="selectCustomProperty(oneProp.id);"
+                                v-bind:style='(selectedCustomProperty==oneProp.id?"background-color: lightgray;":"")'>
+                               {{oneProp.id}}
                            </div>
                        </div>
                    </div>
@@ -403,7 +404,7 @@ logo_url("/driver_icons/builder.png")
                    </div>
 
                    <input  class='col-md-7  small'
-                           placeholder='Background Color'
+                           placeholder=''
                            style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
                            v-model='propertySelectedId'>
                    </input>
@@ -417,7 +418,7 @@ logo_url("/driver_icons/builder.png")
                    </div>
 
                    <input  class='col-md-7 small'
-                           placeholder='Background Color'
+                           placeholder=''
                            style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
                            v-model='propertySelectedName'>
                    </input>
@@ -431,7 +432,7 @@ logo_url("/driver_icons/builder.png")
                   </div>
 
                   <input  class='col-md-7 small'
-                          placeholder='Background Color'
+                          placeholder=''
                           style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
                           v-model='propertySelectedType'>
                   </input>
@@ -441,11 +442,11 @@ logo_url("/driver_icons/builder.png")
               <div v-if='(propertySelected)' class='row'>
                 <div    style='font-family:verdana,helvetica;font-size: 13px;'
                         class='col-md-4'>
-                  Default value
+                  Default
                 </div>
 
                 <input  class='col-md-7 small'
-                        placeholder='Background Color'
+                        placeholder=''
                         style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
                         v-model='propertySelectedDefaultValue'>
                 </input>
@@ -579,24 +580,30 @@ logo_url("/driver_icons/builder.png")
 
             addProperty: function() {
                 let mm = this
-                let newPropertyName = "newProp" + mm.properties.lastPropertyId
+                let newPropertyId = "newProp" + mm.properties.lastPropertyId
                 mm.properties.properties.push(
                     {
-                        id: newPropertyName
+                        id: newPropertyId,
+                        name:  "Name " + mm.properties.lastPropertyId,
+                        type:  "Type " + mm.properties.lastPropertyId,
+                        default:  null
                     });
                 mm.properties.lastPropertyId ++
-                mm.selectCustomproperty(newPropertyName)
+                mm.selectCustomProperty(newPropertyId)
             }
             ,
-            selectCustomproperty: function(newPropertyName) {
+            selectCustomProperty: function(newPropertyId) {
             //zzz
                 let mm = this
-                mm.selectedCustomProperty = newPropertyName
+                mm.selectedCustomProperty = newPropertyId
                 let allCustomProps = mm.properties.properties
                 for (let dfs=0; dfs < allCustomProps.length; dfs++) {
                     let currentProp = allCustomProps[dfs]
-                    if (currentProp.id == newPropertyName ) {
-                        mm.propertySelectedId = newPropertyName
+                    if (currentProp.id == newPropertyId ) {
+                        mm.propertySelectedId = newPropertyId
+                        mm.propertySelectedName = currentProp.name
+                        mm.propertySelectedType = currentProp.type
+                        mm.propertySelectedDefaultValue = currentProp.default
                     }
                 }
 
