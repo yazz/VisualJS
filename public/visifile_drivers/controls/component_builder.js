@@ -681,6 +681,17 @@ logo_url("/driver_icons/builder.png")
                   //debugger
 
                   let allNewCustomProperties = []
+                  debugger
+                  for (let abiIndex = 0 ; abiIndex < mm.properties.properties.length ; abiIndex ++ ) {
+                    let thisProp =  mm.properties.properties[abiIndex]
+                    allNewCustomProperties.push({
+                            id: "wholet",
+                            name: "wholet",
+                            type: "String",
+                            default: `Yumyum`
+                    })
+                  }
+
 
                   callAjaxPost("/copy_component",
                   {
