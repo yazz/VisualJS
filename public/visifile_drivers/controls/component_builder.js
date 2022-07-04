@@ -589,8 +589,8 @@ logo_url("/driver_icons/builder.png")
                     {
                         id: newPropertyId,
                         name:  "Name " + mm.properties.lastPropertyId,
-                        type:  "Type " + mm.properties.lastPropertyId,
-                        default:  null
+                        type:  "String",
+                        default:  "Some text"
                     });
                 mm.properties.lastPropertyId ++
                 mm.selectCustomProperty(newPropertyId)
