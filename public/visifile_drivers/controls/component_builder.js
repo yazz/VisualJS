@@ -694,6 +694,9 @@ logo_url("/driver_icons/builder.png")
                   let  newComponentType = "sc_" + ("" + uuidv4()).replaceAll("-","_")
                   debugger
                   //debugger
+
+                  let allNewCustomProperties = []
+
                   callAjaxPost("/copy_component",
                   {
                       relative_filename_to_copy:    "controls/component_builder.js"
@@ -712,7 +715,7 @@ logo_url("/driver_icons/builder.png")
                            image_data:              mm.properties.image_data
                        }
                        ,
-                       new_properties: []
+                       new_properties: allNewCustomProperties
                       ,
                       new_methods: []
                   }
