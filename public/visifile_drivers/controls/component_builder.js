@@ -406,7 +406,8 @@ logo_url("/driver_icons/builder.png")
                    <input  class='col-md-7  small'
                            placeholder=''
                            style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
-                           v-model='propertySelectedId'>
+                           v-model='propertySelectedId'
+                           v-on:change='updateCustomProperties()'>
                    </input>
                  </div>
                  
@@ -420,7 +421,8 @@ logo_url("/driver_icons/builder.png")
                    <input  class='col-md-7 small'
                            placeholder=''
                            style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
-                           v-model='propertySelectedName'>
+                           v-model='propertySelectedName'
+                           v-on:change='updateCustomProperties()'>
                    </input>
                  </div>
 
@@ -434,7 +436,8 @@ logo_url("/driver_icons/builder.png")
                   <input  class='col-md-7 small'
                           placeholder=''
                           style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
-                          v-model='propertySelectedType'>
+                          v-model='propertySelectedType'
+                          v-on:change='updateCustomProperties()'>
                   </input>
                 
               </div>
@@ -448,7 +451,8 @@ logo_url("/driver_icons/builder.png")
                 <input  class='col-md-7 small'
                         placeholder=''
                         style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
-                        v-model='propertySelectedDefaultValue'>
+                        v-model='propertySelectedDefaultValue'
+                        v-on:change='updateCustomProperties()'>
                 </input>
               
             </div>
@@ -516,13 +520,13 @@ logo_url("/driver_icons/builder.png")
                 ,
                 propertySelected: false
                 ,
-                propertySelectedId: "id"
+                propertySelectedId: ""
                 ,
-                propertySelectedName: "fdssef"
+                propertySelectedName: ""
                 ,
-                propertySelectedType: "typefdssef"
+                propertySelectedType: ""
                 ,
-                propertySelectedDefaultValue: "textabcd"
+                propertySelectedDefaultValue: ""
                 ,
                 //zzz
 
@@ -608,6 +612,24 @@ logo_url("/driver_icons/builder.png")
                     }
                 }
                 mm.propertySelected = true
+
+            }
+            ,
+            updateCustomProperties: function() {
+                //zzz
+                let mm = this
+
+                let allCustomProps = mm.properties.properties
+                for (let dfs=0; dfs < allCustomProps.length; dfs++) {
+                    let currentProp = allCustomProps[dfs]
+                    if (currentProp.id == mm.selectedCustomProperty ) {
+                        currentProp.id      =  mm.propertySelectedId
+                        currentProp.name    =  mm.propertySelectedName
+                        currentProp.type    =  mm.propertySelectedType
+                        currentProp.default =  mm.propertySelectedDefaultValue
+                    }
+                }
+
 
             }
             ,
