@@ -394,7 +394,7 @@ logo_url("/driver_icons/builder.png")
                    </div>
                
                
-               <div style="display: inline-block;vertical-align:top;width:60%;">
+               <div <div v-if='(propertySelected)' style="display: inline-block;vertical-align:top;width:60%;">
                <div style="color: white;">//zzz</div>
                  <div v-if='(propertySelected)' class='row'>
                  
@@ -514,7 +514,7 @@ logo_url("/driver_icons/builder.png")
                 ,
                 selectedCustomProperty: null
                 ,
-                propertySelected: true
+                propertySelected: false
                 ,
                 propertySelectedId: "id"
                 ,
@@ -595,6 +595,7 @@ logo_url("/driver_icons/builder.png")
             selectCustomProperty: function(newPropertyId) {
             //zzz
                 let mm = this
+
                 mm.selectedCustomProperty = newPropertyId
                 let allCustomProps = mm.properties.properties
                 for (let dfs=0; dfs < allCustomProps.length; dfs++) {
@@ -606,6 +607,7 @@ logo_url("/driver_icons/builder.png")
                         mm.propertySelectedDefaultValue = currentProp.default
                     }
                 }
+                mm.propertySelected = true
 
             }
             ,
