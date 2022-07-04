@@ -270,7 +270,7 @@ logo_url("/driver_icons/builder.png")
                   </a>
                 </li>
                 <li class="nav-item" style="width:10%;padding:2px;">
-                  <a  v-bind:class='"nav-link " + ((properties.design_time_view == "SAVE")?"active":"")'
+                  <a  v-bind:class='"nav-link " + ((properties.design_time_view == "CREATE")?"active":"")'
                       v-on:click="properties.design_time_view = 'CREATE'; createNewComponent()"
                       style="padding:2px;"
                       href="#">
@@ -374,17 +374,14 @@ logo_url("/driver_icons/builder.png")
 
               <div v-bind:style='((properties.design_time_view == "PROPERTIES")?"visibility:visible;":"visibility:hidden;display: none;")'
                    v-bind:refresh='refresh'>
-
-               <div>
+                   
                    <div style="display: inline-block;width:30%">
 
                          <button    class="btn btn-dark"
                                     v-on:click="addProperty">
-    
                            Add
                          </button>
-                   
-                   
+                     
                        <div    v-for='oneProp in properties.properties'>
                            <div v-on:click="selectCustomProperty(oneProp.id);"
                                 v-bind:style='(selectedCustomProperty==oneProp.id?"background-color: lightgray;":"")'>
@@ -394,108 +391,96 @@ logo_url("/driver_icons/builder.png")
                    </div>
                
                
-               <div <div v-if='(propertySelected)' style="display: inline-block;vertical-align:top;width:60%;">
-               <div style="color: white;">//zzz</div>
-                 <div v-if='(propertySelected)' class='row'>
+               <div v-if='(propertySelected)' style="display: inline-block;vertical-align:top;width:60%;">
+                   <div style="color: white;">//zzz</div>
+                   <div v-if='(propertySelected)' class='row'>
                  
-                   <div    style='font-family:verdana,helvetica;font-size: 13px;'
-                           class='col-md-4'>
-                     ID
-                   </div>
-
-                   <input  class='col-md-7  small'
-                           placeholder=''
-                           style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
-                           v-model='propertySelectedId'
-                           v-on:change='updateCustomProperties()'>
-                   </input>
-                 </div>
+                       <div    style='font-family:verdana,helvetica;font-size: 13px;'
+                               class='col-md-4'>
+                         ID
+                       </div>
+    
+                       <input  class='col-md-7  small'
+                               placeholder=''
+                               style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
+                               v-model='propertySelectedId'
+                               v-on:change='updateCustomProperties()'>
+                       </input>
+                  </div>
                  
                
-                 <div v-if='(propertySelected)' class='row'>
-                   <div    style='font-family:verdana,helvetica;font-size: 13px;'
+                  <div v-if='(propertySelected)' class='row'>
+                      <div    style='font-family:verdana,helvetica;font-size: 13px;'
                            class='col-md-4'>
-                     Name
-                   </div>
+                           Name
+                      </div>
 
-                   <input  class='col-md-7 small'
+                      <input  class='col-md-7 small'
                            placeholder=''
                            style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
                            v-model='propertySelectedName'
                            v-on:change='updateCustomProperties()'>
-                   </input>
-                 </div>
-
-
-                <div v-if='(propertySelected)' class='row'>
-                  <div    style='font-family:verdana,helvetica;font-size: 13px;'
-                          class='col-md-4'>
-                    Type
+                      </input>
                   </div>
 
-                  <input  class='col-md-7 small'
-                          placeholder=''
-                          style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
-                          v-model='propertySelectedType'
-                          v-on:change='updateCustomProperties()'>
-                  </input>
-                
+
+                  <div v-if='(propertySelected)' class='row'>
+                      <div    style='font-family:verdana,helvetica;font-size: 13px;'
+                              class='col-md-4'>
+                          Type
+                      </div>
+
+                      <input  class='col-md-7 small'
+                              placeholder=''
+                              style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
+                              v-model='propertySelectedType'
+                              v-on:change='updateCustomProperties()'>
+                      </input>
+                  </div>
+
+                  <div v-if='(propertySelected)' class='row'>
+                      <div    style='font-family:verdana,helvetica;font-size: 13px;'
+                              class='col-md-4'>
+                           Default
+                      </div>
+
+                     <input  class='col-md-7 small'
+                             placeholder=''
+                             style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
+                             v-model='propertySelectedDefaultValue'
+                             v-on:change='updateCustomProperties()'>
+                     </input>
+                  </div>
+
+               </div>
               </div>
-
-              <div v-if='(propertySelected)' class='row'>
-                <div    style='font-family:verdana,helvetica;font-size: 13px;'
-                        class='col-md-4'>
-                  Default
-                </div>
-
-                <input  class='col-md-7 small'
-                        placeholder=''
-                        style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
-                        v-model='propertySelectedDefaultValue'
-                        v-on:change='updateCustomProperties()'>
-                </input>
-              
-            </div>
-
-
-          </div>
-
-
-
-
-
-
-
-
-                <div v-bind:style='((properties.design_time_view == "MOUNTED")?"visibility:visible;":"visibility:hidden;display: none;")'
-                   v-bind:refresh='refresh'>
+               
+               
+               <div  v-bind:style='((properties.design_time_view == "MOUNTED")?"visibility:visible;":"visibility:hidden;display: none;")'
+                     v-bind:refresh='refresh'>
 
                 Mounted JS code
-
-              </div>
-
-
-
-              <div v-bind:style='((properties.design_time_view == "METHODS")?"visibility:visible;":"visibility:hidden;display: none;")'
-                   v-bind:refresh='refresh'>
-
-                JS Methods 
-
-              </div>
+               </div>
 
 
 
-              <div v-bind:style='((properties.design_time_view == "MEMBER_VARS")?"visibility:visible;":"visibility:hidden;display: none;")'
-                   v-bind:refresh='refresh'>
+               <div v-bind:style='((properties.design_time_view == "METHODS")?"visibility:visible;":"visibility:hidden;display: none;")'
+                    v-bind:refresh='refresh'>
+                    
+                JS Methods
+                
+               </div>
 
-                Member vars
-
-              </div>
 
 
-              <div v-bind:style='((properties.design_time_view == "CREATE")?"visibility:visible;":"visibility:hidden;display: none;")'
-                   v-bind:refresh='refresh'>
+               <div v-bind:style='((properties.design_time_view == "MEMBER_VARS")?"visibility:visible;":"visibility:hidden;display: none;")'
+                    v-bind:refresh='refresh'>
+                      Member vars
+               </div>
 
+
+               <div v-bind:style='((properties.design_time_view == "CREATE")?"visibility:visible;":"visibility:hidden;display: none;")'
+                    v-bind:refresh='refresh'>
         
                 <button    class="btn btn-dark"
                           v-on:click="properties.design_time_view = 'HOME';">
