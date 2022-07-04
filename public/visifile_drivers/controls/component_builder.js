@@ -623,7 +623,10 @@ logo_url("/driver_icons/builder.png")
                 for (let dfs=0; dfs < allCustomProps.length; dfs++) {
                     let currentProp = allCustomProps[dfs]
                     if (currentProp.id == mm.selectedCustomProperty ) {
+                    //debugger
                         currentProp.id      =  mm.propertySelectedId
+                        mm.selectedCustomProperty = mm.propertySelectedId
+
                         currentProp.name    =  mm.propertySelectedName
                         currentProp.type    =  mm.propertySelectedType
                         currentProp.default =  mm.propertySelectedDefaultValue
