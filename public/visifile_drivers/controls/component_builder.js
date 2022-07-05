@@ -466,8 +466,86 @@ logo_url("/driver_icons/builder.png")
 
                <div v-bind:style='((properties.design_time_view == "METHODS")?"visibility:visible;":"visibility:hidden;display: none;")'
                     v-bind:refresh='refresh'>
-                    
-                JS Methods
+
+
+                 <div style="display: inline-block;width:30%">
+
+                   <button    class="btn btn-dark"
+                              v-on:click="addProperty">
+                     Add
+                   </button>
+
+                   <div    v-for='oneProp in properties.properties'>
+                     <div v-on:click="selectCustomProperty(oneProp.id);"
+                          v-bind:style='(selectedCustomProperty==oneProp.id?"background-color: lightgray;":"")'>
+                       {{oneProp.id}}
+                     </div>
+                   </div>
+                 </div>
+
+
+                 <div v-if='(propertySelected)' style="display: inline-block;vertical-align:top;width:60%;">
+                   <div style="color: white;">//zzz</div>
+                   <div v-if='(propertySelected)' class='row'>
+
+                     <div    style='font-family:verdana,helvetica;font-size: 13px;'
+                             class='col-md-4'>
+                       ID
+                     </div>
+
+                     <input  class='col-md-7  small'
+                             placeholder=''
+                             style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
+                             v-model='propertySelectedId'
+                             v-on:change='updateCustomProperties()'>
+                     </input>
+                   </div>
+
+
+                   <div v-if='(propertySelected)' class='row'>
+                     <div    style='font-family:verdana,helvetica;font-size: 13px;'
+                             class='col-md-4'>
+                       Name
+                     </div>
+
+                     <input  class='col-md-7 small'
+                             placeholder=''
+                             style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
+                             v-model='propertySelectedName'
+                             v-on:change='updateCustomProperties()'>
+                     </input>
+                   </div>
+
+
+                   <div v-if='(propertySelected)' class='row'>
+                     <div    style='font-family:verdana,helvetica;font-size: 13px;'
+                             class='col-md-4'>
+                       Type
+                     </div>
+
+                     <input  class='col-md-7 small'
+                             placeholder=''
+                             style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
+                             v-model='propertySelectedType'
+                             v-on:change='updateCustomProperties()'>
+                     </input>
+                   </div>
+
+                   <div v-if='(propertySelected)' class='row'>
+                     <div    style='font-family:verdana,helvetica;font-size: 13px;'
+                             class='col-md-4'>
+                       Default
+                     </div>
+
+                     <input  class='col-md-7 small'
+                             placeholder=''
+                             style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
+                             v-model='propertySelectedDefaultValue'
+                             v-on:change='updateCustomProperties()'>
+                     </input>
+                   </div>
+
+                 </div>
                 
                </div>
 
