@@ -58,8 +58,23 @@ properties(
         }
         ,
         {
+            id:         "lastMethodId",
+            name:       "Last method id",
+            default:    1,
+            type:       "Number",
+            hidden:     false
+        }
+        ,
+        {
             id:         "properties",
             name:       "Properties",
+            type:       "Array",
+            default:    []
+        }
+        ,
+        {
+            id:         "methods",
+            name:       "Methods",
             type:       "Array",
             default:    []
         }
@@ -471,22 +486,22 @@ logo_url("/driver_icons/builder.png")
                  <div style="display: inline-block;width:30%">
 
                    <button    class="btn btn-dark"
-                              v-on:click="addProperty">
+                              v-on:click="addMethod">
                      Add
                    </button>
 
-                   <div    v-for='oneProp in properties.properties'>
-                     <div v-on:click="selectCustomProperty(oneProp.id);"
-                          v-bind:style='(selectedCustomProperty==oneProp.id?"background-color: lightgray;":"")'>
-                       {{oneProp.id}}
+                   <div    v-for='oneMethod in properties.methods'>
+                     <div v-on:click="selectCustomMethod(oneMethod.id);"
+                          v-bind:style='(selectedCustomProperty==oneMethod.id?"background-color: lightgray;":"")'>
+                       {{oneMethod.id}}
                      </div>
                    </div>
                  </div>
 
 
-                 <div v-if='(propertySelected)' style="display: inline-block;vertical-align:top;width:60%;">
+                 <div v-if='(methodSelected)' style="display: inline-block;vertical-align:top;width:60%;">
                    <div style="color: white;">//zzz</div>
-                   <div v-if='(propertySelected)' class='row'>
+                   <div v-if='(methodSelected)' class='row'>
 
                      <div    style='font-family:verdana,helvetica;font-size: 13px;'
                              class='col-md-4'>
@@ -496,13 +511,13 @@ logo_url("/driver_icons/builder.png")
                      <input  class='col-md-7  small'
                              placeholder=''
                              style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
-                             v-model='propertySelectedId'
-                             v-on:change='updateCustomProperties()'>
+                             v-model='methodSelectedId'
+                             v-on:change='updateCustomMethods()'>
                      </input>
                    </div>
 
 
-                   <div v-if='(propertySelected)' class='row'>
+                   <div v-if='(methodSelected)' class='row'>
                      <div    style='font-family:verdana,helvetica;font-size: 13px;'
                              class='col-md-4'>
                        Name
@@ -511,13 +526,13 @@ logo_url("/driver_icons/builder.png")
                      <input  class='col-md-7 small'
                              placeholder=''
                              style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
-                             v-model='propertySelectedName'
-                             v-on:change='updateCustomProperties()'>
+                             v-model='methodSelectedName'
+                             v-on:change='updateCustomMethods()'>
                      </input>
                    </div>
 
 
-                   <div v-if='(propertySelected)' class='row'>
+                   <div v-if='(methodSelected)' class='row'>
                      <div    style='font-family:verdana,helvetica;font-size: 13px;'
                              class='col-md-4'>
                        Type
@@ -526,12 +541,12 @@ logo_url("/driver_icons/builder.png")
                      <input  class='col-md-7 small'
                              placeholder=''
                              style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
-                             v-model='propertySelectedType'
-                             v-on:change='updateCustomProperties()'>
+                             v-model='methodSelectedType'
+                             v-on:change='updateCustomMethods()'>
                      </input>
                    </div>
 
-                   <div v-if='(propertySelected)' class='row'>
+                   <div v-if='(methodSelected)' class='row'>
                      <div    style='font-family:verdana,helvetica;font-size: 13px;'
                              class='col-md-4'>
                        Default
@@ -540,8 +555,8 @@ logo_url("/driver_icons/builder.png")
                      <input  class='col-md-7 small'
                              placeholder=''
                              style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
-                             v-model='propertySelectedDefaultValue'
-                             v-on:change='updateCustomProperties()'>
+                             v-model='methodSelectedDefaultValue'
+                             v-on:change='updateCustomMethods()'>
                      </input>
                    </div>
 
@@ -581,6 +596,8 @@ logo_url("/driver_icons/builder.png")
                 ,
                 selectedCustomProperty: null
                 ,
+                selectedCustomMethod: null
+                ,
                 propertySelected: false
                 ,
                 propertySelectedId: ""
@@ -592,6 +609,16 @@ logo_url("/driver_icons/builder.png")
                 propertySelectedDefaultValue: ""
                 ,
                 //zzz
+                methodSelected: false
+                ,
+                methodSelectedId: ""
+                ,
+                methodSelectedName: ""
+                ,
+                methodSelectedType: ""
+                ,
+                methodSelectedDefaultValue: ""
+                ,
 
 
               compileResult: ""
@@ -645,6 +672,20 @@ logo_url("/driver_icons/builder.png")
             /*NEW_METHODS_START*/
             /*NEW_METHODS_END*/
 
+            addMethod: function() {
+                let mm = this
+                let newMethodId = "newMethod" + mm.properties.lastMethodId
+                mm.properties.methods.push(
+                    {
+                        id: newMethodId,
+                        name:  "Method " + mm.properties.lastMethodId,
+                        type:  "String",
+                        default:  "Some text"
+                    });
+                mm.properties.lastMethodId ++
+                mm.selectCustomMethod(newMethodId)
+            }
+            ,
             addProperty: function() {
                 let mm = this
                 let newPropertyId = "newProp" + mm.properties.lastPropertyId
@@ -675,6 +716,46 @@ logo_url("/driver_icons/builder.png")
                     }
                 }
                 mm.propertySelected = true
+
+            }
+            ,
+            selectCustomMethod: function(newPropertyId) {
+                //zzz
+                let mm = this
+
+                mm.selectedCustomProperty = newPropertyId
+                let allCustomProps = mm.properties.properties
+                for (let dfs=0; dfs < allCustomProps.length; dfs++) {
+                    let currentProp = allCustomProps[dfs]
+                    if (currentProp.id == newPropertyId ) {
+                        mm.propertySelectedId = newPropertyId
+                        mm.propertySelectedName = currentProp.name
+                        mm.propertySelectedType = currentProp.type
+                        mm.propertySelectedDefaultValue = currentProp.default
+                    }
+                }
+                mm.propertySelected = true
+
+            }
+            ,
+            updateCustomMethods: function() {
+                //zzz
+                let mm = this
+
+                let allCustomProps = mm.properties.properties
+                for (let dfs=0; dfs < allCustomProps.length; dfs++) {
+                    let currentProp = allCustomProps[dfs]
+                    if (currentProp.id == mm.selectedCustomProperty ) {
+                        //debugger
+                        currentProp.id      =  mm.propertySelectedId
+                        mm.selectedCustomProperty = mm.propertySelectedId
+
+                        currentProp.name    =  mm.propertySelectedName
+                        currentProp.type    =  mm.propertySelectedType
+                        currentProp.default =  mm.propertySelectedDefaultValue
+                    }
+                }
+
 
             }
             ,
