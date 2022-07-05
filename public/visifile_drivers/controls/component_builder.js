@@ -573,7 +573,7 @@ logo_url("/driver_icons/builder.png")
                 mm.properties.properties.push(
                     {
                         id: newPropertyId,
-                        name:  "Name " + mm.properties.lastPropertyId,
+                        name:  "Property " + mm.properties.lastPropertyId,
                         type:  "String",
                         default:  "Some text"
                     });
@@ -657,7 +657,7 @@ logo_url("/driver_icons/builder.png")
             }
             ,
             createNewComponent: async function() {
-                debugger
+
                 let mm = this
                   mm.properties.infoMessage = "Contract mined at "
                   mm.properties.infoColor = "black"
@@ -667,28 +667,20 @@ logo_url("/driver_icons/builder.png")
                   mm.compileStatus   = "NONE"
 
 
-                  //debugger
-
-
-
-
-
                   mm.properties.previous_ipfs_version =  mm.properties.ipfs_hash_id
                   //let  newComponentType = mm.compiledContractName + "_component"
                   //let  newComponentType = "sc_" + instance.options.address
                   let  newComponentType = "sc_" + ("" + uuidv4()).replaceAll("-","_")
-                  debugger
-                  //debugger
 
                   let allNewCustomProperties = []
                   debugger
                   for (let abiIndex = 0 ; abiIndex < mm.properties.properties.length ; abiIndex ++ ) {
                     let thisProp =  mm.properties.properties[abiIndex]
                     allNewCustomProperties.push({
-                            id: "wholet",
-                            name: "wholet",
-                            type: "String",
-                            default: `Yumyum`
+                            id: thisProp.id,
+                            name: thisProp.name,
+                            type: thisProp.type,
+                            default: thisProp.default
                     })
                   }
 
