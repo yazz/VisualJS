@@ -719,22 +719,22 @@ logo_url("/driver_icons/builder.png")
 
             }
             ,
-            selectCustomMethod: function(newPropertyId) {
+            selectCustomMethod: function(newMethodId) {
                 //zzz
                 let mm = this
 
-                mm.selectedCustomProperty = newPropertyId
-                let allCustomProps = mm.properties.properties
-                for (let dfs=0; dfs < allCustomProps.length; dfs++) {
-                    let currentProp = allCustomProps[dfs]
-                    if (currentProp.id == newPropertyId ) {
-                        mm.propertySelectedId = newPropertyId
-                        mm.propertySelectedName = currentProp.name
-                        mm.propertySelectedType = currentProp.type
-                        mm.propertySelectedDefaultValue = currentProp.default
+                mm.selectedCustomProperty = newMethodId
+                let allCustomMethods = mm.properties.methods
+                for (let dfs=0; dfs < allCustomMethods.length; dfs++) {
+                    let currentMethod = allCustomMethods[dfs]
+                    if (currentMethod.id == newMethodId ) {
+                        mm.methodSelectedId = newMethodId
+                        mm.methodSelectedName = currentMethod.name
+                        mm.methodSelectedType = currentMethod.type
+                        mm.methodSelectedDefaultValue = currentMethod.default
                     }
                 }
-                mm.propertySelected = true
+                mm.methodSelected = true
 
             }
             ,
