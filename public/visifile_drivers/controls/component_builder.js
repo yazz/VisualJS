@@ -634,7 +634,7 @@ logo_url("/driver_icons/builder.png")
                     ctx.fillStyle = mm.args.draw_color;
                     ctx.fillRect(left,right,  mm.args.brush_width,  mm.args.brush_width)
 
-                    this.args.image_data = el.toDataURL()
+                    this.args.icon_image_data = el.toDataURL()
                 }
             }
             ,
@@ -691,7 +691,7 @@ logo_url("/driver_icons/builder.png")
                       ,
                       base_component_id:      newComponentType
                        ,
-                      image_data:            mm.properties.image_data
+                      image_data:            mm.properties.icon_image_data
                       ,
                       design_time_html:     mm.properties.design_time_html
                       ,
@@ -700,7 +700,7 @@ logo_url("/driver_icons/builder.png")
                       default_property_values: {
                            previous_ipfs_version:   mm.properties.ipfs_hash_id
                            ,
-                           image_data:              mm.properties.image_data
+                           icon_image_data:              mm.properties.icon_image_data
                        }
                        ,
                        new_properties: allNewCustomProperties
@@ -751,8 +751,8 @@ logo_url("/driver_icons/builder.png")
             loadImageToCanvas: function() {
                 var mm = this
                 var base_image = new Image();
-                //alert(this.args.image_data)
-                base_image.src = this.args.image_data;
+                //alert(this.args.icon_image_data)
+                base_image.src = this.args.icon_image_data;
                 base_image.onload = function() {
                     var el = document.getElementById(mm.args.name + "_canvas_" + (mm.design_mode?"_design_mode":""))
                     if (isValidObject(el)) {
