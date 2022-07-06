@@ -492,7 +492,7 @@ logo_url("/driver_icons/builder.png")
 
                    <div    v-for='oneMethod in properties.methods'>
                      <div v-on:click="selectCustomMethod(oneMethod.id);"
-                          v-bind:style='(selectedCustomProperty==oneMethod.id?"background-color: lightgray;":"")'>
+                          v-bind:style='(selectedCustomMethod==oneMethod.id?"background-color: lightgray;":"")'>
                        {{oneMethod.id}}
                      </div>
                    </div>
@@ -570,7 +570,9 @@ logo_url("/driver_icons/builder.png")
                      <textarea rows=10 cols=50
                                class='col-md-7 small'
                                style="margin: 5px;"
-                               v-model='methodSelectedCode'></textarea>
+                               v-model='methodSelectedCode'
+                               v-on:change='updateCustomMethods()'>
+                     </textarea>
                                
                    </div>
                    
@@ -697,7 +699,9 @@ logo_url("/driver_icons/builder.png")
                         id: newMethodId,
                         name:  "Method " + mm.properties.lastMethodId,
                         type:  "String",
-                        default:  "Some text"
+                        default:  "Some text",
+                        code: "function() {}"
+
                     });
                 mm.properties.lastMethodId ++
                 mm.selectCustomMethod(newMethodId)
@@ -739,8 +743,8 @@ logo_url("/driver_icons/builder.png")
             selectCustomMethod: function(newMethodId) {
                 //zzz
                 let mm = this
-
-                mm.selectedCustomProperty = newMethodId
+debugger
+                mm.selectedCustomMethod = newMethodId
                 let allCustomMethods = mm.properties.methods
                 for (let dfs=0; dfs < allCustomMethods.length; dfs++) {
                     let currentMethod = allCustomMethods[dfs]
@@ -749,6 +753,7 @@ logo_url("/driver_icons/builder.png")
                         mm.methodSelectedName = currentMethod.name
                         mm.methodSelectedType = currentMethod.type
                         mm.methodSelectedDefaultValue = currentMethod.default
+                        mm.methodSelectedCode = currentMethod.code
                     }
                 }
                 mm.methodSelected = true
@@ -757,19 +762,21 @@ logo_url("/driver_icons/builder.png")
             ,
             updateCustomMethods: function() {
                 //zzz
+                debugger
                 let mm = this
 
-                let allCustomProps = mm.properties.properties
-                for (let dfs=0; dfs < allCustomProps.length; dfs++) {
-                    let currentProp = allCustomProps[dfs]
-                    if (currentProp.id == mm.selectedCustomProperty ) {
+                let allCustomMethods = mm.properties.methods
+                for (let dfs=0; dfs < allCustomMethods.length; dfs++) {
+                    let currentMethod = allCustomMethods[dfs]
+                    if (currentMethod.id == mm.selectedCustomMethod ) {
                         //debugger
-                        currentProp.id      =  mm.propertySelectedId
-                        mm.selectedCustomProperty = mm.propertySelectedId
+                        currentMethod.id      =  mm.methodSelectedId
+                        mm.selectedCustomProperty = mm.methodSelectedId
 
-                        currentProp.name    =  mm.propertySelectedName
-                        currentProp.type    =  mm.propertySelectedType
-                        currentProp.default =  mm.propertySelectedDefaultValue
+                        currentMethod.name    =  mm.methodSelectedName
+                        currentMethod.type    =  mm.methodSelectedType
+                        currentMethod.default =  mm.methodSelectedDefaultValue
+                        currentMethod.code    =  mm.methodSelectedCode
                     }
                 }
 
