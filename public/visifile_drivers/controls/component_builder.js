@@ -560,6 +560,21 @@ logo_url("/driver_icons/builder.png")
                      </input>
                    </div>
 
+
+                   <div v-if='(methodSelected)' class='row'>
+                     <div    style='font-family:verdana,helvetica;font-size: 13px;'
+                             class='col-md-4'>
+                       Code
+                     </div>
+
+                     <textarea rows=10 cols=50
+                               class='col-md-7 small'
+                               style="margin: 5px;"
+                               v-model='methodSelectedCode'></textarea>
+                               
+                   </div>
+                   
+                   
                  </div>
                 
                </div>
@@ -618,6 +633,8 @@ logo_url("/driver_icons/builder.png")
                 methodSelectedType: ""
                 ,
                 methodSelectedDefaultValue: ""
+                ,
+                methodSelectedCode: ""
                 ,
 
 
