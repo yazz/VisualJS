@@ -700,7 +700,9 @@ logo_url("/driver_icons/builder.png")
                         name:  "Method " + mm.properties.lastMethodId,
                         type:  "String",
                         default:  "Some text",
-                        code: "function() {}"
+                        code: "function() {}",
+                        pre_snippet: ` `,
+                        snippet: `${newMethodId}()`
 
                     });
                 mm.properties.lastMethodId ++
@@ -876,7 +878,9 @@ logo_url("/driver_icons/builder.png")
                         properties: {
                             id: thisMethod.id,
                             name: thisMethod.name,
-                            type: "Action"
+                            type: "Action",
+                            snippet: thisMethod.snippet,
+                            pre_snippet: thisMethod.pre_snippet,
                         }
                         ,
                         code: functionToAdd
