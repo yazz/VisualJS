@@ -2180,7 +2180,7 @@ function websocketFn(ws) {
                     let ret = await loadComponentFromIpfs(componentHash)
                     let z = 1
                     let r =z
-                    //zzz
+
                 }
                 setTimeout( function() {
                     dbsearch.serialize(
@@ -2975,14 +2975,14 @@ async function startServices() {
             //
             let newMethodsV2 = req.body.value.new_methods_v2;
             if (newMethodsV2) {
-                for ( let newMethodIndex = 0 ; newMethodIndex < newMethods.length ; newMethodIndex++ ){
-                    let newMethod = newMethods[newMethodIndex]
+                for ( let newMethodIndex = 0 ; newMethodIndex < newMethodsV2.length ; newMethodIndex++ ){
+                    let newMethod = newMethodsV2[newMethodIndex]
                     srcText = saveHelper.addMethod(srcText,"\n\n\n"+newMethod.code+"\n,\n\n")
-                    let newMethodProperty = newMethodProperty[newPropertyIndex].property
+                    let newMethodProperty = newMethod.properties
                     srcText = saveHelper.addProperty(srcText,newMethodProperty)
                 }
             }
-
+//zzz
 
 
             //
@@ -2992,8 +2992,10 @@ async function startServices() {
             srcText = saveHelper.deleteCodeString(  srcText, "properties", ")//prope" + "rties")
             for (let irte = 0 ; irte < properties.length ; irte++ ) {
                 let brje = properties[irte]
-                if (brje.id == "ipfs_hash_id") {
-                    brje.default = ""//ipfsHash
+                if (brje) {
+                    if (brje.id == "ipfs_hash_id") {
+                        brje.default = ""//ipfsHash
+                    }
                 }
             }
             srcText = saveHelper.insertCodeString(  srcText,
@@ -3679,7 +3681,7 @@ function showTimer(optionalMessage) {
 }
 
 
-//zzz
+
 async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
     if (code) {
@@ -4954,7 +4956,7 @@ async function loadComponentFromIpfs(ipfsHash) {
 
 
                     await addOrUpdateDriver(baseComponentId, srcCode ,  {username: "default", reponame: baseComponentId, version: "latest", ipfsHashId: ipfsHash})
-                    //zzz
+
                     console.log("....................................Loading component fro IPFS: " + file.path)
                 })
                 returnfn("Done")

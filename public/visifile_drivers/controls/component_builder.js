@@ -743,7 +743,7 @@ logo_url("/driver_icons/builder.png")
             selectCustomMethod: function(newMethodId) {
                 //zzz
                 let mm = this
-debugger
+//debugger
                 mm.selectedCustomMethod = newMethodId
                 let allCustomMethods = mm.properties.methods
                 for (let dfs=0; dfs < allCustomMethods.length; dfs++) {
@@ -762,7 +762,7 @@ debugger
             ,
             updateCustomMethods: function() {
                 //zzz
-                debugger
+                //debugger
                 let mm = this
 
                 let allCustomMethods = mm.properties.methods
@@ -856,7 +856,7 @@ debugger
                   let  newComponentType = "sc_" + ("" + uuidv4()).replaceAll("-","_")
 
                   let allNewCustomProperties = []
-                  debugger
+                  //debugger
                   for (let abiIndex = 0 ; abiIndex < mm.properties.properties.length ; abiIndex ++ ) {
                     let thisProp =  mm.properties.properties[abiIndex]
                     allNewCustomProperties.push({
@@ -866,6 +866,22 @@ debugger
                             default: thisProp.default
                     })
                   }
+
+                let allNewCustomMethods = []
+                debugger
+                for (let abiIndex = 0 ; abiIndex < mm.properties.methods.length ; abiIndex ++ ) {
+                    let thisMethod =  mm.properties.methods[abiIndex]
+                    let functionToAdd = `${thisMethod.id}: ${thisMethod.code}`
+                    allNewCustomMethods.push({
+                        properties: {
+                            id: thisMethod.id,
+                            name: thisMethod.name,
+                            type: "Action"
+                        }
+                        ,
+                        code: functionToAdd
+                    })
+                }
 
 
                   callAjaxPost("/copy_component",
@@ -888,7 +904,7 @@ debugger
                        ,
                        new_properties: allNewCustomProperties
                       ,
-                      new_methods_v2: mm.properties.methods
+                      new_methods_v2: allNewCustomMethods
                   }
                   ,
                   async function(response){
