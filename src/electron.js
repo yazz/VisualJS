@@ -2960,9 +2960,27 @@ async function startServices() {
             // create new methods in the new component
             //
             let newMethods = req.body.value.new_methods;
-            for ( let newMethodIndex = 0 ; newMethodIndex < newMethods.length ; newMethodIndex++ ){
-                let newMethod = newMethods[newMethodIndex]
-                srcText = saveHelper.addMethod(srcText,"\n\n\n"+newMethod+"\n,\n\n")
+            if (newMethods) {
+                for ( let newMethodIndex = 0 ; newMethodIndex < newMethods.length ; newMethodIndex++ ){
+                    let newMethod = newMethods[newMethodIndex]
+                    srcText = saveHelper.addMethod(srcText,"\n\n\n"+newMethod.code+"\n,\n\n")
+                }
+            }
+
+
+
+
+            //
+            // create new methods in the new component
+            //
+            let newMethodsV2 = req.body.value.new_methods_v2;
+            if (newMethodsV2) {
+                for ( let newMethodIndex = 0 ; newMethodIndex < newMethods.length ; newMethodIndex++ ){
+                    let newMethod = newMethods[newMethodIndex]
+                    srcText = saveHelper.addMethod(srcText,"\n\n\n"+newMethod.code+"\n,\n\n")
+                    let newMethodProperty = newMethodProperty[newPropertyIndex].property
+                    srcText = saveHelper.addProperty(srcText,newMethodProperty)
+                }
             }
 
 

@@ -888,7 +888,7 @@ debugger
                        ,
                        new_properties: allNewCustomProperties
                       ,
-                      new_methods: []
+                      new_methods_v2: mm.properties.methods
                   }
                   ,
                   async function(response){
