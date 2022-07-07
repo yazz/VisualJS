@@ -128,6 +128,34 @@ properties(
         }
         ,
         {
+            id:     "runtimeMountedCode",
+            name:   "Runtime Mounted Code",
+            type:   "String",
+            types: {text: true},
+            default:
+``
+}
+,
+        {
+            id:     "designTimeMountedCode",
+            name:   "Design Time Mounted Code",
+            type:   "String",
+            types: {text: true},
+            default:
+``
+}
+,
+{
+           id:     "varsCode",
+            name:   "vars Code",
+            type:   "String",
+            types: {text: true},
+            default:
+``
+}
+,
+
+        {
             id:         "design_time_view",
             name:       "Design Time View",
             //hidden:     true
@@ -482,7 +510,17 @@ logo_url("/driver_icons/builder.png")
                <div  v-bind:style='((properties.design_time_view == "MOUNTED")?"visibility:visible;":"visibility:hidden;display: none;")'
                      v-bind:refresh='refresh'>
 
-                Mounted JS code
+                 Mounted JS code Design Time
+                 <textarea rows=10 cols=50
+                           style="margin: 5px;"
+                           v-model='properties.designTimeMountedCode'></textarea>
+
+
+                 Runtime JS code runtime Time
+                 <textarea rows=10 cols=50
+                           style="margin: 5px;"
+                           v-model='properties.runtimeMountedCode'></textarea>
+
                </div>
 
 
@@ -594,6 +632,11 @@ logo_url("/driver_icons/builder.png")
                <div v-bind:style='((properties.design_time_view == "MEMBER_VARS")?"visibility:visible;":"visibility:hidden;display: none;")'
                     v-bind:refresh='refresh'>
                       Member vars
+                 <textarea rows=10 cols=50
+                           style="margin: 5px;"
+                           v-model='properties.varsCode'></textarea>
+
+
                </div>
 
 
@@ -617,6 +660,8 @@ logo_url("/driver_icons/builder.png")
         ,
         data: function() {
             return {
+                /*NEW_VARS_START*/
+                /*NEW_VARS_END*/
                 CUSTOM_UI_GOES_HERE: "zoo"
                 ,
                 selectedCustomProperty: null
@@ -692,7 +737,14 @@ logo_url("/driver_icons/builder.png")
 
             this.loadImageToCanvas()
 
-
+            if ((!this.design_mode) || (this.design_mode == ""))
+            {
+                /*NEW_RUNTIME_MOUNTED_START*/
+                /*NEW_RUNTIME_MOUNTED_END*/
+            } else {
+                /*NEW_DESIGN_TIME_MOUNTED_START*/
+                /*NEW_DESIGN_TIME_MOUNTED_END*/
+            }
         }
         ,
         methods: {
@@ -907,6 +959,12 @@ logo_url("/driver_icons/builder.png")
                       design_time_html:     mm.properties.design_time_html
                       ,
                       run_time_html:     mm.properties.run_time_html
+                      ,
+                      design_time_mounted_code:     mm.properties.designTimeMountedCode
+                      ,
+                      runtime_mounted_code:     mm.properties.runtimeMountedCode
+                      ,
+                      vars_code:     mm.properties.varsCode
                       ,
                       default_property_values: {
                            previous_ipfs_version:   mm.properties.ipfs_hash_id
