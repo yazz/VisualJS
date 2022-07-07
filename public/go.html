@@ -9,7 +9,6 @@
 <script lang="javascript" src="/js_libs/xlsx.core.min.js"></script>
 <script src="/js_libs/ammo.wasm.js"></script>
 <script src="/js_libs/web3.min.js"></script>
-<script src="https://unpkg.com/moralis/dist/moralis.js"></script>
 
     <script>
         function filterBlockchainParams(blockchainDetails) {
@@ -116,20 +115,7 @@
     '836542336838601': 'curio'
 }
     async function switchBlockchainNetwork(blockchainId) {
-        /*let moralisUser = Moralis.User.current();
-        if (!moralisUser) {
-          moralisUser = await Moralis.authenticate({
-            signingMessage: "Log in using Moralis",
-          })
-            .then(function (moralisUser) {
-              console.log("logged in user:", moralisUser);
-              console.log(user.get("ethAddress"));
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
-        }*/
-        //debugger
+
         const provider = window.ethereum;
         if(!provider){
           console.log("Metamask is not installed, please install!");
@@ -173,9 +159,9 @@
 
       web3 = new Web3(window.ethereum);
 
-      const serverUrl = "https://cpipp9nsrodb.usemoralis.com:2053/server";
+
       const appId = "u6b7qmz53oetoPgFkOQP8Jji0xOzyOlNya94BSNS";
-      //Moralis.start({ serverUrl, appId });
+
 
       (async function() {
 
