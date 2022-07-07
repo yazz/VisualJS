@@ -8,7 +8,7 @@ console.log("Starting...")
         if (err) {
           console.log("....................................Err: " + err);
         }
-        console.log("....................................file: " + JSON.stringify(file,null,2))
+        //console.log("....................................file: " + JSON.stringify(file,null,2))
         let thehash = file[0].hash
         //const validCID = "QmRntL1Gam7vDMNSsHbcUrWjueMJdJsBgF1wn1bx5pYcfo"
         const validCID = thehash
@@ -16,7 +16,7 @@ console.log("Starting...")
         ipfs.files.get(validCID, function (err, files) {
             files.forEach((file) => {
                 console.log("....................................file.path: " + file.path)
-                console.log(file.content.toString('utf8'))
+                //console.log(file.content.toString('utf8'))
                 console.log("....................................file.path: " + file.path)
             })
         })
