@@ -10072,13 +10072,13 @@ async function checkLibs(data){
                     if (advancedAlreadyLoaded) {
                     } else {
                         advancedAlreadyLoaded = true
-                        await scriptTag(
+                        /*await scriptTag(
                             `/js_libs/advanced_js_bundle.js`
                             ,
                             async function() {
                                 console.log = oldConsole
                                 await callCodeV2(data.value,  callDriverMethodArgs[data.seq_num],  data.seq_num)
-                        })
+                        })*/
                     }
                 }
 
@@ -10205,13 +10205,13 @@ async function checkLibsV2(componentRecord,args){
                     if (advancedAlreadyLoaded) {
                     } else {
                         advancedAlreadyLoaded = true
-                        await scriptTag(
+                        /*await scriptTag(
                             `/js_libs/advanced_js_bundle.js`
                             ,
                             async function() {
                                 console.log = oldConsole
                                 await callCodeV2(componentRecord,args)
-                        })
+                        })*/
                     }
                 }
 
