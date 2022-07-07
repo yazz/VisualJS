@@ -142,8 +142,16 @@ properties(
                             {display: 'Mounted code',  value: "MOUNTED"},
                             {display: 'Methods',  value: "METHODS"},
                             {display: 'Member vars',  value: "MEMBER_VARS"},
-                            {display: 'Create',  value: "`CREATE`"}
+                            {display: 'Update',  value: "`CREATE`"}
                         ]
+        }
+        ,
+        {
+            id:         "lastBuilderView",
+            name:       "lastBuilderView",
+            type:       "String",
+            hidden:     true,
+            default:    "HOME"
         }
         ,
 
@@ -286,10 +294,10 @@ logo_url("/driver_icons/builder.png")
                 </li>
                 <li class="nav-item" style="width:10%;padding:2px;">
                   <a  v-bind:class='"nav-link " + ((properties.design_time_view == "CREATE")?"active":"")'
-                      v-on:click="properties.design_time_view = 'CREATE'; createNewComponent()"
+                      v-on:click="properties.lastBuilderView = properties.design_time_view; properties.design_time_view = 'CREATE'; createNewComponent()"
                       style="padding:2px;"
                       href="#">
-                    Create
+                    Update
                   </a>
                 </li>
               </ul>
@@ -593,7 +601,7 @@ logo_url("/driver_icons/builder.png")
                     v-bind:refresh='refresh'>
         
                 <button    class="btn btn-dark"
-                          v-on:click="properties.design_time_view = 'HOME';">
+                          v-on:click="properties.design_time_view = properties.lastBuilderView;">
 
                   Go back
                 </button>
