@@ -359,6 +359,7 @@ if (process.argv.length > 1) {
       .option('-de, --deleteonexit [deleteonexit]', 'Delete database files on exit (default true) [deleteonexit]', 'false')
       .option('-e, --debug [debug]', 'Allow to run NodeJS in debug mode (default false) [debug]', 'false')
       .option('-f, --cacert1 [cacert1]', 'Public HTTPS CA certificate 1 [cacert1]', null)
+      .option('-ipfs_folder, --ipfs_folder [ipfs_folder]', 'Public folder to use as IPFS Cache [ipfs_folder]', null)
       .option('-g, --cacert2 [cacert2]', 'Public HTTPS CA certificate 2 [cacert2]', null)
       .option('-h, --loadjsfile [loadjsfile]', 'Load the following JS from a file (default not set) [loadjsfile]', null)
       .option('-i, --cacert3 [cacert3]', 'Public HTTPS CA certificate 3 [cacert3]', null)
@@ -425,7 +426,10 @@ if (program.showdebug == 'true') {
 }
 outputDebug("       showDebug: " + showDebug);
 
-
+let ipfsFolder = "./ipfs_cache/"
+if (program.ipfs_folder) {
+    ipfsFolder = program.ipfs_folder
+}
 
 
 var showStats = false
