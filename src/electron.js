@@ -1,12 +1,16 @@
 #!/usr/bin/env node
 
 const ipfsAPI = require('ipfs-api');
+let isIPFSConnected = false
 const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
 let testBuffer = new Buffer("Testcode zooey11");
 console.log("Starting...")
     ipfs.files.add(testBuffer, function (err, file) {
         if (err) {
           console.log("....................................Err: " + err);
+        } else {
+            isIPFSConnected = true
+
         }
         //console.log("....................................file: " + JSON.stringify(file,null,2))
         let thehash = file[0].hash
