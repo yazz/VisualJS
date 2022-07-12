@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const ipfsAPI = require('ipfs-api');
+const OnlyIpfsHash = require('ipfs-only-hash')
 let isIPFSConnected = false
 const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
 let testBuffer = new Buffer("Testcode zooey11");
@@ -4927,8 +4928,10 @@ async function saveComponentToIpfs(srcCode) {
             let testBuffer = new Buffer(srcCode);
             console.log("Starting...")
             //zzz
-            //fullIpfsFilePath = path.join(fullIpfsFolderPath,  ipfsFolder)
-            //fs.writeFileSync(targetFile, fs.readFileSync(source));
+            let justHash = await OnlyIpfsHash.of(srcCode)
+            let fullIpfsFilePath = path.join(fullIpfsFolderPath,  justHash)
+            fs.writeFileSync(fullIpfsFilePath, srcCode);
+
             ipfs.files.add(testBuffer, function (err, file) {
                 if (err) {
                     console.log("....................................Err: " + err);
