@@ -3565,7 +3565,7 @@ function findSystemDataDirectoryAndStart() {
     if (!fs.existsSync( path.join(userData,  'app_dbs') )) {
         mkdirp.sync(path.join(userData,  'app_dbs'));
     }
-    //zzz
+
     if (!fs.existsSync(  path.join(userData,  ipfsFolder) )) {
         mkdirp.sync(path.join(userData,  ipfsFolder));
     }
@@ -4926,6 +4926,9 @@ async function saveComponentToIpfs(srcCode) {
         try {
             let testBuffer = new Buffer(srcCode);
             console.log("Starting...")
+            //zzz
+            //fullIpfsFilePath = path.join(fullIpfsFolderPath,  ipfsFolder)
+            //fs.writeFileSync(targetFile, fs.readFileSync(source));
             ipfs.files.add(testBuffer, function (err, file) {
                 if (err) {
                     console.log("....................................Err: " + err);
