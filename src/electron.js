@@ -426,10 +426,11 @@ if (program.showdebug == 'true') {
 }
 outputDebug("       showDebug: " + showDebug);
 
-let ipfsFolder = "./ipfs_cache/"
+let ipfsFolder = "ipfs_cache"
 if (program.ipfs_folder) {
     ipfsFolder = program.ipfs_folder
 }
+let fullIpfsFolderPath
 
 
 var showStats = false
@@ -3016,7 +3017,7 @@ async function startServices() {
                     srcText = saveHelper.addProperty(srcText,newMethodProperty)
                 }
             }
-//zzz
+
 
 
             //
@@ -3564,7 +3565,11 @@ function findSystemDataDirectoryAndStart() {
     if (!fs.existsSync( path.join(userData,  'app_dbs') )) {
         mkdirp.sync(path.join(userData,  'app_dbs'));
     }
-
+    //zzz
+    if (!fs.existsSync(  path.join(userData,  ipfsFolder) )) {
+        mkdirp.sync(path.join(userData,  ipfsFolder));
+    }
+    fullIpfsFolderPath = path.join(userData,  ipfsFolder)
 
     outputDebug('process.env.LOCALAPPDATA: ' + JSON.stringify(localappdata ,null,2))
     outputDebug("Local home data path: " + LOCAL_HOME)
