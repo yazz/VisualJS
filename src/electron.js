@@ -4968,14 +4968,12 @@ async function saveComponentToIpfs(srcCode) {
 async function loadComponentFromIpfs(ipfsHash) {
     outputDebug("*** loadComponentFromIpfs: *** : " )
 
-
-    var promise = new Promise(async function(returnfn) {
-        try {
+    let promise = new Promise(async function(returnfn) {
+        try
+        {
             let fullIpfsFilePath = path.join(fullIpfsFolderPath,  ipfsHash)
-            try
-            {
-                let srcCode = fs.readFileSync(fullIpfsFilePath);
-                let baseComponentId = saveHelper.getValueOfCodeString(srcCode,"base_component_id")
+            let srcCode = fs.readFileSync(fullIpfsFilePath);
+            let baseComponentId = saveHelper.getValueOfCodeString(srcCode,"base_component_id")
 
 
 
@@ -4993,17 +4991,15 @@ async function loadComponentFromIpfs(ipfsHash) {
                     properties,
                     ")//prope" + "rties")
 
-
-
-                let fullIpfsFilePath = path.join(fullIpfsFolderPath,  ipfsHash)
-                fs.writeFileSync(fullIpfsFilePath, srcCode);
-
                 await addOrUpdateDriver(baseComponentId, srcCode ,  {username: "default", reponame: baseComponentId, version: "latest", ipfsHashId: ipfsHash})
 
-                console.log("....................................Loading component fro local IPFS cache: " + file.path)
+                console.log("....................................Loading component from local IPFS cache: " + fullIpfsFilePath)
                 returnfn("Done")
 
             } catch (error) {
+                try
+                {
+
                 ipfs.files.get(ipfsHash, function (err, files) {
                     files.forEach(async function(file) {
                         console.log("....................................Loading component fro IPFS: " + file.path)
@@ -5041,13 +5037,13 @@ async function loadComponentFromIpfs(ipfsHash) {
                     })
                     returnfn("Done")
                 })
+            } catch (error) {
+                outputDebug(error)
             }
-
-
-
-        } catch (error) {
-            outputDebug(error)
         }
+
+
+
     })
     var ret = await promise
     return ret
