@@ -4971,43 +4971,79 @@ async function loadComponentFromIpfs(ipfsHash) {
 
     var promise = new Promise(async function(returnfn) {
         try {
-            ipfs.files.get(ipfsHash, function (err, files) {
-                files.forEach(async function(file) {
-                    console.log("....................................Loading component fro IPFS: " + file.path)
-                    //console.log(file.content.toString('utf8'))
-                    let srcCode = file.content.toString('utf8')
+            let fullIpfsFilePath = path.join(fullIpfsFolderPath,  ipfsHash)
+            try
+            {
+                let srcCode = fs.readFileSync(fullIpfsFilePath);
+                let baseComponentId = saveHelper.getValueOfCodeString(srcCode,"base_component_id")
 
 
 
-                    let baseComponentId = saveHelper.getValueOfCodeString(srcCode,"base_component_id")
-
-
-
-                    let properties = saveHelper.getValueOfCodeString(srcCode,"properties", ")//prope" + "rties")
-                    srcCode = saveHelper.deleteCodeString(  srcCode, "properties", ")//prope" + "rties")
-                    for (let irte = 0 ; irte < properties.length ; irte++ ) {
-                        let brje = properties[irte]
-                        if (brje.id == "ipfs_hash_id") {
-                            brje.default = ipfsHash
-                        }
+                let properties = saveHelper.getValueOfCodeString(srcCode,"properties", ")//prope" + "rties")
+                srcCode = saveHelper.deleteCodeString(  srcCode, "properties", ")//prope" + "rties")
+                for (let irte = 0 ; irte < properties.length ; irte++ ) {
+                    let brje = properties[irte]
+                    if (brje.id == "ipfs_hash_id") {
+                        brje.default = ipfsHash
                     }
+                }
 
-                    srcCode = saveHelper.insertCodeString(  srcCode,
-                        "properties",
-                        properties,
-                        ")//prope" + "rties")
+                srcCode = saveHelper.insertCodeString(  srcCode,
+                    "properties",
+                    properties,
+                    ")//prope" + "rties")
 
 
 
-                    let fullIpfsFilePath = path.join(fullIpfsFolderPath,  ipfsHash)
-                    fs.writeFileSync(fullIpfsFilePath, srcCode);
+                let fullIpfsFilePath = path.join(fullIpfsFolderPath,  ipfsHash)
+                fs.writeFileSync(fullIpfsFilePath, srcCode);
 
-                    await addOrUpdateDriver(baseComponentId, srcCode ,  {username: "default", reponame: baseComponentId, version: "latest", ipfsHashId: ipfsHash})
+                await addOrUpdateDriver(baseComponentId, srcCode ,  {username: "default", reponame: baseComponentId, version: "latest", ipfsHashId: ipfsHash})
 
-                    console.log("....................................Loading component fro IPFS: " + file.path)
-                })
+                console.log("....................................Loading component fro local IPFS cache: " + file.path)
                 returnfn("Done")
-            })
+
+            } catch (error) {
+                ipfs.files.get(ipfsHash, function (err, files) {
+                    files.forEach(async function(file) {
+                        console.log("....................................Loading component fro IPFS: " + file.path)
+                        //console.log(file.content.toString('utf8'))
+                        srcCode = file.content.toString('utf8')
+
+
+
+                        let baseComponentId = saveHelper.getValueOfCodeString(srcCode,"base_component_id")
+
+
+
+                        let properties = saveHelper.getValueOfCodeString(srcCode,"properties", ")//prope" + "rties")
+                        srcCode = saveHelper.deleteCodeString(  srcCode, "properties", ")//prope" + "rties")
+                        for (let irte = 0 ; irte < properties.length ; irte++ ) {
+                            let brje = properties[irte]
+                            if (brje.id == "ipfs_hash_id") {
+                                brje.default = ipfsHash
+                            }
+                        }
+
+                        srcCode = saveHelper.insertCodeString(  srcCode,
+                            "properties",
+                            properties,
+                            ")//prope" + "rties")
+
+
+
+                        let fullIpfsFilePath = path.join(fullIpfsFolderPath,  ipfsHash)
+                        fs.writeFileSync(fullIpfsFilePath, srcCode);
+
+                        await addOrUpdateDriver(baseComponentId, srcCode ,  {username: "default", reponame: baseComponentId, version: "latest", ipfsHashId: ipfsHash})
+
+                        console.log("....................................Loading component fro IPFS: " + file.path)
+                    })
+                    returnfn("Done")
+                })
+            }
+
+
 
         } catch (error) {
             outputDebug(error)
@@ -5465,7 +5501,7 @@ function callDriverMethod(msg) {
                     result: result
                 })
         } else {
-          console.log("** ipc_child_returning_callDriverMethod_response **")
+          //console.log("** ipc_child_returning_callDriverMethod_response **")
             ipc_child_returning_callDriverMethod_response(
                 {
                     message_type: 'ipc_child_returning_callDriverMethod_response',
@@ -5743,7 +5779,7 @@ function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
         if ( !isInUse ) {
             processToUse = actualProcessName
             processesInUse[actualProcessName] = true
-            outputDebug(" Sending job to process:    " + JSON.stringify(processToUse,null,2))
+            //outputDebug(" Sending job to process:    " + JSON.stringify(processToUse,null,2))
             sendJobToProcessName(codeId, args, actualProcessName, parentCallId, callbackIndex)
             return
         }
