@@ -4999,6 +4999,8 @@ async function loadComponentFromIpfs(ipfsHash) {
 
 
 
+                    let fullIpfsFilePath = path.join(fullIpfsFolderPath,  ipfsHash)
+                    fs.writeFileSync(fullIpfsFilePath, srcCode);
 
                     await addOrUpdateDriver(baseComponentId, srcCode ,  {username: "default", reponame: baseComponentId, version: "latest", ipfsHashId: ipfsHash})
 
