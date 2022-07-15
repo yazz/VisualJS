@@ -375,7 +375,7 @@ if (process.argv.length > 1) {
       .option('-ph, --public [public]', 'Public HTTPS certificate [public]', null)
       .option('-q, --port [port]', 'Which port should I listen on? (default 80) [port]', parseInt)
       .option('-r, --https [https]', 'Run using a HTTPS (default is http) [https]', 'false')
-      .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
+      .option('-s, --hostport [hostport]', 'Server port of the central host (default 443) [hostport]', 443)
       .option('-t, --usehost [usehost]', 'Use host name [usehost]', null)
       .option('-u, --loadjsurl [loadjsurl]', 'Load the following JS from a URL (default not set) [loadjsurl]', null)
       .option('-w, --deleteonstartup [deleteonstartup]', 'Delete database files on startup (default true) [deleteonstartup]', 'true')
@@ -387,6 +387,7 @@ if (process.argv.length > 1) {
       .parse(process.argv);
 } else {
     program.host = 'yazz.com'
+    program.hostport = '443'
     program.locked = 'true'
     program.debug = 'false'
     program.deleteonexit = 'true'
@@ -4986,12 +4987,39 @@ async function saveComponentToIpfs(srcCode) {
 
 
 
-
+//zzz
 async function sendIpfsHashToCentralServer(ipfs_hash) {
     let centralHost = program.host
+    let centralPort = program.hostport
     let promise = new Promise(async function(returnfn) {
         try {
-                returnfn()
+            let options = {
+                host: centralHost,
+                port: centralPort,
+                path: '/register_ipfs?ipfs_hash=' + ipfs_hash,
+                method: 'GET',
+                headers: {
+                    accept: 'application/json'
+                }
+            };
+//https
+            let theHttpsConn = http
+            if (useHttps) {
+                theHttpsConn = https
+            }
+            let req = theHttpsConn.request(options, function(res) {
+                console.log('STATUS: ' + res.statusCode);
+                console.log('HEADERS: ' + JSON.stringify(res.headers));
+                res.setEncoding('utf8');
+                res.on('data', function (chunk) {
+                    console.log('BODY: ' + chunk);
+                });
+                res.on('end', function () {
+                    console.log('end: ' );
+                });
+            });
+            req.end()
+            returnfn()
         } catch(er) {
             console.log(er)
             returnfn()

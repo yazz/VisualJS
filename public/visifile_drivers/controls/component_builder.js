@@ -930,7 +930,7 @@ logo_url("/driver_icons/builder.png")
                   }
 
                 let allNewCustomMethods = []
-                debugger
+                //debugger
                 for (let abiIndex = 0 ; abiIndex < mm.properties.methods.length ; abiIndex ++ ) {
                     let thisMethod =  mm.properties.methods[abiIndex]
                     let functionToAdd = `${thisMethod.id}: ${thisMethod.code}`
