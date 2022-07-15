@@ -2796,6 +2796,15 @@ async function startServices() {
         	return getEditApp(req, res);
         })
 
+        /* what happens if we register a false or bad IPFS address? All code sent here
+         *  should be validated */
+        app.get('/register_ipfs', async function (req, res) {
+        //zzz
+            let ipfsHash = req.query.ipfs_hash
+            await registerIPFS(ipfsHash);
+            res.status(200).send('IPFS content registered');
+        })
+
 
         app.use("/files",   express.static(path.join(userData, '/files/')));
         app.use("/weights",   express.static(path.join(userData, '/weights/')));
@@ -4935,7 +4944,7 @@ async function saveComponentToIpfs(srcCode) {
         try {
             let testBuffer = new Buffer(srcCode);
             console.log("Starting...")
-            //zzz
+
             justHash = await OnlyIpfsHash.of(srcCode)
             let fullIpfsFilePath = path.join(fullIpfsFolderPath,  justHash)
             fs.writeFileSync(fullIpfsFilePath, srcCode);
@@ -4994,6 +5003,11 @@ async function insertIpHashRecord(ipfs_hash, content_type, ping_count, last_ping
     return ipfsHash
 }
 
+
+//zzz
+async function registerIPFS(ipfs_hash) {
+    await insertIpHashRecord(ipfs_hash,null,null,null)
+}
 
 
 async function loadComponentFromIpfs(ipfsHash) {
