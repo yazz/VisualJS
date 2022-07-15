@@ -4948,7 +4948,8 @@ async function saveComponentToIpfs(srcCode) {
             justHash = await OnlyIpfsHash.of(srcCode)
             let fullIpfsFilePath = path.join(fullIpfsFolderPath,  justHash)
             fs.writeFileSync(fullIpfsFilePath, srcCode);
-            await insertIpHashRecord(justHash,null,null,null)
+            await insertIpfsHashRecord(justHash,null,null,null)
+            await sendIpfsHashToCentralServer(justHash)
 
 
             if (isIPFSConnected) {
@@ -4985,7 +4986,24 @@ async function saveComponentToIpfs(srcCode) {
 
 
 
-async function insertIpHashRecord(ipfs_hash, content_type, ping_count, last_pinged ) {
+
+async function sendIpfsHashToCentralServer(ipfs_hash) {
+    let centralHost = program.host
+    let promise = new Promise(async function(returnfn) {
+        try {
+                returnfn()
+        } catch(er) {
+            console.log(er)
+            returnfn()
+        }
+    })
+    await promise
+    return
+}
+
+
+
+async function insertIpfsHashRecord(ipfs_hash, content_type, ping_count, last_pinged ) {
     let promise = new Promise(async function(returnfn) {
         try {
             dbsearch.serialize(function() {
@@ -5006,7 +5024,7 @@ async function insertIpHashRecord(ipfs_hash, content_type, ping_count, last_ping
 
 //zzz
 async function registerIPFS(ipfs_hash) {
-    await insertIpHashRecord(ipfs_hash,null,null,null)
+    await insertIpfsHashRecord(ipfs_hash,null,null,null)
 }
 
 
