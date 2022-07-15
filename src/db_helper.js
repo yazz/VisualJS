@@ -61,7 +61,7 @@ module.exports = {
             "CREATE INDEX IF NOT EXISTS system_code_code_tag_idx          ON system_code (code_tag);",
             "CREATE INDEX IF NOT EXISTS system_code_component_type_idx    ON system_code (component_type);",
 
-            "CREATE TABLE IF NOT EXISTS ipfs_hashes (id TEXT, ipfs_hash TEXT, content_type TEXT, ping_count INTEGER, last_pinged INTEGER);",
+            "CREATE TABLE IF NOT EXISTS ipfs_hashes (ipfs_hash TEXT, content_type TEXT, ping_count INTEGER, last_pinged INTEGER);",
             "CREATE INDEX IF NOT EXISTS ipfs_hashes_idx                   ON ipfs_hashes (ipfs_hash);"
 
 

@@ -84,6 +84,7 @@ var callbackList = new Object()
 
 
 var stmtInsertDependency;
+var stmtInsertIpfsHash;
 var stmtInsertSubComponent;
 var stmtUpdateDriver;
 var stmtDeleteDependencies;
@@ -4400,6 +4401,12 @@ function setUpSql() {
                                 " values " +
                                 "    (?, ?, ?, ?, ? );");
 
+    stmtInsertIpfsHash = dbsearch.prepare(" insert or replace into ipfs_hashes " +
+        "    (ipfs_hash, content_type, ping_count, last_pinged ) " +
+        " values " +
+        "    ( ?, ?, ?, ? );");
+
+
     stmtInsertSubComponent = dbsearch.prepare(`insert or ignore
                                                     into
                                                component_usage
@@ -4932,6 +4939,7 @@ async function saveComponentToIpfs(srcCode) {
             justHash = await OnlyIpfsHash.of(srcCode)
             let fullIpfsFilePath = path.join(fullIpfsFolderPath,  justHash)
             fs.writeFileSync(fullIpfsFilePath, srcCode);
+            await insertIpHashRecord(justHash,null,null,null)
 
 
             if (isIPFSConnected) {
@@ -4968,8 +4976,23 @@ async function saveComponentToIpfs(srcCode) {
 
 
 
-
-
+async function insertIpHashRecord(ipfs_hash, content_type, ping_count, last_pinged ) {
+    let promise = new Promise(async function(returnfn) {
+        try {
+            dbsearch.serialize(function() {
+                dbsearch.run("begin exclusive transaction");
+                stmtInsertIpfsHash.run(  ipfs_hash,  content_type,  ping_count,  last_pinged  )
+                dbsearch.run("commit")
+                returnfn()
+            })
+        } catch(er) {
+            console.log(er)
+            returnfn()
+        }
+    })
+    var ipfsHash = await promise
+    return ipfsHash
+}
 
 
 
