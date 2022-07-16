@@ -5455,6 +5455,7 @@ async function setUpComponentsLocally() {
 //database drivers
 await evalLocalSystemDriver('postgres_client_component', path.join(__dirname, '../public/visifile_drivers/controls/postgres.js'),{username: "default", reponame: "postgres_client_component", version: "latest"})
 await evalLocalSystemDriver('sqlite_client_component', path.join(__dirname, '../public/visifile_drivers/controls/sqlite.js'),{username: "default", reponame: "sqlite_client_component", version: "latest"})
+await evalLocalSystemDriver('yazz_sqlite_client_component', path.join(__dirname, '../public/visifile_drivers/controls/yazzSqlite.js'),{username: "default", reponame: "yazz_sqlite_client_component", version: "latest"})
 await evalLocalSystemDriver('mysql_client_component', path.join(__dirname, '../public/visifile_drivers/controls/mysql.js'),{username: "default", reponame: "mysql_client_component", version: "latest"})
 
 
