@@ -37,7 +37,7 @@ properties(
             types: {text: true},
             textarea: true,
             default:
-`<div>{{ properties.name }} </div>
+`<div></div>
 
 `
 }
@@ -409,7 +409,7 @@ logo_url("/driver_icons/builder.png")
               <div v-bind:style='((properties.design_time_view == "RUNTIME")?"visibility:visible;":"visibility:hidden;display: none;")'
                    v-bind:refresh='refresh'>
 
-                Runtime time HTML
+                Runtime HTML
                 <textarea rows=10 cols=50
                           style="margin: 5px;"
                           v-model='properties.run_time_html'></textarea>
