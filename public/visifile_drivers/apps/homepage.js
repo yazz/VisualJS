@@ -87,10 +87,16 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
             </div>
-            <div style="text-align: center;display: inline-block;color:white;position:relative;left:100px;height:40px;padding:5px;width:40%;background-color: black;">
+            <div v-bind:style='"text-align: center;display: inline-block;color:white;position:relative;left:100px;height:40px;padding:5px;width:40%;"
+                                + ((main_tab=="apps")?"background-color: black;black;color:lightgray;":"background-color: lightgray;black;color:black;")'
+                 v-on:click='main_tab="apps"'
+                                >
               Apps
             </div>
-          <div style="text-align: center;display: inline-block;color:white;position:relative;right:0px;width:40%;height:40px;padding:5px;background-color: lightgray;">
+          <div v-bind:style='"text-align: center;display: inline-block;color:white;position:relative;right:0px;width:40%;height:40px;padding:5px;"
+               + ((main_tab=="store")?"background-color: black;color:lightgray;":"background-color: lightgray;color:black;")'
+               v-on:click='main_tab="store"'
+               >
               Store
           </div>
     </div>
@@ -346,6 +352,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
     data: function() {
         return {
+                    main_tab:       "apps",
                     preview_app_id: null,
                     preview_app_loaded: false,
                     apps:           [],
