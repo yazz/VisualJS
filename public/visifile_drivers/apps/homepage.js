@@ -101,7 +101,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           </div>
     </div>
     <div    style='vertical-align:top;padding:10px; margin:0;padding-top: 15px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;padding-left: 27px;'
-            v-if="(!edit_app)"
+            v-if="(!edit_app) && (main_tab=='apps')"
             v-bind:refresh='refresh'>
             
         <h1 style='vertical-align:top;display:inline-block;font-size:100px; text-align: center;margin: 0px;padding-left:70px;'>
@@ -247,7 +247,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
     <div    class=""
             v-bind:refresh='refresh'
-            style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:800px;'>
+            style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:800px;'
+            v-if="(main_tab=='apps')"
+            >
 
 
         <div v-bind:refresh='refresh'
