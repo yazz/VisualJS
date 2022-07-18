@@ -87,8 +87,17 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
             </div>
-
-
+            <div style="text-align: center;display: inline-block;color:white;position:relative;left:100px;height:40px;padding:5px;width:40%;background-color: black;">
+              Apps
+            </div>
+          <div style="text-align: center;display: inline-block;color:white;position:relative;right:0px;width:40%;height:40px;padding:5px;background-color: lightgray;">
+              Store
+          </div>
+    </div>
+    <div    style='vertical-align:top;padding:10px; margin:0;padding-top: 15px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;padding-left: 27px;'
+            v-if="(!edit_app)"
+            v-bind:refresh='refresh'>
+            
         <h1 style='vertical-align:top;display:inline-block;font-size:100px; text-align: center;margin: 0px;padding-left:70px;'>
 
             <button style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold;'
