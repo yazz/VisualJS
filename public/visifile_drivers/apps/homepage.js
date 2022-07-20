@@ -397,7 +397,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
            class='force_scrollbars'
            style='position: relative;background-color: black; color: black; padding-top: 0px;padding-bottom: 20px;overflow-y:hidden; overflow-x: auto;white-space: nowrap;height:400px;padding-right:200px;margin-left:0px;margin-right:0px;z-index:0;'>
 
-        <div    v-for="(item, index) in intro_apps"
+        <div    v-for="(item, index) in appstore_apps"
                 v-bind:refresh='refresh'
                 v-on:mouseenter="preview_app_loaded = false; preview_app_id = item.data.id;previewApp(item.data.id)"
                 v-on:mouseleave="preview_app_loaded = false; preview_app_id = null;"
@@ -511,6 +511,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     apps:           [],
                     app_type:       "bubblesort",
                     intro_apps:     [],
+                    appstore_apps:     [],
                     loaded_app:     new Object(),
                     refresh:        0,
                     edit_app:       null,
