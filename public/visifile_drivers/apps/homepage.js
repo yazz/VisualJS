@@ -27,6 +27,11 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         style="overflow-y:auto;overflow-x: auto;width:100%;height:100%;">
 
 
+    <!-- ------------------------------------------------ 
+    
+    Show the app editor if open
+    
+    ------------------------------------------------ -->
     <div    v-for="(item, index) in intro_apps"
             v-bind:refresh='refresh'
             v-if="(edit_app == item.data.id)"
@@ -34,7 +39,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             v-on:mouseleave="preview_app_loaded = false; preview_app_id = null;"
             style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
             class='app_card'>
-
 
         <div    v-if="(edit_app == item.data.id)"
                 v-bind:refresh='refresh'
@@ -47,11 +51,17 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                             v-bind:card_index='index'>
                 </component>
         </div>
-
-
     </div>
 
 
+
+
+
+    <!-- ------------------------------------------------ 
+    
+    Show the Yazz logo and top tabs
+    
+    ------------------------------------------------ -->
     <div    style='vertical-align:top;padding:10px; margin:0;padding-top: 15px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;padding-left: 27px;'
             v-if="(!edit_app)"
             v-bind:refresh='refresh'>
@@ -81,11 +91,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                  </a>
                          </div>
                     </div>
-
-
-
-
-
             </div>
             <a href="#"  v-bind:style='"text-align: center;display: inline-block;color:white;position:relative;left:100px;height:40px;padding:5px;width:40%;"
                                 + ((main_tab=="apps")?"background-color: black;black;color:lightgray;":"background-color: darkgray;black;color:black;")'
@@ -100,6 +105,15 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               App Store
           </a>
     </div>
+
+
+
+
+    <!-- ------------------------------------------------ 
+
+    Show the top buttons, New App, etc
+    
+    ------------------------------------------------ -->
     <div    style='vertical-align:top;padding:10px; margin:0;padding-top: 15px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;padding-left: 27px;'
             v-if="(!edit_app) && (main_tab=='apps')"
             v-bind:refresh='refresh'>
@@ -238,13 +252,22 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                 Open file
             </button>
-
-
-
+          
         </h1>
     </div>
 
 
+
+
+
+
+
+
+    <!-- ------------------------------------------------ 
+
+    Show the "Downloaded" apps
+    
+    ------------------------------------------------ -->
     <div    class=""
             v-bind:refresh='refresh'
             style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:800px;'
@@ -358,7 +381,11 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
+    <!-- ------------------------------------------------ 
 
+    Show the apps available in the appstore
+    
+    ------------------------------------------------ -->
     <div    class=""
             v-bind:refresh='refresh'
             style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:800px;'
