@@ -87,18 +87,18 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
             </div>
-            <div v-bind:style='"text-align: center;display: inline-block;color:white;position:relative;left:100px;height:40px;padding:5px;width:40%;"
+            <a href="#"  v-bind:style='"text-align: center;display: inline-block;color:white;position:relative;left:100px;height:40px;padding:5px;width:40%;"
                                 + ((main_tab=="apps")?"background-color: black;black;color:lightgray;":"background-color: darkgray;black;color:black;")'
                  v-on:click='main_tab="apps"'
                                 >
               Downloaded apps
-            </div>
-          <div v-bind:style='"text-align: center;display: inline-block;color:white;position:relative;right:0px;width:40%;height:40px;padding:5px;"
+            </a>
+          <a href="#" v-bind:style='"text-align: center;display: inline-block;color:white;position:relative;right:0px;width:40%;height:40px;padding:5px;"
                + ((main_tab=="store")?"background-color: black;color:lightgray;":"background-color: darkgray;color:black;")'
                v-on:click='main_tab="store"'
                >
               App Store
-          </div>
+          </a>
     </div>
     <div    style='vertical-align:top;padding:10px; margin:0;padding-top: 15px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;padding-left: 27px;'
             v-if="(!edit_app) && (main_tab=='apps')"
