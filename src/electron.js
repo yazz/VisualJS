@@ -2915,6 +2915,19 @@ async function startServices() {
             res.end(JSON.stringify({return: "from save component"}))
         });
 
+        //zzz
+        app.post("/post_app" , async function (req, res) {
+            //
+            // get stuff
+            //
+            let copy_base_component_id = req.body.value.base_component_id;
+            let copy_image_data = req.body.value.image_data;
+            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+            res.end(JSON.stringify({
+                ipfsHash:   "zoo",
+            }))
+        })
+
         app.post("/copy_component" , async function (req, res) {
             //
             // get stuff

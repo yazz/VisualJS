@@ -1424,8 +1424,31 @@ showTimer()
 
            publishToIpfs: async function( base_component_id, code_id , textIn) {
                 try {
-                    alert("Published")
+                    debugger
+                    showProgressBar()
+                    //zzz
+                    let postAppUrl = "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST + "/post_app"
+                    callAjaxPost(postAppUrl,
+                        {
+                            base_component_id:      base_component_id
+                        }
+                        ,
+                        async function(response){
+                            showTimer("in 'post_app' response")
+                            //alert(response)
+                            debugger
+
+                            let responseJson = JSON.parse(response)
+
+                            hideProgressBar()
+                            this.save_state = "saved"
+
+                        })
+
                 } catch (e) {
+                    hideProgressBar()
+                    this.save_state = "saved"
+                    //this.checkSavedFile()
                 }
             }
             ,
