@@ -173,10 +173,10 @@ load_once_from_file(true)
                     </a>
 
                       <a   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                           v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppId + ".yazz"'
-                           download
+                           href="#"
+                           v-on:click='setTimeout(async function(){appClearIntervals();await publishToIpfs(base_component_id, code_id,null)},100)'
                            v-if="show_download_save"
-                           v-on:mouseenter='setInfo("Edit the SQlite schema for this app")'
+                           v-on:mouseenter='setInfo("Publish this app to the central server")'
                            v-on:mouseleave='setInfo(null)'
                            type="button" class="btn btn-light ">
     
@@ -1415,7 +1415,25 @@ showTimer()
 
             }
 
-           },
+           }
+           ,
+
+
+
+
+
+           publishToIpfs: async function( base_component_id, code_id , textIn) {
+                try {
+                    alert("Published")
+                } catch (e) {
+                }
+            }
+            ,
+
+
+
+
+
            saveAsFileElectron: async function( base_component_id, code_id , textIn) {
 
                try {
