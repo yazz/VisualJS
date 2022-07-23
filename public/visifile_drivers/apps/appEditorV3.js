@@ -174,7 +174,7 @@ load_once_from_file(true)
 
                       <a   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                            href="#"
-                           v-on:click='setTimeout(async function(){appClearIntervals();await publishToIpfs(base_component_id, code_id,null)},100)'
+                           v-on:click='setTimeout(async function(){appClearIntervals();await publishToIpfs()},100)'
                            v-if="show_download_save"
                            v-on:mouseenter='setInfo("Publish this app to the central server")'
                            v-on:mouseleave='setInfo(null)'
@@ -1422,15 +1422,16 @@ showTimer()
 
 
 
-           publishToIpfs: async function( base_component_id, code_id , textIn) {
+           publishToIpfs: async function() {
                 try {
                     debugger
+                    let textIn = await this.$refs.editor_component_ref.getText()
                     showProgressBar()
                     //zzz
                     let postAppUrl = "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST + "/post_app"
                     callAjaxPost(postAppUrl,
                         {
-                            base_component_id:      base_component_id
+                            code:                   textIn
                         }
                         ,
                         async function(response){

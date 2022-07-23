@@ -2920,11 +2920,11 @@ async function startServices() {
             //
             // get stuff
             //
-            let copy_base_component_id = req.body.value.base_component_id;
-            let copy_image_data = req.body.value.image_data;
+            let code = req.body.value.code;
+            let ipfsHash = await saveComponentToIpfs(code)
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end(JSON.stringify({
-                ipfsHash:   "zoo",
+                ipfsHash:   ipfsHash,
             }))
         })
 
