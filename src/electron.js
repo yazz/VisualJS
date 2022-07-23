@@ -3269,6 +3269,7 @@ async function startServices() {
     	// Check if any JS is loaded
     	//--------------------------------------------------------
         await checkForJSLoaded();
+        await findLocalIpfsContent();
 
 
         if (isCodeTtyCode) {
@@ -3283,7 +3284,23 @@ async function startServices() {
 
 }
 
+async function findLocalIpfsContent() {
+    fs.readdir(fullIpfsFolderPath, function (err, files) {
+        if (err) {
+            return console.error(err);
+        }
 
+        files.forEach(async function (file, index) {
+            if (file.length > 10) {
+                console.log("isDirectory ? " + file);
+                //zzz
+                await registerIPFS(file);
+
+            }
+        })
+    })
+
+}
 
 
 async function finalizeYazzLoading() {
