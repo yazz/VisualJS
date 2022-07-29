@@ -3097,7 +3097,7 @@ async function startServices() {
             fs.writeFileSync( "z.txt",  srcText.toString() )
 
 
-            let ipfsHash = await saveComponentToIpfs(srcText)
+            let ipfsHash = await saveItemToIpfs(srcText)
 
 
 
@@ -4996,8 +4996,8 @@ async function evalLocalSystemDriver(driverName, location, options) {
 
 
 
-async function saveComponentToIpfs(srcCode) {
-    outputDebug("*** saveComponentToIpfs: *** : " )
+async function saveItemToIpfs(srcCode) {
+    outputDebug("*** saveItemToIpfs: *** : " )
     var promise = new Promise(async function(returnfn) {
         let justHash = null
         try {
