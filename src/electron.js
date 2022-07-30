@@ -5146,14 +5146,18 @@ async function insertAppListRecord( id  ,  app_name  ,  app_description  ,  logo
     let promise = new Promise(async function(returnfn) {
         try {
             let icon_image_id = "image id"
+            let dataString = null
             if (logo.startsWith("data:")) {
             } else {
                 //zzz
                 let fullPath = path.join(__dirname, "../public" + logo)
-                fs.readFileSync(fullPath);
+                let logoFileIn = fs.readFileSync(fullPath);
+                dataString = new Buffer(logoFileIn).toString('base64');
+                let imageExtension = logo.substring(logo.lastIndexOf(".") + 1)
                 var rowhash = crypto.createHash('sha256');
+                dataString = "data:image/" + imageExtension + ";base64," + dataString
                 rowhash.setEncoding('hex');
-                rowhash.write(logo);
+                rowhash.write(dataString);
                 rowhash.end();
                 icon_image_id = rowhash.read();
             }
@@ -5161,7 +5165,7 @@ async function insertAppListRecord( id  ,  app_name  ,  app_description  ,  logo
             dbsearch.serialize(function() {
                 dbsearch.run("begin exclusive transaction");
                 stmtInsertAppList.run(   id  ,  app_name  ,  app_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id )
-                stmtInsertIconImageData.run(icon_image_id, logo)
+                stmtInsertIconImageData.run(icon_image_id, dataString)
                 dbsearch.run("commit")
                 returnfn()
             })
