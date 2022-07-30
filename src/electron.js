@@ -2915,13 +2915,19 @@ async function startServices() {
             res.end(JSON.stringify({return: "from save component"}))
         });
 
+        function parseCode(code) {
+            return {
+                name: "ziii"
+            }
+        }
         //zzz
         app.post("/post_app" , async function (req, res) {
             //
             // get stuff
             //
             let code = req.body.value.code;
-            let ipfsHash = await saveComponentToIpfs(code)
+            let ipfsHash = await saveItemToIpfs(code)
+            let parsedCode = parseCode(code)
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end(JSON.stringify({
                 ipfsHash:   ipfsHash,
