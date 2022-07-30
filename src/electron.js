@@ -2927,7 +2927,35 @@ async function startServices() {
 
         async function updateItemLists(parsedCode) {
         //zzz
-            await insertComponentListRecord(1,2,3,4,5,6)
+            if (parsedCode.type == "component") {
+                await insertComponentListRecord(
+                    uuidv1()
+                    ,
+                    parsedCode.name
+                    ,
+                    parsedCode.description
+                    ,
+                    parsedCode.iconImageData
+                    ,
+                    parsedCode.ipfsHash
+                    ,
+                    parsedCode.systemCodeId
+                )
+            } else if (parsedCode.type == "app") {
+                await insertAppListRecord(
+                    uuidv1()
+                    ,
+                    parsedCode.name
+                    ,
+                    parsedCode.description
+                    ,
+                    parsedCode.iconImageData
+                    ,
+                    parsedCode.ipfsHash
+                    ,
+                    parsedCode.systemCodeId
+                )
+            }
         }
 
         //zzz
