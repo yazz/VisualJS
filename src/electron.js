@@ -86,6 +86,8 @@ var callbackList = new Object()
 var stmtInsertDependency;
 var stmtInsertIpfsHash;
 var stmtInsertSubComponent;
+var stmtInsertComponentList;
+var stmtInsertAppList;
 var stmtUpdateDriver;
 var stmtDeleteDependencies;
 
@@ -4487,6 +4489,18 @@ function setUpSql() {
                                                     (base_component_id, child_component_id)
                                                values (?,?)`)
 
+    stmtInsertComponentList = dbsearch.prepare(`insert or ignore
+                                                    into
+                                               component_list
+                                                    (  id  ,  component_name  ,  component_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id  )
+                                               values (?,?,?,?,?,?)`)
+
+
+    stmtInsertAppList = dbsearch.prepare(`insert or ignore
+                                                    into
+                                               app_list
+                                                    (  id  ,  app_name  ,  app_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id  )
+                                               values (?,?,?,?,?,?)`)
 
 
     stmtDeleteDependencies = dbsearch.prepare(" delete from  app_dependencies   where   code_id = ?");
