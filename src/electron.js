@@ -5110,8 +5110,8 @@ async function saveItemToIpfs(srcCode) {
 
 
 async function sendIpfsHashToCentralServer(ipfs_hash) {
-    let centralHost = program.host
-    let centralPort = program.hostport
+    let centralHost = program.centralhost
+    let centralPort = program.centralhostport
     let promise = new Promise(async function(returnfn) {
         try {
             let options = {
