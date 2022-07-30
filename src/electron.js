@@ -6389,6 +6389,9 @@ function function_call_response (msg) {
 function parseCode(code) {
 
     let itemName = saveHelper.getValueOfCodeString(code,"display_name")
+
+    let iconUrl = saveHelper.getValueOfCodeString(code,"logo_url")
+
     let componentType = ""
     if (saveHelper.getValueOfCodeString(code,"component_type") == "SYSTEM") {
         componentType = "app"
@@ -6399,6 +6402,8 @@ function parseCode(code) {
         name: itemName
         ,
         type: componentType
+        ,
+        logo: iconUrl
     }
 }
 
@@ -6412,7 +6417,7 @@ async function updateItemLists(parsedCode) {
             ,
             parsedCode.description
             ,
-            parsedCode.iconImageData
+            parsedCode.logo
             ,
             parsedCode.ipfsHash
             ,
@@ -6426,7 +6431,7 @@ async function updateItemLists(parsedCode) {
             ,
             parsedCode.description
             ,
-            parsedCode.iconImageData
+            parsedCode.logo
             ,
             parsedCode.ipfsHash
             ,
