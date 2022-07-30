@@ -2918,10 +2918,16 @@ async function startServices() {
         });
 
         function parseCode(code) {
+        //zzz
+            let itemName = saveHelper.getValueOfCodeString(code,"display_name")
+            let componentType = ""
+            if (saveHelper.getValueOfCodeString(code,"component_type") == "SYSTEM") {
+                componentType = "app"
+            }
             return {
-                name: "ziii"
+                name: itemName
                 ,
-                type: "component"
+                type: componentType
             }
         }
 
