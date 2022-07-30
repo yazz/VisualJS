@@ -2790,7 +2790,7 @@ async function startServices() {
             let topApps = []
             topApps.push(
                 {
-                    //zzz
+
                     data: {
                         id: 123567
                         ,
@@ -2922,7 +2922,7 @@ async function startServices() {
         });
 
 
-        //zzz
+
         app.post("/post_app" , async function (req, res) {
             //
             // get stuff
@@ -6387,7 +6387,7 @@ function function_call_response (msg) {
 
 
 function parseCode(code) {
-    //zzz
+
     let itemName = saveHelper.getValueOfCodeString(code,"display_name")
     let componentType = ""
     if (saveHelper.getValueOfCodeString(code,"component_type") == "SYSTEM") {
@@ -6403,7 +6403,7 @@ function parseCode(code) {
 }
 
 async function updateItemLists(parsedCode) {
-    //zzz
+
     if (parsedCode.type == "component") {
         await insertComponentListRecord(
             uuidv1()
