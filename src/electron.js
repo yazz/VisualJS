@@ -88,6 +88,7 @@ var stmtInsertIpfsHash;
 var stmtInsertSubComponent;
 var stmtInsertComponentList;
 var stmtInsertAppList;
+var stmtInsertImageData;
 var stmtUpdateDriver;
 var stmtDeleteDependencies;
 
@@ -2928,8 +2929,8 @@ async function startServices() {
             //
             let code = req.body.value.code;
             let ipfsHash = await saveItemToIpfs(code)
-            let parsedCode = parseCode(code)
-            await updateItemLists(parsedCode)
+            //let parsedCode = parseCode(code)
+            //await updateItemLists(parsedCode)
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end(JSON.stringify({
                 ipfsHash:   ipfsHash,
@@ -4502,6 +4503,11 @@ function setUpSql() {
                                                     (  id  ,  app_name  ,  app_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id  )
                                                values (?,?,?,?,?,?)`)
 
+    stmtInsertIconImageData = dbsearch.prepare(`insert or ignore
+                                                    into
+                                               icon_images
+                                                    (  id  ,  app_icon_data  )
+                                               values (?,?)`)
 
     stmtDeleteDependencies = dbsearch.prepare(" delete from  app_dependencies   where   code_id = ?");
 
@@ -5142,6 +5148,7 @@ async function insertAppListRecord( id  ,  app_name  ,  app_description  ,  icon
             dbsearch.serialize(function() {
                 dbsearch.run("begin exclusive transaction");
                 stmtInsertAppList.run(   id  ,  app_name  ,  app_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id )
+                stmtInsertIconImageData.run("a","b")
                 dbsearch.run("commit")
                 returnfn()
             })
