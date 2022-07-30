@@ -2829,9 +2829,10 @@ async function startServices() {
 
         /* what happens if we register a false or bad IPFS address? All code sent here
          *  should be validated */
-        app.get('/register_ipfs', async function (req, res) {
+        app.post('/register_ipfs', async function (req, res) {
 
-            let ipfsHash = req.query.ipfs_hash
+            let ipfsHash = req.body.ipfs_hash
+            let ipfsContent = req.body.ipfs_content
             await registerIPFS(ipfsHash);
             res.status(200).send('IPFS content registered');
         })
@@ -5071,7 +5072,7 @@ async function saveItemToIpfs(srcCode) {
             let fullIpfsFilePath = path.join(fullIpfsFolderPath,  justHash)
             fs.writeFileSync(fullIpfsFilePath, srcCode);
             await insertIpfsHashRecord(justHash,null,null,null)
-            await sendIpfsHashToCentralServer(justHash)
+            await sendIpfsHashToCentralServer(justHash, srcCode)
 
 
             if (isIPFSConnected) {
@@ -5109,18 +5110,25 @@ async function saveItemToIpfs(srcCode) {
 
 
 
-async function sendIpfsHashToCentralServer(ipfs_hash) {
+async function sendIpfsHashToCentralServer(ipfs_hash , ipfsContent) {
     let centralHost = program.centralhost
     let centralPort = program.centralhostport
     let promise = new Promise(async function(returnfn) {
         try {
+            const dataString = JSON.stringify(
+                {
+                    ipfs_hash: ipfs_hash,
+                    ipfs_content: ipfsContent
+                })
+
             let options = {
                 host: centralHost,
                 port: centralPort,
-                path: '/register_ipfs?ipfs_hash=' + ipfs_hash,
-                method: 'GET',
+                path: '/register_ipfs',
+                method: 'POST',
                 headers: {
-                    accept: 'application/json'
+                    'Content-Type': 'application/json',
+                    'Content-Length': dataString.length
                 }
             };
 //https
@@ -5139,6 +5147,7 @@ async function sendIpfsHashToCentralServer(ipfs_hash) {
                     console.log('end: ' );
                 });
             });
+            req.write(dataString)
             req.end()
             returnfn()
         } catch(er) {
