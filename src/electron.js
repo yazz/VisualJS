@@ -5128,6 +5128,44 @@ async function insertIpfsHashRecord(ipfs_hash, content_type, ping_count, last_pi
 }
 
 
+async function insertAppListRecord( id  ,  app_name  ,  app_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id ) {
+    let promise = new Promise(async function(returnfn) {
+        try {
+            dbsearch.serialize(function() {
+                dbsearch.run("begin exclusive transaction");
+                stmtInsertAppList.run(   id  ,  app_name  ,  app_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id )
+                dbsearch.run("commit")
+                returnfn()
+            })
+        } catch(er) {
+            console.log(er)
+            returnfn()
+        }
+    })
+    let val = await promise
+    return val
+}
+
+
+
+async function insertComponentListRecord( id  ,  app_name  ,  app_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id ) {
+    let promise = new Promise(async function(returnfn) {
+        try {
+            dbsearch.serialize(function() {
+                dbsearch.run("begin exclusive transaction");
+                stmtInsertComponentList.run(   id  ,  component_name  ,  component_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id )
+                dbsearch.run("commit")
+                returnfn()
+            })
+        } catch(er) {
+            console.log(er)
+            returnfn()
+        }
+    })
+    let val = await promise
+    return val
+}
+
 
 async function registerIPFS(ipfs_hash) {
     await insertIpfsHashRecord(ipfs_hash,null,null,null)
