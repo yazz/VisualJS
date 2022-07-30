@@ -2833,6 +2833,8 @@ async function startServices() {
 
             let ipfsHash = req.body.ipfs_hash
             let ipfsContent = req.body.ipfs_content
+            let parsedCode = parseCode(ipfsContent)
+            await updateItemLists(parsedCode)
             await registerIPFS(ipfsHash);
             res.status(200).send('IPFS content registered');
         })
@@ -2918,52 +2920,6 @@ async function startServices() {
             res.end(JSON.stringify({return: "from save component"}))
         });
 
-        function parseCode(code) {
-        //zzz
-            let itemName = saveHelper.getValueOfCodeString(code,"display_name")
-            let componentType = ""
-            if (saveHelper.getValueOfCodeString(code,"component_type") == "SYSTEM") {
-                componentType = "app"
-            }
-            return {
-                name: itemName
-                ,
-                type: componentType
-            }
-        }
-
-        async function updateItemLists(parsedCode) {
-        //zzz
-            if (parsedCode.type == "component") {
-                await insertComponentListRecord(
-                    uuidv1()
-                    ,
-                    parsedCode.name
-                    ,
-                    parsedCode.description
-                    ,
-                    parsedCode.iconImageData
-                    ,
-                    parsedCode.ipfsHash
-                    ,
-                    parsedCode.systemCodeId
-                )
-            } else if (parsedCode.type == "app") {
-                await insertAppListRecord(
-                    uuidv1()
-                    ,
-                    parsedCode.name
-                    ,
-                    parsedCode.description
-                    ,
-                    parsedCode.iconImageData
-                    ,
-                    parsedCode.ipfsHash
-                    ,
-                    parsedCode.systemCodeId
-                )
-            }
-        }
 
         //zzz
         app.post("/post_app" , async function (req, res) {
@@ -6418,3 +6374,56 @@ function function_call_response (msg) {
                                             result:              msg.result
                                         });
                       }
+
+
+
+
+
+function parseCode(code) {
+    //zzz
+    let itemName = saveHelper.getValueOfCodeString(code,"display_name")
+    let componentType = ""
+    if (saveHelper.getValueOfCodeString(code,"component_type") == "SYSTEM") {
+        componentType = "app"
+    } else if (saveHelper.getValueOfCodeString(code,"component_type") == "VB") {
+        componentType = "component"
+    }
+    return {
+        name: itemName
+        ,
+        type: componentType
+    }
+}
+
+async function updateItemLists(parsedCode) {
+    //zzz
+    if (parsedCode.type == "component") {
+        await insertComponentListRecord(
+            uuidv1()
+            ,
+            parsedCode.name
+            ,
+            parsedCode.description
+            ,
+            parsedCode.iconImageData
+            ,
+            parsedCode.ipfsHash
+            ,
+            parsedCode.systemCodeId
+        )
+    } else if (parsedCode.type == "app") {
+        await insertAppListRecord(
+            uuidv1()
+            ,
+            parsedCode.name
+            ,
+            parsedCode.description
+            ,
+            parsedCode.iconImageData
+            ,
+            parsedCode.ipfsHash
+            ,
+            parsedCode.systemCodeId
+        )
+    }
+}
