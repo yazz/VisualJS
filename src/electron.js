@@ -5142,13 +5142,26 @@ async function insertIpfsHashRecord(ipfs_hash, content_type, ping_count, last_pi
 }
 
 
-async function insertAppListRecord( id  ,  app_name  ,  app_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id ) {
+async function insertAppListRecord( id  ,  app_name  ,  app_description  ,  logo  ,  ipfs_hash  ,  system_code_id ) {
     let promise = new Promise(async function(returnfn) {
         try {
+            let icon_image_id = "image id"
+            if (logo.startsWith("data:")) {
+            } else {
+                //zzz
+                let fullPath = path.join(__dirname, "../public" + logo)
+                fs.readFileSync(fullPath);
+                var rowhash = crypto.createHash('sha256');
+                rowhash.setEncoding('hex');
+                rowhash.write(logo);
+                rowhash.end();
+                icon_image_id = rowhash.read();
+            }
+
             dbsearch.serialize(function() {
                 dbsearch.run("begin exclusive transaction");
                 stmtInsertAppList.run(   id  ,  app_name  ,  app_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id )
-                stmtInsertIconImageData.run("a","b")
+                stmtInsertIconImageData.run(icon_image_id, logo)
                 dbsearch.run("commit")
                 returnfn()
             })
