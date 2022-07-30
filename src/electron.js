@@ -2920,8 +2920,16 @@ async function startServices() {
         function parseCode(code) {
             return {
                 name: "ziii"
+                ,
+                type: "component"
             }
         }
+
+        async function updateItemLists(parsedCode) {
+        //zzz
+            await insertComponentListRecord(1,2,3,4,5,6)
+        }
+
         //zzz
         app.post("/post_app" , async function (req, res) {
             //
@@ -2930,6 +2938,7 @@ async function startServices() {
             let code = req.body.value.code;
             let ipfsHash = await saveItemToIpfs(code)
             let parsedCode = parseCode(code)
+            await updateItemLists(parsedCode)
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end(JSON.stringify({
                 ipfsHash:   ipfsHash,
@@ -3301,7 +3310,7 @@ async function findLocalIpfsContent() {
         files.forEach(async function (file, index) {
             if (file.length > 10) {
                 console.log("isDirectory ? " + file);
-                //zzz
+
                 await registerIPFS(file);
 
             }
@@ -5148,7 +5157,7 @@ async function insertAppListRecord( id  ,  app_name  ,  app_description  ,  icon
 
 
 
-async function insertComponentListRecord( id  ,  app_name  ,  app_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id ) {
+async function insertComponentListRecord( id  ,  component_name  ,  component_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id ) {
     let promise = new Promise(async function(returnfn) {
         try {
             dbsearch.serialize(function() {
