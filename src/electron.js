@@ -2830,7 +2830,7 @@ async function startServices() {
 
         /* what happens if we register a false or bad IPFS address? All code sent here
          *  should be validated */
-        app.post('/register_ipfs', async function (req, res) {
+        app.post('/register_ipfs_content_for_client', async function (req, res) {
 
             let ipfsHash = req.body.ipfs_hash
             let ipfsContent = req.body.ipfs_content
@@ -3301,9 +3301,19 @@ async function findLocalIpfsContent() {
 
         files.forEach(async function (file, index) {
             if (file.length > 10) {
-                console.log("isDirectory ? " + file);
+                try
+                {
+                    console.log("isDirectory ? " + file);
 
-                await registerIPFS(file);
+                    let fullFileName = path.join(fullIpfsFolderPath, file)
+                    let ipfsContent = fs.readFileSync(fullFileName, 'utf8')
+                    let parsedCode = parseCode(ipfsContent)
+                    await updateItemLists(parsedCode)
+                    await registerIPFS(file);
+                }
+                catch(exp)
+                {
+                }
 
             }
         })
@@ -5086,7 +5096,7 @@ async function sendIpfsHashToCentralServer(ipfs_hash , ipfsContent) {
             let options = {
                 host: centralHost,
                 port: centralPort,
-                path: '/register_ipfs',
+                path: '/register_ipfs_content_for_client',
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
