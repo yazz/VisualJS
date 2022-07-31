@@ -1237,13 +1237,27 @@ load_once_from_file(true)
             },
 
             rename: async function(nn) {
+                let mm = this
                 this.edit_name = false
                 this.show_name = true
 
+//zzz
+
                 nn = nn.replace(/[\W_]+/g,"_");
-                await this.copyAppMethod( this.base_component_id , nn)
                 this.new_name = ""
                 this.console_output = ""
+                setTimeout(async function() {
+                    debugger
+                    mm.editor_text = saveHelper.deleteCodeString(mm.editor_text, "display_name")
+                    mm.editor_text = saveHelper.insertCodeString(mm.editor_text, "display_name", nn)
+
+                    mm.app_component_name = saveHelper.getValueOfCodeString(mm.editor_text,"display_name")
+                    if (mm.$refs.editor_component_ref) {
+                        if (mm.$refs.editor_component_ref.setText) {
+                            mm.$refs.editor_component_ref.setText(mm.editor_text)
+                        }
+                    }
+                },500)
             },
 
 
