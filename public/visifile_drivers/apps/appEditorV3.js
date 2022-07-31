@@ -1295,7 +1295,7 @@ load_once_from_file(true)
 
                 await mm.save(   this.base_component_id,   this.code_id,   this.editor_text   )
 
-                await mm.load_new_app( this.base_component_id )
+                //await mm.load_new_app( this.base_component_id )
             },
 
 
