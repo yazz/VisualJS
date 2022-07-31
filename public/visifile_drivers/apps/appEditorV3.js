@@ -50,17 +50,17 @@ load_once_from_file(true)
         <button style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); margin-left: 20px;"
                 v-if='(!read_only) && (visibility == "PUBLIC") && (mode != "profiler")'
                 type=button
-                class='btn btn-danger btn-sm'
+                class='btn btn-sm'
                 v-on:click='setVisibility("PRIVATE")' >
-                Set to private
+                Toggle visibility
         </button>
 
         <button style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); margin-left: 20px;"
                 v-if='(!read_only) && (visibility == "PRIVATE") && (mode != "profiler")'
                 type=button
-                class='btn btn-info btn-sm'
+                class='btn btn-sm'
                 v-on:click='setVisibility("PUBLIC")' >
-            Set to public
+                Toggle visibility
         </button>
 
         <span style='float: right; margin-right: 2%; margin-left: 20px;' >
