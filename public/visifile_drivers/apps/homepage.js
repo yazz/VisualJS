@@ -569,8 +569,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
         this.$root.$on('message', async function(text) {
             if (text.type == "insert_app_at") {
+            debugger
                 await mm.addLogoForApp(text.base_component_id)
-                await mm.addApp(text.base_component_id)
+                await mm.addApp(text.base_component_id, text.display_name)
                 mm.edit_app = text.base_component_id
                 mm.preview_app_id = null
                 mm.preview_app_loaded = false
