@@ -122,7 +122,7 @@ sub_components([
 base_component_id("metamask")
 visibility("PUBLIC")
 is_app(true)
-display_name("Copy of GUI App")
+display_name("Metamask App")
 editors([
   "vb_editor_component"
 ])
