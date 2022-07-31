@@ -361,7 +361,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                             <a  v-on:click='editApp($event,item.data.id)'
                                 class="nav-link active" href="#" style="position: absolute; bottom:0px;font-style:bold;width:90%;overflow-x: hidden;white-space: nowrap;font-size: 20px;color:white;">
 
-                                {{item.data.id}}
+                                {{item.data.displayName}}
                             </a>
 
                         </div>
@@ -534,7 +534,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
        //
        // search
        //
-       var sql2 =    `SELECT  id, base_component_id, logo_url, read_write_status
+       var sql2 =    `SELECT  id, base_component_id, logo_url, read_write_status, display_name
                          FROM
                      system_code
                          where
@@ -555,7 +555,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
         for (  var ee = 0 ; ee < results2.length ; ee++  ) {
             //alert(JSON.stringify(results2[ee],null,2))
-            await mm.addApp(results2[ee].base_component_id)
+            await mm.addApp(results2[ee].base_component_id, results2[ee].display_name)
             mm.app_logos[results2[ee].base_component_id] = results2[ee].logo_url
 
        }
@@ -842,13 +842,14 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           },
 
 
-            addApp: async function(baseComponentId) {
+            addApp: async function(baseComponentId, displayName) {
               if (baseComponentId) {
                   var app = {
                                 type: "app",
                                 data:
                                     {
-                                        id: baseComponentId
+                                        id: baseComponentId,
+                                        displayName: displayName
                                     }
                               }
 
