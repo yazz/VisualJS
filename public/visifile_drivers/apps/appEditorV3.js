@@ -378,7 +378,7 @@ load_once_from_file(true)
                         ref="app_preview_component"
                         v-if='app_loaded && is_ui_app && (!is_server_app)'
                         style='background-color: white;'
-                        v-bind:is="app_component_name">
+                        v-bind:is="base_component_id">
                APP HERE
             </component>
 
@@ -1427,7 +1427,7 @@ showTimer()
                     debugger
                     let textIn = await this.$refs.editor_component_ref.getText()
                     showProgressBar()
-                    //zzz
+
                     let postAppUrl = "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST + "/post_app"
                     callAjaxPost(postAppUrl,
                         {
@@ -1677,7 +1677,12 @@ showTimer()
 
 
                        setTimeout(async function() {
-                           mm.app_component_name = baseComponentId
+                       //zzz
+                           //code = saveHelper.deleteCodeString(code, "display_name")
+                           //code = saveHelper.insertCodeString(code, "display_name", newDisplayName)
+
+                           //mm.app_component_name = baseComponentId
+                           mm.app_component_name = saveHelper.getValueOfCodeString(code,"display_name")
                            if (mm.$refs.editor_component_ref) {
                                 if (mm.$refs.editor_component_ref.setText) {
                                     mm.$refs.editor_component_ref.setText(code)
@@ -1846,7 +1851,8 @@ showTimer()
 
 
                                    setTimeout(async function() {
-                                       mm.app_component_name = baseComponentId
+                                       //mm.app_component_name = baseComponentId
+                                       mm.app_component_name = saveHelper.getValueOfCodeString(code,"display_name")
                                        if (mm.$refs.editor_component_ref) {
                                             if (mm.$refs.editor_component_ref.setText) {
                                                 mm.$refs.editor_component_ref.setText(code)
