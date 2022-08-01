@@ -437,7 +437,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                 <button style='position:absolute;top:250px;left:50px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
                         class='btn btn-dark btn-sm'
-                        v-on:click='showProgressBar();editApp($event,item.data.id)'>
+                        v-on:click='showProgressBar();downloadApp($event,item.data.id)'>
                   <img    src='/driver_icons/edit.png'
                           style='position:relative;max-width: 60px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
                   >
@@ -889,6 +889,36 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               await mm.addApp(result.base_component_id, result.new_display_name)
               setTimeout(function() {
                     mm.editApp(event, result.base_component_id)
+              },50)
+
+
+          },
+
+
+          downloadApp: async function(event,  baseComponentId ) {
+              var mm = this
+alert("Downloading")
+              this.open_file_name = ""
+              this.open_file_path = "/"
+              saveCodeToFile = null
+
+
+
+              var result = await callApp(
+                  {
+                      driver_name: "downloadApp",
+                      method_name: "downloadApp"
+                  }
+                  ,
+                  {
+                      base_component_id:    baseComponentId
+                  })
+
+              await mm.addLogoForApp(result.base_component_id)
+
+              await mm.addApp(result.base_component_id, result.new_display_name)
+              setTimeout(function() {
+                  mm.editApp(event, result.base_component_id)
               },50)
 
 
