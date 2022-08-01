@@ -3354,15 +3354,16 @@ async function findLocalIpfsContent() {
             return console.error(err);
         }
 
-        files.forEach(async function (file, index) {
-            if (file.length > 10) {
+        files.forEach(async function (ipfsHashFileName, index) {
+            if (ipfsHashFileName.length > 10) {
                 try
                 {
-                    console.log("isDirectory ? " + file);
+                    console.log("ipfsHashFileName: " + ipfsHashFileName);
 
-                    let fullFileName = path.join(fullIpfsFolderPath, file)
+                    let fullFileName = path.join(fullIpfsFolderPath, ipfsHashFileName)
                     let ipfsContent = fs.readFileSync(fullFileName, 'utf8')
                     let parsedCode = parseCode(ipfsContent)
+                    parsedCode.ipfsHash = ipfsHashFileName
                     await updateItemLists(parsedCode)
                     await registerIPFS(file);
                 }
