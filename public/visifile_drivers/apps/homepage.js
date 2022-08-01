@@ -903,7 +903,7 @@ alert("Downloading")
               saveCodeToFile = null
 
 
-
+debugger
               var result = await callApp(
                   {
                       driver_name: "downloadApp",
@@ -913,6 +913,7 @@ alert("Downloading")
                   {
                       base_component_id:    baseComponentId
                   })
+
 
               await mm.addLogoForApp(result.base_component_id)
 

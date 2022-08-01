@@ -5451,6 +5451,7 @@ async function setUpComponentsLocally() {
     await evalLocalSystemDriver('commandLine',              path.join(__dirname, '../public/visifile_drivers/services/commandLine.js'),{username: "default", reponame: "commandLine", version: "latest"})
     await evalLocalSystemDriver('commandLine2',             path.join(__dirname, '../public/visifile_drivers/services/commandLine2.js'),{username: "default", reponame: "commandLine2", version: "latest"})
     await evalLocalSystemDriver('copyApp',                  path.join(__dirname, '../public/visifile_drivers/services/copyApp.js'),{username: "default", reponame: "copyApp", version: "latest"})
+    await evalLocalSystemDriver('downloadApp',              path.join(__dirname, '../public/visifile_drivers/services/downloadApp.js'),{username: "default", reponame: "downloadApp", version: "latest"})
     await evalLocalSystemDriver('test_job',                 path.join(__dirname, '../public/visifile_drivers/services/test_job.js'),{username: "default", reponame: "test_job", version: "latest"})
     await evalLocalSystemDriver('kafka_service',            path.join(__dirname, '../public/visifile_drivers/services/kafka_service.js'),{username: "default", reponame: "kafka_service", version: "latest"})
 
