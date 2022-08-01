@@ -10,8 +10,7 @@ console.log("envVars: " + JSON.stringify(envVars,null,2))
             try {
                 const dataString = JSON.stringify(
                     {
-                        ipfs_hash: args.ipfs_hash,
-                        ipfs_content: 2
+                        ipfs_hash: args.ipfs_hash
                     })
 
                 let options = {
@@ -39,15 +38,20 @@ console.log("envVars: " + JSON.stringify(envVars,null,2))
                         //console.log('BODY: ' + chunk);
                     });
                     res.on('end', function () {
-
-                        //console.log('returnfn: ' + response);
                         let responseJson = JSON.parse(response)
+                        //console.log('response: ' + response);
+                        console.log('data.name: ' + responseJson.data.id);
+                        console.log('data.name: ' + responseJson.data.name);
+                        console.log('data.ipfs_hash: ' + responseJson.data.ipfs_hash);
+                        console.log('data.logo: ' + responseJson.data.logo);
+                        console.log('data.base_component_id: ' + responseJson.data.base_component_id);
+
                         returnfn({
-                            display_name:   data.name,
-                            ipfs_hash:   data.ipfs_hash,
-                            logo_data:   data.logo,
-                            base_component_id:  data.id,
-                            response:            responseJson
+                            display_name:   responseJson.data.name,
+                            ipfs_hash:   responseJson.data.ipfs_hash,
+                            logo_data:   responseJson.data.logo,
+                            base_component_id:  responseJson.data.base_component_id,
+                            //response:            responseJson
                         })
                     });
                 });
@@ -58,8 +62,7 @@ console.log("envVars: " + JSON.stringify(envVars,null,2))
             } catch(er) {
                 console.log(er)
                 returnfn({
-                    new_display_name:   args.base_component_id,
-                    base_component_id:    args.base_component_id
+                   error: er
                 })
             }
 
