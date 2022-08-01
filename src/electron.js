@@ -2974,7 +2974,7 @@ async function startServices() {
                     function() {
                         dbsearch.all(
                             " select  " +
-                            "     distinct(app_list.id), app_name, app_icon_data, ipfs_hash " +
+                            "     distinct(app_list.id), base_component_id, app_name, app_icon_data, ipfs_hash " +
                             " from " +
                             "     app_list " +
                             " inner JOIN icon_images ON app_list.icon_image_id = icon_images.id " +
@@ -2995,6 +2995,8 @@ async function startServices() {
 
                                                         data: {
                                                             id: thisRow.id
+                                                            ,
+                                                            base_component_id: thisRow.base_component_id
                                                             ,
                                                             name: thisRow.app_name
                                                             ,
@@ -6552,7 +6554,7 @@ function parseCode(code) {
         ,
         logo: iconUrl
         ,
-        base_component_id: baseComponentIdOfItem
+        baseComponentId: baseComponentIdOfItem
     }
 }
 
