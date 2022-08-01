@@ -51,9 +51,6 @@ let jaegercollector = null
 
 
 var isWin                               = /^win/.test(process.platform);
-var stmtInsertRowFullTextSearch                               = null;
-var stmtInsertRowHashes                               = null;
-var setIn                               = null;
 var username                            = "Unknown user";
 var dbsearch;
 
