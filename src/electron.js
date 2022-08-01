@@ -2958,6 +2958,15 @@ async function startServices() {
             res.end(JSON.stringify({return: "from load component"}))
         });
 
+
+        app.post("/download_app" , async function (req, res) {
+
+
+
+            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+            res.end(JSON.stringify({return: "from download_app"}))
+        });
+
         app.post("/save_component" , async function (req, res) {
 
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
