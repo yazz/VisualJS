@@ -4620,15 +4620,15 @@ function setUpSql() {
     stmtInsertComponentList = dbsearch.prepare(`insert or ignore
                                                     into
                                                component_list
-                                                    (  id  ,  component_name  ,  component_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id  )
-                                               values (?,?,?,?,?,?)`)
+                                                    (  id  ,  base_component_id  ,  component_name  ,  component_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id  )
+                                               values (?,?,?,?,?,?,?)`)
 
 
     stmtInsertAppList = dbsearch.prepare(`insert or ignore
                                                     into
                                                app_list
-                                                    (  id  ,  app_name  ,  app_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id  )
-                                               values (?,?,?,?,?,?)`)
+                                                    (  id  ,  base_component_id  ,  app_name  ,  app_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id  )
+                                               values (?,?,?,?,?,?,?)`)
 
     stmtInsertIconImageData = dbsearch.prepare(`insert or ignore
                                                     into
@@ -5269,7 +5269,7 @@ async function insertIpfsHashRecord(ipfs_hash, content_type, ping_count, last_pi
 }
 
 
-async function insertAppListRecord( id  ,  app_name  ,  app_description  ,  logo  ,  ipfs_hash  ,  system_code_id ) {
+async function insertAppListRecord( id  ,  base_component_id  ,  app_name  ,  app_description  ,  logo  ,  ipfs_hash  ,  system_code_id ) {
     let promise = new Promise(async function(returnfn) {
         try {
             let icon_image_id = "image id"
@@ -5291,7 +5291,7 @@ async function insertAppListRecord( id  ,  app_name  ,  app_description  ,  logo
 
             dbsearch.serialize(function() {
                 dbsearch.run("begin exclusive transaction");
-                stmtInsertAppList.run(   id  ,  app_name  ,  app_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id )
+                stmtInsertAppList.run(   id  ,  base_component_id  ,  app_name  ,  app_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id )
                 stmtInsertIconImageData.run(icon_image_id, dataString)
                 dbsearch.run("commit")
                 returnfn()
@@ -5307,12 +5307,12 @@ async function insertAppListRecord( id  ,  app_name  ,  app_description  ,  logo
 
 
 
-async function insertComponentListRecord( id  ,  component_name  ,  component_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id ) {
+async function insertComponentListRecord( id  ,  base_component_id, component_name  ,  component_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id ) {
     let promise = new Promise(async function(returnfn) {
         try {
             dbsearch.serialize(function() {
                 dbsearch.run("begin exclusive transaction");
-                stmtInsertComponentList.run(   id  ,  component_name  ,  component_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id )
+                stmtInsertComponentList.run(   id , base_component_id,  component_name  ,  component_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id )
                 dbsearch.run("commit")
                 returnfn()
             })
@@ -6533,6 +6533,8 @@ function function_call_response (msg) {
 
 function parseCode(code) {
 
+    let baseComponentIdOfItem = saveHelper.getValueOfCodeString(code,"base_component_id")
+
     let itemName = saveHelper.getValueOfCodeString(code,"display_name")
 
     let iconUrl = saveHelper.getValueOfCodeString(code,"logo_url")
@@ -6549,6 +6551,8 @@ function parseCode(code) {
         type: componentType
         ,
         logo: iconUrl
+        ,
+        base_component_id: baseComponentIdOfItem
     }
 }
 
@@ -6557,6 +6561,8 @@ async function updateItemLists(parsedCode) {
     if (parsedCode.type == "component") {
         await insertComponentListRecord(
             uuidv1()
+            ,
+            parsedCode.baseComponentId
             ,
             parsedCode.name
             ,
@@ -6571,6 +6577,8 @@ async function updateItemLists(parsedCode) {
     } else if (parsedCode.type == "app") {
         await insertAppListRecord(
             uuidv1()
+            ,
+            parsedCode.baseComponentId
             ,
             parsedCode.name
             ,
