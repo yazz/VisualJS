@@ -10,7 +10,7 @@ console.log("envVars: " + JSON.stringify(envVars,null,2))
             try {
                 const dataString = JSON.stringify(
                     {
-                        ipfs_hash: 1,
+                        ipfs_hash: args.ipfs_hash,
                         ipfs_content: 2
                     })
 
@@ -36,15 +36,17 @@ console.log("envVars: " + JSON.stringify(envVars,null,2))
                     res.setEncoding('utf8');
                     res.on('data', function (chunk) {
                         response += chunk;
-                        console.log('BODY: ' + chunk);
+                        //console.log('BODY: ' + chunk);
                     });
                     res.on('end', function () {
 
-                        console.log('returnfn: ' + response);
+                        //console.log('returnfn: ' + response);
                         let responseJson = JSON.parse(response)
                         returnfn({
-                            new_display_name:   "downloaded",
-                            base_component_id:  "downloaded",
+                            display_name:   data.name,
+                            ipfs_hash:   data.ipfs_hash,
+                            logo_data:   data.logo,
+                            base_component_id:  data.id,
                             response:            responseJson
                         })
                     });

@@ -2798,7 +2798,7 @@ async function startServices() {
                     function() {
                         dbsearch.all(
                             " select  " +
-                            "     distinct(app_list.id), app_name, app_icon_data " +
+                            "     distinct(app_list.id), app_name, app_icon_data, ipfs_hash " +
                             " from " +
                             "     app_list " +
                             " inner JOIN icon_images ON app_list.icon_image_id = icon_images.id ;"
@@ -2819,6 +2819,8 @@ async function startServices() {
                                                             id: thisRow.app_name
                                                             ,
                                                             logo: thisRow.app_icon_data
+                                                            ,
+                                                            ipfs_hash: thisRow.ipfs_hash
                                                         }
                                                     })
                                             }
@@ -2964,10 +2966,69 @@ async function startServices() {
 
         app.post("/download_app" , async function (req, res) {
 
+            let topApps = []
+            let ipfsHashOfAppToDownload =  req.body.ipfs_hash;
+            var promise = new Promise(async function(returnfn) {
+
+                dbsearch.serialize(
+                    function() {
+                        dbsearch.all(
+                            " select  " +
+                            "     distinct(app_list.id), app_name, app_icon_data, ipfs_hash " +
+                            " from " +
+                            "     app_list " +
+                            " inner JOIN icon_images ON app_list.icon_image_id = icon_images.id " +
+                             "where" +
+                              "     ipfs_hash = ?;"
+                            ,
+                            [ipfsHashOfAppToDownload]
+                            ,
+                            async function(err, rows) {
+                                if (!err) {
+                                    try {
+                                        var returnRows = []
+                                        if (rows.length > 0) {
+                                            for (let rowIndex =0; rowIndex < rows.length; rowIndex++) {
+                                                let thisRow = rows[rowIndex]
+                                                returnRows.push(
+                                                    {
+
+                                                        data: {
+                                                            id: thisRow.id
+                                                            ,
+                                                            name: thisRow.app_name
+                                                            ,
+                                                            logo: thisRow.app_icon_data
+                                                            ,
+                                                            ipfs_hash: thisRow.ipfs_hash
+                                                        }
+                                                    })
+                                            }
+                                        }
 
 
+
+
+                                    } catch(err) {
+                                        console.log(err);
+                                        var stack = new Error().stack
+                                        console.log( stack )
+                                    } finally {
+                                        returnfn(returnRows[0])
+                                    }
+
+                                }
+                            }
+                        );
+                    }, sqlite3.OPEN_READONLY)
+            })
+            var ret = await promise
+//zzz
+            let fullFileName = path.join(fullIpfsFolderPath, ipfsHashOfAppToDownload)
+            let ipfsContent = fs.readFileSync(fullFileName, 'utf8')
+            //ret.data.code = ipfsContent
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-            res.end(JSON.stringify({return: "from download_app"}))
+            res.end(JSON.stringify(ret))
         });
 
         app.post("/save_component" , async function (req, res) {
@@ -5215,7 +5276,7 @@ async function insertAppListRecord( id  ,  app_name  ,  app_description  ,  logo
             let dataString = null
             if (logo.startsWith("data:")) {
             } else {
-                //zzz
+
                 let fullPath = path.join(__dirname, "../public" + logo)
                 let logoFileIn = fs.readFileSync(fullPath);
                 dataString = new Buffer(logoFileIn).toString('base64');
