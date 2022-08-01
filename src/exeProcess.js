@@ -53,6 +53,7 @@ let jaegercollector = null
 var isWin                               = /^win/.test(process.platform);
 var username                            = "Unknown user";
 var dbsearch;
+var envVars
 
 
 var stmtInsertProcessError;
@@ -90,6 +91,7 @@ function processMessagesFromMainProcess() {
         childProcessName    = msg.child_process_name
         yazzInstanceId      = msg.yazz_instance_id
         jaegercollector     = msg.jaeger_collector
+        envVars             = msg.env_vars
 
         //console.log("  Child recieved user data path: " + userData)
         var dbPath = path.join(userData, username + '.visi')

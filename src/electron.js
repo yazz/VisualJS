@@ -582,6 +582,7 @@ outputDebug("deleteOnStartup: " + deleteOnStartup)
 locked = (program.locked == 'true');
 
 useHttps = (program.https == 'true');
+envVars.USEHTTPS = useHttps
 
 
 
@@ -632,6 +633,7 @@ if (useSelfSignedHttps) {
                       cert:pem_cert
                   }
     useHttps = true
+    envVars.USEHTTPS = useHttps
 }
 
 if (useHttps) {
@@ -1039,7 +1041,8 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
                                                  show_debug: showDebug,
                                                  show_progress: showProgress,
                                                  yazz_instance_id: yazzInstanceId,
-                                                 jaeger_collector: jaegercollector
+                                                 jaeger_collector: jaegercollector,
+                                                 env_vars: envVars
                                               });
 
       }
