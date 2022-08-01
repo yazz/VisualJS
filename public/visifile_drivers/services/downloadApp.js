@@ -40,7 +40,7 @@ console.log("envVars: " + JSON.stringify(envVars,null,2))
                     res.on('end', function () {
                         let responseJson = JSON.parse(response)
                         //console.log('response: ' + response);
-                        console.log('data.name: ' + responseJson.data.id);
+                        console.log('data.id: ' + responseJson.data.id);
                         console.log('data.name: ' + responseJson.data.name);
                         console.log('data.ipfs_hash: ' + responseJson.data.ipfs_hash);
                         console.log('data.logo: ' + responseJson.data.logo);
@@ -51,6 +51,7 @@ console.log("envVars: " + JSON.stringify(envVars,null,2))
                             ipfs_hash:   responseJson.data.ipfs_hash,
                             logo_data:   responseJson.data.logo,
                             base_component_id:  responseJson.data.base_component_id,
+                            code: responseJson.data.code
                             //response:            responseJson
                         })
                     });

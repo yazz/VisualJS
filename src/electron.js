@@ -3028,7 +3028,7 @@ async function startServices() {
 //zzz
             let fullFileName = path.join(fullIpfsFolderPath, ipfsHashOfAppToDownload)
             let ipfsContent = fs.readFileSync(fullFileName, 'utf8')
-            //ret.data.code = ipfsContent
+            ret.data.code = ipfsContent
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end(JSON.stringify(ret))
         });
