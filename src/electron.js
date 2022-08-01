@@ -2995,14 +2995,14 @@ async function startServices() {
 
                                                         data: {
                                                             id: thisRow.id
-                                                            //,
-                                                            //base_component_id: thisRow.base_component_id
-                                                            //,
-                                                            //name: thisRow.app_name
-                                                            //,
-                                                           // logo: thisRow.app_icon_data
-                                                            //,
-                                                            //ipfs_hash: thisRow.ipfs_hash
+                                                            ,
+                                                            base_component_id: thisRow.base_component_id
+                                                            ,
+                                                            name: thisRow.app_name
+                                                            ,
+                                                            logo: thisRow.app_icon_data
+                                                            ,
+                                                            ipfs_hash: thisRow.ipfs_hash
                                                         }
                                                     })
                                             }
