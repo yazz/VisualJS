@@ -54,44 +54,11 @@ var isWin                               = /^win/.test(process.platform);
 var stmtInsertRowFullTextSearch                               = null;
 var stmtInsertRowHashes                               = null;
 var setIn                               = null;
-var inGetRelatedDocumentHashes          = false;
-var inIndexFileRelationshipsFn          = false;
-var finishedFindingFolders              = false;
 var username                            = "Unknown user";
 var dbsearch;
-var lhs;
-var rhs;
-var stmtInsertIntoRelationships;
-var stmtUpdateRelationships2;
 
-var stmtUpdateFolder;
-var stmtResetFolders;
-var stmtInsertDriver;
-var stmtUpdateDriver;
-var stmtInsertIntoQueries;
 
-var stmtResetFiles;
-var stmtFileChanged;
-var stmtInsertIntoMessages;
-var stmtInsertIntoFiles;
-var stmtInsertIntoFiles2;
-var stmtUpdateFileStatus;
-var stmtUpdateFileSizeAndShaAndConnectionId;
-var stmtUpdateFileProperties;
-
-var stmtInsertIntoContents;
 var stmtInsertProcessError;
-var stmtUpdateTags;
-var stmtUpdateProperties;
-var stmtInsertIntoFolders;
-var stmtInsertIntoConnections;
-var stmtInsertIntoConnections2;
-
-var stmtInsertIntoIntranetClientConnects;
-
-var stmtInsertInsertIntoQueries;
-var stmtUpdateRelatedDocumentCount;
-var stmtUpdateRelationships;
 var inUse = false
 
 //username = os.userInfo().username.toLowerCase();
