@@ -601,7 +601,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           loadAppStoreApps: async function() {
 
               let mm = this
-              //zzz
+
               let openfileurl = "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST + "/topapps"
               callAjax( openfileurl,
                   function(res) {
@@ -919,7 +919,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
               await mm.addApp(result.base_component_id, result.display_name)
               setTimeout(function() {
-                  mm.editApp(event, result.base_component_id)
+                  mm.openAppid(result.base_component_id)
+                  mm.main_tab = "apps"
+                  hideProgressBar()
+                  //zzz
               },50)
 
 
