@@ -18,17 +18,23 @@ console.log("envVars: " + JSON.stringify(envVars,null,2))
                     port: envVars.CENTRALHOSTPORT,
                     path: '/download_app',
                     method: 'POST',
+                    connection: 'Close',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Content-Length': dataString.length
+                        'Content-Length': Buffer.byteLength(dataString)
                     }
                 };
 //https
                 let theHttpsConn = http
-                if (envVars.CENTRALHOSTHTTPS == "true") {
+                if (envVars.CENTRALHOSTHTTPS) {
                     theHttpsConn = https
+                    console.log("using HTTPS: ")
+                } else {
+                    console.log("using HTTP: ")
                 }
                 var response = "";
+                console.log("options: " + JSON.stringify(options,null,2))
+
                 let req = theHttpsConn.request(options, function(res) {
                     console.log('STATUS: ' + res.statusCode);
                     console.log('HEADERS: ' + JSON.stringify(res.headers));
