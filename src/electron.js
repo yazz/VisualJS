@@ -2886,14 +2886,19 @@ async function startServices() {
         })
 
 
-        app.post('/add_or_update_driver', async function (req, res) {
+        app.post('/add_or_update_app', async function (req, res) {
 
             let baseComponentIdLocal = req.body.base_component_id
             let srcCode = req.body.src_code
             let ipfsHash = req.body.ipfs_hash
             await addOrUpdateDriver(baseComponentIdLocal,
                                     srcCode ,
-                                    {username: "default", reponame: baseComponentIdLocal, version: "latest", ipfsHashId: ipfsHash})
+                                    {
+                                     save_html: true,
+                                     username: "default",
+                                     reponame: baseComponentIdLocal,
+                                     version: "latest",
+                                     ipfsHashId: ipfsHash})
             res.status(200).send('Code registered');
         })
 

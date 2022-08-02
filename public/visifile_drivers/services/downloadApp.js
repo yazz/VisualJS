@@ -86,7 +86,7 @@ console.log("envVars: " + JSON.stringify(envVars,null,2))
                 })
 
             let options2 = {
-                path: '/add_or_update_driver',
+                path: '/add_or_update_app',
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
