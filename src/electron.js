@@ -589,7 +589,6 @@ locked = (program.locked == 'true');
 useHttps = (program.https == 'true');
 envVars.USEHTTPS = useHttps
 
-program.centralhosthttps = 'true'
 var centralHostHttps = true
 if (program.centralhosthttps == 'false') {
     centralHostHttps = false;
