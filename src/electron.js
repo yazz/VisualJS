@@ -381,6 +381,7 @@ if (process.argv.length > 1) {
       .option('-r, --https [https]', 'Run using a HTTPS (default is http) [https]', 'false')
       .option('-s,  --hostport [hostport]', 'Server port of the host (default 443) [hostport]', 443)
       .option('-cp, --centralhostport [centralhostport]', 'Server port of the central host (default 443) [centralhostport]', 443)
+      .option('-cs, --centralhosthttps [centralhosthttps]', 'Central host uses HTTPS? (default true) [centralhosthttps]', 'true')
       .option('-t, --usehost [usehost]', 'Use host name [usehost]', null)
       .option('-u, --loadjsurl [loadjsurl]', 'Load the following JS from a URL (default not set) [loadjsurl]', null)
       .option('-w, --deleteonstartup [deleteonstartup]', 'Delete database files on startup (default true) [deleteonstartup]', 'true')
@@ -404,6 +405,7 @@ if (process.argv.length > 1) {
     program.loadjsfile = null
     program.runhtml = null
     program.https = 'false'
+    program.centralhosthttps = 'true'
     program.usehost = null
 }
 var semver = require2('semver')
@@ -584,8 +586,13 @@ locked = (program.locked == 'true');
 useHttps = (program.https == 'true');
 envVars.USEHTTPS = useHttps
 
-
-
+program.centralhosthttps = 'true'
+var centralHostHttps = true
+if (program.centralhosthttps == 'false') {
+    centralHostHttps = false;
+}
+outputDebug("       centralHostHttps: " + centralHostHttps );
+envVars.CENTRALHOSTHTTPS = centralHostHttps
 
 
 if (useSelfSignedHttps) {
@@ -2875,6 +2882,21 @@ async function startServices() {
         app.get('/edit/*', function (req, res) {
         	return getEditApp(req, res);
         })
+
+
+        app.post('/add_or_update_driver', async function (req, res) {
+
+            let baseComponentIdLocal = req.body.base_component_id
+            let srcCode = req.body.src_code
+            let ipfsHash = req.body.ipfs_hash
+            await addOrUpdateDriver(baseComponentIdLocal,
+                                    srcCode ,
+                                    {username: "default", reponame: baseComponentIdLocal, version: "latest", ipfsHashId: ipfsHash})
+            res.status(200).send('Code registered');
+        })
+
+
+
 
         /* what happens if we register a false or bad IPFS address? All code sent here
          *  should be validated */

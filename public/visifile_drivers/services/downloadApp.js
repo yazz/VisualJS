@@ -25,7 +25,7 @@ console.log("envVars: " + JSON.stringify(envVars,null,2))
                 };
 //https
                 let theHttpsConn = http
-                if (envVars.USEHTTPS) {
+                if (envVars.CENTRALHOSTHTTPS == "true") {
                     theHttpsConn = https
                 }
                 var response = "";
@@ -66,15 +66,58 @@ console.log("envVars: " + JSON.stringify(envVars,null,2))
                    error: er
                 })
             }
+    })
+    let ret = await promise
 
 
+    let addCodePromise = new Promise(async function(returnfn2) {
+        try {
+            const dataString2 = JSON.stringify(
+                {
+                    ipfs_hash:          ret.ipfs_hash,
+                    base_component_id:  ret.base_component_id,
+                    src_code:           ret.code
+                })
 
+            let options2 = {
+                path: '/add_or_update_driver',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Content-Length': dataString2.length
+                }
+            };
+            var response2 = "";
+            let theHttpsConn2 = http
+            if (envVars.CENTRALHOSTHTTPS == "true") {
+                theHttpsConn2 = https
+            }
+            let req2 = theHttpsConn2.request(options2, function(res2) {
+                res2.setEncoding('utf8');
+                res2.on('data', function (chunk2) {
+                    response2 += chunk2;
+                });
+                res2.on('end', function () {
+                    console.log('response2: ' + response2);
+                    returnfn2()
+                });
+            });
+            req2.write(dataString2)
+            req2.end()
+            console.log('end: ' );
 
-
+        } catch(er2) {
+            console.log(er2)
+            returnfn2({
+                error: er2
             })
+        }
+
+    })
+    let ret2 = await addCodePromise
+    console.log("ret2: " + JSON.stringify(ret2,null,2))
 
 
-    var ret = await promise
 
 
     return ret

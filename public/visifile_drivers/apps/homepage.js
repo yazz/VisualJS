@@ -917,7 +917,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               debugger
               await mm.addLogoForApp(result.base_component_id)
 
-              await mm.addApp(result.base_component_id, result.new_display_name)
+              await mm.addApp(result.base_component_id, result.display_name)
               setTimeout(function() {
                   mm.editApp(event, result.base_component_id)
               },50)
