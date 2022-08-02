@@ -2990,7 +2990,7 @@ async function startServices() {
 
 
         app.post("/download_app" , async function (req, res) {
-
+            console.log("/download_app called")
             let topApps = []
             let ipfsHashOfAppToDownload =  req.body.ipfs_hash;
             var promise = new Promise(async function(returnfn) {
