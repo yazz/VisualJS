@@ -5337,10 +5337,14 @@ async function insertAppListRecord( id  ,  base_component_id  ,  app_name  ,  ap
             dbsearch.serialize(function() {
                 dbsearch.run("begin exclusive transaction");
                 setAppToNotReleased.run(base_component_id)
-                stmtInsertAppList.run(   id  ,  base_component_id  ,  app_name  ,  app_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id, '','RELEASED','' )
-                stmtInsertIconImageData.run(icon_image_id, dataString)
-                dbsearch.run("commit")
-                returnfn()
+                dbsearch.run("commit", function() {
+                    dbsearch.run("begin exclusive transaction");
+                    stmtInsertAppList.run(   id  ,  base_component_id  ,  app_name  ,  app_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id, '','RELEASED','' )
+                    stmtInsertIconImageData.run(icon_image_id, dataString)
+                    dbsearch.run("commit")
+                    returnfn()
+                })
+
             })
         } catch(er) {
             console.log(er)
