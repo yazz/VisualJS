@@ -282,9 +282,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             <div    v-for="(item, index) in intro_apps"
                     v-bind:refresh='refresh'
                     v-on:mouseenter="preview_app_loaded = false; preview_app_id = item.data.id;previewApp(item.data.id)"
-                    v-on:mouseleave="preview_app_loaded = false; preview_app_id = null;"
-                    style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
-                    class='app_card'>
+                    v-on:oldmouseleave="preview_app_loaded = false; preview_app_id = null;"
+                    v-bind:style='"display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;  " + ((preview_app_id == item.data.id)?"top:0px;width:  330px;height: 330px;":"top:100px;width:  200px;height: 200px;")'
+                    classold='app_card'>
 
                 <div    v-bind:refresh='refresh'
                         v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((preview_app_id == item.data.id) && preview_app_loaded)?"background-color:white;":"background-color:black;")'>
