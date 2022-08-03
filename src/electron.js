@@ -2814,7 +2814,7 @@ async function startServices() {
                             " inner JOIN " +
                             "     icon_images ON app_list.icon_image_id = icon_images.id " +
                             " where " +
-                            "     release = RELEASE"
+                            "     release = 'RELEASED'"
                             ,
                             []
                             ,
@@ -3447,12 +3447,13 @@ async function startServices() {
 }
 
 async function findLocalIpfsContent() {
-    fs.readdir(fullIpfsFolderPath, function (err, files) {
+    fs.readdir(fullIpfsFolderPath, async function (err, files) {
         if (err) {
             return console.error(err);
         }
 
-        files.forEach(async function (ipfsHashFileName, index) {
+        for (let fileindex=0;fileindex<files.length;fileindex++){
+            let ipfsHashFileName = files[fileindex]
             if (ipfsHashFileName.length > 10) {
                 try
                 {
@@ -3470,7 +3471,7 @@ async function findLocalIpfsContent() {
                 }
 
             }
-        })
+        }
     })
 
 }
@@ -5338,11 +5339,13 @@ async function insertAppListRecord( id  ,  base_component_id  ,  app_name  ,  ap
                 dbsearch.run("begin exclusive transaction");
                 setAppToNotReleased.run(base_component_id)
                 dbsearch.run("commit", function() {
-                    dbsearch.run("begin exclusive transaction");
-                    stmtInsertAppList.run(   id  ,  base_component_id  ,  app_name  ,  app_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id, '','RELEASED','' )
-                    stmtInsertIconImageData.run(icon_image_id, dataString)
-                    dbsearch.run("commit")
-                    returnfn()
+                    dbsearch.serialize(function() {
+                            dbsearch.run("begin exclusive transaction");
+                            stmtInsertAppList.run(   id  ,  base_component_id  ,  app_name  ,  app_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id, '','RELEASED','' )
+                            stmtInsertIconImageData.run(icon_image_id, dataString)
+                            dbsearch.run("commit")
+                            returnfn()
+                    })
                 })
 
             })
