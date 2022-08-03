@@ -277,10 +277,12 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
         <div v-bind:refresh='refresh'
              class='force_scrollbars'
-             style='position: relative;background-color: black; color: black; padding-top: 0px;padding-bottom: 20px;overflow-y:hidden; overflow-x: auto;white-space: nowrap;height:400px;padding-right:200px;margin-left:0px;margin-right:0px;z-index:0;'>
+             id="downloaded_apps"
+             style='offsetleft:200;position: relative;background-color: black; color: black; padding-top: 0px;padding-bottom: 20px;overflow-y:hidden; overflow-x: auto;white-space: nowrap;height:400px;padding-right:200px;margin-left:0px;margin-right:0px;z-index:0;'>
 
             <div    v-for="(item, index) in intro_apps"
                     v-bind:refresh='refresh'
+                    v-bind:id='"appid_" + item.data.id'
                     v-on:mouseenter="preview_app_loaded = false; preview_app_id = item.data.id;previewApp(item.data.id)"
                     v-on:oldmouseleave="preview_app_loaded = false; preview_app_id = null;"
                     v-bind:style='"display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;  " + ((preview_app_id == item.data.id)?"top:0px;width:  330px;height: 330px;":"top:100px;width:  200px;height: 200px;")'
@@ -598,6 +600,17 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
       methods: {
+          selectApp: function(appId) {
+              let mm = this
+              setTimeout(function() {
+                  mm.preview_app_id = (appId)
+                  mm.previewApp(appId)
+                  let a = document.getElementById("downloaded_apps")
+                  let itemLeft = document.getElementById("appid_" + appId)
+                  a.scrollLeft=itemLeft.offsetLeft
+              },150)
+          }
+          ,
           loadAppStoreApps: async function() {
 
               let mm = this
@@ -914,15 +927,15 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                       ipfs_hash:            ipfsHash
                   })
 
-              debugger
               await mm.addLogoForApp(result.base_component_id)
 
               await mm.addApp(result.base_component_id, result.display_name)
               setTimeout(function() {
-                  mm.openAppid(result.base_component_id)
+                  //mm.openAppid(result.base_component_id)
                   mm.main_tab = "apps"
                   hideProgressBar()
-                  //zzz
+                  mm.selectApp(result.base_component_id)
+
               },50)
 
 
