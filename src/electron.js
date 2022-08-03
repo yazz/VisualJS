@@ -88,6 +88,7 @@ var stmtInsertIpfsHash;
 var stmtInsertSubComponent;
 var stmtInsertComponentList;
 var stmtInsertAppList;
+var setAppToNotReleased;
 var stmtInsertImageData;
 var stmtUpdateDriver;
 var stmtDeleteDependencies;
@@ -2810,7 +2811,10 @@ async function startServices() {
                             "     distinct(app_list.id), app_name, app_icon_data, ipfs_hash " +
                             " from " +
                             "     app_list " +
-                            " inner JOIN icon_images ON app_list.icon_image_id = icon_images.id ;"
+                            " inner JOIN " +
+                            "     icon_images ON app_list.icon_image_id = icon_images.id " +
+                            " where " +
+                            "     release = RELEASE"
                             ,
                             []
                             ,
@@ -4660,8 +4664,16 @@ function setUpSql() {
     stmtInsertAppList = dbsearch.prepare(`insert or ignore
                                                     into
                                                app_list
-                                                    (  id  ,  base_component_id  ,  app_name  ,  app_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id  )
-                                               values (?,?,?,?,?,?,?)`)
+                                                    (  id  ,  base_component_id  ,  app_name  ,  app_description  ,  icon_image_id  ,  
+                                                       ipfs_hash  ,  system_code_id, version, release, latest )
+                                               values (?,?,?,?,?,?,?,?,?,?)`)
+
+    setAppToNotReleased = dbsearch.prepare(`update app_list
+                                            set 
+                                               RELEASE = ""
+                                            where
+                                               base_component_id  = ?  and RELEASE = "RELEASE"
+                                               `)
 
     stmtInsertIconImageData = dbsearch.prepare(`insert or ignore
                                                     into
@@ -5324,7 +5336,8 @@ async function insertAppListRecord( id  ,  base_component_id  ,  app_name  ,  ap
 
             dbsearch.serialize(function() {
                 dbsearch.run("begin exclusive transaction");
-                stmtInsertAppList.run(   id  ,  base_component_id  ,  app_name  ,  app_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id )
+                setAppToNotReleased.run(base_component_id)
+                stmtInsertAppList.run(   id  ,  base_component_id  ,  app_name  ,  app_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id, '','RELEASED','' )
                 stmtInsertIconImageData.run(icon_image_id, dataString)
                 dbsearch.run("commit")
                 returnfn()
