@@ -283,7 +283,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             <div    v-for="(item, index) in intro_apps"
                     v-bind:refresh='refresh'
                     v-bind:id='"appid_" + item.data.id'
-                    v-on:mouseenter="preview_app_loaded = false; preview_app_id = item.data.id;previewApp(item.data.id)"
+                    v-on:mouseenter="if (!disableAppSelect) {preview_app_loaded = false; preview_app_id = item.data.id;previewApp(item.data.id)}"
                     v-on:oldmouseleave="preview_app_loaded = false; preview_app_id = null;"
                     v-bind:style='"display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;  " + ((preview_app_id == item.data.id)?"top:0px;width:  330px;height: 330px;":"top:100px;width:  200px;height: 200px;")'
                     classold='app_card'>
@@ -514,7 +514,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     open_file_path_dirs: ["/"],
                     open_file_list: [],
                     open_file_name: "",
-                    electron: false
+                    electron: false,
+                    disableAppSelect: false
                 }},
 
     mounted: async function() {
@@ -608,6 +609,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                   let a = document.getElementById("downloaded_apps")
                   let itemLeft = document.getElementById("appid_" + appId)
                   a.scrollLeft=itemLeft.offsetLeft
+                  mm.disableAppSelect = true
+                  setTimeout(function() {
+                    mm.disableAppSelect = false
+                  },4000)
               },150)
           }
           ,
