@@ -2830,6 +2830,8 @@ async function startServices() {
                                                             logo: thisRow.app_icon_data
                                                             ,
                                                             ipfs_hash: thisRow.ipfs_hash
+                                                            ,
+                                                            display_name: thisRow.app_name
                                                         }
                                                     })
                                             }
@@ -3054,7 +3056,7 @@ async function startServices() {
                     }, sqlite3.OPEN_READONLY)
             })
             var ret = await promise
-//zzz
+
             let fullFileName = path.join(fullIpfsFolderPath, ipfsHashOfAppToDownload)
             let ipfsContent = fs.readFileSync(fullFileName, 'utf8')
             ret.data.code = ipfsContent

@@ -306,7 +306,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                     style="opacity:.7;z-index:2147483647;position:absolute;left:0px;top;0px;color:black;background-color:lightblue;width:100%;height:100%;">
 
                                     <div style="padding: 10px;">
-                                        {{item.data.id}}
+                                        {{item.data.displayName}}
                                     </div>
 
                                     <img    v-if='(preview_app_id == item.data.id) && preview_app_loaded'
@@ -424,7 +424,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                       style="opacity:.7;z-index:2147483647;position:absolute;left:0px;top;0px;color:black;background-color:lightblue;width:100%;height:100%;">
 
                 <div style="padding: 10px;">
-                  {{item.data.id}}
+                  {{item.data.display_name}}
                 </div>
 
                 <img    v-if='(preview_app_id == item.data.id) && preview_app_loaded'
@@ -472,7 +472,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               <a  v-on:click='editApp($event,item.data.id)'
                   class="nav-link active" href="#" style="position: absolute; bottom:0px;font-style:bold;width:90%;overflow-x: hidden;white-space: nowrap;font-size: 20px;color:white;">
 
-                {{item.data.id}}
+                {{item.data.display_name}}
               </a>
 
             </div>
