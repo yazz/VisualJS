@@ -563,7 +563,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
         this.$root.$on('message', async function(text) {
             if (text.type == "insert_app_at") {
-            debugger
+            //debugger
                 await mm.addLogoForApp(text.base_component_id)
                 await mm.addApp(text.base_component_id, text.display_name)
                 mm.edit_app = text.base_component_id
@@ -598,7 +598,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
         let highlightAppOnStartup = getUrlParam("id")
         if (highlightAppOnStartup) {
-            mm.selectApp(highlightAppOnStartup)
+        mm.selectApp(highlightAppOnStartup)
+
         }
 
       },
@@ -609,10 +610,17 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           selectApp: function(appId) {
               let mm = this
               setTimeout(function() {
+                  debugger
                   mm.preview_app_id = (appId)
                   mm.previewApp(appId)
                   let a = document.getElementById("downloaded_apps")
+                  if (!a) {
+                    return
+                  }
                   let itemLeft = document.getElementById("appid_" + appId)
+                  if (!itemLeft) {
+                      return
+                  }
                   a.scrollLeft=itemLeft.offsetLeft
                   mm.disableAppSelect = true
                   setTimeout(function() {
