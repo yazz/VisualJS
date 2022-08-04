@@ -11692,7 +11692,21 @@ function showTimer(optionalMessage) {
   console.log("    Elapsed time in milliseconds: " + theTimerText + " : "+ (globalEndTimer - globalStartTimer))
 }
 
+function getUrlParam(paramName) {
 
+    var pairs = document.URL.split('?')
+        .pop()
+        .split('&');
+
+    for (var i = 0, p; i < pairs.length; i++) {
+        p = pairs[i].split('=');
+        if (p[0] == paramName) {
+            return p[1];
+        }
+    }
+
+    return null;
+}
 
 </script>
 </body>
