@@ -1243,7 +1243,9 @@ load_once_from_file(true)
 
 //zzz
 
-                nn = nn.replace(/[\W_]+/g,"_");
+                // commented out as we don't want to replace _ (underscores) with spaces
+                //nn = nn.replace(/[\W_]+/g,"_");
+
                 this.new_name = ""
                 this.console_output = ""
                 setTimeout(async function() {
