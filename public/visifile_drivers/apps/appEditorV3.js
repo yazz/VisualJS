@@ -276,7 +276,7 @@ load_once_from_file(true)
 
 
                     <span
-                        v-if='hideImportButtons'
+                        v-if="!read_only && (save_state == 'saved') && hideImportButtons"
                     >
                       All changes saved
                     </span>
