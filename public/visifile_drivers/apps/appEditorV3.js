@@ -267,7 +267,7 @@ load_once_from_file(true)
                     </button>
 
 
-
+             
 
 
 
@@ -1249,7 +1249,7 @@ load_once_from_file(true)
                 this.new_name = ""
                 this.console_output = ""
                 setTimeout(async function() {
-                    debugger
+                    //debugger
                     mm.editor_text = saveHelper.deleteCodeString(mm.editor_text, "display_name")
                     mm.editor_text = saveHelper.insertCodeString(mm.editor_text, "display_name", nn)
 
@@ -1357,7 +1357,7 @@ load_once_from_file(true)
            // This is called to save the currently edited code
            // ---------------------------------------------------------------
            save: async function( base_component_id, code_id , textIn) {
-
+//debugger
              resetTimer("save")
 
             try {
@@ -1441,7 +1441,7 @@ showTimer()
 
            publishToIpfs: async function() {
                 try {
-                    debugger
+                    //debugger
                     let textIn = await this.$refs.editor_component_ref.getText()
                     showProgressBar()
 
@@ -1454,7 +1454,7 @@ showTimer()
                         async function(response){
                             showTimer("in 'post_app' response")
                             //alert(response)
-                            debugger
+                            //debugger
 
                             let responseJson = JSON.parse(response)
 
@@ -1947,6 +1947,15 @@ showTimer()
 
 
                 })
+
+                setInterval(async function() {
+
+                    if ((!mm.read_only) && (mm.save_state == 'pending' || (!mm.save_state))) {
+                        //debugger
+                        appClearIntervals();
+                        await mm.save(mm.base_component_id, mm.code_id, null)
+                    }
+                },5000)
 
 
 
