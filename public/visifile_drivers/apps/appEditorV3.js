@@ -267,7 +267,7 @@ load_once_from_file(true)
                     </button>
 
                   <span
-                      v-if='hideImportButtons'
+                      v-if='read_only && hideImportButtons'
                   >
                       {{read_only?"Read only mode":""}}
                     </span>
