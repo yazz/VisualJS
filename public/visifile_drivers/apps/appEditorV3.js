@@ -255,7 +255,7 @@ load_once_from_file(true)
                               v-on:mouseleave='setInfo(null)'
                               v-on:click='setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null)},100)'
                               type="button" class="btn  btn-warning"
-                              v-if="!read_only && (save_state == 'pending' || (!save_state))"
+                              v-if="((!hideImportButtons) && (!read_only) && ((save_state == 'pending') || (!save_state)))"
                               >
 
                               <img
@@ -266,12 +266,21 @@ load_once_from_file(true)
 
                     </button>
 
+                  <span
+                      v-if='hideImportButtons'
+                  >
+                      {{read_only?"Read only mode":""}}
+                    </span>
 
              
 
 
-
-                    <div    v-if="!read_only && (save_state == 'saved')"
+                    <span
+                        v-if='hideImportButtons'
+                    >
+                      All changes saved
+                    </span>
+                    <div    v-if="!read_only && (save_state == 'saved') && (!hideImportButtons)"
                             v-bind:disabled='read_only?"":false'
                             v-bind:style="'padding:10px;;display: inline-block;width: 200px;margin-left:200px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
                     >
@@ -700,6 +709,7 @@ load_once_from_file(true)
            return {
                file_save_state:    (saveCodeToFile?saveCodeToFile:""),
                info_text:           "",
+               hideImportButtons: false,
                refresh:             0,
                editor_loaded:       false,
                console_output:      "",
@@ -1899,7 +1909,9 @@ showTimer()
             mounted: async function () {
                 var mm = this
                 uiDebuggerOn = true
-
+                if ($HIDEIMPORTBUTTONS == 'true') {
+                    mm.hideImportButtons = true
+                }
                 override_app_editor = null
 
                 if ((typeof($RUNNING_IN_ELECTRON) !== 'undefined')  && $RUNNING_IN_ELECTRON) {
