@@ -328,7 +328,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                     style="opacity:.7;z-index:2147483647;position:absolute;left:0px;top;0px;color:black;background-color:lightblue;width:100%;height:100%;">
 
                                     <div style="padding: 10px;">
-                                        {{item.data.displayName}}
+                                        {{item.data.displayName}} {{(item.data.visibility?" - "+item.data.visibility:"")}} 
                                     </div>
 
                                     <img    v-if='(preview_app_id == item.data.id) && preview_app_loaded'
@@ -561,8 +561,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                          where
                              code_tag = 'LATEST'
                                  and
-                             visibility = 'PUBLIC'
+                             component_type_v2 = 'APP'
                      order by base_component_id asc; `
+//        and
+//        visibility = 'PUBLIC'
 
        var results2 = await callApp(
            {
@@ -892,9 +894,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           },
 
 
-            addApp: async function(baseComponentId, displayName) {
+            addApp: async function(baseComponentId, displayName, other) {
               if (baseComponentId) {
-                  var app = {
+                  let app = {
                                 type: "app",
                                 data:
                                     {
@@ -902,6 +904,11 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                         displayName: displayName
                                     }
                               }
+                  if (other) {
+                    if (other.visibility) {
+                        app.data.visibility = other.visibility
+                    }
+                  }
 
                   mm.loaded_app[baseComponentId] = true
                   component_loaded[baseComponentId] = false
