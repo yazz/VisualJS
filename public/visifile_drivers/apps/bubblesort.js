@@ -6,6 +6,7 @@ is_app(true)
 visibility("PUBLIC")
 only_run_on_frontend(true)
 read_only(true)
+component_type_v2("APP")
 logo_url("/bubblesort.jpeg")
 */
 

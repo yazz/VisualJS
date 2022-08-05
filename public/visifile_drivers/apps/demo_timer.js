@@ -65,6 +65,7 @@ formEditor({
   "active_component_detail_name": null
 })//formEditor
 component_type("SYSTEM")
+component_type_v2("APP")
 sub_components([
   "app_editor_3",
   "appEmbed",
