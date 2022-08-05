@@ -74,6 +74,12 @@ only_run_on_server(true)
                             code = saveHelper.deleteCodeString(code, "read_only")
                             code = saveHelper.deleteCodeString(code, "visibility")
 
+                            var componentTypeV2 = saveHelper.getValueOfCodeString(code, "component_type_v2")
+                            if (componentTypeV2) {
+                                code = saveHelper.deleteCodeString(code, "component_type_v2")
+                            }
+                            code = saveHelper.insertCodeString(code, "component_type_v2", "APP")
+
 
                             var formEditor = saveHelper.getValueOfCodeString(code, "formEditor",")//formEditor")
                             if (formEditor) {
