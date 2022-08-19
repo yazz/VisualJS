@@ -107,6 +107,40 @@
 
         }
     }
+
+
+
+
+
+    var tabulatorJsLoaded = false
+    var useTabulatorJs = async function() {
+
+        if (!tabulatorJsLoaded) {
+            //debugger
+            let promise = new Promise(returnfn => {
+                let loadTabulatorJsLibScript = document.createElement('script');
+                loadTabulatorJsLibScript.src = "/js_libs/tabulator.js";
+
+                document.head.appendChild(loadTabulatorJsLibScript);
+                loadTabulatorJsLibScript.onload = function () {
+                    //debugger
+                    try {
+
+
+                    } catch (error) {
+
+                    }
+                    tabulatorJsLoaded = true
+                    returnfn()
+                };
+
+            })
+
+
+            let ret = await promise
+
+        }
+    }
     //zzz
 
         function filterBlockchainParams(blockchainDetails) {

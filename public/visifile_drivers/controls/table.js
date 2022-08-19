@@ -132,8 +132,9 @@ logo_url("/driver_icons/table.png")
        }
      }
      ,
-     mounted: function() {
+     mounted: async function() {
         registerComponent(this)
+        await useTabulatorJs()
 
          if (isValidObject(this.args)) {
              this.data = this.args.data
