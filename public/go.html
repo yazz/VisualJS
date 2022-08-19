@@ -19,15 +19,14 @@
 
                 document.head.appendChild(loadWeb3LibScript);
                 loadWeb3LibScript.onload = function () {
-                debugger
+                    debugger
                     try {
-                        window.ethereum.request({ method: "eth_requestAccounts" });
+                        window.ethereum.request({method: "eth_requestAccounts"});
 
                         web3 = new Web3(window.ethereum);
 
 
-
-                        (async function() {
+                        (async function () {
 
                             //await switchBlockchainNetwork('1')   //eth mainnet
                             //await switchBlockchainNetwork('97')   //binance testnet
@@ -42,11 +41,40 @@
                     }
                     web3loaded = true
                 };
-
-                //zzz
-
             }
         }
+
+        var ideToolsloaded = false
+        var useIdeTools = async function() {
+
+            if (!ideToolsloaded) {
+                debugger
+                let promise = new Promise(returnfn => {
+                    let loadIdeToolsLibScript = document.createElement('script');
+                    loadIdeToolsLibScript.src = "/js_libs/idetools.js";
+
+                    document.head.appendChild(loadIdeToolsLibScript);
+                    loadIdeToolsLibScript.onload = function () {
+                        debugger
+                        try {
+
+
+                        } catch (error) {
+
+                        }
+                        ideToolsloaded = true
+                        returnfn()
+                    };
+
+                })
+
+
+                let ret = await promise
+
+        }
+    }
+        //zzz
+
         function filterBlockchainParams(blockchainDetails) {
             return {
                 chainId: blockchainDetails.chainId,
