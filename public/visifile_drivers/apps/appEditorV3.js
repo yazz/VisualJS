@@ -1908,6 +1908,7 @@ showTimer()
 
             mounted: async function () {
                 var mm = this
+                await useIdeTools()
                 uiDebuggerOn = true
                 if ($HIDEIMPORTBUTTONS == 'true') {
                     mm.hideImportButtons = true
