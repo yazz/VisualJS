@@ -73,7 +73,41 @@
 
         }
     }
-        //zzz
+
+
+
+
+
+    var chartsJsloaded = false
+    var useChartsJs = async function() {
+
+        if (!chartsJsloaded) {
+            //debugger
+            let promise = new Promise(returnfn => {
+                let loadChartsJsLibScript = document.createElement('script');
+                loadChartsJsLibScript.src = "/js_libs/charts.js";
+
+                document.head.appendChild(loadChartsJsLibScript);
+                loadChartsJsLibScript.onload = function () {
+                    //debugger
+                    try {
+
+
+                    } catch (error) {
+
+                    }
+                    chartsJsloaded = true
+                    returnfn()
+                };
+
+            })
+
+
+            let ret = await promise
+
+        }
+    }
+    //zzz
 
         function filterBlockchainParams(blockchainDetails) {
             return {

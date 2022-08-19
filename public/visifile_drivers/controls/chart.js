@@ -147,8 +147,9 @@ logo_url("/driver_icons/chart.png")
        }
      }
      ,
-     mounted: function() {
+     mounted: async function() {
          registerComponent(this)
+         await useChartsJs()
 
          if (isValidObject(this.args)) {
              this.items = this.args.items
