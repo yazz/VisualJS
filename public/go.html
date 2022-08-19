@@ -7,9 +7,46 @@
 
     </script>
 
-    <script src="/js_libs/web3.min.js"></script>
 
     <script>
+        var web3loaded = false
+        var useWeb3 = async function() {
+
+            if (!web3loaded) {
+                debugger
+                let loadWeb3LibScript = document.createElement('script');
+                loadWeb3LibScript.src = "/js_libs/web3.min.js";
+
+                document.head.appendChild(loadWeb3LibScript);
+                loadWeb3LibScript.onload = function () {
+                debugger
+                    try {
+                        window.ethereum.request({ method: "eth_requestAccounts" });
+
+                        web3 = new Web3(window.ethereum);
+
+
+
+                        (async function() {
+
+                            //await switchBlockchainNetwork('1')   //eth mainnet
+                            //await switchBlockchainNetwork('97')   //binance testnet
+                            //await switchBlockchainNetwork('80001')   //polygon testnet
+                            await switchBlockchainNetwork(window.currentBlockchain)   //polygon testnet
+
+                        })()
+
+
+                    } catch (error) {
+
+                    }
+                    web3loaded = true
+                };
+
+                //zzz
+
+            }
+        }
         function filterBlockchainParams(blockchainDetails) {
             return {
                 chainId: blockchainDetails.chainId,
@@ -153,26 +190,7 @@
         return true
 
     }
-    try {
-      window.ethereum.request({ method: "eth_requestAccounts" });
 
-      web3 = new Web3(window.ethereum);
-
-
-
-      (async function() {
-
-        //await switchBlockchainNetwork('1')   //eth mainnet
-        //await switchBlockchainNetwork('97')   //binance testnet
-        //await switchBlockchainNetwork('80001')   //polygon testnet
-        await switchBlockchainNetwork(window.currentBlockchain)   //polygon testnet
-
-      })()
-
-
-    } catch (error) {
-
-    }
 
 
     var testObject = null; // Use this to test elements at debug time
@@ -11156,7 +11174,7 @@ async function loadV2( baseComponentIds, args ) {
 //
 //
 //------------------------------------------------------------------------------
-//zzz
+
 async function loadV3( baseComponentItems, args ) {
     //
     // Always expect a list of "baseComponentIds" which will
