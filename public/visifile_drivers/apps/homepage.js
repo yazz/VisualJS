@@ -558,8 +558,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             this.electron = true
         }
 
-        if ($HIDEIMPORTBUTTONS == 'true') {
-            mm.hideImportButtons = true
+        if (typeof($HIDEIMPORTBUTTONS) !== 'undefined') {
+            if ($HIDEIMPORTBUTTONS == 'true') {
+                mm.hideImportButtons = true
+            }
         }
 
 
