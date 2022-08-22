@@ -15,11 +15,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     //await loadV2("app_editor_3")
     console.log(`calling await loadV2("app_editor_3") loaded`)
 
-    var mm = null
-
-
-
-
     Vue.component('homepage', {
 
       template:
@@ -552,7 +547,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 }},
 
     mounted: async function() {
-        mm = this
+        let mm = this
         debugger
         if ((typeof($RUNNING_IN_ELECTRON) !== 'undefined')  && $RUNNING_IN_ELECTRON) {
             this.electron = true
@@ -568,7 +563,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
        //
        // search
        //
-       var sql2 =    `SELECT  id, base_component_id, logo_url, read_write_status, display_name
+       let sql2 =    `SELECT  id, base_component_id, logo_url, read_write_status, display_name
                          FROM
                      system_code
                          where
@@ -579,7 +574,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 //        and
 //        visibility = 'PUBLIC'
 
-       var results2 = await callApp(
+       let results2 = await callApp(
            {
                 driver_name:    "systemFunctions2",
                 method_name:    "sql"
@@ -589,7 +584,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                sql: sql2
            })
 
-        for (  var ee = 0 ; ee < results2.length ; ee++  ) {
+        for (  let ee = 0 ; ee < results2.length ; ee++  ) {
             //alert(JSON.stringify(results2[ee],null,2))
             await mm.addApp(results2[ee].base_component_id, results2[ee].display_name)
             mm.app_logos[results2[ee].base_component_id] = results2[ee].logo_url
@@ -692,7 +687,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               //alert(1)
              //document.getElementById("openfilefromhomepage").click();
              this.showFilePicker = true
-             var result = await callFunction(
+             let result = await callFunction(
                                  {
                                      driver_name: "serverGetHomeDir",
                                      method_name: "serverGetHomeDir"  }
@@ -700,7 +695,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             if (result) {
                 this.open_file_path = result.value
             }
-            var result2 = await callFunction(
+            let result2 = await callFunction(
                                 {
                                     driver_name: "serverFolderContents",
                                     method_name: "serverFolderContents"  }
@@ -735,7 +730,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 } else {
                     this.open_file_path += "/" + fileorFolder.name
                 }
-               var result2 = await callFunction(
+               let result2 = await callFunction(
                                    {
                                        driver_name: "serverFolderContents",
                                        method_name: "serverFolderContents"  }
@@ -800,7 +795,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
            }
 
 
-              var result2 = await callFunction(
+              let result2 = await callFunction(
                                   {
                                       driver_name: "serverFolderContents",
                                       method_name: "serverFolderContents"  }
@@ -823,7 +818,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
            //
         },
           previewApp: function(appId) {
-                var mm = this
+                let mm = this
 
                 if (mm.preview_app_id) {
 
@@ -834,13 +829,13 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           }
           ,
           addLogoForApp: async function(appId) {
-              mm = this
+              let mm = this
 
 
              //
              // search
              //
-             var sql2 =    `SELECT  base_component_id, logo_url
+             let sql2 =    `SELECT  base_component_id, logo_url
                                FROM
                            system_code
                                where
@@ -848,7 +843,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                        and
                                    base_component_id = '${appId}'; `
 
-             var results2 = await callApp(
+             let results2 = await callApp(
                  {
                       driver_name:    "systemFunctions2",
                       method_name:    "sql"
@@ -867,13 +862,13 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           },
 
           openAppid: async function(appId) {
-              mm = this
+              let mm = this
 
 
              //
              // search
              //
-             var sql2 =    `SELECT  base_component_id, logo_url, code
+             let sql2 =    `SELECT  base_component_id, logo_url, code
                                FROM
                            system_code
                                where
@@ -881,7 +876,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                        and
                                    base_component_id = '${appId}'; `
 
-             var results2 = await callApp(
+             let results2 = await callApp(
                  {
                       driver_name:    "systemFunctions2",
                       method_name:    "sql"
@@ -892,9 +887,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                  })
 
               if (results2.length > 0) {
-                var code  = results2[0].code
+                let code  = results2[0].code
                 //alert(code)
-                var rest_api_base_url = saveHelper.getValueOfCodeString(code, "rest_api")
+                let rest_api_base_url = saveHelper.getValueOfCodeString(code, "rest_api")
                 if (rest_api_base_url) {
                     window.open(location.protocol + "//" + location.hostname + ":" + location.port + "/" + rest_api_base_url, appId)
                 } else {
@@ -908,6 +903,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
             addApp: async function(baseComponentId, displayName, other) {
+                let mm = this
               if (baseComponentId) {
                   let app = {
                                 type: "app",
@@ -944,7 +940,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                           })
           },
           copyAndEditApp: async function(event,  baseComponentId ) {
-              var mm = this
+              let mm = this
 
               this.open_file_name = ""
               this.open_file_path = "/"
@@ -952,7 +948,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-              var result = await callApp(
+              let result = await callApp(
                                 {
                                     driver_name: "copyApp",
                                     method_name: "copyAppshareApp"
@@ -974,7 +970,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
           downloadApp: async function(event,  ipfsHash ) {
-              var mm = this
+              let mm = this
 
               this.open_file_name = ""
               this.open_file_path = "/"
@@ -982,7 +978,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-              var result = await callApp(
+              let result = await callApp(
                   {
                       driver_name: "downloadApp",
                       method_name: "downloadApp"
@@ -1029,8 +1025,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-            var form = document.getElementById('uploadfilefromhomepageform');
-            var formData = new FormData(form);
+            let form = document.getElementById('uploadfilefromhomepageform');
+            let formData = new FormData(form);
 
             xmlhttp.open("POST","/file_upload_single",true);
             xmlhttp.send(formData);
@@ -1042,8 +1038,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-          var form = document.getElementById('openfilefromhomepageform');
-          var formData = new FormData(form);
+          let form = document.getElementById('openfilefromhomepageform');
+          let formData = new FormData(form);
 
           xmlhttp.open("POST","/file_open_single",true);
           xmlhttp.send(formData);
