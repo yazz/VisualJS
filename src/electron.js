@@ -2,6 +2,7 @@
 
 const ipfsAPI = require('ipfs-api');
 const OnlyIpfsHash = require('ipfs-only-hash')
+const useragent = require('express-useragent');
 let isIPFSConnected = false
 const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
 let testBuffer = new Buffer("Testcode zooey11");
@@ -2013,7 +2014,19 @@ function getRoot(req, res, next) {
 
 
     } else {
-        homepage = path.join( userData, 'apps/homepage.html' )
+        //if navigator.userAgentData.mobile;
+        let uasource = req.headers['user-agent']
+        var uaval = useragent.parse(uasource);
+
+        // a Boolean that tells you if the request
+        // is from a mobile device
+        var isMobile = uaval.isMobile
+        //zzz
+        if (isMobile) {
+            homepage = path.join( userData, 'apps/mobilehomepage.html' )
+        } else {
+            homepage = path.join( userData, 'apps/homepage.html' )
+        }
         runOnPageExists(req,res,homepage)
         return
     }
@@ -5757,6 +5770,7 @@ async function setUpComponentsLocally() {
     // apps
     //
     await evalLocalSystemDriver('homepage',     path.join(__dirname, '../public/visifile_drivers/apps/homepage.js'),{save_html: true, username: "default", reponame: "homepage", version: "latest"})
+    await evalLocalSystemDriver('mobilehomepage',     path.join(__dirname, '../public/visifile_drivers/apps/mobilehomepage.js'),{save_html: true, username: "default", reponame: "mobilehomepage", version: "latest"})
     await evalLocalSystemDriver('appstore',     path.join(__dirname, '../public/visifile_drivers/apps/appstore.js'),{save_html: true, username: "default", reponame: "appstore", version: "latest"})
     await evalLocalSystemDriver('yazz_blank',   path.join(__dirname, '../public/visifile_drivers/apps/yazz_blank.js'),{username: "default", reponame: "yazz_blank", version: "latest"})
 

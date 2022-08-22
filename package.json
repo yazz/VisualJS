@@ -24,6 +24,7 @@
     "estraverse": "^5.3.0",
     "express": "^4.17.3",
     "express-session": "^1.17.2",
+    "express-useragent": "^1.0.15",
     "express-ws": "^4.0.0",
     "fd-diskspace": "^1.0.0",
     "http": "^0.0.0",
