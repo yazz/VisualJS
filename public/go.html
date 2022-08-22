@@ -2409,23 +2409,8 @@ async function initFn() {
         if (editAppShareApp) {
             showProgressBar()
             var nid = nextItem++;
-            await loadV2("app_editor_3")
-            add_card({
-                        id: nid,
-                        card: {
-                            id:                 nid,
-                            name:               "fdsfsd",
-                            base_component_id:  "app_editor_3",
-                            code_id:            "app_editor_3",
-                            display_name:       "fdsfds",
-                            args:                {app_id: editAppShareApp},
-                            type:               "app"
-                        }});
             mainMoonApp.show_loader = false
             autoScroll = false
-            setTimeout(async function() {
-                await select_card(nid)
-            },2000)
             refresh();
         }
 
