@@ -548,22 +548,24 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
     mounted: async function() {
         let mm = this
-        debugger
-        if ((typeof($RUNNING_IN_ELECTRON) !== 'undefined')  && $RUNNING_IN_ELECTRON) {
-            this.electron = true
-        }
 
-        if (typeof($HIDEIMPORTBUTTONS) !== 'undefined') {
-            if ($HIDEIMPORTBUTTONS == 'true') {
-                mm.hideImportButtons = true
+        await onPageInitialized( async function() {
+            debugger
+            if ((typeof($RUNNING_IN_ELECTRON) !== 'undefined')  && $RUNNING_IN_ELECTRON) {
+                mm.electron = true
             }
-        }
+
+            if (typeof($HIDEIMPORTBUTTONS) !== 'undefined') {
+                if ($HIDEIMPORTBUTTONS == 'true') {
+                    mm.hideImportButtons = true
+                }
+            }
 
 
-       //
-       // search
-       //
-       let sql2 =    `SELECT  id, base_component_id, logo_url, read_write_status, display_name
+            //
+            // search
+            //
+            let sql2 =    `SELECT  id, base_component_id, logo_url, read_write_status, display_name
                          FROM
                      system_code
                          where
@@ -574,70 +576,72 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 //        and
 //        visibility = 'PUBLIC'
 
-       let results2 = await callApp(
-           {
-                driver_name:    "systemFunctions2",
-                method_name:    "sql"
-           }
-           ,
-           {
-               sql: sql2
-           })
+            let results2 = await callApp(
+                {
+                    driver_name:    "systemFunctions2",
+                    method_name:    "sql"
+                }
+                ,
+                {
+                    sql: sql2
+                })
 
-        for (  let ee = 0 ; ee < results2.length ; ee++  ) {
-            //alert(JSON.stringify(results2[ee],null,2))
-            await mm.addApp(results2[ee].base_component_id, results2[ee].display_name)
-            mm.app_logos[results2[ee].base_component_id] = results2[ee].logo_url
+            for (  let ee = 0 ; ee < results2.length ; ee++  ) {
+                //alert(JSON.stringify(results2[ee],null,2))
+                await mm.addApp(results2[ee].base_component_id, results2[ee].display_name)
+                mm.app_logos[results2[ee].base_component_id] = results2[ee].logo_url
 
-       }
-       mm.refresh++
-
-
-
-
-
-
-
-        this.$root.$on('message', async function(text) {
-            if (text.type == "insert_app_at") {
-            //debugger
-                await mm.addLogoForApp(text.base_component_id)
-                await mm.addApp(text.base_component_id, text.display_name)
-                mm.edit_app = text.base_component_id
-                mm.preview_app_id = null
-                mm.preview_app_loaded = false
-                mm.refresh++
             }
+            mm.refresh++
 
-            if (text.type == "close_app") {
-                mm.edit_app = null;
-                mm.open_file_name = ""
-                mm.open_file_path = "/"
-                saveCodeToFile = null
 
-                mm.refresh++
+
+
+
+
+
+            mm.$root.$on('message', async function(text) {
+                if (text.type == "insert_app_at") {
+                    //debugger
+                    await mm.addLogoForApp(text.base_component_id)
+                    await mm.addApp(text.base_component_id, text.display_name)
+                    mm.edit_app = text.base_component_id
+                    mm.preview_app_id = null
+                    mm.preview_app_loaded = false
+                    mm.refresh++
+                }
+
+                if (text.type == "close_app") {
+                    mm.edit_app = null;
+                    mm.open_file_name = ""
+                    mm.open_file_path = "/"
+                    saveCodeToFile = null
+
+                    mm.refresh++
+                }
+
+            })
+
+
+            globalEventBus.$on('new-appshare-app-uploaded',
+                async function(data) {
+                    await mm.addLogoForApp(data)
+                    await mm.addApp(data)
+                    setTimeout(function() {
+                        mm.editApp(null, data)
+                    },250)
+                });
+
+
+            await mm.loadAppStoreApps()
+
+            let highlightAppOnStartup = getUrlParam("id")
+            if (highlightAppOnStartup) {
+                mm.selectApp(highlightAppOnStartup)
+
             }
-
         })
 
-
-         globalEventBus.$on('new-appshare-app-uploaded',
-            async function(data) {
-                await mm.addLogoForApp(data)
-                await mm.addApp(data)
-                setTimeout(function() {
-                      mm.editApp(null, data)
-                },250)
-         });
-
-
-         await mm.loadAppStoreApps()
-
-        let highlightAppOnStartup = getUrlParam("id")
-        if (highlightAppOnStartup) {
-        mm.selectApp(highlightAppOnStartup)
-
-        }
 
       },
 

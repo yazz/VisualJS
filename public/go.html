@@ -11,6 +11,15 @@
     <script>
         var web3loaded = false
         var pageInitialised = false
+        var executeOnPageLoad = null
+        async function onPageInitialized(doCode) {
+debugger
+            executeOnPageLoad = doCode
+            if (pageInitialised) {
+                await executeOnPageLoad()
+                executeOnPageLoad = null
+            }
+        }
         var useWeb3 = async function() {
 
             if (!web3loaded) {
@@ -3063,7 +3072,7 @@ function setupWebSocket(host, port)
     //                  Share the container environent variables with the front end
     //
     // ----------------------------------------------------------------------------------------------
-    socket.on('env_vars',function(data) {
+    socket.on('env_vars',async function(data) {
         //console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
 //zzz
         var allEnvVarNames = Object.keys(data.value)
@@ -3086,7 +3095,14 @@ function setupWebSocket(host, port)
                 }
         }
         pageInitialised = true
+debugger
+        if (executeOnPageLoad) {
+            await executeOnPageLoad()
+            executeOnPageLoad = null
+        }
     });
+
+
 
 
 
