@@ -10,6 +10,7 @@
 
     <script>
         var web3loaded = false
+        var pageInitialised = false
         var useWeb3 = async function() {
 
             if (!web3loaded) {
@@ -141,7 +142,7 @@
 
         }
     }
-    //zzz
+
 
         function filterBlockchainParams(blockchainDetails) {
             return {
@@ -3064,7 +3065,7 @@ function setupWebSocket(host, port)
     // ----------------------------------------------------------------------------------------------
     socket.on('env_vars',function(data) {
         //console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
-
+//zzz
         var allEnvVarNames = Object.keys(data.value)
         for (var i=0; i< allEnvVarNames.length;i++) {
                 try
@@ -3084,6 +3085,7 @@ function setupWebSocket(host, port)
                     console.log(errr)
                 }
         }
+        pageInitialised = true
     });
 
 
