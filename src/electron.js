@@ -1928,7 +1928,7 @@ function getRoot(req, res, next) {
             res.end(fs.readFileSync(homepage));
             return
         }
-        if (req.headers.host.toLowerCase().endsWith('/yazz.com')) {
+        if (req.headers.host.toLowerCase().endsWith('yazz.com')) {
 		res.writeHead(301,
 			{Location: homepageUrl }
 			);
