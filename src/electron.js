@@ -1936,6 +1936,13 @@ function getRoot(req, res, next) {
 			res.end();
 			return;
 		};
+        if (req.headers.host.toLowerCase().endsWith('yazz.com')) {
+            res.writeHead(301,
+                {Location: homepageUrl }
+            );
+            res.end();
+            return;
+        };
         if (req.headers.host.toLowerCase().endsWith('dannea.com')) {
 		res.writeHead(301,
 			{Location: homepageUrl }
