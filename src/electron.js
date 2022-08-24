@@ -1917,6 +1917,7 @@ function getRoot(req, res, next) {
     //var homepageUrl = serverProtocol + '://yazz.com/visifile/index.html?time=' + new Date().getTime()
     //var homepageUrl = serverProtocol + '://www.yazz.com'
     var homepageUrl = 'https://yazz.com/app/homepage.html'
+    console.log("req.headers.host: " + req.headers.host)
 	if (req.headers.host) {
         if (req.query.goto) {
             outputDebug("*** FOUND goto")
