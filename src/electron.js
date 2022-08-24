@@ -1916,7 +1916,7 @@ function getRoot(req, res, next) {
     // a Boolean that tells you if the request
     // is from a mobile device
     var isMobile = uaval.isMobile
-    //console.log("uaval: "  + JSON.stringify(uaval,null,2))
+    console.log("uaval: "  + JSON.stringify(uaval,null,2))
 
     //console.log("Host: " + req.headers.host + ", " + hostcount);
 	//console.log("Full URL: " + req.protocol + '://' + req.get('host') + req.originalUrl);
@@ -2034,12 +2034,7 @@ function getRoot(req, res, next) {
 
     } else {
         //if navigator.userAgentData.mobile;
-        let uasource = req.headers['user-agent']
-        var uaval = useragent.parse(uasource);
 
-        // a Boolean that tells you if the request
-        // is from a mobile device
-        var isMobile = uaval.isMobile
         //console.log("uaval: "  + JSON.stringify(uaval,null,2))
         //zzz
         if (isMobile) {
