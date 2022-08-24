@@ -2029,6 +2029,7 @@ function getRoot(req, res, next) {
         // a Boolean that tells you if the request
         // is from a mobile device
         var isMobile = uaval.isMobile
+        console.log("uaval: "  + JSON.stringify(uaval,null,2))
         //zzz
         if (isMobile) {
             homepage = path.join( userData, 'apps/mobilehomepage.html' )
