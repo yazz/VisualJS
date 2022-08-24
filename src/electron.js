@@ -1915,26 +1915,31 @@ function runOnPageExists(req, res, homepage) {
 
 
 }
-
-function getRoot(req, res, next) {
-	hostcount++;
+function isRequestFromMobile(req) {
     let uasource = req.headers['user-agent']
-    var uaval = useragent.parse(uasource);
+    let uaval = useragent.parse(uasource);
 
     // a Boolean that tells you if the request
     // is from a mobile device
-    var isMobile = uaval.isMobile
+    let isMobile = uaval.isMobile
+    if (!isMobile) {
+    }
     console.log("uaval: "  + JSON.stringify(uaval,null,2))
+    return isMobile
+}
+function getRoot(req, res, next) {
+	hostcount++;
 
     //console.log("Host: " + req.headers.host + ", " + hostcount);
 	//console.log("Full URL: " + req.protocol + '://' + req.get('host') + req.originalUrl);
+	let isMobile = isRequestFromMobile(req)
 
     var homepage = path.join(__dirname, '../public/go.html')
     //var homepageUrl = serverProtocol + '://yazz.com/visifile/index.html?time=' + new Date().getTime()
     //var homepageUrl = serverProtocol + '://www.yazz.com'
     var homepageUrl = 'https://yazz.com/app/homepage.html'
     if (isMobile) {
-        homepage = 'https://yazz.com/app/mobilehomepage.html'
+        homepageUrl = 'https://yazz.com/app/mobilehomepage.html'
     }
     console.log("req.headers.host: " + req.headers.host)
 	if (req.headers.host) {
@@ -2041,10 +2046,7 @@ function getRoot(req, res, next) {
 
 
     } else {
-        //if navigator.userAgentData.mobile;
 
-        //console.log("uaval: "  + JSON.stringify(uaval,null,2))
-        //zzz
         if (isMobile) {
             homepage = path.join( userData, 'apps/mobilehomepage.html' )
         } else {
