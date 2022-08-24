@@ -372,9 +372,9 @@ if (process.argv.length > 1) {
       .option('-g, --cacert2 [cacert2]', 'Public HTTPS CA certificate 2 [cacert2]', null)
       .option('-h, --loadjsfile [loadjsfile]', 'Load the following JS from a file (default not set) [loadjsfile]', null)
       .option('-i, --cacert3 [cacert3]', 'Public HTTPS CA certificate 3 [cacert3]', null)
-      .option('-j, --host [host]', 'Server address of the host (default yazz.com) [host]', ' yazz.com')
-      .option('-ch, --centralhost [centralhost]', 'Server address of the central host (default  yazz.com) [centralhost]', ' yazz.com')
-      .option('-och, --ocentralhost [ocentralhost]', 'Dummy - do not use - Server address of the central host (default  yazz.com) [ocentralhost]', ' yazz.com')
+      .option('-j, --host [host]', 'Server address of the host (default yazz.com) [host]', 'yazz.com')
+      .option('-ch, --centralhost [centralhost]', 'Server address of the central host (default  yazz.com) [centralhost]', 'yazz.com')
+      .option('-och, --ocentralhost [ocentralhost]', 'Dummy - do not use - Server address of the central host (default  yazz.com) [ocentralhost]', 'yazz.com')
       .option('-k, --statsinterval [statsinterval]', 'Allow to show debug info every x seconds (default 10 seconds) [statsinterval]', 10)
       .option('-l, --showstats [showstats]', 'Allow to show stats debug info (default false) [showstats]', 'false')
       .option('-m, --showprogress [showprogress]', 'Show progress when starting Visual Javascript (default false) [showprogress]', 'false')
@@ -399,9 +399,9 @@ if (process.argv.length > 1) {
       .option('-jc, --jaegercollector [jaegercollector]', 'jaeger collector endpoint (default not set) eg: http://localhost:14268/api/traces [jaegercollector]', null)
       .parse(process.argv);
 } else {
-    program.host = ' yazz.com'
+    program.host = 'yazz.com'
     program.hostport = '443'
-    program.centralhost = ' yazz.com'
+    program.centralhost = 'yazz.com'
     program.centralhostport = '443'
     program.locked = 'true'
     program.debug = 'false'
