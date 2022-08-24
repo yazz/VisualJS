@@ -126,94 +126,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             </form>
 
 
-            <form       id="openfilefromhomepageform"
-                        method="POST"
-                        style="display:none;"
-                        enctype="multipart/form-data"
-                        action="/file_open_single"  >
-
-                <input  type="file"
-                        id="openfilefromhomepage"
-                        name="openfilefromhomepage"
-                        multiple
-                        style="display:none;"
-                        v-on:change="openFileChange();"
-                        />
-            </form>
-
-            <div    v-if="showFilePicker"
-                    style="position: fixed;left:10vw;top:5vh;width:80vw;height:80vh; z-index: 200000;opacity:1;background-color: white;font-size: 20px;">
-
-                    <div    style="font-size: 40px;"
-                            >
-                            Choose a .yazz file
-                    </div>
-
-                <div style="width:80vw;height:5vh; background-color: black;color:white;font-size: 30px;" class="text-left">
-                    <button     class="btn btn"
-                                style='margin:2px;margin-right:50px;background-color: darkgray;'
-                                v-on:click="chosenFolderUp();"
-                           >
-
-                        Up
-                    </button>
-
-                    {{open_file_path}}
-                </div>
-
-                <div    style="width:80vw;height:50vh; background-color: white; overflow:scroll;"
-                        class="text-left">
-
-                    <div    v-for="(file_or_folder_item, index) in open_file_list"
-                            v-bind:refresh='refresh'
-                            v-bind:style='"background-color: " + (file_or_folder_item.type == "folder"?"darkgray":"lightgray") + "; margin:0px;height:auto;"'
-                            v-on:click='selectOpenFileOrFolder(file_or_folder_item)'
-                            class="text-left"
-                            >
-                                {{file_or_folder_item.name}}
-                    </div>
-                </div>
 
 
 
-                <div>
-
-
-
-                    <button
-
-                            class="btn btn-danger btn-lg"
-                           style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold; background-color:lightgray;color:black;display:inline;'
-                           v-on:click="showFilePicker=false"
-                           >
-
-                            <img    src='/driver_icons/cancel.svg'
-                                    style='position:relative;max-width: 70px; bottom:0px; left: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
-                                    >
-                            </img>
-
-                        Cancel
-                    </button>
-                </div>
-
-
-            </div>
-
-
-            <button
-                   class="btn btn-danger btn-lg"
-                   style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold; background-color:lightgray;color:black;'
-                   v-on:click="importApp();"
-                   v-if="!hideImportButtons"
-                   >
-
-                    <img    src='/driver_icons/import.svg'
-                            style='position:relative;max-width: 70px; left:0px; top: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
-                            >
-                    </img>
-
-                Import
-            </button>
 
 
             <button
@@ -278,9 +193,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                             <div    v-if='(preview_app_id == item.data.id) '
                                     v-bind:refresh='refresh'
                                     v-on:mouseover="$event.stopPropagation();$event.preventDefault();"
-                                    v-on:click="$event.stopPropagation();$event.preventDefault();"
-                                    v-on:mousedown="$event.stopPropagation();$event.preventDefault();"
-                                    v-on:mouseup="$event.stopPropagation();$event.preventDefault();"
+                                    v-on:mousedown="openAppid(item.data.id);"
                                     style="opacity:.7;z-index:2147483647;position:absolute;left:0px;top;0px;color:black;background-color:lightblue;width:100%;height:100%;">
 
                                     <div style="padding: 10px;">
@@ -294,30 +207,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                             v-on:click='editApp($event,item.data.id)'
                                             >
                                     </img>
-
-                                    <button style='position:absolute;top:250px;left:20px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
-                                            class='btn btn-sm'
-                                            v-on:click='openAppid(item.data.id);'>
-                                            <img    src='/driver_icons/play.png'
-                                                    style='position:relative;max-width: 40px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
-                                                    >
-                                            </img>
-                                        Play
-                                    </button>
-
-
-                                    <button style='position:absolute;top:250px;left:140px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
-                                            class='btn btn-sm'
-                                            v-on:click='showProgressBar();editApp($event,item.data.id)'>
-                                            <img    src='/driver_icons/edit.png'
-                                                    style='position:relative;max-width: 40px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
-                                                    >
-                                            </img>
-                                        Edit
-                                    </button>
-
-
-
 
 
                             </div>
