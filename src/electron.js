@@ -1107,6 +1107,7 @@ function sendOverWebSockets(data) {
             }
 
         } catch (webSocketError) {
+            console.log(webSocketError)
             serverwebsockets[i] = null
         }
     }
