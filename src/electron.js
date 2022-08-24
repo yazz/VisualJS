@@ -1916,7 +1916,7 @@ function getRoot(req, res, next) {
     var homepage = path.join(__dirname, '../public/go.html')
     //var homepageUrl = serverProtocol + '://yazz.com/visifile/index.html?time=' + new Date().getTime()
     //var homepageUrl = serverProtocol + '://www.yazz.com'
-    var homepageUrl = 'https://www.yazz.com'
+    var homepageUrl = 'https://yazz.com'
 	if (req.headers.host) {
         if (req.query.goto) {
             outputDebug("*** FOUND goto")
@@ -1928,7 +1928,7 @@ function getRoot(req, res, next) {
             res.end(fs.readFileSync(homepage));
             return
         }
-        if (req.headers.host.toLowerCase().endsWith('yazz.com')) {
+        if (req.headers.host.toLowerCase().endsWith('www.yazz.com')) {
 		res.writeHead(301,
 			{Location: homepageUrl }
 			);
