@@ -30,8 +30,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     <div    v-for="(item, index) in intro_apps"
             v-bind:refresh='refresh'
             v-if="(edit_app == item.data.id)"
-            v-on:mouseenter="preview_app_loaded = false; preview_app_id = item.data.id;previewApp(item.data.id)"
-            v-on:mouseleave="preview_app_loaded = false; preview_app_id = null;"
             style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
             class='app_card'>
 
@@ -94,63 +92,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-    <!-- ------------------------------------------------ 
-
-    Show the top buttons, New App, etc
-    
-    ------------------------------------------------ -->
-    <div    style='vertical-align:top;padding:10px; margin:0;padding-top: 15px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;padding-left: 27px;'
-            v-if="(!edit_app) && (main_tab=='apps')"
-            v-bind:refresh='refresh'>
-            
-        <h1 style='width:100%;vertical-align:top;display:inline-block;font-size:100px; text-align: center;margin: 0px;padding-left:70px;'>
-
-
-
-
-
-
-            <form       id="uploadfilefromhomepageform"
-                        method="POST"
-                        style="display:none;"
-                        enctype="multipart/form-data"
-                        action="/file_upload_single"  >
-
-                <input  type="file"
-                        id="uploadfilefromhomepage"
-                        name="uploadfilefromhomepage"
-                        multiple
-                        style="display:none;"
-                        v-on:change="submitFormAjax();"
-                        />
-            </form>
-
-
-
-
-
-
-
-            <button
-                   class="btn btn-danger btn-lg"
-                   style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold; background-color:lightgray;color:black;'
-                   v-on:click="if (electron) {openFileElectron();} else {openFile();}"
-                   v-if="!hideImportButtons"
-                   >
-
-                    <img    src='/driver_icons/fileopen.png'
-                            style='position:relative;max-width: 70px; left:0px; top: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
-                            >
-                    </img>
-
-                Open file
-            </button>
-          
-        </h1>
-    </div>
-
-
-
 
 
 
@@ -204,7 +145,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                             v-bind:src='app_logos[item.data.id]'
                                             style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;z-index:0;'
                                             v-bind:alt='app_logos[item.data.id]'
-                                            v-on:click='editApp($event,item.data.id)'
                                             >
                                     </img>
 
@@ -217,18 +157,15 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
                         <div v-if="preview_app_id != item.data.id"
-                             style='border-radius: 0px;padding:0px; margin:0;'
-                             v-on:click='editApp($event,item.data.id)'>
+                             style='border-radius: 0px;padding:0px; margin:0;'>
                             <img    v-if='(app_logos[item.data.id] && (app_logos[item.data.id] != ""))'
                                     v-bind:src='app_logos[item.data.id]'
                                     style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;'
                                     v-bind:alt='app_logos[item.data.id]'
-                                    v-on:click='editApp($event,item.data.id)'
                                     >
                             </img>
 
-                            <a  v-on:click='editApp($event,item.data.id)'
-                                class="nav-link active" href="#" style="position: absolute; bottom:0px;font-style:bold;width:90%;overflow-x: hidden;white-space: nowrap;font-size: 20px;color:white;">
+                            <a  class="nav-link active" href="#" style="position: absolute; bottom:0px;font-style:bold;width:90%;overflow-x: hidden;white-space: nowrap;font-size: 20px;color:white;">
 
                                 {{item.data.displayName}}
                             </a>
@@ -374,9 +311,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 async function(data) {
                     await mm.addLogoForApp(data)
                     await mm.addApp(data)
-                    setTimeout(function() {
-                        mm.editApp(null, data)
-                    },250)
                 });
 
 
@@ -562,12 +496,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-         importApp: function() {
-             //alert(1)
-            saveCodeToFile = null
-            document.getElementById("uploadfilefromhomepage").click();
-           //
-        },
           previewApp: function(appId) {
                 let mm = this
 
@@ -680,96 +608,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               }
               return null
           },
-          copyApp: async function(  baseComponentId ) {
-              callDriverMethod( {driver_name: "copyApp",
-                                 method_name: "copyAppshareApp"}
-                                ,{base_component_id:    baseComponentId}
-                          ,
-                          async function(result) {
-                              await mm.addApp(result.base_component_id)
-
-                          })
-          },
-          copyAndEditApp: async function(event,  baseComponentId ) {
-              let mm = this
-
-              this.open_file_name = ""
-              this.open_file_path = "/"
-              saveCodeToFile = null
 
 
 
-              let result = await callApp(
-                                {
-                                    driver_name: "copyApp",
-                                    method_name: "copyAppshareApp"
-                                }
-                                ,
-                                {
-                                    base_component_id:    baseComponentId
-                                })
 
-              await mm.addLogoForApp(result.base_component_id)
-
-              await mm.addApp(result.base_component_id, result.new_display_name)
-              setTimeout(function() {
-                    mm.editApp(event, result.base_component_id)
-              },50)
-
-
-          },
-
-
-          downloadApp: async function(event,  ipfsHash ) {
-              let mm = this
-
-              this.open_file_name = ""
-              this.open_file_path = "/"
-              saveCodeToFile = null
-
-
-
-              let result = await callApp(
-                  {
-                      driver_name: "downloadApp",
-                      method_name: "downloadApp"
-                  }
-                  ,
-                  {
-                      ipfs_hash:            ipfsHash
-                  })
-
-              await mm.addLogoForApp(result.base_component_id)
-
-              await mm.addApp(result.base_component_id, result.display_name)
-              setTimeout(function() {
-                  //mm.openAppid(result.base_component_id)
-                  mm.main_tab = "apps"
-                  hideProgressBar()
-                  mm.selectApp(result.base_component_id)
-
-              },50)
-
-
-          },
-
-
-          editApp: async function(event,item) {
-              await loadV2("app_editor_3")
-              if (event) {
-                  event.stopPropagation()
-              }
-
-              if (!component_loaded[item]) {
-                 await loadV2([item])
-              }
-
-              this.edit_app = item;
-              mm.preview_app_id = null
-              mm.preview_app_loaded = false
-              mm.refresh ++
-          }
-          ,
           submitFormAjax: function() {
             let xmlhttp= window.XMLHttpRequest ?
                 new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
