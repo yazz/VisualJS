@@ -118,6 +118,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     v-bind:refresh='refresh'
                     v-bind:id='"appid_" + item.data.id'
                     v-on:mouseenter="if (!disableAppSelect) {preview_app_loaded = false; preview_app_id = item.data.id;previewApp(item.data.id)}"
+                    v-on:touchstart="touchMovingOnly=false"
+                    v-on:touchmove="touchMovingOnly=true"
+                    v-on:touchend="if (!touchMovingOnly) {if (!disableAppSelect) {preview_app_loaded = false; preview_app_id = item.data.id;previewApp(item.data.id)}};"
                     v-on:oldmouseleave="preview_app_loaded = false; preview_app_id = null;"
                     v-bind:style='"display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;  " + ((preview_app_id == item.data.id)?"top:0px;width:  330px;height: 330px;":"top:100px;width:  200px;height: 200px;")'
                     classold='app_card'>
@@ -133,8 +136,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                             <div    v-if='(preview_app_id == item.data.id) '
                                     v-bind:refresh='refresh'
-                                    v-on:mouseover="$event.stopPropagation();$event.preventDefault();"
-                                    v-on:mousedown="openAppid(item.data.id);"
                                     style="opacity:.7;z-index:2147483647;position:absolute;left:0px;top;0px;color:black;background-color:lightblue;width:100%;height:100%;">
 
                                     <div style="padding: 10px;">
@@ -148,6 +149,17 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                             >
                                     </img>
 
+                                  <button style='position:absolute;top:250px;left:70px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
+                                          class='btn btn-large'
+                                          v-on:click='openAppid(item.data.id);'
+                                          v-on:touchstart='openAppid(item.data.id);'
+                                          >
+                                    <img    src='/driver_icons/play.png'
+                                            style='position:relative;max-width: 40px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
+                                    >
+                                    </img>
+                                    Play
+                                  </button>
 
                             </div>
                         </div>
@@ -210,6 +222,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     data: function() {
         return {
                     main_tab:       "apps",
+                    touchMovingOnly:false,
+                    touchOpenMovingOnly:false,
                     hideImportButtons: false,
                     preview_app_id: null,
                     preview_app_loaded: false,
@@ -405,94 +419,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     })
          }
          ,
-         selectOpenFileOrFolder: async function(fileorFolder) {
-            //
-            // if this is a folder
-            //
-            if (fileorFolder.type == "folder") {
-                if (isWin) {
-                    this.open_file_path += "\\" + fileorFolder.name
-                } else {
-                    this.open_file_path += "/" + fileorFolder.name
-                }
-               let result2 = await callFunction(
-                                   {
-                                       driver_name: "serverFolderContents",
-                                       method_name: "serverFolderContents"  }
-                                       ,{
-                                               path: this.open_file_path
-                                       })
-              if (result2) {
-                  this.open_file_list = result2
-              }
 
-
-          //
-          // otherwise if this is a file
-          //
-          } else {
-              this.showFilePicker=false
-              this.open_file_name = this.open_file_path + "/" + fileorFolder.name
-
-
-              //alert(this.open_file_name)
-              saveCodeToFile = this.open_file_name
-
-              file_upload_uuid = uuidv4()
-              let openfileurl = "/file_name_load?file_name_load=" + encodeURI(saveCodeToFile) + "&client_file_upload_id=" + encodeURI(file_upload_uuid)
-              //console.log("openfileurl:= " + openfileurl)
-              callAjax( openfileurl,
-                  function(res) {
-                      console.log(res)
-                  })
-
-          }
-
-           //
-        },
-        chosenFolderUp:  async function() {
-            //alert(1)
-           //document.getElementById("openfilefromhomepage").click();
-           let lastFolderIndex = null
-           //debugger
-
-           if (isWin) {
-               lastFolderIndex = this.open_file_path.lastIndexOf("\\")
-               if (lastFolderIndex == (this.open_file_path.length - 1)) {
-                   this.open_file_path = this.open_file_path.substring(0,this.open_file_path.length - 1)
-                   lastFolderIndex = this.open_file_path.lastIndexOf("\\")
-               }
-
-               //
-               // if we have gone all the way up to c: then we may not find a
-               // final backslash (\) symbol
-               //
-               if (lastFolderIndex == -1) {
-                   this.open_file_path = this.open_file_path.substring(0,2) + "\\"
-
-
-               } else {
-                   this.open_file_path = this.open_file_path.substring(0,lastFolderIndex) + "\\"
-               }
-           } else {
-               lastFolderIndex = this.open_file_path.lastIndexOf("/")
-               this.open_file_path = this.open_file_path.substring(0,lastFolderIndex)
-           }
-
-
-              let result2 = await callFunction(
-                                  {
-                                      driver_name: "serverFolderContents",
-                                      method_name: "serverFolderContents"  }
-                                      ,{
-                                              path: this.open_file_path
-                                      })
-             if (result2) {
-                 this.open_file_list = result2
-             }
-
-
-       },
 
 
 
