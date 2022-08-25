@@ -99,6 +99,21 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                >
               App Store
           </a>
+
+          <a      href="https://yazzapps.com"
+                  target=new
+                  v-bind:refresh='refresh'
+                  style='font-size:1.5rem;color:white;'>
+            Company
+    
+          </a>
+          <a      href="https://github.com/yazz/yazz"
+                  target=new
+                  v-bind:refresh='refresh'
+                  style='padding-left:30px;font-size:1.5rem;color:white;'>
+            Github
+    
+          </a>
     </div>
 
 
