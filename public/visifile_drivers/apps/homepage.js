@@ -72,29 +72,28 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                     <div    style="display: inline-block;border:0px; padding: 0px; margin: 0px;background-color: black;position:absolute;width:10px;height:10px;left:0px;top:20px;background-color:red;"></div>
 
-
-                    <div    v-bind:refresh='refresh'
-                            style="border:0px; padding: 0px; margin: 0px;padding-left:15px;font-family: Helvetica;color: darkgray;font-weight: bold;letter-spacing: 0px;font-size: 9px;line-height: 1;display: inline-block;top:0px;position:absolute;left:20px;">
-                         <div    v-bind:refresh='refresh'
-                                 style="border:0px; padding: 0px; margin: 0px;padding-left:15px;font-family: Helvetica;color: darkgray;font-weight: bold;letter-spacing: 0px;font-size: 16px;line-height: 1;display: inline-block;top:0px;left:-20px;">
-                                 <a      href="https://yazz.com"
-                                         target=new
-                                         v-bind:refresh='refresh'
-                                         style='font-size:2rem;color:white;'>
-                                         Yazz
-
-                                 </a>
-                         </div>
-                    </div>
             </div>
-            <a href="#"  v-bind:style='"text-align: center;display: inline-block;color:white;position:relative;left:100px;height:40px;padding:5px;width:40%;"
-                                + ((main_tab=="apps")?"background-color: black;black;color:lightgray;":"background-color: darkgray;black;color:black;")'
+
+
+              <div    v-bind:refresh='refresh'
+                      style="border:0px; padding: 0px; margin: 0px;padding-left:15px;font-family: Helvetica;color: darkgray;font-weight: bold;letter-spacing: 0px;font-size: 9px;line-height: 1;display: inline-block;top:-10px;position:relative;left:-20px;">
+                <div    v-bind:refresh='refresh'
+                        style="border:0px; padding: 0px; margin: 0px;padding-left:15px;font-family: Helvetica;color: darkgray;font-weight: bold;letter-spacing: 0px;font-size: 16px;line-height: 1;display: inline-block;top:0px;left:-20px;">
+                  <a      href="https://yazz.com"
+                          target=new
+                          v-bind:refresh='refresh'
+                          style='font-size:2rem;color:white;'>
+                    Yazz
+        
+                  </a>
+                </div>
+              </div>
+            <a href="#"  v-bind:style='"text-align: left;display: inline-block;color:white;position:relative;left:20px;height:40px;padding:5px;top: -10px;"'
                  v-on:click='main_tab="apps"'
                                 >
               Downloaded apps
             </a>
-          <a href="#" v-bind:style='"text-align: center;display: inline-block;color:white;position:relative;right:0px;width:40%;height:40px;padding:5px;"
-               + ((main_tab=="store")?"background-color: black;color:lightgray;":"background-color: darkgray;color:black;")'
+          <a href="#" v-bind:style='"text-align: left;display: inline-block;color:white;position:relative;left:30px;height:40px;padding:5px;top: -10px;"'
                v-on:click='main_tab="store"'
                >
               App Store
@@ -103,14 +102,14 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           <a      href="https://yazzapps.com"
                   target=new
                   v-bind:refresh='refresh'
-                  style='font-size:1.5rem;color:white;'>
+                  style='text-align: left;display: inline-block;color:white;position:relative;left:30px;height:40px;padding:5px;top: -10px;'>
             Company
     
           </a>
           <a      href="https://github.com/yazz/yazz"
                   target=new
                   v-bind:refresh='refresh'
-                  style='padding-left:30px;font-size:1.5rem;color:white;'>
+                  style='text-align: left;display: inline-block;color:white;position:relative;left:30px;height:40px;padding:5px;top: -10px;'>
             Github
     
           </a>
