@@ -714,7 +714,7 @@ load_once_from_file(true)
            return {
                file_save_state:    (saveCodeToFile?saveCodeToFile:""),
                info_text:           "",
-               hideImportButtons: false,
+               hideImportButtons: true,
                refresh:             0,
                editor_loaded:       false,
                console_output:      "",
@@ -1915,8 +1915,8 @@ showTimer()
                 var mm = this
                 await useIdeTools()
                 uiDebuggerOn = true
-                if ($HIDEIMPORTBUTTONS == 'true') {
-                    mm.hideImportButtons = true
+                if ($HIDEIMPORTBUTTONS == 'false') {
+                    mm.hideImportButtons = false
                 }
                 override_app_editor = null
 
