@@ -1429,7 +1429,15 @@ showTimer()
                    if (!mm.is_server_app) {
                        if (mm.app_shown) {
                            //await mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
+
+                           // if the app has been changed during the save then don't reload the app
                            mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
+                           if (save_state != 'pending') {
+//                               mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
+                           }
+                           else {
+                           //    hideProgressBar()
+                           }
                        }
                    }
                    hideProgressBar()
