@@ -1,5 +1,5 @@
 
-# Yazz - A Decentralised App Store
+# Yazz - Self Service Apps Without the IT Department 
 
 
 ## Docs (in progress)
@@ -16,9 +16,9 @@ https://yazz.com/visifile/docs/yazz_march_2020.pdf
 
 
 ## What is Yazz?
-Yazz is a decentralised app store, which allows you to build Web apps visually. It runs on the web, on PC/Mac/Linux (desktop application or NodeJS) or as a container (Docker, Kubernetes). To develop an app:
+Yazz is a both an IDE for building small web applications and a decentralised app store. Yazz allows you to build Web apps visually. Yazz runs on the web, PC/Mac/Linux (desktop application or NodeJS) or as a container (Docker, Kubernetes). To develop an app:
 
-- Start Yazz web server
+- Start the Yazz web server
 - Create an app in your web browser
 - Share the app with others by sending them the app URL
 
