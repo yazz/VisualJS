@@ -272,8 +272,13 @@ load_once_from_file(true)
                       {{read_only?"Read only mode":""}}
                     </span>
 
-             
 
+
+                      <span
+                          v-if="!read_only && (save_state == 'pending') && hideImportButtons"
+                      >
+                          Unsaved changes...
+                    </span>
 
                     <span
                         v-if="!read_only && (save_state == 'saved') && hideImportButtons"
@@ -1251,7 +1256,7 @@ load_once_from_file(true)
                 this.edit_name = false
                 this.show_name = true
 
-//zzz
+
 
                 // commented out as we don't want to replace _ (underscores) with spaces
                 //nn = nn.replace(/[\W_]+/g,"_");
@@ -1704,7 +1709,7 @@ showTimer()
 
 
                        setTimeout(async function() {
-                       //zzz
+
                            //code = saveHelper.deleteCodeString(code, "display_name")
                            //code = saveHelper.insertCodeString(code, "display_name", newDisplayName)
 
