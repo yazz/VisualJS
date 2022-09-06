@@ -3162,14 +3162,18 @@ async function startServices() {
             // design_time_html
             //
             let design_time_html = req.body.value.design_time_html
-            srcText = saveHelper.replaceBetween(srcText,"<!-- design_time_html_start -->", "<!-- design_time_html_end -->",design_time_html)
+            if ( design_time_html ) {
+                srcText = saveHelper.replaceBetween(srcText,"<!-- design_time_html_start -->", "<!-- design_time_html_end -->",design_time_html)
+            }
 
 
             //
             // DESIGN TIME MOUNTED CODE
             //
             let designTimeMountedCode = req.body.value.design_time_mounted_code
-            srcText = saveHelper.replaceBetween(srcText,"/*NEW_DESIGN_TIME_MOUNTED_START*/", "/*NEW_DESIGN_TIME_MOUNTED_END*/",designTimeMountedCode)
+            if (designTimeMountedCode) {
+                srcText = saveHelper.replaceBetween(srcText,"/*NEW_DESIGN_TIME_MOUNTED_START*/", "/*NEW_DESIGN_TIME_MOUNTED_END*/",designTimeMountedCode)
+            }
 
 
 
@@ -3177,7 +3181,9 @@ async function startServices() {
             // RUN TIME MOUNTED CODE
             //
             let runtimeMountedCode = req.body.value.runtime_mounted_code
-            srcText = saveHelper.replaceBetween(srcText,"/*NEW_RUNTIME_MOUNTED_START*/", "/*NEW_RUNTIME_MOUNTED_END*/",runtimeMountedCode)
+            if (runtimeMountedCode) {
+                srcText = saveHelper.replaceBetween(srcText,"/*NEW_RUNTIME_MOUNTED_START*/", "/*NEW_RUNTIME_MOUNTED_END*/",runtimeMountedCode)
+            }
 
 
 
@@ -3185,7 +3191,9 @@ async function startServices() {
             // VARS CODE
             //
             let varsCode = req.body.value.vars_code
-            srcText = saveHelper.replaceBetween(srcText,"/*NEW_VARS_START*/", "/*NEW_VARS_END*/",varsCode)
+            if (varsCode) {
+                srcText = saveHelper.replaceBetween(srcText,"/*NEW_VARS_START*/", "/*NEW_VARS_END*/",varsCode)
+            }
 
 
 
@@ -3194,7 +3202,9 @@ async function startServices() {
             // run_time_html
             //
             let run_time_html = req.body.value.run_time_html
-            srcText = saveHelper.replaceBetween(srcText,"<!-- run_time_html_start -->", "<!-- run_time_html_end -->",run_time_html)
+            if (run_time_html) {
+                srcText = saveHelper.replaceBetween(srcText,"<!-- run_time_html_start -->", "<!-- run_time_html_end -->",run_time_html)
+            }
 
 
 
