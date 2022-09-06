@@ -1987,8 +1987,10 @@ showTimer()
 
                     if ((!mm.read_only) && (mm.save_state == 'pending' || (!mm.save_state))) {
                         //debugger
-                        appClearIntervals();
-                        await mm.save(mm.base_component_id, mm.code_id, null)
+                        if (!disableAutoSave) {
+                            appClearIntervals();
+                            await mm.save(mm.base_component_id, mm.code_id, null)
+                        }
                     }
                 },5000)
 
