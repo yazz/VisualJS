@@ -437,11 +437,13 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                                                                 <b>${abiEntry.name}</b> function
                                                             </div>`})
                           smartContractMethodsCode.push(
-`${abiEntry.name}: async function() {
+                              {
+                                code: `${abiEntry.name}: async function() {
     let sdf = await this.getPropertyAsync("${abiEntry.name}")
 return sdf
 }
-`)
+`
+                              })
 
                       } else  if (abiEntry.stateMutability == "nonpayable") {
                           smartContractMethods.push(
@@ -457,10 +459,13 @@ return sdf
                               })
 
                           smartContractMethodsCode.push(
-`${abiEntry.name}: async function() {
+                            {
+                                code:
+                                    `${abiEntry.name}: async function() {
     await this.callMethodAsync("${abiEntry.name}", [])
 }
-`)
+`
+                            })
                       }
                   }
 
