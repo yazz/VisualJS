@@ -1372,6 +1372,12 @@ load_once_from_file(true)
            // This is called to save the currently edited code
            // ---------------------------------------------------------------
            save: async function( base_component_id, code_id , textIn) {
+            let mm = this
+            if (mm.inSave) {
+                mm.inSave = false
+                return false
+            }
+               mm.inSave = true
 //debugger
              resetTimer("save")
 
@@ -1384,9 +1390,9 @@ load_once_from_file(true)
                      this.editor_text = textIn
                 }
 showTimer()
-                var mm = this
                 if (mm.read_only) {
-                     return
+                     mm.inSave = false
+                     return false
                 }
                 showProgressBar()
 
@@ -1432,11 +1438,11 @@ showTimer()
 
                            // if the app has been changed during the save then don't reload the app
                            mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
-                           if (save_state != 'pending') {
-//                               mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
+                           if (mm.save_state != 'pending') {
+                               //mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
                            }
                            else {
-                           //    hideProgressBar()
+                               hideProgressBar()
                            }
                        }
                    }
@@ -1444,6 +1450,8 @@ showTimer()
                    mm.save_state = "saved"
                    mm.checkSavedFile()
                    showTimer("done")
+                     mm.inSave = false
+                     return true
                  })
 
 
@@ -1452,7 +1460,8 @@ showTimer()
                 hideProgressBar()
                 this.save_state = "saved"
                 this.checkSavedFile()
-
+                mm.inSave = false
+                return true
             }
 
            }
