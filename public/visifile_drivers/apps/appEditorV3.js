@@ -393,7 +393,7 @@ load_once_from_file(true)
                         v-if='app_loaded && is_ui_app && (!is_server_app)'
                         style='background-color: white;'
                         v-bind:is="base_component_id">
-               APP HERE
+               
             </component>
 
 
