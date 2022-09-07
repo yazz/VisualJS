@@ -38,7 +38,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
         <div    v-if="(edit_app == item.data.id)"
                 v-bind:refresh='refresh'
-                style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:none; padding: 0px;">
+                style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: black;overflow-y:none; padding: 0px;">
 
                 <component  id="editor_component2"
                             v-if='isValidObject(item.data)'
