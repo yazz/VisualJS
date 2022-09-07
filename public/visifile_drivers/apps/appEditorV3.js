@@ -255,7 +255,7 @@ load_once_from_file(true)
                               v-on:mouseleave='setInfo(null)'
                               v-on:click='setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null)},100)'
                               type="button" class="btn  btn-warning"
-                              v-if="((!hideImportButtons) && (!read_only) && ((save_state == 'pending') || (!save_state)))"
+                              v-if="(((!hideImportButtons) || disableAutoSave) && (!read_only) && ((save_state == 'pending') || (!save_state)))"
                               >
 
                               <img
@@ -275,7 +275,7 @@ load_once_from_file(true)
 
 
                       <span
-                          v-if="!read_only && (save_state == 'pending') && hideImportButtons"
+                          v-if="!read_only && (save_state == 'pending') && hideImportButtons && (!disableAutoSave)"
                       >
                           Unsaved changes...
                     </span>

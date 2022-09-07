@@ -12,13 +12,17 @@ logo_url("/driver_icons/todo.png")
 read_only(true)
 */
 Vue.component("todo", {
-    template: `<div style='width:100%;height:100%;padding:20px;background-color:white;'>
-         Todo List<br>
-          <li v-for='item in items'>
-              <button v-on:click='delete_item(item.id)'>x</button> {{item.name}}
-          </li>
-          <input id=add v-model="new_item"></input>
-          <button v-on:click='add_item(new_item)'>Add</button>
+    template: `<div   class="containerclasssmalltext"
+                      style='width:100%;height:100%;padding:20px;background-color:white;'>
+                      <div>
+                         Todo List<br>
+                          <li v-for='item in items'>
+                              <button v-on:click='delete_item(item.id)'>x</button> {{item.name}}
+                          </li>
+                          <input id=add v-model="new_item"></input>
+                    
+                          <button v-on:click='add_item(new_item)'>Add</button>
+                    </div>
     </div>
      `
     ,
