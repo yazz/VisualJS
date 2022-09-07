@@ -1208,6 +1208,43 @@ key:"_addFormElementData",value:function(a){if("FORM"===this.element.tagName)for
 </script>
 
 <style>
+    <style>
+    .containerclasslargetext {
+        container-type: inline-size;
+    }
+    .containerclassmediumtext {
+        container-type: inline-size;
+    }
+    .containerclasssmalltext {
+        container-type: inline-size;
+    }
+    .containerclasshugetext {
+        container-type: inline-size;
+    }
+
+    @container  (min-width: 0px) {
+        .containerclasslargetext > * {
+            font-size: 25cqw;
+        }
+    }
+    @container  (min-width: 0px) {
+        .containerclassmediumtext > * {
+            font-size: 15cqw;
+        }
+    }
+    @container  (min-width: 0px) {
+        .containerclasssmalltext > * {
+            font-size: 5cqw;
+        }
+    }
+    @container  (min-width: 0px) {
+        .containerclasshugetext > * {
+            font-size: 50cqw;
+        }
+    }
+    </style>
+
+
 blink {
   -webkit-animation: 2s linear infinite condemned_blink_effect; /* for Safari 4.0 - 8.0 */
   animation: 2s linear infinite condemned_blink_effect;
