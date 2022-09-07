@@ -2378,6 +2378,7 @@ Pushlist
             mm.vb_editor_element_id = "vb_editor_"+ uuidv4()
             mm.local_app            = localAppshareApp
             mm.in_change_model      = true
+            disableAutoSave = false
 
             //console.log("UI Component mounted: " + mm.uid2 )
 
