@@ -19,7 +19,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
       template:
 `<div   v-bind:refresh='refresh'
-        style="overflow-y:auto;overflow-x: auto;width:100%;height:100%;">
+        style="overflow-y:auto;overflow-x: auto;width:100vw;height:100%;position: fixed; left:0px">
 
 
     <!-- ------------------------------------------------ 
