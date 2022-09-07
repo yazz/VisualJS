@@ -2763,7 +2763,7 @@ function loadAppIntoElement(tagName, rootElement) {
     }
 
     new Vue({
-        template: `<${tagName} app_id='${editAppShareApp}' v-bind:card_index='1' style='background:black;'></${tagName}>`,
+        template: `<${tagName} app_id='${editAppShareApp}' v-bind:card_index='1'></${tagName}>`,
         el: "#" + rootElement
     })
 }
