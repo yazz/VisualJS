@@ -1,4 +1,4 @@
-FROM node:10
+FROM node:14
 WORKDIR /home/node/
 COPY package.json .
 RUN npm install
@@ -10,7 +10,7 @@ RUN chown -R node:root /home/node
 
 EXPOSE 3000
 
-LABEL io.k8s.description            The Yazz Visual Javascript system
+LABEL io.k8s.description            Yazz OS
 LABEL io.openshift.expose-services  3000:http
 LABEL io.openshift.non-scalable     true
 LABEL io.openshift.min-memory       1Gi
