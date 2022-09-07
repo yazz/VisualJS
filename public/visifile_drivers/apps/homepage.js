@@ -113,6 +113,15 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             Github
     
           </a>
+          <a      href="https://discord.gg/7cauwRN9QB"
+                  target=new
+                  v-bind:refresh='refresh'
+                  style='text-align: left;display: inline-block;color:white;position:relative;left:30px;height:40px;padding:5px;top: -10px;'>
+            Discord
+    
+          </a>
+
+      
     </div>
 
 
