@@ -86,21 +86,21 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                            <a      href="https://yazzapps.com"
                                    target=new
                                    v-bind:refresh='refresh'
-                                   style='padding-left:50px;font-size:1rem;color:white;'>
+                                   style='padding-left:20px;font-size:.8rem;color:white;'>
                              Company
 
                            </a>
                            <a      href="https://github.com/yazz/yazz"
                                    target=new
                                    v-bind:refresh='refresh'
-                                   style='padding-left:20px;font-size:1rem;color:white;'>
+                                   style='padding-left:10px;font-size:.8rem;color:white;'>
                              Github
 
                            </a>
                            <a      href="https://discord.gg/7cauwRN9QB"
                                    target=new
                                    v-bind:refresh='refresh'
-                                   style='padding-left:20px;font-size:1rem;color:white;'>
+                                   style='padding-left:10px;font-size:.8rem;color:white;'>
                              Discord
 
                            </a>
