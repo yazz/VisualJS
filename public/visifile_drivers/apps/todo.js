@@ -12,8 +12,8 @@ logo_url("/driver_icons/todo.png")
 read_only(true)
 */
 Vue.component("todo", {
-    template: `<div   class="containerclasssmalltext"
-                      style='width:100%;height:100%;padding:20px;background-color:white;'>
+    template: `<div   class="containerclass"
+                      style='width:100%;height:100%;padding:20px;background-color:white;--fontcqw: 25;'>
                       <div>
                          Todo List<br>
                           <li v-for='item in items'>
