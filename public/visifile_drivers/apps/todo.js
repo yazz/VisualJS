@@ -14,17 +14,20 @@ read_only(true)
 Vue.component("todo", {
     template: `<div   class="containerclass"
                       style='width:100%;height:100%;padding:20px;background-color:white;--fontresizable: 5cqw;'>
-                      <div>
-                         Todo List<br>
-                          <li v-for='item in items'>
-                              <button v-on:click='delete_item(item.id)'>x</button> {{item.name}}
-                          </li>
-                          <input id=add v-model="new_item"></input>
-                    
-                          <button v-on:click='add_item(new_item)'>Add</button>
-                    </div>
+    <div>
+      Todo List<br>
+      <input id=add v-model="new_item"></input>
+      <div style="overflow: auto; height: 70%;" >
+
+        <button v-on:click='add_item(new_item)'>Add</button>
+
+        <li v-for='item in items'>
+          <button v-on:click='delete_item(item.id)'>x</button> {{item.name}}
+        </li>
+      </div>
     </div>
-     `
+    </div>
+    `
     ,
     data: function() {
         return {
