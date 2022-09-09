@@ -2315,10 +2315,11 @@ async function initFn() {
           }
           ,
 
-          template: "<div   v-bind:id='element_id'"+
+          template: "<span   v-bind:id='element_id'"+
           "                  v-bind:style=\"'padding:0px;position: relative; margin: auto;height:100%;width:100%;border:0px; overflow-y:none;'\" "+
           "                  v-on:click='click_card(item.id)'"+
           "                  v-bind:class='card_selected?(is_static?\"container\":\" container\"):\" container\"' >"+
+          "<div style='background-color:navy;height:40px;width: 100vw;'></div>" +
           "<div " +
 		               " v-bind:style=\"'; padding0px; font-family: Helvetica ;  width: 100vw ;visibility: ' + (visible?'':'hidden') + ';' \">"+
 
