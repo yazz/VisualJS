@@ -2322,7 +2322,9 @@ async function initFn() {
           "                  v-bind:class='card_selected?(is_static?\"container\":\" container\"):\" container\"' >"+
               `
           <div style='background-color:navy;height:40px;width: 100vw;color:white;'
-                v-on:click='show_page_info = true'>
+                v-on:click='show_page_info = true'
+                v-on:touchstart='show_page_info = true'
+                >
           </div>
 
             <div    v-if='show_page_info'
