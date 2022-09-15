@@ -2312,6 +2312,16 @@ async function initFn() {
           data: function () {
             return {
                 show_page_info: false
+                ,
+                comments:
+                [
+                    {comment: "Hi", rating: 2},
+                    {comment: "goodbye", rating: 5}
+                ]
+                ,
+                rating: 3.5
+                ,
+                numRatings: 2
             }
           }
           ,
@@ -2329,6 +2339,12 @@ async function initFn() {
 
             <div    v-if='show_page_info'
                     style='width:100vw; height:100vh;color:white;background-color:navy;'>
+
+                <li v-for='comment in comments'
+                    style='color:white;background-color:navy;'>
+                  {{comment.comment}} , {{comment.rating}}
+                </li>
+
 
                 <button v-on:click='show_page_info=false;'>Close</button>
             </div>
