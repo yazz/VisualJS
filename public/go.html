@@ -2301,6 +2301,11 @@ var usePort = null
 async function initFn() {
     setTimeout(async function(){
 
+
+
+
+
+
         Vue.component('card_component', {
             props: ["item","visible","element_id", "full_screen", "card_selected", "is_static"],
             methods: {
@@ -2322,6 +2327,8 @@ async function initFn() {
                 rating: 3.5
                 ,
                 numRatings: 2
+                ,
+                new_comment: ""
             }
           }
           ,
@@ -2340,9 +2347,25 @@ async function initFn() {
             <div    v-if='show_page_info'
                     style='width:100vw; height:100vh;color:white;background-color:navy;'>
 
+                Add comment
+                <textarea  style='display: inline-block;'
+                        v-model='new_comment'>
+                </textarea>
+                <br>
+
+                Rating (1-5, 5 is best):
+                <input type="range" min="1" max="5" value="0">
+                </input>
+                <button type=button class='btn btn-primary' style='margin-left: 10px' v-on:click=''>
+                    Submit comment
+                </button>
+
+                <br><br>
+                Previous comments:
                 <li v-for='comment in comments'
                     style='color:white;background-color:navy;'>
                   {{comment.comment}} , {{comment.rating}}
+
                 </li>
 
 
@@ -2372,6 +2395,15 @@ async function initFn() {
 
 "</div>"+
 "            </div>"})
+
+
+
+
+
+
+
+
+
 
 
         mainMoonApp = new Vue({
