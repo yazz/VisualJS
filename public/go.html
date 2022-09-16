@@ -2313,6 +2313,10 @@ async function initFn() {
                     autoScroll = false;
                     await select_card(id)
                 }
+                ,
+                submitComment: async function() {
+                    alert("submit")
+                }
             },
           data: function () {
             return {
@@ -2325,6 +2329,8 @@ async function initFn() {
                 ]
                 ,
                 rating: 3.5
+                ,
+                new_rating: 0
                 ,
                 numRatings: 2
                 ,
@@ -2345,23 +2351,30 @@ async function initFn() {
           </div>
 
             <div    v-if='show_page_info'
-                    style='width:100vw; height:100vh;color:white;background-color:navy;'>
+                    style='width:100vw; height:100vh;color:white;background-color:navy;padding:20px;'>
 
-                Add comment
+                Add comment<br>
                 <textarea  style='display: inline-block;'
-                        v-model='new_comment'>
+                           id='new_comment'
+                           v-model='new_comment'>
                 </textarea>
-                <br>
+                <br><br>
 
-                Rating (1-5, 5 is best):
-                <input type="range" min="1" max="5" value="0">
-                </input>
-                <button type=button class='btn btn-primary' style='margin-left: 10px' v-on:click=''>
+                Rating (1-5, 5 is best):<br>
+                <input  id="new_rating"
+                        v-model="new_rating"
+                        type="range"
+                        min="1"
+                        max="5"
+                        value="0">
+                </input>{{new_rating}}
+                <br>
+                <button type=button class='btn btn-primary' style='margin-left: 10px' v-on:click='submitComment()'>
                     Submit comment
                 </button>
 
-                <br><br>
-                Previous comments:
+                <br><br><br><br>
+                <b>Previous comments:</b>
                 <li v-for='comment in comments'
                     style='color:white;background-color:navy;'>
                   {{comment.comment}} , {{comment.rating}}
@@ -2369,7 +2382,7 @@ async function initFn() {
                 </li>
 
 
-                <button v-on:click='show_page_info=false;'>Close</button>
+                <button v-on:click='show_page_info=false;' >Close</button>
             </div>
               ` +
           "<div " +
