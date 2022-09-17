@@ -2842,6 +2842,82 @@ async function startServices() {
             return getRoot(req, res, next);
         })
 
+
+        app.get('/submit_comment', async function (req, res) {
+            console.log("submit_comment")
+            let topApps = []
+
+            var promise = new Promise(async function(returnfn) {
+
+                dbsearch.serialize(
+                    function() {
+                        dbsearch.all(
+                            " select  " +
+                            "     distinct(app_list.id), app_name, app_icon_data, ipfs_hash " +
+                            " from " +
+                            "     app_list " +
+                            " inner JOIN " +
+                            "     icon_images ON app_list.icon_image_id = icon_images.id " +
+                            " where " +
+                            "     release = 'RELEASED'"
+                            ,
+                            []
+                            ,
+                            async function(err, rows) {
+                                if (!err) {
+                                    try {
+                                        var returnRows = []
+                                        if (rows.length > 0) {
+                                            for (let rowIndex =0; rowIndex < rows.length; rowIndex++) {
+                                                let thisRow = rows[rowIndex]
+                                                returnRows.push(
+                                                    {
+
+                                                        data: {
+                                                            id: thisRow.app_name
+                                                            ,
+                                                            logo: thisRow.app_icon_data
+                                                            ,
+                                                            ipfs_hash: thisRow.ipfs_hash
+                                                            ,
+                                                            display_name: thisRow.app_name
+                                                        }
+                                                    })
+                                            }
+                                        }
+
+
+
+
+                                    } catch(err) {
+                                        console.log(err);
+                                        var stack = new Error().stack
+                                        console.log( stack )
+                                    } finally {
+                                        returnfn(returnRows)
+                                    }
+
+                                }
+                            }
+                        );
+                    }, sqlite3.OPEN_READONLY)
+            })
+            var ret = await promise
+
+            topApps = ret
+
+            res.writeHead(200, {'Content-Type': 'application/json'});
+            res.end(JSON.stringify(
+                topApps
+            ));
+
+        });
+
+
+
+
+
+
         app.get('/topapps', async function (req, res) {
             console.log("get top apps")
             let topApps = []

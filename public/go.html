@@ -2315,7 +2315,19 @@ async function initFn() {
                 }
                 ,
                 submitComment: async function() {
-                    alert("submit")
+                    //alert("submit")
+                    //debugger
+                    let mm                           = this
+                    let newrestUrl = location.protocol + "//" + getNetworkHostName() + ":" +
+                        location.port + "/submit_comment" + "/" +
+                        "?"
+
+                    callAjax(newrestUrl,
+                        function(response) {
+                            debugger
+                            let resp = JSON.stringify(JSON.parse(response),null,2)
+                        })
+
                 }
             },
           data: function () {
