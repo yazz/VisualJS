@@ -2885,6 +2885,10 @@ async function startServices() {
             res.end(JSON.stringify(
                 topApps
             ));
+            setTimeout(async function() {
+                let ipfsHash = await saveItemToIpfs("Test")
+                let afdsfds=ipfsHash
+            },500)
 
         });
 
