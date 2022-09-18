@@ -2321,10 +2321,13 @@ async function initFn() {
                     let newrestUrl = location.protocol + "//" + getNetworkHostName() + ":" +
                         location.port + "/submit_comment" + "/" +
                         "?"
-
+debugger
                     callAjaxPost(newrestUrl
                     ,
                         {
+                            comment: mm.new_comment
+                            ,
+                            rating: mm.new_rating
                         }
                         ,
                         function(response) {

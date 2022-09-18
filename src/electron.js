@@ -2842,10 +2842,12 @@ async function startServices() {
             return getRoot(req, res, next);
         })
 
-
+//zzz
         app.post('/submit_comment', async function (req, res) {
             console.log("submit_comment")
             let topApps = []
+            let newComment = req.body.value.comment
+            let newRating = req.body.value.rating
 
             var promise = new Promise(async function(returnfn) {
 
@@ -2909,7 +2911,11 @@ async function startServices() {
                 status: "ok"
                 ,
 
-                new_comment: {comment: "Hi", rating: 2},
+                new_comment: {
+                    comment: newComment
+                    ,
+                    rating: newRating
+                    },
             }
 
             res.writeHead(200, {'Content-Type': 'application/json'});
