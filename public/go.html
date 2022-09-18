@@ -2322,7 +2322,11 @@ async function initFn() {
                         location.port + "/submit_comment" + "/" +
                         "?"
 
-                    callAjax(newrestUrl,
+                    callAjaxPost(newrestUrl
+                    ,
+                        {
+                        }
+                        ,
                         function(response) {
                             debugger
                             let resp = JSON.parse(response)

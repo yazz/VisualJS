@@ -2843,7 +2843,7 @@ async function startServices() {
         })
 
 
-        app.get('/submit_comment', async function (req, res) {
+        app.post('/submit_comment', async function (req, res) {
             console.log("submit_comment")
             let topApps = []
 
