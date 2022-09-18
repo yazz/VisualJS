@@ -2321,7 +2321,7 @@ async function initFn() {
                     let newrestUrl = location.protocol + "//" + getNetworkHostName() + ":" +
                         location.port + "/submit_comment" + "/" +
                         "?"
-debugger
+
                     callAjaxPost(newrestUrl
                     ,
                         {
@@ -2333,10 +2333,12 @@ debugger
                         function(response) {
                             debugger
                             let resp = JSON.parse(response)
+                            mm.new_comment = ""
+                            mm.new_rating = 0
                             if (resp.status == "ok")
-                            mm.comments.push(
-                                    resp.new_comment
-                            )
+                                mm.comments.push(
+                                        resp.new_comment
+                                )
                         })
 
                 }
