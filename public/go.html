@@ -2325,9 +2325,10 @@ async function initFn() {
                     callAjax(newrestUrl,
                         function(response) {
                             debugger
-                            let resp = JSON.stringify(JSON.parse(response),null,2)
+                            let resp = JSON.parse(response)
+                            if (resp.status == "ok")
                             mm.comments.push(
-                                    {comment: "goodbye", rating: 5}
+                                    resp.new_comment
                             )
                         })
 

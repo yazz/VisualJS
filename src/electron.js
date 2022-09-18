@@ -2904,7 +2904,13 @@ async function startServices() {
             })
             var ret = await promise
 
-            topApps = ret
+            topApps =
+            {
+                status: "ok"
+                ,
+
+                new_comment: {comment: "Hi", rating: 2},
+            }
 
             res.writeHead(200, {'Content-Type': 'application/json'});
             res.end(JSON.stringify(
