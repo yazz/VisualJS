@@ -2846,6 +2846,8 @@ async function startServices() {
         app.post('/submit_comment', async function (req, res) {
             console.log("submit_comment")
             let topApps = []
+            let baseComponentId = req.body.value.base_component_id
+            let baseComponentIdVersion = req.body.value.base_component_id_version
             let newComment = req.body.value.comment
             let newRating = req.body.value.rating
 
@@ -2855,7 +2857,7 @@ async function startServices() {
                     try {
                         dbsearch.serialize(function() {
                             dbsearch.run("begin exclusive transaction");
-                            stmtInsertComment.run(  uuidv1()  )
+                            stmtInsertComment.run(  uuidv1() , baseComponentId , baseComponentIdVersion, newComment,newRating)
                             dbsearch.run("commit")
                             returnfn2()
                         })
@@ -4798,9 +4800,9 @@ function setUpSql() {
 
 
     stmtInsertComment = dbsearch.prepare(" insert or replace into comments_and_ratings " +
-        "    (id) " +
+        "    (id, base_component_id, version , comment, rating) " +
         " values " +
-        "    (?);");
+        "    (?,?,?,?,?);");
 
 
     stmtInsertDependency = dbsearch.prepare(" insert or replace into app_dependencies " +
