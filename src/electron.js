@@ -2851,6 +2851,21 @@ async function startServices() {
 
             var promise = new Promise(async function(returnfn) {
 
+                let promise2 = new Promise(async function(returnfn2) {
+                    try {
+                        dbsearch.serialize(function() {
+                            dbsearch.run("begin exclusive transaction");
+                            stmtInsertComment.run(  uuidv1()  )
+                            dbsearch.run("commit")
+                            returnfn2()
+                        })
+                    } catch(er) {
+                        console.log(er)
+                        returnfn2()
+                    }
+                })
+                await promise2
+
                 dbsearch.serialize(
                     function() {
                         dbsearch.all(
@@ -4781,6 +4796,11 @@ function setUpSql() {
                                 " where " +
                                 "    username = ?  and  reponame = ? and version = ?;");
 
+
+    stmtInsertComment = dbsearch.prepare(" insert or replace into comments_and_ratings " +
+        "    (id) " +
+        " values " +
+        "    (?);");
 
 
     stmtInsertDependency = dbsearch.prepare(" insert or replace into app_dependencies " +
