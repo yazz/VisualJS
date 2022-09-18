@@ -2326,6 +2326,9 @@ async function initFn() {
                         function(response) {
                             debugger
                             let resp = JSON.stringify(JSON.parse(response),null,2)
+                            mm.comments.push(
+                                    {comment: "goodbye", rating: 5}
+                            )
                         })
 
                 }
