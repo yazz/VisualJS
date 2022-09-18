@@ -2871,17 +2871,14 @@ async function startServices() {
 
             })
             //var ret = await promise
+            let commentsAndRatings = await getCommentsForComponent(baseComponentId)
 
             topApps =
             {
                 status: "ok"
                 ,
 
-                new_comment: {
-                    comment: newComment
-                    ,
-                    rating: newRating
-                    },
+                comments_and_ratings: commentsAndRatings
             }
 
             res.writeHead(200, {'Content-Type': 'application/json'});
@@ -2893,7 +2890,24 @@ async function startServices() {
 
 
 
+        app.post('/get_comments_for_component', async function (req, res) {
+            let baseComponentId = req.body.value.base_component_id
+            let commentsAndRatings = await getCommentsForComponent(baseComponentId)
 
+            topApps =
+                {
+                    status: "ok"
+                    ,
+
+                    comments_and_ratings: commentsAndRatings
+                }
+
+            res.writeHead(200, {'Content-Type': 'application/json'});
+            res.end(JSON.stringify(
+                topApps
+            ));
+
+        });
 
 
         app.get('/topapps', async function (req, res) {
@@ -6761,4 +6775,55 @@ async function updateItemLists(parsedCode) {
             parsedCode.systemCodeId
         )
     }
+}
+
+
+
+async function getCommentsForComponent(baseComponentId) {
+    var promise = new Promise(async function (returnfn) {
+
+        dbsearch.serialize(
+            function () {
+                dbsearch.all(
+                    " select  " +
+                    "     comment, rating " +
+                    " from " +
+                    "     comments_and_ratings " +
+                    " where " +
+                    "     base_component_id = ?"
+                    ,
+                    [baseComponentId]
+                    ,
+                    async function (err, rows) {
+                        if (!err) {
+                            try {
+                                var returnRows = []
+                                if (rows.length > 0) {
+                                    for (let rowIndex = 0; rowIndex < rows.length; rowIndex++) {
+                                        let thisRow = rows[rowIndex]
+                                        returnRows.push(
+                                            {
+                                                comment: thisRow.comment
+                                                ,
+                                                rating: thisRow.rating
+                                            })
+                                    }
+                                }
+
+
+                            } catch (err) {
+                                console.log(err);
+                                var stack = new Error().stack
+                                console.log(stack)
+                            } finally {
+                                returnfn(returnRows)
+                            }
+
+                        }
+                    }
+                );
+            }, sqlite3.OPEN_READONLY)
+    })
+    var ret = await promise
+    return ret
 }

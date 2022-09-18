@@ -2314,6 +2314,36 @@ async function initFn() {
                     await select_card(id)
                 }
                 ,
+                updateComments: async function() {
+                    let mm                           = this
+                    let newrestUrl = location.protocol + "//" + getNetworkHostName() + ":" +
+                        location.port + "/get_comments_for_component" + "/" +
+                        "?"
+
+                    callAjaxPost(newrestUrl
+                        ,
+                        {
+                            base_component_id: base_component_id
+                            ,
+                            base_component_id_version: null
+                            ,
+                            comment: mm.new_comment
+                            ,
+                            rating: mm.new_rating
+                        }
+                        ,
+                        function(response) {
+                            debugger
+                            let resp = JSON.parse(response)
+                            mm.new_comment = ""
+                            mm.new_rating = 0
+                            if (resp.status == "ok")
+                                mm.comments = resp.comments_and_ratings
+                        })
+
+
+                }
+                ,
                 submitComment: async function() {
                     //alert("submit")
                     //debugger
@@ -2340,12 +2370,17 @@ async function initFn() {
                             mm.new_comment = ""
                             mm.new_rating = 0
                             if (resp.status == "ok")
-                                mm.comments.push(
-                                        resp.new_comment
-                                )
+                                mm.comments = resp.comments_and_ratings
                         })
 
                 }
+                ,
+                openInfo: async function() {
+                    let mm = this
+                    mm.show_page_info = true
+                    await mm.updateComments()
+                }
+
             },
           data: function () {
             return {
@@ -2372,8 +2407,8 @@ async function initFn() {
           "                  v-bind:class='card_selected?(is_static?\"container\":\" container\"):\" container\"' >"+
               `
           <div style='background-color:navy;height:40px;width: 100vw;color:white;'
-                v-on:click='show_page_info = true'
-                v-on:touchstart='show_page_info = true'
+                v-on:click=' openInfo()'
+                v-on:touchstart=' openInfo()'
                 >
           </div>
 
