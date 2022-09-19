@@ -2851,26 +2851,15 @@ async function startServices() {
             let newComment = req.body.value.comment
             let newRating = req.body.value.rating
 
-            var promise = new Promise(async function(returnfn) {
-
-                let promise2 = new Promise(async function(returnfn2) {
-                    try {
-                        dbsearch.serialize(function() {
-                            dbsearch.run("begin exclusive transaction");
-                            stmtInsertComment.run(  uuidv1() , baseComponentId , baseComponentIdVersion, newComment,newRating)
-                            dbsearch.run("commit")
-                            returnfn2()
-                        })
-                    } catch(er) {
-                        console.log(er)
-                        returnfn2()
-                    }
-                })
-                await promise2
-
-
-            })
-            //var ret = await promise
+//zzz
+            await insertCommentIntoDb(
+                {
+                    baseComponentId:        baseComponentId,
+                    baseComponentIdVersion: baseComponentIdVersion,
+                    newComment:             newComment,
+                    newRating:              newRating
+                }
+            )
             let commentsAndRatings = await getCommentsForComponent(baseComponentId)
 
             topApps =
@@ -2885,6 +2874,7 @@ async function startServices() {
             res.end(JSON.stringify(
                 topApps
             ));
+            //zzz
             setTimeout(async function() {
                 let ipfsHash = await saveJsonItemToIpfs(
                     {
@@ -2893,9 +2883,10 @@ async function startServices() {
                         type_: "component_type_v2('COMPONENT_COMMENT')",
                         format_: "format('JSON')",
                         created_timestamp: 1663567784145,
-                        base_component_id: "gooda",
-                        comment: "A nice component",
-                        rating: "4"
+                        base_component_id: baseComponentId,
+                        base_component_id_version: baseComponentIdVersion,
+                        comment: newComment,
+                        rating: newRating
                     }
 
                 )
@@ -3602,8 +3593,18 @@ async function findLocalIpfsContent() {
                     //zzz
                     let itemType = saveHelper.getValueOfCodeString(ipfsContent,"component_type_v2")
                     if (itemType == "COMPONENT_COMMENT") {
-                        let eee=3
-                        eee++
+                        let formatType = saveHelper.getValueOfCodeString(ipfsContent,"format")
+                        if (formatType == "JSON") {
+                            let jsonComment = JSON.parse(ipfsContent)
+                            await insertCommentIntoDb(
+                                {
+                                    baseComponentId:        jsonComment.base_component_id,
+                                    baseComponentIdVersion: jsonComment.base_component_id_version,
+                                    newComment:             jsonComment.comment,
+                                    newRating:              jsonComment.rating
+                                }
+                            )
+                        }
                     } else if (itemType == "APP") {
                         let parsedCode = parseCode(ipfsContent)
                         parsedCode.ipfsHash = ipfsHashFileName
@@ -6852,4 +6853,27 @@ async function getCommentsForComponent(baseComponentId) {
     })
     var ret = await promise
     return ret
+}
+
+
+async function insertCommentIntoDb(args) {
+    var promise = new Promise(async function(returnfn) {
+
+        let promise2 = new Promise(async function(returnfn2) {
+            try {
+                dbsearch.serialize(function() {
+                    dbsearch.run("begin exclusive transaction");
+                    stmtInsertComment.run(  uuidv1() , args.baseComponentId , args.baseComponentIdVersion, args.newComment,args.newRating)
+                    dbsearch.run("commit")
+                    returnfn2()
+                })
+            } catch(er) {
+                console.log(er)
+                returnfn2()
+            }
+        })
+        await promise2
+
+
+    })
 }
