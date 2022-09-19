@@ -2345,10 +2345,22 @@ async function initFn() {
                 }
                 ,
                 submitComment: async function() {
-                    //alert("submit")
-                    //debugger
                     let mm                           = this
-                    let newrestUrl = location.protocol + "//" + getNetworkHostName() + ":" +
+
+    //debugger
+                    mm.submit_error_message = ""
+                    if (mm.new_comment.length < 5) {
+                        mm.submit_error_message = "You must enter a comment to rate this"
+                        return
+                    }
+
+                    if (mm.new_rating == 0 ) {
+                        mm.submit_error_message = "You must enter a rating"
+                        return
+                    }
+
+
+                        let newrestUrl = location.protocol + "//" + getNetworkHostName() + ":" +
                         location.port + "/submit_comment" + "/" +
                         "?"
 
@@ -2365,12 +2377,15 @@ async function initFn() {
                         }
                         ,
                         function(response) {
-                            debugger
+                            //debugger
                             let resp = JSON.parse(response)
                             mm.new_comment = ""
                             mm.new_rating = 0
                             if (resp.status == "ok")
+                            {
                                 mm.comments = resp.comments_and_ratings
+                                mm.submit_info_message = "Comment submitted"
+                            }
                         })
 
                 }
@@ -2397,6 +2412,10 @@ async function initFn() {
                 numRatings: 0
                 ,
                 new_comment: ""
+                ,
+                submit_error_message: ""
+                ,
+                submit_info_message: ""
             }
           }
           ,
@@ -2434,6 +2453,8 @@ async function initFn() {
                 <button type=button class='btn btn-primary' style='margin-left: 10px' v-on:click='submitComment()'>
                     Submit comment
                 </button>
+                <div style='color:red' id='submit_error'>{{submit_error_message}}</div>
+                <div style='color:green' id='submit_info'>{{submit_info_message}}</div>
 
                 <br><br><br><br>
                 <b>Previous comments:</b>
