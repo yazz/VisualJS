@@ -2842,7 +2842,7 @@ async function startServices() {
             return getRoot(req, res, next);
         })
 
-//zzz
+
         app.post('/submit_comment', async function (req, res) {
             console.log("submit_comment")
             let topApps = []
@@ -2886,7 +2886,19 @@ async function startServices() {
                 topApps
             ));
             setTimeout(async function() {
-                let ipfsHash = await saveItemToIpfs("Test")
+                let ipfsHash = await saveJsonItemToIpfs(
+                    {
+                        type: "COMPONENT_COMMENT",
+                        format: "JSON'",
+                        type_: "component_type_v2('COMPONENT_COMMENT')",
+                        format_: "format('JSON')",
+                        created_timestamp: 1663567784145,
+                        base_component_id: "gooda",
+                        comment: "A nice component",
+                        rating: "4"
+                    }
+
+                )
                 let afdsfds=ipfsHash
             },500)
 
@@ -3587,10 +3599,17 @@ async function findLocalIpfsContent() {
 
                     let fullFileName = path.join(fullIpfsFolderPath, ipfsHashFileName)
                     let ipfsContent = fs.readFileSync(fullFileName, 'utf8')
-                    let parsedCode = parseCode(ipfsContent)
-                    parsedCode.ipfsHash = ipfsHashFileName
-                    await updateItemLists(parsedCode)
-                    await registerIPFS(file);
+                    //zzz
+                    let itemType = saveHelper.getValueOfCodeString(ipfsContent,"component_type_v2")
+                    if (itemType == "COMPONENT_COMMENT") {
+                        let eee=3
+                        eee++
+                    } else if (itemType == "APP") {
+                        let parsedCode = parseCode(ipfsContent)
+                        parsedCode.ipfsHash = ipfsHashFileName
+                        await updateItemLists(parsedCode)
+                        await registerIPFS(file);
+                    }
                 }
                 catch(exp)
                 {
@@ -5326,7 +5345,10 @@ async function evalLocalSystemDriver(driverName, location, options) {
 }
 
 
-
+async function saveJsonItemToIpfs(jsonItem) {
+    let jsonString = JSON.stringify(jsonItem,null,2)
+    await  saveItemToIpfs(jsonString)
+}
 
 
 async function saveItemToIpfs(srcCode) {
