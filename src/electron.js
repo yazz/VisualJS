@@ -2850,6 +2850,7 @@ async function startServices() {
             let baseComponentIdVersion = req.body.value.base_component_id_version
             let newComment = req.body.value.comment
             let newRating = req.body.value.rating
+            let newDateAndTime = new Date().getTime()
 
 //zzz
             await insertCommentIntoDb(
@@ -2857,7 +2858,8 @@ async function startServices() {
                     baseComponentId:        baseComponentId,
                     baseComponentIdVersion: baseComponentIdVersion,
                     newComment:             newComment,
-                    newRating:              newRating
+                    newRating:              newRating,
+                    dateAndTime:            newDateAndTime
                 }
             )
             let commentsAndRatings = await getCommentsForComponent(baseComponentId)
@@ -3601,7 +3603,8 @@ async function findLocalIpfsContent() {
                                     baseComponentId:        jsonComment.base_component_id,
                                     baseComponentIdVersion: jsonComment.base_component_id_version,
                                     newComment:             jsonComment.comment,
-                                    newRating:              jsonComment.rating
+                                    newRating:              jsonComment.rating,
+                                    dateAndTime:            jsonComment.date_and_time
                                 }
                             )
                         }
@@ -4787,9 +4790,9 @@ function setUpSql() {
 
 
     stmtInsertComment = dbsearch.prepare(" insert or replace into comments_and_ratings " +
-        "    (id, base_component_id, version , comment, rating) " +
+        "    (id, base_component_id, version , comment, rating, date_and_time) " +
         " values " +
-        "    (?,?,?,?,?);");
+        "    (?,?,?,?,?,?);");
 
 
     stmtInsertDependency = dbsearch.prepare(" insert or replace into app_dependencies " +
@@ -6863,7 +6866,14 @@ async function insertCommentIntoDb(args) {
             try {
                 dbsearch.serialize(function() {
                     dbsearch.run("begin exclusive transaction");
-                    stmtInsertComment.run(  uuidv1() , args.baseComponentId , args.baseComponentIdVersion, args.newComment,args.newRating)
+                    stmtInsertComment.run(
+                        uuidv1() ,
+                        args.baseComponentId ,
+                        args.baseComponentIdVersion,
+                        args.newComment,
+                        args.newRating,
+                        args.dateAndTime
+                        )
                     dbsearch.run("commit")
                     returnfn2()
                 })
