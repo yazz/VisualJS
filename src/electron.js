@@ -6816,7 +6816,7 @@ async function getCommentsForComponent(baseComponentId) {
             function () {
                 dbsearch.all(
                     " select  " +
-                    "     comment, rating " +
+                    "     comment, rating , date_and_time " +
                     " from " +
                     "     comments_and_ratings " +
                     " where " +
