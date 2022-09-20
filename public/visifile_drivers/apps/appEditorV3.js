@@ -1653,7 +1653,7 @@ showTimer()
                         //do nothing if we set "runthisapp" to false
                        } else {
                             this.resetDebugger()
-                            var prevConsole = console.log
+                            let prevConsole = console.log
                             if ((!mm.is_ui_app) && (!mm.is_server_app)) {
                                 mm.console_output = ""
                                 console.log = function() {
