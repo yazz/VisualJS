@@ -1,5 +1,5 @@
 ---
-- name: This is used to deploy the latest version of Visual Javascript publicly
+- name: This is used to deploy the latest version of Yazz publicly
   hosts: webservers
   vars:
     PROCESS: node
@@ -16,14 +16,14 @@
         chdir: /root/visifile
 
 
-    - name: install the latest version of Visual Javascript
+    - name: install the latest version of Yazz
       git:
         repo: 'https://github.com/yazz/yazz.git'
         dest: /root/visifile
         version: "{{ sha }}"
 
 
-    - name: Start Visual Javascript
+    - name: Start Yazz
       shell:
           cmd:  node src/electron.js --port 443 --public {{ ssl_private }} --private {{ ssl_key }} --usehost {{ use_host }} --https true --cacert1 {{ ssl_cacert1 }} --cacert2 {{ ssl_cacert2 }} --cacert3 {{ ssl_cacert3 }} --showdebug true > nohup.out &
       async: 10

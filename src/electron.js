@@ -377,7 +377,7 @@ if (process.argv.length > 1) {
       .option('-och, --ocentralhost [ocentralhost]', 'Dummy - do not use - Server address of the central host (default  yazz.com) [ocentralhost]', 'yazz.com')
       .option('-k, --statsinterval [statsinterval]', 'Allow to show debug info every x seconds (default 10 seconds) [statsinterval]', 10)
       .option('-l, --showstats [showstats]', 'Allow to show stats debug info (default false) [showstats]', 'false')
-      .option('-m, --showprogress [showprogress]', 'Show progress when starting Visual Javascript (default false) [showprogress]', 'false')
+      .option('-m, --showprogress [showprogress]', 'Show progress when starting Yazz (default false) [showprogress]', 'false')
       .option('-mjms, --maxJobProcessDurationMs [maxJobProcessDurationMs]', 'Maximum time to wait for a job to complete (default 10000 ms) [maxJobProcessDurationMs]', 10000)
       .option('-n, --locked [locked]', 'Allow server to be locked/unlocked on start up (default true) [locked]', 'true')
       .option('-o, --maxprocessesretry [maxprocessesretry]', 'Number of processes to retry when all cores are busy (default 10 processes) [maxprocessesretry]', 10)
@@ -6051,7 +6051,7 @@ async function createdTablesInChild() {
         if (isCodeTtyCode) {
             await startServices()
         } else {
-            console.log("Loading Visual Javascript. Please wait a few minutes ... ")
+            console.log("Loading Yazz. Please wait a few minutes ... ")
             getPort()
 
 
