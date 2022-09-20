@@ -1624,7 +1624,7 @@ showTimer()
                             // load the editor
                             //
                             if ( !mm.editor_loaded ) {
-                                var editorName = "editor_component"
+                                let editorName = "editor_component"
                                 if (override_app_editor != null) {
                                     editorName = override_app_editor
                                 }
