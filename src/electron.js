@@ -6836,6 +6836,8 @@ async function getCommentsForComponent(baseComponentId) {
                                                 comment: thisRow.comment
                                                 ,
                                                 rating: thisRow.rating
+                                                ,
+                                                date_and_time: thisRow.date_and_time
                                             })
                                     }
                                 }
