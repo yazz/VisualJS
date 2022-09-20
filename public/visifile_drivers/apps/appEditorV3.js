@@ -768,7 +768,7 @@ load_once_from_file(true)
              this.rest_params.push({name: "", value: ""})
            },
            callRestApi:  async function() {
-               var mm                           = this
+               let mm                           = this
                var newrestUrl = location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/" + mm.rest_api_base_url + "/" +
                                 mm.rest_api_url_2 + "?"  + mm.getRestParams()
                 mm.rest_api_return_value = ""
@@ -806,7 +806,7 @@ load_once_from_file(true)
 
 
               editExportOptions: async function() {
-                  var mm = this
+                  let mm = this
 
                   this.editor_overloaded = true
                   this.show_download_save = false
@@ -822,7 +822,7 @@ load_once_from_file(true)
               ,
 
            editSqliteSchema: async function() {
-               var mm = this
+               let mm = this
 
                this.editor_overloaded = true
                this.show_download_save = false
@@ -838,7 +838,7 @@ load_once_from_file(true)
 
 
            editKeycloak: async function() {
-               var mm = this
+               let mm = this
 
                this.editor_overloaded = true
                this.show_download_save = false
@@ -939,7 +939,7 @@ load_once_from_file(true)
             }
             ,
             timelineRefresh: function(move) {
-                var mm = this
+                let mm = this
                 setTimeout(function(){
                     mm.updateTimeline({allowScroll: move})
                 },200)
@@ -952,7 +952,7 @@ load_once_from_file(true)
 
 
             updateTimeline: function( args ) {
-                var mm = this
+                let mm = this
                 var x = executionTimelineMapTimeToLine[  this.current_execution_step  ]
                 if (x) {
                     this.highlighted_line           = x.line
@@ -1021,7 +1021,7 @@ load_once_from_file(true)
             },
 
             inTimelineScroll: function() {
-                var mm = this
+                let mm = this
                 mm.timeline_pause = true;
                 setTimeout(function() {
                     mm.timeline_pause = false;
@@ -1073,7 +1073,7 @@ load_once_from_file(true)
 
 
             setupTimelineEditor: function() {
-                var mm = this
+                let mm = this
                 if (document.getElementById('timeline_editor') && (this.timeline_editor == null)) {
                     //
                     //set up the ace editor for the timeline view
@@ -1120,7 +1120,7 @@ load_once_from_file(true)
             // ---------------------------------------------------------------
             chooseApp: async function() {
                 showProgressBar()
-                var mm = this
+                let mm = this
                 this.code_width = "0%"
                 this.code_shown = false
 
@@ -1155,7 +1155,7 @@ load_once_from_file(true)
             },
 
             chooseCode: async function() {
-                var mm = this
+                let mm = this
                 this.code_width = "95%"
                 this.code_shown = true
 
@@ -1182,7 +1182,7 @@ load_once_from_file(true)
 
             chooseBoth: async function() {
                 showProgressBar()
-                var mm = this
+                let mm = this
                 this.mode      = "edit"
                 this.sub_mode  = "both"
 
@@ -1203,7 +1203,7 @@ load_once_from_file(true)
             },
 
             chooseProfiler: async function() {
-                var mm = this
+                let mm = this
                 this.code_width = "0%"
                 this.code_shown = false
 
@@ -1258,7 +1258,7 @@ load_once_from_file(true)
 
 
             editAsText: async function() {
-                var mm = this
+                let mm = this
 
                 this.editor_text = await this.$refs.editor_component_ref.getText()
 
@@ -1276,7 +1276,7 @@ load_once_from_file(true)
 
 
             setVisibility: async function(value) {
-                var mm = this
+                let mm = this
 
                 if (this.$refs.editor_component_ref) {
                     this.editor_text = await this.$refs.editor_component_ref.getText()
@@ -1296,7 +1296,7 @@ load_once_from_file(true)
 
 
             embedApp: function(x) {
-                var mm = this
+                let mm = this
                 this.mode = "embed"
             }
             ,
@@ -1313,7 +1313,7 @@ load_once_from_file(true)
             },
 
             copyAppMethod: async function( appId , newAppId) {
-                var mm = this
+                let mm = this
                 var result = await callFunction(
                                     {
                                         driver_name: "copyApp",
@@ -1490,7 +1490,7 @@ showTimer()
 
 
            load_new_app: async function ( baseComponentId ) {
-               var mm = this
+               let mm = this
                if ((!baseComponentId) || (baseComponentId == "") || (!mm)) {
                     return
                }
@@ -1514,7 +1514,7 @@ showTimer()
                     //
                     // make sure that we reference an app
                     //
-                    var mm = this
+                    let mm = this
                     if ((!baseComponentId) || (baseComponentId == "") || (!mm)) {
                         return
                     }
@@ -1714,7 +1714,7 @@ showTimer()
                                 //
                                 // make sure that we reference an app
                                 //
-                                var mm = this
+                                let mm = this
                                 if ((!baseComponentId) || (baseComponentId == "") || (!mm)) {
                                     return
                                 }
@@ -1878,7 +1878,7 @@ showTimer()
 
 
             mounted: async function () {
-                var mm = this
+                let mm = this
                 await useIdeTools()
                 uiDebuggerOn = true
                 if ($HIDEIMPORTBUTTONS == 'false') {
