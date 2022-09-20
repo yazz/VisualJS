@@ -1545,7 +1545,7 @@ showTimer()
                    //
                    // read the code for the component that we are editing
                    //
-                   var sql =    `select
+                   let sql =    `select
                                     id, cast(code as text)  as  code, editors
                                  from
                                     system_code
