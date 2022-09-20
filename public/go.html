@@ -5206,6 +5206,23 @@ if (!duration) {
 }
     let ret = new Date(duration).toUTCString()
 
+    let currentTime = new Date().getTime()
+    let timeDiffSecs = (currentTime - duration) / 1000
+    let timeDiffMins = timeDiffSecs / 60
+    let timeDiffHours = timeDiffMins / 60
+    let timeDiffDays = timeDiffHours / 24
+    if (timeDiffSecs < 60) {
+        ret = ret + " (a few seconds ago)"
+    } else if (timeDiffMins < 10) {
+        ret = ret + " (a few minutes ago)"
+    } else if (timeDiffMins < 60) {
+        ret = ret + " (under an hour ago)"
+    } else if (timeDiffHours < 10) {
+        ret = ret + " (a few hours ago)"
+    } else if (timeDiffDays < 10) {
+        ret = ret + " (a few days ago)"
+    }
+
     return ret
 }
 
