@@ -1509,12 +1509,15 @@ showTimer()
            // 'baseComponentId'
            // ---------------------------------------------------------------
            load_app: async function ( baseComponentId, runThisApp ) {
+               let code
+               let mm   = this
+
                 try {
 
                     //
                     // make sure that we reference an app
                     //
-                    let mm = this
+
                     if ((!baseComponentId) || (baseComponentId == "") || (!mm)) {
                         return
                     }
@@ -1579,7 +1582,7 @@ showTimer()
                             //
                             // find the code
                             //
-                            var code = results[0].code
+                            code = results[0].code
                             var codeId = results[0].id
 
                             if (code.toString().includes("Vue.")) {
