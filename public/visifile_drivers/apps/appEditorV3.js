@@ -1568,10 +1568,10 @@ showTimer()
                             //
                             // find the editor
                             //
-                            var editors2 = results[0].editors
-                            var newEditor = null
+                            let editors2 = results[0].editors
+                            let newEditor = null
                             if (isValidObject(editors2) && (override_app_editor == null)) {
-                                var edd = eval("(" + editors2 + ")")
+                                let edd = eval("(" + editors2 + ")")
                                 newEditor = edd[0]
                             }
 
@@ -1597,7 +1597,7 @@ showTimer()
                              {
                                 mm.is_ui_app = false
                                 mm.is_server_app = true
-                                var restApi = saveHelper.getValueOfCodeString(code.toString(),"rest_api")
+                                let restApi = saveHelper.getValueOfCodeString(code.toString(),"rest_api")
                                 if (restApi) {
                                     mm.is_rest_app = true
                                     mm.rest_api_base_url = restApi
@@ -1653,7 +1653,7 @@ showTimer()
                                 mm.console_output = ""
                                 console.log = function() {
                                     if (isValidObject(mm.console_output)) {
-                                        for (var a=0; a < arguments.length ; a++) {
+                                        for (let a=0; a < arguments.length ; a++) {
                                             mm.console_output += arguments[a] + " "
                                         }
                                         mm.console_output +=
