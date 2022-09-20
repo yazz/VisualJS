@@ -191,23 +191,6 @@ load_once_from_file(true)
 
 
 
-                    <a   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                              v-on:click='setTimeout(async function(){appClearIntervals();await saveAsFileElectron(base_component_id, code_id,null)},100)'
-                              download
-                            v-if="show_filename_save"
-                              v-on:mouseenter='setInfo("Edit the SQlite schema for this app")'
-                              v-on:mouseleave='setInfo(null)'
-                              type="button" class="btn btn-light ">
-
-                              <img
-                                  src='/driver_icons/js_export.png'
-                                  style='height:35px; margin-right: 10px;'
-                                  class='img-fluid'>
-                              </img>
-                             Save as .yazz
-
-                    </a>
-
 
 
 
@@ -728,7 +711,6 @@ load_once_from_file(true)
                rest_api_base_url:    "",
                rest_api_return_value: "",
                editor_overloaded:       false,
-               in_electron_app:       false,
                show_download_save:       false,
                show_filename_save:       false,
                editor_component:    null,
@@ -810,13 +792,8 @@ load_once_from_file(true)
            closeSqliteSchema: async function() {
                let mm                           = this
                this.editor_overloaded           = false
-               if (this.in_electron_app) {
-                   this.show_download_save = false
-                   this.show_filename_save = true
-               } else {
-                   this.show_download_save = true
-                   this.show_filename_save = false
-               }
+               this.show_download_save = true
+               this.show_filename_save = false
 
                override_app_editor              = null
                this.editor_text                 = await mm.$refs.editor_component_ref.getText()
@@ -1507,34 +1484,6 @@ showTimer()
 
 
 
-           saveAsFileElectron: async function( base_component_id, code_id , textIn) {
-
-               try {
-                    if (textIn == null) {
-                         this.editor_text = await this.$refs.editor_component_ref.getText()
-                    } else {
-                         this.editor_text = textIn
-                    }
-
-
-                   sendToServerViaWebSocket({
-                           message_type: "electron_file_save_as"
-                           ,
-                           base_component_id:      base_component_id
-                           ,
-                           code_id:                code_id
-                           ,
-                           code:                   this.editor_text
-                   });
-
-               } catch (e) {
-                   hideProgressBar()
-                   this.save_state = "saved"
-                   this.checkSavedFile()
-
-               }
-           }
-           ,
 
 
 
@@ -1937,16 +1886,8 @@ showTimer()
                 }
                 override_app_editor = null
 
-                if ((typeof($RUNNING_IN_ELECTRON) !== 'undefined')  && $RUNNING_IN_ELECTRON) {
-                    this.in_electron_app =  true
-                }
-                if (this.in_electron_app) {
-                    this.show_download_save = false
-                    this.show_filename_save = true
-                } else {
-                    this.show_download_save = true
-                    this.show_filename_save = false
-                }
+                this.show_download_save = true
+                this.show_filename_save = false
 
 
                 this.execution_timeline   = executionTimeline
