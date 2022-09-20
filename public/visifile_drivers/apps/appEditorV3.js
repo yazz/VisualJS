@@ -1744,10 +1744,10 @@ showTimer()
                                         //
                                         // find the editor
                                         //
-                                        var editors2 = passin_editors2
-                                        var newEditor = null
+                                        let editors2 = passin_editors2
+                                        let newEditor = null
                                         if (isValidObject(editors2) && (override_app_editor == null)) {
-                                            var edd = eval("(" + editors2 + ")")
+                                            let edd = eval("(" + editors2 + ")")
                                             newEditor = edd[0]
                                         }
 
@@ -1755,8 +1755,8 @@ showTimer()
                                         //
                                         // find the code
                                         //
-                                        var code = passin_code
-                                        var codeId = passin_code_id
+                                        let code = passin_code
+                                        let codeId = passin_code_id
 
                                         if (code.toString().includes("Vue.")) {
                                             this.is_ui_app = true
@@ -1773,7 +1773,7 @@ showTimer()
                                          {
                                             mm.is_ui_app = false
                                             mm.is_server_app = true
-                                            var restApi = saveHelper.getValueOfCodeString(code.toString(),"rest_api")
+                                            let restApi = saveHelper.getValueOfCodeString(code.toString(),"rest_api")
                                             if (restApi) {
                                                 mm.is_rest_app = true
                                                 mm.rest_api_base_url = restApi
@@ -1795,7 +1795,7 @@ showTimer()
                                         // load the editor
                                         //
                                         if ( !mm.editor_loaded ) {
-                                            var editorName = "editor_component"
+                                            let editorName = "editor_component"
                                             if (override_app_editor != null) {
                                                 editorName = override_app_editor
                                             }
@@ -1822,12 +1822,12 @@ showTimer()
 
 
                                         this.resetDebugger()
-                                        var prevConsole = console.log
+                                        let prevConsole = console.log
                                         if ((!mm.is_ui_app) && (!mm.is_server_app)) {
                                             mm.console_output = ""
                                             console.log = function() {
                                                 if (isValidObject(mm.console_output)) {
-                                                    for (var a=0; a < arguments.length ; a++) {
+                                                    for (let a=0; a < arguments.length ; a++) {
                                                         mm.console_output += arguments[a] + " "
                                                     }
                                                     mm.console_output +=
