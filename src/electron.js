@@ -6820,7 +6820,9 @@ async function getCommentsForComponent(baseComponentId) {
                     " from " +
                     "     comments_and_ratings " +
                     " where " +
-                    "     base_component_id = ?"
+                    "     base_component_id = ? " +
+                    " order by " +
+                    "     date_and_time DESC "
                     ,
                     [baseComponentId]
                     ,
@@ -6831,14 +6833,16 @@ async function getCommentsForComponent(baseComponentId) {
                                 if (rows.length > 0) {
                                     for (let rowIndex = 0; rowIndex < rows.length; rowIndex++) {
                                         let thisRow = rows[rowIndex]
-                                        returnRows.push(
-                                            {
-                                                comment: thisRow.comment
-                                                ,
-                                                rating: thisRow.rating
-                                                ,
-                                                date_and_time: thisRow.date_and_time
-                                            })
+                                        if (thisRow.date_and_time) {
+                                            returnRows.push(
+                                                {
+                                                    comment: thisRow.comment
+                                                    ,
+                                                    rating: thisRow.rating
+                                                    ,
+                                                    date_and_time: thisRow.date_and_time
+                                                })
+                                        }
                                     }
                                 }
 
