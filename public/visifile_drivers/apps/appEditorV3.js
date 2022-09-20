@@ -1031,14 +1031,14 @@ load_once_from_file(true)
            ,
             mouseMoveTimeline: function(ev) {
                 if (!this.timeline_pause) {
-                    var elementTimeline = document.getElementById("timeline_el"  )
-                    var left = (elementTimeline.scrollLeft + ev.offsetX);
-                    var top = elementTimeline.scrollTop + ev.offsetY;
+                    let elementTimeline = document.getElementById("timeline_el"  )
+                    let left = (elementTimeline.scrollLeft + ev.offsetX);
+                    let top = elementTimeline.scrollTop + ev.offsetY;
 
                     if ((left > -1) && elementTimeline) {
                         //console.log( "("+ left + "," + top + ")" )
 
-                        var x=executionTimelineMapTimeToLine[ Math.floor(left / this.execution_horiz_scale)]
+                        let x=executionTimelineMapTimeToLine[ Math.floor(left / this.execution_horiz_scale)]
                         if (x) {
                             this.current_execution_step = x.time
                             this.current_execution_step_y_line = x.line
@@ -1053,8 +1053,8 @@ load_once_from_file(true)
 
                 globalWatchList[varN]={}
                 await this.load_app( this.base_component_id )
-                var allWatches = Object.keys(globalWatchList)
-                for (var rt = 0 ; rt < allWatches.length; rt++) {
+                let allWatches = Object.keys(globalWatchList)
+                for (let rt = 0 ; rt < allWatches.length; rt++) {
                     fillInMissingWatchTimelineValues(allWatches[rt],0)
                 }
             },
@@ -1062,8 +1062,8 @@ load_once_from_file(true)
                 delete globalWatchList[varN]
             },
             keepWatch: async function(varN){
-                var allWatches = Object.keys(globalWatchList)
-                for (var rt = 0 ; rt < allWatches.length; rt++) {
+                let allWatches = Object.keys(globalWatchList)
+                for (let rt = 0 ; rt < allWatches.length; rt++) {
                     if (allWatches[rt] != varN) {
                         delete globalWatchList[allWatches[rt]]
                     }
@@ -1102,7 +1102,7 @@ load_once_from_file(true)
 
 
                 this.current_execution_step = 0
-                var x = executionTimelineMapTimeToLine[ this.current_execution_step ]
+                let x = executionTimelineMapTimeToLine[ this.current_execution_step ]
                 if (x) {
                     this.current_execution_step_y_line = x.line
                 }
@@ -1221,8 +1221,8 @@ load_once_from_file(true)
 
                 setTimeout(function() {
                         mm.setupTimelineEditor()
-                        var allWatches = Object.keys(globalWatchList)
-                        for (var rt = 0 ; rt < allWatches.length; rt++) {
+                        let allWatches = Object.keys(globalWatchList)
+                        for (let rt = 0 ; rt < allWatches.length; rt++) {
                             fillInMissingWatchTimelineValues(allWatches[rt],0)
                         }
                     },
@@ -1262,7 +1262,7 @@ load_once_from_file(true)
 
                 this.editor_text = await this.$refs.editor_component_ref.getText()
 
-                var eds = saveHelper.getValueOfCodeString(this.editor_text, "editors")
+                let eds = saveHelper.getValueOfCodeString(this.editor_text, "editors")
                 if (eds) {
                     this.editor_text = saveHelper.deleteCodeString(this.editor_text, "editors")
                     this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors_old",eds)
@@ -1282,7 +1282,7 @@ load_once_from_file(true)
                     this.editor_text = await this.$refs.editor_component_ref.getText()
                 }
 
-                var eds = saveHelper.getValueOfCodeString(this.editor_text, "visibility")
+                let eds = saveHelper.getValueOfCodeString(this.editor_text, "visibility")
                 if (eds) {
                     this.editor_text = saveHelper.deleteCodeString(this.editor_text, "visibility")
                     this.editor_text = saveHelper.insertCodeString(this.editor_text, "visibility",value)
@@ -1314,7 +1314,7 @@ load_once_from_file(true)
 
             copyAppMethod: async function( appId , newAppId) {
                 let mm = this
-                var result = await callFunction(
+                let result = await callFunction(
                                     {
                                         driver_name: "copyApp",
                                         method_name: "copyAppshareApp"  }
@@ -1398,7 +1398,7 @@ showTimer()
                        ) {
                        mm.is_ui_app = false
                        mm.is_server_app = true
-                       var restApi = saveHelper.getValueOfCodeString(mm.editor_text,"rest_api")
+                       let restApi = saveHelper.getValueOfCodeString(mm.editor_text,"rest_api")
                        if (restApi) {
                            mm.is_rest_app = true
                            mm.rest_api_base_url = restApi
