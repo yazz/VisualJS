@@ -1835,14 +1835,14 @@ showTimer()
              `
                                                 }
                                             }
-                                            let results = await callApp( {code_id:    codeId }, {} )
+                                            await callApp( {code_id:    codeId }, {} )
                                             console.log = prevConsole
 
                                         } else if (mm.is_server_app) {
 
 
                                         } else {
-                                            let results = await callApp( {code_id:    codeId }, {} )
+                                            await callApp( {code_id:    codeId }, {} )
                                             console.log = prevConsole
                                         }
 
