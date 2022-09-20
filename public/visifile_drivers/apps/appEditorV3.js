@@ -1511,6 +1511,8 @@ showTimer()
            load_app: async function ( baseComponentId, runThisApp ) {
                let code
                let mm   = this
+               let codeId
+               let results
 
                 try {
 
@@ -1554,7 +1556,7 @@ showTimer()
                                            and
                                         code_tag = 'LATEST' `
 
-                   var results = await callApp(
+                   results = await callApp(
                        {
                             driver_name:    "systemFunctions2",
                             method_name:    "sql"
@@ -1583,7 +1585,7 @@ showTimer()
                             // find the code
                             //
                             code = results[0].code
-                            var codeId = results[0].id
+                            codeId = results[0].id
 
                             if (code.toString().includes("Vue.")) {
                                 this.is_ui_app = true
@@ -1664,14 +1666,14 @@ showTimer()
 `
                                     }
                                 }
-                                var results = await callApp( {code_id:    codeId }, {} )
+                                results = await callApp( {code_id:    codeId }, {} )
                                 console.log = prevConsole
 
                             } else if (mm.is_server_app) {
 
 
                             } else {
-                                var results = await callApp( {code_id:    codeId }, {} )
+                                results = await callApp( {code_id:    codeId }, {} )
                                 console.log = prevConsole
                             }
                        }
