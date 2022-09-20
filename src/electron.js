@@ -2884,7 +2884,7 @@ async function startServices() {
                         format: "JSON'",
                         type_: "component_type_v2('COMPONENT_COMMENT')",
                         format_: "format('JSON')",
-                        created_timestamp: 1663567784145,
+                        date_and_time: newDateAndTime,
                         base_component_id: baseComponentId,
                         base_component_id_version: baseComponentIdVersion,
                         comment: newComment,
