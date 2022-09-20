@@ -302,7 +302,7 @@ load_once_from_file(true)
                     <div  style='display: inline-block;'>
                         <a   style='text-decoration:underline;cursor: pointer;flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
 
-                              v-on:click='var win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
+                              v-on:click='let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
 
                               v-if="code_shown && (!app_shown)">
 
@@ -329,7 +329,7 @@ load_once_from_file(true)
 
 
 
-            <div    v-on:click='var win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/" + rest_api_base_url + "", "_blank"); win.focus();'
+            <div    v-on:click='let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/" + rest_api_base_url + "", "_blank"); win.focus();'
                     v-if='app_loaded && (is_server_app)'
                     v-bind:style="'display:flex;text-decoration: underline;color:blue;padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;'">
 
@@ -345,7 +345,7 @@ load_once_from_file(true)
             <div    v-if='app_loaded && (!is_server_app)'
                     v-bind:style="'display:flex;text-decoration: underline;color:blue;padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;'">
 
-                <div v-on:click='var win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'>Shareable link:</div>
+                <div v-on:click='let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'>Shareable link:</div>
 
                 <button   v-on:click='setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null)},100)'
                           type="button"
@@ -362,7 +362,7 @@ load_once_from_file(true)
 
                 <input   readonly
                                         style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
-                                        v-on:click='var win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
+                                        v-on:click='let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
                                         v-bind:value='location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html"'>
                 </input>
 
@@ -758,8 +758,8 @@ load_once_from_file(true)
 
        methods: {
            getRestParams: function() {
-               var str = ""
-               for (var i=0; i < this.rest_params.length; i++) {
+               let str = ""
+               for (let i=0; i < this.rest_params.length; i++) {
                    str +=  this.rest_params[i].name + "=" +  this.rest_params[i].value + "&"
                }
                return str
@@ -769,7 +769,7 @@ load_once_from_file(true)
            },
            callRestApi:  async function() {
                let mm                           = this
-               var newrestUrl = location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/" + mm.rest_api_base_url + "/" +
+               let newrestUrl = location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/" + mm.rest_api_base_url + "/" +
                                 mm.rest_api_url_2 + "?"  + mm.getRestParams()
                 mm.rest_api_return_value = ""
 
@@ -867,8 +867,8 @@ load_once_from_file(true)
 
 
            getVarAsHtml: function(viewer,varName) {
-               var value = globalWatchList[varName][this.current_execution_step].value
-               var returnVal = null
+               let value = globalWatchList[varName][this.current_execution_step].value
+               let returnVal = null
                if ((viewer == null) || (viewer.length=="")) {
                     if (globalWatchList[varName].type == "ListOfNumbers") {
                         viewer="graph"
@@ -888,11 +888,11 @@ load_once_from_file(true)
                 if (!isValidObject(value)) {
                     return "<div></div>"
                 }
-                var html = "<div> "
+                let html = "<div> "
 
-                var gg=0
+                let gg=0
                 while (typeof(value[gg])=='number'){
-                    var vv = value[gg]
+                    let vv = value[gg]
                     html += `<div style='width: ${vv}px;font: 10px sans-serif;background-color: steelblue;text-align: right;padding: 3px;margin: 1px;color: white;'>`
                     html += `${vv}</div>`
                     gg++
@@ -919,7 +919,7 @@ load_once_from_file(true)
                 if (this.current_execution_step < (executionTimeline.length - 1)) {
                     this.current_execution_step ++
 
-                    var x = executionTimelineMapTimeToLine[ this.current_execution_step ]
+                    let x = executionTimelineMapTimeToLine[ this.current_execution_step ]
                     if (x) {
                         this.current_execution_step_y_line = x.line
                     }
@@ -930,7 +930,7 @@ load_once_from_file(true)
             stepBack: function() {
                 if (this.current_execution_step > 0) {
                     this.current_execution_step --
-                    var x = executionTimelineMapTimeToLine[  this.current_execution_step  ]
+                    let x = executionTimelineMapTimeToLine[  this.current_execution_step  ]
                     if (x) {
                         this.current_execution_step_y_line = x.line
                     }
@@ -953,7 +953,7 @@ load_once_from_file(true)
 
             updateTimeline: function( args ) {
                 let mm = this
-                var x = executionTimelineMapTimeToLine[  this.current_execution_step  ]
+                let x = executionTimelineMapTimeToLine[  this.current_execution_step  ]
                 if (x) {
                     this.highlighted_line           = x.line
                     this.highlighted_block          = executionCode[x.code_block_name].code
@@ -977,7 +977,7 @@ load_once_from_file(true)
                     }
 
 
-                    var elementTimeline = document.getElementById("timeline_el"  )
+                    let elementTimeline = document.getElementById("timeline_el"  )
                     if (elementTimeline) {
                         this.y_step = Math.floor(elementTimeline.offsetHeight / this.execution_horiz_scale ) - 10
 
@@ -1835,14 +1835,14 @@ showTimer()
              `
                                                 }
                                             }
-                                            var results = await callApp( {code_id:    codeId }, {} )
+                                            let results = await callApp( {code_id:    codeId }, {} )
                                             console.log = prevConsole
 
                                         } else if (mm.is_server_app) {
 
 
                                         } else {
-                                            var results = await callApp( {code_id:    codeId }, {} )
+                                            let results = await callApp( {code_id:    codeId }, {} )
                                             console.log = prevConsole
                                         }
 
