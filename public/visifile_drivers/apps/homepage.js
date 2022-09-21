@@ -695,14 +695,24 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               let mm = this
 
               let openfileurl = "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST + "/topapps"
-              callAjax( openfileurl,
-                  function(res) {
-                      //debugger
-                      let responseJson = JSON.parse(res)
+              fetch(openfileurl, {
+                  method: 'get',
+                  mode: 'cors',
+                  cache: 'no-cache',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  }})
+                  .then((response) => response.json())
+                  .then(function(responseJson)
+                  {
                       for (let rt=0;rt<responseJson.length; rt++) {
                           mm.appstore_apps.push(responseJson[rt])
                           mm.app_logos[responseJson[rt].data.id] = responseJson[rt].data.logo
                       }
+
+                  })
+                  .catch(err => {
+                      //error block
                   })
           }
             ,
