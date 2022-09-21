@@ -311,7 +311,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     
     <div    class=""
             v-bind:refresh='refresh'
-            style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:800px;'
+            style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:auto;'
             v-if="(main_tab=='apps')"
             >
       <span style="font-size: 60px; color: white;">Editable Apps</span>
@@ -425,6 +425,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
+      
+
+
     <!-- ------------------------------------------------ 
 
     Show the apps available in the appstore
@@ -432,9 +435,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     ------------------------------------------------ -->
     <div    class=""
             v-bind:refresh='refresh'
-            style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:800px;'
-            v-if="(main_tab=='store')"
+            style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:auto;'
+            
     >
+      <span style="font-size: 60px; color: white;">All Apps</span>
 
 
       <div v-bind:refresh='refresh'
