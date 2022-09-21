@@ -314,7 +314,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:800px;'
             v-if="(main_tab=='apps')"
             >
-      <span style="font-size: 30px; color: white;">Editable</span>
+      <span style="font-size: 60px; color: white;">Editable Apps</span>
 
 
         <div v-bind:refresh='refresh'
