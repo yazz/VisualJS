@@ -88,16 +88,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                   </a>
                 </div>
               </div>
-            <a href="#"  v-bind:style='"text-align: left;display: inline-block;color:white;position:relative;left:20px;height:40px;padding:5px;top: -10px;"'
-                 v-on:click='main_tab="apps"'
-                                >
-              Apps
-            </a>
-          <a href="#" v-bind:style='"text-align: left;display: inline-block;color:white;position:relative;left:30px;height:40px;padding:5px;top: -10px;"'
-               v-on:click='main_tab="store"'
-               >
-              App Store
-          </a>
+
 
           <a      href="https://yazzapps.com"
                   target=new
