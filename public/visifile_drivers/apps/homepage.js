@@ -485,11 +485,11 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 <button style='position:absolute;top:250px;left:0px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
                         class='btn btn-sm'
                         v-on:click='showProgressBar();downloadApp($event,item.data.ipfs_hash)'>
-                  <img    src='/driver_icons/subscribe.png'
+                  <img    src='/driver_icons/play.png'
                           style='position:relative;max-width: 60px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
                   >
                   </img>
-                  Subscribe
+                  Play
                 </button>
                 
                 
