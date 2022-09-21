@@ -2810,17 +2810,17 @@ async function startServices() {
 
 
         app.use(compression())
-        app.use(cors({ origin: ['http://192.168.1.245', 'http://0.0.0.0', 'http://127.0.0.1'] }));
+        app.use(cors({ origin: 'http://192.168.1.245' }));
         app.use(async function (req, res, next) {
 
             // Website you wish to allow to connect
-            res.header('Access-Control-Allow-Origin', 'http://192.168.1.245, http://0.0.0.0, http://127.0.0.1');
+            res.header('Access-Control-Allow-Origin', 'http://192.168.1.245');
 
             // Request methods you wish to allow
-            //res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+            res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
             // Request headers you wish to allow
-            res.header('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Accept,Origin');
+            res.header('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
 
             // Set to true if you need the website to include cookies in the requests sent
             // to the API (e.g. in case you use sessions)
@@ -2852,9 +2852,6 @@ async function startServices() {
         app.get('/', function (req, res, next) {
             console.log("calling main page")
             console.log("jaeger: " + jaegercollector)
-            console.log("app.get (/)")
-            console.log("origin:"  + req.get('host'));
-            console.log("cookies:"  + JSON.stringify(req.cookies,null,2))
             return getRoot(req, res, next);
         })
 
@@ -2938,8 +2935,6 @@ async function startServices() {
 
         app.get('/topapps', async function (req, res) {
             console.log("get top apps")
-            console.log("origin:"  + req.get('host'));
-            console.log("cookies:"  + JSON.stringify(req.cookies,null,2))
             let topApps = []
             await getSessionId(req,res)
 
