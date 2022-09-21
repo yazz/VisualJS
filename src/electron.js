@@ -2946,8 +2946,8 @@ async function startServices() {
         });
 
 
-        app.get('/topapps', async function (req, res) {
-            console.log("app.get('/topapps'): ")
+        app.post('/topapps', async function (req, res) {
+            console.log("app.post('/topapps'): ")
             console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
             let topApps = []
             await getSessionId(req,res)
@@ -3154,7 +3154,9 @@ async function startServices() {
 
 
         app.post("/download_app" , async function (req, res) {
-            console.log("/download_app called")
+            console.log("app.post('/download_app'): ")
+            console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+
             let topApps = []
             let ipfsHashOfAppToDownload =  req.body.ipfs_hash;
             var promise = new Promise(async function(returnfn) {
