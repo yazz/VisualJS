@@ -696,8 +696,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
               let openfileurl = "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST + "/topapps"
               fetch(openfileurl, {
-                  method: 'get',
-                  credentials: 'include'
+                  method: 'get'
                   })
                   .then((response) => response.json())
                   .then(function(responseJson)
