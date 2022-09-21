@@ -2844,6 +2844,20 @@ async function startServices() {
         })
 
 
+        app.use(function (req, res, next) {
+            let cookie = req.cookies.yazz;
+            if (cookie === undefined) {
+                // no: set a new cookie
+                let randomNumber =  uuidv1()
+                //zzz
+                res.cookie('yazz',randomNumber, { maxAge: 900000, httpOnly: true });
+                console.log('cookie created successfully');
+            } else {
+                // yes, cookie was already present
+                console.log('cookie exists', cookie);
+            }
+            next(); // <-- important!
+        });
 
         app.post('/submit_comment', async function (req, res) {
             console.log("submit_comment")
@@ -2854,7 +2868,7 @@ async function startServices() {
             let newRating = req.body.value.rating
             let newDateAndTime = new Date().getTime()
 
-//zzz
+
             await insertCommentIntoDb(
                 {
                     baseComponentId:        baseComponentId,
@@ -2924,7 +2938,7 @@ async function startServices() {
         app.get('/topapps', async function (req, res) {
             console.log("get top apps")
             let topApps = []
-            await getSessionId(req)
+            await getSessionId(req,res)
 
             var promise = new Promise(async function(returnfn) {
 
@@ -2986,6 +3000,7 @@ async function startServices() {
             topApps = ret
 
             res.writeHead(200, {'Content-Type': 'application/json'});
+            //zzzz
             res.end(JSON.stringify(
                 topApps
             ));
@@ -3595,7 +3610,7 @@ async function findLocalIpfsContent() {
 
                     let fullFileName = path.join(fullIpfsFolderPath, ipfsHashFileName)
                     let ipfsContent = fs.readFileSync(fullFileName, 'utf8')
-                    //zzz
+
                     let itemType = saveHelper.getValueOfCodeString(ipfsContent,"component_type_v2")
                     if (itemType == "COMPONENT_COMMENT") {
                         let formatType = saveHelper.getValueOfCodeString(ipfsContent,"format")
@@ -6902,7 +6917,7 @@ async function insertCommentIntoDb(args) {
     })
 }
 
-async function getSessionId(req) {
+async function getSessionId(req,res) {
     /*dbsearch.serialize(
         function() {
             var stmt = dbsearch.all(
@@ -6918,8 +6933,11 @@ async function getSessionId(req) {
                 })
         }, sqlite3.OPEN_READONLY)*/
 
+
+
     let promise = new Promise(async function(returnfn) {
         try {
+            let cookie = req.cookies.yazz;
             dbsearch.serialize(function() {
                 dbsearch.run("begin exclusive transaction");
                 stmtInsertCookie.run("1",2,"1","1","1")
