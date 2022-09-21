@@ -2844,6 +2844,7 @@ async function startServices() {
         })
 
 
+
         app.post('/submit_comment', async function (req, res) {
             console.log("submit_comment")
             let topApps = []
@@ -2923,6 +2924,7 @@ async function startServices() {
         app.get('/topapps', async function (req, res) {
             console.log("get top apps")
             let topApps = []
+            await getSessionId(req)
 
             var promise = new Promise(async function(returnfn) {
 
@@ -4800,6 +4802,11 @@ function setUpSql() {
                                 "    (id,  code_id, dependency_type, dependency_name, dependency_version ) " +
                                 " values " +
                                 "    (?, ?, ?, ?, ? );");
+
+    stmtInsertCookie = dbsearch.prepare(" insert or replace into cookies " +
+        "    (id,  created_timestamp, cookie_name, cookie_value, fk_session_id ) " +
+        " values " +
+        "    (?, ?, ?, ?, ? );");
 
     stmtInsertIpfsHash = dbsearch.prepare(" insert or replace into ipfs_hashes " +
         "    (ipfs_hash, content_type, ping_count, last_pinged ) " +
@@ -6893,4 +6900,38 @@ async function insertCommentIntoDb(args) {
 
 
     })
+}
+
+async function getSessionId(req) {
+    /*dbsearch.serialize(
+        function() {
+            var stmt = dbsearch.all(
+                "SELECT id,base_component_id,display_name, component_options FROM system_code where component_scope = ? and code_tag = ?; ",
+                "app",
+                "LATEST",
+
+                function(err, results)
+                {
+                    if (results.length > 0) {
+                    }
+
+                })
+        }, sqlite3.OPEN_READONLY)*/
+
+    let promise = new Promise(async function(returnfn) {
+        try {
+            dbsearch.serialize(function() {
+                dbsearch.run("begin exclusive transaction");
+                stmtInsertCookie.run("1",2,"1","1","1")
+                dbsearch.run("commit")
+                returnfn()
+            })
+        } catch(er) {
+            console.log(er)
+            returnfn()
+        }
+    })
+    var ipfsHash = await promise
+    return ipfsHash
+    return ""
 }
