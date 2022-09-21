@@ -305,14 +305,16 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
     <!-- ------------------------------------------------ 
 
-    Show the "Downloaded" apps
+    Show the "Editable" apps
     
     ------------------------------------------------ -->
+    
     <div    class=""
             v-bind:refresh='refresh'
             style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:800px;'
             v-if="(main_tab=='apps')"
             >
+      <span style="font-size: 30px; color: white;">Editable</span>
 
 
         <div v-bind:refresh='refresh'
