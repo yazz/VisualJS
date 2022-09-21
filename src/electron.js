@@ -2869,7 +2869,9 @@ async function startServices() {
 
 
         app.post('/submit_comment', async function (req, res) {
-            console.log("submit_comment")
+            console.log("app.post('/submit_comment'): ")
+            console.log("    req.cookies.yazz: " + JSON.stringify(req.cookies,null,2))
+
             let topApps = []
             let baseComponentId = req.body.value.base_component_id
             let baseComponentIdVersion = req.body.value.base_component_id_version
@@ -3089,6 +3091,9 @@ async function startServices() {
         }
         //app.get('/app/*', keycloakProtector({compIdFromReqFn: getBaseComponentIdFromRequest}), function (req, res, next) {
         app.get('/app/*', function (req, res, next) {
+            console.log("app.get('/app'): ")
+            console.log("    req.cookies.yazz: " + JSON.stringify(req.cookies,null,2))
+
             if (req.kauth) {
                 outputDebug('Keycloak details from server:')
                 outputDebug(req.kauth.grant)
