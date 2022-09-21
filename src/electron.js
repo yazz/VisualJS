@@ -1925,7 +1925,7 @@ function isRequestFromMobile(req) {
     let isMobile = uaval.isMobile
     if (!isMobile) {
     }
-    console.log("uaval: "  + JSON.stringify(uaval,null,2))
+    //console.log("uaval: "  + JSON.stringify(uaval,null,2))
     return isMobile
 }
 function getRoot(req, res, next) {
@@ -2824,7 +2824,7 @@ async function startServices() {
 
             // Set to true if you need the website to include cookies in the requests sent
             // to the API (e.g. in case you use sessions)
-            res.setHeader('Access-Control-Allow-Credentials', false);
+            res.setHeader('Access-Control-Allow-Credentials', true);
 
             let cookie = req.cookies.yazz;
             if (cookie === undefined) {
@@ -2850,8 +2850,10 @@ async function startServices() {
 
 
         app.get('/', function (req, res, next) {
-            console.log("calling main page")
-            console.log("jaeger: " + jaegercollector)
+            //console.log("calling main page")
+            //console.log("jaeger: " + jaegercollector)
+            console.log("app.get('/'): ")
+            console.log("    req.cookies.yazz: " + JSON.stringify(req.cookies,null,2))
             return getRoot(req, res, next);
         })
 
@@ -2934,7 +2936,8 @@ async function startServices() {
 
 
         app.get('/topapps', async function (req, res) {
-            console.log("get top apps")
+            console.log("app.get('/topapps'): ")
+            console.log("    req.cookies.yazz: " + JSON.stringify(req.cookies,null,2))
             let topApps = []
             await getSessionId(req,res)
 
