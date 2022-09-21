@@ -2826,7 +2826,7 @@ async function startServices() {
             // to the API (e.g. in case you use sessions)
             res.setHeader('Access-Control-Allow-Credentials', false);
 
-            /*let cookie = req.cookies.yazz;
+            let cookie = req.cookies.yazz;
             if (cookie === undefined) {
                 // no: set a new cookie
                 let randomNumber =  uuidv1()
@@ -2837,7 +2837,7 @@ async function startServices() {
             } else {
                 // yes, cookie was already present
                 console.log('cookie exists', cookie);
-            }*/
+            }
             // Pass to next layer of middleware
             next();
         });
