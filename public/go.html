@@ -5018,7 +5018,6 @@ function callAjax2(url, options, callback){
         }
     }
     xmlhttp.open("GET", url, true);
-    xmlhttp.withCredentials = true;
     xmlhttp.send();
 }
 
@@ -5036,7 +5035,6 @@ function callAjaxPost(url, value, callback){
     let payload = JSON.stringify({
         value: value
     })
-    xmlhttp.withCredentials = true;
     xhr.send(payload);
 }
 
