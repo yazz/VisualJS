@@ -4991,6 +4991,7 @@ function callAjax(url, callback){
     }
     xmlhttp.open("GET", url, true);
     xmlhttp.withCredentials = true;
+    xmlhttp.setDisableHeaderCheck(true);
     xmlhttp.send();
 }
 
@@ -5019,6 +5020,7 @@ function callAjax2(url, options, callback){
     }
     xmlhttp.open("GET", url, true);
     xmlhttp.withCredentials = true;
+    xmlhttp.setDisableHeaderCheck(true);
     xmlhttp.send();
 }
 
@@ -5037,6 +5039,7 @@ function callAjaxPost(url, value, callback){
         value: value
     })
     xmlhttp.withCredentials = true;
+    xmlhttp.setDisableHeaderCheck(true);
     xhr.send(payload);
 }
 
