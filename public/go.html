@@ -4981,7 +4981,6 @@ saveHelper = {
 
 function callAjax(url, callback){
     var xmlhttp;
-
     // compatible with IE7+, Firefox, Chrome, Opera, Safari
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function(){
@@ -4990,7 +4989,6 @@ function callAjax(url, callback){
         }
     }
     xmlhttp.open("GET", url, true);
-    xmlhttp.withCredentials = true;
     xmlhttp.send();
 }
 
