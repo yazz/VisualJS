@@ -2811,7 +2811,7 @@ async function startServices() {
 
         app.use(compression())
         app.use(cors({ origin: 'http://192.168.1.245' }));
-        app.use(function (req, res, next) {
+        app.use(async function (req, res, next) {
 
             // Website you wish to allow to connect
             res.header('Access-Control-Allow-Origin', 'http://192.168.1.245');
@@ -2826,6 +2826,18 @@ async function startServices() {
             // to the API (e.g. in case you use sessions)
             res.setHeader('Access-Control-Allow-Credentials', true);
 
+            let cookie = req.cookies.yazz;
+            if (cookie === undefined) {
+                // no: set a new cookie
+                let randomNumber =  uuidv1()
+                //zzz
+                res.cookie('yazz',randomNumber, { maxAge: 900000, httpOnly: true });
+                await createCookieInDb(randomNumber)
+                console.log('cookie created successfully');
+            } else {
+                // yes, cookie was already present
+                console.log('cookie exists', cookie);
+            }
             // Pass to next layer of middleware
             next();
         });
@@ -2844,21 +2856,6 @@ async function startServices() {
         })
 
 
-        app.use(async function (req, res, next) {
-            let cookie = req.cookies.yazz;
-            if (cookie === undefined) {
-                // no: set a new cookie
-                let randomNumber =  uuidv1()
-                //zzz
-                res.cookie('yazz',randomNumber, { maxAge: 900000, httpOnly: true });
-                await createCookieInDb(randomNumber)
-                console.log('cookie created successfully');
-            } else {
-                // yes, cookie was already present
-                console.log('cookie exists', cookie);
-            }
-            next(); // <-- important!
-        });
 
         app.post('/submit_comment', async function (req, res) {
             console.log("submit_comment")
