@@ -2844,13 +2844,14 @@ async function startServices() {
         })
 
 
-        app.use(function (req, res, next) {
+        app.use(async function (req, res, next) {
             let cookie = req.cookies.yazz;
             if (cookie === undefined) {
                 // no: set a new cookie
                 let randomNumber =  uuidv1()
                 //zzz
                 res.cookie('yazz',randomNumber, { maxAge: 900000, httpOnly: true });
+                await createCookieInDb(randomNumber)
                 console.log('cookie created successfully');
             } else {
                 // yes, cookie was already present
@@ -6933,14 +6934,16 @@ async function getSessionId(req,res) {
                 })
         }, sqlite3.OPEN_READONLY)*/
 
+    return ""
+}
 
 
+async function createCookieInDb(cookie) {
     let promise = new Promise(async function(returnfn) {
         try {
-            let cookie = req.cookies.yazz;
             dbsearch.serialize(function() {
                 dbsearch.run("begin exclusive transaction");
-                stmtInsertCookie.run("1",2,"1","1","1")
+                stmtInsertCookie.run("1",2,"1",cookie,"1")
                 dbsearch.run("commit")
                 returnfn()
             })
