@@ -3,6 +3,7 @@
 const ipfsAPI = require('ipfs-api');
 const OnlyIpfsHash = require('ipfs-only-hash')
 const useragent = require('express-useragent');
+var cookieParser = require('cookie-parser')
 let isIPFSConnected = false
 const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
 let testBuffer = new Buffer("Testcode zooey11");
@@ -314,7 +315,7 @@ var executionProcessCount                       = 6;
 app.use(compression())
 app.use(sessObj);
 app.use(express.json({ limit: '200mb' }));
-
+app.use(cookieParser());
 
 app.use(keycloak.middleware({
           logout: '/c',
