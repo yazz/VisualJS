@@ -2862,7 +2862,7 @@ async function startServices() {
             //console.log("calling main page")
             //console.log("jaeger: " + jaegercollector)
             console.log("app.get('/'): ")
-            console.log("    req.cookies.yazz: " + JSON.stringify(req.cookies,null,2))
+            console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
             return getRoot(req, res, next);
         })
 
@@ -2870,7 +2870,7 @@ async function startServices() {
 
         app.post('/submit_comment', async function (req, res) {
             console.log("app.post('/submit_comment'): ")
-            console.log("    req.cookies.yazz: " + JSON.stringify(req.cookies,null,2))
+            console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
 
             let topApps = []
             let baseComponentId = req.body.value.base_component_id
@@ -2948,7 +2948,7 @@ async function startServices() {
 
         app.get('/topapps', async function (req, res) {
             console.log("app.get('/topapps'): ")
-            console.log("    req.cookies.yazz: " + JSON.stringify(req.cookies,null,2))
+            console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
             let topApps = []
             await getSessionId(req,res)
 
@@ -3092,7 +3092,7 @@ async function startServices() {
         //app.get('/app/*', keycloakProtector({compIdFromReqFn: getBaseComponentIdFromRequest}), function (req, res, next) {
         app.get('/app/*', function (req, res, next) {
             console.log("app.get('/app'): ")
-            console.log("    req.cookies.yazz: " + JSON.stringify(req.cookies,null,2))
+            console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
 
             if (req.kauth) {
                 outputDebug('Keycloak details from server:')
