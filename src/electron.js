@@ -4899,6 +4899,11 @@ function setUpSql() {
         " values " +
         "    (?, ?, ?, ?, ? , ? , ?);");
 
+    stmtInsertSession = dbsearch.prepare(" insert or replace into sessions " +
+        "    (id,  created_timestamp, last_accessed , access_count  ) " +
+        " values " +
+        "    (?, ?, ?, ?);");
+
     stmtInsertIpfsHash = dbsearch.prepare(" insert or replace into ipfs_hashes " +
         "    (ipfs_hash, content_type, ping_count, last_pinged ) " +
         " values " +
@@ -7048,8 +7053,12 @@ async function createCookieInDb(cookie, hostCookieSentTo, from_device_type) {
         try {
             dbsearch.serialize(function() {
                 dbsearch.run("begin exclusive transaction");
-                let cookieCreated = new Date().getTime()
-                stmtInsertCookie.run(uuidv1(),cookieCreated,"yazz",cookie,"1", hostCookieSentTo, from_device_type)
+
+                let newSessionid = uuidv1()
+                let timestampNow = new Date().getTime()
+                stmtInsertSession.run(newSessionid,timestampNow,timestampNow, 1)
+
+                stmtInsertCookie.run(uuidv1(),timestampNow,"yazz",cookie,newSessionid, hostCookieSentTo, from_device_type)
                 dbsearch.run("commit")
                 returnfn()
             })
