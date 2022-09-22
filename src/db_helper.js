@@ -79,7 +79,7 @@ module.exports = {
             "CREATE TABLE IF NOT EXISTS icon_images (id TEXT, app_icon_data TEXT);",
             "CREATE INDEX IF NOT EXISTS app_icon_data_as_id_idx           ON app_list (id);",
 
-            "CREATE TABLE IF NOT EXISTS cookies (id TEXT, created_timestamp INTEGER, cookie_name TEXT, cookie_value TEXT, fk_session_id TEXT, host_cookie_sent_to TEXT);",
+            "CREATE TABLE IF NOT EXISTS cookies (id TEXT, created_timestamp INTEGER, cookie_name TEXT, cookie_value TEXT, fk_session_id TEXT, host_cookie_sent_to TEXT, from_device_type TEXT);",
             "CREATE INDEX IF NOT EXISTS cookies_cookie_value_idx           ON cookies (cookie_value);"
 
                 ],
