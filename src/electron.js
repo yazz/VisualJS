@@ -2192,7 +2192,7 @@ function websocketFn(ws) {
 
             dbsearch.serialize(
                 function() {
-                    var stmt = dbsearch.all(
+                    let stmt = dbsearch.all(
                         "SELECT  *  FROM   system_code   WHERE   base_component_id in " +
                             "("  + componentIds.map(function(){ return "?" }).join(",") + " )" +
                             "   and   code_tag = 'LATEST' ",
@@ -2771,7 +2771,7 @@ function keycloakProtector(params) {
         }
         dbsearch.serialize(
             function() {
-                var stmt = dbsearch.all(
+                let stmt = dbsearch.all(
                     "SELECT code FROM system_code where base_component_id = ? and code_tag = ?; ",
                     appName2,
                     "LATEST",
@@ -2883,13 +2883,24 @@ async function startServices() {
             if (cookie === undefined) {
                 // no: set a new cookie
                 let randomNumber =  uuidv1()
-                //zzz
                 res.cookie('yazz',randomNumber, { maxAge: 900000, httpOnly: true });
                 await createCookieInDb(randomNumber)
                 console.log('cookie created successfully');
             } else {
                 // yes, cookie was already present
                 console.log('cookie exists', cookie);
+
+                //
+                // check if cookie exists in the DB. If not then set a new cookie
+                //
+                let cookieRecord = await getCookieRecord(cookie)
+                if (cookieRecord == null) {
+                    let randomNumber =  uuidv1()
+                    res.cookie('yazz',randomNumber, { maxAge: 900000, httpOnly: true });
+                    await createCookieInDb(randomNumber)
+                    console.log('No cookie found in Yazz DB, cookie created successfully');
+                }
+                //zzz
             }
             // Pass to next layer of middleware
             next();
@@ -2947,7 +2958,7 @@ async function startServices() {
             res.end(JSON.stringify(
                 topApps
             ));
-            //zzz
+
             setTimeout(async function() {
                 let ipfsHash = await saveJsonItemToIpfs(
                     {
@@ -3056,7 +3067,7 @@ async function startServices() {
             topApps = ret
 
             res.writeHead(200, {'Content-Type': 'application/json'});
-            //zzzz
+
             res.end(JSON.stringify(
                 topApps
             ));
@@ -3852,7 +3863,7 @@ console.log("Local Machine Address: " + localAddress);
 function findLatestVersionOfApps( callbackFn) {
     dbsearch.serialize(
         function() {
-            var stmt = dbsearch.all(
+            let stmt = dbsearch.all(
                 "SELECT id,base_component_id,display_name, component_options FROM system_code where component_scope = ? and code_tag = ?; ",
                 "app",
                 "LATEST",
@@ -4616,7 +4627,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                             async function() {
                                               //showTimer(`15.....1`)
 
-                                                var stmt = dbsearch.all(
+                                                let stmt = dbsearch.all(
                                                     `select
                                                         system_code.id as sha1,
                                                         child_component_id,
@@ -6335,7 +6346,7 @@ function updateRunningTimeForprocess() {
 
         dbsearch.serialize(
             function() {
-                var stmt = dbsearch.all(
+                let stmt = dbsearch.all(
                   "SELECT * FROM system_process_info where  status = 'RUNNING'  AND  yazz_instance_id = ?; "
                   ,
                   [  yazzInstanceId  ]
@@ -6372,7 +6383,7 @@ function findLongRunningProcesses() {
 
         dbsearch.serialize(
             function() {
-                var stmt = dbsearch.all(
+                let stmt = dbsearch.all(
                   "SELECT * FROM system_process_info where  status = 'RUNNING' and event_duration_ms > ?  and  yazz_instance_id = ?; "
                   ,
                   [  maxJobProcessDurationMs  ,  yazzInstanceId  ]
@@ -6567,7 +6578,7 @@ function sendJobToProcessName(id, args, processName, parentCallId, callbackIndex
 
     dbsearch.serialize(
         function() {
-            var stmt = dbsearch.all(
+            let stmt = dbsearch.all(
                 "SELECT base_component_id, on_condition FROM system_code where id = ? LIMIT 1",
                 id,
 
@@ -6624,7 +6635,7 @@ function startNode (msg) {
      //console.log("     Started: " + msg.started)
      dbsearch.serialize(
          function() {
-             var stmt = dbsearch.all(
+             let stmt = dbsearch.all(
                "SELECT * FROM system_process_info where  yazz_instance_id = ?  AND  process = ?; "
                ,
                [  yazzInstanceId  ,  msg.node_id  ]
@@ -6692,7 +6703,7 @@ function function_call_requestPart2 (msg) {
     if (msg.find_component.driver_name && msg.find_component.method_name) {
         dbsearch.serialize(
             function() {
-                var stmt = dbsearch.all(
+                let stmt = dbsearch.all(
                   "SELECT * FROM system_code where base_component_id = ? " +
                     " and code_tag = 'LATEST'; ",
 
@@ -6727,7 +6738,7 @@ function function_call_requestPart2 (msg) {
         //console.log("In msg.find_component.base_component_id")
         dbsearch.serialize(
             function() {
-                var stmt = dbsearch.all(
+                let stmt = dbsearch.all(
                   "SELECT id FROM system_code where base_component_id = ? and code_tag = 'LATEST'; ",
 
                    msg.find_component.base_component_id,
@@ -6981,7 +6992,7 @@ async function insertCommentIntoDb(args) {
 async function getSessionId(req,res) {
     /*dbsearch.serialize(
         function() {
-            var stmt = dbsearch.all(
+            let stmt = dbsearch.all(
                 "SELECT id,base_component_id,display_name, component_options FROM system_code where component_scope = ? and code_tag = ?; ",
                 "app",
                 "LATEST",
@@ -6997,6 +7008,36 @@ async function getSessionId(req,res) {
     return ""
 }
 
+
+//zzz
+async function getCookieRecord(cookieValue) {
+    let promise = new Promise(async function(returnfn) {
+        dbsearch.serialize(
+            function() {
+                let stmt = dbsearch.all(
+                    `select 
+                            id,  created_timestamp, cookie_name, cookie_value, fk_session_id 
+                      FROM 
+                            cookies
+                      where 
+                            cookie_value = ? `
+                            ,
+                    ["cookieValue"]
+                    ,
+                    function(err, results)
+                    {
+                        if (results.length > 0) {
+                            returnfn(results[0])
+                        } else {
+                            returnfn(null)
+                        }
+
+                    })
+            }, sqlite3.OPEN_READONLY)
+    })
+    let cookeResult = await promise
+    return cookeResult
+}
 
 async function createCookieInDb(cookie) {
     let promise = new Promise(async function(returnfn) {
