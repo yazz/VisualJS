@@ -373,9 +373,9 @@ if (process.argv.length > 1) {
       .option('-g, --cacert2 [cacert2]', 'Public HTTPS CA certificate 2 [cacert2]', null)
       .option('-h, --loadjsfile [loadjsfile]', 'Load the following JS from a file (default not set) [loadjsfile]', null)
       .option('-i, --cacert3 [cacert3]', 'Public HTTPS CA certificate 3 [cacert3]', null)
-      .option('-j, --host [host]', 'Server address of the host (default yazz.com) [host]', 'yazz.com')
-      .option('-ch, --centralhost [centralhost]', 'Server address of the central host (default  yazz.com) [centralhost]', 'yazz.com')
-      .option('-och, --ocentralhost [ocentralhost]', 'Dummy - do not use - Server address of the central host (default  yazz.com) [ocentralhost]', 'yazz.com')
+      .option('-j, --host [host]', 'Server address of the host (default ) [host]', '')
+      .option('-ch, --centralhost [centralhost]', 'Server address of the central host (default  empty) [centralhost]', '')
+      .option('-och, --ocentralhost [ocentralhost]', 'Dummy - do not use - Server address of the central host (default  empty) [ocentralhost]', '')
       .option('-k, --statsinterval [statsinterval]', 'Allow to show debug info every x seconds (default 10 seconds) [statsinterval]', 10)
       .option('-l, --showstats [showstats]', 'Allow to show stats debug info (default false) [showstats]', 'false')
       .option('-m, --showprogress [showprogress]', 'Show progress when starting Yazz (default false) [showprogress]', 'false')
@@ -384,12 +384,12 @@ if (process.argv.length > 1) {
       .option('-o, --maxprocessesretry [maxprocessesretry]', 'Number of processes to retry when all cores are busy (default 10 processes) [maxprocessesretry]', 10)
       .option('-ph, --public [public]', 'Public HTTPS certificate [public]', null)
       .option('-q, --port [port]', 'Which port should I listen on? (default 80) [port]', parseInt)
-      .option('-r, --https [https]', 'Run using a HTTPS (default is http) [https]', 'false')
-      .option('-s,  --hostport [hostport]', 'Server port of the host (default 443) [hostport]', 443)
-      .option('-cp, --centralhostport [centralhostport]', 'Server port of the central host (default 443) [centralhostport]', 443)
-      .option('-cs, --centralhosthttps [centralhosthttps]', 'Central host uses HTTPS? (default true) [centralhosthttps]', 'true')
-      .option('-ocp, --ocentralhostport [ocentralhostport]', 'Dummy - do not use - Server port of the central host (default 443) [ocentralhostport]', 443)
-      .option('-ocs, --ocentralhosthttps [ocentralhosthttps]', 'Dummy - do not use - Central host uses HTTPS? (default true) [ocentralhosthttps]', 'true')
+      .option('-r, --https [https]', 'Run using a HTTPS (default is none) [https]', 'none')
+      .option('-s,  --hostport [hostport]', 'Server port of the host (default -1) [hostport]', -1)
+      .option('-cp, --centralhostport [centralhostport]', 'Server port of the central host (default -1) [centralhostport]', -1)
+      .option('-cs, --centralhosthttps [centralhosthttps]', 'Central host uses HTTPS? (default none) [centralhosthttps]', 'none')
+      .option('-ocp, --ocentralhostport [ocentralhostport]', 'Dummy - do not use - Server port of the central host (default -1) [ocentralhostport]', -1)
+      .option('-ocs, --ocentralhosthttps [ocentralhosthttps]', 'Dummy - do not use - Central host uses HTTPS? (default none) [ocentralhosthttps]', 'none')
       .option('-t, --usehost [usehost]', 'Use host name [usehost]', null)
       .option('-u, --loadjsurl [loadjsurl]', 'Load the following JS from a URL (default not set) [loadjsurl]', null)
       .option('-w, --deleteonstartup [deleteonstartup]', 'Delete database files on startup (default true) [deleteonstartup]', 'true')
@@ -400,10 +400,10 @@ if (process.argv.length > 1) {
       .option('-jc, --jaegercollector [jaegercollector]', 'jaeger collector endpoint (default not set) eg: http://localhost:14268/api/traces [jaegercollector]', null)
       .parse(process.argv);
 } else {
-    program.host = 'yazz.com'
-    program.hostport = '443'
-    program.centralhost = 'yazz.com'
-    program.centralhostport = '443'
+    program.host = ''
+    program.hostport = -1
+    program.centralhost = -1
+    program.centralhostport = ''
     program.locked = 'true'
     program.debug = 'false'
     program.deleteonexit = 'true'
@@ -412,8 +412,8 @@ if (process.argv.length > 1) {
     program.loadjsurl = null
     program.loadjsfile = null
     program.runhtml = null
-    program.https = 'false'
-    program.centralhosthttps = 'true'
+    program.https = 'none'
+    program.centralhosthttps = 'none'
     program.usehost = null
     program.hideimportbuttons = false
 }
@@ -514,11 +514,55 @@ if (isValidObject(envVars.virtualprocessors)) {
     executionProcessCount = envVars.virtualprocessors
 }
 
+
+// --------------------------------
+// sort out the host IP settings
+// --------------------------------
 envVars.IP_ADDRESS = ip.address()
+
+if (program.host == "") {
+    program.host = ip.address()
+}
 envVars.HOST = program.host
+
+if (program.hostport == -1) {
+    program.hostport = 80
+}
 envVars.HOSTPORT = program.hostport
+
+if (program.https == "none") {
+    program.https = "false"
+}
+useHttps = (program.https == 'true');
+envVars.USEHTTPS = useHttps
+
+
+// --------------------------------------
+// sort out the central host IP settings
+// --------------------------------------
+if (program.centralhost == "") {
+    program.centralhost = ip.address()
+}
 envVars.CENTRALHOST = program.centralhost
+
+if (program.centralhostport == -1) {
+    program.centralhostport = 80
+}
 envVars.CENTRALHOSTPORT = program.centralhostport
+
+var centralHostHttps = true
+if (program.centralhosthttps == 'none') {
+    program.centralhosthttps = 'false'
+}
+if (program.centralhosthttps == 'false') {
+    centralHostHttps = false;
+}
+
+
+
+
+
+
 
 let jaegerConfig = null
 var jaegercollector = program.jaegercollector;
@@ -592,16 +636,11 @@ outputDebug("deleteOnStartup: " + deleteOnStartup)
 
 locked = (program.locked == 'true');
 
-useHttps = (program.https == 'true');
-envVars.USEHTTPS = useHttps
 
 hideimportbuttons = (program.hideimportbuttons == 'true');
 envVars.HIDEIMPORTBUTTONS = hideimportbuttons
 
-var centralHostHttps = true
-if (program.centralhosthttps == 'false') {
-    centralHostHttps = false;
-}
+
 outputDebug("       centralHostHttps: " + centralHostHttps );
 envVars.CENTRALHOSTHTTPS = centralHostHttps
 
