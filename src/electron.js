@@ -7048,7 +7048,8 @@ async function createCookieInDb(cookie, hostCookieSentTo, from_device_type) {
         try {
             dbsearch.serialize(function() {
                 dbsearch.run("begin exclusive transaction");
-                stmtInsertCookie.run("1",2,"1",cookie,"1", hostCookieSentTo, from_device_type)
+                let cookieCreated = new Date().getTime()
+                stmtInsertCookie.run(uuidv1(),cookieCreated,"yazz",cookie,"1", hostCookieSentTo, from_device_type)
                 dbsearch.run("commit")
                 returnfn()
             })
