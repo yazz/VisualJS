@@ -2879,9 +2879,11 @@ async function startServices() {
             // to the API (e.g. in case you use sessions)
             res.setHeader('Access-Control-Allow-Credentials', true);
 
+//zzz
+            let userAgentString = req.headers['user-agent']
             let hostCookieSentTo = req.host
             let cookie = req.cookies.yazz;
-            let from_device_type = "WEB"
+            let from_device_type = userAgentString
             if (cookie === undefined) {
                 // no: set a new cookie
                 let randomNumber =  uuidv1()
@@ -3179,7 +3181,7 @@ async function startServices() {
         app.use(            express.static(path.join(__dirname, '../public/')))
         app.use(bodyParser.json()); // support json encoded bodies
         app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
-
+        //app.use(useragent.express())
 
 
 
