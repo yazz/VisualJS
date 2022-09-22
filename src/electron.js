@@ -2879,12 +2879,13 @@ async function startServices() {
             // to the API (e.g. in case you use sessions)
             res.setHeader('Access-Control-Allow-Credentials', true);
 
+            let hostCookieSentTo = req.host
             let cookie = req.cookies.yazz;
             if (cookie === undefined) {
                 // no: set a new cookie
                 let randomNumber =  uuidv1()
                 res.cookie('yazz',randomNumber, { maxAge: 900000, httpOnly: true });
-                await createCookieInDb(randomNumber)
+                await createCookieInDb(randomNumber, hostCookieSentTo)
                 console.log('cookie created successfully');
             } else {
                 // yes, cookie was already present
@@ -2897,7 +2898,7 @@ async function startServices() {
                 if (cookieRecord == null) {
                     let randomNumber =  uuidv1()
                     res.cookie('yazz',randomNumber, { maxAge: 900000, httpOnly: true });
-                    await createCookieInDb(randomNumber)
+                    await createCookieInDb(randomNumber, hostCookieSentTo)
                     console.log('No cookie found in Yazz DB, cookie created successfully');
                 }
                 //zzz
@@ -4891,9 +4892,9 @@ function setUpSql() {
                                 "    (?, ?, ?, ?, ? );");
 
     stmtInsertCookie = dbsearch.prepare(" insert or replace into cookies " +
-        "    (id,  created_timestamp, cookie_name, cookie_value, fk_session_id ) " +
+        "    (id,  created_timestamp, cookie_name, cookie_value, fk_session_id, host_cookie_sent_to ) " +
         " values " +
-        "    (?, ?, ?, ?, ? );");
+        "    (?, ?, ?, ?, ? , ?);");
 
     stmtInsertIpfsHash = dbsearch.prepare(" insert or replace into ipfs_hashes " +
         "    (ipfs_hash, content_type, ping_count, last_pinged ) " +
@@ -7039,12 +7040,12 @@ async function getCookieRecord(cookieValue) {
     return cookeResult
 }
 
-async function createCookieInDb(cookie) {
+async function createCookieInDb(cookie, hostCookieSentTo) {
     let promise = new Promise(async function(returnfn) {
         try {
             dbsearch.serialize(function() {
                 dbsearch.run("begin exclusive transaction");
-                stmtInsertCookie.run("1",2,"1",cookie,"1")
+                stmtInsertCookie.run("1",2,"1",cookie,"1", hostCookieSentTo)
                 dbsearch.run("commit")
                 returnfn()
             })
