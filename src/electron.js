@@ -3009,7 +3009,7 @@ async function startServices() {
             console.log("app.post('/topapps'): ")
             console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
             let topApps = []
-            await getSessionId(req,res)
+            let sessionId = await getSessionId(req,res)
 
             var promise = new Promise(async function(returnfn) {
 
@@ -6998,23 +6998,41 @@ async function insertCommentIntoDb(args) {
     })
 }
 
-async function getSessionId(req,res) {
-    /*dbsearch.serialize(
-        function() {
-            let stmt = dbsearch.all(
-                "SELECT id,base_component_id,display_name, component_options FROM system_code where component_scope = ? and code_tag = ?; ",
-                "app",
-                "LATEST",
 
-                function(err, results)
-                {
-                    if (results.length > 0) {
-                    }
 
-                })
-        }, sqlite3.OPEN_READONLY)*/
 
-    return ""
+
+
+async function getSessionId(req) {
+    let promise = new Promise(async function(returnfn) {
+        dbsearch.serialize(
+            function() {
+                let stmt = dbsearch.all(
+                    `select 
+                            sessions.id 
+                      FROM 
+                            sessions,cookies
+                      where 
+                            sessions.id = cookies.fk_session_id
+                            and
+                            cookie_value = ? `
+                            ,
+                            [req.cookies.yazz]
+                            ,
+
+                    function(err, results)
+                    {
+                        if (results.length > 0) {
+                            returnfn(results[0].id)
+                        }
+                        returnfn(null)
+
+                    })
+            }, sqlite3.OPEN_READONLY)
+    })
+
+    let sessionId = await promise
+    return sessionId
 }
 
 
