@@ -7022,7 +7022,7 @@ async function getCookieRecord(cookieValue) {
                       where 
                             cookie_value = ? `
                             ,
-                    ["cookieValue"]
+                    [cookieValue]
                     ,
                     function(err, results)
                     {
