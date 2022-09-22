@@ -524,17 +524,20 @@ if (program.host == "") {
     program.host = ip.address()
 }
 envVars.HOST = program.host
+console.log("$HOST = " + envVars.HOST)
 
 if (program.hostport == -1) {
     program.hostport = 80
 }
 envVars.HOSTPORT = program.hostport
+console.log("$HOSTPORT = " + envVars.HOSTPORT)
 
 if (program.https == "none") {
     program.https = "false"
 }
 useHttps = (program.https == 'true');
 envVars.USEHTTPS = useHttps
+console.log("$USEHTTPS = " + envVars.USEHTTPS)
 
 
 // --------------------------------------
@@ -544,11 +547,13 @@ if (program.centralhost == "") {
     program.centralhost = ip.address()
 }
 envVars.CENTRALHOST = program.centralhost
+console.log("$CENTRALHOST = " + envVars.CENTRALHOST)
 
 if (program.centralhostport == -1) {
     program.centralhostport = 80
 }
 envVars.CENTRALHOSTPORT = program.centralhostport
+console.log("$CENTRALHOSTPORT = " + envVars.CENTRALHOSTPORT)
 
 var centralHostHttps = true
 if (program.centralhosthttps == 'none') {
@@ -557,7 +562,9 @@ if (program.centralhosthttps == 'none') {
 if (program.centralhosthttps == 'false') {
     centralHostHttps = false;
 }
-
+outputDebug("       centralHostHttps: " + centralHostHttps );
+envVars.CENTRALHOSTHTTPS = centralHostHttps
+console.log("$CENTRALHOSTHTTPS = " + envVars.CENTRALHOSTHTTPS)
 
 
 
@@ -641,8 +648,6 @@ hideimportbuttons = (program.hideimportbuttons == 'true');
 envVars.HIDEIMPORTBUTTONS = hideimportbuttons
 
 
-outputDebug("       centralHostHttps: " + centralHostHttps );
-envVars.CENTRALHOSTHTTPS = centralHostHttps
 
 
 if (useSelfSignedHttps) {
