@@ -3707,9 +3707,7 @@ console.log("\nAppShare Instance ID: " + yazzInstanceId );
 console.log("\nRunning " + executionProcessCount + " virtual processors");
 console.log("\nAppShare started on:");
 console.log("Network Host Address: " + hostaddressintranet)
-//let localAddress = serverProtocol + "://" + hostaddress + ':' + port
-let localAddress = serverProtocol + "://127.0.0.1:" + port
-
+let localAddress = serverProtocol + "://" + hostaddress + ':' + port
 console.log("Local Machine Address: " + localAddress);
 
 
