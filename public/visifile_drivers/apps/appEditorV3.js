@@ -1250,6 +1250,7 @@ load_once_from_file(true)
                     if (mm.$refs.editor_component_ref) {
                         if (mm.$refs.editor_component_ref.setText) {
                             mm.$refs.editor_component_ref.setText(mm.editor_text)
+                            mm.save_state = "pending"
                         }
                     }
                 },500)
