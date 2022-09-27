@@ -7399,7 +7399,21 @@ return {}
             return this.text
         },
 
+        lockEditor: function()
+        {
+             var mm = this
+             mm.editor_locked = true
+             mm.refresh ++
+        }
+        ,
 
+         unlockEditor: function()
+         {
+             var mm = this
+             mm.editor_locked = false
+             mm.refresh ++
+         }
+         ,
 
 
         //-------------------------------------------------------------------
