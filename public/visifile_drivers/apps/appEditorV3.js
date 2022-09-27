@@ -1372,6 +1372,10 @@ showTimer()
                      mm.inSave = false
                      return false
                 }
+                if (mm.$refs.editor_component_ref.lockEditor) {
+                    mm.$refs.editor_component_ref.lockEditor()
+                }
+
                 showProgressBar()
 
                 showTimer("before save code")
@@ -1425,7 +1429,11 @@ showTimer()
                        }
                    }
                    hideProgressBar()
-                   mm.save_state = "saved"
+                 if (mm.$refs.editor_component_ref.unlockEditor) {
+                     mm.$refs.editor_component_ref.unlockEditor()
+                 }
+
+                     mm.save_state = "saved"
                    mm.checkSavedFile()
                    showTimer("done")
                      mm.inSave = false
