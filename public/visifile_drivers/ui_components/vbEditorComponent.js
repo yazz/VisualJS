@@ -41,7 +41,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
     <div    v-bind:id='vb_editor_element_id'
             v-if='vb_editor_element_id != null'
-            style='position:relative;display: flex;'
+            v-bind:style='"position:relative;display: flex;" + (editor_locked?"pointer-events: none;opacity: 0.4;":"")'
             v-on:drop="$event.stopPropagation(); dropEditor($event)"
             v-on:ondragover="$event.stopPropagation();maintainCursor(); allowDropEditor($event)">
 
