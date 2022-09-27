@@ -7481,6 +7481,7 @@ return {}
                 data: function () {
                   return {
                       uid2:                        null,
+                      editor_locked:               false,
                       vb_grid_element_id:          null,
                       vb_editor_element_id:        null,
                       design_mode: designMode,
@@ -7699,6 +7700,7 @@ return {}
      data: function () {
        return {
            showFilePicker: false,
+           editor_locked:               false,
            open_file_path: "/",
            open_file_path_dirs: ["/"],
            open_file_list: [],
