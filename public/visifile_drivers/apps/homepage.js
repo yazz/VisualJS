@@ -631,6 +631,12 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     mm.refresh++
                 }
 
+                if (text.type == "rename_app") {
+                    //debugger
+                    await mm.renameApp(text.base_component_id, text.display_name)
+                    mm.refresh++
+                }
+
                 if (text.type == "close_app") {
                     mm.edit_app = null;
                     mm.open_file_name = ""
@@ -932,6 +938,18 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
           },
 
+          renameApp: async function(baseComponentId, displayName) {
+              let mm = this
+              for (let thisApp of mm.intro_apps) {
+                  if (thisApp.data) {
+                      if (thisApp.data.id ==  baseComponentId) {
+                          thisApp.data.displayName = displayName
+                      }
+                  }
+              }
+              mm.refresh++
+              return null
+          },
 
             addApp: async function(baseComponentId, displayName, other) {
                 let mm = this
