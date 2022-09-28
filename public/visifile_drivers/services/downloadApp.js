@@ -5,7 +5,15 @@ base_component_id("downloadApp")
 load_once_from_file(true)
 only_run_on_server(true)
 */
-console.log("envVars: " + JSON.stringify(envVars,null,2))
+    console.log("envVars: " + JSON.stringify(envVars,null,2))
+    let theHttpsConn = http
+    if (envVars.CENTRALHOSTHTTPS) {
+        theHttpsConn = https
+        console.log("using HTTPS: ")
+    } else {
+        console.log("using HTTP: ")
+    }
+
         let promise = new Promise(async function(returnfn) {
             try {
                 const dataString = JSON.stringify(
@@ -25,13 +33,6 @@ console.log("envVars: " + JSON.stringify(envVars,null,2))
                     }
                 };
 //https
-                let theHttpsConn = http
-                if (envVars.CENTRALHOSTHTTPS) {
-                    theHttpsConn = https
-                    console.log("using HTTPS: ")
-                } else {
-                    console.log("using HTTP: ")
-                }
                 var response = "";
                 console.log("options: " + JSON.stringify(options,null,2))
 
