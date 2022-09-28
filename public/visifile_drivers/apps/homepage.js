@@ -486,7 +486,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 
                 <button style='position:absolute;top:250px;left:160px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
                         class='btn  btn-sm'
-                        v-on:click='showProgressBar();downloadApp($event,item.data.ipfs_hash)'>
+                        v-on:click='showProgressBar();downloadAndEditApp($event,item.data.ipfs_hash)'>
                   <img    src='/driver_icons/edit.png'
                           style='position:relative;max-width: 60px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
                   >
@@ -1052,6 +1052,44 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
           },
 
+
+
+
+
+          downloadAndEditApp: async function(event,  ipfsHash ) {
+              let mm = this
+
+              this.open_file_name = ""
+              this.open_file_path = "/"
+              saveCodeToFile = null
+
+
+
+              let result = await callApp(
+                  {
+                      driver_name: "downloadApp",
+                      method_name: "downloadApp"
+                  }
+                  ,
+                  {
+                      ipfs_hash:            ipfsHash
+                  })
+
+              await mm.addLogoForApp(result.base_component_id)
+
+              await mm.addApp(result.base_component_id, result.display_name)
+              setTimeout(async function() {
+                  //mm.openAppid(result.base_component_id)
+                  debugger
+                  mm.main_tab = "apps"
+                  hideProgressBar()
+                  mm.selectApp(result.base_component_id)
+                  await mm.editApp(event, result.base_component_id)
+
+              },50)
+
+
+          },
 
           editApp: async function(event,item) {
             let mm = this
