@@ -95,11 +95,7 @@ only_run_on_server(true)
                 }
             };
             var response2 = "";
-            let theHttpsConn2 = http
-            if (envVars.CENTRALHOSTHTTPS == "true") {
-                theHttpsConn2 = https
-            }
-            let req2 = theHttpsConn2.request(options2, function(res2) {
+            let req2 = theHttpsConn.request(options2, function(res2) {
                 res2.setEncoding('utf8');
                 res2.on('data', function (chunk2) {
                     response2 += chunk2;
