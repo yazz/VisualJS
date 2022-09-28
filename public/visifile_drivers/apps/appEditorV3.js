@@ -1445,6 +1445,7 @@ showTimer()
                    mm.checkSavedFile()
                    showTimer("done")
                      mm.inSave = false
+                     mm.editor_shell_locked = false
                      return true
                  })
 
@@ -1455,6 +1456,7 @@ showTimer()
                 this.save_state = "saved"
                 this.checkSavedFile()
                 mm.inSave = false
+                mm.editor_shell_locked = false
                 return true
             }
 
@@ -1964,7 +1966,6 @@ showTimer()
 
            }
        })
-       this.editor_shell_locked = false
        return {name: "app_editor"}
 
 }
