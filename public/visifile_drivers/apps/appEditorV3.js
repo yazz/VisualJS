@@ -1428,7 +1428,7 @@ showTimer()
                            // if the app has been changed during the save then don't reload the app
                            //mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
                            if (!saveCodeToFile) {
-                               mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
+                               await mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
                            }
                            else {
                                hideProgressBar()
