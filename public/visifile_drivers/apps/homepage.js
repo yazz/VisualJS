@@ -1040,12 +1040,12 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               await mm.addLogoForApp(result.base_component_id)
 
               await mm.addApp(result.base_component_id, result.display_name)
-              setTimeout(function() {
+              setTimeout(async function() {
                   //mm.openAppid(result.base_component_id)
                   mm.main_tab = "apps"
                   hideProgressBar()
-                  mm.selectApp(result.base_component_id)
-                  mm.openAppid(result.base_component_id)
+                  await mm.selectApp(result.base_component_id)
+                  await mm.openAppid(result.base_component_id)
 
               },50)
 
