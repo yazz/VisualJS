@@ -2386,8 +2386,9 @@ async function initFn() {
 
                 }
                 ,
-                openInfo: async function() {
+                openInfo: async function(useTab) {
                     let mm = this
+                    mm.tab = useTab
                     mm.show_page_info = true
                     await mm.updateComments()
                 }
@@ -2412,6 +2413,8 @@ async function initFn() {
                 submit_error_message: ""
                 ,
                 submit_info_message: ""
+                ,
+                tab: ""
             }
           }
           ,
@@ -2422,46 +2425,51 @@ async function initFn() {
           "                  v-bind:class='card_selected?(is_static?\"container\":\" container\"):\" container\"' >"+
               `
           <div style='background-color:navy;height:40px;width: 100vw;color:white;'
-                v-on:click=' openInfo()'
-                v-on:touchstart=' openInfo()'
                 >
+                <span
+                    v-on:click=' openInfo("comments")'
+                    v-on:touchstart=' openInfo("comments")'
+                >Comments</span>
           </div>
 
             <div    v-if='show_page_info'
                     style='width:100vw; height:100vh;color:white;background-color:navy;padding:20px;'>
+                    <div
+                    v-if='tab=="comments"'>
 
-                Add comment<br>
-                <textarea  style='display: inline-block;'
-                           id='new_comment'
-                           v-model='new_comment'>
-                </textarea>
-                <br><br>
+                            Add comment<br>
+                            <textarea  style='display: inline-block;'
+                                       id='new_comment'
+                                       v-model='new_comment'>
+                            </textarea>
+                            <br><br>
 
-                Rating (1-5, 5 is best):<br>
-                <input  id="new_rating"
-                        v-model="new_rating"
-                        type="range"
-                        min="0"
-                        max="5"
-                        value="0">
-                </input>{{new_rating}}
-                <br>
-                <button type=button class='btn btn-primary' style='margin-left: 10px' v-on:click='submitComment()'>
-                    Submit comment
-                </button>
-                <div style='color:red' id='submit_error'>{{submit_error_message}}</div>
-                <div style='color:green' id='submit_info'>{{submit_info_message}}</div>
+                            Rating (1-5, 5 is best):<br>
+                            <input  id="new_rating"
+                                    v-model="new_rating"
+                                    type="range"
+                                    min="0"
+                                    max="5"
+                                    value="0">
+                            </input>{{new_rating}}
+                            <br>
+                            <button type=button class='btn btn-primary' style='margin-left: 10px' v-on:click='submitComment()'>
+                                Submit comment
+                            </button>
+                            <div style='color:red' id='submit_error'>{{submit_error_message}}</div>
+                            <div style='color:green' id='submit_info'>{{submit_info_message}}</div>
 
-                <br><br><br><br>
-                <b>Previous comments:</b>
-                <li v-for='comment in comments'
-                    style='color:white;background-color:navy;'>
-                  {{comment.comment}} , {{comment.rating}} , {{msToTime(comment.date_and_time)}}
+                            <br><br><br><br>
+                            <b>Previous comments:</b>
+                            <li v-for='comment in comments'
+                                style='color:white;background-color:navy;'>
+                              {{comment.comment}} , {{comment.rating}} , {{msToTime(comment.date_and_time)}}
 
-                </li>
+                            </li>
 
-                <br>
-                <button v-on:click='show_page_info=false;' >Close</button>
+                            <br>
+                            <button v-on:click='show_page_info=false;' >Close</button>
+                        </div>
             </div>
               ` +
           "<div " +
