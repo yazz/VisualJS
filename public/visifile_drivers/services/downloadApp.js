@@ -87,6 +87,8 @@ only_run_on_server(true)
                 })
 
             let options2 = {
+                host: envVars.CENTRALHOST,
+                port: envVars.CENTRALHOSTPORT,
                 path: '/add_or_update_app',
                 method: 'POST',
                 headers: {
