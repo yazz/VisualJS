@@ -2427,6 +2427,12 @@ async function initFn() {
           <div style='background-color:navy;height:40px;width: 100vw;color:white;'
                 >
                 <span
+                    v-on:click=' openInfo("login")'
+                    v-on:touchstart=' openInfo("login")'
+                >Login</span>
+
+                <span
+                    style='margin-left: 30px;'
                     v-on:click=' openInfo("comments")'
                     v-on:touchstart=' openInfo("comments")'
                 >Comments</span>
@@ -2434,8 +2440,30 @@ async function initFn() {
 
             <div    v-if='show_page_info'
                     style='width:100vw; height:100vh;color:white;background-color:navy;padding:20px;'>
-                    <div
-                    v-if='tab=="comments"'>
+
+
+
+
+
+
+                    <div v-if='tab=="login"'>
+
+                            Login<br>
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <div v-if='tab=="comments"'>
 
                             Add comment<br>
                             <textarea  style='display: inline-block;'
@@ -2471,6 +2499,14 @@ async function initFn() {
                             <button v-on:click='show_page_info=false;' >Close</button>
                         </div>
             </div>
+
+
+
+
+
+
+
+
               ` +
           "<div " +
 		               " v-bind:style=\"'; padding0px; font-family: Helvetica ;  width: 100vw ;visibility: ' + (visible?'':'hidden') + ';' \">"+
