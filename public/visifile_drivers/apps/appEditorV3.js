@@ -1259,6 +1259,12 @@ load_once_from_file(true)
                             mm.save_state = "pending"
                         }
                     }
+                    mm.$root.$emit('message', {
+                        type:               "rename_app",
+                        base_component_id:   mm.base_component_id,
+                        display_name:        mm.app_component_name
+                    })
+
                 },500)
             },
 
