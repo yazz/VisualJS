@@ -2633,6 +2633,7 @@ Pushlist
 
 setTimeout(async function(){
             await mm.loadControls()
+            mm.editor_locked = false
 },2000)
 
 
@@ -7495,7 +7496,7 @@ return {}
                 data: function () {
                   return {
                       uid2:                        null,
-                      editor_locked:               false,
+                      editor_locked:               true,
                       vb_grid_element_id:          null,
                       vb_editor_element_id:        null,
                       design_mode: designMode,

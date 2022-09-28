@@ -41,9 +41,15 @@ load_once_from_file(true)
 
         </h5>
 
-        <input  class='caption' style='display: inline-block;' v-if='edit_name' v-model='new_name'></input>
+        <input    class='caption' 
+                  v-bind:style='"display: inline-block;" + (editor_shell_locked?"pointer-events: none;opacity: 0.4;":"")' 
+                  v-if='edit_name' 
+                  v-model='app_component_name'></input>
 
-        <button type=button class='btn btn-primary' style='margin-left: 10px' v-if='edit_name' v-on:click='(async function(){await rename(new_name)})()'>
+        <button type=button class='btn btn-primary' 
+                v-bind:style='"margin-left: 10px" + (editor_shell_locked?"pointer-events: none;opacity: 0.4;":"")'
+                v-if='edit_name' 
+                v-on:click='(async function(){await rename(app_component_name)})()'>
             Save new name
         </button>
 
@@ -696,7 +702,7 @@ load_once_from_file(true)
        data: function() {
            return {
                file_save_state:    (saveCodeToFile?saveCodeToFile:""),
-               lock_editor_shell:  false,
+               editor_shell_locked:  true,
                info_text:           "",
                inSave:             false,
                hideImportButtons: true,
@@ -750,9 +756,9 @@ load_once_from_file(true)
                sub_mode:            "both",
                show_name:           true,
                edit_name:           false,
-               new_name:            "",
                editor_text:         "",
-               save_state:          "saved"
+               save_state:          "saved",
+               display_name:        ""
            }
        }
        ,
@@ -1240,7 +1246,6 @@ load_once_from_file(true)
                 // commented out as we don't want to replace _ (underscores) with spaces
                 //nn = nn.replace(/[\W_]+/g,"_");
 
-                this.new_name = ""
                 this.console_output = ""
                 setTimeout(async function() {
                     //debugger
@@ -1376,7 +1381,7 @@ showTimer()
                 if (mm.$refs.editor_component_ref.lockEditor) {
                     mm.$refs.editor_component_ref.lockEditor()
                 }
-                mm.lock_editor_shell = true
+                mm.editor_shell_locked = true
 
                 showProgressBar()
 
@@ -1434,7 +1439,7 @@ showTimer()
                  if (mm.$refs.editor_component_ref.unlockEditor) {
                      mm.$refs.editor_component_ref.unlockEditor()
                  }
-                 mm.lock_editor_shell = false
+                 mm.editor_shell_locked = false
 
                      mm.save_state = "saved"
                    mm.checkSavedFile()
@@ -1607,7 +1612,9 @@ showTimer()
                                 this.is_server_app = false
                             }
 
-                            if ((saveHelper.getValueOfCodeString(code.toString(),"only_run_on_server") == true)
+                           this.app_component_name = saveHelper.getValueOfCodeString(code.toString(),"display_name")
+
+                           if ((saveHelper.getValueOfCodeString(code.toString(),"only_run_on_server") == true)
                             ||
                                 (saveHelper.getValueOfCodeString(code.toString(),"rest_api"))
                             )
@@ -1782,6 +1789,7 @@ showTimer()
                                             this.is_ui_app = false
                                             this.is_server_app = false
                                         }
+                                        this.app_component_name = saveHelper.getValueOfCodeString(code.toString(),"display_name")
 
                                         if ((saveHelper.getValueOfCodeString(code.toString(),"only_run_on_server") == true)
                                         ||
@@ -1956,6 +1964,7 @@ showTimer()
 
            }
        })
+       this.editor_shell_locked = false
        return {name: "app_editor"}
 
 }
