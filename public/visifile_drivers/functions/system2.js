@@ -15,6 +15,9 @@ only_run_on_server(true)
 
                     function(err, results)
                     {
+                        if(err) {
+                            throw err
+                        }
                         returnResult(results)
                     })
         }, sqlite3.OPEN_READONLY)
