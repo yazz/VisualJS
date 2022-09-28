@@ -696,6 +696,7 @@ load_once_from_file(true)
        data: function() {
            return {
                file_save_state:    (saveCodeToFile?saveCodeToFile:""),
+               lock_editor_shell:  false,
                info_text:           "",
                inSave:             false,
                hideImportButtons: true,
@@ -1375,6 +1376,7 @@ showTimer()
                 if (mm.$refs.editor_component_ref.lockEditor) {
                     mm.$refs.editor_component_ref.lockEditor()
                 }
+                mm.lock_editor_shell = true
 
                 showProgressBar()
 
@@ -1432,6 +1434,7 @@ showTimer()
                  if (mm.$refs.editor_component_ref.unlockEditor) {
                      mm.$refs.editor_component_ref.unlockEditor()
                  }
+                 mm.lock_editor_shell = false
 
                      mm.save_state = "saved"
                    mm.checkSavedFile()
