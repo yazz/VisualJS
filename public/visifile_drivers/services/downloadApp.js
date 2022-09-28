@@ -49,7 +49,7 @@ console.log("envVars: " + JSON.stringify(envVars,null,2))
                         console.log('data.id: ' + responseJson.data.id);
                         console.log('data.name: ' + responseJson.data.name);
                         console.log('data.ipfs_hash: ' + responseJson.data.ipfs_hash);
-                        console.log('data.logo: ' + responseJson.data.logo);
+                        //console.log('data.logo: ' + responseJson.data.logo);
                         console.log('data.base_component_id: ' + responseJson.data.base_component_id);
 
                         returnfn({
