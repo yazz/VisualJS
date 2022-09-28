@@ -3103,10 +3103,14 @@ async function startServices() {
 
 
         app.post('/add_or_update_app', async function (req, res) {
-
+console.log("/add_or_update_app")
             let baseComponentIdLocal = req.body.base_component_id
+console.log("/add_or_update_app:baseComponentIdLocal := " + baseComponentIdLocal)
             let srcCode = req.body.src_code
+console.log("/add_or_update_app:srcCode := " + srcCode.length)
             let ipfsHash = req.body.ipfs_hash
+console.log("/add_or_update_app:ipfsHash := " + ipfsHash)
+
             await addOrUpdateDriver(baseComponentIdLocal,
                                     srcCode ,
                                     {
@@ -3115,6 +3119,7 @@ async function startServices() {
                                      reponame: baseComponentIdLocal,
                                      version: "latest",
                                      ipfsHashId: ipfsHash})
+console.log("/add_or_update_app:addOrUpdateDriver completed")
             res.status(200).send('Code registered');
         })
 
