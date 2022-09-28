@@ -1045,7 +1045,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                   //mm.openAppid(result.base_component_id)
                   mm.main_tab = "apps"
                   hideProgressBar()
-                  //await mm.selectApp(result.base_component_id)
+                  await mm.selectApp(result.base_component_id)
                   await mm.openAppid(result.base_component_id)
 
               },50)
