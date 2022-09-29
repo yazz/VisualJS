@@ -954,6 +954,13 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             addApp: async function(baseComponentId, displayName, other) {
                 let mm = this
               if (baseComponentId) {
+                //zzz
+                  for (let thisApp of mm.intro_apps) {
+                      if (thisApp.data.id ==  baseComponentId) {
+                          mm.refresh++
+                          return
+                      }
+                  }
                   let app = {
                                 type: "app",
                                 data:
