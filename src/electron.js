@@ -3017,7 +3017,7 @@ async function startServices() {
                     function() {
                         dbsearch.all(
                             " select  " +
-                            "     distinct(app_list.id), app_name, app_icon_data, ipfs_hash " +
+                            "     distinct(app_list.id), app_name, app_icon_data, ipfs_hash, app_list.base_component_id " +
                             " from " +
                             "     app_list " +
                             " inner JOIN " +
@@ -3038,7 +3038,7 @@ async function startServices() {
                                                     {
 
                                                         data: {
-                                                            id: thisRow.app_name
+                                                            id: thisRow.base_component_id
                                                             ,
                                                             logo: thisRow.app_icon_data
                                                             ,
