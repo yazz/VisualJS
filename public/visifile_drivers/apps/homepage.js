@@ -709,8 +709,15 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                   .then(function(responseJson)
                   {
                       for (let rt=0;rt<responseJson.length; rt++) {
+
+                          for (let thisApp of mm.appstore_apps) {
+                              if (thisApp.data.id ==  responseJson[rt].data.id) {
+                                continue
+                              }
+                          }
                           mm.appstore_apps.push(responseJson[rt])
                           mm.app_logos[responseJson[rt].data.id] = responseJson[rt].data.logo
+
                       }
 
                   })
