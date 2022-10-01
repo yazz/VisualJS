@@ -46,6 +46,14 @@ load_once_from_file(true)
                   v-if='edit_name' 
                   v-model='app_component_name'></input>
 
+
+          <button type=button class='btn btn-primary'
+                  v-bind:style='"margin-left: 10px" + (editor_shell_locked?"pointer-events: none;opacity: 0.4;":"")'
+                  v-if='(!read_only) && (!edit_name)'
+                  v-on:click='edit_name = true;show_name=false;'>
+            Rename
+          </button>
+
         <button type=button class='btn btn-primary' 
                 v-bind:style='"margin-left: 10px" + (editor_shell_locked?"pointer-events: none;opacity: 0.4;":"")'
                 v-if='edit_name' 
