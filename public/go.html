@@ -2424,7 +2424,7 @@ async function initFn() {
           "                  v-on:click='click_card(item.id)'"+
           "                  v-bind:class='card_selected?(is_static?\"container\":\" container\"):\" container\"' >"+
               `
-          <div style='background-color:navy;height:40px;width: 100vw;color:white;'
+          <div style='background-color:navy;height:5vh;width: 100vw;color:white;'
                 >
                 <span
                     v-on:click=' openInfo("login")'
@@ -2455,8 +2455,7 @@ async function initFn() {
 
                     <div v-if='tab=="login"'>
 
-                        <br>
-                        <button v-on:click='show_page_info=false;' >Close</button>
+
                     </div>
 
 
@@ -2472,6 +2471,10 @@ async function initFn() {
 
 
                     <div v-if='tab=="comments"'>
+
+
+
+                        <div style=";height:40vh">
 
                             Add comment<br>
                             <textarea  style='display: inline-block;'
@@ -2495,16 +2498,19 @@ async function initFn() {
                             <div style='color:red' id='submit_error'>{{submit_error_message}}</div>
                             <div style='color:green' id='submit_info'>{{submit_info_message}}</div>
 
-                            <br><br><br><br>
-                            <b>Previous comments:</b>
-                            <li v-for='comment in comments'
-                                style='color:white;background-color:navy;'>
-                              {{comment.comment}} , {{comment.rating}} , {{msToTime(comment.date_and_time)}}
+                            </div>
 
-                            </li>
 
-                            <br>
-                            <button v-on:click='show_page_info=false;' >Close</button>
+
+                            <div style="overflow: scroll;height:40vh">
+                                <b>Previous comments:</b>
+                                <li v-for='comment in comments'
+                                    style='color:white;background-color:navy;'>
+                                  {{comment.comment}} , {{comment.rating}} , {{msToTime(comment.date_and_time)}}
+
+                                </li>
+                            </div>
+
                         </div>
             </div>
 
