@@ -2436,6 +2436,13 @@ async function initFn() {
                     v-on:click=' openInfo("comments")'
                     v-on:touchstart=' openInfo("comments")'
                 >Comments</span>
+
+                <span
+                    style='margin-left: 30px;'
+                    v-if='show_page_info'
+                    v-on:click='show_page_info=false;'
+                    v-on:touchstart='show_page_info=false;'
+                >Close</span>
           </div>
 
             <div    v-if='show_page_info'
