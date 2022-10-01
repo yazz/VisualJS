@@ -16,6 +16,7 @@ Vue.component("todo", {
                       style='width:100%;height:100%;padding:20px;background-color:white;--fontresizable: 5cqw;'>
     <div>
       Todo List<br>
+      <div style='color:red'>{{info_message}}</div>
       <input id=add v-model="new_item"></input>
       <div style="overflow: auto; height: 70%;" >
 
@@ -32,51 +33,59 @@ Vue.component("todo", {
     data: function() {
         return {
             items: [],
-            new_item: ""
+            new_item: "",
+            info_message: ""
         }
     }
-,
+    ,
     mounted: async function() {
         this.items = sql("select id,name from items")
         //alert(JSON.stringify(this.items,null,2))
     },
     methods: {
         add_item: async function(x) {
-             sql("insert into items (id,name) values (" + new Date().getTime() + " ,'" + x + "')")
-             this.items = sql("select id,name from items")
-             this.new_item = ""
+            this.info_message = ""
+            if (x == "") {
+                this.info_message = "You must add some text"
+                return
+            }
+
+            sql("insert into items (id,name) values (" + new Date().getTime() + " ,'" + x + "')")
+            this.items = sql("select id,name from items")
+            this.new_item = ""
         }
         ,
         delete_item: async function(x) {
-             sql("delete from items where id = ?",[x] )
-             this.items = sql("select id,name from items")
+            this.info_message = ""
+            sql("delete from items where id = ?",[x] )
+            this.items = sql("select id,name from items")
         }
 
     }
- })
+})
 
- /*
- allowAccessToAppBaseComponentIds([""])
- allowAccessToAppTypes(["database_reader"])
- sqlite(
- {
-  migrations:
-  [
-      {
-        name: "Create the initial item table"
-        ,
-        up: ["CREATE TABLE items (id	TEXT, name	TEXT);",
-             "alter TABLE items add column time INTEGER;"]
-      }
-      ,
-      {
-        name: "Add a column for the user name"
-        ,
-        up: ["alter TABLE items add column user TEXT;"]
-      }
-  ]
- }
- )//sqlite
-grant_full_db_access_to(["todo_app_reader"])
-*/
+    /*
+    allowAccessToAppBaseComponentIds([""])
+    allowAccessToAppTypes(["database_reader"])
+    sqlite(
+    {
+     migrations:
+     [
+         {
+           name: "Create the initial item table"
+           ,
+           up: ["CREATE TABLE items (id	TEXT, name	TEXT);",
+                "alter TABLE items add column time INTEGER;"]
+         }
+         ,
+         {
+           name: "Add a column for the user name"
+           ,
+           up: ["alter TABLE items add column user TEXT;"]
+         }
+     ]
+    }
+    )//sqlite
+   grant_full_db_access_to(["todo_app_reader"])
+   */
 }
