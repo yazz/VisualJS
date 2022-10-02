@@ -2401,7 +2401,9 @@ async function initFn() {
                 ,
                 logInWithMetamask: async function() {
                     //let nonce = Math.floor(Math.random() * 1000000);
-                    alert(1)
+                    if (window.ethereum) {
+                        await useWeb3()
+                    }
                 }
 
             },
@@ -2470,11 +2472,14 @@ async function initFn() {
 
                             <button type=button
                                     class='btn btn-primary'
-                                    style='margin-left: 10px'
+                                    style='margin-left: 10px;width:40vw;height:15vh;'
+
                                     v-on:click='logInWithMetamask()'>
-                                Metamask
-                                <embed  style='height:100%;'
-                                        src="/driver_icons/metamaskfox.svg" type="image/svg+xml" />
+
+                                        <img    src="/driver_icons/metamaskfox.svg"
+                                                style="height:100%;width:100%"
+                                        />
+
                             </button>
 
                     </div>
