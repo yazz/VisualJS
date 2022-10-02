@@ -2387,7 +2387,7 @@ async function initFn() {
                 }
                 ,
                 openInfo: async function(useTab) {
-                debugger
+                //debugger
                     let mm = this
                     if (mm.tab == useTab) {
                         mm.tab = ""
@@ -2397,6 +2397,11 @@ async function initFn() {
                         mm.show_page_info = true
                         await mm.updateComments()
                     }
+                }
+                ,
+                logInWithMetamask: async function() {
+                    //let nonce = Math.floor(Math.random() * 1000000);
+                    alert(1)
                 }
 
             },
@@ -2466,7 +2471,7 @@ async function initFn() {
                             <button type=button
                                     class='btn btn-primary'
                                     style='margin-left: 10px'
-                                    v-on:click='loginWithMetamask()'>
+                                    v-on:click='logInWithMetamask()'>
                                 Metamask
                                 <embed  style='height:100%;'
                                         src="/driver_icons/metamaskfox.svg" type="image/svg+xml" />
