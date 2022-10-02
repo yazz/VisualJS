@@ -24,13 +24,13 @@
         var useWeb3 = async function() {
 
             if (!web3loaded) {
-                debugger
+                //debugger
                 let loadWeb3LibScript = document.createElement('script');
                 loadWeb3LibScript.src = "/js_libs/web3.min.js";
 
                 document.head.appendChild(loadWeb3LibScript);
                 loadWeb3LibScript.onload = function () {
-                    debugger
+                    //debugger
                     try {
                         window.ethereum.request({method: "eth_requestAccounts"});
 
@@ -2329,7 +2329,7 @@ async function initFn() {
                         }
                         ,
                         function(response) {
-                            debugger
+                            //debugger
                             let resp = JSON.parse(response)
                             mm.new_comment = ""
                             mm.new_rating = 0
@@ -2387,10 +2387,16 @@ async function initFn() {
                 }
                 ,
                 openInfo: async function(useTab) {
+                debugger
                     let mm = this
-                    mm.tab = useTab
-                    mm.show_page_info = true
-                    await mm.updateComments()
+                    if (mm.tab == useTab) {
+                        mm.tab = ""
+                        mm.show_page_info=false;
+                    } else {
+                        mm.tab = useTab
+                        mm.show_page_info = true
+                        await mm.updateComments()
+                    }
                 }
 
             },
@@ -2429,18 +2435,20 @@ async function initFn() {
                 <span
                     v-on:click=' openInfo("login")'
                     v-on:touchstart=' openInfo("login")'
+                    style='height:100%;margin-left:20px;vertical-align:middle;'
                 >Login</span>
 
                 <span
                     style='margin-left: 30px;'
                     v-on:click=' openInfo("comments")'
                     v-on:touchstart=' openInfo("comments")'
+                    style='height:100%;margin-left:20px;vertical-align:middle;'
                 >Comments</span>
 
                 <span
-                    style='margin-left: 30px;'
+                    style='height:100%;margin-left:20px;vertical-align:middle;'
                     v-if='show_page_info'
-                    v-on:click='show_page_info=false;'
+                    v-on:click='show_page_info=false;tab=""'
                     v-on:touchstart='show_page_info=false;'
                 >Close</span>
           </div>
@@ -3275,7 +3283,7 @@ function setupWebSocket(host, port)
     })
 
     socket.on('set_saveCodeToFile_V2',async function(data) {
-        debugger
+        //debugger
         saveCodeToFile = data.saveCodeToFile
         var results = await callFunction(
         {
