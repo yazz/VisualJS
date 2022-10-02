@@ -2401,9 +2401,12 @@ async function initFn() {
                 ,
                 logInWithMetamask: async function() {
                     //let nonce = Math.floor(Math.random() * 1000000);
+                    debugger
                     if (window.ethereum) {
                         await useWeb3()
-                        this.accountNumber = (await web3.eth.getAccounts())[0]
+                        let accs = await web3.eth.getAccounts()
+                        this.accountNumber = accs[0]
+                        return
                     }
                 }
 
@@ -2446,7 +2449,7 @@ async function initFn() {
                     v-on:click=' openInfo("login")'
                     v-on:touchstart=' openInfo("login")'
                     style='height:100%;margin-left:20px;vertical-align:middle;'
-                >Login</span>
+                >{{ accountNumber?("" + accountNumber).substring(0,5) + "...":"Login" }}</span>
 
                 <span
                     style='margin-left: 30px;'
