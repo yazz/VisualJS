@@ -3041,7 +3041,7 @@ async function startServices() {
                                                         data: {
                                                             id: thisRow.id,
                                                             ipfs_hash_id: thisRow.ipfs_hash_id,
-                                                            keys: Object.keys(thisRow)
+                                                            code_tag: thisRow.code_tag,
                                                         }
                                                     })
                                             }
