@@ -2400,13 +2400,14 @@ async function initFn() {
                 }
                 ,
                 logInWithMetamask: async function() {
-                    //let nonce = Math.floor(Math.random() * 1000000);
+                    let mm = this
                     debugger
                     if (window.ethereum) {
                         await useWeb3()
-                        let accs = await web3.eth.getAccounts()
-                        this.accountNumber = accs[0]
-                        return
+                        setTimeout(async function() {
+                            let accs = await web3.eth.getAccounts()
+                            mm.accountNumber = accs[0]
+                        },100)
                     }
                 }
 
