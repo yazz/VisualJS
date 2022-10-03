@@ -3005,6 +3005,78 @@ async function startServices() {
         });
 
 
+
+
+        app.get('/get_version_history', async function (req, res) {
+            console.log("app.post('/get_version_history'): ")
+            console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+            let topApps = []
+            let baseComponentIdToFind = req.query.id;
+            let sessionId = await getSessionId(req,res)
+
+            let promise = new Promise(async function(returnfn) {
+
+                dbsearch.serialize(
+                    function() {
+                        dbsearch.all(
+                            " select " +
+                            "     *  " +
+                            " from    " +
+                            "     system_code " +
+                            " where     " +
+                            "     base_component_id = ?"
+                            ,
+                            [baseComponentIdToFind]
+                            ,
+                            async function(err, rows) {
+                                if (!err) {
+                                    try {
+                                        var returnRows = []
+                                        if (rows.length > 0) {
+                                            for (let rowIndex =0; rowIndex < rows.length; rowIndex++) {
+                                                let thisRow = rows[rowIndex]
+                                                returnRows.push(
+                                                    {
+
+                                                        data: {
+                                                            id: thisRow.id,
+                                                            ipfs_hash_id: thisRow.ipfs_hash_id,
+                                                            keys: Object.keys(thisRow)
+                                                        }
+                                                    })
+                                            }
+                                        }
+
+
+
+
+                                    } catch(err) {
+                                        console.log(err);
+                                        var stack = new Error().stack
+                                        console.log( stack )
+                                    } finally {
+                                        returnfn(returnRows)
+                                    }
+
+                                }
+                            }
+                        );
+                    }, sqlite3.OPEN_READONLY)
+            })
+            var ret = await promise
+
+            topApps = ret
+
+            res.writeHead(200, {'Content-Type': 'application/json'});
+
+            res.end(JSON.stringify(
+                topApps
+            ));
+
+        });
+
+
+
         app.post('/topapps', async function (req, res) {
             console.log("app.post('/topapps'): ")
             console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
