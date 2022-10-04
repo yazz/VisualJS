@@ -12,15 +12,25 @@ load_once_from_file(true)
     Vue.component("history_viewer_component", {
       data: function () {
         return {
-            text:           args.text,
-            read_only:      false,
-            editorDomId:    editorDomId,
-            errors:         null,
-            sqlText:        "{}",
+            commitsV1: [
+                {codeSha: "fdsfsddfsfsdfds", timestamp: new Date().getTime()},
+                {codeSha: "fdsfsddfsfsdfds", timestamp: new Date().getTime() - 1000},
+                {codeSha: "fdsfsddfsfsdfds", timestamp: new Date().getTime() - 10000},
+            ]
         }
       },
       template: `<div style='background-color:white; ' >
                       Component History
+                      
+                      <div style="overflow: scroll;height:40vh">
+                        <b>Previous commits:</b>
+                        <li v-for='commit in commitsV1'
+                            style='color:white;background-color:navy;'>
+                          {{commit.codeSha}} , {{commit.timestamp}} , {{msToTime(commit.timestamp)}}
+
+                        </li>
+                      </div>
+                      
                  </div>`
      ,
 
