@@ -2410,6 +2410,10 @@ async function initFn() {
                         },100)
                     }
                 }
+                ,
+                signTransaction: async function() {
+                    alert("signed")
+                }
 
             },
           data: function () {
@@ -2446,6 +2450,14 @@ async function initFn() {
               `
           <div style='background-color:navy;height:5vh;width: 100vw;color:white;'
                 >
+
+
+
+<!-- ------------------------------------------------
+
+The top menu items for the info pane
+
+------------------------------------------------ -->
                 <span
                     v-on:click=' openInfo("login")'
                     v-on:touchstart=' openInfo("login")'
@@ -2458,6 +2470,14 @@ async function initFn() {
                     v-on:touchstart=' openInfo("comments")'
                     style='height:100%;margin-left:20px;vertical-align:middle;'
                 >Comments</span>
+
+                <span
+                    style='margin-left: 30px;'
+                    v-on:click=' openInfo("debug")'
+                    v-on:touchstart=' openInfo("debug")'
+                    style='height:100%;margin-left:20px;vertical-align:middle;'
+                >Debug</span>
+
 
                 <span
                     style='height:100%;margin-left:20px;vertical-align:middle;'
@@ -2474,6 +2494,11 @@ async function initFn() {
 
 
 
+<!-- ------------------------------------------------
+
+LOGIN pane
+
+------------------------------------------------ -->
 
                     <div v-if='tab=="login"'>
 
@@ -2491,6 +2516,9 @@ async function initFn() {
 
                             </button>
 
+
+
+
                     </div>
 
 
@@ -2504,6 +2532,11 @@ async function initFn() {
 
 
 
+<!-- ------------------------------------------------
+
+Comments pane
+
+------------------------------------------------ -->
 
                     <div v-if='tab=="comments"'>
 
@@ -2547,12 +2580,37 @@ async function initFn() {
                             </div>
 
                         </div>
+
+
+
+
+
+
+<!-- ------------------------------------------------
+
+DEBUG pane
+
+------------------------------------------------ -->
+
+                    <div v-if='tab=="debug"'>
+
+                            <div v-if='accountNumber'>Metamask Account Number: {{accountNumber}}</div>
+
+                            <button type=button
+                                    class='btn btn-primary'
+                                    style='margin-left: 10px;width:40vw;height:15vh;'
+
+                                    v-on:click='signTransaction()'>
+
+                                        Sign transaction
+
+                            </button>
+
+
+
+
+                    </div>
             </div>
-
-
-
-
-
 
 
 
