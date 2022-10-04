@@ -50,7 +50,9 @@ load_once_from_file(true)
 
      mounted: async function() {
          let thisVueInstance = this
-         await this.getHistory()
+         debugger
+         let baseComponentIdOfItem = saveHelper.getValueOfCodeString(this.text,"base_component_id")
+         await this.getHistory(baseComponentIdOfItem)
 
      },
      methods: {
@@ -73,11 +75,11 @@ load_once_from_file(true)
         }
         ,
 
-        getHistory: async function() {
+        getHistory: async function(baseComponentIdOfItem) {
             let mm = this
             let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/get_version_history?" +
                 new URLSearchParams({
-                        id: "todo"
+                        id: baseComponentIdOfItem
                 })
             fetch(openfileurl, {
                 method: 'get',
