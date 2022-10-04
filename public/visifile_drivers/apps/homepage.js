@@ -1095,7 +1095,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               await mm.addApp(result.base_component_id, result.display_name)
               setTimeout(async function() {
                   //mm.openAppid(result.base_component_id)
-                  debugger
+                  //debugger
                   mm.main_tab = "apps"
                   hideProgressBar()
                   mm.selectApp(result.base_component_id)
