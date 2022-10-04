@@ -90,11 +90,11 @@ load_once_from_file(true)
 
 
             <div v-if='extra_menu' class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: 20px;'>
-                <button  v-if='(mode != "profiler")' type=button class=' btn btn-info btn-sm'        v-on:click='embedApp(base_component_id)' >Embed</button>
+                <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-info btn-sm'        v-on:click='embedApp(base_component_id)' >Embed</button>
 
-                <button  v-if='(mode != "profiler")' type=button class=' btn btn-sm btn-warning'        v-on:click='setTimeout(async function(){await showHistory(base_component_id, {})},100)' >History</button>
+                <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-warning'        v-on:click='setTimeout(async function(){await showHistory(base_component_id, {})},100)' >History</button>
 
-                <button  v-if='(editor_component != "editor_component") && (!read_only) && (mode != "profiler")' type=button class=' btn btn-info btn-sm'   v-on:click='editAsText()' >Edit as text</button>
+                <button  v-if='(editor_component != "editor_component") && (!read_only) && (mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-info btn-sm'   v-on:click='editAsText()' >Edit as text</button>
 
                 <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-warning'        v-on:click='setTimeout(function(){copyAppMethod(base_component_id, null)},100)' >Copy app</button>
 
@@ -107,11 +107,11 @@ load_once_from_file(true)
             </div>
 
 
-            <div v-if='!extra_menu' class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: 20px;'>
+            <div v-if='(!extra_menu) && (!editor_overloaded)' class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: 20px;'>
                 <button  type=button class=' btn btn-info btn-sm'   v-on:click='extra_menu=true' >More</button>
             </div>
 
-            <div v-if='extra_menu' class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: 20px;'>
+            <div v-if='extra_menu && (!editor_overloaded)' class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: 20px;'>
                 <button  type=button class=' btn btn-info btn-sm'   v-on:click='extra_menu=false' >Less</button>
             </div>
 
