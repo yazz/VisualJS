@@ -92,7 +92,7 @@ load_once_from_file(true)
             <div v-if='extra_menu' class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: 20px;'>
                 <button  v-if='(mode != "profiler")' type=button class=' btn btn-info btn-sm'        v-on:click='embedApp(base_component_id)' >Embed</button>
 
-                <button  v-if='(mode != "profiler")' type=button class=' btn btn-sm btn-warning'        v-on:click='if (!read_only) {edit_name=true;show_name=false;}' >Rename</button>
+                <button  v-if='(mode != "profiler")' type=button class=' btn btn-sm btn-warning'        v-on:click='setTimeout(async function(){await showHistory(base_component_id, {})},100)' >History</button>
 
                 <button  v-if='(editor_component != "editor_component") && (!read_only) && (mode != "profiler")' type=button class=' btn btn-info btn-sm'   v-on:click='editAsText()' >Edit as text</button>
 
@@ -831,7 +831,19 @@ load_once_from_file(true)
            }
            ,
 
+           showHistory: async function(thisComponentId, historyArgs) {
+               let mm = this
 
+               this.editor_overloaded = true
+               this.show_download_save = false
+               this.show_filename_save = false
+
+               override_app_editor = "history_viewer_component"
+
+                await mm.load_new_app( this.base_component_id )
+                //zzz
+            }
+            ,
 
            editKeycloak: async function() {
                let mm = this
