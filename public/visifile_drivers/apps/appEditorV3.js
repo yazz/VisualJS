@@ -370,6 +370,7 @@ load_once_from_file(true)
                         ref="app_preview_component"
                         v-if='app_loaded && is_ui_app && (!is_server_app)'
                         style='background-color: white;'
+                        v-bind:refresh='refresh'
                         v-bind:is="base_component_id">
                
             </component>
@@ -1947,7 +1948,7 @@ showTimer()
                 })
 
                 setInterval(async function() {
-
+                    mm.refresh ++
                     if ((!mm.read_only) && (mm.save_state == 'pending' || (!mm.save_state))) {
                         //debugger
                         if (!disableAutoSave) {
