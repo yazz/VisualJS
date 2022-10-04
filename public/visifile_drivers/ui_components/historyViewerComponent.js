@@ -15,9 +15,9 @@ load_once_from_file(true)
             text:           args.text
             ,
             commitsV1: [
-                {codeSha: "fdsfsddfsfsdfds", timestamp: new Date().getTime()},
-                {codeSha: "fdsfsddfsfsdfds", timestamp: new Date().getTime() - 1000},
-                {codeSha: "fdsfsddfsfsdfds", timestamp: new Date().getTime() - 10000}
+//                {codeSha: "fdsfsddfsfsdfds", timestamp: new Date().getTime()},
+  //              {codeSha: "fdsfsddfsfsdfds", timestamp: new Date().getTime() - 1000},
+    //            {codeSha: "fdsfsddfsfsdfds", timestamp: new Date().getTime() - 10000}
             ]
         }
       },
@@ -48,9 +48,9 @@ load_once_from_file(true)
              </div>`
      ,
 
-     mounted: function() {
+     mounted: async function() {
          let thisVueInstance = this
-
+         await this.getHistory()
 
      },
      methods: {
@@ -73,7 +73,38 @@ load_once_from_file(true)
         }
         ,
 
+        getHistory: async function() {
+            let mm = this
+            let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/get_version_history?" +
+                new URLSearchParams({
+                        id: "todo"
+                })
+            fetch(openfileurl, {
+                method: 'get',
+                credentials: "include"
+            })
+                .then((response) => response.json())
+                .then(function(responseJson)
+                {
+                    //debugger
+                    for (let rt=0;rt<responseJson.length; rt++) {
 
+                        mm.commitsV1.push(
+                            {
+                                codeSha: responseJson[rt].id,
+                                timestamp: new Date().getTime()
+                            }
+
+                            )
+
+                    }
+
+                })
+                .catch(err => {
+                    //error block
+                })
+        }
+        ,
 
         // -----------------------------------------------------
         //                      setText

@@ -3037,12 +3037,9 @@ async function startServices() {
                                                 let thisRow = rows[rowIndex]
                                                 returnRows.push(
                                                     {
-
-                                                        data: {
-                                                            id: thisRow.id,
-                                                            ipfs_hash_id: thisRow.ipfs_hash_id,
-                                                            code_tag_v2: thisRow.code_tag_v2,
-                                                        }
+                                                        id: thisRow.id,
+                                                        ipfs_hash_id: thisRow.ipfs_hash_id,
+                                                        code_tag_v2: thisRow.code_tag_v2,
                                                     })
                                             }
                                         }
