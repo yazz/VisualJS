@@ -27,8 +27,13 @@ load_once_from_file(true)
                         <slot style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);display: inline-block;' v-if='text' :text2="text">
                         </slot>
                       </div>
+
+                      <div style='border-radius: 5px;margin-left:15px;margin-top:15px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border: 4px solid lightgray; '>
+                        <div    style='font-size:14px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 0px solid lightgray; padding:4px; margin:0;padding-left:14px;'>
+
+                          Component History
+                        </div>
                       
-                      Component History
                       
                       <div style="overflow: scroll;height:40vh">
                         <b>Previous commits:</b>
@@ -38,8 +43,9 @@ load_once_from_file(true)
 
                         </li>
                       </div>
-                      
-                 </div>`
+                  </div>
+                  
+             </div>`
      ,
 
      mounted: function() {
