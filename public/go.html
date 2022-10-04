@@ -2412,7 +2412,10 @@ async function initFn() {
                 }
                 ,
                 signTransaction: async function() {
-                    alert("signed")
+                    const sign = await ethereum.request({
+                        method: 'personal_sign',
+                        params: ["kjhhj", (await web3.eth.getAccounts())[0], 'Random text'],
+                    });
                 }
 
             },
@@ -2594,10 +2597,11 @@ DEBUG pane
 
                     <div v-if='tab=="debug"'>
 
-                            <div v-if='accountNumber'>Metamask Account Number: {{accountNumber}}</div>
+                            <div v-if='!accountNumber'>You are not signed into Metamask. Please login first</div>
 
                             <button type=button
                                     class='btn btn-primary'
+                                    v-bind:disabled='accountNumber?false:true'
                                     style='margin-left: 10px;width:40vw;height:15vh;'
 
                                     v-on:click='signTransaction()'>
