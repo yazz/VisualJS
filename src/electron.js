@@ -5413,14 +5413,14 @@ function ipc_child_returning_uploaded_app_as_file_in_child_response(msg) {
             outputDebug("add_rest_api called")
 
 
-            var newFunction = async function (req, res) {
+            let newFunction = async function (req, res) {
 
-                var params  = req.query;
-                var url     = req.originalUrl;
-                var body    = req.body;
+                let params  = req.query;
+                let url     = req.originalUrl;
+                let body    = req.body;
 
-                var promise = new Promise(async function(returnFn) {
-                    var seqNum = queuedResponseSeqNum;
+                let promise = new Promise(async function(returnFn) {
+                    let seqNum = queuedResponseSeqNum;
                     queuedResponseSeqNum ++;
                     queuedResponses[ seqNum ] = function(value) {
                         returnFn(value)
@@ -5449,7 +5449,7 @@ function ipc_child_returning_uploaded_app_as_file_in_child_response(msg) {
 
 
                 })
-                var ret = await promise
+                let ret = await promise
 
                 if (ret.value) {
                     res.writeHead(200, {'Content-Type': 'application/json'});
@@ -5522,7 +5522,7 @@ function ipc_child_returning_uploaded_app_as_file_in_child_response(msg) {
 async function evalLocalSystemDriver(driverName, location, options) {
     outputDebug("*** Loading driver: *** : " + driverName)
     try {
-        var evalDriver = fs.readFileSync(location);
+        let evalDriver = fs.readFileSync(location);
     	await addOrUpdateDriver(driverName, evalDriver,options)
     } catch (error) {
         outputDebug(error)
@@ -5539,7 +5539,7 @@ async function saveJsonItemToIpfs(jsonItem) {
 
 async function saveItemToIpfs(srcCode) {
     outputDebug("*** saveItemToIpfs: *** : " )
-    var promise = new Promise(async function(returnfn) {
+    let promise = new Promise(async function(returnfn) {
         let justHash = null
         try {
             let testBuffer = new Buffer(srcCode);
@@ -5580,7 +5580,7 @@ async function saveItemToIpfs(srcCode) {
             returnfn(justHash)
         }
     })
-    var ipfsHash = await promise
+    let ipfsHash = await promise
     return ipfsHash
 }
 
@@ -5652,7 +5652,7 @@ async function insertIpfsHashRecord(ipfs_hash, content_type, ping_count, last_pi
             returnfn()
         }
     })
-    var ipfsHash = await promise
+    let ipfsHash = await promise
     return ipfsHash
 }
 
@@ -5669,7 +5669,7 @@ async function insertAppListRecord( id  ,  base_component_id  ,  app_name  ,  ap
                 let logoFileIn = fs.readFileSync(fullPath);
                 dataString = new Buffer(logoFileIn).toString('base64');
                 let imageExtension = logo.substring(logo.lastIndexOf(".") + 1)
-                var rowhash = crypto.createHash('sha256');
+                let rowhash = crypto.createHash('sha256');
                 dataString = "data:image/" + imageExtension + ";base64," + dataString
                 rowhash.setEncoding('hex');
                 rowhash.write(dataString);
@@ -5806,7 +5806,7 @@ async function loadComponentFromIpfs(ipfsHash) {
 
 
     })
-    var ret = await promise
+    let ret = await promise
     return ret
 }
 
@@ -5826,7 +5826,7 @@ async function loadComponentFromIpfs(ipfsHash) {
 async function addOrUpdateDriver(  name, codeString ,options ) {
     //console.log('addOrUpdateDriver: ' + name);
 
-    var promise = new Promise(async function(returnfn) {
+    let promise = new Promise(async function(returnfn) {
 
         dbsearch.serialize(
             function() {
@@ -5843,7 +5843,7 @@ async function addOrUpdateDriver(  name, codeString ,options ) {
                     async function(err, rows) {
                         if (!err) {
                             try {
-                                var parentId = null
+                                let parentId = null
                                 if (rows.length > 0) {
                                     parentId = rows[0].id
                                 }
@@ -5854,7 +5854,7 @@ async function addOrUpdateDriver(  name, codeString ,options ) {
 
                               } catch(err) {
                                   console.log(err);
-                                  var stack = new Error().stack
+                                  let stack = new Error().stack
                                   console.log( stack )
                               } finally {
                                 returnfn({})
@@ -5865,7 +5865,7 @@ async function addOrUpdateDriver(  name, codeString ,options ) {
           );
       }, sqlite3.OPEN_READONLY)
   })
-  var ret = await promise
+  let ret = await promise
   return ret
 }
 
@@ -6135,7 +6135,7 @@ await evalLocalSystemDriver('mysql_client_component', path.join(__dirname, '../p
 
 
 
-    var extraFns = fs.readFileSync( path.join(__dirname, '../src/extraFns.js') ).toString()
+    let extraFns = fs.readFileSync( path.join(__dirname, '../src/extraFns.js') ).toString()
     outputDebug("Extra functions code:" )
 
     await eval("(" + extraFns + "())")
@@ -6287,8 +6287,8 @@ function callDriverMethod(msg) {
 //------------------------------------------------------------------------------
 function return_add_local_driver_results_msg(msg) {
     //console.log("6 - return_get_search_results: " + msg.returned);
-    var rett = eval("(" + msg.success + ")");
-    var newCallbackFn = queuedResponses[ msg.seq_num_local ]
+    let rett = eval("(" + msg.success + ")");
+    let newCallbackFn = queuedResponses[ msg.seq_num_local ]
 
     if (msg.result ) {
         newCallbackFn(msg.result)
@@ -6317,11 +6317,11 @@ function ipc_child_returning_callDriverMethod_response(msg) {
     //console.log(" .......3: " + JSON.stringify(msg,null,2));
     //console.log("6: return_query_items_ended")
     //console.log("6.1: " + msg)
-    var new_ws = queuedResponses[ msg.seq_num_parent ]
+    let new_ws = queuedResponses[ msg.seq_num_parent ]
 
     if (msg.result) {
         if (msg.result.code) {
-            var tr = msg.result.code
+            let tr = msg.result.code
             msg.result.code = tr
         }
     }
@@ -6353,7 +6353,7 @@ function ipc_child_returning_callDriverMethod_response(msg) {
   function callDriverMethodPart2( findComponentArgs, args, callbackFn ) {
 
       //console.log("*) called '" + driverName + ":" + methodName + "' with args: " + JSON.stringify(args,null,2))
-      var useCallbackIndex = callbackIndex ++
+      let useCallbackIndex = callbackIndex ++
       callbackList[ useCallbackIndex ] = callbackFn
       //console.log("msg.callback_index sent for " + driverName + ":" + methodName + ": " + useCallbackIndex)
       function_call_requestPart2({  message_type:       "function_call_request" ,
@@ -6443,12 +6443,12 @@ function updateRunningTimeForprocess() {
                     function(err, results)
                     {
                         if (results) {
-                           var timeNow = new Date().getTime();
+                           let timeNow = new Date().getTime();
                            dbsearch.run("begin exclusive transaction");
-                           for (var ii = 0 ; ii < results.length ; ii++ ) {
-                               var thisProcess = results[ii]
-                               var startTime = thisProcess.running_start_time_ms
-                               var duration = timeNow - startTime
+                           for (let ii = 0 ; ii < results.length ; ii++ ) {
+                               let thisProcess = results[ii]
+                               let startTime = thisProcess.running_start_time_ms
+                               let duration = timeNow - startTime
                                setProcessRunningDurationMs.run(duration, thisProcess.process, yazzInstanceId)
                            }
                            dbsearch.run("commit", function() {
@@ -6480,8 +6480,8 @@ function findLongRunningProcesses() {
                     {
                         if (results) {
                            dbsearch.run("begin exclusive transaction");
-                           for (var ii = 0 ; ii < results.length ; ii++ ) {
-                               var thisProcess = results[ii]
+                           for (let ii = 0 ; ii < results.length ; ii++ ) {
+                               let thisProcess = results[ii]
                                console.log(thisProcess)
                                //killProcess(thisProcess.process, thisProcess.callback_index)
                            }
@@ -6526,13 +6526,13 @@ function killProcess(processName, callbackIndex) {
 //-----------------------------------------------------------------------------------------//
 function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
 
-    var processToUse = null
-    var processNames = Object.keys(processesInUse)
+    let processToUse = null
+    let processNames = Object.keys(processesInUse)
 
-    for ( var processNameIndex = 0 ; processNameIndex < processNames.length; processNameIndex ++ ) {
+    for ( let processNameIndex = 0 ; processNameIndex < processNames.length; processNameIndex ++ ) {
 
-        var actualProcessName   = processNames[ processNameIndex ]
-        var isInUse             = processesInUse[ actualProcessName ]
+        let actualProcessName   = processNames[ processNameIndex ]
+        let isInUse             = processesInUse[ actualProcessName ]
 
         //console.log(" select * from system_process_info    ")
         //console.log("    " + JSON.stringify(results,null,2))
@@ -6550,11 +6550,11 @@ function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
         if (tryAgain) {
 
 
-            var processName
+            let processName
             if (parentCallId == -1) {
                 processName = "forked"
             } else {
-                var parentCallDetails = callList[parentCallId]
+                let parentCallDetails = callList[parentCallId]
                 //console.log("*) parent call details: " + JSON.stringify(parentCallDetails,null,2))
                 //console.log("*) Response: " + JSON.stringify(msg.result,null,2))
                 processName = parentCallDetails.process_name
@@ -6600,7 +6600,7 @@ function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
 //-----------------------------------------------------------------------------------------//
 function sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processName  ,  base_component_id ,  on_condition  ,  args) {
 
-    var newCallId = nextCallId ++
+    let newCallId = nextCallId ++
 
     callList[  newCallId  ] = {     process_name:       processName,
                                     parent_call_id:     parentCallId        }
@@ -6896,21 +6896,21 @@ function function_call_response (msg) {
 
    //console.log("*) Response received at Scheduler ")
    //console.log("*) result generated by call ID: " + msg.called_call_id)
-   var callDetails = callList[msg.called_call_id]
+   let callDetails = callList[msg.called_call_id]
    //console.log("*) call details: " + JSON.stringify(msg,null,2))
 
    if (callDetails == null) {
       console.log("In Scheduler:function_call_response   callList    is not set for : " + JSON.stringify(msg,null,2))
       return
    }
-   var parentCallId = callDetails.parent_call_id
+   let parentCallId = callDetails.parent_call_id
    //console.log("*) parent call ID: " + JSON.stringify(parentCallId,null,2))
 
-   var processName
+   let processName
    if (parentCallId == -1) {
        processName = "forked"
    } else {
-       var parentCallDetails = callList[parentCallId]
+       let parentCallDetails = callList[parentCallId]
        //console.log("*) parent call details: " + JSON.stringify(parentCallDetails,null,2))
        //console.log("*) Response: " + JSON.stringify(msg.result,null,2))
        processName = parentCallDetails.process_name
@@ -6993,7 +6993,7 @@ async function updateItemLists(parsedCode) {
 
 
 async function getCommentsForComponent(baseComponentId) {
-    var promise = new Promise(async function (returnfn) {
+    let promise = new Promise(async function (returnfn) {
 
         dbsearch.serialize(
             function () {
@@ -7012,7 +7012,7 @@ async function getCommentsForComponent(baseComponentId) {
                     async function (err, rows) {
                         if (!err) {
                             try {
-                                var returnRows = []
+                                let returnRows = []
                                 if (rows.length > 0) {
                                     for (let rowIndex = 0; rowIndex < rows.length; rowIndex++) {
                                         let thisRow = rows[rowIndex]
@@ -7032,7 +7032,7 @@ async function getCommentsForComponent(baseComponentId) {
 
                             } catch (err) {
                                 console.log(err);
-                                var stack = new Error().stack
+                                let stack = new Error().stack
                                 console.log(stack)
                             } finally {
                                 returnfn(returnRows)
@@ -7043,13 +7043,13 @@ async function getCommentsForComponent(baseComponentId) {
                 );
             }, sqlite3.OPEN_READONLY)
     })
-    var ret = await promise
+    let ret = await promise
     return ret
 }
 
 
 async function insertCommentIntoDb(args) {
-    var promise = new Promise(async function(returnfn) {
+    let promise = new Promise(async function(returnfn) {
 
         let promise2 = new Promise(async function(returnfn2) {
             try {
@@ -7164,7 +7164,7 @@ async function createCookieInDb(cookie, hostCookieSentTo, from_device_type) {
             returnfn()
         }
     })
-    var ipfsHash = await promise
+    let ipfsHash = await promise
     return ipfsHash
     return ""
 }
