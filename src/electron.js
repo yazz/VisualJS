@@ -3029,9 +3029,9 @@ async function startServices() {
                             [baseComponentIdToFind]
                             ,
                             async function(err, rows) {
+                                let returnRows = []
                                 if (!err) {
                                     try {
-                                        let returnRows = []
                                         if (rows.length > 0) {
                                             for (let rowIndex =0; rowIndex < rows.length; rowIndex++) {
                                                 let thisRow = rows[rowIndex]
@@ -3097,9 +3097,9 @@ async function startServices() {
                             []
                             ,
                             async function(err, rows) {
+                                let returnRows = []
                                 if (!err) {
                                     try {
-                                        let returnRows = []
                                         if (rows.length > 0) {
                                             for (let rowIndex =0; rowIndex < rows.length; rowIndex++) {
                                                 let thisRow = rows[rowIndex]
@@ -3308,9 +3308,9 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
                             [ipfsHashOfAppToDownload]
                             ,
                             async function(err, rows) {
+                                let returnRows = []
                                 if (!err) {
                                     try {
-                                        let returnRows = []
                                         if (rows.length > 0) {
                                             for (let rowIndex =0; rowIndex < rows.length; rowIndex++) {
                                                 let thisRow = rows[rowIndex]
@@ -7010,9 +7010,9 @@ async function getCommentsForComponent(baseComponentId) {
                     [baseComponentId]
                     ,
                     async function (err, rows) {
+                        let returnRows = []
                         if (!err) {
                             try {
-                                let returnRows = []
                                 if (rows.length > 0) {
                                     for (let rowIndex = 0; rowIndex < rows.length; rowIndex++) {
                                         let thisRow = rows[rowIndex]
