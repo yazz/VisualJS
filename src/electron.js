@@ -4628,7 +4628,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                         if (options.sub_components) {
                                             ////showTimer("Save options: " + options.sub_components.length)
                                             ////showTimer(JSON.stringify(options,null,2))
-                                            for (var tew = 0; tew < options.sub_components.length ; tew ++) {
+                                            for (let tew = 0; tew < options.sub_components.length ; tew ++) {
                                                 ////showTimer("Saving " + options.sub_components[tew])
                                                 if (isValidObject(baseComponentId)) {
                                                     stmtInsertSubComponent.run(
@@ -4659,17 +4659,17 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                         //
                                         // create the static HTML file to link to on the web/intranet
                                         //
-                                        var origFilePath = path.join(__dirname, '../public/go.html')
-                                        var newStaticFilePath = path.join( userData, 'apps/' + baseComponentId + '.html' )
-                                        var newLocalStaticFilePath = path.join( userData, 'apps/yazz_' + baseComponentId + '.html' )
-                                        var newLocalJSPath = path.join( userData, 'apps/yazz_' + baseComponentId + '.yazz' )
-                                        var newLocalYazzPath = path.join( userData, 'apps/yazz_' + baseComponentId + '.yazz' )
+                                        let origFilePath = path.join(__dirname, '../public/go.html')
+                                        let newStaticFilePath = path.join( userData, 'apps/' + baseComponentId + '.html' )
+                                        let newLocalStaticFilePath = path.join( userData, 'apps/yazz_' + baseComponentId + '.html' )
+                                        let newLocalJSPath = path.join( userData, 'apps/yazz_' + baseComponentId + '.yazz' )
+                                        let newLocalYazzPath = path.join( userData, 'apps/yazz_' + baseComponentId + '.yazz' )
 
-                                        var newStaticFileContent = fs.readFileSync( origFilePath )
+                                        let newStaticFileContent = fs.readFileSync( origFilePath )
 
                                         newStaticFileContent = newStaticFileContent.toString().replace("var isStaticHtmlPageApp = false", "var isStaticHtmlPageApp = true")
 
-                                        var newcode = escape( code.toString() )
+                                        let newcode = escape( code.toString() )
 
 
                                         newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_NAME***",displayName)
@@ -4682,7 +4682,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
 
 
-                                        var newCode =  `cachedCode["${sha1sum}"] = {
+                                        let newCode =  `cachedCode["${sha1sum}"] = {
                                           "type": "ws_to_browser_callDriverMethod_results",
                                           "value": {
                                             "code": /*APP_START*/unescape(\`${newcode}\`)/*APP_END*/,
@@ -4730,9 +4730,9 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                 async function(err, results)
                                                 {
                                                   //showTimer(`15`)
-                                                        for (var i = 0  ;   i < results.length;    i ++ ) {
-                                                            var newcodeEs = escape("(" + results[i].code.toString() + ")")
-                                                            var newCode2 =  `cachedCode["${results[i].sha1}"] = {
+                                                        for (let i = 0  ;   i < results.length;    i ++ ) {
+                                                            let newcodeEs = escape("(" + results[i].code.toString() + ")")
+                                                            let newCode2 =  `cachedCode["${results[i].sha1}"] = {
                                                               "type": "ws_to_browser_callDriverMethod_results",
                                                               "value": {
                                                                 "code": unescape(\`${newcodeEs}\`),
@@ -4763,7 +4763,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                         // we use "slice" here as string replace doesn't work with large strings (over 1MB) and most of the aframe and js
                                                         // code we insert is LARGE!!
                                                         //
-                                                        var pos = newStaticFileContent.indexOf("//***ADD_SCRIPT")
+                                                        let pos = newStaticFileContent.indexOf("//***ADD_SCRIPT")
                                                         newStaticFileContent = newStaticFileContent.slice(0, pos)  + scriptCode + newStaticFileContent.slice( pos)
                                                         //showTimer(`15.2`)
 
@@ -4778,7 +4778,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                         // save the standalone app
                                                         //
                                                         sqliteCode = fs.readFileSync( path.join(__dirname, '../public/sql.js') )
-                                                        var indexOfSqlite = newStaticFileContent.indexOf("//SQLITE")
+                                                        let indexOfSqlite = newStaticFileContent.indexOf("//SQLITE")
                                                         newStaticFileContent = newStaticFileContent.substring(0,indexOfSqlite) +
                                                                                     sqliteCode +
                                                                                         newStaticFileContent.substring(indexOfSqlite)
@@ -4788,12 +4788,12 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
                                                         //showTimer(`15.4`)
 
-                                                        var sqliteAppDbPath = path.join( userData, 'app_dbs/' + baseComponentId + '.visi' )
+                                                        let sqliteAppDbPath = path.join( userData, 'app_dbs/' + baseComponentId + '.visi' )
 
                                                         if (fs.existsSync(sqliteAppDbPath)) {
                                                           //showTimer(`15.5`)
-                                                            var sqliteAppDbContent = fs.readFileSync( sqliteAppDbPath , 'base64')
-                                                            var indexOfSqliteData = newStaticFileContent.indexOf("var sqlitedata = ''")
+                                                            let sqliteAppDbContent = fs.readFileSync( sqliteAppDbPath , 'base64')
+                                                            let indexOfSqliteData = newStaticFileContent.indexOf("var sqlitedata = ''")
 
 
                                                             newStaticFileContent = newStaticFileContent.substring(0,indexOfSqliteData + 17) +
@@ -4829,16 +4829,16 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                     //
                                     // save the app db
                                     //
-                                    var sqlite = saveHelper.getValueOfCodeString(code, "sqlite",")//sqlite")
+                                    let sqlite = saveHelper.getValueOfCodeString(code, "sqlite",")//sqlite")
                                     if (sqlite) {
                                         if (isValidObject(options) && options.copy_db_from) {
 
-                                            var newBaseid = baseComponentId
+                                            let newBaseid = baseComponentId
                                             //
                                             // copy the database
                                             //
-                                            var sqliteAppDbPathOld = path.join( userData, 'app_dbs/' + options.copy_db_from + '.visi' )
-                                            var sqliteAppDbPathNew = path.join( userData, 'app_dbs/' + newBaseid + '.visi' )
+                                            let sqliteAppDbPathOld = path.join( userData, 'app_dbs/' + options.copy_db_from + '.visi' )
+                                            let sqliteAppDbPathNew = path.join( userData, 'app_dbs/' + newBaseid + '.visi' )
                                             ////showTimer("sqliteAppDbPathOld: " + sqliteAppDbPathOld)
                                             ////showTimer("sqliteAppDbPathNew: " + sqliteAppDbPathNew)
                                             copyFile(sqliteAppDbPathOld,sqliteAppDbPathNew, async function(){
@@ -4883,15 +4883,15 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                             //
                             } else {
                                 if (options && options.save_html) {
-                                    var oldStaticFilePath = path.join( userData, 'apps/' + baseComponentId + '.html' )
+                                    let oldStaticFilePath = path.join( userData, 'apps/' + baseComponentId + '.html' )
     								if (fs.existsSync(oldStaticFilePath)) {
-    									var oldStaticFileContent = fs.readFileSync( oldStaticFilePath )
+    									let oldStaticFileContent = fs.readFileSync( oldStaticFilePath )
 
-    									var oldHostname = saveHelper.getValueOfCodeString(oldStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/")
-    									var oldPort = saveHelper.getValueOfCodeString(oldStaticFileContent, "/*static_port_start*/","/*static_port_end*/")
+    									let oldHostname = saveHelper.getValueOfCodeString(oldStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/")
+    									let oldPort = saveHelper.getValueOfCodeString(oldStaticFileContent, "/*static_port_start*/","/*static_port_end*/")
 
     									if ((oldHostname != hostaddress) || (oldPort != port)) {
-    										var newStaticFileContent = oldStaticFileContent.toString()
+    										let newStaticFileContent = oldStaticFileContent.toString()
     										newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/","'"+hostaddress+"'")
     										newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*static_port_start*/","/*static_port_end*/",port)
     										fs.writeFileSync( oldStaticFilePath,  newStaticFileContent )
@@ -4914,7 +4914,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
         })
       //showTimer(`ret prom`)
 
-    var ret = await promise;
+    let ret = await promise;
     return ret
 }
 
@@ -5159,13 +5159,13 @@ function updateRegistry(options, sha1sum) {
 //
 //------------------------------------------------------------------------------
 function copyFile(source, target, cb) {
-  var cbCalled = false;
+  let cbCalled = false;
 
-  var rd = fs.createReadStream(source);
+  let rd = fs.createReadStream(source);
   rd.on("error", function(err) {
     done(err);
   });
-  var wr = fs.createWriteStream(target);
+  let wr = fs.createWriteStream(target);
   wr.on("error", function(err) {
     done(err);
   });
@@ -5210,27 +5210,27 @@ function updateRevisions(sqlite, baseComponentId) {
 
                     function(err, results)
                     {
-                        var latestRevision = null
+                        let latestRevision = null
                         if (results.length > 0) {
                             latestRevision = results[0].latest_revision
                         }
-                        var dbPath = path.join(userData, 'app_dbs/' + baseComponentId + '.visi')
-                        var appDb = new sqlite3.Database(dbPath);
+                        let dbPath = path.join(userData, 'app_dbs/' + baseComponentId + '.visi')
+                        let appDb = new sqlite3.Database(dbPath);
                         //appDb.run("PRAGMA journal_mode=WAL;")
 
                         appDb.serialize(
                             function() {
                               try {
                                 appDb.run("begin exclusive transaction");
-                                var newLatestRev = null
-                                var readIn = false
+                                let newLatestRev = null
+                                let readIn = false
                                 if (sqlite.migrations) {
-                                  for (var i=0; i < sqlite.migrations.length; i++) {
-                                      var sqlStKey = sqlite.migrations[i].name
+                                  for (let i=0; i < sqlite.migrations.length; i++) {
+                                      let sqlStKey = sqlite.migrations[i].name
 
-                                      for (var j = 0  ;  j < sqlite.migrations[i].up.length  ;  j++ ) {
+                                      for (let j = 0  ;  j < sqlite.migrations[i].up.length  ;  j++ ) {
                                           if ((latestRevision == null) || readIn) {
-                                              var sqlSt = sqlite.migrations[i].up[j]
+                                              let sqlSt = sqlite.migrations[i].up[j]
                                               //console.log("sqlSt: = " + sqlSt)
                                               appDb.run(sqlSt);
                                               newLatestRev = sqlStKey
@@ -5303,18 +5303,18 @@ function fastForwardToLatestRevision(sqlite, baseComponentId) {
 
                     function(err, results)
                     {
-                        var latestRevision = null
+                        let latestRevision = null
                         if (results.length > 0) {
                             latestRevision = results[0].latest_revision
                         }
-                        var newLatestRev = null
-                        var readIn = false
-                        for (var i=0; i < sqlite.migrations.length; i+=2) {
-                            var sqlStKey = sqlite.migrations[i].name
+                        let newLatestRev = null
+                        let readIn = false
+                        for (let i=0; i < sqlite.migrations.length; i+=2) {
+                            let sqlStKey = sqlite.migrations[i].name
 
-                            for (var j = 0  ;  j < sqlite.migrations[i].up.length  ;  j++ ) {
+                            for (let j = 0  ;  j < sqlite.migrations[i].up.length  ;  j++ ) {
                                 if ((latestRevision == null) || readIn) {
-                                    var sqlSt = sqlite.migrations[i].name
+                                    let sqlSt = sqlite.migrations[i].name
                                     newLatestRev = sqlStKey
                                 }
                                 if (latestRevision == sqlStKey) {
@@ -5353,13 +5353,13 @@ async function save_code_from_upload(msg) {
     //console.log(`Entering  save_code_from_upload`)
 
 
-    var ret = await saveCodeV2(  msg.base_component_id, msg.parent_hash  ,  msg.code  , msg.options);
-    var useDb = msg.base_component_id //saveHelper.getValueOfCodeString(msg.code ,"use_db")
+    let ret = await saveCodeV2(  msg.base_component_id, msg.parent_hash  ,  msg.code  , msg.options);
+    let useDb = msg.base_component_id //saveHelper.getValueOfCodeString(msg.code ,"use_db")
     if (msg.sqlite_data) {
             //console.log("msg.sqlite_data: " + msg.sqlite_data)
-            var b = Buffer.from(msg.sqlite_data, 'base64')
+            let b = Buffer.from(msg.sqlite_data, 'base64')
             //console.log("use_db: " + useDb)
-            var sqliteAppDbPath = path.join( userData, 'app_dbs/' + msg.base_component_id + '.visi' )
+            let sqliteAppDbPath = path.join( userData, 'app_dbs/' + msg.base_component_id + '.visi' )
             fs.writeFileSync(sqliteAppDbPath, b);
 
     }
