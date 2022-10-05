@@ -752,7 +752,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
-            var stmtInsertProcessError = dbsearch.prepare(  ` insert into
+            let stmtInsertProcessError = dbsearch.prepare(  ` insert into
                                                                   system_process_errors
                                                               (   id,
                                                                   timestamp,
@@ -768,7 +768,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
                                                                   ( ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ? , ? );`)
             dbsearch.serialize(function() {
                 dbsearch.run("begin exclusive transaction");
-                var newId = uuidv1()
+                let newId = uuidv1()
                 stmtInsertProcessError.run(
                       newId,
                       new Date().getTime(),
@@ -871,8 +871,8 @@ function setUpChildListeners(processName, fileName, debugPort) {
         //------------------------------------------------------------------------------
         } else if (msg.message_type == "return_add_local_driver_results_msg") {
             //console.log("6 - return_get_search_results: " + msg.returned);
-            var rett = eval("(" + msg.success + ")");
-            var newCallbackFn = queuedResponses[ msg.seq_num_local ]
+            let rett = eval("(" + msg.success + ")");
+            let newCallbackFn = queuedResponses[ msg.seq_num_local ]
 
             if (msg.result ) {
                 newCallbackFn(msg.result)
@@ -1021,11 +1021,11 @@ function setUpChildListeners(processName, fileName, debugPort) {
                 //console.log(" .......3: " + JSON.stringify(msg,null,2));
                 //console.log("6: return_query_items_ended")
                 //console.log("6.1: " + msg)
-                var new_ws = queuedResponses[ msg.seq_num_parent ]
+                let new_ws = queuedResponses[ msg.seq_num_parent ]
 
                 if (msg.result) {
                     if (msg.result.code) {
-                        var tr = msg.result.code
+                        let tr = msg.result.code
                         msg.result.code = tr
                     }
                 }
