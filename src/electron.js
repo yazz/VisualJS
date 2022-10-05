@@ -2576,12 +2576,12 @@ function file_uploadSingleFn(req, res) {
                                            });
           }
       } else if ((ext == "js") || (ext == "yazz") || (ext == "pilot") || (ext == "jsa") || (ext == "vjs") || (ext == "yazz") )  {
-              var localp2;
+              let localp2;
               localp2 =  path.join(userData,  'uploads/' + ifile.filename);
-              var localp = localp2 + '.' + ext;
+              let localp = localp2 + '.' + ext;
               fs.renameSync(localp2, localp);
-              var readIn = fs.readFileSync(localp).toString()
-              var bci = saveHelper.getValueOfCodeString(readIn, "base_component_id")
+              let readIn = fs.readFileSync(localp).toString()
+              let bci = saveHelper.getValueOfCodeString(readIn, "base_component_id")
 
 
 
@@ -2616,7 +2616,7 @@ function file_uploadFn(req, res, next) {
 
       //console.log(JSON.stringify(req.files.length));
       //console.log("client_file_upload_id: " + JSON.stringify(req.body.client_file_upload_id,null,2))
-      var client_file_upload_id = req.body.client_file_upload_id
+      let client_file_upload_id = req.body.client_file_upload_id
       //console.log("**FILES** " + JSON.stringify(req.files));
       //console.log(    "    next: " + JSON.stringify(next));
 
@@ -2628,42 +2628,42 @@ function file_uploadFn(req, res, next) {
       //console.log('......................................................................................');
       res.status( 200 ).send( req.files );
 
-      var ll = req.files.length;
-      for (var i = 0; i < ll ; i ++) {
+      let ll = req.files.length;
+      for (let i = 0; i < ll ; i ++) {
           //console.log('Loading saved Creator app' );
-          var ifile = req.files[i];
+          let ifile = req.files[i];
           //console.log("        " + JSON.stringify(ifile));
-          var ext = ifile.originalname.split('.').pop();
+          let ext = ifile.originalname.split('.').pop();
           ext = ext.toLowerCase();
           //console.log('Ext: ' + ext);
           if ((ext == "html") || (ext == "html")) {
-          var localp2;
+          let localp2;
           localp2 =  path.join(userData,  'uploads/' + ifile.filename);
-              var localp = localp2 + '.' + ext;
+              let localp = localp2 + '.' + ext;
               fs.renameSync(localp2, localp);
-              var readIn = fs.readFileSync(localp).toString()
+              let readIn = fs.readFileSync(localp).toString()
               //console.log('');
               //console.log('Local saved path: ' + localp);
-              var indexStart = readIn.indexOf("/*APP_START*/")
-              var indexEnd = readIn.indexOf("/*APP_END*/")
+              let indexStart = readIn.indexOf("/*APP_START*/")
+              let indexEnd = readIn.indexOf("/*APP_END*/")
               //console.log(`indexStart: ${indexStart}`)
               //console.log(`indexEnd: ${indexEnd}`)
               if ((indexStart > 0) && (indexEnd > 0)) {
                 indexStart += 13 + 10
                 indexEnd -= 2
-                var tts = readIn.substring(indexStart,indexEnd)
+                let tts = readIn.substring(indexStart,indexEnd)
                 //console.log(tts)
-                var ytr = unescape(tts)
+                let ytr = unescape(tts)
                 outputDebug("SENDINF FROM UPLAOD___=+++****")
-                var bci = saveHelper.getValueOfCodeString(ytr, "base_component_id")
+                let bci = saveHelper.getValueOfCodeString(ytr, "base_component_id")
 
-                var indexStart = readIn.indexOf("/*APP_START*/")
-                var indexEnd = readIn.indexOf("/*APP_END*/")
+                let indexStart = readIn.indexOf("/*APP_START*/")
+                let indexEnd = readIn.indexOf("/*APP_END*/")
 
-                var indexOfSqliteData = readIn.indexOf("var sqlitedata = '")
-                var indexOfSqliteDataEnd = readIn.indexOf("'//sqlitedata")
+                let indexOfSqliteData = readIn.indexOf("var sqlitedata = '")
+                let indexOfSqliteDataEnd = readIn.indexOf("'//sqlitedata")
 
-                var sqlitedatafromupload = null
+                let sqlitedatafromupload = null
                 if ((indexOfSqliteData != -1) && (indexOfSqliteDataEnd != -1)) {
                     sqlitedatafromupload = readIn.substring( indexOfSqliteData + 18,
                                                                         indexOfSqliteDataEnd)
@@ -2680,9 +2680,9 @@ function file_uploadFn(req, res, next) {
                                                });
               }
           } else if ((ext == "js") || (ext == "yazz") || (ext == "pilot") || (ext == "jsa") || (ext == "vjs") || (ext == "yazz")  )  {
-                  var localp2;
+                  let localp2;
                   localp2 =  path.join(userData,  'uploads/' + ifile.filename);
-                  var localp = localp2 + '.' + ext;
+                  let localp = localp2 + '.' + ext;
                   fs.renameSync(localp2, localp);
                   loadAppFromFile(localp,client_file_upload_id)
           } else {
@@ -2709,8 +2709,8 @@ function file_name_load(req, res, next) {
 
 function loadAppFromFile(localp,client_file_upload_id) {
     console.log("loadAppFromFile(" + localp + "," + client_file_upload_id + ")")
-    var readIn = fs.readFileSync(localp).toString()
-    var bci = saveHelper.getValueOfCodeString(readIn, "base_component_id")
+    let readIn = fs.readFileSync(localp).toString()
+    let bci = saveHelper.getValueOfCodeString(readIn, "base_component_id")
 
 
 
@@ -2765,7 +2765,7 @@ function keycloakProtector(params) {
     return function(req,res,next) {
         next()
         return
-        var appName2=null
+        let appName2=null
         if (params.compIdFromReqFn) {
             appName2 = params.compIdFromReqFn(req)
         }
@@ -2782,15 +2782,15 @@ function keycloakProtector(params) {
                             outputDebug("Could not find component : " + appName2)
                         } else {
                             outputDebug("Found code for : " + appName2)
-                            var fileC = results[0].code.toString()
+                            let fileC = results[0].code.toString()
                             //console.log("Code : " + fileC)
 
-                            var sscode = saveHelper.getValueOfCodeString(fileC,"keycloak",")//keycloak")
+                            let sscode = saveHelper.getValueOfCodeString(fileC,"keycloak",")//keycloak")
                             //console.log("sscode:" + sscode)
 
 
                             if (sscode) {
-                                //var ssval = eval( "(" + sscode + ")")
+                                //let ssval = eval( "(" + sscode + ")")
                                 //console.log("keycloak: " + JSON.stringify(sscode,null,2))
 
                                 keycloak.protect()(req, res, next)
@@ -2816,9 +2816,9 @@ async function startServices() {
     if (!isCodeTtyCode) {
         if (useHttps) {
 
-            var app2             = express()
+            let app2             = express()
 
-            var newhttp = http.createServer(app2);
+            let newhttp = http.createServer(app2);
             app2.use(compression())
             app2.get('/', function (req, res, next) {
                 return getRoot(req, res, next);
@@ -2829,17 +2829,17 @@ async function startServices() {
                  if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
                     outputDebug("path: " + req.path)
 
-                    var rty = req.path
+                    let rty = req.path
                     if (req.path == "/canlabs") {
                         rty = "/canlabs/index.html"
                     }
 
-                    var fileNameRead = path.join(__dirname, '../public' + rty)
+                    let fileNameRead = path.join(__dirname, '../public' + rty)
                     res.end(fs.readFileSync(fileNameRead));
 
 
                  } else if (  req.path.indexOf(".well-known") != -1  ) {
-                    var fileNameRead = path.join(__dirname, '../public' + req.path)
+                    let fileNameRead = path.join(__dirname, '../public' + req.path)
                     res.end(fs.readFileSync(fileNameRead));
 
 
@@ -2857,7 +2857,7 @@ async function startServices() {
         app.use(cors({ origin: '*' }));
         app.use(async function (req, res, next) {
 
-            var oneof = false;
+            let oneof = false;
             if(req.headers.origin) {
                 res.header('Access-Control-Allow-Origin', req.headers.origin);
                 oneof = true;
@@ -3031,7 +3031,7 @@ async function startServices() {
                             async function(err, rows) {
                                 if (!err) {
                                     try {
-                                        var returnRows = []
+                                        let returnRows = []
                                         if (rows.length > 0) {
                                             for (let rowIndex =0; rowIndex < rows.length; rowIndex++) {
                                                 let thisRow = rows[rowIndex]
@@ -3049,7 +3049,7 @@ async function startServices() {
 
                                     } catch(err) {
                                         console.log(err);
-                                        var stack = new Error().stack
+                                        let stack = new Error().stack
                                         console.log( stack )
                                     } finally {
                                         returnfn(returnRows)
@@ -3060,7 +3060,7 @@ async function startServices() {
                         );
                     }, sqlite3.OPEN_READONLY)
             })
-            var ret = await promise
+            let ret = await promise
 
             topApps = ret
 
@@ -3080,7 +3080,7 @@ async function startServices() {
             let topApps = []
             let sessionId = await getSessionId(req,res)
 
-            var promise = new Promise(async function(returnfn) {
+            let promise = new Promise(async function(returnfn) {
 
                 dbsearch.serialize(
                     function() {
@@ -3099,7 +3099,7 @@ async function startServices() {
                             async function(err, rows) {
                                 if (!err) {
                                     try {
-                                        var returnRows = []
+                                        let returnRows = []
                                         if (rows.length > 0) {
                                             for (let rowIndex =0; rowIndex < rows.length; rowIndex++) {
                                                 let thisRow = rows[rowIndex]
@@ -3124,7 +3124,7 @@ async function startServices() {
 
                                     } catch(err) {
                                         console.log(err);
-                                        var stack = new Error().stack
+                                        let stack = new Error().stack
                                         console.log( stack )
                                     } finally {
                                         returnfn(returnRows)
@@ -3135,7 +3135,7 @@ async function startServices() {
                         );
                     }, sqlite3.OPEN_READONLY)
             })
-            var ret = await promise
+            let ret = await promise
 
             topApps = ret
 
@@ -3216,10 +3216,10 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
         }
 
         function getBaseComponentIdFromRequest(req){
-            var parts = req.path.split('/');
-            var appHtmlFile = parts.pop() || parts.pop();
+            let parts = req.path.split('/');
+            let appHtmlFile = parts.pop() || parts.pop();
 
-            var appName = appHtmlFile.split('.').slice(0, -1).join('.')
+            let appName = appHtmlFile.split('.').slice(0, -1).join('.')
             return appName
         }
         //app.get('/app/*', keycloakProtector({compIdFromReqFn: getBaseComponentIdFromRequest}), function (req, res, next) {
@@ -3231,18 +3231,18 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
                 outputDebug('Keycloak details from server:')
                 outputDebug(req.kauth.grant)
             }
-            var parts = req.path.split('/');
-            var appHtmlFile = parts.pop() || parts.pop();
+            let parts = req.path.split('/');
+            let appHtmlFile = parts.pop() || parts.pop();
 
             //console.log("appHtemlFile: " + appHtmlFile);
 
-            var appName = appHtmlFile.split('.').slice(0, -1).join('.')
+            let appName = appHtmlFile.split('.').slice(0, -1).join('.')
             //console.log("appName: " + appName);
 
              //console.log("path: " + path);
 
-             var appFilePath = path.join(userData, 'apps/' + appHtmlFile)
-             var fileC2 = fs.readFileSync(appFilePath, 'utf8').toString()
+             let appFilePath = path.join(userData, 'apps/' + appHtmlFile)
+             let fileC2 = fs.readFileSync(appFilePath, 'utf8').toString()
              res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
              res.end(fileC2);
 
