@@ -33,10 +33,10 @@ load_once_from_file(true)
 
                           Component History
                         </div>
+                        <b>Previous commits:</b>
                       
                       
                       <div style="overflow: scroll;height:40vh">
-                        <b>Previous commits:</b>
                         <li v-for='commit in commitsV1'
                             style='color:white;background-color:navy;'>
                           {{commit.codeSha}} , {{commit.timestamp}} , {{msToTime(commit.timestamp)}}
