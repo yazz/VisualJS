@@ -1064,7 +1064,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 //
 //------------------------------------------------------------------------------
 function setupForkedProcess(  processName,  fileName,  debugPort  ) {
-    var debugArgs = [];
+    let debugArgs = [];
     if (debug) {
         if (semver.gte(process.versions.node, '6.9.0')) {
             //debugArgs = ['--inspect=' + debugPort];
@@ -1074,7 +1074,7 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
             debugArgs = [];
         };
     };
-    var forkedProcessPath
+    let forkedProcessPath
 
     if (isWin) {
         forkedProcessPath = path.join(__dirname, '..\\src\\' + fileName)
@@ -1093,8 +1093,8 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
 
 
 
-    for (var i=0;i<executionProcessCount; i++ ) {
-        var exeProcName = "forkedExeProcess" + i
+    for (let i=0;i<executionProcessCount; i++ ) {
+        let exeProcName = "forkedExeProcess" + i
         if (processName == exeProcName) {
 
             forkedProcesses[exeProcName].send({  message_type: "init" ,
@@ -1141,9 +1141,9 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
 
 
 function sendOverWebSockets(data) {
-    var ll = serverwebsockets.length;
+    let ll = serverwebsockets.length;
     //console.log('send to sockets Count: ' + JSON.stringify(serverwebsockets.length));
-    for (var i =0 ; i < ll; i++ ) {
+    for (let i =0 ; i < ll; i++ ) {
         try {
             let sock = serverwebsockets[i];
             if (sock) {
@@ -1209,8 +1209,8 @@ function shutDown() {
         }
 
 
-        for (var i = 0; i < executionProcessCount; i++ ) {
-            var exeProcName = "forkedExeProcess" + i
+        for (let i = 0; i < executionProcessCount; i++ ) {
+            let exeProcName = "forkedExeProcess" + i
             forkedProcesses[exeProcName].kill();
             outputDebug("Killed Process " + exeProcName)
         }
@@ -1239,7 +1239,7 @@ function shutDown() {
 function deleteYazzDataWindows(dddd) {
   outputDebug("deleteYazzDataWindows")
   if (dddd.length > 6) {
-    var ff = 'timeout 8 && rd /s /q "' + dddd + '"'
+    let ff = 'timeout 8 && rd /s /q "' + dddd + '"'
     outputDebug(ff)
     fork.exec(ff
               ,
@@ -1441,9 +1441,9 @@ async function checkForJSLoaded() {
     let promise = new Promise(async function(returnFn) {
         if (isValidObject(loadjsurl)) {
             outputDebug("*********** Using loadjsurl ************")
-            var jsUrl = loadjsurl
+            let jsUrl = loadjsurl
             https.get(jsUrl, (resp) => {
-              var data = '';
+              let data = '';
 
               // A chunk of data has been recieved.
               resp.on('data', (chunk) => {
@@ -1453,12 +1453,12 @@ async function checkForJSLoaded() {
               // The whole response has been received. Print out the result.
               resp.on('end', () => {
                 //console.log("code:" + data);
-                var baseComponentIdForUrl = saveHelper.getValueOfCodeString(data, "base_component_id")
+                let baseComponentIdForUrl = saveHelper.getValueOfCodeString(data, "base_component_id")
                 outputDebug("baseComponentIdForUrl:" + baseComponentIdForUrl);
                 if (!isValidObject(baseComponentIdForUrl)) {
                     baseComponentIdForUrl = loadjsurl.replace(/[^A-Z0-9]/ig, "_");
                 }
-                var jsCode = data
+                let jsCode = data
                 outputDebug("*********** Trying to load loadjsurl code *************")
                  (async function() {await saveCodeV2(  baseComponentIdForUrl,
                                                     null  ,
@@ -1492,10 +1492,10 @@ async function checkForJSLoaded() {
         } else if (isValidObject(loadjsfile)) {
             outputDebug("*********** Using loadjsfile ************")
 
-            var jsFile = loadjsfile
+            let jsFile = loadjsfile
 
-            var data2 = fs.readFileSync(jsFile).toString()
-            var baseComponentIdForFile = saveHelper.getValueOfCodeString(data2, "base_component_id")
+            let data2 = fs.readFileSync(jsFile).toString()
+            let baseComponentIdForFile = saveHelper.getValueOfCodeString(data2, "base_component_id")
             if (!isValidObject(baseComponentIdForFile)) {
                 baseComponentIdForFile = loadjsfile.replace(/[^A-Z0-9]/ig, "_");
             }
@@ -1527,8 +1527,8 @@ async function checkForJSLoaded() {
          } else if (isValidObject(loadjscode)) {
              outputDebug("*********** Using loadjscode ************")
              setUpSql()
-             var data2 = loadjscode
-             var baseComponentIdForCode = saveHelper.getValueOfCodeString(data2, "base_component_id")
+             let data2 = loadjscode
+             let baseComponentIdForCode = saveHelper.getValueOfCodeString(data2, "base_component_id")
              outputDebug("baseComponentIdForCode:" + baseComponentIdForCode);
              if (!isValidObject(baseComponentIdForCode)) {
                  baseComponentIdForCode = "code_" + (("" + Math.random()).replace(/[^A-Z0-9]/ig, "_"));
@@ -1572,7 +1572,7 @@ async function checkForJSLoaded() {
 
          }
      })
-     var ret = await promise
+     let ret = await promise
 
 
      return
