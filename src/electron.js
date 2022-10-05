@@ -504,7 +504,7 @@ outputDebug("       maxJobProcessDurationMs: " + maxJobProcessDurationMs );
 
 var listOfEnvs = process.env
 var envNames = Object.keys(listOfEnvs)
-for (var i=0 ;i< envNames.length; i++){
+for (let i=0 ;i< envNames.length; i++){
     let envName = envNames[i].replace(/[^a-zA-Z0-9]/g,'_');
     outputDebug("Env var  " + envName + ": " + listOfEnvs[envName])
 
@@ -653,9 +653,9 @@ envVars.HIDEIMPORTBUTTONS = hideimportbuttons
 if (useSelfSignedHttps) {
     forge.options.usePureJavaScript = true;
 
-    var pki = forge.pki;
-    var keys = pki.rsa.generateKeyPair(2048);
-    var cert = pki.createCertificate();
+    let pki = forge.pki;
+    let keys = pki.rsa.generateKeyPair(2048);
+    let cert = pki.createCertificate();
 
     cert.publicKey = keys.publicKey;
     cert.serialNumber = '01';
@@ -663,7 +663,7 @@ if (useSelfSignedHttps) {
     cert.validity.notAfter = new Date();
     cert.validity.notAfter.setFullYear(cert.validity.notBefore.getFullYear()+1);
 
-    var attrs = [
+    let attrs = [
          {name:'commonName',value:'yazz.com_' + uuidv1() }
         ,{name:'countryName',value:'UK'}
         ,{shortName:'ST',value:'Surrey'}
@@ -675,8 +675,8 @@ if (useSelfSignedHttps) {
     cert.setIssuer(attrs);
     cert.sign(keys.privateKey);
 
-    var pem_pkey = pki.publicKeyToPem(keys.publicKey);
-    var pem_cert = pki.certificateToPem(cert);
+    let pem_pkey = pki.publicKeyToPem(keys.publicKey);
+    let pem_cert = pki.certificateToPem(cert);
 
     console.log(pem_pkey);
     console.log(pem_cert);
