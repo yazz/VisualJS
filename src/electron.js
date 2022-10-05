@@ -4341,6 +4341,9 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
             code = saveHelper.insertCodeString(code, "created_timestamp", creationTimestamp)
         }
 
+        code = saveHelper.deleteCodeString(code, "updated_timestamp")
+        code = saveHelper.insertCodeString(code, "updated_timestamp", creationTimestamp)
+
         //showTimer(`3`)
 
 

@@ -14,10 +14,9 @@ load_once_from_file(true)
         return {
             text:           args.text
             ,
+// list of commits. Eg:
+//        [  {codeSha: "fdsfsddfsfsdfds", timestamp: new Date().getTime()},    ]
             commitsV1: [
-//                {codeSha: "fdsfsddfsfsdfds", timestamp: new Date().getTime()},
-  //              {codeSha: "fdsfsddfsfsdfds", timestamp: new Date().getTime() - 1000},
-    //            {codeSha: "fdsfsddfsfsdfds", timestamp: new Date().getTime() - 10000}
             ]
         }
       },
@@ -38,7 +37,7 @@ load_once_from_file(true)
                       
                       <div style="overflow: scroll;height:40vh">
                         <li v-for='commit in commitsV1'
-                            style='color:white;background-color:navy;'>
+                            style='color:black;'>
                           {{commit.codeSha}} , {{commit.timestamp}} , {{msToTime(commit.timestamp)}}
 
                         </li>
