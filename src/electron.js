@@ -3,7 +3,7 @@
 const ipfsAPI = require('ipfs-api');
 const OnlyIpfsHash = require('ipfs-only-hash')
 const useragent = require('express-useragent');
-var cookieParser = require('cookie-parser')
+let cookieParser = require('cookie-parser')
 let isIPFSConnected = false
 const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
 let testBuffer = new Buffer("Testcode zooey11");
@@ -35,88 +35,88 @@ console.log("Starting...")
 console.log("Done")
       //process.exit()
 
+let showProgress = false
+let showDebug = false
 
-var childProcessNameInScheduler
-var processesInUse                      = new Object()
-var tryAgain                            = true
-var nextCallId                          = 0
-var callList                            = new Object
-var processesRetryingCount              = 0
+let childProcessNameInScheduler
+let processesInUse                      = new Object()
+let tryAgain                            = true
+let nextCallId                          = 0
+let callList                            = new Object
+let processesRetryingCount              = 0
 let localappdata
 let visifile = null
 const path = require("path");
 const url = require('url');
-var fork            = require2('child_process');
-var fs = require2('fs');
-var ip = require2('ip');
-var isWin         = /^win/.test(process.platform);
-var isLinux       = /^linux/.test(process.platform);
-var isMac       = /^darwin/.test(process.platform);
-var mainNodeProcessStarted = false;
-var restRoutes = new Object()
-var envVars = new Object()
-var systemReady = false;
-var httpServer = null;
-var username                            = "Unknown user";
-var isDocker        = require2('is-docker');
-var ls = require2('ls-sync');
-var rimraf = require2("rimraf");
+let fork            = require2('child_process');
+let fs = require2('fs');
+let ip = require2('ip');
+let isWin         = /^win/.test(process.platform);
+let isLinux       = /^linux/.test(process.platform);
+let isMac       = /^darwin/.test(process.platform);
+let mainNodeProcessStarted = false;
+let restRoutes = new Object()
+let envVars = new Object()
+let systemReady = false;
+let httpServer = null;
+let username                            = "Unknown user";
+let isDocker        = require2('is-docker');
+let ls = require2('ls-sync');
+let rimraf = require2("rimraf");
 let forge = require2('node-forge');
-var db_helper                   = require("./db_helper")
+let db_helper                   = require("./db_helper")
 
-var pidusage        = require2("pidusage");
-var fs              = require2('fs');
-var mkdirp          = require2('mkdirp')
-var rmdir           = require2('rmdir-sync');
-var uuidv1          = require2('uuid/v1');
-var fork            = require2('child_process');
-var express         = require2('express')
-var http            = require2('http')
-var https           = require2('https');
-var app             = express()
-var startupType     = null
-var startupDelay    = 0
-var isCodeTtyCode   = false
-var yazzInstanceId  = uuidv1()
+let pidusage        = require2("pidusage");
+let mkdirp          = require2('mkdirp')
+let rmdir           = require2('rmdir-sync');
+let uuidv1          = require2('uuid/v1');
+let express         = require2('express')
+let http            = require2('http')
+let https           = require2('https');
+let app             = express()
+let startupType     = null
+let startupDelay    = 0
+let isCodeTtyCode   = false
+let yazzInstanceId  = uuidv1()
 let certOptions     = null
-var crypto                      = require('crypto');
+let crypto                      = require('crypto');
 
-var callbackIndex = 0;
-var callbackList = new Object()
+let callbackIndex = 0;
+let callbackList = new Object()
 
 
-var stmtInsertDependency;
-var stmtInsertIpfsHash;
-var stmtInsertSubComponent;
-var stmtInsertComponentList;
-var stmtInsertAppList;
-var setAppToNotReleased;
-var stmtInsertImageData;
-var stmtUpdateDriver;
-var stmtDeleteDependencies;
+let stmtInsertDependency;
+let stmtInsertIpfsHash;
+let stmtInsertSubComponent;
+let stmtInsertComponentList;
+let stmtInsertAppList;
+let setAppToNotReleased;
+let stmtInsertImageData;
+let stmtUpdateDriver;
+let stmtDeleteDependencies;
 
-var stmtInsertAppDDLRevision;
-var stmtUpdateLatestAppDDLRevision;
-var stmtInsertIntoAppRegistry
-var stmtUpdateAppRegistry
+let stmtInsertAppDDLRevision;
+let stmtUpdateLatestAppDDLRevision;
+let stmtInsertIntoAppRegistry
+let stmtUpdateAppRegistry
 
-var stmtDeleteTypesForComponentProperty;
-var stmtDeleteAcceptTypesForComponentProperty;
-var stmtInsertTypesForComponentProperty;
-var stmtInsertComponentProperty;
-var stmtInsertAcceptTypesForComponentProperty;
+let stmtDeleteTypesForComponentProperty;
+let stmtDeleteAcceptTypesForComponentProperty;
+let stmtInsertTypesForComponentProperty;
+let stmtInsertComponentProperty;
+let stmtInsertAcceptTypesForComponentProperty;
 
-var copyMigration;
-var stmtInsertNewCode
-var stmtDeprecateOldCode
+let copyMigration;
+let stmtInsertNewCode
+let stmtDeprecateOldCode
 
-var setProcessToRunning;
-var setProcessToIdle;
-var setProcessRunningDurationMs;
-var insertIntoProcessTable              = null;
-var updateProcessTable                  = null;
+let setProcessToRunning;
+let setProcessToIdle;
+let setProcessRunningDurationMs;
+let insertIntoProcessTable              = null;
+let updateProcessTable                  = null;
 
-var expressWs       = require2('express-ws')(app);
+let expressWs       = require2('express-ws')(app);
 outputDebug("__filename: " + __filename)
 outputDebug("__dirname: " + __dirname)
 
@@ -152,7 +152,7 @@ if (process.env.OPENSHIFT_NODEJS_IP) {
     //}
 }
 
-var LOCAL_HOME = process.env.HOME
+let LOCAL_HOME = process.env.HOME
 
 outputDebug('LOCAL_HOME:' + LOCAL_HOME);
 
@@ -161,7 +161,7 @@ outputDebug('LOCAL_HOME:' + LOCAL_HOME);
 
 
 function outputToBrowser(txt) {
-    //var line = txt.toString().replace(/\'|\"|\n|\r"/g , "").toString()
+    //let line = txt.toString().replace(/\'|\"|\n|\r"/g , "").toString()
     let line = txt.toString().replace(/\'/g , "").toString()
     let jsc = "document.write('<br>" + "" + line + " ')"
     //console.log(line);
@@ -203,15 +203,15 @@ function require2(npath) {
 
 
 
-var request         = require2("request");
-var perf            = require('./perf')
-var compression     = require2('compression')
+let request         = require2("request");
+let perf            = require('./perf')
+let compression     = require2('compression')
 
-var program         = require2('commander');
-var bodyParser      = require2('body-parser');
-var multer          = require2('multer');
-var cors            = require2('cors')
-var saveHelper      = require('./save_helpers')
+let program         = require2('commander');
+let bodyParser      = require2('body-parser');
+let multer          = require2('multer');
+let cors            = require2('cors')
+let saveHelper      = require('./save_helpers')
 
 
 
@@ -219,18 +219,18 @@ var saveHelper      = require('./save_helpers')
 
 let sqlNodePath = path.join(nodeModulesPath,'node_modules/sqlite3')
 //console.log("sqlNodePath: " + sqlNodePath)
-var sqlite3                     = null
+let sqlite3                     = null
 sqlite3                     = require(sqlNodePath);
 
 
-var os              = require2('os')
+let os              = require2('os')
 
 
-var Keycloak =      require2('keycloak-connect');
-var session =       require2('express-session');
-var memoryStore = new session.MemoryStore();
+let Keycloak =      require2('keycloak-connect');
+let session =       require2('express-session');
+let memoryStore = new session.MemoryStore();
 
-var kk = {
+let kk = {
   "realm":              "yazz",
   "auth-server-url":    "http://127.0.0.1:8080/auth",
   "ssl-required":       "external",
@@ -239,7 +239,7 @@ var kk = {
   "confidential-port":   0
 }
 
-var sessObj     = session({
+let sessObj     = session({
                       secret:               'some secret',
                       resave:                false,
                       saveUninitialized:     true,
@@ -247,7 +247,7 @@ var sessObj     = session({
                     })
 
 
-var keycloak    = new Keycloak({
+let keycloak    = new Keycloak({
                         store: memoryStore
                     },kk);
 
@@ -256,51 +256,51 @@ var keycloak    = new Keycloak({
 
 
 
-var upload
+let upload
 
-var dbPath = null
+let dbPath = null
 
-var dbsearch = null
-var userData = null
+let dbsearch = null
+let userData = null
 let appDbs = {}
 
-var port;
-var hostaddress;
+let port;
+let hostaddress;
 if (isWin) {
   hostaddress = "127.0.0.1"//ip.address();
 } else {
   hostaddress = "0.0.0.0"//ip.address();
 }
 
-var hostaddressintranet;
+let hostaddressintranet;
 hostaddressintranet = ip.address();
 port = 80
 
 
-var socket          = null
+let socket          = null
 
 
-var io = null;
-var forkedProcesses = new Object();
-var timeout                             = 0;
+let io = null;
+let forkedProcesses = new Object();
+let timeout                             = 0;
 
 
 
-var serverwebsockets                    = [];
-var portrange                           = 3000
-var locked;
-var useHttps;
-var hideimportbuttons;
-var serverProtocol                       = "http";
-var privateKey;
-var publicCertificate;
-var caCertificate1;
-var caCertificate2;
-var caCertificate3;
-var hostcount  							= 0;
-var queuedResponses                     = new Object();
-var queuedResponseSeqNum                = 1;
-var executionProcessCount                       = 6;
+let serverwebsockets                    = [];
+let portrange                           = 3000
+let locked;
+let useHttps;
+let hideimportbuttons;
+let serverProtocol                       = "http";
+let privateKey;
+let publicCertificate;
+let caCertificate1;
+let caCertificate2;
+let caCertificate3;
+let hostcount  							= 0;
+let queuedResponses                     = new Object();
+let queuedResponseSeqNum                = 1;
+let executionProcessCount                       = 6;
 
 
 
@@ -323,10 +323,10 @@ app.use(keycloak.middleware({
 }));
 
 
-var inmemcalc = false
-var totalMem = 0
-var returnedmemCount = 0
-var allForked=[]
+let inmemcalc = false
+let totalMem = 0
+let returnedmemCount = 0
+let allForked=[]
 const apiMetrics = require2('prometheus-api-metrics');
 app.use(apiMetrics())
 const Prometheus = require2('prom-client');
@@ -343,9 +343,9 @@ const yazzProcessMainMemoryUsageMetric = new Prometheus.Gauge({
 
 
 
-var stdin = process.openStdin();
+let stdin = process.openStdin();
 
-var inputStdin = "";
+let inputStdin = "";
 
 stdin.on('data', function(chunk) {
   inputStdin += chunk;
@@ -417,7 +417,7 @@ if (process.argv.length > 1) {
     program.usehost = null
     program.hideimportbuttons = false
 }
-var semver = require2('semver')
+let semver = require2('semver')
 const initJaegerTracer = require2("jaeger-client").initTracer;
 const {Tags, FORMAT_HTTP_HEADERS} = require2('opentracing')
 
@@ -425,13 +425,11 @@ const {Tags, FORMAT_HTTP_HEADERS} = require2('opentracing')
 
 
 
-var showProgress = false
 if (program.showprogress == 'true') {
     showProgress = true;
 }
 
 
-var showDebug = false
 function outputDebug(text) {
     if (showDebug) {
          console.log(text);
@@ -454,13 +452,13 @@ if (program.ipfs_folder) {
 let fullIpfsFolderPath
 
 
-var showStats = false
+let showStats = false
 if (program.showstats == 'true') {
     showStats = true;
 }
 outputDebug("       showStats: " + showStats );
 
-var useSelfSignedHttps = false
+let useSelfSignedHttps = false
 if (program.useselfsignedhttps == 'true') {
     useSelfSignedHttps = true;
 }
@@ -469,7 +467,7 @@ outputDebug("       useSelfSignedHttps: " + useSelfSignedHttps );
 
 
 
-var statsInterval = -1
+let statsInterval = -1
 if (program.statsinterval > 0) {
     statsInterval = program.statsinterval;
 }
@@ -486,14 +484,14 @@ outputDebug("       executionProcessCount: " + executionProcessCount );
 
 
 
-var maxProcessesCountToRetry = 10
+let maxProcessesCountToRetry = 10
 if (program.maxprocessesretry > 0) {
     maxProcessesCountToRetry = program.maxprocessesretry;
 }
 outputDebug("       maxProcessesCountToRetry: " + maxProcessesCountToRetry );
 
 
-var maxJobProcessDurationMs = 10000
+let maxJobProcessDurationMs = 10000
 if (program.maxJobProcessDurationMs > 0) {
     maxJobProcessDurationMs = program.maxJobProcessDurationMs;
 }
@@ -502,11 +500,11 @@ outputDebug("       maxJobProcessDurationMs: " + maxJobProcessDurationMs );
 
 
 
-var listOfEnvs = process.env
-var envNames = Object.keys(listOfEnvs)
+let listOfEnvs = process.env
+let envNames = Object.keys(listOfEnvs)
 for (let i=0 ;i< envNames.length; i++){
     let envName = envNames[i].replace(/[^a-zA-Z0-9]/g,'_');
-    outputDebug("Env var  " + envName + ": " + listOfEnvs[envName])
+    outputDebug("Env let  " + envName + ": " + listOfEnvs[envName])
 
     envVars[envName] = listOfEnvs[envName]
 }
@@ -555,7 +553,7 @@ if (program.centralhostport == -1) {
 envVars.CENTRALHOSTPORT = program.centralhostport
 console.log("$CENTRALHOSTPORT = " + envVars.CENTRALHOSTPORT)
 
-var centralHostHttps = true
+let centralHostHttps = true
 if (program.centralhosthttps == 'none') {
     program.centralhosthttps = 'false'
 }
@@ -572,7 +570,7 @@ console.log("$CENTRALHOSTHTTPS = " + envVars.CENTRALHOSTHTTPS)
 
 
 let jaegerConfig = null
-var jaegercollector = program.jaegercollector;
+let jaegercollector = program.jaegercollector;
 if (isValidObject(envVars.jaegercollector)) {
     jaegercollector = envVars.jaegercollector
 }
@@ -611,7 +609,7 @@ function isValidObject(variable){
 
 outputDebug('Starting services');
 
-var debug = false;
+let debug = false;
 outputDebug("NodeJS version: " + process.versions.node);
 
 
@@ -631,12 +629,12 @@ if (program.debug == 'true') {
 
 
 
-var deleteOnExit = (program.deleteonexit == 'true');
+let deleteOnExit = (program.deleteonexit == 'true');
 outputDebug("deleteOnExit: " + deleteOnExit)
 
 
 
-var deleteOnStartup = (program.deleteonstartup == 'true');
+let deleteOnStartup = (program.deleteonstartup == 'true');
 outputDebug("deleteOnStartup: " + deleteOnStartup)
 
 
@@ -707,7 +705,7 @@ publicCertificate = program.public;
 caCertificate1 = program.cacert1;
 caCertificate2 = program.cacert2;
 caCertificate3 = program.cacert3;
-var useHost = program.usehost;
+let useHost = program.usehost;
 
 if (useHost) {
     hostaddress = useHost
@@ -717,11 +715,11 @@ if (useHost) {
 
 port = program.port;
 outputDebug("port: " + port)
-var runapp = program.runapp
-var runhtml = program.runhtml;
-var loadjsurl = program.loadjsurl;
-var loadjsfile = program.loadjsfile;
-var loadjscode = program.loadjscode;
+let runapp = program.runapp
+let runhtml = program.runhtml;
+let loadjsurl = program.loadjsurl;
+let loadjsfile = program.loadjsfile;
+let loadjscode = program.loadjscode;
 
 
 
@@ -2128,7 +2126,7 @@ function getEditApp(req, res) {
     let homepage = path.join(__dirname, '../public/go.html')
     let baseComponentId = lastSegment
     let newStaticFileContent = fs.readFileSync(homepage)
-    newStaticFileContent = newStaticFileContent.toString().replace("var editAppShareApp = null", "var editAppShareApp = '" + baseComponentId + "'")
+    newStaticFileContent = newStaticFileContent.toString().replace("let editAppShareApp = null", "let editAppShareApp = '" + baseComponentId + "'")
 
 
 
@@ -2556,7 +2554,7 @@ function file_uploadSingleFn(req, res) {
             let indexStart = readIn.indexOf("/*APP_START*/")
             let indexEnd = readIn.indexOf("/*APP_END*/")
 
-            let indexOfSqliteData = readIn.indexOf("var sqlitedata = '")
+            let indexOfSqliteData = readIn.indexOf("let sqlitedata = '")
             let indexOfSqliteDataEnd = readIn.indexOf("'//sqlitedata")
 
             let sqlitedatafromupload = null
@@ -2660,7 +2658,7 @@ function file_uploadFn(req, res, next) {
                 let indexStart = readIn.indexOf("/*APP_START*/")
                 let indexEnd = readIn.indexOf("/*APP_END*/")
 
-                let indexOfSqliteData = readIn.indexOf("var sqlitedata = '")
+                let indexOfSqliteData = readIn.indexOf("let sqlitedata = '")
                 let indexOfSqliteDataEnd = readIn.indexOf("'//sqlitedata")
 
                 let sqlitedatafromupload = null
@@ -4200,7 +4198,7 @@ async function executeSqliteForApp( args ) {
 
 
 
-var shuttingDown = false;
+let shuttingDown = false;
 
 
 
@@ -4621,7 +4619,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                    subComponents[tt])
                                            }
                                       }
-                                     var sqliteCode = ""
+                                     let sqliteCode = ""
                                      if (isValidObject(options)) {
 
                                         ////showTimer(JSON.stringify(options,null,2))
@@ -4667,7 +4665,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
                                         let newStaticFileContent = fs.readFileSync( origFilePath )
 
-                                        newStaticFileContent = newStaticFileContent.toString().replace("var isStaticHtmlPageApp = false", "var isStaticHtmlPageApp = true")
+                                        newStaticFileContent = newStaticFileContent.toString().replace("let isStaticHtmlPageApp = false", "let isStaticHtmlPageApp = true")
 
                                         let newcode = escape( code.toString() )
 
@@ -4782,7 +4780,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                         newStaticFileContent = newStaticFileContent.substring(0,indexOfSqlite) +
                                                                                     sqliteCode +
                                                                                         newStaticFileContent.substring(indexOfSqlite)
-                                                        newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*use_local_sqlite_start*/","/*use_local_sqlite_end*/","var localAppshareApp = true")
+                                                        newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*use_local_sqlite_start*/","/*use_local_sqlite_end*/","let localAppshareApp = true")
 
 
 
@@ -4793,7 +4791,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                         if (fs.existsSync(sqliteAppDbPath)) {
                                                           //showTimer(`15.5`)
                                                             let sqliteAppDbContent = fs.readFileSync( sqliteAppDbPath , 'base64')
-                                                            let indexOfSqliteData = newStaticFileContent.indexOf("var sqlitedata = ''")
+                                                            let indexOfSqliteData = newStaticFileContent.indexOf("let sqlitedata = ''")
 
 
                                                             newStaticFileContent = newStaticFileContent.substring(0,indexOfSqliteData + 17) +

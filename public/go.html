@@ -301,8 +301,8 @@
 
 
     var testObject = null; // Use this to test elements at debug time
-    /*use_local_sqlite_start*/var localAppshareApp = false/*use_local_sqlite_end*/
-    /*edit_app_share_app_start*/var editAppShareApp = null/*edit_app_share_app_end*/
+    /*use_local_sqlite_start*/let localAppshareApp = false/*use_local_sqlite_end*/
+    /*edit_app_share_app_start*/let editAppShareApp = null/*edit_app_share_app_end*/
     var override_app_editor = null
     var editingAppId = null
     var localSqliteDb    = null
@@ -318,7 +318,7 @@
     var dev_app_component_loaded = new Object()
     var file_upload_uuid = null
     var base_component_id = null
-    var isStaticHtmlPageApp = false
+    let isStaticHtmlPageApp = false
     var queuedResponses = new Object()
     var queuedBrowserResponseSeqNum = 0
     var callDriverMethodArgs = new Object()
@@ -345,7 +345,7 @@
     </script>
 
     <script>
-    var sqlitedata = ''
+    let sqlitedata = ''
     </script>
 
 
