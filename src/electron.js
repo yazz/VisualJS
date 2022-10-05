@@ -42,7 +42,7 @@ var tryAgain                            = true
 var nextCallId                          = 0
 var callList                            = new Object
 var processesRetryingCount              = 0
-
+let localappdata
 let visifile = null
 const path = require("path");
 const url = require('url');
@@ -3292,7 +3292,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
 
             let topApps = []
             let ipfsHashOfAppToDownload =  req.body.ipfs_hash;
-            var promise = new Promise(async function(returnfn) {
+            let promise = new Promise(async function(returnfn) {
 
                 dbsearch.serialize(
                     function() {
@@ -3310,7 +3310,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
                             async function(err, rows) {
                                 if (!err) {
                                     try {
-                                        var returnRows = []
+                                        let returnRows = []
                                         if (rows.length > 0) {
                                             for (let rowIndex =0; rowIndex < rows.length; rowIndex++) {
                                                 let thisRow = rows[rowIndex]
@@ -3337,7 +3337,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
 
                                     } catch(err) {
                                         console.log(err);
-                                        var stack = new Error().stack
+                                        let stack = new Error().stack
                                         console.log( stack )
                                     } finally {
                                         returnfn(returnRows[0])
@@ -3348,7 +3348,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
                         );
                     }, sqlite3.OPEN_READONLY)
             })
-            var ret = await promise
+            let ret = await promise
 
             let fullFileName = path.join(fullIpfsFolderPath, ipfsHashOfAppToDownload)
             let ipfsContent = fs.readFileSync(fullFileName, 'utf8')
@@ -3460,7 +3460,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             // give the new smart contract control a new icon logo
             //
             if (copy_image_data) {
-                var logoValue = saveHelper.getValueOfCodeString(srcText,"logo_url")
+                let logoValue = saveHelper.getValueOfCodeString(srcText,"logo_url")
                 if (logoValue) {
                     srcText = saveHelper.deleteCodeString(srcText, "logo_url")
                 }
@@ -3475,7 +3475,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             // give the new component a new logo
             //
             if (req.body.value.logo_url) {
-                var logoValue = saveHelper.getValueOfCodeString(srcText,"logo_url")
+                let logoValue = saveHelper.getValueOfCodeString(srcText,"logo_url")
                 if (logoValue) {
                     srcText = saveHelper.deleteCodeString(srcText, "logo_url")
                 }
@@ -3696,7 +3696,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             });
 
             io.on('connection', function (sck) {
-                var connt = JSON.stringify(sck.conn.transport,null,2);
+                let connt = JSON.stringify(sck.conn.transport,null,2);
                 websocketFn(sck)
             });
 
@@ -3714,8 +3714,8 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
 
 
 
-    for (var i=0;i<executionProcessCount; i++ ) {
-        var exeProcName = "forkedExeProcess" + i
+    for (let i=0;i<executionProcessCount; i++ ) {
+        let exeProcName = "forkedExeProcess" + i
             setupForkedProcess(exeProcName, "exeProcess.js", 40100 + i)
     }
 
@@ -3847,7 +3847,7 @@ console.log("Local Machine Address: " + localAddress);
 } else {
 
 
-                var parsedInput = null
+                let parsedInput = null
                 try {
                     parsedInput = eval("(" + inputStdin + ")");
                 } catch(qwe) {
@@ -3865,8 +3865,8 @@ console.log("Local Machine Address: " + localAddress);
                 //console.log("Parsed: " + JSON.stringify(parsedInput));
 
                 (async function() {
-                var promise = new Promise(async function(returnFn) {
-                    var seqNum = queuedResponseSeqNum;
+                let promise = new Promise(async function(returnFn) {
+                    let seqNum = queuedResponseSeqNum;
                     queuedResponseSeqNum ++;
                     queuedResponses[ seqNum ] = function(value) {
                         returnFn(value)
@@ -3896,7 +3896,7 @@ console.log("Local Machine Address: " + localAddress);
 
 
                 })
-                var ret = await promise
+                let ret = await promise
                 //console.log("ret: "  +  JSON.stringify(ret,null,2))
 
                 if (ret.value) {
@@ -3968,7 +3968,7 @@ function bytesToMb(bytes) {
 }
 
 function getChildMem(childProcessName,stats) {
-    var memoryused = 0
+    let memoryused = 0
     if (stats) {
         memoryused = stats.memory ;
         totalMem += memoryused
@@ -4022,19 +4022,19 @@ function readCerts() {
     let caCertsRet = []
     if (caCertificate1) {
         outputDebug("CA Cert 1 = " + caCertificate1)
-        var fff = fs.readFileSync(caCertificate1, 'utf8')
+        let fff = fs.readFileSync(caCertificate1, 'utf8')
         outputDebug("  = " + fff)
         caCertsRet.push(fff)
     }
     if (caCertificate2) {
         outputDebug("CA Cert 2 = " + caCertificate2)
-        var fff = fs.readFileSync(caCertificate2, 'utf8')
+        let fff = fs.readFileSync(caCertificate2, 'utf8')
         outputDebug("  = " + fff)
         caCertsRet.push(fff)
     }
     if (caCertificate3) {
         outputDebug("CA Cert 3 = " + caCertificate3)
-        var fff = fs.readFileSync(caCertificate3, 'utf8')
+        let fff = fs.readFileSync(caCertificate3, 'utf8')
         outputDebug("  = " + fff)
         caCertsRet.push(fff)
     }
@@ -4053,7 +4053,7 @@ setupVisifileParams();
 
 
     if (process.platform === "win32") {
-        var rl = require2("readline").createInterface({
+        let rl = require2("readline").createInterface({
           input: process.stdin,
           output: process.stdout
         });
@@ -4068,7 +4068,7 @@ setupVisifileParams();
 
     if (isWin) {
         outputDebug("Running as Windows")
-    	var localappdata  = process.env.LOCALAPPDATA
+        localappdata  = process.env.LOCALAPPDATA
     	userData = path.join(localappdata, '/Yazz/')
     } else {
 
@@ -4104,7 +4104,7 @@ function findSystemDataDirectoryAndStart() {
                 deleteYazzDataV2(userData)
         }
     }
-    var uploadPath = path.join(userData,  'uploads/')
+    let uploadPath = path.join(userData,  'uploads/')
 
     outputDebug("LOCAL_HOME: " + LOCAL_HOME)
     outputDebug("userData: " + userData)
@@ -4149,7 +4149,7 @@ async function executeSqliteForApp( args ) {
     if (!args.sql) {
         return []
     }
-    var getSqlResults = new Promise(returnResult => {
+    let getSqlResults = new Promise(returnResult => {
         //console.log("dbPath: " + JSON.stringify(dbPath,null,2))
         //console.log("args: " + JSON.stringify(args,null,2))
         let appDb = null
@@ -4190,7 +4190,7 @@ async function executeSqliteForApp( args ) {
     })
 
 
-    var res = await getSqlResults
+    let res = await getSqlResults
     return res
 }
 
@@ -4245,8 +4245,8 @@ function finishInit() {
                     }
                     allForked = Object.keys(forkedProcesses)
                     returnedmemCount = 0
-                    for (var ttt=0; ttt< allForked.length; ttt++) {
-                        var childProcessName = allForked[ttt]
+                    for (let ttt=0; ttt< allForked.length; ttt++) {
+                        let childProcessName = allForked[ttt]
                         const childprocess = forkedProcesses[childProcessName]
 
                         usePid(childProcessName,childprocess)
@@ -4288,7 +4288,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
         code = code.toString()
     }
 
-    var promise = new Promise(returnFn => {
+    let promise = new Promise(returnFn => {
         //resetTimer(`*function saveCodeV2( ${baseComponentId}, ${parentHash} ) {`)
         if (!baseComponentId) {
             baseComponentId = uuidv1()
@@ -4302,7 +4302,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
         //
         //  Add a link to the parent code
         //
-        var lastParentHash = saveHelper.getValueOfCodeString(code,"parent_hash")
+        let lastParentHash = saveHelper.getValueOfCodeString(code,"parent_hash")
         if (lastParentHash != parentHash) {
             if (lastParentHash) {
                 code = saveHelper.deleteCodeString(code, "parent_hash")
@@ -4319,7 +4319,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
 
 
-        var oldBaseComp = saveHelper.getValueOfCodeString(code,"base_component_id")
+        let oldBaseComp = saveHelper.getValueOfCodeString(code,"base_component_id")
 
 
         if (oldBaseComp != baseComponentId ) {
@@ -4330,12 +4330,12 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
         //showTimer("    baseComponentId := " + baseComponentId)
 
 
-        var creationTimestamp = new Date().getTime()
+        let creationTimestamp = new Date().getTime()
         // if we don't want to reload this file then don't update the timestamp
         if (saveHelper.getValueOfCodeString(code,"load_once_from_file")) {
             creationTimestamp = -1
         }
-        var tvvv = saveHelper.getValueOfCodeString(code, "created_timestamp")
+        let tvvv = saveHelper.getValueOfCodeString(code, "created_timestamp")
         if (!tvvv) {
             code = saveHelper.deleteCodeString(code, "created_timestamp")
             code = saveHelper.insertCodeString(code, "created_timestamp", creationTimestamp)
@@ -4347,19 +4347,19 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
         //showTimer(`3`)
 
 
-        var oncode = "\"app\""
-        var eventName = null
-        var componentType = null
-        var componentOptions = null
-        var maxProcesses = 1
-        var rowhash = crypto.createHash('sha256');
-        var row = code.toString();
+        let oncode = "\"app\""
+        let eventName = null
+        let componentType = null
+        let componentOptions = null
+        let maxProcesses = 1
+        let rowhash = crypto.createHash('sha256');
+        let row = code.toString();
 
 
 
 
-        var visibility = null
-        var newvisibility = null
+        let visibility = null
+        let newvisibility = null
         visibility = saveHelper.getValueOfCodeString(code,"visibility")
         newvisibility = visibility
         if (!isValidObject(visibility)) {
@@ -4378,7 +4378,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
         //showTimer(`4`)
 
 
-        var logoUrl = saveHelper.getValueOfCodeString(code,"logo_url")
+        let logoUrl = saveHelper.getValueOfCodeString(code,"logo_url")
         if (!isValidObject(logoUrl)) {
             logoUrl = "/driver_icons/js.png"
             code = saveHelper.insertCodeString(code, "logo_url", logoUrl)
@@ -4387,10 +4387,10 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
 
 
-        var interfaces = ""
-        var interfaces2 = saveHelper.getValueOfCodeString(code,"interfaces")
+        let interfaces = ""
+        let interfaces2 = saveHelper.getValueOfCodeString(code,"interfaces")
         if (interfaces2 && (interfaces2.length > 0)) {
-            for (var rr=0; rr < interfaces2.length; rr ++) {
+            for (let rr=0; rr < interfaces2.length; rr ++) {
                 interfaces += "|  " + interfaces2[ rr ]
             }
         }
@@ -4401,7 +4401,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
         rowhash.setEncoding('hex');
         rowhash.write(row);
         rowhash.end();
-        var sha1sum = rowhash.read();
+        let sha1sum = rowhash.read();
         ////showTimer("Save sha1 for :" + baseComponentId + ": " + sha1sum)
 
         dbsearch.serialize(
@@ -4429,24 +4429,24 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                 //showTimer(`6`)
 
 
-                                var displayName = saveHelper.getValueOfCodeString(code,"display_name")
+                                let displayName = saveHelper.getValueOfCodeString(code,"display_name")
 
-                                var useDb = saveHelper.getValueOfCodeString(code,"use_db")
-                                var editors2 = saveHelper.getValueOfCodeString(code,"editors")
-                                var controlType = saveHelper.getValueOfCodeString(code,"component_type")
-                                var controlSubType = saveHelper.getValueOfCodeString(code,"control_sub_type")
+                                let useDb = saveHelper.getValueOfCodeString(code,"use_db")
+                                let editors2 = saveHelper.getValueOfCodeString(code,"editors")
+                                let controlType = saveHelper.getValueOfCodeString(code,"component_type")
+                                let controlSubType = saveHelper.getValueOfCodeString(code,"control_sub_type")
 
-                                var editors = null
+                                let editors = null
                                 if (editors2) {
                                     editors = JSON.stringify(editors2,null,2)
 
                                 }
-                                var readWriteStatus = null
-                                var readOnly = saveHelper.getValueOfCodeString(code,"read_only")
+                                let readWriteStatus = null
+                                let readOnly = saveHelper.getValueOfCodeString(code,"read_only")
                                 if (readOnly) {
                                     readWriteStatus = "READ"
                                 }
-                                var properties = saveHelper.getValueOfCodeString(code,"properties",")//properties")
+                                let properties = saveHelper.getValueOfCodeString(code,"properties",")//properties")
                                 if (properties) {
                                     properties = JSON.stringify(properties,null,2)
                                 }
@@ -4502,8 +4502,8 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
 
                                 function getName(text) {
-                                    var resttext = text.match(/([a-zA-Z_{1}][a-zA-Z0-9_]+)(?=\()/g)
-                                    var res=null
+                                    let resttext = text.match(/([a-zA-Z_{1}][a-zA-Z0-9_]+)(?=\()/g)
+                                    let res=null
                                     if (resttext) {
                                         if (resttext[0] != "function") {
                                             res = resttext[0]
@@ -4512,7 +4512,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
                                     return res
                                 }
-                                var fnName = getName(code.toString())
+                                let fnName = getName(code.toString())
                                 if (fnName) {
                                     oncode = "\"" + fnName + "\""
                                     eventName = fnName
@@ -4575,9 +4575,9 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                         )
 
 
-                                    var restApi = saveHelper.getValueOfCodeString(code, "rest_api")
+                                    let restApi = saveHelper.getValueOfCodeString(code, "rest_api")
                                     if (restApi) {
-                                        var restMethod = saveHelper.getValueOfCodeString(code, "rest_method")
+                                        let restMethod = saveHelper.getValueOfCodeString(code, "rest_method")
                                         add_rest_api({
                                                         message_type:       "add_rest_api",
                                                         route:               restApi,
@@ -4589,12 +4589,12 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
                                     stmtDeleteDependencies.run(sha1sum)
 
-                                    var scriptCode = ""
+                                    let scriptCode = ""
                                     //showTimer(`11`)
-                                    var jsLibs = saveHelper.getValueOfCodeString(code, "uses_javascript_librararies")
+                                    let jsLibs = saveHelper.getValueOfCodeString(code, "uses_javascript_librararies")
                                     if (jsLibs) {
                                           ////showTimer(JSON.stringify(jsLibs,null,2))
-                                          for (var tt = 0; tt < jsLibs.length ; tt++) {
+                                          for (let tt = 0; tt < jsLibs.length ; tt++) {
                                               scriptCode += `libLoaded[ "${jsLibs[tt]}" ] = true;
                                               `
                                               stmtInsertDependency.run(
@@ -4613,9 +4613,9 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
                                           }
                                      }
-                                     var subComponents = saveHelper.getValueOfCodeString(code, "sub_components")
+                                     let subComponents = saveHelper.getValueOfCodeString(code, "sub_components")
                                      if (subComponents) {
-                                           for (var tt = 0; tt < subComponents.length ; tt++) {
+                                           for (let tt = 0; tt < subComponents.length ; tt++) {
                                                stmtInsertSubComponent.run(
                                                    baseComponentId,
                                                    subComponents[tt])
