@@ -1633,9 +1633,9 @@ async function isTtyCode() {
 
     let promise = new Promise(async function(returnFn) {
         if (isValidObject(loadjsurl)) {
-            var jsUrl = loadjsurl
+            let jsUrl = loadjsurl
             https.get(jsUrl, (resp) => {
-              var data = '';
+              let data = '';
 
               resp.on('data', (chunk) => {
                 data += chunk;
@@ -1654,9 +1654,9 @@ async function isTtyCode() {
 
 
         } else if (isValidObject(loadjsfile)) {
-            var jsFile = loadjsfile
+            let jsFile = loadjsfile
 
-            var data2 = fs.readFileSync(jsFile).toString()
+            let data2 = fs.readFileSync(jsFile).toString()
             let ttyCode = isFrontEndOnlyCode(data2)
             returnFn(!ttyCode)
 
@@ -1713,7 +1713,7 @@ function mkdirSync(dirPath) {
 
 
 function outputToConsole(text) {
-    var c = console;
+    let c = console;
     c.log(text);
 }
 
@@ -1722,7 +1722,7 @@ function outputToConsole(text) {
 
 function copyFileSync( source, target ) {
 
-    var targetFile = target;
+    let targetFile = target;
 
     //if target is a directory a new file with the same name will be created
     if ( fs.existsSync( target ) ) {
@@ -1736,10 +1736,10 @@ function copyFileSync( source, target ) {
 
 function copyFolderRecursiveSync( source, target ) {
     //console.log('çopy from: '+ source + ' to ' + target);
-    var files = [];
+    let files = [];
 
     //check if folder needs to be created or integrated
-    var targetFolder = path.join( target, path.basename( source ) );
+    let targetFolder = path.join( target, path.basename( source ) );
     if ( !fs.existsSync( targetFolder ) ) {
         fs.mkdirSync( targetFolder );
     }
@@ -1749,7 +1749,7 @@ function copyFolderRecursiveSync( source, target ) {
         try {
             files = fs.readdirSync( source );
             files.forEach( function ( file ) {
-                var curSource = path.join( source, file );
+                let curSource = path.join( source, file );
                 if ( fs.lstatSync( curSource ).isDirectory() ) {
                     try {
                         copyFolderRecursiveSync( curSource, targetFolder );
@@ -1859,7 +1859,7 @@ function canAccess(req,res) {
 
 
 function extractHostname(url) {
-    var hostname;
+    let hostname;
     //find & remove protocol (http, ftp, etc.) and get hostname
 
     if (url.indexOf("://") > -1) {
@@ -1881,7 +1881,7 @@ function extractHostname(url) {
 
 
 function extractRootDomain(url) {
-    var domain = extractHostname(url),
+    let domain = extractHostname(url),
         splitArr = domain.split('.'),
         arrLen = splitArr.length;
 
@@ -1901,8 +1901,8 @@ function findViafromString(inp) {
         return "";
     }
 
-    var ll = inp.split(' ');
-    for (var i=0; i< ll.length ; i++){
+    let ll = inp.split(' ');
+    for (let i=0; i< ll.length ; i++){
         if (ll[i] != null) {
             if (ll[i].indexOf(":") != -1) {
                 return extractRootDomain(ll[i]);
@@ -1979,10 +1979,10 @@ function getRoot(req, res, next) {
 	//console.log("Full URL: " + req.protocol + '://' + req.get('host') + req.originalUrl);
 	let isMobile = isRequestFromMobile(req)
 
-    var homepage = path.join(__dirname, '../public/go.html')
-    //var homepageUrl = serverProtocol + '://yazz.com/visifile/index.html?time=' + new Date().getTime()
-    //var homepageUrl = serverProtocol + '://www.yazz.com'
-    var homepageUrl = 'https://yazz.com/app/homepage.html'
+    let homepage = path.join(__dirname, '../public/go.html')
+    //let homepageUrl = serverProtocol + '://yazz.com/visifile/index.html?time=' + new Date().getTime()
+    //let homepageUrl = serverProtocol + '://www.yazz.com'
+    let homepageUrl = 'https://yazz.com/app/homepage.html'
     if (isMobile) {
         homepageUrl = 'https://yazz.com/app/mobilehomepage.html'
     }
@@ -2114,8 +2114,8 @@ function getEditApp(req, res) {
     if (req.path.endsWith(".map")) {
         return
     }
-    var parts = req.path.split('/');
-    var lastSegment = parts.pop() || parts.pop();
+    let parts = req.path.split('/');
+    let lastSegment = parts.pop() || parts.pop();
 
     outputDebug("URL PATH: " + lastSegment);
 	//console.log("Full URL: " + req.protocol + '://' + req.get('host') + req.originalUrl);
@@ -2125,9 +2125,9 @@ function getEditApp(req, res) {
     //
     // send the edit page
     //
-    var homepage = path.join(__dirname, '../public/go.html')
-    var baseComponentId = lastSegment
-    var newStaticFileContent = fs.readFileSync(homepage)
+    let homepage = path.join(__dirname, '../public/go.html')
+    let baseComponentId = lastSegment
+    let newStaticFileContent = fs.readFileSync(homepage)
     newStaticFileContent = newStaticFileContent.toString().replace("var editAppShareApp = null", "var editAppShareApp = '" + baseComponentId + "'")
 
 
@@ -2170,13 +2170,13 @@ function websocketFn(ws) {
                         });
 
     ws.on('message', async function(msg) {
-        var receivedMessage = eval("(" + msg + ")");
+        let receivedMessage = eval("(" + msg + ")");
         //console.log(" 1- Server recieved message: " + JSON.stringify(receivedMessage));
 
         // if we get the message "server_get_all_queries" from the web browser
         if (receivedMessage.message_type == "server_get_all_queries") {
 
-            var seqNum = queuedResponseSeqNum;
+            let seqNum = queuedResponseSeqNum;
             queuedResponseSeqNum ++;
             queuedResponses[seqNum] = ws;
 
@@ -2188,7 +2188,7 @@ function websocketFn(ws) {
         } else if (receivedMessage.message_type == "loadUiComponent") {
             //console.log("***** } else if (msg.message_type == loadUiComponent) ")
 
-            var componentIds = receivedMessage.find_components.base_component_ids
+            let componentIds = receivedMessage.find_components.base_component_ids
 
             dbsearch.serialize(
                 function() {
@@ -2203,7 +2203,7 @@ function websocketFn(ws) {
                         {
                             if (results) {
                                 if (results.length > 0) {
-                                    var codeId = results[0].id
+                                    let codeId = results[0].id
                                         dbsearch.all(
                                             "SELECT dependency_name FROM app_dependencies where code_id = ?; ",
                                             codeId,
@@ -2268,7 +2268,7 @@ function websocketFn(ws) {
                         {
                             if (results) {
                                 if (results.length > 0) {
-                                    var codeId = results[0].id
+                                    let codeId = results[0].id
                                     dbsearch.all(
                                         "SELECT dependency_name FROM app_dependencies where code_id = ?; ",
                                         codeId,
@@ -2321,7 +2321,7 @@ function websocketFn(ws) {
                                 {
                                     if (results) {
                                         if (results.length > 0) {
-                                            var codeId = results[0].id
+                                            let codeId = results[0].id
                                             dbsearch.all(
                                                 "SELECT dependency_name FROM app_dependencies where code_id = ?; ",
                                                 codeId,
@@ -2361,8 +2361,8 @@ function websocketFn(ws) {
         //
         } else if (receivedMessage.message_type == "edit_static_app") {
             outputDebug("*** server got message from static app: edit_static_app")
-            var sql_data = receivedMessage.sql_data
-            var code_fn = receivedMessage.code_fn
+            let sql_data = receivedMessage.sql_data
+            let code_fn = receivedMessage.code_fn
 
 
             save_code_from_upload({
@@ -2401,7 +2401,7 @@ function websocketFn(ws) {
         //
         } else if (receivedMessage.message_type == "browser_asks_server_for_data") {
 
-            var seqNum = queuedResponseSeqNum;
+            let seqNum = queuedResponseSeqNum;
             queuedResponseSeqNum ++;
             queuedResponses[seqNum] = ws;
 
@@ -2414,7 +2414,7 @@ function websocketFn(ws) {
 
     } else if (receivedMessage.message_type == "browser_asks_server_for_data") {
 
-        var seqNum = queuedResponseSeqNum;
+        let seqNum = queuedResponseSeqNum;
         queuedResponseSeqNum ++;
         queuedResponses[seqNum] = ws;
 
@@ -2471,7 +2471,7 @@ function websocketFn(ws) {
             // calling the server function (in this case a web browser with
             // a web socket). We need to do this as there may be several
             // web browsers connected to this one server
-            var seqNum = queuedResponseSeqNum;
+            let seqNum = queuedResponseSeqNum;
             queuedResponseSeqNum ++;
             queuedResponses[ seqNum ] = ws;
 
@@ -2520,46 +2520,46 @@ function file_uploadSingleFn(req, res) {
 
       //console.log(JSON.stringify(req.files.length));
       //console.log("client_file_upload_id: " + JSON.stringify(req.body.client_file_upload_id,null,2))
-      var client_file_upload_id = req.body.client_file_upload_id
+      let client_file_upload_id = req.body.client_file_upload_id
       //console.log("**client_file_upload_id** " + JSON.stringify(client_file_upload_id));
       //console.log(    "    next: " + JSON.stringify(next));
 
       res.status( 200 ).send( req.file );
 
       //console.log('Loading saved Creator app' );
-      var ifile = req.file
+      let ifile = req.file
       //console.log("        " + JSON.stringify(ifile));
-      var ext = ifile.originalname.split('.').pop();
+      let ext = ifile.originalname.split('.').pop();
       ext = ext.toLowerCase();
       //console.log('Ext: ' + ext);
       if ((ext == "html") || (ext == "html")) {
-      var localp2;
+      let localp2;
       localp2 =  path.join(userData,  'uploads/' + ifile.filename);
-          var localp = localp2 + '.' + ext;
+          let localp = localp2 + '.' + ext;
           fs.renameSync(localp2, localp);
-          var readIn = fs.readFileSync(localp).toString()
+          let readIn = fs.readFileSync(localp).toString()
           //console.log('');
           //console.log('Local saved path: ' + localp);
-          var indexStart = readIn.indexOf("/*APP_START*/")
-          var indexEnd = readIn.indexOf("/*APP_END*/")
+          let indexStart = readIn.indexOf("/*APP_START*/")
+          let indexEnd = readIn.indexOf("/*APP_END*/")
           //console.log(`indexStart: ${indexStart}`)
           //console.log(`indexEnd: ${indexEnd}`)
           if ((indexStart > 0) && (indexEnd > 0)) {
             indexStart += 13 + 10
             indexEnd -= 2
-            var tts = readIn.substring(indexStart,indexEnd)
+            let tts = readIn.substring(indexStart,indexEnd)
             //console.log(tts)
-            var ytr = unescape(tts)
+            let ytr = unescape(tts)
             outputDebug("SENDING FROM UPLOAD___=+++****")
-            var bci = saveHelper.getValueOfCodeString(ytr, "base_component_id")
+            let bci = saveHelper.getValueOfCodeString(ytr, "base_component_id")
 
-            var indexStart = readIn.indexOf("/*APP_START*/")
-            var indexEnd = readIn.indexOf("/*APP_END*/")
+            let indexStart = readIn.indexOf("/*APP_START*/")
+            let indexEnd = readIn.indexOf("/*APP_END*/")
 
-            var indexOfSqliteData = readIn.indexOf("var sqlitedata = '")
-            var indexOfSqliteDataEnd = readIn.indexOf("'//sqlitedata")
+            let indexOfSqliteData = readIn.indexOf("var sqlitedata = '")
+            let indexOfSqliteDataEnd = readIn.indexOf("'//sqlitedata")
 
-            var sqlitedatafromupload = null
+            let sqlitedatafromupload = null
             if ((indexOfSqliteData != -1) && (indexOfSqliteDataEnd != -1)) {
                 sqlitedatafromupload = readIn.substring( indexOfSqliteData + 18,
                                                                     indexOfSqliteDataEnd)
