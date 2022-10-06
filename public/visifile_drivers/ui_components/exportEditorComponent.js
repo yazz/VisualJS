@@ -298,7 +298,7 @@ load_once_from_file(true)
                     <img src="/driver_icons/js.png"  style="width:100px;"></img>
 
                     <h4 style="font-weight:bold;">
-                        D) Download app as Javascript file
+                        D) Download app as .yazz file
                     </h4>
 
                         <a          v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppId + ".yazz"'
@@ -308,7 +308,7 @@ load_once_from_file(true)
                                     class="btn btn-light">
 
 
-                            Download app as javascript file
+                            Download app as .Yazz file
                         </a>
                     </div>
             </div>
