@@ -308,6 +308,10 @@ load_once_from_file(true)
 
 
 
+
+
+
+
             <div    v-on:click='let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/" + rest_api_base_url + "", "_blank"); win.focus();'
                     v-if='app_loaded && (is_server_app)'
                     v-bind:style="'display:flex;text-decoration: underline;color:blue;padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;'">
@@ -316,8 +320,14 @@ load_once_from_file(true)
                                         style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
                                         v-bind:value='location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/" + rest_api_base_url + ""'>
                 </input>
-
             </div>
+
+
+
+
+
+
+
 
 
 
@@ -325,6 +335,11 @@ load_once_from_file(true)
                     v-bind:style="'display:flex;text-decoration: underline;color:blue;padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;'">
 
                 <div v-on:click='let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'>Shareable link:</div>
+
+
+
+
+
 
                 <button   v-on:click='setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null)},100)'
                           type="button"
@@ -339,6 +354,10 @@ load_once_from_file(true)
 
                 </button>
 
+
+
+
+
                 <input   readonly
                                         style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
                                         v-on:click='let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
@@ -351,7 +370,11 @@ load_once_from_file(true)
 
 
 
+<!-- ----------------------------------------------
 
+     Saved JS button
+
+---------------------------------------------- -->
               <a   v-bind:style="'padding: 0px; margin-top: 0px; margin-left:10px; position: relative; border: 0px;background-color: rgb(242, 242, 242);' + (read_only?'opacity:0.2;':'')"
                    v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppId + ".yazz"'
                    download
@@ -368,20 +391,44 @@ load_once_from_file(true)
               </a>
 
 
+<!-- ----------------------------------------------
+
+     Saved SQLite button
+
+---------------------------------------------- -->
+              <a          v-bind:href='sqlite_data_saved_in_html?false:location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppId + ".html"'
+                          v-bind:download='sqlite_data_saved_in_html?false:""'
+                          v-bind:style="'padding: 0px; margin-top: 0px; margin-left:10px; position: relative; border: 0px;background-color: rgb(242, 242, 242);' + (read_only?'opacity:0.2;':'')"
+                          v-on:mouseenter='setInfo("Download this app as a standalone HTML file")'
+                          v-on:mouseleave='setInfo(null)'
+                          v-bind:disabled='sqlite_data_saved_in_html?false:""'
+                          type="button"
+                          class="btn btn-light">
+
+                <img  src="/driver_icons/sqlite_icon.png"
+                      v-bind:disabled='sqlite_data_saved_in_html?false:""'
+                      style="height: 25px;; margin-right: 10px;"
+                      class='img-fluid'>
+                </img>
+              </a>
 
 
-              
-                
+<!-- ----------------------------------------------
 
+       Saved HTML button
+
+---------------------------------------------- -->
                 <a          v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppId + ".html"'
                             download
+                            v-bind:disabled='sqlite_data_saved_in_html?"":false'
                             v-bind:style="'padding: 0px; margin-top: 0px; margin-left:10px; position: relative; border: 0px;background-color: rgb(242, 242, 242);' + (read_only?'opacity:0.2;':'')"
                             v-on:mouseenter='setInfo("Download this app as a standalone HTML file")'
                             v-on:mouseleave='setInfo(null)'
                             type="button"
                             class="btn btn-light">
                             
-                    <img  src="/driver_icons/html.png"  
+                    <img  src="/driver_icons/html.png"
+                          v-bind:disabled='sqlite_data_saved_in_html?"":false'
                           style="height: 25px;; margin-right: 10px;"
                           class='img-fluid'>
                     </img>
@@ -714,6 +761,7 @@ load_once_from_file(true)
        ,
        data: function() {
            return {
+               sqlite_data_saved_in_html: false,
                file_save_state:    (saveCodeToFile?saveCodeToFile:""),
                editor_shell_locked:  true,
                info_text:           "",
@@ -865,7 +913,7 @@ load_once_from_file(true)
                override_app_editor = "history_viewer_component"
 
                 await mm.load_new_app( this.base_component_id )
-                //zzz
+
             }
             ,
 

@@ -2877,7 +2877,7 @@ async function startServices() {
             // to the API (e.g. in case you use sessions)
             res.setHeader('Access-Control-Allow-Credentials', true);
 
-//zzz
+
             let userAgentString = req.headers['user-agent']
             let hostCookieSentTo = req.host
             let cookie = req.cookies.yazz;
@@ -2902,7 +2902,7 @@ async function startServices() {
                     await createCookieInDb(randomNumber, hostCookieSentTo, from_device_type)
                     console.log('No cookie found in Yazz DB, cookie created successfully');
                 }
-                //zzz
+
             }
             // Pass to next layer of middleware
             next();
@@ -4789,16 +4789,19 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
                                                         let sqliteAppDbPath = path.join( userData, 'app_dbs/' + baseComponentId + '.visi' )
 
-                                                        if (fs.existsSync(sqliteAppDbPath)) {
-                                                          //showTimer(`15.5`)
-                                                            let sqliteAppDbContent = fs.readFileSync( sqliteAppDbPath , 'base64')
-                                                            let indexOfSqliteData = newStaticFileContent.indexOf("let sqlitedata = ''")
+//zzz
+                                                        if (options.embedSqliteOffline) {
+                                                            if (fs.existsSync(sqliteAppDbPath)) {
+                                                              //showTimer(`15.5`)
+                                                                let sqliteAppDbContent = fs.readFileSync( sqliteAppDbPath , 'base64')
+                                                                let indexOfSqliteData = newStaticFileContent.indexOf("let sqlitedata = ''")
 
 
-                                                            newStaticFileContent = newStaticFileContent.substring(0,indexOfSqliteData + 17) +
-                                                                                        "'" + sqliteAppDbContent + "'//sqlitedata" +
-                                                                                            newStaticFileContent.substring(indexOfSqliteData + 19)
+                                                                newStaticFileContent = newStaticFileContent.substring(0,indexOfSqliteData + 17) +
+                                                                                            "'" + sqliteAppDbContent + "'//sqlitedata" +
+                                                                                                newStaticFileContent.substring(indexOfSqliteData + 19)
 
+                                                            }
                                                         }
                                                         //showTimer(`15.6`)
 
@@ -7114,7 +7117,7 @@ async function getSessionId(req) {
 }
 
 
-//zzz
+
 async function getCookieRecord(cookieValue) {
     let promise = new Promise(async function(returnfn) {
         dbsearch.serialize(
