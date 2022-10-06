@@ -347,11 +347,16 @@ load_once_from_file(true)
 
 
 
-              <a                             v-bind:style="'padding: 0px; margin-top: 0px; margin-left:10px; position: relative; border: 0px;background-color: rgb(242, 242, 242);' + (read_only?'opacity:0.2;':'')"
-                                             v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppId + ".yazz"'
+
+
+
+
+
+              <a   v-bind:style="'padding: 0px; margin-top: 0px; margin-left:10px; position: relative; border: 0px;background-color: rgb(242, 242, 242);' + (read_only?'opacity:0.2;':'')"
+                   v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppId + ".yazz"'
                    download
                    v-if="show_download_save"
-                   v-on:mouseenter='setInfo("Edit the SQlite schema for this app")'
+                   v-on:mouseenter='setInfo("Download the JS .yazz fileds for this app")'
                    v-on:mouseleave='setInfo(null)'
                    type="button" class="btn btn-light ">
 
@@ -360,8 +365,27 @@ load_once_from_file(true)
                     style='height:25px; margin-right: 10px;'
                     class='img-fluid'>
                 </img>
-                
               </a>
+
+
+
+
+              
+                
+
+                <a          v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppId + ".html"'
+                            download
+                            v-bind:style="'padding: 0px; margin-top: 0px; margin-left:10px; position: relative; border: 0px;background-color: rgb(242, 242, 242);' + (read_only?'opacity:0.2;':'')"
+                            v-on:mouseenter='setInfo("Download this app as a standalone HTML file")'
+                            v-on:mouseleave='setInfo(null)'
+                            type="button"
+                            class="btn btn-light">
+                            
+                    <img  src="/driver_icons/html.png"  
+                          style="height: 25px;; margin-right: 10px;"
+                          class='img-fluid'>
+                    </img>
+                </a>
 
             </div>
 
