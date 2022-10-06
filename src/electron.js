@@ -4790,7 +4790,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                         let sqliteAppDbPath = path.join( userData, 'app_dbs/' + baseComponentId + '.visi' )
 
 //zzz
-                                                        if (options.embedSqliteOffline) {
+                                                        if (options.saveSqlDataInHtml) {
                                                             if (fs.existsSync(sqliteAppDbPath)) {
                                                               //showTimer(`15.5`)
                                                                 let sqliteAppDbContent = fs.readFileSync( sqliteAppDbPath , 'base64')

@@ -334,13 +334,22 @@ load_once_from_file(true)
             <div    v-if='app_loaded && (!is_server_app)'
                     v-bind:style="'display:flex;text-decoration: underline;color:blue;padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;'">
 
+  <!-- ----------------------------------------------
+  
+  Link to full screen app
+  
+  ---------------------------------------------- -->
                 <div v-on:click='let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'>Shareable link:</div>
 
 
 
 
 
+<!-- ----------------------------------------------
 
+Refresh button
+
+---------------------------------------------- -->
                 <button   v-on:click='setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null)},100)'
                           type="button"
                           v-bind:style="'padding: 0px; margin-top: 0px; margin-left:10px; position: relative; border: 0px;background-color: rgb(242, 242, 242);' + (read_only?'opacity:0.2;':'')"
@@ -357,7 +366,11 @@ load_once_from_file(true)
 
 
 
+<!-- ----------------------------------------------
 
+   App Preview Address Bar 
+
+---------------------------------------------- -->
                 <input   readonly
                                         style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
                                         v-on:click='let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
@@ -396,8 +409,7 @@ load_once_from_file(true)
      Saved SQLite button
 
 ---------------------------------------------- -->
-              <a          v-bind:href='sqlite_data_saved_in_html?false:location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppId + ".html"'
-                          v-bind:download='sqlite_data_saved_in_html?false:""'
+              <a          v-on:click='if (!sqlite_data_saved_in_html) {sqlite_data_saved_in_html = true;setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null,{saveSqlDataInHtml: true});},100);} '
                           v-bind:style="'padding: 0px; margin-top: 0px; margin-left:10px; position: relative; border: 0px;background-color: rgb(242, 242, 242);' + (read_only?'opacity:0.2;':'')"
                           v-on:mouseenter='setInfo("Download this app as a standalone HTML file")'
                           v-on:mouseleave='setInfo(null)'
@@ -1435,7 +1447,7 @@ load_once_from_file(true)
            //
            // This is called to save the currently edited code
            // ---------------------------------------------------------------
-           save: async function( base_component_id, code_id , textIn) {
+           save: async function( base_component_id, code_id , textIn, extras) {
             let mm = this
             if (mm.inSave) {
                 return false
@@ -1465,6 +1477,10 @@ showTimer()
                 showProgressBar()
 
                 showTimer("before save code")
+                let saveSqlDataInHtml = false
+                if (extras) {
+                    saveSqlDataInHtml = extras.saveSqlDataInHtml
+                }
 
 
                  callAjaxPost("/save_code",
@@ -1475,7 +1491,8 @@ showTimer()
                       options:                {
                                                   sub_components:         Object.keys(dev_app_component_loaded),
                                                   save_html:              true,
-                                                  save_code_to_file:      saveCodeToFile
+                                                  save_code_to_file:      saveCodeToFile,
+                          saveSqlDataInHtml:            saveSqlDataInHtml
                                               }
                  }
                  ,
