@@ -4182,6 +4182,7 @@ async function executeSqliteForApp( args ) {
                     appDb.run("begin deferred transaction");
                     appDb.run(args.sql, args.params)
                     appDb.run("commit");
+                    appDb.run("PRAGMA wal_checkpoint;")
                     returnResult([])
              })
         }
