@@ -1456,10 +1456,11 @@ Refresh button
                      this.editor_text = textIn
                 }
 showTimer()
-                if (mm.read_only) {
-                     mm.inSave = false
-                     return false
-                }
+                //if (mm.read_only) {
+                //     mm.inSave = false
+                //     return false
+                //}
+
                 if (mm.$refs.editor_component_ref.lockEditor) {
                     mm.$refs.editor_component_ref.lockEditor()
                 }

@@ -4418,7 +4418,8 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                     function(err, rows) {
                         if (!err) {
                             ////showTimer("rows.length:   " + rows.length)
-                            if (rows.length == 0) {
+                            let readOnly = saveHelper.getValueOfCodeString(code,"read_only")
+                            if ((rows.length == 0) || readOnly){
                                 try {
 
                                 if (saveHelper.getValueOfCodeString(code,"hide_header")) {
@@ -4441,7 +4442,6 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
                                 }
                                 let readWriteStatus = null
-                                let readOnly = saveHelper.getValueOfCodeString(code,"read_only")
                                 if (readOnly) {
                                     readWriteStatus = "READ"
                                 }
