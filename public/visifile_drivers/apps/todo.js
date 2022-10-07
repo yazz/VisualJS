@@ -18,9 +18,9 @@ Vue.component("todo", {
       Todo List<br>
       <div style='color:red'>{{info_message}}</div>
       <input id=add v-model="new_item"></input>
+      <button v-on:click='add_item(new_item)'>Add</button>
       <div style="overflow: auto; height: 70%;" >
 
-        <button v-on:click='add_item(new_item)'>Add</button>
 
         <li v-for='item in items'>
           <button v-on:click='delete_item(item.id)'>x</button> {{item.name}}
