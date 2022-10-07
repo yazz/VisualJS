@@ -410,7 +410,7 @@ Refresh button
 
 ---------------------------------------------- -->
               <a          v-on:click='if (!sqlite_data_saved_in_html) {sqlite_data_saved_in_html = true;setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null,{saveSqlDataInHtml: true});},100);} '
-                          v-bind:style="'padding: 0px; margin-top: 0px; margin-left:10px; position: relative; border: 0px;background-color: rgb(242, 242, 242);' + (read_only?'opacity:0.2;':'')"
+                          v-bind:style="'padding: 0px; margin-top: 0px; margin-left:10px; position: relative; border: 0px;background-color: rgb(242, 242, 242);' + (sqlite_data_saved_in_html?'opacity:0.2;':'') "
                           v-on:mouseenter='setInfo("Download this app as a standalone HTML file")'
                           v-on:mouseleave='setInfo(null)'
                           v-bind:disabled='sqlite_data_saved_in_html?false:""'
