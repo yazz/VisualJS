@@ -388,7 +388,7 @@ Refresh button
      Saved JS button
 
 ---------------------------------------------- -->
-              <a   v-bind:style="'padding: 0px; margin-top: 0px; margin-left:10px; position: relative; border: 0px;background-color: rgb(242, 242, 242);' + (read_only?'opacity:0.2;':'')"
+              <a   v-bind:style="'padding: 0px; margin-top: 0px; margin-left:10px; position: relative; border: 0px;background-color: rgb(242, 242, 242);'"
                    v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppId + ".yazz"'
                    download
                    v-if="show_download_save"
@@ -409,7 +409,7 @@ Refresh button
      Saved SQLite button
 
 ---------------------------------------------- -->
-              <a          v-on:click='if (!sqlite_data_saved_in_html) {sqlite_data_saved_in_html = true;setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null,{saveSqlDataInHtml: true});},100);} '
+              <a          v-on:click='if (!sqlite_data_saved_in_html) {sqlite_data_saved_in_html = true;setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null,{saveSqlDataInHtml: true});setTimeout(function(){document.getElementById("saveHTMLButton").click();sqlite_data_saved_in_html = false;},700)},100);} '
                           v-bind:style="'padding: 0px; margin-top: 0px; margin-left:10px; position: relative; border: 0px;background-color: rgb(242, 242, 242);' + (sqlite_data_saved_in_html?'opacity:0.2;':'') "
                           v-on:mouseenter='setInfo("Download this app as a standalone HTML file")'
                           v-on:mouseleave='setInfo(null)'
@@ -417,7 +417,7 @@ Refresh button
                           type="button"
                           class="btn btn-light">
 
-                <img  src="/driver_icons/sqlite_icon.png"
+                <img  src="/driver_icons/html.png"
                       v-bind:disabled='sqlite_data_saved_in_html?false:""'
                       style="height: 25px;; margin-right: 10px;"
                       class='img-fluid'>
@@ -432,7 +432,7 @@ Refresh button
 ---------------------------------------------- -->
                 <a          v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppId + ".html"'
                             download
-                            v-bind:disabled='sqlite_data_saved_in_html?"":false'
+                            id="saveHTMLButton"
                             v-bind:style="'padding: 0px; margin-top: 0px; margin-left:10px; position: relative; border: 0px;background-color: rgb(242, 242, 242);' + (read_only?'opacity:0.2;':'')"
                             v-on:mouseenter='setInfo("Download this app as a standalone HTML file")'
                             v-on:mouseleave='setInfo(null)'
@@ -441,7 +441,7 @@ Refresh button
                             
                     <img  src="/driver_icons/html.png"
                           v-bind:disabled='sqlite_data_saved_in_html?"":false'
-                          style="height: 25px;; margin-right: 10px;"
+                          style="height: 1px;; margin-right: 1px;"
                           class='img-fluid'>
                     </img>
                 </a>
