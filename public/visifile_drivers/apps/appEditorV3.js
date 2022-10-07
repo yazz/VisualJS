@@ -398,7 +398,7 @@ Refresh button
 
                 <img
                     src='/driver_icons/js_export.png'
-                    style='height:25px; margin-right: 10px;'
+                    style='height:25px; margin-right: 0px;'
                     class='img-fluid'>
                 </img>
               </a>
@@ -410,7 +410,7 @@ Refresh button
 
 ---------------------------------------------- -->
               <a          v-on:click='if (!sqlite_data_saved_in_html) {sqlite_data_saved_in_html = true;setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null,{saveSqlDataInHtml: true});setTimeout(function(){document.getElementById("saveHTMLButton").click();sqlite_data_saved_in_html = false;},700)},100);} '
-                          v-bind:style="'padding: 0px; margin-top: 0px; margin-left:10px; position: relative; border: 0px;background-color: rgb(242, 242, 242);' + (sqlite_data_saved_in_html?'opacity:0.2;':'') "
+                          v-bind:style="'padding: 0px; margin-top: 0px; margin-left:0px; position: relative; border: 0px;background-color: rgb(242, 242, 242);' + (sqlite_data_saved_in_html?'opacity:0.2;':'') "
                           v-on:mouseenter='setInfo("Download this app as a standalone HTML file")'
                           v-on:mouseleave='setInfo(null)'
                           v-bind:disabled='sqlite_data_saved_in_html?false:""'
@@ -419,7 +419,7 @@ Refresh button
 
                 <img  src="/driver_icons/html.png"
                       v-bind:disabled='sqlite_data_saved_in_html?false:""'
-                      style="height: 25px;; margin-right: 10px;"
+                      style="height: 25px;; margin: 0px;"
                       class='img-fluid'>
                 </img>
               </a>
@@ -434,6 +434,7 @@ Refresh button
                             download
                             id="saveHTMLButton"
                             type="button"
+                            style="width: 1px; height: 1px;padding:0px;margin:0px"
                             class="btn btn-light">
                 </a>
 
