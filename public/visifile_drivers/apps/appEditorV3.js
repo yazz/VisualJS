@@ -433,17 +433,8 @@ Refresh button
                 <a          v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppId + ".html"'
                             download
                             id="saveHTMLButton"
-                            v-bind:style="'padding: 0px; margin-top: 0px; margin-left:10px; position: relative; border: 0px;background-color: rgb(242, 242, 242);' + (read_only?'opacity:0.2;':'')"
-                            v-on:mouseenter='setInfo("Download this app as a standalone HTML file")'
-                            v-on:mouseleave='setInfo(null)'
                             type="button"
                             class="btn btn-light">
-                            
-                    <img  src="/driver_icons/html.png"
-                          v-bind:disabled='sqlite_data_saved_in_html?"":false'
-                          style="height: 1px;; margin-right: 1px;"
-                          class='img-fluid'>
-                    </img>
                 </a>
 
             </div>
