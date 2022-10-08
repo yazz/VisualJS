@@ -65,9 +65,7 @@ load_once_from_file(true)
                   <br><br>
                   <a v-bind:href='embed_code'>{{embed_code}}</a>
 
-                  <br><br>
-
-                  From this link you can download and view the app as HTML on your PC
+                  
                 </div>
               </div>
  
@@ -119,7 +117,7 @@ load_once_from_file(true)
 
 
 
-             mm.embed_code = "http://" + location.hostname + ":" + location.port + "/app/" + mm.base_component_id + ".html"
+             mm.embed_code = "http://" + location.hostname + ":" + location.port + "/app/" + mm.baseComponentId + ".html"
          }
      }
      ,
