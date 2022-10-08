@@ -88,8 +88,6 @@ load_once_from_file(true)
 
 
             <div v-if='extra_menu' class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: 20px;'>
-                <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-warning'        v-on:click='setTimeout(async function(){await showHistory(base_component_id, {})},100)' >History</button>
-
                 <button  v-if='(editor_component != "editor_component") && (!read_only) && (mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-info btn-sm'   v-on:click='editAsText()' >Edit as text</button>
 
                 <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-warning'        v-on:click='setTimeout(function(){copyAppMethod(base_component_id, null)},100)' >Copy app</button>
@@ -140,6 +138,28 @@ load_once_from_file(true)
                         ref="editor_component_ref">
 
                 <div      slot-scope="editor_component" style='display: inline-block;width:100%;'>
+
+
+
+                  <a   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                       href="#"
+                       v-on:click='setTimeout(async function(){await showHistory(base_component_id, {})},100)'
+                       v-if="show_download_save"
+                       v-on:mouseenter='setInfo("Publish this app to the central server")'
+                       v-on:mouseleave='setInfo(null)'
+                       type="button" class="btn btn-light ">
+
+                    <img
+                        src='/driver_icons/history.png'
+                        style='height:35px; margin-right: 10px;'
+                        class='img-fluid'>
+                    </img>
+                    History
+
+                  </a>
+
+
+
 
 
 
