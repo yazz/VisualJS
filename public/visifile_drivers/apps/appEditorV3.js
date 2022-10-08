@@ -331,7 +331,7 @@ load_once_from_file(true)
   Link to full screen app
   
   ---------------------------------------------- -->
-                <div v-on:click='let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'>Shareable link:</div>
+                <div v-on:click='let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'>Full screen mode</div>
 
 
 
