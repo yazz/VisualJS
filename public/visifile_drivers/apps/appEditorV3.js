@@ -90,7 +90,7 @@ load_once_from_file(true)
 
 
             <div v-if='extra_menu' class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: 20px;'>
-                <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-info btn-sm'        v-on:click='embedApp(base_component_id)' >Embed</button>
+                <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-info btn-sm'        v-on:click='setTimeout(async function(){await embedApp(base_component_id, {})},100)' >Embed</button>
 
                 <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-warning'        v-on:click='setTimeout(async function(){await showHistory(base_component_id, {})},100)' >History</button>
 
@@ -133,11 +133,7 @@ load_once_from_file(true)
             style='position:absolute;bottom:-5px;width:100%;box-shadow: 2px 2px 10px lightgray; color: black;padding: 0px; padding-left: 15px;display: block;overflow: auto;background-color: lightgray;z-index:21474836;text-align: center;height: 30px; font-size:16px;vertical-align: middle;line-height: 30px; '>
         {{((info_text != null)?info_text:"")}}
     </div>
-
-
-    <div v-if='mode == "embed"'>
-        <appEmbed v-bind:base_component_id_arg='base_component_id'></appEmbed>
-    </div>
+    
 
     <div v-if='mode == "edit"'>
         <div    id=editor_id
@@ -1385,9 +1381,16 @@ Refresh button
 
 
 
-            embedApp: function(x) {
+            embedApp: async function(x) {
                 let mm = this
-                this.mode = "embed"
+
+                this.editor_overloaded = true
+                this.show_download_save = false
+                this.show_filename_save = false
+
+                override_app_editor = "embed_app_component"
+
+                await mm.load_new_app( this.base_component_id )
             }
             ,
             checkSavedFile: function() {

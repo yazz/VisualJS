@@ -6077,6 +6077,8 @@ async function setUpComponentsLocally() {
     await evalLocalSystemDriver('keycloak_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/keycloakEditorComponent.js'),{username: "default", reponame: "keycloak_editor_component", version: "latest"})
     await evalLocalSystemDriver('history_viewer_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/historyViewerComponent.js'),{username: "default", reponame: "keycloak_editor_component", version: "latest"})
     await evalLocalSystemDriver('export_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/exportEditorComponent.js'),{username: "default", reponame: "export_editor_component", version: "latest"})
+    await evalLocalSystemDriver('embed_app_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/embedAppComponent.js'),{username: "default", reponame: "embed_app_component", version: "latest"})
+
     await evalLocalSystemDriver('form_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/formEditorComponent.js'),{username: "default", reponame: "form_editor_component", version: "latest"})
     await evalLocalSystemDriver('simple_display_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/simpleDisplayEditorComponent.js'),{username: "default", reponame: "simple_display_editor_component", version: "latest"})
     await evalLocalSystemDriver('vb_editor_component',   path.join(__dirname, '../public/visifile_drivers/ui_components/vbEditorComponent.js'),{username: "default", reponame: "vb_editor_component", version: "latest"})
