@@ -88,8 +88,6 @@ load_once_from_file(true)
 
 
             <div v-if='extra_menu' class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: 20px;'>
-                <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-info btn-sm'        v-on:click='setTimeout(async function(){await embedApp(base_component_id, {})},100)' >Embed</button>
-
                 <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-warning'        v-on:click='setTimeout(async function(){await showHistory(base_component_id, {})},100)' >History</button>
 
                 <button  v-if='(editor_component != "editor_component") && (!read_only) && (mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-info btn-sm'   v-on:click='editAsText()' >Edit as text</button>
@@ -400,9 +398,10 @@ Refresh button
 
 <!-- ----------------------------------------------
 
-     Saved SQLite button
+     Saved HTML button
 
 ---------------------------------------------- -->
+
               <a          v-on:click='if (!sqlite_data_saved_in_html) {sqlite_data_saved_in_html = true;setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null,{saveSqlDataInHtml: true});setTimeout(function(){document.getElementById("saveHTMLButton").click();sqlite_data_saved_in_html = false;},700)},100);} '
                           v-bind:style="'padding: 0px; margin-top: 0px; margin-left:0px; position: relative; border: 0px;background-color: rgb(242, 242, 242);' + (sqlite_data_saved_in_html?'opacity:0.2;':'') "
                           v-on:mouseenter='setInfo("Download this app as a standalone HTML file")'
@@ -418,19 +417,47 @@ Refresh button
                 </img>
               </a>
 
-
-<!-- ----------------------------------------------
-
-       Saved HTML button
-
----------------------------------------------- -->
-                <a          v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppId + ".html"'
+               <a          v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppId + ".html"'
                             download
                             id="saveHTMLButton"
                             type="button"
                             style="width: 1px; height: 1px;padding:0px;margin:0px"
                             class="btn btn-light">
                 </a>
+
+
+
+<!-- ----------------------------------------------
+
+Embed button
+
+---------------------------------------------- -->
+              <a   v-bind:style="'padding: 0px; margin-top: 0px; margin-left:10px; position: relative; border: 0px;background-color: rgb(242, 242, 242);'"
+                   v-if="show_download_save"
+                   v-on:click='setTimeout(async function(){await embedApp(base_component_id, {})},100)'
+                   v-on:mouseenter='setInfo("Download the JS .yazz fileds for this app")'
+                   v-on:mouseleave='setInfo(null)'
+                   type="button" class="btn btn-light ">
+                
+
+
+                <img
+                    src='/driver_icons/embed.png'
+                    style='height:25px; margin-right: 0px;'
+                    class='img-fluid'>
+                </img>
+              </a>
+
+
+
+
+
+
+<!-- ----------------------------------------------
+
+End of app preview menu
+
+---------------------------------------------- -->
 
             </div>
 
