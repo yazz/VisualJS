@@ -150,7 +150,7 @@ load_once_from_file(true)
                        type="button" class="btn btn-light ">
 
                     <img
-                        src='/driver_icons/history.png'
+                        src='/driver_icons/history2.png'
                         style='height:35px; margin-right: 10px;'
                         class='img-fluid'>
                     </img>
