@@ -68,7 +68,6 @@ component_type("SYSTEM")
 component_type_v2("APP")
 sub_components([
   "app_editor_3",
-  "appEmbed",
   "vb_editor_component",
   "input_control",
   "button_control",

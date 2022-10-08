@@ -57,7 +57,6 @@ formEditor({
 component_type("SYSTEM")
 sub_components([
   "app_editor_3",
-  "appEmbed",
   "vb_editor_component",
   "input_control",
   "button_control",

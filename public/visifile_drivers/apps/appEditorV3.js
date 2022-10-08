@@ -18,8 +18,6 @@ load_once_from_file(true)
     //
 
 
-    await loadV2("appEmbed")
-
     Vue.component("app_editor_3",
     {
       props: ['app_id'],

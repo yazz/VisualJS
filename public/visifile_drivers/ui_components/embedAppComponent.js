@@ -10,6 +10,8 @@ load_once_from_file(true)
         return {
             text:                args.text,
             baseComponentId:     null,
+            app_component_name:  null,
+            embed_code: ""
         }
       },
       template:
@@ -31,7 +33,43 @@ load_once_from_file(true)
 
             <div style="height:100%;">
 
-              <appEmbed v-bind:base_component_id_arg='baseComponentId'></appEmbed>
+              <div>
+                <div>
+                  <h2  class='caption' style='display: inline-block;'>Embedding {{app_component_name}} </h2>
+                </div>
+                <div  v-if="!baseComponentId">
+                  A component must be selected to embed
+
+                </div>
+
+                <div v-if="baseComponentId">
+                  Copy and paste the following code into your webpage to embed this widget:
+
+                  <br><br>
+
+                  <code>
+                    &lt;iframe width="600"
+                    height="500"
+                    src="{{embed_code}}"
+                    scrolling="no"
+                    marginheight="0"
+                    marginwidth="0"&gt;&lt;/iframe&gt;
+                  </code>
+
+                  <br><br>
+                  <br><br>
+
+
+                  Or directly link to the app with:
+
+                  <br><br>
+                  <a v-bind:href='embed_code'>{{embed_code}}</a>
+
+                  <br><br>
+
+                  From this link you can download and view the app as HTML on your PC
+                </div>
+              </div>
  
             </div>
 
@@ -41,13 +79,47 @@ load_once_from_file(true)
 </div>`
      ,
 
-     mounted: function() {
-         var thisVueInstance  = this
+     mounted: async function() {
+         let mm = this
+         let thisVueInstance  = this
          args.text            = null
          this.baseComponentId = saveHelper.getValueOfCodeString(thisVueInstance.text, "base_component_id")
 
          if (isValidObject(thisVueInstance.text)) {
              this.read_only = saveHelper.getValueOfCodeString(thisVueInstance.text, "read_only")
+         }
+
+
+         if (mm.baseComponentId) {
+             let sql =    "select  display_name as name from  system_code  where " +
+                 "        component_scope = 'app' and base_component_id = '" + mm.base_component_id + "'" +
+                 "        and code_tag = 'LATEST' "
+
+             //alert( sql )
+
+             let results = await callApp(
+                 {
+                     driver_name:    "systemFunctions2",
+                     method_name:    "sql"
+                 }
+                 ,
+                 {
+                     sql: sql
+                 })
+
+
+             if (results) {
+                 //alert(JSON.stringify(results,null,2))
+                 if (results.length > 0) {
+
+                     mm.app_component_name = results[0].name
+                 }
+             }
+
+
+
+
+             mm.embed_code = "http://" + location.hostname + ":" + location.port + "/app/" + mm.base_component_id + ".html"
          }
      }
      ,
@@ -63,7 +135,7 @@ load_once_from_file(true)
          ,
 
          setText: function (textValue) {
-             var thisVueInstance = this
+             let thisVueInstance = this
              this.text = textValue
 
              if (!isValidObject(this.text)) {
