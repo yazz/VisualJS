@@ -4998,9 +4998,9 @@ function setUpSql() {
         "    (?, ?, ?, ?, ? , ? , ?);");
 
     stmtInsertUser = dbsearch.prepare(" insert or replace into users " +
-        "    (id) " +
+        "    (id, user_type) " +
         " values " +
-        "    (?);");
+        "    (?, ?);");
 
     stmtInsertSession = dbsearch.prepare(" insert or replace into sessions " +
         "    (id,  created_timestamp, last_accessed , access_count ,  fk_user_id ) " +
@@ -7180,7 +7180,7 @@ async function createCookieInDb(cookie, hostCookieSentTo, from_device_type) {
                 let newSessionid = uuidv1()
                 let timestampNow = new Date().getTime()
                 let anonymousUserId = uuidv1()
-                stmtInsertUser.run(anonymousUserId)
+                stmtInsertUser.run(anonymousUserId, "ANONYMOUS")
                 stmtInsertSession.run(newSessionid,timestampNow,timestampNow, 1, anonymousUserId)
 
                 stmtInsertCookie.run(uuidv1(),timestampNow,"yazz",cookie,newSessionid, hostCookieSentTo, from_device_type)
