@@ -2407,6 +2407,25 @@ async function initFn() {
                         setTimeout(async function() {
                             let accs = await web3.eth.getAccounts()
                             mm.accountNumber = accs[0]
+                            let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/login_with_metamask?" +
+                                    new URLSearchParams({
+                                        metamask_account_id: mm.accountNumber
+                                    })
+                                fetch(openfileurl, {
+                                    method: 'get',
+                                    credentials: "include"
+                                })
+                                    .then((response) => response.json())
+                                    .then(function(responseJson)
+                                    {
+                                        let x =1
+                                        x++
+
+                                    })
+                                    .catch(err => {
+                                        //error block
+                                    })
+
                         },100)
                     }
                 }
