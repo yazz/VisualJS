@@ -91,6 +91,7 @@ let callbackList = new Object()
 let stmtInsertDependency;
 let stmtInsertIpfsHash;
 let stmtInsertSession;
+let stmtInsertMetaMaskLogin;
 let stmtInsertUser;
 let stmtInsertSubComponent;
 let stmtInsertComponentList;
@@ -3020,14 +3021,26 @@ async function startServices() {
             let sessionId = await getSessionId(req,res)
 
             let promise = new Promise(async function(returnfn) {
-                returnfn()
+                dbsearch.serialize(function() {
+                    dbsearch.run("begin exclusive transaction");
+
+                    let newRandomSeed = uuidv1()
+                    let timestampNow = new Date().getTime()
+
+                    stmtInsertMetaMaskLogin.run(uuidv1(), metamaskAccId ,newRandomSeed, timestampNow)
+                    dbsearch.run("commit")
+                    returnfn({
+                        seed: newRandomSeed
+                    })
+                })
+
             })
             let ret = await promise
 
             res.writeHead(200, {'Content-Type': 'application/json'});
 
             res.end(JSON.stringify(
-                {}
+                ret
             ));
 
         });
@@ -5010,6 +5023,12 @@ function setUpSql() {
         "    (id, user_type) " +
         " values " +
         "    (?, ?);");
+
+    stmtInsertMetaMaskLogin =  dbsearch.prepare(" insert or replace into metamask_logins " +
+        "    (id , account_id , random_seed , created_timestamp ) " +
+        " values " +
+        "    (?, ?, ?, ?);");
+    //zzz
 
     stmtInsertSession = dbsearch.prepare(" insert or replace into sessions " +
         "    (id,  created_timestamp, last_accessed , access_count ,  fk_user_id ) " +

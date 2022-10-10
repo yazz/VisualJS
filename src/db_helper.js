@@ -86,7 +86,11 @@ module.exports = {
             "CREATE INDEX IF NOT EXISTS sessions_id_idx           ON sessions (id);",
 
             "CREATE TABLE IF NOT EXISTS users (id TEXT, user_type TEXT);",
-            "CREATE INDEX IF NOT EXISTS users_id_idx           ON users (id);"
+            "CREATE INDEX IF NOT EXISTS users_id_idx           ON users (id);",
+
+
+            "CREATE TABLE IF NOT EXISTS metamask_logins (id TEXT, account_id TEXT, random_seed TEXT, created_timestamp INTEGER);",
+            "CREATE INDEX IF NOT EXISTS metamask_logins_id_idx ON metamask_logins (id);"
 
                 ],
 
