@@ -82,7 +82,7 @@ module.exports = {
             "CREATE TABLE IF NOT EXISTS cookies (id TEXT, created_timestamp INTEGER, cookie_name TEXT, cookie_value TEXT, fk_session_id TEXT, host_cookie_sent_to TEXT, from_device_type TEXT);",
             "CREATE INDEX IF NOT EXISTS cookies_cookie_value_idx           ON cookies (cookie_value);",
 
-            "CREATE TABLE IF NOT EXISTS sessions (id TEXT, created_timestamp INTEGER, last_accessed INTEGER, access_count INTEGER);",
+            "CREATE TABLE IF NOT EXISTS sessions (id TEXT, created_timestamp INTEGER, last_accessed INTEGER, access_count INTEGER, fk_user_id TEXT);",
             "CREATE INDEX IF NOT EXISTS sessions_id_idx           ON sessions (id);",
 
             "CREATE TABLE IF NOT EXISTS users (id TEXT);",

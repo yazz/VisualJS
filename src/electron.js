@@ -103,6 +103,8 @@ let callbackList = new Object()
 
 let stmtInsertDependency;
 let stmtInsertIpfsHash;
+let stmtInsertSession;
+let stmtInsertUser;
 let stmtInsertSubComponent;
 let stmtInsertComponentList;
 let stmtInsertAppList;
@@ -4805,7 +4807,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
                                                         let sqliteAppDbPath = path.join( userData, 'app_dbs/' + baseComponentId + '.visi' )
 
-//zzz
+
                                                         if (options.saveSqlDataInHtml) {
                                                             if (fs.existsSync(sqliteAppDbPath)) {
                                                               //showTimer(`15.5`)
@@ -4995,10 +4997,15 @@ function setUpSql() {
         " values " +
         "    (?, ?, ?, ?, ? , ? , ?);");
 
-    stmtInsertSession = dbsearch.prepare(" insert or replace into sessions " +
-        "    (id,  created_timestamp, last_accessed , access_count  ) " +
+    stmtInsertUser = dbsearch.prepare(" insert or replace into users " +
+        "    (id) " +
         " values " +
-        "    (?, ?, ?, ?);");
+        "    (?);");
+
+    stmtInsertSession = dbsearch.prepare(" insert or replace into sessions " +
+        "    (id,  created_timestamp, last_accessed , access_count ,  fk_user_id ) " +
+        " values " +
+        "    (?, ?, ?, ?, ?);");
 
     stmtInsertIpfsHash = dbsearch.prepare(" insert or replace into ipfs_hashes " +
         "    (ipfs_hash, content_type, ping_count, last_pinged ) " +
@@ -7172,7 +7179,9 @@ async function createCookieInDb(cookie, hostCookieSentTo, from_device_type) {
 
                 let newSessionid = uuidv1()
                 let timestampNow = new Date().getTime()
-                stmtInsertSession.run(newSessionid,timestampNow,timestampNow, 1)
+                let anonymousUserId = uuidv1()
+                stmtInsertUser.run(anonymousUserId)
+                stmtInsertSession.run(newSessionid,timestampNow,timestampNow, 1, anonymousUserId)
 
                 stmtInsertCookie.run(uuidv1(),timestampNow,"yazz",cookie,newSessionid, hostCookieSentTo, from_device_type)
                 dbsearch.run("commit")
