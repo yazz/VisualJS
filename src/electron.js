@@ -59,6 +59,22 @@ let restRoutes = new Object()
 let envVars = new Object()
 let systemReady = false;
 let httpServer = null;
+let merkelJson = require("merkle-json")
+let mj = new merkelJson.MerkleJson();
+let hash1 = mj.hash({
+    size:{
+        w:100,
+        h:200
+    }
+}); // e77b735125fec27a61c6f54b17fb6221
+
+let hash2 = mj.hash({
+    size:{ // hash is independent of property order
+        h:200,
+        w:100
+    }
+}); // e77b735125fec27a61c6f54b17fb6221
+
 let username                            = "Unknown user";
 let isDocker        = require2('is-docker');
 let ls = require2('ls-sync');
