@@ -2412,9 +2412,17 @@ async function initFn() {
                 }
                 ,
                 signTransaction: async function() {
-                    const sign = await ethereum.request({
+                debugger
+                    let test_transaction_text_el = document.getElementById("test_transaction_text")
+                    let test_transaction_text = test_transaction_text_el.value
+                    this.debug_sign_tx_out = await ethereum.request({
                         method: 'personal_sign',
-                        params: ["kjhhj", (await web3.eth.getAccounts())[0], 'Random text'],
+                        params: [test_transaction_text   //message
+                                ,
+                                (await web3.eth.getAccounts())[0]   // account
+                                ,
+                                test_transaction_text   //password?
+                                ],
                     });
                 }
 
@@ -2442,6 +2450,8 @@ async function initFn() {
                 submit_info_message: ""
                 ,
                 tab: ""
+                ,
+                debug_sign_tx_out: ""
             }
           }
           ,
@@ -2599,6 +2609,10 @@ DEBUG pane
 
                             <div v-if='!accountNumber'>You are not signed into Metamask. Please login first</div>
 
+                           <textarea  id="test_transaction_text"
+                                    value="">
+                            </textarea>
+
                             <button type=button
                                     class='btn btn-primary'
                                     v-bind:disabled='accountNumber?false:true'
@@ -2609,6 +2623,10 @@ DEBUG pane
                                         Sign transaction
 
                             </button>
+                            <div>
+                                {{debug_sign_tx_out}}
+                            </div>
+
 
                         <div    style="background-color: black; color: white; text-align: center;"
                             v-on:click='showProgressBar();setupPublicWebSocket()' >Edit this app</div>
