@@ -2418,9 +2418,24 @@ async function initFn() {
                                 .then((response) => response.json())
                                 .then(async function(responseJson)
                                 {
-                                    //debugger
                                     let seed = responseJson.seed
-                                    let signedTx = await mm.signTransactionV2(seed)
+                                    let signMessage =   "Hi there from Yazz. Sign this message " +
+                                                        "to prove you have access to this wallet " +
+                                                        "and we'll log you in. This won't cost " +
+                                                        "you any Ether." +
+                                                        "\n\n" +
+                                                        "To stop hackers using your wallet, here's " +
+                                                        "a unique message ID they can't guess: " +
+                                                        seed
+                                    let signedTx = await mm.signTransactionV2(signMessage)
+                                    const keyB64 = await window.ethereum.request({
+                                        method: 'eth_getEncryptionPublicKey',
+                                        params: [accNo],
+                                    });
+                                    //debugger
+                                    //const publicKey = Buffer.from(keyB64, 'base64')
+                                    //console.log("publicKey:" , publicKey.toString("HEX"));
+
                                     let checkSeedurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/check_metamask_seed?" +
                                         new URLSearchParams({
                                             metamask_account_id: accNo
