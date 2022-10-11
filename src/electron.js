@@ -4,6 +4,8 @@ const ipfsAPI = require('ipfs-api');
 const OnlyIpfsHash = require('ipfs-only-hash')
 const useragent = require('express-useragent');
 let cookieParser = require('cookie-parser')
+let Web3 = require('web3')
+let web3 = new Web3()
 let isIPFSConnected = false
 const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
 let testBuffer = new Buffer("Testcode zooey11");
@@ -3008,27 +3010,6 @@ async function startServices() {
 
         });
 
-        app.get('/check_metamask_seed', async function (req, res) {
-            console.log("app.get('/check_metamask_seed'): ")
-            console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-            let metamaskAccId = req.query.metamask_account_id;
-            let signedTx = req.query.signedTx;
-            let sessionId = await getSessionId(req,res)
-
-            let promise = new Promise(async function(returnfn) {
-                returnfn({
-                    logg: "in"
-                })
-            })
-            let ret = await promise
-
-            res.writeHead(200, {'Content-Type': 'application/json'});
-
-            res.end(JSON.stringify(
-                ret
-            ));
-
-        });
 
         app.get('/login_with_metamask', async function (req, res) {
             console.log("app.post('/login_with_metamask'): ")
@@ -3065,6 +3046,39 @@ async function startServices() {
             ));
 
         });
+
+
+
+
+        app.get('/check_metamask_seed', async function (req, res) {
+            console.log("app.get('/check_metamask_seed'): ")
+            console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+            let metamaskAccId = req.query.metamask_account_id;
+            let signedTx = req.query.signedTx;
+            let signMessage = req.query.signMessage;
+            let sessionId = await getSessionId(req,res)
+            let ret={}
+            const recoveredSigner = web3.eth.accounts.recover(signMessage, signedTx);
+
+            if (recoveredSigner == metamaskAccId) {
+                ret.status = "Ok"
+            } else {
+                ret.error = "Invalid signature"
+            }
+            res.writeHead(200, {'Content-Type': 'application/json'});
+
+            res.end(JSON.stringify(
+                ret
+            ));
+
+        });
+
+
+
+
+
+
+
 
         app.get('/get_version_history', async function (req, res) {
             console.log("app.post('/get_version_history'): ")

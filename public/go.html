@@ -2434,7 +2434,7 @@ async function initFn() {
                                     });
                                     debugger
 
-                                    const recoveredSigner = web3.eth.accounts.recover(signMessage, signedTx);
+                                    //const recoveredSigner = web3.eth.accounts.recover(signMessage, signedTx);
                                     //debugger
                                     //const publicKey = Buffer.from(keyB64, 'base64')
                                     //console.log("publicKey:" , publicKey.toString("HEX"));
@@ -2446,6 +2446,8 @@ async function initFn() {
                                             signedTx: signedTx
                                             ,
                                             encryptionPublicKey: encryptionPublicKey
+                                            ,
+                                            signMessage: signMessage
                                         })
 
                                     fetch(checkSeedurl, {
@@ -2455,8 +2457,12 @@ async function initFn() {
                                         .then((response2) => response2.json())
                                         .then(async function(responseJson2)
                                         {
-                                            debugger
-                                            mm.accountNumber = accs[0]
+                                        debugger
+                                            if (responseJson2.error) {
+                                                mm.login_error_message =  responseJson2.error
+                                            } else {
+                                                mm.accountNumber = accs[0]
+                                            }
 
                                         })
                                         .catch(err => {
@@ -2528,6 +2534,8 @@ async function initFn() {
                 new_comment: ""
                 ,
                 submit_error_message: ""
+                ,
+                login_error_message: ""
                 ,
                 submit_info_message: ""
                 ,
@@ -2601,6 +2609,7 @@ LOGIN pane
                             <div v-else='accountNumber'>Logging in to Metamask will bring the Metamask popup and you will be
                             requested to authorise the login</div>
 
+                            <div style='color:red' id='login_error'>{{login_error_message}}</div>
 
                             <button type=button
                                     class='btn btn-primary'
