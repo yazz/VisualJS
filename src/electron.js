@@ -3008,6 +3008,27 @@ async function startServices() {
 
         });
 
+        app.get('/check_metamask_seed', async function (req, res) {
+            console.log("app.get('/check_metamask_seed'): ")
+            console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+            let metamaskAccId = req.query.metamask_account_id;
+            let signedTx = req.query.signedTx;
+            let sessionId = await getSessionId(req,res)
+
+            let promise = new Promise(async function(returnfn) {
+                returnfn({
+                    logg: "in"
+                })
+            })
+            let ret = await promise
+
+            res.writeHead(200, {'Content-Type': 'application/json'});
+
+            res.end(JSON.stringify(
+                ret
+            ));
+
+        });
 
         app.get('/login_with_metamask', async function (req, res) {
             console.log("app.post('/login_with_metamask'): ")
