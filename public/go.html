@@ -2415,20 +2415,37 @@ async function initFn() {
                                     method: 'get',
                                     credentials: "include"
                                 })
-                                    .then((response) => response.json())
-                                    .then(function(responseJson)
-                                    {
+                                .then((response) => response.json())
+                                .then(async function(responseJson)
+                                {
                                     debugger
-                                        let x =1
-                                        x++
+                                    let seed = responseJson.seed
+                                    let x = await mm.signTransactionV2(seed)
+                                    x++
 
-                                    })
-                                    .catch(err => {
-                                        //error block
-                                    })
+                                })
+                                .catch(err => {
+                                    //error block
+                                })
 
                         },100)
                     }
+                }
+                ,
+                signTransactionV2: async function(test_transaction_text) {
+                    let currentETHACC = (await web3.eth.getAccounts())[0]
+                    let signedTx = //await web3.eth.sign(test_transaction_text, (await web3.eth.getAccounts())[0] );
+                        await ethereum.request({
+                            method: 'personal_sign',
+                            params: [test_transaction_text   //message
+                                ,
+                                currentETHACC
+                                // account
+                                //,
+                                //test_transaction_text   //password?
+                            ],
+                        });
+                        return signedTx
                 }
                 ,
                 signTransaction: async function() {
