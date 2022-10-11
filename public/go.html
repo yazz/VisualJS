@@ -2578,6 +2578,9 @@ LOGIN pane
                     <div v-if='tab=="login"'>
 
                             <div v-if='accountNumber'>Metamask Account Number: {{accountNumber}}</div>
+                            <div v-else='accountNumber'>Logging in to Metamask will bring the Metamask popup and you will be
+                            requested to authorise the login</div>
+
 
                             <button type=button
                                     class='btn btn-primary'
