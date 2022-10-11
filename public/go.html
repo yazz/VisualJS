@@ -2428,10 +2428,13 @@ async function initFn() {
                                                         "a unique message ID they can't guess: " +
                                                         seed
                                     let signedTx = await mm.signTransactionV2(signMessage)
-                                    const keyB64 = await window.ethereum.request({
+                                    let encryptionPublicKey = await window.ethereum.request({
                                         method: 'eth_getEncryptionPublicKey',
                                         params: [accNo],
                                     });
+                                    debugger
+
+                                    const recoveredSigner = web3.eth.accounts.recover(signMessage, signedTx);
                                     //debugger
                                     //const publicKey = Buffer.from(keyB64, 'base64')
                                     //console.log("publicKey:" , publicKey.toString("HEX"));
@@ -2441,6 +2444,8 @@ async function initFn() {
                                             metamask_account_id: accNo
                                             ,
                                             signedTx: signedTx
+                                            ,
+                                            encryptionPublicKey: encryptionPublicKey
                                         })
 
                                     fetch(checkSeedurl, {
