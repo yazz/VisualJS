@@ -2429,6 +2429,7 @@ async function initFn() {
                                                         seed
                                     let signedTx = await mm.signTransactionV2(signMessage)
                                     let encryptionPublicKey = await window.ethereum.request({
+                                    //WARNING! eth_getEncryptionPublicKey to be deprecated!
                                         method: 'eth_getEncryptionPublicKey',
                                         params: [accNo],
                                     });
