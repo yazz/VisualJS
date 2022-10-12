@@ -88,6 +88,13 @@
 
 
 
+    let signMessageTemplate =   "Hi there from Yazz. Sign this message " +
+        "to prove you have access to this wallet " +
+        "and we'll log you in. This won't cost " +
+        "you any Ether." +
+        "\n\n" +
+        "To stop hackers using your wallet, here's " +
+        "a unique message ID they can't guess: "
 
     var chartsJsloaded = false
     var useChartsJs = async function() {
@@ -2419,14 +2426,7 @@ async function initFn() {
                                 .then(async function(responseJson)
                                 {
                                     let seed = responseJson.seed
-                                    let signMessage =   "Hi there from Yazz. Sign this message " +
-                                                        "to prove you have access to this wallet " +
-                                                        "and we'll log you in. This won't cost " +
-                                                        "you any Ether." +
-                                                        "\n\n" +
-                                                        "To stop hackers using your wallet, here's " +
-                                                        "a unique message ID they can't guess: " +
-                                                        seed
+                                    let signMessage =   signMessageTemplate + seed
                                     let signedTx = await mm.signTransactionV2(signMessage)
                                     let encryptionPublicKey = await window.ethereum.request({
                                     //WARNING! eth_getEncryptionPublicKey to be deprecated!
@@ -2448,7 +2448,7 @@ async function initFn() {
                                             ,
                                             encryptionPublicKey: encryptionPublicKey
                                             ,
-                                            signMessage: signMessage
+                                            signMessageTemplate: signMessageTemplate
                                         })
 
                                     fetch(checkSeedurl, {

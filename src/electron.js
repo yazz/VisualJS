@@ -3051,25 +3051,64 @@ async function startServices() {
 
 
         app.get('/check_metamask_seed', async function (req, res) {
+            try {
+
             console.log("app.get('/check_metamask_seed'): ")
             console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
             let metamaskAccId = req.query.metamask_account_id;
             let signedTx = req.query.signedTx;
-            let signMessage = req.query.signMessage;
-            let sessionId = await getSessionId(req,res)
-            let ret={}
-            const recoveredSigner = web3.eth.accounts.recover(signMessage, signedTx);
 
-            if (recoveredSigner == metamaskAccId) {
-                ret.status = "Ok"
-            } else {
-                ret.error = "Invalid signature"
-            }
+            let promise = new Promise(async function(returnfn) {
+
+                dbsearch.serialize(
+                    function() {
+                        dbsearch.all(
+                            " select " +
+                            "     *  " +
+                            " from    " +
+                            "     metamask_logins " +
+                            " where     " +
+                            "     account_id = ? " +
+                            " order by " +
+                            "     created_timestamp DESC "
+                            ,
+                            [metamaskAccId]
+                            ,
+                            async function(err, rows) {
+                                if (rows.length == 0 ) {
+                                    returnfn({error: "No record found for account"})
+                                } else {
+                                    let firstRow = rows[0]
+                                    let signMessageTemplate = req.query.signMessageTemplate;
+                                    let seed = firstRow.random_seed
+                                    let signMessage = signMessageTemplate + seed
+                                    let sessionId = await getSessionId(req,res)
+                                    let ret={}
+                                    const recoveredSigner = web3.eth.accounts.recover(signMessage, signedTx);
+
+                                    if (recoveredSigner == metamaskAccId) {
+                                        ret.status = "Ok"
+                                    } else {
+                                        ret.error = "Invalid signature"
+                                    }
+                                    returnfn(ret)
+
+                                }
+
+                            }
+                        );
+                    }, sqlite3.OPEN_READONLY)
+            })
+            let ret = await promise
             res.writeHead(200, {'Content-Type': 'application/json'});
 
             res.end(JSON.stringify(
                 ret
             ));
+            } catch(err2)
+            {
+                let x=1
+            }
 
         });
 
