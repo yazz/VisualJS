@@ -422,7 +422,7 @@ Refresh button
 
 ---------------------------------------------- -->
 
-              <a          v-on:click='if (!sqlite_data_saved_in_html) {sqlite_data_saved_in_html = true;setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null,{saveSqlDataInHtml: true});setTimeout(function(){document.getElementById("saveHTMLButton").click();sqlite_data_saved_in_html = false;},700)},100);} '
+              <a          v-on:click='if (!sqlite_data_saved_in_html) {sqlite_data_saved_in_html = true;setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null,{allowAppToWorkOffline: true});setTimeout(function(){document.getElementById("saveHTMLButton").click();sqlite_data_saved_in_html = false;},700)},100);} '
                           v-bind:style="'padding: 0px; margin-top: 0px; margin-left:0px; position: relative; border: 0px;background-color: rgb(242, 242, 242);' + (sqlite_data_saved_in_html?'opacity:0.2;':'') "
                           v-on:mouseenter='setInfo("Download this app as a standalone HTML file")'
                           v-on:mouseleave='setInfo(null)'
@@ -1518,9 +1518,9 @@ showTimer()
                 showProgressBar()
 
                 showTimer("before save code")
-                let saveSqlDataInHtml = false
+                let allowAppToWorkOffline = false
                 if (extras) {
-                    saveSqlDataInHtml = extras.saveSqlDataInHtml
+                    allowAppToWorkOffline = extras.allowAppToWorkOffline
                 }
 
 
@@ -1533,7 +1533,7 @@ showTimer()
                                                   sub_components:         Object.keys(dev_app_component_loaded),
                                                   save_html:              true,
                                                   save_code_to_file:      saveCodeToFile,
-                          saveSqlDataInHtml:            saveSqlDataInHtml
+                          allowAppToWorkOffline:            allowAppToWorkOffline
                                               }
                  }
                  ,
