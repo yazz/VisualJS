@@ -3951,9 +3951,9 @@ async function finalizeYazzLoading() {
 console.log("\nAppShare Instance ID: " + yazzInstanceId );
 console.log("\nRunning " + executionProcessCount + " virtual processors");
 console.log("\nAppShare started on:");
-console.log("Network Host Address: " + hostaddressintranet)
-let localAddress = serverProtocol + "://" + hostaddress + ':' + port
+let localAddress =  hostaddress + ':' + port
 console.log("Local Machine Address: " + localAddress);
+console.log("Network Host Address. Click to open: " + serverProtocol + "://" + hostaddressintranet + ':' + port)
 
 
 } else {
