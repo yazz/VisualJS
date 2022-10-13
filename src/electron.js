@@ -4890,13 +4890,14 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                         //
                                                         // save the standalone app
                                                         //
-                                                        sqliteCode = fs.readFileSync( path.join(__dirname, '../public/sql.js') )
-                                                        let indexOfSqlite = newStaticFileContent.indexOf("//SQLITE")
-                                                        newStaticFileContent = newStaticFileContent.substring(0,indexOfSqlite) +
-                                                                                    sqliteCode +
-                                                                                        newStaticFileContent.substring(indexOfSqlite)
-                                                        newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*use_local_sqlite_start*/","/*use_local_sqlite_end*/","let localAppshareApp = true")
-
+                                                        if (options && options.allowAppToWorkOffline) {
+                                                            sqliteCode = fs.readFileSync(path.join(__dirname, '../public/sql.js'))
+                                                            let indexOfSqlite = newStaticFileContent.indexOf("//SQLITE")
+                                                            newStaticFileContent = newStaticFileContent.substring(0, indexOfSqlite) +
+                                                                sqliteCode +
+                                                                newStaticFileContent.substring(indexOfSqlite)
+                                                            newStaticFileContent = saveHelper.replaceBetween(newStaticFileContent, "/*use_local_sqlite_start*/", "/*use_local_sqlite_end*/", "let localAppshareApp = true")
+                                                        }
 
 
                                                         //showTimer(`15.4`)
@@ -4904,7 +4905,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                         let sqliteAppDbPath = path.join( userData, 'app_dbs/' + baseComponentId + '.visi' )
 
 
-                                                        if (options.allowAppToWorkOffline) {
+                                                        if (options && options.allowAppToWorkOffline) {
                                                             if (fs.existsSync(sqliteAppDbPath)) {
                                                               //showTimer(`15.5`)
                                                                 let sqliteAppDbContent = fs.readFileSync( sqliteAppDbPath , 'base64')
