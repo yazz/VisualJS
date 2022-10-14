@@ -93,6 +93,7 @@ let callbackList = new Object()
 let stmtInsertDependency;
 let stmtInsertIpfsHash;
 let stmtInsertSession;
+let stmtInsertSessionWithNewUserId;
 let stmtInsertMetaMaskLogin;
 let stmtSetMetaMaskLoginSuccedded;
 let stmtInsertUser;
@@ -3096,6 +3097,7 @@ async function startServices() {
                                                 dbsearch.run("begin exclusive transaction");
                                                 stmtInsertUser.run(login_hashed_id, "METAMASK")
                                                 stmtSetMetaMaskLoginSuccedded.run(sessionId, randomLoginSeed)
+                                                stmtInsertSessionWithNewUserId.run(login_hashed_id,sessionId)
                                                 dbsearch.run("commit")
                                                 returnfn2()
                                             })
@@ -5129,6 +5131,9 @@ function setUpSql() {
         "    (id,  created_timestamp, last_accessed , access_count ,  fk_user_id ) " +
         " values " +
         "    (?, ?, ?, ?, ?);");
+
+    stmtInsertSessionWithNewUserId = dbsearch.prepare(" update sessions " +
+        "    set fk_user_id = ? where id = ? ");
 
     stmtInsertIpfsHash = dbsearch.prepare(" insert or replace into ipfs_hashes " +
         "    (ipfs_hash, content_type, ping_count, last_pinged ) " +
