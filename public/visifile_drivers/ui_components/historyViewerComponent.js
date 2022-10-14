@@ -93,7 +93,7 @@ load_once_from_file(true)
                         mm.commitsV1.push(
                             {
                                 codeSha: responseJson[rt].id,
-                                timestamp: new Date().getTime()
+                                timestamp: responseJson[rt].creation_timestamp
                             }
 
                             )

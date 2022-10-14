@@ -3168,6 +3168,7 @@ async function startServices() {
                                                         id: thisRow.id,
                                                         ipfs_hash_id: thisRow.ipfs_hash_id,
                                                         code_tag_v2: thisRow.code_tag_v2,
+                                                        creation_timestamp: thisRow.creation_timestamp
                                                     })
                                             }
                                         }
