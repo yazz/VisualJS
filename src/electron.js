@@ -94,6 +94,7 @@ let stmtInsertDependency;
 let stmtInsertIpfsHash;
 let stmtInsertSession;
 let stmtInsertMetaMaskLogin;
+let stmtSetMetaMaskLoginSuccedded;
 let stmtInsertUser;
 let stmtInsertSubComponent;
 let stmtInsertComponentList;
@@ -3088,6 +3089,16 @@ async function startServices() {
 
                                     if (recoveredSigner == metamaskAccId) {
                                         ret.status = "Ok"
+                                        let promise1 = new Promise(async function(returnfn2) {
+                                            dbsearch.serialize(function() {
+                                                dbsearch.run("begin exclusive transaction");
+                                                stmtSetMetaMaskLoginSuccedded.run(randomLoginSeed)
+                                                dbsearch.run("commit")
+                                                returnfn2()
+                                            })
+
+                                        })
+                                        await promise1
                                     } else {
                                         ret.error = "Invalid signature"
                                     }
@@ -5105,7 +5116,11 @@ function setUpSql() {
         "    (?, ?, ?, ?);");
     //zzz
 
-    //confirmed_login
+    stmtSetMetaMaskLoginSuccedded =  dbsearch.prepare(" update metamask_logins " +
+        "   set  confirmed_login  = 'TRUE' " +
+        " where " +
+        "    random_seed =?;");
+    //
 
     stmtInsertSession = dbsearch.prepare(" insert or replace into sessions " +
         "    (id,  created_timestamp, last_accessed , access_count ,  fk_user_id ) " +
