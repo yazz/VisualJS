@@ -3015,6 +3015,7 @@ async function startServices() {
             console.log("app.post('/login_with_metamask'): ")
             console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
             let metamaskAccId = req.query.metamask_account_id;
+
             let login_hashed_id = merkleJson.hash({
                 metamask_account_id: metamaskAccId
             })
@@ -3057,6 +3058,7 @@ async function startServices() {
             console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
             let metamaskAccId = req.query.metamask_account_id;
             let signedTx = req.query.signedTx;
+            let randomLoginSeed = req.query.random_seed;
 
             let promise = new Promise(async function(returnfn) {
 
@@ -3068,20 +3070,18 @@ async function startServices() {
                             " from    " +
                             "     metamask_logins " +
                             " where     " +
-                            "     account_id = ? " +
+                            "     random_seed = ? " +
                             " order by " +
                             "     created_timestamp DESC "
                             ,
-                            [metamaskAccId]
+                            [randomLoginSeed]
                             ,
                             async function(err, rows) {
                                 if (rows.length == 0 ) {
                                     returnfn({error: "No record found for account"})
                                 } else {
                                     let firstRow = rows[0]
-                                    let signMessageTemplate = req.query.signMessageTemplate;
-                                    let seed = firstRow.random_seed
-                                    let signMessage = signMessageTemplate + seed
+                                    let signMessage = req.query.sign_message;
                                     let sessionId = await getSessionId(req,res)
                                     let ret={}
                                     const recoveredSigner = web3.eth.accounts.recover(signMessage, signedTx);
@@ -5104,6 +5104,8 @@ function setUpSql() {
         " values " +
         "    (?, ?, ?, ?);");
     //zzz
+
+    //confirmed_login
 
     stmtInsertSession = dbsearch.prepare(" insert or replace into sessions " +
         "    (id,  created_timestamp, last_accessed , access_count ,  fk_user_id ) " +

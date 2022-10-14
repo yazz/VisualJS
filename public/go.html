@@ -2435,7 +2435,9 @@ async function initFn() {
                                             ,
                                             signedTx: signedTx
                                             ,
-                                            signMessageTemplate: signMessageTemplate
+                                            sign_message: signMessage
+                                            ,
+                                            random_seed: seed
                                         })
 
                                     fetch(checkSeedurl, {
