@@ -2428,25 +2428,12 @@ async function initFn() {
                                     let seed = responseJson.seed
                                     let signMessage =   signMessageTemplate + seed
                                     let signedTx = await mm.signTransactionV2(signMessage)
-                                    let encryptionPublicKey = await window.ethereum.request({
-                                    //WARNING! eth_getEncryptionPublicKey to be deprecated!
-                                        method: 'eth_getEncryptionPublicKey',
-                                        params: [accNo],
-                                    });
-                                    debugger
-
-                                    //const recoveredSigner = web3.eth.accounts.recover(signMessage, signedTx);
-                                    //debugger
-                                    //const publicKey = Buffer.from(keyB64, 'base64')
-                                    //console.log("publicKey:" , publicKey.toString("HEX"));
 
                                     let checkSeedurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/check_metamask_seed?" +
                                         new URLSearchParams({
                                             metamask_account_id: accNo
                                             ,
                                             signedTx: signedTx
-                                            ,
-                                            encryptionPublicKey: encryptionPublicKey
                                             ,
                                             signMessageTemplate: signMessageTemplate
                                         })
