@@ -3017,10 +3017,6 @@ async function startServices() {
             console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
             let metamaskAccId = req.query.metamask_account_id;
 
-            let login_hashed_id = merkleJson.hash({
-                metamask_account_id: metamaskAccId
-            })
-
             //zzz
             let sessionId = await getSessionId(req,res)
 
@@ -3090,9 +3086,15 @@ async function startServices() {
 
                                     if (recoveredSigner == metamaskAccId) {
                                         ret.status = "Ok"
+
+                                        let login_hashed_id = merkleJson.hash({
+                                            metamask_account_id: metamaskAccId
+                                        })
+
                                         let promise1 = new Promise(async function(returnfn2) {
                                             dbsearch.serialize(function() {
                                                 dbsearch.run("begin exclusive transaction");
+                                                stmtInsertUser.run(login_hashed_id, "METAMASK")
                                                 stmtSetMetaMaskLoginSuccedded.run(sessionId, randomLoginSeed)
                                                 dbsearch.run("commit")
                                                 returnfn2()
