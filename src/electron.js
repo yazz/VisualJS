@@ -3060,6 +3060,7 @@ async function startServices() {
             let metamaskAccId = req.query.metamask_account_id;
             let signedTx = req.query.signedTx;
             let randomLoginSeed = req.query.random_seed;
+            let sessionId = await getSessionId(req,res)
 
             let promise = new Promise(async function(returnfn) {
 
@@ -3092,7 +3093,7 @@ async function startServices() {
                                         let promise1 = new Promise(async function(returnfn2) {
                                             dbsearch.serialize(function() {
                                                 dbsearch.run("begin exclusive transaction");
-                                                stmtSetMetaMaskLoginSuccedded.run(randomLoginSeed)
+                                                stmtSetMetaMaskLoginSuccedded.run(sessionId, randomLoginSeed)
                                                 dbsearch.run("commit")
                                                 returnfn2()
                                             })
@@ -5117,7 +5118,7 @@ function setUpSql() {
     //zzz
 
     stmtSetMetaMaskLoginSuccedded =  dbsearch.prepare(" update metamask_logins " +
-        "   set  confirmed_login  = 'TRUE' " +
+        "   set  confirmed_login  = 'TRUE' , fk_session_id = ? " +
         " where " +
         "    random_seed =?;");
     //
