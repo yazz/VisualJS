@@ -53,7 +53,7 @@ module.exports = {
 
             "CREATE TABLE IF NOT EXISTS app_db_latest_ddl_revisions (base_component_id TEXT , latest_revision TEXT);",
 
-            "CREATE TABLE IF NOT EXISTS system_code (id TEXT, on_condition TEXT, component_scope TEXT, base_component_id TEXT,method TEXT, code TEXT, max_processes INTEGER, code_tag TEXT, parent_id TEXT, creation_timestamp INTEGER, display_name TEXT, component_options TEXT, logo_url TEXT, visibility TEXT, interfaces TEXT, use_db TEXT, editors TEXT, read_write_status TEXT, properties TEXT, component_type TEXT, control_sub_type TEXT, edit_file_path TEXT, ipfs_hash_id TEXT, component_type_v2 TEXT, subscribed TEXT, code_tag_v2 TEXT);",
+            "CREATE TABLE IF NOT EXISTS system_code (id TEXT, on_condition TEXT, component_scope TEXT, base_component_id TEXT,method TEXT, code TEXT, max_processes INTEGER, code_tag TEXT, parent_id TEXT, creation_timestamp INTEGER, display_name TEXT, component_options TEXT, logo_url TEXT, visibility TEXT, interfaces TEXT, use_db TEXT, editors TEXT, read_write_status TEXT, properties TEXT, component_type TEXT, control_sub_type TEXT, edit_file_path TEXT, ipfs_hash_id TEXT, component_type_v2 TEXT, subscribed TEXT, code_tag_v2 TEXT, num_changes INTEGER);",
             "CREATE INDEX IF NOT EXISTS system_code_base_component_id_idx ON system_code (base_component_id);",
             "CREATE INDEX IF NOT EXISTS system_code_on_condition_idx      ON system_code (on_condition);",
             "CREATE INDEX IF NOT EXISTS system_code_id_idx                ON system_code (id);",
@@ -63,6 +63,10 @@ module.exports = {
 
             "CREATE TABLE IF NOT EXISTS ipfs_hashes (ipfs_hash TEXT, content_type TEXT, ping_count INTEGER, last_pinged INTEGER, UNIQUE(ipfs_hash));",
             "CREATE INDEX IF NOT EXISTS ipfs_hashes_idx                   ON ipfs_hashes (ipfs_hash);",
+
+
+            "CREATE TABLE IF NOT EXISTS code_changes (id TEXT, fk_system_code_id TEXT);",
+            "CREATE INDEX IF NOT EXISTS code_changes_fk_system_code_id_idx    ON code_changes (fk_system_code_id);",
 
 
             "CREATE TABLE IF NOT EXISTS app_list (id TEXT, base_component_id TEXT, version TEXT, release TEXT, latest TEXT, app_name TEXT, app_description TEXT, icon_image_id TEXT, ipfs_hash TEXT, system_code_id TEXT, avg_rating NUMBER, num_ratings NUMBER);",
@@ -87,7 +91,6 @@ module.exports = {
 
             "CREATE TABLE IF NOT EXISTS users (id TEXT, user_type TEXT);",
             "CREATE INDEX IF NOT EXISTS users_id_idx           ON users (id);",
-
 
             "CREATE TABLE IF NOT EXISTS metamask_logins (id TEXT, account_id TEXT, random_seed TEXT, created_timestamp INTEGER, confirmed_login TEXT, fk_session_id TEXT);",
             "CREATE INDEX IF NOT EXISTS metamask_logins_id_idx ON metamask_logins (id);"
