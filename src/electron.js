@@ -110,6 +110,9 @@ let stmtUpdateLatestAppDDLRevision;
 let stmtInsertIntoAppRegistry
 let stmtUpdateAppRegistry
 
+let stmtInsertCodeChange;
+
+
 let stmtDeleteTypesForComponentProperty;
 let stmtDeleteAcceptTypesForComponentProperty;
 let stmtInsertTypesForComponentProperty;
@@ -5207,6 +5210,11 @@ function setUpSql() {
                                                   "      ( base_component_id,  latest_revision  ) " +
                                                   " values " +
                                                   "      ( ?,  ? );");
+
+    stmtInsertCodeChange = dbsearch.prepare(  " insert into code_changes " +
+        "      ( id,  fk_system_code_id  ) " +
+        " values " +
+        "      ( ?,  ? );");
 
      stmtUpdateLatestAppDDLRevision = dbsearch.prepare(  " update  app_db_latest_ddl_revisions  " +
                                                           "     set  latest_revision = ? " +
