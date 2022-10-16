@@ -4583,7 +4583,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                 }
 
 
-                                let codeChanges = saveHelper.getValueOfCodeString(code,"code_changes",")//code_changes")
+                                let codeChanges = saveHelper.getValueOfCodeString(code,"code_changes",")//code_" + "changes")
                                 if (codeChanges) {
                                     codeChanges = JSON.stringify(codeChanges,null,2)
                                 }

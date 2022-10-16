@@ -2849,6 +2849,27 @@ setTimeout(async function(){
          }
          ,
 
+         addCodeChange: function(changeText) {
+         //zzz
+             let mm = this
+             let codeChanges = this.getValueOfCodeString(mm.text,"code_changes",")//code_" + "changes")
+             if (!codeChanges) {
+                 codeChanges = []
+             } else {
+                 mm.text = this.deleteCodeString(  mm.text, "code_changes", ")//code_" + "changes")
+             }
+
+            codeChanges.push({code_change_text: changeText})
+
+             mm.text = this.insertCodeString(
+                mm.text,
+                "code_changes",
+                codeChanges,
+                ")//code_" + "changes")
+            }
+         }
+         ,
+
 
          updateComponentMethods: function() {
              let mm = this
