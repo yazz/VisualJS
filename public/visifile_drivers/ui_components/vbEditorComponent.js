@@ -2851,7 +2851,7 @@ setTimeout(async function(){
 
          addCodeChange: function(changeText) {
          //zzz
-         debugger
+         //debugger
              let mm = this
              if (!mm.code_changes) {
                  mm.code_changes = []
@@ -4230,6 +4230,7 @@ ${origCode}
 
 //debugger
                     let newComponent = await mm.lookupComponentOnForm({componentName: newItem.name})
+                    mm.addCodeChange("Add component: " + newItem.name + "(" + newItem.base_component_id + ")")
                     returnfn(newComponent)
                     //returnfn(null)
                 },100)
@@ -6700,6 +6701,7 @@ ${eventMessage.code}
                  this.model.forms[this.active_form].components[data.index].height -= Math.floor(diffY)
 
                  this.active_component_index = data.index
+                 this.addCodeChange("Resized component top left: " + this.model.forms[this.active_form].components[data.index].name)
 
              } else if (data.type == "resize_left") {
                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
