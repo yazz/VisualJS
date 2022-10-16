@@ -7607,6 +7607,21 @@ return {}
                                                           mm.model.app_properties,
                                                           ")//prope" + "rties")
 
+
+                let codeChanges = saveHelper.getValueOfCodeString(this.text,"code_changes",")//code_" + "changes")
+                if (codeChanges) {
+                    this.text = saveHelper.deleteCodeString(  this.text, "code_changes", ")//code_" + "changes")
+                }
+                if (!this.model.code_changes) {
+                    this.model.code_changes = []
+                }
+                this.text = saveHelper.insertCodeString(  this.text,
+                    "code_changes",
+                    this.model.code_changes,
+                    ")//code_" + "changes")
+
+
+
             //console.log("end generateCodeFromModel.Done")
             this.in_generate_code_from_model = false
             return
@@ -7818,6 +7833,7 @@ return {}
                                             next_id: 1,
                                             next_component_id: 1,
                                             max_form: 1,
+                                            code_changes:  [],
                                             app_selected: false,
                                             default_form: "Form_1",
                                             app_properties: [],
