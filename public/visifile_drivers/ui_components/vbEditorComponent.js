@@ -2856,7 +2856,12 @@ setTimeout(async function(){
                  mm.model.code_changes = []
              }
 
-             mm.model.code_changes.push({code_change_text: changeText})
+             mm.model.code_changes.push(
+                {
+                    code_change_text: changeText
+                    ,
+                    timestamp: new Date().getTime()
+                })
          }
          ,
 
@@ -6639,7 +6644,6 @@ ${eventMessage.code}
                        this.model.forms[this.active_form].components[data.index].parent = null
                     }
                 }
-                mm.addCodeChange("Moved component")
 
                 if (newLeftX < 0) {
                     newLeftX = 0
@@ -6659,6 +6663,7 @@ ${eventMessage.code}
                 this.model.forms[this.active_form].components[data.index].leftX = Math.floor(newLeftX)
                 this.model.forms[this.active_form].components[data.index].topY = Math.floor(newTopY)
                 this.active_component_index = data.index
+                this.addCodeChange("Moved component: " + this.model.forms[this.active_form].components[data.index].name)
 
 
              } else if (data.type == "resize_top_left") {
