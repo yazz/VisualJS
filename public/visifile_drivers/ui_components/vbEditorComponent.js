@@ -2851,12 +2851,13 @@ setTimeout(async function(){
 
          addCodeChange: function(changeText) {
          //zzz
+         debugger
              let mm = this
-             if (!mm.model.code_changes) {
-                 mm.model.code_changes = []
+             if (!mm.code_changes) {
+                 mm.code_changes = []
              }
 
-             mm.model.code_changes.push(
+             mm.code_changes.push(
                 {
                     code_change_text: changeText
                     ,
@@ -7401,10 +7402,20 @@ return {}
                   mm.model.fields.splice(index, 1);
                 }
             }
-        },
+        }
+        ,
 
 
-
+         //-------------------------------------------------------------------
+         savedStatus: async function(args) {
+         debugger
+             //-------------------------------------------------------------------
+             //-------------------------------------------------------------------
+             if (args && (args.status == "ok")) {
+                 this.code_changes = []
+             }
+         }
+         ,
 
 
         //-------------------------------------------------------------------
@@ -7512,6 +7523,7 @@ return {}
                 `,
                 data: function () {
                   return {
+                      code_changes:                [],
                       uid2:                        null,
                       editor_locked:               true,
                       vb_grid_element_id:          null,
@@ -7608,12 +7620,12 @@ return {}
                 if (codeChanges) {
                     this.text = saveHelper.deleteCodeString(  this.text, "code_changes", ")//code_" + "changes")
                 }
-                if (!this.model.code_changes) {
-                    this.model.code_changes = []
+                if (!this.code_changes) {
+                    this.code_changes = []
                 }
                 this.text = saveHelper.insertCodeString(  this.text,
                     "code_changes",
-                    this.model.code_changes,
+                    this.code_changes,
                     ")//code_" + "changes")
 
 
@@ -7746,6 +7758,7 @@ return {}
      ,
      data: function () {
        return {
+           code_changes:  [],
            showFilePicker: false,
            editor_locked:               false,
            open_file_path: "/",
@@ -7829,7 +7842,6 @@ return {}
                                             next_id: 1,
                                             next_component_id: 1,
                                             max_form: 1,
-                                            code_changes:  [],
                                             app_selected: false,
                                             default_form: "Form_1",
                                             app_properties: [],

@@ -1539,6 +1539,9 @@ showTimer()
                  ,
                  async function(response){
                    showTimer("in save code response")
+                   if (mm.$refs.editor_component_ref.savedStatus) {
+                       await mm.$refs.editor_component_ref.savedStatus({status: "ok"})
+                   }
 
                    let responseJson = JSON.parse(response)
                    if ((saveHelper.getValueOfCodeString(mm.editor_text,"only_run_on_server") == true)
