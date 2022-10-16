@@ -3155,7 +3155,9 @@ async function startServices() {
                             " from    " +
                             "     system_code " +
                             " where     " +
-                            "     base_component_id = ?"
+                            "     base_component_id = ? " +
+                            " order by " +
+                            "     creation_timestamp DESC "
                             ,
                             [baseComponentIdToFind]
                             ,
@@ -5210,7 +5212,7 @@ function setUpSql() {
                                                   "      ( base_component_id,  latest_revision  ) " +
                                                   " values " +
                                                   "      ( ?,  ? );");
-
+//zzz
     stmtInsertCodeChange = dbsearch.prepare(  " insert into code_changes " +
         "      ( id,  fk_system_code_id  ) " +
         " values " +
