@@ -3021,7 +3021,7 @@ async function startServices() {
             console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
             let metamaskAccId = req.query.metamask_account_id;
 
-            //zzz
+
             let sessionId = await getSessionId(req,res)
 
             let promise = new Promise(async function(returnfn) {
@@ -5125,7 +5125,7 @@ function setUpSql() {
         "    (id , account_id , random_seed , created_timestamp ) " +
         " values " +
         "    (?, ?, ?, ?);");
-    //zzz
+
 
     stmtSetMetaMaskLoginSuccedded =  dbsearch.prepare(" update metamask_logins " +
         "   set  confirmed_login  = 'TRUE' , fk_session_id = ? " +
@@ -5214,9 +5214,9 @@ function setUpSql() {
                                                   "      ( ?,  ? );");
 //zzz
     stmtInsertCodeChange = dbsearch.prepare(  " insert into code_changes " +
-        "      ( id,  fk_system_code_id  ) " +
+        "      ( id,  fk_system_code_id, creation_timestamp, change_text  ) " +
         " values " +
-        "      ( ?,  ? );");
+        "      ( ?,  ? , ?, ? );");
 
      stmtUpdateLatestAppDDLRevision = dbsearch.prepare(  " update  app_db_latest_ddl_revisions  " +
                                                           "     set  latest_revision = ? " +
