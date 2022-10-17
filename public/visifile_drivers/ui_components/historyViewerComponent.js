@@ -14,6 +14,8 @@ load_once_from_file(true)
         return {
             text:           args.text
             ,
+            firstCommitTimestamps: {}
+            ,
             selectedCommit: null
             ,
 // list of commits. Eg:
@@ -48,10 +50,12 @@ load_once_from_file(true)
                             <a href='#' v-on:click='selectedCommit = null'>Less</a>
                           </span>
                           <div v-if="selectedCommit == commit.codeSha">
-                                <li v-for="item in commit.changes">
-                                  {{ msToTime(item.timestamp) }} - 
+                                <div v-for="(item,i) in commit.changes">
+                                    <span v-if="i==0">First commit - </span>
+                                    <span v-if="i>0">{{ timeDiffLater(firstCommitTimestamps[commit.codeSha], item.timestamp) }} - </span>
+                                   
                                   {{ item.code_change_text }}
-                                </li>
+                                </div>
                           </div>
 
 
@@ -64,7 +68,7 @@ load_once_from_file(true)
 
      mounted: async function() {
          let thisVueInstance = this
-         debugger
+
          let baseComponentIdOfItem = saveHelper.getValueOfCodeString(this.text,"base_component_id")
          await this.getHistory(baseComponentIdOfItem)
 
@@ -115,6 +119,11 @@ load_once_from_file(true)
 
                             )
 
+                    }
+
+                    if (responseJson.length > 0) {
+                        debugger
+                        mm.firstCommitTimestamps[responseJson[0].id] = responseJson[0].creation_timestamp
                     }
 
                 })

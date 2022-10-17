@@ -5456,31 +5456,88 @@ function getUrlParam(paramName) {
 
 
 
-function msToTime(duration) {
+function msToTime(duration, options) {
 if (!duration) {
     return ""
 }
     let ret = new Date(duration).toUTCString()
 
+    let ret2 = ""
+
     let currentTime = new Date().getTime()
+
     let timeDiffSecs = (currentTime - duration) / 1000
     let timeDiffMins = timeDiffSecs / 60
     let timeDiffHours = timeDiffMins / 60
     let timeDiffDays = timeDiffHours / 24
     if (timeDiffSecs < 60) {
-        ret = ret + " (a few seconds ago)"
+        ret2 = ret2 + "few seconds"
     } else if (timeDiffMins < 10) {
-        ret = ret + " (a few minutes ago)"
+        ret2 = ret2 + "few minutes"
     } else if (timeDiffMins < 60) {
-        ret = ret + " (under an hour ago)"
+        ret2 = ret2 + "little under an half an hour"
+    } else if (timeDiffMins < 60) {
+        ret2 = ret2 + "little under an hour"
     } else if (timeDiffHours < 10) {
-        ret = ret + " (a few hours ago)"
+        ret2 = ret2 + " few hours"
     } else if (timeDiffDays < 10) {
-        ret = ret + " (a few days ago)"
+        ret2 = ret2 + "few days"
+    }
+
+    if (options && options.shortOnly) {
+        ret = ret2
+    } else {
+        ret = ret + "(a " + ret2 + " ago)"
     }
 
     return ret
 }
+
+
+
+function timeDiffLater(time1, time2) {
+
+    if (!time1) {
+        return ""
+    }
+    if (!time2) {
+        return ""
+    }
+    let duration = time2 - time1
+    let ret2 = ""
+
+    let timeDiffSecs = duration / 1000
+    let timeDiffMins = timeDiffSecs / 60
+    let timeDiffHours = timeDiffMins / 60
+    let timeDiffDays = timeDiffHours / 24
+    if (duration < 100) {
+        ret2 = ret2 + "few milliseconds"
+    } else if (duration < 600) {
+            ret2 = ret2 + "half a second"
+    } else if (duration < 1000) {
+        ret2 = ret2 + "under a second"
+    } else if (duration < 1400) {
+        ret2 = ret2 + "about a second"
+    } else if (timeDiffSecs < 60) {
+        ret2 = ret2 + "few seconds"
+    } else if (timeDiffMins < 10) {
+        ret2 = ret2 + "few minutes"
+    } else if (timeDiffMins < 60) {
+        ret2 = ret2 + "little under an half an hour"
+    } else if (timeDiffMins < 60) {
+        ret2 = ret2 + "little under an hour"
+    } else if (timeDiffHours < 10) {
+        ret2 = ret2 + " few hours"
+    } else if (timeDiffDays < 10) {
+        ret2 = ret2 + "few days"
+    }
+
+
+    let ret = "after a " + ret2
+
+    return ret
+}
+
 
 </script>
 </body>
