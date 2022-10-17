@@ -38,7 +38,7 @@ load_once_from_file(true)
                       <div style="overflow: scroll;height:40vh">
                         <li v-for='commit in commitsV1'
                             style='color:black;'>
-                          {{commit.codeSha}} , {{commit.timestamp}} , {{msToTime(commit.timestamp)}}
+                          {{commit.codeSha}} ,  {{msToTime(commit.timestamp)}}, {{commit.numChanges}}
 
                         </li>
                       </div>
@@ -93,7 +93,8 @@ load_once_from_file(true)
                         mm.commitsV1.push(
                             {
                                 codeSha: responseJson[rt].id,
-                                timestamp: responseJson[rt].creation_timestamp
+                                timestamp: responseJson[rt].creation_timestamp,
+                                numChanges: responseJson[rt].num_changes
                             }
 
                             )
