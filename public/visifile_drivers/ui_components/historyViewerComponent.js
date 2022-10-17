@@ -45,7 +45,10 @@ load_once_from_file(true)
                             <a href='#' v-on:click='selectedCommit = commit.codeSha'>More</a>
                           </span> 
                           <div v-if="selectedCommit == commit.codeSha">
-                            {{commit.changes}}
+                                <li v-for="item in commit.changes">
+                                  {{ msToTime(item.timestamp) }} - 
+                                  {{ item.code_change_text }}
+                                </li>
                           </div>
 
                         </li>
