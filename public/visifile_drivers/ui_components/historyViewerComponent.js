@@ -51,8 +51,8 @@ load_once_from_file(true)
                           </span>
                           <div v-if="selectedCommit == commit.codeSha">
                                 <div v-for="(item,i) in commit.changes">
-                                    <span v-if="i==0">First commit - </span>
-                                    <span v-if="i>0">{{ timeDiffLater(firstCommitTimestamps[commit.codeSha], item.timestamp) }} - </span>
+                                    <span v-if="i==(commit.changes.length - 1)">First commit - </span>
+                                    <span v-if="i!=(commit.changes.length - 1)">{{ timeDiffLater(firstCommitTimestamps[commit.codeSha], item.timestamp) }} - </span>
                                    
                                   {{ item.code_change_text }}
                                 </div>
@@ -122,8 +122,7 @@ load_once_from_file(true)
                     }
 
                     if (responseJson.length > 0) {
-                        debugger
-                        mm.firstCommitTimestamps[responseJson[0].id] = responseJson[0].creation_timestamp
+                        mm.firstCommitTimestamps[responseJson[0].id] = responseJson[responseJson.length-1].creation_timestamp
                     }
 
                 })
