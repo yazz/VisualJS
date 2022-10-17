@@ -14,6 +14,8 @@ load_once_from_file(true)
         return {
             text:           args.text
             ,
+            selectedCommit: null
+            ,
 // list of commits. Eg:
 //        [  {codeSha: "fdsfsddfsfsdfds", timestamp: new Date().getTime()},    ]
             commitsV1: [
@@ -38,10 +40,13 @@ load_once_from_file(true)
                       <div style="overflow: scroll;height:40vh">
                         <li v-for='commit in commitsV1'
                             style='color:black;'>
-                          {{commit.codeSha}} ,  {{msToTime(commit.timestamp)}}, {{commit.numChanges}}, {{commit.changes}}
+                          {{commit.codeSha}} ,  {{msToTime(commit.timestamp)}}, {{commit.numChanges}}
                           <span v-if="commit.numChanges > 0">
-                            <a href='#' v-on:click='alert(1)'>More</a>
+                            <a href='#' v-on:click='selectedCommit = commit.codeSha'>More</a>
                           </span> 
+                          <div v-if="selectedCommit == commit.codeSha">
+                            {{commit.changes}}
+                          </div>
 
                         </li>
                       </div>
