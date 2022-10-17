@@ -4585,7 +4585,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
                                 let codeChanges = saveHelper.getValueOfCodeString(code,"code_changes",")//code_" + "changes")
                                 let codeChangesStr = null
-                                let numCodeChanges = 0
+                                let numCodeChanges = null
                                 if (codeChanges) {
                                     codeChangesStr = JSON.stringify(codeChanges,null,2)
                                     numCodeChanges = codeChanges.length
