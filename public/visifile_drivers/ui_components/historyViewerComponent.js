@@ -41,15 +41,19 @@ load_once_from_file(true)
                         <li v-for='commit in commitsV1'
                             style='color:black;'>
                           {{commit.codeSha}} ,  {{msToTime(commit.timestamp)}}, {{commit.numChanges}}
-                          <span v-if="commit.numChanges > 0">
+                          <span v-if="(commit.numChanges > 0) && (selectedCommit != commit.codeSha)">
                             <a href='#' v-on:click='selectedCommit = commit.codeSha'>More</a>
-                          </span> 
+                          </span>
+                          <span v-if="(commit.numChanges > 0) && (selectedCommit == commit.codeSha)">
+                            <a href='#' v-on:click='selectedCommit = null'>Less</a>
+                          </span>
                           <div v-if="selectedCommit == commit.codeSha">
                                 <li v-for="item in commit.changes">
                                   {{ msToTime(item.timestamp) }} - 
                                   {{ item.code_change_text }}
                                 </li>
                           </div>
+
 
                         </li>
                       </div>
