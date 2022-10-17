@@ -38,7 +38,7 @@ load_once_from_file(true)
                       <div style="overflow: scroll;height:40vh">
                         <li v-for='commit in commitsV1'
                             style='color:black;'>
-                          {{commit.codeSha}} ,  {{msToTime(commit.timestamp)}}, {{commit.numChanges}} 
+                          {{commit.codeSha}} ,  {{msToTime(commit.timestamp)}}, {{commit.numChanges}}, {{commit.changes}}
                           <span v-if="commit.numChanges > 0">
                             <a href='#' v-on:click='alert(1)'>More</a>
                           </span> 
@@ -97,7 +97,8 @@ load_once_from_file(true)
                             {
                                 codeSha: responseJson[rt].id,
                                 timestamp: responseJson[rt].creation_timestamp,
-                                numChanges: responseJson[rt].num_changes
+                                numChanges: responseJson[rt].num_changes,
+                                changes: responseJson[rt].changes
                             }
 
                             )
