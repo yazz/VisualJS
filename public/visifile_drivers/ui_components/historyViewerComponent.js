@@ -53,7 +53,6 @@ load_once_from_file(true)
                                 <div v-for="(item,i) in commit.changes.slice().reverse()">
                                     <span v-if="i==(commit.changes.length - 1)">First commit - </span>
                                     <span v-if="i!=(commit.changes.length - 1)">{{ timeDiffLater(firstCommitTimestamps[commit.codeSha], item.timestamp) }} - </span>
-                                  {{ timeDiffLater(firstCommitTimestamps[commit.codeSha] - item.timestamp) }}
                                    
                                   {{ item.code_change_text }}
                                 </div>
@@ -116,15 +115,15 @@ load_once_from_file(true)
                                 timestamp: responseJson[rt].creation_timestamp,
                                 numChanges: responseJson[rt].num_changes,
                                 changes: responseJson[rt].changes
-                            }
+                            })
 
-                            )
+
+                        if (responseJson[rt].changes && responseJson[rt].changes.length > 0) {
+                            mm.firstCommitTimestamps[responseJson[rt].id] = responseJson[rt].changes[0].timestamp
+                        }
 
                     }
 
-                    if (responseJson.length > 0) {
-                        mm.firstCommitTimestamps[responseJson[0].id] = responseJson[responseJson.length - 1].creation_timestamp
-                    }
 
                 })
                 .catch(err => {
