@@ -3168,6 +3168,11 @@ async function startServices() {
                                         if (rows.length > 0) {
                                             for (let rowIndex =0; rowIndex < rows.length; rowIndex++) {
                                                 let thisRow = rows[rowIndex]
+                                                let changesList = []
+                                                try {
+                                                    changesList = JSON.parse(thisRow.code_changes)
+                                                } catch(err) {
+                                                }
                                                 returnRows.push(
                                                     {
                                                         id: thisRow.id,
@@ -3175,7 +3180,7 @@ async function startServices() {
                                                         code_tag_v2: thisRow.code_tag_v2,
                                                         creation_timestamp: thisRow.creation_timestamp,
                                                         num_changes: thisRow.num_changes,
-                                                        changes: thisRow.code_changes
+                                                        changes: changesList
                                                     })
                                             }
                                         }
