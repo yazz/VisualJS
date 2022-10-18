@@ -3511,6 +3511,9 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             // get stuff
             //
             let code = req.body.value.code;
+            let version = req.body.value.version;
+            let userId = req.body.value.user_id;
+
             let ipfsHash = await saveItemToIpfs(code)
             //let parsedCode = parseCode(code)
             //await updateItemLists(parsedCode)
