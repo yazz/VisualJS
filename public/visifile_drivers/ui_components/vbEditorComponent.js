@@ -77,8 +77,10 @@ uses_javascript_librararies(["advanced_bundle"])
                         </img>
                     </div>
 
-                    <div    v-for='av in available_components'
-                            draggable="true"
+                  <div    v-for='av in available_components'>
+                      <div  style="margin-left: 10px;width:70%; height:2px;background-color: gray"
+                            v-on:click="alert('debug')"></div>
+                    <div         draggable="true"
                             class=''
                             v-on:dragend='$event.stopPropagation();deleteCursor();'
                             v-on:dragstart='$event.stopPropagation();if (design_mode_pane.type == "drag_drop") {switchCursor($event,"grab","grabbing");highlighted_control = av.base_component_id;drag($event,{
@@ -89,7 +91,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                                     gotoDragDropEditor();
                                                 }'
                             v-on:click='highlighted_control = av.base_component_id;gotoDragDropEditor();'
-                            v-bind:style='"display:flex;cursor: grab;margin: 2px;border-radius: 3px;width:50px;;height: 50px; margin: 0px;border: 0px;padding:10px;overflow-x:auto;overflow-y:hidden;background-color: " + ((highlighted_control == av.base_component_id)?"#E8E8E8;border-left: 2px solid gray;border-top: 2px solid gray;":"lightgray;")'>
+                            v-bind:style='"display-old:flex;cursor: grab;margin: 2px;border-radius: 3px;width:50px;;height: 50px; margin: 0px;border: 0px;padding:10px;overflow-x:auto;overflow-y:hidden;background-color: " + ((highlighted_control == av.base_component_id)?"#E8E8E8;border-left: 2px solid gray;border-top: 2px solid gray;":"lightgray;")'>
 
                         <img    v-if='isValidObject(av)'
                                 v-bind:src='av.logo_url'
@@ -98,7 +100,8 @@ uses_javascript_librararies(["advanced_bundle"])
                         </img>
 
 
-                    </div>
+                  </div>
+                </div>
                 </div>
             </div>
         </div>
