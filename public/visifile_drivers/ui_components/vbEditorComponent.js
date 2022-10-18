@@ -78,7 +78,7 @@ uses_javascript_librararies(["advanced_bundle"])
                     </div>
 
                   <div    v-for='av in available_components'>
-                      <div  style="margin-left: 10px;width:70%; height:2px;background-color: gray"
+                      <div  style="margin-left: 10px;width:80%; height:6px;background-color: lightgray"
                             v-on:click="alert('debug')"></div>
                     <div         draggable="true"
                             class=''
