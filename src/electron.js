@@ -8,8 +8,9 @@ let Web3 = require('web3')
 let web3 = new Web3()
 let isIPFSConnected = false
 const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
-let testBuffer = new Buffer("Testcode zooey11");
+let testBuffer = new Buffer("");
 console.log("Starting...")
+console.log("Testing IPFS...")
     ipfs.files.add(testBuffer, function (err, file) {
         if (err) {
           console.log("....................................Err: " + err);
@@ -5731,7 +5732,6 @@ async function saveItemToIpfs(srcCode) {
     let promise = new Promise(async function(returnfn) {
         let justHash = null
         try {
-            let testBuffer = new Buffer(srcCode);
             console.log("Starting...")
 
             justHash = await OnlyIpfsHash.of(srcCode)
@@ -5742,6 +5742,7 @@ async function saveItemToIpfs(srcCode) {
 
 
             if (isIPFSConnected) {
+                let testBuffer = new Buffer(srcCode);
                 ipfs.files.add(testBuffer, function (err, file) {
                     if (err) {
                         console.log("....................................Err: " + err);
