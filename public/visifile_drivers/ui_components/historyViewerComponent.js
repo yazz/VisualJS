@@ -42,17 +42,20 @@ load_once_from_file(true)
                       <div style="overflow: scroll;height:40vh">
                         <li v-for='commit in commitsV1'
                             style='color:black;'>
-                          {{commit.codeSha}} ,  {{msToTime(commit.timestamp)}}, {{commit.numChanges}}
+                          {{msToTime(commit.timestamp)}} - {{commit.numChanges}}
                           <span v-if="(commit.numChanges > 0) && (selectedCommit != commit.codeSha)">
                             <a href='#' v-on:click='selectedCommit = commit.codeSha'>More</a>
                           </span>
                           <span v-if="(commit.numChanges > 0) && (selectedCommit == commit.codeSha)">
                             <a href='#' v-on:click='selectedCommit = null'>Less</a>
                           </span>
-                          <div v-if="selectedCommit == commit.codeSha">
+                          <div v-if="selectedCommit == commit.codeSha" style="background-color: lightgray;padding: 10px;">
+                                <br/>
+                                <div><b>Commit ID:</b> {{commit.codeSha}} </div>
+                                <br/>
                                 <div v-for="(item,i) in commit.changes.slice().reverse()">
-                                    <span v-if="i==(commit.changes.length - 1)">First commit - </span>
-                                    <span v-if="i!=(commit.changes.length - 1)">{{ timeDiffLater(firstCommitTimestamps[commit.codeSha], item.timestamp) }} - </span>
+                                    <span v-if="i==(commit.changes.length - 1)"><b>First commit</b> - </span>
+                                    <span v-if="i!=(commit.changes.length - 1)"><b>{{ capitalizeFirstLetter(timeDiffLater(firstCommitTimestamps[commit.codeSha], item.timestamp)) }}</b> - </span>
                                    
                                   {{ item.code_change_text }}
                                 </div>

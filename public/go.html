@@ -5471,28 +5471,33 @@ if (!duration) {
     let timeDiffHours = timeDiffMins / 60
     let timeDiffDays = timeDiffHours / 24
     if (timeDiffSecs < 60) {
-        ret2 = ret2 + "few seconds"
+        ret2 = ret2 + "a few seconds ago"
     } else if (timeDiffMins < 10) {
-        ret2 = ret2 + "few minutes"
+        ret2 = ret2 + "a few minutes ago"
+    } else if (timeDiffMins < 30) {
+        ret2 = ret2 + "less than half an hour ago"
     } else if (timeDiffMins < 60) {
-        ret2 = ret2 + "little under an half an hour"
-    } else if (timeDiffMins < 60) {
-        ret2 = ret2 + "little under an hour"
+        ret2 = ret2 + "under an hour ago"
     } else if (timeDiffHours < 10) {
-        ret2 = ret2 + " few hours"
+        ret2 = ret2 + "a few hours ago"
+    } else if (timeDiffDays < 2) {
+        ret2 = ret2 + "yesterday"
     } else if (timeDiffDays < 10) {
-        ret2 = ret2 + "few days"
+        ret2 = ret2 + "a few days ago"
     }
 
     if (options && options.shortOnly) {
         ret = ret2
     } else {
-        ret = ret + "(a " + ret2 + " ago)"
+        ret =  ret2 +  " (" + ret + ")"
     }
 
     return ret
 }
 
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 
 function timeDiffLater(time1, time2) {
