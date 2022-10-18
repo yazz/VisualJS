@@ -1539,7 +1539,7 @@ showTimer()
                  ,
                  async function(response){
                    showTimer("in save code response")
-                   if (mm.$refs.editor_component_ref.savedStatus) {
+                   if (mm.$refs.editor_component_ref.savedStatus !== undefined) {
                        await mm.$refs.editor_component_ref.savedStatus({status: "ok"})
                    }
 
