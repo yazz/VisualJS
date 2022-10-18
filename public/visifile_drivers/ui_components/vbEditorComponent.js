@@ -78,8 +78,6 @@ uses_javascript_librararies(["advanced_bundle"])
                     </div>
 
                   <div    v-for='av in available_components'>
-                      <div  style="margin-left: 10px;width:80%; height:6px;background-color: lightgray"
-                            v-on:click="alert('debug')"></div>
                     <div         draggable="true"
                             class=''
                             v-on:dragend='$event.stopPropagation();deleteCursor();'
@@ -101,7 +99,10 @@ uses_javascript_librararies(["advanced_bundle"])
 
 
                   </div>
-                </div>
+                    <div  style="width:100%; height:3px;background-color: lightgray"
+                          v-on:click="let view_component=av.base_component_id;alert(view_component)"></div>
+
+                  </div>
                 </div>
             </div>
         </div>
