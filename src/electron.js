@@ -4499,7 +4499,6 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
         let componentOptions = null
         let maxProcesses = 1
         let rowhash = crypto.createHash('sha256');
-        let row = code.toString();
 
 
 
@@ -4543,6 +4542,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
         //showTimer(`5`)
 
+        let row = code.toString();
 
         rowhash.setEncoding('hex');
         rowhash.write(row);
