@@ -100,7 +100,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
                   </div>
                     <div  style="width:100%; height:3px;background-color: lightgray"
-                          v-on:click="let view_component=av.base_component_id;alert(view_component)"></div>
+                          v-on:click="debug_component=av.base_component_id;alert(debug_component)"></div>
 
                   </div>
                 </div>
@@ -7534,6 +7534,7 @@ return {}
                       editor_locked:               true,
                       vb_grid_element_id:          null,
                       vb_editor_element_id:        null,
+                      debug_component:             null,
                       design_mode: designMode,
                       design_mode_pane:            {},
                       show_advanced_transform:      false,
@@ -7811,6 +7812,7 @@ return {}
            uid2:                        null,
            vb_grid_element_id:          null,
            vb_editor_element_id:        null,
+           debug_component:             null,
            in_generate_code_from_model: false,
            design_mode:                 designMode,
            runtime_mode:                runtimeMode,
