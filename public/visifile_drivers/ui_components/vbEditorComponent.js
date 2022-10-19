@@ -37,7 +37,6 @@ uses_javascript_librararies(["advanced_bundle"])
         
         <div  v-if="debug_component"
               style="position:fixed; left:2vw;top:2vh;width:96vw;height:96vh;background-color: white;z-index:100000000;"
-              v-on:click="debug_component = null"
         >
           <div  v-if="debug_component"
                 style="background-color: lightgray;padding: 5px;"
