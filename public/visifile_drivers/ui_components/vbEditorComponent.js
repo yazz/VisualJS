@@ -45,7 +45,7 @@ uses_javascript_librararies(["advanced_bundle"])
             <b>{{ debug_component }}</b>
           </div> 
           <br>
-          <pre style="height:100%;width:100%;overflow:scroll">
+          <pre style="height:90%;width:100%;overflow:scroll;padding: 5px;">
             {{component_cache[debug_component]?component_cache[debug_component].code:""}}
           </pre>
           
