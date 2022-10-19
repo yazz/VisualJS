@@ -34,6 +34,13 @@ uses_javascript_librararies(["advanced_bundle"])
 
         <slot style='display: inline-block;float: left;' v-if='text'>
         </slot>
+        
+        <div  v-if="debug_component"
+              style="position:fixed; left:2vw;top:2vh;width:96vw;height:96vh;background-color: white;z-index:100000000;"
+              v-on:click="debug_component = null"
+        >
+          {{ debug_component }} 
+        </div>
 
 
      </div>
@@ -100,7 +107,7 @@ uses_javascript_librararies(["advanced_bundle"])
 
                   </div>
                     <div  style="width:100%; height:3px;background-color: lightgray"
-                          v-on:click="debug_component=av.base_component_id;alert(debug_component)"></div>
+                          v-on:click="debug_component=av.base_component_id;"></div>
 
                   </div>
                 </div>
