@@ -4623,6 +4623,22 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                         for (let rttte = 0; rttte < properties2.length ; rttte++ ) {
                                             let prop = properties2[rttte]
                                             stmtInsertComponentProperty.run(baseComponentId, prop.id)
+
+                                            //zzz
+                                            if (prop.id == "previous_ipfs_version") {
+                                                if (typeof prop.default !== 'undefined' ) {
+                                                    code = saveHelper.deleteCodeString(code, "previous_ipfs_version")
+                                                    code = saveHelper.insertCodeString(code, "previous_ipfs_version", prop.default)
+                                                }
+                                            }
+                                            if (prop.id == "ipfs_hash_id") {
+                                                if (typeof prop.default !== 'undefined' ) {
+                                                    code = saveHelper.deleteCodeString(code, "ipfs_hash_id")
+                                                    code = saveHelper.insertCodeString(code, "ipfs_hash_id", prop.default)
+                                                }
+                                            }
+
+
                                             if (prop.types) {
                                                 let labelKeys = Object.keys(prop.types)
                                                 for (let rttte2 = 0; rttte2 < labelKeys.length ; rttte2++ ) {
@@ -5238,7 +5254,7 @@ function setUpSql() {
                                                   "      ( base_component_id,  latest_revision  ) " +
                                                   " values " +
                                                   "      ( ?,  ? );");
-//zzz
+
     stmtInsertCodeChange = dbsearch.prepare(  " insert into code_changes " +
         "      ( id,  fk_system_code_id, creation_timestamp, change_text  ) " +
         " values " +
