@@ -227,8 +227,8 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
 
 
 
-            <div v-bind:style='"color: " + properties.infoColor + ";"'>
-              {{ properties.infoMessage }}
+            <div v-bind:style='"color: " + properties.infoColor + ";"'
+                 v-html="properties.infoMessage">
             </div>
             
                               <div style="font-family: courier">
@@ -376,7 +376,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                 this.compiledContractName   = result.contractName
                 if (result.bytecode) {
                     this.compileStatus          = "COMPILED"
-                    this.properties.infoMessage = "Contract compiled "
+                    this.properties.infoMessage = "<b color=green>Contract compiled </b>"
                     this.properties.infoColor = "green"
                 } else {
                     this.properties.infoMessage = "Contract compile failed "
@@ -410,7 +410,8 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
               }).then((instance) => {
 //debugger
                   console.log("Contract mined at " + instance.options.address);
-                  mm.properties.infoMessage = "Contract mined at " + instance.options.address;
+                  //zzz
+                  mm.properties.infoMessage = "<a href='" + window.blockchainIds[mm.properties.blockchainId].preMinedUrl + instance.options.address + window.blockchainIds[mm.properties.blockchainId].postMinedUrl + "' target=mined>Contract mined at " + instance.options.address + "</a>";
                   mm.properties.infoColor = "black"
 
                       mm.contractInstance = instance;
@@ -419,7 +420,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
                   mm.deployingStatus = "DEPLOYED"
                   mm.compileStatus   = "NONE"
 
-//zzz
+
                   //debugger
                   let parsedABI = JSON.parse(mm.properties.abi)
                   let smartContractMethods = []
