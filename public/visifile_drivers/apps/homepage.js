@@ -90,29 +90,34 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               </div>
 
 
-          <a      href="https://yazzapps.com"
-                  target=new
-                  v-bind:refresh='refresh'
-                  style='text-align: left;display: inline-block;color:white;position:relative;left:30px;height:40px;padding:5px;top: -10px;'>
-            Company
-    
-          </a>
-          <a      href="https://github.com/yazz/yazz"
-                  target=new
-                  v-bind:refresh='refresh'
-                  style='text-align: left;display: inline-block;color:white;position:relative;left:30px;height:40px;padding:5px;top: -10px;'>
-            Github
-    
-          </a>
+          <span>
+              <a      href="https://yazzapps.com"
+                      target=new
+                      v-bind:refresh='refresh'
+                      style='text-align: left;display: inline-block;color:white;position:relative;left:30px;height:40px;padding:5px;top: -10px;'>
+                Company
+        
+              </a>
+          </span>
+
+      
+        <span>
           <a      href="https://discord.gg/7cauwRN9QB"
                   target=new
                   v-bind:refresh='refresh'
                   style='text-align: left;display: inline-block;color:white;position:relative;left:30px;height:40px;padding:5px;top: -10px;'>
             Discord
-    
+        
           </a>
+        </span>
 
-      
+
+      <span>
+              <iframe src="https://ghbtns.com/github-btn.html?user=yazz&repo=yazz&type=star&count=true"
+                      frameborder="0" scrolling="0" width="150" height="25" title="GitHub"
+                      style="margin-left:40px"></iframe>
+            
+      </span>
     </div>
 
 
