@@ -117,6 +117,8 @@ let stmtInsertCodeChange;
 let stmtDeleteTypesForComponentProperty;
 let stmtDeleteAcceptTypesForComponentProperty;
 let stmtInsertTypesForComponentProperty;
+let stmtInsertIntoCodeTags;
+let stmtUpdateCommitForCodeTag;
 let stmtInsertComponentProperty;
 let stmtInsertAcceptTypesForComponentProperty;
 
@@ -4750,6 +4752,18 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                         baseComponentId,
                                         sha1sum
                                         )
+                                    stmtInsertIntoCodeTags.run(
+                                        uuidv1()
+                                        ,
+                                        baseComponentId
+                                        ,
+                                        "TIP"
+                                        ,
+                                        sha1sum
+                                        ,
+                                        "USER"
+                                    )
+                                    //zzz
 
 
                                     let restApi = saveHelper.getValueOfCodeString(code, "rest_api")
@@ -5242,6 +5256,19 @@ function setUpSql() {
                                                component_property_types
                                                     (component_name, property_name , type_name, type_value )
                                                values ( ?,?,?,?)`)
+
+    stmtInsertIntoCodeTags = dbsearch.prepare(`insert or ignore
+                                                    into
+                                               code_tags
+                                                    (id,   base_component_id,   code_tag,   fk_system_code_id,   fk_user_id) 
+                                               values ( ?, ?, ?, ?, ?)`)
+
+    stmtUpdateCommitForCodeTag = dbsearch.prepare(`update
+                                                       code_tags
+                                                            set  fk_system_code_id = ?
+                                                       where
+                                                            base_component_id = ? and code_tag = ? and fk_user_id = ?
+                                               `)
 
     stmtInsertAcceptTypesForComponentProperty = dbsearch.prepare(`insert or ignore
                                                     into
