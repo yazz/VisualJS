@@ -4712,9 +4712,11 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                 ////showTimer("Saving in Sqlite: " + parentHash)
                                 ////showTimer("Saving in Sqlite: " + code)
                                 let save_code_to_file = null
+                                let userId = null
                                 if (options) {
                                     save_code_to_file = options.save_code_to_file
                                     ipfsHashId = options.ipfsHashId
+                                    userId = options.userId
                                 }
                                 //showTimer(`10`)
                                 dbsearch.serialize(async function() {
@@ -4761,7 +4763,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                         ,
                                         sha1sum
                                         ,
-                                        "USER"
+                                        userId
                                     )
                                     //zzz
 
