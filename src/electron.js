@@ -3063,7 +3063,7 @@ async function startServices() {
             let metamaskAccId = req.query.metamask_account_id;
             let signedTx = req.query.signedTx;
             let randomLoginSeed = req.query.random_seed;
-            let sessionId = await getSessionId(req,res)
+            let sessionId = await getSessionId(req)
 
             let promise = new Promise(async function(returnfn) {
 
@@ -3087,7 +3087,7 @@ async function startServices() {
                                 } else {
                                     let firstRow = rows[0]
                                     let signMessage = req.query.sign_message;
-                                    let sessionId = await getSessionId(req,res)
+                                    let sessionId = await getSessionId(req)
                                     let ret={}
                                     const recoveredSigner = web3.eth.accounts.recover(signMessage, signedTx);
 
@@ -3146,7 +3146,7 @@ async function startServices() {
             console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
             let topApps = []
             let baseComponentIdToFind = req.query.id;
-            let sessionId = await getSessionId(req,res)
+            let sessionId = await getSessionId(req)
 
             let promise = new Promise(async function(returnfn) {
 
@@ -3222,7 +3222,7 @@ async function startServices() {
             console.log("app.post('/topapps'): ")
             console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
             let topApps = []
-            let sessionId = await getSessionId(req,res)
+            let sessionId = await getSessionId(req)
 
             let promise = new Promise(async function(returnfn) {
 
@@ -3404,6 +3404,11 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
 
 
         app.post("/save_code" , async function (req, res) {
+            //zzz
+            let userid = await getUserId(req)
+            let optionsForSave = req.body.value.options
+            optionsForSave.userId = userid
+
           //console.log("save_code " )
           //console.log("          base_component_id :" + JSON.stringify(req.body.value.base_component_id ,null,2))
           //console.log("          code_id :" + JSON.stringify(req.body.value.code_id ,null,2))
@@ -4626,7 +4631,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                             let prop = properties2[rttte]
                                             stmtInsertComponentProperty.run(baseComponentId, prop.id)
 
-                                            //zzz
+
                                             if (prop.id == "previous_ipfs_version") {
                                                 if (typeof prop.default !== 'undefined' ) {
                                                     code = saveHelper.deleteCodeString(code, "previous_ipfs_version")
@@ -7314,7 +7319,37 @@ async function insertCommentIntoDb(args) {
 }
 
 
+async function getUserId(req) {
+    let sessionId = await getSessionId(req)
 
+    let promise = new Promise(async function(returnfn) {
+        dbsearch.serialize(
+            function() {
+                let stmt = dbsearch.all(
+                    `select 
+                            fk_user_id
+                      FROM 
+                            sessions
+                      where 
+                            id  = ? `
+                    ,
+                    [sessionId]
+                    ,
+
+                    function(err, results)
+                    {
+                        if (results.length > 0) {
+                            returnfn(results[0].fk_user_id)
+                        }
+                        returnfn(null)
+
+                    })
+            }, sqlite3.OPEN_READONLY)
+    })
+
+    let userId = await promise
+    return userId
+}
 
 
 
