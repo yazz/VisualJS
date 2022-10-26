@@ -4555,6 +4555,9 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
         rowhash.write(row);
         rowhash.end();
         //let sha1sum = rowhash.read();
+        let readOnly = saveHelper.getValueOfCodeString(code,"read_only")
+
+
         let sha1sum  = await OnlyIpfsHash.of(code)
         ////showTimer("Save sha1 for :" + baseComponentId + ": " + sha1sum)
 
@@ -4573,7 +4576,6 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                     function(err, rows) {
                         if (!err) {
                             ////showTimer("rows.length:   " + rows.length)
-                            let readOnly = saveHelper.getValueOfCodeString(code,"read_only")
                             if ((rows.length == 0) || readOnly){
                                 try {
 
