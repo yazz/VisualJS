@@ -4573,7 +4573,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                     ,
                     sha1sum
                     ,
-                    function(err, rows) {
+                    async function(err, rows) {
                         if (!err) {
                             ////showTimer("rows.length:   " + rows.length)
                             if ((rows.length == 0) || readOnly){
@@ -4727,6 +4727,11 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                     userId = options.userId
                                 }
                                 //showTimer(`10`)
+                                let sha1sum2  = await OnlyIpfsHash.of(code)
+                                if (sha1sum2 != sha1sum) {
+                                    console.log("SHA do not match")
+                                }
+
                                 dbsearch.serialize(async function() {
                                     dbsearch.run("begin exclusive transaction");
                                     stmtInsertNewCode.run(
