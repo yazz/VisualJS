@@ -4441,7 +4441,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
         code = code.toString()
     }
 
-    let promise = new Promise(returnFn => {
+    let promise = new Promise(async function(returnFn) {
         //resetTimer(`*function saveCodeV2( ${baseComponentId}, ${parentHash} ) {`)
         if (!baseComponentId) {
             baseComponentId = uuidv1()
@@ -4554,7 +4554,8 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
         rowhash.setEncoding('hex');
         rowhash.write(row);
         rowhash.end();
-        let sha1sum = rowhash.read();
+        //let sha1sum = rowhash.read();
+        let sha1sum  = await OnlyIpfsHash.of(code)
         ////showTimer("Save sha1 for :" + baseComponentId + ": " + sha1sum)
 
         dbsearch.serialize(
