@@ -4589,7 +4589,41 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
             numCodeChanges = codeChanges.length
         }
 
+        let properties = saveHelper.getValueOfCodeString(code,"properties",")//properties")
+        if (properties) {
+            properties = JSON.stringify(properties,null,2)
+        }
+        let properties2 = saveHelper.getValueOfCodeString(code,"properties",")//properties")
+        if (controlType == "VB") {
+            //showTimer(`7`)
 
+            ////showTimer("VB: " + baseComponentId)
+            if (properties2) {
+                //showTimer(`8`)
+
+                ////showTimer("     properties: " + properties2.length)
+                for (let rttte = 0; rttte < properties2.length ; rttte++ ) {
+                    let prop = properties2[rttte]
+                    stmtInsertComponentProperty.run(baseComponentId, prop.id)
+
+
+                    if (prop.id == "previous_ipfs_version") {
+                        if (typeof prop.default !== 'undefined' ) {
+                            code = saveHelper.deleteCodeString(code, "previous_ipfs_version")
+                            code = saveHelper.insertCodeString(code, "previous_ipfs_version", prop.default)
+                        }
+                    }
+                    if (prop.id == "ipfs_hash_id") {
+                        if (typeof prop.default !== 'undefined' ) {
+                            code = saveHelper.deleteCodeString(code, "ipfs_hash_id")
+                            code = saveHelper.insertCodeString(code, "ipfs_hash_id", prop.default)
+                        }
+                    }
+
+                }
+            }
+
+        }
 
 
 
@@ -4615,15 +4649,10 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                             if ((rows.length == 0) || readOnly){
                                 try {
 
-                                let properties = saveHelper.getValueOfCodeString(code,"properties",")//properties")
-                                if (properties) {
-                                    properties = JSON.stringify(properties,null,2)
-                                }
                                 if (controlType == "VB") {
                                   //showTimer(`7`)
 
                                     ////showTimer("VB: " + baseComponentId)
-                                    let properties2 = saveHelper.getValueOfCodeString(code,"properties",")//properties")
                                     stmtDeleteTypesForComponentProperty.run(baseComponentId)
                                     stmtDeleteAcceptTypesForComponentProperty.run(baseComponentId)
                                     if (properties2) {
@@ -4633,20 +4662,6 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                         for (let rttte = 0; rttte < properties2.length ; rttte++ ) {
                                             let prop = properties2[rttte]
                                             stmtInsertComponentProperty.run(baseComponentId, prop.id)
-
-
-                                            if (prop.id == "previous_ipfs_version") {
-                                                if (typeof prop.default !== 'undefined' ) {
-                                                    code = saveHelper.deleteCodeString(code, "previous_ipfs_version")
-                                                    code = saveHelper.insertCodeString(code, "previous_ipfs_version", prop.default)
-                                                }
-                                            }
-                                            if (prop.id == "ipfs_hash_id") {
-                                                if (typeof prop.default !== 'undefined' ) {
-                                                    code = saveHelper.deleteCodeString(code, "ipfs_hash_id")
-                                                    code = saveHelper.insertCodeString(code, "ipfs_hash_id", prop.default)
-                                                }
-                                            }
 
 
                                             if (prop.types) {
