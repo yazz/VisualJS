@@ -4556,6 +4556,42 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
         rowhash.end();
         //let sha1sum = rowhash.read();
         let readOnly = saveHelper.getValueOfCodeString(code,"read_only")
+        if (saveHelper.getValueOfCodeString(code,"hide_header")) {
+            componentOptions = "HIDE_HEADER"
+        }
+
+        //showTimer(`6`)
+
+
+        let displayName = saveHelper.getValueOfCodeString(code,"display_name")
+
+        let useDb = saveHelper.getValueOfCodeString(code,"use_db")
+        let editors2 = saveHelper.getValueOfCodeString(code,"editors")
+        let controlType = saveHelper.getValueOfCodeString(code,"component_type")
+        let controlSubType = saveHelper.getValueOfCodeString(code,"control_sub_type")
+
+        let editors = null
+        if (editors2) {
+            editors = JSON.stringify(editors2,null,2)
+
+        }
+        let readWriteStatus = null
+        if (readOnly) {
+            readWriteStatus = "READ"
+        }
+
+
+        let codeChanges = saveHelper.getValueOfCodeString(code,"code_changes",")//code_" + "changes")
+        let codeChangesStr = null
+        let numCodeChanges = null
+        if (codeChanges) {
+            codeChangesStr = JSON.stringify(codeChanges,null,2)
+            numCodeChanges = codeChanges.length
+        }
+
+
+
+
 
 
         let sha1sum  = await OnlyIpfsHash.of(code)
@@ -4578,42 +4614,6 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                             ////showTimer("rows.length:   " + rows.length)
                             if ((rows.length == 0) || readOnly){
                                 try {
-
-                                if (saveHelper.getValueOfCodeString(code,"hide_header")) {
-                                    componentOptions = "HIDE_HEADER"
-                                }
-
-                                //showTimer(`6`)
-
-
-                                let displayName = saveHelper.getValueOfCodeString(code,"display_name")
-
-                                let useDb = saveHelper.getValueOfCodeString(code,"use_db")
-                                let editors2 = saveHelper.getValueOfCodeString(code,"editors")
-                                let controlType = saveHelper.getValueOfCodeString(code,"component_type")
-                                let controlSubType = saveHelper.getValueOfCodeString(code,"control_sub_type")
-
-                                let editors = null
-                                if (editors2) {
-                                    editors = JSON.stringify(editors2,null,2)
-
-                                }
-                                let readWriteStatus = null
-                                if (readOnly) {
-                                    readWriteStatus = "READ"
-                                }
-
-
-                                let codeChanges = saveHelper.getValueOfCodeString(code,"code_changes",")//code_" + "changes")
-                                let codeChangesStr = null
-                                let numCodeChanges = null
-                                if (codeChanges) {
-                                    codeChangesStr = JSON.stringify(codeChanges,null,2)
-                                    numCodeChanges = codeChanges.length
-                                }
-
-
-
 
                                 let properties = saveHelper.getValueOfCodeString(code,"properties",")//properties")
                                 if (properties) {
