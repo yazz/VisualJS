@@ -3404,7 +3404,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
 
 
         app.post("/save_code" , async function (req, res) {
-            //zzz
+
             let userid = await getUserId(req)
             let optionsForSave = req.body.value.options
             optionsForSave.userId = userid
@@ -3740,11 +3740,13 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             //
             // save the new smart contract component
             //
-            await addOrUpdateDriver(copy_base_component_id, srcText ,  {username: "default", reponame: copy_base_component_id, version: "latest", ipfsHashId:ipfsHash})
+            let codeRet = await addOrUpdateDriver(copy_base_component_id, srcText ,  {username: "default", reponame: copy_base_component_id, version: "latest", ipfsHashId:ipfsHash})
+            let codeId = codeRet.codeId
+            //zzz
 
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end(JSON.stringify({
-                ipfsHash:   ipfsHash,
+                ipfsHash:   codeId,
                 return:     srcText
                 }))
         });
@@ -4745,6 +4747,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                 let sha1sum2  = await OnlyIpfsHash.of(code)
                                 if (sha1sum2 != sha1sum) {
                                     console.log("SHA do not match")
+                                    //zzz
                                 }
 
                                 dbsearch.serialize(async function() {
@@ -4793,7 +4796,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                         ,
                                         userId
                                     )
-                                    //zzz
+
 
 
                                     let restApi = saveHelper.getValueOfCodeString(code, "rest_api")
@@ -6111,7 +6114,12 @@ async function addOrUpdateDriver(  name, codeString ,options ) {
                                     parentId = rows[0].id
                                 }
 
-                                await saveCodeV2(  name, parentId,    codeString  ,options);
+                                let saveRet = await saveCodeV2(  name, parentId,    codeString  ,options);
+                                let codeId = null
+                                if (saveRet) {
+                                    codeId = saveRet.code_id
+                                }
+                                returnfn({codeId: codeId})
 
 
 
@@ -6119,6 +6127,7 @@ async function addOrUpdateDriver(  name, codeString ,options ) {
                                   console.log(err);
                                   let stack = new Error().stack
                                   console.log( stack )
+                                  returnfn({error: err})
                               } finally {
                                 returnfn({})
                               }
