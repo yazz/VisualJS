@@ -404,7 +404,7 @@ Refresh button
                    v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppId + ".yazz"'
                    download
                    v-if="show_download_save"
-                   v-on:mouseenter='setInfo("Download the JS .yazz fileds for this app")'
+                   v-on:mouseenter='setInfo("Download the JS .yazz file for this app")'
                    v-on:mouseleave='setInfo(null)'
                    type="button" class="btn btn-light ">
 
@@ -455,7 +455,7 @@ Embed button
               <a   v-bind:style="'padding: 0px; margin-top: 0px; margin-left:0px; position: relative; border: 0px;background-color: rgb(242, 242, 242);'"
                    v-if="show_download_save"
                    v-on:click='setTimeout(async function(){await embedApp(base_component_id, {})},100)'
-                   v-on:mouseenter='setInfo("Download the JS .yazz fileds for this app")'
+                   v-on:mouseenter='setInfo("Download the JS .yazz file for this app")'
                    v-on:mouseleave='setInfo(null)'
                    type="button" class="btn btn-light ">
                 
