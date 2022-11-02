@@ -49,13 +49,6 @@ properties(
         }
         ,
         {
-            id:     "ipfs_hash_id",
-            name:   "IPFS Hash ID",
-            type:   "String",
-            readonly: true
-        }
-        ,
-        {
             id:     "previous_ipfs_version",
             name:   "Previous IPFS Version",
             type:   "String",
