@@ -3727,14 +3727,6 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
 
 
 
-            let ipfsHash = codeId// await saveItemToIpfs(srcText)
-
-
-
-
-
-
-
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end(JSON.stringify({
                 ipfsHash:   codeId,
