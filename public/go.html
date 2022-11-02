@@ -4977,6 +4977,10 @@ async function loadV3( baseComponentItems, args ) {
         // in
         //
         for (let tt=0; tt < componentsItemsToLoadV3.length; tt++) {
+            if (tt.ipfsHashId && (tt.ipfsHashId.length > 0)) {
+                //zzz
+            }
+
             let componentId = componentsItemsToLoadV3[tt].baseComponentId
             let componentItem = componentsItemsToLoadV3[tt]
             if (!component_loaded[componentId]) {

@@ -2475,7 +2475,7 @@ Pushlist
                  // Load the component definitions for all components on
                  // this form
                  // ---------------------------------------------------------
-debugger
+//debugger
                  let compsToLoad = []
                  for (let compenentInFormIndex = 0; compenentInFormIndex < mm.model.forms[formName].components.length ; compenentInFormIndex++ )
                  {
