@@ -3710,25 +3710,6 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             fs.writeFileSync( "z.txt",  srcText.toString() )
 
 
-            let ipfsHash = await saveItemToIpfs(srcText)
-
-
-
-            //
-            // Add an IPFS has ID to the component class. Unfortunately this can't be stored in IPFS itself
-            //
-            properties = saveHelper.getValueOfCodeString(srcText,"properties", ")//prope" + "rties")
-            srcText = saveHelper.deleteCodeString(  srcText, "properties", ")//prope" + "rties")
-            for (let irte = 0 ; irte < properties.length ; irte++ ) {
-                let brje = properties[irte]
-                if (brje.id == "ipfs_hash_id") {
-                    brje.default = ipfsHash
-                }
-            }
-            srcText = saveHelper.insertCodeString(  srcText,
-                "properties",
-                properties,
-                ")//prope" + "rties")
 
 
 
@@ -3743,6 +3724,16 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             let codeRet = await addOrUpdateDriver(copy_base_component_id, srcText ,  {username: "default", reponame: copy_base_component_id, version: "latest"})
             let codeId = codeRet.codeId
             //zzz
+
+
+
+            let ipfsHash = codeId// await saveItemToIpfs(srcText)
+
+
+
+
+
+
 
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end(JSON.stringify({
