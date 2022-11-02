@@ -3740,7 +3740,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             //
             // save the new smart contract component
             //
-            let codeRet = await addOrUpdateDriver(copy_base_component_id, srcText ,  {username: "default", reponame: copy_base_component_id, version: "latest", ipfsHashId:ipfsHash})
+            let codeRet = await addOrUpdateDriver(copy_base_component_id, srcText ,  {username: "default", reponame: copy_base_component_id, version: "latest"})
             let codeId = codeRet.codeId
             //zzz
 
@@ -4732,15 +4732,12 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
                                 let componentTypeV2 = saveHelper.getValueOfCodeString(code,"component_type_v2")
 
-                                let ipfsHashId = null
-
                                 ////showTimer("Saving in Sqlite: " + parentHash)
                                 ////showTimer("Saving in Sqlite: " + code)
                                 let save_code_to_file = null
                                 let userId = null
                                 if (options) {
                                     save_code_to_file = options.save_code_to_file
-                                    ipfsHashId = options.ipfsHashId
                                     userId = options.userId
                                 }
                                 //showTimer(`10`)
@@ -4775,7 +4772,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                           controlType,
                                           controlSubType,
                                           save_code_to_file,
-                                          ipfsHashId,
+                                          sha1sum,
                                           componentTypeV2,
                                           "TIP",
                                           codeChangesStr,
