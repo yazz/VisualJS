@@ -2906,7 +2906,7 @@ async function startServices() {
                 let randomNumber =  uuidv1()
                 res.cookie('yazz',randomNumber, { maxAge: 900000, httpOnly: true });
                 await createCookieInDb(randomNumber, hostCookieSentTo, from_device_type)
-                console.log('cookie created successfully');
+                //console.log('cookie created successfully');
             } else {
                 // yes, cookie was already present
                 console.log('cookie exists', cookie);
@@ -5915,14 +5915,14 @@ async function sendIpfsHashToCentralServer(ipfs_hash , ipfsContent) {
                 theHttpsConn = https
             }
             let req = theHttpsConn.request(options, function(res) {
-                console.log('STATUS: ' + res.statusCode);
-                console.log('HEADERS: ' + JSON.stringify(res.headers));
+                //console.log('STATUS: ' + res.statusCode);
+                //console.log('HEADERS: ' + JSON.stringify(res.headers));
                 res.setEncoding('utf8');
                 res.on('data', function (chunk) {
-                    console.log('BODY: ' + chunk);
+                    //console.log('BODY: ' + chunk);
                 });
                 res.on('end', function () {
-                    console.log('end: ' );
+                    //console.log('end: ' );
                 });
             });
             req.write(dataString)
