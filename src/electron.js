@@ -6012,7 +6012,7 @@ async function loadComponentFromIpfs(ipfsHash) {
 
                 ipfs.files.get(ipfsHash, function (err, files) {
                     files.forEach(async function(file) {
-                        console.log("....................................Loading component fro IPFS: " + file.path)
+                        console.log("....................................Loading component from IPFS: " + file.path)
                         //console.log(file.content.toString('utf8'))
                         srcCode = file.content.toString('utf8')
 
