@@ -4431,7 +4431,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
     let promise = new Promise(async function(returnFn) {
         let allowChanges = true
-        if (options && options.allowChanges) {
+        if (options) {
             allowChanges = options.allowChanges
         }
         //resetTimer(`*function saveCodeV2( ${baseComponentId}, ${parentHash} ) {`)
@@ -6045,7 +6045,7 @@ async function loadComponentFromIpfs(ipfsHash) {
 
 
 
-                let properties = saveHelper.getValueOfCodeString(srcCode,"properties", ")//prope" + "rties")
+               /* let properties = saveHelper.getValueOfCodeString(srcCode,"properties", ")//prope" + "rties")
                 srcCode = saveHelper.deleteCodeString(  srcCode, "properties", ")//prope" + "rties")
                 for (let irte = 0 ; irte < properties.length ; irte++ ) {
                     let brje = properties[irte]
@@ -6057,7 +6057,7 @@ async function loadComponentFromIpfs(ipfsHash) {
                 srcCode = saveHelper.insertCodeString(  srcCode,
                     "properties",
                     properties,
-                    ")//prope" + "rties")
+                    ")//prope" + "rties")*/
 
                 await addOrUpdateDriver(baseComponentId, srcCode ,  {username: "default", reponame: baseComponentId, version: "latest", ipfsHashId: ipfsHash, allowChanges: false})
 
