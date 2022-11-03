@@ -4430,6 +4430,10 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
     }
 
     let promise = new Promise(async function(returnFn) {
+        let allowChanges = true
+        if (options && options.allowChanges) {
+            allowChanges = options.allowChanges
+        }
         //resetTimer(`*function saveCodeV2( ${baseComponentId}, ${parentHash} ) {`)
         if (!baseComponentId) {
             baseComponentId = uuidv1()
@@ -4444,7 +4448,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
         //  Add a link to the parent code
         //
         let lastParentHash = saveHelper.getValueOfCodeString(code,"parent_hash")
-        if (lastParentHash != parentHash) {
+        if (allowChanges && (lastParentHash != parentHash)) {
             if (lastParentHash) {
                 code = saveHelper.deleteCodeString(code, "parent_hash")
             }
@@ -4463,7 +4467,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
         let oldBaseComp = saveHelper.getValueOfCodeString(code,"base_component_id")
 
 
-        if (oldBaseComp != baseComponentId ) {
+        if (allowChanges && (oldBaseComp != baseComponentId )) {
             code = saveHelper.deleteCodeString(code, "base_component_id")
             code = saveHelper.insertCodeString(code, "base_component_id", baseComponentId)
         }
@@ -4477,13 +4481,15 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
             creationTimestamp = -1
         }
         let tvvv = saveHelper.getValueOfCodeString(code, "created_timestamp")
-        if (!tvvv) {
+        if (allowChanges && (!tvvv)) {
             code = saveHelper.deleteCodeString(code, "created_timestamp")
             code = saveHelper.insertCodeString(code, "created_timestamp", creationTimestamp)
         }
 
-        code = saveHelper.deleteCodeString(code, "updated_timestamp")
-        code = saveHelper.insertCodeString(code, "updated_timestamp", creationTimestamp)
+        if (allowChanges) {
+            code = saveHelper.deleteCodeString(code, "updated_timestamp")
+            code = saveHelper.insertCodeString(code, "updated_timestamp", creationTimestamp)
+        }
 
         //showTimer(`3`)
 
@@ -4510,7 +4516,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
             }
         }
 
-        if (newvisibility != visibility) {
+        if (allowChanges && (newvisibility != visibility)) {
             code = saveHelper.deleteCodeString(code, "visibility")
             code = saveHelper.insertCodeString(code, "visibility", newvisibility)
         }
@@ -4519,7 +4525,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
 
         let logoUrl = saveHelper.getValueOfCodeString(code,"logo_url")
-        if (!isValidObject(logoUrl)) {
+        if (allowChanges && (!isValidObject(logoUrl))) {
             logoUrl = "/driver_icons/js.png"
             code = saveHelper.insertCodeString(code, "logo_url", logoUrl)
         }
@@ -4596,13 +4602,13 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
 
                     if (prop.id == "previous_ipfs_version") {
-                        if (typeof prop.default !== 'undefined' ) {
+                        if (allowChanges && (typeof prop.default !== 'undefined' )) {
                             code = saveHelper.deleteCodeString(code, "previous_ipfs_version")
                             code = saveHelper.insertCodeString(code, "previous_ipfs_version", prop.default)
                         }
                     }
                     if (prop.id == "ipfs_hash_id") {
-                        if (typeof prop.default !== 'undefined' ) {
+                        if (allowChanges && (typeof prop.default !== 'undefined' )) {
                             code = saveHelper.deleteCodeString(code, "ipfs_hash_id")
                             code = saveHelper.insertCodeString(code, "ipfs_hash_id", prop.default)
                         }
@@ -6053,7 +6059,7 @@ async function loadComponentFromIpfs(ipfsHash) {
                     properties,
                     ")//prope" + "rties")
 
-                await addOrUpdateDriver(baseComponentId, srcCode ,  {username: "default", reponame: baseComponentId, version: "latest", ipfsHashId: ipfsHash})
+                await addOrUpdateDriver(baseComponentId, srcCode ,  {username: "default", reponame: baseComponentId, version: "latest", ipfsHashId: ipfsHash, allowChanges: false})
 
                 console.log("....................................Loading component from local IPFS cache: " + fullIpfsFilePath)
                 returnfn("Done")
@@ -6093,7 +6099,7 @@ async function loadComponentFromIpfs(ipfsHash) {
                         let fullIpfsFilePath = path.join(fullIpfsFolderPath,  ipfsHash)
                         fs.writeFileSync(fullIpfsFilePath, srcCode);
 
-                        await addOrUpdateDriver(baseComponentId, srcCode ,  {username: "default", reponame: baseComponentId, version: "latest", ipfsHashId: ipfsHash})
+                        await addOrUpdateDriver(baseComponentId, srcCode ,  {username: "default", reponame: baseComponentId, version: "latest", ipfsHashId: ipfsHash, allowChanges: false})
 
                         console.log("....................................Loading component fro IPFS: " + file.path)
                     })
