@@ -2257,8 +2257,11 @@ function websocketFn(ws) {
             let componentHashs = []
             let componentHashToIds = []
             for (let indexItems = 0 ; indexItems < componentItems.length ; indexItems ++ ) {
+            //zzz
+
+
                 let componentItem = componentItems[indexItems]
-                if (componentItem.ipfsHashId) {
+                if (componentItem.ipfsHashId &&  (componentItem.ipfsHashId.length > 0)) {
                     componentHashs.push(componentItem.ipfsHashId)
                     componentHashToIds.push(componentItem.baseComponentId)
                 } else {
