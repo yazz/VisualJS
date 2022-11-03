@@ -4181,6 +4181,7 @@ function getDebugCode(blockName,  trcode2 , args) {
 
 
 async function callCodeV2(componentRecord,args, seq_no) {
+
     //console.log("Code to run !: ")
     if (componentRecord.edit_file_path) {
         saveCodeToFile = componentRecord.edit_file_path
@@ -4204,6 +4205,8 @@ async function callCodeV2(componentRecord,args, seq_no) {
         if (isValidObject(componentRecord.properties)) {
             component_cache[componentRecord.base_component_id].code = componentRecord.code
             component_cache[componentRecord.base_component_id].properties = eval("(" + componentRecord.properties + ")")
+            component_cache[componentRecord.base_component_id].code_id = componentRecord.id
+            debugger
         }
 
 
