@@ -1752,6 +1752,7 @@ End of app preview menu
                             //
                             code = results[0].code
                             codeId = results[0].id
+                            mm.code_id = codeId
 
                             if (code.toString().includes("Vue.")) {
                                 this.is_ui_app = true
@@ -1784,7 +1785,6 @@ End of app preview menu
 
                             if (mm.editor_loaded && (mm.editor_text != code)) {
                                 mm.editor_text = code
-                                mm.code_id = codeId
                                 console.log("2) mm.code_id= " + mm.code_id)
 
 
