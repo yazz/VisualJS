@@ -80,21 +80,6 @@ properties(
         }
         ,
         {
-            id:     "ipfs_hash_id",
-            name:   "IPFS Hash ID",
-            type:   "String",
-            readonly: true
-        }
-        ,
-        {
-            id:     "previous_ipfs_version",
-            name:   "Previous IPFS Version",
-            type:   "String",
-            readonly: true
-        }
-        ,
-
-        {
             id:         "has_details_ui",
             name:       "Has details UI?",
             type:       "Boolean",

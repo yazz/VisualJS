@@ -7179,7 +7179,6 @@ ${eventMessage.code}
 
              properties.push({   id:     "name",   name:   "Name",   type:   "String"    })
              properties.push({   id:     "base_component_id",   name:   "Type",   type:   "String" , readonly: true   })
-             properties.push({   id:     "ipfs_hash_id",   name:   "IPFS Hash ID",   type:   "String" , readonly: true   })
 
              properties.push({   id:     "leftX",   name:   "X",   type:   "Number"    })
              properties.push({   id:     "topY",   name:   "Y",   type:   "Number"    })
