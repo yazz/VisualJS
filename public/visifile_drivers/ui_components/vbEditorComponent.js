@@ -42,7 +42,7 @@ uses_javascript_librararies(["advanced_bundle"])
                 style="background-color: blue;padding: 12px;color:white;"
                 v-on:click="debug_component = null"
           >
-            <b>{{ debug_component }}</b>
+            <b>Component type: </b>{{ debug_component }}
             <button  type=button class=' btn btn-danger btn-sm'
                      style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
                      v-on:click='debug_component = null' >x</button>
