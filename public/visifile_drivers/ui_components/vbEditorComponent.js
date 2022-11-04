@@ -36,10 +36,10 @@ uses_javascript_librararies(["advanced_bundle"])
         </slot>
         
         <div  v-if="debug_component"
-              style="position:fixed; left:2vw;top:2vh;width:96vw;height:96vh;background-color: white;z-index:100000000;"
+              style="position:fixed; left:2vw;top:2vh;width:96vw;height:95%;background-color: white;z-index:100000000; border: black solid 2px;"
         >
           <div  v-if="debug_component"
-                style="background-color: lightgray;padding: 12px;"
+                style="background-color: blue;padding: 12px;color:white;"
                 v-on:click="debug_component = null"
           >
             <b>{{ debug_component }}</b>
@@ -52,7 +52,7 @@ uses_javascript_librararies(["advanced_bundle"])
             
             IPFS: {{component_cache[debug_component]?component_cache[debug_component].code_id:""}}
           </div>
-          <pre style="height:90%;width:100%;overflow:scroll;padding: 5px;">
+          <pre style="height:80%;width:100%;overflow:scroll;padding: 5px;background-color:lightgray;">
             {{component_cache[debug_component]?component_cache[debug_component].code:""}}
           </pre>
           
