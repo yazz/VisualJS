@@ -1494,17 +1494,17 @@ End of app preview menu
             }
                mm.inSave = true
 
-             resetTimer("save")
+             //resetTimer("save")
 
             try {
                 if (textIn == null) {
-                     showTimer("before getText")
+                     //showTimer("before getText")
                      this.editor_text = await this.$refs.editor_component_ref.getText()
-                     showTimer("after getText")
+                     //showTimer("after getText")
                 } else {
                      this.editor_text = textIn
                 }
-showTimer()
+//showTimer()
                 //if (mm.read_only) {
                 //     mm.inSave = false
                 //     return false
@@ -1517,13 +1517,13 @@ showTimer()
 
                 showProgressBar()
 
-                showTimer("before save code")
+                //showTimer("before save code")
                 let allowAppToWorkOffline = false
                 if (extras) {
                     allowAppToWorkOffline = extras.allowAppToWorkOffline
                 }
 
-
+//debugger
                  callAjaxPost("/save_code",
                  {
                       base_component_id:      base_component_id,
@@ -1539,13 +1539,14 @@ showTimer()
                  ,
                  async function(response){
                  //debugger
-                   showTimer("in save code response")
+                   //showTimer("in save code response")
                    if (mm.$refs.editor_component_ref.savedStatus !== undefined) {
                        await mm.$refs.editor_component_ref.savedStatus({status: "ok"})
                    }
 
                    let responseJson = JSON.parse(response)
                      mm.code_id = responseJson.code_id
+                        console.log("1) mm.code_id= " + mm.code_id)
                    if ((saveHelper.getValueOfCodeString(mm.editor_text,"only_run_on_server") == true)
                    ||
                        (saveHelper.getValueOfCodeString(mm.editor_text,"rest_api"))
@@ -1585,7 +1586,7 @@ showTimer()
 
                      mm.save_state = "saved"
                    mm.checkSavedFile()
-                   showTimer("done")
+                   //showTimer("done")
                      mm.inSave = false
                      mm.editor_shell_locked = false
                      return true
@@ -1626,7 +1627,7 @@ showTimer()
                         }
                         ,
                         async function(response){
-                            showTimer("in 'post_app' response")
+                            //showTimer("in 'post_app' response")
                             //alert(response)
                             //debugger
 
@@ -1784,6 +1785,9 @@ showTimer()
                             if (mm.editor_loaded && (mm.editor_text != code)) {
                                 mm.editor_text = code
                                 mm.code_id = codeId
+                                console.log("2) mm.code_id= " + mm.code_id)
+
+
                             }
 
 
@@ -1961,6 +1965,9 @@ showTimer()
                                         if (mm.editor_loaded && (mm.editor_text != code)) {
                                             mm.editor_text = code
                                             mm.code_id = codeId
+                                            console.log("3) mm.code_id= " + mm.code_id)
+
+
                                         }
 
 
