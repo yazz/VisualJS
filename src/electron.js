@@ -2257,7 +2257,7 @@ function websocketFn(ws) {
             let componentHashs = []
             let componentHashToIds = []
             for (let indexItems = 0 ; indexItems < componentItems.length ; indexItems ++ ) {
-            //zzz
+
 
 
                 let componentItem = componentItems[indexItems]
@@ -3726,7 +3726,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             //
             let codeRet = await addOrUpdateDriver(copy_base_component_id, srcText ,  {username: "default", reponame: copy_base_component_id, version: "latest"})
             let codeId = codeRet.codeId
-            //zzz
+
 
 
 
@@ -4432,7 +4432,10 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
     let promise = new Promise(async function(returnFn) {
         let allowChanges = true
         if (options) {
-            allowChanges = options.allowChanges
+            //zzz
+            if (typeof options.allowChanges !== 'undefined') {
+                allowChanges = options.allowChanges
+            }
         }
         //resetTimer(`*function saveCodeV2( ${baseComponentId}, ${parentHash} ) {`)
         if (!baseComponentId) {
@@ -4736,7 +4739,6 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                 let sha1sum2  = await OnlyIpfsHash.of(code)
                                 if (sha1sum2 != sha1sum) {
                                     console.log("SHA do not match")
-                                    //zzz
                                 }
 
                                 dbsearch.serialize(async function() {
