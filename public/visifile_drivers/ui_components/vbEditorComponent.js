@@ -39,10 +39,13 @@ uses_javascript_librararies(["advanced_bundle"])
               style="position:fixed; left:2vw;top:2vh;width:96vw;height:96vh;background-color: white;z-index:100000000;"
         >
           <div  v-if="debug_component"
-                style="background-color: lightgray;padding: 5px;"
+                style="background-color: lightgray;padding: 12px;"
                 v-on:click="debug_component = null"
           >
             <b>{{ debug_component }}</b>
+            <button  type=button class=' btn btn-danger btn-sm'
+                     style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
+                     v-on:click='debug_component = null' >x</button>
           </div> 
           <br>
           <div>
