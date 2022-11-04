@@ -5507,7 +5507,7 @@ function capitalizeFirstLetter(string) {
 
 
 function timeDiffLater(time1, time2) {
-debugger
+//debugger
     if (!time1) {
         return ""
     }
@@ -5522,7 +5522,7 @@ debugger
     let timeDiffHours = timeDiffMins / 60
     let timeDiffDays = timeDiffHours / 24
     if (duration < 100) {
-        ret2 = ret2 + "few milliseconds"
+        ret2 = ret2 + "a few milliseconds"
     } else if (duration < 600) {
             ret2 = ret2 + "half a second"
     } else if (duration < 1000) {
@@ -5530,21 +5530,21 @@ debugger
     } else if (duration < 1400) {
         ret2 = ret2 + "about a second"
     } else if (timeDiffSecs < 60) {
-        ret2 = ret2 + "few seconds"
+        ret2 = ret2 + "a few seconds"
     } else if (timeDiffMins < 10) {
-        ret2 = ret2 + "few minutes"
+        ret2 = ret2 + "a few minutes"
     } else if (timeDiffMins < 60) {
         ret2 = ret2 + "little under an half an hour"
     } else if (timeDiffMins < 60) {
         ret2 = ret2 + "little under an hour"
     } else if (timeDiffHours < 10) {
-        ret2 = ret2 + " few hours"
+        ret2 = ret2 + "a few hours"
     } else if (timeDiffDays < 10) {
-        ret2 = ret2 + "few days"
+        ret2 = ret2 + "a few days"
     }
 
 
-    let ret = "after a " + ret2
+    let ret = "after " + ret2
 
     return ret
 }

@@ -43,7 +43,7 @@ load_once_from_file(true)
                         <li v-for='commit in commitsV1'
                             style='color:black;'>
                           {{msToTime(commit.timestamp)}} - {{commit.numChanges}}
-                          <span v-if="(commit.numChanges > 0) && (selectedCommit != commit.codeSha)">
+                          <span v-if="(commit.numChanges > -1) && (selectedCommit != commit.codeSha)">
                             <a href='#' v-on:click='selectedCommit = commit.codeSha'>More</a>
                           </span>
                           <span v-if="(commit.numChanges > 0) && (selectedCommit == commit.codeSha)">
@@ -53,12 +53,15 @@ load_once_from_file(true)
                                 <br/>
                                 <div><b>Commit ID:</b> {{commit.codeSha}} </div>
                                 <br/>
-                                <div v-for="(item,i) in commit.changes.slice().reverse()">
-                                    <span v-if="i==(commit.changes.length - 1)"><b>First commit</b> - </span>
-                                    <span v-if="i!=(commit.changes.length - 1)"><b>{{ capitalizeFirstLetter(timeDiffLater(firstCommitTimestamps[commit.codeSha], item.timestamp)) }}</b> - </span>
-                                   
-                                  {{ item.code_change_text }}
-                                </div>
+                                <div v-if="commit.changes">
+                                    <div
+                                        v-for="(item,i) in commit.changes.slice().reverse()">
+                                        <span v-if="i==(commit.changes.length - 1)"><b>First commit</b> - </span>
+                                        <span v-if="i!=(commit.changes.length - 1)"><b>{{ capitalizeFirstLetter(timeDiffLater(firstCommitTimestamps[commit.codeSha], item.timestamp)) }}</b> - </span>
+                                       
+                                      {{ item.code_change_text }}
+                                    </div>
+                              </div>
                           </div>
 
 
