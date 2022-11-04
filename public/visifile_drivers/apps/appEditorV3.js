@@ -1538,12 +1538,14 @@ showTimer()
                  }
                  ,
                  async function(response){
+                 //debugger
                    showTimer("in save code response")
                    if (mm.$refs.editor_component_ref.savedStatus !== undefined) {
                        await mm.$refs.editor_component_ref.savedStatus({status: "ok"})
                    }
 
                    let responseJson = JSON.parse(response)
+                     mm.code_id = responseJson.code_id
                    if ((saveHelper.getValueOfCodeString(mm.editor_text,"only_run_on_server") == true)
                    ||
                        (saveHelper.getValueOfCodeString(mm.editor_text,"rest_api"))
