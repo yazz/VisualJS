@@ -46,7 +46,7 @@ load_once_from_file(true)
                           <span v-if="(commit.numChanges > -1) && (selectedCommit != commit.codeSha)">
                             <a href='#' v-on:click='selectedCommit = commit.codeSha'>More</a>
                           </span>
-                          <span v-if="(commit.numChanges > 0) && (selectedCommit == commit.codeSha)">
+                          <span v-if="(commit.numChanges > -1) && (selectedCommit == commit.codeSha)">
                             <a href='#' v-on:click='selectedCommit = null'>Less</a>
                           </span>
                           <div v-if="selectedCommit == commit.codeSha" style="background-color: lightgray;padding: 10px;">
