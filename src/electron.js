@@ -3191,6 +3191,7 @@ async function startServices() {
                                                     })
                                             }
                                         }
+                                        //zzz
 
 
 
@@ -4435,7 +4436,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
     let promise = new Promise(async function(returnFn) {
         let allowChanges = true
         if (options) {
-            //zzz
+
             if (typeof options.allowChanges !== 'undefined') {
                 allowChanges = options.allowChanges
             }
@@ -7518,4 +7519,106 @@ async function createCookieInDb(cookie, hostCookieSentTo, from_device_type) {
     let ipfsHash = await promise
     return ipfsHash
     return ""
+}
+
+
+
+
+
+
+async function getQuickSqlOneRow(args) {
+    let rows = await getQuickSql(args)
+    if (rows.length == 0) {
+        return null
+    }
+    return rows[0]
+}
+
+async function getQuickSql(args) {
+    let sql = args.sql
+    let params = args.params
+
+    let promise = new Promise(async function(returnfn) {
+        dbsearch.serialize(
+            function() {
+                dbsearch.all(
+                    sql
+                    ,
+                    params
+                    ,
+                    async function(err, rows) {
+                        let returnRows = []
+                        if (!err) {
+                            returnfn( {result: rows} )
+                        } else {
+                                returnfn( {error: err} )
+                        }
+                    }
+                );
+            }, sqlite3.OPEN_READONLY)
+    })
+    let ret = await promise
+    return ret
+}
+
+
+
+
+
+
+async function getPreviousCommitsFor(args) {
+    let commitId = args.commitId
+    let numPrevious = 100000000
+    let returnRows = []
+
+    if (args.numPrevious) {
+        numPrevious = args.numPrevious
+    }
+
+    if (args.returnRows) {
+        returnRows = args.returnRows
+    }
+
+    let previousCommits = []
+    let baseComponentIdToFind = req.query.id;
+    let thisCommit = await getQuickSqlOneRow(
+        {
+            sql:        "select  *  from   system_code  where   base_component_id = ? "
+            ,
+            params:     [  commitId  ]
+        })
+
+
+    if (thisCommit) {
+        let previousCommitid = thisCommit.parentId
+        if (previousCommitId) {
+            let previousCommit = await getQuickSqlOneRow(
+                {
+                    sql:        "select  *  from   system_code  where   base_component_id = ? "
+                    ,
+                    params:     [  previousCommitId  ]
+                })
+            if (previousCommit) {
+                let changesList = []
+                try {
+                    changesList = JSON.parse(previousCommit.code_changes)
+                } catch(err) {
+                }
+                returnRows.push(
+                    {
+                        id: previousCommit.id,
+                        ipfs_hash_id: previousCommit.ipfs_hash_id,
+                        code_tag_v2: previousCommit.code_tag_v2,
+                        creation_timestamp: previousCommit.creation_timestamp,
+                        num_changes: previousCommit.num_changes,
+                        changes: previousCommit,
+                        base_component_id: previousCommitId
+                    })
+
+            }
+        }
+
+        return rows
+    }
+    return []
 }
