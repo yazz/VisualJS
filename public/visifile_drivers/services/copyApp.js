@@ -25,7 +25,10 @@ only_run_on_server(true)
                             {
                                 sub_components:         listOfSubComponents,
                                 copy_db_from:           argsBaseComponentId,
-                                save_html:              true
+                                save_html:              true,
+                                //let userid = await getUserId(req)
+                                //let optionsForSave = req.body.value.options
+                                userId: "app_new"
                             })
 
                 returnfn({
