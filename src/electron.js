@@ -4788,17 +4788,35 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                         baseComponentId,
                                         sha1sum
                                         )
-                                    stmtInsertIntoCodeTags.run(
-                                        uuidv1()
-                                        ,
-                                        baseComponentId
-                                        ,
-                                        "TIP"
-                                        ,
-                                        sha1sum
-                                        ,
-                                        userId
-                                    )
+                                    let existingCodeTags = await getQuickSqlOneRow(
+                                        {
+                                            sql: "select * from code_tags where base_component_id = ? and fk_user_id = ?"
+                                            ,
+                                            params:  [baseComponentId, userId]
+                                        })
+                                        if (existingCodeTags) {
+                                            stmtUpdateCommitForCodeTag.run(
+                                                sha1sum
+                                                ,
+                                                baseComponentId
+                                                ,
+                                                "TIP"
+                                                ,
+                                                userId
+                                            )
+                                        } else {
+                                            stmtInsertIntoCodeTags.run(
+                                                uuidv1()
+                                                ,
+                                                baseComponentId
+                                                ,
+                                                "TIP"
+                                                ,
+                                                sha1sum
+                                                ,
+                                                userId
+                                            )                                        }
+
 
 
 
