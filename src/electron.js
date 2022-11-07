@@ -3920,7 +3920,7 @@ async function findLocalIpfsContent() {
                         let parsedCode = parseCode(ipfsContent)
                         parsedCode.ipfsHash = ipfsHashFileName
                         await updateItemLists(parsedCode)
-                        await registerIPFS(file);
+                        await registerIPFS(ipfsHashFileName);
                     }
                     console.log("ipfsHashFileName : " + ipfsHashFileName + " read");
                 }
