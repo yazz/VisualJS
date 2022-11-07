@@ -3187,7 +3187,7 @@ async function startServices() {
                                                         creation_timestamp: thisRow.creation_timestamp,
                                                         num_changes: thisRow.num_changes,
                                                         changes: changesList,
-                                                        base_component_id: "BCI"
+                                                        base_component_id: baseComponentIdToFind
                                                     })
                                             }
                                         }
