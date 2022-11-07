@@ -3896,7 +3896,7 @@ async function findLocalIpfsContent() {
             if (ipfsHashFileName.length > 10) {
                 try
                 {
-                    console.log("ipfsHashFileName: " + ipfsHashFileName);
+                    //console.log("ipfsHashFileName: " + ipfsHashFileName);
 
                     let fullFileName = path.join(fullIpfsFolderPath, ipfsHashFileName)
                     let ipfsContent = fs.readFileSync(fullFileName, 'utf8')
@@ -3922,7 +3922,7 @@ async function findLocalIpfsContent() {
                         await updateItemLists(parsedCode)
                         await registerIPFS(ipfsHashFileName);
                     }
-                    console.log("ipfsHashFileName : " + ipfsHashFileName + " read");
+                    //console.log("ipfsHashFileName : " + ipfsHashFileName + " read");
                 }
                 catch(exp)
                 {
@@ -6003,7 +6003,7 @@ async function insertAppListRecord( id  ,  base_component_id  ,  app_name  ,  ap
 
             })
         } catch(er) {
-            console.log(er)
+            //console.log(er)
             returnfn()
         }
     })

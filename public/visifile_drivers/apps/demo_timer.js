@@ -89,7 +89,8 @@ uses_javascript_librararies(["advanced_bundle"])
 
 is_app(true)
 description('VB Blank App')
-logo_url("https://counter.onlineclock.net/tally-counter.jpg")
+logo_url("/driver_icons/tallly.jpeg")
+
 */
 
     //** gen_start **//
