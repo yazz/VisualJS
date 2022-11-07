@@ -3922,9 +3922,11 @@ async function findLocalIpfsContent() {
                         await updateItemLists(parsedCode)
                         await registerIPFS(file);
                     }
+                    console.log("ipfsHashFileName : " + ipfsHashFileName + " read");
                 }
                 catch(exp)
                 {
+                    console.log("ipfsHashFileName : " + ipfsHashFileName + " ERROR!" + exp);
                 }
 
             }
