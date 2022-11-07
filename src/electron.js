@@ -3186,7 +3186,8 @@ async function startServices() {
                                                         code_tag_v2: thisRow.code_tag_v2,
                                                         creation_timestamp: thisRow.creation_timestamp,
                                                         num_changes: thisRow.num_changes,
-                                                        changes: changesList
+                                                        changes: changesList,
+                                                        base_component_id: "BCI"
                                                     })
                                             }
                                         }

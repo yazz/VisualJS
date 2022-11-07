@@ -52,6 +52,7 @@ load_once_from_file(true)
                           <div v-if="selectedCommit == commit.codeSha" style="background-color: lightgray;padding: 10px;">
                                 <br/>
                                 <div><b>Commit ID:</b> {{commit.codeSha}} </div>
+                                <div><b>Type:</b> {{commit.baseComponentId}} </div>
                                 <br/>
                                 <div v-if="commit.changes">
                                     <div
@@ -120,7 +121,8 @@ load_once_from_file(true)
                                 codeSha: responseJson[rt].id,
                                 timestamp: responseJson[rt].creation_timestamp,
                                 numChanges: responseJson[rt].num_changes,
-                                changes: responseJson[rt].changes
+                                changes: responseJson[rt].changes,
+                                baseComponentId: responseJson[rt].base_component_id
                             })
 
 
