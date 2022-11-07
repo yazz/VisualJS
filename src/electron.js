@@ -3190,8 +3190,16 @@ async function startServices() {
                                                         base_component_id: baseComponentIdToFind
                                                     })
                                             }
+                                            //zzz
+                                            let lastCommitId = rows[rows.length - 1].id
+                                            returnRows = await getPreviousCommitsFor(
+                                                {
+                                                    commitId: lastCommitId
+                                                    ,
+                                                    returnRows: returnRows
+                                                })
                                         }
-                                        //zzz
+
 
 
 
@@ -7547,11 +7555,10 @@ async function getQuickSql(args) {
                     params
                     ,
                     async function(err, rows) {
-                        let returnRows = []
                         if (!err) {
-                            returnfn( {result: rows} )
+                            returnfn( rows )
                         } else {
-                                returnfn( {error: err} )
+                                throw( {error: err} )
                         }
                     }
                 );
@@ -7580,21 +7587,20 @@ async function getPreviousCommitsFor(args) {
     }
 
     let previousCommits = []
-    let baseComponentIdToFind = req.query.id;
     let thisCommit = await getQuickSqlOneRow(
         {
-            sql:        "select  *  from   system_code  where   base_component_id = ? "
+            sql:        "select  *  from   system_code  where   id = ? "
             ,
             params:     [  commitId  ]
         })
 
 
     if (thisCommit) {
-        let previousCommitid = thisCommit.parentId
+        let previousCommitId = thisCommit.parent_id
         if (previousCommitId) {
             let previousCommit = await getQuickSqlOneRow(
                 {
-                    sql:        "select  *  from   system_code  where   base_component_id = ? "
+                    sql:        "select  *  from   system_code  where   id = ? "
                     ,
                     params:     [  previousCommitId  ]
                 })
@@ -7611,8 +7617,8 @@ async function getPreviousCommitsFor(args) {
                         code_tag_v2: previousCommit.code_tag_v2,
                         creation_timestamp: previousCommit.creation_timestamp,
                         num_changes: previousCommit.num_changes,
-                        changes: previousCommit,
-                        base_component_id: previousCommitId
+                        changes: changesList,
+                        base_component_id: previousCommit.base_component_id
                     })
 
             }
