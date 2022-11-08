@@ -4644,6 +4644,18 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
         let sha1sum  = await OnlyIpfsHash.of(code)
         ////showTimer("Save sha1 for :" + baseComponentId + ": " + sha1sum)
 
+        let userId = null
+        if (options) {
+            save_code_to_file = options.save_code_to_file
+            userId = options.userId
+        }
+
+        let existingCodeTags = await getQuickSqlOneRow(
+            {
+                sql: "select * from code_tags where base_component_id = ? and fk_user_id = ?"
+                ,
+                params:  [baseComponentId, userId]
+            })
         dbsearch.serialize(
             function() {
                 dbsearch.all(
@@ -4746,11 +4758,6 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                 ////showTimer("Saving in Sqlite: " + parentHash)
                                 ////showTimer("Saving in Sqlite: " + code)
                                 let save_code_to_file = null
-                                let userId = null
-                                if (options) {
-                                    save_code_to_file = options.save_code_to_file
-                                    userId = options.userId
-                                }
                                 //showTimer(`10`)
                                 let sha1sum2  = await OnlyIpfsHash.of(code)
                                 if (sha1sum2 != sha1sum) {
@@ -4792,12 +4799,8 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                         baseComponentId,
                                         sha1sum
                                         )
-                                    let existingCodeTags = await getQuickSqlOneRow(
-                                        {
-                                            sql: "select * from code_tags where base_component_id = ? and fk_user_id = ?"
-                                            ,
-                                            params:  [baseComponentId, userId]
-                                        })
+
+
                                         if (existingCodeTags) {
                                             stmtUpdateCommitForCodeTag.run(
                                                 sha1sum
@@ -4819,7 +4822,8 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                 sha1sum
                                                 ,
                                                 userId
-                                            )                                        }
+                                            )
+                                        }
 
 
 
@@ -7617,6 +7621,37 @@ async function createCookieInDb(cookie, hostCookieSentTo, from_device_type) {
 
 
 
+async function getQuickSqlOneRowInsideTransaction(args) {
+    let rows = await getQuickSqlInsideTransaction(args)
+    if (rows.length == 0) {
+        return null
+    }
+    return rows[0]
+}
+
+async function getQuickSqlInsideTransaction(args) {
+    let sql = args.sql
+    let params = args.params
+
+    let promise = new Promise(async function(returnfn) {
+        dbsearch.all(
+            sql
+            ,
+            params
+            ,
+            async function (err, rows) {
+                if (!err) {
+                    returnfn(rows)
+                } else {
+                    throw({error: err})
+                }
+            }
+        );
+    })
+
+    let ret = await promise
+    return ret
+}
 
 
 async function getQuickSqlOneRow(args) {
@@ -7672,7 +7707,7 @@ async function getPreviousCommitsFor(args) {
     }
 
     let previousCommits = []
-    let thisCommit = await getQuickSqlOneRow(
+    let thisCommit = await getQuickSqlOneRowInsideTransaction(
         {
             sql:        "select  *  from   system_code  where   id = ? "
             ,
@@ -7683,7 +7718,7 @@ async function getPreviousCommitsFor(args) {
     if (thisCommit) {
         let previousCommitId = thisCommit.parent_id
         if (previousCommitId) {
-            let previousCommit = await getQuickSqlOneRow(
+            let previousCommit = await getQuickSqlOneRowInsideTransaction(
                 {
                     sql:        "select  *  from   system_code  where   id = ? "
                     ,
