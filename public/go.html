@@ -3374,6 +3374,7 @@ function populateCache() {
 var socket=null;
 function sendToServerViaWebSocket(msg) {
     if (online) {
+        msg.cookie = getYazzCookie()
         socket.send(JSON.stringify(msg));
     }
     //console.log("Sent over socket: " + JSON.stringify(msg,null,2));
@@ -5556,6 +5557,9 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
+function getYazzCookie() {
+    return getCookie("yazz")
+}
 </script>
 </body>
 </html>
