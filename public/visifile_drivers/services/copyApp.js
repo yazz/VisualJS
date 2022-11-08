@@ -5,6 +5,7 @@ base_component_id("copyApp")
 load_once_from_file(true)
 only_run_on_server(true)
 */
+    let userId = args.user_id
 
     async function asdf(argsBaseComponentId, newBaseid, parentHashId, code, returnfn, newDisplayName) {
         dbsearch.all(
@@ -21,6 +22,7 @@ only_run_on_server(true)
                     listOfSubComponents.push( listOfSubComponentsRes[yuy].child_component_id )
 
                 }
+                console.log("****copyAppshareApp userId: " + userId)
                 await saveCodeV2( newBaseid, parentHashId, code ,
                             {
                                 sub_components:         listOfSubComponents,
@@ -28,7 +30,7 @@ only_run_on_server(true)
                                 save_html:              true,
                                 //let userid = await getUserId(req)
                                 //let optionsForSave = req.body.value.options
-                                userId: "app_new"
+                                userId: userId
                             })
 
                 returnfn({

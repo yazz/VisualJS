@@ -2186,7 +2186,7 @@ function websocketFn(ws) {
     ws.on('message', async function(msg) {
         let receivedMessage = eval("(" + msg + ")");
 
-        let userid = await getUserIdFromYazzCookie(receivedMessage.cookie)
+        let userId = await getUserIdFromYazzCookie(receivedMessage.cookie)
         //zzz
         //console.log(" 1- Server recieved message: " + JSON.stringify(receivedMessage));
 
@@ -2511,6 +2511,7 @@ function websocketFn(ws) {
 
 
             } else {
+                receivedMessage.args.user_id = userId
                 callDriverMethod({
                                 message_type:          "callDriverMethod",
                                 find_component:         receivedMessage.find_component,
