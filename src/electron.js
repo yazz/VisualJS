@@ -4801,7 +4801,8 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                           componentTypeV2,
                                           "TIP",
                                           codeChangesStr,
-                                          numCodeChanges
+                                          numCodeChanges,
+                                          userId
                                           )
                                     stmtDeprecateOldCode.run(
                                         baseComponentId,
@@ -5367,7 +5368,7 @@ function setUpSql() {
                                                           "     base_component_id =  ? ;");
 
       stmtInsertNewCode = dbsearch.prepare(
-          " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_scope,display_name, creation_timestamp,component_options, logo_url, visibility, interfaces,use_db, editors, read_write_status,properties, component_type, control_sub_type, edit_file_path, ipfs_hash_id, component_type_v2, code_tag_v2, code_changes, num_changes) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+          " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_scope,display_name, creation_timestamp,component_options, logo_url, visibility, interfaces,use_db, editors, read_write_status,properties, component_type, control_sub_type, edit_file_path, ipfs_hash_id, component_type_v2, code_tag_v2, code_changes, num_changes, fk_user_id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
       stmtDeprecateOldCode = dbsearch.prepare(
           " update system_code  set code_tag = NULL, code_tag_v2 = NULL where base_component_id = ? and id != ?");
 
