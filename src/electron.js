@@ -7621,38 +7621,6 @@ async function createCookieInDb(cookie, hostCookieSentTo, from_device_type) {
 
 
 
-async function getQuickSqlOneRowInsideTransaction(args) {
-    let rows = await getQuickSqlInsideTransaction(args)
-    if (rows.length == 0) {
-        return null
-    }
-    return rows[0]
-}
-
-async function getQuickSqlInsideTransaction(args) {
-    let sql = args.sql
-    let params = args.params
-
-    let promise = new Promise(async function(returnfn) {
-        dbsearch.all(
-            sql
-            ,
-            params
-            ,
-            async function (err, rows) {
-                if (!err) {
-                    returnfn(rows)
-                } else {
-                    throw({error: err})
-                }
-            }
-        );
-    })
-
-    let ret = await promise
-    return ret
-}
-
 
 async function getQuickSqlOneRow(args) {
     let rows = await getQuickSql(args)
@@ -7707,7 +7675,7 @@ async function getPreviousCommitsFor(args) {
     }
 
     let previousCommits = []
-    let thisCommit = await getQuickSqlOneRowInsideTransaction(
+    let thisCommit = await getQuickSqlOneRow(
         {
             sql:        "select  *  from   system_code  where   id = ? "
             ,
@@ -7718,7 +7686,7 @@ async function getPreviousCommitsFor(args) {
     if (thisCommit) {
         let previousCommitId = thisCommit.parent_id
         if (previousCommitId) {
-            let previousCommit = await getQuickSqlOneRowInsideTransaction(
+            let previousCommit = await getQuickSqlOneRow(
                 {
                     sql:        "select  *  from   system_code  where   id = ? "
                     ,
