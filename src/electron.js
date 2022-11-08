@@ -3154,7 +3154,8 @@ async function startServices() {
             let topApps = []
             let baseComponentIdToFind = req.query.id;
             let sessionId = await getSessionId(req)
-
+            let lastCommitId = null
+            let returnRows = []
             let promise = new Promise(async function(returnfn) {
 
                 dbsearch.serialize(
@@ -3172,7 +3173,6 @@ async function startServices() {
                             [baseComponentIdToFind]
                             ,
                             async function(err, rows) {
-                                let returnRows = []
                                 if (!err) {
                                     try {
                                         if (rows.length > 0) {
@@ -3194,14 +3194,9 @@ async function startServices() {
                                                         base_component_id: baseComponentIdToFind
                                                     })
                                             }
+                                            lastCommitId = rows[rows.length - 1].id
 
-                                            let lastCommitId = rows[rows.length - 1].id
-                                            returnRows = await getPreviousCommitsFor(
-                                                {
-                                                    commitId: lastCommitId
-                                                    ,
-                                                    returnRows: returnRows
-                                                })
+
                                         }
 
 
@@ -3222,6 +3217,12 @@ async function startServices() {
                     }, sqlite3.OPEN_READONLY)
             })
             let ret = await promise
+            returnRows = await getPreviousCommitsFor(
+                {
+                    commitId: lastCommitId
+                    ,
+                    returnRows: returnRows
+                })
 
             topApps = ret
 
@@ -7712,7 +7713,7 @@ async function getPreviousCommitsFor(args) {
             }
         }
 
-        return rows
+        return returnRows
     }
     return []
 }
