@@ -2904,7 +2904,7 @@ async function startServices() {
             if (cookie === undefined) {
                 // no: set a new cookie
                 let randomNumber =  uuidv1()
-                res.cookie('yazz',randomNumber, { maxAge: 900000, httpOnly: true });
+                res.cookie('yazz',randomNumber, { maxAge: 900000, httpOnly: false });
                 await createCookieInDb(randomNumber, hostCookieSentTo, from_device_type)
                 //console.log('cookie created successfully');
             } else {
@@ -2917,7 +2917,7 @@ async function startServices() {
                 let cookieRecord = await getCookieRecord(cookie)
                 if (cookieRecord == null) {
                     let randomNumber =  uuidv1()
-                    res.cookie('yazz',randomNumber, { maxAge: 900000, httpOnly: true });
+                    res.cookie('yazz',randomNumber, { maxAge: 900000, httpOnly: false });
                     await createCookieInDb(randomNumber, hostCookieSentTo, from_device_type)
                     console.log('No cookie found in Yazz DB, cookie created successfully');
                 }
