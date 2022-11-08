@@ -2185,6 +2185,9 @@ function websocketFn(ws) {
 
     ws.on('message', async function(msg) {
         let receivedMessage = eval("(" + msg + ")");
+
+        let userid = await getUserIdFromYazzCookie(receivedMessage.cookie)
+        //zzz
         //console.log(" 1- Server recieved message: " + JSON.stringify(receivedMessage));
 
         // if we get the message "server_get_all_queries" from the web browser
@@ -2491,7 +2494,7 @@ function websocketFn(ws) {
             let seqNum = queuedResponseSeqNum;
             queuedResponseSeqNum ++;
             queuedResponses[ seqNum ] = ws;
-//zzz
+
 
             if (receivedMessage.find_component && receivedMessage.find_component.driver_name == "systemFunctionAppSql") {
 
@@ -7423,6 +7426,38 @@ async function insertCommentIntoDb(args) {
     })
 }
 
+async function getUserIdFromYazzCookie(yazzCookie) {
+    let sessionId = await getSessionIdFromYazzCookie(yazzCookie)
+
+    let promise = new Promise(async function(returnfn) {
+        dbsearch.serialize(
+            function() {
+                let stmt = dbsearch.all(
+                    `select 
+                            fk_user_id
+                      FROM 
+                            sessions
+                      where 
+                            id  = ? `
+                    ,
+                    [sessionId]
+                    ,
+
+                    function(err, results)
+                    {
+                        if (results.length > 0) {
+                            returnfn(results[0].fk_user_id)
+                        }
+                        returnfn(null)
+
+                    })
+            }, sqlite3.OPEN_READONLY)
+    })
+
+    let userId = await promise
+    return userId
+
+}
 
 async function getUserId(req) {
     let sessionId = await getSessionId(req)
@@ -7491,6 +7526,37 @@ async function getSessionId(req) {
 }
 
 
+async function getSessionIdFromYazzCookie(yazzCookie) {
+    let promise = new Promise(async function(returnfn) {
+        dbsearch.serialize(
+            function() {
+                let stmt = dbsearch.all(
+                    `select 
+                            sessions.id 
+                      FROM 
+                            sessions,cookies
+                      where 
+                            sessions.id = cookies.fk_session_id
+                            and
+                            cookie_value = ? `
+                    ,
+                    [yazzCookie]
+                    ,
+
+                    function(err, results)
+                    {
+                        if (results.length > 0) {
+                            returnfn(results[0].id)
+                        }
+                        returnfn(null)
+
+                    })
+            }, sqlite3.OPEN_READONLY)
+    })
+
+    let sessionId = await promise
+    return sessionId
+}
 
 async function getCookieRecord(cookieValue) {
     let promise = new Promise(async function(returnfn) {
