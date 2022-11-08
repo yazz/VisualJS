@@ -2491,7 +2491,7 @@ function websocketFn(ws) {
             let seqNum = queuedResponseSeqNum;
             queuedResponseSeqNum ++;
             queuedResponses[ seqNum ] = ws;
-
+//zzz
 
             if (receivedMessage.find_component && receivedMessage.find_component.driver_name == "systemFunctionAppSql") {
 
@@ -3190,7 +3190,7 @@ async function startServices() {
                                                         base_component_id: baseComponentIdToFind
                                                     })
                                             }
-                                            //zzz
+
                                             let lastCommitId = rows[rows.length - 1].id
                                             returnRows = await getPreviousCommitsFor(
                                                 {

@@ -4754,6 +4754,7 @@ async function callDriverMethod2(findComponentArgs, args, callbackFn) {
         await checkLibs(newData)
     } else {
             //console.log(`  sendToServerViaWebSocket`)
+            //debugger
             sendToServerViaWebSocket({
                 message_type: "callDriverMethod",
                     find_component: findComponentArgs,
