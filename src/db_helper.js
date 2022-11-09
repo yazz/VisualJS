@@ -58,10 +58,6 @@ module.exports = {
             "CREATE INDEX IF NOT EXISTS ipfs_hashes_idx                   ON ipfs_hashes (ipfs_hash);",
 
 
-            "CREATE TABLE IF NOT EXISTS code_changes (id TEXT, fk_system_code_id TEXT, creation_timestamp TEXT, change_text TEXT );",
-            "CREATE INDEX IF NOT EXISTS code_changes_fk_system_code_id_idx    ON code_changes (fk_system_code_id);",
-
-
             "CREATE TABLE IF NOT EXISTS l2_app_list (id TEXT, base_component_id TEXT, version TEXT,  app_name TEXT, app_description TEXT, icon_image_id TEXT, ipfs_hash TEXT,  avg_rating NUMBER, num_ratings NUMBER);",
             "CREATE INDEX IF NOT EXISTS app_list_idx                      ON l2_app_list (id);",
 
