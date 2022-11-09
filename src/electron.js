@@ -5379,13 +5379,12 @@ function setUpSql() {
                                                     into
                                                l2_app_list
                                                     (  id  ,  base_component_id  ,  app_name  ,  app_description  ,  icon_image_id  ,  
-                                                       ipfs_hash  ,  system_code_id, version )
-                                               values (?,?,?,?,?,?,?,?)`)
+                                                       ipfs_hash , version )
+                                               values (?,?,?,?,?,?,?)`)
 
     stmtUpdateAppList = dbsearch.prepare(`update l2_app_list
                                             set 
-                                                ipfs_hash = ? ,  
-                                                system_code_id = ?
+                                                ipfs_hash = ?  
                                             where
                                                base_component_id  = ?
                                                `)
@@ -6125,7 +6124,7 @@ async function insertAppListRecord( id  ,  base_component_id  ,  app_name  ,  ap
                     dbsearch.run("commit", function() {
                         dbsearch.serialize(function() {
                             dbsearch.run("begin exclusive transaction");
-                            stmtInsertAppList.run(   id  ,  base_component_id  ,  app_name  ,  app_description  ,  icon_image_id  ,  ipfs_hash  ,  ipfs_hash, '' )
+                            stmtInsertAppList.run(   id  ,  base_component_id  ,  app_name  ,  app_description  ,  icon_image_id  ,  ipfs_hash, '' )
                             stmtInsertIconImageData.run(icon_image_id, dataString)
                             dbsearch.run("commit")
                             returnfn()
@@ -6139,7 +6138,7 @@ async function insertAppListRecord( id  ,  base_component_id  ,  app_name  ,  ap
                     dbsearch.run("commit", function() {
                         dbsearch.serialize(function() {
                             dbsearch.run("begin exclusive transaction");
-                            stmtUpdateAppList.run(   ipfs_hash  ,  ipfs_hash,   base_component_id  )
+                            stmtUpdateAppList.run(   ipfs_hash ,   base_component_id  )
                             stmtInsertIconImageData.run(icon_image_id, dataString)
                             dbsearch.run("commit")
                             returnfn()
