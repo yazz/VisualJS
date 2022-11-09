@@ -109,8 +109,6 @@ let stmtDeleteDependencies;
 
 let stmtInsertAppDDLRevision;
 let stmtUpdateLatestAppDDLRevision;
-let stmtInsertIntoAppRegistry
-let stmtUpdateAppRegistry
 
 let stmtInsertCodeChange;
 
@@ -5221,7 +5219,6 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
                                     //showTimer(`ret 8`)
 
-                                    updateRegistry(options, sha1sum)
                                     returnFn( {
                                                     code_id:            sha1sum,
                                                     base_component_id:  baseComponentId
@@ -5253,7 +5250,6 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
     								}
                                 }
 
-                                updateRegistry(options, sha1sum)
                                 //showTimer(`ret 9`)
                                 returnFn( {
                                                 code_id:            sha1sum,
@@ -5302,17 +5298,6 @@ function setUpSql() {
 
     `
     );
-
-    stmtInsertIntoAppRegistry = dbsearch.prepare(" insert or replace into app_registry " +
-                                "    (id,  username, reponame, version, code_id ) " +
-                                " values " +
-                                "    (?, ?, ?, ?, ? );");
-
-
-    stmtUpdateAppRegistry = dbsearch.prepare(" update app_registry " +
-                                "    set code_id = ? " +
-                                " where " +
-                                "    username = ?  and  reponame = ? and version = ?;");
 
 
     stmtInsertComment = dbsearch.prepare(" insert or replace into comments_and_ratings " +
@@ -5482,62 +5467,6 @@ function setUpSql() {
 
 
 
-
-//------------------------------------------------------------------------------
-//
-//
-//
-//
-//
-//------------------------------------------------------------------------------
-function updateRegistry(options, sha1sum) {
-
-    if ((!isValidObject(options)) || (!options.username) || (!options.reponame)) {
-        return
-    }
-    if (!options.version) {
-        options.version = "latest"
-    }
-    if (!sha1sum) {
-        return
-    }
-    try {
-
-        dbsearch.serialize(
-            function() {
-                dbsearch.all(
-                    "SELECT  *  from  app_registry  where  username = ?  and  reponame = ? and version = ?; "
-                    ,
-                    [options.username  ,  options.reponame  ,  options.version]
-                    ,
-
-                    function(err, results)
-                    {
-
-                        try {
-                            dbsearch.serialize(function() {
-                                dbsearch.run("begin exclusive transaction");
-                                if (results.length == 0) {
-                                    stmtInsertIntoAppRegistry.run(uuidv1(),  options.username  ,  options.reponame  ,  options.version,  sha1sum)
-                                } else {
-                                    stmtUpdateAppRegistry.run(sha1sum, options.username  ,  options.reponame  ,  options.version)
-                                }
-                                dbsearch.run("commit")
-                            })
-                        } catch(er) {
-                            console.log(er)
-                        }
-
-
-                     })
-                 },
-                 sqlite3.OPEN_READONLY)
-
-
-    } catch (ewr) {
-        console.log(ewr)
-    }
-}
 
 
 
