@@ -53,6 +53,7 @@ load_once_from_file(true)
                                 <br/>
                                 <div><b>Commit ID:</b> {{commit.codeSha}} </div>
                                 <div><b>Type:</b> {{commit.baseComponentId}} </div>
+                                <div><b>User:</b> {{commit.userId}} </div>
                                 <br/>
                                 <div v-if="commit.changes">
                                     <div
@@ -122,6 +123,7 @@ load_once_from_file(true)
                                 timestamp: responseJson[rt].creation_timestamp,
                                 numChanges: responseJson[rt].num_changes,
                                 changes: responseJson[rt].changes,
+                                userId: responseJson[rt].user_id,
                                 baseComponentId: responseJson[rt].base_component_id
                             })
 

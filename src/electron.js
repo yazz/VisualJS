@@ -3196,6 +3196,7 @@ async function startServices() {
                                                         ipfs_hash_id: thisRow.ipfs_hash_id,
                                                         code_tag_v2: thisRow.code_tag_v2,
                                                         creation_timestamp: thisRow.creation_timestamp,
+                                                        user_id: thisRow.fk_user_id,
                                                         num_changes: thisRow.num_changes,
                                                         changes: changesList,
                                                         base_component_id: baseComponentIdToFind
