@@ -3461,7 +3461,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             let ipfsHash = req.body.ipfs_hash
             let ipfsContent = req.body.ipfs_content
             let parsedCode = parseCode(ipfsContent)
-            await updateItemLists(parsedCode)
+            //await updateItemLists(parsedCode)
             await registerIPFS(ipfsHash);
             res.status(200).send('IPFS content registered');
         })
@@ -4031,7 +4031,7 @@ async function findLocalIpfsContent() {
                     } else if (itemType == "APP") {
                         let parsedCode = parseCode(ipfsContent)
                         parsedCode.ipfsHash = ipfsHashFileName
-                        await updateItemLists(parsedCode)
+                        //await updateItemLists(parsedCode)
                         await registerIPFS(ipfsHashFileName);
                     }
                     //console.log("ipfsHashFileName : " + ipfsHashFileName + " read");
