@@ -3346,11 +3346,11 @@ async function startServices() {
                     function() {
                         dbsearch.all(
                             " select  " +
-                            "     distinct(app_list.id), app_name, app_icon_data, ipfs_hash, app_list.base_component_id " +
+                            "     distinct(l2_app_list.id), app_name, app_icon_data, ipfs_hash, l2_app_list.base_component_id " +
                             " from " +
-                            "     app_list " +
+                            "     l2_app_list " +
                             " inner JOIN " +
-                            "     icon_images ON app_list.icon_image_id = icon_images.id "
+                            "     icon_images ON l2_app_list.icon_image_id = icon_images.id "
                             ,
                             []
                             ,
@@ -3561,10 +3561,10 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
                     function() {
                         dbsearch.all(
                             " select  " +
-                            "     distinct(app_list.id), base_component_id, app_name, app_icon_data, ipfs_hash " +
+                            "     distinct(l2_app_list.id), base_component_id, app_name, app_icon_data, ipfs_hash " +
                             " from " +
-                            "     app_list " +
-                            " inner JOIN icon_images ON app_list.icon_image_id = icon_images.id " +
+                            "     l2_app_list " +
+                            " inner JOIN icon_images ON l2_app_list.icon_image_id = icon_images.id " +
                              "where" +
                               "     ipfs_hash = ?;"
                             ,
@@ -5377,12 +5377,12 @@ function setUpSql() {
 
     stmtInsertAppList = dbsearch.prepare(`insert or ignore
                                                     into
-                                               app_list
+                                               l2_app_list
                                                     (  id  ,  base_component_id  ,  app_name  ,  app_description  ,  icon_image_id  ,  
                                                        ipfs_hash  ,  system_code_id, version )
                                                values (?,?,?,?,?,?,?,?)`)
 
-    stmtUpdateAppList = dbsearch.prepare(`update app_list
+    stmtUpdateAppList = dbsearch.prepare(`update l2_app_list
                                             set 
                                                 ipfs_hash = ? ,  
                                                 system_code_id = ?
@@ -6118,7 +6118,7 @@ async function insertAppListRecord( id  ,  base_component_id  ,  app_name  ,  ap
                 icon_image_id = rowhash.read();
             }
 
-            let appListRecord = await getQuickSqlOneRow("select * from app_list where base_component_id = ?",[base_component_id])
+            let appListRecord = await getQuickSqlOneRow("select * from l2_app_list where base_component_id = ?",[base_component_id])
             if (!appListRecord) {
                 dbsearch.serialize(function() {
                     dbsearch.run("begin exclusive transaction");

@@ -69,8 +69,8 @@ module.exports = {
             "CREATE INDEX IF NOT EXISTS code_changes_fk_system_code_id_idx    ON code_changes (fk_system_code_id);",
 
 
-            "CREATE TABLE IF NOT EXISTS app_list (id TEXT, base_component_id TEXT, version TEXT,  app_name TEXT, app_description TEXT, icon_image_id TEXT, ipfs_hash TEXT, system_code_id TEXT, avg_rating NUMBER, num_ratings NUMBER);",
-            "CREATE INDEX IF NOT EXISTS app_list_idx                      ON app_list (id);",
+            "CREATE TABLE IF NOT EXISTS l2_app_list (id TEXT, base_component_id TEXT, version TEXT,  app_name TEXT, app_description TEXT, icon_image_id TEXT, ipfs_hash TEXT, system_code_id TEXT, avg_rating NUMBER, num_ratings NUMBER);",
+            "CREATE INDEX IF NOT EXISTS app_list_idx                      ON l2_app_list (id);",
 
 
             "CREATE TABLE IF NOT EXISTS component_list (id TEXT, base_component_id TEXT, version TEXT, release TEXT, latest TEXT,  component_name TEXT, component_description TEXT, icon_image_id TEXT, ipfs_hash TEXT, system_code_id TEXT);",
