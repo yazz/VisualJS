@@ -100,10 +100,11 @@ let stmtSetMetaMaskLoginSuccedded;
 let stmtInsertUser;
 let stmtInsertSubComponent;
 let stmtInsertComponentList;
+
 let stmtInsertAppList;
-let setAppToNotReleased;
-let stmtInsertImageData;
-let stmtUpdateDriver;
+let stmtUpdateAppList;
+let stmtInsertIconImageData;
+
 let stmtDeleteDependencies;
 
 let stmtInsertAppDDLRevision;
@@ -3460,8 +3461,8 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
 
             let ipfsHash = req.body.ipfs_hash
             let ipfsContent = req.body.ipfs_content
-            let parsedCode = parseCode(ipfsContent)
-            //await updateItemLists(parsedCode)
+            let parsedCode = await parseCode(ipfsContent)
+            await updateItemLists(parsedCode)
             await registerIPFS(ipfsHash);
             res.status(200).send('IPFS content registered');
         })
@@ -3638,7 +3639,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             let userId = req.body.value.user_id;
 
             let ipfsHash = await saveItemToIpfs(code)
-            //let parsedCode = parseCode(code)
+            //let parsedCode = await parseCode(code)
             //await updateItemLists(parsedCode)
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end(JSON.stringify({
@@ -4029,9 +4030,9 @@ async function findLocalIpfsContent() {
                             )
                         }
                     } else if (itemType == "APP") {
-                        let parsedCode = parseCode(ipfsContent)
+                        let parsedCode = await parseCode(ipfsContent)
                         parsedCode.ipfsHash = ipfsHashFileName
-                        //await updateItemLists(parsedCode)
+                        await updateItemLists(parsedCode)
                         await registerIPFS(ipfsHashFileName);
                     }
                     //console.log("ipfsHashFileName : " + ipfsHashFileName + " read");
@@ -4748,12 +4749,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
             userId = options.userId
         }
 
-        let existingCodeTags = await getQuickSqlOneRow(
-            {
-                sql: "select * from code_tags where base_component_id = ? and fk_user_id = ?"
-                ,
-                params:  [baseComponentId, userId]
-            })
+        let existingCodeTags = await getQuickSqlOneRow("select * from code_tags where base_component_id = ? and fk_user_id = ?",[baseComponentId, userId])
         dbsearch.serialize(
             function() {
                 dbsearch.all(
@@ -5388,11 +5384,12 @@ function setUpSql() {
                                                        ipfs_hash  ,  system_code_id, version, release, latest )
                                                values (?,?,?,?,?,?,?,?,?,?)`)
 
-    setAppToNotReleased = dbsearch.prepare(`update app_list
+    stmtUpdateAppList = dbsearch.prepare(`update app_list
                                             set 
-                                               RELEASE = ""
+                                                ipfs_hash = ? ,  
+                                                system_code_id = ?
                                             where
-                                               base_component_id  = ?  and RELEASE = "RELEASE"
+                                               base_component_id  = ?
                                                `)
 
     stmtInsertIconImageData = dbsearch.prepare(`insert or ignore
@@ -6123,20 +6120,36 @@ async function insertAppListRecord( id  ,  base_component_id  ,  app_name  ,  ap
                 icon_image_id = rowhash.read();
             }
 
-            dbsearch.serialize(function() {
-                dbsearch.run("begin exclusive transaction");
-                setAppToNotReleased.run(base_component_id)
-                dbsearch.run("commit", function() {
-                    dbsearch.serialize(function() {
+            let appListRecord = await getQuickSqlOneRow("select * from app_list where base_component_id = ?",[base_component_id])
+            if (!appListRecord) {
+                dbsearch.serialize(function() {
+                    dbsearch.run("begin exclusive transaction");
+                    dbsearch.run("commit", function() {
+                        dbsearch.serialize(function() {
                             dbsearch.run("begin exclusive transaction");
-                            stmtInsertAppList.run(   id  ,  base_component_id  ,  app_name  ,  app_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id, '','RELEASED','' )
+                            stmtInsertAppList.run(   id  ,  base_component_id  ,  app_name  ,  app_description  ,  icon_image_id  ,  ipfs_hash  ,  ipfs_hash, '','RELEASED','' )
                             stmtInsertIconImageData.run(icon_image_id, dataString)
                             dbsearch.run("commit")
                             returnfn()
+                        })
                     })
-                })
 
-            })
+                })
+            } else {
+                dbsearch.serialize(function() {
+                    dbsearch.run("begin exclusive transaction");
+                    dbsearch.run("commit", function() {
+                        dbsearch.serialize(function() {
+                            dbsearch.run("begin exclusive transaction");
+                            stmtUpdateAppList.run(   ipfs_hash  ,  ipfs_hash,   base_component_id  )
+                            stmtInsertIconImageData.run(icon_image_id, dataString)
+                            dbsearch.run("commit")
+                            returnfn()
+                        })
+                    })
+
+                })
+            }
         } catch(er) {
             //console.log(er)
             returnfn()
@@ -7381,13 +7394,15 @@ function function_call_response (msg) {
 
 
 
-function parseCode(code) {
+async function parseCode(code) {
 
     let baseComponentIdOfItem = saveHelper.getValueOfCodeString(code,"base_component_id")
 
     let itemName = saveHelper.getValueOfCodeString(code,"display_name")
 
     let iconUrl = saveHelper.getValueOfCodeString(code,"logo_url")
+
+    let ipfsHashId = await OnlyIpfsHash.of(code)
 
     let componentType = ""
     if (saveHelper.getValueOfCodeString(code,"component_type") == "SYSTEM") {
@@ -7396,6 +7411,8 @@ function parseCode(code) {
         componentType = "component"
     }
     return {
+        ipfsHashId: ipfsHashId
+        ,
         name: itemName
         ,
         type: componentType
@@ -7436,7 +7453,7 @@ async function updateItemLists(parsedCode) {
             ,
             parsedCode.logo
             ,
-            parsedCode.ipfsHash
+            parsedCode.ipfsHashId
             ,
             parsedCode.systemCodeId
         )
@@ -7721,18 +7738,15 @@ async function createCookieInDb(cookie, hostCookieSentTo, from_device_type) {
 
 
 
-async function getQuickSqlOneRow(args) {
-    let rows = await getQuickSql(args)
+async function getQuickSqlOneRow(sql ,params) {
+    let rows = await getQuickSql(sql,params)
     if (rows.length == 0) {
         return null
     }
     return rows[0]
 }
 
-async function getQuickSql(args) {
-    let sql = args.sql
-    let params = args.params
-
+async function getQuickSql(sql, params) {
     let promise = new Promise(async function(returnfn) {
         dbsearch.serialize(
             function() {
@@ -7774,23 +7788,13 @@ async function getPreviousCommitsFor(args) {
     }
 
     let previousCommits = []
-    let thisCommit = await getQuickSqlOneRow(
-        {
-            sql:        "select  *  from   system_code  where   id = ? "
-            ,
-            params:     [  commitId  ]
-        })
+    let thisCommit = await getQuickSqlOneRow("select  *  from   system_code  where   id = ? ", [  commitId  ])
 
 
     if (thisCommit) {
         let previousCommitId = thisCommit.parent_id
         if (previousCommitId) {
-            let previousCommit = await getQuickSqlOneRow(
-                {
-                    sql:        "select  *  from   system_code  where   id = ? "
-                    ,
-                    params:     [  previousCommitId  ]
-                })
+            let previousCommit = await getQuickSqlOneRow("select  *  from   system_code  where   id = ? ",[  previousCommitId  ])
             if (previousCommit) {
                 let changesList = []
                 try {
