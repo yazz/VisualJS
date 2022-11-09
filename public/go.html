@@ -5494,7 +5494,8 @@ if (!duration) {
         ret2 = ret2 + "a few days ago"
     }
 
-    if (options && options.shortOnly) {
+    if (options && options.timeOnly) {
+    } else if (options && options.shortOnly) {
         ret = ret2
     } else {
         ret =  ret2 +  " (" + ret + ")"
