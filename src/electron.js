@@ -2187,7 +2187,7 @@ function websocketFn(ws) {
         let receivedMessage = eval("(" + msg + ")");
 
         let userId = await getUserIdFromYazzCookie(receivedMessage.cookie)
-        //zzz
+
         //console.log(" 1- Server recieved message: " + JSON.stringify(receivedMessage));
 
         // if we get the message "server_get_all_queries" from the web browser
@@ -3245,6 +3245,7 @@ async function startServices() {
 
 
         app.get('/get_version_history_v2', async function (req, res) {
+        //zzz
             console.log("app.post('/get_version_history_v2'): ")
             console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
             let topApps = []
