@@ -3156,7 +3156,7 @@ async function startServices() {
 
 
         app.get('/get_version_history', async function (req, res) {
-            console.log("app.post('/get_version_history_v2'): ")
+            console.log("app.post('/get_version_history'): ")
             console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
             let topApps = []
             let baseComponentIdToFind = req.query.id;
@@ -3245,7 +3245,7 @@ async function startServices() {
 
 
         app.get('/get_version_history_v2', async function (req, res) {
-            console.log("app.post('/get_version_history'): ")
+            console.log("app.post('/get_version_history_v2'): ")
             console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
             let topApps = []
             let baseComponentIdToFind = req.query.id;

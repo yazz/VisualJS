@@ -104,7 +104,7 @@ load_once_from_file(true)
 
         getHistory: async function(baseComponentIdOfItem) {
             let mm = this
-            let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/get_version_history?" +
+            let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/get_version_history_v2?" +
                 new URLSearchParams({
                         id: baseComponentIdOfItem
                 })
