@@ -6026,6 +6026,11 @@ async function insertAppListRecord( id  ,  base_component_id  ,  app_name  ,  ap
             let icon_image_id = "image id"
             let dataString = null
             if (logo.startsWith("data:")) {
+                rowhash.setEncoding('hex');
+                rowhash.write(logo);
+                rowhash.end();
+                icon_image_id = rowhash.read();
+                dataString = logo
             } else {
 
                 let fullPath = path.join(__dirname, "../public" + logo)
