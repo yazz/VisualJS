@@ -3350,9 +3350,7 @@ async function startServices() {
                             " from " +
                             "     app_list " +
                             " inner JOIN " +
-                            "     icon_images ON app_list.icon_image_id = icon_images.id " +
-                            " where " +
-                            "     release = 'RELEASED'"
+                            "     icon_images ON app_list.icon_image_id = icon_images.id "
                             ,
                             []
                             ,
@@ -5381,8 +5379,8 @@ function setUpSql() {
                                                     into
                                                app_list
                                                     (  id  ,  base_component_id  ,  app_name  ,  app_description  ,  icon_image_id  ,  
-                                                       ipfs_hash  ,  system_code_id, version, release, latest )
-                                               values (?,?,?,?,?,?,?,?,?,?)`)
+                                                       ipfs_hash  ,  system_code_id, version )
+                                               values (?,?,?,?,?,?,?,?)`)
 
     stmtUpdateAppList = dbsearch.prepare(`update app_list
                                             set 
@@ -6127,7 +6125,7 @@ async function insertAppListRecord( id  ,  base_component_id  ,  app_name  ,  ap
                     dbsearch.run("commit", function() {
                         dbsearch.serialize(function() {
                             dbsearch.run("begin exclusive transaction");
-                            stmtInsertAppList.run(   id  ,  base_component_id  ,  app_name  ,  app_description  ,  icon_image_id  ,  ipfs_hash  ,  ipfs_hash, '','RELEASED','' )
+                            stmtInsertAppList.run(   id  ,  base_component_id  ,  app_name  ,  app_description  ,  icon_image_id  ,  ipfs_hash  ,  ipfs_hash, '' )
                             stmtInsertIconImageData.run(icon_image_id, dataString)
                             dbsearch.run("commit")
                             returnfn()
