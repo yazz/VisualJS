@@ -93,7 +93,6 @@ load_once_from_file(true)
      mounted: async function() {
          let baseComponentIdOfItem = saveHelper.getValueOfCodeString(this.text,"base_component_id")
          await this.getHistory(baseComponentIdOfItem)
-         this.currentCommithashId = await this.getCurrentCommitId()
      },
      methods: {
 
@@ -196,8 +195,9 @@ load_once_from_file(true)
         //
         //
         // -----------------------------------------------------
-        setText: function(textValue) {
+        setText: async function(textValue) {
             this.text           =  textValue
+            this.currentCommithashId = await this.getCurrentCommitId()
 
             if (!isValidObject(this.text)) {
                 return
