@@ -3167,7 +3167,7 @@ async function startServices() {
             currentReturnRows.push(selectedCommitRow)
             let returnRows = await getPreviousCommitsFor(
                 {
-                    commitId: selectedCommitRow.parent_commit_id
+                    parentCommitId: selectedCommitRow.parent_commit_id
                     ,
                     returnRows: currentReturnRows
                 })
@@ -7588,6 +7588,8 @@ async function getRowForCommit(commitId) {
 
 async function getPreviousCommitsFor(args) {
     let commitId = args.commitId
+    let parentCommitId = args.parentCommitId
+
     let numPrevious = 100000000
     let returnRows = []
 
@@ -7599,15 +7601,15 @@ async function getPreviousCommitsFor(args) {
         returnRows = args.returnRows
     }
 
-    let thisCommitRow = await getRowForCommit( commitId  )
+    let parentCommitRow = await getRowForCommit( parentCommitId  )
 
 
-    if (thisCommitRow) {
-        returnRows.push(thisCommitRow)
-        if (thisCommitRow.parent_commit_id) {
+    if (parentCommitRow) {
+        returnRows.push(parentCommitRow)
+        if (parentCommitRow.parent_commit_id) {
             returnRows = await getPreviousCommitsFor(
                 {
-                    commitId: thisCommitRow.parent_commit_id
+                    parentCommitId: parentCommitRow.parent_commit_id
                     ,
                     returnRows: returnRows
                 })
