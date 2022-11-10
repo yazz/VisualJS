@@ -18,10 +18,17 @@ load_once_from_file(true)
             ,
             selectedCommit: null
             ,
+
+
 // list of commits. Eg:
 //        [  {codeSha: "fdsfsddfsfsdfds", timestamp: new Date().getTime()},    ]
             commitsV1: [
             ]
+            ,
+
+
+
+            currentCommithashId: null
         }
       },
       template: `<div style='background-color:white; ' >
@@ -36,7 +43,15 @@ load_once_from_file(true)
 
                           Component History
                         </div>
-                        <b>Previous commits:</b>
+                        
+                        
+                        <div><b>Current commit ID:</b> {{currentCommithashId}}</div>
+                        
+                        
+                        <div>
+                          <b>Previous commits:</b>  
+                        </div>
+                        
                       
                       
                       <div style="overflow: scroll;height:40vh">
@@ -76,11 +91,9 @@ load_once_from_file(true)
      ,
 
      mounted: async function() {
-         let thisVueInstance = this
-
          let baseComponentIdOfItem = saveHelper.getValueOfCodeString(this.text,"base_component_id")
          await this.getHistory(baseComponentIdOfItem)
-
+         this.currentCommithashId = await this.getCurrentCommitId()
      },
      methods: {
 
@@ -101,6 +114,38 @@ load_once_from_file(true)
             return this.text
         }
         ,
+
+
+        getCurrentCommitId: async function() {
+        //debugger
+            let mm = this
+            let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/get_commit_hash_id"
+            fetch(openfileurl, {
+                method: 'post',
+                credentials: "include",
+                headers: {
+                     'Content-Type': 'application/json'
+                    // 'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: JSON.stringify({text: mm.text})
+            })
+                .then((response) => response.json())
+                .then(function(responseJson)
+                {
+                    debugger
+
+                    mm.currentCommithashId = responseJson.ipfsHash
+                })
+                .catch(err => {
+                    //error block
+                })
+
+        }
+        ,
+
+
+
+
 
         getHistory: async function(baseComponentIdOfItem) {
             let mm = this
@@ -152,7 +197,6 @@ load_once_from_file(true)
         //
         // -----------------------------------------------------
         setText: function(textValue) {
-            let thisVueInstance = this
             this.text           =  textValue
 
             if (!isValidObject(this.text)) {

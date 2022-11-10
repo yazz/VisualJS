@@ -3509,10 +3509,8 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
         app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
         app.use(            express.static(path.join(__dirname, '../public/')))
         app.use(bodyParser.json()); // support json encoded bodies
-        app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+        app.use(bodyParser.urlencoded({ extended: true , limit: '50mb'})); // support encoded bodies
         //app.use(useragent.express())
-
-
 
         app.post("/save_code" , async function (req, res) {
 
@@ -3623,6 +3621,19 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             res.end(JSON.stringify({return: "from save component"}))
         });
 
+
+        app.post("/get_commit_hash_id" , async function (req, res) {
+            //
+            // get stuff
+            //
+            let code = req.body.text;
+
+            let ipfsHash = await OnlyIpfsHash.of(code)
+            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+            res.end(JSON.stringify({
+                ipfsHash: ipfsHash,
+            }))
+        })
 
 
         app.post("/post_app" , async function (req, res) {
