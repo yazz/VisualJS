@@ -7574,7 +7574,8 @@ async function getRowForCommit(commitId) {
                     num_changes: thisCommit.num_changes,
                     changes: changesList,
                     base_component_id: thisCommit.base_component_id,
-                    parent_commit_id: thisCommit.parent_id
+                    parent_commit_id: thisCommit.parent_id,
+                    user_id: thisCommit.fk_user_id
                 }
         } catch (err) {
         }
