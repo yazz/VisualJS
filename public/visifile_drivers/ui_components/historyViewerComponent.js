@@ -157,38 +157,46 @@ load_once_from_file(true)
                         id: mm.baseComponentId,
                         commit_id: mm.currentCommithashId
                 })
-            fetch(openfileurl, {
-                method: 'get',
-                credentials: "include"
-            })
-                .then((response) => response.json())
-                .then(function(responseJson)
-                {
-                    //debugger
-                    for (let rt=0;rt<responseJson.length; rt++) {
 
-                        mm.commitsV1.push(
-                            {
-                                codeSha: responseJson[rt].id,
-                                timestamp: responseJson[rt].creation_timestamp,
-                                numChanges: responseJson[rt].num_changes,
-                                changes: responseJson[rt].changes,
-                                userId: responseJson[rt].user_id,
-                                baseComponentId: responseJson[rt].base_component_id
-                            })
+            let promise = new Promise(async function(returnfn) {
+                fetch(openfileurl, {
+                    method: 'get',
+                    credentials: "include"
+                })
+                    .then((response) => response.json())
+                    .then(function(responseJson)
+                    {
+                        //debugger
+                        for (let rt=0;rt<responseJson.length; rt++) {
+
+                            mm.commitsV1.push(
+                                {
+                                    codeSha: responseJson[rt].id,
+                                    timestamp: responseJson[rt].creation_timestamp,
+                                    numChanges: responseJson[rt].num_changes,
+                                    changes: responseJson[rt].changes,
+                                    userId: responseJson[rt].user_id,
+                                    baseComponentId: responseJson[rt].base_component_id
+                                })
 
 
-                        if (responseJson[rt].changes && responseJson[rt].changes.length > 0) {
-                            mm.firstCommitTimestamps[responseJson[rt].id] = responseJson[rt].changes[0].timestamp
+                            if (responseJson[rt].changes && responseJson[rt].changes.length > 0) {
+                                mm.firstCommitTimestamps[responseJson[rt].id] = responseJson[rt].changes[0].timestamp
+                            }
+                            returnfn()
+
                         }
 
-                    }
 
+                    })
+                    .catch(err => {
+                        //error block
+                        returnfn()
+                    })
+            })
+            let retval = await promise
+            return retval
 
-                })
-                .catch(err => {
-                    //error block
-                })
         }
         ,
 
