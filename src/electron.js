@@ -3167,7 +3167,7 @@ async function startServices() {
             currentReturnRows.push(selectedCommitRow)
             let returnRows = await getPreviousCommitsFor(
                 {
-                    commitId: lastCommitId
+                    commitId: selectedCommitRow.parent_commit_id
                     ,
                     returnRows: currentReturnRows
                 })
@@ -7573,7 +7573,8 @@ async function getRowForCommit(commitId) {
                     creation_timestamp: thisCommit.creation_timestamp,
                     num_changes: thisCommit.num_changes,
                     changes: changesList,
-                    base_component_id: thisCommit.base_component_id
+                    base_component_id: thisCommit.base_component_id,
+                    parent_commit_id: thisCommit.parent_id
                 }
         } catch (err) {
         }
@@ -7597,17 +7598,18 @@ async function getPreviousCommitsFor(args) {
         returnRows = args.returnRows
     }
 
-    let previousCommits = []
-    let thisCommit = await getQuickSqlOneRow("select  *  from   system_code  where   id = ? ", [  commitId  ])
+    let thisCommitRow = await getRowForCommit( commitId  )
 
 
-    if (thisCommit) {
-        let previousCommitId = thisCommit.parent_id
-        if (previousCommitId) {
-            let previousCommit = await getRowForCommit(previousCommitId)
-            if (previousCommit) {
-                returnRows.push(previousCommit)
-            }
+    if (thisCommitRow) {
+        returnRows.push(thisCommitRow)
+        if (thisCommitRow.parent_commit_id) {
+            returnRows = await getPreviousCommitsFor(
+                {
+                    commitId: thisCommitRow.parent_commit_id
+                    ,
+                    returnRows: returnRows
+                })
         }
 
         return returnRows
