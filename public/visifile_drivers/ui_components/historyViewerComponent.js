@@ -57,14 +57,15 @@ load_once_from_file(true)
                       
                       
                       <div style="overflow: scroll;height:40vh">
-                        <li v-for='commit in commitsV1'
+                        <li v-for='(commit, commitIndex) in commitsV1'
                             style='color:black;'>
                           {{msToTime(commit.timestamp,{shortOnly: true})}} - {{commit.numChanges}}
                           <span v-if="(commit.numChanges > -1) && (selectedCommit != commit.codeSha)">
                             <a href='#' v-on:click='selectedCommit = commit.codeSha'>More</a> 
                             (Future commits:
-                            <span v-for='descendant in commit.descendants'>
-                              <span v-on:click="showCommitsUp(descendant.id)" style="color:blue">{{descendant.id}}</span> 
+                            <span v-for='(descendant,index) in commit.descendants'>
+                              <span v-if="(commitIndex == 0 ) || (commitsV1[commitIndex-1].codeSha != descendant.id)"
+                                    v-on:click="showCommitsUp(descendant.id)" style="color:blue">{{descendant.id}}</span>  
                             </span> 
                             
                             )
