@@ -61,7 +61,13 @@ load_once_from_file(true)
                             style='color:black;'>
                           {{msToTime(commit.timestamp,{shortOnly: true})}} - {{commit.numChanges}}
                           <span v-if="(commit.numChanges > -1) && (selectedCommit != commit.codeSha)">
-                            <a href='#' v-on:click='selectedCommit = commit.codeSha'>More</a> ({{commit.descendants}} descendants)
+                            <a href='#' v-on:click='selectedCommit = commit.codeSha'>More</a> 
+                            (Future commits:
+                            <span v-for='descendant in commit.descendants'>
+                              <span>{{descendant.id}}</span> 
+                            </span> 
+                            
+                            )
                           </span>
                           <span v-if="(commit.numChanges > -1) && (selectedCommit == commit.codeSha)">
                             <a href='#' v-on:click='selectedCommit = null'>Less</a>
