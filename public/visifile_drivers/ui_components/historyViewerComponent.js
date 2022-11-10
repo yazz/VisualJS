@@ -29,6 +29,8 @@ load_once_from_file(true)
 
 
             currentCommithashId: null
+            ,
+            baseComponentId: null
         }
       },
       template: `<div style='background-color:white; ' >
@@ -91,8 +93,6 @@ load_once_from_file(true)
      ,
 
      mounted: async function() {
-         let baseComponentIdOfItem = saveHelper.getValueOfCodeString(this.text,"base_component_id")
-         await this.getHistory(baseComponentIdOfItem)
      },
      methods: {
 
@@ -118,27 +118,29 @@ load_once_from_file(true)
         getCurrentCommitId: async function() {
         //debugger
             let mm = this
+            let retVal = null
             let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/get_commit_hash_id"
-            fetch(openfileurl, {
-                method: 'post',
-                credentials: "include",
-                headers: {
-                     'Content-Type': 'application/json'
-                    // 'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: JSON.stringify({text: mm.text})
+            let promise = new Promise(async function(returnfn) {
+                fetch(openfileurl, {
+                    method: 'post',
+                    credentials: "include",
+                    headers: {
+                        'Content-Type': 'application/json'
+                        // 'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: JSON.stringify({text: mm.text})
+                })
+                    .then((response) => response.json())
+                    .then(function (responseJson) {
+                        returnfn( responseJson.ipfsHash )
+                    })
+                    .catch(err => {
+                        //error block
+                        returnfn(null)
+                    })
             })
-                .then((response) => response.json())
-                .then(function(responseJson)
-                {
-                    debugger
-
-                    mm.currentCommithashId = responseJson.ipfsHash
-                })
-                .catch(err => {
-                    //error block
-                })
-
+            retval = await promise
+            return retval
         }
         ,
 
@@ -146,11 +148,14 @@ load_once_from_file(true)
 
 
 
-        getHistory: async function(baseComponentIdOfItem) {
+        getHistory: async function() {
+        debugger
             let mm = this
+            //zzz
             let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/get_version_history_v2?" +
                 new URLSearchParams({
-                        id: baseComponentIdOfItem
+                        id: mm.baseComponentId,
+                        commit_id: mm.currentCommithashId
                 })
             fetch(openfileurl, {
                 method: 'get',
@@ -197,7 +202,11 @@ load_once_from_file(true)
         // -----------------------------------------------------
         setText: async function(textValue) {
             this.text           =  textValue
+            this.baseComponentId = saveHelper.getValueOfCodeString(this.text,"base_component_id")
+
+            debugger
             this.currentCommithashId = await this.getCurrentCommitId()
+            await this.getHistory()
 
             if (!isValidObject(this.text)) {
                 return
