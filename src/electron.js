@@ -380,7 +380,7 @@ if (process.argv.length > 1) {
       .option('-b, --virtualprocessors [virtualprocessors]', 'How many virtual processors to run (default 8 processors) [virtualprocessors]', 8)
       .option('-c, --runhtml [runhtml]', 'Run using a local HTML page as the homepage (default not set) [runhtml]', null)
       .option('-de, --deleteonexit [deleteonexit]', 'Delete database files on exit (default true) [deleteonexit]', 'false')
-      .option('-hib, --hideimportbuttons [hideimportbuttons]', 'Allow to hide the buttons to load files (default false) [hideimportbuttons]', 'false')
+      .option('-hib, --hideimportbuttons [hideimportbuttons]', 'Allow to hide the buttons to load files (default true) [hideimportbuttons]', 'true')
       .option('-e, --debug [debug]', 'Allow to run NodeJS in debug mode (default false) [debug]', 'false')
       .option('-f, --cacert1 [cacert1]', 'Public HTTPS CA certificate 1 [cacert1]', null)
       .option('-ipfs_folder, --ipfs_folder [ipfs_folder]', 'Public folder to use as IPFS Cache [ipfs_folder]', null)
@@ -429,7 +429,7 @@ if (process.argv.length > 1) {
     program.https = 'none'
     program.centralhosthttps = 'none'
     program.usehost = null
-    program.hideimportbuttons = false
+    program.hideimportbuttons = true
 }
 let semver = require2('semver')
 const initJaegerTracer = require2("jaeger-client").initTracer;
