@@ -7559,10 +7559,18 @@ async function getQuickSql(sql, params) {
 }
 
 
-async function getRowForCommit(commitId) {
+async function getRowForCommit(commitId, args) {
     let commitStructure = null
+    let excludeCommitId = null
+    if (args) {
+        excludeCommitId = args.excludeCommitId
+    }
     let thisCommit = await getQuickSqlOneRow("select  *  from   system_code  where   id = ? ", [  commitId  ])
-    let parentCommits = await getQuickSql("select  id  from   system_code  where  parent_id = ? ", [  commitId  ])
+    let getFutureCommitsSql = "select  id  from   system_code  where  parent_id = ? "
+    if (excludeCommitId) {
+        getFutureCommitsSql = getFutureCommitsSql + " and parent_id != '" + excludeCommitId + "'"
+    }
+    let parentCommits = await getQuickSql(getFutureCommitsSql, [  commitId  ])
 
     if (thisCommit) {
         let changesList = []
