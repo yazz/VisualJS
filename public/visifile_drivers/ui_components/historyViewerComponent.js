@@ -64,7 +64,7 @@ load_once_from_file(true)
                             <a href='#' v-on:click='selectedCommit = commit.codeSha'>More</a> 
                             (Future commits:
                             <span v-for='descendant in commit.descendants'>
-                              <span>{{descendant.id}}</span> 
+                              <span v-on:click="showCommitsUp(descendant.id)" style="color:blue">{{descendant.id}}</span> 
                             </span> 
                             
                             )
@@ -151,8 +151,12 @@ load_once_from_file(true)
         ,
 
 
-
-
+         showCommitsUp: async function(commitId) {
+             //debugger
+             let mm = this
+             alert(commitId)
+        }
+        ,
 
         getHistory: async function() {
         //debugger
