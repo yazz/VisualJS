@@ -149,7 +149,7 @@ load_once_from_file(true)
 
 
         getHistory: async function() {
-        debugger
+        //debugger
             let mm = this
             //zzz
             let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/get_version_history_v2?" +
@@ -212,7 +212,7 @@ load_once_from_file(true)
             this.text           =  textValue
             this.baseComponentId = saveHelper.getValueOfCodeString(this.text,"base_component_id")
 
-            debugger
+            //debugger
             this.currentCommithashId = await this.getCurrentCommitId()
             await this.getHistory()
 

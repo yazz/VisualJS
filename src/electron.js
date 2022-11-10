@@ -3249,70 +3249,9 @@ async function startServices() {
             let topApps = []
             let baseComponentIdToFind = req.query.id;
             let sessionId = await getSessionId(req)
-            let lastCommitId = null
+            let lastCommitId = req.query.commit_id
             let returnRows = []
-            let promise = new Promise(async function(returnfn) {
 
-                dbsearch.serialize(
-                    function() {
-                        dbsearch.all(
-                            " select " +
-                            "     *  " +
-                            " from    " +
-                            "     system_code " +
-                            " where     " +
-                            "     base_component_id = ? " +
-                            " order by " +
-                            "     creation_timestamp DESC "
-                            ,
-                            [baseComponentIdToFind]
-                            ,
-                            async function(err, rows) {
-                                if (!err) {
-                                    try {
-                                        if (rows.length > 0) {
-                                            for (let rowIndex =0; rowIndex < rows.length; rowIndex++) {
-                                                let thisRow = rows[rowIndex]
-                                                let changesList = []
-                                                try {
-                                                    changesList = JSON.parse(thisRow.code_changes)
-                                                } catch(err) {
-                                                }
-                                                returnRows.push(
-                                                    {
-                                                        id: thisRow.id,
-                                                        ipfs_hash_id: thisRow.ipfs_hash_id,
-                                                        code_tag_v2: thisRow.code_tag_v2,
-                                                        creation_timestamp: thisRow.creation_timestamp,
-                                                        user_id: thisRow.fk_user_id,
-                                                        num_changes: thisRow.num_changes,
-                                                        changes: changesList,
-                                                        base_component_id: baseComponentIdToFind
-                                                    })
-                                            }
-                                            lastCommitId = rows[rows.length - 1].id
-
-
-                                        }
-
-
-
-
-
-                                    } catch(err) {
-                                        console.log(err);
-                                        let stack = new Error().stack
-                                        console.log( stack )
-                                    } finally {
-                                        returnfn(returnRows)
-                                    }
-
-                                }
-                            }
-                        );
-                    }, sqlite3.OPEN_READONLY)
-            })
-            let ret = await promise
             returnRows = await getPreviousCommitsFor(
                 {
                     commitId: lastCommitId
@@ -3320,12 +3259,11 @@ async function startServices() {
                     returnRows: returnRows
                 })
 
-            topApps = ret
 
             res.writeHead(200, {'Content-Type': 'application/json'});
 
             res.end(JSON.stringify(
-                topApps
+                returnRows
             ));
 
         });
