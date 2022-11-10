@@ -3163,9 +3163,13 @@ async function startServices() {
             let lastCommitId = req.query.commit_id
             let currentReturnRows = []
 
+            let selectedCommitRow = await getRowForCommit(lastCommitId)
+            currentReturnRows.push(selectedCommitRow)
             let returnRows = await getPreviousCommitsFor(
                 {
                     commitId: lastCommitId
+                    ,
+                    returnRows: currentReturnRows
                 })
 
 
@@ -7553,7 +7557,30 @@ async function getQuickSql(sql, params) {
 }
 
 
+async function getRowForCommit(commitId) {
+    let commitStructure = null
+    let thisCommit = await getQuickSqlOneRow("select  *  from   system_code  where   id = ? ", [  commitId  ])
 
+    if (thisCommit) {
+        let changesList = []
+        try {
+            changesList = JSON.parse(thisCommit.code_changes)
+            commitStructure =
+                {
+                    id: thisCommit.id,
+                    ipfs_hash_id: thisCommit.ipfs_hash_id,
+                    code_tag_v2: thisCommit.code_tag_v2,
+                    creation_timestamp: thisCommit.creation_timestamp,
+                    num_changes: thisCommit.num_changes,
+                    changes: changesList,
+                    base_component_id: thisCommit.base_component_id
+                }
+        } catch (err) {
+        }
+    }
+
+    return commitStructure
+}
 
 
 
@@ -7577,24 +7604,9 @@ async function getPreviousCommitsFor(args) {
     if (thisCommit) {
         let previousCommitId = thisCommit.parent_id
         if (previousCommitId) {
-            let previousCommit = await getQuickSqlOneRow("select  *  from   system_code  where   id = ? ",[  previousCommitId  ])
+            let previousCommit = await getRowForCommit(previousCommitId)
             if (previousCommit) {
-                let changesList = []
-                try {
-                    changesList = JSON.parse(previousCommit.code_changes)
-                } catch(err) {
-                }
-                returnRows.push(
-                    {
-                        id: previousCommit.id,
-                        ipfs_hash_id: previousCommit.ipfs_hash_id,
-                        code_tag_v2: previousCommit.code_tag_v2,
-                        creation_timestamp: previousCommit.creation_timestamp,
-                        num_changes: previousCommit.num_changes,
-                        changes: changesList,
-                        base_component_id: previousCommit.base_component_id
-                    })
-
+                returnRows.push(previousCommit)
             }
         }
 
