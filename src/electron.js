@@ -3167,6 +3167,8 @@ async function startServices() {
             currentReturnRows.push(selectedCommitRow)
             let returnRows = await getPreviousCommitsFor(
                 {
+                    commitId: selectedCommitRow.ipfs_hash_id
+                    ,
                     parentCommitId: selectedCommitRow.parent_commit_id
                     ,
                     returnRows: currentReturnRows
@@ -7609,6 +7611,8 @@ async function getPreviousCommitsFor(args) {
         if (parentCommitRow.parent_commit_id) {
             returnRows = await getPreviousCommitsFor(
                 {
+                    commitId: parentCommitRow.ipfs_hash_id
+                    ,
                     parentCommitId: parentCommitRow.parent_commit_id
                     ,
                     returnRows: returnRows
