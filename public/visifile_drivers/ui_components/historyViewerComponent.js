@@ -61,7 +61,7 @@ load_once_from_file(true)
                             style='color:black;'>
                           {{msToTime(commit.timestamp,{shortOnly: true})}} - {{commit.numChanges}}
                           <span v-if="(commit.numChanges > -1) && (selectedCommit != commit.codeSha)">
-                            <a href='#' v-on:click='selectedCommit = commit.codeSha'>More</a>
+                            <a href='#' v-on:click='selectedCommit = commit.codeSha'>More</a> ({{commit.descendants}} descendants)
                           </span>
                           <span v-if="(commit.numChanges > -1) && (selectedCommit == commit.codeSha)">
                             <a href='#' v-on:click='selectedCommit = null'>Less</a>
@@ -176,7 +176,8 @@ load_once_from_file(true)
                                     numChanges: responseJson[rt].num_changes,
                                     changes: responseJson[rt].changes,
                                     userId: responseJson[rt].user_id,
-                                    baseComponentId: responseJson[rt].base_component_id
+                                    baseComponentId: responseJson[rt].base_component_id,
+                                    descendants: responseJson[rt].descendants
                                 })
 
 
