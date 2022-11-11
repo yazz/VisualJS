@@ -369,27 +369,21 @@ debugger
 
              };
                  mm.d3Tree = new d3.mitchTree.circleTree(options)
-                     .on("nodeClick", function(event) {
-
-                     debugger
+                     .on("nodeClick", function(event,bb) {
+                     //debugger
                          // Expand all nodes
                          //mm.d3Tree.expandRecursively(mm.d3Tree.getNode(2));
                          //mm.d3Tree.update();
                          // Expand all nodes
-                         mm.d3Tree.expand(mm.d3Tree.getNode(1));
-                         mm.d3Tree.update(mm.d3Tree.getNode(1));
-                         mm.d3Tree.expand(mm.d3Tree.getNode(2));
-                         mm.d3Tree.update(mm.d3Tree.getNode(2));
-                         mm.d3Tree.expand(mm.d3Tree.getNode(3));
-                         mm.d3Tree.update(mm.d3Tree.getNode(3));
-                         mm.d3Tree.expand(mm.d3Tree.getNode(4));
-                         mm.d3Tree.update(mm.d3Tree.getNode(4));
-                         mm.d3Tree.expand(mm.d3Tree.getNode(5));
-                         mm.d3Tree.update(mm.d3Tree.getNode(5));
-                         mm.d3Tree.expand(mm.d3Tree.getNode(6));
+                         mm.d3Tree.focusToNode(mm.d3Tree.getNode(6));
                          mm.d3Tree.update(mm.d3Tree.getNode(6));
-                         mm.d3Tree.centerNode(mm.d3Tree.getNode(6))
-                        })
+  //                       mm.d3Tree.centerNode(mm.d3Tree.getNode(6))
+  debugger
+                         if (event.type == 'collapse'){
+                             event.continue = false;
+                     }
+
+             })
                      .setDisplayTextAccessor(function(data) {
                          return data.name;
                      })
