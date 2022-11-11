@@ -46,7 +46,11 @@ load_once_from_file(true)
                         <slot style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);display: inline-block;' v-if='text' :text2="text">
                         </slot>
                       </div>
-                      
+
+
+                      <!-- ---------------------------------------------------------------------------------------------
+                      Show the new style view 
+                      --------------------------------------------------------------------------------------------- -->
                       <div  style='border-radius: 5px;margin-left:15px;margin-top:15px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border: 4px solid lightgray;padding:5px; ' 
                             v-if="newMode">
                             
@@ -60,8 +64,35 @@ load_once_from_file(true)
                         </div>
 
 
+                        <div id="d3_history">
+                          <svg width="760" height="140">
+                            <g transform="translate(70, 70)">
+                              <circle/>
+                              <circle cx="120" />
+                              <circle cx="240" />
+                              <circle cx="360" />
+                              <circle cx="480" />
+                            </g>
+                          </svg>
+                        </div>
+                        
+
+                        
                       </div>
 
+
+
+
+
+
+
+
+
+
+
+                      <!-- ---------------------------------------------------------------------------------------------
+                      Show the old style view 
+                      --------------------------------------------------------------------------------------------- -->
                       <div  style='border-radius: 5px;margin-left:15px;margin-top:15px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border: 4px solid lightgray;padding:5px; ' 
                             v-if="!newMode">
                             
