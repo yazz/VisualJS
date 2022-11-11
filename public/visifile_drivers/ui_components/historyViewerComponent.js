@@ -42,6 +42,10 @@ load_once_from_file(true)
 
 
             data: {}
+            ,
+
+
+            d3Tree: null
         }
       },
       template: `<div style='background-color:white; ' >
@@ -360,14 +364,23 @@ debugger
                          return data.name;
                      }
                      ,
-                     setOrientation: "RightToLeft"
+                     setOrientation: "leftToRight"
                  };
-                 var treePlugin = new d3.mitchTree.boxedTree(options)
+                 mm.d3Tree = new d3.mitchTree.circleTree(options)
                      .on("nodeClick", function(event) {
+                         if (event.type == 'collapse') {
+                             event.continue = false;
+                        }
                      debugger
-                        alert(event.data.id)
+                         // Expand all nodes
+                         mm.d3Tree.expandRecursively(mm.d3Tree.getRoot());
+                         mm.d3Tree.update();
                         })
+                     .setDisplayTextAccessor(function(data) {
+                         return data.name;
+                     })
                      .initialize();
+
 
              }, 200)
          }
@@ -416,6 +429,31 @@ debugger
                                                         "description": "Domestic breed of cats, of oriental origin",
                                                         "children": []
                                                     }
+                                                    ,
+                                                    {
+                                                        "id": 4,
+                                                        "name": "Javanese Cat",
+                                                        "type": "Organism",
+                                                        "description": "Domestic breed of cats, of oriental origin",
+                                                        children: [
+                                                            {
+                                                                "id": 5,
+                                                                "name": "Javanese Cat",
+                                                                "type": "Organism",
+                                                                "description": "Domestic breed of cats, of oriental origin",
+                                                                "children": []
+                                                            }
+                                                            ,
+                                                            {
+                                                                "id": 6,
+                                                                "name": "Javanese Cat",
+                                                                "type": "Organism",
+                                                                "description": "Domestic breed of cats, of oriental origin",
+                                                                "children": []
+                                                            }
+
+                                                        ]                                                    }
+
                                                 ]
                                             }
                                         ]
