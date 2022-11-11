@@ -3192,7 +3192,7 @@ async function startServices() {
 
         app.get('/get_version_future', async function (req, res) {
             //zzz
-            console.log("app.post('/get_version_history_v2'): ")
+            console.log("app.post('/get_version_future'): ")
             console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
             let topApps = []
             let baseComponentIdToFind = req.query.id;
