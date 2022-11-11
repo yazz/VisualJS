@@ -155,14 +155,66 @@ load_once_from_file(true)
          showCommitsUp: async function(commitId) {
              //debugger
              let mm = this
-             alert(commitId)
-        }
+             mm.commitsV1 = []
+             //zzz
+             let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/get_version_history_v2?" +
+                 new URLSearchParams({
+                     id: mm.baseComponentId,
+                     commit_id: mm.currentCommithashId
+                 })
+
+             let promise = new Promise(async function(returnfn) {
+                 fetch(openfileurl, {
+                     method: 'get',
+                     credentials: "include"
+                 })
+                     .then((response) => response.json())
+                     .then(function(responseJson)
+                     {
+                         //debugger
+                         for (let rt=0;rt<responseJson.length; rt++) {
+
+                             mm.commitsV1.push(
+                                 {
+                                     codeSha: responseJson[rt].id,
+                                     timestamp: responseJson[rt].creation_timestamp,
+                                     numChanges: responseJson[rt].num_changes,
+                                     changes: responseJson[rt].changes,
+                                     userId: responseJson[rt].user_id,
+                                     baseComponentId: responseJson[rt].base_component_id,
+                                     descendants: responseJson[rt].descendants
+                                 })
+
+
+                             if (responseJson[rt].changes && responseJson[rt].changes.length > 0) {
+                                 mm.firstCommitTimestamps[responseJson[rt].id] = responseJson[rt].changes[0].timestamp
+                             }
+                             returnfn()
+
+                         }
+
+
+                     })
+                     .catch(err => {
+                         //error block
+                         returnfn()
+                     })
+             })
+             let retval = await promise
+             return retval
+
+         }
         ,
+
+
+
+
+
 
         getHistory: async function() {
         //debugger
             let mm = this
-            //zzz
+            mm.commitsV1 = []
             let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/get_version_history_v2?" +
                 new URLSearchParams({
                         id: mm.baseComponentId,
