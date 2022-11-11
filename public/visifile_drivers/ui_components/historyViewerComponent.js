@@ -59,7 +59,7 @@ load_once_from_file(true)
                       <!-- ---------------------------------------------------------------------------------------------
                       Show the new style view 
                       --------------------------------------------------------------------------------------------- -->
-                      <div  style='border-radius: 5px;margin-left:15px;margin-top:15px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border: 4px solid lightgray;padding:5px; ' 
+                      <div  style='height:60%;border-radius: 5px;margin-left:15px;margin-top:15px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border: 4px solid lightgray;padding:5px; ' 
                             v-if="newMode">
                             
                         <button  type=button class=' btn btn-danger btn-sm'
@@ -364,15 +364,31 @@ debugger
                          return data.name;
                      }
                      ,
-                     setOrientation: "leftToRight"
-                 };
+                     setOrientation: "leftToRight",
+                     setBodyBoxHeight: 50
+
+             };
                  mm.d3Tree = new d3.mitchTree.circleTree(options)
                      .on("nodeClick", function(event) {
 
                      debugger
                          // Expand all nodes
-                         mm.d3Tree.expandRecursively(mm.d3Tree.getNode(2));
-                         mm.d3Tree.update();
+                         //mm.d3Tree.expandRecursively(mm.d3Tree.getNode(2));
+                         //mm.d3Tree.update();
+                         // Expand all nodes
+                         mm.d3Tree.expand(mm.d3Tree.getNode(1));
+                         mm.d3Tree.update(mm.d3Tree.getNode(1));
+                         mm.d3Tree.expand(mm.d3Tree.getNode(2));
+                         mm.d3Tree.update(mm.d3Tree.getNode(2));
+                         mm.d3Tree.expand(mm.d3Tree.getNode(3));
+                         mm.d3Tree.update(mm.d3Tree.getNode(3));
+                         mm.d3Tree.expand(mm.d3Tree.getNode(4));
+                         mm.d3Tree.update(mm.d3Tree.getNode(4));
+                         mm.d3Tree.expand(mm.d3Tree.getNode(5));
+                         mm.d3Tree.update(mm.d3Tree.getNode(5));
+                         mm.d3Tree.expand(mm.d3Tree.getNode(6));
+                         mm.d3Tree.update(mm.d3Tree.getNode(6));
+                         mm.d3Tree.centerNode(mm.d3Tree.getNode(6))
                         })
                      .setDisplayTextAccessor(function(data) {
                          return data.name;
@@ -472,14 +488,6 @@ debugger
              return retval
 
          }
-
-
-
-
-
-
-
-
 
 
      }
