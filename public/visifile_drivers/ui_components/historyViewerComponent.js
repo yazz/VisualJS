@@ -368,12 +368,10 @@ debugger
                  };
                  mm.d3Tree = new d3.mitchTree.circleTree(options)
                      .on("nodeClick", function(event) {
-                         if (event.type == 'collapse') {
-                             event.continue = false;
-                        }
+
                      debugger
                          // Expand all nodes
-                         mm.d3Tree.expandRecursively(mm.d3Tree.getRoot());
+                         mm.d3Tree.expandRecursively(mm.d3Tree.getNode(2));
                          mm.d3Tree.update();
                         })
                      .setDisplayTextAccessor(function(data) {
@@ -432,13 +430,13 @@ debugger
                                                     ,
                                                     {
                                                         "id": 4,
-                                                        "name": "Javanese Cat",
+                                                        "name": "qqq",
                                                         "type": "Organism",
                                                         "description": "Domestic breed of cats, of oriental origin",
                                                         children: [
                                                             {
                                                                 "id": 5,
-                                                                "name": "Javanese Cat",
+                                                                "name": "22222",
                                                                 "type": "Organism",
                                                                 "description": "Domestic breed of cats, of oriental origin",
                                                                 "children": []
@@ -446,7 +444,7 @@ debugger
                                                             ,
                                                             {
                                                                 "id": 6,
-                                                                "name": "Javanese Cat",
+                                                                "name": "weffeefwreerw",
                                                                 "type": "Organism",
                                                                 "description": "Domestic breed of cats, of oriental origin",
                                                                 "children": []
