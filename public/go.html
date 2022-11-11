@@ -57,38 +57,50 @@
 
         var ideToolsloaded = false
         var useIdeTools = async function() {
-
             if (!ideToolsloaded) {
                 //debugger
                 let promise = new Promise(returnfn => {
                     let loadIdeToolsLibScript = document.createElement('script');
                     loadIdeToolsLibScript.src = "/js_libs/idetools.js";
-
                     document.head.appendChild(loadIdeToolsLibScript);
                     loadIdeToolsLibScript.onload = function () {
-                        //debugger
                         try {
-
-
                         } catch (error) {
-
                         }
                         ideToolsloaded = true
                         returnfn()
                     };
-
                 })
-
-
                 let ret = await promise
-
         }
     }
 
 
 
 
-    let signMessageTemplate =   "Hi there from Yazz. Sign this message " +
+        var d3loaded = false
+        var useD3 = async function() {
+            if (!d3loaded) {
+                //debugger
+                let promise = new Promise(returnfn => {
+                    let loadD3LibScript = document.createElement('script');
+                    loadD3LibScript.src = "/js_libs/d3.js";
+                    document.head.appendChild(loadD3LibScript);
+                    loadD3LibScript.onload = function () {
+                        try {
+                        } catch (error) {
+                        }
+                        d3loaded = true
+                        returnfn()
+                    };
+                })
+                let ret = await promise
+            }
+        }
+
+
+
+        let signMessageTemplate =   "Hi there from Yazz. Sign this message " +
         "to prove you have access to this wallet " +
         "and we'll log you in. This won't cost " +
         "you any Ether." +

@@ -2060,6 +2060,7 @@ End of app preview menu
             mounted: async function () {
                 let mm = this
                 await useIdeTools()
+                await useD3()
                 uiDebuggerOn = true
                 if ($HIDEIMPORTBUTTONS == 'false') {
                     mm.hideImportButtons = false
