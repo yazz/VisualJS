@@ -353,48 +353,12 @@ load_once_from_file(true)
                              "name": "Carnivores",
                              "type": "Type",
                              "description": "Diet consists solely of animal materials",
-                             "children": [
+                             children: [
                                  {
                                      "id": 3,
                                      "name": "Javanese Cat",
                                      "type": "Organism",
                                      "description": "Domestic breed of cats, of oriental origin",
-                                     "children": []
-                                 },
-                                 {
-                                     "id": 4,
-                                     "name": "Polar Bear",
-                                     "type": "Organism",
-                                     "description": "White bear native to the Arctic Circle",
-                                     "children": []
-                                 },
-                                 {
-                                     "id": 5,
-                                     "name": "Panda Bear",
-                                     "type": "Organism",
-                                     "description": "Spotted bear native to South Central China",
-                                     "children": []
-                                 }
-                             ]
-                         },
-                         {
-                             "id": 6,
-                             "name": "Herbivores",
-                             "type": "Type",
-                             "description": "Diet consists solely of plant matter",
-                             "children": [
-                                 {
-                                     "id": 7,
-                                     "name": "Angus Cattle",
-                                     "type": "Organism",
-                                     "description": "Scottish breed of black cattle",
-                                     "children": []
-                                 },
-                                 {
-                                     "id": 8,
-                                     "name": "Barb Horse",
-                                     "type": "Organism",
-                                     "description": "A breed of Northern African horses with high stamina and hardiness. Their generally hot temperament makes it harder to tame.",
                                      "children": []
                                  }
                              ]
