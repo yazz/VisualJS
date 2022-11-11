@@ -38,6 +38,10 @@ load_once_from_file(true)
             ,
 
             newMode: false
+            ,
+
+
+            data: {}
         }
       },
       template: `<div style='background-color:white; ' >
@@ -335,9 +339,10 @@ load_once_from_file(true)
 
          ,
          setUpD3: async function () {
+             let mm = this
              this.newMode = true
              setTimeout(async function () {
-                 var data = {
+                 mm.data = {
                      "id": 1,
                      "name": "Animals",
                      "type": "Root",
@@ -398,7 +403,7 @@ load_once_from_file(true)
                  };
 
                  var treePlugin = new d3.mitchTree.boxedTree()
-                     .setData(data)
+                     .setData(mm.data)
                      .setElement(document.getElementById("visualisation"))
                      .setIdAccessor(function (data) {
                          return data.id;
