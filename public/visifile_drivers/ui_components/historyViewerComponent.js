@@ -342,51 +342,110 @@ load_once_from_file(true)
              let mm = this
              this.newMode = true
              setTimeout(async function () {
-                 mm.data = {
-                     "id": 1,
-                     "name": "Animals",
-                     "type": "Root",
-                     "description": "A living organism that feeds on organic matter",
-                     "children": [
-                         {
-                             "id": 2,
-                             "name": "Carnivores",
-                             "type": "Type",
-                             "description": "Diet consists solely of animal materials",
-                             children: [
-                                 {
-                                     "id": 3,
-                                     "name": "Javanese Cat",
-                                     "type": "Organism",
-                                     "description": "Domestic breed of cats, of oriental origin",
-                                     "children": []
-                                 }
-                             ]
-                         }
-                     ]
-                 };
-
-                 var treePlugin = new d3.mitchTree.boxedTree()
-                     .setData(mm.data)
-                     .setElement(document.getElementById("visualisation"))
-                     .setIdAccessor(function (data) {
+                await mm.getHistory_v3()
+debugger
+                 var options = {
+                     data: mm.data,
+                     element: document.getElementById("visualisation"),
+                     getId: function (data) {
                          return data.id;
-                     })
-                     .setChildrenAccessor(function (data) {
+                     },
+                     getChildren: function (data) {
                          return data.children;
-                     })
-                     .setBodyDisplayTextAccessor(function (data) {
+                     },
+                     getBodyDisplayText: function (data) {
                          return data.description;
-                     })
-                     .setTitleDisplayTextAccessor(function (data) {
+                     },
+                     getTitleDisplayText: function (data) {
                          return data.name;
-                     })
+                     }
+                     ,
+                     setOrientation: "RightToLeft"
+                 };
+                 var treePlugin = new d3.mitchTree.boxedTree(options)
+                     .on("nodeClick", function(event) {
+                     debugger
+                        alert(event.data.id)
+                        })
                      .initialize();
 
              }, 200)
+         }
+         ,
 
+
+
+
+         getHistory_v3: async function () {
+             //debugger
+             let mm = this
+             mm.commitsV1 = []
+             let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + "/get_version_history_v2?" +
+                 new URLSearchParams({
+                     id: mm.baseComponentId,
+                     commit_id: mm.currentCommithashId
+                 })
+
+             let promise = new Promise(async function (returnfn) {
+                 fetch(openfileurl, {
+                     method: 'get',
+                     credentials: "include"
+                 })
+                     .then((response) => response.json())
+                     .then(function (responseJson) {
+                         //debugger
+                         for (let rt = 0; rt < responseJson.length; rt++) {
+                            if (rt == 0) {
+                                let commitItem =
+                                    {
+                                        "id": 1,
+                                        "name": "All",
+                                        "type": "Root",
+                                        "description": "dsj " + responseJson[rt].id,
+                                        "children": [
+                                            {
+                                                "id": 2,
+                                                "name": "Carnivores",
+                                                "type": "Type",
+                                                "description": "Diet consists solely of animal materials<b>dfw</b>",
+                                                children: [
+                                                    {
+                                                        "id": 3,
+                                                        "name": "Javanese Cat",
+                                                        "type": "Organism",
+                                                        "description": "Domestic breed of cats, of oriental origin",
+                                                        "children": []
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                mm.data = commitItem
+                            }
+                            returnfn()
+                         }
+
+
+                     })
+                     .catch(err => {
+                         //error block
+                         returnfn()
+                     })
+             })
+             let retval = await promise
+             return retval
 
          }
+
+
+
+
+
+
+
+
+
+
      }
     })
 
