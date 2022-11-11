@@ -64,17 +64,8 @@ load_once_from_file(true)
                         </div>
 
 
-                        <div id="d3_history">
-                          <svg width="760" height="140">
-                            <g transform="translate(70, 70)">
-                              <circle/>
-                              <circle cx="120" />
-                              <circle cx="240" />
-                              <circle cx="360" />
-                              <circle cx="480" />
-                            </g>
-                          </svg>
-                        </div>
+
+                        <section id="visualisation">
                         
 
                         
@@ -98,7 +89,7 @@ load_once_from_file(true)
                             
                         <button  type=button class=' btn btn-danger btn-sm'
                                  style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
-                                 v-on:click='newMode = true' >New mode</button>
+                                 v-on:click='setUpD3()' >New mode</button>
                                  
                         <div    style='font-size:14px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 0px solid lightgray; padding:4px; margin:0;padding-left:14px;'>
 
@@ -159,79 +150,80 @@ load_once_from_file(true)
      ,
 
      mounted: async function() {
+
+
      },
      methods: {
 
 
-        // -----------------------------------------------------
-        //                      getText
-        //
-        // This is called to get the SQL definitions
-        //
-        //
-        //
-        // -----------------------------------------------------
-        getText: async function() {
-            if (!isValidObject(this.text)) {
-                return null
-            }
+         // -----------------------------------------------------
+         //                      getText
+         //
+         // This is called to get the SQL definitions
+         //
+         //
+         //
+         // -----------------------------------------------------
+         getText: async function () {
+             if (!isValidObject(this.text)) {
+                 return null
+             }
 
-            return this.text
-        }
-        ,
-
-
-        getCurrentCommitId: async function() {
-        //debugger
-            let mm = this
-            let retVal = null
-            let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/get_commit_hash_id"
-            let promise = new Promise(async function(returnfn) {
-                fetch(openfileurl, {
-                    method: 'post',
-                    credentials: "include",
-                    headers: {
-                        'Content-Type': 'application/json'
-                        // 'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: JSON.stringify({text: mm.text})
-                })
-                    .then((response) => response.json())
-                    .then(function (responseJson) {
-                        returnfn( responseJson.ipfsHash )
-                    })
-                    .catch(err => {
-                        //error block
-                        returnfn(null)
-                    })
-            })
-            retval = await promise
-            return retval
-        }
-        ,
+             return this.text
+         }
+         ,
 
 
-         showCommitsUp: async function(commitId) {
+         getCurrentCommitId: async function () {
+             //debugger
+             let mm = this
+             let retVal = null
+             let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + "/get_commit_hash_id"
+             let promise = new Promise(async function (returnfn) {
+                 fetch(openfileurl, {
+                     method: 'post',
+                     credentials: "include",
+                     headers: {
+                         'Content-Type': 'application/json'
+                         // 'Content-Type': 'application/x-www-form-urlencoded'
+                     },
+                     body: JSON.stringify({text: mm.text})
+                 })
+                     .then((response) => response.json())
+                     .then(function (responseJson) {
+                         returnfn(responseJson.ipfsHash)
+                     })
+                     .catch(err => {
+                         //error block
+                         returnfn(null)
+                     })
+             })
+             retval = await promise
+             return retval
+         }
+         ,
+
+
+         showCommitsUp: async function (commitId) {
              //debugger
              let mm = this
              mm.commitsV1 = []
              //zzz
-             let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/get_version_future?" +
+             let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + "/get_version_future?" +
                  new URLSearchParams({
                      id: mm.baseComponentId,
                      commit_id: mm.currentCommithashId
                  })
 
-             let promise = new Promise(async function(returnfn) {
+             let promise = new Promise(async function (returnfn) {
                  fetch(openfileurl, {
                      method: 'get',
                      credentials: "include"
                  })
                      .then((response) => response.json())
-                     .then(function(responseJson)
-                     {
+                     .then(function (responseJson) {
                          //debugger
-                         for (let rt=0;rt<responseJson.length; rt++) {
+                         for (let rt = 0; rt < responseJson.length; rt++) {
 
                              mm.commitsV1.push(
                                  {
@@ -263,91 +255,171 @@ load_once_from_file(true)
              return retval
 
          }
-        ,
+         ,
 
 
+         getHistory: async function () {
+             //debugger
+             let mm = this
+             mm.commitsV1 = []
+             let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + "/get_version_history_v2?" +
+                 new URLSearchParams({
+                     id: mm.baseComponentId,
+                     commit_id: mm.currentCommithashId
+                 })
+
+             let promise = new Promise(async function (returnfn) {
+                 fetch(openfileurl, {
+                     method: 'get',
+                     credentials: "include"
+                 })
+                     .then((response) => response.json())
+                     .then(function (responseJson) {
+                         //debugger
+                         for (let rt = 0; rt < responseJson.length; rt++) {
+
+                             mm.commitsV1.push(
+                                 {
+                                     codeSha: responseJson[rt].id,
+                                     timestamp: responseJson[rt].creation_timestamp,
+                                     numChanges: responseJson[rt].num_changes,
+                                     changes: responseJson[rt].changes,
+                                     userId: responseJson[rt].user_id,
+                                     baseComponentId: responseJson[rt].base_component_id,
+                                     descendants: responseJson[rt].descendants
+                                 })
 
 
+                             if (responseJson[rt].changes && responseJson[rt].changes.length > 0) {
+                                 mm.firstCommitTimestamps[responseJson[rt].id] = responseJson[rt].changes[0].timestamp
+                             }
+                             returnfn()
+
+                         }
 
 
-        getHistory: async function() {
-        //debugger
-            let mm = this
-            mm.commitsV1 = []
-            let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/get_version_history_v2?" +
-                new URLSearchParams({
-                        id: mm.baseComponentId,
-                        commit_id: mm.currentCommithashId
-                })
+                     })
+                     .catch(err => {
+                         //error block
+                         returnfn()
+                     })
+             })
+             let retval = await promise
+             return retval
 
-            let promise = new Promise(async function(returnfn) {
-                fetch(openfileurl, {
-                    method: 'get',
-                    credentials: "include"
-                })
-                    .then((response) => response.json())
-                    .then(function(responseJson)
-                    {
-                        //debugger
-                        for (let rt=0;rt<responseJson.length; rt++) {
+         }
+         ,
 
-                            mm.commitsV1.push(
-                                {
-                                    codeSha: responseJson[rt].id,
-                                    timestamp: responseJson[rt].creation_timestamp,
-                                    numChanges: responseJson[rt].num_changes,
-                                    changes: responseJson[rt].changes,
-                                    userId: responseJson[rt].user_id,
-                                    baseComponentId: responseJson[rt].base_component_id,
-                                    descendants: responseJson[rt].descendants
-                                })
+         // -----------------------------------------------------
+         //                      setText
+         //
+         // This is called to set the SQL
+         //
+         //
+         //
+         // -----------------------------------------------------
+         setText: async function (textValue) {
+             this.text = textValue
+             this.baseComponentId = saveHelper.getValueOfCodeString(this.text, "base_component_id")
 
+             //debugger
+             this.currentCommithashId = await this.getCurrentCommitId()
+             await this.getHistory()
 
-                            if (responseJson[rt].changes && responseJson[rt].changes.length > 0) {
-                                mm.firstCommitTimestamps[responseJson[rt].id] = responseJson[rt].changes[0].timestamp
-                            }
-                            returnfn()
+             if (!isValidObject(this.text)) {
+                 return
+             }
 
-                        }
+         }
 
 
-                    })
-                    .catch(err => {
-                        //error block
-                        returnfn()
-                    })
-            })
-            let retval = await promise
-            return retval
+         ,
+         setUpD3: async function () {
+             this.newMode = true
+             setTimeout(async function () {
+                 var data = {
+                     "id": 1,
+                     "name": "Animals",
+                     "type": "Root",
+                     "description": "A living organism that feeds on organic matter",
+                     "children": [
+                         {
+                             "id": 2,
+                             "name": "Carnivores",
+                             "type": "Type",
+                             "description": "Diet consists solely of animal materials",
+                             "children": [
+                                 {
+                                     "id": 3,
+                                     "name": "Javanese Cat",
+                                     "type": "Organism",
+                                     "description": "Domestic breed of cats, of oriental origin",
+                                     "children": []
+                                 },
+                                 {
+                                     "id": 4,
+                                     "name": "Polar Bear",
+                                     "type": "Organism",
+                                     "description": "White bear native to the Arctic Circle",
+                                     "children": []
+                                 },
+                                 {
+                                     "id": 5,
+                                     "name": "Panda Bear",
+                                     "type": "Organism",
+                                     "description": "Spotted bear native to South Central China",
+                                     "children": []
+                                 }
+                             ]
+                         },
+                         {
+                             "id": 6,
+                             "name": "Herbivores",
+                             "type": "Type",
+                             "description": "Diet consists solely of plant matter",
+                             "children": [
+                                 {
+                                     "id": 7,
+                                     "name": "Angus Cattle",
+                                     "type": "Organism",
+                                     "description": "Scottish breed of black cattle",
+                                     "children": []
+                                 },
+                                 {
+                                     "id": 8,
+                                     "name": "Barb Horse",
+                                     "type": "Organism",
+                                     "description": "A breed of Northern African horses with high stamina and hardiness. Their generally hot temperament makes it harder to tame.",
+                                     "children": []
+                                 }
+                             ]
+                         }
+                     ]
+                 };
 
-        }
-        ,
+                 var treePlugin = new d3.mitchTree.boxedTree()
+                     .setData(data)
+                     .setElement(document.getElementById("visualisation"))
+                     .setIdAccessor(function (data) {
+                         return data.id;
+                     })
+                     .setChildrenAccessor(function (data) {
+                         return data.children;
+                     })
+                     .setBodyDisplayTextAccessor(function (data) {
+                         return data.description;
+                     })
+                     .setTitleDisplayTextAccessor(function (data) {
+                         return data.name;
+                     })
+                     .initialize();
 
-        // -----------------------------------------------------
-        //                      setText
-        //
-        // This is called to set the SQL
-        //
-        //
-        //
-        // -----------------------------------------------------
-        setText: async function(textValue) {
-            this.text           =  textValue
-            this.baseComponentId = saveHelper.getValueOfCodeString(this.text,"base_component_id")
+             }, 200)
 
-            //debugger
-            this.currentCommithashId = await this.getCurrentCommitId()
-            await this.getHistory()
 
-            if (!isValidObject(this.text)) {
-                return
-            }
-
-        }
-
+         }
      }
-
-
     })
+
 
 }
