@@ -157,7 +157,7 @@ load_once_from_file(true)
              let mm = this
              mm.commitsV1 = []
              //zzz
-             let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/get_version_history_v2?" +
+             let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/get_version_future?" +
                  new URLSearchParams({
                      id: mm.baseComponentId,
                      commit_id: mm.currentCommithashId

@@ -3184,6 +3184,52 @@ async function startServices() {
         });
 
 
+
+
+
+
+
+
+        app.get('/get_version_future', async function (req, res) {
+            //zzz
+            console.log("app.post('/get_version_history_v2'): ")
+            console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+            let topApps = []
+            let baseComponentIdToFind = req.query.id;
+            let sessionId = await getSessionId(req)
+            let lastCommitId = req.query.commit_id
+            let currentReturnRows = []
+
+            let selectedCommitRow = await getRowForCommit(lastCommitId)
+            currentReturnRows.push(selectedCommitRow)
+            let returnRows = await getPreviousCommitsFor(
+                {
+                    commitId: selectedCommitRow.ipfs_hash_id
+                    ,
+                    parentCommitId: selectedCommitRow.parent_commit_id
+                    ,
+                    returnRows: currentReturnRows
+                })
+
+
+            res.writeHead(200, {'Content-Type': 'application/json'});
+
+            res.end(JSON.stringify(
+                returnRows
+            ));
+
+        });
+
+
+
+
+
+
+
+
+
+
+
         app.post('/topapps', async function (req, res) {
             console.log("app.post('/topapps'): ")
             console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
