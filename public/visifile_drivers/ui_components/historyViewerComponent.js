@@ -14,23 +14,30 @@ load_once_from_file(true)
         return {
             text:           args.text
             ,
+
+
             firstCommitTimestamps: {}
             ,
+
+
             selectedCommit: null
             ,
 
-
-// list of commits. Eg:
-//        [  {codeSha: "fdsfsddfsfsdfds", timestamp: new Date().getTime()},    ]
+            // list of commits. Eg:
+            //        [  {codeSha: "fdsfsddfsfsdfds", timestamp: new Date().getTime()},    ]
             commitsV1: [
             ]
             ,
 
 
-
             currentCommithashId: null
             ,
+
+
             baseComponentId: null
+            ,
+
+            newMode: false
         }
       },
       template: `<div style='background-color:white; ' >
@@ -39,8 +46,29 @@ load_once_from_file(true)
                         <slot style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);display: inline-block;' v-if='text' :text2="text">
                         </slot>
                       </div>
+                      
+                      <div  style='border-radius: 5px;margin-left:15px;margin-top:15px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border: 4px solid lightgray;padding:5px; ' 
+                            v-if="newMode">
+                            
+                        <button  type=button class=' btn btn-danger btn-sm'
+                                 style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
+                                 v-on:click='newMode = false' >Old mode</button>
+                                 
+                        <div    style='font-size:14px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 0px solid lightgray; padding:4px; margin:0;padding-left:14px;'>
 
-                      <div style='border-radius: 5px;margin-left:15px;margin-top:15px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border: 4px solid lightgray;padding:5px; '>
+                          Component History
+                        </div>
+
+
+                      </div>
+
+                      <div  style='border-radius: 5px;margin-left:15px;margin-top:15px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border: 4px solid lightgray;padding:5px; ' 
+                            v-if="!newMode">
+                            
+                        <button  type=button class=' btn btn-danger btn-sm'
+                                 style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
+                                 v-on:click='newMode = true' >New mode</button>
+                                 
                         <div    style='font-size:14px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 0px solid lightgray; padding:4px; margin:0;padding-left:14px;'>
 
                           Component History
