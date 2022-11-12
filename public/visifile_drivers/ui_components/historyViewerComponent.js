@@ -345,6 +345,8 @@ load_once_from_file(true)
              let mm = this
              this.newMode = false
              mm.timeline.destroy()
+             await this.getHistory()
+
          }
          ,
          showNewMode: async function () {
