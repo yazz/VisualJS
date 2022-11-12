@@ -73,7 +73,7 @@ load_once_from_file(true)
 
 
 
-                        <section id="visualisation">
+                          <div id="visualization"></div>
                         
 
                         
@@ -348,47 +348,24 @@ load_once_from_file(true)
              setTimeout(async function () {
                 await mm.getHistory_v3()
 debugger
-                 var options = {
-                     data: mm.data,
-                     element: document.getElementById("visualisation"),
-                     getId: function (data) {
-                         return data.id;
-                     },
-                     getChildren: function (data) {
-                         return data.children;
-                     },
-                     getBodyDisplayText: function (data) {
-                         return data.description;
-                     },
-                     getTitleDisplayText: function (data) {
-                         return data.name;
-                     }
-                     ,
-                     setOrientation: "leftToRight",
-                     setBodyBoxHeight: 50
 
-             };
-                 mm.d3Tree = new d3.mitchTree.circleTree(options)
-                     .on("nodeClick", function(event,bb) {
-                     //debugger
-                         // Expand all nodes
-                         //mm.d3Tree.expandRecursively(mm.d3Tree.getNode(2));
-                         //mm.d3Tree.update();
-                         // Expand all nodes
-                         mm.d3Tree.focusToNode(mm.d3Tree.getNode(6));
-                         mm.d3Tree.update(mm.d3Tree.getNode(6));
-  //                       mm.d3Tree.centerNode(mm.d3Tree.getNode(6))
-  debugger
-                         if (event.type == 'collapse'){
-                             event.continue = false;
-                     }
+                 var container = document.getElementById('visualization');
 
-             })
-                     .setDisplayTextAccessor(function(data) {
-                         return data.name;
-                     })
-                     .initialize();
+                 // Create a DataSet (allows two way data-binding)
+                 var items = new vis.DataSet([
+                     {id: 1, content: 'item 1', start: '2013-04-20'},
+                     {id: 2, content: 'item 2', start: '2013-04-14'},
+                     {id: 3, content: 'item 3', start: '2013-04-18'},
+                     {id: 4, content: 'item 4', start: '2013-04-16', end: '2013-04-19'},
+                     {id: 5, content: 'item 5', start: '2013-04-25'},
+                     {id: 6, content: 'item 6', start: '2013-04-27'}
+                 ]);
 
+                 // Configuration for the Timeline
+                 var options = {};
+
+                 // Create a Timeline
+                 var timeline = new vis.Timeline(container, items, options);
 
              }, 200)
          }
