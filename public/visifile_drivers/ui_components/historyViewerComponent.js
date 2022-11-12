@@ -45,7 +45,7 @@ load_once_from_file(true)
             ,
 
 
-            d3Tree: null
+            timeline: null
         }
       },
       template: `<div style='background-color:white; ' >
@@ -64,7 +64,7 @@ load_once_from_file(true)
                             
                         <button  type=button class=' btn btn-danger btn-sm'
                                  style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
-                                 v-on:click='newMode = false' >Old mode</button>
+                                 v-on:click='showOldMode()' >Old mode</button>
                                  
                         <div    style='font-size:14px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 0px solid lightgray; padding:4px; margin:0;padding-left:14px;'>
 
@@ -97,7 +97,7 @@ load_once_from_file(true)
                             
                         <button  type=button class=' btn btn-danger btn-sm'
                                  style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
-                                 v-on:click='setUpD3()' >New mode</button>
+                                 v-on:click='showNewMode()' >New mode</button>
                                  
                         <div    style='font-size:14px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 0px solid lightgray; padding:4px; margin:0;padding-left:14px;'>
 
@@ -340,9 +340,14 @@ load_once_from_file(true)
 
          }
 
-
          ,
-         setUpD3: async function () {
+         showOldMode: async function () {
+             let mm = this
+             this.newMode = false
+             mm.timeline.destroy()
+         }
+         ,
+         showNewMode: async function () {
              let mm = this
              this.newMode = true
              setTimeout(async function () {
@@ -365,7 +370,7 @@ debugger
                  var options = {};
 
                  // Create a Timeline
-                 var timeline = new vis.Timeline(container, items, options);
+                 mm.timeline = new vis.Timeline(container, items, options);
 
              }, 200)
          }
