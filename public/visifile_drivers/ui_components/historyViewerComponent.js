@@ -401,14 +401,27 @@ load_once_from_file(true)
 
                  // Configuration for the Timeline
                  let options = {
-                     zoomable:true
+                     zoomable:true,
+                     defaultGroup: "system"
                  };
+                 let groups = new vis.DataSet();
+                 groups.add({
+                     id: 0,
+                     content: "" + 0,
+                     order: 0,
+                 });
+                 groups.add({
+                     id: 1,
+                     content: "" + 1,
+                     order: 1,
+                 });
 
                  // Create a Timeline
                  mm.timeline = new vis.Timeline(container, mm.timelineData, options);
+                 mm.timeline.setGroups(groups)
                  mm.timeline.on("mouseOver", function (properties) {
                      if(properties.item){
-                     debugger
+                     //debugger
                         mm.selectedCommit = properties.item;
                      }
                  });
@@ -445,9 +458,13 @@ load_once_from_file(true)
                              mm.timelineData.add(
                              {
                                  id: responseJson[rt].id,
+
                                  content:  responseJson[rt].id.substr(0,5) +
                                      (responseJson[rt].num_changes?(" (" + responseJson[rt].num_changes +")"):""),
-                                 start: responseJson[rt].creation_timestamp
+
+                                 start: responseJson[rt].creation_timestamp,
+
+                                 group: 0
                              });
                              mm.commitsV3[responseJson[rt].id] =
                                  {
