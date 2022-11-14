@@ -118,9 +118,9 @@ load_once_from_file(true)
                         <li v-for='(commit, commitIndex) in commitsV1'
                             style='color:black;'>
                           {{msToTime(commit.timestamp,{shortOnly: true})}} - {{commit.numChanges}}
-                          <span v-if="(commit.numChanges > -1) && (selectedCommit != commit.codeSha)">
+                          <span v-if="(commit.descendants) && (commit.descendants.length > 1) && (commit.numChanges > -1) && (selectedCommit != commit.codeSha)">
                             <a href='#' v-on:click='selectedCommit = commit.codeSha'>More</a> 
-                            (Future commits:
+                            (Other branches:
                             <span v-for='(descendant,index) in commit.descendants'>
                               <span v-if="(commitIndex == 0 ) || (commitsV1[commitIndex-1].codeSha != descendant.id)"
                                     v-on:click="showCommitsUp(descendant.id)" style="color:blue">{{descendant.id}}</span>  
