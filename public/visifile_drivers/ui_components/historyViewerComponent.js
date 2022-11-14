@@ -63,6 +63,11 @@ load_once_from_file(true)
 
 
             commitsV3: {}
+            ,
+
+
+            currentGroupId: 1
+
 
 
 
@@ -112,8 +117,9 @@ load_once_from_file(true)
                                 
                             <div v-if="(selectedCommit != null) && (commitsV3[selectedCommit])">
                               
-                                    <div><b>Commit ID:</b> {{commitsV3[selectedCommit].id}}</div>
-                                    <div><b>User ID:</b> {{commitsV3[selectedCommit].user_id}}</div>
+                              <div><b>Commit ID:</b> {{commitsV3[selectedCommit].id}}</div>
+                              <div><b>User ID:</b> {{commitsV3[selectedCommit].user_id}}</div>
+                              <div><b>Number of Changes:</b> {{commitsV3[selectedCommit].num_changes}}</div>
                             </div>
 
                           </div>
@@ -404,17 +410,14 @@ load_once_from_file(true)
                      zoomable:true,
                      defaultGroup: "system"
                  };
-                 let groups = new vis.DataSet();
-                 groups.add({
-                     id: 0,
-                     content: "" + 0,
-                     order: 0,
-                 });
-                 groups.add({
-                     id: 1,
-                     content: "" + 1,
-                     order: 1,
-                 });
+                 let groups = new vis.DataSet()
+                 for (let rew=0;rew<5;rew++) {
+                     groups.add({
+                         id: rew,
+                         content: "" + rew,
+                         order: rew
+                     });
+                 }
 
                  // Create a Timeline
                  mm.timeline = new vis.Timeline(container, mm.timelineData, options);
@@ -455,6 +458,8 @@ load_once_from_file(true)
                          for (let rt = 0; rt < responseJson.length; rt++) {
                             // Create a DataSet (allows two way data-binding)
                             //debugger
+
+
                              mm.timelineData.add(
                              {
                                  id: responseJson[rt].id,
@@ -464,13 +469,16 @@ load_once_from_file(true)
 
                                  start: responseJson[rt].creation_timestamp,
 
-                                 group: 0
+                                 group: mm.currentGroupId
                              });
+
+
+
                              mm.commitsV3[responseJson[rt].id] =
                                  {
                                     id: responseJson[rt].id,
                                      timestamp: responseJson[rt].creation_timestamp,
-                                     numChanges: responseJson[rt].num_changes,
+                                     num_changes: responseJson[rt].num_changes,
                                      changes: responseJson[rt].changes,
                                      user_id: responseJson[rt].user_id,
                                      baseComponentId: responseJson[rt].base_component_id,
