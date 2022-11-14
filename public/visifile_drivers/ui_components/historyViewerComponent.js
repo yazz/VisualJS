@@ -10,6 +10,13 @@ load_once_from_file(true)
 
 
     Vue.component("history_viewer_component", {
+
+      // ----------------------------------------------------------------------
+      //
+      //                                     DATA
+      //
+      // ----------------------------------------------------------------------
+
       data: function () {
         return {
             text:           args.text
@@ -24,7 +31,7 @@ load_once_from_file(true)
             ,
 
             // list of commits. Eg:
-            //        [  {codeSha: "fdsfsddfsfsdfds", timestamp: new Date().getTime()},    ]
+            // [  {codeSha: "fdsfsddfsfsdfds", timestamp: new Date().getTime()},    ]
             commitsV1: [
             ]
             ,
@@ -46,9 +53,23 @@ load_once_from_file(true)
 
 
             timeline: null
+            ,
+
+
+
+            timelineData: new vis.DataSet([])
         }
       },
-      template: `<div style='background-color:white; ' >
+
+
+
+        // ----------------------------------------------------------------------
+        //
+        //                                    HTML
+        //
+        // ----------------------------------------------------------------------
+
+        template: `<div style='background-color:white; ' >
 
                       <div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: lightgray; padding: 5px;padding-left: 15px;border: 4px solid lightgray;' >
                         <slot style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);display: inline-block;' v-if='text' :text2="text">
@@ -359,7 +380,7 @@ debugger
                  var container = document.getElementById('visualization');
 
                  // Create a DataSet (allows two way data-binding)
-                 var items = new vis.DataSet([
+                 mm.timelineData = new vis.DataSet([
                      {id: 1, content: 'item 1', start: '2013-04-20'},
                      {id: 2, content: 'item 2', start: '2013-04-14'},
                      {id: 3, content: 'item 3', start: '2013-04-18'},
@@ -372,7 +393,7 @@ debugger
                  var options = {};
 
                  // Create a Timeline
-                 mm.timeline = new vis.Timeline(container, items, options);
+                 mm.timeline = new vis.Timeline(container, mm.timelineData, options);
 
              }, 200)
          }
