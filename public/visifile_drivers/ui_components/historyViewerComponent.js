@@ -98,8 +98,11 @@ load_once_from_file(true)
 
 
 
-                          <div id="visualization"></div>
-                        
+                          <div id="visualization_history_timeline"></div>
+
+                          <div id="visualization_commit_details">
+                              {{selectedCommit}}
+                          </div>
 
                         
                       </div>
@@ -381,7 +384,7 @@ load_once_from_file(true)
                 await mm.getHistory_v3()
 
 
-                 let container = document.getElementById('visualization');
+                 let container = document.getElementById('visualization_history_timeline');
 
 
                  // Configuration for the Timeline
@@ -392,7 +395,7 @@ load_once_from_file(true)
                  mm.timeline = new vis.Timeline(container, mm.timelineData, options);
                  mm.timeline.on("click", function (properties) {
                      if(properties.item){
-                         alert(properties.item);
+                        mm.selectedCommit = properties.item;
                      }
                  });
 
