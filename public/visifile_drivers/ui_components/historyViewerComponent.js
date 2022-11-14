@@ -120,6 +120,7 @@ load_once_from_file(true)
                               <div><b>Commit ID:</b> {{commitsV3[selectedCommit].id}}</div>
                               <div><b>User ID:</b> {{commitsV3[selectedCommit].user_id}}</div>
                               <div><b>Number of Changes:</b> {{commitsV3[selectedCommit].num_changes}}</div>
+                              <div><b>Type:</b> {{commitsV3[selectedCommit].base_component_id}}</div>
                             </div>
 
                           </div>
@@ -460,6 +461,9 @@ load_once_from_file(true)
                             //debugger
 
 
+                             if ( rt == (responseJson.length-1)) {
+                                 mm.currentGroupId++
+                             }
                              mm.timelineData.add(
                              {
                                  id: responseJson[rt].id,
@@ -473,7 +477,6 @@ load_once_from_file(true)
                              });
 
 
-
                              mm.commitsV3[responseJson[rt].id] =
                                  {
                                     id: responseJson[rt].id,
@@ -481,7 +484,7 @@ load_once_from_file(true)
                                      num_changes: responseJson[rt].num_changes,
                                      changes: responseJson[rt].changes,
                                      user_id: responseJson[rt].user_id,
-                                     baseComponentId: responseJson[rt].base_component_id,
+                                     base_component_id: responseJson[rt].base_component_id,
                                      descendants: responseJson[rt].descendants
                                  }
 
