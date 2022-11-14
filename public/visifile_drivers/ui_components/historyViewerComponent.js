@@ -379,15 +379,6 @@ debugger
 
                  var container = document.getElementById('visualization');
 
-                 // Create a DataSet (allows two way data-binding)
-                 mm.timelineData = new vis.DataSet([
-                     {id: 1, content: 'item 1', start: '2013-04-20'},
-                     {id: 2, content: 'item 2', start: '2013-04-14'},
-                     {id: 3, content: 'item 3', start: '2013-04-18'},
-                     {id: 4, content: 'item 4', start: '2013-04-16', end: '2013-04-19'},
-                     {id: 5, content: 'item 5', start: '2013-04-25'},
-                     {id: 6, content: 'item 6', start: '2013-04-27'}
-                 ]);
 
                  // Configuration for the Timeline
                  var options = {};
@@ -421,60 +412,11 @@ debugger
                      .then(function (responseJson) {
                          //debugger
                          for (let rt = 0; rt < responseJson.length; rt++) {
-                            if (rt == 0) {
-                                let commitItem =
-                                    {
-                                        "id": 1,
-                                        "name": "All",
-                                        "type": "Root",
-                                        "description": "dsj " + responseJson[rt].id,
-                                        "children": [
-                                            {
-                                                "id": 2,
-                                                "name": "Carnivores",
-                                                "type": "Type",
-                                                "description": "Diet consists solely of animal materials<b>dfw</b>",
-                                                children: [
-                                                    {
-                                                        "id": 3,
-                                                        "name": "Javanese Cat",
-                                                        "type": "Organism",
-                                                        "description": "Domestic breed of cats, of oriental origin",
-                                                        "children": []
-                                                    }
-                                                    ,
-                                                    {
-                                                        "id": 4,
-                                                        "name": "qqq",
-                                                        "type": "Organism",
-                                                        "description": "Domestic breed of cats, of oriental origin",
-                                                        children: [
-                                                            {
-                                                                "id": 5,
-                                                                "name": "22222",
-                                                                "type": "Organism",
-                                                                "description": "Domestic breed of cats, of oriental origin",
-                                                                "children": []
-                                                            }
-                                                            ,
-                                                            {
-                                                                "id": 6,
-                                                                "name": "weffeefwreerw",
-                                                                "type": "Organism",
-                                                                "description": "Domestic breed of cats, of oriental origin",
-                                                                "children": []
-                                                            }
+                            // Create a DataSet (allows two way data-binding)
 
-                                                        ]                                                    }
-
-                                                ]
-                                            }
-                                        ]
-                                    }
-                                mm.data = commitItem
-                            }
-                            returnfn()
+                            mm.timelineData.add({id: rt, content:  responseJson[rt].user_i, start: responseJson[rt].creation_timestamp});
                          }
+                         returnfn()
 
 
                      })
