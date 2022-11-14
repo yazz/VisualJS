@@ -375,7 +375,7 @@ load_once_from_file(true)
              this.newMode = true
              setTimeout(async function () {
                 await mm.getHistory_v3()
-debugger
+
 
                  var container = document.getElementById('visualization');
 
@@ -385,6 +385,11 @@ debugger
 
                  // Create a Timeline
                  mm.timeline = new vis.Timeline(container, mm.timelineData, options);
+                 mm.timeline.on("click", function (properties) {
+                     if(properties.item){
+                         alert(properties.item);
+                     }
+                 });
 
              }, 200)
          }
