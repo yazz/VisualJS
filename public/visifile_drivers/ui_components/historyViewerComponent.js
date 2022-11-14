@@ -407,6 +407,7 @@ load_once_from_file(true)
                  mm.timeline = new vis.Timeline(container, mm.timelineData, options);
                  mm.timeline.on("click", function (properties) {
                      if(properties.item){
+                     debugger
                         mm.selectedCommit = properties.item;
                      }
                  });
@@ -439,6 +440,12 @@ load_once_from_file(true)
                          for (let rt = 0; rt < responseJson.length; rt++) {
                             // Create a DataSet (allows two way data-binding)
                             //debugger
+                             mm.timelineData.add(
+                             {
+                                 id: responseJson[rt].id,
+                                 content:  ":" + responseJson[rt].user_id,
+                                 start: responseJson[rt].creation_timestamp
+                             });
                              mm.commitsV3[responseJson[rt].id] =
                                  {
                                     id: responseJson[rt].id
@@ -446,7 +453,6 @@ load_once_from_file(true)
                                     user_id: responseJson[rt].user_id
                                  }
 
-                            mm.timelineData.add({id: responseJson[rt].id, content:  responseJson[rt].user_id, start: responseJson[rt].creation_timestamp});
                          }
                          returnfn()
 
