@@ -58,6 +58,10 @@ load_once_from_file(true)
 
 
             timelineData: new vis.DataSet([])
+
+
+
+
         }
       },
 
@@ -377,11 +381,12 @@ load_once_from_file(true)
                 await mm.getHistory_v3()
 
 
-                 var container = document.getElementById('visualization');
+                 let container = document.getElementById('visualization');
 
 
                  // Configuration for the Timeline
-                 var options = {};
+                 let options = {
+                 };
 
                  // Create a Timeline
                  mm.timeline = new vis.Timeline(container, mm.timelineData, options);
@@ -419,7 +424,7 @@ load_once_from_file(true)
                          for (let rt = 0; rt < responseJson.length; rt++) {
                             // Create a DataSet (allows two way data-binding)
 
-                            mm.timelineData.add({id: rt, content:  responseJson[rt].user_i, start: responseJson[rt].creation_timestamp});
+                            mm.timelineData.add({id: responseJson[rt].id, content:  responseJson[rt].user_i, start: responseJson[rt].creation_timestamp});
                          }
                          returnfn()
 
