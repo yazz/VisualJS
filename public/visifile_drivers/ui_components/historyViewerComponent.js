@@ -58,7 +58,11 @@ load_once_from_file(true)
 
 
             timelineData: new vis.DataSet([])
+            ,
 
+
+
+            commitsV3: {}
 
 
 
@@ -98,13 +102,21 @@ load_once_from_file(true)
 
 
 
-                          <div id="visualization_history_timeline"></div>
-
-                          <div id="visualization_commit_details">
-                              {{selectedCommit}}
+                          <div id="visualization_history_timeline">
                           </div>
 
-                        
+
+
+                          <div  id="visualization_commit_details"
+                                style="padding: 10px;">
+                                
+                            <div v-if="(selectedCommit != null) && (commitsV3[selectedCommit])">
+                              
+                                    <div><b>Commit ID:</b> {{commitsV3[selectedCommit].id}}</div>
+                                    <div><b>User ID:</b> {{commitsV3[selectedCommit].user_id}}</div>
+                            </div>
+
+                          </div>
                       </div>
 
 
@@ -117,9 +129,9 @@ load_once_from_file(true)
 
 
 
-                      <!-- ---------------------------------------------------------------------------------------------
-                      Show the old style view 
-                      --------------------------------------------------------------------------------------------- -->
+                        <!-- ---------------------------------------------------------------------------------------------
+                        Show the old style view 
+                        --------------------------------------------------------------------------------------------- -->
                       <div  style='border-radius: 5px;margin-left:15px;margin-top:15px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border: 4px solid lightgray;padding:5px; ' 
                             v-if="!newMode">
                             
@@ -426,8 +438,15 @@ load_once_from_file(true)
                          //debugger
                          for (let rt = 0; rt < responseJson.length; rt++) {
                             // Create a DataSet (allows two way data-binding)
+                            //debugger
+                             mm.commitsV3[responseJson[rt].id] =
+                                 {
+                                    id: responseJson[rt].id
+                                    ,
+                                    user_id: responseJson[rt].user_id
+                                 }
 
-                            mm.timelineData.add({id: responseJson[rt].id, content:  responseJson[rt].user_i, start: responseJson[rt].creation_timestamp});
+                            mm.timelineData.add({id: responseJson[rt].id, content:  responseJson[rt].user_id, start: responseJson[rt].creation_timestamp});
                          }
                          returnfn()
 
