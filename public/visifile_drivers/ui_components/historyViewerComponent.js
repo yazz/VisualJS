@@ -443,7 +443,8 @@ load_once_from_file(true)
                              mm.timelineData.add(
                              {
                                  id: responseJson[rt].id,
-                                 content:  ":" + responseJson[rt].user_id,
+                                 content:  responseJson[rt].id.substr(0,5) +
+                                     (responseJson[rt].num_changes?(" (" + responseJson[rt].num_changes +")"):""),
                                  start: responseJson[rt].creation_timestamp
                              });
                              mm.commitsV3[responseJson[rt].id] =
