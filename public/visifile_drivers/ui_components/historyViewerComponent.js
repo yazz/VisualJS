@@ -401,16 +401,18 @@ load_once_from_file(true)
 
                  // Configuration for the Timeline
                  let options = {
+                     zoomable:true
                  };
 
                  // Create a Timeline
                  mm.timeline = new vis.Timeline(container, mm.timelineData, options);
-                 mm.timeline.on("click", function (properties) {
+                 mm.timeline.on("mouseOver", function (properties) {
                      if(properties.item){
                      debugger
                         mm.selectedCommit = properties.item;
                      }
                  });
+
 
              }, 200)
          }
@@ -449,9 +451,13 @@ load_once_from_file(true)
                              });
                              mm.commitsV3[responseJson[rt].id] =
                                  {
-                                    id: responseJson[rt].id
-                                    ,
-                                    user_id: responseJson[rt].user_id
+                                    id: responseJson[rt].id,
+                                     timestamp: responseJson[rt].creation_timestamp,
+                                     numChanges: responseJson[rt].num_changes,
+                                     changes: responseJson[rt].changes,
+                                     user_id: responseJson[rt].user_id,
+                                     baseComponentId: responseJson[rt].base_component_id,
+                                     descendants: responseJson[rt].descendants
                                  }
 
                          }
