@@ -206,7 +206,7 @@ load_once_from_file(true)
              //debugger
              let mm = this
              mm.commitsV1 = []
-             //zzz
+
              let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + "/get_version_future?" +
                  new URLSearchParams({
                      id: mm.baseComponentId,
@@ -282,6 +282,12 @@ load_once_from_file(true)
          ,
          setupTimeline: async function () {
              let mm = this
+             if (mm.timeline != null ) {
+             //zzz
+                mm.timeline.destroy()
+             }
+             mm.timelineData = new vis.DataSet([])
+
              setTimeout(async function () {
                 await mm.getHistory_v3()
 
