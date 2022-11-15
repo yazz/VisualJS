@@ -44,9 +44,6 @@ load_once_from_file(true)
             baseComponentId: null
             ,
 
-            newMode: false
-            ,
-
 
             data: {}
             ,
@@ -93,9 +90,7 @@ load_once_from_file(true)
                       <!-- ---------------------------------------------------------------------------------------------
                       Show the new style view 
                       --------------------------------------------------------------------------------------------- -->
-                      <div  style='height:60%;border-radius: 5px;margin-left:15px;margin-top:15px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border: 4px solid lightgray;padding:5px; ' 
-                            v-if="newMode">
-                            
+                      <div  style='height:60%;border-radius: 5px;margin-left:15px;margin-top:15px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border: 4px solid lightgray;padding:5px; '>
                         <button  type=button class=' btn btn-danger btn-sm'
                                  style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
                                  v-on:click='showOldMode()' >Old mode</button>
@@ -152,79 +147,7 @@ load_once_from_file(true)
 
 
 
-
-
-
-
-
-
-
-                        <!-- ---------------------------------------------------------------------------------------------
-                        Show the old style view 
-                        --------------------------------------------------------------------------------------------- -->
-                      <div  style='border-radius: 5px;margin-left:15px;margin-top:15px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border: 4px solid lightgray;padding:5px; ' 
-                            v-if="!newMode">
-                            
-                        <button  type=button class=' btn btn-danger btn-sm'
-                                 style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
-                                 v-on:click='showNewMode()' >New mode</button>
-                                 
-                        <div    style='font-size:14px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 0px solid lightgray; padding:4px; margin:0;padding-left:14px;'>
-
-                          Component History
-                        </div>
-                        
-                        
-                        <div><b>Current commit ID:</b> {{currentCommithashId}}</div>
-                        
-                        
-                        <div>
-                          <b>Previous commits:</b>  
-                        </div>
-                        
-                      
-                      
-                      <div style="overflow: scroll;height:40vh">
-                        <li v-for='(commit, commitIndex) in commitsV1'
-                            style='color:black;'>
-                          {{msToTime(commit.timestamp,{shortOnly: true})}} - {{commit.numChanges}}
-                          <span v-if="(commit.descendants) && (commit.descendants.length > 1) && (commit.numChanges > -1) && (selectedCommit != commit.codeSha)">
-                            <a href='#' v-on:click='selectedCommit = commit.codeSha'>More</a> 
-                            (Other branches:
-                            <span v-for='(descendant,index) in commit.descendants'>
-                              <span v-if="(commitIndex == 0 ) || (commitsV1[commitIndex-1].codeSha != descendant.id)"
-                                    v-on:click="showCommitsUp(descendant.id)" style="color:blue">{{descendant.id}}</span>  
-                            </span> 
-                            
-                            )
-                          </span>
-                          <span v-if="(commit.numChanges > -1) && (selectedCommit == commit.codeSha)">
-                            <a href='#' v-on:click='selectedCommit = null'>Less</a>
-                          </span>
-                          <div v-if="selectedCommit == commit.codeSha" style="background-color: lightgray;padding: 10px;">
-                                <br/>
-                                <div><b>Time:</b> {{msToTime(commit.timestamp,{timeOnly: true})}} </div>
-                                <div><b>Commit ID:</b> {{commit.codeSha}} </div>
-                                <div><b>Type:</b> {{commit.baseComponentId}} </div>
-                                <div><b>User:</b> {{commit.userId}} </div>
-                                <br/>
-                                <div v-if="commit.changes">
-                                    <div
-                                        v-for="(item,i) in commit.changes.slice().reverse()">
-                                        <span v-if="i==(commit.changes.length - 1)"><b>First commit</b> - </span>
-                                        <span v-if="i!=(commit.changes.length - 1)"><b>{{ capitalizeFirstLetter(timeDiffLater(firstCommitTimestamps[commit.codeSha], item.timestamp)) }}</b> - </span>
-                                       
-                                      {{ item.code_change_text }}
-                                    </div>
-                              </div>
-                          </div>
-
-
-                        </li>
-                      </div>
-                  </div>
-                  
-             </div>`
+                  </div>`
      ,
 
      mounted: async function() {
@@ -403,6 +326,7 @@ load_once_from_file(true)
              //debugger
              this.currentCommithashId = await this.getCurrentCommitId()
              await this.getHistory()
+             await this.showNewMode()
 
              if (!isValidObject(this.text)) {
                  return
@@ -413,7 +337,6 @@ load_once_from_file(true)
          ,
          showOldMode: async function () {
              let mm = this
-             this.newMode = false
              mm.timeline.destroy()
              await this.getHistory()
 
@@ -421,7 +344,6 @@ load_once_from_file(true)
          ,
          showNewMode: async function () {
              let mm = this
-             this.newMode = true
              setTimeout(async function () {
                 await mm.getHistory_v3()
 
