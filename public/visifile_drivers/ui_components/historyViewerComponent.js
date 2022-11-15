@@ -30,13 +30,6 @@ load_once_from_file(true)
             selectedCommit: null
             ,
 
-            // list of commits. Eg:
-            // [  {codeSha: "fdsfsddfsfsdfds", timestamp: new Date().getTime()},    ]
-            commitsV1: [
-            ]
-            ,
-
-
             currentCommithashId: null
             ,
 
@@ -227,8 +220,9 @@ load_once_from_file(true)
          // ----------------------------------------------------------------------
          showCommitsUp: async function (commitId) {
              //debugger
+             //zzz
+             alert(commitId)
              let mm = this
-             mm.commitsV1 = []
 
              let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + "/get_version_future?" +
                  new URLSearchParams({
@@ -246,21 +240,6 @@ load_once_from_file(true)
                          //debugger
                          for (let rt = 0; rt < responseJson.length; rt++) {
 
-                             mm.commitsV1.push(
-                                 {
-                                     codeSha: responseJson[rt].id,
-                                     timestamp: responseJson[rt].creation_timestamp,
-                                     numChanges: responseJson[rt].num_changes,
-                                     changes: responseJson[rt].changes,
-                                     userId: responseJson[rt].user_id,
-                                     baseComponentId: responseJson[rt].base_component_id,
-                                     descendants: responseJson[rt].descendants
-                                 })
-
-
-                             if (responseJson[rt].changes && responseJson[rt].changes.length > 0) {
-                                 mm.firstCommitTimestamps[responseJson[rt].id] = responseJson[rt].changes[0].timestamp
-                             }
                              returnfn()
 
                          }
@@ -313,7 +292,7 @@ load_once_from_file(true)
          setupTimeline: async function () {
              let mm = this
              if (mm.timeline != null ) {
-             //zzz
+
                 mm.timeline.destroy()
                 mm.timeline = null
              }
@@ -367,7 +346,6 @@ load_once_from_file(true)
          getHistory_v3: async function () {
              //debugger
              let mm = this
-             mm.commitsV1 = []
              let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + "/get_version_history_v2?" +
                  new URLSearchParams({
                      id: mm.baseComponentId,
