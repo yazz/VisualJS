@@ -121,6 +121,14 @@ load_once_from_file(true)
                               <div><b>User ID:</b> {{commitsV3[selectedCommit].user_id}}</div>
                               <div><b>Number of Changes:</b> {{commitsV3[selectedCommit].num_changes}}</div>
                               <div><b>Type:</b> {{commitsV3[selectedCommit].base_component_id}}</div>
+                              <div><b>Descendants:</b> 
+                                <span v-for='(descendant,index) in commitsV3[selectedCommit].descendants'>
+                                  <span v-on:click="showCommitsUp(descendant.id)" style="color:blue">
+                                        {{descendant.id.substr(0,5)}}...
+                                  </span>  
+                                </span>
+
+                              </div>
                             </div>
 
                           </div>
