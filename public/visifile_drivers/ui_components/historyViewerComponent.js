@@ -116,7 +116,10 @@ load_once_from_file(true)
                                   </span>
                                    
                                 <span v-for='(descendant,index) in commitsV3[selectedCommit].descendants'>
-                                  <span v-on:click="showCommitsUp(descendant.id)" style="color:blue">
+                                  <span v-on:click="showCommitsUp(descendant.id)" 
+                                        style="color:blue"
+                                        v-if="!commitsV3[descendant.id]"
+                                        >
                                         {{descendant.id.substr(0,5)}}...
                                   </span>  
                                 </span>
