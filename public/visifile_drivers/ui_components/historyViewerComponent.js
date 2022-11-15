@@ -91,9 +91,6 @@ load_once_from_file(true)
                       Show the new style view 
                       --------------------------------------------------------------------------------------------- -->
                       <div  style='height:60%;border-radius: 5px;margin-left:15px;margin-top:15px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border: 4px solid lightgray;padding:5px; '>
-                        <button  type=button class=' btn btn-danger btn-sm'
-                                 style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
-                                 v-on:click='showOldMode()' >Old mode</button>
                                  
                         <div    style='font-size:14px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 0px solid lightgray; padding:4px; margin:0;padding-left:14px;'>
 
@@ -259,57 +256,6 @@ load_once_from_file(true)
          ,
 
 
-         getHistory: async function () {
-             //debugger
-             let mm = this
-             mm.commitsV1 = []
-             let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + "/get_version_history_v2?" +
-                 new URLSearchParams({
-                     id: mm.baseComponentId,
-                     commit_id: mm.currentCommithashId
-                 })
-
-             let promise = new Promise(async function (returnfn) {
-                 fetch(openfileurl, {
-                     method: 'get',
-                     credentials: "include"
-                 })
-                     .then((response) => response.json())
-                     .then(function (responseJson) {
-                         //debugger
-                         for (let rt = 0; rt < responseJson.length; rt++) {
-
-                             mm.commitsV1.push(
-                                 {
-                                     codeSha: responseJson[rt].id,
-                                     timestamp: responseJson[rt].creation_timestamp,
-                                     numChanges: responseJson[rt].num_changes,
-                                     changes: responseJson[rt].changes,
-                                     userId: responseJson[rt].user_id,
-                                     baseComponentId: responseJson[rt].base_component_id,
-                                     descendants: responseJson[rt].descendants
-                                 })
-
-
-                             if (responseJson[rt].changes && responseJson[rt].changes.length > 0) {
-                                 mm.firstCommitTimestamps[responseJson[rt].id] = responseJson[rt].changes[0].timestamp
-                             }
-                             returnfn()
-
-                         }
-
-
-                     })
-                     .catch(err => {
-                         //error block
-                         returnfn()
-                     })
-             })
-             let retval = await promise
-             return retval
-
-         }
-         ,
 
          // -----------------------------------------------------
          //                      setText
@@ -325,8 +271,7 @@ load_once_from_file(true)
 
              //debugger
              this.currentCommithashId = await this.getCurrentCommitId()
-             await this.getHistory()
-             await this.showNewMode()
+             await this.setupTimeline()
 
              if (!isValidObject(this.text)) {
                  return
@@ -335,14 +280,7 @@ load_once_from_file(true)
          }
 
          ,
-         showOldMode: async function () {
-             let mm = this
-             mm.timeline.destroy()
-             await this.getHistory()
-
-         }
-         ,
-         showNewMode: async function () {
+         setupTimeline: async function () {
              let mm = this
              setTimeout(async function () {
                 await mm.getHistory_v3()
