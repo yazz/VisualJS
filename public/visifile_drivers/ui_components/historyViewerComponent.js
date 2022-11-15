@@ -90,7 +90,7 @@ load_once_from_file(true)
                       <!-- ---------------------------------------------------------------------------------------------
                       Show the new style view 
                       --------------------------------------------------------------------------------------------- -->
-                      <div  style='height:60%;border-radius: 5px;margin-left:15px;margin-top:15px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border: 4px solid lightgray;padding:5px; '>
+                      <div  style='overflow: scroll;height:75%;border-radius: 5px;margin-left:15px;margin-top:15px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border: 4px solid lightgray;padding:5px; '>
                                  
                         <div    style='font-size:14px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 0px solid lightgray; padding:4px; margin:0;padding-left:14px;'>
 
@@ -114,7 +114,14 @@ load_once_from_file(true)
                               <div><b>User ID:</b> {{commitsV3[selectedCommit].user_id}}</div>
                               <div><b>Number of Changes:</b> {{commitsV3[selectedCommit].num_changes}}</div>
                               <div><b>Type:</b> {{commitsV3[selectedCommit].base_component_id}}</div>
-                              <div><b>Descendants:</b> 
+                              <div><b>Descendants:</b>
+                                  <span v-if="commitsV3[selectedCommit].descendants.length==1">
+                                    ({{commitsV3[selectedCommit].descendants.length}})
+                                  </span>
+                                <span v-if="commitsV3[selectedCommit].descendants.length>1" style="color:red;">
+                                    ({{commitsV3[selectedCommit].descendants.length}})
+                                  </span>
+                                   
                                 <span v-for='(descendant,index) in commitsV3[selectedCommit].descendants'>
                                   <span v-on:click="showCommitsUp(descendant.id)" style="color:blue">
                                         {{descendant.id.substr(0,5)}}...
@@ -147,6 +154,13 @@ load_once_from_file(true)
                   </div>`
      ,
 
+
+
+    // ----------------------------------------------------------------------
+    //
+    //                                 mounted
+    //
+    // ----------------------------------------------------------------------
      mounted: async function() {
 
 
@@ -171,7 +185,11 @@ load_once_from_file(true)
          }
          ,
 
-
+         // ----------------------------------------------------------------------
+         //
+         //                            getCurrentCommitId
+         //
+         // ----------------------------------------------------------------------
          getCurrentCommitId: async function () {
              //debugger
              let mm = this
@@ -202,6 +220,11 @@ load_once_from_file(true)
          ,
 
 
+         // ----------------------------------------------------------------------
+         //
+         //                            showCommitsUp
+         //
+         // ----------------------------------------------------------------------
          showCommitsUp: async function (commitId) {
              //debugger
              let mm = this
@@ -278,8 +301,15 @@ load_once_from_file(true)
              }
 
          }
-
          ,
+
+
+
+         // ----------------------------------------------------------------------
+         //
+         //                            setupTimeline
+         //
+         // ----------------------------------------------------------------------
          setupTimeline: async function () {
              let mm = this
              if (mm.timeline != null ) {
@@ -288,6 +318,7 @@ load_once_from_file(true)
                 mm.timeline = null
              }
              mm.timelineData = new vis.DataSet([])
+             mm.currentGroupId= 1
 
              setTimeout(async function () {
                 debugger
@@ -303,7 +334,7 @@ load_once_from_file(true)
                      zoomable:true
                  };
                  let groups = new vis.DataSet()
-                 for (let rew=0;rew<5;rew++) {
+                 for (let rew=1;rew<6;rew++) {
                      groups.add({
                          id: rew,
                          content: "" + rew,
@@ -401,6 +432,12 @@ load_once_from_file(true)
          }
 
 
+
+     // ----------------------------------------------------------------------
+     //
+     //                           .... end of methods:
+     //
+     // ----------------------------------------------------------------------
      }
     })
 
