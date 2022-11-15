@@ -285,11 +285,14 @@ load_once_from_file(true)
              if (mm.timeline != null ) {
              //zzz
                 mm.timeline.destroy()
+                mm.timeline = null
              }
              mm.timelineData = new vis.DataSet([])
 
              setTimeout(async function () {
+                debugger
                 await mm.getHistory_v3()
+
 
 
                  let container = document.getElementById('visualization_history_timeline');
@@ -325,7 +328,11 @@ load_once_from_file(true)
 
 
 
-
+         // ----------------------------------------------------------------------
+         //
+         //                 get the history of this commit going backwards
+         //
+         // ----------------------------------------------------------------------
          getHistory_v3: async function () {
              //debugger
              let mm = this
@@ -375,7 +382,9 @@ load_once_from_file(true)
                                      base_component_id: responseJson[rt].base_component_id,
                                      descendants: responseJson[rt].descendants
                                  }
-
+                             if (responseJson[rt].changes && responseJson[rt].changes.length > 0) {
+                                 mm.firstCommitTimestamps[responseJson[rt].id] = responseJson[rt].changes[0].timestamp
+                             }
                          }
                          returnfn()
 
