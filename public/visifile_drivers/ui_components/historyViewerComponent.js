@@ -132,7 +132,7 @@ load_once_from_file(true)
                               </div>
 
                               <div v-if="commitsV3[selectedCommit].changes">
-                                <div
+                                <div style="margin-left: 80px;"
                                     v-for="(item,i) in commitsV3[selectedCommit].changes.slice().reverse()">
                                   <span v-if="i==(commitsV3[selectedCommit].changes.length - 1)"><b>First commit</b> - </span>
                                   <span v-if="i!=(commitsV3[selectedCommit].changes.length - 1)"><b>{{ capitalizeFirstLetter(timeDiffLater(firstCommitTimestamps[selectedCommit], item.timestamp)) }}</b> - </span>
