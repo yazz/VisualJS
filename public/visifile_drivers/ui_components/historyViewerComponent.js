@@ -221,13 +221,11 @@ load_once_from_file(true)
          showCommitsUp: async function (commitId) {
              //debugger
              //zzz
-             alert(commitId)
              let mm = this
 
              let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + "/get_version_future?" +
                  new URLSearchParams({
-                     id: mm.baseComponentId,
-                     commit_id: mm.currentCommithashId
+                     commit_id: commitId
                  })
 
              let promise = new Promise(async function (returnfn) {
@@ -237,8 +235,51 @@ load_once_from_file(true)
                  })
                      .then((response) => response.json())
                      .then(function (responseJson) {
-                         //debugger
+                         debugger
                          for (let rt = 0; rt < responseJson.length; rt++) {
+
+
+
+
+                             if ( rt == (responseJson.length-1)) {
+                                 mm.currentGroupId++
+                             }
+
+
+                             let itemStyle = ""
+                             if (responseJson[rt].descendants && (responseJson[rt].descendants.length > 1)) {
+                                 itemStyle += "background-color:pink;"
+                             }
+
+                             mm.commitsV3[responseJson[rt].id] =
+                                 {
+                                     id: responseJson[rt].id,
+                                     timestamp: responseJson[rt].creation_timestamp,
+                                     num_changes: responseJson[rt].num_changes,
+                                     changes: responseJson[rt].changes,
+                                     user_id: responseJson[rt].user_id,
+                                     base_component_id: responseJson[rt].base_component_id,
+                                     descendants: responseJson[rt].descendants
+                                 }
+                             if (responseJson[rt].changes && responseJson[rt].changes.length > 0) {
+                                 mm.firstCommitTimestamps[responseJson[rt].id] = responseJson[rt].changes[0].timestamp
+                             }
+
+                             mm.timelineData.add(
+                                 {
+                                     id: responseJson[rt].id,
+
+                                     content:  responseJson[rt].id.substr(0,5) +
+                                         (responseJson[rt].num_changes?(" (" + responseJson[rt].num_changes +")"):""),
+
+                                     start: responseJson[rt].creation_timestamp,
+
+                                     group: mm.currentGroupId,
+
+                                     style: itemStyle
+                                 });
+
+
 
                              returnfn()
 

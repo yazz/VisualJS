@@ -3194,23 +3194,17 @@ async function startServices() {
             //zzz
             console.log("app.post('/get_version_future'): ")
             console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-            let topApps = []
-            let baseComponentIdToFind = req.query.id;
-            let sessionId = await getSessionId(req)
-            let lastCommitId = req.query.commit_id
+            let commitId = req.query.commit_id
             let currentReturnRows = []
 
-            let selectedCommitRow = await getRowForCommit(lastCommitId)
-            currentReturnRows.push(selectedCommitRow)
-            let returnRows = await getPreviousCommitsFor(
+            let firstRow = await getRowForCommit(commitId)
+            currentReturnRows.push(firstRow)
+            let returnRows = await getFutureCommitsFor(
                 {
-                    commitId: selectedCommitRow.ipfs_hash_id
-                    ,
-                    parentCommitId: selectedCommitRow.parent_commit_id
+                    commitId: commitId
                     ,
                     returnRows: currentReturnRows
                 })
-
 
             res.writeHead(200, {'Content-Type': 'application/json'});
 
@@ -7673,3 +7667,42 @@ async function getPreviousCommitsFor(args) {
     }
     return []
 }
+
+
+
+async function getFutureCommitsFor(args) {
+    let commitId = args.commitId
+
+    let numPrevious = 100000000
+    let returnRows = []
+
+    if (args.numPrevious) {
+        numPrevious = args.numPrevious
+    }
+
+    if (args.returnRows) {
+        returnRows = args.returnRows
+    }
+
+    let childCommits = await getQuickSql("select  *  from   system_code  where   parent_id = ? ", [  commitId  ])
+//zzz
+    if (childCommits.length == 0 ) {
+        return returnRows
+    } else if (childCommits.length == 1 ) {
+        let childCommitRow = await getRowForCommit( childCommits[0].id  )
+        returnRows.push(childCommitRow)
+        returnRows = await getFutureCommitsFor(
+            {
+                commitId: childCommitRow.ipfs_hash_id
+                ,
+                returnRows: returnRows
+            })
+        return returnRows
+
+    } else if (childCommits.length == 2 ) {
+        return returnRows
+    }
+
+    return []
+}
+
