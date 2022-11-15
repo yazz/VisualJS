@@ -238,16 +238,9 @@ load_once_from_file(true)
                  })
                      .then((response) => response.json())
                      .then(function (responseJson) {
-                         debugger
+                         //debugger
+                         mm.currentGroupId++
                          for (let rt = 0; rt < responseJson.length; rt++) {
-
-
-
-
-                             if ( rt == (responseJson.length-1)) {
-                                 mm.currentGroupId++
-                             }
-
 
                              let itemStyle = ""
                              if (responseJson[rt].descendants && (responseJson[rt].descendants.length > 1)) {
