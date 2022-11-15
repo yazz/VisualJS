@@ -118,6 +118,7 @@ load_once_from_file(true)
                             <div v-if="(selectedCommit != null) && (commitsV3[selectedCommit])">
                               
                               <div><b>Commit ID:</b> {{commitsV3[selectedCommit].id}}</div>
+                              <div><b>Time:</b> {{msToTime(commitsV3[selectedCommit].timestamp,{timeOnly: true})}} </div>
                               <div><b>User ID:</b> {{commitsV3[selectedCommit].user_id}}</div>
                               <div><b>Number of Changes:</b> {{commitsV3[selectedCommit].num_changes}}</div>
                               <div><b>Type:</b> {{commitsV3[selectedCommit].base_component_id}}</div>
