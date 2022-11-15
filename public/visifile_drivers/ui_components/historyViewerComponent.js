@@ -417,8 +417,7 @@ load_once_from_file(true)
 
                  // Configuration for the Timeline
                  let options = {
-                     zoomable:true,
-                     defaultGroup: "system"
+                     zoomable:true
                  };
                  let groups = new vis.DataSet()
                  for (let rew=0;rew<5;rew++) {
