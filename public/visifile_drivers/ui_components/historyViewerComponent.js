@@ -390,18 +390,12 @@ load_once_from_file(true)
                              if ( rt == (responseJson.length-1)) {
                                  mm.currentGroupId++
                              }
-                             mm.timelineData.add(
-                             {
-                                 id: responseJson[rt].id,
 
-                                 content:  responseJson[rt].id.substr(0,5) +
-                                     (responseJson[rt].num_changes?(" (" + responseJson[rt].num_changes +")"):""),
 
-                                 start: responseJson[rt].creation_timestamp,
-
-                                 group: mm.currentGroupId
-                             });
-
+                             let itemStyle = ""
+                             if (responseJson[rt].descendants && (responseJson[rt].descendants.length > 1)) {
+                                itemStyle += "background-color:pink;"
+                             }
 
                              mm.commitsV3[responseJson[rt].id] =
                                  {
@@ -416,6 +410,20 @@ load_once_from_file(true)
                              if (responseJson[rt].changes && responseJson[rt].changes.length > 0) {
                                  mm.firstCommitTimestamps[responseJson[rt].id] = responseJson[rt].changes[0].timestamp
                              }
+
+                             mm.timelineData.add(
+                                 {
+                                     id: responseJson[rt].id,
+
+                                     content:  responseJson[rt].id.substr(0,5) +
+                                         (responseJson[rt].num_changes?(" (" + responseJson[rt].num_changes +")"):""),
+
+                                     start: responseJson[rt].creation_timestamp,
+
+                                     group: mm.currentGroupId,
+
+                                     style: itemStyle
+                                 });
                          }
                          returnfn()
 
