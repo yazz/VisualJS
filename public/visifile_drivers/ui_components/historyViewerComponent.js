@@ -267,71 +267,74 @@ load_once_from_file(true)
          //
          // ----------------------------------------------------------------------
          renderCommitsToTimeline: async function () {
-             //
-             // get the earliest commit
-             //
              let mm = this
-             if (mm.timeline != null ) {
+            setTimeout(async function() {
+                //
+                // get the earliest commit
+                //
+                if (mm.timeline != null ) {
 
-                 mm.timeline.destroy()
-                 mm.timeline = null
-             }
-             mm.timelineData = new vis.DataSet([])
-             mm.currentGroupId= 1
-             setTimeout(async function() {
-                 let container = document.getElementById('visualization_history_timeline');
-
-
-                 // Configuration for the Timeline
-                 let options = {
-                     zoomable:true
-                 };
-                 let groups = new vis.DataSet()
-                 for (let rew=1;rew<6;rew++) {
-                     groups.add({
-                         id: rew,
-                         content: "" + rew,
-                         order: rew
-                     });
-                 }
-
-                 // Create a Timeline
-                 mm.timeline = new vis.Timeline(container, mm.timelineData, options);
-                 mm.timeline.setGroups(groups)
-                 mm.timeline.on("mouseOver", function (properties) {
-                     if(properties.item){
-                         //debugger
-                         mm.selectedCommit = properties.item;
-                     }
-                 });
-
-
-
+                    mm.timeline.destroy()
+                    mm.timeline = null
+                }
+                mm.timelineData = new vis.DataSet([])
+                mm.currentGroupId= 1
                 setTimeout(async function() {
+                    let container = document.getElementById('visualization_history_timeline');
 
-                    let listOfCommits = Object.keys(mm.commitsV3)
-                    let earliestTimestamp = null
-                    let earliestCommit = null
-                    for (const commitKey of listOfCommits) {
-                        let thisCommit = mm.commitsV3[commitKey]
-                        if (earliestTimestamp == null) {
-                            earliestTimestamp = thisCommit.timestamp
-                            earliestCommit = commitKey
-                        } else if ( thisCommit.timestamp < earliestTimestamp) {
-                            earliestTimestamp = thisCommit.timestamp
-                            earliestCommit = commitKey
-                        }
+
+                    // Configuration for the Timeline
+                    let options = {
+                        zoomable:true
+                    };
+                    let groups = new vis.DataSet()
+                    for (let rew=1;rew<6;rew++) {
+                        groups.add({
+                            id: rew,
+                            content: "" + rew,
+                            order: rew
+                        });
                     }
 
+                    // Create a Timeline
+                    mm.timeline = new vis.Timeline(container, mm.timelineData, options);
+                    mm.timeline.setGroups(groups)
+                    mm.timeline.on("mouseOver", function (properties) {
+                        if(properties.item){
+                            //debugger
+                            mm.selectedCommit = properties.item;
+                        }
+                    });
 
-                    //
-                    // render the timeline items
-                    //
-                    await mm.renderCommit(earliestCommit)
-                },200)
 
 
-             },100)
+                    setTimeout(async function() {
+
+                        let listOfCommits = Object.keys(mm.commitsV3)
+                        let earliestTimestamp = null
+                        let earliestCommit = null
+                        for (const commitKey of listOfCommits) {
+                            let thisCommit = mm.commitsV3[commitKey]
+                            if (earliestTimestamp == null) {
+                                earliestTimestamp = thisCommit.timestamp
+                                earliestCommit = commitKey
+                            } else if ( thisCommit.timestamp < earliestTimestamp) {
+                                earliestTimestamp = thisCommit.timestamp
+                                earliestCommit = commitKey
+                            }
+                        }
+
+
+                        //
+                        // render the timeline items
+                        //
+                        await mm.renderCommit(earliestCommit)
+                    },500)
+
+
+                },100)
+            },100)
+
          }
          ,
 
