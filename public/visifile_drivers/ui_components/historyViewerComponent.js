@@ -436,51 +436,7 @@ load_once_from_file(true)
                  })
                      .then((response) => response.json())
                      .then(async function (responseJson) {
-                         //debugger
-                         for (let rt = 0; rt < responseJson.length; rt++) {
-                            // Create a DataSet (allows two way data-binding)
-                            //debugger
-
-
-                             if ( rt == (responseJson.length-1)) {
-                                 mm.currentGroupId++
-                             }
-
-
-                             let itemStyle = ""
-                             if (responseJson[rt].descendants && (responseJson[rt].descendants.length > 1)) {
-                                itemStyle += "background-color:pink;"
-                             }
-
-                             mm.commitsV3[responseJson[rt].id] =
-                                 {
-                                    id: responseJson[rt].id,
-                                     timestamp: responseJson[rt].creation_timestamp,
-                                     num_changes: responseJson[rt].num_changes,
-                                     changes: responseJson[rt].changes,
-                                     user_id: responseJson[rt].user_id,
-                                     base_component_id: responseJson[rt].base_component_id,
-                                     descendants: responseJson[rt].descendants,
-                                     parent_id: responseJson[rt].parent_commit_id
-                                 }
-                             if (responseJson[rt].changes && responseJson[rt].changes.length > 0) {
-                                 mm.firstCommitTimestamps[responseJson[rt].id] = responseJson[rt].changes[0].timestamp
-                             }
-
-                             mm.timelineData.add(
-                                 {
-                                     id: responseJson[rt].id,
-
-                                     content:  responseJson[rt].id.substr(0,5) +
-                                         (responseJson[rt].num_changes?(" (" + responseJson[rt].num_changes +")"):""),
-
-                                     start: responseJson[rt].creation_timestamp,
-
-                                     group: mm.currentGroupId,
-
-                                     style: itemStyle
-                                 });
-                         }
+                         await mm.saveResponseToCommitData(responseJson)
                          await mm.renderCommitsToTimeline()
                          returnfn()
 
@@ -581,6 +537,38 @@ load_once_from_file(true)
              return retval
 
          }
+         ,
+
+
+
+
+
+
+         saveResponseToCommitData: async function(responseJson) {
+            let mm = this
+             for (let rt = 0; rt < responseJson.length; rt++) {
+
+                 let itemStyle = ""
+                 if (responseJson[rt].descendants && (responseJson[rt].descendants.length > 1)) {
+                     itemStyle += "background-color:pink;"
+                 }
+
+                 mm.commitsV3[responseJson[rt].id] =
+                     {
+                         id: responseJson[rt].id,
+                         timestamp: responseJson[rt].creation_timestamp,
+                         num_changes: responseJson[rt].num_changes,
+                         changes: responseJson[rt].changes,
+                         user_id: responseJson[rt].user_id,
+                         base_component_id: responseJson[rt].base_component_id,
+                         descendants: responseJson[rt].descendants,
+                         parent_id: responseJson[rt].parent_commit_id
+                     }
+                 if (responseJson[rt].changes && responseJson[rt].changes.length > 0) {
+                     mm.firstCommitTimestamps[responseJson[rt].id] = responseJson[rt].changes[0].timestamp
+                 }
+             }
+    }
 
 
      // ----------------------------------------------------------------------
