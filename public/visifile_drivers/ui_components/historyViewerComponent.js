@@ -439,8 +439,6 @@ load_once_from_file(true)
                          await mm.saveResponseToCommitData(responseJson)
                          await mm.renderCommitsToTimeline()
                          returnfn()
-
-
                      })
                      .catch(err => {
                          //error block
@@ -483,50 +481,9 @@ load_once_from_file(true)
                  })
                  .then((response) => response.json())
                  .then(async function (responseJson) {
-                     //debugger
-                     mm.currentGroupId++
-                     for (let rt = 0; rt < responseJson.length; rt++) {
-
-                         let itemStyle = ""
-                         if (responseJson[rt].descendants && (responseJson[rt].descendants.length > 1)) {
-                             itemStyle += "background-color:pink;"
-                         }
-
-                         mm.commitsV3[responseJson[rt].id] =
-                             {
-                                 id: responseJson[rt].id,
-                                 timestamp: responseJson[rt].creation_timestamp,
-                                 num_changes: responseJson[rt].num_changes,
-                                 changes: responseJson[rt].changes,
-                                 user_id: responseJson[rt].user_id,
-                                 base_component_id: responseJson[rt].base_component_id,
-                                 descendants: responseJson[rt].descendants
-                             }
-                         if (responseJson[rt].changes && responseJson[rt].changes.length > 0) {
-                             mm.firstCommitTimestamps[responseJson[rt].id] = responseJson[rt].changes[0].timestamp
-                         }
-
-                         mm.timelineData.add(
-                             {
-                                 id: responseJson[rt].id,
-
-                                 content:  responseJson[rt].id.substr(0,5) +
-                                     (responseJson[rt].num_changes?(" (" + responseJson[rt].num_changes +")"):""),
-
-                                 start: responseJson[rt].creation_timestamp,
-
-                                 group: mm.currentGroupId,
-
-                                 style: itemStyle
-                             });
-
-
-                         await mm.renderCommitsToTimeline()
-                         returnfn()
-
-                     }
-
-
+                     await mm.saveResponseToCommitData()
+                     await mm.renderCommitsToTimeline()
+                     returnfn()
                  })
                  .catch(err => {
                      //error block
