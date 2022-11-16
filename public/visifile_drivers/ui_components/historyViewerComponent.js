@@ -198,68 +198,17 @@ load_once_from_file(true)
              this.text = textValue
              this.baseComponentId = saveHelper.getValueOfCodeString(this.text, "base_component_id")
 
-             //debugger
+             debugger
              this.currentCommithashId = await this.getCurrentCommitId()
-             await this.setupTimeline()
+             await this.getHistory_v3()
+
+
+
 
              if (!isValidObject(this.text)) {
                  return
              }
 
-         }
-         ,
-
-
-
-         // ----------------------------------------------------------------------
-         //
-         //                            setupTimeline
-         //
-         // ----------------------------------------------------------------------
-         setupTimeline: async function () {
-             let mm = this
-             if (mm.timeline != null ) {
-
-                 mm.timeline.destroy()
-                 mm.timeline = null
-             }
-             mm.timelineData = new vis.DataSet([])
-             mm.currentGroupId= 1
-
-             setTimeout(async function () {
-                 //debugger
-                 await mm.getHistory_v3()
-
-
-
-                 let container = document.getElementById('visualization_history_timeline');
-
-
-                 // Configuration for the Timeline
-                 let options = {
-                     zoomable:true
-                 };
-                 let groups = new vis.DataSet()
-                 for (let rew=1;rew<6;rew++) {
-                     groups.add({
-                         id: rew,
-                         content: "" + rew,
-                         order: rew
-                     });
-                 }
-
-                 // Create a Timeline
-                 mm.timeline = new vis.Timeline(container, mm.timelineData, options);
-                 mm.timeline.setGroups(groups)
-                 mm.timeline.on("mouseOver", function (properties) {
-                     if(properties.item){
-                         //debugger
-                         mm.selectedCommit = properties.item;
-                     }
-                 });
-
-
-             }, 200)
          }
          ,
 
@@ -322,27 +271,6 @@ load_once_from_file(true)
              // get the earliest commit
              //
              let mm = this
-             let listOfCommits = Object.keys(mm.commitsV3)
-             let earliestTimestamp = null
-             let earlierCommit = null
-             for (const commitKey of listOfCommits) {
-                 let thisCommit = mm.commitsV3[commitKey]
-                 if (earliestTimestamp == null) {
-                     earliestTimestamp = thisCommit.timestamp
-                     earlierCommit = commitKey
-                 } else if ( thisCommit.timestamp < earliestTimestamp) {
-                     earliestTimestamp = thisCommit.timestamp
-                     earlierCommit = commitKey
-                 }
-             }
-             //alert("earliestTimestamp:" + earliestTimestamp)
-             //alert("earlierCommit:" + earlierCommit)
-
-
-
-             //
-             // clear the vis.js timeline
-             //
              if (mm.timeline != null ) {
 
                  mm.timeline.destroy()
@@ -350,14 +278,60 @@ load_once_from_file(true)
              }
              mm.timelineData = new vis.DataSet([])
              mm.currentGroupId= 1
+             setTimeout(async function() {
+                 let container = document.getElementById('visualization_history_timeline');
+
+
+                 // Configuration for the Timeline
+                 let options = {
+                     zoomable:true
+                 };
+                 let groups = new vis.DataSet()
+                 for (let rew=1;rew<6;rew++) {
+                     groups.add({
+                         id: rew,
+                         content: "" + rew,
+                         order: rew
+                     });
+                 }
+
+                 // Create a Timeline
+                 mm.timeline = new vis.Timeline(container, mm.timelineData, options);
+                 mm.timeline.setGroups(groups)
+                 mm.timeline.on("mouseOver", function (properties) {
+                     if(properties.item){
+                         //debugger
+                         mm.selectedCommit = properties.item;
+                     }
+                 });
 
 
 
-             debugger
-             //
-             // render the timeline items
-             //
-             await mm.renderCommit(earlierCommit)
+                setTimeout(async function() {
+
+                    let listOfCommits = Object.keys(mm.commitsV3)
+                    let earliestTimestamp = null
+                    let earliestCommit = null
+                    for (const commitKey of listOfCommits) {
+                        let thisCommit = mm.commitsV3[commitKey]
+                        if (earliestTimestamp == null) {
+                            earliestTimestamp = thisCommit.timestamp
+                            earliestCommit = commitKey
+                        } else if ( thisCommit.timestamp < earliestTimestamp) {
+                            earliestTimestamp = thisCommit.timestamp
+                            earliestCommit = commitKey
+                        }
+                    }
+
+
+                    //
+                    // render the timeline items
+                    //
+                    await mm.renderCommit(earliestCommit)
+                },200)
+
+
+             },100)
          }
          ,
 
@@ -481,7 +455,9 @@ load_once_from_file(true)
                  })
                  .then((response) => response.json())
                  .then(async function (responseJson) {
-                     await mm.saveResponseToCommitData()
+                 //debugger
+                     mm.currentGroupId ++
+                     await mm.saveResponseToCommitData(responseJson)
                      await mm.renderCommitsToTimeline()
                      returnfn()
                  })
