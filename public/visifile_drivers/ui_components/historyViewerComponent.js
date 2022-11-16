@@ -116,7 +116,7 @@ load_once_from_file(true)
                                   </span>
                                    
                                 <span v-for='(descendant,index) in commitsV3[selectedCommit].descendants'>
-                                  <span v-on:click="showCommitsUp(descendant.id)" 
+                                  <span v-on:click="findFutureCommits(descendant.id)" 
                                         style="color:blue"
                                         v-if="!commitsV3[descendant.id]"
                                         >
@@ -218,10 +218,10 @@ load_once_from_file(true)
 
          // ----------------------------------------------------------------------
          //
-         //                            showCommitsUp
+         //                            findFutureCommits
          //
          // ----------------------------------------------------------------------
-         showCommitsUp: async function (commitId) {
+         findFutureCommits: async function (commitId) {
              //debugger
              //zzz
              let mm = this
@@ -237,7 +237,7 @@ load_once_from_file(true)
                      credentials: "include"
                  })
                      .then((response) => response.json())
-                     .then(function (responseJson) {
+                     .then(async function (responseJson) {
                          //debugger
                          mm.currentGroupId++
                          for (let rt = 0; rt < responseJson.length; rt++) {
@@ -276,7 +276,7 @@ load_once_from_file(true)
                                  });
 
 
-
+                             await mm.renderCommitsToTimeline()
                              returnfn()
 
                          }
@@ -395,7 +395,7 @@ load_once_from_file(true)
                      credentials: "include"
                  })
                      .then((response) => response.json())
-                     .then(function (responseJson) {
+                     .then(async function (responseJson) {
                          //debugger
                          for (let rt = 0; rt < responseJson.length; rt++) {
                             // Create a DataSet (allows two way data-binding)
@@ -440,6 +440,7 @@ load_once_from_file(true)
                                      style: itemStyle
                                  });
                          }
+                         await mm.renderCommitsToTimeline()
                          returnfn()
 
 
@@ -451,6 +452,20 @@ load_once_from_file(true)
              })
              let retval = await promise
              return retval
+
+         }
+         ,
+
+
+
+
+
+         // ----------------------------------------------------------------------
+         //
+         //                            render commits to timeline
+         //
+         // ----------------------------------------------------------------------
+         renderCommitsToTimeline: async function () {
 
          }
 
