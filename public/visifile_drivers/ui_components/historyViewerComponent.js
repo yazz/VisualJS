@@ -199,7 +199,7 @@ load_once_from_file(true)
              this.text = textValue
              this.baseComponentId = saveHelper.getValueOfCodeString(this.text, "base_component_id")
 
-             debugger
+             //debugger
              this.currentCommithashId = await this.getCurrentCommitId()
              await this.setupTimeline()
              setTimeout(async function(){
@@ -466,9 +466,16 @@ load_once_from_file(true)
                  .then((response) => response.json())
                  .then(async function (responseJson) {
                  //debugger
-                     mm.currentGroupId ++
-                     await mm.saveResponseToCommitData(responseJson)
-                     await mm.renderCommitsToTimeline()
+                     if (responseJson.length > 0) {
+                         let earliestCommit = responseJson[0].id
+                         await mm.saveResponseToCommitData(responseJson)
+                         setTimeout(async function(){
+                             mm.currentGroupId ++
+                             await mm.renderCommit(earliestCommit)
+                         })
+                     }
+
+
                      returnfn()
                  })
                  .catch(err => {
