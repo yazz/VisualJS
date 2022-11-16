@@ -57,6 +57,17 @@ load_once_from_file(true)
 
 
             currentGroupId: 1
+            ,
+
+
+
+            groupColors: {
+                1: {normal: "lightblue", highlighted: "darkblue"},
+                2: {normal: "pink", highlighted: "red"},
+                3: {normal: "lightgray", highlighted: "gray"},
+                4: {normal: "yellow", highlighted: "orange"},
+                5: {normal: "lightbrown", highlighted: "brown"}
+            }
 
 
 
@@ -293,6 +304,7 @@ load_once_from_file(true)
                      });
                  }
 
+
                  // Create a Timeline
                  mm.timeline = new vis.Timeline(container, mm.timelineData, options);
                  mm.timeline.setGroups(groups)
@@ -373,8 +385,9 @@ load_once_from_file(true)
              }
 
              if (commitItem.descendants && (commitItem.descendants.length > 1)) {
-                 itemStyle += "background-color:pink;"
+                 itemStyle += "font-weight: bold;"
              }
+             itemStyle += "background-color:" + mm.groupColors[mm.currentGroupId].normal + ";"
 
 
              mm.timelineData.add(
