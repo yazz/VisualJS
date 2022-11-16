@@ -318,7 +318,9 @@ load_once_from_file(true)
          //
          // ----------------------------------------------------------------------
          renderCommitsToTimeline: async function () {
-             debugger
+             //
+             // get the earliest commit
+             //
              let mm = this
              let listOfCommits = Object.keys(mm.commitsV3)
              let earliestTimestamp = null
@@ -336,9 +338,63 @@ load_once_from_file(true)
              //alert("earliestTimestamp:" + earliestTimestamp)
              //alert("earlierCommit:" + earlierCommit)
 
+
+
+             //
+             // clear the vis.js timeline
+             //
+             if (mm.timeline != null ) {
+
+                 mm.timeline.destroy()
+                 mm.timeline = null
+             }
+             mm.timelineData = new vis.DataSet([])
+             mm.currentGroupId= 1
+
+
+
+             debugger
+             //
+             // render the timeline items
+             //
+             await mm.renderCommit(earlierCommit)
          }
          ,
 
+
+
+
+
+         // ----------------------------------------------------------------------
+         //
+         //                 renderCommit
+         //
+         // ----------------------------------------------------------------------
+         renderCommit: async function (commitId) {
+             let mm = this
+             let commitItem = mm.commitsV3[commitId]
+
+             let itemStyle = ""
+             if (commitItem.descendants && (commitItem.descendants.length > 1)) {
+                 itemStyle += "background-color:pink;"
+             }
+
+
+             mm.timelineData.add(
+                 {
+                     id: commitItem.id,
+
+                     content:  commitItem.id.substr(0,5) +
+                         (commitItem.num_changes?(" (" + commitItem.num_changes +")"):""),
+
+                     start: commitItem.timestamp,
+
+                     group: mm.currentGroupId,
+
+                     style: itemStyle
+                 });
+         }
+         ,
 
 
 
