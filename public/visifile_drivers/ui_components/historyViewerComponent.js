@@ -181,118 +181,8 @@ load_once_from_file(true)
          }
          ,
 
-         // ----------------------------------------------------------------------
-         //
-         //                            getCurrentCommitId
-         //
-         // ----------------------------------------------------------------------
-         getCurrentCommitId: async function () {
-             //debugger
-             let mm = this
-             let retVal = null
-             let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + "/get_commit_hash_id"
-             let promise = new Promise(async function (returnfn) {
-                 fetch(openfileurl, {
-                     method: 'post',
-                     credentials: "include",
-                     headers: {
-                         'Content-Type': 'application/json'
-                         // 'Content-Type': 'application/x-www-form-urlencoded'
-                     },
-                     body: JSON.stringify({text: mm.text})
-                 })
-                     .then((response) => response.json())
-                     .then(function (responseJson) {
-                         returnfn(responseJson.ipfsHash)
-                     })
-                     .catch(err => {
-                         //error block
-                         returnfn(null)
-                     })
-             })
-             retval = await promise
-             return retval
-         }
-         ,
 
 
-         // ----------------------------------------------------------------------
-         //
-         //                            findFutureCommits
-         //
-         // ----------------------------------------------------------------------
-         findFutureCommits: async function (commitId) {
-             //debugger
-             //zzz
-             let mm = this
-
-             let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + "/get_version_future?" +
-                 new URLSearchParams({
-                     commit_id: commitId
-                 })
-
-             let promise = new Promise(async function (returnfn) {
-                 fetch(openfileurl, {
-                     method: 'get',
-                     credentials: "include"
-                 })
-                     .then((response) => response.json())
-                     .then(async function (responseJson) {
-                         //debugger
-                         mm.currentGroupId++
-                         for (let rt = 0; rt < responseJson.length; rt++) {
-
-                             let itemStyle = ""
-                             if (responseJson[rt].descendants && (responseJson[rt].descendants.length > 1)) {
-                                 itemStyle += "background-color:pink;"
-                             }
-
-                             mm.commitsV3[responseJson[rt].id] =
-                                 {
-                                     id: responseJson[rt].id,
-                                     timestamp: responseJson[rt].creation_timestamp,
-                                     num_changes: responseJson[rt].num_changes,
-                                     changes: responseJson[rt].changes,
-                                     user_id: responseJson[rt].user_id,
-                                     base_component_id: responseJson[rt].base_component_id,
-                                     descendants: responseJson[rt].descendants
-                                 }
-                             if (responseJson[rt].changes && responseJson[rt].changes.length > 0) {
-                                 mm.firstCommitTimestamps[responseJson[rt].id] = responseJson[rt].changes[0].timestamp
-                             }
-
-                             mm.timelineData.add(
-                                 {
-                                     id: responseJson[rt].id,
-
-                                     content:  responseJson[rt].id.substr(0,5) +
-                                         (responseJson[rt].num_changes?(" (" + responseJson[rt].num_changes +")"):""),
-
-                                     start: responseJson[rt].creation_timestamp,
-
-                                     group: mm.currentGroupId,
-
-                                     style: itemStyle
-                                 });
-
-
-                             await mm.renderCommitsToTimeline()
-                             returnfn()
-
-                         }
-
-
-                     })
-                     .catch(err => {
-                         //error block
-                         returnfn()
-                     })
-             })
-             let retval = await promise
-             return retval
-
-         }
-         ,
 
 
 
@@ -330,15 +220,15 @@ load_once_from_file(true)
              let mm = this
              if (mm.timeline != null ) {
 
-                mm.timeline.destroy()
-                mm.timeline = null
+                 mm.timeline.destroy()
+                 mm.timeline = null
              }
              mm.timelineData = new vis.DataSet([])
              mm.currentGroupId= 1
 
              setTimeout(async function () {
-                //debugger
-                await mm.getHistory_v3()
+                 //debugger
+                 await mm.getHistory_v3()
 
 
 
@@ -363,8 +253,8 @@ load_once_from_file(true)
                  mm.timeline.setGroups(groups)
                  mm.timeline.on("mouseOver", function (properties) {
                      if(properties.item){
-                     //debugger
-                        mm.selectedCommit = properties.item;
+                         //debugger
+                         mm.selectedCommit = properties.item;
                      }
                  });
 
@@ -372,6 +262,84 @@ load_once_from_file(true)
              }, 200)
          }
          ,
+
+
+
+
+
+
+         // ----------------------------------------------------------------------
+         //
+         //                            getCurrentCommitId
+         //
+         // ----------------------------------------------------------------------
+         getCurrentCommitId: async function () {
+             //debugger
+             let mm = this
+             let retVal = null
+             let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + "/get_commit_hash_id"
+             let promise = new Promise(async function (returnfn) {
+                 fetch(openfileurl, {
+                     method: 'post',
+                     credentials: "include",
+                     headers: {
+                         'Content-Type': 'application/json'
+                         // 'Content-Type': 'application/x-www-form-urlencoded'
+                     },
+                     body: JSON.stringify({text: mm.text})
+                 })
+                     .then((response) => response.json())
+                     .then(function (responseJson) {
+                         returnfn(responseJson.ipfsHash)
+                     })
+                     .catch(err => {
+                         //error block
+                         returnfn(null)
+                     })
+             })
+             retval = await promise
+             return retval
+         }
+         ,
+
+
+
+
+
+
+
+
+
+
+
+         // ----------------------------------------------------------------------
+         //
+         //                            render commits to timeline
+         //
+         // ----------------------------------------------------------------------
+         renderCommitsToTimeline: async function () {
+             debugger
+             let mm = this
+             let listOfCommits = Object.keys(mm.commitsV3)
+             let earliestTimestamp = null
+             let earlierCommit = null
+             for (const commitKey of listOfCommits) {
+                 let thisCommit = mm.commitsV3[commitKey]
+                 if (earliestTimestamp == null) {
+                     earliestTimestamp = thisCommit.timestamp
+                     earlierCommit = commitKey
+                 } else if ( thisCommit.timestamp < earliestTimestamp) {
+                     earliestTimestamp = thisCommit.timestamp
+                     earlierCommit = commitKey
+                 }
+             }
+             //alert("earliestTimestamp:" + earliestTimestamp)
+             //alert("earlierCommit:" + earlierCommit)
+
+         }
+         ,
+
+
 
 
 
@@ -460,32 +428,86 @@ load_once_from_file(true)
 
 
 
+
+
+
+
          // ----------------------------------------------------------------------
          //
-         //                            render commits to timeline
+         //                            findFutureCommits
          //
          // ----------------------------------------------------------------------
-         renderCommitsToTimeline: async function () {
-         debugger
-            let mm = this
-            let listOfCommits = Object.keys(mm.commitsV3)
-             let earliestTimestamp = null
-             let earlierCommit = null
-             for (const commitKey of listOfCommits) {
-                 let thisCommit = mm.commitsV3[commitKey]
-                 if (earliestTimestamp == null) {
-                     earliestTimestamp = thisCommit.timestamp
-                     earlierCommit = commitKey
-                 } else if ( thisCommit.timestamp < earliestTimestamp) {
-                     earliestTimestamp = thisCommit.timestamp
-                     earlierCommit = commitKey
-                 }
-             }
-             //alert("earliestTimestamp:" + earliestTimestamp)
-             //alert("earlierCommit:" + earlierCommit)
+         findFutureCommits: async function (commitId) {
+             //debugger
+             //zzz
+             let mm = this
+
+             let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + "/get_version_future?" +
+                 new URLSearchParams({
+                     commit_id: commitId
+                 })
+
+             let promise = new Promise(async function (returnfn) {
+                 fetch(openfileurl, {
+                     method: 'get',
+                     credentials: "include"
+                 })
+                 .then((response) => response.json())
+                 .then(async function (responseJson) {
+                     //debugger
+                     mm.currentGroupId++
+                     for (let rt = 0; rt < responseJson.length; rt++) {
+
+                         let itemStyle = ""
+                         if (responseJson[rt].descendants && (responseJson[rt].descendants.length > 1)) {
+                             itemStyle += "background-color:pink;"
+                         }
+
+                         mm.commitsV3[responseJson[rt].id] =
+                             {
+                                 id: responseJson[rt].id,
+                                 timestamp: responseJson[rt].creation_timestamp,
+                                 num_changes: responseJson[rt].num_changes,
+                                 changes: responseJson[rt].changes,
+                                 user_id: responseJson[rt].user_id,
+                                 base_component_id: responseJson[rt].base_component_id,
+                                 descendants: responseJson[rt].descendants
+                             }
+                         if (responseJson[rt].changes && responseJson[rt].changes.length > 0) {
+                             mm.firstCommitTimestamps[responseJson[rt].id] = responseJson[rt].changes[0].timestamp
+                         }
+
+                         mm.timelineData.add(
+                             {
+                                 id: responseJson[rt].id,
+
+                                 content:  responseJson[rt].id.substr(0,5) +
+                                     (responseJson[rt].num_changes?(" (" + responseJson[rt].num_changes +")"):""),
+
+                                 start: responseJson[rt].creation_timestamp,
+
+                                 group: mm.currentGroupId,
+
+                                 style: itemStyle
+                             });
+
+
+                         await mm.renderCommitsToTimeline()
+                         returnfn()
+
+                     }
+
+
+                 })
+                 .catch(err => {
+                     //error block
+                     returnfn()
+                 })
+             })
+             let retval = await promise
+             return retval
 
          }
-
 
 
      // ----------------------------------------------------------------------
