@@ -371,10 +371,13 @@ load_once_from_file(true)
          //
          // ----------------------------------------------------------------------
          renderCommit: async function (commitId) {
-             let mm = this
+             let mm         = this
              let commitItem = mm.commitsV3[commitId]
+             if (!commitItem) {
+                return
+             }
+             let itemStyle  = ""
 
-             let itemStyle = ""
              if (commitItem.descendants && (commitItem.descendants.length > 1)) {
                  itemStyle += "background-color:pink;"
              }
@@ -382,17 +385,20 @@ load_once_from_file(true)
 
              mm.timelineData.add(
                  {
-                     id: commitItem.id,
-
-                     content:  commitItem.id.substr(0,5) +
-                         (commitItem.num_changes?(" (" + commitItem.num_changes +")"):""),
-
-                     start: commitItem.timestamp,
-
-                     group: mm.currentGroupId,
-
-                     style: itemStyle
+                     id:        commitItem.id,
+                     content:   commitItem.id.substr(0,5) + (commitItem.num_changes?(" (" + commitItem.num_changes +")"):""),
+                     start:     commitItem.timestamp,
+                     group:     mm.currentGroupId,
+                     style:     itemStyle
                  });
+
+             if (commitItem.descendants) {
+                 for (const descendant of commitItem.descendants) {
+                     if (mm.commitsV3[descendant.id]) {
+                        mm.renderCommit(descendant.id)
+                     }
+                 }
+             }
          }
          ,
 
