@@ -195,12 +195,16 @@ load_once_from_file(true)
          //
          // -----------------------------------------------------
          setText: async function (textValue) {
+             let mm =  this
              this.text = textValue
              this.baseComponentId = saveHelper.getValueOfCodeString(this.text, "base_component_id")
 
              debugger
              this.currentCommithashId = await this.getCurrentCommitId()
-             await this.getHistory_v3()
+             await this.setupTimeline()
+             setTimeout(async function(){
+                 await mm.getHistory_v3()
+             })
 
 
 
@@ -253,7 +257,55 @@ load_once_from_file(true)
 
 
 
+         // ----------------------------------------------------------------------
+         //
+         //                            setupTimeline
+         //
+         // ----------------------------------------------------------------------
+         setupTimeline: async function () {
+             let mm = this
+             //
+             // get the earliest commit
+             //
+             if (mm.timeline != null ) {
 
+                 mm.timeline.destroy()
+                 mm.timeline = null
+             }
+             mm.timelineData = new vis.DataSet([])
+             mm.currentGroupId= 1
+
+
+             setTimeout(async function() {
+                 let container = document.getElementById('visualization_history_timeline');
+
+
+                 // Configuration for the Timeline
+                 let options = {
+                     zoomable: true
+                 };
+                 let groups = new vis.DataSet()
+                 for (let rew = 1; rew < 6; rew++) {
+                     groups.add({
+                         id: rew,
+                         content: "" + rew,
+                         order: rew
+                     });
+                 }
+
+                 // Create a Timeline
+                 mm.timeline = new vis.Timeline(container, mm.timelineData, options);
+                 mm.timeline.setGroups(groups)
+                 mm.timeline.on("mouseOver", function (properties) {
+                     if (properties.item) {
+                         //debugger
+                         mm.selectedCommit = properties.item;
+                     }
+                 });
+             },100)
+
+         }
+         ,
 
 
 
@@ -268,72 +320,27 @@ load_once_from_file(true)
          // ----------------------------------------------------------------------
          renderCommitsToTimeline: async function () {
              let mm = this
-            setTimeout(async function() {
-                //
-                // get the earliest commit
-                //
-                if (mm.timeline != null ) {
 
-                    mm.timeline.destroy()
-                    mm.timeline = null
+
+            let listOfCommits = Object.keys(mm.commitsV3)
+            let earliestTimestamp = null
+            let earliestCommit = null
+            for (const commitKey of listOfCommits) {
+                let thisCommit = mm.commitsV3[commitKey]
+                if (earliestTimestamp == null) {
+                    earliestTimestamp = thisCommit.timestamp
+                    earliestCommit = commitKey
+                } else if ( thisCommit.timestamp < earliestTimestamp) {
+                    earliestTimestamp = thisCommit.timestamp
+                    earliestCommit = commitKey
                 }
-                mm.timelineData = new vis.DataSet([])
-                mm.currentGroupId= 1
-                setTimeout(async function() {
-                    let container = document.getElementById('visualization_history_timeline');
+            }
 
 
-                    // Configuration for the Timeline
-                    let options = {
-                        zoomable:true
-                    };
-                    let groups = new vis.DataSet()
-                    for (let rew=1;rew<6;rew++) {
-                        groups.add({
-                            id: rew,
-                            content: "" + rew,
-                            order: rew
-                        });
-                    }
-
-                    // Create a Timeline
-                    mm.timeline = new vis.Timeline(container, mm.timelineData, options);
-                    mm.timeline.setGroups(groups)
-                    mm.timeline.on("mouseOver", function (properties) {
-                        if(properties.item){
-                            //debugger
-                            mm.selectedCommit = properties.item;
-                        }
-                    });
-
-
-
-                    setTimeout(async function() {
-
-                        let listOfCommits = Object.keys(mm.commitsV3)
-                        let earliestTimestamp = null
-                        let earliestCommit = null
-                        for (const commitKey of listOfCommits) {
-                            let thisCommit = mm.commitsV3[commitKey]
-                            if (earliestTimestamp == null) {
-                                earliestTimestamp = thisCommit.timestamp
-                                earliestCommit = commitKey
-                            } else if ( thisCommit.timestamp < earliestTimestamp) {
-                                earliestTimestamp = thisCommit.timestamp
-                                earliestCommit = commitKey
-                            }
-                        }
-
-
-                        //
-                        // render the timeline items
-                        //
-                        await mm.renderCommit(earliestCommit)
-                    },500)
-
-
-                },100)
-            },100)
+            //
+            // render the timeline items
+            //
+            await mm.renderCommit(earliestCommit)
 
          }
          ,
@@ -443,7 +450,7 @@ load_once_from_file(true)
          // ----------------------------------------------------------------------
          findFutureCommits: async function (commitId) {
              //debugger
-             //zzz
+
              let mm = this
 
              let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + "/get_version_future?" +
