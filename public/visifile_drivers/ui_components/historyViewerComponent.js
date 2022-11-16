@@ -62,12 +62,17 @@ load_once_from_file(true)
 
 
             groupColors: {
-                1: {normal: "lightblue", highlighted: "darkblue"},
-                2: {normal: "pink", highlighted: "red"},
-                3: {normal: "lightgray", highlighted: "gray"},
-                4: {normal: "yellow", highlighted: "orange"},
-                5: {normal: "lightbrown", highlighted: "brown"}
+                1: {normal: "background-color: lightblue", highlighted: "background-color: blue;color:white;"},
+                2: {normal: "background-color: pink", highlighted: "background-color: red;color:white;"},
+                3: {normal: "background-color: lightgray", highlighted: "background-color: gray;color:white;"},
+                4: {normal: "background-color: yellow", highlighted: "background-color: orange;color:white;"},
+                5: {normal: "background-color: lightbrown", highlighted: "background-color: brown;color:white;"}
             }
+            ,
+
+
+
+            highlightedItems: {}
 
 
 
@@ -310,10 +315,31 @@ load_once_from_file(true)
                  mm.timeline.setGroups(groups)
                  mm.timeline.on("mouseOver", function (properties) {
                      if (properties.item) {
-                         //debugger
+
                          mm.selectedCommit = properties.item;
+                         let selectedCommitDataItem =  mm.timelineData.get(mm.selectedCommit);
+                         let itemGroup = selectedCommitDataItem.group
+                         mm.timelineData.update({id: mm.selectedCommit, style: mm.groupColors[itemGroup].highlighted });
+                         mm.highlightedItems[mm.selectedCommit] = true
+                         setTimeout(function(){
+                            for (let highlightedItem of Object.keys(mm.highlightedItems)) {
+                                if (mm.highlightedItems[highlightedItem]) {
+                                    let selectedCommitDataItem =  mm.timelineData.get(highlightedItem);
+                                    let itemGroup = selectedCommitDataItem.group
+                                    mm.timelineData.update({
+                                                                id:     highlightedItem,
+                                                                style:  mm.groupColors[itemGroup].normal
+                                                           });
+                                    mm.highlightedItems[highlightedItem] = false
+                                }
+                            }
+                         },2000)
+                         //zzz
+
                      }
                  });
+
+
              },100)
 
          }
@@ -387,7 +413,7 @@ load_once_from_file(true)
              if (commitItem.descendants && (commitItem.descendants.length > 1)) {
                  itemStyle += "font-weight: bold;"
              }
-             itemStyle += "background-color:" + mm.groupColors[mm.currentGroupId].normal + ";"
+             itemStyle += mm.groupColors[mm.currentGroupId].normal
 
 
              mm.timelineData.add(
@@ -463,7 +489,6 @@ load_once_from_file(true)
          // ----------------------------------------------------------------------
          findFutureCommits: async function (commitId) {
              //debugger
-
              let mm = this
 
              let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + "/get_version_future?" +
