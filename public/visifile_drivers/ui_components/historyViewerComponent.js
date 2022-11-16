@@ -373,10 +373,20 @@ load_once_from_file(true)
          renderCommit: async function (commitId) {
              let mm         = this
              let commitItem = mm.commitsV3[commitId]
+             let itemStyle  = ""
+
              if (!commitItem) {
                 return
              }
-             let itemStyle  = ""
+
+             if (commitItem.parent_id) {
+                let parentCommitItem = mm.commitsV3[commitItem.parent_id]
+                if (parentCommitItem) {
+                    if (parentCommitItem.base_component_id != commitItem.base_component_id) {
+                        mm.currentGroupId ++
+                    }
+                }
+             }
 
              if (commitItem.descendants && (commitItem.descendants.length > 1)) {
                  itemStyle += "background-color:pink;"
@@ -450,7 +460,8 @@ load_once_from_file(true)
                                      changes: responseJson[rt].changes,
                                      user_id: responseJson[rt].user_id,
                                      base_component_id: responseJson[rt].base_component_id,
-                                     descendants: responseJson[rt].descendants
+                                     descendants: responseJson[rt].descendants,
+                                     parent_id: responseJson[rt].parent_commit_id
                                  }
                              if (responseJson[rt].changes && responseJson[rt].changes.length > 0) {
                                  mm.firstCommitTimestamps[responseJson[rt].id] = responseJson[rt].changes[0].timestamp
