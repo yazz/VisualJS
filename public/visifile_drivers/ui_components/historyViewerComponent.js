@@ -337,7 +337,7 @@ load_once_from_file(true)
              mm.currentGroupId= 1
 
              setTimeout(async function () {
-                debugger
+                //debugger
                 await mm.getHistory_v3()
 
 
@@ -466,6 +466,23 @@ load_once_from_file(true)
          //
          // ----------------------------------------------------------------------
          renderCommitsToTimeline: async function () {
+         debugger
+            let mm = this
+            let listOfCommits = Object.keys(mm.commitsV3)
+             let earliestTimestamp = null
+             let earlierCommit = null
+             for (const commitKey of listOfCommits) {
+                 let thisCommit = mm.commitsV3[commitKey]
+                 if (earliestTimestamp == null) {
+                     earliestTimestamp = thisCommit.timestamp
+                     earlierCommit = commitKey
+                 } else if ( thisCommit.timestamp < earliestTimestamp) {
+                     earliestTimestamp = thisCommit.timestamp
+                     earlierCommit = commitKey
+                 }
+             }
+             //alert("earliestTimestamp:" + earliestTimestamp)
+             //alert("earlierCommit:" + earlierCommit)
 
          }
 
