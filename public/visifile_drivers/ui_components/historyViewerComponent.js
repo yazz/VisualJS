@@ -317,6 +317,7 @@ load_once_from_file(true)
                      if (properties.item) {
                          debugger
                          mm.highlightItem(properties.item)
+                         mm.selectedCommit = properties.item;
 
                          let thisHistoryItem = mm.commitsV3[properties.item]
                          if (thisHistoryItem.parent_id) {
@@ -342,38 +343,44 @@ load_once_from_file(true)
 
 
          highlightItem: async function(commitId) {
-            let mm = this
-             mm.selectedCommit = commitId;
-             let itemStyle=""
-             let selectedCommitDataItem = mm.commitsV3[commitId]
-             if (selectedCommitDataItem.descendants && (selectedCommitDataItem.descendants.length > 1)) {
-                 itemStyle += "font-weight: bold;"
-             }
-//zzz
-             let selectedCommitUiItem =  mm.timelineData.get(commitId);
-             let itemGroup = selectedCommitUiItem.group
-             itemStyle +=  mm.groupColors[itemGroup].highlighted
-             mm.timelineData.update({id: mm.selectedCommit, style: itemStyle });
-             mm.highlightedItems[mm.selectedCommit] = true
-             setTimeout(function(){
-                 for (let highlightedItem of Object.keys(mm.highlightedItems)) {
-                     if (mm.highlightedItems[highlightedItem]) {
-                         let itemStyle=""
-                         let selectedCommitDataItem = mm.commitsV3[highlightedItem]
-                         if (selectedCommitDataItem.descendants && (selectedCommitDataItem.descendants.length > 1)) {
-                             itemStyle += "font-weight: bold;"
-                         }
-                         let selectedCommitUiItem =  mm.timelineData.get(highlightedItem);
-                         let itemGroup = selectedCommitUiItem.group
-                         itemStyle += mm.groupColors[itemGroup].normal
-                         mm.timelineData.update({
-                             id:     highlightedItem,
-                             style:  itemStyle
-                         });
-                         mm.highlightedItems[highlightedItem] = false
-                     }
+             let mm = this
+             try {
+
+                 let itemStyle = ""
+                 let selectedCommitDataItem = mm.commitsV3[commitId]
+                 if (selectedCommitDataItem.descendants && (selectedCommitDataItem.descendants.length > 1)) {
+                     itemStyle += "font-weight: bold;"
                  }
-             },2000)
+                 //zzz
+                 let selectedCommitUiItem = mm.timelineData.get(commitId);
+                 let itemGroup = selectedCommitUiItem.group
+                 itemStyle += mm.groupColors[itemGroup].highlighted
+                 mm.timelineData.update({id: commitId, style: itemStyle});
+                 mm.highlightedItems[commitId] = true
+                 setTimeout(function () {
+                     for (let highlightedItem of Object.keys(mm.highlightedItems)) {
+                         if (mm.highlightedItems[highlightedItem]) {
+                             let itemStyle = ""
+                             let selectedCommitDataItem = mm.commitsV3[highlightedItem]
+                             if (selectedCommitDataItem.descendants && (selectedCommitDataItem.descendants.length > 1)) {
+                                 itemStyle += "font-weight: bold;"
+                             }
+                             let selectedCommitUiItem = mm.timelineData.get(highlightedItem);
+                             let itemGroup = selectedCommitUiItem.group
+                             itemStyle += mm.groupColors[itemGroup].normal
+                             mm.timelineData.update({
+                                 id: highlightedItem,
+                                 style: itemStyle
+                             });
+                             mm.highlightedItems[highlightedItem] = false
+                         }
+                     }
+                 }, 2000)
+
+             } catch (err) {
+                 debugger
+             } finally {
+             }
          }
          ,
 
