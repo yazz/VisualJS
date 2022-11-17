@@ -22,6 +22,8 @@ load_once_from_file(true)
             text:           args.text
             ,
 
+            commitCode: null
+            ,
             parentCommitCode: null
             ,
 
@@ -163,7 +165,7 @@ load_once_from_file(true)
             //zzz
                               <button  type=button class=' btn btn-danger btn-sm'
                                        style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
-                                       v-on:click="showCode='commit'" >Code</button>
+                                       v-on:click="showCommit()" >Code</button>
 
                               <button  type=button class=' btn btn-danger btn-sm'
                                        style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
@@ -174,7 +176,7 @@ load_once_from_file(true)
                                        v-on:click="showCode='none'" >None</button>
 
 
-                              <pre v-if="text && showCode=='commit'">{{text}}</pre>
+                              <pre v-if="commitCode && showCode=='commit'">{{commitCode}}</pre>
 
                               <pre v-if="parentCommitCode && showCode=='parent'">{{parentCommitCode}}</pre>
 
@@ -617,6 +619,17 @@ load_once_from_file(true)
         ,
 
 
+
+        showCommit: async function() {
+        debugger
+            let mm = this
+            mm.showCode='commit'
+
+            let responseJson = await getFromYazzReturnJson("/get_code_commit", {commit_id: mm.selectedCommit})
+            mm.commitCode = responseJson.code
+        }
+        ,
+
         showParentCode: async function() {
             let mm = this
             mm.showCode = 'parent'
@@ -625,8 +638,6 @@ load_once_from_file(true)
                 mm.parentCommitCode = ""
                 return
             }
-
-    //debugger
             let responseJson = await getFromYazzReturnJson("/get_code_commit", {commit_id: codeDetails.parent_id})
             mm.parentCommitCode = responseJson.code
         }
