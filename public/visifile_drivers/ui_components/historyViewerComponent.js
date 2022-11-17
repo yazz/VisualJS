@@ -634,6 +634,8 @@ load_once_from_file(true)
                 .then((response) => response.json())
                 .then(async function (responseJson) {
                     debugger
+                    //zzz
+                    mm.parentCommitCode = responseJson.code
 
 
 

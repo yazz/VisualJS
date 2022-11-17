@@ -2959,7 +2959,7 @@ async function startServices() {
             console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
             res.writeHead(200, {'Content-Type': 'application/json'});
             res.end(JSON.stringify(
-                {return: "from code commit"}
+                {code: "from code commit"}
             ));        })
 
 
