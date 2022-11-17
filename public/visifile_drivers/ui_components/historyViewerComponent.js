@@ -186,7 +186,8 @@ load_once_from_file(true)
 
                               <pre v-if="parentCommitCode && showCode=='parent'">{{parentCommitCode}}</pre>
 
-                              <pre v-if="showCode=='diff'">{{diffText}}</pre>
+                              <pre  v-if="showCode=='diff'" 
+                                    v-html="diffText"></pre>
 
                             </div>
 
@@ -657,13 +658,13 @@ load_once_from_file(true)
             let mm = this
             mm.showCode = "diff"
 
-            const one = 'beep boop',
-                other = 'beep boob blah',
+            const one = mm.commitCode
+                other = mm.parentCommitCode,
                 color = '';
 
             let spanHtml = ""
  debugger
-            const diff = Diff.diffChars(one, other)
+            const diff = Diff.diffLines(one, other)
             diff.forEach((part) => {
                 // green for additions, red for deletions
                 // grey for common parts
