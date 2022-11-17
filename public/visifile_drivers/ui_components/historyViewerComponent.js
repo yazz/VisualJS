@@ -338,7 +338,7 @@ load_once_from_file(true)
                  mm.timeline.setGroups(groups)
                  mm.timeline.on("mouseOver", function (properties) {
                      if (properties.item) {
-                         debugger
+                         //debugger
                          mm.highlightItem(properties.item)
                          mm.selectedCommit = properties.item;
 
@@ -618,39 +618,17 @@ load_once_from_file(true)
 
 
         showParentCode: async function() {
-        debugger
             let mm = this
-            mm.showCode='parent'
+            mm.showCode = 'parent'
             let codeDetails = mm.commitsV3[mm.selectedCommit]
             if (codeDetails.parent_id == null) {
                 mm.parentCommitCode = ""
                 return
             }
-            let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + "/get_code_commit?" +
-                new URLSearchParams({
-                    commit_id: codeDetails.parent_id
-                })
 
-            let promise = new Promise(async function (returnfn) {
-                fetch(openfileurl, {
-                    method: 'get',
-                    credentials: "include"
-                })
-                .then((response) => response.json())
-                .then(async function (responseJson) {
-                    debugger
-                    //zzz
-                    mm.parentCommitCode = responseJson.code
-
-
-
-                    returnfn()
-                })
-                .catch(err => {
-                    //error block
-                    returnfn()
-                })
-            })
+    //debugger
+            let responseJson = await getFromYazzReturnJson("/get_code_commit", {commit_id: codeDetails.parent_id})
+            mm.parentCommitCode = responseJson.code
         }
 
 
