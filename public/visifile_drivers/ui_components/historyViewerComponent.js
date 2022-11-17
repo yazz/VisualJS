@@ -684,17 +684,20 @@ load_once_from_file(true)
             let spanHtml = ""
  debugger
             const diff = Diff.diffLines(one, other)
+            mm.diffText = ""
             diff.forEach((part) => {
                 // green for additions, red for deletions
                 // grey for common parts
                 const color = part.added ? 'green' :
                     part.removed ? 'red' : 'grey';
                 spanHtml += "<span style='color: " + color + ";'>"
-                spanHtml += part.value;
+                spanHtml += part.value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
                 spanHtml += "</span>"
+                mm.diffText += spanHtml
+                spanHtml = ""
             });
 
-            mm.diffText = spanHtml
+
         }
 
 
