@@ -629,7 +629,6 @@ load_once_from_file(true)
 
 
         showCommit: async function() {
-        debugger
             let mm = this
             mm.showCode='commit'
 
@@ -658,6 +657,24 @@ load_once_from_file(true)
             let mm = this
             mm.showCode = "diff"
 
+            const one = 'beep boop',
+                other = 'beep boob blah',
+                color = '';
+
+            let spanHtml = ""
+ debugger
+            const diff = Diff.diffChars(one, other)
+            diff.forEach((part) => {
+                // green for additions, red for deletions
+                // grey for common parts
+                const color = part.added ? 'green' :
+                    part.removed ? 'red' : 'grey';
+                spanHtml += "<span style='color: " + color + ";'>"
+                spanHtml += part.value;
+                spanHtml += "</span>"
+            });
+
+            mm.diffText = spanHtml
         }
 
 
