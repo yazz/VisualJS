@@ -22,6 +22,9 @@ load_once_from_file(true)
             text:           args.text
             ,
 
+            parentCommitCode: null
+            ,
+
 
             firstCommitTimestamps: {}
             ,
@@ -153,6 +156,8 @@ load_once_from_file(true)
                               </div>
 
 
+
+                              <pre v-if="text">{{text}}</pre>
 
 
                             </div>
