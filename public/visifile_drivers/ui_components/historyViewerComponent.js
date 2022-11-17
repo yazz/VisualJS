@@ -26,7 +26,8 @@ load_once_from_file(true)
             ,
             parentCommitCode: null
             ,
-
+            diffText: ""
+            ,
 
             showCode: "none"
             ,
@@ -176,9 +177,16 @@ load_once_from_file(true)
                                        v-on:click="showCode='none'" >None</button>
 
 
+                              <button  type=button class=' btn btn-danger btn-sm'
+                                       style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
+                                       v-on:click="diffCode()" >Diff</button>
+
+
                               <pre v-if="commitCode && showCode=='commit'">{{commitCode}}</pre>
 
                               <pre v-if="parentCommitCode && showCode=='parent'">{{parentCommitCode}}</pre>
+
+                              <pre v-if="showCode=='diff'">{{diffText}}</pre>
 
                             </div>
 
@@ -640,6 +648,16 @@ load_once_from_file(true)
             }
             let responseJson = await getFromYazzReturnJson("/get_code_commit", {commit_id: codeDetails.parent_id})
             mm.parentCommitCode = responseJson.code
+        }
+        ,
+
+
+
+
+        diffCode: async function() {
+            let mm = this
+            mm.showCode = "diff"
+
         }
 
 

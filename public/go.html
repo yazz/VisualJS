@@ -87,6 +87,31 @@
 
 
 
+        var diffJsloaded = false
+        var useDiffJs = async function() {
+            if (!diffJsloaded) {
+                //debugger
+                let promise = new Promise(returnfn => {
+                    let loadDiffJsScript = document.createElement('script');
+                    loadDiffJsScript.src = "/js_libs/diff.js";
+                    document.head.appendChild(loadDiffJsScript);
+                    loadDiffJsScript.onload = function () {
+                        try {
+                        } catch (error) {
+                        }
+                        diffJsloaded = true
+                        returnfn()
+                    };
+                })
+                let ret = await promise
+            }
+        }
+
+
+
+
+
+
 
         var d3loaded = false
         var useD3 = async function() {
