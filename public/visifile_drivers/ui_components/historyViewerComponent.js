@@ -621,9 +621,14 @@ load_once_from_file(true)
         debugger
             let mm = this
             mm.showCode='parent'
+            let codeDetails = mm.commitsV3[mm.selectedCommit]
+            if (codeDetails.parent_id == null) {
+                mm.parentCommitCode = ""
+                return
+            }
             let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + "/get_code_commit?" +
                 new URLSearchParams({
-                    commit_id: "commitId"
+                    commit_id: codeDetails.parent_id
                 })
 
             let promise = new Promise(async function (returnfn) {

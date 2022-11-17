@@ -2952,15 +2952,23 @@ async function startServices() {
         })
 
 
-        app.get('/get_code_commit', function (req, res, next) {
+        app.get('/get_code_commit', async function (req, res, next) {
             //console.log("calling main page")
             //console.log("jaeger: " + jaegercollector)
+            let commitId = req.query.commit_id;
+
+
+            let codeRecord = await getQuickSqlOneRow("select  code  from   system_code  where   id = ? ", [  commitId  ])
+            let codeString = codeRecord.code
+
             console.log("app.get('/'): ")
             console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
             res.writeHead(200, {'Content-Type': 'application/json'});
             res.end(JSON.stringify(
-                {code: "from code commit"}
-            ));        })
+                {code: codeString}
+            ));
+            //zzz
+        })
 
 
 
@@ -3165,7 +3173,7 @@ async function startServices() {
 
 
         app.get('/get_version_history_v2', async function (req, res) {
-        //zzz
+
             console.log("app.post('/get_version_history_v2'): ")
             console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
             let topApps = []
@@ -3202,7 +3210,7 @@ async function startServices() {
 
 
         app.get('/get_version_future', async function (req, res) {
-            //zzz
+
             console.log("app.post('/get_version_future'): ")
             console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
             let commitId = req.query.commit_id
@@ -7696,7 +7704,7 @@ async function getFutureCommitsFor(args) {
     }
 
     let childCommits = await getQuickSql("select  *  from   system_code  where   parent_id = ? ", [  commitId  ])
-//zzz
+
     if (childCommits.length == 0 ) {
         return returnRows
     } else if (childCommits.length == 1 ) {
