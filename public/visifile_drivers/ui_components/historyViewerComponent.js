@@ -315,9 +315,9 @@ load_once_from_file(true)
                  mm.timeline.setGroups(groups)
                  mm.timeline.on("mouseOver", function (properties) {
                      if (properties.item) {
-                         mm.highlightItem(properties.item)
-                         //zzz
                          debugger
+                         mm.highlightItem(properties.item)
+
                          let thisHistoryItem = mm.commitsV3[properties.item]
                          if (thisHistoryItem.parent_id) {
                              mm.highlightItem(thisHistoryItem.parent_id)
@@ -344,18 +344,31 @@ load_once_from_file(true)
          highlightItem: async function(commitId) {
             let mm = this
              mm.selectedCommit = commitId;
-             let selectedCommitDataItem =  mm.timelineData.get(mm.selectedCommit);
-             let itemGroup = selectedCommitDataItem.group
-             mm.timelineData.update({id: mm.selectedCommit, style: mm.groupColors[itemGroup].highlighted });
+             let itemStyle=""
+             let selectedCommitDataItem = mm.commitsV3[commitId]
+             if (selectedCommitDataItem.descendants && (selectedCommitDataItem.descendants.length > 1)) {
+                 itemStyle += "font-weight: bold;"
+             }
+//zzz
+             let selectedCommitUiItem =  mm.timelineData.get(commitId);
+             let itemGroup = selectedCommitUiItem.group
+             itemStyle +=  mm.groupColors[itemGroup].highlighted
+             mm.timelineData.update({id: mm.selectedCommit, style: itemStyle });
              mm.highlightedItems[mm.selectedCommit] = true
              setTimeout(function(){
                  for (let highlightedItem of Object.keys(mm.highlightedItems)) {
                      if (mm.highlightedItems[highlightedItem]) {
-                         let selectedCommitDataItem =  mm.timelineData.get(highlightedItem);
-                         let itemGroup = selectedCommitDataItem.group
+                         let itemStyle=""
+                         let selectedCommitDataItem = mm.commitsV3[highlightedItem]
+                         if (selectedCommitDataItem.descendants && (selectedCommitDataItem.descendants.length > 1)) {
+                             itemStyle += "font-weight: bold;"
+                         }
+                         let selectedCommitUiItem =  mm.timelineData.get(highlightedItem);
+                         let itemGroup = selectedCommitUiItem.group
+                         itemStyle += mm.groupColors[itemGroup].normal
                          mm.timelineData.update({
                              id:     highlightedItem,
-                             style:  mm.groupColors[itemGroup].normal
+                             style:  itemStyle
                          });
                          mm.highlightedItems[highlightedItem] = false
                      }
