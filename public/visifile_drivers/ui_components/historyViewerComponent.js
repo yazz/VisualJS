@@ -164,9 +164,19 @@ load_once_from_file(true)
                               <button  type=button class=' btn btn-danger btn-sm'
                                        style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
                                        v-on:click="showCode='commit'" >Code</button>
-                                       
+
+                              <button  type=button class=' btn btn-danger btn-sm'
+                                       style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
+                                       v-on:click="showCode='parent'" >Parent Commit</button>
+
+                              <button  type=button class=' btn btn-danger btn-sm'
+                                       style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
+                                       v-on:click="showCode='none'" >None</button>
+
+
                               <pre v-if="text && showCode=='commit'">{{text}}</pre>
 
+                              <pre v-if="parentCommitCode && showCode=='parent'">{{parentCommitCode}}</pre>
 
                             </div>
 
