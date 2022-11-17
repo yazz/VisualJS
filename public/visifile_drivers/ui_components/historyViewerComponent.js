@@ -167,7 +167,7 @@ load_once_from_file(true)
 
                               <button  type=button class=' btn btn-danger btn-sm'
                                        style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
-                                       v-on:click="showCode='parent'" >Parent Commit</button>
+                                       v-on:click="showParentCode()" >Parent Commit</button>
 
                               <button  type=button class=' btn btn-danger btn-sm'
                                        style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
@@ -613,7 +613,14 @@ load_once_from_file(true)
                      mm.firstCommitTimestamps[responseJson[rt].id] = responseJson[rt].changes[0].timestamp
                  }
              }
-    }
+        }
+        ,
+
+
+        showParentCode: async function() {
+            let mm = this
+            mm.showCode='parent'
+        }
 
 
      // ----------------------------------------------------------------------
