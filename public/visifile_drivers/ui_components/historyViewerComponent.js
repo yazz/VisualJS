@@ -317,6 +317,11 @@ load_once_from_file(true)
                      if (properties.item) {
                          mm.highlightItem(properties.item)
                          //zzz
+                         debugger
+                         let thisHistoryItem = mm.commitsV3[properties.item]
+                         if (thisHistoryItem.parent_id) {
+                             mm.highlightItem(thisHistoryItem.parent_id)
+                         }
 
                      }
                  });
