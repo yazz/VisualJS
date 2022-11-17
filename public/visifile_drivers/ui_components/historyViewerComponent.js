@@ -655,8 +655,27 @@ load_once_from_file(true)
 
 
         diffCode: async function() {
+        debugger
             let mm = this
             mm.showCode = "diff"
+
+            let commitId = mm.selectedCommit
+            if (!commitId) {
+                return
+            }
+            let commitItem = mm.commitsV3[commitId]
+            if (!commitItem) {
+                return
+            }
+            let parentid = commitItem.parent_id
+            if (!parentid) {
+                return
+            }
+            let responseJson = await getFromYazzReturnJson("/get_code_commit", {commit_id: commitId})
+            mm.commitCode = responseJson.code
+            let responseJson2 = await getFromYazzReturnJson("/get_code_commit", {commit_id: parentid})
+            mm.parentCommitCode = responseJson2.code
+
 
             const one = mm.commitCode
                 other = mm.parentCommitCode,
