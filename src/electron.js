@@ -2952,6 +2952,17 @@ async function startServices() {
         })
 
 
+        app.get('/get_code_commit', function (req, res, next) {
+            //console.log("calling main page")
+            //console.log("jaeger: " + jaegercollector)
+            console.log("app.get('/'): ")
+            console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+            res.writeHead(200, {'Content-Type': 'application/json'});
+            res.end(JSON.stringify(
+                {return: "from code commit"}
+            ));        })
+
+
 
         app.post('/submit_comment', async function (req, res) {
             console.log("app.post('/submit_comment'): ")

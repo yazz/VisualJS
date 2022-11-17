@@ -618,8 +618,32 @@ load_once_from_file(true)
 
 
         showParentCode: async function() {
+        debugger
             let mm = this
             mm.showCode='parent'
+            let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + "/get_code_commit?" +
+                new URLSearchParams({
+                    commit_id: "commitId"
+                })
+
+            let promise = new Promise(async function (returnfn) {
+                fetch(openfileurl, {
+                    method: 'get',
+                    credentials: "include"
+                })
+                .then((response) => response.json())
+                .then(async function (responseJson) {
+                    debugger
+
+
+
+                    returnfn()
+                })
+                .catch(err => {
+                    //error block
+                    returnfn()
+                })
+            })
         }
 
 
