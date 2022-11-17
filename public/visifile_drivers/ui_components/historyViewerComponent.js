@@ -315,25 +315,7 @@ load_once_from_file(true)
                  mm.timeline.setGroups(groups)
                  mm.timeline.on("mouseOver", function (properties) {
                      if (properties.item) {
-
-                         mm.selectedCommit = properties.item;
-                         let selectedCommitDataItem =  mm.timelineData.get(mm.selectedCommit);
-                         let itemGroup = selectedCommitDataItem.group
-                         mm.timelineData.update({id: mm.selectedCommit, style: mm.groupColors[itemGroup].highlighted });
-                         mm.highlightedItems[mm.selectedCommit] = true
-                         setTimeout(function(){
-                            for (let highlightedItem of Object.keys(mm.highlightedItems)) {
-                                if (mm.highlightedItems[highlightedItem]) {
-                                    let selectedCommitDataItem =  mm.timelineData.get(highlightedItem);
-                                    let itemGroup = selectedCommitDataItem.group
-                                    mm.timelineData.update({
-                                                                id:     highlightedItem,
-                                                                style:  mm.groupColors[itemGroup].normal
-                                                           });
-                                    mm.highlightedItems[highlightedItem] = false
-                                }
-                            }
-                         },2000)
+                         mm.highlightItem(properties.item)
                          //zzz
 
                      }
@@ -349,6 +331,28 @@ load_once_from_file(true)
 
 
 
+         highlightItem: async function(commitId) {
+            let mm = this
+             mm.selectedCommit = commitId;
+             let selectedCommitDataItem =  mm.timelineData.get(mm.selectedCommit);
+             let itemGroup = selectedCommitDataItem.group
+             mm.timelineData.update({id: mm.selectedCommit, style: mm.groupColors[itemGroup].highlighted });
+             mm.highlightedItems[mm.selectedCommit] = true
+             setTimeout(function(){
+                 for (let highlightedItem of Object.keys(mm.highlightedItems)) {
+                     if (mm.highlightedItems[highlightedItem]) {
+                         let selectedCommitDataItem =  mm.timelineData.get(highlightedItem);
+                         let itemGroup = selectedCommitDataItem.group
+                         mm.timelineData.update({
+                             id:     highlightedItem,
+                             style:  mm.groupColors[itemGroup].normal
+                         });
+                         mm.highlightedItems[highlightedItem] = false
+                     }
+                 }
+             },2000)
+         }
+         ,
 
 
          // ----------------------------------------------------------------------
