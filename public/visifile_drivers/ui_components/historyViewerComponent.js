@@ -364,8 +364,16 @@ load_once_from_file(true)
                      mm.processingMouse = true
                      await mm.previewItemDetails(properties.item)
                      if (properties.item == null) {
+                     debugger
                          await mm.unHighlightAll()
-                         mm.selectedCommit =  mm.lockedSelectedCommit
+                         if (mm.lockedSelectedCommit) {
+                             if (mm.selectedCommit != mm.lockedSelectedCommit) {
+                                 await mm.selectItemDetails(mm.lockedSelectedCommit)
+                             }
+                         } else {
+                             mm.selectedCommit = null
+                             await mm.clearDetailsPane()
+                         }
                      }
                      mm.processingMouse = false
                  });
@@ -422,6 +430,7 @@ load_once_from_file(true)
 
 
          selectItemDetails: async function(commitId) {
+        // debugger
              let mm = this
              mm.lockedSelectedCommit = commitId
              mm.selectedCommit = commitId
@@ -432,7 +441,7 @@ load_once_from_file(true)
 
 
          unHighlightAll: async function() {
-             debugger
+             //debugger
              let mm = this
             if (mm.inUnHighlightAll) {
                 return
@@ -729,7 +738,7 @@ load_once_from_file(true)
 
 
         diffCode: async function() {
-        debugger
+        //debugger
             let mm = this
             mm.showCode = "diff"
 
