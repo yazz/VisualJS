@@ -382,6 +382,9 @@ load_once_from_file(true)
 
                  let itemStyle = ""
                  let selectedCommitDataItem = mm.commitsV3[commitId]
+                 if (!selectedCommitDataItem) {
+                    return
+                 }
                  if (selectedCommitDataItem.descendants && (selectedCommitDataItem.descendants.length > 1)) {
                      itemStyle += "font-weight: bold;"
                  }
