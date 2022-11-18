@@ -368,6 +368,7 @@ load_once_from_file(true)
                      mm.processingMouse = true
                      await mm.previewItemDetails(properties.item)
                      if (properties.item == null) {
+                         await mm.unHighlightAll()
                          mm.selectedCommit =  mm.lockedSelectedCommit
                      }
                      mm.processingMouse = false
@@ -378,6 +379,7 @@ load_once_from_file(true)
                      if (properties.item) {
                          await mm.selectItemDetails(properties.item)
                      } else {
+                         await mm.unHighlightAll()
                          mm.selectedCommit = null
                          mm.lockedSelectedCommit = null
                      }
@@ -394,6 +396,8 @@ load_once_from_file(true)
             try {
                 let mm = this
                 if (commitId) {
+                    await mm.unHighlightAll()
+
                     mm.selectedCommit = commitId
                     mm.highlightItem(commitId)
 
@@ -428,6 +432,7 @@ load_once_from_file(true)
 
          unHighlightAll: async function() {
              debugger
+             let mm = this
             if (mm.inUnHighlightAll) {
                 return
             }
@@ -458,7 +463,6 @@ load_once_from_file(true)
          highlightItem: async function(commitId) {
              let mm = this
              try {
-                 //await mm.unHighlightAll()
                  let itemStyle = ""
                  let selectedCommitDataItem = mm.commitsV3[commitId]
                  if (!selectedCommitDataItem) {
