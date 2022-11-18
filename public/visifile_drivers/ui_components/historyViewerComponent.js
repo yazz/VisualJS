@@ -355,6 +355,17 @@ load_once_from_file(true)
                  });
                  mm.timeline.on("mouseMove", async function (properties) {
                      await mm.previewItemDetails(properties.item)
+                     if (properties.item == null) {
+                         mm.selectedCommit =  mm.lockedSelectedCommit
+                     }
+                 });
+                 mm.timeline.on("click", async function (properties) {
+                     if (properties.item) {
+                         await mm.selectItemDetails(properties.item)
+                     } else {
+                         mm.selectedCommit = null
+                         mm.lockedSelectedCommit = null
+                     }
                  });
 
 
@@ -368,10 +379,6 @@ load_once_from_file(true)
              if (commitId) {
                  mm.selectedCommit = commitId
                  mm.highlightItem(commitId)
-                 setTimeout(async function() {
-                     mm.selectedCommit = null
-                     mm.selectedCommit =  mm.lockedSelectedCommit
-                 },1000)
 
                  let thisHistoryItem = mm.commitsV3[commitId]
                  if (thisHistoryItem.parent_id) {
