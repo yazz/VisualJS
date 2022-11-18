@@ -436,6 +436,14 @@ load_once_from_file(true)
              mm.selectedCommit = commitId
              mm.showCode='commit'
              await mm.showCommit()
+             //zzz
+             if (mm.commitsV3[commitId].descendants) {
+                 for(let descendant of mm.commitsV3[commitId].descendants) {
+                     if (!mm.commitsV3[descendant.id]) {
+                         await mm.findFutureCommits(descendant.id)
+                     }
+                 }
+             }
          }
          ,
 
@@ -674,7 +682,7 @@ load_once_from_file(true)
 
          clearDetailsPane: async function() {
              let mm = this
-             //zzz
+
              mm.commitCode = null
              mm.parentCommitCode = null
              mm.diffText = ""
