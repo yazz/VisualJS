@@ -40,6 +40,9 @@ load_once_from_file(true)
             selectedCommit: null
             ,
 
+            lockedSelectedCommit: null
+            ,
+
             currentCommithashId: null
             ,
 
@@ -347,23 +350,11 @@ load_once_from_file(true)
                  // Create a Timeline
                  mm.timeline = new vis.Timeline(container, mm.timelineData, options);
                  mm.timeline.setGroups(groups)
-                 mm.timeline.on("mouseOver", function (properties) {
-                     if (properties.item) {
-                         //debugger
-                         mm.highlightItem(properties.item)
-                         mm.selectedCommit = properties.item;
-
-                         let thisHistoryItem = mm.commitsV3[properties.item]
-                         if (thisHistoryItem.parent_id) {
-                             mm.highlightItem(thisHistoryItem.parent_id)
-                         }
-                         if (thisHistoryItem.descendants) {
-                            for (let descendant of thisHistoryItem.descendants) {
-                                mm.highlightItem(descendant.id)
-                            }
-                         }
-
-                     }
+                 mm.timeline.on("mouseOver", async function (properties) {
+                     await mm.previewItemDetails(properties.item)
+                 });
+                 mm.timeline.on("mouseMove", async function (properties) {
+                     await mm.previewItemDetails(properties.item)
                  });
 
 
@@ -372,6 +363,39 @@ load_once_from_file(true)
          }
          ,
 
+         previewItemDetails: async function(commitId) {
+             let mm = this
+             if (commitId) {
+                 mm.selectedCommit = commitId
+                 mm.highlightItem(commitId)
+                 setTimeout(async function() {
+                     mm.selectedCommit = null
+                     mm.selectedCommit =  mm.lockedSelectedCommit
+                 },1000)
+
+                 let thisHistoryItem = mm.commitsV3[commitId]
+                 if (thisHistoryItem.parent_id) {
+                     mm.highlightItem(thisHistoryItem.parent_id)
+                 }
+                 if (thisHistoryItem.descendants) {
+                     for (let descendant of thisHistoryItem.descendants) {
+                         mm.highlightItem(descendant.id)
+                     }
+                 }
+
+             }
+
+
+         }
+         ,
+
+
+         selectItemDetails: async function(commitId) {
+             let mm = this
+             mm.lockedSelectedCommit = commitId
+             mm.selectedCommit = commitId
+         }
+         ,
 
 
 
@@ -412,7 +436,7 @@ load_once_from_file(true)
                              mm.highlightedItems[highlightedItem] = false
                          }
                      }
-                 }, 2000)
+                 }, 1000)
 
              } catch (err) {
                  debugger
