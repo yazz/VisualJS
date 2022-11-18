@@ -29,7 +29,7 @@ load_once_from_file(true)
             diffText: ""
             ,
 
-            showCode: "none"
+            showCode: "commit"
             ,
 
 
@@ -173,32 +173,28 @@ load_once_from_file(true)
                               </div>
 
 
-            //zzz
-                              <button  type=button class=' btn btn-danger btn-sm'
-                                       style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
-                                       v-on:click="showCommit()" >Code</button>
-
-                              <button  type=button class=' btn btn-danger btn-sm'
-                                       style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
-                                       v-on:click="showParentCode()" >Parent Commit</button>
-
-                              <button  type=button class=' btn btn-danger btn-sm'
-                                       style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
-                                       v-on:click="showCode='none'" >None</button>
+                                <div>
+                                      <button  type=button class='btn  btn-primary'
+                                               style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
+                                               v-on:click="showCommit()" >Code</button>
+    
+                                      <button  type=button class='btn  btn-info'
+                                               style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
+                                               v-on:click="diffCode()" >Diff</button>
+                                  
+                                </div>
 
 
-                              <button  type=button class=' btn btn-danger btn-sm'
-                                       style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
-                                       v-on:click="diffCode()" >Diff</button>
-
-
-                              <pre v-if="commitCode && showCode=='commit'">{{commitCode}}</pre>
-
-                              <pre v-if="parentCommitCode && showCode=='parent'">{{parentCommitCode}}</pre>
-
-                              <pre  v-if="showCode=='diff'" 
-                                    v-html="diffText"></pre>
-
+                              <div style="margin-top: 30px;">
+                                    <pre v-if="commitCode && showCode=='commit'">{{commitCode}}</pre>
+    
+                                    <pre v-if="parentCommitCode && showCode=='parent'">{{parentCommitCode}}</pre>
+    
+                                    <pre  v-if="showCode=='diff'"
+                                          v-html="diffText"></pre>
+                              </div>
+                              
+                              
                             </div>
 
                           </div>
@@ -397,9 +393,12 @@ load_once_from_file(true)
                 let mm = this
                 if (commitId) {
                     await mm.unHighlightAll()
+                    await mm.clearDetailsPane()
 
                     mm.selectedCommit = commitId
                     mm.highlightItem(commitId)
+                    await mm.showCommit()
+
 
                     let thisHistoryItem = mm.commitsV3[commitId]
                     if (thisHistoryItem.parent_id) {
@@ -426,6 +425,8 @@ load_once_from_file(true)
              let mm = this
              mm.lockedSelectedCommit = commitId
              mm.selectedCommit = commitId
+             mm.showCode='commit'
+             await mm.showCommit()
          }
          ,
 
@@ -662,7 +663,14 @@ load_once_from_file(true)
          ,
 
 
-
+         clearDetailsPane: async function() {
+             let mm = this
+             //zzz
+             mm.commitCode = null
+             mm.parentCommitCode = null
+             mm.diffText = ""
+         }
+         ,
 
 
 
