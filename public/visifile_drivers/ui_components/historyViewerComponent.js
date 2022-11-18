@@ -86,6 +86,13 @@ load_once_from_file(true)
 
 
             highlightedItems: {}
+            ,
+            inUnHighlightAll: false
+            ,
+
+
+
+            processingMouse: false
 
 
 
@@ -351,21 +358,30 @@ load_once_from_file(true)
                  mm.timeline = new vis.Timeline(container, mm.timelineData, options);
                  mm.timeline.setGroups(groups)
                  mm.timeline.on("mouseOver", async function (properties) {
+                    if (mm.processingMouse) {return}
+                     mm.processingMouse = true
                      await mm.previewItemDetails(properties.item)
+                     mm.processingMouse = false
                  });
                  mm.timeline.on("mouseMove", async function (properties) {
+                     if (mm.processingMouse) {return}
+                     mm.processingMouse = true
                      await mm.previewItemDetails(properties.item)
                      if (properties.item == null) {
                          mm.selectedCommit =  mm.lockedSelectedCommit
                      }
+                     mm.processingMouse = false
                  });
                  mm.timeline.on("click", async function (properties) {
+                     if (mm.processingMouse) {return}
+                     mm.processingMouse = true
                      if (properties.item) {
                          await mm.selectItemDetails(properties.item)
                      } else {
                          mm.selectedCommit = null
                          mm.lockedSelectedCommit = null
                      }
+                     mm.processingMouse = false
                  });
 
 
@@ -375,22 +391,27 @@ load_once_from_file(true)
          ,
 
          previewItemDetails: async function(commitId) {
-             let mm = this
-             if (commitId) {
-                 mm.selectedCommit = commitId
-                 mm.highlightItem(commitId)
+            try {
+                let mm = this
+                if (commitId) {
+                    mm.selectedCommit = commitId
+                    mm.highlightItem(commitId)
 
-                 let thisHistoryItem = mm.commitsV3[commitId]
-                 if (thisHistoryItem.parent_id) {
-                     mm.highlightItem(thisHistoryItem.parent_id)
-                 }
-                 if (thisHistoryItem.descendants) {
-                     for (let descendant of thisHistoryItem.descendants) {
-                         mm.highlightItem(descendant.id)
-                     }
-                 }
+                    let thisHistoryItem = mm.commitsV3[commitId]
+                    if (thisHistoryItem.parent_id) {
+                        mm.highlightItem(thisHistoryItem.parent_id)
+                    }
+                    if (thisHistoryItem.descendants) {
+                        for (let descendant of thisHistoryItem.descendants) {
+                            mm.highlightItem(descendant.id)
+                        }
+                    }
 
-             }
+                }
+
+            } catch (err) {
+                debugger
+            }
 
 
          }
@@ -405,12 +426,39 @@ load_once_from_file(true)
          ,
 
 
+         unHighlightAll: async function() {
+             debugger
+            if (mm.inUnHighlightAll) {
+                return
+            }
 
+            mm.inUnHighlightAll = true
+             for (let highlightedItem of Object.keys(mm.highlightedItems)) {
+
+                 if (mm.highlightedItems[highlightedItem]) {
+                     let itemStyle = ""
+                     let selectedCommitDataItem = mm.commitsV3[highlightedItem]
+                     if (selectedCommitDataItem.descendants && (selectedCommitDataItem.descendants.length > 1)) {
+                         itemStyle += "font-weight: bold;"
+                     }
+                     let selectedCommitUiItem = mm.timelineData.get(highlightedItem);
+                     let itemGroup = selectedCommitUiItem.group
+                     itemStyle += mm.groupColors[itemGroup].normal
+                     mm.timelineData.update({
+                         id: highlightedItem,
+                         style: itemStyle
+                     });
+                     mm.highlightedItems[highlightedItem] = false
+                 }
+             }
+             mm.inUnHighlightAll = false
+         }
+         ,
 
          highlightItem: async function(commitId) {
              let mm = this
              try {
-
+                 //await mm.unHighlightAll()
                  let itemStyle = ""
                  let selectedCommitDataItem = mm.commitsV3[commitId]
                  if (!selectedCommitDataItem) {
@@ -425,26 +473,6 @@ load_once_from_file(true)
                  itemStyle += mm.groupColors[itemGroup].highlighted
                  mm.timelineData.update({id: commitId, style: itemStyle});
                  mm.highlightedItems[commitId] = true
-                 setTimeout(function () {
-                     for (let highlightedItem of Object.keys(mm.highlightedItems)) {
-                         if (mm.highlightedItems[highlightedItem]) {
-                             let itemStyle = ""
-                             let selectedCommitDataItem = mm.commitsV3[highlightedItem]
-                             if (selectedCommitDataItem.descendants && (selectedCommitDataItem.descendants.length > 1)) {
-                                 itemStyle += "font-weight: bold;"
-                             }
-                             let selectedCommitUiItem = mm.timelineData.get(highlightedItem);
-                             let itemGroup = selectedCommitUiItem.group
-                             itemStyle += mm.groupColors[itemGroup].normal
-                             mm.timelineData.update({
-                                 id: highlightedItem,
-                                 style: itemStyle
-                             });
-                             mm.highlightedItems[highlightedItem] = false
-                         }
-                     }
-                 }, 1000)
-
              } catch (err) {
                  debugger
              } finally {
@@ -716,7 +744,6 @@ load_once_from_file(true)
                 color = '';
 
             let spanHtml = ""
- debugger
             const diff = Diff.diffLines(one, other)
             mm.diffText = ""
             diff.forEach((part) => {
