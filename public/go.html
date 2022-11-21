@@ -4,9 +4,6 @@
     <meta name="viewport" Content-Type="text/javascript; charset=utf-8" content="initial-scale=1.0, width=device-width, height=device-height, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta charset="UTF-8" />
 
-
-    <script type="text/javascript" src="https://unpkg.com/vis-timeline@latest/standalone/umd/vis-timeline-graph2d.min.js"></script>
-    <link href="https://unpkg.com/vis-timeline@latest/styles/vis-timeline-graph2d.min.css" rel="stylesheet" type="text/css" />
     <style>
         #visualization {
             width: 100%;
@@ -31,6 +28,43 @@
                 executeOnPageLoad = null
             }
         }
+
+
+        var visJsloaded = false
+        var useVisJs = async function() {
+            if (!visJsloaded) {
+                //debugger
+                let loadVisJsScript = document.createElement('script');
+                loadVisJsScript.src = "/js_libs/vis-timeline-graph2d.min.css";
+
+                document.head.appendChild(loadVisJsScript);
+                loadVisJsScript.onload = function () {
+                    try {
+                    } catch (error) {
+                    }
+                    visJsloaded = true
+                };
+            }
+        }
+        var visCssloaded = false
+        var useVisCss = async function() {
+            if (!visCssloaded) {
+                //debugger
+                let loadVisCssScript = document.createElement('script');
+                loadVisCssScript.src = "/js_libs/vis-timeline-graph2d.min.js";
+
+                document.head.appendChild(loadVisCssScript);
+                loadVisCssScript.onload = function () {
+                    try {
+                    } catch (error) {
+                    }
+                    visCssloaded = true
+                };
+            }
+        }
+
+
+
         var useWeb3 = async function() {
 
             if (!web3loaded) {
