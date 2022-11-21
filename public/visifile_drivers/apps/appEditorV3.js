@@ -2061,6 +2061,7 @@ End of app preview menu
                 let mm = this
                 await useIdeTools()
                 await useEstraverse()
+                await useEsCodeGen()
                 await useVisJs()
                 await useVisCss()
                 await useDiffJs()
