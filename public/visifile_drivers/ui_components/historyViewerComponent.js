@@ -337,8 +337,14 @@ load_once_from_file(true)
 
 
                  // Configuration for the Timeline
+                 let timeNow = new Date().getTime()
+                 let time2MinsAgo = new Date().getTime() - (2 * 60 * 1000)
                  let options = {
                      zoomable: true
+                     ,
+                     start: time2MinsAgo
+                     ,
+                     end: timeNow
                  };
                  let groups = new vis.DataSet()
                  for (let rew = 1; rew < 6; rew++) {
