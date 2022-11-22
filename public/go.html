@@ -771,6 +771,10 @@ let designTimeOnlyEvents = false
 if (oneProperty.design_time_only_events) {
 designTimeOnlyEvents = true
 }
+
+
+
+if (thisComponent22 && thisComponent22.meta && thisComponent22.meta.getEditor()) {
 thisComponent22.meta.getEditor().processControlEvent(
 {
 type:                       "subcomponent_event",
@@ -789,6 +793,11 @@ old_value:      oldValue,
 new_value:      newValue
 }
 })
+}
+
+
+
+
 });
 }
 }
