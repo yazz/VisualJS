@@ -1824,28 +1824,10 @@ End of app preview menu
                         //do nothing if we set "runthisapp" to false
                        } else {
                             this.resetDebugger()
-                            let prevConsole = console.log
-                            if ((!mm.is_ui_app) && (!mm.is_server_app)) {
-                                mm.console_output = ""
-                                console.log = function() {
-                                    if (isValidObject(mm.console_output)) {
-                                        for (let a=0; a < arguments.length ; a++) {
-                                            mm.console_output += arguments[a] + " "
-                                        }
-                                        mm.console_output +=
-`
-`
-                                    }
-                                }
-                                results = await callApp( {code_id:    codeId }, {} )
-                                console.log = prevConsole
-
-                            } else if (mm.is_server_app) {
+                            if (mm.is_server_app) {
 
 
                             } else {
-                                results = await callApp( {code_id:    codeId }, {} )
-                                console.log = prevConsole
                             }
                        }
 
@@ -2002,28 +1984,11 @@ End of app preview menu
 
 
                                         this.resetDebugger()
-                                        let prevConsole = console.log
-                                        if ((!mm.is_ui_app) && (!mm.is_server_app)) {
-                                            mm.console_output = ""
-                                            console.log = function() {
-                                                if (isValidObject(mm.console_output)) {
-                                                    for (let a=0; a < arguments.length ; a++) {
-                                                        mm.console_output += arguments[a] + " "
-                                                    }
-                                                    mm.console_output +=
-             `
-             `
-                                                }
-                                            }
-                                            await callApp( {code_id:    codeId }, {} )
-                                            console.log = prevConsole
-
-                                        } else if (mm.is_server_app) {
+                                        if (mm.is_server_app) {
 
 
                                         } else {
                                             await callApp( {code_id:    codeId }, {} )
-                                            console.log = prevConsole
                                         }
 
 
