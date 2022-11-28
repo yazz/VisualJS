@@ -2664,6 +2664,9 @@ Pushlist
            //
 
 setTimeout(async function(){
+            if (isStaticHtmlPageApp) {
+                mm.editor_locked = false
+            }
             await mm.loadControls()
             mm.editor_locked = false
 },2000)
