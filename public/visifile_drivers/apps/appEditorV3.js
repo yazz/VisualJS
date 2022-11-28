@@ -1531,7 +1531,7 @@ End of app preview menu
                       code:                   this.editor_text,
                       options:                {
                                                   sub_components:         Object.keys(dev_app_component_loaded),
-                                                  save_html:              true,
+                                                  save_html:              false,//true,
                                                   save_code_to_file:      saveCodeToFile,
                           allowAppToWorkOffline:            allowAppToWorkOffline
                                               }
