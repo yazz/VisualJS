@@ -1263,69 +1263,66 @@ template:
 
 
 
-<!-- ------------------------------------------------
+    <!-- ------------------------------------------------
 
-DEBUG pane
+    DEBUG pane
 
------------------------------------------------- -->
+    ------------------------------------------------ -->
 
-<div v-if='tab=="debug"'>
+    <div v-if='tab=="debug"'>
 
-<div v-if='!accountNumber'>You are not signed into Metamask. Please login first</div>
+        <div v-if='!accountNumber'>You are not signed into Metamask. Please login first</div>
 
-<textarea  id="test_transaction_text"
-value="">
-</textarea>
+        <textarea  id="test_transaction_text"
+        value="">
+        </textarea>
 
-<button type=button
-class='btn btn-primary'
-v-bind:disabled='accountNumber?false:true'
-style='margin-left: 10px;width:40vw;height:15vh;'
+        <button type=button
+        class='btn btn-primary'
+        v-bind:disabled='accountNumber?false:true'
+        style='margin-left: 10px;width:40vw;height:15vh;'
 
-v-on:click='signTransaction()'>
+        v-on:click='signTransaction()'>
 
-Sign transaction
+        Sign transaction
 
-</button>
-<div>
-{{debug_sign_tx_out}}
+        </button>
+        <div>
+        {{debug_sign_tx_out}}
+    </div>
+
+
+    <div    style="background-color: black; color: white; text-align: center;"
+            v-on:click='showProgressBar();setupPublicWebSocket()' >Edit this app</div>
+
+
+
+    </div>
 </div>
 
 
-<div    style="background-color: black; color: white; text-align: center;"
-v-on:click='showProgressBar();setupPublicWebSocket()' >Edit this app</div>
 
-
-
-</div>
-</div>
-
-
-
-` +
-"<div " +
-" v-bind:style=\"'; padding0px; font-family: Helvetica ;  width: 100vw ;visibility: ' + (visible?'':'hidden') + ';' \">"+
+  <div
+      v-bind:style="'; padding0px; font-family: Helvetica ;  width: 100vw ;visibility: ' + (visible?'':'hidden') + ';' ">
 
 
 
 
 
 
-""+
-"            <div    v-if='full_screen && (item.card.type == \"app\")'>"+
 
-"                <div    v-bind:id='\"app_container_\"+ item.id'  >"+
-"                    <div v-bind:id='\"app_\"+ item.id' >"+
-"                    </div>"+
-"                </div>"+
-"            </div>"+
-""+
-"            <div style='height: 2em;'></div>"+
-""+
+            <div    v-if='full_screen && (item.card.type == "app")'>
 
+                <div    v-bind:id='"app_container_"+ item.id'  >
+                    <div v-bind:id='"app_"+ item.id' >
+                    </div>
+                </div>
+            </div>
+            <div style='height: 2em;'></div>
 
-"</div>"+
-"            </div>"})
+    </div>
+</div>`
+})
 
 
 
