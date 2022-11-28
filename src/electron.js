@@ -2863,7 +2863,7 @@ async function startServices() {
 
 
                  } else {
-                     outputDebug("Redirect HTTP to HTTPS")
+                     //outputDebug("Redirect HTTP to HTTPS")
                      res.redirect('https://' + req.headers.host + req.url);
                  }
             })
