@@ -4,7 +4,9 @@
   vars:
     PROCESS: node
   tasks:
-
+    
+    - name: Unconditionally reboot the machine with all defaults
+      ansible.builtin.reboot:
 
     - name: Kill running processes
       shell: "killall node"
@@ -32,7 +34,7 @@
 
     - name: Start Yazz
       shell:
-          cmd:  (while true; do    node src/electron.js --port 443 --public {{ ssl_public_key }} --private {{ ssl_private_key }} --host {{ use_host }}  --usehost {{ use_host }} --https true --hostport 443 --centralhost {{ use_host }} --centralhostport 443 --centralhosthttps true --cacert1 {{ ssl_cacert1 }} --cacert2 {{ ssl_cacert2 }} --cacert3 {{ ssl_cacert3 }} --showdebug true  --virtualprocessors 20   --hideimportbuttons true > nohup.out; done) &
+          cmd:  node src/electron.js --port 443 --public {{ ssl_public_key }} --private {{ ssl_private_key }} --host {{ use_host }}  --usehost {{ use_host }} --https true --hostport 443 --centralhost {{ use_host }} --centralhostport 443 --centralhosthttps true --cacert1 {{ ssl_cacert1 }} --cacert2 {{ ssl_cacert2 }} --cacert3 {{ ssl_cacert3 }} --showdebug true  --virtualprocessors 20   --hideimportbuttons true > nohup.out &
       async: 10
       poll: 0
       args:
