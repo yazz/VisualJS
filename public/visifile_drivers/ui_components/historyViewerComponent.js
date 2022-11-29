@@ -475,19 +475,21 @@ load_once_from_file(true)
              for (let highlightedItem of Object.keys(mm.highlightedItems)) {
 
                  if (mm.highlightedItems[highlightedItem]) {
-                     let itemStyle = ""
-                     let selectedCommitDataItem = mm.commitsV3[highlightedItem]
-                     if (selectedCommitDataItem.descendants && (selectedCommitDataItem.descendants.length > 1)) {
-                         itemStyle += "font-weight: bold;"
-                     }
-                     let selectedCommitUiItem = mm.timelineData.get(highlightedItem);
-                     let itemGroup = selectedCommitUiItem.group
-                     itemStyle += mm.groupColors[itemGroup].normal
-                     mm.timelineData.update({
-                         id: highlightedItem,
-                         style: itemStyle
-                     });
-                     mm.highlightedItems[highlightedItem] = false
+                    if (highlightedItem != mm.lockedSelectedCommit) {
+                        let itemStyle = ""
+                        let selectedCommitDataItem = mm.commitsV3[highlightedItem]
+                        if (selectedCommitDataItem.descendants && (selectedCommitDataItem.descendants.length > 1)) {
+                            itemStyle += "font-weight: bold;"
+                        }
+                        let selectedCommitUiItem = mm.timelineData.get(highlightedItem);
+                        let itemGroup = selectedCommitUiItem.group
+                        itemStyle += mm.groupColors[itemGroup].normal
+                        mm.timelineData.update({
+                            id: highlightedItem,
+                            style: itemStyle
+                        });
+                        mm.highlightedItems[highlightedItem] = false
+                    }
                  }
              }
              mm.inUnHighlightAll = false
