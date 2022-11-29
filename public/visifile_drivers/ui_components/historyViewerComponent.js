@@ -808,7 +808,7 @@ load_once_from_file(true)
                 color = '';
 
             let spanHtml = ""
-            const diff = Diff.diffLines(one, other)
+            const diff = Diff.diffLines(other, one)
             mm.diffText = ""
             diff.forEach((part) => {
                 // green for additions, red for deletions
