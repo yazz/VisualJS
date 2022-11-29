@@ -425,9 +425,9 @@ load_once_from_file(true)
 
 
                     let thisHistoryItem = mm.commitsV3[commitId]
-                    if (thisHistoryItem.parent_id) {
-                        mm.highlightItem(thisHistoryItem.parent_id)
-                    }
+                    //if (thisHistoryItem.parent_id) {
+                    //    mm.highlightItem(thisHistoryItem.parent_id)
+                    //}
                     if (thisHistoryItem.descendants) {
                         for (let descendant of thisHistoryItem.descendants) {
                             mm.highlightItem(descendant.id)
