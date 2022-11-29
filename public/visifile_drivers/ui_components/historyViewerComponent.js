@@ -830,6 +830,7 @@ load_once_from_file(true)
              let parentId = mm.commitsV3[mm.lockedSelectedCommit].parent_id
              //alert("goto parent : " + parentId)
              mm.timeline.moveTo(mm.commitsV3[parentId].timestamp)
+             await mm.selectItemDetails(parentId)
          }
          ,
 
@@ -859,6 +860,7 @@ load_once_from_file(true)
              //alert("goto child : " + descendants[0].id)
              let childId = descendants[0].id
              mm.timeline.moveTo(mm.commitsV3[childId].timestamp)
+             await mm.selectItemDetails(childId)
 
          }
 
