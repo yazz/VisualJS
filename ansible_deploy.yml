@@ -10,7 +10,7 @@
       ignore_errors: yes
 
     - name: Kill running processes part 2
-      shell: "killall yazz_app_loop.sh"
+      shell: "killall yazz_app_loop"
       ignore_errors: yes
 
 
