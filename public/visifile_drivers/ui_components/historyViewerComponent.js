@@ -381,7 +381,7 @@ load_once_from_file(true)
                      await mm.previewItemDetails(properties.item)
                      if (properties.item == null) {
 
-                         await mm.unHighlightAll()
+                         await mm.unHighlightAllExceptLockedItem()
                          if (mm.lockedSelectedCommit) {
                              if (mm.selectedCommit != mm.lockedSelectedCommit) {
                                  await mm.selectItemDetails(mm.lockedSelectedCommit)
@@ -399,7 +399,7 @@ load_once_from_file(true)
                      if (properties.item) {
                          await mm.selectItemDetails(properties.item)
                      } else {
-                         await mm.unHighlightAll()
+                         await mm.unHighlightAllExceptLockedItem()
                          mm.selectedCommit = null
                          mm.lockedSelectedCommit = null
                      }
@@ -416,7 +416,7 @@ load_once_from_file(true)
             try {
                 let mm = this
                 if (commitId) {
-                    await mm.unHighlightAll()
+                    await mm.unHighlightAllExceptLockedItem()
                     await mm.clearDetailsPane()
 
                     mm.selectedCommit = commitId
@@ -464,7 +464,7 @@ load_once_from_file(true)
          ,
 
 
-         unHighlightAll: async function() {
+         unHighlightAllExceptLockedItem: async function() {
              //debugger
              let mm = this
             if (mm.inUnHighlightAll) {
