@@ -821,7 +821,9 @@ load_once_from_file(true)
          //
          // -----------------------------------------------------
          gotoParent: async function () {
-             alert("goto parent")
+             let mm = this
+
+             alert("goto parent for " + mm.lockedSelectedCommit)
          }
          ,
 
@@ -836,7 +838,9 @@ load_once_from_file(true)
          //
          // -----------------------------------------------------
          gotoChild: async function () {
-            alert("goto child")
+             let mm = this
+
+             alert("goto child for " + mm.lockedSelectedCommit)
          }
 
 
