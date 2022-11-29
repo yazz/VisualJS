@@ -127,11 +127,20 @@ load_once_from_file(true)
                         </div>
 
 
+                        <div style="margin: 10px;">
+                          <button  type=button class='btn  btn-primary'
+                                   style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
+                                   v-on:click="gotoParent()" >&lt;</button>
+
+                          <button  type=button class='btn  btn-primary'
+                                   style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
+                                   v-on:click="gotoChild()" >&gt;</button>
+
+                        </div>
 
                           <div id="visualization_history_timeline">
                           </div>
-
-
+                    
 
                           <div  id="visualization_commit_details"
                                 style="padding: 10px;">
@@ -443,7 +452,7 @@ load_once_from_file(true)
              mm.selectedCommit = commitId
              mm.showCode='commit'
              await mm.showCommit()
-             //zzz
+
              if (mm.commitsV3[commitId].descendants) {
                  for(let descendant of mm.commitsV3[commitId].descendants) {
                      if (!mm.commitsV3[descendant.id]) {
@@ -796,6 +805,39 @@ load_once_from_file(true)
 
 
         }
+
+
+
+
+
+
+        ,
+         // -----------------------------------------------------
+         //                      gotoParent
+         //
+         // Go to the parent of the current history item
+         //
+         //
+         //
+         // -----------------------------------------------------
+         gotoParent: async function () {
+             alert("goto parent")
+         }
+         ,
+
+
+
+         // -----------------------------------------------------
+         //                      gotoChild
+         //
+         // Go to the child of the current history item
+         //
+         //
+         //
+         // -----------------------------------------------------
+         gotoChild: async function () {
+            alert("goto child")
+         }
 
 
      // ----------------------------------------------------------------------
