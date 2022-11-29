@@ -142,6 +142,7 @@ load_once_from_file(true)
                               <div><b>Time:</b> {{msToTime(commitsV3[selectedCommit].timestamp,{timeOnly: true})}} </div>
                               <div><b>User ID:</b> {{commitsV3[selectedCommit].user_id}}</div>
                               <div><b>Number of Changes:</b> {{commitsV3[selectedCommit].num_changes}}</div>
+                              <div><b>Parent:</b> {{commitsV3[selectedCommit].parent_id}}</div>
                               <div><b>Type:</b> {{commitsV3[selectedCommit].base_component_id}}</div>
                               <div><b>Descendants:</b>
                                   <span v-if="commitsV3[selectedCommit].descendants.length==1">
