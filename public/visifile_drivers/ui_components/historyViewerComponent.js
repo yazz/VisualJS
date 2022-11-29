@@ -833,6 +833,8 @@ load_once_from_file(true)
              //alert("goto parent : " + parentId)
              mm.timeline.moveTo(mm.commitsV3[parentId].timestamp)
              await mm.selectItemDetails(parentId)
+             mm.highlightItem(parentId)
+             await mm.unHighlightAllExceptLockedItem()
          }
          ,
 
@@ -863,7 +865,8 @@ load_once_from_file(true)
              let childId = descendants[0].id
              mm.timeline.moveTo(mm.commitsV3[childId].timestamp)
              await mm.selectItemDetails(childId)
-
+             mm.highlightItem(childId)
+             await mm.unHighlightAllExceptLockedItem()
          }
 
 
