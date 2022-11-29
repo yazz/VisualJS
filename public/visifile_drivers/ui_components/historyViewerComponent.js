@@ -380,7 +380,7 @@ load_once_from_file(true)
                      mm.processingMouse = true
                      await mm.previewItemDetails(properties.item)
                      if (properties.item == null) {
-                     debugger
+
                          await mm.unHighlightAll()
                          if (mm.lockedSelectedCommit) {
                              if (mm.selectedCommit != mm.lockedSelectedCommit) {
@@ -821,9 +821,14 @@ load_once_from_file(true)
          //
          // -----------------------------------------------------
          gotoParent: async function () {
+         //zzz
              let mm = this
+             if (!mm.lockedSelectedCommit) {
+                return
+             }
 
-             alert("goto parent for " + mm.lockedSelectedCommit)
+             let parentId = mm.commitsV3[mm.lockedSelectedCommit].parent_id
+             alert("goto parent : " + parentId)
          }
          ,
 
@@ -839,8 +844,18 @@ load_once_from_file(true)
          // -----------------------------------------------------
          gotoChild: async function () {
              let mm = this
+             if (!mm.lockedSelectedCommit) {
+                 return
+             }
 
-             alert("goto child for " + mm.lockedSelectedCommit)
+             let descendants = mm.commitsV3[mm.lockedSelectedCommit].descendants
+             if (!descendants) {
+                return
+             }
+             if (descendants.length == 0) {
+                 return
+             }
+             alert("goto child : " + descendants[0].id)
          }
 
 
