@@ -263,6 +263,12 @@ load_once_from_file(true)
          setText: async function (textValue) {
              let mm =  this
              this.text = textValue
+             if (!isValidObject(this.text)) {
+                 return
+             }
+
+
+
              this.baseComponentId = saveHelper.getValueOfCodeString(this.text, "base_component_id")
 
              //debugger
@@ -275,9 +281,7 @@ load_once_from_file(true)
 
 
 
-             if (!isValidObject(this.text)) {
-                 return
-             }
+
 
          }
          ,
@@ -405,6 +409,13 @@ load_once_from_file(true)
                      }
                      mm.processingMouse = false
                  });
+
+
+
+                 mm.timeline.moveTo(mm.commitsV3[mm.currentCommithashId].timestamp)
+                 await mm.selectItemDetails(mm.currentCommithashId)
+                 mm.highlightItem(mm.currentCommithashId)
+
 
 
              },100)
