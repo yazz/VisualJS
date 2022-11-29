@@ -61,7 +61,7 @@ module.exports = {
             "CREATE TABLE IF NOT EXISTS l2_app_list (id TEXT, base_component_id TEXT, version TEXT,  app_name TEXT, app_description TEXT, icon_image_id TEXT, ipfs_hash TEXT,  avg_rating NUMBER, num_ratings NUMBER);",
             "CREATE INDEX IF NOT EXISTS l2_app_list_idx                      ON l2_app_list (id);",
 
-            "CREATE TABLE IF NOT EXISTS released_components (id TEXT, base_component_id TEXT, version TEXT,  app_name TEXT, app_description TEXT, icon_image_id TEXT, ipfs_hash TEXT,  avg_rating NUMBER, num_ratings NUMBER);",
+            "CREATE TABLE IF NOT EXISTS released_components (id TEXT, base_component_id TEXT, component_name TEXT, component_type TEXT, ipfs_hash TEXT,  version TEXT,  component_description TEXT, icon_image_id TEXT, avg_rating NUMBER, num_ratings NUMBER);",
             "CREATE INDEX IF NOT EXISTS released_components_idx                      ON released_components (id);",
 
 
