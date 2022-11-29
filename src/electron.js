@@ -99,7 +99,6 @@ let stmtInsertMetaMaskLogin;
 let stmtSetMetaMaskLoginSuccedded;
 let stmtInsertUser;
 let stmtInsertSubComponent;
-let stmtInsertComponentList;
 
 let stmtInsertAppList;
 let stmtUpdateAppList;
@@ -5275,13 +5274,6 @@ function setUpSql() {
                                                     (base_component_id, child_component_id)
                                                values (?,?)`)
 
-    stmtInsertComponentList = dbsearch.prepare(`insert or ignore
-                                                    into
-                                               component_list
-                                                    (  id  ,  base_component_id  ,  component_name  ,  component_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id  )
-                                               values (?,?,?,?,?,?,?)`)
-
-
     stmtInsertAppList = dbsearch.prepare(`insert or ignore
                                                     into
                                                l2_app_list
@@ -6009,23 +6001,6 @@ async function insertAppListRecord( id  ,  base_component_id  ,  app_name  ,  ap
 
 
 
-async function insertComponentListRecord( id  ,  base_component_id, component_name  ,  component_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id ) {
-    let promise = new Promise(async function(returnfn) {
-        try {
-            dbsearch.serialize(function() {
-                dbsearch.run("begin exclusive transaction");
-                stmtInsertComponentList.run(   id , base_component_id,  component_name  ,  component_description  ,  icon_image_id  ,  ipfs_hash  ,  system_code_id )
-                dbsearch.run("commit")
-                returnfn()
-            })
-        } catch(er) {
-            console.log(er)
-            returnfn()
-        }
-    })
-    let val = await promise
-    return val
-}
 
 
 async function registerIPFS(ipfs_hash) {
@@ -7274,7 +7249,7 @@ async function parseCode(code) {
 async function updateItemLists(parsedCode) {
 
     if (parsedCode.type == "component") {
-        await insertComponentListRecord(
+/*        await insertComponentListRecord(
             uuidv1()
             ,
             parsedCode.baseComponentId
@@ -7288,7 +7263,7 @@ async function updateItemLists(parsedCode) {
             parsedCode.ipfsHash
             ,
             parsedCode.systemCodeId
-        )
+        )*/
     } else if (parsedCode.type == "app") {
         await insertAppListRecord(
             uuidv1()

@@ -65,10 +65,7 @@ module.exports = {
             "CREATE INDEX IF NOT EXISTS released_components_idx                      ON released_components (id);",
 
 
-            "CREATE TABLE IF NOT EXISTS component_list (id TEXT, base_component_id TEXT, version TEXT, release TEXT, latest TEXT,  component_name TEXT, component_description TEXT, icon_image_id TEXT, ipfs_hash TEXT, system_code_id TEXT);",
-            "CREATE INDEX IF NOT EXISTS component_list_idx                ON component_list (id);",
-
-            "CREATE TABLE IF NOT EXISTS comments_and_ratings (id TEXT, base_component_id TEXT, comment TEXT, rating TEXT, version TEXT, date_and_time INTEGER);",
+            "CREATE TABLE IF NOT EXISTS comments_and_ratings (id TEXT, base_component_id TEXT, comment TEXT, rating TEXT, version TEXT, ipfs_hash TEXT, date_and_time INTEGER);",
             "CREATE INDEX IF NOT EXISTS comments_and_ratings_idx          ON comments_and_ratings (id);",
 
 
