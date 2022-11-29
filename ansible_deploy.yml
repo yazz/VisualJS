@@ -9,6 +9,10 @@
       shell: "killall node"
       ignore_errors: yes
 
+    - name: Kill running processes part 2
+      shell: "killall yazz_app_loop.sh"
+      ignore_errors: yes
+
 
     - command: git reset --hard origin/master
       args:
@@ -31,7 +35,8 @@
 
     - name: Start Yazz
       shell:
-          cmd:  node src/electron.js --port 443 --public {{ ssl_public_key }} --private {{ ssl_private_key }} --host {{ use_host }}  --usehost {{ use_host }} --https true --hostport 443 --centralhost {{ use_host }} --centralhostport 443 --centralhosthttps true --cacert1 {{ ssl_cacert1 }} --cacert2 {{ ssl_cacert2 }} --cacert3 {{ ssl_cacert3 }} --showdebug true  --virtualprocessors 20   --hideimportbuttons true > nohup.out &
+          cmd: chmod +x yazz_app_loop.sh
+          cmd: ./yazz_app_loop.sh  {{ ssl_public_key }}   {{ ssl_private_key }}   {{ use_host }}  {{ ssl_cacert1 }}  {{ ssl_cacert2 }}  {{ ssl_cacert3 }} &
       async: 10
       poll: 0
       args:
