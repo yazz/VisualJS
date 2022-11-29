@@ -4,9 +4,6 @@
   vars:
     PROCESS: node
   tasks:
-    
-    - name: Unconditionally reboot the machine with all defaults
-      ansible.builtin.reboot:
 
     - name: Kill running processes
       shell: "killall node"
