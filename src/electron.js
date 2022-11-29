@@ -102,6 +102,7 @@ let stmtInsertSubComponent;
 
 let stmtInsertAppList;
 let stmtUpdateAppList;
+let stmtUpdateReleasedComponentList;
 let stmtInsertIconImageData;
 
 let stmtDeleteDependencies;
@@ -5287,6 +5288,14 @@ function setUpSql() {
                                             where
                                                base_component_id  = ?
                                                `)
+
+    stmtUpdateReleasedComponentList = dbsearch.prepare(`update released_components 
+                                            set 
+                                                ipfs_hash = ?  
+                                            where
+                                               base_component_id  = ?
+                                               `)
+
 
     stmtInsertIconImageData = dbsearch.prepare(`insert or ignore
                                                     into
