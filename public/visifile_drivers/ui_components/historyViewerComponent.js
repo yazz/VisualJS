@@ -828,7 +828,8 @@ load_once_from_file(true)
              }
 
              let parentId = mm.commitsV3[mm.lockedSelectedCommit].parent_id
-             alert("goto parent : " + parentId)
+             //alert("goto parent : " + parentId)
+             mm.timeline.moveTo(mm.commitsV3[parentId].timestamp)
          }
          ,
 
@@ -855,7 +856,10 @@ load_once_from_file(true)
              if (descendants.length == 0) {
                  return
              }
-             alert("goto child : " + descendants[0].id)
+             //alert("goto child : " + descendants[0].id)
+             let childId = descendants[0].id
+             mm.timeline.moveTo(mm.commitsV3[childId].timestamp)
+
          }
 
 
