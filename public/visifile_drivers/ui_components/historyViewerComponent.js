@@ -128,6 +128,12 @@ load_once_from_file(true)
 
 
                         <div style="margin: 10px;">
+
+                          <button  type=button class='btn btn-dark'
+                                   style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
+                                   v-on:click="gotoHome()" >Home</button>
+                                   
+                                   
                           <button  type=button class='btn  btn-primary'
                                    style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
                                    v-on:click="gotoParent()" >&lt;</button>
@@ -851,6 +857,7 @@ load_once_from_file(true)
 
 
 
+
          // -----------------------------------------------------
          //                      gotoChild
          //
@@ -879,6 +886,31 @@ load_once_from_file(true)
              mm.highlightItem(childId)
              await mm.unHighlightAllExceptLockedItem()
          }
+         ,
+
+
+
+
+
+
+         // -----------------------------------------------------
+         //                      gotoHome
+         //
+         // Go to the current commid ID item
+         //
+         //
+         //
+         // -----------------------------------------------------
+         gotoHome: async function () {
+             //zzz
+             let mm = this
+
+             mm.timeline.moveTo(mm.commitsV3[mm.currentCommithashId].timestamp)
+             await mm.selectItemDetails(mm.currentCommithashId)
+             mm.highlightItem(mm.currentCommithashId)
+             await mm.unHighlightAllExceptLockedItem()
+         }
+
 
 
      // ----------------------------------------------------------------------
