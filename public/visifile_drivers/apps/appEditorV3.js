@@ -2070,8 +2070,18 @@ End of app preview menu
                     } else if (message.type == "saved") {
                         mm.save_state = "saved"
                         mm.checkSavedFile()
+                    } else if (message.type == "force_save") {
+                        //mm.save_state = "saved"
+                        //mm.checkSavedFile()
+                    } else if (message.type == "force_raw_save") {
+                        mm.save_state = "pending"
+                        mm.save_request_type = "force_raw"
+                        //mm.checkSavedFile()
+                        await mm.save(   mm.base_component_id,
+                                         message.commitId,
+                                        {username: "default", reponame: mm.base_component_id, version: "latest", allowChanges: false})
                     }
-
+                    //zzz
 
                 })
 
@@ -2081,6 +2091,7 @@ End of app preview menu
                         //debugger
                         if (!disableAutoSave) {
                             appClearIntervals();
+
                             await mm.save(mm.base_component_id, mm.code_id, null)
                         }
                     }

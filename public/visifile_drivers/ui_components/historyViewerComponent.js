@@ -234,7 +234,7 @@ load_once_from_file(true)
     //
     // ----------------------------------------------------------------------
      mounted: async function() {
-         disableAutoSave     = true
+         //disableAutoSave     = true
 
      },
      methods: {
@@ -789,9 +789,11 @@ load_once_from_file(true)
              let responseJson = await getFromYazzReturnJson("/get_code_commit", {commit_id: mm.selectedCommit})
              mm.text = responseJson.code
 
+//zzz
              mm.$root.$emit(
                  'message', {
-                     type:   "pending"
+                     type:   "force_raw_save",
+                     commitId: mm.selectedCommit
                  })
 
          }
@@ -857,7 +859,7 @@ load_once_from_file(true)
          //
          // -----------------------------------------------------
          gotoParent: async function () {
-         //zzz
+
              let mm = this
              if (!mm.lockedSelectedCommit) {
                 return
@@ -919,7 +921,7 @@ load_once_from_file(true)
          //
          // -----------------------------------------------------
          gotoHome: async function () {
-             //zzz
+
              let mm = this
 
              mm.timeline.moveTo(mm.commitsV3[mm.currentCommithashId].timestamp)
