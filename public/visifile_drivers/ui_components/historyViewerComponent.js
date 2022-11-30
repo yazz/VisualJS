@@ -785,7 +785,12 @@ load_once_from_file(true)
          checkoutCode: async function() {
              //debugger
              let mm = this
-             alert("Checking out commit: " + mm.lockedSelectedCommit)
+             //alert("Checking out commit: " + mm.lockedSelectedCommit)
+             mm.$root.$emit(
+                 'message', {
+                     type:   "pending"
+                 })
+
          }
          ,
 
