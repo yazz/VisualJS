@@ -3256,11 +3256,11 @@ async function startServices() {
                     function() {
                         dbsearch.all(
                             " select  " +
-                            "     distinct(l2_app_list.id), app_name, app_icon_data, ipfs_hash, l2_app_list.base_component_id " +
+                            "     distinct(released_components.id), component_name, app_icon_data, ipfs_hash, released_components.base_component_id " +
                             " from " +
-                            "     l2_app_list " +
+                            "     released_components " +
                             " inner JOIN " +
-                            "     icon_images ON l2_app_list.icon_image_id = icon_images.id "
+                            "     icon_images ON released_components.icon_image_id = icon_images.id "
                             ,
                             []
                             ,
@@ -3298,6 +3298,8 @@ async function startServices() {
                                         returnfn(returnRows)
                                     }
 
+                                } else {
+                                    console.log(err);
                                 }
                             }
                         );
