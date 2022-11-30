@@ -4514,10 +4514,12 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
         let creationTimestamp = new Date().getTime()
         // if we don't want to reload this file then don't update the timestamp
-        if (saveHelper.getValueOfCodeString(code,"load_once_from_file")) {
-            creationTimestamp = -1
-        }
         let tvvv = saveHelper.getValueOfCodeString(code, "created_timestamp")
+        if ((tvvv == null) || (tvvv == "-1")) {
+            if (saveHelper.getValueOfCodeString(code,"load_once_from_file")) {
+                creationTimestamp = -1
+            }
+        }
         if (allowChanges && (!tvvv)) {
             code = saveHelper.deleteCodeString(code, "created_timestamp")
             code = saveHelper.insertCodeString(code, "created_timestamp", creationTimestamp)
