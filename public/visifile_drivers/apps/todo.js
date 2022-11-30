@@ -1,7 +1,6 @@
 async function(args) {
 /*
 base_component_id("todo")
-created_timestamp(-1)
 is_app(true)
 display_name("Todo App")
 visibility("PUBLIC")
@@ -10,6 +9,8 @@ description("This will create a demo todo app")
 load_once_from_file(true)
 logo_url("/driver_icons/todo.png")
 read_only(true)
+created_timestamp(1669781806972)
+updated_timestamp(1669781806972)
 */
 Vue.component("todo", {
     template: `<div   class="containerclass"

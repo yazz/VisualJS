@@ -77,16 +77,9 @@ sub_components([
 base_component_id("demo_timer")
 visibility("PUBLIC")
 display_name("Timer demo")
-created_timestamp(1548568334726)
+created_timestamp(1669781806972)
+updated_timestamp(1669781806972)
 uses_javascript_librararies(["advanced_bundle"])
-
-
-
-
-
-
-
-
 is_app(true)
 description('VB Blank App')
 logo_url("/driver_icons/tallly.jpeg")
