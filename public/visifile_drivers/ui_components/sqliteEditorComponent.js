@@ -46,6 +46,7 @@ load_once_from_file(true)
      mounted: function() {
          let thisVueInstance = this
          args.text           = null
+         disableAutoSave     = true
 
          ace.config.set('basePath', '/');
          editor = ace.edit(           editorDomId, {
