@@ -86,30 +86,39 @@ load_once_from_file(true)
 
 
          editor.getSession().on('change', function() {
-            thisVueInstance.sqlText = editor.getSession().getValue();
-            thisVueInstance.errors = null
-            if (!isValidObject(thisVueInstance.sqlText)) {
-                return
-            }
-            if (thisVueInstance.sqlText.length == 0) {
-                return
-            }
-            try {
-               let newNode = esprima.parse("(" + thisVueInstance.sqlText + ")", { tolerant: true })
-               //alert(JSON.stringify(newNode.errors, null, 2))
-               thisVueInstance.errors = newNode.errors
-               if (thisVueInstance.errors) {
-                    if (thisVueInstance.errors.length == 0) {
-                        thisVueInstance.errors = null
-                    } else {
-                        thisVueInstance.errors = thisVueInstance.errors[0]
-                    }
-               }
-
-            } catch(e) {
-               //alert(JSON.stringify(e, null, 2))
-               thisVueInstance.errors = e
-            }
+             let haveIChangedtext = false
+             if (thisVueInstance.sqlText != editor.getSession().getValue()) {
+                 haveIChangedtext = true
+             }
+             thisVueInstance.sqlText = editor.getSession().getValue();
+             thisVueInstance.errors = null
+             if (!isValidObject(thisVueInstance.sqlText)) {
+                 return
+             }
+             if (thisVueInstance.sqlText.length == 0) {
+                 return
+             }
+             try {
+                 let newNode = esprima.parse("(" + thisVueInstance.sqlText + ")", { tolerant: true })
+                 //alert(JSON.stringify(newNode.errors, null, 2))
+                 thisVueInstance.errors = newNode.errors
+                 if (thisVueInstance.errors) {
+                     if (thisVueInstance.errors.length == 0) {
+                         thisVueInstance.errors = null
+                         if (haveIChangedtext) {
+                             thisVueInstance.$root.$emit(
+                                 'message', {
+                                     type:   "pending"
+                                 })
+                         }
+                     } else {
+                         thisVueInstance.errors = thisVueInstance.errors[0]
+                     }
+                 }
+             } catch(e) {
+                 //alert(JSON.stringify(e, null, 2))
+                 thisVueInstance.errors = e
+             }
          });
 
         editor.resize(true);
