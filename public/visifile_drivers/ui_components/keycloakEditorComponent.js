@@ -5,8 +5,7 @@ component_type("SYSTEM")
 load_once_from_file(true)
 */
 
-    let editorDomId     = uuidv4()
-    let editor          = null
+    let newEditorDomId     = uuidv4()
 
 
     Vue.component("keycloak_editor_component", {
@@ -14,9 +13,10 @@ load_once_from_file(true)
         return {
             text:           args.text,
             read_only:      false,
-            editorDomId:    editorDomId,
+            editorDomId:    newEditorDomId,
             errors:         null,
             sqlText:        "{}",
+            editor:         null
         }
       },
       template: `<div style='background-color:white; ' >
@@ -49,17 +49,17 @@ load_once_from_file(true)
          disableAutoSave     = true
 
          ace.config.set('basePath', '/');
-         editor = ace.edit(           editorDomId, {
+         this.editor = ace.edit(           thisVueInstance.editorDomId, {
                                                  selectionStyle: "text",
                                                  mode:           "ace/mode/javascript"
                                              })
 
          //Bug fix: Need a delay when setting theme or view is corrupted
          setTimeout(function(){
-            editor.setTheme("ace/theme/sqlserver");
+             thisVueInstance.editor.setTheme("ace/theme/sqlserver");
 
             let langTools = ace.require("ace/ext/language_tools");
-            editor.setOptions({
+             thisVueInstance.editor.setOptions({
                enableBasicAutocompletion: true,
                enableSnippets: true,
                enableLiveAutocompletion: false
@@ -69,28 +69,28 @@ load_once_from_file(true)
 
 
 
-         document.getElementById(editorDomId).style["font-size"] = "16px"
-         document.getElementById(editorDomId).style.width="100%"
-         document.getElementById(editorDomId).style["border"] = "0px"
+         document.getElementById(thisVueInstance.editorDomId).style["font-size"] = "16px"
+         document.getElementById(thisVueInstance.editorDomId).style.width="100%"
+         document.getElementById(thisVueInstance.editorDomId).style["border"] = "0px"
 
-         document.getElementById(editorDomId).style.height="65vh"
+         document.getElementById(thisVueInstance.editorDomId).style.height="65vh"
          if (isValidObject(thisVueInstance.text)) {
-             editor.getSession().setValue(thisVueInstance.sqlText);
+             thisVueInstance.editor.getSession().setValue(thisVueInstance.sqlText);
              this.read_only = saveHelper.getValueOfCodeString(thisVueInstance.text, "read_only")
          }
 
-         editor.getSession().setUseWorker(false);
+         thisVueInstance.editor.getSession().setUseWorker(false);
          if (this.read_only) {
-            editor.setReadOnly(true)
+             thisVueInstance.editor.setReadOnly(true)
          }
 
 
-         editor.getSession().on('change', function() {
+         thisVueInstance.editor.getSession().on('change', function() {
              let haveIChangedtext = false
-             if (thisVueInstance.sqlText != editor.getSession().getValue()) {
+             if (thisVueInstance.sqlText != thisVueInstance.editor.getSession().getValue()) {
                  haveIChangedtext = true
              }
-             thisVueInstance.sqlText = editor.getSession().getValue();
+             thisVueInstance.sqlText = thisVueInstance.editor.getSession().getValue();
              thisVueInstance.errors = null
              if (!isValidObject(thisVueInstance.sqlText)) {
                  return
@@ -121,12 +121,12 @@ load_once_from_file(true)
              }
          });
 
-        editor.resize(true);
-        editor.focus();
+         thisVueInstance.editor.resize(true);
+         thisVueInstance.editor.focus();
      },
      methods: {
         gotoLine: function(line) {
-            editor.gotoLine(line , 10, true);
+            this.editor.gotoLine(line , 10, true);
         }
         ,
 
@@ -177,7 +177,7 @@ load_once_from_file(true)
 
             this.read_only = saveHelper.getValueOfCodeString(thisVueInstance.text, "read_only")
             if (this.read_only) {
-               editor.setReadOnly(true)
+               this.editor.setReadOnly(true)
             }
 
 
@@ -190,9 +190,9 @@ load_once_from_file(true)
 
             let llsqlText = saveHelper.getValueOfCodeString(textValue, "keycloak", ")//keycloak")
             if (isValidObject(llsqlText)) {
-                editor.getSession().setValue(  JSON.stringify(  llsqlText , null , 2  ));
+                this.editor.getSession().setValue(  JSON.stringify(  llsqlText , null , 2  ));
             } else {
-                editor.getSession().setValue(  JSON.stringify(  {} , null , 2  ));
+                this.editor.getSession().setValue(  JSON.stringify(  {} , null , 2  ));
             }
         }
 

@@ -5,8 +5,7 @@ component_type("SYSTEM")
 load_once_from_file(true)
 */
 
-    let editorDomId     = uuidv4()
-    let editor          = null
+    let newEditorDomId     = uuidv4()
 
 
     Vue.component("sqlite_editor_component", {
@@ -14,9 +13,10 @@ load_once_from_file(true)
         return {
             text:           args.text,
             read_only:      false,
-            editorDomId:    editorDomId,
+            editorDomId:    newEditorDomId,
             errors:         null,
             sqlText:        "{}",
+            editor:         null
         }
       },
       template: `<div style='background-color:white; ' >
