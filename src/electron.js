@@ -102,6 +102,7 @@ let stmtInsertSubComponent;
 
 let stmtInsertAppList;
 let stmtUpdateAppList;
+let stmtInsertReleasedComponentListItem;
 let stmtUpdateReleasedComponentList;
 let stmtInsertIconImageData;
 
@@ -5280,6 +5281,14 @@ function setUpSql() {
                                                l2_app_list
                                                     (  id  ,  base_component_id  ,  app_name  ,  app_description  ,  icon_image_id  ,  
                                                        ipfs_hash , version )
+                                               values (?,?,?,?,?,?,?)`)
+
+    stmtInsertReleasedComponentListItem = dbsearch.prepare(`insert or ignore
+                                                    into
+                                               released_components
+                                                    (   id  ,  base_component_id  ,  component_name  ,  
+                                                        component_description  ,  icon_image_id  ,  
+                                                        ipfs_hash , version )
                                                values (?,?,?,?,?,?,?)`)
 
     stmtUpdateAppList = dbsearch.prepare(`update l2_app_list
