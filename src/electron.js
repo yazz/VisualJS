@@ -100,8 +100,6 @@ let stmtSetMetaMaskLoginSuccedded;
 let stmtInsertUser;
 let stmtInsertSubComponent;
 
-let stmtInsertAppList;
-let stmtUpdateAppList;
 let stmtInsertReleasedComponentListItem;
 let stmtUpdateReleasedComponentList;
 let stmtInsertIconImageData;
@@ -3372,7 +3370,6 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             let ipfsHash = req.body.ipfs_hash
             let ipfsContent = req.body.ipfs_content
             let parsedCode = await parseCode(ipfsContent)
-            await updateItemLists(parsedCode)
             await registerIPFS(ipfsHash);
             res.status(200).send('IPFS content registered');
         })
@@ -3471,10 +3468,10 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
                     function() {
                         dbsearch.all(
                             " select  " +
-                            "     distinct(l2_app_list.id), base_component_id, app_name, app_icon_data, ipfs_hash " +
+                            "     distinct(released_components.id), base_component_id, component_name, app_icon_data, ipfs_hash " +
                             " from " +
-                            "     l2_app_list " +
-                            " inner JOIN icon_images ON l2_app_list.icon_image_id = icon_images.id " +
+                            "     released_components " +
+                            " inner JOIN icon_images ON released_components.icon_image_id = icon_images.id " +
                              "where" +
                               "     ipfs_hash = ?;"
                             ,
@@ -3516,6 +3513,8 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
                                         returnfn(returnRows[0])
                                     }
 
+                                } else {
+                                    console.log(err);
                                 }
                             }
                         );
@@ -3561,7 +3560,6 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
 
             let ipfsHash = await saveItemToIpfs(code)
             //let parsedCode = await parseCode(code)
-            //await updateItemLists(parsedCode)
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end(JSON.stringify({
                 ipfsHash:   ipfsHash,
@@ -3953,7 +3951,6 @@ async function findLocalIpfsContent() {
                     } else if (itemType == "APP") {
                         let parsedCode = await parseCode(ipfsContent)
                         parsedCode.ipfsHash = ipfsHashFileName
-                        await updateItemLists(parsedCode)
                         await registerIPFS(ipfsHashFileName);
                     }
                     //console.log("ipfsHashFileName : " + ipfsHashFileName + " read");
@@ -5280,12 +5277,6 @@ function setUpSql() {
                                                     (base_component_id, child_component_id)
                                                values (?,?)`)
 
-    stmtInsertAppList = dbsearch.prepare(`insert or ignore
-                                                    into
-                                               l2_app_list
-                                                    (  id  ,  base_component_id  ,  app_name  ,  app_description  ,  icon_image_id  ,  
-                                                       ipfs_hash , version )
-                                               values (?,?,?,?,?,?,?)`)
 
     stmtInsertReleasedComponentListItem = dbsearch.prepare(`insert or ignore
                                                     into
@@ -5295,12 +5286,6 @@ function setUpSql() {
                                                         ipfs_hash , version )
                                                values (?,?,?,?,?,?,?)`)
 
-    stmtUpdateAppList = dbsearch.prepare(`update l2_app_list
-                                            set 
-                                                ipfs_hash = ?  
-                                            where
-                                               base_component_id  = ?
-                                               `)
 
     stmtUpdateReleasedComponentList = dbsearch.prepare(`update released_components 
                                             set 
@@ -5955,71 +5940,6 @@ async function insertIpfsHashRecord(ipfs_hash, content_type, ping_count, last_pi
     })
     let ipfsHash = await promise
     return ipfsHash
-}
-
-
-async function insertAppListRecord( id  ,  base_component_id  ,  app_name  ,  app_description  ,  logo  ,  ipfs_hash  ,  system_code_id ) {
-    let promise = new Promise(async function(returnfn) {
-        try {
-            let icon_image_id = "image id"
-            let dataString = null
-            if (logo.startsWith("data:")) {
-                rowhash.setEncoding('hex');
-                rowhash.write(logo);
-                rowhash.end();
-                icon_image_id = rowhash.read();
-                dataString = logo
-            } else {
-
-                let fullPath = path.join(__dirname, "../public" + logo)
-                let logoFileIn = fs.readFileSync(fullPath);
-                dataString = new Buffer(logoFileIn).toString('base64');
-                let imageExtension = logo.substring(logo.lastIndexOf(".") + 1)
-                let rowhash = crypto.createHash('sha256');
-                dataString = "data:image/" + imageExtension + ";base64," + dataString
-                rowhash.setEncoding('hex');
-                rowhash.write(dataString);
-                rowhash.end();
-                icon_image_id = rowhash.read();
-            }
-
-            let appListRecord = await getQuickSqlOneRow("select * from l2_app_list where base_component_id = ?",[base_component_id])
-            if (!appListRecord) {
-                dbsearch.serialize(function() {
-                    dbsearch.run("begin exclusive transaction");
-                    dbsearch.run("commit", function() {
-                        dbsearch.serialize(function() {
-                            dbsearch.run("begin exclusive transaction");
-                            stmtInsertAppList.run(   id  ,  base_component_id  ,  app_name  ,  app_description  ,  icon_image_id  ,  ipfs_hash, '' )
-                            stmtInsertIconImageData.run(icon_image_id, dataString)
-                            dbsearch.run("commit")
-                            returnfn()
-                        })
-                    })
-
-                })
-            } else {
-                dbsearch.serialize(function() {
-                    dbsearch.run("begin exclusive transaction");
-                    dbsearch.run("commit", function() {
-                        dbsearch.serialize(function() {
-                            dbsearch.run("begin exclusive transaction");
-                            stmtUpdateAppList.run(   ipfs_hash ,   base_component_id  )
-                            stmtInsertIconImageData.run(icon_image_id, dataString)
-                            dbsearch.run("commit")
-                            returnfn()
-                        })
-                    })
-
-                })
-            }
-        } catch(er) {
-            //console.log(er)
-            returnfn()
-        }
-    })
-    let val = await promise
-    return val
 }
 
 
@@ -7276,42 +7196,6 @@ async function parseCode(code) {
     }
 }
 
-async function updateItemLists(parsedCode) {
-
-    if (parsedCode.type == "component") {
-/*        await insertComponentListRecord(
-            uuidv1()
-            ,
-            parsedCode.baseComponentId
-            ,
-            parsedCode.name
-            ,
-            parsedCode.description
-            ,
-            parsedCode.logo
-            ,
-            parsedCode.ipfsHash
-            ,
-            parsedCode.systemCodeId
-        )*/
-    } else if (parsedCode.type == "app") {
-        await insertAppListRecord(
-            uuidv1()
-            ,
-            parsedCode.baseComponentId
-            ,
-            parsedCode.name
-            ,
-            parsedCode.description
-            ,
-            parsedCode.logo
-            ,
-            parsedCode.ipfsHashId
-            ,
-            parsedCode.systemCodeId
-        )
-    }
-}
 
 
 
@@ -7804,7 +7688,6 @@ async function releaseCode(commitId) {
         })
     }
 
-    //await updateItemLists(parsedCode)
 }
 
 
