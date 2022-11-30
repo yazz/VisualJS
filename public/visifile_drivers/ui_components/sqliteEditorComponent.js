@@ -45,21 +45,22 @@ load_once_from_file(true)
 
      mounted: function() {
          let thisVueInstance = this
+         let mm = this
          args.text           = null
          disableAutoSave     = true
 
          ace.config.set('basePath', '/');
-         editor = ace.edit(           editorDomId, {
+         mm.editor = ace.edit(           mm.editorDomId, {
                                                  selectionStyle: "text",
                                                  mode:           "ace/mode/javascript"
                                              })
 
          //Bug fix: Need a delay when setting theme or view is corrupted
          setTimeout(function(){
-            editor.setTheme("ace/theme/sqlserver");
+             mm.editor.setTheme("ace/theme/sqlserver");
 
             let langTools = ace.require("ace/ext/language_tools");
-            editor.setOptions({
+             mm.editor.setOptions({
                enableBasicAutocompletion: true,
                enableSnippets: true,
                enableLiveAutocompletion: false
@@ -69,28 +70,28 @@ load_once_from_file(true)
 
 
 
-         document.getElementById(editorDomId).style["font-size"] = "16px"
-         document.getElementById(editorDomId).style.width="100%"
-         document.getElementById(editorDomId).style["border"] = "0px"
+         document.getElementById(mm.editorDomId).style["font-size"] = "16px"
+         document.getElementById(mm.editorDomId).style.width="100%"
+         document.getElementById(mm.editorDomId).style["border"] = "0px"
 
-         document.getElementById(editorDomId).style.height="65vh"
+         document.getElementById(mm.editorDomId).style.height="65vh"
          if (isValidObject(thisVueInstance.text)) {
-             editor.getSession().setValue(thisVueInstance.sqlText);
+             mm.editor.getSession().setValue(thisVueInstance.sqlText);
              this.read_only = saveHelper.getValueOfCodeString(thisVueInstance.text, "read_only")
          }
 
-         editor.getSession().setUseWorker(false);
+         mm.editor.getSession().setUseWorker(false);
          if (this.read_only) {
-            editor.setReadOnly(true)
+             mm.editor.setReadOnly(true)
          }
 
 
-         editor.getSession().on('change', function() {
+         mm.editor.getSession().on('change', function() {
             let haveIChangedtext = false
-            if (thisVueInstance.sqlText != editor.getSession().getValue()) {
+            if (thisVueInstance.sqlText != mm.editor.getSession().getValue()) {
               haveIChangedtext = true
             }
-            thisVueInstance.sqlText = editor.getSession().getValue();
+            thisVueInstance.sqlText = mm.editor.getSession().getValue();
             thisVueInstance.errors = null
             if (!isValidObject(thisVueInstance.sqlText)) {
                 return
@@ -121,12 +122,12 @@ load_once_from_file(true)
             }
          });
 
-        editor.resize(true);
-        editor.focus();
+         mm.editor.resize(true);
+         mm.editor.focus();
      },
      methods: {
         gotoLine: function(line) {
-            editor.gotoLine(line , 10, true);
+            this.editor.gotoLine(line , 10, true);
         }
         ,
 
@@ -177,7 +178,7 @@ load_once_from_file(true)
 
             this.read_only = saveHelper.getValueOfCodeString(thisVueInstance.text, "read_only")
             if (this.read_only) {
-               editor.setReadOnly(true)
+               this.editor.setReadOnly(true)
             }
 
 
@@ -190,9 +191,9 @@ load_once_from_file(true)
 
             let llsqlText = saveHelper.getValueOfCodeString(textValue, "sqlite", ")//sqlite")
             if (isValidObject(llsqlText)) {
-                editor.getSession().setValue(  JSON.stringify(  llsqlText , null , 2  ));
+                this.editor.getSession().setValue(  JSON.stringify(  llsqlText , null , 2  ));
             } else {
-                editor.getSession().setValue(  JSON.stringify(  [] , null , 2  ));
+                this.editor.getSession().setValue(  JSON.stringify(  [] , null , 2  ));
             }
         }
 

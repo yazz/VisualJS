@@ -45,6 +45,7 @@ load_once_from_file(true)
 
      mounted: function() {
          let thisVueInstance = this
+         let mm = this
          args.text           = null
          disableAutoSave     = true
 
