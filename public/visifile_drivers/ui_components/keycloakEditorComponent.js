@@ -5,8 +5,8 @@ component_type("SYSTEM")
 load_once_from_file(true)
 */
 
-    var editorDomId     = uuidv4()
-    var editor          = null
+    let editorDomId     = uuidv4()
+    let editor          = null
 
 
     Vue.component("keycloak_editor_component", {
@@ -44,8 +44,9 @@ load_once_from_file(true)
      ,
 
      mounted: function() {
-         var thisVueInstance = this
+         let thisVueInstance = this
          args.text           = null
+         disableAutoSave     = true
 
          ace.config.set('basePath', '/');
          editor = ace.edit(           editorDomId, {
@@ -57,7 +58,7 @@ load_once_from_file(true)
          setTimeout(function(){
             editor.setTheme("ace/theme/sqlserver");
 
-            var langTools = ace.require("ace/ext/language_tools");
+            let langTools = ace.require("ace/ext/language_tools");
             editor.setOptions({
                enableBasicAutocompletion: true,
                enableSnippets: true,
@@ -94,7 +95,7 @@ load_once_from_file(true)
                 return
             }
             try {
-               var newNode = esprima.parse("(" + thisVueInstance.sqlText + ")", { tolerant: true })
+               let newNode = esprima.parse("(" + thisVueInstance.sqlText + ")", { tolerant: true })
                //alert(JSON.stringify(newNode.errors, null, 2))
                thisVueInstance.errors = newNode.errors
                if (thisVueInstance.errors) {
@@ -153,7 +154,7 @@ load_once_from_file(true)
         //
         // -----------------------------------------------------
         setText: function(textValue) {
-            var thisVueInstance = this
+            let thisVueInstance = this
             this.text           =  textValue
 
             if (!isValidObject(this.text)) {
@@ -178,7 +179,7 @@ load_once_from_file(true)
             // If a database definition has been given then read it
             //
 
-            var llsqlText = saveHelper.getValueOfCodeString(textValue, "keycloak", ")//keycloak")
+            let llsqlText = saveHelper.getValueOfCodeString(textValue, "keycloak", ")//keycloak")
             if (isValidObject(llsqlText)) {
                 editor.getSession().setValue(  JSON.stringify(  llsqlText , null , 2  ));
             } else {
