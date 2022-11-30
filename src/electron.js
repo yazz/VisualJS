@@ -2968,7 +2968,7 @@ async function startServices() {
             res.end(JSON.stringify(
                 {code: codeString}
             ));
-            //zzz
+
         })
 
 
@@ -7722,6 +7722,101 @@ async function getFutureCommitsFor(args) {
     return []
 }
 
-async function releaseCode(codeId) {
-    let c=codeId
+async function releaseCode(commitId) {
+    //zzz
+    let codeRecord = await getQuickSqlOneRow("select  code  from   system_code  where   id = ? ", [  commitId  ])
+    let codeString = codeRecord.code
+    let parsedCode = await parseCode(codeString)
+    if  (parsedCode.baseComponentId) {
+    }
+    await executeQuickSql("insert into released_components (id, base_component_id) values (?,?)",[uuidv1(),"df"])
+
+    //await updateItemLists(parsedCode)
+}
+
+async function executeQuickSql(sql, params) {
+    let promise = new Promise(async function(returnfn) {
+        try {
+            let exeSqlPreparedStmt = dbsearch.prepare(sql)
+            dbsearch.serialize(function () {
+                dbsearch.run("begin exclusive transaction");
+                dbsearch.run("commit", function () {
+                    dbsearch.serialize(function () {
+                        dbsearch.run("begin exclusive transaction");
+                        exeSqlPreparedStmt.run(params)
+                        dbsearch.run("commit")
+                        returnfn(11)
+                    })
+                })
+            })
+        } catch (err) {
+        }
+    })
+    let ret = await promise
+    return ret
+}
+
+
+async function insertReleasedComponentRecord( id  ,  base_component_id  ,  app_name  ,  app_description  ,  logo  ,  ipfs_hash  ,  system_code_id ) {
+    let promise = new Promise(async function(returnfn) {
+        try {
+            let icon_image_id = "image id"
+            let dataString = null
+            if (logo.startsWith("data:")) {
+                rowhash.setEncoding('hex');
+                rowhash.write(logo);
+                rowhash.end();
+                icon_image_id = rowhash.read();
+                dataString = logo
+            } else {
+
+                let fullPath = path.join(__dirname, "../public" + logo)
+                let logoFileIn = fs.readFileSync(fullPath);
+                dataString = new Buffer(logoFileIn).toString('base64');
+                let imageExtension = logo.substring(logo.lastIndexOf(".") + 1)
+                let rowhash = crypto.createHash('sha256');
+                dataString = "data:image/" + imageExtension + ";base64," + dataString
+                rowhash.setEncoding('hex');
+                rowhash.write(dataString);
+                rowhash.end();
+                icon_image_id = rowhash.read();
+            }
+
+            let appListRecord = await getQuickSqlOneRow("select * from l2_app_list where base_component_id = ?",[base_component_id])
+            if (!appListRecord) {
+                dbsearch.serialize(function() {
+                    dbsearch.run("begin exclusive transaction");
+                    dbsearch.run("commit", function() {
+                        dbsearch.serialize(function() {
+                            dbsearch.run("begin exclusive transaction");
+                            stmtInsertAppList.run(   id  ,  base_component_id  ,  app_name  ,  app_description  ,  icon_image_id  ,  ipfs_hash, '' )
+                            stmtInsertIconImageData.run(icon_image_id, dataString)
+                            dbsearch.run("commit")
+                            returnfn()
+                        })
+                    })
+
+                })
+            } else {
+                dbsearch.serialize(function() {
+                    dbsearch.run("begin exclusive transaction");
+                    dbsearch.run("commit", function() {
+                        dbsearch.serialize(function() {
+                            dbsearch.run("begin exclusive transaction");
+                            stmtUpdateAppList.run(   ipfs_hash ,   base_component_id  )
+                            stmtInsertIconImageData.run(icon_image_id, dataString)
+                            dbsearch.run("commit")
+                            returnfn()
+                        })
+                    })
+
+                })
+            }
+        } catch(er) {
+            //console.log(er)
+            returnfn()
+        }
+    })
+    let val = await promise
+    return val
 }
