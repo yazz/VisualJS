@@ -786,6 +786,9 @@ load_once_from_file(true)
              //debugger
              let mm = this
              //alert("Checking out commit: " + mm.lockedSelectedCommit)
+             let responseJson = await getFromYazzReturnJson("/get_code_commit", {commit_id: mm.selectedCommit})
+             mm.text = responseJson.code
+
              mm.$root.$emit(
                  'message', {
                      type:   "pending"
