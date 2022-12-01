@@ -142,6 +142,20 @@ load_once_from_file(true)
                                    style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
                                    v-on:click="gotoChild()" >&gt;</button>
 
+
+                            <button  type=button class='btn  btn-primary'
+                                     style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
+                                     v-on:click="showCommit()" >Code</button>
+    
+                            <button  type=button class='btn  btn-info'
+                                     style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
+                                     v-on:click="diffCode()" >Diff</button>
+    
+                            <button  type=button class='btn  btn-info'
+                                     style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
+                                     v-on:click="checkoutCode()" >Checkout</button>
+    
+
                         </div>
 
                           <div id="visualization_history_timeline">
@@ -189,20 +203,7 @@ load_once_from_file(true)
                               </div>
 
 
-                                <div>
-                                      <button  type=button class='btn  btn-primary'
-                                               style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
-                                               v-on:click="showCommit()" >Code</button>
-    
-                                      <button  type=button class='btn  btn-info'
-                                               style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
-                                               v-on:click="diffCode()" >Diff</button>
 
-                                      <button  type=button class='btn  btn-info'
-                                               style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
-                                               v-on:click="checkoutCode()" >Checkout</button>
-    
-                                </div>
 
 
                               <div style="margin-top: 30px;">
