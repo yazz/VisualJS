@@ -127,7 +127,8 @@ load_once_from_file(true)
                         </div>
 
 
-                        <div style="margin: 10px;">
+                        <div style="margin: 10px;"
+                             v-on:mouseenter="onlyHighlightLockedItem()">
 
                           <button  type=button class='btn btn-dark'
                                    style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
@@ -400,9 +401,7 @@ load_once_from_file(true)
 
                          await mm.unHighlightAllExceptLockedItem()
                          if (mm.lockedSelectedCommit) {
-                             if (mm.selectedCommit != mm.lockedSelectedCommit) {
-                                 await mm.selectItemDetails(mm.lockedSelectedCommit)
-                             }
+                             mm.onlyHighlightLockedItem()
                          } else {
                              mm.selectedCommit = null
                              await mm.clearDetailsPane()
@@ -488,6 +487,13 @@ load_once_from_file(true)
          }
          ,
 
+         onlyHighlightLockedItem: async function() {
+             //debugger
+             let mm = this
+             mm.highlightItem(mm.lockedSelectedCommit)
+             mm.unHighlightAllExceptLockedItem()
+         }
+         ,
 
          unHighlightAllExceptLockedItem: async function(unhighlightLockedItem) {
              //debugger
