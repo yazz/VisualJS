@@ -1932,7 +1932,7 @@ End of app preview menu
                        if (results.length > 0) {
 
 
-                           mm.baseComponentId = results[0].baseComponentId
+                           mm.baseComponentId = results[0].base_component_id
 
                            //
                            // find the editor
