@@ -29,7 +29,7 @@ load_once_from_file(true)
             diffText: ""
             ,
 
-            showCode: "commit"
+            showCode: "details"
             ,
 
 
@@ -142,6 +142,10 @@ load_once_from_file(true)
                                    style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
                                    v-on:click="gotoChild()" >&gt;</button>
 
+                          <button  type=button class='btn  btn-primary'
+                                   style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
+                                   v-on:click="showDetails()" >Details</button>
+
 
                             <button  type=button class='btn  btn-primary'
                                      style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
@@ -167,48 +171,47 @@ load_once_from_file(true)
                                 
                             <div v-if="(selectedCommit != null) && (commitsV3[selectedCommit])">
                               
-                              <div><b>Commit ID:</b> {{commitsV3[selectedCommit].id}}</div>
-                              <div><b>Time:</b> {{msToTime(commitsV3[selectedCommit].timestamp,{timeOnly: true})}} </div>
-                              <div><b>User ID:</b> {{commitsV3[selectedCommit].user_id}}</div>
-                              <div><b>Number of Changes:</b> {{commitsV3[selectedCommit].num_changes}}</div>
-                              <div><b>Parent:</b> {{commitsV3[selectedCommit].parent_id}}</div>
-                              <div><b>Type:</b> {{commitsV3[selectedCommit].base_component_id}}</div>
-                              <div><b>Descendants:</b>
-                                  <span v-if="commitsV3[selectedCommit].descendants.length==1">
-                                    ({{commitsV3[selectedCommit].descendants.length}})
-                                  </span>
-                                <span v-if="commitsV3[selectedCommit].descendants.length>1" style="color:red;">
-                                    ({{commitsV3[selectedCommit].descendants.length}})
-                                  </span>
-                                   
-                                <span v-for='(descendant,index) in commitsV3[selectedCommit].descendants'>
-                                  <span v-on:click="findFutureCommits(descendant.id)" 
-                                        style="color:blue"
-                                        >
-                                        {{descendant.id.substr(0,5)}}...
-                                  </span>  
-                                </span>
-
+                              <div v-if="showCode=='details'">
+                                  <div><b>Commit ID:</b> {{commitsV3[selectedCommit].id}}</div>
+                                  <div><b>Time:</b> {{msToTime(commitsV3[selectedCommit].timestamp,{timeOnly: true})}} </div>
+                                  <div><b>User ID:</b> {{commitsV3[selectedCommit].user_id}}</div>
+                                  <div><b>Number of Changes:</b> {{commitsV3[selectedCommit].num_changes}}</div>
+                                  <div><b>Parent:</b> {{commitsV3[selectedCommit].parent_id}}</div>
+                                  <div><b>Type:</b> {{commitsV3[selectedCommit].base_component_id}}</div>
+                                  <div><b>Descendants:</b>
+                                      <span v-if="commitsV3[selectedCommit].descendants.length==1">
+                                        ({{commitsV3[selectedCommit].descendants.length}})
+                                      </span>
+                                    <span v-if="commitsV3[selectedCommit].descendants.length>1" style="color:red;">
+                                        ({{commitsV3[selectedCommit].descendants.length}})
+                                      </span>
+                                       
+                                    <span v-for='(descendant,index) in commitsV3[selectedCommit].descendants'>
+                                      <span v-on:click="findFutureCommits(descendant.id)" 
+                                            style="color:blue"
+                                            >
+                                            {{descendant.id.substr(0,5)}}...
+                                      </span>  
+                                    </span>
+    
+                                  </div>
+    
+                                  <div v-if="commitsV3[selectedCommit].changes">
+                                    <div style="margin-left: 80px;"
+                                        v-for="(item,i) in commitsV3[selectedCommit].changes.slice().reverse()">
+                                      <span v-if="i==(commitsV3[selectedCommit].changes.length - 1)"><b>First commit</b> - </span>
+                                      <span v-if="i!=(commitsV3[selectedCommit].changes.length - 1)"><b>{{ capitalizeFirstLetter(timeDiffLater(firstCommitTimestamps[selectedCommit], item.timestamp)) }}</b> - </span>
+    
+                                      {{ item.code_change_text }}
+                                    </div>
+                                  </div>
                               </div>
-
-                              <div v-if="commitsV3[selectedCommit].changes">
-                                <div style="margin-left: 80px;"
-                                    v-for="(item,i) in commitsV3[selectedCommit].changes.slice().reverse()">
-                                  <span v-if="i==(commitsV3[selectedCommit].changes.length - 1)"><b>First commit</b> - </span>
-                                  <span v-if="i!=(commitsV3[selectedCommit].changes.length - 1)"><b>{{ capitalizeFirstLetter(timeDiffLater(firstCommitTimestamps[selectedCommit], item.timestamp)) }}</b> - </span>
-
-                                  {{ item.code_change_text }}
-                                </div>
-                              </div>
-
 
 
 
 
                               <div style="margin-top: 30px;">
                                     <pre v-if="commitCode && showCode=='commit'">{{commitCode}}</pre>
-    
-                                    <pre v-if="parentCommitCode && showCode=='parent'">{{parentCommitCode}}</pre>
     
                                     <pre  v-if="showCode=='diff'"
                                           v-html="diffText"></pre>
@@ -440,6 +443,7 @@ load_once_from_file(true)
                     await mm.unHighlightAllExceptLockedItem()
                     await mm.clearDetailsPane()
 
+                    mm.showCode="details"
                     mm.selectedCommit = commitId
                     mm.highlightItem(commitId)
                     //await mm.showCommit()
@@ -471,7 +475,7 @@ load_once_from_file(true)
              let mm = this
              mm.lockedSelectedCommit = commitId
              mm.selectedCommit = commitId
-             mm.showCode='commit'
+             mm.showCode='details'
              //await mm.showCommit()
 
              if (mm.commitsV3[commitId].descendants) {
@@ -768,18 +772,15 @@ load_once_from_file(true)
         }
         ,
 
-        showParentCode: async function() {
-            let mm = this
-            mm.showCode = 'parent'
-            let codeDetails = mm.commitsV3[mm.selectedCommit]
-            if (codeDetails.parent_id == null) {
-                mm.parentCommitCode = ""
-                return
-            }
-            let responseJson = await getFromYazzReturnJson("/get_code_commit", {commit_id: codeDetails.parent_id})
-            mm.parentCommitCode = responseJson.code
-        }
-        ,
+
+
+
+         showDetails: async function() {
+             let mm = this
+             mm.showCode='details'
+         }
+         ,
+
 
 
          checkoutCode: async function() {
