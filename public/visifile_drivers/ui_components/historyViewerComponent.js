@@ -184,7 +184,6 @@ load_once_from_file(true)
                                 <span v-for='(descendant,index) in commitsV3[selectedCommit].descendants'>
                                   <span v-on:click="findFutureCommits(descendant.id)" 
                                         style="color:blue"
-                                        v-if="!commitsV3[descendant.id]"
                                         >
                                         {{descendant.id.substr(0,5)}}...
                                   </span>  
@@ -443,7 +442,7 @@ load_once_from_file(true)
 
                     mm.selectedCommit = commitId
                     mm.highlightItem(commitId)
-                    await mm.showCommit()
+                    //await mm.showCommit()
 
 
                     let thisHistoryItem = mm.commitsV3[commitId]
@@ -473,7 +472,7 @@ load_once_from_file(true)
              mm.lockedSelectedCommit = commitId
              mm.selectedCommit = commitId
              mm.showCode='commit'
-             await mm.showCommit()
+             //await mm.showCommit()
 
              if (mm.commitsV3[commitId].descendants) {
                  for(let descendant of mm.commitsV3[commitId].descendants) {
