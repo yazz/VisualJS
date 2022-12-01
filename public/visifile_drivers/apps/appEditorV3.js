@@ -1675,6 +1675,7 @@ End of app preview menu
            // 'baseComponentId'
            // ---------------------------------------------------------------
            load_app: async function ( baseComponentId, runThisApp ) {
+           //zzz
                let code
                let mm   = this
                let codeId
@@ -1872,6 +1873,7 @@ End of app preview menu
            // 'baseComponentId'
            // ---------------------------------------------------------------
            loadAppViaCommitId: async function ( commitId, runThisApp ) {
+           //zzz
                let code
                let mm   = this
                let codeId
@@ -2283,9 +2285,9 @@ End of app preview menu
                         //debugger
                         //mm.save_state = "pending"
                         //mm.checkSavedFile()
-                        await mm.loadAppViaCommitId(   message.commitId  )
+                        await mm.loadAppViaCommitId(   message.commitId , true )
                     }
-                    //zzz
+
 
                 })
 
