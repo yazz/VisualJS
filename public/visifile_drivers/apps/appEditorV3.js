@@ -1870,7 +1870,7 @@ End of app preview menu
            // 'baseComponentId'
            // ---------------------------------------------------------------
            loadAppViaCommitId: async function ( commitId, runThisApp ) {
-           //zzz
+               debugger
                let code
                let mm   = this
                let codeId
@@ -1927,7 +1927,7 @@ End of app preview menu
 
 
                    if (results) {
-                   debugger
+                   //debugger
                        if (results.length > 0) {
 
 
@@ -1989,23 +1989,12 @@ End of app preview menu
 
 
                            //
-                           // load the editor
+                           // load the code
                            //
-                           if ( !mm.editor_loaded ) {
-                               let editorName = "editor_component"
-                               if (override_app_editor != null) {
-                                   editorName = override_app_editor
-                               }
-                               if (newEditor) {
-                                   editorName = newEditor
-                               }
 
-                               await loadV2( editorName, {text: code} )
+                           //zzz
+                           await mm.load_appV2( mm.base_component_id , mm.editor_text, commitId, mm.editors2)
 
-                               mm.editor_loaded    = true
-                               mm.editor_component = editorName
-
-                           }
 
 
                            //
@@ -2045,6 +2034,7 @@ End of app preview menu
                    }
 
                } catch (e) {
+                   console.log(e)
                    hideProgressBar()
                }
                hideProgressBar()
@@ -2072,6 +2062,7 @@ End of app preview menu
                        // ---------------------------------------------------------------
                        load_appV2: async function ( baseComponentId, passin_code, passin_code_id , passin_editors2) {
                          //debugger
+                         //zzz
                             try {
 
                                 //
