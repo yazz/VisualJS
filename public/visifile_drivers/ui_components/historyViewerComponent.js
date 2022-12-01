@@ -440,7 +440,7 @@ load_once_from_file(true)
             try {
                 let mm = this
                 if (commitId) {
-                    await mm.unHighlightAllExceptLockedItem()
+                    await mm.unHighlightAllExceptLockedItem(true)
                     await mm.clearDetailsPane()
 
                     mm.showCode="details"
@@ -489,7 +489,7 @@ load_once_from_file(true)
          ,
 
 
-         unHighlightAllExceptLockedItem: async function() {
+         unHighlightAllExceptLockedItem: async function(unhighlightLockedItem) {
              //debugger
              let mm = this
             if (mm.inUnHighlightAll) {
@@ -500,7 +500,7 @@ load_once_from_file(true)
              for (let highlightedItem of Object.keys(mm.highlightedItems)) {
 
                  if (mm.highlightedItems[highlightedItem]) {
-                    if (highlightedItem != mm.lockedSelectedCommit) {
+                    if ((unhighlightLockedItem == true) || highlightedItem != mm.lockedSelectedCommit) {
                         let itemStyle = ""
                         let selectedCommitDataItem = mm.commitsV3[highlightedItem]
                         if (selectedCommitDataItem.descendants && (selectedCommitDataItem.descendants.length > 1)) {
@@ -509,6 +509,7 @@ load_once_from_file(true)
                         let selectedCommitUiItem = mm.timelineData.get(highlightedItem);
                         let itemGroup = selectedCommitUiItem.group
                         itemStyle += mm.groupColors[itemGroup].normal
+                        itemStyle += "border: 0px;"
                         mm.timelineData.update({
                             id: highlightedItem,
                             style: itemStyle
