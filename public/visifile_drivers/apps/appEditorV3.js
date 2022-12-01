@@ -2279,10 +2279,10 @@ End of app preview menu
                     } else if (message.type == "force_save") {
                         //mm.save_state = "saved"
                         //mm.checkSavedFile()
-                    } else if (message.type == "force_raw_save") {
+                    } else if (message.type == "force_raw_load") {
+                        debugger
                         mm.save_state = "pending"
                         //mm.checkSavedFile()
-                        debugger
                         await mm.loadAppViaCommitId(   message.commitId  )
                     }
                     //zzz

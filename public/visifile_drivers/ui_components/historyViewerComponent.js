@@ -793,7 +793,7 @@ load_once_from_file(true)
 //zzz
              mm.$root.$emit(
                  'message', {
-                     type:   "force_raw_save",
+                     type:   "force_raw_load",
                      commitId: mm.selectedCommit
                  })
 
