@@ -1894,7 +1894,6 @@ End of app preview menu
                    //
                    mm.selected_app          = ""
                    //mm.app_loaded            = false
-                   mm.base_component_id     = baseComponentId
                    mm.app_component_name    = null
 
                    //executionCode       = new Object()
@@ -1910,11 +1909,11 @@ End of app preview menu
                    // read the code for the component that we are editing
                    //
                    let sql =    `select
-                                    id, cast(code as text), base_component_id  as  code, editors
+                                    id, cast(code as text)  as  code, editors, base_component_id
                                  from
                                     system_code
                                  where
-                                        base_component_id = '${commitId}'
+                                        id = '${commitId}'
                                 `
 
                    results = await callApp(
@@ -1929,6 +1928,7 @@ End of app preview menu
 
 
                    if (results) {
+                   debugger
                        if (results.length > 0) {
 
 
@@ -2280,8 +2280,8 @@ End of app preview menu
                         //mm.save_state = "saved"
                         //mm.checkSavedFile()
                     } else if (message.type == "force_raw_load") {
-                        debugger
-                        mm.save_state = "pending"
+                        //debugger
+                        //mm.save_state = "pending"
                         //mm.checkSavedFile()
                         await mm.loadAppViaCommitId(   message.commitId  )
                     }
