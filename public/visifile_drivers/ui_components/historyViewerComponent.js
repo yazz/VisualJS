@@ -455,7 +455,7 @@ load_once_from_file(true)
                     //}
                     if (thisHistoryItem.descendants) {
                         for (let descendant of thisHistoryItem.descendants) {
-                            //mm.highlightItem(descendant.id)
+                            mm.highlightItem(descendant.id, {style: "border: solid black 5px;"})
                         }
                     }
 
@@ -521,7 +521,7 @@ load_once_from_file(true)
          }
          ,
 
-         highlightItem: async function(commitId) {
+         highlightItem: async function(commitId, options) {
              let mm = this
              try {
                  let itemStyle = ""
@@ -530,12 +530,16 @@ load_once_from_file(true)
                     return
                  }
                  if (selectedCommitDataItem.descendants && (selectedCommitDataItem.descendants.length > 1)) {
-                     itemStyle += "font-weight: bold;"
+                    itemStyle += "font-weight: bold;"
                  }
 
                  let selectedCommitUiItem = mm.timelineData.get(commitId);
-                 let itemGroup = selectedCommitUiItem.group
-                 itemStyle += mm.groupColors[itemGroup].highlighted
+                 if (options && options.style) {
+                     itemStyle += options.style
+                 } else {
+                     let itemGroup = selectedCommitUiItem.group
+                     itemStyle += mm.groupColors[itemGroup].highlighted
+                 }
                  mm.timelineData.update({id: commitId, style: itemStyle});
                  mm.highlightedItems[commitId] = true
              } catch (err) {
