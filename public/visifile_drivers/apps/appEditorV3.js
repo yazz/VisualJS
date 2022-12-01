@@ -1488,120 +1488,117 @@ End of app preview menu
            // This is called to save the currently edited code
            // ---------------------------------------------------------------
            save: async function( base_component_id, code_id , textIn, extras) {
-            let mm = this
-            if (mm.inSave) {
-                return false
-            }
+               let mm = this
+               if (mm.inSave) {
+                   return false
+               }
                mm.inSave = true
 
-             //resetTimer("save")
+               //resetTimer("save")
 
-            try {
-                if (textIn == null) {
-                     //showTimer("before getText")
-                     this.editor_text = await this.$refs.editor_component_ref.getText()
-                     //showTimer("after getText")
-                } else {
-                     this.editor_text = textIn
-                }
-//showTimer()
-                //if (mm.read_only) {
-                //     mm.inSave = false
-                //     return false
-                //}
-
-                if (mm.$refs.editor_component_ref.lockEditor) {
-                    mm.$refs.editor_component_ref.lockEditor()
-                }
-                mm.editor_shell_locked = true
-
-                showProgressBar()
-
-                //showTimer("before save code")
-                let allowAppToWorkOffline = false
-                if (extras) {
-                    allowAppToWorkOffline = extras.allowAppToWorkOffline
-                }
-
-//debugger
-                 callAjaxPost("/save_code",
-                 {
-                      base_component_id:      base_component_id,
-                      code_id:                code_id,
-                      code:                   this.editor_text,
-                      options:                {
-                                                  sub_components:         Object.keys(dev_app_component_loaded),
-                                                  save_html:              true,
-                                                  save_code_to_file:      saveCodeToFile,
-                          allowAppToWorkOffline:            allowAppToWorkOffline
-                                              }
-                 }
-                 ,
-                 async function(response){
-                 //debugger
-                   //showTimer("in save code response")
-                   if (mm.$refs.editor_component_ref.savedStatus !== undefined) {
-                       await mm.$refs.editor_component_ref.savedStatus({status: "ok"})
-                   }
-
-                   let responseJson = JSON.parse(response)
-                     mm.code_id = responseJson.code_id
-                        console.log("1) mm.code_id= " + mm.code_id)
-                   if ((saveHelper.getValueOfCodeString(mm.editor_text,"only_run_on_server") == true)
-                   ||
-                       (saveHelper.getValueOfCodeString(mm.editor_text,"rest_api"))
-                       ) {
-                       mm.is_ui_app = false
-                       mm.is_server_app = true
-                       let restApi = saveHelper.getValueOfCodeString(mm.editor_text,"rest_api")
-                       if (restApi) {
-                           mm.is_rest_app = true
-                           mm.rest_api_base_url = restApi
-                       } else {
-                           mm.is_rest_app = false
-                       }
+               try {
+                   if (textIn == null) {
+                       //showTimer("before getText")
+                       this.editor_text = await this.$refs.editor_component_ref.getText()
+                       //showTimer("after getText")
                    } else {
-                       mm.is_ui_app = false
-                       mm.is_server_app = false
+                     this.editor_text = textIn
                    }
-                   if (!mm.is_server_app) {
-                       if (mm.app_shown) {
-                           //await mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
-                           //debugger
-                           // if the app has been changed during the save then don't reload the app
-                           //mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
-                           if (!saveCodeToFile) {
-                               await mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
+                   //showTimer()
+                   // if (mm.read_only) {
+                   //     mm.inSave = false
+                   //     return false
+                   //}
+
+                   if (mm.$refs.editor_component_ref.lockEditor) {
+                       mm.$refs.editor_component_ref.lockEditor()
+                   }
+                   mm.editor_shell_locked = true
+
+                   showProgressBar()
+
+                   //showTimer("before save code")
+                   let allowAppToWorkOffline = false
+                   if (extras) {
+                       allowAppToWorkOffline = extras.allowAppToWorkOffline
+                   }
+
+                   //debugger
+                   callAjaxPost("/save_code",
+                   {
+                       base_component_id:      base_component_id,
+                       code_id:                code_id,
+                       code:                   this.editor_text,
+                       options:                {
+                                                   sub_components:         Object.keys(dev_app_component_loaded),
+                                                   save_html:              true,
+                                                   save_code_to_file:      saveCodeToFile,
+                                                   allowAppToWorkOffline:  allowAppToWorkOffline
+                                               }
+                   }
+                   ,
+                   async function(response){
+                       //debugger
+                       //showTimer("in save code response")
+                       if (mm.$refs.editor_component_ref.savedStatus !== undefined) {
+                           await mm.$refs.editor_component_ref.savedStatus({status: "ok"})
+                       }
+
+                       let responseJson = JSON.parse(response)
+                       mm.code_id = responseJson.code_id
+                       console.log("1) mm.code_id= " + mm.code_id)
+                       if ((saveHelper.getValueOfCodeString(mm.editor_text,"only_run_on_server") == true)
+                            ||
+                          (saveHelper.getValueOfCodeString(mm.editor_text,"rest_api")))
+                       {
+                           mm.is_ui_app = false
+                           mm.is_server_app = true
+                           let restApi = saveHelper.getValueOfCodeString(mm.editor_text,"rest_api")
+                           if (restApi) {
+                               mm.is_rest_app = true
+                               mm.rest_api_base_url = restApi
+                           } else {
+                               mm.is_rest_app = false
                            }
-                           else {
-                               hideProgressBar()
+                       } else {
+                           mm.is_ui_app = false
+                           mm.is_server_app = false
+                       }
+                       if (!mm.is_server_app) {
+                           if (mm.app_shown) {
+                               //await mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
+                               //debugger
+                               // if the app has been changed during the save then don't reload the app
+                               //mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
+                               if (!saveCodeToFile) {
+                                   await mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
+                               } else {
+                                   hideProgressBar()
+                               }
                            }
                        }
-                   }
+                       hideProgressBar()
+                       if (mm.$refs.editor_component_ref.unlockEditor) {
+                           mm.$refs.editor_component_ref.unlockEditor()
+                       }
+                       mm.editor_shell_locked = false
+
+                       mm.save_state = "saved"
+                       mm.checkSavedFile()
+                       //showTimer("done")
+                       mm.inSave = false
+                       mm.editor_shell_locked = false
+                       return true
+                   })
+
+               } catch (e) {
                    hideProgressBar()
-                 if (mm.$refs.editor_component_ref.unlockEditor) {
-                     mm.$refs.editor_component_ref.unlockEditor()
-                 }
-                 mm.editor_shell_locked = false
-
-                     mm.save_state = "saved"
-                   mm.checkSavedFile()
-                   //showTimer("done")
-                     mm.inSave = false
-                     mm.editor_shell_locked = false
-                     return true
-                 })
-
-
-
-            } catch (e) {
-                hideProgressBar()
-                this.save_state = "saved"
-                this.checkSavedFile()
-                mm.inSave = false
-                mm.editor_shell_locked = false
-                return true
-            }
+                   this.save_state = "saved"
+                   this.checkSavedFile()
+                   mm.inSave = false
+                   mm.editor_shell_locked = false
+                   return true
+               }
 
            }
            ,
