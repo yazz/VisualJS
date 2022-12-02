@@ -173,6 +173,13 @@ load_once_from_file(true)
                             <div v-if="(previewedCommitId != null) && (commitsV3[previewedCommitId])">
                               
                               <div v-if="showCode=='details'">
+
+                                    <div><b>Tags:</b> {{commitsV3[previewedCommitId].code_tags.length}}</div>
+                                      <div style="margin-left: 80px;"
+                                           v-for="(item,i) in commitsV3[previewedCommitId].code_tags">
+                                        {{ item.code_tag }}
+                                      </div>
+
                                   <div><b>Commit ID:</b> {{commitsV3[previewedCommitId].id}}</div>
                                   <div><b>Time:</b> {{msToTime(commitsV3[previewedCommitId].timestamp,{timeOnly: true})}} </div>
                                   <div><b>User ID:</b> {{commitsV3[previewedCommitId].user_id}}</div>
@@ -747,6 +754,7 @@ load_once_from_file(true)
 
          saveResponseToCommitData: async function(responseJson) {
             let mm = this
+            debugger
              for (let rt = 0; rt < responseJson.length; rt++) {
 
                  let itemStyle = ""
@@ -763,7 +771,8 @@ load_once_from_file(true)
                          user_id: responseJson[rt].user_id,
                          base_component_id: responseJson[rt].base_component_id,
                          descendants: responseJson[rt].descendants,
-                         parent_id: responseJson[rt].parent_commit_id
+                         parent_id: responseJson[rt].parent_commit_id,
+                         code_tags: responseJson[rt].code_tags
                      }
                  if (responseJson[rt].changes && responseJson[rt].changes.length > 0) {
                      mm.firstCommitTimestamps[responseJson[rt].id] = responseJson[rt].changes[0].timestamp

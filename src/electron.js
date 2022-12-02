@@ -7514,6 +7514,9 @@ async function getRowForCommit(commitId) {
     let getFutureCommitsSql = "select  id  from   system_code  where  parent_id = ? "
     let parentCommits = await getQuickSql(getFutureCommitsSql, [  commitId  ])
 
+    let getCodeTagsSql= "  select  code_tag  from  code_tags  where fk_system_code_id = ?  "
+    let codeTags = await getQuickSql(getCodeTagsSql, [  commitId  ])
+
     if (thisCommit) {
         let changesList = []
         try {
@@ -7529,7 +7532,8 @@ async function getRowForCommit(commitId) {
                     base_component_id: thisCommit.base_component_id,
                     parent_commit_id: thisCommit.parent_id,
                     user_id: thisCommit.fk_user_id,
-                    descendants: parentCommits
+                    descendants: parentCommits,
+                    code_tags: codeTags
                 }
         } catch (err) {
         }
