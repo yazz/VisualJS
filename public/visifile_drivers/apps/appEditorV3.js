@@ -1993,7 +1993,8 @@ End of app preview menu
                            //
 
                            //zzz
-                           await mm.load_appV2( mm.base_component_id , mm.editor_text, commitId, mm.editors2)
+                           //await mm.load_appV2( mm.base_component_id , mm.editor_text, commitId, mm.editors2)
+                           await callApp( {code_id:    commitId }, {} )
 
 
 
