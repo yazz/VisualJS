@@ -1994,7 +1994,11 @@ End of app preview menu
 
                            //zzz
                            //await mm.load_appV2( mm.base_component_id , mm.editor_text, commitId, mm.editors2)
+                           mm.editor_text = code
+                           mm.code_id = commitId
                            await callApp( {code_id:    commitId }, {} )
+                           mm.refresh++
+                           //this.resetDebugger()
 
 
 
