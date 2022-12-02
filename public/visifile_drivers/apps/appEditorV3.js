@@ -910,8 +910,9 @@ End of app preview menu
 
                override_app_editor              = null
                this.editor_text                 = await mm.$refs.editor_component_ref.getText()
-
-               await mm.load_new_app( mm.base_component_id )
+               debugger
+               //await mm.load_new_app( mm.base_component_id )
+               await mm.load_new_app_by_code_id( mm.code_id )
            }
            ,
 
@@ -1663,6 +1664,16 @@ End of app preview menu
            }
            ,
 
+           load_new_app_by_code_id: async function ( codeId ) {
+               let mm = this
+               if ((!codeId) || (codeId == "") || (!mm)) {
+                   return
+               }
+               dev_app_component_loaded = new Object()
+               this.editor_loaded = false
+               await this.load_app_by_code_id(codeId)
+           }
+           ,
 
 
            // ---------------------------------------------------------------
@@ -1856,6 +1867,194 @@ End of app preview menu
 
            ,
 
+           // ---------------------------------------------------------------
+           //                           load_app_by_code_id
+           //
+           // This loads the latest version of the code stream marked with
+           // 'baseComponentId'
+           // ---------------------------------------------------------------
+           load_app_by_code_id: async function ( codeId, runThisApp ) {
+               //zzz
+               let code
+               let mm   = this
+               let results
+
+               try {
+
+                   //
+                   // make sure that we reference an app
+                   //
+
+                   if ((!codeId) || (codeId == "") || (!mm)) {
+                       return
+                   }
+
+
+
+                   //
+                   // set up vars
+                   //
+                   mm.selected_app          = ""
+                   //mm.app_loaded            = false
+                   mm.app_component_name    = null
+
+                   //executionCode       = new Object()
+                   mm.app_loaded = true
+
+
+                   this.execution_timeline      = executionTimeline
+                   this.execution_code          = executionCode
+                   this.execution_block_list    = Object.keys(this.execution_code)
+
+
+
+                   //
+                   // read the code for the component that we are editing
+                   //
+                   let sql =    `select
+                                    id, cast(code as text)  as  code, editors, base_component_id
+                                 from
+                                    system_code
+                                 where
+                                        id = '${codeId}'`
+
+                   results = await callApp(
+                       {
+                           driver_name:    "systemFunctions2",
+                           method_name:    "sql"
+                       }
+                       ,
+                       {
+                           sql: sql
+                       })
+
+
+                   if (results) {
+                       if (results.length > 0) {
+
+                           //
+                           // find the editor
+                           //
+                           let editors2 = results[0].editors
+                           mm.baseComponentId = results[0].base_component_id
+
+                           let newEditor = null
+                           if (isValidObject(editors2) && (override_app_editor == null)) {
+                               let edd = eval("(" + editors2 + ")")
+                               newEditor = edd[0]
+                           }
+
+
+                           //
+                           // find the code
+                           //
+                           code = results[0].code
+                           codeId = results[0].id
+                           mm.code_id = codeId
+
+                           if (code.toString().includes("Vue.")) {
+                               this.is_ui_app = true
+                               this.is_server_app = false
+                           } else {
+                               this.is_ui_app = false
+                               this.is_server_app = false
+                           }
+
+                           this.app_component_name = saveHelper.getValueOfCodeString(code.toString(),"display_name")
+
+                           if ((saveHelper.getValueOfCodeString(code.toString(),"only_run_on_server") == true)
+                               ||
+                               (saveHelper.getValueOfCodeString(code.toString(),"rest_api"))
+                           )
+                           {
+                               mm.is_ui_app = false
+                               mm.is_server_app = true
+                               let restApi = saveHelper.getValueOfCodeString(code.toString(),"rest_api")
+                               if (restApi) {
+                                   mm.is_rest_app = true
+                                   mm.rest_api_base_url = restApi
+                               } else {
+                                   mm.is_rest_app = false
+                               }
+                           } else {
+                               mm.is_server_app = false
+                           }
+
+
+                           if (mm.editor_loaded && (mm.editor_text != code)) {
+                               mm.editor_text = code
+                               console.log("2) mm.code_id= " + mm.code_id)
+
+
+                           }
+
+
+                           //
+                           // load the editor
+                           //
+                           if ( !mm.editor_loaded ) {
+                               let editorName = "editor_component"
+                               if (override_app_editor != null) {
+                                   editorName = override_app_editor
+                               }
+                               if (newEditor) {
+                                   editorName = newEditor
+                               }
+
+                               await loadV2( editorName, {text: code} )
+
+                               mm.editor_loaded    = true
+                               mm.editor_component = editorName
+
+                           }
+
+
+                           //
+                           // set readonly
+                           //
+                           this.read_only = saveHelper.getValueOfCodeString(code, "read_only")
+                           this.visibility = saveHelper.getValueOfCodeString(code, "visibility")
+
+
+                       }
+
+                       if ((isValidObject(runThisApp))   && (!runThisApp)) {
+                           //do nothing if we set "runthisapp" to false
+                       } else {
+                           this.resetDebugger()
+                           if (mm.is_server_app) {
+
+
+                           } else {
+                           }
+                       }
+
+
+                       setTimeout(async function() {
+
+                           //code = saveHelper.deleteCodeString(code, "display_name")
+                           //code = saveHelper.insertCodeString(code, "display_name", newDisplayName)
+
+                           //mm.app_component_name = baseComponentId
+                           mm.app_component_name = saveHelper.getValueOfCodeString(code,"display_name")
+                           if (mm.$refs.editor_component_ref) {
+                               if (mm.$refs.editor_component_ref.setText) {
+                                   mm.$refs.editor_component_ref.setText(code)
+                               }
+                           }
+                       },500)
+                   }
+
+               } catch (e) {
+                   hideProgressBar()
+               }
+               hideProgressBar()
+
+
+           }
+
+
+           ,
 
 
 
