@@ -4669,7 +4669,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
             userId = options.userId
         }
 
-        let existingCodeTags = await getQuickSqlOneRow("select * from code_tags where base_component_id = ? and fk_user_id = ?",[baseComponentId, userId])
+        let existingCodeTags = await getQuickSqlOneRow("select * from code_tags where base_component_id = ? and fk_user_id = ? and code_tag='EDIT'  ",[baseComponentId, userId])
         dbsearch.serialize(
             function() {
                 dbsearch.all(
@@ -4822,7 +4822,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                 ,
                                                 baseComponentId
                                                 ,
-                                                "TIP"
+                                                "EDIT"
                                                 ,
                                                 userId
                                             )
@@ -4832,7 +4832,7 @@ async function saveCodeV2( baseComponentId, parentHash, code , options) {
                                                 ,
                                                 baseComponentId
                                                 ,
-                                                "TIP"
+                                                "EDIT"
                                                 ,
                                                 sha1sum
                                                 ,
