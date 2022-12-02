@@ -2059,162 +2059,145 @@ End of app preview menu
 
 
 
-                       // ---------------------------------------------------------------
-                       //                           load_app
-                       //
-                       // This loads the latest version of the code stream marked with
-                       // 'baseComponentId'
-                       // ---------------------------------------------------------------
-                       load_appV2: async function ( baseComponentId, passin_code, passin_code_id , passin_editors2) {
-                         //debugger
-                         //zzz
-                            try {
-
-                                //
-                                // make sure that we reference an app
-                                //
-                                let mm = this
-                                if ((!baseComponentId) || (baseComponentId == "") || (!mm)) {
-                                    return
-                                }
+            // ---------------------------------------------------------------
+            //                           load_appV2
+            //
+            // This loads the latest version of the code stream marked with
+            // 'baseComponentId'
+            // ---------------------------------------------------------------
+            load_appV2: async function ( baseComponentId, passin_code, passin_code_id , passin_editors2) {
+                //zzz
+                try {
+                    //
+                    // make sure that we reference an app
+                    //
+                    let mm = this
+                    if ((!baseComponentId) || (baseComponentId == "") || (!mm)) {
+                        return
+                    }
 
 
-
-                               //
-                               // set up vars
-                               //
-                               mm.selected_app          = ""
-                               //mm.app_loaded            = false
-                               mm.base_component_id     = baseComponentId
-                               mm.app_component_name    = null
-
-                               //executionCode       = new Object()
-                               mm.app_loaded = true
-                               mm.baseComponentId = baseComponentId
-
-                               this.execution_timeline      = executionTimeline
-                               this.execution_code          = executionCode
-                               this.execution_block_list    = Object.keys(this.execution_code)
-
+                    //
+                    // set up vars
+                    //
+                    mm.selected_app             = ""
+                    //mm.app_loaded             = false
+                    mm.base_component_id        = baseComponentId
+                    mm.app_component_name       = null
+                    //executionCode             = new Object()
+                    mm.app_loaded               = true
+                    mm.baseComponentId          = baseComponentId
+                    mm.execution_timeline       = executionTimeline
+                    mm.execution_code           = executionCode
+                    mm.execution_block_list     = Object.keys(this.execution_code)
+                    code                        = passin_code
+                    codeId                      = passin_code_id
+                    let editors2                = passin_editors2
+                    let newEditor               = null
 
 
 
-
-                                        //
-                                        // find the editor
-                                        //
-                                        let editors2 = passin_editors2
-                                        let newEditor = null
-                                        if (isValidObject(editors2) && (override_app_editor == null)) {
-                                            let edd = eval("(" + editors2 + ")")
-                                            newEditor = edd[0]
-                                        }
+                    //
+                    // find the editor
+                    //
+                    if (isValidObject(editors2) && (override_app_editor == null)) {
+                        let edd = eval("(" + editors2 + ")")
+                        newEditor = edd[0]
+                    }
 
 
-                                        //
-                                        // find the code
-                                        //
-                                        let code = passin_code
-                                        let codeId = passin_code_id
+                    if (code.toString().includes("Vue.")) {
+                        this.is_ui_app = true
+                        this.is_server_app = false
+                    } else {
+                        this.is_ui_app = false
+                        this.is_server_app = false
+                    }
+                    this.app_component_name = saveHelper.getValueOfCodeString(code.toString(),"display_name")
 
-                                        if (code.toString().includes("Vue.")) {
-                                            this.is_ui_app = true
-                                            this.is_server_app = false
-                                        } else {
-                                            this.is_ui_app = false
-                                            this.is_server_app = false
-                                        }
-                                        this.app_component_name = saveHelper.getValueOfCodeString(code.toString(),"display_name")
-
-                                        if ((saveHelper.getValueOfCodeString(code.toString(),"only_run_on_server") == true)
-                                        ||
-                                            (saveHelper.getValueOfCodeString(code.toString(),"rest_api"))
-                                        )
-                                         {
-                                            mm.is_ui_app = false
-                                            mm.is_server_app = true
-                                            let restApi = saveHelper.getValueOfCodeString(code.toString(),"rest_api")
-                                            if (restApi) {
-                                                mm.is_rest_app = true
-                                                mm.rest_api_base_url = restApi
-                                            } else {
-                                                mm.is_rest_app = false
-                                            }
-                                        } else {
-                                            mm.is_server_app = false
-                                        }
+                    if ((saveHelper.getValueOfCodeString(code.toString(),"only_run_on_server") == true)
+                    ||
+                    (saveHelper.getValueOfCodeString(code.toString(),"rest_api"))
+                    )
+                    {
+                        mm.is_ui_app = false
+                        mm.is_server_app = true
+                        let restApi = saveHelper.getValueOfCodeString(code.toString(),"rest_api")
+                        if (restApi) {
+                        mm.is_rest_app = true
+                        mm.rest_api_base_url = restApi
+                    } else {
+                        mm.is_rest_app = false
+                    }
+                    } else {
+                        mm.is_server_app = false
+                    }
 
 
-                                        if (mm.editor_loaded && (mm.editor_text != code)) {
-                                            mm.editor_text = code
-                                            mm.code_id = codeId
-                                            console.log("3) mm.code_id= " + mm.code_id)
+                    if (mm.editor_loaded && (mm.editor_text != code)) {
+                        mm.editor_text = code
+                        mm.code_id = codeId
+                        console.log("3) mm.code_id= " + mm.code_id)
+                    }
 
 
-                                        }
+                    //
+                    // load the editor
+                    //
+                    if ( !mm.editor_loaded ) {
+                        let editorName = "editor_component"
+                        if (override_app_editor != null) {
+                            editorName = override_app_editor
+                        }
+                        if (newEditor) {
+                            editorName = newEditor
+                        }
+
+                        await loadV2( editorName, {text: code} )
+
+                        mm.editor_loaded    = true
+                        mm.editor_component = editorName
+                    }
 
 
-                                        //
-                                        // load the editor
-                                        //
-                                        if ( !mm.editor_loaded ) {
-                                            let editorName = "editor_component"
-                                            if (override_app_editor != null) {
-                                                editorName = override_app_editor
-                                            }
-                                            if (newEditor) {
-                                                 editorName = newEditor
-                                            }
-
-                                            await loadV2( editorName, {text: code} )
-
-                                            mm.editor_loaded    = true
-                                            mm.editor_component = editorName
-
-                                       }
+                    //
+                    // set readonly
+                    //
+                    this.read_only = saveHelper.getValueOfCodeString(code, "read_only")
+                    this.visibility = saveHelper.getValueOfCodeString(code, "visibility")
 
 
-                                       //
-                                       // set readonly
-                                       //
-                                       this.read_only = saveHelper.getValueOfCodeString(code, "read_only")
-                                       this.visibility = saveHelper.getValueOfCodeString(code, "visibility")
+                    this.resetDebugger()
+                    if (mm.is_server_app) {
+
+
+                    } else {
+                        await callApp( {code_id:    codeId }, {} )
+                    }
 
 
 
+                    setTimeout(async function() {
+                        //mm.app_component_name = baseComponentId
+                        mm.app_component_name = saveHelper.getValueOfCodeString(code,"display_name")
+                        if (mm.$refs.editor_component_ref) {
+                            if (mm.$refs.editor_component_ref.setText) {
+                                mm.$refs.editor_component_ref.setText(code)
+                            }
+                        }
+                    },500)
 
 
-                                        this.resetDebugger()
-                                        if (mm.is_server_app) {
+                    } catch (e) {
+                        hideProgressBar()
+                    }
+                    hideProgressBar()
 
 
-                                        } else {
-                                            await callApp( {code_id:    codeId }, {} )
-                                        }
+                }
 
 
-
-                                   setTimeout(async function() {
-                                       //mm.app_component_name = baseComponentId
-                                       mm.app_component_name = saveHelper.getValueOfCodeString(code,"display_name")
-                                       if (mm.$refs.editor_component_ref) {
-                                            if (mm.$refs.editor_component_ref.setText) {
-                                                mm.$refs.editor_component_ref.setText(code)
-                                            }
-                                       }
-                                   },500)
-
-
-                           } catch (e) {
-                               hideProgressBar()
-                           }
-                           hideProgressBar()
-
-
-                       }
-
-
-       },
+            },
 
 
 
