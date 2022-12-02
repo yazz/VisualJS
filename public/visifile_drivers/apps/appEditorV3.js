@@ -1870,7 +1870,6 @@ End of app preview menu
            // 'baseComponentId'
            // ---------------------------------------------------------------
            loadAppViaCommitId: async function ( commitId, runThisApp ) {
-               debugger
                let code
                let mm   = this
                let codeId
@@ -1993,9 +1992,11 @@ End of app preview menu
                            //
 
                            //zzz
+                           debugger
                            //await mm.load_appV2( mm.base_component_id , mm.editor_text, commitId, mm.editors2)
                            mm.editor_text = code
                            mm.code_id = commitId
+                           await loadV2( mm.editor_component, {text: code} )
                            await callApp( {code_id:    commitId }, {} )
                            mm.refresh++
                            //this.resetDebugger()
