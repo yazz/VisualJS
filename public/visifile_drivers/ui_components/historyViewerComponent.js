@@ -461,7 +461,7 @@ load_once_from_file(true)
                     //}
                     if (thisHistoryItem.descendants) {
                         for (let descendant of thisHistoryItem.descendants) {
-                            mm.highlightItem(descendant.id, {style: "border: solid black 5px;"})
+                            mm.highlightItem(descendant.id, {style: "border: solid black 2px;"})
                         }
                     }
 
