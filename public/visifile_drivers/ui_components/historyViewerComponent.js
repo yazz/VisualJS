@@ -176,7 +176,6 @@ load_once_from_file(true)
                                   <div><b>Commit ID:</b> {{commitsV3[previewedCommitId].id}}</div>
                                   <div><b>Time:</b> {{msToTime(commitsV3[previewedCommitId].timestamp,{timeOnly: true})}} </div>
                                   <div><b>User ID:</b> {{commitsV3[previewedCommitId].user_id}}</div>
-                                  <div><b>Number of Changes:</b> {{commitsV3[previewedCommitId].num_changes}}</div>
                                   <div><b>Parent:</b> {{commitsV3[previewedCommitId].parent_id}}</div>
                                   <div><b>Type:</b> {{commitsV3[previewedCommitId].base_component_id}}</div>
                                   <div><b>Descendants:</b>
@@ -196,7 +195,8 @@ load_once_from_file(true)
                                     </span>
     
                                   </div>
-    
+
+                                <div><b>Number of Changes:</b> {{commitsV3[previewedCommitId].num_changes}}</div>
                                   <div v-if="commitsV3[previewedCommitId].changes">
                                     <div style="margin-left: 80px;"
                                         v-for="(item,i) in commitsV3[previewedCommitId].changes.slice().reverse()">
