@@ -3241,6 +3241,84 @@ async function startServices() {
 
 
 
+        app.post('/editable_apps', async function (req, res) {
+            console.log("app.post('/editable_apps'): ")
+            console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+            let editableApps = []
+            let sessionId = await getSessionId(req)
+
+            let promise = new Promise(async function(returnfn) {
+
+                dbsearch.serialize(
+                    function() {
+                        dbsearch.all( `SELECT
+                                            system_code.id,
+                                            system_code.base_component_id,
+                                            system_code.read_write_status,
+                                            system_code.display_name
+                                       FROM
+                                            code_tags, system_code
+                                        WHERE
+                                            code_tags.fk_user_id = ?
+                                                AND
+                                            code_tags.fk_system_code_id = system_code.id
+                                                AND
+                                            code_tags.code_tag = "EDIT"`
+                            ,
+                            []
+                            ,
+                            async function(err, rows) {
+                                let returnRows = []
+                                if (!err) {
+                                    try {
+                                        if (rows.length > 0) {
+                                            for (let rowIndex =0; rowIndex < rows.length; rowIndex++) {
+                                                let thisRow = rows[rowIndex]
+                                                returnRows.push(
+                                                    {
+
+                                                        data: {
+                                                            id: thisRow.base_component_id
+                                                            ,
+                                                            logo: ""
+                                                            ,
+                                                            ipfs_hash: thisRow.id
+                                                            ,
+                                                            display_name: thisRow.display_name
+                                                        }
+                                                    })
+                                            }
+                                        }
+
+
+
+
+                                    } catch(err) {
+                                        console.log(err);
+                                        let stack = new Error().stack
+                                        console.log( stack )
+                                    } finally {
+                                        returnfn(returnRows)
+                                    }
+
+                                } else {
+                                    console.log(err);
+                                }
+                            }
+                        );
+                    }, sqlite3.OPEN_READONLY)
+            })
+            let ret = await promise
+
+            editableApps = ret
+
+            res.writeHead(200, {'Content-Type': 'application/json'});
+
+            res.end(JSON.stringify(
+                editableApps
+            ));
+
+        });
 
         app.post('/topapps', async function (req, res) {
             console.log("app.post('/topapps'): ")

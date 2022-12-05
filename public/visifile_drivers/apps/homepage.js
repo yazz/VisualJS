@@ -579,10 +579,12 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             //
             // search
             //
-            let sql2 =    `SELECT  id, base_component_id,  read_write_status, component_name 
-                         FROM
-                     released_components
-                     order by base_component_id asc; `
+            let sql2 =     `SELECT  
+                                id, base_component_id,  read_write_status, component_name 
+                            FROM
+                                released_components
+                            order by 
+                                base_component_id asc; `
             //and
             //component_type_v2 = 'APP'
 //        and
@@ -687,11 +689,11 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           }
           ,
           loadAppStoreApps: async function() {
-
               let mm = this
 
               let openfileurl = "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST + "/topapps"
-              fetch(openfileurl, {
+              fetch(openfileurl,
+              {
                   method: 'post',
                   credentials: "include"
                   })
@@ -707,15 +709,13 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                           }
                           mm.appstore_apps.push(responseJson[rt])
                           mm.app_logos[responseJson[rt].data.id] = responseJson[rt].data.logo
+                    }
 
-                      }
-
-                  })
-                  .catch(err => {
-                      //error block
-                  })
+                  }).catch(err => {
+                  //error block
+              })
           }
-            ,
+          ,
 
           openFile: async function() {
               //alert(1)
@@ -966,7 +966,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                   dev_app_component_loaded[baseComponentId] = false
                   component_cache[baseComponentId] = null
                   //await loadV2(baseComponentId)
-                  debugger
                   mm.editableAppList.push( app  )
                   mm.refresh++
               }
