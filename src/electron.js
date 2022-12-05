@@ -3242,10 +3242,11 @@ async function startServices() {
 
 
         app.post('/editable_apps', async function (req, res) {
+        //zzz
             console.log("app.post('/editable_apps'): ")
             console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
             let editableApps = []
-            let sessionId = await getSessionId(req)
+            let userId = await getUserId(req)
 
             let promise = new Promise(async function(returnfn) {
 
@@ -3265,7 +3266,7 @@ async function startServices() {
                                                 AND
                                             code_tags.code_tag = "EDIT"`
                             ,
-                            []
+                            [userId]
                             ,
                             async function(err, rows) {
                                 let returnRows = []
@@ -7715,7 +7716,6 @@ async function getFutureCommitsFor(args) {
 
 
 async function releaseCode(commitId) {
-    //zzz
     let codeRecord = await getQuickSqlOneRow("select  code  from   system_code  where   id = ? ", [  commitId  ])
     let codeString = codeRecord.code
     let parsedCode = await parseCode(codeString)

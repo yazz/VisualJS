@@ -577,31 +577,26 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
             //
-            // search
+            // get editable apps
             //
-            let sql2 =     `SELECT  
-                                id, base_component_id,  read_write_status, component_name 
-                            FROM
-                                released_components
-                            order by 
-                                base_component_id asc; `
-            //and
-            //component_type_v2 = 'APP'
-//        and
-//        visibility = 'PUBLIC'
-            let results2 = await callApp(
+            let openfileurl = "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST + "/editable_apps"
+            fetch(openfileurl,
                 {
-                    driver_name:    "systemFunctions2",
-                    method_name:    "sql"
-                }
-                ,
-                {
-                    sql: sql2
+                    method: 'post',
+                    credentials: "include"
                 })
+            .then((response) => response.json())
+            .then(async function(responseJson)
+            {
+            debugger
+                for (let rt=0;rt<responseJson.length; rt++) {
 
-            for (  let ee = 0 ; ee < results2.length ; ee++  ) {
-                await mm.addApp(results2[ee].base_component_id, results2[ee].component_name)
-            }
+                    await mm.addApp(responseJson[rt].base_component_id, responseJson[rt].component_name)
+                }
+
+            }).catch(err => {
+                //error block
+            })
             mm.refresh++
 
 
@@ -611,7 +606,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
             mm.$root.$on('message', async function(text) {
-            debugger
                 if (text.type == "insert_app_at") {
                     await mm.addLogoForApp(text.base_component_id)
                     await mm.addApp(text.base_component_id, text.display_name)
