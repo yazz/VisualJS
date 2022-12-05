@@ -1115,6 +1115,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
           editApp: async function(event,item) {
             let mm = this
+              globalEventBus.$emit('hide_settings', {});
+
               await loadV2("app_editor_3")
               if (event) {
                   event.stopPropagation()
