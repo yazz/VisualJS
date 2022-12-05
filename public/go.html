@@ -905,8 +905,22 @@ setTimeout(async function(){
 
 
 Vue.component('card_component', {
-props: ["item","visible","element_id", "full_screen", "card_selected", "is_static"],
-methods: {
+    props: ["item","visible","element_id", "full_screen", "card_selected", "is_static"]
+    ,
+    mounted: async function() {
+        let mm = this
+
+        globalEventBus.$on('hide_settings',
+            async function() {
+                mm.showSettings = false
+            });
+        globalEventBus.$on('show_settings',
+            async function() {
+                mm.showSettings = true
+            });
+    }
+    ,
+    methods: {
 click_card: async function(id) {
 autoScroll = false;
 await select_card(id)
@@ -1124,7 +1138,7 @@ tab: ""
 ,
 debug_sign_tx_out: ""
 ,
-showSettings: false
+showSettings: true
 }
 }
 ,
@@ -1364,8 +1378,10 @@ local_app:                    false
 }
 }
 ,
-mounted: function(){
+mounted: async function(){
 this.local_app = localAppshareApp
+
+
 }
 });
 

@@ -626,8 +626,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
             mm.$root.$on('message', async function(text) {
+            debugger
                 if (text.type == "insert_app_at") {
-                    //debugger
                     await mm.addLogoForApp(text.base_component_id)
                     await mm.addApp(text.base_component_id, text.display_name)
                     mm.edit_app = text.base_component_id
@@ -647,8 +647,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     mm.open_file_name = ""
                     mm.open_file_path = "/"
                     saveCodeToFile = null
+                    globalEventBus.$emit('show_settings', {});
 
                     mm.refresh++
+                } else {
                 }
 
             })
@@ -1009,6 +1011,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           },
           copyAndEditApp: async function(event,  baseComponentId ) {
               let mm = this
+              globalEventBus.$emit('hide_settings', {});
 
               this.open_file_name = ""
               this.open_file_path = "/"
@@ -1038,7 +1041,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
           downloadApp: async function(event,  ipfsHash ) {
-          debugger
               let mm = this
 
               this.open_file_name = ""
