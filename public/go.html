@@ -1123,6 +1123,8 @@ submit_info_message: ""
 tab: ""
 ,
 debug_sign_tx_out: ""
+,
+showSettings: false
 }
 }
 ,
@@ -1133,7 +1135,9 @@ template:
          v-on:click='click_card(item.id)'
          v-bind:class='card_selected?(is_static?"container":" container"):" container"' >
 
-    <div style='background-color:navy;height:5vh;width: 100vw;color:white;'>
+    <div
+    v-if="showSettings"
+    style='background-color:navy;height:5vh;width: 100vw;color:white;'>
 
 
 
