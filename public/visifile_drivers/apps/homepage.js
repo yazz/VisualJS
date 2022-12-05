@@ -342,6 +342,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                     <div style="padding: 10px;">
                                         {{item.data.displayName}} {{(item.data.visibility?" - "+item.data.visibility:"")}} 
                                     </div>
+                                      <div  v-if="item.data.code_id" 
+                                            style="padding: 10px;">
+                                        {{item.data.code_id.substring(0,5)}}...
+                                      </div>
 
                                     <img    v-if='(preview_app_id == item.data.id) && preview_app_loaded'
                                             v-bind:src='app_logos[item.data.id]'
@@ -588,10 +592,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             .then((response) => response.json())
             .then(async function(responseJson)
             {
-            debugger
                 for (let rt=0;rt<responseJson.length; rt++) {
 
-                    await mm.addEditableApp(responseJson[rt].base_component_id, responseJson[rt].display_name)
+                    await mm.addEditableApp(responseJson[rt].base_component_id, responseJson[rt].display_name, {codeId: responseJson[rt].ipfs_hash})
                     await mm.addLogoForApp(responseJson[rt].base_component_id)
                 }
 
@@ -953,6 +956,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     if (other.visibility) {
                         app.data.visibility = other.visibility
                     }
+                      if (other.codeId) {
+                          app.data.code_id = other.codeId
+                      }
                   }
 
                   mm.loaded_app[baseComponentId]            = true
