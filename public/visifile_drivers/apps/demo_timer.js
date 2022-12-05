@@ -81,6 +81,7 @@ created_timestamp(1669781806972)
 updated_timestamp(1669781806972)
 uses_javascript_librararies(["advanced_bundle"])
 is_app(true)
+read_only(true)
 description('VB Blank App')
 logo_url("/driver_icons/tallly.jpeg")
 
