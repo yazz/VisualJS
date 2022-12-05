@@ -610,10 +610,7 @@ debugger
                 })
 
             for (  let ee = 0 ; ee < results2.length ; ee++  ) {
-                //alert(JSON.stringify(results2[ee],null,2))
                 await mm.addApp(results2[ee].base_component_id, results2[ee].component_name)
-                mm.app_logos[results2[ee].base_component_id] = "/driver_icons/tallly.jpeg"// results2[ee].logo_url
-
             }
             mm.refresh++
 
