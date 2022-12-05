@@ -3277,16 +3277,13 @@ async function startServices() {
                                                 let thisRow = rows[rowIndex]
                                                 returnRows.push(
                                                     {
-
-                                                        data: {
-                                                            id: thisRow.base_component_id
-                                                            ,
-                                                            logo: ""
-                                                            ,
-                                                            ipfs_hash: thisRow.id
-                                                            ,
-                                                            display_name: thisRow.display_name
-                                                        }
+                                                        base_component_id: thisRow.base_component_id
+                                                        ,
+                                                        logo: ""
+                                                        ,
+                                                        ipfs_hash: thisRow.id
+                                                        ,
+                                                        display_name: thisRow.display_name
                                                     })
                                             }
                                         }

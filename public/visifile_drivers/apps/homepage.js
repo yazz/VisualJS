@@ -591,7 +591,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             debugger
                 for (let rt=0;rt<responseJson.length; rt++) {
 
-                    await mm.addApp(responseJson[rt].base_component_id, responseJson[rt].component_name)
+                    await mm.addApp(responseJson[rt].base_component_id, responseJson[rt].display_name)
                 }
 
             }).catch(err => {
