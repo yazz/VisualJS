@@ -20,7 +20,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
     <!-- ------------------------------------------------ 
     
-    Show the app editor if open
+    Show the list of editable apps
     
     ------------------------------------------------ -->
     <div    v-for="(item, index) in editableAppList"
@@ -546,24 +546,22 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
     data: function() {
         return {
-                    main_tab:       "apps",
-                    hideImportButtons: false,
-                    preview_app_id: null,
-                    preview_app_loaded: false,
-                    apps:           [],
-                    app_type:       "bubblesort",
-                    editableAppList:     [],
-                    appstore_apps:     [],
-                    loaded_app:     new Object(),
-                    refresh:        0,
-                    edit_app:       null,
-                    app_logos:    new Object(),
-                    showFilePicker: false,
-                    open_file_path: "/",
-                    open_file_path_dirs: ["/"],
-                    open_file_list: [],
-                    open_file_name: "",
-                    disableAppSelect: false
+                    main_tab:               "apps",
+                    hideImportButtons:      false,
+                    preview_app_id:         null,
+                    preview_app_loaded:     false,
+                    editableAppList:        [],
+                    appstore_apps:          [],
+                    loaded_app:             new Object(),
+                    refresh:                0,
+                    edit_app:               null,
+                    app_logos:              new Object(),
+                    showFilePicker:         false,
+                    open_file_path:         "/",
+                    open_file_path_dirs:    ["/"],
+                    open_file_list:         [],
+                    open_file_name:         "",
+                    disableAppSelect:       false
                 }},
 
     mounted: async function() {
