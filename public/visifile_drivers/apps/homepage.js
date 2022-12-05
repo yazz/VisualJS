@@ -591,7 +591,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             debugger
                 for (let rt=0;rt<responseJson.length; rt++) {
 
-                    await mm.addApp(responseJson[rt].base_component_id, responseJson[rt].display_name)
+                    await mm.addEditableApp(responseJson[rt].base_component_id, responseJson[rt].display_name)
                 }
 
             }).catch(err => {
@@ -608,7 +608,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             mm.$root.$on('message', async function(text) {
                 if (text.type == "insert_app_at") {
                     await mm.addLogoForApp(text.base_component_id)
-                    await mm.addApp(text.base_component_id, text.display_name)
+                    await mm.addEditableApp(text.base_component_id, text.display_name)
                     mm.edit_app = text.base_component_id
                     mm.preview_app_id = null
                     mm.preview_app_loaded = false
@@ -638,7 +638,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             globalEventBus.$on('new-appshare-app-uploaded',
                 async function(data) {
                     await mm.addLogoForApp(data)
-                    await mm.addApp(data)
+                    await mm.addEditableApp(data)
                     setTimeout(function() {
                         mm.editApp(null, data)
                     },250)
@@ -931,7 +931,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               return null
           },
 
-            addApp: async function(baseComponentId, displayName, other) {
+            addEditableApp: async function(baseComponentId, displayName, other) {
                 let mm = this
               if (baseComponentId) {
                 //zzz
@@ -971,7 +971,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                 ,{base_component_id:    baseComponentId}
                           ,
                           async function(result) {
-                              await mm.addApp(result.base_component_id)
+                              await mm.addEditableApp(result.base_component_id)
 
                           })
           },
@@ -997,7 +997,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
               await mm.addLogoForApp(result.base_component_id)
 
-              await mm.addApp(result.base_component_id, result.new_display_name)
+              await mm.addEditableApp(result.base_component_id, result.new_display_name)
               setTimeout(function() {
                     mm.editApp(event, result.base_component_id)
               },50)
@@ -1027,7 +1027,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
               await mm.addLogoForApp(result.base_component_id)
 
-              await mm.addApp(result.base_component_id, result.display_name)
+              await mm.addEditableApp(result.base_component_id, result.display_name)
               setTimeout(async function() {
                   //mm.openAppid(result.base_component_id)
                   mm.main_tab = "apps"
@@ -1065,7 +1065,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
               await mm.addLogoForApp(result.base_component_id)
 
-              await mm.addApp(result.base_component_id, result.display_name)
+              await mm.addEditableApp(result.base_component_id, result.display_name)
               setTimeout(async function() {
                   //mm.openAppid(result.base_component_id)
                   //debugger
