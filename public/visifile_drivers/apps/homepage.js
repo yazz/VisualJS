@@ -273,7 +273,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             <button
                    class="btn btn-danger btn-lg"
                    style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold; background-color:lightgray;color:black;'
-                   v-on:click="if (electron) {openFileElectron();} else {openFile();}"
+                   v-on:click="openFile();"
                    v-if="!hideImportButtons"
                    >
 
@@ -563,7 +563,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     open_file_path_dirs: ["/"],
                     open_file_list: [],
                     open_file_name: "",
-                    electron: false,
                     disableAppSelect: false
                 }},
 
@@ -571,10 +570,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         let mm = this
 
         await onPageInitialized( async function() {
-            //debugger
-            if ((typeof($RUNNING_IN_ELECTRON) !== 'undefined')  && $RUNNING_IN_ELECTRON) {
-                mm.electron = true
-            }
 
             if (typeof($HIDEIMPORTBUTTONS) !== 'undefined') {
                 if ($HIDEIMPORTBUTTONS == 'true') {
@@ -594,7 +589,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             //component_type_v2 = 'APP'
 //        and
 //        visibility = 'PUBLIC'
-debugger
             let results2 = await callApp(
                 {
                     driver_name:    "systemFunctions2",
@@ -750,18 +744,7 @@ debugger
 
             //
          },
-         openFileElectron() {
 
-                //let openfileurl = "/file_name_load?file_name_load=" + encodeURI(saveCodeToFile) + "&client_file_upload_id=" + encodeURI(file_upload_uuid)
-                let openfileurl = "/electron_file_open"
-
-                //console.log("openfileurl:= " + openfileurl)
-                callAjax( openfileurl,
-                    function(res) {
-                        console.log(res)
-                    })
-         }
-         ,
          selectOpenFileOrFolder: async function(fileorFolder) {
             //
             // if this is a folder
@@ -985,6 +968,7 @@ debugger
                   dev_app_component_loaded[baseComponentId] = false
                   component_cache[baseComponentId] = null
                   //await loadV2(baseComponentId)
+                  debugger
                   mm.editableAppList.push( app  )
                   mm.refresh++
               }
