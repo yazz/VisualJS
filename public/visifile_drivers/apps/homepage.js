@@ -590,17 +590,15 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             //
             // search
             //
-            let sql2 =    `SELECT  id, base_component_id, logo_url, read_write_status, display_name
+            let sql2 =    `SELECT  id, base_component_id,  read_write_status, component_name 
                          FROM
-                     system_code
-                         where
-                             code_tag = 'LATEST'
-                                 and
-                             component_type_v2 = 'APP'
+                     released_components
                      order by base_component_id asc; `
+            //and
+            //component_type_v2 = 'APP'
 //        and
 //        visibility = 'PUBLIC'
-
+debugger
             let results2 = await callApp(
                 {
                     driver_name:    "systemFunctions2",
@@ -613,8 +611,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
             for (  let ee = 0 ; ee < results2.length ; ee++  ) {
                 //alert(JSON.stringify(results2[ee],null,2))
-                await mm.addApp(results2[ee].base_component_id, results2[ee].display_name)
-                mm.app_logos[results2[ee].base_component_id] = results2[ee].logo_url
+                await mm.addApp(results2[ee].base_component_id, results2[ee].component_name)
+                mm.app_logos[results2[ee].base_component_id] = "/driver_icons/tallly.jpeg"// results2[ee].logo_url
 
             }
             mm.refresh++
