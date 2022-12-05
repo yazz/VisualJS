@@ -592,6 +592,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 for (let rt=0;rt<responseJson.length; rt++) {
 
                     await mm.addEditableApp(responseJson[rt].base_component_id, responseJson[rt].display_name)
+                    await mm.addLogoForApp(responseJson[rt].base_component_id)
                 }
 
             }).catch(err => {
@@ -931,12 +932,11 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               return null
           },
 
-            addEditableApp: async function(baseComponentId, displayName, other) {
-                let mm = this
+          addEditableApp: async function(baseComponentId, displayName, other) {
+              let mm = this
               if (baseComponentId) {
-                //zzz
                   for (let thisApp of mm.editableAppList) {
-                      if (thisApp.data.id ==  baseComponentId) {
+                      if (thisApp.data.id == baseComponentId) {
                           mm.refresh++
                           return
                       }
@@ -945,7 +945,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                 type: "app",
                                 data:
                                     {
-                                        id: baseComponentId,
+                                        id:          baseComponentId,
                                         displayName: displayName
                                     }
                               }
@@ -955,16 +955,22 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     }
                   }
 
-                  mm.loaded_app[baseComponentId] = true
-                  component_loaded[baseComponentId] = false
+                  mm.loaded_app[baseComponentId]            = true
+                  component_loaded[baseComponentId]         = false
                   dev_app_component_loaded[baseComponentId] = false
-                  component_cache[baseComponentId] = null
+                  component_cache[baseComponentId]          = null
+
                   //await loadV2(baseComponentId)
                   mm.editableAppList.push( app  )
                   mm.refresh++
               }
               return null
-          },
+          }
+          ,
+
+
+
+
           copyApp: async function(  baseComponentId ) {
               callDriverMethod( {driver_name: "copyApp",
                                  method_name: "copyAppshareApp"}
