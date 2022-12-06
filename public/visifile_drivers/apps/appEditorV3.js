@@ -2469,6 +2469,11 @@ End of app preview menu
                         //mm.save_state = "pending"
                         //mm.checkSavedFile()
                         await mm.loadAppViaCommitId(   message.commitId , true )
+                        mm.$root.$emit('message', {
+                            type:               "update_app",
+                            base_component_id:   mm.app_id,
+                            code_id:             message.commitId
+                        })
                     }
 
 
