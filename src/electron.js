@@ -104,7 +104,6 @@ let stmtInsertIconImageData;
 
 
 
-let copyMigration;
 
 let setProcessToRunning;
 let setProcessToIdle;
@@ -4556,14 +4555,7 @@ function showTimer(optionalMessage) {
 //-----------------------------------------------------------------------------------------//
 function setUpSql() {
     console.log("setUpSql    ")
-    copyMigration = dbsearch.prepare(
-    `                insert into  app_db_latest_ddl_revisions
-                       (base_component_id,latest_revision)
-                    select ?,  latest_revision from app_db_latest_ddl_revisions
-                     where base_component_id=?
 
-    `
-    );
 
 
     stmtInsertComment = dbsearch.prepare(" insert or replace into comments_and_ratings " +
@@ -4670,37 +4662,6 @@ function setUpSql() {
 
 
 
-
-//------------------------------------------------------------------------------
-//
-//
-//
-//
-//
-//------------------------------------------------------------------------------
-function copyFile(source, target, cb) {
-  let cbCalled = false;
-
-  let rd = fs.createReadStream(source);
-  rd.on("error", function(err) {
-    done(err);
-  });
-  let wr = fs.createWriteStream(target);
-  wr.on("error", function(err) {
-    done(err);
-  });
-  wr.on("close", function(ex) {
-    done();
-  });
-  rd.pipe(wr);
-
-  function done(err) {
-    if (!cbCalled) {
-      cb(err);
-      cbCalled = true;
-    }
-  }
-}
 
 
 

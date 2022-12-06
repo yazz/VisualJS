@@ -20,6 +20,7 @@ let stmtInsertSubComponent
 
 let stmtInsertAppDDLRevision;
 let stmtUpdateLatestAppDDLRevision;
+let copyMigration;
 
 
 
@@ -94,6 +95,14 @@ module.exports = {
             " where " +
             "     base_component_id =  ? ;");
 
+        copyMigration = thisDb.prepare(
+            `                insert into  app_db_latest_ddl_revisions
+                       (base_component_id,latest_revision)
+                    select ?,  latest_revision from app_db_latest_ddl_revisions
+                     where base_component_id=?
+
+    `
+        );
     }
     ,
 
@@ -954,7 +963,7 @@ module.exports = {
                                                     let sqliteAppDbPathNew = path.join( mm.userData, 'app_dbs/' + newBaseid + '.visi' )
                                                     ////showTimer("sqliteAppDbPathOld: " + sqliteAppDbPathOld)
                                                     ////showTimer("sqliteAppDbPathNew: " + sqliteAppDbPathNew)
-                                                    copyFile(sqliteAppDbPathOld,sqliteAppDbPathNew, async function(){
+                                                    mm.copyFile(sqliteAppDbPathOld,sqliteAppDbPathNew, async function(){
 
                                                     });
                                                     thisDb.serialize(function() {
@@ -1253,103 +1262,135 @@ module.exports = {
     //------------------------------------------------------------------------------
     add_rest_api: function (restRoutes, app,  msg)  {
 
-    //outputDebug("add_rest_api called")
+        //outputDebug("add_rest_api called")
 
-        let mm  = this
-    let newFunction = async function (req, res) {
+            let mm  = this
+        let newFunction = async function (req, res) {
 
-        let params  = req.query;
-        let url     = req.originalUrl;
-        let body    = req.body;
+            let params  = req.query;
+            let url     = req.originalUrl;
+            let body    = req.body;
 
-        let promise = new Promise(async function(returnFn) {
-            let seqNum = queuedResponseSeqNum;
-            queuedResponseSeqNum ++;
-            queuedResponses[ seqNum ] = function(value) {
-                returnFn(value)
+            let promise = new Promise(async function(returnFn) {
+                let seqNum = queuedResponseSeqNum;
+                queuedResponseSeqNum ++;
+                queuedResponses[ seqNum ] = function(value) {
+                    returnFn(value)
+                }
+
+
+                //outputDebug(" msg.base_component_id: " + msg.base_component_id);
+                //outputDebug(" seqNum: " + seqNum);
+                callDriverMethod({
+                    message_type:          "callDriverMethod",
+                    find_component:         {
+                        method_name: msg.base_component_id,
+                        driver_name: msg.base_component_id
+                    }
+                    ,
+                    args:                   {
+                        params: params,
+                        body:   body,
+                        url:    url
+                    }
+                    ,
+                    seq_num_parent:         null,
+                    seq_num_browser:        null,
+                    seq_num_local:          seqNum,
+                });
+
+
+            })
+            let ret = await promise
+
+            if (ret.value) {
+                res.writeHead(200, {'Content-Type': 'application/json'});
+                res.end(JSON.stringify(
+                    ret.value
+                ));
+                if (jaegercollector) {
+                    console.log("calling jaeger...")
+                    try {
+                        tracer = initJaegerTracer(jaegerConfig, jaegerOptions);
+                        let span=tracer.startSpan(url)
+                        span.setTag("call", "some-params")
+                        span.finish()
+                        tracer.close()
+                        console.log("...called jaeger")
+                    } catch(err){
+                        console.log("Error calling jaeger: " + err)
+                    }
+                }
+            } else if (ret.error) {
+                res.writeHead(200, {'Content-Type': 'application/json'});
+                res.end(JSON.stringify(
+                    {error: ret.error}
+                ));
+            } else {
+                res.writeHead(200, {'Content-Type': 'application/json'});
+                res.end(JSON.stringify(
+                    {error: "Unknown problem occurred"}
+                ));
             }
+        }
+
+        // end of function def for newFunction
 
 
-            //outputDebug(" msg.base_component_id: " + msg.base_component_id);
-            //outputDebug(" seqNum: " + seqNum);
-            callDriverMethod({
-                message_type:          "callDriverMethod",
-                find_component:         {
-                    method_name: msg.base_component_id,
-                    driver_name: msg.base_component_id
-                }
-                ,
-                args:                   {
-                    params: params,
-                    body:   body,
-                    url:    url
-                }
-                ,
-                seq_num_parent:         null,
-                seq_num_browser:        null,
-                seq_num_local:          seqNum,
-            });
+        if (!mm.isValidObject(restRoutes[msg.route])) {
+            if (msg.rest_method == "POST") {
+                app.post(  '/' + msg.route + '/*'  , async function(req, res){
+                    await ((restRoutes[msg.route])(req,res))
+                })
+                app.post(  '/' + msg.route  , async function(req, res){
+                    await ((restRoutes[msg.route])(req,res))
+                })
 
-
-        })
-        let ret = await promise
-
-        if (ret.value) {
-            res.writeHead(200, {'Content-Type': 'application/json'});
-            res.end(JSON.stringify(
-                ret.value
-            ));
-            if (jaegercollector) {
-                console.log("calling jaeger...")
-                try {
-                    tracer = initJaegerTracer(jaegerConfig, jaegerOptions);
-                    let span=tracer.startSpan(url)
-                    span.setTag("call", "some-params")
-                    span.finish()
-                    tracer.close()
-                    console.log("...called jaeger")
-                } catch(err){
-                    console.log("Error calling jaeger: " + err)
-                }
+            } else {
+                app.get(  '/' + msg.route + '/*'  , async function(req, res){
+                    await ((restRoutes[msg.route])(req,res))
+                })
+                app.get(  '/' + msg.route  , async function(req, res){
+                    await ((restRoutes[msg.route])(req,res))
+                })
             }
-        } else if (ret.error) {
-            res.writeHead(200, {'Content-Type': 'application/json'});
-            res.end(JSON.stringify(
-                {error: ret.error}
-            ));
-        } else {
-            res.writeHead(200, {'Content-Type': 'application/json'});
-            res.end(JSON.stringify(
-                {error: "Unknown problem occurred"}
-            ));
+        }
+        restRoutes[msg.route] = newFunction
+
+
+    }
+    ,
+
+    //------------------------------------------------------------------------------
+    //
+    //
+    //
+    //
+    //
+    //------------------------------------------------------------------------------
+    copyFile: function (source, target, cb) {
+        let cbCalled = false;
+
+        let rd = fs.createReadStream(source);
+        rd.on("error", function(err) {
+            done(err);
+        });
+        let wr = fs.createWriteStream(target);
+        wr.on("error", function(err) {
+            done(err);
+        });
+        wr.on("close", function(ex) {
+            done();
+        });
+        rd.pipe(wr);
+
+        function done(err) {
+            if (!cbCalled) {
+                cb(err);
+                cbCalled = true;
+            }
         }
     }
-
-    // end of function def for newFunction
-
-
-    if (!mm.isValidObject(restRoutes[msg.route])) {
-        if (msg.rest_method == "POST") {
-            app.post(  '/' + msg.route + '/*'  , async function(req, res){
-                await ((restRoutes[msg.route])(req,res))
-            })
-            app.post(  '/' + msg.route  , async function(req, res){
-                await ((restRoutes[msg.route])(req,res))
-            })
-
-        } else {
-            app.get(  '/' + msg.route + '/*'  , async function(req, res){
-                await ((restRoutes[msg.route])(req,res))
-            })
-            app.get(  '/' + msg.route  , async function(req, res){
-                await ((restRoutes[msg.route])(req,res))
-            })
-        }
-    }
-    restRoutes[msg.route] = newFunction
-
-
-}
 
 
 

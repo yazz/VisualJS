@@ -515,6 +515,8 @@ function findDriverWithMethod(methodName, callbackFn) {
 
 
 function saveCodeV2(baseComponentId, parentHash, code,options) {
+    console.log(" ***************** saveCodeV2")
+    console.log(" ***************** saveCodeV2")
     process.send({  message_type:       "save_code" ,
                     base_component_id:   baseComponentId,
                     parent_hash:         parentHash,
@@ -525,6 +527,8 @@ function saveCodeV2(baseComponentId, parentHash, code,options) {
 
 
 async function saveCodeV3(baseComponentId, parentHash, code,options) {
+    console.log(" ***************** saveCodeV3")
+    console.log(" ***************** saveCodeV3")
     let ret = await saveHelper.saveCodeV2( dbsearch, baseComponentId, parentHash, code,  options );
     return ret
 }
