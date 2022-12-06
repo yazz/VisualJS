@@ -88,6 +88,8 @@ function processMessagesFromMainProcess() {
     if  (msg.message_type == 'init') {
         //console.log('-- Init v3');
         userData            = msg.user_data_path
+        saveHelper.userData = userData
+
         childProcessName    = msg.child_process_name
         yazzInstanceId      = msg.yazz_instance_id
         jaegercollector     = msg.jaeger_collector
@@ -514,9 +516,9 @@ function findDriverWithMethod(methodName, callbackFn) {
 
 
 
-function saveCodeV2(baseComponentId, parentHash, code,options) {
-    console.log(" ***************** saveCodeV2")
-    console.log(" ***************** saveCodeV2")
+function saveCodeOld(baseComponentId, parentHash, code,options) {
+    console.log(" ***************** saveCodeOld")
+    console.log(" ***************** saveCodeOld")
     process.send({  message_type:       "save_code" ,
                     base_component_id:   baseComponentId,
                     parent_hash:         parentHash,
@@ -526,9 +528,7 @@ function saveCodeV2(baseComponentId, parentHash, code,options) {
 }
 
 
-async function saveCodeV3(baseComponentId, parentHash, code,options) {
-    console.log(" ***************** saveCodeV3")
-    console.log(" ***************** saveCodeV3")
+async function saveCodeV2(baseComponentId, parentHash, code,options) {
     let ret = await saveHelper.saveCodeV2( dbsearch, baseComponentId, parentHash, code,  options );
     return ret
 }

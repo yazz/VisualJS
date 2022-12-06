@@ -1009,7 +1009,7 @@ debugger
 
               await mm.addLogoForApp(result.base_component_id)
 
-              await mm.addEditableApp(result.base_component_id, result.new_display_name)
+              await mm.addEditableApp(result.base_component_id, result.new_display_name, {codeId: result.code_id})
               setTimeout(function() {
                     mm.editApp(event, result.base_component_id)
               },50)
