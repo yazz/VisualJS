@@ -731,124 +731,119 @@ width: 40%
 
 <script>
 function registerComponent(vueComponentObject) {
-if (vueComponentObject) {
-let args = vueComponentObject.args
-if (vueComponentObject.properties) {
-args = vueComponentObject.properties
-}
-let componentName = args.name
-//debugger
-console.log(args.name)
-}
+    if (vueComponentObject) {
+        let args = vueComponentObject.args
+        if (vueComponentObject.properties) {
+            args = vueComponentObject.properties
+        }
+        let componentName = args.name
+        //debugger
+        console.log(args.name)
+    }
 
-if (vueComponentObject) {
-let argsPrefix="args"
-let args = vueComponentObject.args
-if (vueComponentObject.properties) {
-args = vueComponentObject.properties
-argsPrefix = "properties"
-}
-if (args && args.name) {
-let cccname = args.name
-console.log(args.name );
-let thisComponent22 = vueComponentObject
-let listOfProperties = Object.keys(thisComponent22[  argsPrefix  ])
+    if (vueComponentObject) {
+        let argsPrefix="args"
+        let args = vueComponentObject.args
+        if (vueComponentObject.properties) {
+            args = vueComponentObject.properties
+            argsPrefix = "properties"
+        }
+        if (args && args.name) {
+            let cccname = args.name
+            console.log(args.name );
+            let thisComponent22 = vueComponentObject
+            let listOfProperties = Object.keys(thisComponent22[  argsPrefix  ])
 
-for (let oneProperty of component_cache[args.base_component_id].properties) {
-let propNamee = oneProperty.id
-let propType = oneProperty.type
-if (propNamee) {
-thisComponent22.$watch(argsPrefix + '.' + propNamee, function(newValue, oldValue) {
-//debugger
-if (propType != "Action") {
-console.log(cccname + '.' + propNamee + ' = ' + oldValue + ' to ' + newValue );
-}
-//console.log(cccname + '.' + propType );
-let designTimeOnlyEvents = false
-// get this from the component defn
-//debugger
+            for (let oneProperty of component_cache[args.base_component_id].properties) {
+                let propNamee = oneProperty.id
+                let propType = oneProperty.type
+                if (propNamee) {
+                    thisComponent22.$watch(argsPrefix + '.' + propNamee, function(newValue, oldValue) {
+                    //debugger
+                    if (propType != "Action") {
+                        console.log(cccname + '.' + propNamee + ' = ' + oldValue + ' to ' + newValue );
+                    }
+                    //console.log(cccname + '.' + propType );
+                    let designTimeOnlyEvents = false
+                    // get this from the component defn
+                    //debugger
 
-if (oneProperty.design_time_only_events) {
-designTimeOnlyEvents = true
-}
-
-
-
-if (thisComponent22 && thisComponent22.meta && thisComponent22.meta.getEditor()) {
-thisComponent22.meta.getEditor().processControlEvent(
-{
-type:                       "subcomponent_event",
-form_name:                   thisComponent22.meta.getEditor().active_form,
-control_name:                thisComponent22[  argsPrefix  ].name,
-sub_type:                   "on_property_changed",
-code:                        thisComponent22[  argsPrefix  ].on_property_changed,
-design_time_only_events:     designTimeOnlyEvents,
-
-args:               {
-form:           thisComponent22.meta.getEditor().active_form,
-component:      thisComponent22[  argsPrefix  ].name,
-property:       propNamee,
-value:          newValue,
-old_value:      oldValue,
-new_value:      newValue
-}
-})
-}
+                    if (oneProperty.design_time_only_events) {
+                        designTimeOnlyEvents = true
+                    }
 
 
 
+                    if (thisComponent22 && thisComponent22.meta && thisComponent22.meta.getEditor()) {
+                        thisComponent22.meta.getEditor().processControlEvent(
+                            {
+                                type:                       "subcomponent_event",
+                                form_name:                   thisComponent22.meta.getEditor().active_form,
+                                control_name:                thisComponent22[  argsPrefix  ].name,
+                                sub_type:                   "on_property_changed",
+                                code:                        thisComponent22[  argsPrefix  ].on_property_changed,
+                                design_time_only_events:     designTimeOnlyEvents,
 
-});
-}
-}
-}
+                                args:
+                                {
+                                    form:           thisComponent22.meta.getEditor().active_form,
+                                    component:      thisComponent22[  argsPrefix  ].name,
+                                    property:       propNamee,
+                                    value:          newValue,
+                                    old_value:      oldValue,
+                                    new_value:      newValue
+                                }
+                            })
+                        }
 
-}
+                    });
+                }
+            }
+        }
 
-if (isValidObject(vueComponentObject)) {
+    }
 
-
-var usePropVar = vueComponentObject.args
-if (!isValidObject(usePropVar)) {
-usePropVar = vueComponentObject.properties
-}
-if (!isValidObject(usePropVar)) {
-usePropVar = vueComponentObject.props
-}
+    if (isValidObject(vueComponentObject)) {
 
 
+        var usePropVar = vueComponentObject.args
+        if (!isValidObject(usePropVar)) {
+            usePropVar = vueComponentObject.properties
+        }
+        if (!isValidObject(usePropVar)) {
+            usePropVar = vueComponentObject.props
+        }
 
-if (isValidObject(usePropVar)) {
-if (isValidObject(usePropVar.name)) {
-if (vueComponentObject.design_mode) {
-globalControlDesignMode[usePropVar.name] =  vueComponentObject
-} else {
-globalControl[usePropVar.name] =  vueComponentObject
-}
-}
 
-if (isValidObject(usePropVar.load) && isValidObject(vueComponentObject.meta) ) {
 
-setTimeout(function(){
-vueComponentObject.$emit('send', {
-type:               "subcomponent_event",
-form_name:           vueComponentObject.meta.form,
-control_name:        vueComponentObject.meta.name,
-code:                usePropVar.load
-})
-},350)
+        if (isValidObject(usePropVar)) {
+            if (isValidObject(usePropVar.name)) {
+                if (vueComponentObject.design_mode) {
+                    globalControlDesignMode[usePropVar.name] =  vueComponentObject
+                } else {
+                    globalControl[usePropVar.name] =  vueComponentObject
+                }
+            }
 
-}
+            if (isValidObject(usePropVar.load) && isValidObject(vueComponentObject.meta) ) {
 
-}
+                setTimeout(function() {
+                    vueComponentObject.$emit('send', {
+                        type:               "subcomponent_event",
+                        form_name:           vueComponentObject.meta.form,
+                        control_name:        vueComponentObject.meta.name,
+                        code:                usePropVar.load
+                    })
+                },350)
 
-}
-
+            }
+        }
+    }
 }
 
 function unregisterComponent(componentName) {
-globalControlDesignMode[componentName] = null
-globalControl[componentName] = null
+    globalControlDesignMode[componentName]  = null
+    globalControl[componentName]            = null
 }
 
 
