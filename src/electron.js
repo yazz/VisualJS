@@ -3601,7 +3601,6 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             let fullFileName = path.join(fullIpfsFolderPath, ipfsHashOfAppToDownload)
 
             let ipfsContent = ""
-            //zzz
             let codeRecord = await getQuickSqlOneRow("select  code  from   system_code  where   id = ? ", [  ipfsHashOfAppToDownload  ])
             if (codeRecord) {
                 ipfsContent = codeRecord.code
@@ -3648,6 +3647,9 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             let userId = req.body.value.user_id;
 
             let ipfsHash = await saveItemToIpfs(code)
+            await releaseVersion(ipfsHash, code)
+
+
             //let parsedCode = await parseCode(code)
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end(JSON.stringify({
@@ -4869,6 +4871,10 @@ async function sendIpfsHashToCentralServer(ipfs_hash , ipfsContent) {
     return
 }
 
+async function releaseVersion(ipfs_hash, srcCode ) {
+//zzz
+    let baseComponentId = saveHelper.getValueOfCodeString(srcCode,"base_component_id")
+}
 
 
 async function insertIpfsHashRecord(ipfs_hash, content_type, ping_count, last_pinged ) {
