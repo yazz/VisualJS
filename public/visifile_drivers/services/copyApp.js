@@ -23,7 +23,7 @@ only_run_on_server(true)
 
                 }
                 console.log("****copyAppshareApp userId: " + userId)
-                await saveCodeV2( newBaseid, parentHashId, code ,
+                let saveret = await saveCodeV2( newBaseid, parentHashId, code ,
                             {
                                 sub_components:         listOfSubComponents,
                                 copy_db_from:           argsBaseComponentId,
@@ -32,10 +32,15 @@ only_run_on_server(true)
                                 //let optionsForSave = req.body.value.options
                                 userId: userId
                             })
+                let codeIdRet = null
+                if (saveret) {
+                    codeIdRet =  saveret.code_id
+                }
 
                 returnfn({
                             new_display_name:   newDisplayName,
-                            base_component_id:  newBaseid
+                            base_component_id:  newBaseid,
+                            code_id:            codeIdRet
                             })
 
 
