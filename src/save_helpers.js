@@ -289,10 +289,19 @@ module.exports = {
 
         let promise = new Promise(async function(returnFn) {
             let allowChanges = true
+            let restRoutes = {}
+            let aoo = null
             if (options) {
 
                 if (typeof options.allowChanges !== 'undefined') {
                     allowChanges = options.allowChanges
+                }
+
+                if (options.restRoutes) {
+                    restRoutes = options.restRoutes
+                }
+                if (options.app) {
+                    app = options.app
                 }
             }
             //resetTimer(`*function saveCodeV2( ${baseComponentId}, ${parentHash} ) {`)
@@ -671,12 +680,15 @@ module.exports = {
                                             let restApi = mm.getValueOfCodeString(code, "rest_api")
                                             if (restApi) {
                                                 let restMethod = mm.getValueOfCodeString(code, "rest_method")
-                                                /*mm.add_rest_api({
-                                                    message_type:       "add_rest_api",
-                                                    route:               restApi,
-                                                    base_component_id:   baseComponentId,
-                                                    rest_method:         restMethod
-                                                });*/
+                                                mm.add_rest_api(
+                                                    restRoutes,
+                                                    app,
+                                                    {
+                                                        message_type:       "add_rest_api",
+                                                        route:               restApi,
+                                                        base_component_id:   baseComponentId,
+                                                        rest_method:         restMethod
+                                                    });
                                             }
 
 
@@ -1239,11 +1251,11 @@ module.exports = {
     //
     //
     //------------------------------------------------------------------------------
-    add_rest_api: function (msg)  {
+    add_rest_api: function (restRoutes, app,  msg)  {
 
-    outputDebug("add_rest_api called")
+    //outputDebug("add_rest_api called")
 
-
+        let mm  = this
     let newFunction = async function (req, res) {
 
         let params  = req.query;
@@ -1258,8 +1270,8 @@ module.exports = {
             }
 
 
-            outputDebug(" msg.base_component_id: " + msg.base_component_id);
-            outputDebug(" seqNum: " + seqNum);
+            //outputDebug(" msg.base_component_id: " + msg.base_component_id);
+            //outputDebug(" seqNum: " + seqNum);
             callDriverMethod({
                 message_type:          "callDriverMethod",
                 find_component:         {
@@ -1316,7 +1328,7 @@ module.exports = {
     // end of function def for newFunction
 
 
-    if (!isValidObject(restRoutes[msg.route])) {
+    if (!mm.isValidObject(restRoutes[msg.route])) {
         if (msg.rest_method == "POST") {
             app.post(  '/' + msg.route + '/*'  , async function(req, res){
                 await ((restRoutes[msg.route])(req,res))
