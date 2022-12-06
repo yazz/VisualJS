@@ -3240,7 +3240,7 @@ async function startServices() {
 
 
         app.post('/editable_apps', async function (req, res) {
-        //zzz
+
             console.log("app.post('/editable_apps'): ")
             console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
             let editableApps = []
@@ -3601,11 +3601,18 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             let fullFileName = path.join(fullIpfsFolderPath, ipfsHashOfAppToDownload)
 
             let ipfsContent = ""
-            try {
-                ipfsContent = fs.readFileSync(fullFileName, 'utf8')
-            } catch (e) {
-                console.log(e)
+            //zzz
+            let codeRecord = await getQuickSqlOneRow("select  code  from   system_code  where   id = ? ", [  ipfsHashOfAppToDownload  ])
+            if (codeRecord) {
+                ipfsContent = codeRecord.code
+            } else {
+                try {
+                    ipfsContent = fs.readFileSync(fullFileName, 'utf8')
+                } catch (e) {
+                    console.log(e)
+                }
             }
+
             ret.data.code = ipfsContent
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end(JSON.stringify(ret))
