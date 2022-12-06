@@ -23,6 +23,7 @@ only_run_on_server(true)
 
                 }
                 console.log("****copyAppshareApp userId: " + userId)
+                debugger
                 let saveret = await saveCodeV2( newBaseid, parentHashId, code ,
                             {
                                 sub_components:         listOfSubComponents,

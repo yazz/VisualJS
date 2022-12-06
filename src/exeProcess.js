@@ -524,6 +524,11 @@ function saveCodeV2(baseComponentId, parentHash, code,options) {
 }
 
 
+async function saveCodeV3(baseComponentId, parentHash, code,options) {
+    let ret = await saveHelper.saveCodeV2( dbsearch, baseComponentId, parentHash, code,  options );
+    return ret
+}
+
 
 
 process.on('unhandledRejection', (reason) => {
