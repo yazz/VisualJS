@@ -1589,6 +1589,13 @@ End of app preview menu
                        //showTimer("done")
                        mm.inSave = false
                        mm.editor_shell_locked = false
+
+                       mm.$root.$emit('message', {
+                           type:               "update_app",
+                           base_component_id:   base_component_id,
+                           code_id:             mm.code_id
+                       })
+
                        return true
                    })
 

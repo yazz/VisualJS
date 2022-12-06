@@ -636,6 +636,22 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 } else {
                 }
 
+                if (text.type == "update_app") {
+                    let bci = text.base_component_id
+                    let cid = text.code_id
+                    //zzz
+                    debugger
+                    for (let thisApp of mm.editableAppList) {
+                        if (thisApp.data.id == bci) {
+                            thisApp.data.code_id = cid
+                            mm.refresh++
+                            return
+                        }
+                    }
+
+                }
+
+
             })
 
 
