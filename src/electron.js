@@ -4874,6 +4874,16 @@ async function sendIpfsHashToCentralServer(ipfs_hash , ipfsContent) {
 async function releaseVersion(ipfs_hash, srcCode ) {
 //zzz
     let baseComponentId = saveHelper.getValueOfCodeString(srcCode,"base_component_id")
+    let dateTime = new Date().toString()
+    await executeQuickSql(
+        `insert into 
+            code_tags 
+         (id , base_component_id , code_tag , fk_system_code_id)
+            values
+         (?,?,?,?) 
+         `
+         ,
+         [ uuidv1()  ,  baseComponentId  ,  dateTime,  ipfs_hash])
 }
 
 
