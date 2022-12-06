@@ -3599,7 +3599,13 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             let ret = await promise
 
             let fullFileName = path.join(fullIpfsFolderPath, ipfsHashOfAppToDownload)
-            let ipfsContent = fs.readFileSync(fullFileName, 'utf8')
+
+            let ipfsContent = ""
+            try {
+                ipfsContent = fs.readFileSync(fullFileName, 'utf8')
+            } catch (e) {
+                console.log(e)
+            }
             ret.data.code = ipfsContent
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end(JSON.stringify(ret))
