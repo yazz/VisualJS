@@ -805,12 +805,14 @@ function setUpChildListeners(processName, fileName, debugPort) {
         //------------------------------------------------------------------------------
         if (msg.message_type == "save_code") {
 
-             let saveResult =await saveHelper.saveCodeV2(
+             let saveResult = await saveHelper.saveCodeV2(
                                                 dbsearch,
                                                 msg.base_component_id,
                                                 msg.parent_hash  ,
                                                 msg.code,
                                                 msg.options)
+            //zzz
+
              //async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
 
@@ -2955,7 +2957,7 @@ async function startServices() {
             let commitId = req.query.commit_id;
 
 
-            let codeRecord = await getQuickSqlOneRow("select  code  from   system_code  where   id = ? ", [  commitId  ])
+            let codeRecord = await saveHelper.getQuickSqlOneRow(dbsearch,  "select  code  from   system_code  where   id = ? ", [  commitId  ])
             let codeString = codeRecord.code
 
             console.log("app.get('/'): ")
@@ -3601,7 +3603,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             let fullFileName = path.join(fullIpfsFolderPath, ipfsHashOfAppToDownload)
 
             let ipfsContent = ""
-            let codeRecord = await getQuickSqlOneRow("select  code  from   system_code  where   id = ? ", [  ipfsHashOfAppToDownload  ])
+            let codeRecord = await saveHelper.getQuickSqlOneRow(dbsearch,  "select  code  from   system_code  where   id = ? ", [  ipfsHashOfAppToDownload  ])
             if (codeRecord) {
                 ipfsContent = codeRecord.code
             } else {
@@ -3645,7 +3647,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             let version = req.body.value.version;
             let userId = req.body.value.user_id;
 
-            //zzz
+
             let code = await getCodeForCommit(ipfsHash)
             await tagVersion(ipfsHash, code)
 
@@ -3669,7 +3671,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             let version = req.body.value.version;
             let userId = req.body.value.user_id;
 
-            //zzz
+
             let code = await getCodeForCommit(ipfsHash)
             await tagVersion(ipfsHash, code)
             await releaseCode(ipfsHash, code)
@@ -6481,47 +6483,18 @@ async function createCookieInDb(cookie, hostCookieSentTo, from_device_type) {
 
 
 
-async function getQuickSqlOneRow(sql ,params) {
-    let rows = await getQuickSql(sql,params)
-    if (rows.length == 0) {
-        return null
-    }
-    return rows[0]
-}
 
-async function getQuickSql(sql, params) {
-    let promise = new Promise(async function(returnfn) {
-        dbsearch.serialize(
-            function() {
-                dbsearch.all(
-                    sql
-                    ,
-                    params
-                    ,
-                    async function(err, rows) {
-                        if (!err) {
-                            returnfn( rows )
-                        } else {
-                                throw( {error: err} )
-                        }
-                    }
-                );
-            }, sqlite3.OPEN_READONLY)
-    })
-    let ret = await promise
-    return ret
-}
 
 
 async function getRowForCommit(commitId) {
     let commitStructure = null
     let excludeCommitId = null
-    let thisCommit = await getQuickSqlOneRow("select  *  from   system_code  where   id = ? ", [  commitId  ])
+    let thisCommit = await saveHelper.getQuickSqlOneRow(dbsearch,  "select  *  from   system_code  where   id = ? ", [  commitId  ])
     let getFutureCommitsSql = "select  id  from   system_code  where  parent_id = ? "
-    let parentCommits = await getQuickSql(getFutureCommitsSql, [  commitId  ])
+    let parentCommits = await saveHelper.getQuickSql(dbsearch,  getFutureCommitsSql, [  commitId  ])
 
     let getCodeTagsSql= "  select  code_tag  from  code_tags  where fk_system_code_id = ?  "
-    let codeTags = await getQuickSql(getCodeTagsSql, [  commitId  ])
+    let codeTags = await saveHelper.getQuickSql(dbsearch,  getCodeTagsSql, [  commitId  ])
 
     if (thisCommit) {
         let changesList = []
@@ -6552,7 +6525,7 @@ async function getRowForCommit(commitId) {
 
 
 async function getCodeForCommit(commitId) {
-    let thisCommit = await getQuickSqlOneRow("select  *  from   system_code  where   id = ? ", [  commitId  ])
+    let thisCommit = await saveHelper.getQuickSqlOneRow(dbsearch,  "select  *  from   system_code  where   id = ? ", [  commitId  ])
     if (thisCommit) {
         return thisCommit.code
     }
@@ -6613,7 +6586,7 @@ async function getFutureCommitsFor(args) {
         returnRows = args.returnRows
     }
 
-    let childCommits = await getQuickSql("select  *  from   system_code  where   parent_id = ? ", [  commitId  ])
+    let childCommits = await saveHelper.getQuickSql(dbsearch,"select  *  from   system_code  where   parent_id = ? ", [  commitId  ])
 
     if (childCommits.length == 0 ) {
         return returnRows
@@ -6644,7 +6617,7 @@ async function getFutureCommitsFor(args) {
 
 
 async function releaseCode(commitId) {
-    let codeRecord = await getQuickSqlOneRow("select  code  from   system_code  where   id = ? ", [  commitId  ])
+    let codeRecord = await saveHelper.getQuickSqlOneRow(dbsearch,  "select  code  from   system_code  where   id = ? ", [  commitId  ])
     let codeString = codeRecord.code
     let parsedCode = await parseCode(codeString)
     let icon_image_id = "image id"
@@ -6678,7 +6651,7 @@ async function releaseCode(commitId) {
         icon_image_id = rowhash.read();
     }
 
-    let componentListRecord = await getQuickSqlOneRow("select * from released_components where base_component_id = ?",[base_component_id])
+    let componentListRecord = await saveHelper.getQuickSqlOneRow(dbsearch,  "select * from released_components where base_component_id = ?",[base_component_id])
     if (!componentListRecord) {
         dbsearch.serialize(function() {
             dbsearch.run("begin exclusive transaction");
