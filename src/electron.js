@@ -3500,6 +3500,15 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
         app.use(bodyParser.urlencoded({ extended: true , limit: '50mb'})); // support encoded bodies
         //app.use(useragent.express())
 
+
+
+
+
+
+
+
+
+
         app.post("/save_code" , async function (req, res) {
 
             let userid = await getUserId(req)
@@ -3512,13 +3521,14 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
           //console.log("          code :" + JSON.stringify(req.body.value.code ,null,2))
           //console.log("          options :" + JSON.stringify(req.body.value.options ,null,2))
             //console.log("    " + JSON.stringify(req,null,2) )
-            let parentHash = yz.getValueOfCodeString(req.body.value.code,"parent_hash")
           let saveResult =await yz.saveCodeV2(
                                               dbsearch,
                                               req.body.value.base_component_id,
                                              req.body.value.code_id  ,
                                              req.body.value.code,
                                              req.body.value.options)
+            let savedCode = await yz.getCodeForCommit(dbsearch, saveResult.code_id)
+            let parentHash = await yz.getValueOfCodeString(savedCode,"parent_hash")
 
             let parentCodeTag = await yz.getQuickSqlOneRow(
                  dbsearch,
@@ -3541,7 +3551,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
                      (?,?,?,?,?)
                      `,
 
-                    [  uuidv1(),   req.body.value.base_component_id,  "TIP", req.body.value.code_id,  "" ])
+                    [  uuidv1(),   req.body.value.base_component_id,  "TIP", saveResult.code_id,  "" ])
 
 
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
