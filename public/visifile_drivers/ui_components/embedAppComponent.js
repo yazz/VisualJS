@@ -81,10 +81,10 @@ load_once_from_file(true)
          let mm = this
          let thisVueInstance  = this
          args.text            = null
-         this.baseComponentId = saveHelper.getValueOfCodeString(thisVueInstance.text, "base_component_id")
+         this.baseComponentId = yz.getValueOfCodeString(thisVueInstance.text, "base_component_id")
 
          if (isValidObject(thisVueInstance.text)) {
-             this.read_only = saveHelper.getValueOfCodeString(thisVueInstance.text, "read_only")
+             this.read_only = yz.getValueOfCodeString(thisVueInstance.text, "read_only")
          }
 
 

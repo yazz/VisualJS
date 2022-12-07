@@ -266,7 +266,7 @@ load_once_from_file(true)
          args.text           = null
 
          if (isValidObject(thisVueInstance.text)) {
-             this.read_only = saveHelper.getValueOfCodeString(thisVueInstance.text, "read_only")
+             this.read_only = yz.getValueOfCodeString(thisVueInstance.text, "read_only")
          }
 
          if (this.read_only) {
@@ -319,7 +319,7 @@ load_once_from_file(true)
             //
 
 
-            this.read_only = saveHelper.getValueOfCodeString(thisVueInstance.text, "read_only")
+            this.read_only = yz.getValueOfCodeString(thisVueInstance.text, "read_only")
             if (this.read_only) {
             }
 

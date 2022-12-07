@@ -48,7 +48,7 @@ load_once_from_file(true)
             if (texti) {
                 var json2 = this.getJsonModelFromCode(  texti  )
                 mm.model = json2
-                mm.edited_app_component_id = saveHelper.getValueOfCodeString(texti, "base_component_id")
+                mm.edited_app_component_id = yz.getValueOfCodeString(texti, "base_component_id")
 
                 this.generateCodeFromModel(  json2  )
              //alert(this.text)
@@ -97,7 +97,7 @@ load_once_from_file(true)
         }
         ,
         getJsonModelFromCode: function(  codeV  ) {
-            var json2 = saveHelper.getValueOfCodeString(codeV,"formEditor",")//formEditor")
+            var json2 = yz.getValueOfCodeString(codeV,"formEditor",")//formEditor")
             return json2
         }
 
@@ -150,9 +150,9 @@ load_once_from_file(true)
               this.text.substring(endIndex)
               //console.log(this.text)
 
-              this.text = saveHelper.deleteCodeString(  this.text, "formEditor", ")//form" + "Editor")
+              this.text = yz.deleteCodeString(  this.text, "formEditor", ")//form" + "Editor")
 
-              this.text = saveHelper.insertCodeString(  this.text,
+              this.text = yz.insertCodeString(  this.text,
                                                         "formEditor",
                                                         mm.model,
                                                         ")//form" + "Editor")

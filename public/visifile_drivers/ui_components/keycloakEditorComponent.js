@@ -77,7 +77,7 @@ load_once_from_file(true)
          document.getElementById(thisVueInstance.editorDomId).style.height="65vh"
          if (isValidObject(thisVueInstance.text)) {
              thisVueInstance.editor.getSession().setValue(thisVueInstance.sqlText);
-             this.read_only = saveHelper.getValueOfCodeString(thisVueInstance.text, "read_only")
+             this.read_only = yz.getValueOfCodeString(thisVueInstance.text, "read_only")
          }
 
          thisVueInstance.editor.getSession().setUseWorker(false);
@@ -146,8 +146,8 @@ load_once_from_file(true)
                 return null
             }
 
-            this.text = saveHelper.deleteCodeString(this.text, "keycloak", ")//keycloak")
-            this.text = saveHelper.insertCodeString(this.text, "keycloak", JSON.parse(this.sqlText) ,")//keycloak")
+            this.text = yz.deleteCodeString(this.text, "keycloak", ")//keycloak")
+            this.text = yz.insertCodeString(this.text, "keycloak", JSON.parse(this.sqlText) ,")//keycloak")
 
             return this.text
         }
@@ -176,7 +176,7 @@ load_once_from_file(true)
             //
 
 
-            this.read_only = saveHelper.getValueOfCodeString(thisVueInstance.text, "read_only")
+            this.read_only = yz.getValueOfCodeString(thisVueInstance.text, "read_only")
             if (this.read_only) {
                this.editor.setReadOnly(true)
             }
@@ -189,7 +189,7 @@ load_once_from_file(true)
             // If a database definition has been given then read it
             //
 
-            let llsqlText = saveHelper.getValueOfCodeString(textValue, "keycloak", ")//keycloak")
+            let llsqlText = yz.getValueOfCodeString(textValue, "keycloak", ")//keycloak")
             if (isValidObject(llsqlText)) {
                 this.editor.getSession().setValue(  JSON.stringify(  llsqlText , null , 2  ));
             } else {

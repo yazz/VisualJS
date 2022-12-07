@@ -666,7 +666,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               if (results2.length > 0) {
                 var code  = results2[0].code
                 //alert(code)
-                var rest_api_base_url = saveHelper.getValueOfCodeString(code, "rest_api")
+                var rest_api_base_url = yz.getValueOfCodeString(code, "rest_api")
                 if (rest_api_base_url) {
                     window.open(location.protocol + "//" + location.hostname + ":" + location.port + "/" + rest_api_base_url, appId)
                 } else {

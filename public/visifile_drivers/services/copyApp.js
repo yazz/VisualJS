@@ -81,27 +81,27 @@ only_run_on_server(true)
                             var oldDisplayName = results[0].display_name
                             var parentHashId = results[0].id
                             var newDisplayName = "Copy of " + oldDisplayName
-                            code = saveHelper.deleteCodeString(code, "load_once_from_file")
-                            code = saveHelper.deleteCodeString(code, "read_only")
-                            code = saveHelper.deleteCodeString(code, "visibility")
+                            code = yz.deleteCodeString(code, "load_once_from_file")
+                            code = yz.deleteCodeString(code, "read_only")
+                            code = yz.deleteCodeString(code, "visibility")
 
-                            var componentTypeV2 = saveHelper.getValueOfCodeString(code, "component_type_v2")
+                            var componentTypeV2 = yz.getValueOfCodeString(code, "component_type_v2")
                             if (componentTypeV2) {
-                                code = saveHelper.deleteCodeString(code, "component_type_v2")
+                                code = yz.deleteCodeString(code, "component_type_v2")
                             }
-                            code = saveHelper.insertCodeString(code, "component_type_v2", "APP")
+                            code = yz.insertCodeString(code, "component_type_v2", "APP")
 
 
-                            var formEditor = saveHelper.getValueOfCodeString(code, "formEditor",")//formEditor")
+                            var formEditor = yz.getValueOfCodeString(code, "formEditor",")//formEditor")
                             if (formEditor) {
                                 formEditor.id = newBaseid
-                                code = saveHelper.deleteCodeString(code, "formEditor",")//formEditor")
-                                code = saveHelper.insertCodeString(code, "formEditor", formEditor,")//formEditor")
+                                code = yz.deleteCodeString(code, "formEditor",")//formEditor")
+                                code = yz.insertCodeString(code, "formEditor", formEditor,")//formEditor")
 
-                                code = saveHelper.deleteCodeString(code, "display_name")
-                                code = saveHelper.insertCodeString(code, "display_name", newDisplayName)
+                                code = yz.deleteCodeString(code, "display_name")
+                                code = yz.insertCodeString(code, "display_name", newDisplayName)
                             }
-                            code = saveHelper.insertCodeString(code, "visibility", "PRIVATE")
+                            code = yz.insertCodeString(code, "visibility", "PRIVATE")
 
 
                             //hack city - Vue and component strings are separated as otherwise they mark the

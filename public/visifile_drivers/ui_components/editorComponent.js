@@ -75,7 +75,7 @@ load_once_from_file(true)
          document.getElementById(editorDomId).style.height="65vh"
          if (thisVueInstance.text) {
              editor.getSession().setValue(thisVueInstance.text);
-             this.read_only = saveHelper.getValueOfCodeString(thisVueInstance.text, "read_only")
+             this.read_only = yz.getValueOfCodeString(thisVueInstance.text, "read_only")
          }
 
          editor.getSession().setUseWorker(false);
@@ -91,8 +91,8 @@ load_once_from_file(true)
                     return
                 }
 
-                var filteredOldText = saveHelper.deleteCodeString(thisVueInstance.text, "parent_hash")
-                var filteredNewText = saveHelper.deleteCodeString(thisVueInstance.previousText, "parent_hash")
+                var filteredOldText = yz.deleteCodeString(thisVueInstance.text, "parent_hash")
+                var filteredNewText = yz.deleteCodeString(thisVueInstance.previousText, "parent_hash")
                 if (filteredOldText != filteredNewText){
                     thisVueInstance.previousText = thisVueInstance.text
                     thisVueInstance.errors = null
@@ -145,7 +145,7 @@ load_once_from_file(true)
         setText: function(textValue) {
             var thisVueInstance = this
             this.text =  textValue
-            this.read_only = saveHelper.getValueOfCodeString(thisVueInstance.text, "read_only")
+            this.read_only = yz.getValueOfCodeString(thisVueInstance.text, "read_only")
             if (this.read_only) {
                editor.setReadOnly(true)
             }

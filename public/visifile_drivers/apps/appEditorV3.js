@@ -1404,10 +1404,10 @@ End of app preview menu
                 this.console_output = ""
                 setTimeout(async function() {
                     //debugger
-                    mm.editor_text = saveHelper.deleteCodeString(mm.editor_text, "display_name")
-                    mm.editor_text = saveHelper.insertCodeString(mm.editor_text, "display_name", nn)
+                    mm.editor_text = yz.deleteCodeString(mm.editor_text, "display_name")
+                    mm.editor_text = yz.insertCodeString(mm.editor_text, "display_name", nn)
 
-                    mm.app_component_name = saveHelper.getValueOfCodeString(mm.editor_text,"display_name")
+                    mm.app_component_name = yz.getValueOfCodeString(mm.editor_text,"display_name")
                     if (mm.$refs.editor_component_ref) {
                         if (mm.$refs.editor_component_ref.setText) {
                             mm.$refs.editor_component_ref.setText(mm.editor_text)
@@ -1430,10 +1430,10 @@ End of app preview menu
 
                 this.editor_text = await this.$refs.editor_component_ref.getText()
 
-                let eds = saveHelper.getValueOfCodeString(this.editor_text, "editors")
+                let eds = yz.getValueOfCodeString(this.editor_text, "editors")
                 if (eds) {
-                    this.editor_text = saveHelper.deleteCodeString(this.editor_text, "editors")
-                    this.editor_text = saveHelper.insertCodeString(this.editor_text, "editors_old",eds)
+                    this.editor_text = yz.deleteCodeString(this.editor_text, "editors")
+                    this.editor_text = yz.insertCodeString(this.editor_text, "editors_old",eds)
                 }
 
                 await mm.save(   this.base_component_id,   this.code_id,   this.editor_text   )
@@ -1450,10 +1450,10 @@ End of app preview menu
                     this.editor_text = await this.$refs.editor_component_ref.getText()
                 }
 
-                let eds = saveHelper.getValueOfCodeString(this.editor_text, "visibility")
+                let eds = yz.getValueOfCodeString(this.editor_text, "visibility")
                 if (eds) {
-                    this.editor_text = saveHelper.deleteCodeString(this.editor_text, "visibility")
-                    this.editor_text = saveHelper.insertCodeString(this.editor_text, "visibility",value)
+                    this.editor_text = yz.deleteCodeString(this.editor_text, "visibility")
+                    this.editor_text = yz.insertCodeString(this.editor_text, "visibility",value)
                 }
 
                 await mm.save(   this.base_component_id,   this.code_id,   this.editor_text   )
@@ -1584,13 +1584,13 @@ End of app preview menu
                        let responseJson = JSON.parse(response)
                        mm.code_id = responseJson.code_id
                        console.log("1) mm.code_id= " + mm.code_id)
-                       if ((saveHelper.getValueOfCodeString(mm.editor_text,"only_run_on_server") == true)
+                       if ((yz.getValueOfCodeString(mm.editor_text,"only_run_on_server") == true)
                             ||
-                          (saveHelper.getValueOfCodeString(mm.editor_text,"rest_api")))
+                          (yz.getValueOfCodeString(mm.editor_text,"rest_api")))
                        {
                            mm.is_ui_app = false
                            mm.is_server_app = true
-                           let restApi = saveHelper.getValueOfCodeString(mm.editor_text,"rest_api")
+                           let restApi = yz.getValueOfCodeString(mm.editor_text,"rest_api")
                            if (restApi) {
                                mm.is_rest_app = true
                                mm.rest_api_base_url = restApi
@@ -1849,16 +1849,16 @@ End of app preview menu
                                 this.is_server_app = false
                             }
 
-                           this.app_component_name = saveHelper.getValueOfCodeString(code.toString(),"display_name")
+                           this.app_component_name = yz.getValueOfCodeString(code.toString(),"display_name")
 
-                           if ((saveHelper.getValueOfCodeString(code.toString(),"only_run_on_server") == true)
+                           if ((yz.getValueOfCodeString(code.toString(),"only_run_on_server") == true)
                             ||
-                                (saveHelper.getValueOfCodeString(code.toString(),"rest_api"))
+                                (yz.getValueOfCodeString(code.toString(),"rest_api"))
                             )
                              {
                                 mm.is_ui_app = false
                                 mm.is_server_app = true
-                                let restApi = saveHelper.getValueOfCodeString(code.toString(),"rest_api")
+                                let restApi = yz.getValueOfCodeString(code.toString(),"rest_api")
                                 if (restApi) {
                                     mm.is_rest_app = true
                                     mm.rest_api_base_url = restApi
@@ -1901,8 +1901,8 @@ End of app preview menu
                            //
                            // set readonly
                            //
-                           this.read_only = saveHelper.getValueOfCodeString(code, "read_only")
-                           this.visibility = saveHelper.getValueOfCodeString(code, "visibility")
+                           this.read_only = yz.getValueOfCodeString(code, "read_only")
+                           this.visibility = yz.getValueOfCodeString(code, "visibility")
 
 
                        }
@@ -1921,11 +1921,11 @@ End of app preview menu
 
                        setTimeout(async function() {
 
-                           //code = saveHelper.deleteCodeString(code, "display_name")
-                           //code = saveHelper.insertCodeString(code, "display_name", newDisplayName)
+                           //code = yz.deleteCodeString(code, "display_name")
+                           //code = yz.insertCodeString(code, "display_name", newDisplayName)
 
                            //mm.app_component_name = baseComponentId
-                           mm.app_component_name = saveHelper.getValueOfCodeString(code,"display_name")
+                           mm.app_component_name = yz.getValueOfCodeString(code,"display_name")
                            if (mm.$refs.editor_component_ref) {
                                 if (mm.$refs.editor_component_ref.setText) {
                                     mm.$refs.editor_component_ref.setText(code)
@@ -2038,16 +2038,16 @@ End of app preview menu
                                this.is_server_app = false
                            }
 
-                           this.app_component_name = saveHelper.getValueOfCodeString(code.toString(),"display_name")
+                           this.app_component_name = yz.getValueOfCodeString(code.toString(),"display_name")
 
-                           if ((saveHelper.getValueOfCodeString(code.toString(),"only_run_on_server") == true)
+                           if ((yz.getValueOfCodeString(code.toString(),"only_run_on_server") == true)
                                ||
-                               (saveHelper.getValueOfCodeString(code.toString(),"rest_api"))
+                               (yz.getValueOfCodeString(code.toString(),"rest_api"))
                            )
                            {
                                mm.is_ui_app = false
                                mm.is_server_app = true
-                               let restApi = saveHelper.getValueOfCodeString(code.toString(),"rest_api")
+                               let restApi = yz.getValueOfCodeString(code.toString(),"rest_api")
                                if (restApi) {
                                    mm.is_rest_app = true
                                    mm.rest_api_base_url = restApi
@@ -2090,8 +2090,8 @@ End of app preview menu
                            //
                            // set readonly
                            //
-                           this.read_only = saveHelper.getValueOfCodeString(code, "read_only")
-                           this.visibility = saveHelper.getValueOfCodeString(code, "visibility")
+                           this.read_only = yz.getValueOfCodeString(code, "read_only")
+                           this.visibility = yz.getValueOfCodeString(code, "visibility")
 
 
                        }
@@ -2110,11 +2110,11 @@ End of app preview menu
 
                        setTimeout(async function() {
 
-                           //code = saveHelper.deleteCodeString(code, "display_name")
-                           //code = saveHelper.insertCodeString(code, "display_name", newDisplayName)
+                           //code = yz.deleteCodeString(code, "display_name")
+                           //code = yz.insertCodeString(code, "display_name", newDisplayName)
 
                            //mm.app_component_name = baseComponentId
-                           mm.app_component_name = saveHelper.getValueOfCodeString(code,"display_name")
+                           mm.app_component_name = yz.getValueOfCodeString(code,"display_name")
                            if (mm.$refs.editor_component_ref) {
                                if (mm.$refs.editor_component_ref.setText) {
                                    mm.$refs.editor_component_ref.setText(code)
@@ -2235,16 +2235,16 @@ End of app preview menu
                                this.is_server_app = false
                            }
 
-                           this.app_component_name = saveHelper.getValueOfCodeString(code.toString(),"display_name")
+                           this.app_component_name = yz.getValueOfCodeString(code.toString(),"display_name")
 
-                           if ((saveHelper.getValueOfCodeString(code.toString(),"only_run_on_server") == true)
+                           if ((yz.getValueOfCodeString(code.toString(),"only_run_on_server") == true)
                                ||
-                               (saveHelper.getValueOfCodeString(code.toString(),"rest_api"))
+                               (yz.getValueOfCodeString(code.toString(),"rest_api"))
                            )
                            {
                                mm.is_ui_app = false
                                mm.is_server_app = true
-                               let restApi = saveHelper.getValueOfCodeString(code.toString(),"rest_api")
+                               let restApi = yz.getValueOfCodeString(code.toString(),"rest_api")
                                if (restApi) {
                                    mm.is_rest_app = true
                                    mm.rest_api_base_url = restApi
@@ -2283,8 +2283,8 @@ End of app preview menu
                            //
                            // set readonly
                            //
-                           this.read_only = saveHelper.getValueOfCodeString(code, "read_only")
-                           this.visibility = saveHelper.getValueOfCodeString(code, "visibility")
+                           this.read_only = yz.getValueOfCodeString(code, "read_only")
+                           this.visibility = yz.getValueOfCodeString(code, "visibility")
 
 
                        }
@@ -2303,11 +2303,11 @@ End of app preview menu
 
                        setTimeout(async function() {
 
-                           //code = saveHelper.deleteCodeString(code, "display_name")
-                           //code = saveHelper.insertCodeString(code, "display_name", newDisplayName)
+                           //code = yz.deleteCodeString(code, "display_name")
+                           //code = yz.insertCodeString(code, "display_name", newDisplayName)
 
                            //mm.app_component_name = baseComponentId
-                           mm.app_component_name = saveHelper.getValueOfCodeString(code,"display_name")
+                           mm.app_component_name = yz.getValueOfCodeString(code,"display_name")
                            if (mm.$refs.editor_component_ref) {
                                if (mm.$refs.editor_component_ref.setText) {
                                    mm.$refs.editor_component_ref.setText(code)
@@ -2391,16 +2391,16 @@ End of app preview menu
                         this.is_ui_app = false
                         this.is_server_app = false
                     }
-                    this.app_component_name = saveHelper.getValueOfCodeString(code.toString(),"display_name")
+                    this.app_component_name = yz.getValueOfCodeString(code.toString(),"display_name")
 
-                    if ((saveHelper.getValueOfCodeString(code.toString(),"only_run_on_server") == true)
+                    if ((yz.getValueOfCodeString(code.toString(),"only_run_on_server") == true)
                     ||
-                    (saveHelper.getValueOfCodeString(code.toString(),"rest_api"))
+                    (yz.getValueOfCodeString(code.toString(),"rest_api"))
                     )
                     {
                         mm.is_ui_app = false
                         mm.is_server_app = true
-                        let restApi = saveHelper.getValueOfCodeString(code.toString(),"rest_api")
+                        let restApi = yz.getValueOfCodeString(code.toString(),"rest_api")
                         if (restApi) {
                         mm.is_rest_app = true
                         mm.rest_api_base_url = restApi
@@ -2441,8 +2441,8 @@ End of app preview menu
                     //
                     // set readonly
                     //
-                    this.read_only = saveHelper.getValueOfCodeString(code, "read_only")
-                    this.visibility = saveHelper.getValueOfCodeString(code, "visibility")
+                    this.read_only = yz.getValueOfCodeString(code, "read_only")
+                    this.visibility = yz.getValueOfCodeString(code, "visibility")
 
 
                     this.resetDebugger()
@@ -2457,7 +2457,7 @@ End of app preview menu
 
                     setTimeout(async function() {
                         //mm.app_component_name = baseComponentId
-                        mm.app_component_name = saveHelper.getValueOfCodeString(code,"display_name")
+                        mm.app_component_name = yz.getValueOfCodeString(code,"display_name")
                         if (mm.$refs.editor_component_ref) {
                             if (mm.$refs.editor_component_ref.setText) {
                                 mm.$refs.editor_component_ref.setText(code)

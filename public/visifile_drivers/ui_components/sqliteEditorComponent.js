@@ -77,7 +77,7 @@ load_once_from_file(true)
          document.getElementById(mm.editorDomId).style.height="65vh"
          if (isValidObject(thisVueInstance.text)) {
              mm.editor.getSession().setValue(thisVueInstance.sqlText);
-             this.read_only = saveHelper.getValueOfCodeString(thisVueInstance.text, "read_only")
+             this.read_only = yz.getValueOfCodeString(thisVueInstance.text, "read_only")
          }
 
          mm.editor.getSession().setUseWorker(false);
@@ -146,8 +146,8 @@ load_once_from_file(true)
                 return null
             }
 
-            this.text = saveHelper.deleteCodeString(this.text, "sqlite", ")//sqlite")
-            this.text = saveHelper.insertCodeString(this.text, "sqlite", JSON.parse(this.sqlText) ,")//sqlite")
+            this.text = yz.deleteCodeString(this.text, "sqlite", ")//sqlite")
+            this.text = yz.insertCodeString(this.text, "sqlite", JSON.parse(this.sqlText) ,")//sqlite")
 
             return this.text
         }
@@ -176,7 +176,7 @@ load_once_from_file(true)
             //
 
 
-            this.read_only = saveHelper.getValueOfCodeString(thisVueInstance.text, "read_only")
+            this.read_only = yz.getValueOfCodeString(thisVueInstance.text, "read_only")
             if (this.read_only) {
                this.editor.setReadOnly(true)
             }
@@ -189,7 +189,7 @@ load_once_from_file(true)
             // If a database definition has been given then read it
             //
 
-            let llsqlText = saveHelper.getValueOfCodeString(textValue, "sqlite", ")//sqlite")
+            let llsqlText = yz.getValueOfCodeString(textValue, "sqlite", ")//sqlite")
             if (isValidObject(llsqlText)) {
                 this.editor.getSession().setValue(  JSON.stringify(  llsqlText , null , 2  ));
             } else {

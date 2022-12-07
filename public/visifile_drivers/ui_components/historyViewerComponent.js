@@ -290,7 +290,7 @@ load_once_from_file(true)
 
 
 
-             this.baseComponentId = saveHelper.getValueOfCodeString(this.text, "base_component_id")
+             this.baseComponentId = yz.getValueOfCodeString(this.text, "base_component_id")
 
              //debugger
              this.currentCommithashId = await this.getCurrentCommitId()

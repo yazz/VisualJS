@@ -1521,7 +1521,7 @@ formData.append('client_file_upload_id', file_upload_uuid);
 });
 myDropzone.on("complete", function(file) {
 myDropzone.removeFile(file);
-//var eds = saveHelper.getValueOfCodeString(data.value.code, "sqlite",")//sqlite")
+//var eds = yz.getValueOfCodeString(data.value.code, "sqlite",")//sqlite")
 });
 
 
@@ -2808,7 +2808,7 @@ if (sqlitedata) {
 var b = base64ToUint8Array(sqlitedata)
 localSqliteDb = new SQL.Database(b);
 } else {
-var eds = saveHelper.getValueOfCodeString(componentRecord.code, "sqlite",")//sqlite")
+var eds = yz.getValueOfCodeString(componentRecord.code, "sqlite",")//sqlite")
 if (eds){
 for (var te = 1; te < eds.length ; te = te + 2) {
 var sqlStatements = eds[te]
@@ -2828,7 +2828,7 @@ localSql(sqlStatement)
 
 var trcode2 = "(" + componentRecord.code + ")"
 
-var component_type = saveHelper.getValueOfCodeString(componentRecord.code, "component_type")
+var component_type = yz.getValueOfCodeString(componentRecord.code, "component_type")
 if ((component_type != "SYSTEM") &&
 (component_type != "VB"))
 {
@@ -2848,7 +2848,7 @@ trcode2 = trcode2.toString().replaceAll("sqlFirstCol1[(]","await rxsqlFirstCol1(
 
 
 
-var kkk = saveHelper.getValueOfCodeString(trcode2.toString(), "keycloak",")//keycloak")
+var kkk = yz.getValueOfCodeString(trcode2.toString(), "keycloak",")//keycloak")
 if (kkk) {
 //alert(JSON.stringify(kkk,null,2))
 if (!kkk.clientId) {
@@ -3411,7 +3411,7 @@ async function loadV2( baseComponentIds, args ) {
                 //alert("Reading app from cache: " + findComponentArgs.base_component_id)
                 var newDataCodeId   = finderToCachedCodeMapping[ componentId ]
                 var newData         = cachedCode[ newDataCodeId ]
-                var properties      = saveHelper.getValueOfCodeString(newData.value.code, "properties",")//properties")
+                var properties      = yz.getValueOfCodeString(newData.value.code, "properties",")//properties")
                 if (properties) {
                     if (isValidObject(newData.value)) {
                         //alert(properties)
@@ -3546,7 +3546,7 @@ component_loaded[componentId] = true
 //alert("Reading app from cache: " + findComponentArgs.base_component_id)
 let newDataCodeId = finderToCachedCodeMapping[ componentId ]
 let newData       = cachedCode[ newDataCodeId ]
-let properties = saveHelper.getValueOfCodeString(newData.value.code, "properties",")//properties")
+let properties = yz.getValueOfCodeString(newData.value.code, "properties",")//properties")
 if (properties) {
 if (isValidObject(newData.value)) {
 //alert(properties)
@@ -3761,7 +3761,7 @@ function hideProgressBar() {
 mainMoonApp.show_loader = false
 }
 
-saveHelper = {
+var yz = {
 
 insertCodeString: function(code,st, vall ,optionalEnd) {
 var endIndicator = ")"

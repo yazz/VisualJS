@@ -88,7 +88,7 @@ function processMessagesFromMainProcess() {
     if  (msg.message_type == 'init') {
         //console.log('-- Init v3');
         userData            = msg.user_data_path
-        saveHelper.userData = userData
+        yz.userData = userData
 
         childProcessName    = msg.child_process_name
         yazzInstanceId      = msg.yazz_instance_id
@@ -529,7 +529,7 @@ function saveCodeOld(baseComponentId, parentHash, code,options) {
 
 
 async function saveCodeV2(baseComponentId, parentHash, code,options) {
-    let ret = await saveHelper.saveCodeV2( dbsearch, baseComponentId, parentHash, code,  options );
+    let ret = await yz.saveCodeV2( dbsearch, baseComponentId, parentHash, code,  options );
     return ret
 }
 
@@ -581,7 +581,7 @@ function shutdownExeProcess(err) {
 
 
 
-var saveHelper = require('./yazz_helper_module')
+var yz = require('./yazz_helper_module')
 
 
 

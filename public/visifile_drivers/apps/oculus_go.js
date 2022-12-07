@@ -1085,9 +1085,9 @@ logo_url("/driver_icons/blocks.png")
             if (texti) {
                 var json2                   = this.getJsonModelFromCode(  texti  )
                 mm.model                    = json2
-                mm.edited_app_component_id  = saveHelper.getValueOfCodeString(texti, "base_component_id")
+                mm.edited_app_component_id  = yz.getValueOfCodeString(texti, "base_component_id")
 
-                this.read_only = saveHelper.getValueOfCodeString(texti, "read_only")
+                this.read_only = yz.getValueOfCodeString(texti, "read_only")
             }
             mm.model.active_form = mm.model.default_form
 
@@ -1585,7 +1585,7 @@ ${origCode}
 
 
             var compCode = component_cache[newItem.base_component_id].code
-            var childrenCode  = saveHelper.getValueOfCodeString(compCode, "children",")//children")
+            var childrenCode  = yz.getValueOfCodeString(compCode, "children",")//children")
             if (isValidObject(childrenCode)) {
                 for (  var ee = 0  ;  ee < childrenCode.length ;  ee++  ) {
                     //alert(JSON.stringify(childrenCode[ee],null,2))
@@ -4079,7 +4079,7 @@ return {}
             this.text =  textValue
             var json2 = this.getJsonModelFromCode(  textValue  )
             //console.log("setText: mm.model = json2")
-            mm.edited_app_component_id = saveHelper.getValueOfCodeString(textValue, "base_component_id")
+            mm.edited_app_component_id = yz.getValueOfCodeString(textValue, "base_component_id")
 
             mm.model = json2
             mm.updatePropertySelector()
@@ -4091,8 +4091,8 @@ return {}
         getJsonModelFromCode: function(  codeV  ) {
         //-------------------------------------------------------------------
             var mm = this
-            mm.edited_app_component_id = saveHelper.getValueOfCodeString(codeV, "base_component_id")
-            var json2 = saveHelper.getValueOfCodeString(codeV,"formEditor",")//formEditor")
+            mm.edited_app_component_id = yz.getValueOfCodeString(codeV, "base_component_id")
+            var json2 = yz.getValueOfCodeString(codeV,"formEditor",")//formEditor")
             return json2
         }
 
@@ -4181,12 +4181,12 @@ return {}
 
 
 
-              var subComponents = saveHelper.getValueOfCodeString(this.text, "sub_components")
+              var subComponents = yz.getValueOfCodeString(this.text, "sub_components")
               var subComponentsMap = {}
 
 
               if (subComponents) {
-                  this.text = saveHelper.deleteCodeString(this.text, "sub_components")
+                  this.text = yz.deleteCodeString(this.text, "sub_components")
               } else {
                   subComponents = []
               }
@@ -4211,26 +4211,26 @@ return {}
                    }
               }
               var newListOfSubcomponents = Object.keys(  subComponentsMap  )
-              this.text = saveHelper.insertCodeString(this.text, "sub_components", newListOfSubcomponents)
+              this.text = yz.insertCodeString(this.text, "sub_components", newListOfSubcomponents)
 
 
-              this.text = saveHelper.deleteCodeString(  this.text, "component_type")
+              this.text = yz.deleteCodeString(  this.text, "component_type")
 
-              this.text = saveHelper.insertCodeString(  this.text,
+              this.text = yz.insertCodeString(  this.text,
                                                           "component_type",
                                                           "SYSTEM")
 
-              this.text = saveHelper.deleteCodeString(  this.text, "formEditor", ")//form" + "Editor")
+              this.text = yz.deleteCodeString(  this.text, "formEditor", ")//form" + "Editor")
 
-              this.text = saveHelper.insertCodeString(  this.text,
+              this.text = yz.insertCodeString(  this.text,
                                                         "formEditor",
                                                         mm.model,
                                                         ")//form" + "Editor")
 
 
-               this.text = saveHelper.deleteCodeString(  this.text, "properties", ")//prope" + "rties")
+               this.text = yz.deleteCodeString(  this.text, "properties", ")//prope" + "rties")
 
-               this.text = saveHelper.insertCodeString(  this.text,
+               this.text = yz.insertCodeString(  this.text,
                                                           "properties",
                                                           mm.model.app_properties,
                                                           ")//prope" + "rties")

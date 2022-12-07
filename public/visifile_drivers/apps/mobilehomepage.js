@@ -522,7 +522,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               if (results2.length > 0) {
                 let code  = results2[0].code
                 //alert(code)
-                let rest_api_base_url = saveHelper.getValueOfCodeString(code, "rest_api")
+                let rest_api_base_url = yz.getValueOfCodeString(code, "rest_api")
                 if (rest_api_base_url) {
                     window.location = (location.protocol + "//" + location.hostname + ":" + location.port + "/" + rest_api_base_url)
                 } else {
