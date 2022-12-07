@@ -206,7 +206,7 @@ let program         = require2('commander');
 let bodyParser      = require2('body-parser');
 let multer          = require2('multer');
 let cors            = require2('cors')
-let saveHelper      = require('./yazz_helper_module')
+let yz              = require('./yazz_helper_module')
 
 
 
@@ -262,12 +262,12 @@ let appDbs = {}
 let port;
 function setPort(addrv) {
     port = addrv
-    saveHelper.port = addrv
+    yz.port = addrv
 }
 let hostaddress;
 function setHostAddress(addrv) {
     hostaddress = addrv
-    saveHelper.hostaddress = addrv
+    yz.hostaddress = addrv
 }
 if (isWin) {
     setHostAddress("127.0.0.1")//ip.address();
@@ -805,7 +805,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
         //------------------------------------------------------------------------------
         if (msg.message_type == "save_code") {
 
-             let saveResult = await saveHelper.saveCodeV2(
+             let saveResult = await yz.saveCodeV2(
                                                 dbsearch,
                                                 msg.base_component_id,
                                                 msg.parent_hash  ,
@@ -1458,14 +1458,14 @@ async function checkForJSLoaded() {
               // The whole response has been received. Print out the result.
               resp.on('end', () => {
                 //console.log("code:" + data);
-                let baseComponentIdForUrl = saveHelper.getValueOfCodeString(data, "base_component_id")
+                let baseComponentIdForUrl = yz.getValueOfCodeString(data, "base_component_id")
                 outputDebug("baseComponentIdForUrl:" + baseComponentIdForUrl);
                 if (!isValidObject(baseComponentIdForUrl)) {
                     baseComponentIdForUrl = loadjsurl.replace(/[^A-Z0-9]/ig, "_");
                 }
                 let jsCode = data
                 outputDebug("*********** Trying to load loadjsurl code *************")
-                 (async function() {await saveHelper.saveCodeV2(
+                 (async function() {await yz.saveCodeV2(
                                                      dbsearch,
                                                      baseComponentIdForUrl,
                                                      null  ,
@@ -1502,14 +1502,14 @@ async function checkForJSLoaded() {
             let jsFile = loadjsfile
 
             let data2 = fs.readFileSync(jsFile).toString()
-            let baseComponentIdForFile = saveHelper.getValueOfCodeString(data2, "base_component_id")
+            let baseComponentIdForFile = yz.getValueOfCodeString(data2, "base_component_id")
             if (!isValidObject(baseComponentIdForFile)) {
                 baseComponentIdForFile = loadjsfile.replace(/[^A-Z0-9]/ig, "_");
             }
 
             //console.log("code from file:" + data2);
             //console.log("*********** Trying to load loadjsfile code *************")
-            (async function() {let saveResult =await saveHelper.saveCodeV2(
+            (async function() {let saveResult =await yz.saveCodeV2(
                                                                 dbsearch,
                                                                 baseComponentIdForFile,
                                                                   null  ,
@@ -1537,7 +1537,7 @@ async function checkForJSLoaded() {
              outputDebug("*********** Using loadjscode ************")
              setUpSql()
              let data2 = loadjscode
-             let baseComponentIdForCode = saveHelper.getValueOfCodeString(data2, "base_component_id")
+             let baseComponentIdForCode = yz.getValueOfCodeString(data2, "base_component_id")
              outputDebug("baseComponentIdForCode:" + baseComponentIdForCode);
              if (!isValidObject(baseComponentIdForCode)) {
                  baseComponentIdForCode = "code_" + (("" + Math.random()).replace(/[^A-Z0-9]/ig, "_"));
@@ -1548,7 +1548,7 @@ async function checkForJSLoaded() {
              outputDebug("*********** Trying to load loadjscode code *************")
 
 
-              let saveResult =await saveHelper.saveCodeV2(
+              let saveResult =await yz.saveCodeV2(
                                                   dbsearch,
                                                   baseComponentIdForCode,
                                                  null  ,
@@ -2569,7 +2569,7 @@ function file_uploadSingleFn(req, res) {
             //console.log(tts)
             let ytr = unescape(tts)
             outputDebug("SENDING FROM UPLOAD___=+++****")
-            let bci = saveHelper.getValueOfCodeString(ytr, "base_component_id")
+            let bci = yz.getValueOfCodeString(ytr, "base_component_id")
 
             let indexStart = readIn.indexOf("/*APP_START*/")
             let indexEnd = readIn.indexOf("/*APP_END*/")
@@ -2599,7 +2599,7 @@ function file_uploadSingleFn(req, res) {
               let localp = localp2 + '.' + ext;
               fs.renameSync(localp2, localp);
               let readIn = fs.readFileSync(localp).toString()
-              let bci = saveHelper.getValueOfCodeString(readIn, "base_component_id")
+              let bci = yz.getValueOfCodeString(readIn, "base_component_id")
 
 
 
@@ -2673,7 +2673,7 @@ function file_uploadFn(req, res, next) {
                 //console.log(tts)
                 let ytr = unescape(tts)
                 outputDebug("SENDINF FROM UPLAOD___=+++****")
-                let bci = saveHelper.getValueOfCodeString(ytr, "base_component_id")
+                let bci = yz.getValueOfCodeString(ytr, "base_component_id")
 
                 let indexStart = readIn.indexOf("/*APP_START*/")
                 let indexEnd = readIn.indexOf("/*APP_END*/")
@@ -2728,7 +2728,7 @@ function file_name_load(req, res, next) {
 function loadAppFromFile(localp,client_file_upload_id) {
     console.log("loadAppFromFile(" + localp + "," + client_file_upload_id + ")")
     let readIn = fs.readFileSync(localp).toString()
-    let bci = saveHelper.getValueOfCodeString(readIn, "base_component_id")
+    let bci = yz.getValueOfCodeString(readIn, "base_component_id")
 
 
 
@@ -2803,7 +2803,7 @@ function keycloakProtector(params) {
                             let fileC = results[0].code.toString()
                             //console.log("Code : " + fileC)
 
-                            let sscode = saveHelper.getValueOfCodeString(fileC,"keycloak",")//keycloak")
+                            let sscode = yz.getValueOfCodeString(fileC,"keycloak",")//keycloak")
                             //console.log("sscode:" + sscode)
 
 
@@ -2957,7 +2957,7 @@ async function startServices() {
             let commitId = req.query.commit_id;
 
 
-            let codeRecord = await saveHelper.getQuickSqlOneRow(dbsearch,  "select  code  from   system_code  where   id = ? ", [  commitId  ])
+            let codeRecord = await yz.getQuickSqlOneRow(dbsearch,  "select  code  from   system_code  where   id = ? ", [  commitId  ])
             let codeString = codeRecord.code
 
             console.log("app.get('/'): ")
@@ -3512,7 +3512,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
           //console.log("          code :" + JSON.stringify(req.body.value.code ,null,2))
           //console.log("          options :" + JSON.stringify(req.body.value.options ,null,2))
             //console.log("    " + JSON.stringify(req,null,2) )
-          let saveResult =await saveHelper.saveCodeV2(
+          let saveResult =await yz.saveCodeV2(
                                               dbsearch,
                                               req.body.value.base_component_id,
                                              req.body.value.code_id  ,
@@ -3603,7 +3603,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             let fullFileName = path.join(fullIpfsFolderPath, ipfsHashOfAppToDownload)
 
             let ipfsContent = ""
-            let codeRecord = await saveHelper.getQuickSqlOneRow(dbsearch,  "select  code  from   system_code  where   id = ? ", [  ipfsHashOfAppToDownload  ])
+            let codeRecord = await yz.getQuickSqlOneRow(dbsearch,  "select  code  from   system_code  where   id = ? ", [  ipfsHashOfAppToDownload  ])
             if (codeRecord) {
                 ipfsContent = codeRecord.code
             } else {
@@ -3711,7 +3711,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             //
             // give the new smart contract control a new name
             //
-            let componentToCopyBaseComponentId = saveHelper.getValueOfCodeString(srcText,"base_component_id")
+            let componentToCopyBaseComponentId = yz.getValueOfCodeString(srcText,"base_component_id")
             srcText = srcText.replaceAll(componentToCopyBaseComponentId, copy_base_component_id)
 
 
@@ -3720,7 +3720,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             //
             let design_time_html = req.body.value.design_time_html
             if ( design_time_html ) {
-                srcText = saveHelper.replaceBetween(srcText,"<!-- design_time_html_start -->", "<!-- design_time_html_end -->",design_time_html)
+                srcText = yz.replaceBetween(srcText,"<!-- design_time_html_start -->", "<!-- design_time_html_end -->",design_time_html)
             }
 
 
@@ -3729,7 +3729,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             //
             let designTimeMountedCode = req.body.value.design_time_mounted_code
             if (designTimeMountedCode) {
-                srcText = saveHelper.replaceBetween(srcText,"/*NEW_DESIGN_TIME_MOUNTED_START*/", "/*NEW_DESIGN_TIME_MOUNTED_END*/",designTimeMountedCode)
+                srcText = yz.replaceBetween(srcText,"/*NEW_DESIGN_TIME_MOUNTED_START*/", "/*NEW_DESIGN_TIME_MOUNTED_END*/",designTimeMountedCode)
             }
 
 
@@ -3739,7 +3739,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             //
             let runtimeMountedCode = req.body.value.runtime_mounted_code
             if (runtimeMountedCode) {
-                srcText = saveHelper.replaceBetween(srcText,"/*NEW_RUNTIME_MOUNTED_START*/", "/*NEW_RUNTIME_MOUNTED_END*/",runtimeMountedCode)
+                srcText = yz.replaceBetween(srcText,"/*NEW_RUNTIME_MOUNTED_START*/", "/*NEW_RUNTIME_MOUNTED_END*/",runtimeMountedCode)
             }
 
 
@@ -3749,7 +3749,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             //
             let varsCode = req.body.value.vars_code
             if (varsCode) {
-                srcText = saveHelper.replaceBetween(srcText,"/*NEW_VARS_START*/", "/*NEW_VARS_END*/",varsCode)
+                srcText = yz.replaceBetween(srcText,"/*NEW_VARS_START*/", "/*NEW_VARS_END*/",varsCode)
             }
 
 
@@ -3760,7 +3760,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             //
             let run_time_html = req.body.value.run_time_html
             if (run_time_html) {
-                srcText = saveHelper.replaceBetween(srcText,"<!-- run_time_html_start -->", "<!-- run_time_html_end -->",run_time_html)
+                srcText = yz.replaceBetween(srcText,"<!-- run_time_html_start -->", "<!-- run_time_html_end -->",run_time_html)
             }
 
 
@@ -3772,11 +3772,11 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             // give the new smart contract control a new icon logo
             //
             if (copy_image_data) {
-                let logoValue = saveHelper.getValueOfCodeString(srcText,"logo_url")
+                let logoValue = yz.getValueOfCodeString(srcText,"logo_url")
                 if (logoValue) {
-                    srcText = saveHelper.deleteCodeString(srcText, "logo_url")
+                    srcText = yz.deleteCodeString(srcText, "logo_url")
                 }
-                srcText = saveHelper.insertCodeString(srcText, "logo_url",copy_image_data)
+                srcText = yz.insertCodeString(srcText, "logo_url",copy_image_data)
             }
 
 
@@ -3787,11 +3787,11 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             // give the new component a new logo
             //
             if (req.body.value.logo_url) {
-                let logoValue = saveHelper.getValueOfCodeString(srcText,"logo_url")
+                let logoValue = yz.getValueOfCodeString(srcText,"logo_url")
                 if (logoValue) {
-                    srcText = saveHelper.deleteCodeString(srcText, "logo_url")
+                    srcText = yz.deleteCodeString(srcText, "logo_url")
                 }
-                srcText = saveHelper.insertCodeString(srcText, "logo_url", "/driver_icons/blue_eth.png")
+                srcText = yz.insertCodeString(srcText, "logo_url", "/driver_icons/blue_eth.png")
             }
 
 
@@ -3803,7 +3803,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             for (let propertyToChangeIndex = 0; propertyToChangeIndex < propertiesToChange.length;propertyToChangeIndex++){
                 let propertyNameToChange = propertiesToChange[propertyToChangeIndex]
                 let propertyValue = default_property_values[propertyNameToChange]
-                srcText = saveHelper.replacePropertyValue(srcText,propertyNameToChange,propertyValue)
+                srcText = yz.replacePropertyValue(srcText,propertyNameToChange,propertyValue)
             }
 
 
@@ -3813,7 +3813,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             let newProperties = req.body.value.new_properties;
             for ( let newPropertyIndex = 0 ; newPropertyIndex < newProperties.length ; newPropertyIndex++ ){
                 let newProperty = newProperties[newPropertyIndex]
-                srcText = saveHelper.addProperty(srcText,newProperty)
+                srcText = yz.addProperty(srcText,newProperty)
             }
 
 
@@ -3824,7 +3824,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             if (newMethods) {
                 for ( let newMethodIndex = 0 ; newMethodIndex < newMethods.length ; newMethodIndex++ ){
                     let newMethod = newMethods[newMethodIndex]
-                    srcText = saveHelper.addMethod(srcText,"\n\n\n"+newMethod.code+"\n,\n\n")
+                    srcText = yz.addMethod(srcText,"\n\n\n"+newMethod.code+"\n,\n\n")
                 }
             }
 
@@ -3838,9 +3838,9 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             if (newMethodsV2) {
                 for ( let newMethodIndex = 0 ; newMethodIndex < newMethodsV2.length ; newMethodIndex++ ){
                     let newMethod = newMethodsV2[newMethodIndex]
-                    srcText = saveHelper.addMethod(srcText,"\n\n\n"+newMethod.code+"\n,\n\n")
+                    srcText = yz.addMethod(srcText,"\n\n\n"+newMethod.code+"\n,\n\n")
                     let newMethodProperty = newMethod.properties
-                    srcText = saveHelper.addProperty(srcText,newMethodProperty)
+                    srcText = yz.addProperty(srcText,newMethodProperty)
                 }
             }
 
@@ -3849,8 +3849,8 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             //
             // Delete any IPFS from the component class. Unfortunately this can't be stored in IPFS itself
             //
-            let properties = saveHelper.getValueOfCodeString(srcText,"properties", ")//prope" + "rties")
-            srcText = saveHelper.deleteCodeString(  srcText, "properties", ")//prope" + "rties")
+            let properties = yz.getValueOfCodeString(srcText,"properties", ")//prope" + "rties")
+            srcText = yz.deleteCodeString(  srcText, "properties", ")//prope" + "rties")
             for (let irte = 0 ; irte < properties.length ; irte++ ) {
                 let brje = properties[irte]
                 if (brje) {
@@ -3859,7 +3859,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
                     }
                 }
             }
-            srcText = saveHelper.insertCodeString(  srcText,
+            srcText = yz.insertCodeString(  srcText,
                 "properties",
                 properties,
                 ")//prope" + "rties")
@@ -4058,9 +4058,9 @@ async function findLocalIpfsContent() {
                     let fullFileName = path.join(fullIpfsFolderPath, ipfsHashFileName)
                     let ipfsContent = fs.readFileSync(fullFileName, 'utf8')
 
-                    let itemType = saveHelper.getValueOfCodeString(ipfsContent,"component_type_v2")
+                    let itemType = yz.getValueOfCodeString(ipfsContent,"component_type_v2")
                     if (itemType == "COMPONENT_COMMENT") {
-                        let formatType = saveHelper.getValueOfCodeString(ipfsContent,"format")
+                        let formatType = yz.getValueOfCodeString(ipfsContent,"format")
                         if (formatType == "JSON") {
                             let jsonComment = JSON.parse(ipfsContent)
                             await insertCommentIntoDb(
@@ -4373,7 +4373,7 @@ setupVisifileParams();
         outputDebug("Running as Linux/Mac")
     	userData =  path.join(LOCAL_HOME, 'Yazz')
     }
-    saveHelper.userData = userData
+    yz.userData = userData
     findSystemDataDirectoryAndStart()
     finishInit()
 }
@@ -4727,8 +4727,8 @@ async function save_code_from_upload(msg) {
     //console.log(`Entering  save_code_from_upload`)
 
 
-    let ret = await saveHelper.saveCodeV2(  dbsearch,  msg.base_component_id, msg.parent_hash  ,  msg.code  , msg.options);
-    let useDb = msg.base_component_id //saveHelper.getValueOfCodeString(msg.code ,"use_db")
+    let ret = await yz.saveCodeV2(  dbsearch,  msg.base_component_id, msg.parent_hash  ,  msg.code  , msg.options);
+    let useDb = msg.base_component_id //yz.getValueOfCodeString(msg.code ,"use_db")
     if (msg.sqlite_data) {
             //console.log("msg.sqlite_data: " + msg.sqlite_data)
             let b = Buffer.from(msg.sqlite_data, 'base64')
@@ -4906,7 +4906,7 @@ async function sendIpfsHashToCentralServer(ipfs_hash , ipfsContent) {
 }
 
 async function tagVersion(ipfs_hash, srcCode ) {
-    let baseComponentId = saveHelper.getValueOfCodeString(srcCode,"base_component_id")
+    let baseComponentId = yz.getValueOfCodeString(srcCode,"base_component_id")
     let dateTime = new Date().toString()
     await executeQuickSql(
         `insert into 
@@ -4956,12 +4956,12 @@ async function loadComponentFromIpfs(ipfsHash) {
         {
             let fullIpfsFilePath = path.join(fullIpfsFolderPath,  ipfsHash)
             let srcCode = fs.readFileSync(fullIpfsFilePath);
-            let baseComponentId = saveHelper.getValueOfCodeString(srcCode,"base_component_id")
+            let baseComponentId = yz.getValueOfCodeString(srcCode,"base_component_id")
 
 
 
-               /* let properties = saveHelper.getValueOfCodeString(srcCode,"properties", ")//prope" + "rties")
-                srcCode = saveHelper.deleteCodeString(  srcCode, "properties", ")//prope" + "rties")
+               /* let properties = yz.getValueOfCodeString(srcCode,"properties", ")//prope" + "rties")
+                srcCode = yz.deleteCodeString(  srcCode, "properties", ")//prope" + "rties")
                 for (let irte = 0 ; irte < properties.length ; irte++ ) {
                     let brje = properties[irte]
                     if (brje.id == "ipfs_hash_id") {
@@ -4969,7 +4969,7 @@ async function loadComponentFromIpfs(ipfsHash) {
                     }
                 }
 
-                srcCode = saveHelper.insertCodeString(  srcCode,
+                srcCode = yz.insertCodeString(  srcCode,
                     "properties",
                     properties,
                     ")//prope" + "rties")*/
@@ -4991,12 +4991,12 @@ async function loadComponentFromIpfs(ipfsHash) {
 
 
 
-                        let baseComponentId = saveHelper.getValueOfCodeString(srcCode,"base_component_id")
+                        let baseComponentId = yz.getValueOfCodeString(srcCode,"base_component_id")
 
 
 
-                        let properties = saveHelper.getValueOfCodeString(srcCode,"properties", ")//prope" + "rties")
-                        srcCode = saveHelper.deleteCodeString(  srcCode, "properties", ")//prope" + "rties")
+                        let properties = yz.getValueOfCodeString(srcCode,"properties", ")//prope" + "rties")
+                        srcCode = yz.deleteCodeString(  srcCode, "properties", ")//prope" + "rties")
                         for (let irte = 0 ; irte < properties.length ; irte++ ) {
                             let brje = properties[irte]
                             if (brje.id == "ipfs_hash_id") {
@@ -5004,7 +5004,7 @@ async function loadComponentFromIpfs(ipfsHash) {
                             }
                         }
 
-                        srcCode = saveHelper.insertCodeString(  srcCode,
+                        srcCode = yz.insertCodeString(  srcCode,
                             "properties",
                             properties,
                             ")//prope" + "rties")
@@ -5070,7 +5070,7 @@ async function addOrUpdateDriver(  name, codeString ,options ) {
                                     parentId = rows[0].id
                                 }
 
-                                let saveRet = await saveHelper.saveCodeV2(dbsearch,    name, parentId,    codeString  ,options);
+                                let saveRet = await yz.saveCodeV2(dbsearch,    name, parentId,    codeString  ,options);
                                 let codeId = null
                                 if (saveRet) {
                                     codeId = saveRet.code_id
@@ -6167,16 +6167,16 @@ function function_call_response (msg) {
 
 async function parseCode(code) {
 
-    let baseComponentIdOfItem = saveHelper.getValueOfCodeString(code,"base_component_id")
+    let baseComponentIdOfItem = yz.getValueOfCodeString(code,"base_component_id")
 
-    let itemName = saveHelper.getValueOfCodeString(code,"display_name")
+    let itemName = yz.getValueOfCodeString(code,"display_name")
 
-    let iconUrl = saveHelper.getValueOfCodeString(code,"logo_url")
+    let iconUrl = yz.getValueOfCodeString(code,"logo_url")
 
     let ipfsHashId = await OnlyIpfsHash.of(code)
 
     let readWriteStatus = ""
-    let rws = saveHelper.getValueOfCodeString(code,"read_only")
+    let rws = yz.getValueOfCodeString(code,"read_only")
     if (rws) {
         if (rws == true) {
             readWriteStatus = "read"
@@ -6184,9 +6184,9 @@ async function parseCode(code) {
     }
 
     let componentType = ""
-    if (saveHelper.getValueOfCodeString(code,"component_type") == "SYSTEM") {
+    if (yz.getValueOfCodeString(code,"component_type") == "SYSTEM") {
         componentType = "app"
-    } else if (saveHelper.getValueOfCodeString(code,"component_type") == "VB") {
+    } else if (yz.getValueOfCodeString(code,"component_type") == "VB") {
         componentType = "component"
     }
     return {
@@ -6489,12 +6489,12 @@ async function createCookieInDb(cookie, hostCookieSentTo, from_device_type) {
 async function getRowForCommit(commitId) {
     let commitStructure = null
     let excludeCommitId = null
-    let thisCommit = await saveHelper.getQuickSqlOneRow(dbsearch,  "select  *  from   system_code  where   id = ? ", [  commitId  ])
+    let thisCommit = await yz.getQuickSqlOneRow(dbsearch,  "select  *  from   system_code  where   id = ? ", [  commitId  ])
     let getFutureCommitsSql = "select  id  from   system_code  where  parent_id = ? "
-    let parentCommits = await saveHelper.getQuickSql(dbsearch,  getFutureCommitsSql, [  commitId  ])
+    let parentCommits = await yz.getQuickSql(dbsearch,  getFutureCommitsSql, [  commitId  ])
 
     let getCodeTagsSql= "  select  code_tag  from  code_tags  where fk_system_code_id = ?  "
-    let codeTags = await saveHelper.getQuickSql(dbsearch,  getCodeTagsSql, [  commitId  ])
+    let codeTags = await yz.getQuickSql(dbsearch,  getCodeTagsSql, [  commitId  ])
 
     if (thisCommit) {
         let changesList = []
@@ -6525,7 +6525,7 @@ async function getRowForCommit(commitId) {
 
 
 async function getCodeForCommit(commitId) {
-    let thisCommit = await saveHelper.getQuickSqlOneRow(dbsearch,  "select  *  from   system_code  where   id = ? ", [  commitId  ])
+    let thisCommit = await yz.getQuickSqlOneRow(dbsearch,  "select  *  from   system_code  where   id = ? ", [  commitId  ])
     if (thisCommit) {
         return thisCommit.code
     }
@@ -6586,7 +6586,7 @@ async function getFutureCommitsFor(args) {
         returnRows = args.returnRows
     }
 
-    let childCommits = await saveHelper.getQuickSql(dbsearch,"select  *  from   system_code  where   parent_id = ? ", [  commitId  ])
+    let childCommits = await yz.getQuickSql(dbsearch,"select  *  from   system_code  where   parent_id = ? ", [  commitId  ])
 
     if (childCommits.length == 0 ) {
         return returnRows
@@ -6617,7 +6617,7 @@ async function getFutureCommitsFor(args) {
 
 
 async function releaseCode(commitId) {
-    let codeRecord = await saveHelper.getQuickSqlOneRow(dbsearch,  "select  code  from   system_code  where   id = ? ", [  commitId  ])
+    let codeRecord = await yz.getQuickSqlOneRow(dbsearch,  "select  code  from   system_code  where   id = ? ", [  commitId  ])
     let codeString = codeRecord.code
     let parsedCode = await parseCode(codeString)
     let icon_image_id = "image id"
@@ -6651,7 +6651,7 @@ async function releaseCode(commitId) {
         icon_image_id = rowhash.read();
     }
 
-    let componentListRecord = await saveHelper.getQuickSqlOneRow(dbsearch,  "select * from released_components where base_component_id = ?",[base_component_id])
+    let componentListRecord = await yz.getQuickSqlOneRow(dbsearch,  "select * from released_components where base_component_id = ?",[base_component_id])
     if (!componentListRecord) {
         dbsearch.serialize(function() {
             dbsearch.run("begin exclusive transaction");
