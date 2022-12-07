@@ -351,7 +351,16 @@ module.exports = {
     }
 
 
+    ,
 
+    getRecordForCommit: async function (thisDb, commitId) {
+        let thisCommit = await this.getQuickSqlOneRow(thisDb,  "select  *  from   system_code  where   id = ? ", [  commitId  ])
+        if (thisCommit) {
+            return thisCommit
+        }
+
+        return null
+    }
 
 
 
