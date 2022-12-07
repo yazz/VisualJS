@@ -3647,9 +3647,11 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             let userId = req.body.value.user_id;
 
             let ipfsHash = await saveItemToIpfs(code)
-            await releaseVersion(ipfsHash, code)
+            //let ipfsHash = await OnlyIpfsHash.of(code)
+            await tagVersion(ipfsHash, code)
+            //await releaseCode(ipfsHash)
 
-
+//zzz
             //let parsedCode = await parseCode(code)
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end(JSON.stringify({
@@ -4871,8 +4873,7 @@ async function sendIpfsHashToCentralServer(ipfs_hash , ipfsContent) {
     return
 }
 
-async function releaseVersion(ipfs_hash, srcCode ) {
-//zzz
+async function tagVersion(ipfs_hash, srcCode ) {
     let baseComponentId = saveHelper.getValueOfCodeString(srcCode,"base_component_id")
     let dateTime = new Date().toString()
     await executeQuickSql(
@@ -4885,6 +4886,7 @@ async function releaseVersion(ipfs_hash, srcCode ) {
          ,
          [ uuidv1()  ,  baseComponentId  ,  dateTime,  ipfs_hash])
 }
+
 
 
 async function insertIpfsHashRecord(ipfs_hash, content_type, ping_count, last_pinged ) {
