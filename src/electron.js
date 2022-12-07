@@ -3512,12 +3512,37 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
           //console.log("          code :" + JSON.stringify(req.body.value.code ,null,2))
           //console.log("          options :" + JSON.stringify(req.body.value.options ,null,2))
             //console.log("    " + JSON.stringify(req,null,2) )
+            let parentHash = req.body.value.code_id
           let saveResult =await yz.saveCodeV2(
                                               dbsearch,
                                               req.body.value.base_component_id,
                                              req.body.value.code_id  ,
                                              req.body.value.code,
                                              req.body.value.options)
+
+            let parentCodeTag = await yz.getQuickSqlOneRow(
+                 dbsearch,
+                "select id from  code_tags  where fk_system_code_id = ? and code_tag = 'TIP'  ",
+                 [parentHash])
+
+            if (parentCodeTag) {
+                await yz.executeQuickSql(
+                     dbsearch,
+                    "delete from code_tags  where fk_system_code_id = ? and code_tag = 'TIP'  ",
+                     [parentHash])
+            }
+            await yz.executeQuickSql(
+                dbsearch,
+
+                `insert into 
+                    code_tags 
+                    (id,  base_component_id, code_tag, fk_system_code_id, fk_user_id ) 
+                 values  
+                     (?,?,?,?,?)
+                     `,
+
+                    [  uuidv1(),   req.body.value.base_component_id,  "TIP", req.body.value.code_id,  "" ])
+
 
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end(JSON.stringify(saveResult))
