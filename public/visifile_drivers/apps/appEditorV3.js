@@ -140,7 +140,30 @@ load_once_from_file(true)
                 <div      slot-scope="editor_component" style='display: inline-block;width:100%;'>
 
 
+                  <!-- ----------------------------------------------
+                  
+                       Saved JS button
+                  
+                  ---------------------------------------------- -->
+                  <a   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                       href="#"
+                       v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppId + ".yazz"'
+                       download
+                       v-if="show_download_save"
+                       v-on:mouseenter='setInfo("Download app source code")'
+                       v-on:mouseleave='setInfo(null)'
+                       type="button" class="btn btn-light ">
 
+                    <img
+                        src='/driver_icons/download.png'
+                        style='height:35px; margin-right: 10px;'
+                        class='img-fluid'>
+                    </img>
+                    Download
+
+                  </a>
+                  
+                  
                   <a   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                        href="#"
                        v-on:click='setTimeout(async function(){await showHistory(base_component_id, {})},100)'
@@ -426,25 +449,7 @@ Refresh button
 
 
 
-<!-- ----------------------------------------------
 
-     Saved JS button
-
----------------------------------------------- -->
-              <a   v-bind:style="'padding: 0px; margin-top: 0px; margin-left:10px; position: relative; border: 0px;background-color: rgb(242, 242, 242);'"
-                   v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppId + ".yazz"'
-                   download
-                   v-if="show_download_save"
-                   v-on:mouseenter='setInfo("Download the JS .yazz file for this app")'
-                   v-on:mouseleave='setInfo(null)'
-                   type="button" class="btn btn-light ">
-
-                <img
-                    src='/driver_icons/js_export.png'
-                    style='height:25px; margin-right: 0px;'
-                    class='img-fluid'>
-                </img>
-              </a>
 
 
 <!-- ----------------------------------------------
