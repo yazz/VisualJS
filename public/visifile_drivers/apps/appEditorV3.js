@@ -160,25 +160,56 @@ load_once_from_file(true)
 
 
 
+                  <!-- ----------------------------------------------
+                  
+                      BOOKMARK CODE 
+                      
+                      This can be thought of as tagging a commit in
+                      git, or adding a version number to the code
+                      
+                      The bookmark will be a timestamp by default
+                  
+                  ---------------------------------------------- -->
+                  <a   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                       href="#"
+                       v-on:click='setTimeout(async function(){appClearIntervals();await bookmarkCode()},100)'
+                       v-if="show_download_save"
+                       v-on:mouseenter='setInfo("Bookmark this code")'
+                       v-on:mouseleave='setInfo(null)'
+                       type="button" class="btn btn-light ">
+
+                    <img
+                        src='/driver_icons/bookmark.png'
+                        style='height:35px; margin-right: 10px;'
+                        class='img-fluid'>
+                    </img>
+                    Bookmark
+
+                  </a>
 
 
 
-                      <a   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                           href="#"
-                           v-on:click='setTimeout(async function(){appClearIntervals();await publishToIpfs()},100)'
-                           v-if="show_download_save"
-                           v-on:mouseenter='setInfo("Publish this app to the central server")'
-                           v-on:mouseleave='setInfo(null)'
-                           type="button" class="btn btn-light ">
-    
-                        <img
-                            src='/driver_icons/publish.png'
-                            style='height:35px; margin-right: 10px;'
-                            class='img-fluid'>
-                        </img>
-                        Publish
-    
-                      </a>
+                  <!-- ----------------------------------------------
+                  
+                      GO LIVE BUTTON
+                  
+                  ---------------------------------------------- -->
+                  <a   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                       href="#"
+                       v-on:click='setTimeout(async function(){appClearIntervals();await publishToIpfs()},100)'
+                       v-if="show_download_save"
+                       v-on:mouseenter='setInfo("Publish this app to the central server")'
+                       v-on:mouseleave='setInfo(null)'
+                       type="button" class="btn btn-light ">
+
+                    <img
+                        src='/driver_icons/publish.png'
+                        style='height:35px; margin-right: 10px;'
+                        class='img-fluid'>
+                    </img>
+                    Go live
+
+                  </a>
 
 
 
