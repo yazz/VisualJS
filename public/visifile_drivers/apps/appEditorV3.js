@@ -1648,7 +1648,39 @@ End of app preview menu
            ,
 
 
+           bookmarkCode: async function() {
+               try {
+                   debugger
+                   let mm = this
+                   showProgressBar()
 
+                   let postAppUrl = "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST + "/bookmark_commit"
+                   callAjaxPost(postAppUrl,
+                       {
+                           code_id:                   mm.code_id
+                           ,
+                           user_id:                 "xyz"
+                       }
+                       ,
+                       async function(response){
+                           //showTimer("in 'post_app' response")
+                           //alert(response)
+                           //debugger
+
+                           let responseJson = JSON.parse(response)
+
+                           hideProgressBar()
+                           this.save_state = "saved"
+
+                       })
+
+               } catch (e) {
+                   hideProgressBar()
+                   this.save_state = "saved"
+                   //this.checkSavedFile()
+               }
+           }
+           ,
 
 
            publishToIpfs: async function() {

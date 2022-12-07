@@ -3637,6 +3637,28 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             }))
         })
 
+        app.post("/bookmark_commit" , async function (req, res) {
+            //
+            // get stuff
+            //
+            let ipfsHash = req.body.value.code_id;
+            let version = req.body.value.version;
+            let userId = req.body.value.user_id;
+
+            //zzz
+            let code = await getCodeForCommit(ipfsHash)
+            await tagVersion(ipfsHash, code)
+
+
+            //let parsedCode = await parseCode(code)
+            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+            res.end(JSON.stringify({
+                ipfsHash:   ipfsHash,
+            }))
+        })
+
+
+
 
         app.post("/post_app" , async function (req, res) {
             //
@@ -3651,7 +3673,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             await tagVersion(ipfsHash, code)
             //await releaseCode(ipfsHash)
 
-//zzz
+
             //let parsedCode = await parseCode(code)
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end(JSON.stringify({
@@ -6518,6 +6540,17 @@ async function getRowForCommit(commitId) {
     return commitStructure
 }
 
+
+
+
+async function getCodeForCommit(commitId) {
+    let thisCommit = await getQuickSqlOneRow("select  *  from   system_code  where   id = ? ", [  commitId  ])
+    if (thisCommit) {
+        return thisCommit.code
+    }
+
+    return null
+}
 
 
 async function getPreviousCommitsFor(args) {
