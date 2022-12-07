@@ -3512,7 +3512,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
           //console.log("          code :" + JSON.stringify(req.body.value.code ,null,2))
           //console.log("          options :" + JSON.stringify(req.body.value.options ,null,2))
             //console.log("    " + JSON.stringify(req,null,2) )
-            let parentHash = req.body.value.code_id
+            let parentHash = yz.getValueOfCodeString(req.body.value.code,"parent_hash")
           let saveResult =await yz.saveCodeV2(
                                               dbsearch,
                                               req.body.value.base_component_id,
