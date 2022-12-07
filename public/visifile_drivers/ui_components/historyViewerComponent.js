@@ -522,7 +522,7 @@ load_once_from_file(true)
                         let selectedCommitUiItem = mm.timelineData.get(highlightedItem);
                         let itemGroup = selectedCommitUiItem.group
                         itemStyle += mm.groupColors[itemGroup].normal
-                        itemStyle += "border: 0px;"
+                        itemStyle += "border: solid white 2px;"
                         mm.timelineData.update({
                             id: highlightedItem,
                             style: itemStyle
