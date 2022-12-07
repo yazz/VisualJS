@@ -1722,42 +1722,6 @@ End of app preview menu
 
 
 
-           publishToIpfs: async function() {
-                try {
-                    //debugger
-                    let textIn = await this.$refs.editor_component_ref.getText()
-                    showProgressBar()
-
-                    let postAppUrl = "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST + "/post_app"
-                    callAjaxPost(postAppUrl,
-                        {
-                            code:                   textIn
-                            ,
-                            version:                "LATEST"
-                            ,
-                            user_id:                 "xyz"
-                        }
-                        ,
-                        async function(response){
-                            //showTimer("in 'post_app' response")
-                            //alert(response)
-                            //debugger
-
-                            let responseJson = JSON.parse(response)
-
-                            hideProgressBar()
-                            this.save_state = "saved"
-
-                        })
-
-                } catch (e) {
-                    hideProgressBar()
-                    this.save_state = "saved"
-                    //this.checkSavedFile()
-                }
-            }
-            ,
-
 
 
 
