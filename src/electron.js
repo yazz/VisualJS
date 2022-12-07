@@ -3649,7 +3649,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
 
 
             let code = await getCodeForCommit(ipfsHash)
-            await tagVersion(ipfsHash, code)
+            await yz.tagVersion(dbsearch, ipfsHash, code)
 
 
             //let parsedCode = await parseCode(code)
@@ -3673,7 +3673,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
 
 
             let code = await getCodeForCommit(ipfsHash)
-            await tagVersion(ipfsHash, code)
+            await yz.tagVersion(dbsearch, ipfsHash, code)
             await releaseCode(ipfsHash, code)
 
 
@@ -4905,19 +4905,6 @@ async function sendIpfsHashToCentralServer(ipfs_hash , ipfsContent) {
     return
 }
 
-async function tagVersion(ipfs_hash, srcCode ) {
-    let baseComponentId = yz.getValueOfCodeString(srcCode,"base_component_id")
-    let dateTime = new Date().toString()
-    await executeQuickSql(
-        `insert into 
-            code_tags 
-         (id , base_component_id , code_tag , fk_system_code_id)
-            values
-         (?,?,?,?) 
-         `
-         ,
-         [ uuidv1()  ,  baseComponentId  ,  dateTime,  ipfs_hash])
-}
 
 
 
@@ -6696,26 +6683,4 @@ async function releaseCode(commitId) {
 
 
 
-
-async function executeQuickSql(sql, params) {
-    let promise = new Promise(async function(returnfn) {
-        try {
-            let exeSqlPreparedStmt = dbsearch.prepare(sql)
-            dbsearch.serialize(function () {
-                dbsearch.run("begin exclusive transaction");
-                dbsearch.run("commit", function () {
-                    dbsearch.serialize(function () {
-                        dbsearch.run("begin exclusive transaction");
-                        exeSqlPreparedStmt.run(params)
-                        dbsearch.run("commit")
-                        returnfn(11)
-                    })
-                })
-            })
-        } catch (err) {
-        }
-    })
-    let ret = await promise
-    return ret
-}
 

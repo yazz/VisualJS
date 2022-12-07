@@ -284,6 +284,64 @@ module.exports = {
         let ret = await promise
         return ret
     }
+    ,
+
+
+
+
+
+
+
+
+
+    executeQuickSql: async function (thisDb, sql, params) {
+        let promise = new Promise(async function(returnfn) {
+            try {
+                let exeSqlPreparedStmt = thisDb.prepare(sql)
+                thisDb.serialize(function () {
+                    thisDb.run("begin exclusive transaction");
+                    thisDb.run("commit", function () {
+                        thisDb.serialize(function () {
+                            thisDb.run("begin exclusive transaction");
+                            exeSqlPreparedStmt.run(params)
+                            thisDb.run("commit")
+                            returnfn(11)
+                        })
+                    })
+                })
+            } catch (err) {
+            }
+        })
+        let ret = await promise
+        return ret
+    }
+
+    ,
+
+
+
+
+
+    tagVersion: async function (thisDb, ipfs_hash, srcCode ) {
+        let baseComponentId = this.getValueOfCodeString(srcCode,"base_component_id")
+        let dateTime = new Date().toString()
+        await this.executeQuickSql(thisDb,
+            `insert into 
+            code_tags 
+         (id , base_component_id , code_tag , fk_system_code_id)
+            values
+         (?,?,?,?) 
+         `
+            ,
+            [ uuidv1()  ,  baseComponentId  ,  dateTime,  ipfs_hash])
+    }
+
+
+
+
+
+
+
 
 
 
