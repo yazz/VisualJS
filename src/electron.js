@@ -3648,7 +3648,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             let userId = req.body.value.user_id;
 
 
-            let code = await getCodeForCommit(ipfsHash)
+            let code = await yz.getCodeForCommit(dbsearch, ipfsHash)
             await yz.tagVersion(dbsearch, ipfsHash, code)
 
 
@@ -3672,7 +3672,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             let userId = req.body.value.user_id;
 
 
-            let code = await getCodeForCommit(ipfsHash)
+            let code = await yz.getCodeForCommit(dbsearch, ipfsHash)
             await yz.tagVersion(dbsearch, ipfsHash, code)
             await releaseCode(ipfsHash, code)
 
@@ -6510,15 +6510,6 @@ async function getRowForCommit(commitId) {
 
 
 
-
-async function getCodeForCommit(commitId) {
-    let thisCommit = await yz.getQuickSqlOneRow(dbsearch,  "select  *  from   system_code  where   id = ? ", [  commitId  ])
-    if (thisCommit) {
-        return thisCommit.code
-    }
-
-    return null
-}
 
 
 async function getPreviousCommitsFor(args) {
