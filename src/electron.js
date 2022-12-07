@@ -6608,57 +6608,61 @@ async function releaseCode(commitId) {
     let ipfs_hash = parsedCode.ipfsHashId
     let readWriteStatus = parsedCode.readWriteStatus
     let system_code_id = parsedCode.systemCodeId
+    let promise = new Promise(async function(returnfn) {
 
-    if (logo.startsWith("data:")) {
-        rowhash.setEncoding('hex');
-        rowhash.write(logo);
-        rowhash.end();
-        icon_image_id = rowhash.read();
-        dataString = logo
-    } else {
+        if (logo.startsWith("data:")) {
+            rowhash.setEncoding('hex');
+            rowhash.write(logo);
+            rowhash.end();
+            icon_image_id = rowhash.read();
+            dataString = logo
+        } else {
 
-        let fullPath = path.join(__dirname, "../public" + logo)
-        let logoFileIn = fs.readFileSync(fullPath);
-        dataString = new Buffer(logoFileIn).toString('base64');
-        let imageExtension = logo.substring(logo.lastIndexOf(".") + 1)
-        let rowhash = crypto.createHash('sha256');
-        dataString = "data:image/" + imageExtension + ";base64," + dataString
-        rowhash.setEncoding('hex');
-        rowhash.write(dataString);
-        rowhash.end();
-        icon_image_id = rowhash.read();
-    }
+            let fullPath = path.join(__dirname, "../public" + logo)
+            let logoFileIn = fs.readFileSync(fullPath);
+            dataString = new Buffer(logoFileIn).toString('base64');
+            let imageExtension = logo.substring(logo.lastIndexOf(".") + 1)
+            let rowhash = crypto.createHash('sha256');
+            dataString = "data:image/" + imageExtension + ";base64," + dataString
+            rowhash.setEncoding('hex');
+            rowhash.write(dataString);
+            rowhash.end();
+            icon_image_id = rowhash.read();
+        }
 
-    let componentListRecord = await yz.getQuickSqlOneRow(dbsearch,  "select * from released_components where base_component_id = ?",[base_component_id])
-    if (!componentListRecord) {
-        dbsearch.serialize(function() {
-            dbsearch.run("begin exclusive transaction");
-            dbsearch.run("commit", function() {
-                dbsearch.serialize(function() {
-                    dbsearch.run("begin exclusive transaction");
-                    stmtInsertReleasedComponentListItem.run(   id  ,  base_component_id  ,  app_name  ,  app_description  ,  icon_image_id  ,  ipfs_hash, '' , readWriteStatus)
-                    stmtInsertIconImageData.run(icon_image_id, dataString)
-                    dbsearch.run("commit")
-                    returnfn()
+        let componentListRecord = await yz.getQuickSqlOneRow(dbsearch, "select * from released_components where base_component_id = ?", [base_component_id])
+        if (!componentListRecord) {
+            dbsearch.serialize(function () {
+                dbsearch.run("begin exclusive transaction");
+                dbsearch.run("commit", function () {
+                    dbsearch.serialize(function () {
+                        dbsearch.run("begin exclusive transaction");
+                        stmtInsertReleasedComponentListItem.run(id, base_component_id, app_name, app_description, icon_image_id, ipfs_hash, '', readWriteStatus)
+                        stmtInsertIconImageData.run(icon_image_id, dataString)
+                        dbsearch.run("commit")
+                        returnfn()
+                    })
                 })
-            })
 
-        })
-    } else {
-        dbsearch.serialize(function() {
-            dbsearch.run("begin exclusive transaction");
-            dbsearch.run("commit", function() {
-                dbsearch.serialize(function() {
-                    dbsearch.run("begin exclusive transaction");
-                    stmtUpdateReleasedComponentList.run(   ipfs_hash ,   base_component_id  )
-                    stmtInsertIconImageData.run(icon_image_id, dataString)
-                    dbsearch.run("commit")
-                    returnfn()
+            })
+        } else {
+            dbsearch.serialize(function () {
+                dbsearch.run("begin exclusive transaction");
+                dbsearch.run("commit", function () {
+                    dbsearch.serialize(function () {
+                        dbsearch.run("begin exclusive transaction");
+                        stmtUpdateReleasedComponentList.run(ipfs_hash, base_component_id)
+                        stmtInsertIconImageData.run(icon_image_id, dataString)
+                        dbsearch.run("commit")
+                        returnfn()
+                    })
                 })
-            })
 
-        })
-    }
+            })
+        }
+    })
+    let ret2 = await promise
+    return ret2
 
 }
 
