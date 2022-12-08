@@ -4143,25 +4143,25 @@ return ret
 
 
 async function getFromYazzReturnJson(urlToget, urlParams) {
-let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + urlToget + "?" +
-new URLSearchParams(urlParams)
+    let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + urlToget + "?" +
+        new URLSearchParams(urlParams)
 
-let promise = new Promise(async function (returnfn) {
-fetch(openfileurl, {
-method: 'get',
-credentials: "include"
-})
-.then((response) => response.json())
-.then(async function (responseJson) {
-returnfn(responseJson)
-})
-.catch(err => {
-//error block
-returnfn()
-})
-})
-retval = await promise
-return retval
+    let promise = new Promise(async function (returnfn) {
+        fetch(openfileurl, {
+            method: 'get',
+            credentials: "include"
+        })
+        .then((response) => response.json())
+        .then(async function (responseJson) {
+            returnfn(responseJson)
+        })
+        .catch(err => {
+            //error block
+            returnfn()
+        })
+    })
+    retval = await promise
+    return retval
 }
 
 

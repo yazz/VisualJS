@@ -159,6 +159,11 @@ load_once_from_file(true)
                             <button  type=button class='btn  btn-info'
                                      style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
                                      v-on:click="checkoutCode()" >Checkout</button>
+
+        
+                            <button  type=button class='btn  btn-info' 
+                                     style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
+                                       v-on:click="calculateBranchStrength()" >Expermintal - caclulate branch strength</button>
     
 
                         </div>
@@ -801,6 +806,16 @@ load_once_from_file(true)
          }
          ,
 
+
+         calculateBranchStrength: async function() {
+             //debugger
+             let mm = this
+             //alert("Checking out commit: " + mm.lockedSelectedCommit)
+             let responseJson = await getFromYazzReturnJson("/bulk_calculate_branch_strength_for_component", {commit_id: mm.lockedSelectedCommit})
+             let result = responseJson
+             alert(JSON.stringify(result))
+         }
+         ,
 
 
          checkoutCode: async function() {

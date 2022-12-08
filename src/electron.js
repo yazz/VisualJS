@@ -3165,7 +3165,16 @@ async function startServices() {
         });
 
 
+        app.get('/bulk_calculate_branch_strength_for_component', async function (req, res) {
+            console.log("app.post('/bulk_calculate_branch_strength_for_component'): ")
 
+
+            res.writeHead(200, {'Content-Type': 'application/json'});
+
+            res.end(JSON.stringify(
+                {val: "bulk"}
+            ));
+        });
 
 
 
