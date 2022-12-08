@@ -302,6 +302,7 @@ load_once_from_file(true)
              this.currentCommithashId = await this.getCurrentCommitId()
              await this.setupTimeline()
              setTimeout(async function(){
+                await mm.calculateBranchStrength()
                  await mm.getHistory_v3()
              })
 
@@ -833,8 +834,8 @@ load_once_from_file(true)
                                             commit_id:          mm.lockedSelectedCommit,
                                             baseComponentId:    mm.baseComponentId
                                             })
-             let result = responseJson
-             alert(JSON.stringify(result))
+             //let result = responseJson
+             //alert(JSON.stringify(result))
          }
          ,
 
