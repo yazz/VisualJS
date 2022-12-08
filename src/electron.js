@@ -3187,7 +3187,35 @@ async function startServices() {
                 [baseComponentId]
                 )
                 //zzz
+            await yz.executeQuickSql(
+                dbsearch,
 
+                `update 
+                    code_tags  
+               set  
+                    main_score = 10  
+                where  
+                    base_component_id = ? 
+                        and 
+                    code_tag = 'TIP'  `,
+
+                [baseComponentId]
+            )
+            let updatedTips = await yz.getQuickSql(
+                dbsearch,
+
+                `select  
+                    fk_system_code_id  , main_score
+                from  
+                    code_tags  
+                where  
+                    base_component_id = ? 
+                        and 
+                    code_tag = 'TIP'  `,
+
+                [baseComponentId]
+            )
+            //zzz
 
             res.writeHead(200, {'Content-Type': 'application/json'});
 
@@ -3195,7 +3223,7 @@ async function startServices() {
                 {
                     baseComponentId: baseComponentId
                     ,
-                    tips: allTips
+                    tips: updatedTips
                 }
             ));
         });
@@ -6548,7 +6576,7 @@ async function getRowForCommit(commitId) {
     let getFutureCommitsSql = "select  id  from   system_code  where  parent_id = ? "
     let parentCommits = await yz.getQuickSql(dbsearch,  getFutureCommitsSql, [  commitId  ])
 
-    let getCodeTagsSql= "  select  code_tag  from  code_tags  where fk_system_code_id = ?  "
+    let getCodeTagsSql= "  select  code_tag, main_score  from  code_tags  where fk_system_code_id = ?  "
     let codeTags = await yz.getQuickSql(dbsearch,  getCodeTagsSql, [  commitId  ])
 
     if (thisCommit) {
