@@ -3167,12 +3167,17 @@ async function startServices() {
 
         app.get('/bulk_calculate_branch_strength_for_component', async function (req, res) {
             console.log("app.post('/bulk_calculate_branch_strength_for_component'): ")
+            let baseComponentId = req.query.baseComponentId;
+
+            //
+            // first find all the tips
+            //
 
 
             res.writeHead(200, {'Content-Type': 'application/json'});
 
             res.end(JSON.stringify(
-                {val: "bulk"}
+                {baseComponentId: baseComponentId}
             ));
         });
 

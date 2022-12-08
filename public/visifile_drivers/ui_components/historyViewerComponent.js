@@ -811,7 +811,12 @@ load_once_from_file(true)
              //debugger
              let mm = this
              //alert("Checking out commit: " + mm.lockedSelectedCommit)
-             let responseJson = await getFromYazzReturnJson("/bulk_calculate_branch_strength_for_component", {commit_id: mm.lockedSelectedCommit})
+             let responseJson = await getFromYazzReturnJson(
+                                        "/bulk_calculate_branch_strength_for_component",
+                                        {
+                                            commit_id:          mm.lockedSelectedCommit,
+                                            baseComponentId:    mm.baseComponentId
+                                            })
              let result = responseJson
              alert(JSON.stringify(result))
          }
