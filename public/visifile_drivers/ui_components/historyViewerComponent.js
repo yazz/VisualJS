@@ -183,6 +183,7 @@ load_once_from_file(true)
                                       <div style="margin-left: 80px;"
                                            v-for="(item,i) in commitsV3[previewedCommitId].code_tags">
                                         {{ item.code_tag }}
+                                        <span v-if="item.main_score">, Score: {{ item.main_score }}</span>
                                       </div>
 
                                   <div><b>Commit ID:</b> {{commitsV3[previewedCommitId].id}}</div>
@@ -482,7 +483,7 @@ load_once_from_file(true)
 
 
          selectItemDetails: async function(commitId) {
-        // debugger
+         //debugger
              let mm = this
              mm.lockedSelectedCommit = commitId
              mm.previewedCommitId = commitId
@@ -562,7 +563,7 @@ load_once_from_file(true)
                  mm.timelineData.update({id: commitId, style: itemStyle});
                  mm.highlightedItems[commitId] = true
              } catch (err) {
-                 debugger
+                 //debugger
              } finally {
              }
          }
@@ -576,7 +577,7 @@ load_once_from_file(true)
          // ----------------------------------------------------------------------
          renderCommitsToTimeline: async function () {
              let mm = this
-
+//debugger
 
             let listOfCommits = Object.keys(mm.commitsV3)
             let earliestTimestamp = null
@@ -678,6 +679,7 @@ load_once_from_file(true)
                      .then((response) => response.json())
                      .then(async function (responseJson) {
                          await mm.saveResponseToCommitData(responseJson)
+                         //debugger
                          await mm.renderCommitsToTimeline()
                          returnfn()
                      })
@@ -686,6 +688,7 @@ load_once_from_file(true)
                          returnfn()
                      })
              })
+
              let retval = await promise
              return retval
 
@@ -759,7 +762,7 @@ load_once_from_file(true)
 
          saveResponseToCommitData: async function(responseJson) {
             let mm = this
-            debugger
+            //debugger
              for (let rt = 0; rt < responseJson.length; rt++) {
 
                  let itemStyle = ""
