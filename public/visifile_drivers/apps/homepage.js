@@ -640,7 +640,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     let bci = text.base_component_id
                     let cid = text.code_id
                     //zzz
-                    debugger
+                    //debugger
                     for (let thisApp of mm.editableAppList) {
                         if (thisApp.data.id == bci) {
                             thisApp.data.code_id = cid
@@ -1012,7 +1012,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               saveCodeToFile = null
 
 
-debugger
+
               let result = await callApp(
                                 {
                                     driver_name: "copyApp",

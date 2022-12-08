@@ -635,10 +635,23 @@ load_once_from_file(true)
              itemStyle += mm.groupColors[mm.currentGroupId].normal
 
 
+             let mainContent = commitItem.id.substr(0,5) + (commitItem.num_changes?(" (" + commitItem.num_changes +")"):"")
+             let extraContent = ""
+             debugger
+             if (commitItem.code_tags) {
+                 for (codeTagItem of commitItem.code_tags) {
+                     if (codeTagItem.code_tag =="TIP") {
+                         extraContent = ", TIP"
+                         if (codeTagItem.main_score) {
+                             extraContent += "=" + codeTagItem.main_score
+                         }
+                     }
+                 }
+             }
              mm.timelineData.add(
                  {
                      id:        commitItem.id,
-                     content:   commitItem.id.substr(0,5) + (commitItem.num_changes?(" (" + commitItem.num_changes +")"):""),
+                     content:   mainContent + extraContent,
                      start:     commitItem.timestamp,
                      group:     mm.currentGroupId,
                      style:     itemStyle
