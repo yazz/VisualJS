@@ -811,7 +811,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
                                                 msg.parent_hash  ,
                                                 msg.code,
                                                 msg.options)
-            //zzz
+
 
              //async function saveCodeV2( baseComponentId, parentHash, code , options) {
 
@@ -3172,12 +3172,31 @@ async function startServices() {
             //
             // first find all the tips
             //
+            let allTips = await yz.getQuickSql(
+                dbsearch,
+
+                `select  
+                    fk_system_code_id  
+                from  
+                    code_tags  
+                where  
+                    base_component_id = ? 
+                        and 
+                    code_tag = 'TIP'  `,
+
+                [baseComponentId]
+                )
+                //zzz
 
 
             res.writeHead(200, {'Content-Type': 'application/json'});
 
             res.end(JSON.stringify(
-                {baseComponentId: baseComponentId}
+                {
+                    baseComponentId: baseComponentId
+                    ,
+                    tips: allTips
+                }
             ));
         });
 
