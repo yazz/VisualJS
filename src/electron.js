@@ -3187,6 +3187,42 @@ async function startServices() {
                 [baseComponentId]
                 )
                 //zzz
+            for (tip of allTips) {
+
+                let numCommitsRow = await yz.getQuickSqlOneRow(
+                    dbsearch,
+                    `with RECURSIVE
+                    parents_of(id2, parent_id2) as (
+                        select id, parent_id from system_code where id = ?
+                            union all
+                        select id, parent_id from system_code,parents_of  where id = parent_id2
+                            limit 10
+                    )
+                select count(*) as num_commits from parents_of`
+                    ,
+                    [tip.fk_system_code_id])
+                let numCommits = numCommitsRow.num_commits
+
+
+
+                await yz.executeQuickSql(
+                    dbsearch,
+
+                    `update 
+                    system_code  
+               set  
+                    score = ?  
+                where  
+                    id = ? `,
+
+                    [numCommits, tip.fk_system_code_id]
+                )
+            }
+
+
+
+
+
             await yz.executeQuickSql(
                 dbsearch,
 
