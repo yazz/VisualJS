@@ -163,6 +163,7 @@ load_once_from_file(true)
         
                             <button  type=button class='btn  btn-info' 
                                      style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
+                                     v-if="false"
                                        v-on:click="calculateBranchStrength()" >Expermintal - caclulate branch strength</button>
     
 
