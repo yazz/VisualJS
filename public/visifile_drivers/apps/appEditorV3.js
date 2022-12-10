@@ -1531,17 +1531,17 @@ End of app preview menu
                }
                mm.inSave = true
 
-               //resetTimer("save")
+               resetTimer("save")
 
                try {
                    if (textIn == null) {
-                       //showTimer("before getText")
+                       showTimer("before getText")
                        this.editor_text = await this.$refs.editor_component_ref.getText()
-                       //showTimer("after getText")
+                       showTimer("after getText")
                    } else {
                      this.editor_text = textIn
                    }
-                   //showTimer()
+                   showTimer()
                    // if (mm.read_only) {
                    //     mm.inSave = false
                    //     return false
@@ -1576,7 +1576,7 @@ End of app preview menu
                    ,
                    async function(response){
                        //debugger
-                       //showTimer("in save code response")
+                       showTimer("in save code response")
                        if (mm.$refs.editor_component_ref.savedStatus !== undefined) {
                            await mm.$refs.editor_component_ref.savedStatus({status: "ok"})
                        }
@@ -1608,7 +1608,9 @@ End of app preview menu
                                // if the app has been changed during the save then don't reload the app
                                //mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
                                if (!saveCodeToFile) {
+                                   showTimer("before load_appV2")
                                    await mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
+                                   showTimer("after load_appV2")
                                } else {
                                    hideProgressBar()
                                }
@@ -1622,7 +1624,7 @@ End of app preview menu
 
                        mm.save_state = "saved"
                        mm.checkSavedFile()
-                       //showTimer("done")
+                       showTimer("done")
                        mm.inSave = false
                        mm.editor_shell_locked = false
 
@@ -1632,6 +1634,7 @@ End of app preview menu
                            code_id:             mm.code_id
                        })
 
+                       showTimer("return")
                        return true
                    })
 
