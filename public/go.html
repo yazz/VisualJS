@@ -18,7 +18,12 @@ border: 1px solid lightgray;
 
 
 <script>
-
+function addToIpfs(sometext) {
+    (async function(){
+        let ret = await Ipfs.add(sometext)}
+        alert(JSON.stringify(rret,null,2))
+        )()
+}
 var ipfs = null
 
 var web3loaded = false
