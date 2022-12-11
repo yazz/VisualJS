@@ -20,6 +20,7 @@ border: 1px solid lightgray;
 <script>
 function addToIpfs(sometext) {
     (async function(){
+    debugger
         let ret = await Ipfs.add(sometext)
         alert(JSON.stringify(rret,null,2))
         }
