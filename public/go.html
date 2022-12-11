@@ -22,7 +22,7 @@ function addToIpfs(sometext) {
     debugger
     let x = (async function(){
     debugger
-        let ret = await Ipfs.add(sometext)
+        let ret = await ipfs.add(sometext)
         //let ret ="sdf"
         alert(JSON.stringify(ret,null,2))
         }
