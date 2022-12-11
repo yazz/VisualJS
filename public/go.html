@@ -6,7 +6,6 @@
 <link rel="stylesheet" href="https://cdn.usebootstrap.com/bootstrap/4.1.3/css/bootstrap.min.css">
 
     <script src="https://cdn.jsdelivr.net/npm/ipfs/dist/index.min.js"></script>
-    
 <style>
 #visualization {
 width: 100%;
@@ -19,6 +18,9 @@ border: 1px solid lightgray;
 
 
 <script>
+
+var ipfs = null
+
 var web3loaded = false
 var disableAutoSave = false;
 var pageInitialised = false
@@ -31,7 +33,7 @@ await executeOnPageLoad()
 executeOnPageLoad = null
 }
 }
-
+(async function(){ipfs = await Ipfs.create()})()
 
 var visJsloaded = false
 var useVisJs = async function() {
