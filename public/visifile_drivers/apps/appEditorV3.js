@@ -2315,6 +2315,7 @@ End of app preview menu
                                if (mm.$refs.editor_component_ref.setText) {
                                    mm.$refs.editor_component_ref.setText(code)
                                }
+                               debugger
                            }
                        },500)
                    }
