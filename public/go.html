@@ -42,9 +42,8 @@ if (pageInitialised) {
 await executeOnPageLoad()
 executeOnPageLoad = null
 }
+    ipfs = await Ipfs.create()
 }
-debugger
-ipfs = await Ipfs.create()
 
 var visJsloaded = false
 var useVisJs = async function() {
