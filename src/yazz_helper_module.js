@@ -398,7 +398,7 @@ module.exports = {
                     app = options.app
                 }
             }
-            //resetTimer(`*function saveCodeV2( ${baseComponentId}, ${parentHash} ) {`)
+
             if (!baseComponentId) {
                 baseComponentId = uuidv1()
             }
