@@ -46,12 +46,6 @@ async function onPageInitialized(doCode) {
         await executeOnPageLoad()
         executeOnPageLoad = null
     }
-    debugger
-    if ($USEHTTPS == "true") {
-        await useIpfsServer()
-        ipfs = await Ipfs.create()
-    }
-    //zzz
 }
 
 
@@ -2179,33 +2173,41 @@ socket.on('client_data_returned_from_server',function(data) {
 //
 // ----------------------------------------------------------------------------------------------
 socket.on('env_vars',async function(data) {
-//console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
+    //console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
 
-var allEnvVarNames = Object.keys(data.value)
-for (var i=0; i< allEnvVarNames.length;i++) {
-try
-{
-let envName = allEnvVarNames[i].replace(/[^a-zA-Z0-9]/g,'_')
-//console.log(envName)
-var valueEnvVar = data.value[envName]
-var cmddd = '($' + envName + " =  String.raw`" +  String.raw`${valueEnvVar}` +"`)"
+    var allEnvVarNames = Object.keys(data.value)
+    for (var i=0; i< allEnvVarNames.length;i++) {
+        try
+        {
+            let envName = allEnvVarNames[i].replace(/[^a-zA-Z0-9]/g,'_')
+            //console.log(envName)
+            var valueEnvVar = data.value[envName]
+            var cmddd = '($' + envName + " =  String.raw`" +  String.raw`${valueEnvVar}` +"`)"
 
-if (mainMoonApp.is_gui_app) {
-console.log(cmddd)
-}
+            if (mainMoonApp.is_gui_app) {
+                console.log(cmddd)
+            }
 
-eval(cmddd)
+            eval(cmddd)
 
-} catch (errr) {
-console.log(errr)
-}
-}
-pageInitialised = true
+        } catch (errr) {
+            console.log(errr)
+        }
+    }
+    pageInitialised = true
 
-if (executeOnPageLoad) {
-await executeOnPageLoad()
-executeOnPageLoad = null
-}
+
+    debugger
+    if ($USEHTTPS == "true") {
+        await useIpfsServer()
+        ipfs = await Ipfs.create()
+    }
+    //zzz
+
+    if (executeOnPageLoad) {
+        await executeOnPageLoad()
+        executeOnPageLoad = null
+    }
 });
 
 
