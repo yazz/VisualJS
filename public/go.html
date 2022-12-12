@@ -49,6 +49,11 @@ async function onPageInitialized(doCode) {
         await executeOnPageLoad()
         executeOnPageLoad = null
     }
+    try {
+        ipfs = await IpfsCore.create()
+    } catch (ipfsError) {
+        debugger
+    }
 }
 
 
@@ -2209,14 +2214,14 @@ socket.on('env_vars',async function(data) {
 
     if ($USEHTTPS == "true") {
         //await useIpfsServer()
-        setTimeout(async function() {
+        /*setTimeout(async function() {
             debugger
             try {
                 ipfs = await IpfsCore.create()
             } catch (ipfsError) {
                 debugger
             }
-        },200)
+        },200)*/
     }
 
 
