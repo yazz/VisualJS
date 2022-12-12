@@ -1570,7 +1570,8 @@ End of app preview menu
                                                    sub_components:         Object.keys(dev_app_component_loaded),
                                                    save_html:              true,
                                                    save_code_to_file:      saveCodeToFile,
-                                                   allowAppToWorkOffline:  allowAppToWorkOffline
+                                                   allowAppToWorkOffline:  allowAppToWorkOffline,
+                                                   allowChanges: false
                                                }
                    }
                    ,
