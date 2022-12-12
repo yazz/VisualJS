@@ -24,9 +24,18 @@ async function addToIpfs(sometext) {
     return ret
 }
 async function getIpfsHash(sometext) {
-    let ret = await ipfs.add(sometext)
+//debugger
+    if (ipfs) {
+        let ret = await ipfs.add(sometext)
 
-    return ret.path
+        return ret.path
+    } else {
+        let resulthash = await postToYazzReturnJson(
+            "/get_commit_hash_id",
+            {text: sometext}
+        )
+        return resulthash.ipfsHash
+    }
 }
 
 
@@ -4232,6 +4241,33 @@ async function getFromYazzReturnJson(urlToget, urlParams) {
     return retval
 }
 
+
+async function postToYazzReturnJson(urlToget, postParams) {
+    let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + urlToget
+
+    let promise = new Promise(async function (returnfn) {
+        fetch(openfileurl, {
+            method: 'post',
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: JSON.stringify(postParams)
+
+        })
+        .then((response) => response.json())
+        .then(async function (responseJson) {
+            returnfn(responseJson)
+        })
+        .catch(err => {
+            //error block
+            returnfn()
+        })
+    })
+    retval = await promise
+    return retval
+}
 
 
 
