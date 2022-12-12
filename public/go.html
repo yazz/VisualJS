@@ -75,7 +75,7 @@ var useVisJs = async function() {
 
 var ipfsServerloaded = false
 var useIpfsServer = async function() {
-    if (!useIpfsServer) {
+    if (!ipfsServerloaded) {
         //debugger
         let loadIpfsServerScript = document.createElement('script');
         loadIpfsServerScript.src = "/js_libs/ipfs_server.js";
