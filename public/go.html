@@ -28,7 +28,7 @@ async function addToIpfs(sometext) {
 async function getIpfsHash(sometext) {
     let ret = await ipfs.add(sometext)
 
-    return ret.cid
+    return ret.path
 }
 
 
