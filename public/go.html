@@ -78,7 +78,7 @@ var useIpfsServer = async function() {
     if (!ipfsServerloaded) {
         //debugger
         let loadIpfsServerScript = document.createElement('script');
-        loadIpfsServerScript.src = "/js_libs/ipfs_server.js";
+        loadIpfsServerScript.src = "/js_libs/js_ipfs_server.js";
 
         document.head.appendChild(loadIpfsServerScript);
         loadIpfsServerScript.onload = function () {
