@@ -2212,7 +2212,7 @@ socket.on('env_vars',async function(data) {
         setTimeout(async function() {
             debugger
             try {
-                ipfs = await Ipfs.create()
+                ipfs = await IpfsCore.create()
             } catch (ipfsError) {
                 debugger
             }
