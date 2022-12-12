@@ -1571,15 +1571,17 @@ End of app preview menu
                                                    save_html:              true,
                                                    save_code_to_file:      saveCodeToFile,
                                                    allowAppToWorkOffline:  allowAppToWorkOffline,
-                                                   allowChanges: false
+                                                   allowChanges:           false
                                                }
                    }
                    ,
                    async function(response){
                        //debugger
                        showTimer("in save code response")
-                       if (mm.$refs.editor_component_ref.savedStatus !== undefined) {
-                           await mm.$refs.editor_component_ref.savedStatus({status: "ok"})
+                       if (mm.$refs.editor_component_ref) {
+                           if (mm.$refs.editor_component_ref.savedStatus !== undefined) {
+                               await mm.$refs.editor_component_ref.savedStatus({status: "ok"})
+                           }
                        }
 
                        let responseJson = JSON.parse(response)
