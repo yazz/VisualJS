@@ -76,18 +76,23 @@ var useVisJs = async function() {
 var ipfsServerloaded = false
 var useIpfsServer = async function() {
     if (!ipfsServerloaded) {
-        //debugger
-        let loadIpfsServerScript = document.createElement('script');
-        loadIpfsServerScript.src = "/js_libs/js_ipfs_server.js";
+        let promise = new Promise(async function(returnfn) {
+            //debugger
+            let loadIpfsServerScript = document.createElement('script');
+            loadIpfsServerScript.src = "/js_libs/js_ipfs_server.js";
 
-        document.head.appendChild(loadIpfsServerScript);
-        loadIpfsServerScript.onload = function () {
-            try {
-            } catch (error) {
-                debugger
-            }
-            ipfsServerloaded = true
-        };
+            document.head.appendChild(loadIpfsServerScript);
+            loadIpfsServerScript.onload = function () {
+                try {
+                } catch (error) {
+                    debugger
+                }
+                ipfsServerloaded = true
+                returnfn()
+            };
+        })
+        let ret = await promise
+        return ret
     }
 }
 
@@ -2201,9 +2206,7 @@ socket.on('env_vars',async function(data) {
     debugger
     if ($USEHTTPS == "true") {
         await useIpfsServer()
-        setTimeout(async function() {
-            ipfs = await Ipfs.create()
-        },200)
+        ipfs = await Ipfs.create()
     }
     //zzz
 
