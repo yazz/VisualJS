@@ -2206,11 +2206,15 @@ socket.on('env_vars',async function(data) {
     pageInitialised = true
 
 
-    debugger
+
     if ($USEHTTPS == "true") {
         //await useIpfsServer()
         //setTimeout(async function() {
+        try {
             ipfs = await Ipfs.create()
+        } catch (ipfsError) {
+            debugger
+        }
         //},200)
     }
 
