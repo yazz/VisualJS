@@ -50,6 +50,7 @@ async function onPageInitialized(doCode) {
         executeOnPageLoad = null
     }
     try {
+    debugger
         ipfs = await IpfsCore.create()
     } catch (ipfsError) {
         debugger
