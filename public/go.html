@@ -38,15 +38,26 @@ var web3loaded = false
 var disableAutoSave = false;
 var pageInitialised = false
 var executeOnPageLoad = null
-async function onPageInitialized(doCode) {
 
-executeOnPageLoad = doCode
-if (pageInitialised) {
-await executeOnPageLoad()
-executeOnPageLoad = null
+
+
+
+async function onPageInitialized(doCode) {
+    executeOnPageLoad = doCode
+    if (pageInitialised) {
+        await executeOnPageLoad()
+        executeOnPageLoad = null
+    }
+    debugger
+    if ($USEHTTPS == "true") {
+        ipfs = await Ipfs.create()
+    }
+    //zzz
 }
-    ipfs = await Ipfs.create()
-}
+
+
+
+
 
 var visJsloaded = false
 var useVisJs = async function() {
