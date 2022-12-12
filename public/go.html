@@ -5,8 +5,6 @@
 <meta charset="UTF-8" />
 <link rel="stylesheet" href="https://cdn.usebootstrap.com/bootstrap/4.1.3/css/bootstrap.min.css">
 
-    <script src="https://cdn.jsdelivr.net/npm/ipfs/dist/index.min.js"></script>
-
 <style>
 #visualization {
 width: 100%;
@@ -2208,8 +2206,8 @@ socket.on('env_vars',async function(data) {
 
 
     if (($USEHTTPS == "true") || (location.hostname == "localhost")) {
-        //await useIpfsServer()
         //debugger
+        await useIpfsServer()
         try {
             ipfs = await Ipfs.create({offline: true, start: false})
             console.log('IPFS server loaded:')
