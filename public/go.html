@@ -2201,7 +2201,9 @@ socket.on('env_vars',async function(data) {
     debugger
     if ($USEHTTPS == "true") {
         await useIpfsServer()
-        ipfs = await Ipfs.create()
+        setTimeout(async function() {
+            ipfs = await Ipfs.create()
+        },200)
     }
     //zzz
 
