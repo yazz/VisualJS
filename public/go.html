@@ -4330,6 +4330,18 @@ function enhanceCode(code, options) {
     code = yz.deleteCodeString(code, "updated_timestamp")
     code = yz.insertCodeString(code, "updated_timestamp", timeNow)
 
+
+    //
+    // Add a logo if none supplied
+    //
+    let logoUrl = yz.getValueOfCodeString(code,"logo_url")
+    if (!isValidObject(logoUrl)) {
+        logoUrl = "/driver_icons/js.png"
+        code = yz.insertCodeString(code, "logo_url", logoUrl)
+    }
+
+
+
     //
     // return the amended code
     //
