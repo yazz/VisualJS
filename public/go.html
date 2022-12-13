@@ -836,28 +836,32 @@ function registerComponent(vueComponentObject) {
                     }
 
 
-
-                    if (thisComponent22 && thisComponent22.meta && thisComponent22.meta.getEditor()) {
-                        thisComponent22.meta.getEditor().processControlEvent(
-                            {
-                                type:                       "subcomponent_event",
-                                form_name:                   thisComponent22.meta.getEditor().active_form,
-                                control_name:                thisComponent22[  argsPrefix  ].name,
-                                sub_type:                   "on_property_changed",
-                                code:                        thisComponent22[  argsPrefix  ].on_property_changed,
-                                design_time_only_events:     designTimeOnlyEvents,
-
-                                args:
+debugger
+                    if (thisComponent22 && thisComponent22.meta) {
+                        if (thisComponent22.meta.getEditor) {
+                            thisComponent22.meta.getEditor().processControlEvent(
                                 {
-                                    form:           thisComponent22.meta.getEditor().active_form,
-                                    component:      thisComponent22[  argsPrefix  ].name,
-                                    property:       propNamee,
-                                    value:          newValue,
-                                    old_value:      oldValue,
-                                    new_value:      newValue
-                                }
-                            })
+                                    type: "subcomponent_event",
+                                    form_name: thisComponent22.meta.getEditor().active_form,
+                                    control_name: thisComponent22[argsPrefix].name,
+                                    sub_type: "on_property_changed",
+                                    code: thisComponent22[argsPrefix].on_property_changed,
+                                    design_time_only_events: designTimeOnlyEvents,
+
+                                    args:
+                                        {
+                                            form: thisComponent22.meta.getEditor().active_form,
+                                            component: thisComponent22[argsPrefix].name,
+                                            property: propNamee,
+                                            value: newValue,
+                                            old_value: oldValue,
+                                            new_value: newValue
+                                        }
+                                })
                         }
+
+                    }
+
 
                     });
                 }
