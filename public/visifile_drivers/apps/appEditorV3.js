@@ -1587,7 +1587,7 @@ End of app preview menu
 
                        let responseJson = JSON.parse(response)
                        //mm.code_id = responseJson.code_id
-                       debugger
+                       //debugger
                        mm.code_id  = await getIpfsHash(mm.editor_text)
 
                        console.log("1) mm.code_id= " + mm.code_id)
