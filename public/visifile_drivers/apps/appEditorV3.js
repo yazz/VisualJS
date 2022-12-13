@@ -1586,7 +1586,10 @@ End of app preview menu
                        }
 
                        let responseJson = JSON.parse(response)
-                       mm.code_id = responseJson.code_id
+                       //mm.code_id = responseJson.code_id
+                       debugger
+                       mm.code_id  = await getIpfsHash(mm.editor_text)
+
                        console.log("1) mm.code_id= " + mm.code_id)
                        if ((yz.getValueOfCodeString(mm.editor_text,"only_run_on_server") == true)
                             ||
