@@ -382,14 +382,9 @@ module.exports = {
         }
 
         let promise = new Promise(async function(returnFn) {
-            let allowChanges = true
             let restRoutes = {}
             let aoo = null
             if (options) {
-
-                if (typeof options.allowChanges !== 'undefined') {
-                    allowChanges = options.allowChanges
-                }
 
                 if (options.restRoutes) {
                     restRoutes = options.restRoutes
@@ -408,54 +403,11 @@ module.exports = {
 }`
             }
 
-            //
-            //  Add a link to the parent code
-            //
-            let lastParentHash = mm.getValueOfCodeString(code,"parent_hash")
-            if (allowChanges && (lastParentHash != parentHash)) {
-                if (lastParentHash) {
-                    code = mm.deleteCodeString(code, "parent_hash")
-                }
-                if (parentHash) {
-                    code = mm.insertCodeString(code, "parent_hash", parentHash)
-                }
-            }
-
-
-            //showTimer(`2`)
-
-
-
-
-
-            let oldBaseComp = mm.getValueOfCodeString(code,"base_component_id")
-
-
-            if (allowChanges && (oldBaseComp != baseComponentId )) {
-                code = mm.deleteCodeString(code, "base_component_id")
-                code = mm.insertCodeString(code, "base_component_id", baseComponentId)
-            }
-
             //showTimer("    baseComponentId := " + baseComponentId)
 
 
-            let creationTimestamp = new Date().getTime()
             // if we don't want to reload this file then don't update the timestamp
-            let tvvv = mm.getValueOfCodeString(code, "created_timestamp")
-            if ((tvvv == null) || (tvvv == "-1")) {
-                if (mm.getValueOfCodeString(code,"load_once_from_file")) {
-                    creationTimestamp = -1
-                }
-            }
-            if (allowChanges && (!tvvv)) {
-                code = mm.deleteCodeString(code, "created_timestamp")
-                code = mm.insertCodeString(code, "created_timestamp", creationTimestamp)
-            }
-
-            if (allowChanges) {
-                code = mm.deleteCodeString(code, "updated_timestamp")
-                code = mm.insertCodeString(code, "updated_timestamp", creationTimestamp)
-            }
+            let creationTimestamp = mm.getValueOfCodeString(code, "created_timestamp")
 
             //showTimer(`3`)
 
@@ -471,30 +423,12 @@ module.exports = {
 
 
             let visibility = null
-            let newvisibility = null
             visibility = mm.getValueOfCodeString(code,"visibility")
-            newvisibility = visibility
-            if (!mm.isValidObject(visibility)) {
-                if (mm.isValidObject(options) && options.make_public) {
-                    newvisibility = "PUBLIC"
-                } else {
-                    newvisibility = "PRIVATE"
-                }
-            }
-
-            if (allowChanges && (newvisibility != visibility)) {
-                code = mm.deleteCodeString(code, "visibility")
-                code = mm.insertCodeString(code, "visibility", newvisibility)
-            }
 
             //showTimer(`4`)
 
 
             let logoUrl = mm.getValueOfCodeString(code,"logo_url")
-            if (allowChanges && (!mm.isValidObject(logoUrl))) {
-                logoUrl = "/driver_icons/js.png"
-                code = mm.insertCodeString(code, "logo_url", logoUrl)
-            }
 
 
 
@@ -567,18 +501,7 @@ module.exports = {
                         stmtInsertComponentProperty.run(baseComponentId, prop.id)
 
 
-                        if (prop.id == "previous_ipfs_version") {
-                            if (allowChanges && (typeof prop.default !== 'undefined' )) {
-                                code = mm.deleteCodeString(code, "previous_ipfs_version")
-                                code = mm.insertCodeString(code, "previous_ipfs_version", prop.default)
-                            }
-                        }
-                        if (prop.id == "ipfs_hash_id") {
-                            if (allowChanges && (typeof prop.default !== 'undefined' )) {
-                                code = mm.deleteCodeString(code, "ipfs_hash_id")
-                                code = mm.insertCodeString(code, "ipfs_hash_id", prop.default)
-                            }
-                        }
+
 
                     }
                 }
@@ -722,7 +645,7 @@ module.exports = {
                                                 creationTimestamp,
                                                 componentOptions,
                                                 logoUrl,
-                                                newvisibility,
+                                                visibility,
                                                 interfaces,
                                                 useDb,
                                                 editors,
@@ -1483,6 +1406,18 @@ module.exports = {
     ,
 
 
+
+
+
+
+
+    //------------------------------------------------------------------------------
+    //
+    //
+    //
+    //
+    //
+    //------------------------------------------------------------------------------
     enhanceCode: function (code, options) {
         let yz = this
         let parentHash = null
