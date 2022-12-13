@@ -407,7 +407,10 @@ module.exports = {
 
 
             // if we don't want to reload this file then don't update the timestamp
-            let creationTimestamp = mm.getValueOfCodeString(code, "created_timestamp")
+            let updatedTimestamp = mm.getValueOfCodeString(code, "updated_timestamp")
+            if (!updatedTimestamp) {
+                updatedTimestamp = mm.getValueOfCodeString(code, "created_timestamp")
+            }
 
             //showTimer(`3`)
 
@@ -642,7 +645,7 @@ module.exports = {
                                                 maxProcesses,
                                                 componentType,
                                                 displayName,
-                                                creationTimestamp,
+                                                updatedTimestamp,
                                                 componentOptions,
                                                 logoUrl,
                                                 visibility,
