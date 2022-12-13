@@ -4388,7 +4388,9 @@ function enhanceCode(code, options) {
             self.postMessage('msg from worker: ' + e.data);
             for (let i=0;i<100;i++) {
                 sleep(400)
-                console.log("in web worker: " + " " + i )
+                let msggg = " " + i
+                console.log("in web worker: " +  msggg )
+                self.postMessage(msggg);
             }
         };
         // Rest of your worker code goes here.
