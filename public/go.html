@@ -13,14 +13,7 @@ border: 1px solid lightgray;
 }
 </style>
 
-<script id="worker1" type="javascript/worker">
-  // This script won't be parsed by JS engines because its type is javascript/worker.
-  self.onmessage = function(e) {
-    self.postMessage('msg from worker');
-  };
-  // Rest of your worker code goes here.
-  console.log("in web worker")
-</script>
+
 
 
 <script>
@@ -4369,15 +4362,19 @@ function enhanceCode(code, options) {
         code = yz.deleteCodeString(code, "visibility")
         code = yz.insertCodeString(code, "visibility", newvisibility)
     }
-
-
-
     //
     // return the amended code
     //
     return code
 }
-function sleep(milliseconds) {
+</script>
+
+
+
+
+    <script id="worker1" type="javascript/worker">
+
+    function sleep(milliseconds) {
     const date = Date.now();
     let currentDate = null;
     do {
@@ -4386,8 +4383,25 @@ function sleep(milliseconds) {
 }
 
 
+        // This script won't be parsed by JS engines because its type is javascript/worker.
+        self.onmessage = function(e) {
+        self.postMessage('msg from worker');
+    };
+        // Rest of your worker code goes here.
+        for (let i=0;i<100;i++) {
+        sleep(400)
+        console.log("in web worker: " + i)
+    }
+</script>
 
-debugger
+
+<script>
+
+
+
+
+
+//debugger
 var blob = new Blob([
     document.querySelector('#worker1').textContent
 ], { type: "text/javascript" })
