@@ -4367,31 +4367,31 @@ function enhanceCode(code, options) {
     //
     return code
 }
+
 </script>
 
 
 
-
-    <script id="worker1" type="javascript/worker">
+<script id="worker1" type="javascript/worker">
 
     function sleep(milliseconds) {
-    const date = Date.now();
-    let currentDate = null;
-    do {
-        currentDate = Date.now();
-    } while (currentDate - date < milliseconds);
-}
+        const date = Date.now();
+        let currentDate = null;
+        do {
+            currentDate = Date.now();
+        } while (currentDate - date < milliseconds);
+    }
 
 
         // This script won't be parsed by JS engines because its type is javascript/worker.
         self.onmessage = function(e) {
-        self.postMessage('msg from worker');
-    };
+            self.postMessage('msg from worker: ' + JSON.stringify(e,null,2));
+            for (let i=0;i<100;i++) {
+                sleep(400)
+                console.log("in web worker: " + " " + i )
+            }
+        };
         // Rest of your worker code goes here.
-        for (let i=0;i<100;i++) {
-        sleep(400)
-        console.log("in web worker: " + i)
-    }
 </script>
 
 
