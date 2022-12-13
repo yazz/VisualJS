@@ -4385,7 +4385,7 @@ function enhanceCode(code, options) {
 
         // This script won't be parsed by JS engines because its type is javascript/worker.
         self.onmessage = function(e) {
-            self.postMessage('msg from worker: ' + JSON.stringify(e,null,2));
+            self.postMessage('msg from worker: ' + e.data);
             for (let i=0;i<100;i++) {
                 sleep(400)
                 console.log("in web worker: " + " " + i )
