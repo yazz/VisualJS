@@ -4373,6 +4373,39 @@ function enhanceCode(code, options) {
 
 
 <script id="worker1" type="javascript/worker">
+//debugger
+
+async function postToYazzReturnJson(urlToget, postParams) {
+    //let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + urlToget
+    let openfileurl = "http://192.168.5.66" + urlToget
+
+
+    let promise = new Promise(async function (returnfn) {
+        fetch(openfileurl, {
+            method: 'post',
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: JSON.stringify(postParams)
+
+        })
+        .then((response) => response.json())
+        .then(async function (responseJson) {
+            returnfn(responseJson)
+        })
+        .catch(err => {
+            //error block
+            returnfn()
+        })
+    })
+    retval = await promise
+    return retval
+}
+
+
+
 
     function sleep(milliseconds) {
         const date = Date.now();
@@ -4384,13 +4417,15 @@ function enhanceCode(code, options) {
 
 
         // This script won't be parsed by JS engines because its type is javascript/worker.
-        self.onmessage = function(e) {
+        self.onmessage = async function(e) {
             self.postMessage('msg from worker: ' + e.data);
             for (let i=0;i<100;i++) {
                 sleep(400)
                 let msggg = " " + i
                 console.log("in web worker: " +  msggg )
                 self.postMessage(msggg);
+                postToYazzReturnJson("/test_web_worker",{})
+
             }
         };
         // Rest of your worker code goes here.
