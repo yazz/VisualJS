@@ -4341,6 +4341,26 @@ function enhanceCode(code, options) {
     }
 
 
+    //
+    // visibility
+    //
+    let visibility = null
+    let newvisibility = null
+    visibility = yz.getValueOfCodeString(code,"visibility")
+    newvisibility = visibility
+    if (!isValidObject(visibility)) {
+        if (isValidObject(options) && options.make_public) {
+            newvisibility = "PUBLIC"
+        } else {
+            newvisibility = "PRIVATE"
+        }
+    }
+    if (newvisibility != visibility) {
+        code = yz.deleteCodeString(code, "visibility")
+        code = yz.insertCodeString(code, "visibility", newvisibility)
+    }
+
+
 
     //
     // return the amended code
