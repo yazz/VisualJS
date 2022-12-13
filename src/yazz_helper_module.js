@@ -1480,6 +1480,93 @@ module.exports = {
     }
 
 
+    ,
 
+
+    enhanceCode: function (code, options) {
+        let yz = this
+        let parentHash = null
+        let baseComponentId = null
+        if (options) {
+            parentHash = options.parentHash
+            baseComponentId = options.baseComponentId
+        }
+
+        //
+        // parent HASH
+        //
+        let lastParentHash = yz.getValueOfCodeString(code,"parent_hash")
+        if (lastParentHash) {
+            code = yz.deleteCodeString(code, "parent_hash")
+        }
+        if (parentHash) {
+            code = yz.insertCodeString(code, "parent_hash", parentHash)
+        }
+
+        //
+        // type
+        //
+        let oldBaseComp = yz.getValueOfCodeString(code,"base_component_id")
+        if (oldBaseComp != baseComponentId ) {
+            code = yz.deleteCodeString(code, "base_component_id")
+            code = yz.insertCodeString(code, "base_component_id", baseComponentId)
+        }
+
+        //
+        // timestamps
+        //
+        let timeNow = new Date().getTime()
+        // if we don't want to reload this file then don't update the timestamp
+        let createdTimestamp = yz.getValueOfCodeString(code, "created_timestamp")
+        if ((createdTimestamp == null) || (createdTimestamp == "-1")) {
+            if (yz.getValueOfCodeString(code,"load_once_from_file")) {
+                timeNow = -1
+            }
+        }
+        if (!createdTimestamp) {
+            code = yz.deleteCodeString(code, "created_timestamp")
+            code = yz.insertCodeString(code, "created_timestamp", timeNow)
+        }
+
+        code = yz.deleteCodeString(code, "updated_timestamp")
+        code = yz.insertCodeString(code, "updated_timestamp", timeNow)
+
+
+        //
+        // Add a logo if none supplied
+        //
+        let logoUrl = yz.getValueOfCodeString(code,"logo_url")
+        if (!yz.isValidObject(logoUrl)) {
+            logoUrl = "/driver_icons/js.png"
+            code = yz.insertCodeString(code, "logo_url", logoUrl)
+        }
+
+
+        //
+        // visibility
+        //
+        let visibility = null
+        let newvisibility = null
+        visibility = yz.getValueOfCodeString(code,"visibility")
+        newvisibility = visibility
+        if (!yz.isValidObject(visibility)) {
+            if (yz.isValidObject(options) && options.make_public) {
+                newvisibility = "PUBLIC"
+            } else {
+                newvisibility = "PRIVATE"
+            }
+        }
+        if (newvisibility != visibility) {
+            code = yz.deleteCodeString(code, "visibility")
+            code = yz.insertCodeString(code, "visibility", newvisibility)
+        }
+
+
+
+        //
+        // return the amended code
+        //
+        return code
+    }
 
 }
