@@ -4285,15 +4285,30 @@ function getYazzCookie() {
 function enhanceCode(code, options) {
     let mm = this
     let parentHash = null
+    let baseComponentId = null
     if (options) {
         parentHash = options.parentHash
+        baseComponentId = options.baseComponentId
     }
+
+    //
+    // parent HASH
+    //
     let lastParentHash = yz.getValueOfCodeString(code,"parent_hash")
     if (lastParentHash) {
         code = yz.deleteCodeString(code, "parent_hash")
     }
     if (parentHash) {
         code = yz.insertCodeString(code, "parent_hash", parentHash)
+    }
+
+    //
+    // type
+    //
+    let oldBaseComp = yz.getValueOfCodeString(code,"base_component_id")
+    if (oldBaseComp != baseComponentId ) {
+        code = yz.deleteCodeString(code, "base_component_id")
+        code = yz.insertCodeString(code, "base_component_id", baseComponentId)
     }
     return code
 }
