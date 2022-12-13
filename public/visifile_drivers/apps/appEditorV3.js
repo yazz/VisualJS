@@ -1561,7 +1561,7 @@ End of app preview menu
                    }
 
                    //debugger
-                   this.editor_text = enhanceCode(this.editor_text)
+                   this.editor_text = enhanceCode(this.editor_text, code_id)
                    callAjaxPost("/save_code",
                    {
                        base_component_id:      base_component_id,

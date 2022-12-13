@@ -4282,7 +4282,15 @@ function getYazzCookie() {
 }
 
 
-function enhanceCode(code) {
+function enhanceCode(code, parentHash) {
+    let mm = this
+    let lastParentHash = yz.getValueOfCodeString(code,"parent_hash")
+    if (lastParentHash) {
+        code = yz.deleteCodeString(code, "parent_hash")
+    }
+    if (parentHash) {
+        code = yz.insertCodeString(code, "parent_hash", parentHash)
+    }
     return code
 }
 </script>
