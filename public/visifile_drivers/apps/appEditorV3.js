@@ -1575,73 +1575,70 @@ End of app preview menu
                    }
                    ,
                    async function(response){
-                       //debugger
-                       showTimer("in save code response")
-                       if (mm.$refs.editor_component_ref) {
-                           if (mm.$refs.editor_component_ref.savedStatus !== undefined) {
-                               await mm.$refs.editor_component_ref.savedStatus({status: "ok"})
-                           }
-                       }
-
-                       let responseJson = JSON.parse(response)
-                       //mm.code_id = responseJson.code_id
-                       //debugger
-                       mm.code_id  = await getIpfsHash(mm.editor_text)
-
-                       console.log("1) mm.code_id= " + mm.code_id)
-                       if ((yz.getValueOfCodeString(mm.editor_text,"only_run_on_server") == true)
-                            ||
-                          (yz.getValueOfCodeString(mm.editor_text,"rest_api")))
-                       {
-                           mm.is_ui_app = false
-                           mm.is_server_app = true
-                           let restApi = yz.getValueOfCodeString(mm.editor_text,"rest_api")
-                           if (restApi) {
-                               mm.is_rest_app = true
-                               mm.rest_api_base_url = restApi
-                           } else {
-                               mm.is_rest_app = false
-                           }
-                       } else {
-                           mm.is_ui_app = false
-                           mm.is_server_app = false
-                       }
-                       if (!mm.is_server_app) {
-                           if (mm.app_shown) {
-                               //await mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
-                               //debugger
-                               // if the app has been changed during the save then don't reload the app
-                               //mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
-                               if (!saveCodeToFile) {
-                                   showTimer("before load_appV2")
-                                   await mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
-                                   showTimer("after load_appV2")
-                               } else {
-                                   hideProgressBar()
-                               }
-                           }
-                       }
-                       hideProgressBar()
-                       if (mm.$refs.editor_component_ref.unlockEditor) {
-                           mm.$refs.editor_component_ref.unlockEditor()
-                       }
-                       mm.editor_shell_locked = false
-
-                       mm.save_state = "saved"
-                       mm.checkSavedFile()
-                       showTimer("done")
-                       mm.inSave = false
-                       mm.editor_shell_locked = false
-
-                       mm.$root.$emit('message', {
-                           type:               "update_app",
-                           base_component_id:   base_component_id,
-                           code_id:             mm.code_id
-                       })
-
-                       showTimer("return")
-                       return true
                    })
+                   //debugger
+                   showTimer("in save code response")
+                   if (mm.$refs.editor_component_ref) {
+                       if (mm.$refs.editor_component_ref.savedStatus !== undefined) {
+                           await mm.$refs.editor_component_ref.savedStatus({status: "ok"})
+                       }
+                   }
+
+                   mm.code_id  = await getIpfsHash(mm.editor_text)
+
+                   console.log("1) mm.code_id= " + mm.code_id)
+                   if ((yz.getValueOfCodeString(mm.editor_text,"only_run_on_server") == true)
+                        ||
+                      (yz.getValueOfCodeString(mm.editor_text,"rest_api")))
+                   {
+                       mm.is_ui_app = false
+                       mm.is_server_app = true
+                       let restApi = yz.getValueOfCodeString(mm.editor_text,"rest_api")
+                       if (restApi) {
+                           mm.is_rest_app = true
+                           mm.rest_api_base_url = restApi
+                       } else {
+                           mm.is_rest_app = false
+                       }
+                   } else {
+                       mm.is_ui_app = false
+                       mm.is_server_app = false
+                   }
+                   if (!mm.is_server_app) {
+                       if (mm.app_shown) {
+                           //await mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
+                           //debugger
+                           // if the app has been changed during the save then don't reload the app
+                           //mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
+                           if (!saveCodeToFile) {
+                               showTimer("before load_appV2")
+                               await mm.load_appV2( mm.base_component_id , mm.editor_text, mm.code_id, mm.editors2)
+                               showTimer("after load_appV2")
+                           } else {
+                               hideProgressBar()
+                           }
+                       }
+                   }
+                   hideProgressBar()
+                   if (mm.$refs.editor_component_ref.unlockEditor) {
+                       mm.$refs.editor_component_ref.unlockEditor()
+                   }
+                   mm.editor_shell_locked = false
+
+                   mm.save_state = "saved"
+                   mm.checkSavedFile()
+                   showTimer("done")
+                   mm.inSave = false
+                   mm.editor_shell_locked = false
+
+                   mm.$root.$emit('message', {
+                       type:               "update_app",
+                       base_component_id:   base_component_id,
+                       code_id:             mm.code_id
+                   })
+
+                   showTimer("return")
+                   return true
 
                } catch (e) {
                    hideProgressBar()
