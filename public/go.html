@@ -4420,7 +4420,7 @@ async function postToYazzReturnJson(urlToget, postParams) {
         self.onmessage = async function(e) {
             self.postMessage('msg from worker: ' + e.data);
             for (let i=0;i<100;i++) {
-                sleep(400)
+                //sleep(400)
                 let msggg = " " + i
                 console.log("in web worker: " +  msggg )
                 self.postMessage(msggg);
