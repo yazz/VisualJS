@@ -1514,7 +1514,17 @@ module.exports = {
 
 
 
+
     
+    getIpfsHash: async function(sometext) {
+        let ipfsHash = await OnlyIpfsHash.of(sometext)
+        return ipfsHash
+    }
+    ,
+
+
+
+
 
     saveCodeV3: async function ( thisDb, code , options) {
         let mm = this

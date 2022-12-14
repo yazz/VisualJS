@@ -3670,19 +3670,20 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
 
 
 
-        app.post("/save_code_v2" , async function (req, res) {
+        app.post("/save_code_v3" , async function (req, res) {
 //zzz
             let userid = await getUserId(req)
             let optionsForSave = req.body.value.options
             optionsForSave.userId = userid
 
-            let saveResult =await yz.saveCodeV2(
+            let saveResult =await yz.saveCodeV3(
                 dbsearch,
-                req.body.value.base_component_id,
-                req.body.value.code_id  ,
                 req.body.value.code,
                 req.body.value.options)
-            let savedCode = await yz.getCodeForCommit(dbsearch, saveResult.code_id)
+
+            let savedCode = req.body.value.code
+            let baseComponentId = yz.getValueOfCodeString(savedCode,"base_component_id")
+            let codeHash = await yz.getIpfsHash(savedCode)
             let parentHash = await yz.getValueOfCodeString(savedCode,"parent_hash")
 
             let parentCodeTag = await yz.getQuickSqlOneRow(
@@ -3696,6 +3697,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
                     "delete from code_tags  where fk_system_code_id = ? and code_tag = 'TIP'  ",
                     [parentHash])
             }
+
             await yz.executeQuickSql(
                 dbsearch,
 
@@ -3706,7 +3708,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
                      (?,?,?,?,?)
                      `,
 
-                [  uuidv1(),   req.body.value.base_component_id,  "TIP", saveResult.code_id,  "" ])
+                [  uuidv1(),   baseComponentId,  "TIP", saveResult.code_id,  "" ])
 
 
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
