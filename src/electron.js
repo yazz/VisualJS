@@ -3192,7 +3192,7 @@ async function startServices() {
 
                 [baseComponentId]
                 )
-                //zzz
+
             for (tip of allTips) {
 
                 let numCommitsRow = await yz.getQuickSqlOneRow(
@@ -3260,7 +3260,7 @@ async function startServices() {
 
                 [baseComponentId]
             )
-            //zzz
+
 
             res.writeHead(200, {'Content-Type': 'application/json'});
 
@@ -3663,6 +3663,57 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end(JSON.stringify(saveResult))
         });
+
+
+
+
+
+
+
+        app.post("/save_code_v2" , async function (req, res) {
+//zzz
+            let userid = await getUserId(req)
+            let optionsForSave = req.body.value.options
+            optionsForSave.userId = userid
+
+            let saveResult =await yz.saveCodeV2(
+                dbsearch,
+                req.body.value.base_component_id,
+                req.body.value.code_id  ,
+                req.body.value.code,
+                req.body.value.options)
+            let savedCode = await yz.getCodeForCommit(dbsearch, saveResult.code_id)
+            let parentHash = await yz.getValueOfCodeString(savedCode,"parent_hash")
+
+            let parentCodeTag = await yz.getQuickSqlOneRow(
+                dbsearch,
+                "select id from  code_tags  where fk_system_code_id = ? and code_tag = 'TIP'  ",
+                [parentHash])
+
+            if (parentCodeTag) {
+                await yz.executeQuickSql(
+                    dbsearch,
+                    "delete from code_tags  where fk_system_code_id = ? and code_tag = 'TIP'  ",
+                    [parentHash])
+            }
+            await yz.executeQuickSql(
+                dbsearch,
+
+                `insert into 
+                    code_tags 
+                    (id,  base_component_id, code_tag, fk_system_code_id, fk_user_id ) 
+                 values  
+                     (?,?,?,?,?)
+                     `,
+
+                [  uuidv1(),   req.body.value.base_component_id,  "TIP", saveResult.code_id,  "" ])
+
+
+            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+            res.end(JSON.stringify(saveResult))
+        });
+
+
 
 
 
