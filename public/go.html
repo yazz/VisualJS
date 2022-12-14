@@ -39,7 +39,7 @@ async function getIpfsHash(sometext) {
 
 
 
-
+var worker = null;
 var ipfs = null
 var web3loaded = false
 var disableAutoSave = false;
@@ -55,6 +55,24 @@ async function onPageInitialized(doCode) {
         await executeOnPageLoad()
         executeOnPageLoad = null
     }
+
+//debugger
+    var blob = new Blob([
+        document.querySelector('#worker1').textContent
+    ], { type: "text/javascript" })
+
+// Note: window.webkitURL.createObjectURL() in Chrome 10+.
+    worker = new Worker(window.URL.createObjectURL(blob));
+    worker.onmessage = function(e) {
+        console.log("Received: " + e.data);
+    }
+
+    worker.postMessage(
+        {
+            hostPort:     $HOSTPORT,
+            host:     $HOST
+        }
+    ); // Start the worker.
 }
 
 
@@ -4374,10 +4392,12 @@ function enhanceCode(code, options) {
 
 <script id="worker1" type="javascript/worker">
 //debugger
+let host = null
+let hostPort = null
+
 
 async function postToYazzReturnJson(urlToget, postParams) {
-    //let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + urlToget
-    let openfileurl = "http://192.168.5.66" + urlToget
+    let openfileurl = "http" + ((hostPort == 443) ? "s" : "") + "://" + host + "/test_web_worker"
 
 
     let promise = new Promise(async function (returnfn) {
@@ -4418,11 +4438,17 @@ async function postToYazzReturnJson(urlToget, postParams) {
 
         // This script won't be parsed by JS engines because its type is javascript/worker.
         self.onmessage = async function(e) {
+            console.log("in web worker, e: " +  JSON.stringify(e.data,null,2) )
+
+            host = e.data.host
+            hostPort = e.data.hostPort
+            console.log("in web worker, host: " +  host )
+            console.log("in web worker, hostPort: " +  hostPort )
+
             self.postMessage('msg from worker: ' + e.data);
             for (let i=0;i<100;i++) {
                 //sleep(400)
                 let msggg = " " + i
-                console.log("in web worker: " +  msggg )
                 self.postMessage(msggg);
                 postToYazzReturnJson("/test_web_worker",{})
 
@@ -4438,18 +4464,6 @@ async function postToYazzReturnJson(urlToget, postParams) {
 
 
 
-//debugger
-var blob = new Blob([
-    document.querySelector('#worker1').textContent
-], { type: "text/javascript" })
-
-// Note: window.webkitURL.createObjectURL() in Chrome 10+.
-var worker = new Worker(window.URL.createObjectURL(blob));
-worker.onmessage = function(e) {
-    console.log("Received: " + e.data);
-}
-
-worker.postMessage("hello"); // Start the worker.
 
 
 </script>
