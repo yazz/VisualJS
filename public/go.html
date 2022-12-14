@@ -4444,14 +4444,16 @@ async function webWorkerPostToYazzReturnJson(host, hostPort, urlToPost, postPara
 
             await webWorkerPostToYazzReturnJson(host, hostPort, "/save_code_v3",
             {
-                code:                   code,
-                options:                {
-                                           sub_components:         options.sub_components,
-                                           save_html:              true,
-                                           save_code_to_file:      options.saveCodeToFile,
-                                           allowAppToWorkOffline:  options.allowAppToWorkOffline,
-                                           allowChanges:           false
-                                       }
+                value: {
+                    code:       code,
+                    options:    {
+                                    sub_components:         options.sub_components,
+                                    save_html:              true,
+                                    save_code_to_file:      options.saveCodeToFile,
+                                    allowAppToWorkOffline:  options.allowAppToWorkOffline,
+                                    allowChanges:           false
+                                }
+                }
             }
             ,
             async function(response){
