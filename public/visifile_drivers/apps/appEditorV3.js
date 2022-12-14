@@ -1562,10 +1562,8 @@ End of app preview menu
 
                    //debugger
                    this.editor_text = enhanceCode(this.editor_text, {parentHash: code_id, baseComponentId: base_component_id})
-                   callAjaxPost("/save_code",
+                   callAjaxPost("/save_code_v3",
                    {
-                       base_component_id:      base_component_id,
-                       code_id:                code_id,
                        code:                   this.editor_text,
                        options:                {
                                                    sub_components:         Object.keys(dev_app_component_loaded),

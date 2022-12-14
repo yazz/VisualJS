@@ -3672,19 +3672,23 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
 
         app.post("/save_code_v3" , async function (req, res) {
 //zzz
-            let userid = await getUserId(req)
-            let optionsForSave = req.body.value.options
-            optionsForSave.userId = userid
+            let userid          = await getUserId(req)
+            let optionsForSave  = req.body.value.options
+
+            if (optionsForSave) {
+                optionsForSave.userId = userid
+            }
+
 
             let saveResult =await yz.saveCodeV3(
                 dbsearch,
                 req.body.value.code,
-                req.body.value.options)
+                optionsForSave)
 
             let savedCode = req.body.value.code
             let baseComponentId = yz.getValueOfCodeString(savedCode,"base_component_id")
+            let parentHash = yz.getValueOfCodeString(savedCode,"parent_hash")
             let codeHash = await yz.getIpfsHash(savedCode)
-            let parentHash = await yz.getValueOfCodeString(savedCode,"parent_hash")
 
             let parentCodeTag = await yz.getQuickSqlOneRow(
                 dbsearch,

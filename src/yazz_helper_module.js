@@ -1515,7 +1515,7 @@ module.exports = {
 
 
 
-    
+
     getIpfsHash: async function(sometext) {
         let ipfsHash = await OnlyIpfsHash.of(sometext)
         return ipfsHash
@@ -1533,10 +1533,7 @@ module.exports = {
             code = code.toString()
         }
         let baseComponentId = mm.getValueOfCodeString(code,"base_component_id")
-        let parentHash = null
-        if (options) {
-            parentHash = options.parentHash
-        }
+        let parentHash = mm.getValueOfCodeString(code,"parent_hash")
 
         let promise = new Promise(async function(returnFn) {
             let restRoutes = {}
