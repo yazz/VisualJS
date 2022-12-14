@@ -4397,13 +4397,10 @@ function enhanceCode(code, options) {
 
 
 <script id="worker1" type="javascript/worker">
-//debugger
-let host = null
-let hostPort = null
 
 
-async function postToYazzReturnJson(urlToget, postParams) {
-    let openfileurl = "http" + ((hostPort == 443) ? "s" : "") + "://" + host + "/test_web_worker"
+async function webWorkerPostToYazzReturnJson(host, hostPort, urlToPost, postParams) {
+    let openfileurl = "http" + ((hostPort == 443) ? "s" : "") + "://" + host + urlToPost
 
 
     let promise = new Promise(async function (returnfn) {
@@ -4435,19 +4432,21 @@ async function postToYazzReturnJson(urlToget, postParams) {
 
         // This script won't be parsed by JS engines because its type is javascript/worker.
         self.onmessage = async function(e) {
-            host = e.data.host
-            hostPort = e.data.hostPort
-            code = e.data.code
+        debugger
+            let host = e.data.host
+            let hostPort = e.data.hostPort
+            let code = e.data.code
+            let options = e.data.options
             console.log("in web worker, host: " +  host )
             console.log("in web worker, hostPort: " +  hostPort )
             console.log("in web worker, code: " +  code.length )
             console.log("in web worker, options: " +  JSON.stringify(options,null,2)  )
 
-            callAjaxPost("/save_code_v3",
+            await webWorkerPostToYazzReturnJson(host, hostPort, "/save_code_v3",
             {
-                code:                   this.editor_text,
+                code:                   code,
                 options:                {
-                                           sub_components:         Object.keys(dev_app_component_loaded),
+                                           sub_components:         options.sub_components,
                                            save_html:              true,
                                            save_code_to_file:      options.saveCodeToFile,
                                            allowAppToWorkOffline:  options.allowAppToWorkOffline,

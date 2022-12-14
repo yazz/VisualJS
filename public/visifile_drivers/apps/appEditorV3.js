@@ -1562,21 +1562,15 @@ End of app preview menu
 
                    //debugger
                    this.editor_text = enhanceCode(this.editor_text, {parentHash: code_id, baseComponentId: base_component_id})
-                   callAjaxPost("/save_code_v3",
-                   {
-                       code:                   this.editor_text,
-                       options:                {
-                                                   sub_components:         Object.keys(dev_app_component_loaded),
-                                                   save_html:              true,
-                                                   save_code_to_file:      saveCodeToFile,
-                                                   allowAppToWorkOffline:  allowAppToWorkOffline,
-                                                   allowChanges:           false
-                                               }
-                   }
-                   ,
-                   async function(response){
-                    console.log("Code saved")
-                   })
+                   await saveCodeViaWebWorker(this.editor_text,
+                                       {
+                                           sub_components:         Object.keys(dev_app_component_loaded),
+                                           save_html:              true,
+                                           save_code_to_file:      saveCodeToFile,
+                                           allowAppToWorkOffline:  allowAppToWorkOffline,
+                                           allowChanges:           false
+                                       })
+
                    //debugger
                    //showTimer("in save code response")
                    if (mm.$refs.editor_component_ref) {

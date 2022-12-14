@@ -2969,13 +2969,8 @@ async function startServices() {
 
         })
 
-        app.post('/test_web_worker', async function (req, res) {
-            console.log("test_web_worker")
-            res.writeHead(200, {'Content-Type': 'application/json'});
-            res.end(JSON.stringify(
-                {}
-            ));
-        })
+
+
 
         app.post('/submit_comment', async function (req, res) {
             console.log("app.post('/submit_comment'): ")
