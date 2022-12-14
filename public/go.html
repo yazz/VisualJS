@@ -4432,15 +4432,15 @@ async function webWorkerPostToYazzReturnJson(host, hostPort, urlToPost, postPara
 
         // This script won't be parsed by JS engines because its type is javascript/worker.
         self.onmessage = async function(e) {
-        debugger
+        //debugger
             let host = e.data.host
             let hostPort = e.data.hostPort
             let code = e.data.code
             let options = e.data.options
-            console.log("in web worker, host: " +  host )
-            console.log("in web worker, hostPort: " +  hostPort )
-            console.log("in web worker, code: " +  code.length )
-            console.log("in web worker, options: " +  JSON.stringify(options,null,2)  )
+            //console.log("in web worker, host: " +  host )
+            //console.log("in web worker, hostPort: " +  hostPort )
+            //console.log("in web worker, code: " +  code.length )
+            //console.log("in web worker, options: " +  JSON.stringify(options,null,2)  )
 
             await webWorkerPostToYazzReturnJson(host, hostPort, "/save_code_v3",
             {
