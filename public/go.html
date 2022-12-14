@@ -17,6 +17,7 @@ border: 1px solid lightgray;
 
 
 <script>
+
 async function addToIpfs(sometext) {
     //debugger
     let ret = await ipfs.add(sometext)
@@ -38,7 +39,7 @@ async function getIpfsHash(sometext) {
 }
 
 
-
+var saveCodeViaWebWorker = null
 var worker = null;
 var ipfs = null
 var web3loaded = false
@@ -67,14 +68,19 @@ async function onPageInitialized(doCode) {
         console.log("Received: " + e.data);
     }
 
-    worker.postMessage(
-        {
-            hostPort:     $HOSTPORT,
-            host:     $HOST
-        }
-    ); // Start the worker.
-}
 
+    saveCodeViaWebWorker = async function(code, options) {
+        worker.postMessage(
+            {
+                hostPort:     $HOSTPORT,
+                host:     $HOST,
+                code:   code,
+                options: options
+            }
+        );
+    }
+}
+//zzz
 
 
 
@@ -4427,32 +4433,31 @@ async function postToYazzReturnJson(urlToget, postParams) {
 
 
 
-    function sleep(milliseconds) {
-        const date = Date.now();
-        let currentDate = null;
-        do {
-            currentDate = Date.now();
-        } while (currentDate - date < milliseconds);
-    }
-
-
         // This script won't be parsed by JS engines because its type is javascript/worker.
         self.onmessage = async function(e) {
-            console.log("in web worker, e: " +  JSON.stringify(e.data,null,2) )
-
             host = e.data.host
             hostPort = e.data.hostPort
+            code = e.data.code
             console.log("in web worker, host: " +  host )
             console.log("in web worker, hostPort: " +  hostPort )
+            console.log("in web worker, code: " +  code.length )
+            console.log("in web worker, options: " +  JSON.stringify(options,null,2)  )
 
-            self.postMessage('msg from worker: ' + e.data);
-            for (let i=0;i<100;i++) {
-                //sleep(400)
-                let msggg = " " + i
-                self.postMessage(msggg);
-                postToYazzReturnJson("/test_web_worker",{})
-
+            callAjaxPost("/save_code_v3",
+            {
+                code:                   this.editor_text,
+                options:                {
+                                           sub_components:         Object.keys(dev_app_component_loaded),
+                                           save_html:              true,
+                                           save_code_to_file:      options.saveCodeToFile,
+                                           allowAppToWorkOffline:  options.allowAppToWorkOffline,
+                                           allowChanges:           false
+                                       }
             }
+            ,
+            async function(response){
+                console.log("Code saved")
+            })
         };
         // Rest of your worker code goes here.
 </script>
