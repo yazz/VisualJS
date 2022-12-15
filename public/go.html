@@ -2413,7 +2413,7 @@ socket.on('server_returns_loadUiComponent_to_browser',async function(data) {
 
     //console.log("callig 2")
     for (var i=0; i< sdf.length; i++) {
-        checkLibsV2(sdf[i],args)
+        await checkLibsV2(sdf[i],args)
         //alert(JSON.stringify(Object.keys(sdf[i]),null,2))
         //console.log("callig 3")
 
