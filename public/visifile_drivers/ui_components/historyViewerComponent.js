@@ -329,27 +329,7 @@ load_once_from_file(true)
              //debugger
              let mm = this
              let retVal = null
-             let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + "/get_commit_hash_id"
-             let promise = new Promise(async function (returnfn) {
-                 fetch(openfileurl, {
-                     method: 'post',
-                     credentials: "include",
-                     headers: {
-                         'Content-Type': 'application/json'
-                         // 'Content-Type': 'application/x-www-form-urlencoded'
-                     },
-                     body: JSON.stringify({text: mm.text})
-                 })
-                     .then((response) => response.json())
-                     .then(function (responseJson) {
-                         returnfn(responseJson.ipfsHash)
-                     })
-                     .catch(err => {
-                         //error block
-                         returnfn(null)
-                     })
-             })
-             retval = await promise
+             retval = getIpfsHash( mm.text )
              return retval
          }
          ,
