@@ -2414,6 +2414,7 @@ socket.on('server_returns_loadUiComponent_to_browser',async function(data) {
     //console.log("callig 2")
     for (var i=0; i< sdf.length; i++) {
         await checkLibsV2(sdf[i],args)
+        await callCodeV2(sdf[i],args)
         //alert(JSON.stringify(Object.keys(sdf[i]),null,2))
         //console.log("callig 3")
 
@@ -3447,6 +3448,7 @@ async function loadV2( baseComponentIds, args ) {
                 }
 
                 await checkLibsV2(newData.value, args)
+                await callCodeV2(newData.value,args)
                 loadedStatic = true
             }
         }
@@ -3582,6 +3584,7 @@ if (isStaticHtmlPageApp) {
             }
 
             await checkLibsV2(newData.value, args)
+            await callCodeV2(newData.value, args)
             loadedStatic = true
         }
     }
@@ -4405,27 +4408,14 @@ async function checkLibs(data){
 }
 
 
-
-
-
-
-
 async function checkLibsV2(componentRecord,args){
     if (componentRecord.libs && componentRecord.libs.length > 0 ) {
         for (var tt = 0; tt < componentRecord.libs.length ; tt++) {
             if (!libLoaded[ componentRecord.libs[tt].dependency_name ]) {
                 libLoaded[ componentRecord.libs[tt].dependency_name ] = true
-            //
-            // if the lib is already loaded then just call the code
-            //
-            } else {
-                await callCodeV2(componentRecord,args)
             }
         }
-    } else {
-        await callCodeV2(componentRecord,args)
     }
-
 }
 
 
