@@ -400,7 +400,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                              visibility = 'PUBLIC'
                      order by base_component_id asc; `
 
-       var results2 = await callApp(
+       var results2 = await callComponent(
            {
                 driver_name:    "systemFunctions2",
                 method_name:    "sql"
@@ -464,7 +464,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               //alert(1)
              //document.getElementById("openfilefromhomepage").click();
              this.showFilePicker = true
-             var result = await callFunction(
+             var result = await callComponent(
                                  {
                                      driver_name: "serverGetHomeDir",
                                      method_name: "serverGetHomeDir"  }
@@ -472,7 +472,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             if (result) {
                 this.open_file_path = result.value
             }
-            var result2 = await callFunction(
+            var result2 = await callComponent(
                                 {
                                     driver_name: "serverFolderContents",
                                     method_name: "serverFolderContents"  }
@@ -507,7 +507,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 } else {
                     this.open_file_path += "/" + fileorFolder.name
                 }
-               var result2 = await callFunction(
+               var result2 = await callComponent(
                                    {
                                        driver_name: "serverFolderContents",
                                        method_name: "serverFolderContents"  }
@@ -572,7 +572,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
            }
 
 
-              var result2 = await callFunction(
+              var result2 = await callComponent(
                                   {
                                       driver_name: "serverFolderContents",
                                       method_name: "serverFolderContents"  }
@@ -620,7 +620,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                        and
                                    base_component_id = '${appId}'; `
 
-             var results2 = await callApp(
+             var results2 = await callComponent(
                  {
                       driver_name:    "systemFunctions2",
                       method_name:    "sql"
@@ -653,7 +653,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                        and
                                    base_component_id = '${appId}'; `
 
-             var results2 = await callApp(
+             var results2 = await callComponent(
                  {
                       driver_name:    "systemFunctions2",
                       method_name:    "sql"
@@ -718,7 +718,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-              var result = await callApp(
+              var result = await callComponent(
                                 {
                                     driver_name: "copyApp",
                                     method_name: "copyAppshareApp"

@@ -100,7 +100,7 @@ logo_url("/driver_icons/terminal.png")
 
         methods: {
             readFromTerminal: async function(cmdString) {
-                var result = await callFunction(
+                var result = await callComponent(
                 {
                     driver_name: "serverTerminalStuff",
                     method_name: "serverTerminalStuff"

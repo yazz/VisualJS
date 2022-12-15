@@ -154,7 +154,7 @@ logo_url("/driver_icons/ducker.png")
 
         methods: {
             readFromDocker: async function() {
-                var result = await callFunction(
+                var result = await callComponent(
                 {
                     driver_name: "serverDockerStuff",
                     method_name: "serverDockerStuff"

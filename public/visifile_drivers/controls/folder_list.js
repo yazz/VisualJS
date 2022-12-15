@@ -96,7 +96,7 @@ logo_url("/driver_icons/folder_list.png")
 
           this.load()
 
-          var result = await callFunction(
+          var result = await callComponent(
                               {
                                   driver_name: "serverGetHomeDir",
                                   method_name: "serverGetHomeDir"  }
@@ -142,7 +142,7 @@ logo_url("/driver_icons/folder_list.png")
                  load: async function() {
                  var mm = this
                  if (!this.design_mode) {
-                     var result = await callFunction(
+                     var result = await callComponent(
                                          {
                                              driver_name: "serverFolderHierarchyList",
                                              method_name: "serverFolderHierarchyList"  }

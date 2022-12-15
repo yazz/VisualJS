@@ -296,7 +296,7 @@ logo_url("/driver_icons/postgres.jpg")
 
 
             connect: async function() {
-                var result = await callFunction(
+                var result = await callComponent(
                                     {
                                         driver_name: "postgres_server",
                                         method_name: "postgres_sql"  }
@@ -345,7 +345,7 @@ logo_url("/driver_icons/postgres.jpg")
                         //if (this.args.where_clause && (this.args.where_clause.length > 0)) {
                         //    this.args.sql += " where " + this.args.where_clause
                         //}
-                        result = await callFunction(
+                        result = await callComponent(
                                             {
                                                 driver_name: "postgres_server",
                                                 method_name: "postgres_sql"  }
@@ -359,7 +359,7 @@ logo_url("/driver_icons/postgres.jpg")
                                                  })
 
                     } else if (this.properties.sql) {
-                        result = await callFunction(
+                        result = await callComponent(
                                             {
                                                 driver_name: "postgres_server",
                                                 method_name: "postgres_sql"  }
@@ -414,7 +414,7 @@ logo_url("/driver_icons/postgres.jpg")
 
                 if (this.design_mode) {
 
-                    var result = await callFunction(
+                    var result = await callComponent(
                                         {
                                             driver_name: "postgres_server",
                                             method_name: "postgres_sql"  }
@@ -454,7 +454,7 @@ logo_url("/driver_icons/postgres.jpg")
                 //debugger
 
                 if (this.design_mode) {
-                    var result = await callFunction(
+                    var result = await callComponent(
                                         {
                                             driver_name: "postgres_server",
                                             method_name: "postgres_sql"  }

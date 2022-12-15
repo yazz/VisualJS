@@ -340,7 +340,7 @@ load_once_from_file(true)
             this.outputText = ""
             this.outputText += "Creating Docker image "  + this.dockerImageName + " at "+ this.dockerHost + ":" + this.dockerPort + "\n"
             this.outputText += "..." + "\n"
-            var result = await callFunction(
+            var result = await callComponent(
                                 {
                                     driver_name: "serverDockerStuff",
                                     method_name: "serverDockerStuff"  }

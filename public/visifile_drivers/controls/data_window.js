@@ -837,7 +837,7 @@ logo_url("/driver_icons/data_window.png")
 
                 if (this.design_mode) {
 
-                    var result = await callFunction(
+                    var result = await callComponent(
                                         {
                                             driver_name: "postgres_server",
                                             method_name: "postgres_sql"  }
@@ -881,7 +881,7 @@ logo_url("/driver_icons/data_window.png")
                 console.log("In getColumns")
 
                 if (this.design_mode) {
-                    var result = await callFunction(
+                    var result = await callComponent(
                                         {
                                             driver_name: "postgres_server",
                                             method_name: "postgres_sql"  }
@@ -925,7 +925,7 @@ logo_url("/driver_icons/data_window.png")
 
             executeSql: async function() {
                 if (!this.design_mode) {
-                    var result = await callFunction(
+                    var result = await callComponent(
                                         {
                                             driver_name: "postgres_server",
                                             method_name: "postgres_sql"  }

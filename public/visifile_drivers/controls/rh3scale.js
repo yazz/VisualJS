@@ -291,7 +291,7 @@ logo_url("/driver_icons/rh3scale.png")
 
 
             readFromDocker: async function() {
-                var result = await callFunction(
+                var result = await callComponent(
                 {
                     driver_name: "serverDockerStuff",
                     method_name: "serverDockerStuff"
@@ -340,7 +340,7 @@ logo_url("/driver_icons/rh3scale.png")
             ,
             check3ScaleAvailable: async function() {
                 try {
-                    var result = await callFunction(
+                    var result = await callComponent(
                     {
                         driver_name: "rest_call_service_v2",
                         method_name: "rest_call_service_v2"
@@ -380,7 +380,7 @@ logo_url("/driver_icons/rh3scale.png")
             getApplicationPlans: async function() {
                 var useURL = this.getUrlFor("/admin/api/application_plans.xml")
 
-                 var result = await callFunction(
+                 var result = await callComponent(
                  {
                      driver_name: "rest_call_service_v2",
                      method_name: "rest_call_service_v2"
@@ -405,7 +405,7 @@ logo_url("/driver_icons/rh3scale.png")
 
                 var useURL = this.getUrlFor("/admin/api/services/" + id + "/proxy/configs/" + env + ".json")
 
-                 var result = await callFunction(
+                 var result = await callComponent(
                  {
                      driver_name: "rest_call_service_v2",
                      method_name: "rest_call_service_v2"

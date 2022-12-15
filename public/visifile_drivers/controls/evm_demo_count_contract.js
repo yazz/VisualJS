@@ -321,7 +321,7 @@ logo_url("/driver_icons/counter.jpg")
             ,
             compileCode: async function() {
 
-              var result = await callFunction(
+              var result = await callComponent(
               {
                   driver_name: "compile_solidity",
                   method_name: "compile_solidity"

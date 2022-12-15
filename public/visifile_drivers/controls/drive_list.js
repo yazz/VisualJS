@@ -74,7 +74,7 @@ logo_url("/driver_icons/drive_list.png")
       ,
       mounted: async function() {
         if (!this.design_mode) {
-            var result = await callFunction(
+            var result = await callComponent(
                                 {
                                     driver_name: "serverDriveList",
                                     method_name: "serverDriveList"  }

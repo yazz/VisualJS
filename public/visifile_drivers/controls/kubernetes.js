@@ -272,7 +272,7 @@ logo_url("/driver_icons/kubernetes.png")
 
 
             readFromDocker: async function() {
-                var result = await callFunction(
+                var result = await callComponent(
                 {
                     driver_name: "serverDockerStuff",
                     method_name: "serverDockerStuff"
@@ -323,7 +323,7 @@ logo_url("/driver_icons/kubernetes.png")
                    
                 try {
                     var apiURL = this.args.host + "/api"
-                    var result = await callFunction(
+                    var result = await callComponent(
                     {
                         driver_name: "rest_call_service_v2",
                         method_name: "rest_call_service_v2"
@@ -360,7 +360,7 @@ logo_url("/driver_icons/kubernetes.png")
 
             deletePod:  async function(podName) {
                 var useURL = this.getUrlFor("pods/" + podName)
-                var result = await callFunction(
+                var result = await callComponent(
                 {
                     driver_name: "rest_call_service_v2",
                     method_name: "rest_call_service_v2"
@@ -376,7 +376,7 @@ logo_url("/driver_icons/kubernetes.png")
             getPods: async function() {
                 var useURL = this.getUrlFor("pods")
 
-                var result = await callFunction(
+                var result = await callComponent(
                 {
                     driver_name: "rest_call_service_v2",
                     method_name: "rest_call_service_v2"

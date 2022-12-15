@@ -1489,7 +1489,7 @@ End of app preview menu
 
             copyAppMethod: async function( appId , newAppId) {
                 let mm = this
-                let result = await callFunction(
+                let result = await callComponent(
                                     {
                                         driver_name: "copyApp",
                                         method_name: "copyAppshareApp"  }
@@ -1810,7 +1810,7 @@ End of app preview menu
                                            and
                                         code_tag = 'LATEST' `
 
-                   results = await callApp(
+                   results = await callComponent(
                        {
                             driver_name:    "systemFunctions2",
                             method_name:    "sql"
@@ -1997,7 +1997,7 @@ End of app preview menu
                                  where
                                         id = '${codeId}'`
 
-                   results = await callApp(
+                   results = await callComponent(
                        {
                            driver_name:    "systemFunctions2",
                            method_name:    "sql"
@@ -2192,7 +2192,7 @@ End of app preview menu
                                         id = '${commitId}'
                                 `
 
-                   results = await callApp(
+                   results = await callComponent(
                        {
                            driver_name:    "systemFunctions2",
                            method_name:    "sql"
@@ -2275,7 +2275,7 @@ End of app preview menu
                            mm.editor_text = code
                            mm.code_id = commitId
                            await loadV2( mm.editor_component, {text: code} )
-                           await callApp( {code_id:    commitId }, {} )
+                           await callComponent( {code_id:    commitId }, {} )
                            mm.refresh++
                            //this.resetDebugger()
 
@@ -2452,7 +2452,7 @@ End of app preview menu
 
 
                     } else {
-                        await callApp( {code_id:    codeId }, {} )
+                        await callComponent( {code_id:    codeId }, {} )
                     }
 
 

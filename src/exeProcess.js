@@ -475,7 +475,7 @@ async function callComponent(name,args) {
 }
 
 
-async function callFunction(options,args) {
+async function callComponent(options,args) {
     var promise = new Promise(async function(returnfn) {
         callDriverMethod(
             options.driver_name,

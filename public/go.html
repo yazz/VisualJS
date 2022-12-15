@@ -2160,7 +2160,7 @@ saveCodeToFile = data.saveCodeToFile
 socket.on('set_saveCodeToFile_V2',async function(data) {
 //debugger
 saveCodeToFile = data.saveCodeToFile
-var results = await callFunction(
+var results = await callComponent(
 {
 driver_name:     "appEditorV2SaveCode",
 method_name:     "saveCode"
@@ -3079,7 +3079,7 @@ text: true, leftX: true, topY: true
 
 async function findComponentsImplementing(listOfProperties){
 //aaa
-let results = await callFunction(
+let results = await callComponent(
 {
 driver_name: "findComponentsImplementing",
 method_name: "findComponentsImplementing"  }
@@ -3667,16 +3667,6 @@ return {}
 
 
 
-async function callFunction(findComponentArgs, args) {
-    return callComponent(findComponentArgs, args)
-}
-
-
-
-async function callApp(findComponentArgs, args) {
-    return callComponent(findComponentArgs, args)
-}
-
 
 async function callComponent(findComponentArgs, args) {
     var promise = new Promise(returnfn => {
@@ -3739,7 +3729,7 @@ if (localAppshareApp) {
 var results = localSql(sqlcode,params)
 return results
 } else {
-var results = await callApp(
+var results = await callComponent(
 {
 driver_name:    "systemFunctionAppSql",
 method_name:    "sql"

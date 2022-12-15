@@ -129,7 +129,7 @@ logo_url("/driver_icons/mysql.png")
         methods: {
             executeSql: async function() {
                 if (!this.design_mode) {
-                    var result = await callFunction(
+                    var result = await callComponent(
                                         {
                                             driver_name: "postgres_server",
                                             method_name: "postgres_sql"  }

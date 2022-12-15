@@ -44,7 +44,7 @@ load_once_from_file(true)
 
         methods: {
             search: async function() {
-                 this.apps = await callApp({   driver_name: "systemFunctions",  method_name:"get_apps_list"}, { }) }
+                 this.apps = await callComponent({   driver_name: "systemFunctions",  method_name:"get_apps_list"}, { }) }
         }
     })
 

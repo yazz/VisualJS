@@ -95,7 +95,7 @@ load_once_from_file(true)
 
              //alert( sql )
 
-             let results = await callApp(
+             let results = await callComponent(
                  {
                      driver_name:    "systemFunctions2",
                      method_name:    "sql"

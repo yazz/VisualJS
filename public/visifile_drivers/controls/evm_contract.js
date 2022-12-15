@@ -353,7 +353,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
               //debugger
               this.infoMessage = ""
 
-              var result = await callFunction(
+              var result = await callComponent(
               {
                   driver_name: "compile_solidity",
                   method_name: "compile_solidity"

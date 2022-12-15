@@ -232,7 +232,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                              visibility = 'PUBLIC'
                      order by base_component_id asc; `
 
-       var results2 = await callApp(
+       var results2 = await callComponent(
            {
                 driver_name:    "systemFunctions2",
                 method_name:    "sql"
@@ -312,7 +312,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                where
                                    base_component_id = '${appId}'; `
 
-             var results2 = await callApp(
+             var results2 = await callComponent(
                  {
                       driver_name:    "systemFunctions2",
                       method_name:    "sql"

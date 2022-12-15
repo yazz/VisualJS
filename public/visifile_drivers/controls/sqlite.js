@@ -159,7 +159,7 @@ logo_url("/driver_icons/sqlite.jpg")
 
               if (this.design_mode) {
 
-                  var result = await callFunction(
+                  var result = await callComponent(
                                       {
                                           driver_name: "sqlite_server",
                                           method_name: "sqlite_sql"  }
@@ -191,7 +191,7 @@ logo_url("/driver_icons/sqlite.jpg")
             connect: async function() {
                 debugger
                 try {
-                    var result = await callFunction(
+                    var result = await callComponent(
                                         {
                                             driver_name: "sqlite_server",
                                             method_name: "sqlite_sql"  }
@@ -225,7 +225,7 @@ logo_url("/driver_icons/sqlite.jpg")
                 //debugger
 
                 if (this.design_mode) {
-                    var result = await callFunction(
+                    var result = await callComponent(
                                         {
                                             driver_name: "sqlite_server",
                                             method_name: "sqlite_sql"  }
@@ -275,7 +275,7 @@ logo_url("/driver_icons/sqlite.jpg")
             
             runQuery: async function() {
                 if (!this.design_mode) {
-                    var result = await callFunction(
+                    var result = await callComponent(
                                         {
                                             driver_name: "sqlite_server",
                                             method_name: "sqlite_sql"  }

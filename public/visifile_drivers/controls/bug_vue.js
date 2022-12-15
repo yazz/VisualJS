@@ -360,7 +360,7 @@ logo_url("https://images.unsplash.com/photo-1526773357673-2d4e8116d497?ixlib=rb-
             <div v-if="showAsCode">
 <pre style="padding:10px; background-color: lightgray;">
 
-var result = await callFunction(
+var result = await callComponent(
 {
     driver_name: "rest_call_service_v2",
     method_name: "rest_call_service_v2"
@@ -481,7 +481,7 @@ var result = await callFunction(
                     if (mm.args.headerName3 && (mm.args.headerName3 != "")) {
                         headers[mm.args.headerName3] = mm.args.headerValue3
                     }
-                    var result = await callFunction(
+                    var result = await callComponent(
                     {
                         driver_name: "rest_call_service_v2",
                         method_name: "rest_call_service_v2"
@@ -536,7 +536,7 @@ var result = await callFunction(
                     if (mm.args.headerName3 && (mm.args.headerName3 != "")) {
                         headers[mm.args.headerName3] = mm.args.headerValue3
                     }
-                    var result = await callFunction(
+                    var result = await callComponent(
                     {
                         driver_name: "rest_call_service_v2",
                         method_name: "rest_call_service_v2"
@@ -587,7 +587,7 @@ var result = await callFunction(
             getListOfResponsePathsForJson: async function(input) {
                 var mm = this
 
-                var result = await callFunction(
+                var result = await callComponent(
                 {
                     driver_name: "json_traverse_service",
                     method_name: "json_traverse_service"
@@ -622,7 +622,7 @@ var result = await callFunction(
             getJsonFiltered: async function(input) {
                 var mm = this
 
-                var result = await callFunction(
+                var result = await callComponent(
                 {
                     driver_name: "json_filter_service",
                     method_name: "json_filter_service"

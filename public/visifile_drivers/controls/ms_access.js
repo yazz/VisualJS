@@ -161,7 +161,7 @@ logo_url("/driver_icons/import_access.png")
 
               if (this.design_mode) {
 
-                  var result = await callFunction(
+                  var result = await callComponent(
                                       {
                                           driver_name: "access_server",
                                           method_name: "access_sql"  }
@@ -201,7 +201,7 @@ logo_url("/driver_icons/import_access.png")
                 console.log("In getColumns")
 
                 if (this.design_mode) {
-                    var result = await callFunction(
+                    var result = await callComponent(
                                         {
                                             driver_name: "access_server",
                                             method_name: "access_sql"  }
@@ -236,7 +236,7 @@ logo_url("/driver_icons/import_access.png")
             connect: async function() {
                 let mm = this
                 try {
-                    var result = await callFunction(
+                    var result = await callComponent(
                                         {
                                             driver_name: "access_server",
                                             method_name: "access_sql"  }
@@ -265,7 +265,7 @@ logo_url("/driver_icons/import_access.png")
 
             runQuery: async function() {
                 if (!this.design_mode) {
-                    var result = await callFunction(
+                    var result = await callComponent(
                                         {
                                             driver_name: "access_server",
                                             method_name: "access_sql"  }

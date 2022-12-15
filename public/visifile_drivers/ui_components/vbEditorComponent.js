@@ -2443,7 +2443,7 @@ Pushlist
                 var sql = "select  child_component_id  from  component_usage  where " +
                           "        base_component_id = '" + mm.edited_app_component_id + "'"
 
-                var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
+                var results = await callComponent({ driver_name:    "systemFunctions2",method_name:    "sql"},
                                             {   sql: sql  })
 
                 for (var i = 0; i < results.length; i++) {
@@ -2870,7 +2870,7 @@ setTimeout(async function(){
            var sql =    "select  base_component_id,logo_url  from  system_code  where " +
                         "        code_tag = 'LATEST' and logo_url is not null and component_type = 'VB'"
 
-           var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
+           var results = await callComponent({ driver_name:    "systemFunctions2",method_name:    "sql"},
                {   sql: sql  })
            mm.available_components = results
            let itemsToLoad = []
@@ -7534,7 +7534,7 @@ return {}
             var sql =    "select  cast(code as text)  as  code  from  system_code  where " +
                          "        base_component_id = 'vb_editor_component'   and   code_tag = 'LATEST' "
 
-            var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
+            var results = await callComponent({ driver_name:    "systemFunctions2",method_name:    "sql"},
                 {   sql: sql  })
 
             var editorCode = results[0].code
@@ -7679,7 +7679,7 @@ return {}
             //alert(1)
            //document.getElementById("openfilefromhomepage").click();
            this.showFilePicker = true
-           var result = await callFunction(
+           var result = await callComponent(
                                {
                                    driver_name: "serverGetHomeDir",
                                    method_name: "serverGetHomeDir"  }
@@ -7687,7 +7687,7 @@ return {}
           if (result) {
               this.open_file_path = result.value
           }
-          var result2 = await callFunction(
+          var result2 = await callComponent(
                               {
                                   driver_name: "serverFolderContents",
                                   method_name: "serverFolderContents"  }
@@ -7711,7 +7711,7 @@ return {}
                   this.open_file_path += "/" + fileorFolder.name
               }
               //alert(JSON.stringify(fileExts,null,2))
-             var result2 = await callFunction(
+             var result2 = await callComponent(
                                  {
                                      driver_name: "serverFolderContentsV2",
                                      method_name: "serverFolderContentsV2"  }
@@ -7777,7 +7777,7 @@ return {}
          }
 
 
-            var result2 = await callFunction(
+            var result2 = await callComponent(
                                 {
                                     driver_name: "serverFolderContents",
                                     method_name: "serverFolderContents"  }

@@ -242,7 +242,7 @@ logo_url("/driver_icons/kafka.png")
         methods: {
             readTopic: async function() {
                 let mm = this
-                var result = await callFunction(
+                var result = await callComponent(
                     {
                         driver_name: "kafka_service",
                         method_name: "kafka_service"
@@ -270,7 +270,7 @@ logo_url("/driver_icons/kafka.png")
             checkKafkaAvailable: async function()  {
                 let mm = this
                 mm.args.isKafkaAvailable = "False"
-                var result = await callFunction(
+                var result = await callComponent(
                     {
                         driver_name: "kafka_service",
                         method_name: "kafka_service"
