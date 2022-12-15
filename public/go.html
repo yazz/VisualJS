@@ -2495,31 +2495,6 @@ await callback();
 (document.body || head).appendChild(s);
 }
 
-async function checkLibs(data){
-    if (data.value.libs && data.value.libs.length > 0 ) {
-        //alert(JSON.stringify(data.value.libs,null,2))
-        for (var tt = 0; tt < data.value.libs.length ; tt++) {
-            if (!libLoaded[ data.value.libs[tt].dependency_name ]) {
-                libLoaded[ data.value.libs[tt].dependency_name ] = true
-                if ( data.value.libs[tt].dependency_name == "advanced_bundle" ) {
-                    console.log = function(){}
-                    if (advancedAlreadyLoaded) {
-                    } else {
-                        advancedAlreadyLoaded = true
-                    }
-                }
-
-                //
-                // if the lib is already loaded then just call the code
-                //
-            } else {
-                await callCodeV2(data.value,  callDriverMethodArgs[data.seq_num],  data.seq_num)
-            }
-        }
-    } else {
-        await callCodeV2(data.value,  callDriverMethodArgs[data.seq_num],  data.seq_num)
-    }
-}
 
 
 function logVarBefore(codeBlockName, line, varName, varValue) {
@@ -2614,43 +2589,6 @@ executionTimelineMapTimeToLine[recor.time] = recor
 }
 
 
-
-async function checkLibsV2(componentRecord,args){
-
-    if (componentRecord.libs && componentRecord.libs.length > 0 ) {
-        //alert(JSON.stringify(componentRecord.libs,null,2))
-        for (var tt = 0; tt < componentRecord.libs.length ; tt++) {
-            if (!libLoaded[ componentRecord.libs[tt].dependency_name ]) {
-                libLoaded[ componentRecord.libs[tt].dependency_name ] = true
-                if ( componentRecord.libs[tt].dependency_name == "advanced_bundle" ) {
-
-                    var oldConsole = console.log
-                    console.log = function(){}
-                    if (advancedAlreadyLoaded) {
-                    } else {
-                        advancedAlreadyLoaded = true
-                        /*await scriptTag(
-                        `/js_libs/advanced_js_bundle.js`
-                        ,
-                        async function() {
-                        console.log = oldConsole
-                        await callCodeV2(componentRecord,args)
-                        })*/
-                    }
-                }
-
-                //
-                // if the lib is already loaded then just call the code
-                //
-            } else {
-                await callCodeV2(componentRecord,args)
-            }
-            }
-    } else {
-        await callCodeV2(componentRecord,args)
-    }
-
-}
 
 
 
@@ -4451,7 +4389,74 @@ async function webWorkerPostToYazzReturnJson(host, hostPort, urlToPost, postPara
 
 
 <script>
+async function checkLibs(data){
+    if (data.value.libs && data.value.libs.length > 0 ) {
+        //alert(JSON.stringify(data.value.libs,null,2))
+        for (var tt = 0; tt < data.value.libs.length ; tt++) {
+            if (!libLoaded[ data.value.libs[tt].dependency_name ]) {
+                libLoaded[ data.value.libs[tt].dependency_name ] = true
+                if ( data.value.libs[tt].dependency_name == "advanced_bundle" ) {
+                    console.log = function(){}
+                    if (advancedAlreadyLoaded) {
+                    } else {
+                        advancedAlreadyLoaded = true
+                    }
+                }
 
+                //
+                // if the lib is already loaded then just call the code
+                //
+            } else {
+                await callCodeV2(data.value,  callDriverMethodArgs[data.seq_num],  data.seq_num)
+            }
+        }
+    } else {
+        await callCodeV2(data.value,  callDriverMethodArgs[data.seq_num],  data.seq_num)
+    }
+}
+
+
+
+
+
+
+
+async function checkLibsV2(componentRecord,args){
+
+    if (componentRecord.libs && componentRecord.libs.length > 0 ) {
+        //alert(JSON.stringify(componentRecord.libs,null,2))
+        for (var tt = 0; tt < componentRecord.libs.length ; tt++) {
+            if (!libLoaded[ componentRecord.libs[tt].dependency_name ]) {
+                libLoaded[ componentRecord.libs[tt].dependency_name ] = true
+                if ( componentRecord.libs[tt].dependency_name == "advanced_bundle" ) {
+
+                    var oldConsole = console.log
+                    console.log = function(){}
+                    if (advancedAlreadyLoaded) {
+                    } else {
+                        advancedAlreadyLoaded = true
+                        /*await scriptTag(
+                        `/js_libs/advanced_js_bundle.js`
+                        ,
+                        async function() {
+                        console.log = oldConsole
+                        await callCodeV2(componentRecord,args)
+                        })*/
+                    }
+                }
+
+                //
+                // if the lib is already loaded then just call the code
+                //
+            } else {
+                await callCodeV2(componentRecord,args)
+            }
+        }
+    } else {
+        await callCodeV2(componentRecord,args)
+    }
+
+}
 
 
 
