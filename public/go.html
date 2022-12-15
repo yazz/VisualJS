@@ -4364,7 +4364,7 @@ async function loadV3( baseComponentItems, args ) {
 
 async function callComponent(findComponentArgs, args) {
     var promise = new Promise(returnfn => {
-        callDriverMethodInternal(
+        callComponentNonAsync(
             findComponentArgs,
             args,
             function(result) {
@@ -4388,7 +4388,7 @@ async function callComponent(findComponentArgs, args) {
 
 
 
-async function callDriverMethodInternal(findComponentArgs, args, callbackFn) {
+async function callComponentNonAsync(findComponentArgs, args, callbackFn) {
     //console.log(`online: ${online}`)
     var seqNum = queuedBrowserResponseSeqNum ++;
     queuedResponses[seqNum] = callbackFn;
