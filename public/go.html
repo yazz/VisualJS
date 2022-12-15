@@ -3458,22 +3458,22 @@ seqNum: seqNum
 }
 }
 async function callDriverMethod(findComponentArgs, args, callbackFn) {
-//console.log(`online: ${online}`)
-var promise = new Promise(async function(returnfn) {
-if (online) {
-var gg = await callDriverMethod2(findComponentArgs, args, callbackFn)
-returnfn(gg);
-} else {
-console.log(`callDriverMethod timeout: calling again`)
+    //console.log(`online: ${online}`)
+    var promise = new Promise(async function(returnfn) {
+        if (online) {
+            var gg = await callDriverMethod2(findComponentArgs, args, callbackFn)
+            returnfn(gg);
+        } else {
+            console.log(`callDriverMethod timeout: calling again`)
 
-setTimeout(async function() {
-var rr = await callDriverMethod(findComponentArgs, args, callbackFn)
-returnfn(rr)
-},2000)
-}
-})
-var ret = await promise
-return ret
+            setTimeout(async function() {
+                var rr = await callDriverMethod(findComponentArgs, args, callbackFn)
+                returnfn(rr)
+            },2000)
+        }
+    })
+    var ret = await promise
+    return ret
 }
 
 
