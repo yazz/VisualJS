@@ -2424,43 +2424,41 @@ socket.on('server_returns_loadUiComponent_to_browser',async function(data) {
 
 
 
-socket.on('ws_to_browser_callDriverMethod_results',async function(data) {
-//console.log(`socket.on('ws_to_browser_callDriverMethod_results',function(data) {`)
+    socket.on('ws_to_browser_callDriverMethod_results',async function(data) {
+        //console.log(`socket.on('ws_to_browser_callDriverMethod_results',function(data) {`)
 
-if (data.value) {
-if (data.value.is_code_result) {
-if (data.value.component_options){
-//alert("code: " + JSON.stringify(data.value.component_options,null,2));
-}
-//alert("code2: " + JSON.stringify(data.value.use_db,null,2));
-//alert("data: " + JSON.stringify(data.value.code_id,null,2));
-//alert("data: " + JSON.stringify(data.value.base_component_id,null,2));
-var useDb = data.value.base_component_id
-if (data.value.use_db) {
-useDb = data.value.use_db
-}
-
-
-if (data.value.code_id) {
-
-if (data.value.base_component_id && (!finderToCachedCodeMapping[data.value.base_component_id])) {
-//alert(""  + data.value.base_component_id + " := " + data.value.code_id )
-finderToCachedCodeMapping[data.value.base_component_id] = data.value.code_id
-cachedCode[data.value.code_id] = data
-}
-
-await checkLibs(data)
-}
+        if (data.value) {
+            if (data.value.is_code_result) {
+                if (data.value.component_options){
+                    //alert("code: " + JSON.stringify(data.value.component_options,null,2));
+                }
+                //alert("code2: " + JSON.stringify(data.value.use_db,null,2));
+                //alert("data: " + JSON.stringify(data.value.code_id,null,2));
+                //alert("data: " + JSON.stringify(data.value.base_component_id,null,2));
+                var useDb = data.value.base_component_id
+                if (data.value.use_db) {
+                    useDb = data.value.use_db
+                }
 
 
-} else {
+                if (data.value.code_id) {
+                    if (data.value.base_component_id && (!finderToCachedCodeMapping[data.value.base_component_id])) {
+                        //alert(""  + data.value.base_component_id + " := " + data.value.code_id )
+                        finderToCachedCodeMapping[data.value.base_component_id] = data.value.code_id
+                        cachedCode[data.value.code_id] = data
+                    }
 
-var callbackFn = queuedResponses[data.seq_num]
-callbackFn(data.value)
-queuedResponses[data.seq_num] = null
-}
-}
-});
+                    await checkLibs(data)
+                }
+
+
+            } else {
+                var callbackFn = queuedResponses[data.seq_num]
+                callbackFn(data.value)
+                queuedResponses[data.seq_num] = null
+            }
+        }
+    });
 
 }
 
