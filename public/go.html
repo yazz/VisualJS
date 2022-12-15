@@ -3345,11 +3345,13 @@ alert(JSON.stringify(jj,null,2))
 
 
 function isValidObject(variable){
-if ((typeof variable !== 'undefined') && (variable != null)) {
-return true
+    if ((typeof variable !== 'undefined') && (variable != null)) {
+        return true
+    }
+    return false
 }
-return false
-}
+
+
 async function callDriverMethod2(findComponentArgs, args, callbackFn) {
     //console.log(`online: ${online}`)
     //console.log(`function callDriverMethod2(findComponentArgs, args, callbackFn) {`)
