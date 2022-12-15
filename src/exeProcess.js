@@ -437,7 +437,7 @@ var currentCallbackIndex = -1
 
 var callbackList = new Object()
 
-function callDriverMethod( driverName, methodName, args, callbackFn ) {
+function callComponentNonAsync( driverName, methodName, args, callbackFn ) {
 
     inUseIndex ++
     //console.log("*) called '" + driverName + ":" + methodName + "' with args: " + JSON.stringify(args,null,2))
@@ -461,7 +461,7 @@ function callDriverMethod( driverName, methodName, args, callbackFn ) {
 
 async function callComponent(options,args) {
     var promise = new Promise(async function(returnfn) {
-        callDriverMethod(
+        callComponentNonAsync(
             options.driver_name,
             options.method_name,
             args
