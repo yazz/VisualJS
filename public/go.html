@@ -2449,6 +2449,7 @@ socket.on('server_returns_loadUiComponent_to_browser',async function(data) {
                     }
 
                     await checkLibs(data)
+                    await callCodeV2(data.value,  callDriverMethodArgs[data.seq_num],  data.seq_num)
                 }
 
 
@@ -3366,6 +3367,7 @@ async function callDriverMethod2(findComponentArgs, args, callbackFn) {
         var newData       = cachedCode[newDataCodeId]
         newData.seq_num = seqNum
         await checkLibs(newData)
+        await callCodeV2(newData.value,  callDriverMethodArgs[newData.seq_num],  newData.seq_num)
     } else {
         //console.log(`  sendToServerViaWebSocket`)
         //debugger
@@ -4396,17 +4398,9 @@ async function checkLibs(data){
         //alert(JSON.stringify(data.value.libs,null,2))
         for (var tt = 0; tt < data.value.libs.length ; tt++) {
             if (!libLoaded[ data.value.libs[tt].dependency_name ]) {
-                libLoaded[ data.value.libs[tt].dependency_name ] = true
-
-                //
-                // if the lib is already loaded then just call the code
-                //
-            } else {
-                await callCodeV2(data.value,  callDriverMethodArgs[data.seq_num],  data.seq_num)
+                libLoaded[data.value.libs[tt].dependency_name] = true
             }
         }
-    } else {
-        await callCodeV2(data.value,  callDriverMethodArgs[data.seq_num],  data.seq_num)
     }
 }
 
@@ -4417,14 +4411,10 @@ async function checkLibs(data){
 
 
 async function checkLibsV2(componentRecord,args){
-
     if (componentRecord.libs && componentRecord.libs.length > 0 ) {
-        //alert(JSON.stringify(componentRecord.libs,null,2))
         for (var tt = 0; tt < componentRecord.libs.length ; tt++) {
             if (!libLoaded[ componentRecord.libs[tt].dependency_name ]) {
                 libLoaded[ componentRecord.libs[tt].dependency_name ] = true
-
-
             //
             // if the lib is already loaded then just call the code
             //
