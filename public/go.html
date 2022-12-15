@@ -4092,33 +4092,6 @@ async function checkLibsV2(componentRecord,args){
 
 
 
-async function callDriverMethod(findComponentArgs, args, callbackFn) {
-    //console.log(`online: ${online}`)
-    //console.log(`function callDriverMethod2(findComponentArgs, args, callbackFn) {`)
-    var seqNum = queuedBrowserResponseSeqNum ++;
-    queuedResponses[seqNum] = callbackFn;
-    callDriverMethodArgs[seqNum] = args
-
-
-    if (isStaticHtmlPageApp && findComponentArgs.base_component_id && finderToCachedCodeMapping[findComponentArgs.base_component_id]) {
-        //alert("Reading app from cache: " + findComponentArgs.base_component_id)
-        var newDataCodeId = finderToCachedCodeMapping[findComponentArgs.base_component_id]
-        var newData       = cachedCode[newDataCodeId]
-        newData.seq_num = seqNum
-        await checkLibs(newData)
-        await callCodeV2(newData.value,  callDriverMethodArgs[newData.seq_num],  newData.seq_num)
-    } else {
-        //console.log(`  sendToServerViaWebSocket`)
-        //debugger
-        sendToServerViaWebSocket({
-            message_type: "callDriverMethod",
-            find_component: findComponentArgs,
-            args: args,
-            seqNum: seqNum
-        });
-    }
-}
-
 
 
 
@@ -4410,6 +4383,38 @@ async function callComponent(findComponentArgs, args) {
 
     return ret
 }
+
+
+
+
+
+async function callDriverMethod(findComponentArgs, args, callbackFn) {
+    //console.log(`online: ${online}`)
+    //console.log(`function callDriverMethod2(findComponentArgs, args, callbackFn) {`)
+    var seqNum = queuedBrowserResponseSeqNum ++;
+    queuedResponses[seqNum] = callbackFn;
+    callDriverMethodArgs[seqNum] = args
+
+
+    if (isStaticHtmlPageApp && findComponentArgs.base_component_id && finderToCachedCodeMapping[findComponentArgs.base_component_id]) {
+        //alert("Reading app from cache: " + findComponentArgs.base_component_id)
+        var newDataCodeId = finderToCachedCodeMapping[findComponentArgs.base_component_id]
+        var newData       = cachedCode[newDataCodeId]
+        newData.seq_num = seqNum
+        await checkLibs(newData)
+        await callCodeV2(newData.value,  callDriverMethodArgs[newData.seq_num],  newData.seq_num)
+    } else {
+        //console.log(`  sendToServerViaWebSocket`)
+        //debugger
+        sendToServerViaWebSocket({
+            message_type: "callDriverMethod",
+            find_component: findComponentArgs,
+            args: args,
+            seqNum: seqNum
+        });
+    }
+}
+
 </script>
 </body>
 </html>
