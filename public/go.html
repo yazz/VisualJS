@@ -3354,341 +3354,6 @@ function isValidObject(variable){
 }
 
 
-async function callDriverMethod2(findComponentArgs, args, callbackFn) {
-    //console.log(`online: ${online}`)
-    //console.log(`function callDriverMethod2(findComponentArgs, args, callbackFn) {`)
-    var seqNum = queuedBrowserResponseSeqNum ++;
-    queuedResponses[seqNum] = callbackFn;
-    callDriverMethodArgs[seqNum] = args
-
-
-    if (isStaticHtmlPageApp && findComponentArgs.base_component_id && finderToCachedCodeMapping[findComponentArgs.base_component_id]) {
-        //alert("Reading app from cache: " + findComponentArgs.base_component_id)
-        var newDataCodeId = finderToCachedCodeMapping[findComponentArgs.base_component_id]
-        var newData       = cachedCode[newDataCodeId]
-        newData.seq_num = seqNum
-        await checkLibs(newData)
-        await callCodeV2(newData.value,  callDriverMethodArgs[newData.seq_num],  newData.seq_num)
-    } else {
-        //console.log(`  sendToServerViaWebSocket`)
-        //debugger
-        sendToServerViaWebSocket({
-            message_type: "callDriverMethod",
-            find_component: findComponentArgs,
-            args: args,
-            seqNum: seqNum
-        });
-    }
-}
-async function callDriverMethod(findComponentArgs, args, callbackFn) {
-    //console.log(`online: ${online}`)
-    var promise = new Promise(async function(returnfn) {
-        if (online) {
-            var gg = await callDriverMethod2(findComponentArgs, args, callbackFn)
-            returnfn(gg);
-        } else {
-            console.log(`callDriverMethod timeout: calling again`)
-
-            setTimeout(async function() {
-                var rr = await callDriverMethod(findComponentArgs, args, callbackFn)
-                returnfn(rr)
-            },2000)
-        }
-    })
-    var ret = await promise
-    return ret
-}
-
-
-
-
-
-//------------------------------------------------------------------------------
-//
-//                                 loadV2
-//
-// Dynamically loads a component class into the currently running system.
-//
-//
-//------------------------------------------------------------------------------
-async function loadV2( baseComponentIds, args ) {
-    //
-    // Always expect a list of "baseComponentIds" which will
-    // be used to identify the type of the components to load.
-    // If we receive only a single "baseComponentId" then turn
-    // it into a list
-    //
-    if (!Array.isArray(baseComponentIds)) {
-        baseComponentIds = [baseComponentIds]
-    }
-
-
-    //
-    // For static HTML pages (ie: just HTML , with no Yazz engine)
-    //
-    var componentsIdToLoad = []
-    var loadedStatic = false
-        if (isStaticHtmlPageApp) {
-        for (var tt=0; tt < baseComponentIds.length; tt++) {
-            var componentId = baseComponentIds[tt]
-            dev_app_component_loaded[componentId] = true
-            if (isStaticHtmlPageApp && finderToCachedCodeMapping[ componentId ] && (!component_loaded[componentId])) {
-                //console.log("loadV2: 2")
-                component_loaded[componentId] = true
-                //alert("Reading app from cache: " + findComponentArgs.base_component_id)
-                var newDataCodeId   = finderToCachedCodeMapping[ componentId ]
-                var newData         = cachedCode[ newDataCodeId ]
-                var properties      = yz.getValueOfCodeString(newData.value.code, "properties",")//properties")
-                if (properties) {
-                    if (isValidObject(newData.value)) {
-                        //alert(properties)
-                        //var propee = eval("(" + properties + ")")
-                        newData.value.properties = JSON.stringify(properties)
-                    }
-                }
-
-                await checkLibsV2(newData.value, args)
-                await callCodeV2(newData.value,args)
-                loadedStatic = true
-            }
-        }
-    }
-
-    //
-    // For Dynamic HTML pages HTML pages (has access to the Yazz engine)
-    //
-    if (!loadedStatic) {
-        // Find out which components need to be loaded
-        for (var tt=0; tt < baseComponentIds.length; tt++) {
-            var componentId = baseComponentIds[tt]
-            if (!component_loaded[componentId]) {
-                component_loaded[componentId] = true
-                componentsIdToLoad.push(componentId)
-            }
-        }
-
-
-        var vcount = 0
-        if (componentsIdToLoad.length > 0) {
-            var promise = new Promise(returnfn => {
-            var seqNum = queuedBrowserResponseSeqNum ++;
-            queuedResponses[seqNum] = function(response) {
-                returnfn({})
-            };
-
-            if (!online) {
-                setTimeout(function() {
-                    sendToServerViaWebSocket({
-                        message_type:    "loadUiComponent",
-                        find_components:  {base_component_ids: componentsIdToLoad},
-                        args:             args,
-                        seq_num:          seqNum
-                    });
-                },2000)
-            } else {
-                sendToServerViaWebSocket({
-                message_type:    "loadUiComponent",
-                find_components:  {base_component_ids: componentsIdToLoad},
-                args:             args,
-                seq_num:          seqNum
-                });
-            }
-
-            // ****************************************************************************
-            // the following line was removed as it caused "Edit app" to fail. Why? I don't know
-            //setTimeout(
-            //    function() {
-            //        returnfn({})
-            //        },200
-            //    )
-            // ****************************************************************************
-
-            })
-
-            var ret = await promise
-            return ret
-        }
-    }
-
-
-    return {}
-}
-
-
-
-
-
-//------------------------------------------------------------------------------
-//
-//                                 loadV3
-//
-// Dynamically loads a component class into the currently running system. V3
-// has the ability to load components via IPFS as well
-//
-//
-//------------------------------------------------------------------------------
-
-async function loadV3( baseComponentItems, args ) {
-//
-// Always expect a list of "baseComponentIds" which will
-// be used to identify the type of the components to load.
-// If we receive only a single "baseComponentId" then turn
-// it into a list
-//
-if (!Array.isArray(baseComponentItems)) {
-baseComponentItems = [baseComponentItems]
-}
-
-
-//
-// Turn the list of "baseComponentIds" which is historically
-// a list of String IDs into a list of tuples, so:
-//
-// [ "label" , "button" , {ipfs: "1f"} ]
-//
-// :turns into:
-//
-// [ {baseComponentId: "label"} , {baseComponentId: "button"} , {ipfs: "1f"} ]
-//
-let componentsItemsToLoadV3 = []
-for (let tt=0; tt < baseComponentItems.length; tt++) {
-let componentItem = baseComponentItems[tt]
-if (typeof componentItem == 'string') {
-componentsItemsToLoadV3.push({baseComponentId: componentItem})
-} else {
-componentsItemsToLoadV3.push(componentItem)
-}
-}
-
-//
-// For static HTML pages (ie: just HTML , with no Yazz engine)
-//
-let loadedStatic = false
-if (isStaticHtmlPageApp) {
-    for (let tt=0; tt < componentsItemsToLoadV3.length; tt++) {
-        let componentId = componentsItemsToLoadV3[tt].baseComponentId
-        dev_app_component_loaded[componentId] = true
-        if (isStaticHtmlPageApp && finderToCachedCodeMapping[ componentId ] && (!component_loaded[componentId])) {
-            //console.log("loadV2: 2")
-            component_loaded[componentId] = true
-            //alert("Reading app from cache: " + findComponentArgs.base_component_id)
-            let newDataCodeId = finderToCachedCodeMapping[ componentId ]
-            let newData       = cachedCode[ newDataCodeId ]
-            let properties = yz.getValueOfCodeString(newData.value.code, "properties",")//properties")
-            if (properties) {
-                if (isValidObject(newData.value)) {
-                    //alert(properties)
-                    //var propee = eval("(" + properties + ")")
-                    newData.value.properties = JSON.stringify(properties)
-                }
-            }
-
-            await checkLibsV2(newData.value, args)
-            await callCodeV2(newData.value, args)
-            loadedStatic = true
-        }
-    }
-}
-
-
-
-
-//
-// For Dynamic HTML pages (which have access to the Yazz engine)
-//
-let componentsItemsToLoad = []
-if (!loadedStatic) {
-//
-// Find out which components need to be loaded
-// in
-//
-for (let tt=0; tt < componentsItemsToLoadV3.length; tt++) {
-let componentId = componentsItemsToLoadV3[tt].baseComponentId
-let componentItem = componentsItemsToLoadV3[tt]
-
-if (!component_loaded[componentId]) {
-component_loaded[componentId] = true
-componentsItemsToLoad.push(componentItem)
-}
-}
-
-
-let vcount = 0
-if (componentsItemsToLoad.length > 0) {
-let promise = new Promise(returnfn => {
-let seqNum = queuedBrowserResponseSeqNum ++;
-queuedResponses[seqNum] = function(response) {
-returnfn({})
-};
-
-if (!online) {
-setTimeout(function() {
-sendToServerViaWebSocket({
-message_type:    "loadUiComponentsV2",
-find_components:  {items: componentsItemsToLoad},
-args:             args,
-seq_num:          seqNum
-});
-},2000)
-} else {
-sendToServerViaWebSocket({
-message_type:    "loadUiComponentsV2",
-find_components:  {items: componentsItemsToLoad},
-args:             args,
-seq_num:          seqNum
-});
-}
-
-// ****************************************************************************
-// the following line was removed as it caused "Edit app" to fail. Why? I don't know
-//setTimeout(
-//    function() {
-returnfn({})
-//        },200
-//    )
-// ****************************************************************************
-
-})
-
-let ret = await promise
-return ret
-}
-}
-
-
-return {}
-}
-
-
-
-
-
-
-
-
-
-
-async function callComponent(findComponentArgs, args) {
-    var promise = new Promise(returnfn => {
-        callDriverMethod(
-            findComponentArgs,
-            args,
-            function(result) {
-                returnfn(result)
-            })
-    })
-
-    var ret = await promise
-    if (ret) {
-        if (ret.value) {
-            return ret.value
-        } else if (ret.error) {
-            throw ret.error
-        }
-    }
-
-    return ret
-}
 
 
 
@@ -4427,6 +4092,341 @@ async function checkLibsV2(componentRecord,args){
 
 
 
+async function callDriverMethod2(findComponentArgs, args, callbackFn) {
+    //console.log(`online: ${online}`)
+    //console.log(`function callDriverMethod2(findComponentArgs, args, callbackFn) {`)
+    var seqNum = queuedBrowserResponseSeqNum ++;
+    queuedResponses[seqNum] = callbackFn;
+    callDriverMethodArgs[seqNum] = args
+
+
+    if (isStaticHtmlPageApp && findComponentArgs.base_component_id && finderToCachedCodeMapping[findComponentArgs.base_component_id]) {
+        //alert("Reading app from cache: " + findComponentArgs.base_component_id)
+        var newDataCodeId = finderToCachedCodeMapping[findComponentArgs.base_component_id]
+        var newData       = cachedCode[newDataCodeId]
+        newData.seq_num = seqNum
+        await checkLibs(newData)
+        await callCodeV2(newData.value,  callDriverMethodArgs[newData.seq_num],  newData.seq_num)
+    } else {
+        //console.log(`  sendToServerViaWebSocket`)
+        //debugger
+        sendToServerViaWebSocket({
+            message_type: "callDriverMethod",
+            find_component: findComponentArgs,
+            args: args,
+            seqNum: seqNum
+        });
+    }
+}
+async function callDriverMethod(findComponentArgs, args, callbackFn) {
+    //console.log(`online: ${online}`)
+    var promise = new Promise(async function(returnfn) {
+        if (online) {
+            var gg = await callDriverMethod2(findComponentArgs, args, callbackFn)
+            returnfn(gg);
+        } else {
+            console.log(`callDriverMethod timeout: calling again`)
+
+            setTimeout(async function() {
+                var rr = await callDriverMethod(findComponentArgs, args, callbackFn)
+                returnfn(rr)
+            },2000)
+        }
+    })
+    var ret = await promise
+    return ret
+}
+
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//                                 loadV2
+//
+// Dynamically loads a component class into the currently running system.
+//
+//
+//------------------------------------------------------------------------------
+async function loadV2( baseComponentIds, args ) {
+    //
+    // Always expect a list of "baseComponentIds" which will
+    // be used to identify the type of the components to load.
+    // If we receive only a single "baseComponentId" then turn
+    // it into a list
+    //
+    if (!Array.isArray(baseComponentIds)) {
+        baseComponentIds = [baseComponentIds]
+    }
+
+
+    //
+    // For static HTML pages (ie: just HTML , with no Yazz engine)
+    //
+    var componentsIdToLoad = []
+    var loadedStatic = false
+    if (isStaticHtmlPageApp) {
+        for (var tt=0; tt < baseComponentIds.length; tt++) {
+            var componentId = baseComponentIds[tt]
+            dev_app_component_loaded[componentId] = true
+            if (isStaticHtmlPageApp && finderToCachedCodeMapping[ componentId ] && (!component_loaded[componentId])) {
+                //console.log("loadV2: 2")
+                component_loaded[componentId] = true
+                //alert("Reading app from cache: " + findComponentArgs.base_component_id)
+                var newDataCodeId   = finderToCachedCodeMapping[ componentId ]
+                var newData         = cachedCode[ newDataCodeId ]
+                var properties      = yz.getValueOfCodeString(newData.value.code, "properties",")//properties")
+                if (properties) {
+                    if (isValidObject(newData.value)) {
+                        //alert(properties)
+                        //var propee = eval("(" + properties + ")")
+                        newData.value.properties = JSON.stringify(properties)
+                    }
+                }
+
+                await checkLibsV2(newData.value, args)
+                await callCodeV2(newData.value,args)
+                loadedStatic = true
+            }
+        }
+    }
+
+    //
+    // For Dynamic HTML pages HTML pages (has access to the Yazz engine)
+    //
+    if (!loadedStatic) {
+        // Find out which components need to be loaded
+        for (var tt=0; tt < baseComponentIds.length; tt++) {
+            var componentId = baseComponentIds[tt]
+            if (!component_loaded[componentId]) {
+                component_loaded[componentId] = true
+                componentsIdToLoad.push(componentId)
+            }
+        }
+
+
+        var vcount = 0
+        if (componentsIdToLoad.length > 0) {
+            var promise = new Promise(returnfn => {
+                var seqNum = queuedBrowserResponseSeqNum ++;
+                queuedResponses[seqNum] = function(response) {
+                    returnfn({})
+                };
+
+                if (!online) {
+                    setTimeout(function() {
+                        sendToServerViaWebSocket({
+                            message_type:    "loadUiComponent",
+                            find_components:  {base_component_ids: componentsIdToLoad},
+                            args:             args,
+                            seq_num:          seqNum
+                        });
+                    },2000)
+                } else {
+                    sendToServerViaWebSocket({
+                        message_type:    "loadUiComponent",
+                        find_components:  {base_component_ids: componentsIdToLoad},
+                        args:             args,
+                        seq_num:          seqNum
+                    });
+                }
+
+                // ****************************************************************************
+                // the following line was removed as it caused "Edit app" to fail. Why? I don't know
+                //setTimeout(
+                //    function() {
+                //        returnfn({})
+                //        },200
+                //    )
+                // ****************************************************************************
+
+            })
+
+            var ret = await promise
+            return ret
+        }
+    }
+
+
+    return {}
+}
+
+
+
+
+
+//------------------------------------------------------------------------------
+//
+//                                 loadV3
+//
+// Dynamically loads a component class into the currently running system. V3
+// has the ability to load components via IPFS as well
+//
+//
+//------------------------------------------------------------------------------
+
+async function loadV3( baseComponentItems, args ) {
+//
+// Always expect a list of "baseComponentIds" which will
+// be used to identify the type of the components to load.
+// If we receive only a single "baseComponentId" then turn
+// it into a list
+//
+    if (!Array.isArray(baseComponentItems)) {
+        baseComponentItems = [baseComponentItems]
+    }
+
+
+//
+// Turn the list of "baseComponentIds" which is historically
+// a list of String IDs into a list of tuples, so:
+//
+// [ "label" , "button" , {ipfs: "1f"} ]
+//
+// :turns into:
+//
+// [ {baseComponentId: "label"} , {baseComponentId: "button"} , {ipfs: "1f"} ]
+//
+    let componentsItemsToLoadV3 = []
+    for (let tt=0; tt < baseComponentItems.length; tt++) {
+        let componentItem = baseComponentItems[tt]
+        if (typeof componentItem == 'string') {
+            componentsItemsToLoadV3.push({baseComponentId: componentItem})
+        } else {
+            componentsItemsToLoadV3.push(componentItem)
+        }
+    }
+
+//
+// For static HTML pages (ie: just HTML , with no Yazz engine)
+//
+    let loadedStatic = false
+    if (isStaticHtmlPageApp) {
+        for (let tt=0; tt < componentsItemsToLoadV3.length; tt++) {
+            let componentId = componentsItemsToLoadV3[tt].baseComponentId
+            dev_app_component_loaded[componentId] = true
+            if (isStaticHtmlPageApp && finderToCachedCodeMapping[ componentId ] && (!component_loaded[componentId])) {
+                //console.log("loadV2: 2")
+                component_loaded[componentId] = true
+                //alert("Reading app from cache: " + findComponentArgs.base_component_id)
+                let newDataCodeId = finderToCachedCodeMapping[ componentId ]
+                let newData       = cachedCode[ newDataCodeId ]
+                let properties = yz.getValueOfCodeString(newData.value.code, "properties",")//properties")
+                if (properties) {
+                    if (isValidObject(newData.value)) {
+                        //alert(properties)
+                        //var propee = eval("(" + properties + ")")
+                        newData.value.properties = JSON.stringify(properties)
+                    }
+                }
+
+                await checkLibsV2(newData.value, args)
+                await callCodeV2(newData.value, args)
+                loadedStatic = true
+            }
+        }
+    }
+
+
+
+
+//
+// For Dynamic HTML pages (which have access to the Yazz engine)
+//
+    let componentsItemsToLoad = []
+    if (!loadedStatic) {
+//
+// Find out which components need to be loaded
+// in
+//
+        for (let tt=0; tt < componentsItemsToLoadV3.length; tt++) {
+            let componentId = componentsItemsToLoadV3[tt].baseComponentId
+            let componentItem = componentsItemsToLoadV3[tt]
+
+            if (!component_loaded[componentId]) {
+                component_loaded[componentId] = true
+                componentsItemsToLoad.push(componentItem)
+            }
+        }
+
+
+        let vcount = 0
+        if (componentsItemsToLoad.length > 0) {
+            let promise = new Promise(returnfn => {
+                let seqNum = queuedBrowserResponseSeqNum ++;
+                queuedResponses[seqNum] = function(response) {
+                    returnfn({})
+                };
+
+                if (!online) {
+                    setTimeout(function() {
+                        sendToServerViaWebSocket({
+                            message_type:    "loadUiComponentsV2",
+                            find_components:  {items: componentsItemsToLoad},
+                            args:             args,
+                            seq_num:          seqNum
+                        });
+                    },2000)
+                } else {
+                    sendToServerViaWebSocket({
+                        message_type:    "loadUiComponentsV2",
+                        find_components:  {items: componentsItemsToLoad},
+                        args:             args,
+                        seq_num:          seqNum
+                    });
+                }
+
+// ****************************************************************************
+// the following line was removed as it caused "Edit app" to fail. Why? I don't know
+//setTimeout(
+//    function() {
+                returnfn({})
+//        },200
+//    )
+// ****************************************************************************
+
+            })
+
+            let ret = await promise
+            return ret
+        }
+    }
+
+
+    return {}
+}
+
+
+
+
+
+
+
+
+
+
+async function callComponent(findComponentArgs, args) {
+    var promise = new Promise(returnfn => {
+        callDriverMethod(
+            findComponentArgs,
+            args,
+            function(result) {
+                returnfn(result)
+            })
+    })
+
+    var ret = await promise
+    if (ret) {
+        if (ret.value) {
+            return ret.value
+        } else if (ret.error) {
+            throw ret.error
+        }
+    }
+
+    return ret
+}
 </script>
 </body>
 </html>
