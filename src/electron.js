@@ -5502,7 +5502,6 @@ async function setUpComponentsLocally() {
     //
     await evalLocalSystemDriver('homepage',     path.join(__dirname, '../public/visifile_drivers/apps/homepage.js'),{save_html: true, username: "default", reponame: "homepage", version: "latest"})
     await evalLocalSystemDriver('mobilehomepage',     path.join(__dirname, '../public/visifile_drivers/apps/mobilehomepage.js'),{save_html: true, username: "default", reponame: "mobilehomepage", version: "latest"})
-    await evalLocalSystemDriver('appstore',     path.join(__dirname, '../public/visifile_drivers/apps/appstore.js'),{save_html: true, username: "default", reponame: "appstore", version: "latest"})
     await evalLocalSystemDriver('yazz_blank',   path.join(__dirname, '../public/visifile_drivers/apps/yazz_blank.js'),{username: "default", reponame: "yazz_blank", version: "latest"})
 
 
