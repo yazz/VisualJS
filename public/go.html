@@ -2860,180 +2860,176 @@ return debugCode
 
 
 
-async function callCodeV2(componentRecord,args, seq_no) {
-
-//console.log("Code to run !: ")
-if (componentRecord.edit_file_path) {
-saveCodeToFile = componentRecord.edit_file_path
-}
-var callbackFn = null
-if (isValidObject(seq_no)) {
-callbackFn = queuedResponses[seq_no]
-}
-
-
-
-try {
-var useDb = componentRecord.base_component_id
-if (componentRecord.use_db) {
-useDb = componentRecord.use_db
-}
-
-if (!component_cache[componentRecord.base_component_id]) {
-component_cache[componentRecord.base_component_id] = new Object()
-}
-if (isValidObject(componentRecord.properties)) {
-component_cache[componentRecord.base_component_id].code = componentRecord.code
-component_cache[componentRecord.base_component_id].properties = eval("(" + componentRecord.properties + ")")
-component_cache[componentRecord.base_component_id].code_id = componentRecord.id
-//debugger
-}
-
-
-var addP = "'" + componentRecord.code_id + "', '" + useDb + "', "
-//alert("data: " + addP);
-if (localAppshareApp) {
-
-if (sqlitedata) {
-var b = base64ToUint8Array(sqlitedata)
-localSqliteDb = new SQL.Database(b);
-} else {
-var eds = yz.getValueOfCodeString(componentRecord.code, "sqlite",")//sqlite")
-if (eds){
-for (var te = 1; te < eds.length ; te = te + 2) {
-var sqlStatements = eds[te]
-//console.log(`${te}`)
-for (var te2 = 0; te2 < sqlStatements.length ; te2 ++) {
-var sqlStatement = sqlStatements[te2]
-//console.log(`   SQL ${te2}: ${sqlStatement}`)
-localSql(sqlStatement)
-}
-
-}
-}
-}
-//alert(eds.length)
-}
-
-
-var trcode2 = "(" + componentRecord.code + ")"
-
-var component_type = yz.getValueOfCodeString(componentRecord.code, "component_type")
-if ((component_type != "SYSTEM") &&
-(component_type != "VB"))
-{
-trcode2 = getDebugCode(componentRecord.base_component_id,  trcode2)
-} else if (component_type == "VB") {
-
-console.log("Component to index: " + componentRecord.base_component_id)
-indexComponent(  componentRecord.base_component_id  )
-}
-
-
-trcode2 = trcode2.toString().replaceAll("sql[(]","await rxsql(" + addP)
-trcode2 = trcode2.toString().replaceAll("sql1[(]","await rxsql1(" + addP)
-trcode2 = trcode2.toString().replaceAll("sqlFirstCol[(]","await rxsqlFirstCol(" + addP)
-trcode2 = trcode2.toString().replaceAll("sqlFirstCol1[(]","await rxsqlFirstCol1(" + addP)
+async function callCodeV2(componentRecord, args, seq_no) {
+    if (componentRecord.edit_file_path) {
+        saveCodeToFile = componentRecord.edit_file_path
+    }
+    var callbackFn = null
+    if (isValidObject(seq_no)) {
+        //debugger
+        callbackFn = queuedResponses[seq_no]
+    }
 
 
 
+    try {
+        var useDb = componentRecord.base_component_id
+        if (componentRecord.use_db) {
+            useDb = componentRecord.use_db
+        }
 
-var kkk = yz.getValueOfCodeString(trcode2.toString(), "keycloak",")//keycloak")
-if (kkk) {
-//alert(JSON.stringify(kkk,null,2))
-if (!kkk.clientId) {
-kkk.clientId = kkk.resource
-}
-
-//alert(editingAppId)
-if (editingAppId && window.location.href && (window.location.href.indexOf("/edit/") == -1)) {
-window.location.href = "/edit/" + editingAppId;
-} else {
-loadKeycloak(
-kkk
-)
-}
-}
+        if (!component_cache[componentRecord.base_component_id]) {
+            component_cache[componentRecord.base_component_id] = new Object()
+        }
+        if (isValidObject(componentRecord.properties)) {
+            component_cache[componentRecord.base_component_id].code = componentRecord.code
+            component_cache[componentRecord.base_component_id].properties = eval("(" + componentRecord.properties + ")")
+            component_cache[componentRecord.base_component_id].code_id = componentRecord.id
+            //debugger
+        }
 
 
-//Don't run any server code
-if ( (componentRecord.base_component_id == base_component_id) && (trcode2.toString().includes("only_run_on_server(true)"))) {
+        var addP = "'" + componentRecord.code_id + "', '" + useDb + "', "
+        //alert("data: " + addP);
+        if (localAppshareApp) {
 
-mainMoonApp.console_output  = ""
-mainMoonApp.is_gui_app      = false
-if (callbackFn) {
-callbackFn({})
-queuedResponses[seq_no] = null
-}
-queuedResponses[seq_no]     = null
+        if (sqlitedata) {
+            var b = base64ToUint8Array(sqlitedata)
+            localSqliteDb = new SQL.Database(b);
+        } else {
+            var eds = yz.getValueOfCodeString(componentRecord.code, "sqlite",")//sqlite")
+            if (eds){
+                for (var te = 1; te < eds.length ; te = te + 2) {
+                    var sqlStatements = eds[te]
+                    //console.log(`${te}`)
+                    for (var te2 = 0; te2 < sqlStatements.length ; te2 ++) {
+                        var sqlStatement = sqlStatements[te2]
+                        //console.log(`   SQL ${te2}: ${sqlStatement}`)
+                        localSql(sqlStatement)
+                    }
 
-} else if (trcode2.toString().includes("only_run_on_server(true)")) {
-
-} else if ( (componentRecord.base_component_id == base_component_id) && (!trcode2.toString().includes("Vue."))) {
-mainMoonApp.console_output = ""
-mainMoonApp.is_gui_app = false
-
-console.log = function() {
-if (isValidObject(mainMoonApp.console_output)) {
-if (document.getElementById("console_id")) {
-document.getElementById("console_id").style.color="black"
-}
-for (var a=0; a < arguments.length ; a++) {
-mainMoonApp.console_output += arguments[a] + " "
-}
-mainMoonApp.console_output +=
-`
-`
-}
-}
-//console.log("Code to run: " + trcode2)
-var fnfn = eval( trcode2  )
-
-setTimeout(async function() {
-if (trcode2.indexOf("async ")  == -1) {
-var fnfnRes = fnfn(args)
-if (callbackFn) {
-callbackFn(fnfnRes)
-queuedResponses[seq_no] = null
-}
-
-} else {
-var fnfnRes = await fnfn(args)
-if (callbackFn) {
-callbackFn(fnfnRes)
-queuedResponses[seq_no] = null
-}
-}
-},100)
-} else {
-//console.log("Code to run: " + trcode2)
-var fnfn = eval( trcode2  )
+                }
+            }
+        }
+        //alert(eds.length)
+        }
 
 
-if (trcode2.indexOf("async ")  == -1) {
-var fnfnRes = fnfn(args)
-if (callbackFn) {
-callbackFn(fnfnRes)
-queuedResponses[seq_no] = null
-}
+        var trcode2 = "(" + componentRecord.code + ")"
 
-} else {
-var fnfnRes = await fnfn(args)
-if (callbackFn) {
-callbackFn(fnfnRes)
-queuedResponses[seq_no] = null
-}
-}
-}
+        var component_type = yz.getValueOfCodeString(componentRecord.code, "component_type")
+        if ((component_type != "SYSTEM") &&
+        (component_type != "VB"))
+        {
+            trcode2 = getDebugCode(componentRecord.base_component_id,  trcode2)
+        } else if (component_type == "VB") {
+            console.log("Component to index: " + componentRecord.base_component_id)
+            indexComponent(  componentRecord.base_component_id  )
+        }
+
+
+        trcode2 = trcode2.toString().replaceAll("sql[(]","await rxsql(" + addP)
+        trcode2 = trcode2.toString().replaceAll("sql1[(]","await rxsql1(" + addP)
+        trcode2 = trcode2.toString().replaceAll("sqlFirstCol[(]","await rxsqlFirstCol(" + addP)
+        trcode2 = trcode2.toString().replaceAll("sqlFirstCol1[(]","await rxsqlFirstCol1(" + addP)
+
+
+        var kkk = yz.getValueOfCodeString(trcode2.toString(), "keycloak",")//keycloak")
+        if (kkk) {
+            //alert(JSON.stringify(kkk,null,2))
+            if (!kkk.clientId) {
+                kkk.clientId = kkk.resource
+            }
+
+            //alert(editingAppId)
+            if (editingAppId && window.location.href && (window.location.href.indexOf("/edit/") == -1)) {
+                window.location.href = "/edit/" + editingAppId;
+            } else {
+                loadKeycloak(
+                    kkk
+                )
+            }
+        }
+
+
+        //Don't run any server code
+        if ( (componentRecord.base_component_id == base_component_id) && (trcode2.toString().includes("only_run_on_server(true)"))) {
+
+        mainMoonApp.console_output  = ""
+        mainMoonApp.is_gui_app      = false
+        if (callbackFn) {
+        callbackFn({})
+        queuedResponses[seq_no] = null
+        }
+        queuedResponses[seq_no]     = null
+
+        } else if (trcode2.toString().includes("only_run_on_server(true)")) {
+
+        } else if ( (componentRecord.base_component_id == base_component_id) && (!trcode2.toString().includes("Vue."))) {
+        mainMoonApp.console_output = ""
+        mainMoonApp.is_gui_app = false
+
+        console.log = function() {
+        if (isValidObject(mainMoonApp.console_output)) {
+        if (document.getElementById("console_id")) {
+        document.getElementById("console_id").style.color="black"
+        }
+        for (var a=0; a < arguments.length ; a++) {
+        mainMoonApp.console_output += arguments[a] + " "
+        }
+        mainMoonApp.console_output +=
+        `
+        `
+        }
+        }
+        //console.log("Code to run: " + trcode2)
+        var fnfn = eval( trcode2  )
+
+        setTimeout(async function() {
+        if (trcode2.indexOf("async ")  == -1) {
+        var fnfnRes = fnfn(args)
+        if (callbackFn) {
+        callbackFn(fnfnRes)
+        queuedResponses[seq_no] = null
+        }
+
+        } else {
+        var fnfnRes = await fnfn(args)
+        if (callbackFn) {
+        callbackFn(fnfnRes)
+        queuedResponses[seq_no] = null
+        }
+        }
+        },100)
+        } else {
+        //console.log("Code to run: " + trcode2)
+        var fnfn = eval( trcode2  )
+
+
+        if (trcode2.indexOf("async ")  == -1) {
+        var fnfnRes = fnfn(args)
+        if (callbackFn) {
+        callbackFn(fnfnRes)
+        queuedResponses[seq_no] = null
+        }
+
+        } else {
+        var fnfnRes = await fnfn(args)
+        if (callbackFn) {
+        callbackFn(fnfnRes)
+        queuedResponses[seq_no] = null
+        }
+        }
+        }
 
 
 
 
-} catch (err) {
-alert(err)
+        } catch (err) {
+        alert(err)
 
-hideProgressBar()
-}
+        hideProgressBar()
+    }
 }
 
 
