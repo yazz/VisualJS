@@ -2616,8 +2616,6 @@ executionTimelineMapTimeToLine[recor.time] = recor
 
 
 async function checkLibsV2(componentRecord,args){
-    //console.log("CheckLibsV2: ")
-
 
     if (componentRecord.libs && componentRecord.libs.length > 0 ) {
         //alert(JSON.stringify(componentRecord.libs,null,2))
@@ -3623,29 +3621,32 @@ componentsItemsToLoadV3.push(componentItem)
 //
 let loadedStatic = false
 if (isStaticHtmlPageApp) {
-for (let tt=0; tt < componentsItemsToLoadV3.length; tt++) {
-let componentId = componentsItemsToLoadV3[tt].baseComponentId
-dev_app_component_loaded[componentId] = true
-if (isStaticHtmlPageApp && finderToCachedCodeMapping[ componentId ] && (!component_loaded[componentId])) {
-//console.log("loadV2: 2")
-component_loaded[componentId] = true
-//alert("Reading app from cache: " + findComponentArgs.base_component_id)
-let newDataCodeId = finderToCachedCodeMapping[ componentId ]
-let newData       = cachedCode[ newDataCodeId ]
-let properties = yz.getValueOfCodeString(newData.value.code, "properties",")//properties")
-if (properties) {
-if (isValidObject(newData.value)) {
-//alert(properties)
-//var propee = eval("(" + properties + ")")
-newData.value.properties = JSON.stringify(properties)
-}
+    for (let tt=0; tt < componentsItemsToLoadV3.length; tt++) {
+        let componentId = componentsItemsToLoadV3[tt].baseComponentId
+        dev_app_component_loaded[componentId] = true
+        if (isStaticHtmlPageApp && finderToCachedCodeMapping[ componentId ] && (!component_loaded[componentId])) {
+            //console.log("loadV2: 2")
+            component_loaded[componentId] = true
+            //alert("Reading app from cache: " + findComponentArgs.base_component_id)
+            let newDataCodeId = finderToCachedCodeMapping[ componentId ]
+            let newData       = cachedCode[ newDataCodeId ]
+            let properties = yz.getValueOfCodeString(newData.value.code, "properties",")//properties")
+            if (properties) {
+                if (isValidObject(newData.value)) {
+                    //alert(properties)
+                    //var propee = eval("(" + properties + ")")
+                    newData.value.properties = JSON.stringify(properties)
+                }
+            }
+
+            await checkLibsV2(newData.value, args)
+            loadedStatic = true
+        }
+    }
 }
 
-await checkLibsV2(newData.value, args)
-loadedStatic = true
-}
-}
-}
+
+
 
 //
 // For Dynamic HTML pages (which have access to the Yazz engine)
