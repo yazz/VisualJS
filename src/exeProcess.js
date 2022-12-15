@@ -457,22 +457,6 @@ function callDriverMethod( driverName, methodName, args, callbackFn ) {
     callbackList[ useCallbackIndex ] = callbackFn
 }
 
-async function callComponent(name,args) {
-    var promise = new Promise(async function(returnfn) {
-        callDriverMethod(
-            name,
-            name,
-            args
-            ,
-            function(results) {
-                returnfn(results)
-            })
-    })
-    var val = await promise
-
-        return val
-
-}
 
 
 async function callComponent(options,args) {
