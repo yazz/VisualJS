@@ -31,7 +31,7 @@ properties(
         {
             id:         "width",
             name:       "Width",
-            default:    200,
+            default:    350,
             type:       "Number"
         }
         ,
