@@ -3661,7 +3661,24 @@ return {}
 
 
 
+
+
+
+
+
+
+async function callFunction(findComponentArgs, args) {
+    return callComponent(findComponentArgs, args)
+}
+
+
+
 async function callApp(findComponentArgs, args) {
+    return callComponent(findComponentArgs, args)
+}
+
+
+async function callComponent(findComponentArgs, args) {
     var promise = new Promise(returnfn => {
         callDriverMethod(
             findComponentArgs,
@@ -3683,9 +3700,6 @@ async function callApp(findComponentArgs, args) {
     return ret
 }
 
-async function callFunction(findComponentArgs, args) {
-return callApp(findComponentArgs, args)
-}
 
 
 function is_app(t) {
