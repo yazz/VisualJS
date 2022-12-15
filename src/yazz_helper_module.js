@@ -699,19 +699,6 @@ module.exports = {
 
 
 
-                                            let restApi = mm.getValueOfCodeString(code, "rest_api")
-                                            if (restApi) {
-                                                let restMethod = mm.getValueOfCodeString(code, "rest_method")
-                                                mm.add_rest_api(
-                                                    restRoutes,
-                                                    app,
-                                                    {
-                                                        message_type:       "add_rest_api",
-                                                        route:               restApi,
-                                                        base_component_id:   baseComponentId,
-                                                        rest_method:         restMethod
-                                                    });
-                                            }
 
 
                                             stmtDeleteDependencies.run(sha1sum)
@@ -1266,113 +1253,6 @@ module.exports = {
 
 
 
-    //------------------------------------------------------------------------------
-    //
-    //
-    //
-    //
-    //
-    //------------------------------------------------------------------------------
-    add_rest_api: function (restRoutes, app,  msg)  {
-
-        //outputDebug("add_rest_api called")
-
-            let mm  = this
-        let newFunction = async function (req, res) {
-
-            let params  = req.query;
-            let url     = req.originalUrl;
-            let body    = req.body;
-
-            let promise = new Promise(async function(returnFn) {
-                let seqNum = queuedResponseSeqNum;
-                queuedResponseSeqNum ++;
-                queuedResponses[ seqNum ] = function(value) {
-                    returnFn(value)
-                }
-
-
-                //outputDebug(" msg.base_component_id: " + msg.base_component_id);
-                //outputDebug(" seqNum: " + seqNum);
-                callDriverMethod({
-                    message_type:          "callDriverMethod",
-                    find_component:         {
-                        method_name: msg.base_component_id,
-                        driver_name: msg.base_component_id
-                    }
-                    ,
-                    args:                   {
-                        params: params,
-                        body:   body,
-                        url:    url
-                    }
-                    ,
-                    seq_num_parent:         null,
-                    seq_num_browser:        null,
-                    seq_num_local:          seqNum,
-                });
-
-
-            })
-            let ret = await promise
-
-            if (ret.value) {
-                res.writeHead(200, {'Content-Type': 'application/json'});
-                res.end(JSON.stringify(
-                    ret.value
-                ));
-                if (jaegercollector) {
-                    console.log("calling jaeger...")
-                    try {
-                        tracer = initJaegerTracer(jaegerConfig, jaegerOptions);
-                        let span=tracer.startSpan(url)
-                        span.setTag("call", "some-params")
-                        span.finish()
-                        tracer.close()
-                        console.log("...called jaeger")
-                    } catch(err){
-                        console.log("Error calling jaeger: " + err)
-                    }
-                }
-            } else if (ret.error) {
-                res.writeHead(200, {'Content-Type': 'application/json'});
-                res.end(JSON.stringify(
-                    {error: ret.error}
-                ));
-            } else {
-                res.writeHead(200, {'Content-Type': 'application/json'});
-                res.end(JSON.stringify(
-                    {error: "Unknown problem occurred"}
-                ));
-            }
-        }
-
-        // end of function def for newFunction
-
-
-        if (!mm.isValidObject(restRoutes[msg.route])) {
-            if (msg.rest_method == "POST") {
-                app.post(  '/' + msg.route + '/*'  , async function(req, res){
-                    await ((restRoutes[msg.route])(req,res))
-                })
-                app.post(  '/' + msg.route  , async function(req, res){
-                    await ((restRoutes[msg.route])(req,res))
-                })
-
-            } else {
-                app.get(  '/' + msg.route + '/*'  , async function(req, res){
-                    await ((restRoutes[msg.route])(req,res))
-                })
-                app.get(  '/' + msg.route  , async function(req, res){
-                    await ((restRoutes[msg.route])(req,res))
-                })
-            }
-        }
-        restRoutes[msg.route] = newFunction
-
-
-    }
-    ,
 
     //------------------------------------------------------------------------------
     //
@@ -1851,21 +1731,6 @@ module.exports = {
                                             }
 
 
-
-
-                                            let restApi = mm.getValueOfCodeString(code, "rest_api")
-                                            if (restApi) {
-                                                let restMethod = mm.getValueOfCodeString(code, "rest_method")
-                                                mm.add_rest_api(
-                                                    restRoutes,
-                                                    app,
-                                                    {
-                                                        message_type:       "add_rest_api",
-                                                        route:               restApi,
-                                                        base_component_id:   baseComponentId,
-                                                        rest_method:         restMethod
-                                                    });
-                                            }
 
 
                                             stmtDeleteDependencies.run(sha1sum)
