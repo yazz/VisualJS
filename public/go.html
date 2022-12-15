@@ -4201,7 +4201,7 @@ async function postToYazzReturnJson(urlToget, postParams) {
     let promise = new Promise(async function (returnfn) {
         fetch(openfileurl, {
             method: 'post',
-            credentials: "include",
+            //credentials: "include",
             headers: {
                 'Content-Type': 'application/json'
                 // 'Content-Type': 'application/x-www-form-urlencoded'
