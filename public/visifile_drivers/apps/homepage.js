@@ -993,16 +993,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-          copyApp: async function(  baseComponentId ) {
-              callDriverMethod( {driver_name: "copyApp",
-                                 method_name: "copyAppshareApp"}
-                                ,{base_component_id:    baseComponentId}
-                          ,
-                          async function(result) {
-                              await mm.addEditableApp(result.base_component_id)
 
-                          })
-          },
           copyAndEditApp: async function(event,  baseComponentId ) {
               let mm = this
               globalEventBus.$emit('hide_settings', {});
