@@ -33,10 +33,10 @@ module.exports = {
                      (id, parent_id, code_tag, code, base_component_id, 
                       max_processes,display_name, creation_timestamp,component_options, 
                       logo_url, visibility, interfaces,use_db, editors, read_write_status,properties, 
-                      component_type, control_sub_type, edit_file_path, ipfs_hash_id, component_type_v2, 
+                      component_type, edit_file_path, ipfs_hash_id, component_type_v2, 
                       code_tag_v2, code_changes, num_changes, fk_user_id, score, score_reason) 
               values 
-                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
+                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
 
         stmtDeprecateOldCode = thisDb.prepare(
             " update system_code  set code_tag = NULL, code_tag_v2 = NULL where base_component_id = ? and id != ?");
@@ -462,7 +462,6 @@ module.exports = {
             let useDb = mm.getValueOfCodeString(code,"use_db")
             let editors2 = mm.getValueOfCodeString(code,"editors")
             let controlType = mm.getValueOfCodeString(code,"component_type")
-            let controlSubType = mm.getValueOfCodeString(code,"control_sub_type")
 
             let editors = null
             if (editors2) {
@@ -618,7 +617,6 @@ module.exports = {
                                                 readWriteStatus,
                                                 properties,
                                                 controlType,
-                                                controlSubType,
                                                 save_code_to_file,
                                                 sha1sum,
                                                 componentTypeV2,
@@ -1457,7 +1455,6 @@ module.exports = {
             let useDb = mm.getValueOfCodeString(code,"use_db")
             let editors2 = mm.getValueOfCodeString(code,"editors")
             let controlType = mm.getValueOfCodeString(code,"component_type")
-            let controlSubType = mm.getValueOfCodeString(code,"control_sub_type")
 
             let editors = null
             if (editors2) {
@@ -1613,7 +1610,6 @@ module.exports = {
                                                 readWriteStatus,
                                                 properties,
                                                 controlType,
-                                                controlSubType,
                                                 save_code_to_file,
                                                 sha1sum,
                                                 componentTypeV2,
