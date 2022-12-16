@@ -2187,14 +2187,6 @@ globalEventBus.$emit('new-appshare-app-uploaded', data.base_component_id);
 
 
 
-socket.on('client_data_returned_from_server',function(data) {
-//console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
-});
-
-
-
-
-
 
 
 
@@ -2302,31 +2294,6 @@ isWin = data.value
 
 
 
-
-socket.on('vf_update_card_app',function(data) {
-//alert("Browser received apps from server socket: " + JSON.stringify(data,null,2));
-update_card({
-id: data.card_id,
-card: {
-id:                 data.card_id,
-name:               data.result.display_name,
-base_component_id:  data.result.base_component_id,
-code_id:            data.result.id,
-display_name:       data.result.display_name,
-type:               "app",
-hide_header:        (data.result.component_options && data.result.component_options.indexOf("HIDE_HEADER" != -1))?true:false
-}});
-
-
-var rootElement = "app_" + data.card_id
-
-//alert("loadAppIntoElement( " + data.tag_name + "," + rootElement)
-loadAppIntoElement( data.tag_name, rootElement)
-
-
-
-refresh();
-});
 
 
 
