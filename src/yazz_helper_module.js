@@ -30,13 +30,13 @@ module.exports = {
         stmtInsertNewCode = thisDb.prepare(
             `insert into
                  system_code  
-                     (id, parent_id, code_tag, code,on_condition, base_component_id, 
+                     (id, parent_id, code_tag, code, base_component_id, 
                       method, max_processes,component_scope,display_name, creation_timestamp,component_options, 
                       logo_url, visibility, interfaces,use_db, editors, read_write_status,properties, 
                       component_type, control_sub_type, edit_file_path, ipfs_hash_id, component_type_v2, 
                       code_tag_v2, code_changes, num_changes, fk_user_id, score, score_reason) 
               values 
-                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
+                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
 
         stmtDeprecateOldCode = thisDb.prepare(
             " update system_code  set code_tag = NULL, code_tag_v2 = NULL where base_component_id = ? and id != ?");
@@ -415,7 +415,6 @@ module.exports = {
             //showTimer(`3`)
 
 
-            let oncode = "\"app\""
             let eventName = null
             let componentType = null
             let componentOptions = null
@@ -607,7 +606,6 @@ module.exports = {
                                         }
                                         let fnName = getName(code.toString())
                                         if (fnName) {
-                                            oncode = "\"" + fnName + "\""
                                             eventName = fnName
                                             componentType = "method"
                                         }
@@ -639,7 +637,6 @@ module.exports = {
                                                 parentHash,
                                                 "LATEST",
                                                 code,
-                                                oncode,
                                                 baseComponentId,
                                                 eventName,
                                                 maxProcesses,
@@ -1449,7 +1446,6 @@ module.exports = {
             //showTimer(`3`)
 
 
-            let oncode = "\"app\""
             let eventName = null
             let componentType = null
             let componentOptions = null
@@ -1641,7 +1637,6 @@ module.exports = {
                                         }
                                         let fnName = getName(code.toString())
                                         if (fnName) {
-                                            oncode = "\"" + fnName + "\""
                                             eventName = fnName
                                             componentType = "method"
                                         }
@@ -1673,7 +1668,6 @@ module.exports = {
                                                 parentHash,
                                                 "LATEST",
                                                 code,
-                                                oncode,
                                                 baseComponentId,
                                                 eventName,
                                                 maxProcesses,
