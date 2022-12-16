@@ -2442,22 +2442,6 @@ function websocketFn(ws) {
 
 
 
-} else if (receivedMessage.message_type == "browser_asks_server_for_apps") {
-
-   // outputDebug("******************* browser_asks_server_for_apps *******************")
-    findLatestVersionOfApps( function(results) {
-       // outputDebug(JSON.stringify(results,null,2))
-
-        sendToBrowserViaWebSocket(  ws,
-                                    {
-                                        type:     "vf_app_names",
-                                        results:  results
-                                    });
-        })
-
-
-
-
 
 
 
@@ -4441,28 +4425,6 @@ console.log("Network Host Address. Click to open: " + serverProtocol + "://" + h
 
 
 
-
-
-
-function findLatestVersionOfApps( callbackFn) {
-    dbsearch.serialize(
-        function() {
-            let stmt = dbsearch.all(
-                "SELECT id,base_component_id,display_name, component_options FROM system_code where component_scope = ? and code_tag = ?; ",
-                "app",
-                "LATEST",
-
-                function(err, results)
-                {
-                    if (results.length > 0) {
-                        callbackFn(results)
-                    } else {
-                        callbackFn(null)
-                    }
-
-                })
-    }, sqlite3.OPEN_READONLY)
-}
 
 
 
