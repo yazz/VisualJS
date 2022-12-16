@@ -806,7 +806,6 @@ module.exports = {
                                             "component_type": \"SYSTEM\",
                                             "libs": [],
                                             "code_id": "${sha1sum}",
-                                            "on_condition": "\\\"app\\\"",
                                             "base_component_id": "${baseComponentId}"
                                           },
                                           "seq_num": 0
@@ -856,7 +855,6 @@ module.exports = {
                                                                 "libs": [],
                                                                 "component_type": \"SYSTEM\",
                                                                 "code_id": "${results[i].sha1}",
-                                                                "on_condition": "\\\"app\\\"",
                                                                 "base_component_id": "${results[i].child_component_id}"
                                                               },
                                                               "seq_num": 0
@@ -1835,7 +1833,6 @@ module.exports = {
                                                 "component_type": \"SYSTEM\",
                                                 "libs": [],
                                                 "code_id": "${sha1sum}",
-                                                "on_condition": "\\\"app\\\"",
                                                 "base_component_id": "${baseComponentId}"
                                               },
                                               "seq_num": 0
@@ -1885,7 +1882,6 @@ module.exports = {
                                                                     "libs": [],
                                                                     "component_type": \"SYSTEM\",
                                                                     "code_id": "${results[i].sha1}",
-                                                                    "on_condition": "\\\"app\\\"",
                                                                     "base_component_id": "${results[i].child_component_id}"
                                                                   },
                                                                   "seq_num": 0
