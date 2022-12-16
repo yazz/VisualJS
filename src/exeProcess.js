@@ -166,7 +166,7 @@ function processMessagesFromMainProcess() {
 
             if (msg.code_id) {
                 currentCallId = msg.call_id
-                executeCode(msg.call_id,  msg.code_id, msg.args,  msg.on_condition,  msg.base_component_id)
+                executeCode(msg.call_id,  msg.code_id, msg.args,   msg.base_component_id)
             }
         }
 
@@ -250,22 +250,18 @@ var currentDriver = null
 var currentCodeID = null
 var currentArgs = null
 
-function executeCode(callId, codeId, args, on_condition,  base_component_id) {
+function executeCode(callId, codeId, args,  base_component_id) {
     //console.log("@executeCode "+ childProcessName + " in use: " + inUse)
 
     dbsearch.serialize(
         function() {
             var stmt = dbsearch.all(
-                "SELECT base_component_id,component_options,use_db,on_condition,code,properties FROM system_code where id  = ?; ",
+                "SELECT base_component_id,component_options,use_db,code,properties FROM system_code where id  = ?; ",
                 codeId,
 
                 function(err, results)
                 {
                     if (results.length > 0) {
-                        //console.log(    "    " + results[0].base_component_id + ":" + results[0].on_condition + ":" +
-                        //                results[0].method )
-                        //console.log(    "    callId:" + callId )
-
                         currentDriver           = results[0].base_component_id
                         var componentOptions    = results[0].component_options
                         var useDb               = results[0].use_db
@@ -289,7 +285,6 @@ function executeCode(callId, codeId, args, on_condition,  base_component_id) {
                                                                                    component_options:   componentOptions,
                                                                                    libs:                results2,
                                                                                    code_id:             codeId,
-                                                                                   on_condition:        on_condition,
                                                                                    base_component_id:   base_component_id,
                                                                                    properties:          properties
                                                                                       },
