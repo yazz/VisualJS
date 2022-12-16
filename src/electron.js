@@ -3012,7 +3012,7 @@ async function startServices() {
                     {
                         type: "COMPONENT_COMMENT",
                         format: "JSON'",
-                        type_: "component_type_v2('COMPONENT_COMMENT')",
+                        type_: "component_type('COMPONENT_COMMENT')",
                         format_: "format('JSON')",
                         date_and_time: newDateAndTime,
                         base_component_id: baseComponentId,
@@ -4250,7 +4250,7 @@ async function findLocalIpfsContent() {
                     let fullFileName = path.join(fullIpfsFolderPath, ipfsHashFileName)
                     let ipfsContent = fs.readFileSync(fullFileName, 'utf8')
 
-                    let itemType = yz.getValueOfCodeString(ipfsContent,"component_type_v2")
+                    let itemType = yz.getValueOfCodeString(ipfsContent,"component_type")
                     if (itemType == "COMPONENT_COMMENT") {
                         let formatType = yz.getValueOfCodeString(ipfsContent,"format")
                         if (formatType == "JSON") {

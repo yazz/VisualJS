@@ -64,8 +64,7 @@ formEditor({
   "active_component_index": 1,
   "active_component_detail_name": null
 })//formEditor
-component_type("SYSTEM")
-component_type_v2("APP")
+component_type("APP")
 sub_components([
   "app_editor_3",
   "vb_editor_component",

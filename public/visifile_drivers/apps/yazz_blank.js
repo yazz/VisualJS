@@ -67,7 +67,7 @@ sub_components([
   "vert_scroll_control"
 ])
 base_component_id("yazz_blank")
-component_type_v2("SYSTEM")
+component_type("SYSTEM")
 visibility("PRIVATE")
 display_name("GUI App")
 editors([

@@ -296,7 +296,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                          where
                              code_tag = 'LATEST'
                                  and
-                             component_type_v2 = 'APP'
+                             component_type = 'APP'
                      order by base_component_id asc; `
 //        and
 //        visibility = 'PUBLIC'

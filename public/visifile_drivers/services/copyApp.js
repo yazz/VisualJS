@@ -85,11 +85,11 @@ only_run_on_server(true)
                             code = yz.deleteCodeString(code, "read_only")
                             code = yz.deleteCodeString(code, "visibility")
 
-                            var componentTypeV2 = yz.getValueOfCodeString(code, "component_type_v2")
-                            if (componentTypeV2) {
-                                code = yz.deleteCodeString(code, "component_type_v2")
+                            var componentType = yz.getValueOfCodeString(code, "component_type")
+                            if (componentType) {
+                                code = yz.deleteCodeString(code, "component_type")
                             }
-                            code = yz.insertCodeString(code, "component_type_v2", "APP")
+                            code = yz.insertCodeString(code, "component_type", "APP")
 
 
                             var formEditor = yz.getValueOfCodeString(code, "formEditor",")//formEditor")

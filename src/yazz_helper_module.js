@@ -33,10 +33,10 @@ module.exports = {
                      (id, parent_id, code_tag, code, base_component_id, 
                       max_processes,display_name, creation_timestamp,component_options, 
                       logo_url, visibility, interfaces,use_db, editors, read_write_status,properties, 
-                      component_type, edit_file_path, ipfs_hash_id, component_type_v2, 
+                      component_type, edit_file_path, ipfs_hash_id, 
                       code_tag_v2, code_changes, num_changes, fk_user_id, score, score_reason) 
               values 
-                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
+                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
 
         stmtDeprecateOldCode = thisDb.prepare(
             " update system_code  set code_tag = NULL, code_tag_v2 = NULL where base_component_id = ? and id != ?");
@@ -586,8 +586,6 @@ module.exports = {
 
 
 
-                                        let componentTypeV2 = mm.getValueOfCodeString(code,"component_type_v2")
-
                                         ////showTimer("Saving in Sqlite: " + parentHash)
                                         ////showTimer("Saving in Sqlite: " + code)
                                         let save_code_to_file = null
@@ -619,7 +617,6 @@ module.exports = {
                                                 controlType,
                                                 save_code_to_file,
                                                 sha1sum,
-                                                componentTypeV2,
                                                 "TIP",
                                                 codeChangesStr,
                                                 numCodeChanges,
@@ -1579,8 +1576,6 @@ module.exports = {
 
 
 
-                                        let componentTypeV2 = mm.getValueOfCodeString(code,"component_type_v2")
-
                                         ////showTimer("Saving in Sqlite: " + parentHash)
                                         ////showTimer("Saving in Sqlite: " + code)
                                         let save_code_to_file = null
@@ -1612,7 +1607,6 @@ module.exports = {
                                                 controlType,
                                                 save_code_to_file,
                                                 sha1sum,
-                                                componentTypeV2,
                                                 "TIP",
                                                 codeChangesStr,
                                                 numCodeChanges,
