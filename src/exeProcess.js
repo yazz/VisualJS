@@ -217,12 +217,11 @@ function setUpSql() {
                                                       yazz_instance_id,
                                                       status,
                                                       base_component_id,
-                                                      event,
                                                       system_code_id,
                                                       args,
                                                       error_message )
                                                   values
-                                                      ( ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ? , ?);`)
+                                                      ( ?,  ?,  ?,  ?,  ?,  ?,   ?,  ? , ?);`)
 }
 
 
@@ -248,7 +247,6 @@ function announceFree() {
 
 var currentCallId = null
 var currentDriver = null
-var currentEvent = null
 var currentCodeID = null
 var currentArgs = null
 
@@ -271,7 +269,6 @@ function executeCode(callId, codeId, args, on_condition,  base_component_id) {
                         currentDriver           = results[0].base_component_id
                         var componentOptions    = results[0].component_options
                         var useDb               = results[0].use_db
-                        currentEvent            = results[0].on_condition
                         currentCodeID           = codeId
                         currentArgs             = args
                         var properties          = results[0].properties
@@ -298,7 +295,6 @@ function executeCode(callId, codeId, args, on_condition,  base_component_id) {
                                                                                       },
                                                             child_process_name:    childProcessName,
                                                             driver_name:           currentDriver,
-                                                            method_name:           currentEvent,
                                                             callback_index:        currentCallbackIndex,
                                                             called_call_id:        callId
                                                             });
@@ -323,7 +319,6 @@ function executeCode(callId, codeId, args, on_condition,  base_component_id) {
                                     process.send({  message_type:       "function_call_response" ,
                                                     child_process_name:  childProcessName,
                                                     driver_name:         currentDriver,
-                                                    method_name:         currentEvent,
                                                     callback_index:      currentCallbackIndex,
                                                     result:              {value: result.value},
                                                     called_call_id:      callId
@@ -340,7 +335,6 @@ function executeCode(callId, codeId, args, on_condition,  base_component_id) {
                                         process.send({  message_type:       "function_call_response" ,
                                                         child_process_name:  childProcessName,
                                                         driver_name:         currentDriver,
-                                                        method_name:         currentEvent,
                                                         callback_index:      currentCallbackIndex,
                                                         result:              {value: result},
                                                         called_call_id:      callId
@@ -358,7 +352,6 @@ function executeCode(callId, codeId, args, on_condition,  base_component_id) {
                                     process.send({  message_type:       "function_call_response" ,
                                                     child_process_name:  childProcessName,
                                                     driver_name:         currentDriver,
-                                                    method_name:         currentEvent,
                                                     callback_index:      currentCallbackIndex,
                                                     result:              {value: result},
                                                     called_call_id:      callId
@@ -385,7 +378,6 @@ function executeCode(callId, codeId, args, on_condition,  base_component_id) {
                                           yazzInstanceId,
                                           "ERROR",
                                           currentDriver,
-                                          currentEvent,
                                           currentCodeID,
                                           JSON.stringify(currentArgs,null,2),
                                           errM.toString() )
@@ -410,7 +402,6 @@ process.on('uncaughtException', function (err) {
   process.send({  message_type:       "function_call_response" ,
                   child_process_name:  childProcessName,
                   driver_name:         currentDriver,
-                  method_name:         currentEvent,
                   callback_index:      currentCallbackIndex,
                   result:              {error: err},
                   called_call_id:      currentCallId
@@ -501,7 +492,6 @@ process.on('unhandledRejection', (reason) => {
               yazzInstanceId,
               "ERROR",
               currentDriver,
-              currentEvent,
               currentCodeID,
               JSON.stringify(currentArgs,null,2),
               reason.toString() )
