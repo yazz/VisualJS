@@ -2475,14 +2475,14 @@ function websocketFn(ws) {
 
         // --------------------------------------------------------------------
         //
-        //                         callDriverMethod
+        //                         browserCallsComponentViaWebSocket
         //
-        // "callDriverMethod" is used to call server side apps/code.
+        // "browserCallsComponentViaWebSocket" is used to call server side apps/code.
         //
         //
         //
         // --------------------------------------------------------------------
-        } else if (receivedMessage.message_type == "callDriverMethod") {
+        } else if (receivedMessage.message_type == "browserCallsComponentViaWebSocket") {
 
             // Use an integer counter to identify whoever was
             // calling the server function (in this case a web browser with

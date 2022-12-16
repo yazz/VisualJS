@@ -4407,7 +4407,7 @@ async function callComponentNonAsync(findComponentArgs, args, callbackFn) {
         //debugger
 
         sendToServerViaWebSocket({
-            message_type: "callDriverMethod",
+            message_type: "browserCallsComponentViaWebSocket",
             find_component: findComponentArgs,
             args: args,
             seqNum: seqNum
