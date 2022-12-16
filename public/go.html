@@ -2334,35 +2334,6 @@ refresh();
 
 
 
-var dataIds = new Object()
-//
-// Server  --DATA ITEM--  Browser
-//
-socket.on('client_data_item_received_from_server',async function(data) {
-//console.log("Update query item: " + JSON.stringify(data,null,2));
-//alert(data.query.name)
-if (!dataIds[data.data_item.name]) {
-var nid = nextItem++;
-add_card( { id: nid,
-card: {
-id:                 nid,
-data_id:            data.data_item.id,
-name:               data.data_item.name,
-load_content:       data.data_item.name,
-load_content_name:  data.data_item.name
-}});
-dataIds[data.data_item.name] = true
-refresh();
-if (autoScroll) {
-//select_card(nid)
-}
-}
-});
-
-
-
-
-
 socket.on('server_returns_loadUiComponent_to_browser',async function(data) {
 
     //alert("component returned: " + JSON.stringify(data,null,2))
