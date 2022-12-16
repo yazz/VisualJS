@@ -4389,28 +4389,32 @@ async function callComponent(findComponentArgs, args) {
 
 
 async function callComponentNonAsync(findComponentArgs, args, callbackFn) {
-    //console.log(`online: ${online}`)
-    var seqNum = queuedBrowserResponseSeqNum ++;
-    queuedResponses[seqNum] = callbackFn;
-    callDriverMethodArgs[seqNum] = args
+    var seqNum                      = queuedBrowserResponseSeqNum ++;
+    queuedResponses[seqNum]         = callbackFn;
+    callDriverMethodArgs[seqNum]    = args
 
 
+    //
+    // if this is a static app then read the components from the cache "cachedCode"
+    //
     if (isStaticHtmlPageApp && findComponentArgs.base_component_id && finderToCachedCodeMapping[findComponentArgs.base_component_id]) {
         //alert("Reading app from cache: " + findComponentArgs.base_component_id)
-        var newDataCodeId = finderToCachedCodeMapping[findComponentArgs.base_component_id]
-        var newData       = cachedCode[newDataCodeId]
-        newData.seq_num = seqNum
+        var newDataCodeId   = finderToCachedCodeMapping[findComponentArgs.base_component_id]
+        var newData         = cachedCode[newDataCodeId]
+        newData.seq_num     = seqNum
         await checkLibs(newData)
         await callCodeV2(newData.value,  callDriverMethodArgs[newData.seq_num],  newData.seq_num)
-    } else {
-        //console.log(`  sendToServerViaWebSocket`)
-        //debugger
 
+
+    //
+    // if this is an online dynamic app with full access to the server send a request to a component
+    //
+    } else {
         sendToServerViaWebSocket({
-            message_type: "browserCallsComponentViaWebSocket",
+            message_type:   "browserCallsComponentViaWebSocket",
             find_component: findComponentArgs,
-            args: args,
-            seqNum: seqNum
+            args:           args,
+            seqNum:         seqNum
         });
         let result = await postToYazzReturnJson(
             "/call_component",
