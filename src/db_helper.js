@@ -24,7 +24,7 @@ module.exports = {
     //console.log("--------------- createTables: function(dbsearch, callbackFn) {");
     async.map([
 
-            "CREATE TABLE IF NOT EXISTS system_process_info (yazz_instance_id	TEXT, process	TEXT, process_id	TEXT, callback_index INTEGER, running_since	TEXT, status TEXT , last_driver TEXT, last_event TEXT, running_start_time_ms INTEGER, event_duration_ms INTEGER, job_priority INTEGER, system_code_id TEXT, PRIMARY KEY (yazz_instance_id, process));",
+            "CREATE TABLE IF NOT EXISTS system_process_info (yazz_instance_id	TEXT, process	TEXT, process_id	TEXT, callback_index INTEGER, running_since	TEXT, status TEXT , last_driver TEXT, running_start_time_ms INTEGER, event_duration_ms INTEGER, job_priority INTEGER, system_code_id TEXT, PRIMARY KEY (yazz_instance_id, process));",
 
             "CREATE TABLE IF NOT EXISTS system_process_errors (yazz_instance_id	TEXT, id TEXT, timestamp INTEGER, process	TEXT, status TEXT , base_component_id TEXT, event TEXT, system_code_id TEXT, args TEXT, error_message TEXT);",
 
