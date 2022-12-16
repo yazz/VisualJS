@@ -934,7 +934,6 @@ function setUpChildListeners(processName, fileName, debugPort) {
                                                         code_id:             msg.code_id,
                                                         args:                msg.args,
                                                         call_id:             msg.call_id,
-                                                        on_condition:        msg.on_condition,
                                                         base_component_id:   msg.base_component_id
                                                       });
 
@@ -4892,7 +4891,7 @@ function setUpSql() {
 
 
 
-          setProcessToRunning = dbsearch.prepare("UPDATE system_process_info SET status = 'RUNNING', last_driver = ?, last_event = ?, running_start_time_ms = ?, event_duration_ms = 0, system_code_id = ?, callback_index = ? WHERE process = ? AND yazz_instance_id = ?");
+          setProcessToRunning = dbsearch.prepare("UPDATE system_process_info SET status = 'RUNNING', last_driver = ?,  running_start_time_ms = ?, event_duration_ms = 0, system_code_id = ?, callback_index = ? WHERE process = ? AND yazz_instance_id = ?");
 
           setProcessToIdle = dbsearch.prepare("UPDATE system_process_info SET status = 'IDLE' WHERE process = ? AND yazz_instance_id = ?");
           setProcessRunningDurationMs  = dbsearch.prepare("UPDATE  system_process_info  SET event_duration_ms = ?  WHERE  process = ? AND yazz_instance_id = ?");
@@ -6030,7 +6029,7 @@ function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
 //                                                                                         //
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
-function sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processName  ,  base_component_id ,  on_condition  ,  args) {
+function sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processName  ,  base_component_id  ,  args) {
 
     let newCallId = nextCallId ++
 
@@ -6040,7 +6039,7 @@ function sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processName  ,  
         function() {
             dbsearch.run("begin exclusive transaction");
             let runningStartTime = new Date().getTime();
-            setProcessToRunning.run( base_component_id, on_condition, runningStartTime, id, callbackIndex, processName, yazzInstanceId )
+            setProcessToRunning.run( base_component_id, runningStartTime, id, callbackIndex, processName, yazzInstanceId )
 
 
             dbsearch.run("commit", function() {
@@ -6050,7 +6049,6 @@ function sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processName  ,  
                                 args:                args,
                                 call_id:             newCallId,
                                 callback_index:      callbackIndex,
-                                on_condition:        on_condition,
                                 base_component_id:   base_component_id
                                 });
             });
@@ -6078,7 +6076,6 @@ function execute_code_in_exe_child_process (msg) {
                                                 code_id:             msg.code_id,
                                                 args:                msg.args,
                                                 call_id:             msg.call_id,
-                                                on_condition:        msg.on_condition,
                                                 base_component_id:   msg.base_component_id
                                               });
 }
@@ -6099,7 +6096,7 @@ function sendJobToProcessName(id, args, processName, parentCallId, callbackIndex
     dbsearch.serialize(
         function() {
             let stmt = dbsearch.all(
-                "SELECT base_component_id, on_condition FROM system_code where id = ? LIMIT 1",
+                "SELECT base_component_id FROM system_code where id = ? LIMIT 1",
                 id,
 
                 function(err, results)
@@ -6113,7 +6110,6 @@ function sendJobToProcessName(id, args, processName, parentCallId, callbackIndex
                                             callbackIndex,
                                             processName,
                                             results[0].base_component_id,
-                                            results[0].on_condition,
                                             args)
 
 
