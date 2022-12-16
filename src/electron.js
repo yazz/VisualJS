@@ -5708,6 +5708,27 @@ function callDriverMethod(msg) {
   }
 
 
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
+function callDriverMethodPart2( findComponentArgs, args, callbackFn ) {
+
+    //console.log("*) called '" + driverName + ":" + methodName + "' with args: " + JSON.stringify(args,null,2))
+    let useCallbackIndex = callbackIndex ++
+    callbackList[ useCallbackIndex ] = callbackFn
+    //console.log("msg.callback_index sent for " + driverName + ":" + methodName + ": " + useCallbackIndex)
+    function_call_requestPart2({  message_type:       "function_call_request" ,
+        find_component:      findComponentArgs,
+        args:                args,
+        callback_index:      useCallbackIndex,
+        caller_call_id:      -1
+    });
+}
+
 
 
 
@@ -5775,27 +5796,6 @@ function ipc_child_returning_callDriverMethod_response(msg) {
 
 
 
-
-  //------------------------------------------------------------------------------
-  //
-  //
-  //
-  //
-  //
-  //------------------------------------------------------------------------------
-  function callDriverMethodPart2( findComponentArgs, args, callbackFn ) {
-
-      //console.log("*) called '" + driverName + ":" + methodName + "' with args: " + JSON.stringify(args,null,2))
-      let useCallbackIndex = callbackIndex ++
-      callbackList[ useCallbackIndex ] = callbackFn
-      //console.log("msg.callback_index sent for " + driverName + ":" + methodName + ": " + useCallbackIndex)
-      function_call_requestPart2({  message_type:       "function_call_request" ,
-                      find_component:      findComponentArgs,
-                      args:                args,
-                      callback_index:      useCallbackIndex,
-                      caller_call_id:      -1
-                      });
-  }
 
 
 
