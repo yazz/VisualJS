@@ -477,39 +477,8 @@ async function callComponent(options,args) {
 }
 
 
-function findDriverWithMethod(methodName, callbackFn) {
-    dbsearch.serialize(
-        function() {
-            var stmt = dbsearch.all(
-                "SELECT base_component_id FROM system_code where on_condition like '%" + methodName + "%'; ",
-
-                function(err, results)
-                {
-                    if (results.length > 0) {
-                        callbackFn(results[0].base_component_id)
-                    } else {
-                        callbackFn(null)
-                    }
-
-                })
-    }, sqlite3.OPEN_READONLY)
-}
 
 
-
-
-
-
-function saveCodeOld(baseComponentId, parentHash, code,options) {
-    console.log(" ***************** saveCodeOld")
-    console.log(" ***************** saveCodeOld")
-    process.send({  message_type:       "save_code" ,
-                    base_component_id:   baseComponentId,
-                    parent_hash:         parentHash,
-                    code:                code,
-                    options:             options
-                    });
-}
 
 
 async function saveCodeV2(baseComponentId, parentHash, code,options) {
