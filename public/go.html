@@ -58,7 +58,7 @@ async function onPageInitialized(doCode) {
     }
 
 //debugger
-    var blob = new Blob([
+    let blob = new Blob([
         document.querySelector('#worker1').textContent
     ], { type: "text/javascript" })
 
@@ -896,7 +896,7 @@ function registerComponent(vueComponentObject) {
     if (isValidObject(vueComponentObject)) {
 
 
-        var usePropVar = vueComponentObject.args
+        let  usePropVar = vueComponentObject.args
         if (!isValidObject(usePropVar)) {
             usePropVar = vueComponentObject.properties
         }
@@ -940,10 +940,10 @@ function unregisterComponent(componentName) {
 
 
 function base64ToUint8Array (string) {
-var raw = atob(string);
-var rawLength = raw.length;
-var array = new Uint8Array(new ArrayBuffer(rawLength));
-for (var i = 0; i < rawLength; i += 1) {
+let raw = atob(string);
+let rawLength = raw.length;
+let array = new Uint8Array(new ArrayBuffer(rawLength));
+for (let i = 0; i < rawLength; i += 1) {
 array[i] = raw.charCodeAt(i);
 }
 return array;
@@ -957,11 +957,11 @@ console.log("Local SQLite only works for static Creator apps")
 } else {
 resOut = []
 try {
-var stmt = localSqliteDb.prepare(sql);
-var res = stmt.bind(params)
-var moreRows = stmt.step()
+let stmt = localSqliteDb.prepare(sql);
+let res = stmt.bind(params)
+let moreRows = stmt.step()
 while (moreRows) {
-var newRow = stmt.getAsObject()
+let newRow = stmt.getAsObject()
 resOut.push(newRow)
 moreRows = stmt.step()
 }
@@ -973,7 +973,7 @@ return resOut
 }
 }
 String.prototype.replaceAll = function(search, replacement) {
-var target = this;
+let target = this;
 return target.replace(new RegExp(search, 'g'), replacement);
 };
 
@@ -1475,8 +1475,8 @@ listElm = document.querySelector('#wrapper');
 // Add 20 items.
 var loadMore = function() {
 if (!isStaticHtmlPageApp) {
-for (var i = 0; i < 1; i++) {
-var nextIndex = nextItem - 1;
+for (let i = 0; i < 1; i++) {
+let nextIndex = nextItem - 1;
 if (nextItem <= defaultCards.length) {
 add_card( {id: nextItem++, card: defaultCards[nextIndex]});
 refresh();
@@ -1487,7 +1487,7 @@ refresh();
 
 listElm.addEventListener('scroll', function(event)
 {
-var element = event.target;
+let element = event.target;
 if (element.scrollHeight - element.scrollTop <= (element.clientHeight + 10))
 {
 //console.log('scrolled');
@@ -1496,7 +1496,7 @@ loadMore();
 }
 });
 // Initially load some items.
-for (var i=0; i < 20; i++) {
+for (let i=0; i < 20; i++) {
 loadMore();
 }
 
@@ -1507,7 +1507,7 @@ loadMore();
 //alert(0)
 if (isStaticHtmlPageApp) {
 //alert(1)
-var nid = nextItem++;
+let nid = nextItem++;
 add_card({
 id: nid,
 card: {
@@ -1537,7 +1537,7 @@ usePort = location.port
 setupWebSocket(useHostname,  usePort);
 //alert(useHostname + ":" +  usePort)
 
-var regex = /[?&]([^=#]+)=([^&#]*)/g,
+let regex = /[?&]([^=#]+)=([^&#]*)/g,
 url = window.location.href,
 match;
 while(match = regex.exec(url)) {
@@ -1563,7 +1563,7 @@ mainMoonApp.is_static = true
 
 if (editAppShareApp) {
 showProgressBar()
-var nid = nextItem++;
+let nid = nextItem++;
 await loadV2("app_editor_3")
 add_card({
 id: nid,
@@ -1611,7 +1611,7 @@ formData.append('client_file_upload_id', file_upload_uuid);
 });
 myDropzone.on("complete", function(file) {
 myDropzone.removeFile(file);
-//var eds = yz.getValueOfCodeString(data.value.code, "sqlite",")//sqlite")
+//let eds = yz.getValueOfCodeString(data.value.code, "sqlite",")//sqlite")
 });
 
 
@@ -1820,7 +1820,7 @@ v-if='is_gui_app'>
 
 var globalEventBus = new Vue();
 //lll
-var newAppArgs = []
+let newAppArgs = []
 async function prepareApp(  id,  bbase_component_id,  args  ) {
 //alert(id)
 //alert(JSON.stringify(args,null,2))
@@ -1829,7 +1829,7 @@ base_component_id = bbase_component_id
 
 //console.log(" prepareApp base_component_id: " + base_component_id)
 //alert(JSON.stringify(args,null,2))
-var rootElement = "app_" + id
+let rootElement = "app_" + id
 if ((mainMoonApp.cards[id - 1].card.base_component_id != base_component_id) ||
 (!newAppArgs[id])) {
 newAppArgs[id] = args
@@ -1850,9 +1850,9 @@ return
 }
 
 if (!document.getElementById(rootElement)) {
-var newRootId = rootElement.substring(4)
-var newCardId = "app_container_" + newRootId
-var newAppId = "app_" + newRootId
+let newRootId = rootElement.substring(4)
+let newCardId = "app_container_" + newRootId
+let newAppId = "app_" + newRootId
 //alert("Creating: " + newAppId + " under " + newCardId)
 document.getElementById(newCardId).innerHTML = ""
 
@@ -1900,7 +1900,7 @@ data_id:         data_id
 
 function add_card(payload) {
 
-var ccy = document.getElementById('wrapper').scrollTop
+let ccy = document.getElementById('wrapper').scrollTop
 mainMoonApp.cards.push(payload);
 setTimeout(function() {
 document.getElementById('wrapper').scrollTop = ccy
@@ -1910,7 +1910,7 @@ document.getElementById('wrapper').scrollTop = ccy
 
 function update_card(payload) {
 //console.log("update_card: " + JSON.stringify(payload,null,2))
-for (var i = 0; i < mainMoonApp.cards.length; i++) {
+for (let i = 0; i < mainMoonApp.cards.length; i++) {
 if (mainMoonApp.cards[i].id == payload.id) {
 mainMoonApp.cards[i].card.hide_header           = payload.card.hide_header
 mainMoonApp.cards[i].card.name                  = payload.card.name
@@ -1930,14 +1930,14 @@ mainMoonApp.count += 1;
 
 
 function getPosition(el) {
-var xPos = 0;
-var yPos = 0;
+let xPos = 0;
+let yPos = 0;
 
 while (el) {
 if (el.tagName == "BODY") {
 // deal with browser quirks with body/window/document and page scroll
-var xScroll = el.scrollLeft || document.documentElement.scrollLeft;
-var yScroll = el.scrollTop || document.documentElement.scrollTop;
+let xScroll = el.scrollLeft || document.documentElement.scrollLeft;
+let yScroll = el.scrollTop || document.documentElement.scrollTop;
 
 xPos += (el.offsetLeft - xScroll + el.clientLeft);
 yPos += (el.offsetTop - yScroll + el.clientTop);
@@ -1968,7 +1968,7 @@ document.querySelector('#card_' + mainMoonApp.selected_card).classList.add('cont
 }
 
 if (id != -1) {
-var elmnt = document.querySelector('#card_' + id);
+let elmnt = document.querySelector('#card_' + id);
 if (elmnt) {
 //elmnt.scrollIntoView({  alignToTop: 'true',
 //                        bahaviour: 'smooth'});
@@ -1976,7 +1976,7 @@ if (elmnt) {
 if (isStaticHtmlPageApp) {
 mainMoonApp.selected_card = id;
 setTimeout(async function() {
-var thisApp = mainMoonApp.cards[id - 1]
+let thisApp = mainMoonApp.cards[id - 1]
 //alert("id: " + JSON.stringify(thisApp,null,2))
 //alert("thisApp: " + JSON.stringify(thisApp,null,2))
 //alert("thisApp.id: " + JSON.stringify(thisApp.id,null,2))
@@ -1997,7 +1997,7 @@ document.querySelector('#card_' + id).classList.add('expand');
 setTimeout(function() {
 mainMoonApp.selected_card = id;
 setTimeout(async function() {
-var thisApp = mainMoonApp.cards[id - 1]
+let thisApp = mainMoonApp.cards[id - 1]
 //alert("id: " + JSON.stringify(thisApp,null,2))
 //alert("thisApp: " + JSON.stringify(thisApp,null,2))
 //alert("thisApp.id: " + JSON.stringify(thisApp.id,null,2))
@@ -4389,7 +4389,7 @@ async function callComponent(findComponentArgs, args) {
 
 
 async function callComponentNonAsync(findComponentArgs, args, callbackFn) {
-    var seqNum                      = queuedBrowserResponseSeqNum ++;
+    let seqNum                      = queuedBrowserResponseSeqNum ++;
     queuedResponses[seqNum]         = callbackFn;
     callDriverMethodArgs[seqNum]    = args
 
@@ -4399,8 +4399,8 @@ async function callComponentNonAsync(findComponentArgs, args, callbackFn) {
     //
     if (isStaticHtmlPageApp && findComponentArgs.base_component_id && finderToCachedCodeMapping[findComponentArgs.base_component_id]) {
         //alert("Reading app from cache: " + findComponentArgs.base_component_id)
-        var newDataCodeId   = finderToCachedCodeMapping[findComponentArgs.base_component_id]
-        var newData         = cachedCode[newDataCodeId]
+        let newDataCodeId   = finderToCachedCodeMapping[findComponentArgs.base_component_id]
+        let newData         = cachedCode[newDataCodeId]
         newData.seq_num     = seqNum
         await checkLibs(newData)
         await callCodeV2(newData.value,  callDriverMethodArgs[newData.seq_num],  newData.seq_num)
