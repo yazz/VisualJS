@@ -80,7 +80,7 @@ async function onPageInitialized(doCode) {
         );
     }
 }
-//zzz
+
 
 
 
@@ -4405,12 +4405,24 @@ async function callComponentNonAsync(findComponentArgs, args, callbackFn) {
     } else {
         //console.log(`  sendToServerViaWebSocket`)
         //debugger
+
         sendToServerViaWebSocket({
             message_type: "callDriverMethod",
             find_component: findComponentArgs,
             args: args,
             seqNum: seqNum
         });
+        let result = await postToYazzReturnJson(
+            "/call_component",
+            {
+                find_component: findComponentArgs,
+                args: args
+            }
+        )
+
+
+
+        //zzz
     }
 }
 

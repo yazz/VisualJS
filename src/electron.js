@@ -2972,7 +2972,24 @@ async function startServices() {
 
 
 
-        app.post('/submit_comment', async function (req, res) {
+        app.post('/call_component', async function (req, res) {
+            console.log("app.post('/call_component'): ")
+            console.log("    req.cookies: " + JSON.stringify(req.cookies, null, 2))
+
+            let topApps = []
+            //let baseComponentId = req.body.value.base_component_id
+            //let baseComponentIdVersion = req.body.value.base_component_id_version
+            res.writeHead(200, {'Content-Type': 'application/json'});
+            res.end(JSON.stringify(
+                topApps
+            ));
+        })
+
+
+
+
+
+            app.post('/submit_comment', async function (req, res) {
             console.log("app.post('/submit_comment'): ")
             console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
 
