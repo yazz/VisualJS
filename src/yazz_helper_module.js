@@ -31,12 +31,12 @@ module.exports = {
             `insert into
                  system_code  
                      (id, parent_id, code_tag, code, base_component_id, 
-                      max_processes,component_scope,display_name, creation_timestamp,component_options, 
+                      max_processes,display_name, creation_timestamp,component_options, 
                       logo_url, visibility, interfaces,use_db, editors, read_write_status,properties, 
                       component_type, control_sub_type, edit_file_path, ipfs_hash_id, component_type_v2, 
                       code_tag_v2, code_changes, num_changes, fk_user_id, score, score_reason) 
               values 
-                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
+                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
 
         stmtDeprecateOldCode = thisDb.prepare(
             " update system_code  set code_tag = NULL, code_tag_v2 = NULL where base_component_id = ? and id != ?");
@@ -415,7 +415,6 @@ module.exports = {
             //showTimer(`3`)
 
 
-            let componentType = null
             let componentOptions = null
             let maxProcesses = 1
             let rowhash = crypto.createHash('sha256');
@@ -586,36 +585,7 @@ module.exports = {
 
 
 
-                                        //
-                                        // 1) call this first
-                                        //
-                                        ////showTimer("::::" + baseComponentId)
 
-
-                                        function getName(text) {
-                                            let resttext = text.match(/([a-zA-Z_{1}][a-zA-Z0-9_]+)(?=\()/g)
-                                            let res=null
-                                            if (resttext) {
-                                                if (resttext[0] != "function") {
-                                                    res = resttext[0]
-                                                }
-                                            }
-
-                                            return res
-                                        }
-                                        let fnName = getName(code.toString())
-                                        if (fnName) {
-                                            componentType = "method"
-                                        }
-                                        ////showTimer("fnName: " + fnName)
-
-
-                                        //
-                                        // 2) and then call this , as apps can also be methods
-                                        //
-                                        if (mm.getValueOfCodeString(code,"is_app")) {
-                                            componentType = "app"
-                                        }
 
                                         let componentTypeV2 = mm.getValueOfCodeString(code,"component_type_v2")
 
@@ -637,7 +607,6 @@ module.exports = {
                                                 code,
                                                 baseComponentId,
                                                 maxProcesses,
-                                                componentType,
                                                 displayName,
                                                 updatedTimestamp,
                                                 componentOptions,
@@ -1441,7 +1410,6 @@ module.exports = {
             //showTimer(`3`)
 
 
-            let componentType = null
             let componentOptions = null
             let maxProcesses = 1
             let rowhash = crypto.createHash('sha256');
@@ -1612,36 +1580,7 @@ module.exports = {
 
 
 
-                                        //
-                                        // 1) call this first
-                                        //
-                                        ////showTimer("::::" + baseComponentId)
 
-
-                                        function getName(text) {
-                                            let resttext = text.match(/([a-zA-Z_{1}][a-zA-Z0-9_]+)(?=\()/g)
-                                            let res=null
-                                            if (resttext) {
-                                                if (resttext[0] != "function") {
-                                                    res = resttext[0]
-                                                }
-                                            }
-
-                                            return res
-                                        }
-                                        let fnName = getName(code.toString())
-                                        if (fnName) {
-                                            componentType = "method"
-                                        }
-                                        ////showTimer("fnName: " + fnName)
-
-
-                                        //
-                                        // 2) and then call this , as apps can also be methods
-                                        //
-                                        if (mm.getValueOfCodeString(code,"is_app")) {
-                                            componentType = "app"
-                                        }
 
                                         let componentTypeV2 = mm.getValueOfCodeString(code,"component_type_v2")
 
@@ -1663,7 +1602,6 @@ module.exports = {
                                                 code,
                                                 baseComponentId,
                                                 maxProcesses,
-                                                componentType,
                                                 displayName,
                                                 updatedTimestamp,
                                                 componentOptions,
