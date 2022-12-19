@@ -977,6 +977,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
                                                   message_type:         "function_call_response",
                                                   child_process_name:    msg.child_process_name,
                                                   driver_name:           msg.driver_name,
+                                                  method_name:           msg.method_name,
                                                   result:                msg.result,
                                                   callback_index:        msg.callback_index,
                                                   called_call_id:        msg.called_call_id
@@ -6178,7 +6179,7 @@ function startNode (msg) {
 //-----------------------------------------------------------------------------------------
 function function_call_requestPart2 (msg) {
 
-    if (msg.find_component.driver_name) {
+    if (msg.find_component.driver_name && msg.find_component.method_name) {
         dbsearch.serialize(
             function() {
                 let stmt = dbsearch.all(
