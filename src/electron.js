@@ -3285,7 +3285,7 @@ async function startServices() {
             currentReturnRows.push(selectedCommitRow)
             let returnRows = await getPreviousCommitsFor(
                 {
-                    commitId: selectedCommitRow.ipfs_hash_id
+                    commitId: selectedCommitRow.id
                     ,
                     parentCommitId: selectedCommitRow.parent_commit_id
                     ,
@@ -6656,7 +6656,7 @@ async function getRowForCommit(commitId) {
             commitStructure =
                 {
                     id: thisCommit.id,
-                    ipfs_hash_id: thisCommit.ipfs_hash_id,
+                    ipfs_hash_id: thisCommit.id,
                     code_tag_v2: thisCommit.code_tag_v2,
                     creation_timestamp: thisCommit.creation_timestamp,
                     num_changes: thisCommit.num_changes,
@@ -6701,7 +6701,7 @@ async function getPreviousCommitsFor(args) {
         if (parentCommitRow.parent_commit_id) {
             returnRows = await getPreviousCommitsFor(
                 {
-                    commitId: parentCommitRow.ipfs_hash_id
+                    commitId: parentCommitRow.id
                     ,
                     parentCommitId: parentCommitRow.parent_commit_id
                     ,
@@ -6739,7 +6739,7 @@ async function getFutureCommitsFor(args) {
         returnRows.push(childCommitRow)
         returnRows = await getFutureCommitsFor(
             {
-                commitId: childCommitRow.ipfs_hash_id
+                commitId: childCommitRow.id
                 ,
                 returnRows: returnRows
             })
