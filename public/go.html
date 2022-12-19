@@ -2753,7 +2753,9 @@ async function callCodeV2(componentRecord, args, seq_no) {
         var trcode2 = "(" + componentRecord.code + ")"
 
         var component_type = yz.getValueOfCodeString(componentRecord.code, "component_type")
-        if ((component_type != "SYSTEM") &&
+        if (
+            (component_type != "APP") &&
+        (component_type != "SYSTEM") &&
         (component_type != "VB"))
         {
             trcode2 = getDebugCode(componentRecord.base_component_id,  trcode2)

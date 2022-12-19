@@ -7637,7 +7637,7 @@ return {}
 
               this.text = yz.insertCodeString(  this.text,
                                                           "component_type",
-                                                          "SYSTEM")
+                                                          "APP")
 
               this.text = yz.deleteCodeString(  this.text, "formEditor", ")//form" + "Editor")
 
