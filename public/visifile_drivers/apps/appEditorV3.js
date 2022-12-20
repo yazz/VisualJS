@@ -476,7 +476,7 @@ Embed button
 ---------------------------------------------- -->
               <a   v-bind:style="'padding: 0px; margin-top: 0px; margin-left:0px; position: relative; border: 0px;background-color: rgb(242, 242, 242);'"
                    v-if="show_download_save"
-                   v-on:click='setTimeout(async function(){await embedApp(base_component_id, {})},100)'
+                   v-on:click='setTimeout(async function(){await switchEditor("embed_app_component", {})},100)'
                    v-on:mouseenter='setInfo("Download the JS .yazz file for this app")'
                    v-on:mouseleave='setInfo(null)'
                    type="button" class="btn btn-light ">
@@ -1477,18 +1477,7 @@ End of app preview menu
 
 
 
-            embedApp: async function(x) {
-                let mm = this
 
-                this.editor_overloaded = true
-                this.show_download_save = false
-                this.show_filename_save = false
-
-                override_app_editor = "embed_app_component"
-
-                await mm.load_new_app( this.base_component_id )
-            }
-            ,
             checkSavedFile: function() {
                 let mm = this
                 if (saveCodeToFile) {
