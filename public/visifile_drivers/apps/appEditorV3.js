@@ -111,7 +111,7 @@ load_once_from_file(true)
 
 
             <div class='btn-group' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);' role=group >
-                <button  type=button class=' btn btn-danger btn-sm'   v-on:click='$event.stopPropagation();closeApp()' >Close</button>
+                <button  type=button class=' btn btn-danger btn-sm'   v-on:click='$event.stopPropagation();closeEditor()' >Close</button>
             </div>
 
         </span>
@@ -827,6 +827,13 @@ End of app preview menu
 
        methods: {
 
+           // ---------------------------------------------------------------
+           //                         closeSubEditor
+           //
+           // Whenever we go to a subeditor, like the history editor for
+           // example, we still need to go back to the main editor. Calling this
+           // function will do that
+           // ---------------------------------------------------------------
            closeSubEditor: async function() {
                let mm                           = this
                this.editor_overloaded           = false
@@ -845,7 +852,15 @@ End of app preview menu
 
 
 
-
+           // ---------------------------------------------------------------
+           //                         switchEditor
+           //
+           // Whenever we go away from the main editor to a subeditor such as
+           // the database schema view then we use this function. eg:
+           //
+           //     switchEditor("sqlite_editor_component")
+           //
+           // ---------------------------------------------------------------
            switchEditor: async function(editor_component_id) {
                let mm = this
 
@@ -861,7 +876,11 @@ End of app preview menu
            ,
 
 
-
+           // ---------------------------------------------------------------
+           //                         setInfo
+           //
+           // Sets the info message bar at the bottom of the editor pane
+           // ---------------------------------------------------------------
            setInfo: function(text) {
                this.$root.$emit('message', {
                    type:   "set_info_text",
@@ -869,9 +888,17 @@ End of app preview menu
                })
            },
 
-           closeApp: async function(event,item) {
+
+
+           // ---------------------------------------------------------------
+           //                         closeEditor
+           //
+           // Close the code editor (which usually takes us back to the homepage
+           // with all the apps)
+           // ---------------------------------------------------------------
+           closeEditor: async function(event,item) {
                this.$root.$emit('message', {
-                   type:               "close_app"
+                   type:        "close_app"
                })
            },
 
