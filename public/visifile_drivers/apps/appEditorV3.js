@@ -661,7 +661,7 @@ End of app preview menu
 
                     <div v-bind:style='"border-radius: 3px;  padding: 4px;overflow-x:none;height: 40px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);font-family:verdana,helvetica;font-size: 13px;font-weight:bold;padding-left:10px;" '
                          v-bind:class='(selected_pane == "watches"?"selected_pane_title":"unselected_pane_title") '
-                         v-on:click='$event.stopPropagation();selected_pane = "watches";chooseRight("watches");'>
+                         v-on:click='$event.stopPropagation();selected_pane = "watches";chooseRightDebugPane("watches");'>
                         Watch vars
                     </div>
                     <div  v-bind:style='"font-family:verdana,helvetica;font-size: 13px;border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:80%;background-color:lightgray;"  + (right_mode == "watches"?"":"display:none;")'>
@@ -721,7 +721,7 @@ End of app preview menu
 
                     <div    v-bind:style='"border-radius: 3px;padding: 4px;height: 40px;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;font-family:verdana,helvetica;font-size: 13px;font-weight:bold;padding-left:10px;"'
                             v-bind:class='(selected_pane == "scope"?"selected_pane_title_slower":"unselected_pane_title_slower") '
-                            v-on:click='selected_pane = "scope";chooseRight("scope");'>
+                            v-on:click='selected_pane = "scope";chooseRightDebugPane("scope");'>
                         Current scope
                     </div>
                     <div style='margin:0;padding:0; min-height:350px; background-color: white;'>
@@ -902,7 +902,11 @@ End of app preview menu
                })
            },
 
-
+           // ---------------------------------------------------------------
+           //                         getVarAsHtml
+           //
+           // This views program variables in the debugger
+           // ---------------------------------------------------------------
            getVarAsHtml: function(viewer,varName) {
                let value = globalWatchList[varName][this.current_execution_step].value
                let returnVal = null
@@ -921,6 +925,13 @@ End of app preview menu
 
            },
 
+
+
+           // ---------------------------------------------------------------
+           //                         getVarAsBarChart
+           //
+           // This views program variables in the debugger
+           // ---------------------------------------------------------------
             getVarAsBarChart: function(value) {
                 if (!isValidObject(value)) {
                     return "<div></div>"
@@ -939,6 +950,17 @@ End of app preview menu
 
             },
 
+
+
+
+
+
+           // ---------------------------------------------------------------
+           //                         resetDebugger
+           //
+           // This resets the debugger. We only remember the debugger state
+           // since the last run
+           // ---------------------------------------------------------------
            resetDebugger: function() {
 
                executionTimeline   = []
@@ -952,29 +974,51 @@ End of app preview menu
                this.updateTimeline()
            }
            ,
-            stepForward: function() {
-                if (this.current_execution_step < (executionTimeline.length - 1)) {
-                    this.current_execution_step ++
 
-                    let x = executionTimelineMapTimeToLine[ this.current_execution_step ]
-                    if (x) {
-                        this.current_execution_step_y_line = x.line
-                    }
-                    this.updateTimeline({allowScroll: true})
-                }
-            }
+
+
+           // ---------------------------------------------------------------
+           //                         stepForward
+           //
+           // TUsed to move forward one instruction in the debugger
+           // ---------------------------------------------------------------
+           stepForward: function() {
+               if (this.current_execution_step < (executionTimeline.length - 1)) {
+                   this.current_execution_step ++
+                   let x = executionTimelineMapTimeToLine[ this.current_execution_step ]
+                   if (x) {
+                       this.current_execution_step_y_line = x.line
+                   }
+                   this.updateTimeline({allowScroll: true})
+               }
+           }
+           ,
+
+
+
+           // ---------------------------------------------------------------
+           //                         stepBack
+           //
+           // TUsed to move backwards one instruction in the debugger
+           // ---------------------------------------------------------------
+           stepBack: function() {
+               if (this.current_execution_step > 0) {
+                   this.current_execution_step --
+                   let x = executionTimelineMapTimeToLine[  this.current_execution_step  ]
+                   if (x) {
+                       this.current_execution_step_y_line = x.line
+                   }
+                   this.updateTimeline({allowScroll: true})
+               }
+           }
             ,
-            stepBack: function() {
-                if (this.current_execution_step > 0) {
-                    this.current_execution_step --
-                    let x = executionTimelineMapTimeToLine[  this.current_execution_step  ]
-                    if (x) {
-                        this.current_execution_step_y_line = x.line
-                    }
-                    this.updateTimeline({allowScroll: true})
-                }
-            }
-            ,
+
+
+            // ---------------------------------------------------------------
+            //                         timelineRefresh
+            //
+            // Used to update the debug timeline
+            // ---------------------------------------------------------------
             timelineRefresh: function(move) {
                 let mm = this
                 setTimeout(function(){
@@ -982,7 +1026,17 @@ End of app preview menu
                 },200)
             }
             ,
-            chooseRight: function(ff) {
+
+
+
+
+
+           // ---------------------------------------------------------------
+           //                         chooseRightDebugPane
+           //
+           // Used to update the debug timeline
+           // ---------------------------------------------------------------
+            chooseRightDebugPane: function(ff) {
                 this.right_mode = ff
             },
 
