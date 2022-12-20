@@ -1305,15 +1305,17 @@ End of app preview menu
                     //
                     //zzz
                     //await this.save( this.base_component_id, this.code_id, this.editor_text )
-                    setTimeout(async function() {
-                            await mm.load_app( mm.base_component_id , true)
-                            //showProgressBar()
-                            hideProgressBar()
-                        },
-                    200)
+                    await mm.load_app( mm.base_component_id , true)
+                    hideProgressBar()
                 }
             },
 
+            // ---------------------------------------------------------------
+            //                         chooseCode
+            //
+            // This is called when the end user selects "code" so that we only
+            // see the code editor in the app editor, and no app preview pane
+            // ---------------------------------------------------------------
             chooseCode: async function() {
                 let mm = this
                 this.code_width = "95%"
@@ -1339,7 +1341,12 @@ End of app preview menu
 
 
 
-
+            // ---------------------------------------------------------------
+            //                         chooseBoth
+            //
+            // This is called when the end user selects "Both" so that we can
+            // see both the code editor and the app preview pane
+            // ---------------------------------------------------------------
             chooseBoth: async function() {
                 showProgressBar()
                 let mm = this
@@ -1360,8 +1367,17 @@ End of app preview menu
                     this.timeline_editor = null
                 }
                 hideProgressBar()
-            },
+            }
+            ,
 
+
+
+            // ---------------------------------------------------------------
+            //                         chooseProfiler
+            //
+            // This is called when the end user selects "Profiler" that they
+            // can see the app debug view
+            // ---------------------------------------------------------------
             chooseProfiler: async function() {
                 let mm = this
                 this.code_width = "0%"
@@ -1387,13 +1403,23 @@ End of app preview menu
                         }
                     },
                     200)
-            },
+            }
+            ,
 
+
+
+
+
+
+            // ---------------------------------------------------------------
+            //                         rename
+            //
+            // This is called to change the display name of the current app
+            // ---------------------------------------------------------------
             rename: async function(nn) {
                 let mm = this
                 this.edit_name = false
                 this.show_name = true
-
 
 
                 // commented out as we don't want to replace _ (underscores) with spaces
@@ -1419,10 +1445,18 @@ End of app preview menu
                     })
 
                 },500)
-            },
+            }
+            ,
 
 
 
+
+
+            // ---------------------------------------------------------------
+            //                         editAsText
+            //
+            // This is called to edit the current app with the text editor
+            // ---------------------------------------------------------------
             editAsText: async function() {
                 let mm = this
 
@@ -1437,27 +1471,10 @@ End of app preview menu
                 await mm.save(   this.base_component_id,   this.code_id,   this.editor_text   )
 
                 await mm.load_new_app( this.base_component_id )
-            },
+            }
+            ,
 
 
-
-            setVisibility: async function(value) {
-                let mm = this
-
-                if (this.$refs.editor_component_ref) {
-                    this.editor_text = await this.$refs.editor_component_ref.getText()
-                }
-
-                let eds = yz.getValueOfCodeString(this.editor_text, "visibility")
-                if (eds) {
-                    this.editor_text = yz.deleteCodeString(this.editor_text, "visibility")
-                    this.editor_text = yz.insertCodeString(this.editor_text, "visibility",value)
-                }
-
-                await mm.save(   this.base_component_id,   this.code_id,   this.editor_text   )
-
-                //await mm.load_new_app( this.base_component_id )
-            },
 
 
 
