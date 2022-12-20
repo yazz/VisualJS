@@ -839,7 +839,7 @@ logo_url("/driver_icons/data_window.png")
 
                     var result = await callComponent(
                                         {
-                                            driver_name: "postgres_server"
+                                            base_component_id: "postgres_server"
                                         }
                                             ,{
                                                 user:            this.args.user,
@@ -883,7 +883,7 @@ logo_url("/driver_icons/data_window.png")
                 if (this.design_mode) {
                     var result = await callComponent(
                                         {
-                                            driver_name: "postgres_server"
+                                            base_component_id: "postgres_server"
                                         }
                                             ,{
                                                 user:            this.args.user,
@@ -927,7 +927,7 @@ logo_url("/driver_icons/data_window.png")
                 if (!this.design_mode) {
                     var result = await callComponent(
                                         {
-                                            driver_name: "postgres_server"
+                                            base_component_id: "postgres_server"
                                         }
                                             ,{
                                                 sql:             this.args.sql,

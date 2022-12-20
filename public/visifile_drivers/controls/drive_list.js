@@ -76,7 +76,7 @@ logo_url("/driver_icons/drive_list.png")
         if (!this.design_mode) {
             var result = await callComponent(
                                 {
-                                    driver_name: "serverDriveList"
+                                    base_component_id: "serverDriveList"
                                 }
                                     ,{ })
 

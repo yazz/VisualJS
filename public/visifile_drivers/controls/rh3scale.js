@@ -293,7 +293,7 @@ logo_url("/driver_icons/rh3scale.png")
             readFromDocker: async function() {
                 var result = await callComponent(
                 {
-                    driver_name: "serverDockerStuff"
+                    base_component_id: "serverDockerStuff"
                 }
                 ,
                 {
@@ -341,7 +341,7 @@ logo_url("/driver_icons/rh3scale.png")
                 try {
                     var result = await callComponent(
                     {
-                        driver_name: "rest_call_service_v2"
+                        base_component_id: "rest_call_service_v2"
                     }
                     ,
                     {
@@ -380,7 +380,7 @@ logo_url("/driver_icons/rh3scale.png")
 
                  var result = await callComponent(
                  {
-                     driver_name: "rest_call_service_v2"
+                     base_component_id: "rest_call_service_v2"
                  }
                  ,
                  {
@@ -404,7 +404,7 @@ logo_url("/driver_icons/rh3scale.png")
 
                  var result = await callComponent(
                  {
-                     driver_name: "rest_call_service_v2"
+                     base_component_id: "rest_call_service_v2"
                  }
                  ,
                  {

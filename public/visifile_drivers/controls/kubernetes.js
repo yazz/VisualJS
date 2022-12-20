@@ -274,7 +274,7 @@ logo_url("/driver_icons/kubernetes.png")
             readFromDocker: async function() {
                 var result = await callComponent(
                 {
-                    driver_name: "serverDockerStuff"
+                    base_component_id: "serverDockerStuff"
                 }
                 ,
                 {
@@ -324,7 +324,7 @@ logo_url("/driver_icons/kubernetes.png")
                     var apiURL = this.args.host + "/api"
                     var result = await callComponent(
                     {
-                        driver_name: "rest_call_service_v2"
+                        base_component_id: "rest_call_service_v2"
                     }
                     ,
                     {
@@ -360,7 +360,7 @@ logo_url("/driver_icons/kubernetes.png")
                 var useURL = this.getUrlFor("pods/" + podName)
                 var result = await callComponent(
                 {
-                    driver_name: "rest_call_service_v2"
+                    base_component_id: "rest_call_service_v2"
                 }
                 ,
                 {
@@ -375,7 +375,7 @@ logo_url("/driver_icons/kubernetes.png")
 
                 var result = await callComponent(
                 {
-                    driver_name: "rest_call_service_v2"
+                    base_component_id: "rest_call_service_v2"
                 }
                 ,
                 {

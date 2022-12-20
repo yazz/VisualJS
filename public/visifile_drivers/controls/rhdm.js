@@ -255,7 +255,7 @@ logo_url("/driver_icons/rhdm.png")
                 var mm = this
                 var result = await callComponent(
                 {
-                    driver_name: "rest_call_service_v2"
+                    base_component_id: "rest_call_service_v2"
                 }
                 ,
                 {
@@ -279,7 +279,7 @@ logo_url("/driver_icons/rhdm.png")
                     mm.properties.error = ""
                     var result = await callComponent(
                     {
-                        driver_name: "rest_call_service_v2"
+                        base_component_id: "rest_call_service_v2"
                     }
                     ,
                     {
@@ -317,7 +317,7 @@ logo_url("/driver_icons/rhdm.png")
                 var mm = this
                 var result = await callComponent(
                 {
-                    driver_name: "rest_call_service_v2"
+                    base_component_id: "rest_call_service_v2"
                 }
                 ,
                 {

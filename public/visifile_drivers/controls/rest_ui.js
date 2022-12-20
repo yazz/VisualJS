@@ -363,7 +363,7 @@ logo_url("/driver_icons/rest.png")
 
 var result = await callComponent(
 {
-    driver_name: "rest_call_service_v2"
+    base_component_id: "rest_call_service_v2"
 }
 ,
 {
@@ -484,7 +484,7 @@ var result = await callComponent(
                     }
                     var result = await callComponent(
                     {
-                        driver_name: "rest_call_service_v2"
+                        base_component_id: "rest_call_service_v2"
                     }
                     ,
                     {

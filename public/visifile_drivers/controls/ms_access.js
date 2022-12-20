@@ -163,7 +163,7 @@ logo_url("/driver_icons/import_access.png")
 
                   var result = await callComponent(
                                       {
-                                          driver_name: "access_server"
+                                          base_component_id: "access_server"
                                           }
                                           ,{
                                               get_tables:      true,
@@ -203,7 +203,7 @@ logo_url("/driver_icons/import_access.png")
                 if (this.design_mode) {
                     var result = await callComponent(
                                         {
-                                            driver_name: "access_server"
+                                            base_component_id: "access_server"
                                         }
                                             ,{
                                                 path:            this.properties.access_file_path,
@@ -238,7 +238,7 @@ logo_url("/driver_icons/import_access.png")
                 try {
                     var result = await callComponent(
                                         {
-                                            driver_name: "access_server"
+                                            base_component_id: "access_server"
                                         }
                                             ,{
                                                 connect:         true,
@@ -267,7 +267,7 @@ logo_url("/driver_icons/import_access.png")
                 if (!this.design_mode) {
                     var result = await callComponent(
                                         {
-                                            driver_name: "access_server"
+                                            base_component_id: "access_server"
                                         }
                                             ,{
                                                 get_data:        true,

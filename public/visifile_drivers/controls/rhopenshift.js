@@ -123,7 +123,7 @@ logo_url("/driver_icons/openshift.png")
             readFromDocker: async function() {
                 var result = await callComponent(
                 {
-                    driver_name: "serverDockerStuff"
+                    base_component_id: "serverDockerStuff"
                 }
                 ,
                 {

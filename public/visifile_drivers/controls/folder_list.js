@@ -98,7 +98,7 @@ logo_url("/driver_icons/folder_list.png")
 
           var result = await callComponent(
                               {
-                                  driver_name: "serverGetHomeDir"
+                                  base_component_id: "serverGetHomeDir"
                               }
                                   ,{ })
          if (result) {
@@ -144,7 +144,7 @@ logo_url("/driver_icons/folder_list.png")
                  if (!this.design_mode) {
                      var result = await callComponent(
                                          {
-                                             driver_name: "serverFolderHierarchyList"
+                                             base_component_id: "serverFolderHierarchyList"
                                          }
                                              ,{ path: mm.args.path })
                      //alert(JSON.stringify(result,null,2))

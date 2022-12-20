@@ -355,7 +355,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
 
               var result = await callComponent(
               {
-                  driver_name: "compile_solidity"
+                  base_component_id: "compile_solidity"
               }
               ,
               {

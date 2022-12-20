@@ -1510,7 +1510,7 @@ End of app preview menu
                 let mm = this
                 let result = await callComponent(
                                     {
-                                        driver_name: "copyApp"
+                                        base_component_id: "copyApp"
                                     }
                                         ,{
                                               base_component_id:    appId,
@@ -1735,7 +1735,7 @@ End of app preview menu
 
                    results = await callComponent(
                        {
-                            driver_name:    "systemFunctions2"
+                            base_component_id:    "systemFunctions2"
                        }
                        ,
                        {
@@ -1880,7 +1880,7 @@ End of app preview menu
 
                    results = await callComponent(
                        {
-                           driver_name:    "systemFunctions2"
+                           base_component_id:    "systemFunctions2"
                        }
                        ,
                        {
@@ -2039,7 +2039,7 @@ End of app preview menu
 
                    results = await callComponent(
                        {
-                           driver_name:    "systemFunctions2"
+                           base_component_id:    "systemFunctions2"
                        }
                        ,
                        {

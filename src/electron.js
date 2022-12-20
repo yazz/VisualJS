@@ -976,7 +976,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
           function_call_response({
                                                   message_type:         "function_call_response",
                                                   child_process_name:    msg.child_process_name,
-                                                  driver_name:           msg.driver_name,
+                                                  base_component_id:           msg.base_component_id,
                                                   result:                msg.result,
                                                   callback_index:        msg.callback_index,
                                                   called_call_id:        msg.called_call_id
@@ -2475,7 +2475,7 @@ function websocketFn(ws) {
             queuedResponses[ seqNum ] = ws;
 
 
-            if (receivedMessage.find_component && receivedMessage.find_component.driver_name == "systemFunctionAppSql") {
+            if (receivedMessage.find_component && receivedMessage.find_component.base_component_id == "systemFunctionAppSql") {
 
                 let resultOfSql = await executeSqliteForApp(  receivedMessage.args  )
                 sendToBrowserViaWebSocket(

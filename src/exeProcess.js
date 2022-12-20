@@ -289,7 +289,7 @@ function executeCode(callId, codeId, args,  base_component_id) {
                                                                                    properties:          properties
                                                                                       },
                                                             child_process_name:    childProcessName,
-                                                            driver_name:           currentDriver,
+                                                            base_component_id:           currentDriver,
                                                             callback_index:        currentCallbackIndex,
                                                             called_call_id:        callId
                                                             });
@@ -313,7 +313,7 @@ function executeCode(callId, codeId, args,  base_component_id) {
                                     }
                                     process.send({  message_type:       "function_call_response" ,
                                                     child_process_name:  childProcessName,
-                                                    driver_name:         currentDriver,
+                                                    base_component_id:         currentDriver,
                                                     callback_index:      currentCallbackIndex,
                                                     result:              {value: result.value},
                                                     called_call_id:      callId
@@ -329,7 +329,7 @@ function executeCode(callId, codeId, args,  base_component_id) {
 
                                         process.send({  message_type:       "function_call_response" ,
                                                         child_process_name:  childProcessName,
-                                                        driver_name:         currentDriver,
+                                                        base_component_id:         currentDriver,
                                                         callback_index:      currentCallbackIndex,
                                                         result:              {value: result},
                                                         called_call_id:      callId
@@ -346,7 +346,7 @@ function executeCode(callId, codeId, args,  base_component_id) {
 
                                     process.send({  message_type:       "function_call_response" ,
                                                     child_process_name:  childProcessName,
-                                                    driver_name:         currentDriver,
+                                                    base_component_id:         currentDriver,
                                                     callback_index:      currentCallbackIndex,
                                                     result:              {value: result},
                                                     called_call_id:      callId
@@ -396,7 +396,7 @@ process.on('uncaughtException', function (err) {
   console.log("    Err: " + JSON.stringify(err,null,2));
   process.send({  message_type:       "function_call_response" ,
                   child_process_name:  childProcessName,
-                  driver_name:         currentDriver,
+                  base_component_id:         currentDriver,
                   callback_index:      currentCallbackIndex,
                   result:              {error: err},
                   called_call_id:      currentCallId
@@ -429,12 +429,12 @@ function callComponentNonAsync( driverName, args, callbackFn ) {
     var useCallbackIndex = callbackIndex ++
     process.send({  message_type:       "function_call_request" ,
                     child_process_name:  childProcessName,
-                    driver_name:         driverName,
+                    base_component_id:         driverName,
                     args:                args,
                     callback_index:      useCallbackIndex,
                     caller_call_id:      currentCallId,
                     find_component: {
-                        driver_name:         driverName
+                        base_component_id:         driverName
                     }
                 });
     callbackList[ useCallbackIndex ] = callbackFn
@@ -445,7 +445,7 @@ function callComponentNonAsync( driverName, args, callbackFn ) {
 async function callComponent(options,args) {
     var promise = new Promise(async function(returnfn) {
         callComponentNonAsync(
-            options.driver_name,
+            options.base_component_id,
             args
             ,
             function(results) {

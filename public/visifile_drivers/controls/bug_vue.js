@@ -362,7 +362,7 @@ logo_url("https://images.unsplash.com/photo-1526773357673-2d4e8116d497?ixlib=rb-
 
 var result = await callComponent(
 {
-    driver_name: "rest_call_service_v2"
+    base_component_id: "rest_call_service_v2"
 }
 ,
 {
@@ -482,7 +482,7 @@ var result = await callComponent(
                     }
                     var result = await callComponent(
                     {
-                        driver_name: "rest_call_service_v2"
+                        base_component_id: "rest_call_service_v2"
                     }
                     ,
                     {
@@ -536,7 +536,7 @@ var result = await callComponent(
                     }
                     var result = await callComponent(
                     {
-                        driver_name: "rest_call_service_v2"
+                        base_component_id: "rest_call_service_v2"
                     }
                     ,
                     {
@@ -586,7 +586,7 @@ var result = await callComponent(
 
                 var result = await callComponent(
                 {
-                    driver_name: "json_traverse_service"
+                    base_component_id: "json_traverse_service"
                 }
                 ,
                 {
@@ -620,7 +620,7 @@ var result = await callComponent(
 
                 var result = await callComponent(
                 {
-                    driver_name: "json_filter_service"
+                    base_component_id: "json_filter_service"
                 }
                 ,
                 {

@@ -131,7 +131,7 @@ logo_url("/driver_icons/mysql.png")
                 if (!this.design_mode) {
                     var result = await callComponent(
                                         {
-                                            driver_name: "postgres_server"
+                                            base_component_id: "postgres_server"
                                         }
                                             ,{
                                                 sql:             this.args.sql,

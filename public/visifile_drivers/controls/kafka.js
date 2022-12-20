@@ -244,7 +244,7 @@ logo_url("/driver_icons/kafka.png")
                 let mm = this
                 var result = await callComponent(
                     {
-                        driver_name: "kafka_service"
+                        base_component_id: "kafka_service"
                     }
                     ,
                     {
@@ -271,7 +271,7 @@ logo_url("/driver_icons/kafka.png")
                 mm.args.isKafkaAvailable = "False"
                 var result = await callComponent(
                     {
-                        driver_name: "kafka_service"
+                        base_component_id: "kafka_service"
                     }
                     ,
                     {

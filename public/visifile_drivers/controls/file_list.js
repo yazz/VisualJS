@@ -80,7 +80,7 @@ logo_url("/driver_icons/file_list.png")
 
           var result = await callComponent(
                               {
-                                  driver_name: "serverGetHomeDir"
+                                  base_component_id: "serverGetHomeDir"
                               }
                                   ,{ })
          if (result) {
@@ -126,7 +126,7 @@ logo_url("/driver_icons/file_list.png")
                  if (!this.design_mode) {
                      var result = await callComponent(
                                          {
-                                             driver_name: "serverFileList"
+                                             base_component_id: "serverFileList"
                                          }
                                              ,{ path: mm.args.path })
                      //alert(JSON.stringify(result,null,2))

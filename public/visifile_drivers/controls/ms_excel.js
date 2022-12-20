@@ -406,7 +406,7 @@ logo_url("/driver_icons/excel.png")
                 if (this.design_mode) {
                     var result = await callComponent(
                                         {
-                                            driver_name: "excel_server"
+                                            base_component_id: "excel_server"
                                         }
                                             ,{
                                                 path:            this.properties.excel_file_path,
@@ -441,7 +441,7 @@ logo_url("/driver_icons/excel.png")
                 try {
                     var result = await callComponent(
                                         {
-                                            driver_name: "excel_server"
+                                            base_component_id: "excel_server"
                                         }
                                             ,{
                                                 connect:         true,
@@ -473,7 +473,7 @@ logo_url("/driver_icons/excel.png")
                   try {
                       var result = await callComponent(
                                           {
-                                              driver_name: "excel_server"
+                                              base_component_id: "excel_server"
                                           }
                                               ,{
                                                   get_workbook:     true,
@@ -513,7 +513,7 @@ logo_url("/driver_icons/excel.png")
                 if (!this.design_mode) {
                     var result = await callComponent(
                                         {
-                                            driver_name: "excel_server"
+                                            base_component_id: "excel_server"
                                         }
                                             ,{
                                                 get_data:        true,
@@ -564,7 +564,7 @@ logo_url("/driver_icons/excel.png")
             getSheet: async function() {
                 var result = await callComponent(
                                     {
-                                        driver_name: "excel_server"
+                                        base_component_id: "excel_server"
                                     }
                                         ,{
                                             get_data:        true,
