@@ -2091,7 +2091,6 @@ End of app preview menu
                            //
 
                            debugger
-                           //await mm.load_appV2( mm.base_component_id , mm.editor_text, commitId, mm.editors2)
                            mm.editor_text = code
                            mm.code_id = commitId
                            await loadV2( mm.editor_component, {text: code} )
@@ -2318,15 +2317,9 @@ End of app preview menu
 
 
                         if (mm.app_shown) {
-                            //await mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
-                            //debugger
                             // if the app has been changed during the save then don't reload the app
-                            //mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
                             if (!saveCodeToFile) {
-                                //showTimer("before load_appV2")
-                                console.log("await mm.load_appV2( ")
                                 await mm.load_appV2( mm.base_component_id , mm.editor_text, mm.code_id, mm.editors2)
-                                //showTimer("after load_appV2")
                             } else {
                                 hideProgressBar()
                             }
