@@ -1485,30 +1485,22 @@ End of app preview menu
 
                    mm.code_id  = await getIpfsHash(mm.editor_text)
 
-                   //console.log("1) mm.code_id= " + mm.code_id)
-                   if ((yz.getValueOfCodeString(mm.editor_text,"only_run_on_server") == true)
-                        )
-                   {
-                       mm.is_ui_app = false
-                       mm.is_server_app = true
-                   } else {
-                       mm.is_ui_app = false
-                       mm.is_server_app = false
-                   }
-                   if (!mm.is_server_app) {
-                       if (mm.app_shown) {
-                           //await mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
-                           //debugger
-                           // if the app has been changed during the save then don't reload the app
-                           //mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
-                           if (!saveCodeToFile) {
-                               //showTimer("before load_appV2")
-                               console.log("await mm.load_appV2( ")
-                               await mm.load_appV2( mm.base_component_id , mm.editor_text, mm.code_id, mm.editors2)
-                               //showTimer("after load_appV2")
-                           } else {
-                               hideProgressBar()
-                           }
+
+                   mm.is_ui_app = false
+                   mm.is_server_app = false
+
+                   if (mm.app_shown) {
+                       //await mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
+                       //debugger
+                       // if the app has been changed during the save then don't reload the app
+                       //mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
+                       if (!saveCodeToFile) {
+                           //showTimer("before load_appV2")
+                           console.log("await mm.load_appV2( ")
+                           await mm.load_appV2( mm.base_component_id , mm.editor_text, mm.code_id, mm.editors2)
+                           //showTimer("after load_appV2")
+                       } else {
+                           hideProgressBar()
                        }
                    }
                    hideProgressBar()
