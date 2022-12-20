@@ -844,37 +844,6 @@ End of app preview menu
        ,
 
        methods: {
-           getRestParams: function() {
-               let str = ""
-               for (let i=0; i < this.rest_params.length; i++) {
-                   str +=  this.rest_params[i].name + "=" +  this.rest_params[i].value + "&"
-               }
-               return str
-           },
-           addparam: function() {
-             this.rest_params.push({name: "", value: ""})
-           },
-           callRestApi:  async function() {
-               let mm                           = this
-               let newrestUrl = location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/" + mm.rest_api_base_url + "/" +
-                                mm.rest_api_url_2 + "?"  + mm.getRestParams()
-                mm.rest_api_return_value = ""
-
-                callAjax(newrestUrl,
-        				function(response) {
-                            mm.rest_api_return_value = JSON.stringify(JSON.parse(response),null,2)
-                        })
-                    mm.rest_api_return_value = newrestUrl
-
-
-
-           }
-           ,
-
-
-
-
-
 
            closeSqliteSchema: async function() {
                let mm                           = this
