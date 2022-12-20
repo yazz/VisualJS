@@ -92,11 +92,11 @@ load_once_from_file(true)
 
                 <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-warning'        v-on:click='setTimeout(function(){copyAppMethod(base_component_id, null)},100)' >Copy app</button>
 
-                <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-info'        v-on:click='setTimeout(function(){editKeycloak()},100)' >Keycloak</button>
+                <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-info'        v-on:click='setTimeout(function(){switchEditor("keycloak_editor_component")},100)' >Keycloak</button>
 
-                <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-warning'        v-on:click='setTimeout(function(){editSqliteSchema()},100)' >Database</button>
+                <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-warning'        v-on:click='setTimeout(function(){switchEditor("sqlite_editor_component")},100)' >Database</button>
 
-                <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-info'        v-on:click='setTimeout(function(){editExportOptions()},100)' >Export</button>
+                <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-info'        v-on:click='setTimeout(function(){switchEditor("export_editor_component")},100)' >Export</button>
 
             </div>
 
@@ -166,7 +166,7 @@ load_once_from_file(true)
                   
                   <a   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                        href="#"
-                       v-on:click='setTimeout(async function(){await showHistory(base_component_id, {})},100)'
+                       v-on:click='setTimeout(async function(){await switchEditor("history_viewer_component")},100)'
                        v-if="show_download_save"
                        v-on:mouseenter='setInfo("Publish this app to the central server")'
                        v-on:mouseleave='setInfo(null)'
@@ -241,7 +241,7 @@ load_once_from_file(true)
 
 
                     <button   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                              v-on:click='setTimeout(function(){closeSqliteSchema()},100)'
+                              v-on:click='setTimeout(function(){closeSubEditor()},100)'
                               v-if="editor_overloaded"
                               v-on:mouseenter='setInfo("Edit the SQlite schema for this app")'
                               v-on:mouseleave='setInfo(null)'
@@ -827,7 +827,7 @@ End of app preview menu
 
        methods: {
 
-           closeSqliteSchema: async function() {
+           closeSubEditor: async function() {
                let mm                           = this
                this.editor_overloaded           = false
                this.show_download_save = true
@@ -844,63 +844,22 @@ End of app preview menu
 
 
 
-              editExportOptions: async function() {
-                  let mm = this
-
-                  this.editor_overloaded = true
-                  this.show_download_save = false
-                  this.show_filename_save = false
-
-                  override_app_editor = "export_editor_component"
 
 
-                  await mm.load_new_app( this.base_component_id )
-
-
-              }
-              ,
-
-           editSqliteSchema: async function() {
+           switchEditor: async function(editor_component_id) {
                let mm = this
 
                this.editor_overloaded = true
                this.show_download_save = false
                this.show_filename_save = false
 
-               override_app_editor = "sqlite_editor_component"
-
+               override_app_editor = editor_component_id
 
                await mm.load_new_app( this.base_component_id )
+
            }
            ,
 
-           showHistory: async function(thisComponentId, historyArgs) {
-               let mm = this
-
-               this.editor_overloaded = true
-               this.show_download_save = false
-               this.show_filename_save = false
-
-               override_app_editor = "history_viewer_component"
-
-                await mm.load_new_app( this.base_component_id )
-
-            }
-            ,
-
-           editKeycloak: async function() {
-               let mm = this
-
-               this.editor_overloaded = true
-               this.show_download_save = false
-               this.show_filename_save = false
-
-               override_app_editor = "keycloak_editor_component"
-
-
-               await mm.load_new_app( this.base_component_id )
-           }
-           ,
 
 
            setInfo: function(text) {
