@@ -383,7 +383,7 @@ load_once_from_file(true)
 
 
 
-            <div    v-if='app_loaded && (!is_server_app)'
+            <div    v-if='app_loaded'
                     v-bind:style="'display:flex;text-decoration: underline;color:blue;padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;'">
 
   <!-- ----------------------------------------------
@@ -506,22 +506,11 @@ End of app preview menu
 
             <component  id="app_preview_component"
                         ref="app_preview_component"
-                        v-if='app_loaded && is_ui_app && (!is_server_app)'
+                        v-if='app_loaded'
                         style='background-color: white;'
                         v-bind:is="base_component_id">
                
             </component>
-
-
-
-            <div  v-if='app_loaded && (!is_ui_app) && (!is_server_app)'
-                  style='padding: 10px;background-color: white; height: 100%;'>
-
-                <pre>{{console_output}}</pre>
-
-            </div>
-
-
 
 
 
@@ -791,7 +780,6 @@ End of app preview menu
                console_output:      "",
                selected_app:        '',
                is_ui_app:           true,
-               is_server_app:       false,
                editor_overloaded:       false,
                show_download_save:       false,
                show_filename_save:       false,
@@ -1487,7 +1475,6 @@ End of app preview menu
 
 
                    mm.is_ui_app = false
-                   mm.is_server_app = false
 
                    if (mm.app_shown) {
                        //await mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
@@ -1728,10 +1715,8 @@ End of app preview menu
 
                             if (code.toString().includes("Vue.")) {
                                 this.is_ui_app = true
-                                this.is_server_app = false
                             } else {
                                 this.is_ui_app = false
-                                this.is_server_app = false
                             }
 
                            this.app_component_name = yz.getValueOfCodeString(code.toString(),"display_name")
@@ -1740,9 +1725,7 @@ End of app preview menu
                             )
                              {
                                 mm.is_ui_app = false
-                                mm.is_server_app = true
                             } else {
-                                mm.is_server_app = false
                             }
 
 
@@ -1781,17 +1764,6 @@ End of app preview menu
                            this.visibility = yz.getValueOfCodeString(code, "visibility")
 
 
-                       }
-
-                       if ((isValidObject(runThisApp))   && (!runThisApp)) {
-                        //do nothing if we set "runthisapp" to false
-                       } else {
-                            this.resetDebugger()
-                            if (mm.is_server_app) {
-
-
-                            } else {
-                            }
                        }
 
 
@@ -1908,10 +1880,8 @@ End of app preview menu
 
                            if (code.toString().includes("Vue.")) {
                                this.is_ui_app = true
-                               this.is_server_app = false
                            } else {
                                this.is_ui_app = false
-                               this.is_server_app = false
                            }
 
                            this.app_component_name = yz.getValueOfCodeString(code.toString(),"display_name")
@@ -1920,9 +1890,7 @@ End of app preview menu
                            )
                            {
                                mm.is_ui_app = false
-                               mm.is_server_app = true
                            } else {
-                               mm.is_server_app = false
                            }
 
 
@@ -1967,11 +1935,6 @@ End of app preview menu
                            //do nothing if we set "runthisapp" to false
                        } else {
                            this.resetDebugger()
-                           if (mm.is_server_app) {
-
-
-                           } else {
-                           }
                        }
 
 
@@ -2096,10 +2059,8 @@ End of app preview menu
 
                            if (code.toString().includes("Vue.")) {
                                this.is_ui_app = true
-                               this.is_server_app = false
                            } else {
                                this.is_ui_app = false
-                               this.is_server_app = false
                            }
 
                            this.app_component_name = yz.getValueOfCodeString(code.toString(),"display_name")
@@ -2108,9 +2069,7 @@ End of app preview menu
                            )
                            {
                                mm.is_ui_app = false
-                               mm.is_server_app = true
                            } else {
-                               mm.is_server_app = false
                            }
 
 
@@ -2151,11 +2110,6 @@ End of app preview menu
                            //do nothing if we set "runthisapp" to false
                        } else {
                            this.resetDebugger()
-                           if (mm.is_server_app) {
-
-
-                           } else {
-                           }
                        }
 
 
@@ -2242,10 +2196,8 @@ End of app preview menu
 
                     if (code.toString().includes("Vue.")) {
                         this.is_ui_app = true
-                        this.is_server_app = false
                     } else {
                         this.is_ui_app = false
-                        this.is_server_app = false
                     }
                     this.app_component_name = yz.getValueOfCodeString(code.toString(),"display_name")
 
@@ -2253,9 +2205,7 @@ End of app preview menu
                     )
                     {
                         mm.is_ui_app = false
-                        mm.is_server_app = true
                     } else {
-                        mm.is_server_app = false
                     }
 
 
@@ -2293,12 +2243,7 @@ End of app preview menu
 
 
                     this.resetDebugger()
-                    if (mm.is_server_app) {
-
-
-                    } else {
-                        await callComponent( {code_id:    codeId }, {} )
-                    }
+                    await callComponent( {code_id:    codeId }, {} )
 
 
 
