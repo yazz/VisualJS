@@ -812,7 +812,6 @@ End of app preview menu
                app_shown:           true,
                code_shown:          true,
                read_only:           false,
-               visibility:          null,
                extra_menu:          false,
                mode:                "edit",
                sub_mode:            "both",
@@ -1870,9 +1869,6 @@ End of app preview menu
                            // set readonly
                            //
                            this.read_only = yz.getValueOfCodeString(code, "read_only")
-                           this.visibility = yz.getValueOfCodeString(code, "visibility")
-
-
                        }
 
 
@@ -2020,9 +2016,6 @@ End of app preview menu
                            // set readonly
                            //
                            this.read_only = yz.getValueOfCodeString(code, "read_only")
-                           this.visibility = yz.getValueOfCodeString(code, "visibility")
-
-
                        }
 
                        if ((isValidObject(runThisApp))   && (!runThisApp)) {
@@ -2181,9 +2174,6 @@ End of app preview menu
                            // set readonly
                            //
                            this.read_only = yz.getValueOfCodeString(code, "read_only")
-                           this.visibility = yz.getValueOfCodeString(code, "visibility")
-
-
                        }
 
                        if ((isValidObject(runThisApp))   && (!runThisApp)) {
@@ -2305,7 +2295,6 @@ End of app preview menu
                     // set readonly
                     //
                     this.read_only = yz.getValueOfCodeString(code, "read_only")
-                    this.visibility = yz.getValueOfCodeString(code, "visibility")
 
 
                     this.resetDebugger()
