@@ -2258,120 +2258,111 @@ End of app preview menu
 
 
 
-               // ---------------------------------------------------------------
-               //                           save
-               //
-               // This is called to save the currently edited code
-               // ---------------------------------------------------------------
-               save: async function( base_component_id, code_id , textIn, extras) {
-                   let mm = this
-                   if (mm.inSave) {
-                       return false
-                   }
-                   mm.inSave = true
+                // ---------------------------------------------------------------
+                //                           save
+                //
+                // This is called to save the currently edited code
+                // ---------------------------------------------------------------
+                save: async function( base_component_id, code_id , textIn, extras) {
+                    let mm = this
+                    if (mm.inSave) {
+                        return false
+                    }
+                    mm.inSave = true
 
-                   //resetTimer("save")
+                    //resetTimer("save")
 
-                   try {
-                       if (textIn == null) {
-                           //showTimer("before getText")
-                           this.editor_text = await this.$refs.editor_component_ref.getText()
-                           //showTimer("after getText")
-                       } else {
-                           this.editor_text = textIn
-                       }
-                       //showTimer()
-                       // if (mm.read_only) {
-                       //     mm.inSave = false
-                       //     return false
-                       //}
-
-                       if (mm.$refs.editor_component_ref.lockEditor) {
-                           mm.$refs.editor_component_ref.lockEditor()
-                       }
-                       mm.editor_shell_locked = true
-
-                       showProgressBar()
-
-                       //showTimer("before save code")
-                       let allowAppToWorkOffline = false
-                       if (extras) {
-                           allowAppToWorkOffline = extras.allowAppToWorkOffline
-                       }
-
-                       //debugger
-                       this.editor_text = enhanceCode(this.editor_text, {parentHash: code_id, baseComponentId: base_component_id})
-                       await saveCodeViaWebWorker(
-                           this.editor_text
-                           ,
-                           {
-                               sub_components:         Object.keys(dev_app_component_loaded),
-                               save_html:              true,
-                               save_code_to_file:      saveCodeToFile,
-                               allowAppToWorkOffline:  allowAppToWorkOffline,
-                               allowChanges:           false
-                           })
-
-                       //debugger
-                       //showTimer("in save code response")
-                       if (mm.$refs.editor_component_ref) {
-                           if (mm.$refs.editor_component_ref.savedStatus !== undefined) {
-                               await mm.$refs.editor_component_ref.savedStatus({status: "ok"})
-                           }
-                       }
-
-                       mm.code_id  = await getIpfsHash(mm.editor_text)
+                    try {
+                        if (textIn == null) {
+                            //showTimer("before getText")
+                            this.editor_text = await this.$refs.editor_component_ref.getText()
+                            //showTimer("after getText")
+                        } else {
+                            this.editor_text = textIn
+                        }
 
 
-                       if (mm.app_shown) {
-                           //await mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
-                           //debugger
-                           // if the app has been changed during the save then don't reload the app
-                           //mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
-                           if (!saveCodeToFile) {
-                               //showTimer("before load_appV2")
-                               console.log("await mm.load_appV2( ")
-                               await mm.load_appV2( mm.base_component_id , mm.editor_text, mm.code_id, mm.editors2)
-                               //showTimer("after load_appV2")
-                           } else {
-                               hideProgressBar()
-                           }
-                       }
-                       hideProgressBar()
-                       if (mm.$refs.editor_component_ref.unlockEditor) {
-                           mm.$refs.editor_component_ref.unlockEditor()
-                       }
-                       mm.editor_shell_locked = false
+                        if (mm.$refs.editor_component_ref.lockEditor) {
+                            mm.$refs.editor_component_ref.lockEditor()
+                        }
+                        mm.editor_shell_locked = true
 
-                       mm.save_state = "saved"
-                       mm.checkSavedFile()
-                       //showTimer("done")
-                       mm.inSave = false
-                       mm.editor_shell_locked = false
+                        showProgressBar()
 
-                       mm.$root.$emit('message', {
-                           type:               "update_app",
-                           base_component_id:   base_component_id,
-                           code_id:             mm.code_id
-                       })
+                        //showTimer("before save code")
+                        let allowAppToWorkOffline = false
+                        if (extras) {
+                            allowAppToWorkOffline = extras.allowAppToWorkOffline
+                        }
 
-                       //showTimer("return")
-                       return true
+                        this.editor_text = enhanceCode(this.editor_text, {parentHash: code_id, baseComponentId: base_component_id})
+                        await saveCodeViaWebWorker(
+                            this.editor_text
+                            ,
+                            {
+                                sub_components:         Object.keys(dev_app_component_loaded),
+                                save_html:              true,
+                                save_code_to_file:      saveCodeToFile,
+                                allowAppToWorkOffline:  allowAppToWorkOffline,
+                                allowChanges:           false
+                            })
 
-                   } catch (e) {
-                       hideProgressBar()
-                       this.save_state = "saved"
-                       this.checkSavedFile()
-                       mm.inSave = false
-                       mm.editor_shell_locked = false
-                       return true
-                   }
+                        //showTimer("in save code response")
+                        if (mm.$refs.editor_component_ref) {
+                            if (mm.$refs.editor_component_ref.savedStatus !== undefined) {
+                                await mm.$refs.editor_component_ref.savedStatus({status: "ok"})
+                            }
+                        }
 
+                        mm.code_id  = await getIpfsHash(mm.editor_text)
+
+
+                        if (mm.app_shown) {
+                            //await mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
+                            //debugger
+                            // if the app has been changed during the save then don't reload the app
+                            //mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
+                            if (!saveCodeToFile) {
+                                //showTimer("before load_appV2")
+                                console.log("await mm.load_appV2( ")
+                                await mm.load_appV2( mm.base_component_id , mm.editor_text, mm.code_id, mm.editors2)
+                                //showTimer("after load_appV2")
+                            } else {
+                                hideProgressBar()
+                            }
+                        }
+                        hideProgressBar()
+                        if (mm.$refs.editor_component_ref.unlockEditor) {
+                            mm.$refs.editor_component_ref.unlockEditor()
+                        }
+                        mm.editor_shell_locked = false
+
+                        mm.save_state = "saved"
+                        mm.checkSavedFile()
+                        //showTimer("done")
+                        mm.inSave = false
+                        mm.editor_shell_locked = false
+
+                        mm.$root.$emit('message', {
+                            type:               "update_app",
+                            base_component_id:   base_component_id,
+                            code_id:             mm.code_id
+                        })
+
+                        //showTimer("return")
+                        return true
+
+                    } catch (e) {
+                        hideProgressBar()
+                        this.save_state = "saved"
+                        this.checkSavedFile()
+                        mm.inSave = false
+                        mm.editor_shell_locked = false
+                        return true
+                    }
                 }
-
-
-
-            },
+            }
+            ,
 
 
 
