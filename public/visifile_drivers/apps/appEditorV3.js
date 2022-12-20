@@ -2177,8 +2177,8 @@ End of app preview menu
                     mm.execution_timeline       = executionTimeline
                     mm.execution_code           = executionCode
                     mm.execution_block_list     = Object.keys(this.execution_code)
-                    let code                        = passin_code
-                    let codeId                      = passin_code_id
+                    let code                    = passin_code
+                    let codeId                  = passin_code_id
                     let editors2                = passin_editors2
                     let newEditor               = null
 
