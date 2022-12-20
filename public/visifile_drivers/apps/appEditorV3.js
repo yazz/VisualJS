@@ -1274,7 +1274,8 @@ End of app preview menu
             // ---------------------------------------------------------------
             //                         chooseApp
             //
-            // This is called when the end user selects "app"
+            // This is called when the end user selects "app" so that we only
+            // see the app preview in the app editor
             // ---------------------------------------------------------------
             chooseApp: async function() {
                 showProgressBar()
@@ -1302,7 +1303,8 @@ End of app preview menu
                     // the correct code_id which is supposed to be the parent code id, so we
                     // have to make sure that we save it every time we save code
                     //
-                    await this.save( this.base_component_id, this.code_id, this.editor_text )
+                    //zzz
+                    //await this.save( this.base_component_id, this.code_id, this.editor_text )
                     setTimeout(async function() {
                             await mm.load_app( mm.base_component_id , true)
                             //showProgressBar()
@@ -1741,7 +1743,6 @@ End of app preview menu
            // 'baseComponentId'
            // ---------------------------------------------------------------
            load_app: async function ( baseComponentId, runThisApp ) {
-           //zzz
                let code
                let mm   = this
                let codeId
@@ -1891,7 +1892,6 @@ End of app preview menu
            // 'baseComponentId'
            // ---------------------------------------------------------------
            load_app_by_code_id: async function ( codeId, runThisApp ) {
-               //zzz
                let code
                let mm   = this
                let results
@@ -2149,7 +2149,6 @@ End of app preview menu
                            // load the code
                            //
 
-                           //zzz
                            debugger
                            //await mm.load_appV2( mm.base_component_id , mm.editor_text, commitId, mm.editors2)
                            mm.editor_text = code
@@ -2221,7 +2220,6 @@ End of app preview menu
             // 'baseComponentId'
             // ---------------------------------------------------------------
             load_appV2: async function ( baseComponentId, passin_code, passin_code_id , passin_editors2) {
-                //zzz
                 try {
                     //
                     // make sure that we reference an app
