@@ -431,13 +431,11 @@ function callComponentNonAsync( driverName, methodName, args, callbackFn ) {
     process.send({  message_type:       "function_call_request" ,
                     child_process_name:  childProcessName,
                     driver_name:         driverName,
-                    method_name:         methodName,
                     args:                args,
                     callback_index:      useCallbackIndex,
                     caller_call_id:      currentCallId,
                     find_component: {
-                        driver_name:         driverName,
-                        method_name:         methodName
+                        driver_name:         driverName
                     }
                 });
     callbackList[ useCallbackIndex ] = callbackFn

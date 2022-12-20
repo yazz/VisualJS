@@ -1510,8 +1510,8 @@ End of app preview menu
                 let mm = this
                 let result = await callComponent(
                                     {
-                                        driver_name: "copyApp",
-                                        method_name: "copyAppshareApp"  }
+                                        driver_name: "copyApp"
+                                    }
                                         ,{
                                               base_component_id:    appId,
                                               new_app_id:           newAppId   })
@@ -1735,8 +1735,7 @@ End of app preview menu
 
                    results = await callComponent(
                        {
-                            driver_name:    "systemFunctions2",
-                            method_name:    "sql"
+                            driver_name:    "systemFunctions2"
                        }
                        ,
                        {
@@ -1881,8 +1880,7 @@ End of app preview menu
 
                    results = await callComponent(
                        {
-                           driver_name:    "systemFunctions2",
-                           method_name:    "sql"
+                           driver_name:    "systemFunctions2"
                        }
                        ,
                        {
@@ -2041,8 +2039,7 @@ End of app preview menu
 
                    results = await callComponent(
                        {
-                           driver_name:    "systemFunctions2",
-                           method_name:    "sql"
+                           driver_name:    "systemFunctions2"
                        }
                        ,
                        {

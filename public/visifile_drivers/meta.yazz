@@ -2534,7 +2534,7 @@ Pushlist
                 var sql = "select  child_component_id  from  component_usage  where " +
                           "        base_component_id = '" + mm.edited_app_component_id + "'"
 
-                var results = await callComponent({ driver_name:    "systemFunctions2",method_name:    "sql"},
+                var results = await callComponent({ driver_name:    "systemFunctions2"},
                                             {   sql: sql  })
 
                 for (var i = 0; i < results.length; i++) {
