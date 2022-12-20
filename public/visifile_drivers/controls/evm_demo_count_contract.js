@@ -323,8 +323,7 @@ logo_url("/driver_icons/counter.jpg")
 
               var result = await callComponent(
               {
-                  driver_name: "compile_solidity",
-                  method_name: "compile_solidity"
+                  driver_name: "compile_solidity"
               }
               ,
               {

@@ -298,8 +298,8 @@ logo_url("/driver_icons/postgres.jpg")
             connect: async function() {
                 var result = await callComponent(
                                     {
-                                        driver_name: "postgres_server",
-                                        method_name: "postgres_sql"  }
+                                        driver_name: "postgres_server"
+                                    }
                                         ,{
                                             sql:             "SELECT * FROM pg_catalog.pg_tables;",
                                             user:            this.args.user,
@@ -347,8 +347,8 @@ logo_url("/driver_icons/postgres.jpg")
                         //}
                         result = await callComponent(
                                             {
-                                                driver_name: "postgres_server",
-                                                method_name: "postgres_sql"  }
+                                                driver_name: "postgres_server"
+                                            }
                                                 ,{
                                                     sql:             sql,
                                                     user:            this.args.user,
@@ -361,8 +361,8 @@ logo_url("/driver_icons/postgres.jpg")
                     } else if (this.properties.sql) {
                         result = await callComponent(
                                             {
-                                                driver_name: "postgres_server",
-                                                method_name: "postgres_sql"  }
+                                                driver_name: "postgres_server"
+                                            }
                                                 ,{
                                                     sql:             this.properties.sql,
                                                     user:            this.args.user,
@@ -416,8 +416,8 @@ logo_url("/driver_icons/postgres.jpg")
 
                     var result = await callComponent(
                                         {
-                                            driver_name: "postgres_server",
-                                            method_name: "postgres_sql"  }
+                                            driver_name: "postgres_server"
+                                        }
                                             ,{
                                                 user:            this.args.user,
                                                 password:        this.args.password,
@@ -456,8 +456,8 @@ logo_url("/driver_icons/postgres.jpg")
                 if (this.design_mode) {
                     var result = await callComponent(
                                         {
-                                            driver_name: "postgres_server",
-                                            method_name: "postgres_sql"  }
+                                            driver_name: "postgres_server"
+                                        }
                                             ,{
                                                 user:            this.args.user,
                                                 password:        this.args.password,

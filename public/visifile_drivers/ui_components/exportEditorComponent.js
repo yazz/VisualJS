@@ -342,8 +342,8 @@ load_once_from_file(true)
             this.outputText += "..." + "\n"
             var result = await callComponent(
                                 {
-                                    driver_name: "serverDockerStuff",
-                                    method_name: "serverDockerStuff"  }
+                                    driver_name: "serverDockerStuff"
+                                }
                                     ,{
                                         create:             true,
                                         image_name:         this.dockerImageName,

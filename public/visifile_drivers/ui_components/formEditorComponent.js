@@ -110,7 +110,7 @@ load_once_from_file(true)
             var sql =    "select  cast(code as text)  as  code  from  system_code  where " +
                          "        base_component_id = 'form_editor_component'   and   code_tag = 'LATEST' "
 
-            var results = await callComponent({ driver_name:    "systemFunctions2",method_name:    "sql"},
+            var results = await callComponent({ driver_name:    "systemFunctions2" },
                 {   sql: sql  })
 
             var editorCode = results[0].code

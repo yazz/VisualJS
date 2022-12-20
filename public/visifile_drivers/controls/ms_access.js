@@ -163,8 +163,8 @@ logo_url("/driver_icons/import_access.png")
 
                   var result = await callComponent(
                                       {
-                                          driver_name: "access_server",
-                                          method_name: "access_sql"  }
+                                          driver_name: "access_server"
+                                          }
                                           ,{
                                               get_tables:      true,
                                               path:            this.properties.access_file_path
@@ -203,8 +203,8 @@ logo_url("/driver_icons/import_access.png")
                 if (this.design_mode) {
                     var result = await callComponent(
                                         {
-                                            driver_name: "access_server",
-                                            method_name: "access_sql"  }
+                                            driver_name: "access_server"
+                                        }
                                             ,{
                                                 path:            this.properties.access_file_path,
                                                 get_columns:     true,
@@ -238,8 +238,8 @@ logo_url("/driver_icons/import_access.png")
                 try {
                     var result = await callComponent(
                                         {
-                                            driver_name: "access_server",
-                                            method_name: "access_sql"  }
+                                            driver_name: "access_server"
+                                        }
                                             ,{
                                                 connect:         true,
                                                 path:            this.properties.access_file_path
@@ -267,8 +267,8 @@ logo_url("/driver_icons/import_access.png")
                 if (!this.design_mode) {
                     var result = await callComponent(
                                         {
-                                            driver_name: "access_server",
-                                            method_name: "access_sql"  }
+                                            driver_name: "access_server"
+                                        }
                                             ,{
                                                 get_data:        true,
                                                 table:           this.properties.select_table,

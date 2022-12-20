@@ -167,8 +167,8 @@ logo_url("/driver_icons/sqlite.jpg")
 
                   var result = await callComponent(
                                       {
-                                          driver_name: "sqlite_server",
-                                          method_name: "sqlite_sql"  }
+                                          driver_name: "sqlite_server"
+                                      }
                                           ,{
                                               get_tables:      true,
                                               path:            this.properties.sqlite_file_path
@@ -199,8 +199,8 @@ logo_url("/driver_icons/sqlite.jpg")
                 try {
                     var result = await callComponent(
                                         {
-                                            driver_name: "sqlite_server",
-                                            method_name: "sqlite_sql"  }
+                                            driver_name: "sqlite_server"
+                                        }
                                             ,{
                                                 connect:         true,
                                                 path:            this.properties.sqlite_file_path
@@ -233,8 +233,8 @@ logo_url("/driver_icons/sqlite.jpg")
                 if (this.design_mode) {
                     var result = await callComponent(
                                         {
-                                            driver_name: "sqlite_server",
-                                            method_name: "sqlite_sql"  }
+                                            driver_name: "sqlite_server"
+                                        }
                                             ,{
                                                 path:            this.properties.sqlite_file_path,
                                                 get_columns:      true,
@@ -283,8 +283,8 @@ logo_url("/driver_icons/sqlite.jpg")
                 if (!this.design_mode) {
                     var result = await callComponent(
                                         {
-                                            driver_name: "sqlite_server",
-                                            method_name: "sqlite_sql"  }
+                                            driver_name: "sqlite_server"
+                                        }
                                             ,{
                                                 sql:             this.args.sql,
                                                 path:            this.properties.sqlite_file_path

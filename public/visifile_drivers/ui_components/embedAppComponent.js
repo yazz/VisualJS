@@ -97,8 +97,7 @@ load_once_from_file(true)
 
              let results = await callComponent(
                  {
-                     driver_name:    "systemFunctions2",
-                     method_name:    "sql"
+                     driver_name:    "systemFunctions2"
                  }
                  ,
                  {

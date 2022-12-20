@@ -303,8 +303,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
             let results2 = await callComponent(
                 {
-                    driver_name:    "systemFunctions2",
-                    method_name:    "sql"
+                    driver_name:    "systemFunctions2"
                 }
                 ,
                 {
@@ -415,16 +414,16 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
              this.showFilePicker = true
              let result = await callComponent(
                                  {
-                                     driver_name: "serverGetHomeDir",
-                                     method_name: "serverGetHomeDir"  }
+                                     driver_name: "serverGetHomeDir"
+                                 }
                                      ,{ })
             if (result) {
                 this.open_file_path = result.value
             }
             let result2 = await callComponent(
                                 {
-                                    driver_name: "serverFolderContents",
-                                    method_name: "serverFolderContents"  }
+                                    driver_name: "serverFolderContents"
+                                }
                                     ,{
                                             path: this.open_file_path
                                     })
@@ -478,8 +477,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
              let results2 = await callComponent(
                  {
-                      driver_name:    "systemFunctions2",
-                      method_name:    "sql"
+                      driver_name:    "systemFunctions2"
                  }
                  ,
                  {
@@ -511,8 +509,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
              let results2 = await callComponent(
                  {
-                      driver_name:    "systemFunctions2",
-                      method_name:    "sql"
+                      driver_name:    "systemFunctions2"
                  }
                  ,
                  {

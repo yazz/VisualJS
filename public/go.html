@@ -2159,8 +2159,7 @@ socket.on('set_saveCodeToFile_V2',async function(data) {
 saveCodeToFile = data.saveCodeToFile
 var results = await callComponent(
 {
-driver_name:     "appEditorV2SaveCode",
-method_name:     "saveCode"
+driver_name:     "appEditorV2SaveCode"
 },
 {
 base_component_id:      data.base_component_id,
@@ -2980,8 +2979,8 @@ async function findComponentsImplementing(listOfProperties){
 //aaa
 let results = await callComponent(
 {
-driver_name: "findComponentsImplementing",
-method_name: "findComponentsImplementing"  }
+driver_name: "findComponentsImplementing"
+}
 ,{
 properties: listOfProperties
 })
@@ -3295,8 +3294,7 @@ return results
 } else {
 var results = await callComponent(
 {
-driver_name:    "systemFunctionAppSql",
-method_name:    "sql"
+driver_name:    "systemFunctionAppSql"
 }
 ,
 {

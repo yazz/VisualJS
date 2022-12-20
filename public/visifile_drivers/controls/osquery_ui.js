@@ -98,8 +98,7 @@ logo_url("/driver_icons/osquery.png")
 
                 var result = await callComponent(
                 {
-                    driver_name: "serverTerminalStuff",
-                    method_name: "serverTerminalStuff"
+                    driver_name: "serverTerminalStuff"
                 }
                 ,
                 {

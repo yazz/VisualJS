@@ -363,8 +363,7 @@ logo_url("/driver_icons/tree_to_table.png")
 
 var result = await callComponent(
 {
-    driver_name: "rest_call_service_v2",
-    method_name: "rest_call_service_v2"
+    driver_name: "rest_call_service_v2"
 }
 ,
 {
@@ -485,8 +484,7 @@ var result = await callComponent(
                     }
                     var result = await callComponent(
                     {
-                        driver_name: "rest_call_service_v2",
-                        method_name: "rest_call_service_v2"
+                        driver_name: "rest_call_service_v2"
                     }
                     ,
                     {
@@ -540,8 +538,7 @@ var result = await callComponent(
                     }
                     var result = await callComponent(
                     {
-                        driver_name: "rest_call_service_v2",
-                        method_name: "rest_call_service_v2"
+                        driver_name: "rest_call_service_v2"
                     }
                     ,
                     {
@@ -591,8 +588,7 @@ var result = await callComponent(
 
                 var result = await callComponent(
                 {
-                    driver_name: "json_traverse_service",
-                    method_name: "json_traverse_service"
+                    driver_name: "json_traverse_service"
                 }
                 ,
                 {
@@ -626,8 +622,7 @@ var result = await callComponent(
 
                 var result = await callComponent(
                 {
-                    driver_name: "json_filter_service",
-                    method_name: "json_filter_service"
+                    driver_name: "json_filter_service"
                 }
                 ,
                 {

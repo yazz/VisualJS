@@ -406,8 +406,8 @@ logo_url("/driver_icons/excel.png")
                 if (this.design_mode) {
                     var result = await callComponent(
                                         {
-                                            driver_name: "excel_server",
-                                            method_name: "excel_sql"  }
+                                            driver_name: "excel_server"
+                                        }
                                             ,{
                                                 path:            this.properties.excel_file_path,
                                                 get_columns:     true,
@@ -441,8 +441,8 @@ logo_url("/driver_icons/excel.png")
                 try {
                     var result = await callComponent(
                                         {
-                                            driver_name: "excel_server",
-                                            method_name: "excel_sql"  }
+                                            driver_name: "excel_server"
+                                        }
                                             ,{
                                                 connect:         true,
                                                 path:            this.properties.excel_file_path
@@ -473,8 +473,8 @@ logo_url("/driver_icons/excel.png")
                   try {
                       var result = await callComponent(
                                           {
-                                              driver_name: "excel_server",
-                                              method_name: "excel_sql"  }
+                                              driver_name: "excel_server"
+                                          }
                                               ,{
                                                   get_workbook:     true,
                                                   path:             this.properties.excel_file_path
@@ -513,8 +513,8 @@ logo_url("/driver_icons/excel.png")
                 if (!this.design_mode) {
                     var result = await callComponent(
                                         {
-                                            driver_name: "excel_server",
-                                            method_name: "excel_sql"  }
+                                            driver_name: "excel_server"
+                                        }
                                             ,{
                                                 get_data:        true,
                                                 table:           this.properties.select_table,
@@ -564,8 +564,8 @@ logo_url("/driver_icons/excel.png")
             getSheet: async function() {
                 var result = await callComponent(
                                     {
-                                        driver_name: "excel_server",
-                                        method_name: "excel_sql"  }
+                                        driver_name: "excel_server"
+                                    }
                                         ,{
                                             get_data:        true,
                                             table:           this.properties.select_table,

@@ -423,10 +423,9 @@ var currentCallbackIndex = -1
 
 var callbackList = new Object()
 
-function callComponentNonAsync( driverName, methodName, args, callbackFn ) {
+function callComponentNonAsync( driverName, args, callbackFn ) {
 
     inUseIndex ++
-    //console.log("*) called '" + driverName + ":" + methodName + "' with args: " + JSON.stringify(args,null,2))
     var useCallbackIndex = callbackIndex ++
     process.send({  message_type:       "function_call_request" ,
                     child_process_name:  childProcessName,
@@ -447,7 +446,6 @@ async function callComponent(options,args) {
     var promise = new Promise(async function(returnfn) {
         callComponentNonAsync(
             options.driver_name,
-            options.method_name,
             args
             ,
             function(results) {

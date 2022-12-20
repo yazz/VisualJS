@@ -141,8 +141,7 @@ logo_url("/driver_icons/rhamq.png")
                 var mm = this
                 var result = await callComponent(
                     {
-                        driver_name: "activemq_service",
-                        method_name: "activemq_service"
+                        driver_name: "activemq_service"
                     }
                     ,
                     {
