@@ -1031,17 +1031,24 @@ End of app preview menu
 
 
 
-           // ---------------------------------------------------------------
-           //                         chooseRightDebugPane
-           //
-           // Used to update the debug timeline
-           // ---------------------------------------------------------------
+            // ---------------------------------------------------------------
+            //                         chooseRightDebugPane
+            //
+            // Used to update the debug timeline
+            // ---------------------------------------------------------------
             chooseRightDebugPane: function(ff) {
                 this.right_mode = ff
-            },
+            }
+            ,
 
 
 
+
+            // ---------------------------------------------------------------
+            //                         updateTimeline
+            //
+            // Update the debug timeline
+            // ---------------------------------------------------------------
             updateTimeline: function( args ) {
                 let mm = this
                 let x = executionTimelineMapTimeToLine[  this.current_execution_step  ]
@@ -1100,17 +1107,38 @@ End of app preview menu
                 }
 
             }
-
-
             ,
+
+
+
+           // ---------------------------------------------------------------
+           //                         mouseEnterTimeline
+           //
+           // Process mouse events entering the timeline
+           // ---------------------------------------------------------------
             mouseEnterTimeline: function(ev) {
                 this.timeline_pause = false
             }
             ,
+
+
+
+           // ---------------------------------------------------------------
+           //                         mouseClickTimeline
+           //
+           // Process mouse events clicking the timeline
+           // ---------------------------------------------------------------
             mouseClickTimeline: function(ev) {
                 this.timeline_pause = !this.timeline_pause
             },
 
+
+
+            // ---------------------------------------------------------------
+            //                         inTimelineScroll
+            //
+            // Scrolling the timeline
+            // ---------------------------------------------------------------
             inTimelineScroll: function() {
                 let mm = this
                 mm.timeline_pause = true;
@@ -1118,8 +1146,16 @@ End of app preview menu
                     mm.timeline_pause = false;
                 }, 66);
             }
-
            ,
+
+
+
+
+            // ---------------------------------------------------------------
+            //                         mouseMoveTimeline
+            //
+            // Mouse move on the timeline
+            // ---------------------------------------------------------------
             mouseMoveTimeline: function(ev) {
                 if (!this.timeline_pause) {
                     let elementTimeline = document.getElementById("timeline_el"  )
@@ -1140,8 +1176,16 @@ End of app preview menu
             }
             ,
 
-            addWatch: async function(varN){
 
+
+
+
+            // ---------------------------------------------------------------
+            //                         addWatch
+            //
+            // Add a debug watch var
+            // ---------------------------------------------------------------
+            addWatch: async function(varN){
                 globalWatchList[varN]={}
                 await this.load_app( this.base_component_id )
                 let allWatches = Object.keys(globalWatchList)
@@ -1149,9 +1193,25 @@ End of app preview menu
                     fillInMissingWatchTimelineValues(allWatches[rt],0)
                 }
             },
+
+
+            // ---------------------------------------------------------------
+            //                         deleteWatch
+            //
+            // Delete a debug watch var
+            // ---------------------------------------------------------------
             deleteWatch: async function(varN){
                 delete globalWatchList[varN]
-            },
+            }
+            ,
+
+
+
+            // ---------------------------------------------------------------
+            //                         keepWatch
+            //
+            // Keep a debug watch var
+            // ---------------------------------------------------------------
             keepWatch: async function(varN){
                 let allWatches = Object.keys(globalWatchList)
                 for (let rt = 0 ; rt < allWatches.length; rt++) {
@@ -1163,7 +1223,13 @@ End of app preview menu
 
 
 
-            setupTimelineEditor: function() {
+           // ---------------------------------------------------------------
+           //                         setupTimelineEditor
+           //
+           // Initialise the debugger sync for the code editor. This shows us
+           // the line that is being debugged in the timeline
+           // ---------------------------------------------------------------
+           setupTimelineEditor: function() {
                 let mm = this
                 if (document.getElementById('timeline_editor') && (this.timeline_editor == null)) {
                     //
@@ -1199,7 +1265,8 @@ End of app preview menu
                 }
                 this.updateTimeline()
 
-            },
+            }
+            ,
 
 
 
