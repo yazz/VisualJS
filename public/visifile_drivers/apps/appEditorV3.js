@@ -1786,13 +1786,9 @@ End of app preview menu
                    // set up vars
                    //
                    mm.selected_app          = ""
-                   //mm.app_loaded            = false
                    mm.base_component_id     = baseComponentId
                    mm.app_component_name    = null
-
-                   //executionCode       = new Object()
                    mm.app_loaded = true
-                   mm.baseComponentId = baseComponentId
 
                    this.execution_timeline      = executionTimeline
                    this.execution_code          = executionCode
@@ -2017,7 +2013,7 @@ End of app preview menu
                            // find the editor
                            //
                            let editors2 = results[0].editors
-                           mm.baseComponentId = results[0].base_component_id
+                           mm.base_component_id = results[0].base_component_id
 
                            let newEditor = null
                            if (isValidObject(editors2) && (override_app_editor == null)) {
@@ -2368,7 +2364,6 @@ End of app preview menu
                     mm.app_component_name       = null
                     //executionCode             = new Object()
                     mm.app_loaded               = true
-                    mm.baseComponentId          = baseComponentId
                     mm.execution_timeline       = executionTimeline
                     mm.execution_code           = executionCode
                     mm.execution_block_list     = Object.keys(this.execution_code)
