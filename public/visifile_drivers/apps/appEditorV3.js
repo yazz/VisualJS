@@ -779,7 +779,6 @@ End of app preview menu
                editor_loaded:       false,
                console_output:      "",
                selected_app:        '',
-               is_ui_app:           true,
                editor_overloaded:       false,
                show_download_save:       false,
                show_filename_save:       false,
@@ -1474,8 +1473,6 @@ End of app preview menu
                    mm.code_id  = await getIpfsHash(mm.editor_text)
 
 
-                   mm.is_ui_app = false
-
                    if (mm.app_shown) {
                        //await mm.load_appV2( mm.base_component_id , mm.editor_text, responseJson.code_id, mm.editors2)
                        //debugger
@@ -1713,20 +1710,7 @@ End of app preview menu
                             codeId = results[0].id
                             mm.code_id = codeId
 
-                            if (code.toString().includes("Vue.")) {
-                                this.is_ui_app = true
-                            } else {
-                                this.is_ui_app = false
-                            }
-
                            this.app_component_name = yz.getValueOfCodeString(code.toString(),"display_name")
-
-                           if ((yz.getValueOfCodeString(code.toString(),"only_run_on_server") == true)
-                            )
-                             {
-                                mm.is_ui_app = false
-                            } else {
-                            }
 
 
                             if (mm.editor_loaded && (mm.editor_text != code)) {
@@ -1878,21 +1862,7 @@ End of app preview menu
                            codeId = results[0].id
                            mm.code_id = codeId
 
-                           if (code.toString().includes("Vue.")) {
-                               this.is_ui_app = true
-                           } else {
-                               this.is_ui_app = false
-                           }
-
                            this.app_component_name = yz.getValueOfCodeString(code.toString(),"display_name")
-
-                           if ((yz.getValueOfCodeString(code.toString(),"only_run_on_server") == true)
-                           )
-                           {
-                               mm.is_ui_app = false
-                           } else {
-                           }
-
 
                            if (mm.editor_loaded && (mm.editor_text != code)) {
                                mm.editor_text = code
@@ -2057,20 +2027,7 @@ End of app preview menu
                            codeId = results[0].id
                            mm.code_id = codeId
 
-                           if (code.toString().includes("Vue.")) {
-                               this.is_ui_app = true
-                           } else {
-                               this.is_ui_app = false
-                           }
-
                            this.app_component_name = yz.getValueOfCodeString(code.toString(),"display_name")
-
-                           if ((yz.getValueOfCodeString(code.toString(),"only_run_on_server") == true)
-                           )
-                           {
-                               mm.is_ui_app = false
-                           } else {
-                           }
 
 
                            if (mm.editor_loaded && (mm.editor_text != code)) {
@@ -2194,20 +2151,7 @@ End of app preview menu
                     }
 
 
-                    if (code.toString().includes("Vue.")) {
-                        this.is_ui_app = true
-                    } else {
-                        this.is_ui_app = false
-                    }
                     this.app_component_name = yz.getValueOfCodeString(code.toString(),"display_name")
-
-                    if ((yz.getValueOfCodeString(code.toString(),"only_run_on_server") == true)
-                    )
-                    {
-                        mm.is_ui_app = false
-                    } else {
-                    }
-
 
                     if (mm.editor_loaded && (mm.editor_text != code)) {
                         mm.editor_text = code
