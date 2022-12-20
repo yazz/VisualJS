@@ -59,7 +59,7 @@ async function onPageInitialized(doCode) {
 
 //debugger
     let blob = new Blob([
-        document.querySelector('#worker1').textContent
+        document.querySelector('#web_worker_1').textContent
     ], { type: "text/javascript" })
 
 // Note: window.webkitURL.createObjectURL() in Chrome 10+.
@@ -72,10 +72,10 @@ async function onPageInitialized(doCode) {
     saveCodeViaWebWorker = async function(code, options) {
         worker.postMessage(
             {
-                hostPort:     $HOSTPORT,
-                host:     $HOST,
-                code:   code,
-                options: options
+                hostPort:       $HOSTPORT,
+                host:           $HOST,
+                code:           code,
+                options:        options
             }
         );
     }
@@ -3895,7 +3895,7 @@ function enhanceCode(code, options) {
 
 
 
-<script id="worker1" type="javascript/worker">
+<script id="web_worker_1" type="javascript/worker">
 
 
 async function webWorkerPostToYazzReturnJson(host, hostPort, urlToPost, postParams) {
