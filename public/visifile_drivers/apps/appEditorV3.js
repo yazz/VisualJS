@@ -2226,16 +2226,14 @@ End of app preview menu
                     // set up vars
                     //
                     mm.selected_app             = ""
-                    //mm.app_loaded             = false
                     mm.base_component_id        = baseComponentId
                     mm.app_component_name       = null
-                    //executionCode             = new Object()
                     mm.app_loaded               = true
                     mm.execution_timeline       = executionTimeline
                     mm.execution_code           = executionCode
                     mm.execution_block_list     = Object.keys(this.execution_code)
-                    code                        = passin_code
-                    codeId                      = passin_code_id
+                    let code                        = passin_code
+                    let codeId                      = passin_code_id
                     let editors2                = passin_editors2
                     let newEditor               = null
 
