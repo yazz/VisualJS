@@ -3397,21 +3397,21 @@ return code
 
 
 deleteCodeString: function(code,st ,optionalEnd) {
-var endIndicator = ")"
-if (optionalEnd) {
-endIndicator = optionalEnd
-}
-var findd = st + "("
-var codeStart = code.toString().indexOf(findd)
-if (codeStart != -1) {
-var codeEnd = codeStart + code.toString().substring(codeStart).indexOf(endIndicator)
+    var endIndicator = ")"
+    if (optionalEnd) {
+        endIndicator = optionalEnd
+    }
+    var findd = st + "("
+    var codeStart = code.toString().indexOf(findd)
+    if (codeStart != -1) {
+        var codeEnd = codeStart + code.toString().substring(codeStart).indexOf(endIndicator)
 
-code = code.toString().substring(0,codeStart) +
-code.toString().substring(codeEnd + 1 + endIndicator.length)
+        code = code.toString().substring(0,codeStart) +
+        code.toString().substring(codeEnd + 1 + endIndicator.length)
 
-return code
-}
-return code
+        return code
+    }
+    return code
 },
 
 
