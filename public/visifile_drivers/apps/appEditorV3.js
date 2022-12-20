@@ -1492,18 +1492,10 @@ End of app preview menu
 
                    //console.log("1) mm.code_id= " + mm.code_id)
                    if ((yz.getValueOfCodeString(mm.editor_text,"only_run_on_server") == true)
-                        ||
-                      (yz.getValueOfCodeString(mm.editor_text,"rest_api")))
+                        )
                    {
                        mm.is_ui_app = false
                        mm.is_server_app = true
-                       let restApi = yz.getValueOfCodeString(mm.editor_text,"rest_api")
-                       if (restApi) {
-                           mm.is_rest_app = true
-                           mm.rest_api_base_url = restApi
-                       } else {
-                           mm.is_rest_app = false
-                       }
                    } else {
                        mm.is_ui_app = false
                        mm.is_server_app = false
@@ -1758,19 +1750,10 @@ End of app preview menu
                            this.app_component_name = yz.getValueOfCodeString(code.toString(),"display_name")
 
                            if ((yz.getValueOfCodeString(code.toString(),"only_run_on_server") == true)
-                            ||
-                                (yz.getValueOfCodeString(code.toString(),"rest_api"))
                             )
                              {
                                 mm.is_ui_app = false
                                 mm.is_server_app = true
-                                let restApi = yz.getValueOfCodeString(code.toString(),"rest_api")
-                                if (restApi) {
-                                    mm.is_rest_app = true
-                                    mm.rest_api_base_url = restApi
-                                } else {
-                                    mm.is_rest_app = false
-                                }
                             } else {
                                 mm.is_server_app = false
                             }
@@ -1947,19 +1930,10 @@ End of app preview menu
                            this.app_component_name = yz.getValueOfCodeString(code.toString(),"display_name")
 
                            if ((yz.getValueOfCodeString(code.toString(),"only_run_on_server") == true)
-                               ||
-                               (yz.getValueOfCodeString(code.toString(),"rest_api"))
                            )
                            {
                                mm.is_ui_app = false
                                mm.is_server_app = true
-                               let restApi = yz.getValueOfCodeString(code.toString(),"rest_api")
-                               if (restApi) {
-                                   mm.is_rest_app = true
-                                   mm.rest_api_base_url = restApi
-                               } else {
-                                   mm.is_rest_app = false
-                               }
                            } else {
                                mm.is_server_app = false
                            }
@@ -2144,19 +2118,10 @@ End of app preview menu
                            this.app_component_name = yz.getValueOfCodeString(code.toString(),"display_name")
 
                            if ((yz.getValueOfCodeString(code.toString(),"only_run_on_server") == true)
-                               ||
-                               (yz.getValueOfCodeString(code.toString(),"rest_api"))
                            )
                            {
                                mm.is_ui_app = false
                                mm.is_server_app = true
-                               let restApi = yz.getValueOfCodeString(code.toString(),"rest_api")
-                               if (restApi) {
-                                   mm.is_rest_app = true
-                                   mm.rest_api_base_url = restApi
-                               } else {
-                                   mm.is_rest_app = false
-                               }
                            } else {
                                mm.is_server_app = false
                            }
@@ -2300,19 +2265,10 @@ End of app preview menu
                     this.app_component_name = yz.getValueOfCodeString(code.toString(),"display_name")
 
                     if ((yz.getValueOfCodeString(code.toString(),"only_run_on_server") == true)
-                    ||
-                    (yz.getValueOfCodeString(code.toString(),"rest_api"))
                     )
                     {
                         mm.is_ui_app = false
                         mm.is_server_app = true
-                        let restApi = yz.getValueOfCodeString(code.toString(),"rest_api")
-                        if (restApi) {
-                        mm.is_rest_app = true
-                        mm.rest_api_base_url = restApi
-                    } else {
-                        mm.is_rest_app = false
-                    }
                     } else {
                         mm.is_server_app = false
                     }
