@@ -872,7 +872,7 @@ debugger
 
                override_app_editor = editor_component_id
 
-               await mm.load_new_app( this.base_component_id )
+               await mm.load_app( {newApp: true, baseComponentId: this.base_component_id} )
 
            }
            ,
@@ -1472,7 +1472,7 @@ debugger
 
                 await mm.save(   this.base_component_id,   this.code_id,   this.editor_text   )
 
-                await mm.load_new_app( this.base_component_id )
+                await mm.load_app({newApp: true, baseComponentId:  this.base_component_id } )
             }
             ,
 
@@ -1533,7 +1533,7 @@ debugger
                 }
                 setTimeout(async function() {
                     mm.console_output = ""
-                    await mm.load_new_app( result.base_component_id )
+                    await mm.load_app( {newApp: true, baseComponentId: result.base_component_id })
                 },200)
 
             }
@@ -1648,23 +1648,6 @@ debugger
 
 
 
-
-
-           // ---------------------------------------------------------------
-           //                          load_new_app
-           //
-           // This loads an app based on it's Type (base_component_id).
-           // ---------------------------------------------------------------
-           load_new_app: async function ( baseComponentId ) {
-               let mm = this
-               if ((!baseComponentId) || (baseComponentId == "") || (!mm)) {
-                    return
-               }
-               dev_app_component_loaded = new Object()
-               this.editor_loaded = false
-               await this.load_app({baseComponentId: baseComponentId})
-           }
-           ,
 
 
 
