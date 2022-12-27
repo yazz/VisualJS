@@ -841,9 +841,11 @@ End of app preview menu
 
                override_app_editor              = null
                this.editor_text                 = await mm.$refs.editor_component_ref.getText()
-               //debugger
-               //await mm.load_new_app( mm.base_component_id )
-               await mm.load_new_app_by_code_id( mm.code_id )
+
+               await mm.load_app_by_code_id({
+                    codeId:     mm.code_id,
+                    newApp:     true}
+                    )
            }
            ,
 
@@ -1670,16 +1672,7 @@ End of app preview menu
 
 
 
-           load_new_app_by_code_id: async function ( codeId ) {
-               let mm = this
-               if ((!codeId) || (codeId == "") || (!mm)) {
-                   return
-               }
-               dev_app_component_loaded = new Object()
-               this.editor_loaded = false
-               await this.load_app_by_code_id({codeId: codeId})
-           }
-           ,
+
 
 
            // ---------------------------------------------------------------
@@ -1841,15 +1834,28 @@ End of app preview menu
            // 'baseComponentId'
            // ---------------------------------------------------------------
            load_app_by_code_id: async function ( options ) {
-                let codeId = options.codeId
+               let mm = this
+
+               let codeId = null
+               if (options.codeId) {
+                   codeId = options.codeId
+                   if ((!codeId) || (codeId == "") || (!mm)) {
+                       return
+                   }
+               }
+
                let code
-               let mm   = this
                let results
                let runThisApp = false
                if (options) {
                    if (runThisApp.runThisApp) {
                        runThisApp = options.runThisApp
                    }
+                   if (options.newApp == true) {
+
+                   }
+                   dev_app_component_loaded = new Object()
+                   mm.editor_loaded = false
                }
 
                try {
