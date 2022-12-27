@@ -1689,12 +1689,12 @@ End of app preview menu
            // 'baseComponentId'
            // ---------------------------------------------------------------
            load_app: async function ( baseComponentId ,options) {
-               let runThisApp = false
                let code
                let mm   = this
                let codeId
                let results
 
+               let runThisApp = false
                if (options) {
                     if (runThisApp.runThisApp) {
                         runThisApp = options.runThisApp
@@ -1840,10 +1840,16 @@ End of app preview menu
            // This loads the latest version of the code stream marked with
            // 'baseComponentId'
            // ---------------------------------------------------------------
-           load_app_by_code_id: async function ( codeId, runThisApp ) {
+           load_app_by_code_id: async function ( codeId, options ) {
                let code
                let mm   = this
                let results
+               let runThisApp = false
+               if (options) {
+                   if (runThisApp.runThisApp) {
+                       runThisApp = options.runThisApp
+                   }
+               }
 
                try {
 
