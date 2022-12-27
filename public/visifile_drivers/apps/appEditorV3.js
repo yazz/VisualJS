@@ -1304,7 +1304,7 @@ End of app preview menu
                     //
                     //zzz
                     //await this.save( this.base_component_id, this.code_id, this.editor_text )
-                    await mm.load_app( mm.base_component_id , true)
+                    await mm.load_app( mm.base_component_id , {runThisApp: true})
                     hideProgressBar()
                 }
             },
@@ -1326,7 +1326,7 @@ End of app preview menu
                 this.mode      = "edit"
                 this.sub_mode  = "code"
 
-                await mm.load_app( this.base_component_id , false)
+                await mm.load_app( this.base_component_id , {runThisApp: false})
 
                 if (this.timeline_editor) {
                     this.timeline_editor.destroy()
@@ -1359,7 +1359,7 @@ End of app preview menu
                 this.app_shown = true
 
                 appClearIntervals()
-                await mm.load_app( this.base_component_id , true)
+                await mm.load_app( this.base_component_id , {runThisApp: true})
 
                 if (this.timeline_editor) {
                     this.timeline_editor.destroy()
@@ -1390,7 +1390,7 @@ End of app preview menu
                     this.editor_text = await this.$refs.editor_component_ref.getText()
 
                     await this.save( this.base_component_id, this.code_id, this.editor_text )
-                    await mm.load_app( this.base_component_id  , true)
+                    await mm.load_app( this.base_component_id  , {runThisApp: true})
                 }
                 this.mode = "profiler"
 
@@ -1650,7 +1650,7 @@ End of app preview menu
            // ---------------------------------------------------------------
            //                          load_new_app
            //
-           //
+           // This loads an app based on it's Type (base_component_id).
            // ---------------------------------------------------------------
            load_new_app: async function ( baseComponentId ) {
                let mm = this
@@ -1688,11 +1688,18 @@ End of app preview menu
            // This loads the latest version of the code stream marked with
            // 'baseComponentId'
            // ---------------------------------------------------------------
-           load_app: async function ( baseComponentId, runThisApp ) {
+           load_app: async function ( baseComponentId ,options) {
+               let runThisApp = false
                let code
                let mm   = this
                let codeId
                let results
+
+               if (options) {
+                    if (runThisApp.runThisApp) {
+                        runThisApp = options.runThisApp
+                    }
+               }
 
                 try {
 
