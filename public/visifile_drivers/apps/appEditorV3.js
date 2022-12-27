@@ -1504,7 +1504,11 @@ End of app preview menu
             // ---------------------------------------------------------------
             //                          copyApp
             //
-            // This is called to copy an app
+            // This is called to copy an app. At the moment this copies the
+            // base_component_id, which means that the app's latest version
+            // is copied. This may not be what we want though as we really want
+            // to copy the commit ID's code
+            //
             // ---------------------------------------------------------------
             copyApp: async function( appId , newAppId) {
                 let mm = this
@@ -1543,10 +1547,13 @@ End of app preview menu
            // ---------------------------------------------------------------
            //                          bookmarkCode
            //
-           // Bookmark code which is the same as tagging code with a version.
-           // This tags the current commit. Right now it doesn't do anything
+           // Bookmark code is the same as tagging code with a version. This
+           // tags the current commit.
+           //
+           // Right now it doesn't do anything
            // but it should add a record to tag the code with the current
            // date
+           //
            // ---------------------------------------------------------------
            bookmarkCode: async function() {
                try {
@@ -1557,16 +1564,12 @@ End of app preview menu
                    let postAppUrl = "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST + "/bookmark_commit"
                    callAjaxPost(postAppUrl,
                        {
-                           code_id:                   mm.code_id
+                           code_id:                  mm.code_id
                            ,
                            user_id:                 "xyz"
                        }
                        ,
                        async function(response){
-                           //showTimer("in 'post_app' response")
-                           //alert(response)
-                           //debugger
-
                            let responseJson = JSON.parse(response)
 
                            hideProgressBar()
@@ -1590,6 +1593,7 @@ End of app preview menu
            //
            // This tries to release the current commit as the release version
            // of the app
+           //
            // ---------------------------------------------------------------
            releaseCode: async function() {
                try {
@@ -1600,21 +1604,16 @@ End of app preview menu
                    let postAppUrl = "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST + "/release_commit"
                    callAjaxPost(postAppUrl,
                        {
-                           code_id:                   mm.code_id
+                           code_id:                  mm.code_id
                            ,
                            user_id:                 "xyz"
                        }
                        ,
                        async function(response){
-                           //showTimer("in 'post_app' response")
-                           //alert(response)
-                           //debugger
-
                            let responseJson = JSON.parse(response)
 
                            hideProgressBar()
                            this.save_state = "saved"
-
                        })
 
                } catch (e) {
