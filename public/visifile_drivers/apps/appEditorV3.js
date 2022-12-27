@@ -1188,7 +1188,7 @@ End of app preview menu
             // ---------------------------------------------------------------
             addWatch: async function(varN){
                 globalWatchList[varN]={}
-                await this.load_app( this.base_component_id )
+                await this.load_app({baseComponentId:  this.base_component_id })
                 let allWatches = Object.keys(globalWatchList)
                 for (let rt = 0 ; rt < allWatches.length; rt++) {
                     fillInMissingWatchTimelineValues(allWatches[rt],0)
@@ -1306,7 +1306,7 @@ End of app preview menu
                     //
 
                     //await this.save( this.base_component_id, this.code_id, this.editor_text )
-                    await mm.load_app( mm.base_component_id , {runThisApp: true})
+                    await mm.load_app({baseComponentId:  mm.base_component_id , runThisApp: true})
                     hideProgressBar()
                 }
             },
@@ -1328,7 +1328,7 @@ End of app preview menu
                 this.mode      = "edit"
                 this.sub_mode  = "code"
 
-                await mm.load_app( this.base_component_id , {runThisApp: false})
+                await mm.load_app({baseComponentId:  this.base_component_id , runThisApp: false})
 
                 if (this.timeline_editor) {
                     this.timeline_editor.destroy()
@@ -1361,7 +1361,7 @@ End of app preview menu
                 this.app_shown = true
 
                 appClearIntervals()
-                await mm.load_app( this.base_component_id , {runThisApp: true})
+                await mm.load_app({baseComponentId:  this.base_component_id , runThisApp: true})
 
                 if (this.timeline_editor) {
                     this.timeline_editor.destroy()
@@ -1392,7 +1392,7 @@ End of app preview menu
                     this.editor_text = await this.$refs.editor_component_ref.getText()
 
                     await this.save( this.base_component_id, this.code_id, this.editor_text )
-                    await mm.load_app( this.base_component_id  , {runThisApp: true})
+                    await mm.load_app({baseComponentId:  this.base_component_id  , runThisApp: true})
                 }
                 this.mode = "profiler"
 
@@ -1661,7 +1661,7 @@ End of app preview menu
                }
                dev_app_component_loaded = new Object()
                this.editor_loaded = false
-               await this.load_app(baseComponentId)
+               await this.load_app({baseComponentId: baseComponentId})
            }
            ,
 
@@ -1681,7 +1681,11 @@ End of app preview menu
            // This loads the latest version of the code stream marked with
            // 'baseComponentId'
            // ---------------------------------------------------------------
-           load_app: async function ( baseComponentId ,options) {
+           load_app: async function ( options) {
+            let baseComponentId = null
+            if (options) {
+                baseComponentId = options.baseComponentId
+            }
                let code
                let mm   = this
                let codeId
@@ -2419,7 +2423,7 @@ End of app preview menu
                     dev_app_component_loaded[this.app_id]   = false
                     component_cache[this.app_id]            = null
 
-                    await this.load_app(this.app_id)
+                    await this.load_app({baseComponentId: this.app_id})
 
                 }
 
