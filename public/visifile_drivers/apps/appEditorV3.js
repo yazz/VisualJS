@@ -842,7 +842,8 @@ End of app preview menu
                override_app_editor              = null
                this.editor_text                 = await mm.$refs.editor_component_ref.getText()
 
-               await mm.load_app_by_code_id({
+debugger
+               await mm.load_app({
                     codeId:     mm.code_id,
                     newApp:     true}
                     )
@@ -1686,16 +1687,28 @@ End of app preview menu
             if (options) {
                 baseComponentId = options.baseComponentId
             }
+
                let code
                let mm   = this
-               let codeId
                let results
+               let codeId = null
+               if (options.codeId) {
+                   codeId = options.codeId
+                   if ((!codeId) || (codeId == "") || (!mm)) {
+                       return
+                   }
+               }
 
                let runThisApp = false
                if (options) {
                     if (runThisApp.runThisApp) {
                         runThisApp = options.runThisApp
                     }
+
+                   if (options.newApp == true) {
+                       dev_app_component_loaded = new Object()
+                       mm.editor_loaded = false
+                   }
                }
 
                 try {
@@ -1704,7 +1717,7 @@ End of app preview menu
                     // make sure that we reference an app
                     //
 
-                    if ((!baseComponentId) || (baseComponentId == "") || (!mm)) {
+                    if ((!codeId) && (!baseComponentId)) {
                         return
                     }
 
@@ -1714,7 +1727,7 @@ End of app preview menu
                    // set up vars
                    //
                    mm.selected_app          = ""
-                   mm.base_component_id     = baseComponentId
+
                    mm.app_component_name    = null
                    mm.app_loaded = true
 
@@ -1722,12 +1735,113 @@ End of app preview menu
                    this.execution_code          = executionCode
                    this.execution_block_list    = Object.keys(this.execution_code)
 
+                    if (codeId) {
+                        //
+                        // read the code for the component that we are editing
+                        //
+                        let sql =    `select
+                                    id, cast(code as text)  as  code, editors, base_component_id
+                                 from
+                                    system_code
+                                 where
+                                        id = '${codeId}'`
+
+                        results = await callComponent(
+                            {
+                                base_component_id:    "systemFunctions2"
+                            }
+                            ,
+                            {
+                                sql: sql
+                            })
 
 
-                   //
-                   // read the code for the component that we are editing
-                   //
-                   let sql =    `select
+                        if (results) {
+                            if (results.length > 0) {
+
+                                //
+                                // find the editor
+                                //
+                                let editors2 = results[0].editors
+                                mm.base_component_id = results[0].base_component_id
+
+                                let newEditor = null
+                                if (isValidObject(editors2) && (override_app_editor == null)) {
+                                    let edd = eval("(" + editors2 + ")")
+                                    newEditor = edd[0]
+                                }
+
+
+                                //
+                                // find the code
+                                //
+                                code = results[0].code
+                                codeId = results[0].id
+                                mm.code_id = codeId
+
+                                this.app_component_name = yz.getValueOfCodeString(code.toString(),"display_name")
+
+                                if (mm.editor_loaded && (mm.editor_text != code)) {
+                                    mm.editor_text = code
+                                    console.log("2) mm.code_id= " + mm.code_id)
+
+
+                                }
+
+
+                                //
+                                // load the editor
+                                //
+                                if ( !mm.editor_loaded ) {
+                                    let editorName = "editor_component"
+                                    if (override_app_editor != null) {
+                                        editorName = override_app_editor
+                                    }
+                                    if (newEditor) {
+                                        editorName = newEditor
+                                    }
+
+                                    await loadV2( editorName, {text: code} )
+
+                                    mm.editor_loaded    = true
+                                    mm.editor_component = editorName
+
+                                }
+
+
+                                //
+                                // set readonly
+                                //
+                                this.read_only = yz.getValueOfCodeString(code, "read_only")
+                            }
+
+                            if ((isValidObject(runThisApp))   && (!runThisApp)) {
+                                //do nothing if we set "runthisapp" to false
+                            } else {
+                                this.resetDebugger()
+                            }
+
+
+                            setTimeout(async function() {
+
+                                //code = yz.deleteCodeString(code, "display_name")
+                                //code = yz.insertCodeString(code, "display_name", newDisplayName)
+
+                                //mm.app_component_name = baseComponentId
+                                mm.app_component_name = yz.getValueOfCodeString(code,"display_name")
+                                if (mm.$refs.editor_component_ref) {
+                                    if (mm.$refs.editor_component_ref.setText) {
+                                        mm.$refs.editor_component_ref.setText(code)
+                                    }
+                                }
+                            },500)
+                        }
+                    } else {
+                        mm.base_component_id     = baseComponentId
+                        //
+                        // read the code for the component that we are editing
+                        //
+                        let sql =    `select
                                     id, cast(code as text)  as  code, editors
                                  from
                                     system_code
@@ -1736,89 +1850,93 @@ End of app preview menu
                                            and
                                         code_tag = 'LATEST' `
 
-                   results = await callComponent(
-                       {
-                            base_component_id:    "systemFunctions2"
-                       }
-                       ,
-                       {
-                           sql: sql
-                       })
+                        results = await callComponent(
+                            {
+                                base_component_id:    "systemFunctions2"
+                            }
+                            ,
+                            {
+                                sql: sql
+                            })
 
 
-                   if (results) {
-                       if (results.length > 0) {
+                        if (results) {
+                            if (results.length > 0) {
 
-                            //
-                            // find the editor
-                            //
-                            let editors2 = results[0].editors
-                            let newEditor = null
-                            if (isValidObject(editors2) && (override_app_editor == null)) {
-                                let edd = eval("(" + editors2 + ")")
-                                newEditor = edd[0]
+                                //
+                                // find the editor
+                                //
+                                let editors2 = results[0].editors
+                                let newEditor = null
+                                if (isValidObject(editors2) && (override_app_editor == null)) {
+                                    let edd = eval("(" + editors2 + ")")
+                                    newEditor = edd[0]
+                                }
+
+
+                                //
+                                // find the code
+                                //
+                                code = results[0].code
+                                codeId = results[0].id
+                                mm.code_id = codeId
+
+                                this.app_component_name = yz.getValueOfCodeString(code.toString(),"display_name")
+
+
+                                if (mm.editor_loaded && (mm.editor_text != code)) {
+                                    mm.editor_text = code
+                                    console.log("2) mm.code_id= " + mm.code_id)
+
+
+                                }
+
+
+                                //
+                                // load the editor
+                                //
+                                if ( !mm.editor_loaded ) {
+                                    let editorName = "editor_component"
+                                    if (override_app_editor != null) {
+                                        editorName = override_app_editor
+                                    }
+                                    if (newEditor) {
+                                        editorName = newEditor
+                                    }
+
+                                    await loadV2( editorName, {text: code} )
+
+                                    mm.editor_loaded    = true
+                                    mm.editor_component = editorName
+
+                                }
+
+
+                                //
+                                // set readonly
+                                //
+                                this.read_only = yz.getValueOfCodeString(code, "read_only")
                             }
 
 
-                            //
-                            // find the code
-                            //
-                            code = results[0].code
-                            codeId = results[0].id
-                            mm.code_id = codeId
+                            setTimeout(async function() {
 
-                           this.app_component_name = yz.getValueOfCodeString(code.toString(),"display_name")
+                                //code = yz.deleteCodeString(code, "display_name")
+                                //code = yz.insertCodeString(code, "display_name", newDisplayName)
 
-
-                            if (mm.editor_loaded && (mm.editor_text != code)) {
-                                mm.editor_text = code
-                                console.log("2) mm.code_id= " + mm.code_id)
-
-
-                            }
-
-
-                            //
-                            // load the editor
-                            //
-                            if ( !mm.editor_loaded ) {
-                                let editorName = "editor_component"
-                                if (override_app_editor != null) {
-                                    editorName = override_app_editor
+                                //mm.app_component_name = baseComponentId
+                                mm.app_component_name = yz.getValueOfCodeString(code,"display_name")
+                                if (mm.$refs.editor_component_ref) {
+                                    if (mm.$refs.editor_component_ref.setText) {
+                                        mm.$refs.editor_component_ref.setText(code)
+                                    }
                                 }
-                                if (newEditor) {
-                                     editorName = newEditor
-                                }
-
-                                await loadV2( editorName, {text: code} )
-
-                                mm.editor_loaded    = true
-                                mm.editor_component = editorName
-
-                           }
+                            },500)
+                        }
+                    }
 
 
-                           //
-                           // set readonly
-                           //
-                           this.read_only = yz.getValueOfCodeString(code, "read_only")
-                       }
 
-
-                       setTimeout(async function() {
-
-                           //code = yz.deleteCodeString(code, "display_name")
-                           //code = yz.insertCodeString(code, "display_name", newDisplayName)
-
-                           //mm.app_component_name = baseComponentId
-                           mm.app_component_name = yz.getValueOfCodeString(code,"display_name")
-                           if (mm.$refs.editor_component_ref) {
-                                if (mm.$refs.editor_component_ref.setText) {
-                                    mm.$refs.editor_component_ref.setText(code)
-                                }
-                           }
-                       },500)
-                   }
 
                } catch (e) {
                    hideProgressBar()
@@ -1831,179 +1949,8 @@ End of app preview menu
 
            ,
 
-           // ---------------------------------------------------------------
-           //                           load_app_by_code_id
-           //
-           // This loads the latest version of the code stream marked with
-           // 'baseComponentId'
-           // ---------------------------------------------------------------
-           load_app_by_code_id: async function ( options ) {
-               let mm = this
-
-               let codeId = null
-               if (options.codeId) {
-                   codeId = options.codeId
-                   if ((!codeId) || (codeId == "") || (!mm)) {
-                       return
-                   }
-               }
-
-               let code
-               let results
-               let runThisApp = false
-               if (options) {
-                   if (runThisApp.runThisApp) {
-                       runThisApp = options.runThisApp
-                   }
-                   if (options.newApp == true) {
-
-                   }
-                   dev_app_component_loaded = new Object()
-                   mm.editor_loaded = false
-               }
-
-               try {
-
-                   //
-                   // make sure that we reference an app
-                   //
-
-                   if ((!codeId) || (codeId == "") || (!mm)) {
-                       return
-                   }
 
 
-
-                   //
-                   // set up vars
-                   //
-                   mm.selected_app          = ""
-                   //mm.app_loaded            = false
-                   mm.app_component_name    = null
-
-                   //executionCode       = new Object()
-                   mm.app_loaded = true
-
-
-                   this.execution_timeline      = executionTimeline
-                   this.execution_code          = executionCode
-                   this.execution_block_list    = Object.keys(this.execution_code)
-
-
-
-                   //
-                   // read the code for the component that we are editing
-                   //
-                   let sql =    `select
-                                    id, cast(code as text)  as  code, editors, base_component_id
-                                 from
-                                    system_code
-                                 where
-                                        id = '${codeId}'`
-
-                   results = await callComponent(
-                       {
-                           base_component_id:    "systemFunctions2"
-                       }
-                       ,
-                       {
-                           sql: sql
-                       })
-
-
-                   if (results) {
-                       if (results.length > 0) {
-
-                           //
-                           // find the editor
-                           //
-                           let editors2 = results[0].editors
-                           mm.base_component_id = results[0].base_component_id
-
-                           let newEditor = null
-                           if (isValidObject(editors2) && (override_app_editor == null)) {
-                               let edd = eval("(" + editors2 + ")")
-                               newEditor = edd[0]
-                           }
-
-
-                           //
-                           // find the code
-                           //
-                           code = results[0].code
-                           codeId = results[0].id
-                           mm.code_id = codeId
-
-                           this.app_component_name = yz.getValueOfCodeString(code.toString(),"display_name")
-
-                           if (mm.editor_loaded && (mm.editor_text != code)) {
-                               mm.editor_text = code
-                               console.log("2) mm.code_id= " + mm.code_id)
-
-
-                           }
-                           //zzz
-                           //load_app_by_code_id
-
-
-                           //
-                           // load the editor
-                           //
-                           if ( !mm.editor_loaded ) {
-                               let editorName = "editor_component"
-                               if (override_app_editor != null) {
-                                   editorName = override_app_editor
-                               }
-                               if (newEditor) {
-                                   editorName = newEditor
-                               }
-
-                               await loadV2( editorName, {text: code} )
-
-                               mm.editor_loaded    = true
-                               mm.editor_component = editorName
-
-                           }
-
-
-                           //
-                           // set readonly
-                           //
-                           this.read_only = yz.getValueOfCodeString(code, "read_only")
-                       }
-
-                       if ((isValidObject(runThisApp))   && (!runThisApp)) {
-                           //do nothing if we set "runthisapp" to false
-                       } else {
-                           this.resetDebugger()
-                       }
-
-
-                       setTimeout(async function() {
-
-                           //code = yz.deleteCodeString(code, "display_name")
-                           //code = yz.insertCodeString(code, "display_name", newDisplayName)
-
-                           //mm.app_component_name = baseComponentId
-                           mm.app_component_name = yz.getValueOfCodeString(code,"display_name")
-                           if (mm.$refs.editor_component_ref) {
-                               if (mm.$refs.editor_component_ref.setText) {
-                                   mm.$refs.editor_component_ref.setText(code)
-                               }
-                           }
-                       },500)
-                   }
-
-               } catch (e) {
-                   hideProgressBar()
-               }
-               hideProgressBar()
-
-
-           }
-
-
-           ,
 
 
 
@@ -2110,9 +2057,6 @@ End of app preview menu
                                mm.editor_text = code
                                console.log("2) mm.code_id= " + mm.code_id)
                            }
-
-                           //zzz
-                           // loadAppViaCommitId
 
                            //
                            // load the code
