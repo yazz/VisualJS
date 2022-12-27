@@ -1302,7 +1302,7 @@ End of app preview menu
                     // the correct code_id which is supposed to be the parent code id, so we
                     // have to make sure that we save it every time we save code
                     //
-                    //zzz
+
                     //await this.save( this.base_component_id, this.code_id, this.editor_text )
                     await mm.load_app( mm.base_component_id , {runThisApp: true})
                     hideProgressBar()
@@ -1677,7 +1677,7 @@ End of app preview menu
                }
                dev_app_component_loaded = new Object()
                this.editor_loaded = false
-               await this.load_app_by_code_id(codeId)
+               await this.load_app_by_code_id({codeId: codeId})
            }
            ,
 
@@ -1840,7 +1840,8 @@ End of app preview menu
            // This loads the latest version of the code stream marked with
            // 'baseComponentId'
            // ---------------------------------------------------------------
-           load_app_by_code_id: async function ( codeId, options ) {
+           load_app_by_code_id: async function ( options ) {
+                let codeId = options.codeId
                let code
                let mm   = this
                let results
@@ -1931,6 +1932,8 @@ End of app preview menu
 
 
                            }
+                           //zzz
+                           //load_app_by_code_id
 
 
                            //
@@ -2004,11 +2007,17 @@ End of app preview menu
            // This loads the latest version of the code stream marked with
            // 'baseComponentId'
            // ---------------------------------------------------------------
-           loadAppViaCommitId: async function ( commitId, runThisApp ) {
+           loadAppViaCommitId: async function ( commitId, options ) {
                let code
                let mm   = this
                let codeId
                let results
+               let runThisApp = false
+               if (options) {
+                   if (runThisApp.runThisApp) {
+                       runThisApp = options.runThisApp
+                   }
+               }
 
                try {
 
@@ -2090,15 +2099,14 @@ End of app preview menu
                            if (mm.editor_loaded && (mm.editor_text != code)) {
                                mm.editor_text = code
                                console.log("2) mm.code_id= " + mm.code_id)
-
-
                            }
 
+                           //zzz
+                           // loadAppViaCommitId
 
                            //
                            // load the code
                            //
-
                            debugger
                            mm.editor_text = code
                            mm.code_id = commitId
@@ -2428,7 +2436,7 @@ End of app preview menu
                         //debugger
                         //mm.save_state = "pending"
                         //mm.checkSavedFile()
-                        await mm.loadAppViaCommitId(   message.commitId , true )
+                        await mm.loadAppViaCommitId(   message.commitId , {runThisApp: true} )
                         mm.$root.$emit('message', {
                             type:               "update_app",
                             base_component_id:   mm.app_id,
