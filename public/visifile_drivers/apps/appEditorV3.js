@@ -1666,7 +1666,6 @@ debugger
            // 'baseComponentId'
            // ---------------------------------------------------------------
            load_app: async function ( options) {
-           //zzz
             let baseComponentId = null
             if (options) {
                 baseComponentId = options.baseComponentId
@@ -1826,7 +1825,6 @@ debugger
                             },500)
                         }
                     } else if (code) {
-                        //zzz
                         //
                         // load the editor
                         //
@@ -1866,7 +1864,6 @@ debugger
                                 }
                             }
                         },500)
-                        //zzz
                     } else {
                         mm.base_component_id     = baseComponentId
                         //
@@ -1985,109 +1982,8 @@ debugger
 
 
 
-            // ---------------------------------------------------------------
-            //                           load_appV2
-            //
-            // This loads the latest version of the code stream marked with
-            // 'baseComponentId'
-            // ---------------------------------------------------------------
-           load_appV2: async function ( baseComponentId, passin_code, passin_code_id , passin_editors2) {
-               //zzz
-
-               try {
-                    //
-                    // make sure that we reference an app
-                    //
-                    let mm = this
-                    if ((!baseComponentId) || (baseComponentId == "") || (!mm)) {
-                        return
-                    }
 
 
-                    //
-                    // set up vars
-                    //
-                    mm.selected_app             = ""
-                    mm.base_component_id        = baseComponentId
-                    mm.app_component_name       = null
-                    mm.app_loaded               = true
-                    mm.execution_timeline       = executionTimeline
-                    mm.execution_code           = executionCode
-                    mm.execution_block_list     = Object.keys(this.execution_code)
-                    let code                    = passin_code
-                    let codeId                  = passin_code_id
-                    let editors2                = passin_editors2
-                    let newEditor               = null
-
-
-
-                    //
-                    // find the editor
-                    //
-                    if (isValidObject(editors2) && (override_app_editor == null)) {
-                        let edd = eval("(" + editors2 + ")")
-                        newEditor = edd[0]
-                    }
-
-
-                    this.app_component_name = yz.getValueOfCodeString(code.toString(),"display_name")
-
-                    if (mm.editor_loaded && (mm.editor_text != code)) {
-                        mm.editor_text = code
-                        mm.code_id = codeId
-                        console.log("3) mm.code_id= " + mm.code_id)
-                    }
-
-
-                    //
-                    // load the editor
-                    //
-                    if ( !mm.editor_loaded ) {
-                        let editorName = "editor_component"
-                        if (override_app_editor != null) {
-                            editorName = override_app_editor
-                        }
-                        if (newEditor) {
-                            editorName = newEditor
-                        }
-
-                        await loadV2( editorName, {text: code} )
-
-                        mm.editor_loaded    = true
-                        mm.editor_component = editorName
-                    }
-
-
-                    //
-                    // set readonly
-                    //
-                    this.read_only = yz.getValueOfCodeString(code, "read_only")
-
-
-                    this.resetDebugger()
-                    await callComponent( {code_id:    codeId }, {} )
-
-
-
-                    setTimeout(async function() {
-                        //mm.app_component_name = baseComponentId
-                        mm.app_component_name = yz.getValueOfCodeString(code,"display_name")
-                        if (mm.$refs.editor_component_ref) {
-                            if (mm.$refs.editor_component_ref.setText) {
-                                mm.$refs.editor_component_ref.setText(code)
-                            }
-                        }
-                    },500)
-
-
-                    } catch (e) {
-                        hideProgressBar()
-                    }
-                    hideProgressBar()
-
-
-                }
-                ,
 
 
 
@@ -2156,10 +2052,8 @@ debugger
                         if (mm.app_shown) {
                             // if the app has been changed during the save then don't reload the app
                             if (!saveCodeToFile) {
-                                //await mm.load_appV2( mm.base_component_id , mm.editor_text, mm.code_id, mm.editors2)
                                 debugger
                                 await mm.load_app({code: mm.editor_text, runThisApp: true})
-                                //zzz
 
                             } else {
                                 hideProgressBar()
@@ -2260,7 +2154,6 @@ debugger
                         //debugger
                         //mm.save_state = "pending"
                         //mm.checkSavedFile()
-                        //await mm.loadAppViaCommitId(   message.commitId , {runThisApp: true} )
                         await mm.load_app(   {codeId: message.commitId , runThisApp: true} )
                         mm.$root.$emit('message', {
                             type:               "update_app",
