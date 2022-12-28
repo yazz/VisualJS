@@ -1666,6 +1666,7 @@ debugger
            // 'baseComponentId'
            // ---------------------------------------------------------------
            load_app: async function ( options) {
+           //zzz
             let baseComponentId = null
             if (options) {
                 baseComponentId = options.baseComponentId
@@ -1684,7 +1685,7 @@ debugger
 
                let runThisApp = false
                if (options) {
-                    if (runThisApp.runThisApp) {
+                    if (options.runThisApp) {
                         runThisApp = options.runThisApp
                     }
 
@@ -1943,8 +1944,10 @@ debugger
             // This loads the latest version of the code stream marked with
             // 'baseComponentId'
             // ---------------------------------------------------------------
-            load_appV2: async function ( baseComponentId, passin_code, passin_code_id , passin_editors2) {
-                try {
+           load_appV2: async function ( baseComponentId, passin_code, passin_code_id , passin_editors2) {
+               //zzz
+
+               try {
                     //
                     // make sure that we reference an app
                     //
@@ -2106,7 +2109,11 @@ debugger
                         if (mm.app_shown) {
                             // if the app has been changed during the save then don't reload the app
                             if (!saveCodeToFile) {
-                                await mm.load_appV2( mm.base_component_id , mm.editor_text, mm.code_id, mm.editors2)
+                                //await mm.load_appV2( mm.base_component_id , mm.editor_text, mm.code_id, mm.editors2)
+                                debugger
+                                await mm.load_app({codeId: mm.code_id, runThisApp: true})
+                                //zzz
+
                             } else {
                                 hideProgressBar()
                             }
@@ -2208,7 +2215,6 @@ debugger
                         //mm.checkSavedFile()
                         //await mm.loadAppViaCommitId(   message.commitId , {runThisApp: true} )
                         await mm.load_app(   {codeId: message.commitId , runThisApp: true} )
-                        //zzz
                         mm.$root.$emit('message', {
                             type:               "update_app",
                             base_component_id:   mm.app_id,
