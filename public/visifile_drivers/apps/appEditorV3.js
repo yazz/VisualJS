@@ -1672,7 +1672,7 @@ debugger
                 baseComponentId = options.baseComponentId
             }
 
-               let code
+               let code = null
                let mm   = this
                let results
                let codeId = null
@@ -1693,6 +1693,11 @@ debugger
                        dev_app_component_loaded = new Object()
                        mm.editor_loaded = false
                    }
+
+                   if (options.code) {
+                       code = options.code
+                   }
+
                }
 
                 try {
@@ -1701,7 +1706,7 @@ debugger
                     // make sure that we reference an app
                     //
 
-                    if ((!codeId) && (!baseComponentId)) {
+                    if ((!codeId) && (!baseComponentId) && (!code)) {
                         return
                     }
 
@@ -1820,6 +1825,48 @@ debugger
                                 }
                             },500)
                         }
+                    } else if (code) {
+                        //zzz
+                        //
+                        // load the editor
+                        //
+                        if ( !mm.editor_loaded ) {
+                            let editorName = "editor_component"
+                            if (override_app_editor != null) {
+                                editorName = override_app_editor
+                            }
+                            if (newEditor) {
+                                editorName = newEditor
+                            }
+
+                            await loadV2( editorName, {text: code} )
+
+                            mm.editor_loaded    = true
+                            mm.editor_component = editorName
+                        }
+
+
+                        //
+                        // set readonly
+                        //
+                        this.read_only = yz.getValueOfCodeString(code, "read_only")
+
+
+                        this.resetDebugger()
+                        await callComponent( {code_id:    mm.code_id }, {} )
+
+
+
+                        setTimeout(async function() {
+                            //mm.app_component_name = baseComponentId
+                            mm.app_component_name = yz.getValueOfCodeString(code,"display_name")
+                            if (mm.$refs.editor_component_ref) {
+                                if (mm.$refs.editor_component_ref.setText) {
+                                    mm.$refs.editor_component_ref.setText(code)
+                                }
+                            }
+                        },500)
+                        //zzz
                     } else {
                         mm.base_component_id     = baseComponentId
                         //
@@ -2111,7 +2158,7 @@ debugger
                             if (!saveCodeToFile) {
                                 //await mm.load_appV2( mm.base_component_id , mm.editor_text, mm.code_id, mm.editors2)
                                 debugger
-                                await mm.load_app({codeId: mm.code_id, runThisApp: true})
+                                await mm.load_app({code: mm.editor_text, runThisApp: true})
                                 //zzz
 
                             } else {
