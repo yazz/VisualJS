@@ -1001,7 +1001,7 @@ module.exports = {
         let promise = new Promise(async function(returnfn) {
             let justHash = null
             try {
-                console.log("Starting...")
+                //console.log("Starting...")
 
                 justHash = await OnlyIpfsHash.of(srcCode)
                 let fullIpfsFilePath = path.join(fullIpfsFolderPath,  justHash)
