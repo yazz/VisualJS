@@ -1659,80 +1659,72 @@ debugger
 
 
 
-           // ---------------------------------------------------------------
-           //                           load_app
-           //
-           // This loads the latest version of the code stream marked with
-           // 'baseComponentId'
-           // ---------------------------------------------------------------
-           load_app: async function ( options) {
-            let baseComponentId = null
-            if (options) {
-                baseComponentId = options.baseComponentId
-            }
+            // ---------------------------------------------------------------
+            //                           load_app
+            //
+            // This loads the latest version of the code stream marked with
+            // 'baseComponentId'
+            // ---------------------------------------------------------------
+            load_app: async function ( options) {
+                let mm              = this
+                let baseComponentId = options.baseComponentId
+                let code            = null
+                let results
+                let codeId          = null
+                let runThisApp      = false
 
-               let code = null
-               let mm   = this
-               let results
-               let codeId = null
-               if (options.codeId) {
-                   codeId = options.codeId
-                   if ((!codeId) || (codeId == "") || (!mm)) {
-                       return
-                   }
-               }
-
-               let runThisApp = false
-               if (options) {
-                    if (options.runThisApp) {
-                        runThisApp = options.runThisApp
+                if (options.codeId) {
+                    codeId = options.codeId
+                    if (codeId == "") {
+                        return
                     }
+                }
 
-                   if (options.newApp == true) {
-                       dev_app_component_loaded = new Object()
-                       mm.editor_loaded = false
-                   }
+                if (options.runThisApp) {
+                    runThisApp = options.runThisApp
+                }
 
-                   if (options.code) {
-                       code = options.code
-                   }
+                if (options.newApp == true) {
+                    dev_app_component_loaded = new Object()
+                    mm.editor_loaded = false
+                }
 
-               }
+                if (options.code) {
+                    code = options.code
+                }
 
                 try {
-
-                    //
-                    // make sure that we reference an app
-                    //
-
                     if ((!codeId) && (!baseComponentId) && (!code)) {
                         return
                     }
 
 
+                    //
+                    // set up vars
+                    //
+                    mm.selected_app             = ""
+                    mm.app_component_name       = null
+                    mm.app_loaded               = true
+                    mm.execution_timeline       = executionTimeline
+                    mm.execution_code           = executionCode
+                    mm.execution_block_list     = Object.keys(this.execution_code)
 
-                   //
-                   // set up vars
-                   //
-                   mm.selected_app          = ""
-
-                   mm.app_component_name    = null
-                   mm.app_loaded = true
-
-                   this.execution_timeline      = executionTimeline
-                   this.execution_code          = executionCode
-                   this.execution_block_list    = Object.keys(this.execution_code)
-
+                    // ------------------------------------------------------
+                    // If we are loading the app based on its commit ID
+                    // ------------------------------------------------------
                     if (codeId) {
                         //
                         // read the code for the component that we are editing
                         //
                         let sql =    `select
-                                    id, cast(code as text)  as  code, editors, base_component_id
-                                 from
-                                    system_code
-                                 where
-                                        id = '${codeId}'`
+                                          id, 
+                                          cast(code as text)  as  code, 
+                                          editors, 
+                                          base_component_id
+                                      from
+                                          system_code
+                                      where
+                                          id = '${codeId}'`
 
                         results = await callComponent(
                             {
@@ -1824,6 +1816,10 @@ debugger
                                 }
                             },500)
                         }
+
+                    // ------------------------------------------------------
+                    // If we are loading the app based on its source code
+                    // ------------------------------------------------------
                     } else if (code) {
                         //
                         // load the editor
@@ -1864,7 +1860,13 @@ debugger
                                 }
                             }
                         },500)
-                    } else {
+
+
+                        // ------------------------------------------------------
+                        // If we are loading the app based on the App Type (the
+                        // base_component_id)
+                        // ------------------------------------------------------
+                        } else {
                         mm.base_component_id     = baseComponentId
                         //
                         // read the code for the component that we are editing
@@ -1996,6 +1998,7 @@ debugger
                 // This is called to save the currently edited code
                 // ---------------------------------------------------------------
                 save: async function( base_component_id, code_id , textIn, extras) {
+                //zza
                     let mm = this
                     if (mm.inSave) {
                         return false
