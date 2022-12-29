@@ -97,7 +97,7 @@ load_once_from_file(true)
 
              let results = await callComponent(
                  {
-                     driver_name:    "systemFunctions2"
+                     driver_name:    "readFromInternalSqliteDatabase"
                  }
                  ,
                  {

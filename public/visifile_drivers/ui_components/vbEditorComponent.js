@@ -2443,7 +2443,7 @@ Pushlist
                 var sql = "select  child_component_id  from  component_usage  where " +
                           "        base_component_id = '" + mm.edited_app_component_id + "'"
 
-                var results = await callComponent({ driver_name:    "systemFunctions2"},
+                var results = await callComponent({ driver_name:    "readFromInternalSqliteDatabase"},
                                             {   sql: sql  })
 
                 for (var i = 0; i < results.length; i++) {
@@ -2870,7 +2870,7 @@ setTimeout(async function(){
            var sql =    "select  base_component_id,logo_url  from  system_code  where " +
                         "        code_tag = 'LATEST' and logo_url is not null and component_type = 'VB'"
 
-           var results = await callComponent({ driver_name:    "systemFunctions2"},
+           var results = await callComponent({ driver_name:    "readFromInternalSqliteDatabase"},
                {   sql: sql  })
            mm.available_components = results
            let itemsToLoad = []
@@ -7534,7 +7534,7 @@ return {}
             var sql =    "select  cast(code as text)  as  code  from  system_code  where " +
                          "        base_component_id = 'vb_editor_component'   and   code_tag = 'LATEST' "
 
-            var results = await callComponent({ driver_name:    "systemFunctions2"},
+            var results = await callComponent({ driver_name:    "readFromInternalSqliteDatabase"},
                 {   sql: sql  })
 
             var editorCode = results[0].code

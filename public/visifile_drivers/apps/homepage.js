@@ -878,7 +878,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
              let results2 = await callComponent(
                  {
-                      base_component_id:    "systemFunctions2"
+                      base_component_id:    "readFromInternalSqliteDatabase"
                  }
                  ,
                  {
@@ -910,7 +910,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
              let results2 = await callComponent(
                  {
-                      base_component_id:    "systemFunctions2"
+                      base_component_id:    "readFromInternalSqliteDatabase"
                  }
                  ,
                  {

@@ -1,7 +1,7 @@
 async function sql( args ) {
 /*
 description("This will execute sql on the internal SQLite database")
-base_component_id("systemFunctions2")
+base_component_id("readFromInternalSqliteDatabase")
 load_once_from_file(true)
 only_run_on_server(true)
 */

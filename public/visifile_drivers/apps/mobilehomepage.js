@@ -303,7 +303,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
             let results2 = await callComponent(
                 {
-                    driver_name:    "systemFunctions2"
+                    driver_name:    "readFromInternalSqliteDatabase"
                 }
                 ,
                 {
@@ -477,7 +477,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
              let results2 = await callComponent(
                  {
-                      driver_name:    "systemFunctions2"
+                      driver_name:    "readFromInternalSqliteDatabase"
                  }
                  ,
                  {
@@ -509,7 +509,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
              let results2 = await callComponent(
                  {
-                      driver_name:    "systemFunctions2"
+                      driver_name:    "readFromInternalSqliteDatabase"
                  }
                  ,
                  {
