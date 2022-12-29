@@ -5272,6 +5272,16 @@ function localComponentPath(localPath) {
  return path.join(__dirname, '../public/visifile_drivers' + localPath)
 }
 
+async function evalHtmlComponentFromPath(srcPath){
+    let ret = await evalLocalSystemDriver(     localComponentPath(srcPath),{save_html: true, username: "default", version: "latest"})
+    return ret
+}
+
+async function evalComponentFromPath(srcPath){
+    let ret = await evalLocalSystemDriver( localComponentPath(srcPath),{username: "default", version: "latest"})
+    return ret
+}
+
 //------------------------------------------------------------------------------
 //
 //
@@ -5280,20 +5290,18 @@ function localComponentPath(localPath) {
 //
 //------------------------------------------------------------------------------
 async function setUpComponentsLocally() {
-    //await evalLocalSystemDriver( localComponentPath('/glb.js'),{username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(                    localComponentPath('/csv.js'),{username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(                    localComponentPath('/glb.js'),{username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(                  localComponentPath('/excel.js'),{username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(                   localComponentPath('/word.js'),{username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(                    localComponentPath('/pdf.js'),{username: "default", reponame: "", version: "latest"})
-
-    //await evalLocalSystemDriver(            localComponentPath('/outlook2012.js'),{username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(                 localComponentPath('/sqlite.js'),{username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(                  localComponentPath('/mysql.js'),{username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(                 localComponentPath('/oracle.js'),{username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(             localComponentPath('/testdriver.js'),{username: "default", reponame: "", version: "latest"})
-
-    //await evalLocalSystemDriver(           localComponentPath('/file_uploader.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalComponentFromPath('/glb.js')
+    //await evalComponentFromPath('/csv.js')
+    //await evalComponentFromPath('/glb.js')
+    //await evalComponentFromPath('/excel.js')
+    //await evalComponentFromPath( '/word.js')
+    //await evalComponentFromPath('/pdf.js')
+    //await evalComponentFromPath('/outlook2012.js')
+    //await evalComponentFromPath( '/sqlite.js')
+    //await evalComponentFromPath('/mysql.js')
+    //await evalComponentFromPath( '/oracle.js')
+    //await evalComponentFromPath( '/testdriver.js')
+    //await evalComponentFromPath( '/file_uploader.js')
 
 
 
@@ -5301,144 +5309,110 @@ async function setUpComponentsLocally() {
     // services
     //
     if (isWin) {
-        //await evalLocalSystemDriver(         localComponentPath('/services/powershell.js'),{username: "default", reponame: "", version: "latest"})
+        //await evalComponentFromPath( '/services/powershell.js')
     }
-    await evalLocalSystemDriver( localComponentPath('/services/commandLine.js'),{username: "default", reponame: "commandLine", version: "latest"})
-    await evalLocalSystemDriver( localComponentPath('/services/commandLine2.js'),{username: "default", reponame: "commandLine2", version: "latest"})
-    await evalLocalSystemDriver(             localComponentPath('/services/copyApp.js'),{username: "default", reponame: "copyApp", version: "latest"})
-    await evalLocalSystemDriver(             localComponentPath('/services/downloadApp.js'),{username: "default", reponame: "downloadApp", version: "latest"})
-    await evalLocalSystemDriver(              localComponentPath('/services/test_job.js'),{username: "default", reponame: "test_job", version: "latest"})
-    await evalLocalSystemDriver(            localComponentPath('/services/kafka_service.js'),{username: "default", reponame: "kafka_service", version: "latest"})
+    await evalComponentFromPath( '/services/commandLine.js')
+    await evalComponentFromPath( '/services/commandLine2.js')
+    await evalComponentFromPath( '/services/copyApp.js')
+    await evalComponentFromPath( '/services/downloadApp.js')
+    await evalComponentFromPath('/services/test_job.js')
+    await evalComponentFromPath('/services/kafka_service.js')
+    await evalComponentFromPath('/services/activemq_service.js')
+    await evalComponentFromPath('/services/find_components_implementing.js')
 
-    await evalLocalSystemDriver(    localComponentPath('/services/activemq_service.js'),{username: "default", reponame: "activemq_service", version: "latest"})
+    //await evalComponentFromPath( '/services/web_preview.js')
+    //await evalComponentFromPath( '/services/spreadsheet_preview.js')
+    //await evalComponentFromPath( '/services/csv_preview.js')
+    //await evalComponentFromPath( '/services/doc_preview.js')
 
-
-    await evalLocalSystemDriver(  localComponentPath('/services/find_components_implementing.js'),{username: "default", reponame: "find_components_implementing", version: "latest"})
-
-
-
-    //await evalLocalSystemDriver(           localComponentPath('/services/web_preview.js'),{username: "default", reponame: "", version: "latest"})
-
-    //await evalLocalSystemDriver(     localComponentPath('/services/spreadsheet_preview.js'),{username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(             localComponentPath('/services/csv_preview.js'),{username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(             localComponentPath('/services/doc_preview.js'),{username: "default", reponame: "", version: "latest"})
-
-
-
-    await evalLocalSystemDriver(   localComponentPath('/services/serverDriveList.js'),{username: "default", reponame: "serverDriveList", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/services/serverFolderHierarchyList.js'),{username: "default", reponame: "serverFolderHierarchyList", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/services/serverGetHomeDir.js'),{username: "default", reponame: "serverGetHomeDir", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/services/serverFileList.js'),{username: "default", reponame: "serverFileList", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/services/serverFolderContents.js'),{username: "default", reponame: "serverFolderContents", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/services/serverFolderContentsV2.js'),{username: "default", reponame: "serverFolderContentsV2", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/services/compile_solidity.js'),{username: "default", reponame: "compile_solidity", version: "latest"})
+    await evalComponentFromPath( '/services/serverDriveList.js')
+    await evalComponentFromPath( '/services/serverFolderHierarchyList.js')
+    await evalComponentFromPath( '/services/serverGetHomeDir.js')
+    await evalComponentFromPath( '/services/serverFileList.js')
+    await evalComponentFromPath( '/services/serverFolderContents.js')
+    await evalComponentFromPath( '/services/serverFolderContentsV2.js')
+    await evalComponentFromPath( '/services/compile_solidity.js')
+    await evalComponentFromPath( '/services/serverDatabaseStuff.js')
+    await evalComponentFromPath( '/services/serverDockerStuff.js')
+    await evalComponentFromPath( '/services/serverTerminalStuff.js')
 
 
+    await evalComponentFromPath( '/services/postgres_server.js')
+    await evalComponentFromPath( '/services/sqlite_server.js')
+    await evalComponentFromPath( '/services/access_server.js')
+    await evalComponentFromPath( '/services/excel_server.js')
 
-    await evalLocalSystemDriver(   localComponentPath('/services/serverDatabaseStuff.js'),{username: "default", reponame: "serverDatabaseStuff", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/services/serverDockerStuff.js'),{username: "default", reponame: "serverDockerStuff", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/services/serverTerminalStuff.js'),{username: "default", reponame: "serverTerminalStuff", version: "latest"})
-
-    await evalLocalSystemDriver(   localComponentPath('/services/postgres_server.js'),{username: "default", reponame: "postgres_server", version: "latest"})
-
-    await evalLocalSystemDriver(   localComponentPath('/services/sqlite_server.js'),{username: "default", reponame: "sqlite_server", version: "latest"})
-
-    await evalLocalSystemDriver(   localComponentPath('/services/access_server.js'),{username: "default", reponame: "access_server", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/services/excel_server.js'),{username: "default", reponame: "excel_server", version: "latest"})
-
-    await evalLocalSystemDriver(   localComponentPath('/services/rest_call_service.js'),{username: "default", reponame: "rest_call_service", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/services/rest_call_service_v2.js'),{username: "default", reponame: "rest_call_service_v2", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/services/json_traverse_service.js'),{username: "default", reponame: "json_traverse_service", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/services/json_filter_service.js'),{username: "default", reponame: "json_filter_service", version: "latest"})
+    await evalComponentFromPath( '/services/rest_call_service.js')
+    await evalComponentFromPath( '/services/rest_call_service_v2.js')
+    await evalComponentFromPath( '/services/json_traverse_service.js')
+    await evalComponentFromPath( '/services/json_filter_service.js')
 
 
     //
     // debug controls
     //
-    //await evalLocalSystemDriver(   localComponentPath('/controls/bug_vue.js'),{username: "default", reponame: "bug_vue", version: "latest"})
+    //await evalComponentFromPath( '/controls/bug_vue.js')
 
     //
     // controls
     //
-    await evalLocalSystemDriver(   localComponentPath('/controls/chart.js'),{username: "default", reponame: "chart_control", version: "latest"})
-
-    await evalLocalSystemDriver(   localComponentPath('/controls/image.js'),{username: "default", reponame: "image_control", version: "latest"})
-
-    await evalLocalSystemDriver(   localComponentPath('/controls/label.js'),{username: "default", reponame: "label_control", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/controls/metamask.js'),{username: "default", reponame: "metamask_control", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/controls/evm_contract.js'),{username: "default", reponame: "evm_contract_control", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/controls/component_builder.js'),{username: "default", reponame: "component_builder_control", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/controls/evm_demo_count_contract.js'),{username: "default", reponame: "evm_demo_count_contract_control", version: "latest"})
+    await evalComponentFromPath( '/controls/chart.js')
+    await evalComponentFromPath( '/controls/image.js')
+    await evalComponentFromPath( '/controls/label.js')
+    await evalComponentFromPath( '/controls/metamask.js')
+    await evalComponentFromPath( '/controls/evm_contract.js')
+    await evalComponentFromPath( '/controls/component_builder.js')
+    await evalComponentFromPath( '/controls/evm_demo_count_contract.js')
 
     //
-    await evalLocalSystemDriver(   localComponentPath('/controls/input.js'),{username: "default", reponame: "input_control", version: "latest"})
+    await evalComponentFromPath( '/controls/input.js')
+    await evalComponentFromPath( '/controls/group.js')
+    await evalComponentFromPath( '/controls/button.js')
+    await evalComponentFromPath( '/controls/checkbox.js')
+    await evalComponentFromPath( '/controls/radiobutton.js')
+    await evalComponentFromPath( '/controls/dropdown.js')
+    await evalComponentFromPath( '/controls/list.js')
+    await evalComponentFromPath( '/controls/horiz_scroll.js')
+    await evalComponentFromPath( '/controls/vert_scroll.js')
+    await evalComponentFromPath( '/controls/timer.js')
+    await evalComponentFromPath( '/controls/drive_list.js')
+    await evalComponentFromPath( '/controls/folder_list.js')
+    await evalComponentFromPath( '/controls/file_list.js')
+    await evalComponentFromPath( '/controls/shapes.js')
+    await evalComponentFromPath( '/controls/line.js')
+    await evalComponentFromPath( '/controls/draw.js')
+    await evalComponentFromPath( '/controls/database.js')
+    await evalComponentFromPath( '/controls/mixer.js')
+    await evalComponentFromPath( '/controls/ms_access.js')
+    await evalComponentFromPath( '/controls/ms_excel.js')
+    await evalComponentFromPath( '/controls/data_window.js')
+    await evalComponentFromPath( '/controls/ace_editor.js')
 
-    await evalLocalSystemDriver(   localComponentPath('/controls/group.js'),{username: "default", reponame: "group_control", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/controls/button.js'),{username: "default", reponame: "button_control", version: "latest"})
+    //await evalComponentFromPath('/controls/container_3d.js')
+    //await evalComponentFromPath( '/controls/item_3d.js')
 
-    await evalLocalSystemDriver(   localComponentPath('/controls/checkbox.js'),{username: "default", reponame: "checkbox_control", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/controls/radiobutton.js'),{username: "default", reponame: "radio_button_control", version: "latest"})
-
-    await evalLocalSystemDriver(   localComponentPath('/controls/dropdown.js'),{username: "default", reponame: "dropdown_control", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/controls/list.js'),{username: "default", reponame: "list_control", version: "latest"})
-
-    await evalLocalSystemDriver(   localComponentPath('/controls/horiz_scroll.js'),{username: "default", reponame: "horiz_scroll_control", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/controls/vert_scroll.js'),{username: "default", reponame: "vert_scroll_control", version: "latest"})
-
-
-    await evalLocalSystemDriver(   localComponentPath('/controls/timer.js'),{username: "default", reponame: "timer_control", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/controls/drive_list.js'),{username: "default", reponame: "drive_list_control", version: "latest"})
-
-    await evalLocalSystemDriver(   localComponentPath('/controls/folder_list.js'),{username: "default", reponame: "folder_list_control", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/controls/file_list.js'),{username: "default", reponame: "file_list_control", version: "latest"})
-
-    await evalLocalSystemDriver(   localComponentPath('/controls/shapes.js'),{username: "default", reponame: "shapes_control", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/controls/line.js'),{username: "default", reponame: "line_control", version: "latest"})
-
-    await evalLocalSystemDriver(   localComponentPath('/controls/draw.js'),{username: "default", reponame: "draw_control", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/controls/database.js'),{username: "default", reponame: "database_control", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/controls/mixer.js'),{username: "default", reponame: "mixer_control", version: "latest"})
-
-
-    await evalLocalSystemDriver(   localComponentPath('/controls/ms_access.js'),{username: "default", reponame: "ms_access_control", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/controls/ms_excel.js'),{username: "default", reponame: "ms_excel_control", version: "latest"})
-
-
-    await evalLocalSystemDriver(   localComponentPath('/controls/data_window.js'),{username: "default", reponame: "data_window_control", version: "latest"})
-
-    await evalLocalSystemDriver(   localComponentPath('/controls/ace_editor.js'),{username: "default", reponame: "ace_editor", version: "latest"})
-
-
-    //await evalLocalSystemDriver(        localComponentPath('/controls/container_3d.js'),{username: "default", reponame: "container_3d", version: "latest"})
-    //await evalLocalSystemDriver(   localComponentPath('/controls/item_3d.js'),{username: "default", reponame: "item_3d", version: "latest"})
-
-
-    await evalLocalSystemDriver(   localComponentPath('/controls/terminal_ui.js'),{username: "default", reponame: "terminal_control", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/controls/osquery_ui.js'),{username: "default", reponame: "osquery_control", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/controls/rest_ui.js'),{username: "default", reponame: "rest_control", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/controls/tree_to_table.js'),{username: "default", reponame: "tree_to_table_control", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/controls/ducker.js'),{username: "default", reponame: "docker_control", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/controls/table.js'),{username: "default", reponame: "table_control", version: "latest"})
-
-
-
-    await evalLocalSystemDriver(   localComponentPath('/controls/rh3scale.js'),{username: "default", reponame: "rh3scale_control", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/controls/kubernetes.js'),{username: "default", reponame: "kubernetes_control", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/controls/kafka.js'),{username: "default", reponame: "kafka_control", version: "latest"})
-    //await evalLocalSystemDriver(   localComponentPath('/controls/rhfuse.js'),{username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(   localComponentPath('/controls/rhamq.js'),{username: "default", reponame: "", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/controls/rhdm.js'),{username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(   localComponentPath('/controls/rhpam.js'),{username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(   localComponentPath('/controls/rhdata_grid.js'),{username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(   localComponentPath('/controls/rhopenshift.js'),{username: "default", reponame: "", version: "latest"})
-
+    await evalComponentFromPath( '/controls/terminal_ui.js')
+    await evalComponentFromPath( '/controls/osquery_ui.js')
+    await evalComponentFromPath( '/controls/rest_ui.js')
+    await evalComponentFromPath( '/controls/tree_to_table.js')
+    await evalComponentFromPath( '/controls/ducker.js')
+    await evalComponentFromPath( '/controls/table.js')
+    await evalComponentFromPath( '/controls/rh3scale.js')
+    await evalComponentFromPath( '/controls/kubernetes.js')
+    await evalComponentFromPath( '/controls/kafka.js')
+    //await evalComponentFromPath( '/controls/rhfuse.js')
+    //await evalComponentFromPath( '/controls/rhamq.js')
+    await evalComponentFromPath( '/controls/rhdm.js')
+    //await evalComponentFromPath( '/controls/rhpam.js')
+    //await evalComponentFromPath( '/controls/rhdata_grid.js')
+    //await evalComponentFromPath( '/controls/rhopenshift.js')
 
 
 
     //
     // forms
     //
-    await evalLocalSystemDriver(   localComponentPath('/apps/formSubscribeToAppshare.js'),{username: "default", reponame: "form_subscribe_to_appshare", version: "latest"})
+    await evalComponentFromPath( '/apps/formSubscribeToAppshare.js')
 
 
 
@@ -5446,115 +5420,95 @@ async function setUpComponentsLocally() {
     // functions
     //
 
-    //await evalLocalSystemDriver(   localComponentPath('/functions/system.js'),{username: "default", reponame: "systemFunctions", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/functions/system2.js'),{username: "default", reponame: "readFromInternalSqliteDatabase", version: "latest"})
-    //await evalLocalSystemDriver(   localComponentPath('/functions/system3.js'),{username: "default", reponame: "systemFunctions3", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/functions/systemFunctionAppSql.js'),{username: "default", reponame: "systemFunctionAppSql", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/apps/appEditorV2SaveCode.js'),{username: "default", reponame: "appEditorV2SaveCode", version: "latest"})
+    //await evalComponentFromPath( '/functions/system.js')
+    await evalComponentFromPath( '/functions/system2.js')
+    //await evalComponentFromPath( '/functions/system3.js')
+    await evalComponentFromPath( '/functions/systemFunctionAppSql.js')
+    await evalComponentFromPath( '/apps/appEditorV2SaveCode.js')
 
     //
     // UI components
     //
-    await evalLocalSystemDriver(   localComponentPath('/ui_components/comp.js'),{username: "default", reponame: "comp", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/ui_components/editorComponent.js'),{username: "default", reponame: "editor_component", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/ui_components/sqliteEditorComponent.js'),{username: "default", reponame: "sqlite_editor_component", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/ui_components/keycloakEditorComponent.js'),{username: "default", reponame: "keycloak_editor_component", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/ui_components/historyViewerComponent.js'),{username: "default", reponame: "keycloak_editor_component", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/ui_components/exportEditorComponent.js'),{username: "default", reponame: "export_editor_component", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/ui_components/embedAppComponent.js'),{username: "default", reponame: "embed_app_component", version: "latest"})
+    await evalComponentFromPath( '/ui_components/comp.js')
+    await evalComponentFromPath( '/ui_components/editorComponent.js')
+    await evalComponentFromPath( '/ui_components/sqliteEditorComponent.js')
+    await evalComponentFromPath( '/ui_components/keycloakEditorComponent.js')
+    await evalComponentFromPath( '/ui_components/historyViewerComponent.js')
+    await evalComponentFromPath( '/ui_components/exportEditorComponent.js')
+    await evalComponentFromPath( '/ui_components/embedAppComponent.js')
+    await evalComponentFromPath( '/ui_components/formEditorComponent.js')
+    await evalComponentFromPath( '/ui_components/simpleDisplayEditorComponent.js')
+    await evalComponentFromPath( '/ui_components/vbEditorComponent.js')
 
-    await evalLocalSystemDriver(   localComponentPath('/ui_components/formEditorComponent.js'),{username: "default", reponame: "form_editor_component", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/ui_components/simpleDisplayEditorComponent.js'),{username: "default", reponame: "simple_display_editor_component", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/ui_components/vbEditorComponent.js'),{username: "default", reponame: "vb_editor_component", version: "latest"})
-
-    outputDebug("Loaded all drivers")
-
-
-
-
+    outputDebug("Loaded main drivers")
 
 
 
     //
     // apps
     //
-    await evalLocalSystemDriver(     localComponentPath('/apps/homepage.js'),{save_html: true, username: "default", reponame: "homepage", version: "latest"})
-    await evalLocalSystemDriver(     localComponentPath('/apps/mobilehomepage.js'),{save_html: true, username: "default", reponame: "mobilehomepage", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/apps/yazz_blank.js'),{username: "default", reponame: "yazz_blank", version: "latest"})
+    await evalComponentFromPath( '/apps/appEditorV3.js')
+
+    await evalHtmlComponentFromPath( '/apps/homepage.js')
+    await evalHtmlComponentFromPath( '/apps/mobilehomepage.js')
+    await evalComponentFromPath( '/apps/yazz_blank.js')
+
+    //await evalHtmlComponentFromPath( '/meta.yazz')
+    //await evalComponentFromPath( '/apps/search.js')
+    //await evalComponentFromPath( '/apps/test.js')
+    //await evalComponentFromPath( '/apps/oculus_go.js')
+    //await evalComponentFromPath( '/apps/nft_art.yazz')
+    //await evalComponentFromPath( '/apps/game.js')
+    //await evalComponentFromPath('/apps/oldhomepage.js')
+    //await evalComponentFromPath( '/apps/multi_vr.vjs')
+    //await evalComponentFromPath( '/apps/hologram.js')
+    //await evalComponentFromPath( '/apps/kinetic.js')
+    //await evalComponentFromPath( '/apps/intro_logo_3d.js')
+    //await evalComponentFromPath( '/apps/listApps.js')
+    //await evalComponentFromPath( '/apps/listPublicApps.js')
+    await evalComponentFromPath( '/apps/vue.js')
+    await evalComponentFromPath( '/apps/bootstrap.js')
+    await evalComponentFromPath( '/apps/databaseReader.js')
+    await evalComponentFromPath( '/apps/todo_app_reader.js')
+    await evalComponentFromPath( '/apps/newSqlApp.js')
+    //await evalComponentFromPath( '/apps/yazzcraft.js')
 
 
-
-    //await evalLocalSystemDriver(           localComponentPath('/meta.yazz'),        {save_html: true, username: "default", reponame: "metamask",        version: "latest"})
-
-    await evalLocalSystemDriver(   localComponentPath('/apps/appEditorV3.js'),{username: "default", reponame: "app_editor_3", version: "latest"})
-    //await evalLocalSystemDriver(   localComponentPath('/apps/search.js'),{username: "default", reponame: "search", version: "latest"})
-    //await evalLocalSystemDriver(   localComponentPath('/apps/test.js'),{save_html: true, username: "default", reponame: "test", version: "latest"})
-    //await evalLocalSystemDriver(   localComponentPath('/apps/oculus_go.js'),{save_html: true, username: "default", reponame: "oculus_go", version: "latest"})
-    //await evalLocalSystemDriver(   localComponentPath('/apps/nft_art.yazz'),{save_html: true, username: "default", reponame: "nft_art", version: "latest"})
-
-
-    //await evalLocalSystemDriver(           localComponentPath('/apps/game.js'),        {save_html: true, username: "default", reponame: "game",        version: "latest"})
-    //await evalLocalSystemDriver(    localComponentPath('/apps/oldhomepage.js'), {save_html: true, username: "default", reponame: "oldhomepage", version: "latest"})
-
-    //await evalLocalSystemDriver(   localComponentPath('/apps/multi_vr.vjs'),{save_html: true, username: "default", reponame: "multi_vr", version: "latest"})
-    //await evalLocalSystemDriver(   localComponentPath('/apps/hologram.js'),{save_html: true, username: "default", reponame: "hologram", version: "latest"})
-    //await evalLocalSystemDriver(   localComponentPath('/apps/kinetic.js'),{save_html: true, username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(   localComponentPath('/apps/intro_logo_3d.js'),{save_html: true, username: "default", reponame: "intro_logo_3d", version: "latest"})
-    //await evalLocalSystemDriver(   localComponentPath('/apps/listApps.js'),{username: "default", reponame: "list_apps", version: "latest"})
-    //await evalLocalSystemDriver(   localComponentPath('/apps/listPublicApps.js'),{username: "default", reponame: "listPublicApps", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/apps/vue.js'),{username: "default", reponame: "vue", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/apps/bootstrap.js'),{username: "default", reponame: "bootstrap", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/apps/databaseReader.js'),{username: "default", reponame: "database_reader", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/apps/todo_app_reader.js'),{username: "default", reponame: "todo_app_reader", version: "latest"})
-    await evalLocalSystemDriver(   localComponentPath('/apps/newSqlApp.js'),{username: "default", reponame: "newSql", version: "latest"})
-    //await evalLocalSystemDriver(   localComponentPath('/apps/yazzcraft.js'),{save_html: true, username: "default", reponame: "yazzcraft", version: "latest"})
-
-
-    let todoRet = await evalLocalSystemDriver(   localComponentPath('/apps/todo.js'),{save_html: true, username: "default", reponame: "todo", version: "latest", allowChanges: false})
-    let demoTimerRet = await evalLocalSystemDriver(   localComponentPath('/apps/demo_timer.js'), {save_html: true, username: "default", reponame: "demo_timer", version: "latest", allowChanges: false})
+    let todoRet = await evalComponentFromPath( '/apps/todo.js')
+    let demoTimerRet = await evalComponentFromPath( '/apps/demo_timer.js')
     await releaseCode(todoRet.codeId)
     await releaseCode(demoTimerRet.codeId)
 
 
 
-//database drivers
-await evalLocalSystemDriver( localComponentPath('/controls/postgres.js'),{username: "default", reponame: "postgres_client_component", version: "latest"})
-await evalLocalSystemDriver( localComponentPath('/controls/sqlite.js'),{username: "default", reponame: "sqlite_client_component", version: "latest"})
-await evalLocalSystemDriver( localComponentPath('/controls/yazzSqlite.js'),{username: "default", reponame: "yazz_sqlite_client_component", version: "latest"})
-await evalLocalSystemDriver( localComponentPath('/controls/mysql.js'),{username: "default", reponame: "mysql_client_component", version: "latest"})
-
-
-
+    //database drivers
+    await evalComponentFromPath( '/controls/postgres.js')
+    await evalComponentFromPath( '/controls/sqlite.js')
+    await evalComponentFromPath( '/controls/yazzSqlite.js')
+    await evalComponentFromPath( '/controls/mysql.js')
 
 
     let extraFns = fs.readFileSync( path.join(__dirname, '../src/extraFns.js') ).toString()
     outputDebug("Extra functions code:" )
-
 
     await eval("(" + extraFns + "())")
 
     //
     // non GUI front end apps
     //
-    await evalLocalSystemDriver(   localComponentPath('/apps/rh3scale_app.js'),{save_html: true, username: "default", reponame: "rh3scale_app", version: "latest"})
-    await evalLocalSystemDriver(  localComponentPath('/apps/quicksort.js'),{save_html: true, username: "default", reponame: "quicksort", version: "latest"})
-    //await evalLocalSystemDriver( localComponentPath('/apps/bubblesort.js'),{save_html: true, username: "default", reponame: "bubblesort", version: "latest"})
-    await evalLocalSystemDriver( localComponentPath('/apps/blank_app.js'),{save_html: true, username: "default", reponame: "new", version: "latest"})
-    //await evalLocalSystemDriver( localComponentPath('/apps/blank_microservice.js'),
-    //{save_html: true, username: "Z", reponame: "new_microservice", version: "latest", restRoutes: restRoutes, app: app})
-    //await evalLocalSystemDriver( localComponentPath('/apps/demo_microservice.js'),{save_html: true, username: "default", reponame: "demo_microservice", version: "latest"})
-    ////await evalLocalSystemDriver( localComponentPath('/apps/echo_microservice.js'),{save_html: true, username: "default", reponame: "echo_microservice", version: "latest"})
-    //await evalLocalSystemDriver( localComponentPath('/apps/call_function_microservice.js'),{save_html: true, username: "default", reponame: "call_function_microservice", version: "latest"})
-    //await evalLocalSystemDriver( localComponentPath('/apps/echo_post_microservice.js'),{save_html: true, username: "default", reponame: "echo_post_microservice", version: "latest"})
+    await evalComponentFromPath( '/apps/rh3scale_app.js')
+    await evalComponentFromPath('/apps/quicksort.js')
+    //await evalComponentFromPath( '/apps/bubblesort.js')
+    await evalComponentFromPath( '/apps/blank_app.js')
+    //await evalHtmlComponentFromPath( '/apps/blank_microservice.js')
+    //await evalComponentFromPath( '/apps/demo_microservice.js')
+    ////await evalComponentFromPath( '/apps/echo_microservice.js')
+    //await evalComponentFromPath( '/apps/call_function_microservice.js')
+    //await evalComponentFromPath( '/apps/echo_post_microservice.js')
     outputDebug("Loaded all apps (may use already loaded drivers)")
 
 
-
-
-
-
     await drivers_loaded_by_child()
-
 }
 
 
