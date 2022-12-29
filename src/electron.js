@@ -3665,7 +3665,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
 
 
         app.post("/save_code_v3" , async function (req, res) {
-//zzz
+
             let userid          = await getUserId(req)
             let optionsForSave  = req.body.value.options
 
@@ -5202,8 +5202,10 @@ async function loadComponentFromIpfs(ipfsHash) {
 //
 //
 //------------------------------------------------------------------------------
-async function addOrUpdateDriver(  name, codeString ,options ) {
+async function addOrUpdateDriver(  name2, codeString ,options ) {
+//zzz
     //console.log('addOrUpdateDriver: ' + name);
+    let name = yz.getValueOfCodeString(codeString,"base_component_id")
 
     let promise = new Promise(async function(returnfn) {
 
