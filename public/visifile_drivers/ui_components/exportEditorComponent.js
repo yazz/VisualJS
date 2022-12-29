@@ -342,7 +342,7 @@ load_once_from_file(true)
             this.outputText += "..." + "\n"
             var result = await callComponent(
                                 {
-                                    driver_name: "serverDockerStuff"
+                                    base_component_id: "serverDockerStuff"
                                 }
                                     ,{
                                         create:             true,

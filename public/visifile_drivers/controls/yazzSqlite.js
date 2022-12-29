@@ -167,7 +167,7 @@ logo_url("/driver_icons/sqlite.jpg")
 
                   var result = await callComponent(
                                       {
-                                          driver_name: "sqlite_server"
+                                          base_component_id: "sqlite_server"
                                       }
                                           ,{
                                               get_tables:      true,
@@ -199,7 +199,7 @@ logo_url("/driver_icons/sqlite.jpg")
                 try {
                     var result = await callComponent(
                                         {
-                                            driver_name: "sqlite_server"
+                                            base_component_id: "sqlite_server"
                                         }
                                             ,{
                                                 connect:         true,
@@ -233,7 +233,7 @@ logo_url("/driver_icons/sqlite.jpg")
                 if (this.design_mode) {
                     var result = await callComponent(
                                         {
-                                            driver_name: "sqlite_server"
+                                            base_component_id: "sqlite_server"
                                         }
                                             ,{
                                                 path:            this.properties.sqlite_file_path,
@@ -283,7 +283,7 @@ logo_url("/driver_icons/sqlite.jpg")
                 if (!this.design_mode) {
                     var result = await callComponent(
                                         {
-                                            driver_name: "sqlite_server"
+                                            base_component_id: "sqlite_server"
                                         }
                                             ,{
                                                 sql:             this.args.sql,

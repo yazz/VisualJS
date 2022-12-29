@@ -97,7 +97,7 @@ load_once_from_file(true)
 
              let results = await callComponent(
                  {
-                     driver_name:    "readFromInternalSqliteDatabase"
+                     base_component_id:    "readFromInternalSqliteDatabase"
                  }
                  ,
                  {

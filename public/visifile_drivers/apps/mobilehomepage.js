@@ -303,7 +303,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
             let results2 = await callComponent(
                 {
-                    driver_name:    "readFromInternalSqliteDatabase"
+                    base_component_id:    "readFromInternalSqliteDatabase"
                 }
                 ,
                 {
@@ -414,7 +414,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
              this.showFilePicker = true
              let result = await callComponent(
                                  {
-                                     driver_name: "serverGetHomeDir"
+                                     base_component_id: "serverGetHomeDir"
                                  }
                                      ,{ })
             if (result) {
@@ -422,7 +422,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             }
             let result2 = await callComponent(
                                 {
-                                    driver_name: "serverFolderContents"
+                                    base_component_id: "serverFolderContents"
                                 }
                                     ,{
                                             path: this.open_file_path
@@ -477,7 +477,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
              let results2 = await callComponent(
                  {
-                      driver_name:    "readFromInternalSqliteDatabase"
+                      base_component_id:    "readFromInternalSqliteDatabase"
                  }
                  ,
                  {
@@ -509,7 +509,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
              let results2 = await callComponent(
                  {
-                      driver_name:    "readFromInternalSqliteDatabase"
+                      base_component_id:    "readFromInternalSqliteDatabase"
                  }
                  ,
                  {

@@ -5515,7 +5515,7 @@ return {}
             var sql =    "select  cast(code as text)  as  code  from  system_code  where " +
                          "        base_component_id = 'vb_editor_component'   and   code_tag = 'LATEST' "
 
-            var results = await callComponent({ driver_name:    "readFromInternalSqliteDatabase"},
+            var results = await callComponent({ base_component_id:    "readFromInternalSqliteDatabase"},
                 {   sql: sql  })
 
             var editorCode = results[0].code

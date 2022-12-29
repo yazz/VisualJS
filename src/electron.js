@@ -6178,33 +6178,7 @@ function startNode (msg) {
 //-----------------------------------------------------------------------------------------
 function function_call_requestPart2 (msg) {
 
-    if (msg.find_component.driver_name) {
-        dbsearch.serialize(
-            function() {
-                let stmt = dbsearch.all(
-                  "SELECT * FROM system_code where base_component_id = ? " +
-                    " and code_tag = 'LATEST'; ",
-
-                   msg.find_component.driver_name,
-
-                    function(err, results)
-                    {
-                        if (results && (results.length > 0)) {
-                           scheduleJobWithCodeId(  results[0].id,
-                                                   msg.args,
-                                                   msg.caller_call_id,
-                                                   msg.callback_index)
-                            //callbackFn(results[0].id);
-                        } else {
-                            //callbackFn(null)
-                        }
-
-                    })
-        }, sqlite3.OPEN_READONLY)
-
-
-
-    } else if (msg.find_component.code_id) {
+    if (msg.find_component.code_id) {
        scheduleJobWithCodeId(  msg.find_component.code_id,
                                msg.args,
                                msg.caller_call_id,
