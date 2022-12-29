@@ -3524,8 +3524,7 @@ console.log("/add_or_update_app:srcCode := " + srcCode.length)
             let ipfsHash = req.body.ipfs_hash
 console.log("/add_or_update_app:ipfsHash := " + ipfsHash)
 
-            await addOrUpdateDriver(baseComponentIdLocal,
-                                    srcCode ,
+            await addOrUpdateDriver(srcCode ,
                                     {
                                      save_html: true,
                                      username: "default",
@@ -4073,7 +4072,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             //
             // save the new smart contract component
             //
-            let codeRet = await addOrUpdateDriver(copy_base_component_id, srcText ,  {username: "default", reponame: copy_base_component_id, version: "latest"})
+            let codeRet = await addOrUpdateDriver(srcText ,  {username: "default", reponame: copy_base_component_id, version: "latest"})
             let codeId = codeRet.codeId
 
 
@@ -4960,7 +4959,7 @@ async function evalLocalSystemDriver(driverName, location, options) {
     let ret
     try {
         let evalDriver = fs.readFileSync(location);
-    	ret = await addOrUpdateDriver(driverName, evalDriver,options)
+    	ret = await addOrUpdateDriver(evalDriver,options)
     } catch (error) {
         outputDebug(error)
     }
@@ -5131,7 +5130,7 @@ async function loadComponentFromIpfs(ipfsHash) {
                     properties,
                     ")//prope" + "rties")*/
 
-                await addOrUpdateDriver(baseComponentId, srcCode ,  {username: "default", reponame: baseComponentId, version: "latest", ipfsHashId: ipfsHash, allowChanges: false})
+                await addOrUpdateDriver(srcCode ,  {username: "default", reponame: baseComponentId, version: "latest", ipfsHashId: ipfsHash, allowChanges: false})
 
                 console.log("....................................Loading component from local IPFS cache: " + fullIpfsFilePath)
                 returnfn("Done")
@@ -5171,7 +5170,7 @@ async function loadComponentFromIpfs(ipfsHash) {
                         let fullIpfsFilePath = path.join(fullIpfsFolderPath,  ipfsHash)
                         fs.writeFileSync(fullIpfsFilePath, srcCode);
 
-                        await addOrUpdateDriver(baseComponentId, srcCode ,  {username: "default", reponame: baseComponentId, version: "latest", ipfsHashId: ipfsHash, allowChanges: false})
+                        await addOrUpdateDriver(srcCode ,  {username: "default", reponame: baseComponentId, version: "latest", ipfsHashId: ipfsHash, allowChanges: false})
 
                         console.log("....................................Loading component fro IPFS: " + file.path)
                     })
@@ -5202,9 +5201,8 @@ async function loadComponentFromIpfs(ipfsHash) {
 //
 //
 //------------------------------------------------------------------------------
-async function addOrUpdateDriver(  name2, codeString ,options ) {
+async function addOrUpdateDriver(  codeString ,options ) {
 //zzz
-    //console.log('addOrUpdateDriver: ' + name);
     let name = yz.getValueOfCodeString(codeString,"base_component_id")
 
     let promise = new Promise(async function(returnfn) {
