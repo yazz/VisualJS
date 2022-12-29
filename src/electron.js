@@ -5280,20 +5280,20 @@ function localComponentPath(localPath) {
 //
 //------------------------------------------------------------------------------
 async function setUpComponentsLocally() {
-    //await evalLocalSystemDriver( path.join(__dirname, '../public/visifile_drivers/glb.js'),{username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(                    path.join(__dirname, '../public/visifile_drivers/csv.js'),{username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(                    path.join(__dirname, '../public/visifile_drivers/glb.js'),{username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(                  path.join(__dirname, '../public/visifile_drivers/excel.js'),{username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(                   path.join(__dirname, '../public/visifile_drivers/word.js'),{username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(                    path.join(__dirname, '../public/visifile_drivers/pdf.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver( localComponentPath('/glb.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver(                    localComponentPath('/csv.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver(                    localComponentPath('/glb.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver(                  localComponentPath('/excel.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver(                   localComponentPath('/word.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver(                    localComponentPath('/pdf.js'),{username: "default", reponame: "", version: "latest"})
 
-    //await evalLocalSystemDriver(            path.join(__dirname, '../public/visifile_drivers/outlook2012.js'),{username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(                 path.join(__dirname, '../public/visifile_drivers/sqlite.js'),{username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(                  path.join(__dirname, '../public/visifile_drivers/mysql.js'),{username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(                 path.join(__dirname, '../public/visifile_drivers/oracle.js'),{username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(             path.join(__dirname, '../public/visifile_drivers/testdriver.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver(            localComponentPath('/outlook2012.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver(                 localComponentPath('/sqlite.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver(                  localComponentPath('/mysql.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver(                 localComponentPath('/oracle.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver(             localComponentPath('/testdriver.js'),{username: "default", reponame: "", version: "latest"})
 
-    //await evalLocalSystemDriver(           path.join(__dirname, '../public/visifile_drivers/file_uploader.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver(           localComponentPath('/file_uploader.js'),{username: "default", reponame: "", version: "latest"})
 
 
 
@@ -5301,136 +5301,136 @@ async function setUpComponentsLocally() {
     // services
     //
     if (isWin) {
-        //await evalLocalSystemDriver(         path.join(__dirname, '../public/visifile_drivers/services/powershell.js'),{username: "default", reponame: "", version: "latest"})
+        //await evalLocalSystemDriver(         localComponentPath('/services/powershell.js'),{username: "default", reponame: "", version: "latest"})
     }
-    await evalLocalSystemDriver( path.join(__dirname, '../public/visifile_drivers/services/commandLine.js'),{username: "default", reponame: "commandLine", version: "latest"})
-    await evalLocalSystemDriver( path.join(__dirname, '../public/visifile_drivers/services/commandLine2.js'),{username: "default", reponame: "commandLine2", version: "latest"})
-    await evalLocalSystemDriver(             path.join(__dirname, '../public/visifile_drivers/services/copyApp.js'),{username: "default", reponame: "copyApp", version: "latest"})
-    await evalLocalSystemDriver(             path.join(__dirname, '../public/visifile_drivers/services/downloadApp.js'),{username: "default", reponame: "downloadApp", version: "latest"})
-    await evalLocalSystemDriver(              path.join(__dirname, '../public/visifile_drivers/services/test_job.js'),{username: "default", reponame: "test_job", version: "latest"})
-    await evalLocalSystemDriver(            path.join(__dirname, '../public/visifile_drivers/services/kafka_service.js'),{username: "default", reponame: "kafka_service", version: "latest"})
+    await evalLocalSystemDriver( localComponentPath('/services/commandLine.js'),{username: "default", reponame: "commandLine", version: "latest"})
+    await evalLocalSystemDriver( localComponentPath('/services/commandLine2.js'),{username: "default", reponame: "commandLine2", version: "latest"})
+    await evalLocalSystemDriver(             localComponentPath('/services/copyApp.js'),{username: "default", reponame: "copyApp", version: "latest"})
+    await evalLocalSystemDriver(             localComponentPath('/services/downloadApp.js'),{username: "default", reponame: "downloadApp", version: "latest"})
+    await evalLocalSystemDriver(              localComponentPath('/services/test_job.js'),{username: "default", reponame: "test_job", version: "latest"})
+    await evalLocalSystemDriver(            localComponentPath('/services/kafka_service.js'),{username: "default", reponame: "kafka_service", version: "latest"})
 
-    await evalLocalSystemDriver(    path.join(__dirname, '../public/visifile_drivers/services/activemq_service.js'),{username: "default", reponame: "activemq_service", version: "latest"})
-
-
-    await evalLocalSystemDriver(  path.join(__dirname, '../public/visifile_drivers/services/find_components_implementing.js'),{username: "default", reponame: "find_components_implementing", version: "latest"})
+    await evalLocalSystemDriver(    localComponentPath('/services/activemq_service.js'),{username: "default", reponame: "activemq_service", version: "latest"})
 
 
-
-    //await evalLocalSystemDriver(           path.join(__dirname, '../public/visifile_drivers/services/web_preview.js'),{username: "default", reponame: "", version: "latest"})
-
-    //await evalLocalSystemDriver(     path.join(__dirname, '../public/visifile_drivers/services/spreadsheet_preview.js'),{username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(             path.join(__dirname, '../public/visifile_drivers/services/csv_preview.js'),{username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(             path.join(__dirname, '../public/visifile_drivers/services/doc_preview.js'),{username: "default", reponame: "", version: "latest"})
+    await evalLocalSystemDriver(  localComponentPath('/services/find_components_implementing.js'),{username: "default", reponame: "find_components_implementing", version: "latest"})
 
 
 
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/services/serverDriveList.js'),{username: "default", reponame: "serverDriveList", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/services/serverFolderHierarchyList.js'),{username: "default", reponame: "serverFolderHierarchyList", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/services/serverGetHomeDir.js'),{username: "default", reponame: "serverGetHomeDir", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/services/serverFileList.js'),{username: "default", reponame: "serverFileList", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/services/serverFolderContents.js'),{username: "default", reponame: "serverFolderContents", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/services/serverFolderContentsV2.js'),{username: "default", reponame: "serverFolderContentsV2", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/services/compile_solidity.js'),{username: "default", reponame: "compile_solidity", version: "latest"})
+    //await evalLocalSystemDriver(           localComponentPath('/services/web_preview.js'),{username: "default", reponame: "", version: "latest"})
+
+    //await evalLocalSystemDriver(     localComponentPath('/services/spreadsheet_preview.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver(             localComponentPath('/services/csv_preview.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver(             localComponentPath('/services/doc_preview.js'),{username: "default", reponame: "", version: "latest"})
 
 
 
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/services/serverDatabaseStuff.js'),{username: "default", reponame: "serverDatabaseStuff", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/services/serverDockerStuff.js'),{username: "default", reponame: "serverDockerStuff", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/services/serverTerminalStuff.js'),{username: "default", reponame: "serverTerminalStuff", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/services/serverDriveList.js'),{username: "default", reponame: "serverDriveList", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/services/serverFolderHierarchyList.js'),{username: "default", reponame: "serverFolderHierarchyList", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/services/serverGetHomeDir.js'),{username: "default", reponame: "serverGetHomeDir", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/services/serverFileList.js'),{username: "default", reponame: "serverFileList", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/services/serverFolderContents.js'),{username: "default", reponame: "serverFolderContents", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/services/serverFolderContentsV2.js'),{username: "default", reponame: "serverFolderContentsV2", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/services/compile_solidity.js'),{username: "default", reponame: "compile_solidity", version: "latest"})
 
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/services/postgres_server.js'),{username: "default", reponame: "postgres_server", version: "latest"})
 
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/services/sqlite_server.js'),{username: "default", reponame: "sqlite_server", version: "latest"})
 
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/services/access_server.js'),{username: "default", reponame: "access_server", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/services/excel_server.js'),{username: "default", reponame: "excel_server", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/services/serverDatabaseStuff.js'),{username: "default", reponame: "serverDatabaseStuff", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/services/serverDockerStuff.js'),{username: "default", reponame: "serverDockerStuff", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/services/serverTerminalStuff.js'),{username: "default", reponame: "serverTerminalStuff", version: "latest"})
 
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/services/rest_call_service.js'),{username: "default", reponame: "rest_call_service", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/services/rest_call_service_v2.js'),{username: "default", reponame: "rest_call_service_v2", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/services/json_traverse_service.js'),{username: "default", reponame: "json_traverse_service", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/services/json_filter_service.js'),{username: "default", reponame: "json_filter_service", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/services/postgres_server.js'),{username: "default", reponame: "postgres_server", version: "latest"})
+
+    await evalLocalSystemDriver(   localComponentPath('/services/sqlite_server.js'),{username: "default", reponame: "sqlite_server", version: "latest"})
+
+    await evalLocalSystemDriver(   localComponentPath('/services/access_server.js'),{username: "default", reponame: "access_server", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/services/excel_server.js'),{username: "default", reponame: "excel_server", version: "latest"})
+
+    await evalLocalSystemDriver(   localComponentPath('/services/rest_call_service.js'),{username: "default", reponame: "rest_call_service", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/services/rest_call_service_v2.js'),{username: "default", reponame: "rest_call_service_v2", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/services/json_traverse_service.js'),{username: "default", reponame: "json_traverse_service", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/services/json_filter_service.js'),{username: "default", reponame: "json_filter_service", version: "latest"})
 
 
     //
     // debug controls
     //
-    //await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/bug_vue.js'),{username: "default", reponame: "bug_vue", version: "latest"})
+    //await evalLocalSystemDriver(   localComponentPath('/controls/bug_vue.js'),{username: "default", reponame: "bug_vue", version: "latest"})
 
     //
     // controls
     //
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/chart.js'),{username: "default", reponame: "chart_control", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/chart.js'),{username: "default", reponame: "chart_control", version: "latest"})
 
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/image.js'),{username: "default", reponame: "image_control", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/image.js'),{username: "default", reponame: "image_control", version: "latest"})
 
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/label.js'),{username: "default", reponame: "label_control", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/metamask.js'),{username: "default", reponame: "metamask_control", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/evm_contract.js'),{username: "default", reponame: "evm_contract_control", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/component_builder.js'),{username: "default", reponame: "component_builder_control", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/evm_demo_count_contract.js'),{username: "default", reponame: "evm_demo_count_contract_control", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/label.js'),{username: "default", reponame: "label_control", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/metamask.js'),{username: "default", reponame: "metamask_control", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/evm_contract.js'),{username: "default", reponame: "evm_contract_control", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/component_builder.js'),{username: "default", reponame: "component_builder_control", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/evm_demo_count_contract.js'),{username: "default", reponame: "evm_demo_count_contract_control", version: "latest"})
 
     //
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/input.js'),{username: "default", reponame: "input_control", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/input.js'),{username: "default", reponame: "input_control", version: "latest"})
 
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/group.js'),{username: "default", reponame: "group_control", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/button.js'),{username: "default", reponame: "button_control", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/group.js'),{username: "default", reponame: "group_control", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/button.js'),{username: "default", reponame: "button_control", version: "latest"})
 
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/checkbox.js'),{username: "default", reponame: "checkbox_control", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/radiobutton.js'),{username: "default", reponame: "radio_button_control", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/checkbox.js'),{username: "default", reponame: "checkbox_control", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/radiobutton.js'),{username: "default", reponame: "radio_button_control", version: "latest"})
 
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/dropdown.js'),{username: "default", reponame: "dropdown_control", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/list.js'),{username: "default", reponame: "list_control", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/dropdown.js'),{username: "default", reponame: "dropdown_control", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/list.js'),{username: "default", reponame: "list_control", version: "latest"})
 
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/horiz_scroll.js'),{username: "default", reponame: "horiz_scroll_control", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/vert_scroll.js'),{username: "default", reponame: "vert_scroll_control", version: "latest"})
-
-
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/timer.js'),{username: "default", reponame: "timer_control", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/drive_list.js'),{username: "default", reponame: "drive_list_control", version: "latest"})
-
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/folder_list.js'),{username: "default", reponame: "folder_list_control", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/file_list.js'),{username: "default", reponame: "file_list_control", version: "latest"})
-
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/shapes.js'),{username: "default", reponame: "shapes_control", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/line.js'),{username: "default", reponame: "line_control", version: "latest"})
-
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/draw.js'),{username: "default", reponame: "draw_control", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/database.js'),{username: "default", reponame: "database_control", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/mixer.js'),{username: "default", reponame: "mixer_control", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/horiz_scroll.js'),{username: "default", reponame: "horiz_scroll_control", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/vert_scroll.js'),{username: "default", reponame: "vert_scroll_control", version: "latest"})
 
 
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/ms_access.js'),{username: "default", reponame: "ms_access_control", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/ms_excel.js'),{username: "default", reponame: "ms_excel_control", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/timer.js'),{username: "default", reponame: "timer_control", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/drive_list.js'),{username: "default", reponame: "drive_list_control", version: "latest"})
+
+    await evalLocalSystemDriver(   localComponentPath('/controls/folder_list.js'),{username: "default", reponame: "folder_list_control", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/file_list.js'),{username: "default", reponame: "file_list_control", version: "latest"})
+
+    await evalLocalSystemDriver(   localComponentPath('/controls/shapes.js'),{username: "default", reponame: "shapes_control", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/line.js'),{username: "default", reponame: "line_control", version: "latest"})
+
+    await evalLocalSystemDriver(   localComponentPath('/controls/draw.js'),{username: "default", reponame: "draw_control", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/database.js'),{username: "default", reponame: "database_control", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/mixer.js'),{username: "default", reponame: "mixer_control", version: "latest"})
 
 
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/data_window.js'),{username: "default", reponame: "data_window_control", version: "latest"})
-
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/ace_editor.js'),{username: "default", reponame: "ace_editor", version: "latest"})
-
-
-    //await evalLocalSystemDriver(        path.join(__dirname, '../public/visifile_drivers/controls/container_3d.js'),{username: "default", reponame: "container_3d", version: "latest"})
-    //await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/item_3d.js'),{username: "default", reponame: "item_3d", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/ms_access.js'),{username: "default", reponame: "ms_access_control", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/ms_excel.js'),{username: "default", reponame: "ms_excel_control", version: "latest"})
 
 
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/terminal_ui.js'),{username: "default", reponame: "terminal_control", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/osquery_ui.js'),{username: "default", reponame: "osquery_control", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/rest_ui.js'),{username: "default", reponame: "rest_control", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/tree_to_table.js'),{username: "default", reponame: "tree_to_table_control", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/ducker.js'),{username: "default", reponame: "docker_control", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/table.js'),{username: "default", reponame: "table_control", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/data_window.js'),{username: "default", reponame: "data_window_control", version: "latest"})
+
+    await evalLocalSystemDriver(   localComponentPath('/controls/ace_editor.js'),{username: "default", reponame: "ace_editor", version: "latest"})
+
+
+    //await evalLocalSystemDriver(        localComponentPath('/controls/container_3d.js'),{username: "default", reponame: "container_3d", version: "latest"})
+    //await evalLocalSystemDriver(   localComponentPath('/controls/item_3d.js'),{username: "default", reponame: "item_3d", version: "latest"})
+
+
+    await evalLocalSystemDriver(   localComponentPath('/controls/terminal_ui.js'),{username: "default", reponame: "terminal_control", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/osquery_ui.js'),{username: "default", reponame: "osquery_control", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/rest_ui.js'),{username: "default", reponame: "rest_control", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/tree_to_table.js'),{username: "default", reponame: "tree_to_table_control", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/ducker.js'),{username: "default", reponame: "docker_control", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/table.js'),{username: "default", reponame: "table_control", version: "latest"})
 
 
 
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/rh3scale.js'),{username: "default", reponame: "rh3scale_control", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/kubernetes.js'),{username: "default", reponame: "kubernetes_control", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/kafka.js'),{username: "default", reponame: "kafka_control", version: "latest"})
-    //await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/rhfuse.js'),{username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/rhamq.js'),{username: "default", reponame: "", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/rhdm.js'),{username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/rhpam.js'),{username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/rhdata_grid.js'),{username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/controls/rhopenshift.js'),{username: "default", reponame: "", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/rh3scale.js'),{username: "default", reponame: "rh3scale_control", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/kubernetes.js'),{username: "default", reponame: "kubernetes_control", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/kafka.js'),{username: "default", reponame: "kafka_control", version: "latest"})
+    //await evalLocalSystemDriver(   localComponentPath('/controls/rhfuse.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver(   localComponentPath('/controls/rhamq.js'),{username: "default", reponame: "", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/controls/rhdm.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver(   localComponentPath('/controls/rhpam.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver(   localComponentPath('/controls/rhdata_grid.js'),{username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver(   localComponentPath('/controls/rhopenshift.js'),{username: "default", reponame: "", version: "latest"})
 
 
 
@@ -5438,7 +5438,7 @@ async function setUpComponentsLocally() {
     //
     // forms
     //
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/apps/formSubscribeToAppshare.js'),{username: "default", reponame: "form_subscribe_to_appshare", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/apps/formSubscribeToAppshare.js'),{username: "default", reponame: "form_subscribe_to_appshare", version: "latest"})
 
 
 
@@ -5446,26 +5446,26 @@ async function setUpComponentsLocally() {
     // functions
     //
 
-    //await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/functions/system.js'),{username: "default", reponame: "systemFunctions", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/functions/system2.js'),{username: "default", reponame: "readFromInternalSqliteDatabase", version: "latest"})
-    //await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/functions/system3.js'),{username: "default", reponame: "systemFunctions3", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/functions/systemFunctionAppSql.js'),{username: "default", reponame: "systemFunctionAppSql", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/apps/appEditorV2SaveCode.js'),{username: "default", reponame: "appEditorV2SaveCode", version: "latest"})
+    //await evalLocalSystemDriver(   localComponentPath('/functions/system.js'),{username: "default", reponame: "systemFunctions", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/functions/system2.js'),{username: "default", reponame: "readFromInternalSqliteDatabase", version: "latest"})
+    //await evalLocalSystemDriver(   localComponentPath('/functions/system3.js'),{username: "default", reponame: "systemFunctions3", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/functions/systemFunctionAppSql.js'),{username: "default", reponame: "systemFunctionAppSql", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/apps/appEditorV2SaveCode.js'),{username: "default", reponame: "appEditorV2SaveCode", version: "latest"})
 
     //
     // UI components
     //
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/ui_components/comp.js'),{username: "default", reponame: "comp", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/ui_components/editorComponent.js'),{username: "default", reponame: "editor_component", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/ui_components/sqliteEditorComponent.js'),{username: "default", reponame: "sqlite_editor_component", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/ui_components/keycloakEditorComponent.js'),{username: "default", reponame: "keycloak_editor_component", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/ui_components/historyViewerComponent.js'),{username: "default", reponame: "keycloak_editor_component", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/ui_components/exportEditorComponent.js'),{username: "default", reponame: "export_editor_component", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/ui_components/embedAppComponent.js'),{username: "default", reponame: "embed_app_component", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/ui_components/comp.js'),{username: "default", reponame: "comp", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/ui_components/editorComponent.js'),{username: "default", reponame: "editor_component", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/ui_components/sqliteEditorComponent.js'),{username: "default", reponame: "sqlite_editor_component", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/ui_components/keycloakEditorComponent.js'),{username: "default", reponame: "keycloak_editor_component", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/ui_components/historyViewerComponent.js'),{username: "default", reponame: "keycloak_editor_component", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/ui_components/exportEditorComponent.js'),{username: "default", reponame: "export_editor_component", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/ui_components/embedAppComponent.js'),{username: "default", reponame: "embed_app_component", version: "latest"})
 
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/ui_components/formEditorComponent.js'),{username: "default", reponame: "form_editor_component", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/ui_components/simpleDisplayEditorComponent.js'),{username: "default", reponame: "simple_display_editor_component", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/ui_components/vbEditorComponent.js'),{username: "default", reponame: "vb_editor_component", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/ui_components/formEditorComponent.js'),{username: "default", reponame: "form_editor_component", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/ui_components/simpleDisplayEditorComponent.js'),{username: "default", reponame: "simple_display_editor_component", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/ui_components/vbEditorComponent.js'),{username: "default", reponame: "vb_editor_component", version: "latest"})
 
     outputDebug("Loaded all drivers")
 
@@ -5478,50 +5478,50 @@ async function setUpComponentsLocally() {
     //
     // apps
     //
-    await evalLocalSystemDriver(     path.join(__dirname, '../public/visifile_drivers/apps/homepage.js'),{save_html: true, username: "default", reponame: "homepage", version: "latest"})
-    await evalLocalSystemDriver(     path.join(__dirname, '../public/visifile_drivers/apps/mobilehomepage.js'),{save_html: true, username: "default", reponame: "mobilehomepage", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/apps/yazz_blank.js'),{username: "default", reponame: "yazz_blank", version: "latest"})
+    await evalLocalSystemDriver(     localComponentPath('/apps/homepage.js'),{save_html: true, username: "default", reponame: "homepage", version: "latest"})
+    await evalLocalSystemDriver(     localComponentPath('/apps/mobilehomepage.js'),{save_html: true, username: "default", reponame: "mobilehomepage", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/apps/yazz_blank.js'),{username: "default", reponame: "yazz_blank", version: "latest"})
 
 
 
-    //await evalLocalSystemDriver(           path.join(__dirname, '../public/visifile_drivers/meta.yazz'),        {save_html: true, username: "default", reponame: "metamask",        version: "latest"})
+    //await evalLocalSystemDriver(           localComponentPath('/meta.yazz'),        {save_html: true, username: "default", reponame: "metamask",        version: "latest"})
 
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/apps/appEditorV3.js'),{username: "default", reponame: "app_editor_3", version: "latest"})
-    //await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/apps/search.js'),{username: "default", reponame: "search", version: "latest"})
-    //await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/apps/test.js'),{save_html: true, username: "default", reponame: "test", version: "latest"})
-    //await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/apps/oculus_go.js'),{save_html: true, username: "default", reponame: "oculus_go", version: "latest"})
-    //await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/apps/nft_art.yazz'),{save_html: true, username: "default", reponame: "nft_art", version: "latest"})
-
-
-    //await evalLocalSystemDriver(           path.join(__dirname, '../public/visifile_drivers/apps/game.js'),        {save_html: true, username: "default", reponame: "game",        version: "latest"})
-    //await evalLocalSystemDriver(    path.join(__dirname, '../public/visifile_drivers/apps/oldhomepage.js'), {save_html: true, username: "default", reponame: "oldhomepage", version: "latest"})
-
-    //await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/apps/multi_vr.vjs'),{save_html: true, username: "default", reponame: "multi_vr", version: "latest"})
-    //await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/apps/hologram.js'),{save_html: true, username: "default", reponame: "hologram", version: "latest"})
-    //await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/apps/kinetic.js'),{save_html: true, username: "default", reponame: "", version: "latest"})
-    //await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/apps/intro_logo_3d.js'),{save_html: true, username: "default", reponame: "intro_logo_3d", version: "latest"})
-    //await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/apps/listApps.js'),{username: "default", reponame: "list_apps", version: "latest"})
-    //await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/apps/listPublicApps.js'),{username: "default", reponame: "listPublicApps", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/apps/vue.js'),{username: "default", reponame: "vue", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/apps/bootstrap.js'),{username: "default", reponame: "bootstrap", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/apps/databaseReader.js'),{username: "default", reponame: "database_reader", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/apps/todo_app_reader.js'),{username: "default", reponame: "todo_app_reader", version: "latest"})
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/apps/newSqlApp.js'),{username: "default", reponame: "newSql", version: "latest"})
-    //await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/apps/yazzcraft.js'),{save_html: true, username: "default", reponame: "yazzcraft", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/apps/appEditorV3.js'),{username: "default", reponame: "app_editor_3", version: "latest"})
+    //await evalLocalSystemDriver(   localComponentPath('/apps/search.js'),{username: "default", reponame: "search", version: "latest"})
+    //await evalLocalSystemDriver(   localComponentPath('/apps/test.js'),{save_html: true, username: "default", reponame: "test", version: "latest"})
+    //await evalLocalSystemDriver(   localComponentPath('/apps/oculus_go.js'),{save_html: true, username: "default", reponame: "oculus_go", version: "latest"})
+    //await evalLocalSystemDriver(   localComponentPath('/apps/nft_art.yazz'),{save_html: true, username: "default", reponame: "nft_art", version: "latest"})
 
 
-    let todoRet = await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/apps/todo.js'),{save_html: true, username: "default", reponame: "todo", version: "latest", allowChanges: false})
-    let demoTimerRet = await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/apps/demo_timer.js'), {save_html: true, username: "default", reponame: "demo_timer", version: "latest", allowChanges: false})
+    //await evalLocalSystemDriver(           localComponentPath('/apps/game.js'),        {save_html: true, username: "default", reponame: "game",        version: "latest"})
+    //await evalLocalSystemDriver(    localComponentPath('/apps/oldhomepage.js'), {save_html: true, username: "default", reponame: "oldhomepage", version: "latest"})
+
+    //await evalLocalSystemDriver(   localComponentPath('/apps/multi_vr.vjs'),{save_html: true, username: "default", reponame: "multi_vr", version: "latest"})
+    //await evalLocalSystemDriver(   localComponentPath('/apps/hologram.js'),{save_html: true, username: "default", reponame: "hologram", version: "latest"})
+    //await evalLocalSystemDriver(   localComponentPath('/apps/kinetic.js'),{save_html: true, username: "default", reponame: "", version: "latest"})
+    //await evalLocalSystemDriver(   localComponentPath('/apps/intro_logo_3d.js'),{save_html: true, username: "default", reponame: "intro_logo_3d", version: "latest"})
+    //await evalLocalSystemDriver(   localComponentPath('/apps/listApps.js'),{username: "default", reponame: "list_apps", version: "latest"})
+    //await evalLocalSystemDriver(   localComponentPath('/apps/listPublicApps.js'),{username: "default", reponame: "listPublicApps", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/apps/vue.js'),{username: "default", reponame: "vue", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/apps/bootstrap.js'),{username: "default", reponame: "bootstrap", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/apps/databaseReader.js'),{username: "default", reponame: "database_reader", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/apps/todo_app_reader.js'),{username: "default", reponame: "todo_app_reader", version: "latest"})
+    await evalLocalSystemDriver(   localComponentPath('/apps/newSqlApp.js'),{username: "default", reponame: "newSql", version: "latest"})
+    //await evalLocalSystemDriver(   localComponentPath('/apps/yazzcraft.js'),{save_html: true, username: "default", reponame: "yazzcraft", version: "latest"})
+
+
+    let todoRet = await evalLocalSystemDriver(   localComponentPath('/apps/todo.js'),{save_html: true, username: "default", reponame: "todo", version: "latest", allowChanges: false})
+    let demoTimerRet = await evalLocalSystemDriver(   localComponentPath('/apps/demo_timer.js'), {save_html: true, username: "default", reponame: "demo_timer", version: "latest", allowChanges: false})
     await releaseCode(todoRet.codeId)
     await releaseCode(demoTimerRet.codeId)
 
 
 
 //database drivers
-await evalLocalSystemDriver( path.join(__dirname, '../public/visifile_drivers/controls/postgres.js'),{username: "default", reponame: "postgres_client_component", version: "latest"})
-await evalLocalSystemDriver( path.join(__dirname, '../public/visifile_drivers/controls/sqlite.js'),{username: "default", reponame: "sqlite_client_component", version: "latest"})
-await evalLocalSystemDriver( path.join(__dirname, '../public/visifile_drivers/controls/yazzSqlite.js'),{username: "default", reponame: "yazz_sqlite_client_component", version: "latest"})
-await evalLocalSystemDriver( path.join(__dirname, '../public/visifile_drivers/controls/mysql.js'),{username: "default", reponame: "mysql_client_component", version: "latest"})
+await evalLocalSystemDriver( localComponentPath('/controls/postgres.js'),{username: "default", reponame: "postgres_client_component", version: "latest"})
+await evalLocalSystemDriver( localComponentPath('/controls/sqlite.js'),{username: "default", reponame: "sqlite_client_component", version: "latest"})
+await evalLocalSystemDriver( localComponentPath('/controls/yazzSqlite.js'),{username: "default", reponame: "yazz_sqlite_client_component", version: "latest"})
+await evalLocalSystemDriver( localComponentPath('/controls/mysql.js'),{username: "default", reponame: "mysql_client_component", version: "latest"})
 
 
 
@@ -5536,16 +5536,16 @@ await evalLocalSystemDriver( path.join(__dirname, '../public/visifile_drivers/co
     //
     // non GUI front end apps
     //
-    await evalLocalSystemDriver(   path.join(__dirname, '../public/visifile_drivers/apps/rh3scale_app.js'),{save_html: true, username: "default", reponame: "rh3scale_app", version: "latest"})
-    await evalLocalSystemDriver(  path.join(__dirname, '../public/visifile_drivers/apps/quicksort.js'),{save_html: true, username: "default", reponame: "quicksort", version: "latest"})
-    //await evalLocalSystemDriver( path.join(__dirname, '../public/visifile_drivers/apps/bubblesort.js'),{save_html: true, username: "default", reponame: "bubblesort", version: "latest"})
-    await evalLocalSystemDriver( path.join(__dirname, '../public/visifile_drivers/apps/blank_app.js'),{save_html: true, username: "default", reponame: "new", version: "latest"})
-    //await evalLocalSystemDriver( path.join(__dirname, '../public/visifile_drivers/apps/blank_microservice.js'),
+    await evalLocalSystemDriver(   localComponentPath('/apps/rh3scale_app.js'),{save_html: true, username: "default", reponame: "rh3scale_app", version: "latest"})
+    await evalLocalSystemDriver(  localComponentPath('/apps/quicksort.js'),{save_html: true, username: "default", reponame: "quicksort", version: "latest"})
+    //await evalLocalSystemDriver( localComponentPath('/apps/bubblesort.js'),{save_html: true, username: "default", reponame: "bubblesort", version: "latest"})
+    await evalLocalSystemDriver( localComponentPath('/apps/blank_app.js'),{save_html: true, username: "default", reponame: "new", version: "latest"})
+    //await evalLocalSystemDriver( localComponentPath('/apps/blank_microservice.js'),
     //{save_html: true, username: "Z", reponame: "new_microservice", version: "latest", restRoutes: restRoutes, app: app})
-    //await evalLocalSystemDriver( path.join(__dirname, '../public/visifile_drivers/apps/demo_microservice.js'),{save_html: true, username: "default", reponame: "demo_microservice", version: "latest"})
-    ////await evalLocalSystemDriver( path.join(__dirname, '../public/visifile_drivers/apps/echo_microservice.js'),{save_html: true, username: "default", reponame: "echo_microservice", version: "latest"})
-    //await evalLocalSystemDriver( path.join(__dirname, '../public/visifile_drivers/apps/call_function_microservice.js'),{save_html: true, username: "default", reponame: "call_function_microservice", version: "latest"})
-    //await evalLocalSystemDriver( path.join(__dirname, '../public/visifile_drivers/apps/echo_post_microservice.js'),{save_html: true, username: "default", reponame: "echo_post_microservice", version: "latest"})
+    //await evalLocalSystemDriver( localComponentPath('/apps/demo_microservice.js'),{save_html: true, username: "default", reponame: "demo_microservice", version: "latest"})
+    ////await evalLocalSystemDriver( localComponentPath('/apps/echo_microservice.js'),{save_html: true, username: "default", reponame: "echo_microservice", version: "latest"})
+    //await evalLocalSystemDriver( localComponentPath('/apps/call_function_microservice.js'),{save_html: true, username: "default", reponame: "call_function_microservice", version: "latest"})
+    //await evalLocalSystemDriver( localComponentPath('/apps/echo_post_microservice.js'),{save_html: true, username: "default", reponame: "echo_post_microservice", version: "latest"})
     outputDebug("Loaded all apps (may use already loaded drivers)")
 
 
