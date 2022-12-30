@@ -3806,22 +3806,27 @@ async function sqliteQuery(sql) {
 //zzz
 /*
  Here are what the main component loading functions and vars do:
-    isStaticHtmlPageApp (true/false)
-    finderToCachedCodeMapping[ base_component_id ]
-    component_loaded[ base_component_id ]
-    cachedCode [ commit_id_of_code ]
-    dev_app_component_loaded
-    base_component_id 
-    globalControl
-    globalControlDesignMode
 
+    VARS
+    ----
+    - isStaticHtmlPageApp = true/false
+    - finderToCachedCodeMapping[ base_component_id ] = "Qm0x43FFE338..2F1" < - points to a commit ID
+    - component_loaded[ base_component_id ] = true/false
+        is a component type loaded into memory. Remember only one version of a component type at any one time
+    - cachedCode [ commit_id_of_code ] = "async fn {... code here ... }"
+    - dev_app_component_loaded
+    - base_component_id
+    - globalControl
+    - globalControlDesignMode
 
-   checkLibsV2 - checks that related libs are loaded
-   loadV2
-   loadV3
-   callComponent
-   callComponentNonAsync
-   callCodeV2
+    METHODS
+    -------
+    - checkLibsV2 - checks that related libs are loaded
+    - loadV2
+    - loadV3
+    - callComponent
+    - callComponentNonAsync
+    - callCodeV2
  */
 
 
@@ -3910,7 +3915,6 @@ async function loadV2( baseComponentIds, args ) {
         }
 
 
-        var vcount = 0
         if (componentsIdToLoad.length > 0) {
             var promise = new Promise(returnfn => {
                 var seqNum = queuedBrowserResponseSeqNum ++;
@@ -4055,7 +4059,6 @@ async function loadV3( baseComponentItems, args ) {
         }
 
 
-        let vcount = 0
         if (componentsItemsToLoad.length > 0) {
             let promise = new Promise(returnfn => {
                 let seqNum = queuedBrowserResponseSeqNum ++;
