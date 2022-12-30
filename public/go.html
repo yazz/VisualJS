@@ -2345,7 +2345,7 @@ socket.on('server_returns_loadUiComponent_to_browser',async function(data) {
                         cachedCode[data.value.code_id] = data
                     }
 
-                    await checkLibs(data)
+                    await checkLibsV2(data.value)
                     await callCodeV2(data.value,  callDriverMethodArgs[data.seq_num],  data.seq_num)
                 }
 
@@ -3981,23 +3981,12 @@ async function sqliteQuery(sql) {
 //zzz
 /*
  here are what the main component loading functions do:
-   checkLibs
    checkLibsV2
    loadV2
    loadV3
    callComponent
    callComponentNonAsync
  */
-async function checkLibs(data){
-    if (data.value.libs && data.value.libs.length > 0 ) {
-        //alert(JSON.stringify(data.value.libs,null,2))
-        for (var tt = 0; tt < data.value.libs.length ; tt++) {
-            if (!libLoaded[ data.value.libs[tt].dependency_name ]) {
-                libLoaded[data.value.libs[tt].dependency_name] = true
-            }
-        }
-    }
-}
 
 
 async function checkLibsV2(componentRecord){
@@ -4325,7 +4314,7 @@ async function callComponentNonAsync(findComponentArgs, args, callbackFn) {
         let newDataCodeId   = finderToCachedCodeMapping[findComponentArgs.base_component_id]
         let newData         = cachedCode[newDataCodeId]
         newData.seq_num     = seqNum
-        await checkLibs(newData)
+        await checkLibsV2(newData.value)
         await callCodeV2(newData.value,  callDriverMethodArgs[newData.seq_num],  newData.seq_num)
 
 
