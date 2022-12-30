@@ -1564,7 +1564,7 @@ mainMoonApp.is_static = true
 if (editAppShareApp) {
 showProgressBar()
 let nid = nextItem++;
-await loadV2("app_editor_3")
+await loadV3("app_editor_3")
 add_card({
 id: nid,
 card: {
@@ -1836,7 +1836,7 @@ newAppArgs[id] = args
 }
 //alert(JSON.stringify(newAppArgs[id],null,2))
 
-await loadV2(base_component_id)
+await loadV3(base_component_id)
 if (mainMoonApp.cards[id - 1].card.base_component_id == base_component_id) {
 loadAppIntoElement(base_component_id, rootElement)
 }
@@ -3822,7 +3822,7 @@ async function sqliteQuery(sql) {
     METHODS
     -------
     - checkLibsV2 - checks that related libs are loaded
-    - loadV2
+    - loadV3
     - loadV3
     - callComponent
     - callComponentNonAsync
@@ -3848,109 +3848,6 @@ async function checkLibsV2(componentRecord){
 
 
 
-
-
-//------------------------------------------------------------------------------
-//
-//                                 loadV2
-//
-// Dynamically loads a component class into the currently running system.
-//
-//
-//------------------------------------------------------------------------------
-async function loadV2( baseComponentIds, args ) {
-    //
-    // Always expect a list of "baseComponentIds" which will
-    // be used to identify the type of the components to load.
-    // If we receive only a single "baseComponentId" then turn
-    // it into a list
-    //
-    if (!Array.isArray(baseComponentIds)) {
-        baseComponentIds = [baseComponentIds]
-    }
-
-
-    //
-    // For static HTML pages (ie: just HTML , with no Yazz engine)
-    //
-    var componentsIdToLoad = []
-    var loadedStatic = false
-    if (isStaticHtmlPageApp) {
-        for (var tt=0; tt < baseComponentIds.length; tt++) {
-            var componentId = baseComponentIds[tt]
-            dev_app_component_loaded[componentId] = true
-            if (isStaticHtmlPageApp && finderToCachedCodeMapping[ componentId ] && (!component_loaded[componentId])) {
-                //console.log("loadV2: 2")
-                component_loaded[componentId] = true
-                //alert("Reading app from cache: " + findComponentArgs.base_component_id)
-                var newDataCodeId   = finderToCachedCodeMapping[ componentId ]
-                var newData         = cachedCode[ newDataCodeId ]
-                var properties      = yz.getValueOfCodeString(newData.value.code, "properties",")//properties")
-                if (properties) {
-                    if (isValidObject(newData.value)) {
-                        //alert(properties)
-                        //var propee = eval("(" + properties + ")")
-                        newData.value.properties = JSON.stringify(properties)
-                    }
-                }
-
-                await checkLibsV2(newData.value)
-                await callCodeV2(newData.value,args)
-                loadedStatic = true
-            }
-        }
-    }
-
-    //
-    // For Dynamic HTML pages HTML pages (has access to the Yazz engine)
-    //
-    if (!loadedStatic) {
-        // Find out which components need to be loaded
-        for (var tt=0; tt < baseComponentIds.length; tt++) {
-            var componentId = baseComponentIds[tt]
-            if (!component_loaded[componentId]) {
-                component_loaded[componentId] = true
-                componentsIdToLoad.push(componentId)
-            }
-        }
-
-
-        if (componentsIdToLoad.length > 0) {
-            var promise = new Promise(returnfn => {
-                var seqNum = queuedBrowserResponseSeqNum ++;
-                queuedResponses[seqNum] = function(response) {
-                    returnfn({})
-                };
-
-                if (!online) {
-                    setTimeout(function() {
-                        sendToServerViaWebSocket({
-                            message_type:    "loadUiComponent",
-                            find_components:  {base_component_ids: componentsIdToLoad},
-                            args:             args,
-                            seq_num:          seqNum
-                        });
-                    },2000)
-                } else {
-                    sendToServerViaWebSocket({
-                        message_type:    "loadUiComponent",
-                        find_components:  {base_component_ids: componentsIdToLoad},
-                        args:             args,
-                        seq_num:          seqNum
-                    });
-                }
-
-
-            })
-
-            var ret = await promise
-            return ret
-        }
-    }
-
-
-    return {}
-}
 
 
 
@@ -4009,7 +3906,7 @@ async function loadV3( baseComponentItems, args ) {
             let componentId = componentsItemsToLoadV3[tt].baseComponentId
             dev_app_component_loaded[componentId] = true
             if (isStaticHtmlPageApp && finderToCachedCodeMapping[ componentId ] && (!component_loaded[componentId])) {
-                //console.log("loadV2: 2")
+                //console.log("loadV3: 2")
                 component_loaded[componentId] = true
                 //alert("Reading app from cache: " + findComponentArgs.base_component_id)
                 let newDataCodeId = finderToCachedCodeMapping[ componentId ]
