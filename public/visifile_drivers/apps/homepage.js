@@ -1093,13 +1093,15 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             let mm = this
               globalEventBus.$emit('hide_settings', {});
 
-              await loadV2("app_editor_3")
+              //await loadV2("app_editor_3")
+              await loadV3([{baseComponentId: "app_editor_3"}])
               if (event) {
                   event.stopPropagation()
               }
 
               if (!component_loaded[item]) {
                  await loadV2([item])
+                 //await loadV3([{baseComponentId: item}])
               }
 
               this.edit_app = item;
