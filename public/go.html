@@ -3940,14 +3940,6 @@ async function loadV2( baseComponentIds, args ) {
                     });
                 }
 
-                // ****************************************************************************
-                // the following line was removed as it caused "Edit app" to fail. Why? I don't know
-                //setTimeout(
-                //    function() {
-                //        returnfn({})
-                //        },200
-                //    )
-                // ****************************************************************************
 
             })
 
@@ -3981,7 +3973,9 @@ async function loadV3( baseComponentItems, args ) {
 // If we receive only a single "baseComponentId" then turn
 // it into a list
 //
-    if (!Array.isArray(baseComponentItems)) {
+    if (typeof baseComponentItems === 'string' || baseComponentItems instanceof String) {
+        baseComponentItems = [{baseComponentId: baseComponentItems}]
+    } else if (!Array.isArray(baseComponentItems)) {
         baseComponentItems = [baseComponentItems]
     }
 
