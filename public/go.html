@@ -4327,6 +4327,17 @@ async function callComponentNonAsync(findComponentArgs, args, callbackFn) {
     }
 }
 
+async function sqliteQuery(sql) {
+    let results = await callComponent(
+        {
+            base_component_id:    "readFromInternalSqliteDatabase"
+        }
+        ,
+        {
+            sql: sql
+        })
+    return results
+}
 </script>
 </body>
 </html>

@@ -1716,7 +1716,8 @@ debugger
                         //
                         // read the code for the component that we are editing
                         //
-                        let sql =    `select
+                        results = await sqliteQuery(
+                                     `select
                                           id, 
                                           cast(code as text)  as  code, 
                                           editors, 
@@ -1724,16 +1725,7 @@ debugger
                                       from
                                           system_code
                                       where
-                                          id = '${codeId}'`
-
-                        results = await callComponent(
-                            {
-                                base_component_id:    "readFromInternalSqliteDatabase"
-                            }
-                            ,
-                            {
-                                sql: sql
-                            })
+                                          id = '${codeId}'`)
 
 
                         if (results) {
@@ -1871,23 +1863,15 @@ debugger
                         //
                         // read the code for the component that we are editing
                         //
-                        let sql =    `select
+                        results = await sqliteQuery(
+                                `select
                                     id, cast(code as text)  as  code, editors
                                  from
                                     system_code
                                  where
                                         base_component_id = '${baseComponentId}'
                                            and
-                                        code_tag = 'LATEST' `
-
-                        results = await callComponent(
-                            {
-                                base_component_id:    "readFromInternalSqliteDatabase"
-                            }
-                            ,
-                            {
-                                sql: sql
-                            })
+                                        code_tag = 'LATEST' `)
 
 
                         if (results) {
