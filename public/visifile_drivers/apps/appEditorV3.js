@@ -842,7 +842,6 @@ End of app preview menu
                override_app_editor              = null
                this.editor_text                 = await mm.$refs.editor_component_ref.getText()
 
-debugger
                await mm.load_app({
                     codeId:     mm.code_id,
                     newApp:     true}

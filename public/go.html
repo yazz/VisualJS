@@ -3962,6 +3962,32 @@ async function webWorkerPostToYazzReturnJson(host, hostPort, urlToPost, postPara
 
 
 <script>
+
+async function sqliteQuery(sql) {
+    let results = await callComponent(
+        {
+            base_component_id:    "readFromInternalSqliteDatabase"
+        }
+        ,
+        {
+            sql: sql
+        })
+    return results
+}
+
+
+
+
+//zzz
+/*
+ here are what the main component loading functions do:
+   checkLibs
+   checkLibsV2
+   loadV2
+   loadV3
+   callComponent
+   callComponentNonAsync
+ */
 async function checkLibs(data){
     if (data.value.libs && data.value.libs.length > 0 ) {
         //alert(JSON.stringify(data.value.libs,null,2))
@@ -4323,21 +4349,10 @@ async function callComponentNonAsync(findComponentArgs, args, callbackFn) {
 
 
 
-        //zzz
+
     }
 }
 
-async function sqliteQuery(sql) {
-    let results = await callComponent(
-        {
-            base_component_id:    "readFromInternalSqliteDatabase"
-        }
-        ,
-        {
-            sql: sql
-        })
-    return results
-}
 </script>
 </body>
 </html>
