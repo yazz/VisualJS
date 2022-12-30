@@ -4772,7 +4772,7 @@ function showTimer(optionalMessage) {
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
 function setUpSql() {
-    console.log("setUpSql    ")
+    //console.log("setUpSql    ")
 
 
 
@@ -4869,8 +4869,7 @@ function setUpSql() {
               "WHERE " +
               "     yazz_instance_id = ? AND process = ? ")
 
-    console.log("setUpSql done   ")
-
+    //console.log("setUpSql done   ")
 }
 
 
