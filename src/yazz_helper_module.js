@@ -758,7 +758,6 @@ module.exports = {
 
 
                                                 let newCode =  `cachedCode["${sha1sum}"] = {
-                                          "type": "ws_to_browser_callDriverMethod_results",
                                           "value": {
                                             "code": /*APP_START*/unescape(\`${newcode}\`)/*APP_END*/,
                                             "is_code_result": true,
@@ -1745,7 +1744,6 @@ module.exports = {
 
 
                                                 let newCode =  `cachedCode["${sha1sum}"] = {
-                                              "type": "ws_to_browser_callDriverMethod_results",
                                               "value": {
                                                 "code": /*APP_START*/unescape(\`${newcode}\`)/*APP_END*/,
                                                 "is_code_result": true,
@@ -1794,7 +1792,6 @@ module.exports = {
                                                                 for (let i = 0  ;   i < results.length;    i ++ ) {
                                                                     let newcodeEs = escape("(" + results[i].code.toString() + ")")
                                                                     let newCode2 =  `cachedCode["${results[i].sha1}"] = {
-                                                                  "type": "ws_to_browser_callDriverMethod_results",
                                                                   "value": {
                                                                     "code": unescape(\`${newcodeEs}\`),
                                                                     "is_code_result": true,
