@@ -5609,10 +5609,8 @@ function callDriverMethod(msg) {
                     result: result
                 })
         } else {
-          //console.log("** ipc_child_returning_callDriverMethod_response **")
-            ipc_child_returning_callDriverMethod_response(
+            ipcChildReturningCallDriverMethodResponse(
                 {
-                    message_type: 'ipc_child_returning_callDriverMethod_response',
                     seq_num_browser: msg.seq_num_browser,
                     seq_num_parent: msg.seq_num_parent,
                     result: result
@@ -5680,7 +5678,7 @@ function return_add_local_driver_results_msg(msg) {
 //
 //
 //------------------------------------------------------------------------------
-function ipc_child_returning_callDriverMethod_response(msg) {
+function ipcChildReturningCallDriverMethodResponse(msg) {
 
     //console.log(" .......3: " + JSON.stringify(msg,null,2));
     //console.log("6: return_query_items_ended")
@@ -5701,7 +5699,6 @@ function ipc_child_returning_callDriverMethod_response(msg) {
                                     value:            msg.result,
                                     seq_num:          msg.seq_num_browser
                                  });
-    //new_ws = null;
 }
 
 
