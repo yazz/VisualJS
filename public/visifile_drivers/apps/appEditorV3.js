@@ -1559,7 +1559,6 @@ End of app preview menu
            // ---------------------------------------------------------------
            bookmarkCode: async function() {
                try {
-                   debugger
                    let mm = this
                    showProgressBar()
 
@@ -1599,7 +1598,6 @@ End of app preview menu
            // ---------------------------------------------------------------
            releaseCode: async function() {
                try {
-                   debugger
                    let mm = this
                    showProgressBar()
 
@@ -1823,7 +1821,7 @@ End of app preview menu
                             if (newEditor) {
                                 editorName = newEditor
                             }
-
+debugger
                             await loadV3( editorName, {text: code} )
 
                             mm.editor_loaded    = true
@@ -2038,7 +2036,7 @@ End of app preview menu
                         if (mm.app_shown) {
                             // if the app has been changed during the save then don't reload the app
                             if (!saveCodeToFile) {
-                                //debugger
+                                debugger
                                 await mm.load_app({code: mm.editor_text, runThisApp: true})
 
                             } else {

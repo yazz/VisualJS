@@ -4147,7 +4147,7 @@ ${origCode}
 
                 mm.refresh++
                 if (!component_loaded[newItem.base_component_id]) {
-                debugger
+                //debugger
                    await loadV3([newItem.base_component_id])
                    mm.component_usage[newItem.base_component_id] = true
                 }
