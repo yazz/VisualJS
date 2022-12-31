@@ -1102,7 +1102,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               if (!component_loaded[item]) {
                  //await loadV3([item])
                  await loadV3([{baseComponentId: item}])
-                  debugger
+                  //debugger
               }
 
               this.edit_app = item;
