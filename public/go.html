@@ -3803,8 +3803,18 @@ async function sqliteQuery(sql) {
 
 
 
-//zzz
 /*
+ Here are what is used to execute code:
+    queuedBrowserResponseSeqNum     - ascending counter used to identify requests send via web sockets to the server
+    queuedResponses[seqNum]         = callbackFn; // called when the websocket fn returns
+    callDriverMethodArgs[seqNum]    = args..  // arguents send to the server
+    queuedResponses                 = new Object()
+    queuedBrowserResponseSeqNum     = 0
+    callDriverMethodArgs            = new Object()
+
+
+//zzz
+
  Here are what the main component loading functions and vars do:
 
     VARS
@@ -3814,19 +3824,31 @@ async function sqliteQuery(sql) {
     - component_loaded[ base_component_id ] = true/false
         is a component type loaded into memory. Remember only one version of a component type at any one time
     - cachedCode [ commit_id_of_code ] = "async fn {... code here ... }"
-    - dev_app_component_loaded
-    - base_component_id
-    - globalControl
-    - globalControlDesignMode
+    - dev_app_component_loaded[ base_component_id ] = true/false
+    - base_component_id = current base_component_id of the app being edited??? or run??
+    - globalControl - ??
+    - globalControlDesignMode - ??
 
     METHODS
     -------
-    - checkLibsV2 - checks that related libs are loaded
+      -----------
+    - checkLibsV2
+      -----------
+        checks that related libs are loaded
+
+      ------
     - loadV3
-    - loadV3
+      ------
+
+      -------------
     - callComponent
-    - callComponentNonAsync
+      -------------
+        This actually can call server side code and return a result. We can pass either the base component ID
+        or the commit ID for the code to run. Uses "callComponentNonAsync"
+
+      ----------
     - callCodeV2
+      ----------
  */
 
 
@@ -4065,10 +4087,6 @@ async function callComponentNonAsync(findComponentArgs, args, callbackFn) {
                 args: args
             }
         )*/
-
-
-
-
     }
 }
 
