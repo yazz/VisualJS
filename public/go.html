@@ -3881,33 +3881,38 @@ async function checkLibsV2(componentRecord){
 // Dynamically loads a component class into the currently running system. V3
 // has the ability to load components via IPFS as well
 //
+// Always expects a list of "baseComponentIds" which will be used to identify
+// the type of the components to load. If we receive only a single
+// "baseComponentId" then turn it into a list
 //
 //------------------------------------------------------------------------------
 
 async function loadV3( baseComponentItems, args ) {
-//
-// Always expect a list of "baseComponentIds" which will
-// be used to identify the type of the components to load.
-// If we receive only a single "baseComponentId" then turn
-// it into a list
-//
+
+    //
+    // Turn the list of "baseComponentItems" which is historically
+    // a list of String IDs into a list of tuples, so:
+    //
+    // [
+    //      "label",
+    //      "button",
+    //      {ipfs: "1f"}
+    //  ]
+    //
+    // :turns into "componentsItemsToLoadV3":
+    //
+    // [
+    //      {baseComponentId: "label"},
+    //      {baseComponentId: "button"},
+    //      {ipfs: "1f"}
+    // ]
+    //
     if (typeof baseComponentItems === 'string' || baseComponentItems instanceof String) {
         baseComponentItems = [{baseComponentId: baseComponentItems}]
     } else if (!Array.isArray(baseComponentItems)) {
         baseComponentItems = [baseComponentItems]
     }
 
-
-//
-// Turn the list of "baseComponentIds" which is historically
-// a list of String IDs into a list of tuples, so:
-//
-// [ "label" , "button" , {ipfs: "1f"} ]
-//
-// :turns into:
-//
-// [ {baseComponentId: "label"} , {baseComponentId: "button"} , {ipfs: "1f"} ]
-//
     let componentsItemsToLoadV3 = []
     for (let tt=0; tt < baseComponentItems.length; tt++) {
         let componentItem = baseComponentItems[tt]
@@ -3918,9 +3923,11 @@ async function loadV3( baseComponentItems, args ) {
         }
     }
 
-//
-// For static HTML pages (ie: just HTML , with no Yazz engine)
-//
+    //
+    // For static HTML pages (ie: just HTML , with no Yazz engine) then load the
+    // components from the cache, which is just "cachedCode" which contains all
+    // the object definitions
+    //
     let loadedStatic = false
     if (isStaticHtmlPageApp) {
         for (let tt=0; tt < componentsItemsToLoadV3.length; tt++) {
@@ -3951,15 +3958,14 @@ async function loadV3( baseComponentItems, args ) {
 
 
 
-//
-// For Dynamic HTML pages (which have access to the Yazz engine)
-//
+    //
+    // For Dynamic HTML pages (which have access to the Yazz engine)
+    // First, find out which components are not loaded and need to be loaded
+    // in
+    //
     let componentsItemsToLoad = []
     if (!loadedStatic) {
-//
-// Find out which components need to be loaded
-// in
-//
+
         for (let tt=0; tt < componentsItemsToLoadV3.length; tt++) {
             let componentId = componentsItemsToLoadV3[tt].baseComponentId
             let componentItem = componentsItemsToLoadV3[tt]
@@ -3969,7 +3975,6 @@ async function loadV3( baseComponentItems, args ) {
                 componentsItemsToLoad.push(componentItem)
             }
         }
-
 
         if (componentsItemsToLoad.length > 0) {
             let promise = new Promise(returnfn => {
