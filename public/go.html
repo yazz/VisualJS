@@ -4062,9 +4062,9 @@ async function callComponent(findComponentArgs, args) {
 
 
 async function callComponentNonAsync(findComponentArgs, args, callbackFn) {
-    let seqNum                      = queuedBrowserResponseSeqNum ++;
-    queuedResponses[seqNum]         = callbackFn;
-    componentCallsListArgsSent[seqNum]    = args
+    let seqNum                          = queuedBrowserResponseSeqNum ++;
+    queuedResponses[seqNum]             = callbackFn;
+    componentCallsListArgsSent[seqNum]  = args
 
 
     //
@@ -4072,8 +4072,8 @@ async function callComponentNonAsync(findComponentArgs, args, callbackFn) {
     //
     if (isStaticHtmlPageApp && findComponentArgs.base_component_id && finderToCachedCodeMapping[findComponentArgs.base_component_id]) {
         //alert("Reading app from cache: " + findComponentArgs.base_component_id)
-        let newDataCodeId   = finderToCachedCodeMapping[findComponentArgs.base_component_id]
-        let newData         = cachedCode[newDataCodeId]
+        let calledComponentCodeId   = finderToCachedCodeMapping[findComponentArgs.base_component_id]
+        let newData         = cachedCode[calledComponentCodeId]
         newData.seq_num     = seqNum
         await checkLibsV2(newData.value)
         await callCodeV2(newData.value,  componentCallsListArgsSent[newData.seq_num],  newData.seq_num)
