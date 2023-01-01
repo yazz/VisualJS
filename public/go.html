@@ -566,7 +566,7 @@ var base_component_id = null
 let isStaticHtmlPageApp = false
 var queuedResponses = new Object()
 var queuedBrowserResponseSeqNum = 0
-var callDriverMethodArgs = new Object()
+var componentCallArgsList = new Object()
 var globalControl={}
 var globalControlDesignMode={}
 var uiDebuggerOn = false
@@ -2350,7 +2350,7 @@ socket.on('server_returns_loadUiComponent_to_browser',async function(data) {
                     }
 
                     await checkLibsV2(data.value)
-                    await callCodeV2(data.value,  callDriverMethodArgs[data.seq_num],  data.seq_num)
+                    await callCodeV2(data.value,  componentCallArgsList[data.seq_num],  data.seq_num)
                 }
 
 
@@ -3811,10 +3811,10 @@ async function sqliteQuery(sql) {
  Here are what is used to execute code:
     queuedBrowserResponseSeqNum     - ascending counter used to identify requests send via web sockets to the server
     queuedResponses[seqNum]         = callbackFn; // called when the websocket fn returns
-    callDriverMethodArgs[seqNum]    = args..  // arguents send to the server
+    componentCallArgsList[seqNum]    = args..  // arguents send to the server
     queuedResponses                 = new Object()
     queuedBrowserResponseSeqNum     = 0
-    callDriverMethodArgs            = new Object()
+    componentCallArgsList            = new Object()
 
 
 //zzz
@@ -4064,7 +4064,7 @@ async function callComponent(findComponentArgs, args) {
 async function callComponentNonAsync(findComponentArgs, args, callbackFn) {
     let seqNum                      = queuedBrowserResponseSeqNum ++;
     queuedResponses[seqNum]         = callbackFn;
-    callDriverMethodArgs[seqNum]    = args
+    componentCallArgsList[seqNum]    = args
 
 
     //
@@ -4076,7 +4076,7 @@ async function callComponentNonAsync(findComponentArgs, args, callbackFn) {
         let newData         = cachedCode[newDataCodeId]
         newData.seq_num     = seqNum
         await checkLibsV2(newData.value)
-        await callCodeV2(newData.value,  callDriverMethodArgs[newData.seq_num],  newData.seq_num)
+        await callCodeV2(newData.value,  componentCallArgsList[newData.seq_num],  newData.seq_num)
 
 
     //
