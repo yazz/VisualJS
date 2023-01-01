@@ -770,7 +770,7 @@ module.exports = {
                                           "seq_num": 0
                                         }
 
-                                        finderToCachedCodeMapping["${baseComponentId}"] = "${sha1sum}"`
+                                        baseComponentIdToCodeIdMapping["${baseComponentId}"] = "${sha1sum}"`
 
 
                                                 //showTimer(`14`)
@@ -819,7 +819,7 @@ module.exports = {
                                                               "seq_num": 0
                                                             }
 
-                                                            finderToCachedCodeMapping["${results[i].child_component_id}"] = "${results[i].sha1}"
+                                                            baseComponentIdToCodeIdMapping["${results[i].child_component_id}"] = "${results[i].sha1}"
                                                             `
                                                                     newCode += newCode2
                                                                 }
@@ -1756,7 +1756,7 @@ module.exports = {
                                               "seq_num": 0
                                             }
     
-                                            finderToCachedCodeMapping["${baseComponentId}"] = "${sha1sum}"`
+                                            baseComponentIdToCodeIdMapping["${baseComponentId}"] = "${sha1sum}"`
 
 
                                                 //showTimer(`14`)
@@ -1804,7 +1804,7 @@ module.exports = {
                                                                   "seq_num": 0
                                                                 }
     
-                                                                finderToCachedCodeMapping["${results[i].child_component_id}"] = "${results[i].sha1}"
+                                                                baseComponentIdToCodeIdMapping["${results[i].child_component_id}"] = "${results[i].sha1}"
                                                                 `
                                                                     newCode += newCode2
                                                                 }
