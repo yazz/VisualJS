@@ -555,6 +555,9 @@ var networkIntranetIpAddress    = null
 var libLoaded        = new Object()
 var component_loaded = new Object()
 var component_cache  = new Object()
+var cachedCode = new Object()
+var finderToCachedCodeMapping = new Object()
+
 var linked_properties  = new Object()
 var advancedAlreadyLoaded=false
 
@@ -2041,8 +2044,6 @@ html:
 ];
 
 
-var cachedCode = new Object()
-var finderToCachedCodeMapping = new Object()
 
 populateCache()
 function populateCache() {
@@ -3827,7 +3828,13 @@ async function sqliteQuery(sql) {
     - finderToCachedCodeMapping[ base_component_id ] = "Qm0x43FFE338..2F1" < - points to a commit ID
     - component_loaded[ base_component_id ] = true/false
         is a component type loaded into memory. Remember only one version of a component type at any one time
-    - cachedCode [ commit_id_of_code ] = "async fn {... code here ... }"
+    - cachedCode [ commit_id_of_code ] = {
+                                            value: {
+                                                        "async fn {... code here ... }"
+                                            }
+                                         }
+    - component_cache[ this.app_id ] = null
+
     - dev_app_component_loaded[ base_component_id ] = true/false
     - base_component_id = current base_component_id of the app being edited??? or run??
     - globalControl - ??
