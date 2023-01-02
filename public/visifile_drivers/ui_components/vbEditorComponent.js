@@ -3917,7 +3917,7 @@ setTimeout(async function(){
                                 } else {
                                     let controlDetails = null
                                     if (isComponentInDesignMode) {
-                                        controlDetails = global_pointer_to_component_vue_objects_by_name_in_design_mode[componentDetails.name]
+                                        controlDetails = global_design_mode_app_controls_by_name_returns_a_vue_instance[componentDetails.name]
                                     } else {
                                         controlDetails = global_app_controls_by_name_returns_a_vue_instance[componentDetails.name]
                                     }
@@ -3944,7 +3944,7 @@ setTimeout(async function(){
                                 let fnDetails       = null
                                 let controlDetails = null
                                 if (isComponentInDesignMode) {
-                                    controlDetails = global_pointer_to_component_vue_objects_by_name_in_design_mode[componentDetails.name]
+                                    controlDetails = global_design_mode_app_controls_by_name_returns_a_vue_instance[componentDetails.name]
                                 } else {
                                     controlDetails = global_app_controls_by_name_returns_a_vue_instance[componentDetails.name]
                                 }
