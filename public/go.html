@@ -4062,11 +4062,11 @@ async function loadV3( baseComponentItems, args ) {
 
 
 
-async function callComponent(findComponentArgs, args) {
+async function callComponent(  componentSearchDetails,  fnCallArgs  ) {
     var promise = new Promise(returnfn => {
         callComponentNonAsync(
-            findComponentArgs,
-            args,
+            componentSearchDetails,
+            fnCallArgs,
             function(result) {
                 returnfn(result)
             })
