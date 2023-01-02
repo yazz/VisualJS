@@ -1738,7 +1738,7 @@ Pushlist
                     // ---------------------------------------------------------
 
                     var componentId = this.model.forms[formName].components[compenentInFormIndex].base_component_id
-                    var cachedComponentDefinition = component_cache[componentId]
+                    var cachedComponentDefinition = global_component_type_details_cache[componentId]
 
                     if (isValidObject(cachedComponentDefinition)) {
                         var cachedComponentPropertiesDefinition = this.getControlProperties(this.model.forms[formName].components[compenentInFormIndex].base_component_id)
@@ -2615,7 +2615,7 @@ ${origCode}
                this.component_usage[newItem.base_component_id] = true
             }
 
-            var compEvaled1 = component_cache[newItem.base_component_id]
+            var compEvaled1 = global_component_type_details_cache[newItem.base_component_id]
             if (isValidObject(compEvaled1)) {
                    var compEvaled = compEvaled1.properties
                    if (isValidObject(compEvaled)) {
@@ -2677,7 +2677,7 @@ ${origCode}
             this.active_component_index = this.model.forms[this.active_form].components.length - 1
 
 
-            var compCode = component_cache[newItem.base_component_id].code
+            var compCode = global_component_type_details_cache[newItem.base_component_id].code
             var childrenCode  = yz.getValueOfCodeString(compCode, "children",")//children")
             if (isValidObject(childrenCode)) {
                 for (  var ee = 0  ;  ee < childrenCode.length ;  ee++  ) {
@@ -4264,7 +4264,7 @@ return {}
           //-------------------------------------------------------------------
           getComponentProperties: function(componentName) {
           //-------------------------------------------------------------------
-                var compEvaled1 = component_cache[componentName]
+                var compEvaled1 = global_component_type_details_cache[componentName]
                 if (isValidObject(compEvaled1)) {
                      var compEvaled = compEvaled1.properties
                      if (isValidObject(compEvaled)) {

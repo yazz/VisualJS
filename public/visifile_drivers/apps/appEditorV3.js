@@ -2113,7 +2113,7 @@ debugger
                     editingAppId = this.app_id
                     component_loaded[this.app_id]           = false
                     dev_app_component_loaded[this.app_id]   = false
-                    component_cache[this.app_id]            = null
+                    global_component_type_details_cache[this.app_id]            = null
 
                     await this.load_app({baseComponentId: this.app_id})
 

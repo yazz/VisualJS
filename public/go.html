@@ -554,7 +554,7 @@ var localSqliteDb    = null
 var networkIntranetIpAddress    = null
 var libLoaded        = new Object()
 var component_loaded = new Object()
-var component_cache  = new Object()
+var global_component_type_details_cache  = new Object()
 var global_code_cached_by_commit_id = new Object()
 var baseComponentIdToCodeIdMapping = new Object()
 
@@ -846,7 +846,7 @@ function registerComponent(vueComponentObject) {
             let thisComponent22 = vueComponentObject
             let listOfProperties = Object.keys(thisComponent22[  argsPrefix  ])
 
-            for (let oneProperty of component_cache[args.base_component_id].properties) {
+            for (let oneProperty of global_component_type_details_cache[args.base_component_id].properties) {
                 let propNamee = oneProperty.id
                 let propType = oneProperty.type
                 if (propNamee) {
@@ -2080,7 +2080,7 @@ var hostEditorAddress = "https://yazz.com:443"
 staticAppSocket = io(hostEditorAddress);
 
 var code_fn = ""
-//alert(JSON.stringify(component_cache[base_component_id],null,2)) --> {}
+//alert(JSON.stringify(global_component_type_details_cache[base_component_id],null,2)) --> {}
 //alert(JSON.stringify(baseComponentIdToCodeIdMapping[base_component_id],null,2))
 var codeiii = baseComponentIdToCodeIdMapping[base_component_id]
 
@@ -2842,7 +2842,7 @@ if (typeName == "horiz_scroll_control") {
 
 }
 
-for (let oneProperty of component_cache[typeName].properties) {
+for (let oneProperty of global_component_type_details_cache[typeName].properties) {
 let propertyName = oneProperty.name
 if (propertyName) {
 
@@ -2853,15 +2853,15 @@ if (oneProperty.accept_types) {
 let acceptTypes = Object.keys(oneProperty.accept_types)
 for (let acceptType of acceptTypes) {
 //console.log("    " + acceptType)
-for (let otherComponentName of Object.keys(component_cache)){
+for (let otherComponentName of Object.keys(global_component_type_details_cache)){
 if (otherComponentName == "database_control") {
 //debugger
 
 }
 if (otherComponentName != typeName) {
-if (component_cache[otherComponentName]) {
-if (component_cache[otherComponentName].properties) {
-let otherProperties = component_cache[otherComponentName].properties
+if (global_component_type_details_cache[otherComponentName]) {
+if (global_component_type_details_cache[otherComponentName].properties) {
+let otherProperties = global_component_type_details_cache[otherComponentName].properties
 for (let otherProperty of otherProperties){
 if (otherProperty.types) {
 for (let otherPropertyType of Object.keys(otherProperty.types)){
@@ -2944,14 +2944,14 @@ if (oneProperty.types) {
 let types = Object.keys(oneProperty.types)
 for (let myType of types) {
 //console.log("    " + myType)
-for (let otherComponentName of Object.keys(component_cache)){
+for (let otherComponentName of Object.keys(global_component_type_details_cache)){
 if (otherComponentName == "table_control") {
 //debugger
 }
 if (otherComponentName != typeName) {
-if (component_cache[otherComponentName]) {
-if (component_cache[otherComponentName].properties) {
-let otherProperties = component_cache[otherComponentName].properties
+if (global_component_type_details_cache[otherComponentName]) {
+if (global_component_type_details_cache[otherComponentName].properties) {
+let otherProperties = global_component_type_details_cache[otherComponentName].properties
 for (let otherProperty of otherProperties){
 if (otherProperty.accept_types) {
 for (let otherPropertyAcceptType of Object.keys(otherProperty.accept_types)){
@@ -3840,7 +3840,7 @@ async function sqliteQuery(sql) {
 
 
       ---------------
-    - component_cache
+    - global_component_type_details_cache
       ---------------
 
     - dev_app_component_loaded[ base_component_id ] = true/false
@@ -4145,13 +4145,13 @@ async function callCodeV2(componentRecord, args, seq_no) {
             useDb = componentRecord.use_db
         }
 
-        if (!component_cache[componentRecord.base_component_id]) {
-            component_cache[componentRecord.base_component_id] = new Object()
+        if (!global_component_type_details_cache[componentRecord.base_component_id]) {
+            global_component_type_details_cache[componentRecord.base_component_id] = new Object()
         }
         if (isValidObject(componentRecord.properties)) {
-            component_cache[componentRecord.base_component_id].code = componentRecord.code
-            component_cache[componentRecord.base_component_id].properties = eval("(" + componentRecord.properties + ")")
-            component_cache[componentRecord.base_component_id].code_id = componentRecord.id
+            global_component_type_details_cache[componentRecord.base_component_id].code = componentRecord.code
+            global_component_type_details_cache[componentRecord.base_component_id].properties = eval("(" + componentRecord.properties + ")")
+            global_component_type_details_cache[componentRecord.base_component_id].code_id = componentRecord.id
             //debugger
         }
 

@@ -552,7 +552,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                   mm.loaded_app[baseComponentId] = true
                   component_loaded[baseComponentId] = false
                   dev_app_component_loaded[baseComponentId] = false
-                  component_cache[baseComponentId] = null
+                  global_component_type_details_cache[baseComponentId] = null
                   //await loadV3(baseComponentId)
                   mm.intro_apps.push( app  )
                   mm.refresh++

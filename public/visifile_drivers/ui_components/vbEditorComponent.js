@@ -50,10 +50,10 @@ uses_javascript_librararies(["advanced_bundle"])
           <br>
           <div>
             
-            IPFS: {{component_cache[debug_component]?component_cache[debug_component].code_id:""}}
+            IPFS: {{global_component_type_details_cache[debug_component]?global_component_type_details_cache[debug_component].code_id:""}}
           </div>
           <pre style="height:80%;width:100%;overflow:scroll;padding: 5px;background-color:lightgray;">
-            {{component_cache[debug_component]?component_cache[debug_component].code:""}}
+            {{global_component_type_details_cache[debug_component]?global_component_type_details_cache[debug_component].code:""}}
           </pre>
           
         </div>
@@ -2942,7 +2942,7 @@ setTimeout(async function(){
                      // ---------------------------------------------------------
 
                      let componentId = mm.model.forms[formName].components[compenentInFormIndex].base_component_id
-                     let cachedComponentDefinition = component_cache[componentId]
+                     let cachedComponentDefinition = global_component_type_details_cache[componentId]
 
                      if (isValidObject(cachedComponentDefinition)) {
                          let cachedComponentPropertiesDefinition = mm.getControlProperties(mm.model.forms[formName].components[compenentInFormIndex].base_component_id)
@@ -3880,7 +3880,7 @@ setTimeout(async function(){
             let isComponentInDesignMode = mm.design_mode
 
             if (!isValidObject(methodFn)) {
-                let allProps = component_cache[componentDetails.base_component_id].properties
+                let allProps = global_component_type_details_cache[componentDetails.base_component_id].properties
                 if (allProps) {
                     for (let i=0;i<allProps.length;i++) {
                         let thisProp = allProps[i]
@@ -4152,7 +4152,7 @@ ${origCode}
                    mm.component_usage[newItem.base_component_id] = true
                 }
 
-                var compEvaled1 = component_cache[newItem.base_component_id]
+                var compEvaled1 = global_component_type_details_cache[newItem.base_component_id]
                 if (isValidObject(compEvaled1)) {
                        var compEvaled = compEvaled1.properties
                        if (isValidObject(compEvaled)) {
@@ -4214,7 +4214,7 @@ ${origCode}
                 mm.active_component_index = mm.model.forms[mm.active_form].components.length - 1
 
 
-                var compCode = component_cache[newItem.base_component_id].code
+                var compCode = global_component_type_details_cache[newItem.base_component_id].code
                 var childrenCode  = yz.getValueOfCodeString(compCode, "children",")//children")
                 if (isValidObject(childrenCode)) {
                     for (  var ee = 0  ;  ee < childrenCode.length ;  ee++  ) {
@@ -5965,7 +5965,7 @@ return {}
           //-------------------------------------------------------------------
           getComponentProperties: function(componentName) {
           //-------------------------------------------------------------------
-                var compEvaled1 = component_cache[componentName]
+                var compEvaled1 = global_component_type_details_cache[componentName]
                 if (isValidObject(compEvaled1)) {
                      var compEvaled = compEvaled1.properties
                      if (isValidObject(compEvaled)) {
