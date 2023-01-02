@@ -555,7 +555,7 @@ var networkIntranetIpAddress    = null
 var libLoaded        = new Object()
 var component_loaded = new Object()
 var global_component_type_details_cache  = new Object()
-var global_code_cached_by_commit_id = new Object()
+var global_cached_structure_for_code_commit = new Object()
 var global_map_base_component_id_to_commit_id = new Object()
 
 var linked_properties  = new Object()
@@ -2084,7 +2084,7 @@ var code_fn = ""
 //alert(JSON.stringify(global_map_base_component_id_to_commit_id[base_component_id],null,2))
 var codeiii = global_map_base_component_id_to_commit_id[base_component_id]
 
-var hjhg = await eval(global_code_cached_by_commit_id[codeiii])
+var hjhg = await eval(global_cached_structure_for_code_commit[codeiii])
 //alert(JSON.stringify(hjhg.value.code,null,2))
 code_fn = hjhg.value.code
 
@@ -2345,7 +2345,7 @@ socket.on('server_returns_loadUiComponent_to_browser',async function(data) {
                     if (data.value.base_component_id && (!global_map_base_component_id_to_commit_id[data.value.base_component_id])) {
                         //alert(""  + data.value.base_component_id + " := " + data.value.code_id )
                         global_map_base_component_id_to_commit_id[data.value.base_component_id] = data.value.code_id
-                        global_code_cached_by_commit_id[data.value.code_id] = data
+                        global_cached_structure_for_code_commit[data.value.code_id] = data
                     }
 
                     await checkLibsV2(data.value)
@@ -3829,7 +3829,7 @@ async function sqliteQuery(sql) {
 
 
       -------------------------------
-    - global_code_cached_by_commit_id
+    - global_cached_structure_for_code_commit
       -------------------------------
         This contains the source code for a particular commit ID
             {
@@ -3957,7 +3957,7 @@ async function loadV3( baseComponentItems, args ) {
 
     //
     // For static HTML pages (ie: just HTML , with no Yazz engine) then load the
-    // components from the cache, which is just "global_code_cached_by_commit_id" which contains all
+    // components from the cache, which is just "global_cached_structure_for_code_commit" which contains all
     // the object definitions
     //
     let loadedStatic = false
@@ -3970,7 +3970,7 @@ async function loadV3( baseComponentItems, args ) {
                 component_loaded[componentId] = true
                 //alert("Reading app from cache: " + findComponentArgs.base_component_id)
                 let newDataCodeId = global_map_base_component_id_to_commit_id[ componentId ]
-                let newData       = global_code_cached_by_commit_id[ newDataCodeId ]
+                let newData       = global_cached_structure_for_code_commit[ newDataCodeId ]
                 let properties = yz.getValueOfCodeString(newData.value.code, "properties",")//properties")
                 if (properties) {
                     if (isValidObject(newData.value)) {
@@ -4095,12 +4095,12 @@ async function callComponentNonAsync(findComponentArgs, args, callbackFn) {
 
 
     //
-    // if this is a static app then read the components from the cache "global_code_cached_by_commit_id"
+    // if this is a static app then read the components from the cache "global_cached_structure_for_code_commit"
     //
     if (isStaticHtmlPageApp && findComponentArgs.base_component_id && global_map_base_component_id_to_commit_id[findComponentArgs.base_component_id]) {
         //alert("Reading app from cache: " + findComponentArgs.base_component_id)
         let calledComponentCodeId   = global_map_base_component_id_to_commit_id[findComponentArgs.base_component_id]
-        let newData         = global_code_cached_by_commit_id[calledComponentCodeId]
+        let newData         = global_cached_structure_for_code_commit[calledComponentCodeId]
         newData.seq_num     = seqNum
         await checkLibsV2(newData.value)
         await callCodeV2(newData.value,  componentCallsListArgsSent[newData.seq_num],  newData.seq_num)

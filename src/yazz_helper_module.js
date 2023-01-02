@@ -757,7 +757,7 @@ module.exports = {
 
 
 
-                                                let newCode =  `global_code_cached_by_commit_id["${sha1sum}"] = {
+                                                let newCode =  `global_cached_structure_for_code_commit["${sha1sum}"] = {
                                           "value": {
                                             "code": /*APP_START*/unescape(\`${newcode}\`)/*APP_END*/,
                                             "is_code_result": true,
@@ -805,7 +805,7 @@ module.exports = {
                                                                 //showTimer(`15`)
                                                                 for (let i = 0  ;   i < results.length;    i ++ ) {
                                                                     let newcodeEs = escape("(" + results[i].code.toString() + ")")
-                                                                    let newCode2 =  `global_code_cached_by_commit_id["${results[i].sha1}"] = {
+                                                                    let newCode2 =  `global_cached_structure_for_code_commit["${results[i].sha1}"] = {
                                                               "value": {
                                                                 "code": unescape(\`${newcodeEs}\`),
                                                                 "is_code_result": true,
@@ -1742,7 +1742,7 @@ module.exports = {
 
 
 
-                                                let newCode =  `global_code_cached_by_commit_id["${sha1sum}"] = {
+                                                let newCode =  `global_cached_structure_for_code_commit["${sha1sum}"] = {
                                               "value": {
                                                 "code": /*APP_START*/unescape(\`${newcode}\`)/*APP_END*/,
                                                 "is_code_result": true,
@@ -1790,7 +1790,7 @@ module.exports = {
                                                                 //showTimer(`15`)
                                                                 for (let i = 0  ;   i < results.length;    i ++ ) {
                                                                     let newcodeEs = escape("(" + results[i].code.toString() + ")")
-                                                                    let newCode2 =  `global_code_cached_by_commit_id["${results[i].sha1}"] = {
+                                                                    let newCode2 =  `global_cached_structure_for_code_commit["${results[i].sha1}"] = {
                                                                   "value": {
                                                                     "code": unescape(\`${newcodeEs}\`),
                                                                     "is_code_result": true,
