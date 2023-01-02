@@ -259,7 +259,7 @@ logo_url("/driver_icons/counter.jpg")
             }
 
             if (isValidObject(this.args.name)) {
-                globalControl[this.args.name] =  this
+                global_pointer_to_component_vue_objects_by_name[this.args.name] =  this
             }
 
             if (web3 && web3.eth) {

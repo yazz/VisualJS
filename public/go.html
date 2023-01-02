@@ -569,7 +569,7 @@ let isStaticHtmlPageApp = false
 var queuedResponses = new Object()
 var queuedBrowserResponseSeqNum = 0
 var componentCallsListArgsSent = new Object()
-var globalControl={}
+var global_pointer_to_component_vue_objects_by_name={}
 var globalControlDesignMode={}
 var uiDebuggerOn = false
 var saveCodeToFile = null
@@ -917,7 +917,7 @@ function registerComponent(vueComponentObject) {
                 if (vueComponentObject.design_mode) {
                     globalControlDesignMode[usePropVar.name] =  vueComponentObject
                 } else {
-                    globalControl[usePropVar.name] =  vueComponentObject
+                    global_pointer_to_component_vue_objects_by_name[usePropVar.name] =  vueComponentObject
                 }
             }
 
@@ -939,7 +939,7 @@ function registerComponent(vueComponentObject) {
 
 function unregisterComponent(componentName) {
     globalControlDesignMode[componentName]  = null
-    globalControl[componentName]            = null
+    global_pointer_to_component_vue_objects_by_name[componentName]            = null
 }
 
 
@@ -3835,7 +3835,7 @@ async function sqliteQuery(sql) {
 
     - dev_app_component_loaded[ base_component_id ] = true/false
     - base_component_id = current base_component_id of the app being edited??? or run??
-    - globalControl - ??
+    - global_pointer_to_component_vue_objects_by_name - ??
     - globalControlDesignMode - ??
 
     METHODS

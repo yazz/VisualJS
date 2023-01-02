@@ -99,7 +99,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAoHCBQSEhgSEhU
             }
 
             if (isValidObject(this.args.name)) {
-                globalControl[this.args.name] =  this
+                global_pointer_to_component_vue_objects_by_name[this.args.name] =  this
             }
 
             if (!this.design_mode) {

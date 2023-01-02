@@ -297,7 +297,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
             }
 
             if (isValidObject(this.args.name)) {
-                globalControl[this.args.name] =  this
+                global_pointer_to_component_vue_objects_by_name[this.args.name] =  this
             }
 
             if (web3 && web3.eth) {

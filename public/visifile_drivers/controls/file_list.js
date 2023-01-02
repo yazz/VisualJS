@@ -73,7 +73,7 @@ logo_url("/driver_icons/file_list.png")
       ,
       mounted: async function() {
           if (isValidObject(this.args.name)) {
-              globalControl[this.args.name] =  this
+              global_pointer_to_component_vue_objects_by_name[this.args.name] =  this
           }
 
           this.load()

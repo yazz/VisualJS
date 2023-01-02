@@ -3919,7 +3919,7 @@ setTimeout(async function(){
                                     if (isComponentInDesignMode) {
                                         controlDetails = globalControlDesignMode[componentDetails.name]
                                     } else {
-                                        controlDetails = globalControl[componentDetails.name]
+                                        controlDetails = global_pointer_to_component_vue_objects_by_name[componentDetails.name]
                                     }
                                      fnDetails = controlDetails[methodId]
                                 }
@@ -3946,7 +3946,7 @@ setTimeout(async function(){
                                 if (isComponentInDesignMode) {
                                     controlDetails = globalControlDesignMode[componentDetails.name]
                                 } else {
-                                    controlDetails = globalControl[componentDetails.name]
+                                    controlDetails = global_pointer_to_component_vue_objects_by_name[componentDetails.name]
                                 }
                                 fnDetails = controlDetails[methodId]
                                 retv =  fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
