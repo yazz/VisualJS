@@ -806,7 +806,6 @@ module.exports = {
                                                                 for (let i = 0  ;   i < results.length;    i ++ ) {
                                                                     let newcodeEs = escape("(" + results[i].code.toString() + ")")
                                                                     let newCode2 =  `global_code_cached_by_commit_id["${results[i].sha1}"] = {
-                                                              "type": "ws_to_browser_callDriverMethod_results",
                                                               "value": {
                                                                 "code": unescape(\`${newcodeEs}\`),
                                                                 "is_code_result": true,
