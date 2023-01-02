@@ -555,7 +555,7 @@ var networkIntranetIpAddress    = null
 var libLoaded        = new Object()
 var component_loaded = new Object()
 var component_cache  = new Object()
-var cachedCode = new Object()
+var global_code_cached_by_commit_id = new Object()
 var baseComponentIdToCodeIdMapping = new Object()
 
 var linked_properties  = new Object()
@@ -2084,7 +2084,7 @@ var code_fn = ""
 //alert(JSON.stringify(baseComponentIdToCodeIdMapping[base_component_id],null,2))
 var codeiii = baseComponentIdToCodeIdMapping[base_component_id]
 
-var hjhg = await eval(cachedCode[codeiii])
+var hjhg = await eval(global_code_cached_by_commit_id[codeiii])
 //alert(JSON.stringify(hjhg.value.code,null,2))
 code_fn = hjhg.value.code
 
@@ -2345,7 +2345,7 @@ socket.on('server_returns_loadUiComponent_to_browser',async function(data) {
                     if (data.value.base_component_id && (!baseComponentIdToCodeIdMapping[data.value.base_component_id])) {
                         //alert(""  + data.value.base_component_id + " := " + data.value.code_id )
                         baseComponentIdToCodeIdMapping[data.value.base_component_id] = data.value.code_id
-                        cachedCode[data.value.code_id] = data
+                        global_code_cached_by_commit_id[data.value.code_id] = data
                     }
 
                     await checkLibsV2(data.value)
@@ -3826,7 +3826,7 @@ async function sqliteQuery(sql) {
     - baseComponentIdToCodeIdMapping[ base_component_id ] = "Qm0x43FFE338..2F1" < - points to a commit ID
     - component_loaded[ base_component_id ] = true/false
         is a component type loaded into memory. Remember only one version of a component type at any one time
-    - cachedCode [ commit_id_of_code ] = {
+    - global_code_cached_by_commit_id [ commit_id_of_code ] = {
                                             value: {
                                                         "async fn {... code here ... }"
                                             }
@@ -3834,10 +3834,13 @@ async function sqliteQuery(sql) {
     - component_cache[ this.app_id ] = null
 
     - dev_app_component_loaded[ base_component_id ] = true/false
+
     - base_component_id = current base_component_id of the app being edited??? or run??
+
     - global_pointer_to_component_vue_objects_by_name
-        This points to the Vue objects for the components in an app
-    - global_pointer_to_component_vue_objects_by_name_in_design_mode - ??
+        This points to the Vue objects for the components in an app. See also for design mode componenents (which
+        does the same thing):
+            global_pointer_to_component_vue_objects_by_name_in_design_mode
 
     METHODS
     -------
@@ -3936,7 +3939,7 @@ async function loadV3( baseComponentItems, args ) {
 
     //
     // For static HTML pages (ie: just HTML , with no Yazz engine) then load the
-    // components from the cache, which is just "cachedCode" which contains all
+    // components from the cache, which is just "global_code_cached_by_commit_id" which contains all
     // the object definitions
     //
     let loadedStatic = false
@@ -3949,7 +3952,7 @@ async function loadV3( baseComponentItems, args ) {
                 component_loaded[componentId] = true
                 //alert("Reading app from cache: " + findComponentArgs.base_component_id)
                 let newDataCodeId = baseComponentIdToCodeIdMapping[ componentId ]
-                let newData       = cachedCode[ newDataCodeId ]
+                let newData       = global_code_cached_by_commit_id[ newDataCodeId ]
                 let properties = yz.getValueOfCodeString(newData.value.code, "properties",")//properties")
                 if (properties) {
                     if (isValidObject(newData.value)) {
@@ -4074,12 +4077,12 @@ async function callComponentNonAsync(findComponentArgs, args, callbackFn) {
 
 
     //
-    // if this is a static app then read the components from the cache "cachedCode"
+    // if this is a static app then read the components from the cache "global_code_cached_by_commit_id"
     //
     if (isStaticHtmlPageApp && findComponentArgs.base_component_id && baseComponentIdToCodeIdMapping[findComponentArgs.base_component_id]) {
         //alert("Reading app from cache: " + findComponentArgs.base_component_id)
         let calledComponentCodeId   = baseComponentIdToCodeIdMapping[findComponentArgs.base_component_id]
-        let newData         = cachedCode[calledComponentCodeId]
+        let newData         = global_code_cached_by_commit_id[calledComponentCodeId]
         newData.seq_num     = seqNum
         await checkLibsV2(newData.value)
         await callCodeV2(newData.value,  componentCallsListArgsSent[newData.seq_num],  newData.seq_num)
