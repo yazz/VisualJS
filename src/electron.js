@@ -1036,7 +1036,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
                                              new_ws
                                              ,
                                              {
-                                                type:            "ws_to_browser_callDriverMethod_results",
+                                                type:            "ws_to_browser_call_component_results",
                                                 value:            msg.result,
                                                 seq_num:          msg.seq_num_browser
                                              });
@@ -2482,7 +2482,7 @@ function websocketFn(ws) {
                                              ws
                                              ,
                                              {
-                                                type:            "ws_to_browser_callDriverMethod_results",
+                                                type:            "ws_to_browser_call_component_results",
                                                 value:            resultOfSql,
                                                 seq_num:          receivedMessage.seqNum
                                              });
@@ -5695,7 +5695,7 @@ function ipcChildReturningCallComponentResponse(msg) {
                                  new_ws
                                  ,
                                  {
-                                    type:            "ws_to_browser_callDriverMethod_results",
+                                    type:            "ws_to_browser_call_component_results",
                                     value:            msg.result,
                                     seq_num:          msg.seq_num_browser
                                  });

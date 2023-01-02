@@ -2325,7 +2325,7 @@ socket.on('server_returns_loadUiComponent_to_browser',async function(data) {
 
 
 
-    socket.on('ws_to_browser_callDriverMethod_results',async function(data) {
+    socket.on('ws_to_browser_call_component_results',async function(data) {
 
         if (data.value) {
             if (data.value.is_code_result) {
