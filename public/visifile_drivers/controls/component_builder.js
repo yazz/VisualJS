@@ -717,7 +717,7 @@ logo_url("/driver_icons/builder.png")
             }
 
             if (isValidObject(this.args.name)) {
-                global_pointer_to_component_vue_objects_by_name[this.args.name] =  this
+                global_app_controls_by_name_returns_a_vue_instance[this.args.name] =  this
             }
 
             this.loadImageToCanvas()

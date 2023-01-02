@@ -2420,7 +2420,7 @@ ${methodFn}
                     fnDetails = eval(thecode)
 
                 } else {
-                     var controlDetails = global_pointer_to_component_vue_objects_by_name[componentDetails.name]
+                     var controlDetails = global_app_controls_by_name_returns_a_vue_instance[componentDetails.name]
                      fnDetails = controlDetails[methodId]
                 }
                 var retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)

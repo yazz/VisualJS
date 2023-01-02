@@ -569,7 +569,7 @@ let isStaticHtmlPageApp = false
 var queuedResponses = new Object()
 var queuedBrowserResponseSeqNum = 0
 var componentCallsListArgsSent = new Object()
-var global_pointer_to_component_vue_objects_by_name={}
+var global_app_controls_by_name_returns_a_vue_instance={}
 var global_pointer_to_component_vue_objects_by_name_in_design_mode={}
 var uiDebuggerOn = false
 var saveCodeToFile = null
@@ -917,7 +917,7 @@ function registerComponent(vueComponentObject) {
                 if (vueComponentObject.design_mode) {
                     global_pointer_to_component_vue_objects_by_name_in_design_mode[usePropVar.name] =  vueComponentObject
                 } else {
-                    global_pointer_to_component_vue_objects_by_name[usePropVar.name] =  vueComponentObject
+                    global_app_controls_by_name_returns_a_vue_instance[usePropVar.name] =  vueComponentObject
                 }
             }
 
@@ -939,7 +939,7 @@ function registerComponent(vueComponentObject) {
 
 function unregisterComponent(componentName) {
     global_pointer_to_component_vue_objects_by_name_in_design_mode[componentName]  = null
-    global_pointer_to_component_vue_objects_by_name[componentName]            = null
+    global_app_controls_by_name_returns_a_vue_instance[componentName]            = null
 }
 
 
@@ -3826,18 +3826,30 @@ async function sqliteQuery(sql) {
     - baseComponentIdToCodeIdMapping[ base_component_id ] = "Qm0x43FFE338..2F1" < - points to a commit ID
     - component_loaded[ base_component_id ] = true/false
         is a component type loaded into memory. Remember only one version of a component type at any one time
-    - global_code_cached_by_commit_id [ commit_id_of_code ] = {
-                                            value: {
-                                                        "async fn {... code here ... }"
-                                            }
-                                         }
-    - component_cache[ this.app_id ] = null
+
+
+      -------------------------------
+    - global_code_cached_by_commit_id
+      -------------------------------
+        This contains the source code for a particular commit ID
+            {
+                value: {
+                            "async fn {... code here ... }"
+                }
+            }
+
+
+      ---------------
+    - component_cache
+      ---------------
 
     - dev_app_component_loaded[ base_component_id ] = true/false
 
     - base_component_id = current base_component_id of the app being edited??? or run??
 
-    - global_pointer_to_component_vue_objects_by_name
+      -----------------------------------------------
+    - global_app_controls_by_name_returns_a_vue_instance
+      -----------------------------------------------
         This points to the Vue objects for the components in an app. See also for design mode componenents (which
         does the same thing):
             global_pointer_to_component_vue_objects_by_name_in_design_mode
