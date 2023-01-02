@@ -556,7 +556,7 @@ var libLoaded        = new Object()
 var component_loaded = new Object()
 var global_component_type_details_cache  = new Object()
 var global_code_cached_by_commit_id = new Object()
-var baseComponentIdToCodeIdMapping = new Object()
+var global_map_base_component_id_to_commit_id = new Object()
 
 var linked_properties  = new Object()
 
@@ -2081,8 +2081,8 @@ staticAppSocket = io(hostEditorAddress);
 
 var code_fn = ""
 //alert(JSON.stringify(global_component_type_details_cache[base_component_id],null,2)) --> {}
-//alert(JSON.stringify(baseComponentIdToCodeIdMapping[base_component_id],null,2))
-var codeiii = baseComponentIdToCodeIdMapping[base_component_id]
+//alert(JSON.stringify(global_map_base_component_id_to_commit_id[base_component_id],null,2))
+var codeiii = global_map_base_component_id_to_commit_id[base_component_id]
 
 var hjhg = await eval(global_code_cached_by_commit_id[codeiii])
 //alert(JSON.stringify(hjhg.value.code,null,2))
@@ -2342,9 +2342,9 @@ socket.on('server_returns_loadUiComponent_to_browser',async function(data) {
 
 
                 if (data.value.code_id) {
-                    if (data.value.base_component_id && (!baseComponentIdToCodeIdMapping[data.value.base_component_id])) {
+                    if (data.value.base_component_id && (!global_map_base_component_id_to_commit_id[data.value.base_component_id])) {
                         //alert(""  + data.value.base_component_id + " := " + data.value.code_id )
-                        baseComponentIdToCodeIdMapping[data.value.base_component_id] = data.value.code_id
+                        global_map_base_component_id_to_commit_id[data.value.base_component_id] = data.value.code_id
                         global_code_cached_by_commit_id[data.value.code_id] = data
                     }
 
@@ -3823,7 +3823,7 @@ async function sqliteQuery(sql) {
     VARS
     ----
     - isStaticHtmlPageApp = true/false
-    - baseComponentIdToCodeIdMapping[ base_component_id ] = "Qm0x43FFE338..2F1" < - points to a commit ID
+    - global_map_base_component_id_to_commit_id[ base_component_id ] = "Qm0x43FFE338..2F1" < - points to a commit ID
     - component_loaded[ base_component_id ] = true/false
         is a component type loaded into memory. Remember only one version of a component type at any one time
 
@@ -3861,9 +3861,17 @@ async function sqliteQuery(sql) {
       -----------
         checks that related libs are loaded
 
+
       ------
     - loadV3
       ------
+
+
+      ----------
+    - callCodeV2
+      ----------
+
+
 
       -------------
     - callComponent
@@ -3871,9 +3879,7 @@ async function sqliteQuery(sql) {
         This actually can call server side code and return a result. We can pass either the base component ID
         or the commit ID for the code to run. Uses "callComponentNonAsync"
 
-      ----------
-    - callCodeV2
-      ----------
+
  */
 
 
@@ -3959,11 +3965,11 @@ async function loadV3( baseComponentItems, args ) {
         for (let tt=0; tt < componentsItemsToLoadV3.length; tt++) {
             let componentId = componentsItemsToLoadV3[tt].baseComponentId
             dev_app_component_loaded[componentId] = true
-            if (isStaticHtmlPageApp && baseComponentIdToCodeIdMapping[ componentId ] && (!component_loaded[componentId])) {
+            if (isStaticHtmlPageApp && global_map_base_component_id_to_commit_id[ componentId ] && (!component_loaded[componentId])) {
                 //console.log("loadV3: 2")
                 component_loaded[componentId] = true
                 //alert("Reading app from cache: " + findComponentArgs.base_component_id)
-                let newDataCodeId = baseComponentIdToCodeIdMapping[ componentId ]
+                let newDataCodeId = global_map_base_component_id_to_commit_id[ componentId ]
                 let newData       = global_code_cached_by_commit_id[ newDataCodeId ]
                 let properties = yz.getValueOfCodeString(newData.value.code, "properties",")//properties")
                 if (properties) {
@@ -4091,9 +4097,9 @@ async function callComponentNonAsync(findComponentArgs, args, callbackFn) {
     //
     // if this is a static app then read the components from the cache "global_code_cached_by_commit_id"
     //
-    if (isStaticHtmlPageApp && findComponentArgs.base_component_id && baseComponentIdToCodeIdMapping[findComponentArgs.base_component_id]) {
+    if (isStaticHtmlPageApp && findComponentArgs.base_component_id && global_map_base_component_id_to_commit_id[findComponentArgs.base_component_id]) {
         //alert("Reading app from cache: " + findComponentArgs.base_component_id)
-        let calledComponentCodeId   = baseComponentIdToCodeIdMapping[findComponentArgs.base_component_id]
+        let calledComponentCodeId   = global_map_base_component_id_to_commit_id[findComponentArgs.base_component_id]
         let newData         = global_code_cached_by_commit_id[calledComponentCodeId]
         newData.seq_num     = seqNum
         await checkLibsV2(newData.value)
@@ -4128,6 +4134,7 @@ async function callComponentNonAsync(findComponentArgs, args, callbackFn) {
 
 
 async function callCodeV2(componentRecord, args, seq_no) {
+debugger
     if (componentRecord.edit_file_path) {
         saveCodeToFile = componentRecord.edit_file_path
     }

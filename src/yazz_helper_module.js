@@ -770,7 +770,7 @@ module.exports = {
                                           "seq_num": 0
                                         }
 
-                                        baseComponentIdToCodeIdMapping["${baseComponentId}"] = "${sha1sum}"`
+                                        global_map_base_component_id_to_commit_id["${baseComponentId}"] = "${sha1sum}"`
 
 
                                                 //showTimer(`14`)
@@ -818,7 +818,7 @@ module.exports = {
                                                               "seq_num": 0
                                                             }
 
-                                                            baseComponentIdToCodeIdMapping["${results[i].child_component_id}"] = "${results[i].sha1}"
+                                                            global_map_base_component_id_to_commit_id["${results[i].child_component_id}"] = "${results[i].sha1}"
                                                             `
                                                                     newCode += newCode2
                                                                 }
@@ -1755,7 +1755,7 @@ module.exports = {
                                               "seq_num": 0
                                             }
     
-                                            baseComponentIdToCodeIdMapping["${baseComponentId}"] = "${sha1sum}"`
+                                            global_map_base_component_id_to_commit_id["${baseComponentId}"] = "${sha1sum}"`
 
 
                                                 //showTimer(`14`)
@@ -1803,7 +1803,7 @@ module.exports = {
                                                                   "seq_num": 0
                                                                 }
     
-                                                                baseComponentIdToCodeIdMapping["${results[i].child_component_id}"] = "${results[i].sha1}"
+                                                                global_map_base_component_id_to_commit_id["${results[i].child_component_id}"] = "${results[i].sha1}"
                                                                 `
                                                                     newCode += newCode2
                                                                 }
