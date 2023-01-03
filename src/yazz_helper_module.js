@@ -766,8 +766,7 @@ module.exports = {
                                             "libs": [],
                                             "code_id": "${sha1sum}",
                                             "base_component_id": "${baseComponentId}"
-                                          },
-                                          "seq_num": 0
+                                          }
                                         }
 
                                         global_map_base_component_id_to_commit_id["${baseComponentId}"] = "${sha1sum}"`
@@ -814,8 +813,7 @@ module.exports = {
                                                                 "component_type": \"SYSTEM\",
                                                                 "code_id": "${results[i].sha1}",
                                                                 "base_component_id": "${results[i].child_component_id}"
-                                                              },
-                                                              "seq_num": 0
+                                                              }
                                                             }
 
                                                             global_map_base_component_id_to_commit_id["${results[i].child_component_id}"] = "${results[i].sha1}"
@@ -1751,8 +1749,7 @@ module.exports = {
                                                 "libs": [],
                                                 "code_id": "${sha1sum}",
                                                 "base_component_id": "${baseComponentId}"
-                                              },
-                                              "seq_num": 0
+                                              }
                                             }
     
                                             global_map_base_component_id_to_commit_id["${baseComponentId}"] = "${sha1sum}"`
@@ -1799,8 +1796,7 @@ module.exports = {
                                                                     "component_type": \"SYSTEM\",
                                                                     "code_id": "${results[i].sha1}",
                                                                     "base_component_id": "${results[i].child_component_id}"
-                                                                  },
-                                                                  "seq_num": 0
+                                                                  }
                                                                 }
     
                                                                 global_map_base_component_id_to_commit_id["${results[i].child_component_id}"] = "${results[i].sha1}"

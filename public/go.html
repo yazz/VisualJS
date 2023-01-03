@@ -4082,9 +4082,8 @@ async function callComponentNonAsync(findComponentArgs, args, callbackFn) {
         //alert("Reading app from cache: " + findComponentArgs.base_component_id)
         let calledComponentCodeId   = global_map_base_component_id_to_commit_id[findComponentArgs.base_component_id]
         let newData         = global_cached_structure_for_code_commit[calledComponentCodeId]
-        newData.seq_num     = seqNum
         await checkLibsV2(newData.value)
-        await callCodeV2(newData.value,  componentCallsListArgsSent[newData.seq_num],  newData.seq_num)
+        await callCodeV2(newData.value,  componentCallsListArgsSent[seqNum],  seqNum)
 
 
     //
