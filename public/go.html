@@ -4046,12 +4046,16 @@ async function loadUiComponentsV4( baseComponentItems, args ) {
 
 async function callComponent(  componentSearchDetails,  fnCallArgs  ) {
     var promise = new Promise(returnfn => {
-        callComponentNonAsync(
-            componentSearchDetails,
-            fnCallArgs,
-            function(result) {
-                returnfn(result)
-            })
+        let seqNum                          = queuedBrowserResponseSeqNum ++;
+        queuedResponses[seqNum]             = function(result) {returnfn(result)};
+        componentCallsListArgsSent[seqNum]  = fnCallArgs
+
+        sendToServerViaWebSocket({
+            message_type:   "browser_calls_component_via_web_socket",
+            find_component: componentSearchDetails,
+            args:           fnCallArgs,
+            seqNum:         seqNum
+        });
     })
 
     var ret = await promise
@@ -4068,45 +4072,6 @@ async function callComponent(  componentSearchDetails,  fnCallArgs  ) {
 
 
 
-
-
-async function callComponentNonAsync(findComponentArgs, args, callbackFn) {
-    let seqNum                          = queuedBrowserResponseSeqNum ++;
-    queuedResponses[seqNum]             = callbackFn;
-    componentCallsListArgsSent[seqNum]  = args
-
-
-    //
-    // if this is a static app then read the components from the cache "global_cached_structure_for_code_commit"
-    //
-    if (isStaticHtmlPageApp && findComponentArgs.base_component_id && global_map_base_component_id_to_commit_id[findComponentArgs.base_component_id]) {
-    debugger
-        //alert("Reading app from cache: " + findComponentArgs.base_component_id)
-        let calledComponentCodeId   = global_map_base_component_id_to_commit_id[findComponentArgs.base_component_id]
-        let newData         = global_cached_structure_for_code_commit[calledComponentCodeId]
-        await checkLibsV2(newData.value)
-        await enhanceAndRunYazzSourceCode(newData.value,  componentCallsListArgsSent[seqNum],  seqNum)
-
-
-    //
-    // if this is an online dynamic app with full access to the server send a request to a component
-    //
-    } else {
-        sendToServerViaWebSocket({
-            message_type:   "browser_calls_component_via_web_socket",
-            find_component: findComponentArgs,
-            args:           args,
-            seqNum:         seqNum
-        });
-        /*let result = await postToYazzReturnJson(
-            "/call_component",
-            {
-                find_component: findComponentArgs,
-                args: args
-            }
-        )*/
-    }
-}
 
 
 
