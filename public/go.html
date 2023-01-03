@@ -4003,10 +4003,8 @@ async function loadV3( baseComponentItems, args ) {
                         await postToYazzReturnJson(
                             "/loadUiComponentsV2",
                             {
-                                message_type:    "loadUiComponentsV2",
                                 find_components:  {items: componentsItemsToLoad},
                                 args:             args,
-                                seq_num:          seqNum
                             })
                     },2000)
                 } else {
@@ -4015,17 +4013,15 @@ async function loadV3( baseComponentItems, args ) {
                     let resultsUi = await postToYazzReturnJson(
                         "/loadUiComponentsV2",
                         {
-                            message_type:    "loadUiComponentsV2",
                             find_components:  {items: componentsItemsToLoad},
                             args:             args,
-                            seq_num:          seqNum
                         })
                         debugger
 
                         for (const data of resultsUi) {
 
                             //alert("component returned: " + JSON.stringify(data,null,2))
-                            var fn      = queuedResponses[data.seq_num]
+                            var fn      = queuedResponses[seqNum]
                             var sdf     = eval("(" + data.record + ")")
                             var args    = eval("(" + data.args + ")")
 
