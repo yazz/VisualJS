@@ -958,25 +958,25 @@ if (window.SQL) {
 localSqliteDb = new window.SQL.Database()
 }
 function localSql(sql, params) {
-if (!window.SQL) {
-console.log("Local SQLite only works for static Creator apps")
-} else {
-resOut = []
-try {
-let stmt = localSqliteDb.prepare(sql);
-let res = stmt.bind(params)
-let moreRows = stmt.step()
-while (moreRows) {
-let newRow = stmt.getAsObject()
-resOut.push(newRow)
-moreRows = stmt.step()
-}
-stmt.free();
-} catch (err) {
-console.log(err)
-}
-return resOut
-}
+    if (!window.SQL) {
+        console.log("Local SQLite only works for static Creator apps")
+    } else {
+        resOut = []
+        try {
+            let stmt = localSqliteDb.prepare(sql);
+            let res = stmt.bind(params)
+            let moreRows = stmt.step()
+            while (moreRows) {
+                let newRow = stmt.getAsObject()
+                resOut.push(newRow)
+                moreRows = stmt.step()
+            }
+            stmt.free();
+        } catch (err) {
+            console.log(err)
+        }
+        return resOut
+    }
 }
 String.prototype.replaceAll = function(search, replacement) {
 let target = this;
@@ -4112,7 +4112,24 @@ async function callComponentNonAsync(findComponentArgs, args, callbackFn) {
 
 
 
+/*
+    componentRecord
 
+     ===
+
+    {
+        value:
+        {
+            code:               "async function() { ... }"
+            is_code_result:      true,
+            use_db:             "${baseComponentId}",
+            component_type:     "SYSTEM",
+            libs:                [],
+            code_id:            "${sha1sum}",
+            base_component_id:  "${baseComponentId}"
+        }
+    }
+*/
 async function callCodeV2(componentRecord, args, seq_no) {
 //debugger
     var callbackFn = null
@@ -4124,24 +4141,32 @@ async function callCodeV2(componentRecord, args, seq_no) {
 
 
     try {
+        //
+        // Determine the apps SQlite database to use
+        //
         var useDb = componentRecord.base_component_id
         if (componentRecord.use_db) {
             useDb = componentRecord.use_db
         }
 
+        //
+        // if the component type hasn't been added to the type database then add it
+        //
         if (!global_component_type_details_cache[componentRecord.base_component_id]) {
             global_component_type_details_cache[componentRecord.base_component_id] = new Object()
         }
         if (isValidObject(componentRecord.properties)) {
-            global_component_type_details_cache[componentRecord.base_component_id].code = componentRecord.code
-            global_component_type_details_cache[componentRecord.base_component_id].properties = eval("(" + componentRecord.properties + ")")
-            global_component_type_details_cache[componentRecord.base_component_id].code_id = componentRecord.id
+            global_component_type_details_cache[componentRecord.base_component_id].code         = componentRecord.code
+            global_component_type_details_cache[componentRecord.base_component_id].properties   = eval("(" + componentRecord.properties + ")")
+            global_component_type_details_cache[componentRecord.base_component_id].code_id      = componentRecord.id
             //debugger
         }
 
 
+        //
+        // Sqlite stuff
+        //
         var addP = "'" + componentRecord.code_id + "', '" + useDb + "', "
-        //alert("data: " + addP);
         if (localAppshareApp) {
 
             if (sqlitedata) {
@@ -4165,7 +4190,9 @@ async function callCodeV2(componentRecord, args, seq_no) {
             //alert(eds.length)
         }
 
-
+        //
+        // Execute the code
+        //
         var trcode2 = "(" + componentRecord.code + ")"
 
         var component_type = yz.getValueOfCodeString(componentRecord.code, "component_type")
@@ -4180,13 +4207,18 @@ async function callCodeV2(componentRecord, args, seq_no) {
             indexComponent(  componentRecord.base_component_id  )
         }
 
-
+        //
+        // Sqlite stuff
+        //
         trcode2 = trcode2.toString().replaceAll("sql[(]","await rxsql(" + addP)
         trcode2 = trcode2.toString().replaceAll("sql1[(]","await rxsql1(" + addP)
         trcode2 = trcode2.toString().replaceAll("sqlFirstCol[(]","await rxsqlFirstCol(" + addP)
         trcode2 = trcode2.toString().replaceAll("sqlFirstCol1[(]","await rxsqlFirstCol1(" + addP)
 
 
+        //
+        // User auth stuff
+        //
         var kkk = yz.getValueOfCodeString(trcode2.toString(), "keycloak",")//keycloak")
         if (kkk) {
             //alert(JSON.stringify(kkk,null,2))
