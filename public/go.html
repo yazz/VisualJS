@@ -3996,7 +3996,7 @@ async function loadV3( baseComponentItems, args ) {
                 if (!online) {
                     setTimeout(async function() {
                         await postToYazzReturnJson(
-                            "/loadUiComponentsV2",
+                            "/load_ui_components_v3",
                             {
                                 find_components:  {items: componentsItemsToLoad},
                                 args:             args,
@@ -4004,7 +4004,7 @@ async function loadV3( baseComponentItems, args ) {
                     },2000)
                 } else {
                     let resultsUi = await postToYazzReturnJson(
-                        "/loadUiComponentsV2",
+                        "/load_ui_components_v3",
                         {
                             find_components:  {items: componentsItemsToLoad},
                         })

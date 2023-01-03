@@ -2866,7 +2866,7 @@ async function startServices() {
 
 
 
-        app.post('/loadUiComponentsV2', async function (req, res) {
+        app.post('/load_ui_components_v3', async function (req, res) {
         //zzz
             let componentItems      = req.body.find_components.items
             let componentIds        = []
