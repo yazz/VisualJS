@@ -4115,9 +4115,6 @@ async function callComponentNonAsync(findComponentArgs, args, callbackFn) {
 
 async function callCodeV2(componentRecord, args, seq_no) {
 //debugger
-    if (componentRecord.edit_file_path) {
-        saveCodeToFile = componentRecord.edit_file_path
-    }
     var callbackFn = null
     if (isValidObject(seq_no)) {
         //debugger
