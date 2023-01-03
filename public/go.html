@@ -2304,24 +2304,6 @@ isWin = data.value
 
 
 
-socket.on('server_returns_loadUiComponent_to_browser',async function(data) {
-
-    //alert("component returned: " + JSON.stringify(data,null,2))
-    var fn      = queuedResponses[data.seq_num]
-    var sdf     = eval("(" + data.record + ")")
-    var args    = eval("(" + data.args + ")")
-
-    //console.log("callig 2")
-    for (var i=0; i< sdf.length; i++) {
-        await checkLibsV2(sdf[i])
-        await callCodeV2(sdf[i],args)
-        //alert(JSON.stringify(Object.keys(sdf[i]),null,2))
-        //console.log("callig 3")
-
-        fn(sdf[i])
-    }
-});
-
 
 
 
@@ -4018,12 +4000,6 @@ async function loadV3( baseComponentItems, args ) {
 //zzz
                 if (!online) {
                     setTimeout(async function() {
-                        sendToServerViaWebSocket({
-                            message_type:    "loadUiComponentsV2",
-                            find_components:  {items: componentsItemsToLoad},
-                            args:             args,
-                            seq_num:          seqNum
-                        });
                         await postToYazzReturnJson(
                             "/loadUiComponentsV2",
                             {
@@ -4034,15 +4010,9 @@ async function loadV3( baseComponentItems, args ) {
                             })
                     },2000)
                 } else {
-                    sendToServerViaWebSocket({
-                        message_type:    "loadUiComponentsV2",
-                        find_components:  {items: componentsItemsToLoad},
-                        args:             args,
-                        seq_num:          seqNum
-                    });
                     //debugger
                     //await postToYazzReturnJson("/post_test",{})
-                    await postToYazzReturnJson(
+                    let resultsUi = await postToYazzReturnJson(
                         "/loadUiComponentsV2",
                         {
                             message_type:    "loadUiComponentsV2",
@@ -4050,7 +4020,26 @@ async function loadV3( baseComponentItems, args ) {
                             args:             args,
                             seq_num:          seqNum
                         })
-                        //debugger
+                        debugger
+
+                        for (const data of resultsUi) {
+
+                            //alert("component returned: " + JSON.stringify(data,null,2))
+                            var fn      = queuedResponses[data.seq_num]
+                            var sdf     = eval("(" + data.record + ")")
+                            var args    = eval("(" + data.args + ")")
+
+                            //console.log("callig 2")
+                            for (var i=0; i< sdf.length; i++) {
+                                await checkLibsV2(sdf[i])
+                                await callCodeV2(sdf[i],args)
+                                //alert(JSON.stringify(Object.keys(sdf[i]),null,2))
+                                //console.log("callig 3")
+
+                                fn(sdf[i])
+                            }
+                        };
+
                 }
 
 // ****************************************************************************

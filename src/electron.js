@@ -3012,46 +3012,38 @@ async function startServices() {
             // read the database components
             //
             let promise = new Promise(async function(returnfn) {
-                dbsearch.serialize(
-                    function() {
-                        let stmt = dbsearch.all(
-                            "SELECT  *  FROM   system_code   WHERE   base_component_id in " +
-                            "("  + componentIds.map(function(){ return "?" }).join(",") + " )" +
-                            "   and   code_tag = 'LATEST' ",
-                            componentIds
+                let resultsui = []
+                let results = await yz.getQuickSql(
+                    dbsearch
+                    ,
+                    "SELECT  *  FROM   system_code   WHERE   base_component_id in " +
+                    "("  + componentIds.map(function(){ return "?" }).join(",") + " )" +
+                    "   and   code_tag = 'LATEST' "
+                    ,
+                    componentIds)
+
+
+                if (results) {
+                    if (results.length > 0) {
+                        let codeId = results[0].id
+                        let results2 = await yz.getQuickSql(
+                            dbsearch
                             ,
+                            "SELECT dependency_name FROM app_dependencies where code_id = ?; "
+                            ,
+                            codeId)
 
-                            function(err, results)
+                        results[0].libs = results2
+                        resultsui.push(
                             {
-                                if (results) {
-                                    if (results.length > 0) {
-                                        let codeId = results[0].id
-                                        dbsearch.all(
-                                            "SELECT dependency_name FROM app_dependencies where code_id = ?; ",
-                                            codeId,
-
-                                            function(err, results2)
-                                            {
-                                                results[0].libs = results2
-                                                sendToBrowserViaWebSocket(
-                                                    ws,
-                                                    {
-                                                        type:                   "server_returns_loadUiComponent_to_browser",
-                                                        seq_num:                 receivedMessageSeq_num,
-                                                        record:                  JSON.stringify(results,null,2),
-                                                        args:                    JSON.stringify(receivedMessageArgs,null,2),
-                                                        test:                   1
-                                                    });
-                                            })
-                                    }
-
-                                }
-                                returnfn()
-
-                            })
-                    }, sqlite3.OPEN_READONLY)
-
-
+                                type: "server_returns_loadUiComponent_to_browser",
+                                seq_num: receivedMessageSeq_num,
+                                record: JSON.stringify(results, null, 2),
+                                args: JSON.stringify(receivedMessageArgs, null, 2),
+                                test: 1
+                            });
+                    }
+                }
 
 
                 //
@@ -3100,12 +3092,13 @@ async function startServices() {
                                         }
 
                                     }
-                                    returnfn()
 
 
                                 })
                         }, sqlite3.OPEN_READONLY)
                 },200)
+                returnfn(resultsui)
+
             })
             let ret = await promise
             res.writeHead(200, {'Content-Type': 'application/json'});
