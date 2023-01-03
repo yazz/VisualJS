@@ -3992,11 +3992,6 @@ async function loadV3( baseComponentItems, args ) {
 
         if (componentsItemsToLoad.length > 0) {
             let promise = new Promise(async function(returnfn) {
-                let seqNum = queuedBrowserResponseSeqNum ++;
-                queuedResponses[seqNum] = function(response) {
-                    returnfn({})
-                };
-
 //zzz
                 if (!online) {
                     setTimeout(async function() {
@@ -4008,8 +4003,6 @@ async function loadV3( baseComponentItems, args ) {
                             })
                     },2000)
                 } else {
-                    //debugger
-                    //await postToYazzReturnJson("/post_test",{})
                     let resultsUi = await postToYazzReturnJson(
                         "/loadUiComponentsV2",
                         {
@@ -4019,18 +4012,11 @@ async function loadV3( baseComponentItems, args ) {
 
                         for (const data of resultsUi) {
 
-                            //alert("component returned: " + JSON.stringify(data,null,2))
-                            var fn      = queuedResponses[seqNum]
                             var sdf     = eval("(" + data.record + ")")
 
-                            //console.log("callig 2")
                             for (var i=0; i< sdf.length; i++) {
                                 await checkLibsV2(sdf[i])
                                 await callCodeV2(sdf[i],args)
-                                //alert(JSON.stringify(Object.keys(sdf[i]),null,2))
-                                //console.log("callig 3")
-
-                                //fn(sdf[i])
                             }
                         };
 
