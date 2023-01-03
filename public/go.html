@@ -4040,15 +4040,17 @@ async function loadV3( baseComponentItems, args ) {
                         args:             args,
                         seq_num:          seqNum
                     });
-                    await postToYazzReturnJson("/post_test",{})
-                    /*await postToYazzReturnJson(
+                    //debugger
+                    //await postToYazzReturnJson("/post_test",{})
+                    await postToYazzReturnJson(
                         "/loadUiComponentsV2",
                         {
                             message_type:    "loadUiComponentsV2",
                             find_components:  {items: componentsItemsToLoad},
                             args:             args,
                             seq_num:          seqNum
-                        })*/
+                        })
+                        //debugger
                 }
 
 // ****************************************************************************
@@ -4152,7 +4154,7 @@ async function callComponentNonAsync(findComponentArgs, args, callbackFn) {
 
 
 async function callCodeV2(componentRecord, args, seq_no) {
-debugger
+//debugger
     if (componentRecord.edit_file_path) {
         saveCodeToFile = componentRecord.edit_file_path
     }
