@@ -4193,15 +4193,9 @@ async function callCodeV2(componentRecord, args, seq_no) {
             if (!kkk.clientId) {
                 kkk.clientId = kkk.resource
             }
-
-            //alert(editingAppId)
-            if (editingAppId && window.location.href && (window.location.href.indexOf("/edit/") == -1)) {
-                window.location.href = "/edit/" + editingAppId;
-            } else {
-                loadKeycloak(
+            loadKeycloak(
                     kkk
                 )
-            }
         }
 
 
