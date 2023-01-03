@@ -2197,54 +2197,6 @@ function websocketFn(ws) {
 
 
 
-        } else if (receivedMessage.message_type == "loadUiComponent") {
-            //console.log("***** } else if (msg.message_type == loadUiComponent) ")
-
-            let componentIds = receivedMessage.find_components.base_component_ids
-
-            dbsearch.serialize(
-                function() {
-                    let stmt = dbsearch.all(
-                        "SELECT  *  FROM   system_code   WHERE   base_component_id in " +
-                            "("  + componentIds.map(function(){ return "?" }).join(",") + " )" +
-                            "   and   code_tag = 'LATEST' ",
-                        componentIds
-                        ,
-
-                        function(err, results)
-                        {
-                            if (results) {
-                                if (results.length > 0) {
-                                    let codeId = results[0].id
-                                        dbsearch.all(
-                                            "SELECT dependency_name FROM app_dependencies where code_id = ?; ",
-                                            codeId,
-
-                                            function(err, results2)
-                                            {
-                                                results[0].libs = results2
-                                                sendToBrowserViaWebSocket(
-                                                    ws,
-                                                    {
-                                                        type:                   "server_returns_loadUiComponent_to_browser",
-                                                        seq_num:                 receivedMessage.seq_num,
-                                                        record:                  JSON.stringify(results,null,2),
-                                                        args:                    JSON.stringify(receivedMessage.args,null,2),
-                                                        test:                   1
-                                                    });
-                                            })
-                                }
-
-                            }
-
-                        })
-            }, sqlite3.OPEN_READONLY)
-
-
-
-
-
-
 
 
         } else if (receivedMessage.message_type == "loadUiComponentsV2") {
