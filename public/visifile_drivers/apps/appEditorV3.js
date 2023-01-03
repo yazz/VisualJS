@@ -2036,7 +2036,7 @@ debugger
                         if (mm.app_shown) {
                             // if the app has been changed during the save then don't reload the app
                             if (!saveCodeToFile) {
-                                debugger
+                                //debugger
                                 await mm.load_app({code: mm.editor_text, runThisApp: true})
 
                             } else {

@@ -3844,14 +3844,15 @@ async function sqliteQuery(sql) {
         checks that related libs are loaded
 
 
-      ------
+      ------------------
     - loadUiComponentsV4
-      ------
+      ------------------
+        Loads Yazz UI components only
 
-
-      ----------
+      ---------------------------
     - enhanceAndRunYazzSourceCode
-      ----------
+      ---------------------------
+        parse and run the source code for a Yazz Componenet loaded into the front end
 
 
 
@@ -4008,7 +4009,7 @@ async function loadUiComponentsV4( baseComponentItems, args ) {
                         {
                             find_components:  {items: componentsItemsToLoad},
                         })
-                        debugger
+                        //debugger
 
                         for (const data of resultsUi) {
 
@@ -4079,6 +4080,7 @@ async function callComponentNonAsync(findComponentArgs, args, callbackFn) {
     // if this is a static app then read the components from the cache "global_cached_structure_for_code_commit"
     //
     if (isStaticHtmlPageApp && findComponentArgs.base_component_id && global_map_base_component_id_to_commit_id[findComponentArgs.base_component_id]) {
+    debugger
         //alert("Reading app from cache: " + findComponentArgs.base_component_id)
         let calledComponentCodeId   = global_map_base_component_id_to_commit_id[findComponentArgs.base_component_id]
         let newData         = global_cached_structure_for_code_commit[calledComponentCodeId]
