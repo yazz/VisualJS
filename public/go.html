@@ -2331,7 +2331,7 @@ isWin = data.value
                     }
 
                     await checkLibsV2(data.value)
-                    await callCodeV2(data.value,  componentCallsListArgsSent[data.seq_num],  data.seq_num)
+                    await enhanceAndRunYazzSourceCode(data.value,  componentCallsListArgsSent[data.seq_num],  data.seq_num)
                 }
 
 
@@ -3850,7 +3850,7 @@ async function sqliteQuery(sql) {
 
 
       ----------
-    - callCodeV2
+    - enhanceAndRunYazzSourceCode
       ----------
 
 
@@ -3963,7 +3963,7 @@ async function loadUiComponentsV4( baseComponentItems, args ) {
                 }
 
                 await checkLibsV2(newData.value)
-                await callCodeV2(newData.value, args)
+                await enhanceAndRunYazzSourceCode(newData.value, args)
                 loadedStatic = true
             }
         }
@@ -4016,7 +4016,7 @@ async function loadUiComponentsV4( baseComponentItems, args ) {
 
                             for (var i=0; i< sdf.length; i++) {
                                 await checkLibsV2(sdf[i])
-                                await callCodeV2(sdf[i],args)
+                                await enhanceAndRunYazzSourceCode(sdf[i],args)
                             }
                         };
 
@@ -4083,7 +4083,7 @@ async function callComponentNonAsync(findComponentArgs, args, callbackFn) {
         let calledComponentCodeId   = global_map_base_component_id_to_commit_id[findComponentArgs.base_component_id]
         let newData         = global_cached_structure_for_code_commit[calledComponentCodeId]
         await checkLibsV2(newData.value)
-        await callCodeV2(newData.value,  componentCallsListArgsSent[seqNum],  seqNum)
+        await enhanceAndRunYazzSourceCode(newData.value,  componentCallsListArgsSent[seqNum],  seqNum)
 
 
     //
@@ -4130,7 +4130,7 @@ async function callComponentNonAsync(findComponentArgs, args, callbackFn) {
         }
     }
 */
-async function callCodeV2(componentRecord, args, seq_no) {
+async function enhanceAndRunYazzSourceCode(componentRecord, args, seq_no) {
 //debugger
     var callbackFn = null
     if (isValidObject(seq_no)) {
