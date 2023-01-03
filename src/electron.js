@@ -2867,12 +2867,11 @@ async function startServices() {
 
 
         app.post('/loadUiComponentsV2', async function (req, res) {
-            console.log("app.post('/loadUiComponentsV2'): ")
+        //zzz
             console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
 
             let componentItems = req.body.find_components.items
             let receivedMessageArgs = req.body.args
-            let receivedMessageSeq_num = req.body.seq_num
             let componentIds = []
             let componentHashs = []
             let componentHashToIds = []
@@ -2916,7 +2915,6 @@ async function startServices() {
                         resultsui.push(
                             {
                                 type: "server_returns_loadUiComponent_to_browser",
-                                seq_num: receivedMessageSeq_num,
                                 record: JSON.stringify(results, null, 2),
                                 args: JSON.stringify(receivedMessageArgs, null, 2),
                                 test: 1
@@ -2962,7 +2960,6 @@ async function startServices() {
                                                         ws,
                                                         {
                                                             type:                   "server_returns_loadUiComponent_to_browser",
-                                                            seq_num:                 receivedMessageSeq_num,
                                                             record:                  JSON.stringify(results,null,2),
                                                             args:                    JSON.stringify(receivedMessageArgs,null,2),
                                                             test:                   1
@@ -5180,7 +5177,7 @@ async function loadComponentFromIpfs(ipfsHash) {
 //
 //------------------------------------------------------------------------------
 async function addOrUpdateDriver(  codeString ,options ) {
-//zzz
+
     let name = yz.getValueOfCodeString(codeString,"base_component_id")
 
     let promise = new Promise(async function(returnfn) {
