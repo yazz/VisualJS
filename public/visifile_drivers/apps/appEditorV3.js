@@ -1770,7 +1770,7 @@ End of app preview menu
                                         editorName = newEditor
                                     }
 
-                                    await loadV3( editorName, {text: code} )
+                                    await loadUiComponentsV4( editorName, {text: code} )
 
                                     mm.editor_loaded    = true
                                     mm.editor_component = editorName
@@ -1822,7 +1822,7 @@ End of app preview menu
                                 editorName = newEditor
                             }
 debugger
-                            await loadV3( editorName, {text: code} )
+                            await loadUiComponentsV4( editorName, {text: code} )
 
                             mm.editor_loaded    = true
                             mm.editor_component = editorName
@@ -1915,7 +1915,7 @@ debugger
                                         editorName = newEditor
                                     }
 
-                                    await loadV3( editorName, {text: code} )
+                                    await loadUiComponentsV4( editorName, {text: code} )
 
                                     mm.editor_loaded    = true
                                     mm.editor_component = editorName

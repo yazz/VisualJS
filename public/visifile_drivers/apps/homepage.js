@@ -976,7 +976,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                   dev_app_component_loaded[baseComponentId] = false
                   global_component_type_details_cache[baseComponentId]          = null
 
-                  //await loadV3(baseComponentId)
+                  //await loadUiComponentsV4(baseComponentId)
                   mm.editableAppList.push( app  )
                   mm.refresh++
               }
@@ -1093,15 +1093,15 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             let mm = this
               globalEventBus.$emit('hide_settings', {});
 
-              //await loadV3("app_editor_3")
-              await loadV3([{baseComponentId: "app_editor_3"}])
+              //await loadUiComponentsV4("app_editor_3")
+              await loadUiComponentsV4([{baseComponentId: "app_editor_3"}])
               if (event) {
                   event.stopPropagation()
               }
 
               if (!component_loaded[item]) {
-                 //await loadV3([item])
-                 await loadV3([{baseComponentId: item}])
+                 //await loadUiComponentsV4([item])
+                 await loadUiComponentsV4([{baseComponentId: item}])
                   //debugger
               }
 

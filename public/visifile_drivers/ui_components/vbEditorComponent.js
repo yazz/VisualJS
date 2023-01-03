@@ -2502,7 +2502,7 @@ Pushlist
                      }
                  }
                  //debugger
-                 await loadV3(compsToLoad)
+                 await loadUiComponentsV4(compsToLoad)
 
 
 
@@ -2879,7 +2879,7 @@ setTimeout(async function(){
                //console.log("Component: " + JSON.stringify(cbase))
                itemsToLoad.push(cbase)
            }
-           await loadV3(itemsToLoad)
+           await loadUiComponentsV4(itemsToLoad)
            //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
          }
          ,
@@ -4148,7 +4148,7 @@ ${origCode}
                 mm.refresh++
                 if (!component_loaded[newItem.base_component_id]) {
                 //debugger
-                   await loadV3([newItem.base_component_id])
+                   await loadUiComponentsV4([newItem.base_component_id])
                    mm.component_usage[newItem.base_component_id] = true
                 }
 

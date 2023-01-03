@@ -1157,7 +1157,7 @@ logo_url("/driver_icons/blocks.png")
                         compsToLoad.push(newItem.base_component_id)
                     }
                 }
-                await loadV3(compsToLoad)
+                await loadUiComponentsV4(compsToLoad)
 
 
 
@@ -1530,7 +1530,7 @@ ${origCode}
 
             this.refresh++
             if (!component_loaded[newItem.base_component_id]) {
-               await loadV3([newItem.base_component_id])
+               await loadUiComponentsV4([newItem.base_component_id])
                this.component_usage[newItem.base_component_id] = true
             }
 
