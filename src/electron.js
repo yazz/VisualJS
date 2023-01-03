@@ -3115,6 +3115,18 @@ async function startServices() {
 
 
 
+        app.get('/post_test', async function (req, res) {
+            console.log("app.post('/post_test'): ")
+            console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+
+            res.writeHead(200, {'Content-Type': 'application/json'});
+
+            res.end(JSON.stringify(
+                []
+            ));
+
+        });
+
 
 
 

@@ -4009,20 +4009,29 @@ async function loadV3( baseComponentItems, args ) {
         }
 
         if (componentsItemsToLoad.length > 0) {
-            let promise = new Promise(returnfn => {
+            let promise = new Promise(async function(returnfn) {
                 let seqNum = queuedBrowserResponseSeqNum ++;
                 queuedResponses[seqNum] = function(response) {
                     returnfn({})
                 };
 
+//zzz
                 if (!online) {
-                    setTimeout(function() {
+                    setTimeout(async function() {
                         sendToServerViaWebSocket({
                             message_type:    "loadUiComponentsV2",
                             find_components:  {items: componentsItemsToLoad},
                             args:             args,
                             seq_num:          seqNum
                         });
+                        await postToYazzReturnJson(
+                            "/loadUiComponentsV2",
+                            {
+                                message_type:    "loadUiComponentsV2",
+                                find_components:  {items: componentsItemsToLoad},
+                                args:             args,
+                                seq_num:          seqNum
+                            })
                     },2000)
                 } else {
                     sendToServerViaWebSocket({
@@ -4031,6 +4040,15 @@ async function loadV3( baseComponentItems, args ) {
                         args:             args,
                         seq_num:          seqNum
                     });
+                    await postToYazzReturnJson("/post_test",{})
+                    /*await postToYazzReturnJson(
+                        "/loadUiComponentsV2",
+                        {
+                            message_type:    "loadUiComponentsV2",
+                            find_components:  {items: componentsItemsToLoad},
+                            args:             args,
+                            seq_num:          seqNum
+                        })*/
                 }
 
 // ****************************************************************************
