@@ -4206,58 +4206,15 @@ async function callCodeV2(componentRecord, args, seq_no) {
 
 
         //Don't run any server code
-        if ( (componentRecord.base_component_id == base_component_id) && (trcode2.toString().includes("only_run_on_server(true)"))) {
-
+        if (trcode2.toString().includes("only_run_on_server(true)")) {
             mainMoonApp.console_output  = ""
             mainMoonApp.is_gui_app      = false
-            if (callbackFn) {
-                callbackFn({})
-                queuedResponses[seq_no] = null
-            }
-            queuedResponses[seq_no]     = null
 
-        } else if (trcode2.toString().includes("only_run_on_server(true)")) {
-
-        } else if ( (componentRecord.base_component_id == base_component_id) && (!trcode2.toString().includes("Vue."))) {
+        } else if (!trcode2.toString().includes("Vue.")) {
             mainMoonApp.console_output = ""
             mainMoonApp.is_gui_app = false
-
-            console.log = function() {
-                if (isValidObject(mainMoonApp.console_output)) {
-                    if (document.getElementById("console_id")) {
-                        document.getElementById("console_id").style.color="black"
-                    }
-                    for (var a=0; a < arguments.length ; a++) {
-                        mainMoonApp.console_output += arguments[a] + " "
-                    }
-                    mainMoonApp.console_output +=
-                        `
-        `
-                }
-            }
-            //console.log("Code to run: " + trcode2)
-            var fnfn = eval( trcode2  )
-
-            setTimeout(async function() {
-                if (trcode2.indexOf("async ")  == -1) {
-                    var fnfnRes = fnfn(args)
-                    if (callbackFn) {
-                        callbackFn(fnfnRes)
-                        queuedResponses[seq_no] = null
-                    }
-
-                } else {
-                    var fnfnRes = await fnfn(args)
-                    if (callbackFn) {
-                        callbackFn(fnfnRes)
-                        queuedResponses[seq_no] = null
-                    }
-                }
-            },100)
         } else {
-            //console.log("Code to run: " + trcode2)
             var fnfn = eval( trcode2  )
-
 
             if (trcode2.indexOf("async ")  == -1) {
                 var fnfnRes = fnfn(args)
