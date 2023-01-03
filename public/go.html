@@ -4014,7 +4014,6 @@ async function loadV3( baseComponentItems, args ) {
                         "/loadUiComponentsV2",
                         {
                             find_components:  {items: componentsItemsToLoad},
-                            args:             args,
                         })
                         debugger
 
@@ -4023,7 +4022,6 @@ async function loadV3( baseComponentItems, args ) {
                             //alert("component returned: " + JSON.stringify(data,null,2))
                             var fn      = queuedResponses[seqNum]
                             var sdf     = eval("(" + data.record + ")")
-                            var args    = eval("(" + data.args + ")")
 
                             //console.log("callig 2")
                             for (var i=0; i< sdf.length; i++) {
@@ -4032,20 +4030,12 @@ async function loadV3( baseComponentItems, args ) {
                                 //alert(JSON.stringify(Object.keys(sdf[i]),null,2))
                                 //console.log("callig 3")
 
-                                fn(sdf[i])
+                                //fn(sdf[i])
                             }
                         };
 
                 }
-
-// ****************************************************************************
-// the following line was removed as it caused "Edit app" to fail. Why? I don't know
-//setTimeout(
-//    function() {
-//                returnfn({})
-//        },200
-//    )
-// ****************************************************************************
+                returnfn({})
 
             })
 
