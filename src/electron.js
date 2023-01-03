@@ -2873,9 +2873,8 @@ async function startServices() {
             let componentHashs      = []
             let componentHashToIds  = []
 
-            for (let indexItems = 0 ; indexItems < componentItems.length ; indexItems ++ ) {
+            for (let componentItem    of    componentItems ) {
 
-                let componentItem = componentItems[indexItems]
                 if (componentItem.ipfsHashId &&  (componentItem.ipfsHashId.length > 0)) {
                     componentHashs.push(componentItem.ipfsHashId)
                     componentHashToIds.push(componentItem.baseComponentId)
