@@ -2288,14 +2288,14 @@ function websocketFn(ws) {
 
         // --------------------------------------------------------------------
         //
-        //                         browserCallsComponentViaWebSocket
+        //                         browser_calls_component_via_web_socket
         //
-        // "browserCallsComponentViaWebSocket" is used to call server side apps/code.
+        // "browser_calls_component_via_web_socket" is used to call server side apps/code.
         //
         //
         //
         // --------------------------------------------------------------------
-        } else if (receivedMessage.message_type == "browserCallsComponentViaWebSocket") {
+        } else if (receivedMessage.message_type == "browser_calls_component_via_web_socket") {
 
             // Use an integer counter to identify whoever was
             // calling the server function (in this case a web browser with
