@@ -2923,7 +2923,7 @@ async function startServices() {
 
 
 
-            app.post('/submit_comment', async function (req, res) {
+        app.post('/submit_comment', async function (req, res) {
             console.log("app.post('/submit_comment'): ")
             console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
 
@@ -2978,6 +2978,145 @@ async function startServices() {
             },500)
 
         });
+
+
+
+
+
+
+
+
+
+        app.post('/loadUiComponentsV2', async function (req, res) {
+            console.log("app.post('/loadUiComponentsV2'): ")
+            console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+
+            let componentItems = req.body.value.find_components.items
+            let receivedMessageArgs = req.body.value.args
+            let componentIds = []
+            let componentHashs = []
+            let componentHashToIds = []
+            for (let indexItems = 0 ; indexItems < componentItems.length ; indexItems ++ ) {
+
+                let componentItem = componentItems[indexItems]
+                if (componentItem.ipfsHashId &&  (componentItem.ipfsHashId.length > 0)) {
+                    componentHashs.push(componentItem.ipfsHashId)
+                    componentHashToIds.push(componentItem.baseComponentId)
+                } else {
+                    componentIds.push(componentItem.baseComponentId)
+                }
+            }
+
+            //
+            // read the database components
+            //
+            let promise = new Promise(async function(returnfn) {
+                dbsearch.serialize(
+                    function() {
+                        let stmt = dbsearch.all(
+                            "SELECT  *  FROM   system_code   WHERE   base_component_id in " +
+                            "("  + componentIds.map(function(){ return "?" }).join(",") + " )" +
+                            "   and   code_tag = 'LATEST' ",
+                            componentIds
+                            ,
+
+                            function(err, results)
+                            {
+                                if (results) {
+                                    if (results.length > 0) {
+                                        let codeId = results[0].id
+                                        dbsearch.all(
+                                            "SELECT dependency_name FROM app_dependencies where code_id = ?; ",
+                                            codeId,
+
+                                            function(err, results2)
+                                            {
+                                                results[0].libs = results2
+                                                sendToBrowserViaWebSocket(
+                                                    ws,
+                                                    {
+                                                        type:                   "server_returns_loadUiComponent_to_browser",
+                                                        seq_num:                 receivedMessage.seq_num,
+                                                        record:                  JSON.stringify(results,null,2),
+                                                        args:                    JSON.stringify(receivedMessageArgs,null,2),
+                                                        test:                   1
+                                                    });
+                                            })
+                                    }
+
+                                }
+
+                            })
+                    }, sqlite3.OPEN_READONLY)
+
+
+
+
+                //
+                // read the IPFS components
+                //
+                for (let indexItems = 0 ; indexItems < componentHashs.length ; indexItems ++ ) {
+                    let componentHash = componentHashs[indexItems]
+
+                    let ret = await loadComponentFromIpfs(componentHash)
+                    let z = 1
+                    let r =z
+
+                }
+                setTimeout( function() {
+                    dbsearch.serialize(
+                        function() {
+                            let stmt = dbsearch.all(
+                                "SELECT  *  FROM   system_code   WHERE   base_component_id in " +
+                                "("  + componentHashToIds.map(function(){ return "?" }).join(",") + " )" +
+                                "   and   code_tag = 'LATEST' ",
+                                componentHashToIds
+                                ,
+
+                                function(err, results)
+                                {
+                                    if (results) {
+                                        if (results.length > 0) {
+                                            let codeId = results[0].id
+                                            dbsearch.all(
+                                                "SELECT dependency_name FROM app_dependencies where code_id = ?; ",
+                                                codeId,
+
+                                                function(err, results2)
+                                                {
+                                                    results[0].libs = results2
+                                                    sendToBrowserViaWebSocket(
+                                                        ws,
+                                                        {
+                                                            type:                   "server_returns_loadUiComponent_to_browser",
+                                                            seq_num:                 receivedMessage.seq_num,
+                                                            record:                  JSON.stringify(results,null,2),
+                                                            args:                    JSON.stringify(receivedMessage.args,null,2),
+                                                            test:                   1
+                                                        });
+                                                })
+                                        }
+
+                                    }
+
+                                })
+                        }, sqlite3.OPEN_READONLY)
+                },200)
+            })
+            let ret = await promise
+            res.writeHead(200, {'Content-Type': 'application/json'});
+            res.end(JSON.stringify(
+                ret
+            ));
+
+        });
+
+
+
+
+
+
+
 
 
 
