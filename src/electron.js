@@ -2868,13 +2868,11 @@ async function startServices() {
 
         app.post('/loadUiComponentsV2', async function (req, res) {
         //zzz
-            console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+            let componentItems      = req.body.find_components.items
+            let componentIds        = []
+            let componentHashs      = []
+            let componentHashToIds  = []
 
-            let componentItems = req.body.find_components.items
-            let receivedMessageArgs = req.body.args
-            let componentIds = []
-            let componentHashs = []
-            let componentHashToIds = []
             for (let indexItems = 0 ; indexItems < componentItems.length ; indexItems ++ ) {
 
                 let componentItem = componentItems[indexItems]
@@ -2914,10 +2912,7 @@ async function startServices() {
                         results[0].libs = results2
                         resultsui.push(
                             {
-                                type: "server_returns_loadUiComponent_to_browser",
                                 record: JSON.stringify(results, null, 2),
-                                args: JSON.stringify(receivedMessageArgs, null, 2),
-                                test: 1
                             });
                     }
                 }
@@ -2959,10 +2954,7 @@ async function startServices() {
                                                     sendToBrowserViaWebSocket(
                                                         ws,
                                                         {
-                                                            type:                   "server_returns_loadUiComponent_to_browser",
                                                             record:                  JSON.stringify(results,null,2),
-                                                            args:                    JSON.stringify(receivedMessageArgs,null,2),
-                                                            test:                   1
                                                         });
                                                 })
                                         }
