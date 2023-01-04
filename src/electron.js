@@ -5652,12 +5652,6 @@ function ipcChildReturningCallComponentResponse(msg) {
     //console.log("6.1: " + msg)
     let new_ws = queuedResponses[ msg.seq_num_parent ]
 
-    if (msg.result) {
-        if (msg.result.code) {
-            let tr = msg.result.code
-            msg.result.code = tr
-        }
-    }
     sendToBrowserViaWebSocket(
                                  new_ws
                                  ,
