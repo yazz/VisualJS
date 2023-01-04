@@ -2309,8 +2309,7 @@ isWin = data.value
 
     socket.on('ws_to_browser_call_component_results',async function(data) {
 
-        if (data.value) {
-            if (data.value.is_code_result) {
+        if (data.value && data.value.is_code_result) {
 
                 if (data.value.code_id) {
                     if (data.value.base_component_id && (!global_map_base_component_id_to_commit_id[data.value.base_component_id])) {
@@ -2329,7 +2328,7 @@ isWin = data.value
                 callbackFn(data.value)
                 queuedResponses[data.seq_num] = null
             }
-        }
+
     });
 
 }
