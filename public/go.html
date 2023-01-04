@@ -2319,7 +2319,18 @@ isWin = data.value
                     }
 
                     await checkLibsV2(data.value)
-                    await enhanceAndRunYazzSourceCode(data.value,  componentCallsListArgsSent[data.seq_num],  data.seq_num)
+
+                    //zzz
+                    debugger
+                    let trcode2 = await enhanceYazzSourceCode(data.value)
+                    var callbackFn = null
+                    if (isValidObject(data.seq_num)) {
+                        callbackFn = queuedResponses[data.seq_num]
+                    }
+                    debugger
+                    await runYazzSourceCode(trcode2, componentCallsListArgsSent[data.seq_num], callbackFn)
+                    queuedResponses[data.seq_num] = null
+
                 }
 
 
@@ -3786,7 +3797,7 @@ async function sqliteQuery(sql) {
     componentCallsListArgsSent            = new Object()
 
 
-//zzz
+
 
  Here are what the main component loading functions and vars do:
 
@@ -3838,7 +3849,7 @@ async function sqliteQuery(sql) {
         Loads Yazz UI components only
 
       ---------------------------
-    - enhanceAndRunYazzSourceCode
+    - enhanceYazzSourceCode
       ---------------------------
         parse and run the source code for a Yazz Componenet loaded into the front end
 
@@ -3950,7 +3961,8 @@ async function loadUiComponentsV4( baseComponentItems, args ) {
                 }
 
                 await checkLibsV2(codeCommit)
-                await enhanceAndRunYazzSourceCode(codeCommit, args)
+                let trcode2 = await enhanceYazzSourceCode(codeCommit)
+                await runYazzSourceCode(trcode2, args, null)
                 loadedStatic = true
             }
         }
@@ -3978,7 +3990,7 @@ async function loadUiComponentsV4( baseComponentItems, args ) {
 
         if (componentsItemsToLoad.length > 0) {
             let promise = new Promise(async function(returnfn) {
-//zzz
+
                 if (!online) {
                     setTimeout(async function() {
                         await postToYazzReturnJson(
@@ -4002,7 +4014,9 @@ async function loadUiComponentsV4( baseComponentItems, args ) {
 
                             for (var i=0; i< sdf.length; i++) {
                                 await checkLibsV2(sdf[i])
-                                await enhanceAndRunYazzSourceCode(sdf[i],args)
+                                let trcode2 = await enhanceYazzSourceCode(sdf[i])
+                                await runYazzSourceCode(trcode2, args, null)
+
                             }
                         };
 
@@ -4082,15 +4096,9 @@ async function callComponent(  componentSearchDetails,  fnCallArgs  ) {
         }
     }
 */
-async function enhanceAndRunYazzSourceCode(componentRecord, args, seq_no) {
+async function enhanceYazzSourceCode(componentRecord) {
 //debugger
-    var callbackFn = null
-    if (isValidObject(seq_no)) {
-        //debugger
-        callbackFn = queuedResponses[seq_no]
-    }
-
-
+//zzz
 
     try {
         //
@@ -4181,37 +4189,7 @@ async function enhanceAndRunYazzSourceCode(componentRecord, args, seq_no) {
                     kkk
                 )
         }
-
-
-        //Don't run any server code
-        if (trcode2.toString().includes("only_run_on_server(true)")) {
-            mainMoonApp.console_output  = ""
-            mainMoonApp.is_gui_app      = false
-
-        } else if (!trcode2.toString().includes("Vue.")) {
-            mainMoonApp.console_output = ""
-            mainMoonApp.is_gui_app = false
-        } else {
-            var fnfn = eval( trcode2  )
-
-            if (trcode2.indexOf("async ")  == -1) {
-                var fnfnRes = fnfn(args)
-                if (callbackFn) {
-                    callbackFn(fnfnRes)
-                    queuedResponses[seq_no] = null
-                }
-
-            } else {
-                var fnfnRes = await fnfn(args)
-                if (callbackFn) {
-                    callbackFn(fnfnRes)
-                    queuedResponses[seq_no] = null
-                }
-            }
-        }
-
-
-
+        return trcode2
 
     } catch (err) {
         alert(err)
@@ -4219,6 +4197,34 @@ async function enhanceAndRunYazzSourceCode(componentRecord, args, seq_no) {
         hideProgressBar()
     }
 }
+
+async function runYazzSourceCode(trcode2, args, callbackFn) {
+    //Don't run any server code
+    if (trcode2.toString().includes("only_run_on_server(true)")) {
+        mainMoonApp.console_output  = ""
+        mainMoonApp.is_gui_app      = false
+    } else if (!trcode2.toString().includes("Vue.")) {
+        mainMoonApp.console_output = ""
+        mainMoonApp.is_gui_app = false
+    } else {
+        let fnfn = eval( trcode2  )
+        if (trcode2.indexOf("async ")  == -1) {
+            let fnfnRes = fnfn(args)
+            //if (isValidObject(callbackFn)) {
+            if (callbackFn) {
+                callbackFn(fnfnRes)
+            }
+
+        } else {
+            let fnfnRes = await fnfn(args)
+            //if (isValidObject(callbackFn)) {
+            if (callbackFn) {
+                callbackFn(fnfnRes)
+            }
+        }
+    }
+}
+
 
 </script>
 </body>
