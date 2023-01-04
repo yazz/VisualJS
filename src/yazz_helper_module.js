@@ -758,7 +758,6 @@ module.exports = {
 
 
                                                 let newCode =  `global_cached_structure_for_code_commit["${sha1sum}"] = {
-                                          "value": {
                                             "code": /*APP_START*/unescape(\`${newcode}\`)/*APP_END*/,
                                             "is_code_result": true,
                                             "use_db": ${useDb?"\"" + useDb + "\"":null},
@@ -766,7 +765,6 @@ module.exports = {
                                             "libs": [],
                                             "code_id": "${sha1sum}",
                                             "base_component_id": "${baseComponentId}"
-                                          }
                                         }
 
                                         global_map_base_component_id_to_commit_id["${baseComponentId}"] = "${sha1sum}"`
@@ -805,7 +803,6 @@ module.exports = {
                                                                 for (let i = 0  ;   i < results.length;    i ++ ) {
                                                                     let newcodeEs = escape("(" + results[i].code.toString() + ")")
                                                                     let newCode2 =  `global_cached_structure_for_code_commit["${results[i].sha1}"] = {
-                                                              "value": {
                                                                 "code": unescape(\`${newcodeEs}\`),
                                                                 "is_code_result": true,
                                                                 "use_db": ${useDb?"\"" + useDb + "\"":null},
@@ -813,7 +810,6 @@ module.exports = {
                                                                 "component_type": \"SYSTEM\",
                                                                 "code_id": "${results[i].sha1}",
                                                                 "base_component_id": "${results[i].child_component_id}"
-                                                              }
                                                             }
 
                                                             global_map_base_component_id_to_commit_id["${results[i].child_component_id}"] = "${results[i].sha1}"
@@ -1741,7 +1737,6 @@ module.exports = {
 
 
                                                 let newCode =  `global_cached_structure_for_code_commit["${sha1sum}"] = {
-                                              "value": {
                                                 "code": /*APP_START*/unescape(\`${newcode}\`)/*APP_END*/,
                                                 "is_code_result": true,
                                                 "use_db": ${useDb?"\"" + useDb + "\"":null},
@@ -1749,7 +1744,6 @@ module.exports = {
                                                 "libs": [],
                                                 "code_id": "${sha1sum}",
                                                 "base_component_id": "${baseComponentId}"
-                                              }
                                             }
     
                                             global_map_base_component_id_to_commit_id["${baseComponentId}"] = "${sha1sum}"`
@@ -1788,7 +1782,6 @@ module.exports = {
                                                                 for (let i = 0  ;   i < results.length;    i ++ ) {
                                                                     let newcodeEs = escape("(" + results[i].code.toString() + ")")
                                                                     let newCode2 =  `global_cached_structure_for_code_commit["${results[i].sha1}"] = {
-                                                                  "value": {
                                                                     "code": unescape(\`${newcodeEs}\`),
                                                                     "is_code_result": true,
                                                                     "use_db": ${useDb?"\"" + useDb + "\"":null},
@@ -1796,7 +1789,6 @@ module.exports = {
                                                                     "component_type": \"SYSTEM\",
                                                                     "code_id": "${results[i].sha1}",
                                                                     "base_component_id": "${results[i].child_component_id}"
-                                                                  }
                                                                 }
     
                                                                 global_map_base_component_id_to_commit_id["${results[i].child_component_id}"] = "${results[i].sha1}"

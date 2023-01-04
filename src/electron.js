@@ -5647,9 +5647,6 @@ function return_add_local_driver_results_msg(msg) {
 //------------------------------------------------------------------------------
 function ipcChildReturningCallComponentResponse(msg) {
 
-    //console.log(" .......3: " + JSON.stringify(msg,null,2));
-    //console.log("6: return_query_items_ended")
-    //console.log("6.1: " + msg)
     let new_ws = queuedResponses[ msg.seq_num_parent ]
 
     sendToBrowserViaWebSocket(
