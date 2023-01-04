@@ -3981,9 +3981,8 @@ async function loadUiComponentsV4( baseComponentItems, args ) {
     let componentsItemsToLoad = []
     if (!loadedStatic) {
 
-        for (let tt=0; tt < componentsItemsToLoadV3.length; tt++) {
-            let componentId = componentsItemsToLoadV3[tt].baseComponentId
-            let componentItem = componentsItemsToLoadV3[tt]
+        for (let  componentItem  of  componentsItemsToLoadV3  ) {
+            let componentId = componentItem.baseComponentId
 
             if (!component_loaded[componentId]) {
                 component_loaded[componentId] = true
