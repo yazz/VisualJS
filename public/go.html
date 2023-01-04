@@ -2320,7 +2320,6 @@ isWin = data.value
 
                     await checkLibsV2(data.value)
 
-                    //zzz
                     let trcode2 = await enhanceYazzSourceCodeBeforeRunning(data.value)
                     var callbackFn = null
                     if (isValidObject(data.seq_num)) {
@@ -3835,6 +3834,8 @@ async function sqliteQuery(sql) {
 
     METHODS
     -------
+    //zzz
+
       -----------
     - checkLibsV2
       -----------
@@ -3919,6 +3920,7 @@ async function loadUiComponentsV4( baseComponentItems, args ) {
     //      {ipfs: "1f"}
     // ]
     //
+    debugger
     if (typeof baseComponentItems === 'string' || baseComponentItems instanceof String) {
         baseComponentItems = [{baseComponentId: baseComponentItems}]
     } else if (!Array.isArray(baseComponentItems)) {
@@ -3926,8 +3928,7 @@ async function loadUiComponentsV4( baseComponentItems, args ) {
     }
 
     let componentsItemsToLoadV3 = []
-    for (let tt=0; tt < baseComponentItems.length; tt++) {
-        let componentItem = baseComponentItems[tt]
+    for ( let componentItem  of  baseComponentItems ) {
         if (typeof componentItem == 'string') {
             componentsItemsToLoadV3.push({baseComponentId: componentItem})
         } else {
@@ -3943,13 +3944,13 @@ async function loadUiComponentsV4( baseComponentItems, args ) {
     let loadedStatic = false
     if (isStaticHtmlPageApp) {
         for (let tt=0; tt < componentsItemsToLoadV3.length; tt++) {
-            let componentId = componentsItemsToLoadV3[tt].baseComponentId
-            dev_app_component_loaded[componentId] = true
-            if (isStaticHtmlPageApp && global_map_base_component_id_to_commit_id[ componentId ] && (!component_loaded[componentId])) {
+            let componentType = componentsItemsToLoadV3[tt].baseComponentId
+            dev_app_component_loaded[componentType] = true
+            if (isStaticHtmlPageApp && global_map_base_component_id_to_commit_id[ componentType ] && (!component_loaded[componentType])) {
                 //console.log("loadUiComponentsV4: 2")
-                component_loaded[componentId] = true
+                component_loaded[componentType] = true
                 //alert("Reading app from cache: " + findComponentArgs.base_component_id)
-                let newDataCodeId   = global_map_base_component_id_to_commit_id[ componentId ]
+                let newDataCodeId   = global_map_base_component_id_to_commit_id[ componentType ]
                 let codeCommit      = global_cached_structure_for_code_commit[ newDataCodeId ]
                 let properties = yz.getValueOfCodeString(codeCommit.code, "properties",")//properties")
                 if (properties) {
@@ -3978,10 +3979,20 @@ async function loadUiComponentsV4( baseComponentItems, args ) {
     if (!loadedStatic) {
 
         for (let  componentItem  of  componentsItemsToLoadV3  ) {
-            let componentId = componentItem.baseComponentId
+            let componentType = componentItem.baseComponentId
+            let componentId = componentItem.id
 
-            if (!component_loaded[componentId]) {
-                component_loaded[componentId] = true
+            if (componentId) {
+                //zzz
+                let compRec = global_cached_structure_for_code_commit[componentId]
+                if (compRec) {
+                    component_loaded[compRec.base_component_id] = true
+                    await checkLibsV2(compRec)
+                    let trcode2 = await enhanceYazzSourceCodeBeforeRunning(compRec)
+                    await runYazzSourceCode(trcode2, args, null)
+                }
+            } else if (!component_loaded[componentType]) {
+                component_loaded[componentType] = true
                 componentsItemsToLoad.push(componentItem)
             }
         }
@@ -4095,8 +4106,6 @@ async function callComponent(  componentSearchDetails,  fnCallArgs  ) {
     }
 */
 async function enhanceYazzSourceCodeBeforeRunning(componentRecord) {
-//debugger
-//zzz
 
     try {
         //

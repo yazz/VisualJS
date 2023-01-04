@@ -1819,7 +1819,7 @@ End of app preview menu
                             if (newEditor) {
                                 editorName = newEditor
                             }
-debugger
+//debugger
                             await loadUiComponentsV4( editorName, {text: code} )
 
                             mm.editor_loaded    = true
@@ -1834,7 +1834,7 @@ debugger
 
 
                         this.resetDebugger()
-                        await callComponent( {code_id:    mm.code_id }, {} )
+                        await loadUiComponentsV4( {id: mm.code_id }, {} )
 
 
 
@@ -2029,12 +2029,21 @@ debugger
                         }
 
                         mm.code_id  = await getIpfsHash(mm.editor_text)
+                        global_cached_structure_for_code_commit[  mm.code_id  ] =
+                            {
+                                code:               mm.editor_text,
+                                is_code_result:     true,
+                                use_db:             base_component_id,
+                                component_type:     "SYSTEM",
+                                libs:               [],
+                                code_id:            mm.code_id,
+                                base_component_id:  base_component_id
+                            }
 
 
                         if (mm.app_shown) {
                             // if the app has been changed during the save then don't reload the app
                             if (!saveCodeToFile) {
-                                //debugger
                                 await mm.load_app({code: mm.editor_text, runThisApp: true})
 
                             } else {
