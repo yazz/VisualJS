@@ -3952,19 +3952,17 @@ async function loadUiComponentsV4( baseComponentItems, args ) {
                 //console.log("loadUiComponentsV4: 2")
                 component_loaded[componentId] = true
                 //alert("Reading app from cache: " + findComponentArgs.base_component_id)
-                let newDataCodeId = global_map_base_component_id_to_commit_id[ componentId ]
-                let newData       = global_cached_structure_for_code_commit[ newDataCodeId ]
-                let properties = yz.getValueOfCodeString(newData.value.code, "properties",")//properties")
+                let newDataCodeId   = global_map_base_component_id_to_commit_id[ componentId ]
+                let codeCommit      = global_cached_structure_for_code_commit[ newDataCodeId ]
+                let properties = yz.getValueOfCodeString(codeCommit.value.code, "properties",")//properties")
                 if (properties) {
-                    if (isValidObject(newData.value)) {
-                        //alert(properties)
-                        //var propee = eval("(" + properties + ")")
-                        newData.value.properties = JSON.stringify(properties)
+                    if (isValidObject(codeCommit.value)) {
+                        codeCommit.value.properties = JSON.stringify(properties)
                     }
                 }
 
-                await checkLibsV2(newData.value)
-                await enhanceAndRunYazzSourceCode(newData.value, args)
+                await checkLibsV2(codeCommit.value)
+                await enhanceAndRunYazzSourceCode(codeCommit.value, args)
                 loadedStatic = true
             }
         }
