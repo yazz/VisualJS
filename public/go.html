@@ -2322,7 +2322,7 @@ isWin = data.value
 
                     //zzz
                     debugger
-                    let trcode2 = await enhanceYazzSourceCode(data.value)
+                    let trcode2 = await enhanceYazzSourceCodeBeforeRunning(data.value)
                     var callbackFn = null
                     if (isValidObject(data.seq_num)) {
                         callbackFn = queuedResponses[data.seq_num]
@@ -3615,7 +3615,7 @@ function getYazzCookie() {
 }
 
 
-function enhanceCode(code, options) {
+function enhanceCodeBeforeSaving(code, options) {
     let mm = this
     let parentHash = null
     let baseComponentId = null
@@ -3849,7 +3849,7 @@ async function sqliteQuery(sql) {
         Loads Yazz UI components only
 
       ---------------------------
-    - enhanceYazzSourceCode
+    - enhanceYazzSourceCodeBeforeRunning
       ---------------------------
         parse and run the source code for a Yazz Componenet loaded into the front end
 
@@ -3961,7 +3961,7 @@ async function loadUiComponentsV4( baseComponentItems, args ) {
                 }
 
                 await checkLibsV2(codeCommit)
-                let trcode2 = await enhanceYazzSourceCode(codeCommit)
+                let trcode2 = await enhanceYazzSourceCodeBeforeRunning(codeCommit)
                 await runYazzSourceCode(trcode2, args, null)
                 loadedStatic = true
             }
@@ -4014,7 +4014,7 @@ async function loadUiComponentsV4( baseComponentItems, args ) {
 
                             for (var i=0; i< sdf.length; i++) {
                                 await checkLibsV2(sdf[i])
-                                let trcode2 = await enhanceYazzSourceCode(sdf[i])
+                                let trcode2 = await enhanceYazzSourceCodeBeforeRunning(sdf[i])
                                 await runYazzSourceCode(trcode2, args, null)
 
                             }
@@ -4096,7 +4096,7 @@ async function callComponent(  componentSearchDetails,  fnCallArgs  ) {
         }
     }
 */
-async function enhanceYazzSourceCode(componentRecord) {
+async function enhanceYazzSourceCodeBeforeRunning(componentRecord) {
 //debugger
 //zzz
 

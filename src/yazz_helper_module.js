@@ -1248,7 +1248,7 @@ module.exports = {
     //
     //
     //------------------------------------------------------------------------------
-    enhanceCode: function (code, options) {
+    enhanceCodeBeforeSaving: function (code, options) {
         let yz = this
         let parentHash = null
         let baseComponentId = null
