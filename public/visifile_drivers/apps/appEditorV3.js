@@ -1753,8 +1753,6 @@ End of app preview menu
                                 if (mm.editor_loaded && (mm.editor_text != code)) {
                                     mm.editor_text = code
                                     console.log("2) mm.code_id= " + mm.code_id)
-
-
                                 }
 
 

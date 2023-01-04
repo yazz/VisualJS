@@ -2321,13 +2321,11 @@ isWin = data.value
                     await checkLibsV2(data.value)
 
                     //zzz
-                    debugger
                     let trcode2 = await enhanceYazzSourceCodeBeforeRunning(data.value)
                     var callbackFn = null
                     if (isValidObject(data.seq_num)) {
                         callbackFn = queuedResponses[data.seq_num]
                     }
-                    debugger
                     await runYazzSourceCode(trcode2, componentCallsListArgsSent[data.seq_num], callbackFn)
                     queuedResponses[data.seq_num] = null
 
