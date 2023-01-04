@@ -4104,7 +4104,7 @@ async function enhanceYazzSourceCode(componentRecord) {
         //
         // Determine the apps SQlite database to use
         //
-        var useDb = componentRecord.base_component_id
+        let useDb = componentRecord.base_component_id
         if (componentRecord.use_db) {
             useDb = componentRecord.use_db
         }
@@ -4126,20 +4126,20 @@ async function enhanceYazzSourceCode(componentRecord) {
         //
         // Sqlite stuff
         //
-        var addP = "'" + componentRecord.code_id + "', '" + useDb + "', "
+        let addP = "'" + componentRecord.code_id + "', '" + useDb + "', "
         if (localAppshareApp) {
 
             if (sqlitedata) {
-                var b = base64ToUint8Array(sqlitedata)
+                let b = base64ToUint8Array(sqlitedata)
                 localSqliteDb = new SQL.Database(b);
             } else {
-                var eds = yz.getValueOfCodeString(componentRecord.code, "sqlite",")//sqlite")
+                let eds = yz.getValueOfCodeString(componentRecord.code, "sqlite",")//sqlite")
                 if (eds){
-                    for (var te = 1; te < eds.length ; te = te + 2) {
-                        var sqlStatements = eds[te]
+                    for (let te = 1; te < eds.length ; te = te + 2) {
+                        let sqlStatements = eds[te]
                         //console.log(`${te}`)
-                        for (var te2 = 0; te2 < sqlStatements.length ; te2 ++) {
-                            var sqlStatement = sqlStatements[te2]
+                        for (let te2 = 0; te2 < sqlStatements.length ; te2 ++) {
+                            let sqlStatement = sqlStatements[te2]
                             //console.log(`   SQL ${te2}: ${sqlStatement}`)
                             localSql(sqlStatement)
                         }
@@ -4153,9 +4153,9 @@ async function enhanceYazzSourceCode(componentRecord) {
         //
         // Execute the code
         //
-        var trcode2 = "(" + componentRecord.code + ")"
+        let trcode2 = "(" + componentRecord.code + ")"
 
-        var component_type = yz.getValueOfCodeString(componentRecord.code, "component_type")
+        let component_type = yz.getValueOfCodeString(componentRecord.code, "component_type")
         if (
             (component_type != "APP") &&
             (component_type != "SYSTEM") &&
@@ -4179,7 +4179,7 @@ async function enhanceYazzSourceCode(componentRecord) {
         //
         // User auth stuff
         //
-        var kkk = yz.getValueOfCodeString(trcode2.toString(), "keycloak",")//keycloak")
+        let kkk = yz.getValueOfCodeString(trcode2.toString(), "keycloak",")//keycloak")
         if (kkk) {
             //alert(JSON.stringify(kkk,null,2))
             if (!kkk.clientId) {
