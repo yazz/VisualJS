@@ -2311,23 +2311,12 @@ isWin = data.value
 
         if (data.value) {
             if (data.value.is_code_result) {
-                if (data.value.component_options){
-                    //alert("code: " + JSON.stringify(data.value.component_options,null,2));
-                }
-                //alert("code2: " + JSON.stringify(data.value.use_db,null,2));
-                //alert("data: " + JSON.stringify(data.value.code_id,null,2));
-                //alert("data: " + JSON.stringify(data.value.base_component_id,null,2));
-                var useDb = data.value.base_component_id
-                if (data.value.use_db) {
-                    useDb = data.value.use_db
-                }
-
 
                 if (data.value.code_id) {
                     if (data.value.base_component_id && (!global_map_base_component_id_to_commit_id[data.value.base_component_id])) {
-                        //alert(""  + data.value.base_component_id + " := " + data.value.code_id )
+
                         global_map_base_component_id_to_commit_id[data.value.base_component_id] = data.value.code_id
-                        global_cached_structure_for_code_commit[data.value.code_id] = data
+                        global_cached_structure_for_code_commit[data.value.code_id]             = data
                     }
 
                     await checkLibsV2(data.value)
