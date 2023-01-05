@@ -562,7 +562,7 @@ var linked_properties  = new Object()
 
 
 var online           = false
-var global_loaded_types_in_currently_edited_app = new Object()
+var global_loaded_controls_in_currently_edited_app = new Object()
 var file_upload_uuid = null
 var base_component_id = null
 let isStaticHtmlPageApp = false
@@ -3804,7 +3804,7 @@ async function sqliteQuery(sql) {
     - global_component_type_details_cache
       -----------------------------------
 
-    - global_loaded_types_in_currently_edited_app[ base_component_id ] = true/false
+    - global_loaded_controls_in_currently_edited_app[ base_component_id ] = true/false
 
     - base_component_id = current base_component_id of the app being edited??? or run??
 
@@ -3928,7 +3928,7 @@ async function loadUiComponentsV4( baseComponentItems, args ) {
     if (isStaticHtmlPageApp) {
         for (let tt=0; tt < componentsItemsToLoadV3.length; tt++) {
             let componentType = componentsItemsToLoadV3[tt].baseComponentId
-            global_loaded_types_in_currently_edited_app[componentType] = true
+            global_loaded_controls_in_currently_edited_app[componentType] = true
             if (isStaticHtmlPageApp && global_map_base_component_id_to_commit_id[ componentType ] && (!component_loaded[componentType])) {
                 //console.log("loadUiComponentsV4: 2")
                 component_loaded[componentType] = true

@@ -1712,7 +1712,7 @@ End of app preview menu
                 }
 
                 if (options.newApp == true) {
-                    global_loaded_types_in_currently_edited_app = new Object()
+                    global_loaded_controls_in_currently_edited_app = new Object()
                     mm.editor_loaded                            = false
                 }
 
@@ -2049,7 +2049,7 @@ End of app preview menu
                             this.editor_text
                             ,
                             {
-                                sub_components:         Object.keys(global_loaded_types_in_currently_edited_app),
+                                sub_components:         Object.keys(global_loaded_controls_in_currently_edited_app),
                                 save_html:              true,
                                 save_code_to_file:      saveCodeToFile,
                                 allowAppToWorkOffline:  allowAppToWorkOffline,
@@ -2155,7 +2155,7 @@ End of app preview menu
                 if (mm.app_id) {
                     editingAppId = this.app_id
                     component_loaded[this.app_id]           = false
-                    global_loaded_types_in_currently_edited_app[this.app_id]   = false
+                    global_loaded_controls_in_currently_edited_app[this.app_id]   = false
                     global_component_type_details_cache[this.app_id]            = null
 
                     await this.load_new_version_of_edited_app({baseComponentId: this.app_id})
