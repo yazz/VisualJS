@@ -1657,12 +1657,23 @@ End of app preview menu
 
 
             // ---------------------------------------------------------------
-            //                  load_new_version_of_edited_app
+            //              --------------------------------------
+            //             |    load_new_version_of_edited_app    |
+            //              --------------------------------------
             //
             // This loads a version of the currently edited app
             //
             // ---------------------------------------------------------------
             load_new_version_of_edited_app: async function ( options ) {
+
+                //
+                //   --------------------------------------
+                //  |    load_new_version_of_edited_app    |
+                //   --------------------------------------
+                //                     ----------
+                //                     init stuff
+                //                     ----------
+                //
                 let mm              = this
                 let baseComponentId = options.baseComponentId
                 let code            = null
