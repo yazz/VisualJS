@@ -842,7 +842,7 @@ End of app preview menu
                override_app_editor              = null
                this.editor_text                 = await mm.$refs.editor_component_ref.getText()
 
-               await mm.load_app({
+               await mm.load_new_version_of_edited_app({
                     codeId:     mm.code_id,
                     newApp:     true}
                     )
@@ -871,7 +871,7 @@ End of app preview menu
 
                override_app_editor = editor_component_id
 
-               await mm.load_app( {newApp: true, baseComponentId: this.base_component_id} )
+               await mm.load_new_version_of_edited_app( {newApp: true, baseComponentId: this.base_component_id} )
 
            }
            ,
@@ -1188,7 +1188,7 @@ End of app preview menu
             // ---------------------------------------------------------------
             addWatch: async function(varN){
                 globalWatchList[varN]={}
-                await this.load_app({baseComponentId:  this.base_component_id })
+                await this.load_new_version_of_edited_app({baseComponentId:  this.base_component_id })
                 let allWatches = Object.keys(globalWatchList)
                 for (let rt = 0 ; rt < allWatches.length; rt++) {
                     fillInMissingWatchTimelineValues(allWatches[rt],0)
@@ -1306,7 +1306,7 @@ End of app preview menu
                     //
 
                     //await this.save( this.base_component_id, this.code_id, this.editor_text )
-                    await mm.load_app({baseComponentId:  mm.base_component_id , runThisApp: true})
+                    await mm.load_new_version_of_edited_app({baseComponentId:  mm.base_component_id , runThisApp: true})
                     hideProgressBar()
                 }
             },
@@ -1328,7 +1328,7 @@ End of app preview menu
                 this.mode      = "edit"
                 this.sub_mode  = "code"
 
-                await mm.load_app({baseComponentId:  this.base_component_id , runThisApp: false})
+                await mm.load_new_version_of_edited_app({baseComponentId:  this.base_component_id , runThisApp: false})
 
                 if (this.timeline_editor) {
                     this.timeline_editor.destroy()
@@ -1361,7 +1361,7 @@ End of app preview menu
                 this.app_shown = true
 
                 appClearIntervals()
-                await mm.load_app({baseComponentId:  this.base_component_id , runThisApp: true})
+                await mm.load_new_version_of_edited_app({baseComponentId:  this.base_component_id , runThisApp: true})
 
                 if (this.timeline_editor) {
                     this.timeline_editor.destroy()
@@ -1392,7 +1392,7 @@ End of app preview menu
                     this.editor_text = await this.$refs.editor_component_ref.getText()
 
                     await this.save( this.base_component_id, this.code_id, this.editor_text )
-                    await mm.load_app({baseComponentId:  this.base_component_id  , runThisApp: true})
+                    await mm.load_new_version_of_edited_app({baseComponentId:  this.base_component_id  , runThisApp: true})
                 }
                 this.mode = "profiler"
 
@@ -1471,7 +1471,7 @@ End of app preview menu
 
                 await mm.save(   this.base_component_id,   this.code_id,   this.editor_text   )
 
-                await mm.load_app({newApp: true, baseComponentId:  this.base_component_id } )
+                await mm.load_new_version_of_edited_app({newApp: true, baseComponentId:  this.base_component_id } )
             }
             ,
 
@@ -1532,7 +1532,7 @@ End of app preview menu
                 }
                 setTimeout(async function() {
                     mm.console_output = ""
-                    await mm.load_app( {newApp: true, baseComponentId: result.base_component_id })
+                    await mm.load_new_version_of_edited_app( {newApp: true, baseComponentId: result.base_component_id })
                 },200)
 
             }
@@ -1657,12 +1657,12 @@ End of app preview menu
 
 
             // ---------------------------------------------------------------
-            //                           load_app
+            //                  load_new_version_of_edited_app
             //
-            // This loads the latest version of the code stream marked with
-            // 'baseComponentId'
+            // This loads a version of the currently edited app
+            //
             // ---------------------------------------------------------------
-            load_app: async function ( options) {
+            load_new_version_of_edited_app: async function ( options ) {
                 let mm              = this
                 let baseComponentId = options.baseComponentId
                 let code            = null
@@ -1977,7 +1977,6 @@ End of app preview menu
                 // This is called to save the currently edited code
                 // ---------------------------------------------------------------
                 save: async function( base_component_id, code_id , textIn, extras) {
-                //zzz
                     let mm = this
                     if (mm.inSave) {
                         return false
@@ -2044,7 +2043,8 @@ End of app preview menu
                         if (mm.app_shown) {
                             // if the app has been changed during the save then don't reload the app
                             if (!saveCodeToFile) {
-                                await mm.load_app({code: mm.editor_text, runThisApp: true})
+                            //zzz
+                                await mm.load_new_version_of_edited_app({code: mm.editor_text, runThisApp: true})
 
                             } else {
                                 hideProgressBar()
@@ -2122,7 +2122,7 @@ End of app preview menu
                     dev_app_component_loaded[this.app_id]   = false
                     global_component_type_details_cache[this.app_id]            = null
 
-                    await this.load_app({baseComponentId: this.app_id})
+                    await this.load_new_version_of_edited_app({baseComponentId: this.app_id})
 
                 }
 
@@ -2145,7 +2145,8 @@ End of app preview menu
                         //debugger
                         //mm.save_state = "pending"
                         //mm.checkSavedFile()
-                        await mm.load_app(   {codeId: message.commitId , runThisApp: true} )
+                        //zzz
+                        await mm.load_new_version_of_edited_app(   {codeId: message.commitId , runThisApp: true} )
                         mm.$root.$emit('message', {
                             type:               "update_app",
                             base_component_id:   mm.app_id,
