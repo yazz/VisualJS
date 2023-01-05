@@ -1703,10 +1703,6 @@ End of app preview menu
                     return
                 }
 
-
-                //
-                // set up vars
-                //
                 mm.selected_app             = ""
                 mm.app_component_name       = null
                 mm.app_loaded               = true
@@ -1717,13 +1713,14 @@ End of app preview menu
 
                 try {
 
-                    // ------------------------------------------------------
-                    // If we are loading the app based on its commit ID
-                    // ------------------------------------------------------
+                    //   --------------------------------------
+                    //  |    load_new_version_of_edited_app    |
+                    //   --------------------------------------
+                    //                     -----------------------
+                    //                     load app from commit ID
+                    //                     -----------------------
                     if (codeId) {
-                        //
-                        // read the code for the component that we are editing
-                        //
+                        debugger
                         results = await sqliteQuery(
                                      `select
                                           id, 
@@ -1763,7 +1760,6 @@ End of app preview menu
 
                                 if (mm.editor_loaded && (mm.editor_text != code)) {
                                     mm.editor_text = code
-                                    console.log("2) mm.code_id= " + mm.code_id)
                                 }
 
 
@@ -1812,12 +1808,20 @@ End of app preview menu
                                         mm.$refs.editor_component_ref.setText(code)
                                     }
                                 }
+                                mm.resetDebugger()
+                                await loadUiComponentsV4( {id: mm.code_id }, {} )
                             },500)
                         }
 
-                    // ------------------------------------------------------
-                    // If we are loading the app based on its source code
-                    // ------------------------------------------------------
+
+
+
+                    //   --------------------------------------
+                    //  |    load_new_version_of_edited_app    |
+                    //   --------------------------------------
+                    //                     -------------------------
+                    //                     load app from source code
+                    //                     -------------------------
                     } else if (code) {
                         //
                         // load the editor
