@@ -402,7 +402,7 @@ load_once_from_file(true)
 Refresh button
 
 ---------------------------------------------- -->
-                <button   v-on:click='setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null)},100)'
+                <button   v-on:click='setTimeout(async function(){appClearIntervals();await save(null, code_id,null)},100)'
                           type="button"
                           v-bind:style="'padding: 0px; margin-top: 0px; margin-left:10px; position: relative; border: 0px;background-color: rgb(242, 242, 242);' + (read_only?'opacity:0.2;':'')"
                           class="btn">
