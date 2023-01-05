@@ -382,13 +382,7 @@ module.exports = {
         }
 
         let promise = new Promise(async function(returnFn) {
-            let restRoutes = {}
-            let aoo = null
             if (options) {
-
-                if (options.restRoutes) {
-                    restRoutes = options.restRoutes
-                }
                 if (options.app) {
                     app = options.app
                 }
@@ -1363,13 +1357,7 @@ module.exports = {
         let parentHash = mm.getValueOfCodeString(code,"parent_hash")
 
         let promise = new Promise(async function(returnFn) {
-            let restRoutes = {}
-            let aoo = null
             if (options) {
-
-                if (options.restRoutes) {
-                    restRoutes = options.restRoutes
-                }
                 if (options.app) {
                     app = options.app
                 }

@@ -1514,6 +1514,7 @@ End of app preview menu
             // ---------------------------------------------------------------
             copyApp: async function( appId , newAppId) {
                 let mm = this
+                debugger
                 let result = await callComponent(
                                     {
                                         base_component_id: "copyApp"
@@ -1742,7 +1743,6 @@ End of app preview menu
                                           --------------------------- */
 
                     if (codeId) {
-                        debugger
                         results = await sqliteQuery(
                                      `select
                                           id, 
