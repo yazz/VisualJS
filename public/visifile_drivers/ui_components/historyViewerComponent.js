@@ -180,6 +180,18 @@ load_once_from_file(true)
                               
                               <div v-if="showCode=='details'">
 
+                                <div><b>Number of Changes:</b> {{commitsV3[previewedCommitId].num_changes}}</div>
+                                <div v-if="commitsV3[previewedCommitId].changes">
+                                  <div style="margin-left: 80px;"
+                                       v-for="(item,i) in commitsV3[previewedCommitId].changes.slice().reverse()">
+                                    <span v-if="i==(commitsV3[previewedCommitId].changes.length - 1)"><b>First commit</b> - </span>
+                                    <span v-if="i!=(commitsV3[previewedCommitId].changes.length - 1)"><b>{{ capitalizeFirstLetter(timeDiffLater(firstCommitTimestamps[previewedCommitId], item.timestamp)) }}</b> - </span>
+
+                                    {{ item.code_change_text }}
+                                  </div>
+                                </div>
+                                <br/>
+
                                     <div><b>Tags:</b> {{commitsV3[previewedCommitId].code_tags.length}}</div>
                                       <div style="margin-left: 80px;"
                                            v-for="(item,i) in commitsV3[previewedCommitId].code_tags">
@@ -210,16 +222,7 @@ load_once_from_file(true)
     
                                   </div>
 
-                                <div><b>Number of Changes:</b> {{commitsV3[previewedCommitId].num_changes}}</div>
-                                  <div v-if="commitsV3[previewedCommitId].changes">
-                                    <div style="margin-left: 80px;"
-                                        v-for="(item,i) in commitsV3[previewedCommitId].changes.slice().reverse()">
-                                      <span v-if="i==(commitsV3[previewedCommitId].changes.length - 1)"><b>First commit</b> - </span>
-                                      <span v-if="i!=(commitsV3[previewedCommitId].changes.length - 1)"><b>{{ capitalizeFirstLetter(timeDiffLater(firstCommitTimestamps[previewedCommitId], item.timestamp)) }}</b> - </span>
-    
-                                      {{ item.code_change_text }}
-                                    </div>
-                                  </div>
+
                               </div>
 
 
