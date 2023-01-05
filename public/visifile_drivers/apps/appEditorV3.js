@@ -1532,6 +1532,7 @@ End of app preview menu
                 }
                 setTimeout(async function() {
                     mm.console_output = ""
+                    debugger
                     await mm.load_new_version_of_edited_app( {newApp: true, baseComponentId: result.base_component_id })
                 },200)
 
@@ -1837,12 +1838,11 @@ End of app preview menu
 
 
 
-                    //   --------------------------------------
-                    //  |    load_new_version_of_edited_app    |
-                    //   --------------------------------------
-                    //                     -------------------------
-                    //                     load app from source code
-                    //                     -------------------------
+                    /* --------------------------------------
+                      |    load_new_version_of_edited_app    |
+                       -----------------                      ------
+                                        | load app from source code |
+                                         --------------------------- */
                     } else if (code) {
                         //
                         // load the editor
@@ -1885,10 +1885,11 @@ End of app preview menu
                         },500)
 
 
-                    // ------------------------------------------------------
-                    // If we are loading the app based on the App Type (the
-                    // base_component_id)
-                    // ------------------------------------------------------
+                /* --------------------------------------
+                  |    load_new_version_of_edited_app    |
+                   -----------------                      ----------------------------
+                                    | load app based on App Type (base_component_id") |
+                                     -------------------------------------------------   */
                     } else {
                         mm.base_component_id     = baseComponentId
                         //
