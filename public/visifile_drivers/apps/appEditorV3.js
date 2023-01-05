@@ -2045,6 +2045,7 @@ End of app preview menu
                         }
 
                         this.editor_text = enhanceCodeBeforeSaving(this.editor_text, {parentHash: code_id, baseComponentId: base_component_id})
+                        let baseCompIdFromSrcCode = yz.getValueOfCodeString(this.editor_text,"base_component_id")
                         await saveCodeViaWebWorker(
                             this.editor_text
                             ,
@@ -2068,11 +2069,11 @@ End of app preview menu
                             {
                                 code:               mm.editor_text,
                                 is_code_result:     true,
-                                use_db:             base_component_id,
+                                use_db:             baseCompIdFromSrcCode,
                                 component_type:     "SYSTEM",
                                 libs:               [],
                                 code_id:            mm.code_id,
-                                base_component_id:  base_component_id
+                                base_component_id:  baseCompIdFromSrcCode
                             }
 
 
@@ -2100,7 +2101,7 @@ End of app preview menu
 
                         mm.$root.$emit('message', {
                             type:               "update_app",
-                            base_component_id:   base_component_id,
+                            base_component_id:   baseCompIdFromSrcCode,
                             code_id:             mm.code_id
                         })
 
