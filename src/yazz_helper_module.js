@@ -374,8 +374,9 @@ module.exports = {
 
     ,
 
-    saveCodeV2: async function ( thisDb, baseComponentId, parentHash, code , options) {
+    saveCodeV2: async function ( thisDb, baseComponentIdRemove, parentHash, code , options) {
         let mm = this
+        let baseComponentId
         await mm.setup(thisDb)
         if (code) {
             code = code.toString()
@@ -388,8 +389,11 @@ module.exports = {
                 }
             }
 
+            baseComponentId = mm.getValueOfCodeString(code, "base_component_id")
             if (!baseComponentId) {
-                baseComponentId = uuidv1()
+                returnFn( {
+                    error:  "No base component ID specific"
+                })
             }
             if (!code.toString().substring(0,20).includes("function")) {
                 code =
