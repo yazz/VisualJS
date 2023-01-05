@@ -1666,14 +1666,12 @@ End of app preview menu
             // ---------------------------------------------------------------
             load_new_version_of_edited_app: async function ( options ) {
 
-                //
                 //   --------------------------------------
                 //  |    load_new_version_of_edited_app    |
                 //   --------------------------------------
                 //                     ----------
                 //                     init stuff
                 //                     ----------
-                //
                 let mm              = this
                 let baseComponentId = options.baseComponentId
                 let code            = null
@@ -1701,21 +1699,23 @@ End of app preview menu
                     code = options.code
                 }
 
+                if ((!codeId) && (!baseComponentId) && (!code)) {
+                    return
+                }
+
+
+                //
+                // set up vars
+                //
+                mm.selected_app             = ""
+                mm.app_component_name       = null
+                mm.app_loaded               = true
+                mm.execution_timeline       = executionTimeline
+                mm.execution_code           = executionCode
+                mm.execution_block_list     = Object.keys(this.execution_code)
+
+
                 try {
-                    if ((!codeId) && (!baseComponentId) && (!code)) {
-                        return
-                    }
-
-
-                    //
-                    // set up vars
-                    //
-                    mm.selected_app             = ""
-                    mm.app_component_name       = null
-                    mm.app_loaded               = true
-                    mm.execution_timeline       = executionTimeline
-                    mm.execution_code           = executionCode
-                    mm.execution_block_list     = Object.keys(this.execution_code)
 
                     // ------------------------------------------------------
                     // If we are loading the app based on its commit ID
