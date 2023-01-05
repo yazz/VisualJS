@@ -807,13 +807,12 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
              let saveResult = await yz.saveCodeV2(
                                                 dbsearch,
-                                                msg.base_component_id,
                                                 msg.parent_hash  ,
                                                 msg.code,
                                                 msg.options)
 
 
-             //async function saveCodeV2( baseComponentId, parentHash, code , options) {
+             //async function saveCodeV2(  parentHash, code , options) {
 
 
 
@@ -1465,7 +1464,6 @@ async function checkForJSLoaded() {
                 outputDebug("*********** Trying to load loadjsurl code *************")
                  (async function() {await yz.saveCodeV2(
                                                      dbsearch,
-                                                     baseComponentIdForUrl,
                                                      null  ,
                                                     data,
                                                     {
@@ -1473,7 +1471,7 @@ async function checkForJSLoaded() {
                                                         save_html:   true
                                                     })} ) ()
 
-                 //async function saveCodeV2( baseComponentId, parentHash, code , options) {
+                 //async function saveCodeV2( parentHash, code , options) {
 
                 runapp = baseComponentIdForUrl
                 let frontEndCode = isFrontEndOnlyCode(data)
@@ -1509,7 +1507,6 @@ async function checkForJSLoaded() {
             //console.log("*********** Trying to load loadjsfile code *************")
             (async function() {let saveResult =await yz.saveCodeV2(
                                                                 dbsearch,
-                                                                baseComponentIdForFile,
                                                                   null  ,
                                                                   data2,
                                                                   {
@@ -1517,7 +1514,7 @@ async function checkForJSLoaded() {
                                                                       save_html:   true
                                                                    })
                                                                                 })()
-             //async function saveCodeV2( baseComponentId, parentHash, code , options) {
+             //async function saveCodeV2( parentHash, code , options) {
              runapp = baseComponentIdForFile
              let frontEndCode = isFrontEndOnlyCode(data2)
              //console.log("frontEndCode: " + frontEndCode)
@@ -1548,14 +1545,13 @@ async function checkForJSLoaded() {
 
               let saveResult =await yz.saveCodeV2(
                                                   dbsearch,
-                                                  baseComponentIdForCode,
-                                                 null  ,
+                                                  null,
                                                  data2,
                                                  {
                                                      make_public: true,
                                                      save_html:   true
                                                   })
-              //async function saveCodeV2( baseComponentId, parentHash, code , options) {
+              //async function saveCodeV2( parentHash, code , options) {
 
 
 
@@ -3589,8 +3585,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             //console.log("    " + JSON.stringify(req,null,2) )
           let saveResult =await yz.saveCodeV2(
                                               dbsearch,
-                                              req.body.value.base_component_id,
-                                             req.body.value.code_id  ,
+                                             req.body.value.code_id,
                                              req.body.value.code,
                                              req.body.value.options)
             let savedCode = await yz.getCodeForCommit(dbsearch, saveResult.code_id)
@@ -4862,7 +4857,7 @@ async function save_code_from_upload(msg) {
     //console.log(`Entering  save_code_from_upload`)
 
 
-    let ret = await yz.saveCodeV2(  dbsearch,  msg.base_component_id, msg.parent_hash  ,  msg.code  , msg.options);
+    let ret = await yz.saveCodeV2(  dbsearch,   msg.parent_hash  ,  msg.code  , msg.options);
     let useDb = msg.base_component_id //yz.getValueOfCodeString(msg.code ,"use_db")
     if (msg.sqlite_data) {
             //console.log("msg.sqlite_data: " + msg.sqlite_data)
@@ -5193,7 +5188,7 @@ async function addOrUpdateDriver(  codeString ,options ) {
                                     parentId = rows[0].id
                                 }
 
-                                let saveRet = await yz.saveCodeV2(dbsearch,    name, parentId,    codeString  ,options);
+                                let saveRet = await yz.saveCodeV2(dbsearch,   parentId,    codeString  ,options);
                                 let codeId = null
                                 if (saveRet) {
                                     codeId = saveRet.code_id

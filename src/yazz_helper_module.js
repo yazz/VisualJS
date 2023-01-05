@@ -374,7 +374,7 @@ module.exports = {
 
     ,
 
-    saveCodeV2: async function ( thisDb, baseComponentIdRemove, parentHash, code , options) {
+    saveCodeV2: async function ( thisDb, parentHash, code , options) {
         let mm = this
         let baseComponentId
         await mm.setup(thisDb)
