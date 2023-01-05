@@ -1655,9 +1655,7 @@ End of app preview menu
 
 
 
-            /*
-
-                          --------------------------------------
+            /*            --------------------------------------
                          |                                      |
                          |    load_new_version_of_edited_app    |
                          |                                      |
@@ -1668,26 +1666,26 @@ End of app preview menu
                  --------
                 | Params |
             ----          --------------------------------------------------------------
-
-                options: {
-                -------     baseComponentId - if set then load the latest
-                            ---------------   edited version of the app which has
-                                              a type of "baseComponentId"
-
-                            codeId - if set then load the code which has an
-                            ------   ID/IPFSHashId of "codeId"
-
-                            code - if set then load the source code from "code"
-                            ----   as the app
-
-                            runThisApp - if true then after loading the code
-                            ----------   then refresh the preview pane
-
-                            newApp - if set to true then ...
-                            ------
-                }
-
-            ------------------------------------------------------------------ */
+           |
+           |     options: {
+           |     -------    baseComponentId - if set then load the latest
+           |                ---------------   edited version of the app which has
+           |                                  a type of "baseComponentId"
+           |
+           |                codeId - if set then load the code which has an
+           |                ------   ID/IPFSHashId of "codeId"
+           |
+           |                code - if set then load the source code from "code"
+           |                ----   as the app
+           |
+           |                runThisApp - if true then after loading the code
+           |                ----------   then refresh the preview pane
+           |
+           |                newApp - if set to true then ...
+           |                ------
+           |     }
+           |
+            ------------------------------------------------------------------------------ */
             load_new_version_of_edited_app: async function ( options ) {
 
                 /*   --------------------------------------
@@ -1715,7 +1713,7 @@ End of app preview menu
 
                 if (options.newApp == true) {
                     global_loaded_types_in_currently_edited_app = new Object()
-                    mm.editor_loaded = false
+                    mm.editor_loaded                            = false
                 }
 
                 if (options.code) {
