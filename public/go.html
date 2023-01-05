@@ -2158,24 +2158,7 @@ socket.on('set_saveCodeToFile',async function(data) {
 saveCodeToFile = data.saveCodeToFile
 })
 
-socket.on('set_saveCodeToFile_V2',async function(data) {
-//debugger
-saveCodeToFile = data.saveCodeToFile
-var results = await callComponent(
-{
-base_component_id:     "appEditorV2SaveCode"
-},
-{
-base_component_id:      data.base_component_id,
-code_id:                data.code_id,
-code:                   data.code,
-options:                {
-sub_components:         Object.keys(dev_app_component_loaded),
-save_html:              true,
-save_code_to_file:      saveCodeToFile
-}
-})
-})
+
 
 
 

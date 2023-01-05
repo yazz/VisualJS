@@ -5390,7 +5390,6 @@ async function setUpComponentsLocally() {
     await evalComponentFromPath( '/functions/system2.js')
     //await evalComponentFromPath( '/functions/system3.js')
     await evalComponentFromPath( '/functions/systemFunctionAppSql.js')
-    await evalComponentFromPath( '/apps/appEditorV2SaveCode.js')
 
     //
     // UI components
