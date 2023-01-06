@@ -5,9 +5,10 @@ description("copyAppshareApp function")
 load_once_from_file(true)
 only_run_on_server(true)
 */
+    console.log("Called async function copyAppshareApp(args) {")
     let userId = args.user_id
 
-    async function asdf(argsBaseComponentId, newBaseid, parentHashId, code, returnfn, newDisplayName) {
+    async function saveCopyOfAppWithDependencies(argsBaseComponentId, newBaseid, parentHashId, code, returnfn, newDisplayName) {
         dbsearch.all(
             "SELECT    child_component_id    FROM    component_usage    where    base_component_id = ? ;  "
             ,
@@ -22,9 +23,16 @@ only_run_on_server(true)
                     listOfSubComponents.push( listOfSubComponentsRes[yuy].child_component_id )
 
                 }
-                console.log("****copyAppshareApp userId: " + userId)
-                debugger
-                let saveret = await saveCodeV2( newBaseid, parentHashId, code ,
+                console.log("    async function saveCopyOfAppWithDependencies( " + argsBaseComponentId)
+                console.log("              newBaseid:           " + newBaseid)
+                console.log("              parentHashId:        " + parentHashId)
+                console.log("              argsBaseComponentId: " + argsBaseComponentId)
+                console.log("              userId:              " + userId)
+                //console.log("              code:                " + code)
+
+                let saveret = await saveCodeV2(
+                            parentHashId,
+                            code,
                             {
                                 sub_components:         listOfSubComponents,
                                 copy_db_from:           argsBaseComponentId,
@@ -37,6 +45,11 @@ only_run_on_server(true)
                 if (saveret) {
                     codeIdRet =  saveret.code_id
                 }
+                console.log("                    after save()")
+                console.log("                                    saveret.code_id:      " + saveret.code_id)
+                console.log("                                    newDisplayName:       " + newDisplayName)
+                console.log("                                    newBaseid:            " + newBaseid)
+                console.log("                                    codeIdRet:            " + codeIdRet)
 
                 returnfn({
                             new_display_name:   newDisplayName,
@@ -56,6 +69,9 @@ only_run_on_server(true)
 
         var argsBaseComponentId = args.base_component_id
         var argsNewAppId        = args.new_app_id
+        console.log("    argsBaseComponentId: " + argsBaseComponentId)
+        console.log("    argsNewAppId:        " + argsNewAppId)
+        console.log("    userId:              " + userId)
 
         dbsearch.serialize(
             async function() {
@@ -77,10 +93,12 @@ only_run_on_server(true)
                             if (argsNewAppId) {
                                 newBaseid = argsNewAppId
                             }
+                            console.log("    newBaseid:           " + newBaseid)
 
                             var oldDisplayName = results[0].display_name
                             var parentHashId = results[0].id
                             var newDisplayName = "Copy of " + oldDisplayName
+                            console.log("    parentHashId:        " + parentHashId)
                             code = yz.deleteCodeString(code, "load_once_from_file")
                             code = yz.deleteCodeString(code, "read_only")
                             code = yz.deleteCodeString(code, "visibility")
@@ -104,6 +122,11 @@ only_run_on_server(true)
                             code = yz.insertCodeString(code, "visibility", "PRIVATE")
 
 
+
+                            code = yz.deleteCodeString(code, "base_component_id")
+                            code = yz.insertCodeString(code, "base_component_id", newBaseid)
+
+
                             //hack city - Vue and component strings are separated as otherwise they mark the
                             // code as UI code
                             var vueIndex = code.indexOf("Vue" + ".component")
@@ -114,8 +137,10 @@ only_run_on_server(true)
                                 }
                             }
 
+                            console.log("    newDisplayName:      " + newDisplayName)
+
                             //zzz
-                            await asdf(argsBaseComponentId, newBaseid, parentHashId, code, returnfn,newDisplayName)
+                            await saveCopyOfAppWithDependencies(argsBaseComponentId, newBaseid, parentHashId, code, returnfn,newDisplayName)
 
 
                         }
