@@ -1991,7 +1991,7 @@ function getRoot(req, res, next) {
     if (isMobile) {
         homepageUrl = 'https://yazz.com/app/mobilehomepage.html'
     }
-    console.log("req.headers.host: " + req.headers.host)
+    //console.log("req.headers.host: " + req.headers.host)
 	if (req.headers.host) {
         if (req.query.goto) {
             outputDebug("*** FOUND goto")
@@ -2722,7 +2722,7 @@ async function startServices() {
                     //console.log('cookie created successfully');
                 } else {
                     // yes, cookie was already present
-                    console.log('cookie exists', cookie);
+                    //console.log('cookie exists', cookie);
 
                     //
                     // check if cookie exists in the DB. If not then set a new cookie
@@ -2732,7 +2732,7 @@ async function startServices() {
                         let randomNumber =  uuidv1()
                         res.cookie('yazz',randomNumber, { maxAge: 900000, httpOnly: false });
                         await createCookieInDb(randomNumber, hostCookieSentTo, from_device_type)
-                        console.log('No cookie found in Yazz DB, cookie created successfully');
+                        //console.log('No cookie found in Yazz DB, cookie created successfully');
                     }
 
                 }
@@ -2754,8 +2754,8 @@ async function startServices() {
         app.get('/', function (req, res, next) {
             //console.log("calling main page")
             //console.log("jaeger: " + jaegercollector)
-            console.log("app.get('/'): ")
-            console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+            //console.log("app.get('/'): ")
+            //console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
             return getRoot(req, res, next);
         })
 
@@ -3306,8 +3306,8 @@ async function startServices() {
 
         app.post('/editable_apps', async function (req, res) {
 
-            console.log("app.post('/editable_apps'): ")
-            console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+            //console.log("app.post('/editable_apps'): ")
+            //console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
             let editableApps = []
             let userId = await getUserId(req)
 
@@ -3382,8 +3382,8 @@ async function startServices() {
         });
 
         app.post('/topapps', async function (req, res) {
-            console.log("app.post('/topapps'): ")
-            console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+            //console.log("app.post('/topapps'): ")
+            //console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
             let topApps = []
             let sessionId = await getSessionId(req)
 

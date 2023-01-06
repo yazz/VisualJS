@@ -1,7 +1,7 @@
 async function copyAppshareApp(args) {
 /*
-description("copyAppshareApp function")
 base_component_id("copyApp")
+description("copyAppshareApp function")
 load_once_from_file(true)
 only_run_on_server(true)
 */
