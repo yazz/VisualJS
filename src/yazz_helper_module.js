@@ -361,18 +361,7 @@ module.exports = {
 
     ,
 
-    getRecordForCommit: async function (thisDb, commitId) {
-        let thisCommit = await this.getQuickSqlOneRow(thisDb,  "select  *  from   system_code  where   id = ? ", [  commitId  ])
-        if (thisCommit) {
-            return thisCommit
-        }
 
-        return null
-    }
-
-
-
-    ,
 
     saveCodeV2: async function ( thisDb, parentHash, code , options) {
         let mm = this
