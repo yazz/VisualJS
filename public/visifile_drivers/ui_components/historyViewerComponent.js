@@ -213,11 +213,11 @@ load_once_from_file(true)
                                       </span>
                                        
                                     <span v-for='(descendant,index) in commitsV3[previewedCommitId].descendants'>
-                                      <span v-on:click="findFutureCommits(descendant.id)" 
-                                            style="color:blue"
+                                      <a href="#"
+                                        v-on:click="jumpToCommitId(descendant.id)" 
                                             >
                                             {{descendant.id.substr(0,5)}}...
-                                      </span>  
+                                      </a>  
                                     </span>
     
                                   </div>
@@ -950,8 +950,20 @@ load_once_from_file(true)
          ,
 
 
+         // -----------------------------------------------------
+         //                      jumpToCommitId
+         //
 
-
+         //
+         // -----------------------------------------------------
+         jumpToCommitId: async function (commitId) {
+            let mm = this
+            mm.timeline.moveTo(mm.commitsV3[commitId].timestamp)
+            await mm.selectItemDetails(commitId)
+            mm.highlightItem(commitId)
+            await mm.unHighlightAllExceptLockedItem()
+         }
+         ,
 
 
          // -----------------------------------------------------
