@@ -198,8 +198,11 @@ load_once_from_file(true)
                                         {{ item.code_tag }}
                                         <span v-if="item.main_score">, Score: {{ item.main_score }}</span>
                                       </div>
-
-                                  <div><b>Commit ID:</b> {{commitsV3[previewedCommitId].id}}</div>
+zzz
+                                  <div v-bind:style="commitsV3[previewedCommitId].id==currentCommithashId?'color:red;fpnt-style:bold;':''">
+                                      <b>Commit ID:</b> {{commitsV3[previewedCommitId].id}}
+                                      <b v-if="commitsV3[previewedCommitId].id==currentCommithashId"> (Current commit)</b>
+                                      </div>
                                   <div><b>Time:</b> {{msToTime(commitsV3[previewedCommitId].timestamp,{timeOnly: true})}} </div>
                                   <div><b>User ID:</b> {{commitsV3[previewedCommitId].user_id}}</div>
                                   <div><b>Parent:</b> {{commitsV3[previewedCommitId].parent_id}}</div>
