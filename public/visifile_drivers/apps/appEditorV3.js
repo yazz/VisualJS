@@ -243,7 +243,7 @@ load_once_from_file(true)
                     <button   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                               v-on:click='setTimeout(function(){closeSubEditor()},100)'
                               v-if="editor_overloaded"
-                              v-on:mouseenter='setInfo("Edit the SQlite schema for this app")'
+                              v-on:mouseenter='setInfo("Back to editor")'
                               v-on:mouseleave='setInfo(null)'
                               type="button" class="btn btn-light ">
 
@@ -2190,6 +2190,9 @@ End of app preview menu
                             base_component_id:   mm.app_id,
                             code_id:             message.commitId
                         })
+                        setTimeout(function(){
+                            mm.refresh ++
+                        },500)
                     }
 
 
