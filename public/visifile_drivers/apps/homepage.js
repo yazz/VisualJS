@@ -1090,7 +1090,6 @@ debugger
           },
 
           editApp: async function(event,item, codeId) {
-          debugger
             let mm = this
               globalEventBus.$emit('hide_settings', {});
 
@@ -1101,6 +1100,7 @@ debugger
               }
 
               if (codeId) {
+                  debugger
                   await loadUiComponentsV4([{id: codeId}])
               } else if (item) {
                   if (!component_loaded[item]) {
