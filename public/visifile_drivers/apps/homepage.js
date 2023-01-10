@@ -979,41 +979,41 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               return null
           },
 
-          addEditableApp: async function(baseComponentId, displayName, other) {
-              let mm = this
-              if (baseComponentId) {
-                  for (let thisApp of mm.editable_app_list) {
-                      if (thisApp.base_component_id == baseComponentId) {
-                          mm.refresh++
-                          return
-                      }
-                  }
-                  let app = {
-                                type:                       "app",
-                                base_component_id:          baseComponentId,
-                                displayName:                displayName
-                              }
-                  if (other) {
-                    if (other.visibility) {
-                        app.visibility = other.visibility
+            addEditableApp: async function(baseComponentId, displayName, other) {
+                let mm = this
+                if (baseComponentId) {
+                    for (let thisApp of mm.editable_app_list) {
+                        if (thisApp.base_component_id == baseComponentId) {
+                            mm.refresh++
+                            return
+                        }
                     }
-                      if (other.codeId) {
-                          app.code_id = other.codeId
-                      }
-                  }
+                    let app = {
+                        type:                       "app",
+                        base_component_id:          baseComponentId,
+                        displayName:                displayName
+                    }
+                    if (other) {
+                        if (other.visibility) {
+                            app.visibility = other.visibility
+                        }
+                        if (other.codeId) {
+                            app.code_id = other.codeId
+                        }
+                    }
 
-                  mm.loaded_app[baseComponentId]            = true
-                  component_loaded[baseComponentId]         = false
-                  global_loaded_controls_in_currently_edited_app[baseComponentId] = false
-                  global_component_type_details_cache[baseComponentId]          = null
+                    mm.loaded_app[baseComponentId]                                  = true
+                    component_loaded[baseComponentId]                               = false
+                    global_loaded_controls_in_currently_edited_app[baseComponentId] = false
+                    global_component_type_details_cache[baseComponentId]            = null
 
-                  //await loadUiComponentsV4(baseComponentId)
-                  mm.editable_app_list.push( app  )
-                  mm.refresh++
-              }
-              return null
-          }
-          ,
+                    //await loadUiComponentsV4(baseComponentId)
+                    mm.editable_app_list.push( app  )
+                    mm.refresh++
+                }
+                return null
+            }
+            ,
 
 
 
