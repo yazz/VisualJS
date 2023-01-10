@@ -2759,6 +2759,24 @@ async function startServices() {
             return getRoot(req, res, next);
         })
 
+//zzz
+        app.get('/update_code_tags', async function (req, res, next) {
+            let userid          = await getUserId(req)
+
+            await yz.updateCodeTags(
+                dbsearch,
+                {
+                    baseComponentId:    req.query.baseComponentId,
+                    userId:             userid,
+                    sha1sum:            req.query.sha1sum
+                })
+            res.writeHead(200, {'Content-Type': 'application/json'});
+            res.end(JSON.stringify(
+                {status: "Done"}
+            ));
+
+        })
+
 
         app.get('/get_code_commit', async function (req, res, next) {
             //console.log("calling main page")
@@ -2863,7 +2881,6 @@ async function startServices() {
 
 
         app.post('/load_ui_components_v3', async function (req, res) {
-        //zzz
             let componentItems      = req.body.find_components.items
             let componentIds        = []
             let componentHashs      = []

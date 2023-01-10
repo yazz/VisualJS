@@ -834,12 +834,19 @@ load_once_from_file(true)
              let responseJson = await getFromYazzReturnJson("/get_code_commit", {commit_id: mm.lockedSelectedCommit})
              mm.text = responseJson.code
 
-//zzz
              mm.$root.$emit(
                  'message', {
                      type:   "force_raw_load",
                      commitId: mm.lockedSelectedCommit
                  })
+
+//zzz
+            //debugger
+             let responseJson2 = await getFromYazzReturnJson("/update_code_tags",
+                {
+                    sha1sum:            mm.lockedSelectedCommit,
+                    baseComponentId:    mm.baseComponentId
+                })
 
          }
          ,
