@@ -3412,13 +3412,15 @@ async function startServices() {
                                                     {
 
                                                         data: {
-                                                            id: thisRow.base_component_id
+                                                            id:                 thisRow.base_component_id
                                                             ,
-                                                            logo: thisRow.app_icon_data
+                                                            base_component_id:  thisRow.base_component_id
                                                             ,
-                                                            ipfs_hash: thisRow.ipfs_hash
+                                                            logo:               thisRow.app_icon_data
                                                             ,
-                                                            display_name: thisRow.app_name
+                                                            ipfs_hash:          thisRow.ipfs_hash
+                                                            ,
+                                                            display_name:       thisRow.app_name
                                                         }
                                                     })
                                             }

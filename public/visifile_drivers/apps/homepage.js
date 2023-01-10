@@ -443,7 +443,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
         <div    v-for="(item, index) in appstore_apps"
                 v-bind:refresh='refresh'
-                v-on:mouseenter="preview_app_loaded = false; preview_app_id = item.data.id;previewApp(item.data.id)"
+                v-on:mouseenter="preview_app_loaded = false; preview_app_id = item.data.base_component_id;previewApp(item.data.base_component_id)"
                 v-on:mouseleave="preview_app_loaded = false; preview_app_id = null;"
                 style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
                 class='app_card'>
@@ -451,13 +451,13 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           <div    v-bind:refresh='refresh'
                   v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((preview_app_id == item.data.id) && preview_app_loaded)?"background-color:white;":"background-color:black;")'>
 
-            <div    v-if='(preview_app_id == item.data.id) && (!edit_app)'
+            <div    v-if='(preview_app_id == item.data.base_component_id) && (!edit_app)'
                     v-bind:refresh='refresh'
                     style="position:relative;left:0px;top;0px;color:black;background-color:white;background:white;width:100%;height:100%;overflow: auto;">
 
 
 
-              <div    v-if='(preview_app_id == item.data.id) '
+              <div    v-if='(preview_app_id == item.data.base_component_id) '
                       v-bind:refresh='refresh'
                       v-on:mouseover="$event.stopPropagation();$event.preventDefault();"
                       v-on:click="$event.stopPropagation();$event.preventDefault();"
@@ -469,11 +469,11 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                   {{item.data.display_name}}
                 </div>
 
-                <img    v-if='(preview_app_id == item.data.id) && preview_app_loaded'
-                        v-bind:src='app_logos[item.data.id]'
+                <img    v-if='(preview_app_id == item.data.base_component_id) && preview_app_loaded'
+                        v-bind:src='app_logos[item.data.base_component_id]'
                         style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;z-index:0;'
-                        v-bind:alt='app_logos[item.data.id]'
-                        v-on:click='editApp($event,item.data.id)'
+                        v-bind:alt='app_logos[item.data.base_component_id]'
+                        v-on:click='editApp($event,item.data.base_component_id)'
                 >
                 </img>
 
@@ -717,7 +717,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                       for (let rt=0;rt<responseJson.length; rt++) {
 
                           for (let thisApp of mm.appstore_apps) {
-                              if (thisApp.data.id ==  responseJson[rt].data.id) {
+                              if (thisApp.data.base_component_id ==  responseJson[rt].data.id) {
                                 continue
                               }
                           }
