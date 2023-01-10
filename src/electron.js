@@ -3422,6 +3422,17 @@ async function startServices() {
                                                             ,
                                                             display_name:       thisRow.app_name
                                                         }
+                                                        ,
+                                                        id:                 thisRow.base_component_id
+                                                        ,
+                                                        base_component_id:  thisRow.base_component_id
+                                                        ,
+                                                        logo:               thisRow.app_icon_data
+                                                        ,
+                                                        ipfs_hash:          thisRow.ipfs_hash
+                                                        ,
+                                                        display_name:       thisRow.app_name
+
                                                     })
                                             }
                                         }
