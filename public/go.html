@@ -1579,7 +1579,7 @@ name:               "fdsfsd",
 base_component_id:  "app_editor_3",
 code_id:            "app_editor_3",
 display_name:       "fdsfds",
-args:                {app_id: editAppShareApp},
+args:                {app_base_component_id: editAppShareApp},
 type:               "app"
 }});
 mainMoonApp.show_loader = false
@@ -1865,7 +1865,7 @@ document.getElementById(newCardId).innerHTML = ""
 }
 
 new Vue({
-template: `<${tagName} app_id='${editAppShareApp}' v-bind:card_index='1'></${tagName}>`,
+template: `<${tagName} app_base_component_id='${editAppShareApp}' v-bind:card_index='1'></${tagName}>`,
 el: "#" + rootElement
 })
 }

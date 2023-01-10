@@ -20,7 +20,7 @@ load_once_from_file(true)
 
     Vue.component("app_editor_3",
     {
-      props: ['app_id'],
+      props: ['app_base_component_id'],
       template:
 `<div style="height: 100%; width:100%;padding:0; margin:0; border: 5px solid lightgray;position:relative;">
     <div style='box-shadow: 2px 2px 10px lightgray;background-image: linear-gradient(to right,  #000099, lightblue); color: white;padding: 7px; padding-left: 15px;display: block;overflow: auto;'>
@@ -2154,13 +2154,13 @@ End of app preview menu
                 //
                 // make sure we load the component for this app
                 //
-                if (mm.app_id) {
-                    editingAppId = this.app_id
-                    component_loaded[this.app_id]           = false
-                    global_loaded_controls_in_currently_edited_app[this.app_id]   = false
-                    global_component_type_details_cache[this.app_id]            = null
+                if (mm.app_base_component_id) {
+                    editingAppId = this.app_base_component_id
+                    component_loaded[this.app_base_component_id]           = false
+                    global_loaded_controls_in_currently_edited_app[this.app_base_component_id]   = false
+                    global_component_type_details_cache[this.app_base_component_id]            = null
 
-                    await this.load_new_version_of_edited_app({baseComponentId: this.app_id})
+                    await this.load_new_version_of_edited_app({baseComponentId: this.app_base_component_id})
 
                 }
 
@@ -2187,7 +2187,7 @@ End of app preview menu
                         await mm.load_new_version_of_edited_app(   {codeId: message.commitId , runThisApp: true} )
                         mm.$root.$emit('message', {
                             type:               "update_app",
-                            base_component_id:   mm.app_id,
+                            base_component_id:   mm.app_base_component_id,
                             code_id:             message.commitId
                         })
                         setTimeout(function(){

@@ -87,7 +87,7 @@ only_run_on_server(true)
 
 var extraFns = ""
 extraFns += "async function() {"
-extraFns += "await evalLocalSystemDriver('" + args.app_id + "',   path.join(__dirname, '../src/extraComp.js'),{save_html: true})"
+extraFns += "await evalLocalSystemDriver('" + args.app_base_component_id + "',   path.join(__dirname, '../src/extraComp.js'),{save_html: true})"
 extraFns += "}"
 
 
@@ -110,7 +110,7 @@ extraFns += "}"
                             " where " +
                             "     base_component_id = ? and code_tag = 'LATEST';"
                             ,
-                            args.app_id
+                            args.app_base_component_id
                             ,
                             async function(err, rows) {
                                 if (rows.length > 0) {
@@ -131,7 +131,7 @@ extraFns += "}"
 
 
             await yazzRunningContainer.commit({
-                changes: 'CMD ["node",  "src/electron.js",   "--runapp",   "' + args.app_id + '",   "--nogui",   "true",   "--deleteonstartup",   "true",   "--locked",    "false"]'
+                changes: 'CMD ["node",  "src/electron.js",   "--runapp",   "' + args.app_base_component_id + '",   "--nogui",   "true",   "--deleteonstartup",   "true",   "--locked",    "false"]'
                 ,
                 repo: args.image_name
             })

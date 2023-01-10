@@ -72,7 +72,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 <component  id="editor_component2"
                             v-if='isValidObject(item)'
                             :is='"app_editor_3"'
-                            v-bind:app_id='item.base_component_id'
+                            v-bind:app_base_component_id='item.base_component_id'
                             v-bind:card_index='index'>
                 </component>
         </div>
