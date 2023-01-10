@@ -20,7 +20,7 @@ load_once_from_file(true)
 
     Vue.component("app_editor_3",
     {
-      props: ['app_base_component_id'],
+      props: ['app_base_component_id', 'app_code_id'],
       template:
 `<div style="height: 100%; width:100%;padding:0; margin:0; border: 5px solid lightgray;position:relative;">
     <div style='box-shadow: 2px 2px 10px lightgray;background-image: linear-gradient(to right,  #000099, lightblue); color: white;padding: 7px; padding-left: 15px;display: block;overflow: auto;'>
@@ -147,7 +147,7 @@ load_once_from_file(true)
                   ---------------------------------------------- -->
                   <a   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                        href="#"
-                       v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppId + ".yazz"'
+                       v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppBaseComponentId + ".yazz"'
                        download
                        v-if="show_download_save"
                        v-on:mouseenter='setInfo("Download app source code")'
@@ -459,7 +459,7 @@ Refresh button
                 </img>
               </a>
 
-               <a          v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppId + ".html"'
+               <a          v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppBaseComponentId + ".html"'
                             download
                             id="saveHTMLButton"
                             type="button"
@@ -2154,8 +2154,16 @@ End of app preview menu
                 //
                 // make sure we load the component for this app
                 //
-                if (mm.app_base_component_id) {
-                    editingAppId = this.app_base_component_id
+                if (mm.app_code_id) {
+                    editingAppBaseComponentId                                                                = this.app_base_component_id
+                    component_loaded[this.app_base_component_id]                                = false
+                    global_loaded_controls_in_currently_edited_app[this.app_base_component_id]  = false
+                    global_component_type_details_cache[this.app_base_component_id]             = null
+
+                    await this.load_new_version_of_edited_app({baseComponentId: this.app_base_component_id})
+
+                } else if (mm.app_base_component_id) {
+                    editingAppBaseComponentId = this.app_base_component_id
                     component_loaded[this.app_base_component_id]           = false
                     global_loaded_controls_in_currently_edited_app[this.app_base_component_id]   = false
                     global_component_type_details_cache[this.app_base_component_id]            = null

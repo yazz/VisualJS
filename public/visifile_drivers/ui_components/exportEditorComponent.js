@@ -350,7 +350,7 @@ load_once_from_file(true)
                                         host:               this.dockerHost,
                                         port:               this.dockerPort,
                                         docker_local_port:  this.dockerLocalPort,
-                                        app_base_component_id:             editingAppId
+                                        app_base_component_id:             editingAppBaseComponentId
                                      })
 
            //alert(JSON.stringify(result,null,2))
