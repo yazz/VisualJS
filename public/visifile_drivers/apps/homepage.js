@@ -25,20 +25,20 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     ------------------------------------------------ -->
     <div    v-for="(item, index) in editableAppList"
             v-bind:refresh='refresh'
-            v-if="(edit_app == item.data.id)"
-            v-on:mouseenter="preview_app_loaded = false; preview_app_id = item.data.id;previewApp(item.data.id)"
+            v-if="(edit_app == item.data.base_component_id)"
+            v-on:mouseenter="preview_app_loaded = false; preview_app_id = item.data.base_component_id;previewApp(item.data.base_component_id)"
             v-on:mouseleave="preview_app_loaded = false; preview_app_id = null;"
             style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
             class='app_card'>
 
-        <div    v-if="(edit_app == item.data.id)"
+        <div    v-if="(edit_app == item.data.base_component_id)"
                 v-bind:refresh='refresh'
                 style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:none; padding: 0px;">
 
                 <component  id="editor_component2"
                             v-if='isValidObject(item.data)'
                             :is='"app_editor_3"'
-                            v-bind:app_id='item.data.id'
+                            v-bind:app_id='item.data.base_component_id'
                             v-bind:card_index='index'>
                 </component>
         </div>
@@ -316,16 +316,16 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
             <div    v-for="(item, index) in editableAppList"
                     v-bind:refresh='refresh'
-                    v-bind:id='"appid_" + item.data.id'
-                    v-on:mouseenter="if (!disableAppSelect) {preview_app_loaded = false; preview_app_id = item.data.id;previewApp(item.data.id)}"
+                    v-bind:id='"appid_" + item.data.base_component_id'
+                    v-on:mouseenter="if (!disableAppSelect) {preview_app_loaded = false; preview_app_id = item.data.base_component_id;previewApp(item.data.base_component_id)}"
                     v-on:oldmouseleave="preview_app_loaded = false; preview_app_id = null;"
-                    v-bind:style='"display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;  " + ((preview_app_id == item.data.id)?"top:0px;width:  330px;height: 330px;":"top:100px;width:  200px;height: 200px;")'
+                    v-bind:style='"display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;  " + ((preview_app_id == item.data.base_component_id)?"top:0px;width:  330px;height: 330px;":"top:100px;width:  200px;height: 200px;")'
                     classold='app_card'>
 
                 <div    v-bind:refresh='refresh'
                         v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((preview_app_id == item.data.id) && preview_app_loaded)?"background-color:white;":"background-color:black;")'>
 
-                        <div    v-if='(preview_app_id == item.data.id) && (!edit_app)'
+                        <div    v-if='(preview_app_id == item.data.base_component_id) && (!edit_app)'
                                 v-bind:refresh='refresh'
                                 style="position:relative;left:0px;top;0px;color:black;background-color:white;background:white;width:100%;height:100%;overflow: auto;">
 
@@ -642,7 +642,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     //zzz
                     //debugger
                     for (let thisApp of mm.editableAppList) {
-                        if (thisApp.data.id == bci) {
+                        if (thisApp.data.base_component_id == bci) {
                             thisApp.data.code_id = cid
                             mm.refresh++
                             return
@@ -936,7 +936,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               let mm = this
               for (let thisApp of mm.editableAppList) {
                   if (thisApp.data) {
-                      if (thisApp.data.id ==  baseComponentId) {
+                      if (thisApp.data.base_component_id ==  baseComponentId) {
                           thisApp.data.displayName = displayName
                       }
                   }
@@ -949,7 +949,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               let mm = this
               if (baseComponentId) {
                   for (let thisApp of mm.editableAppList) {
-                      if (thisApp.data.id == baseComponentId) {
+                      if (thisApp.data.base_component_id == baseComponentId) {
                           mm.refresh++
                           return
                       }
@@ -958,8 +958,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                 type: "app",
                                 data:
                                     {
-                                        id:          baseComponentId,
-                                        displayName: displayName
+                                        base_component_id:          baseComponentId,
+                                        displayName:                displayName
                                     }
                               }
                   if (other) {
