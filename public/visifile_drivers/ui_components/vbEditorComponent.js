@@ -7797,7 +7797,6 @@ return {}
            showFilePicker: false,
            editor_locked:               false,
            open_file_path: "/",
-           open_file_path_dirs: ["/"],
            open_file_list: [],
            open_file_name: "",
            file_exts: [],

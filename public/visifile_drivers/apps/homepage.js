@@ -597,7 +597,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     app_logos:              new Object(),
                     showFilePicker:         false,
                     open_file_path:         "/",
-                    open_file_path_dirs:    ["/"],
                     open_file_list:         [],
                     open_file_name:         "",
                     disableAppSelect:       false
